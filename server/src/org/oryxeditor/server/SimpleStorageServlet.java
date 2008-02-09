@@ -249,7 +249,8 @@ public class SimpleStorageServlet extends HttpServlet {
 	    throws SQLException {
 
 	PreparedStatement stmt = database
-		.prepareStatement("SELECT ID, Name FROM sites");
+	// .prepareStatement("SELECT ID, Name FROM sites");
+		.prepareStatement("SELECT uri FROM \"poem/identity\"");
 
 	PrintWriter out;
 	try {
@@ -297,11 +298,11 @@ public class SimpleStorageServlet extends HttpServlet {
 		out
 			.println("<div style='padding: 16px; display: inline; float: left;'>");
 		out.println("<div>");
-		out.println("<a href='" + req.getRequestURL() + "?resource="
-			+ rs.getString(2) + "' style='text-decoration: none'>");
+		out.println("<a href='" + rs.getString(1) + "' style='text-decoration: none'>");
 		out
 			.println("<img src='./images/crystal/misc.png' border='0' width='128' height='128'/><br/>");
-		out.println(rs.getString(2));
+		//TODO 
+		out.println("NO TITLE IN SCHEMA");
 		out.println("</a>");
 		out.println("</div>");
 		out.println("</div>");
