@@ -1,4 +1,4 @@
-#summary how to create a stencil set for oryx by the example of Let's Dance
+#summary How to create a stencil set for oryx by the example of Let's Dance
 
 = Introduction =
 
@@ -13,7 +13,7 @@ These files are stored in a specific folder structure like the
 
 	letsdance
 	   |- letsdance.json
-           |- icons 
+	   |- icons 
 	   |- view
 
 = Creating Graphical Representation =
