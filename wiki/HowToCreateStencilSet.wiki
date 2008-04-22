@@ -13,7 +13,7 @@ These files are stored in a specific folder structure like the
 
 	letsdance
 	   |- letsdance.json
-	   |- icons 
+           |- icons 
 	   |- view
 
 = Creating Graphical Representation =
