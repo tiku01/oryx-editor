@@ -11,7 +11,7 @@ as an icon for that stencil is required.
 
 These files are stored in a specific folder structure like the 
 
-	[letsdance]
+	letsdance
 		|- letsdance.json
 		|- icons 
 		|- view
@@ -32,14 +32,14 @@ When using oryx elements and attributes in a SVG document, you have to set a pre
 }}}
 
 To start modeling, a kind of background paper is needed. On it you can place interaction and relationship objects. 
-The file node.diagram.svg only consists of a square with a stroke and fill color. It is done by adding a “rect” element to the “g” element:
+The file node.diagram.svg only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
 
 {{{
 {
 	"title":"Let's Dance",
 	"namespace":"http://b3mn.org/stencilset/letsdance#",
 	"description":"Simple stencil set for Let's Dance diagrams.",
-	 "stencils": [/*…*/],
+	 "stencils": [/*..*/],
 	 "rules":{*/..*/}
 }
 }}}
