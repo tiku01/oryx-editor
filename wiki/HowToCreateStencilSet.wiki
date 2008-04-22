@@ -12,9 +12,9 @@ as an icon for that stencil is required.
 These files are stored in a specific folder structure like the 
 
 	letsdance
-		|- letsdance.json
-		|- icons 
-		|- view
+		- letsdance.json
+		- icons 
+		- view
 
 = Creating Graphical Representation =
 
