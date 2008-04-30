@@ -11,3 +11,5 @@ All public documents should be made available in the wiki or in the 'Downloads' 
 
 
 = Issues =
+
+In the issues list all bugs, enhancements, documentation tasks and other tasks are tracked. 
