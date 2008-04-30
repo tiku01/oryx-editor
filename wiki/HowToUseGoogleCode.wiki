@@ -1,0 +1,13 @@
+#summary Guidelines on how to use the wiki and issues list.
+
+= Introduction =
+
+This document describes how to use the Google Code page for the Oryx project. It explains how to create new issues for bugs or new features and how to track your work with the issues list. Furthermore, rules for the subversion repository are introduced.
+
+
+= Documents =
+
+All public documents should be made available in the wiki or in the 'Downloads' section in case of PDF files, for example. All private documents should be added to the 'Files' section of our [http://groups.google.de/group/b3mn/files B3MN Google Group]. The group is closed so that the files are only available for team members.
+
+
+= Issues =
