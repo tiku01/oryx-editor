@@ -7,9 +7,28 @@ This document describes how to use the Google Code page for the Oryx project. It
 
 = Documents =
 
-All public documents should be made available in the wiki or in the 'Downloads' section in case of PDF files, for example. All private documents should be added to the 'Files' section of our [http://groups.google.de/group/b3mn/files B3MN Google Group]. The group is closed so that the files are only available for team members.
+All public documents should be made available in the wiki or in the 'Downloads' section in case of PDF files, for example. All private documents should be added to the [http://groups.google.de/group/b3mn/files 'Files' section of our B3MN Google Group]. The group is closed so that the files are only available for team members.
 
 
 = Issues =
 
-In the issues list all bugs, enhancements, documentation tasks and other tasks are tracked. 
+In the issues list all bugs, enhancements, documentation tasks and other tasks must be documented and tracked. However, those different issue types are handled differently. So, I will explain each type seperately.
+
+== Bugs/Defects ==
+
+Bugs in the issue list are all issues with a _Type-Defect_ label. Defects should be added to the list as soon as they are found. The defect's description must comply to the description's template:
+{{{
+What steps will reproduce the problem?
+1. 
+2. 
+3. 
+
+What is the expected output? 
+
+
+What do you see instead?
+
+
+Please use labels and text to provide additional information.
+}}}
+You must describe the steps to reproduce the problem as detailled as possible. In field *Status* set the status to _New_. Delete the name in field *Owner*, because as long as no one is fixing the issue, it is not assigned to any person. If you want to get notified, when someone is adding a comment, add your name in field *Cc*. In the *Labels* fields add label _Type-Defect_ and a priority.
