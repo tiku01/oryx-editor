@@ -1,4 +1,4 @@
-#summary Guidelines on how to use the wiki and issues list.
+#summary Guidelines on how to use Google Code for the Oryx project.
 
 = Introduction =
 
@@ -13,6 +13,8 @@ All public documents should be made available in the wiki or in the 'Downloads' 
 = Issues =
 
 In the issues list all bugs, enhancements, documentation tasks and other tasks must be documented and tracked. However, those different issue types are handled differently. So, I will explain each type seperately.
+
+All new issues are discussed in the weekly team meeting to adjust the priority, if necessary.
 
 == Bugs/Defects ==
 
@@ -31,4 +33,20 @@ What do you see instead?
 
 Please use labels and text to provide additional information.
 }}}
-You must describe the steps to reproduce the problem as detailled as possible. In field *Status* set the status to _New_. Delete the name in field *Owner*, because as long as no one is fixing the issue, it is not assigned to any person. If you want to get notified, when someone is adding a comment, add your name in field *Cc*. In the *Labels* fields add label _Type-Defect_ and a priority.
+You must describe the steps to reproduce the problem as detailed as possible. In field *Status* set the status to _New_. Delete the name in field *Owner*, because as long as no one is fixing the issue, it is not assigned to any person. If you want to get notified, when someone is adding a comment, add your name in field *Cc*. In the *Labels* fields add label _Type-Defect_ and a priority.
+
+The person responsible for bug verification has to reproduce the bug according to the steps described in the bug's description. If reproduction is successful, he has to set the bug's *Status* to _Accepted_ and check the priority. 
+
+The developers in the team have to check regularly, if there are any new bugs in their respective responsibility. Of course, bugs with a higher priority have to be fixed before bugs with a lower one. If a developer starts working on a bugfix, he has to enter his name in field *Owner* and set the *Status* to *Started*.
+
+As soon as the developer has fixed the bug, he has to set the issue's *Status* to _Fixed_ and enter the SVN commit number in the issue's comments. However, this status does not close the bug. The tester has to check, if the bug is really fixed. If he can approve the fix, he has to set the issue's *Status* to _Verified_. This closes the issue.
+
+== Enhancements ==
+
+
+== Documentation Tasks / Other Tasks ==
+
+
+= SVN Commits =
+
+Each commit has to contain a detailed description what is changed in that commit. If the commit is related to an issue, the issue's number has to be added to the description. Do not commit several work packages at once!
