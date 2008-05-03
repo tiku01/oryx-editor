@@ -43,6 +43,13 @@ As soon as the developer has fixed the bug, he has to set the issue's *Status* t
 
 == Enhancements ==
 
+If one has an idea for an enhancement, he can add it to the issues list. A detailled description of the enhancement must be given. Furthermore, the field *Status* must be set to _New_, the field *Owner* has to be empty and the label _Type-Defect_ has to be replaced with _Type-Enhancement_.
+
+New enhancements are discussed in the weekly team meeting and if accepted, the project manager has to set the *Status* to _Accepted_.
+
+If a developer starts working on an enhancement, he has to enter his name in field *Owner* and set the *Status* to *Started*.
+
+As soon as the developer has implemented the enhancement, he has to set the issue's *Status* to _Implemented_ and enter the SVN commit number in the issue's comments. However, this status does not close the issue. The tester has to check, if the bug is really fixed. If he can approve the fix, he has to set the issue's *Status* to _Verified_. This closes the issue.
 
 == Documentation Tasks / Other Tasks ==
 
