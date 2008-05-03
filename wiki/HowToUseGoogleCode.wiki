@@ -53,6 +53,7 @@ As soon as the developer has implemented the enhancement, he has to set the issu
 
 == Documentation Tasks / Other Tasks ==
 
+Documentation and other tasks has to be tracked accordingly. The *Type* label has to be set to _Type-Documentation_ or _Type-Task_ respectively. The only difference is that the result usually is not committed to the repository. Documents must be added to the wiki or downloads section (or to the Google Group, if the document is private). The test reader has to verify the written documents.
 
 = SVN Commits =
 
