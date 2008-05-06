@@ -1,0 +1,22 @@
+#summary Mapping of roles to team members.
+
+= Introduction =
+
+In this document the roles that are involved in the development of Oryx are mapped to team members.
+
+(Has to be discussed.)
+
+
+= Mapping =
+
+|| *Role* || *Team Members* ||
+|| _Project Manager_ || Nico ||
+|| Developer (Client-side) || Willi, Nico ||
+|| Developer (Server-side) || Ole, Björn ||
+|| Bug Verification (Client-side) || Nico ||
+|| Bug Verification (Server-side) || Ole, Nico ||
+|| Tester (Server-side) || Björn, Ole ||
+|| Tester (Client-side) || Björn, Willi, Sven, Nico ||
+|| Test User || Sven ||
+|| Server Administration || Daniel ||
+|| Contributor || Martin :) ||
