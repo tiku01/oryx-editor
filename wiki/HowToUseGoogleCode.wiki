@@ -12,7 +12,7 @@ All public documents should be made available in the wiki or in the 'Downloads' 
 
 = Issues =
 
-In the issues list all bugs, enhancements, documentation tasks and other tasks must be documented and tracked. However, those different issue types are handled differently. So, I will explain each type seperately.
+In the issues list all bugs, enhancements, documentation tasks and other tasks must be documented and tracked. However, those different issue types are handled differently. So, I will explain each type separately.
 
 All new issues are discussed in the weekly team meeting to adjust the priority, if necessary.
 
@@ -37,7 +37,7 @@ You must describe the steps to reproduce the problem as detailed as possible. In
 
 The person responsible for bug verification has to reproduce the bug according to the steps described in the bug's description. If reproduction is successful, he has to set the bug's *Status* to _Accepted_ and check the priority. 
 
-The developers in the team have to check regularly, if there are any new bugs in their respective responsibility. Of course, bugs with a higher priority have to be fixed before bugs with a lower one. If a developer starts working on a bugfix, he has to enter his name in field *Owner* and set the *Status* to _Started_.
+The developers in the team have to check regularly, if there are any new bugs in their respective responsibility. Of course, bugs with a higher priority have to be fixed before bugs with a lower one. If a developer starts working on a bug fix, he has to enter his name in field *Owner* and set the *Status* to _Started_.
 
 As soon as the developer has fixed the bug, he has to set the issue's *Status* to _Fixed_ and enter the SVN commit number in the issue's comments. However, this status does not close the bug. The tester has to check, if the bug is really fixed. If he can approve the fix, he has to set the issue's *Status* to _Verified_. This closes the issue.
 
@@ -47,7 +47,7 @@ If one has an idea for an enhancement, he can add it to the issues list. A detai
 
 New enhancements are discussed in the weekly team meeting and if accepted, the project manager has to set the *Status* to _Accepted_.
 
-If a developer starts working on an enhancement, he has to enter his name in field *Owner* and set the *Status* to *Started*.
+If a developer starts working on an enhancement, he has to enter his name in field *Owner* and set the *Status* to _Started_.
 
 As soon as the developer has implemented the enhancement, he has to set the issue's *Status* to _Implemented_ and enter the SVN commit number in the issue's comments. However, this status does not close the issue. The tester has to check, if the bug is really fixed. If he can approve the fix, he has to set the issue's *Status* to _Verified_. This closes the issue.
 
