@@ -37,13 +37,13 @@ You must describe the steps to reproduce the problem as detailed as possible. In
 
 The person responsible for bug verification has to reproduce the bug according to the steps described in the bug's description. If reproduction is successful, he has to set the bug's *Status* to _Accepted_ and check the priority. 
 
-The developers in the team have to check regularly, if there are any new bugs in their respective responsibility. Of course, bugs with a higher priority have to be fixed before bugs with a lower one. If a developer starts working on a bugfix, he has to enter his name in field *Owner* and set the *Status* to *Started*.
+The developers in the team have to check regularly, if there are any new bugs in their respective responsibility. Of course, bugs with a higher priority have to be fixed before bugs with a lower one. If a developer starts working on a bugfix, he has to enter his name in field *Owner* and set the *Status* to _Started_.
 
 As soon as the developer has fixed the bug, he has to set the issue's *Status* to _Fixed_ and enter the SVN commit number in the issue's comments. However, this status does not close the bug. The tester has to check, if the bug is really fixed. If he can approve the fix, he has to set the issue's *Status* to _Verified_. This closes the issue.
 
 == Enhancements ==
 
-If one has an idea for an enhancement, he can add it to the issues list. A detailled description of the enhancement must be given. Furthermore, the field *Status* must be set to _New_, the field *Owner* has to be empty and the label _Type-Defect_ has to be replaced with _Type-Enhancement_.
+If one has an idea for an enhancement, he can add it to the issues list. A detailed description of the enhancement must be given. Furthermore, the field *Status* must be set to _New_, the field *Owner* has to be empty and the label _Type-Defect_ has to be replaced with _Type-Enhancement_.
 
 New enhancements are discussed in the weekly team meeting and if accepted, the project manager has to set the *Status* to _Accepted_.
 
