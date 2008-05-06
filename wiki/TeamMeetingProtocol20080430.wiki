@@ -1,4 +1,5 @@
 #summary Team Meeting on 30.4.2008
+#labels Protocol
 
 Willi:
  * implemented new attachment of intermediate events on activities
