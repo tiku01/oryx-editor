@@ -34,7 +34,7 @@ When using oryx elements and attributes in a SVG document, you have to set a pre
 
 To start modeling, a kind of background is needed. On it you can place interaction and relationship objects. 
 
-Our background 'node.diagram.svg' only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
+Our background `node.diagram.svg` only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
 
 {{{
 {
