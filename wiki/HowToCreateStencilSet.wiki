@@ -45,3 +45,34 @@ The file node.diagram.svg only consists of a square with a stroke and fill color
 }}}
 
 The description of the head node is added just by insertion of a new node element into the stencils section.
+
+{{{
+{
+	"title":"Let's Dance",
+	"namespace":"http://b3mn.org/stencilset/letsdance#",
+	"description":"Simple stencil set for Let's Dance diagrams.",
+	 "stencils": [
+		{
+			"type":		"node",
+			"id":			"Diagram",
+			"title":		"Diagram",	
+			"groups":		["Diagram"],
+			"description":	"A Let’s Dance Diagram",
+			"view":		"node.diagram.svg",
+			"icon":		"diagram.png",
+			"roles":		[]
+		   }
+	],
+	 "rules":{*/..*/}
+}
+}}}
+
+Finally you have to edit the editor.xhtml. There it is necessary to tell oryx to use the Let’s Dance stencil set.
+
+First add a reference to the JSON file. For example like this:
+
+{{{
+<meta name="oryx.type" content="http://b3mn.org/stencilset/letsdance#Diagram" />
+}}}
+
+When open the editor.xhtml in Firefox, you should see a blank diagram background.
