@@ -221,3 +221,222 @@ So insert some in the rules section. The attributes of the rules section are arr
 Remember that we earlier added the role “interaction” to simple- and complexinteraction. It can now be used to specify the containment rule. Generally it is possible to address an element either over its id or roles.
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/003_interaction_containmentrules.png
+
+In the SVG graphics we added some empty text fields. Now we want to use them to label the Let’s Dance interaction elements over the properties panel. To start with the complex interaction is rather easy. There is only the guard condition: text can type in it and a Boolean signals, whether this part is visible or not. Properties have to be specified for each edge or node separately. It is just another attribute to the stencil, but each property has a unique id within a stencil.
+
+{{{
+…
+{
+			"type":		"node",
+			"id":			"complexInteraction",
+			"title":		"ComplexInteraction",	
+			"groups":		["Interaction"],
+			"description":	"Representation of a complex Interaction in Let's Dance",
+			"view":		"node.complexinteraction.svg",
+			"icon":		"node.complexinteraction.png",
+			"roles":		["interaction"],
+			"properties": [
+				{
+					"id":"guardCondition",
+					"type":"String",
+					"title":"Guard Condition",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"guardConditionText",
+					"wrapLines":false
+				},
+				{
+					"id":"showGuardCondition",
+					"type":"Boolean",
+					"title":"Show Condition",
+					"value": false,
+					"description":"",
+					"optional":false,
+					"refToView": [
+						"guardConditionText",
+						"guardConditionBorder"
+					]
+				},
+			]
+		},
+…
+}}}
+
+The 'refToView' attribute specifies an id as string or an array of ids of SVG elements
+in the graphical representation of a stencil. If this attribute is set, the property
+will manipulate the graphical representation at run-time, e. g. changing the color or
+rendering text. Dependant on the property's type you can reference different types
+of SVG elements.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/004_guardcondition_false.png
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/005_guardcondition_true.png
+
+And now insert the properties for the simple interaction.
+
+{{{
+{
+			"type":			"node",
+			"id":			"simpleInteraction",
+			"title":		"simpleInteraction",	
+			"groups":		["Interaction"],
+			"description":	"",
+			"view":			"node.simpleinteraction.svg",
+			"icon":			"simpleinteraction.png",
+			"roles":		["interaction"],
+			"properties": [
+				{
+					"id":"messageType",
+					"type":"String",
+					"title":"Message Type",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"messageType",
+					"wrapLines":false
+				},
+				{
+					"id":"senderText",
+					"type":"String",
+					"title":"Sender Text",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"senderText",
+					"wrapLines":false
+				},
+				{
+					"id":"receiverText",
+					"type":"String",
+					"title":"Receiver Text",
+					"value":" ",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"receiverText",
+					"wrapLines":false
+				},
+				{
+					"id":			"senderColor",
+					"type":			"Color",
+					"title":		"Sender Color",
+					"value":		"#ffffff",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"refToView":	"sender",
+					"fill":			true,
+					"stroke":		false
+				},
+				{
+					"id":"receiverColor",
+					"type":"Color",
+					"title":"Receiver Color",
+					"value":		"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"receiver",
+					"fill":true,
+					"stroke":false
+				}
+			]
+}
+}}}
+
+In this case we also implement the capability to change the color of the sender and receiver part within the SVG representation. Therefore define the property type Color, access to the desired element over “refToView” and last define, if you want to change the color of the fill or stroke or maybe both.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/006_colorchange1.png
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/007_colorchange2.png
+
+In the last step we have to realize some control flow. It is done by drawing some arrows and declaring them as “edge” in the description file.
+
+The “precedes” element only consists of a black line and the arrow at the end is realized by markers.
+
+{{{
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.1">
+   <defs> 
+		<marker id="arrowEnd" refX="10" refY="5" markerUnits="userSpaceOnUse" 
+			markerWidth="10" markerHeight="10" orient="auto"> 
+			<path d="M 0 0 L 10 5 L 0 10 z" fill="black" stroke="black"/> 
+		</marker> 
+	</defs> 
+   <g>
+   	<path d="M50 50 L100 50" stroke="black" fill="none" 
+		stroke-width="2" marker-end="url(#arrowEnd)"/> 
+		
+   </g>
+</svg>
+In comparison to the “precedes” the “weakprecedes” element has just a dashed line shape. The stroke-dasharray="3, 4" attribute produces this effect.  
+The inhibit edge uses a second marker for the vertical stroke at the starting.
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.1">
+   <defs> 
+		<marker id="arrowEnd" refX="10" refY="5" markerUnits="userSpaceOnUse" 
+			markerWidth="10" markerHeight="10" orient="auto"> 
+			<path d="M 0 0 L 10 5 L 0 10 z" fill="black" stroke="black"/> 
+		</marker> 
+		<marker id="inhibitStroke" refX="-10" refY="5" markerUnits="userSpaceOnUse" 
+			markerWidth="2" markerHeight="10" orient="auto"> 
+			<path d="M 0 0 L0 10 z" fill="none" stroke="black" stroke-width="4"/> 
+		</marker> 
+	</defs> 
+   <g>
+   	<path d="M50 50 L100 50" stroke="black" fill="none" 
+		stroke-width="2" marker-end="url(#arrowEnd)" marker-start="url(#inhibitStroke)" /> 
+		
+   </g>
+</svg>
+}}}
+
+Now add them to the description file of the Let’s Dance stencil set.
+
+{{{
+                {
+			"type":			"edge",
+			"id":			"Precedes",
+			"title":		"Precedes",	
+			"groups":		["Relationship"],
+			"description":	"A precedes edges",
+			"view":			"edge.precedes.svg",
+			"icon":			"precedes.png",
+			"roles":		["controlflow"]
+		},
+		{
+			"type":			"edge",
+			"id":			"Inhibits",
+			"title":		"Inhibits",	
+			"groups":		["Relationship"],
+			"description":	"An inhibits edges",
+			"view":			"edge.inhibits.svg",
+			"icon":			"edge.inhibits.png",
+			"roles":		["controlflow"]
+		},
+		{
+			"type":			"edge",
+			"id":			"WeakPrecedes",
+			"title":		"WeakPrecedes",	
+			"groups":		["Relationship"],
+			"description":	"A weak precedes edges",
+			"view":			"edge.weakprecedes.svg",
+			"icon":			"edge.weakprecedes.png",
+			"roles":		["controlflow"]
+		}
+
+}}}
