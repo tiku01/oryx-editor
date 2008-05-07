@@ -440,3 +440,50 @@ Now add them to the description file of the Let’s Dance stencil set.
 		}
 
 }}}
+
+They are from type edge and to collect them in a own group in Oryx’s shape repository just set the value of the attribute groups to “Relationship” for instance. 
+
+Only the connection rules are left in the rules section. Add them through:
+
+{{{
+"rules":{
+		"connectionRules": [
+			{
+				"role": 	"controlflow",
+				"connects": [
+					{
+						"from": "interaction",
+						"to":	"interaction"
+					}
+				],
+			}
+		],
+		"containmentRules":	[
+			{
+				"role":		"Diagram",
+				"contains": [
+							"interaction"
+				]
+			},
+			{
+				"role":		"complexInteraction",
+				"contains": [
+							"interaction"
+				]
+			}
+		]
+		
+	}
+}}}
+
+In each edge the role controlflow is defined, so that we can specify, that an edge connects two interactions of any type.
+
+Now look at the border of an interaction while crossing it with the end of an edge – the magnets come out from behind and you dock to them.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/008_magnets.png
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/009_hover_buttons.png
+
+The complete implementation of the Let's Dance modeling language is available over the oryx-editor svn. It contains all shapes and descriptions. 
+
+We wish you much success!
