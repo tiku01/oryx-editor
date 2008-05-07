@@ -2,6 +2,8 @@
 
 = Introduction =
 
+In this tutorial we want to give you a brief introduction into the stencil set specification. For more detailed information take a look to the [http://oryx-editor.googlecode.com/files/OryxSSS.pdf bachelor paper of Nicolas Peters]
+
 A typical stencil set consists of a JSON file and several SVG files, as well as several 
 picture files. The JSON file contains the stencil set description, e.g. a definition 
 of every stencil.
