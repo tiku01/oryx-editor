@@ -8,16 +8,15 @@ A typical stencil set consists of a JSON file and several SVG files, as well as 
 picture files. The JSON file contains the stencil set description, e.g. a definition 
 of every stencil.
 
-For each stencil in a stencil set one SVG file that contains the graphical representation of the stencil and one picture file that is used 
-as an icon for that stencil is required.
+For each stencil in a stencil set one SVG file that contains the graphical representation of the stencil and one picture file for the icon view is required.
 
-These files are stored in a specific folder structure like the 
-
+These files are stored in a specific folder structure. 
+{{{
 	letsdance
 	   |- letsdance.json
 	   |- icons 
 	   |- view
-
+}}}
 = Creating Graphical Representation =
 
 The first step create the SVG files for the graphical representation of the Let's dance" modeling language and store them in the view folder.
