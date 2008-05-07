@@ -19,7 +19,7 @@ These files are stored in a specific folder structure.
 }}}
 = Creating Graphical Representation =
 
-The first step create the SVG files for the graphical representation of the Let's dance" modeling language and store them in the view folder.
+First of all let us create the SVG files for the graphical representation of the "Let's dance" modeling language and store them in the view folder.
 
 When using oryx elements and attributes in a SVG document, you have to set a prefix. In this example the prefix "oryx" is used.
 
@@ -32,8 +32,9 @@ When using oryx elements and attributes in a SVG document, you have to set a pre
 </svg>
 }}}
 
-To start modeling, a kind of background paper is needed. On it you can place interaction and relationship objects. 
-The file node.diagram.svg only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
+To start modeling, a kind of background is needed. On it you can place interaction and relationship objects. 
+
+Our background 'node.diagram.svg' only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
 
 {{{
 {
