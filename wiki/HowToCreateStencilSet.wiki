@@ -76,3 +76,148 @@ First add a reference to the JSON file. For example like this:
 }}}
 
 When open the editor.xhtml in Firefox, you should see a blank diagram background.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/001_firstdiagram.PNG
+
+Now it is the task to define the SVG files for the elements, which can put on this background diagram. Oryx decide between edges and Nodes.
+
+A Node can be resized, text can be attached, colors and opacities can be changed and parts of the node can be hidden. Except resizing, these abilities are not only specified in the SVG document of a node, but you have to prepare the SVG representation for that.
+
+Edges are lines of different forms with decorations attached to it (for example arrowheads). In Oryx, edges should also have the possibility to be divided into sections and to control the sections separately. This makes it possible to draw not only straight edges, but also edges with corners.
+
+The very simple constructed language “Let’s Dance” basically offers two types of nodes and tree types of edges.
+
+The simple interaction node basically consists in each case of a path on right respectively left side for receiver and sender. Also a rectangle is put below them.  
+Then add text to label sender, receiver and the message type. If you assign an unique id to each element in the same SVG file, you latter can change their attributes over the property panel inside the oryx-editor. The stencil is completed by adding magnets on each side of the stencil. With magnets you can define special points on a node where you can dock other nodes or edges to connect them.
+
+{{{
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.0">
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="75" oryx:cy="0" oryx:default="yes"/>
+  	<oryx:magnet oryx:cx="75" oryx:cy="75"/>
+  	<oryx:magnet oryx:cx="0" oryx:cy="36"/>
+  	<oryx:magnet oryx:cx="150" oryx:cy="36"/>
+  </oryx:magnets>
+  <g>
+    <path
+       id="receiver"
+       oryx:anchor="top bottom left right"
+       oryx:resize="vertical horizontal"
+       d="M60 0 L150 0 L150 50 L60 50 L75 25 z"
+       stroke="black" fill="none" stroke-width="2" />
+    <path
+       id="sender"
+       oryx:anchor="top bottom left right"
+       oryx:resize="vertical horizontal"
+       d="M0 0 L60 0 L75 25 L60 50 L0 50 z"
+       stroke="black" fill="none" stroke-width="2" />
+    <rect
+       id="descriptionline"
+       oryx:anchor="top bottom left right"
+       oryx:resize="vertical horizontal"
+       width="150" height="25"
+       x="0" y="50"
+       stroke="black" fill="none"/>
+	<text id="messageType" x="75" y="60" oryx:align="middle center"></text>		
+	<text id="senderText" x="4" y="28" oryx:algin="middle center"></text>
+	<text id="receiverText" x="80" y="28" oryx:algin="middle center"></text>	
+  </g>
+</svg>
+}}}
+
+The specification of a complex interaction is even easier. It consist of big rectangle and a smaller one with a text inside for possible guard conditions.
+
+{{{
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.0">
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="150" oryx:cy="0" oryx:default="yes"/>
+  	<oryx:magnet oryx:cx="150" oryx:cy="150"/>
+  	<oryx:magnet oryx:cx="300" oryx:cy="75"/>
+  	<oryx:magnet oryx:cx="0" oryx:cy="75"/>
+  </oryx:magnets>
+  <g>
+    <rect
+       id="border"
+       oryx:anchor="top bottom left right"
+       oryx:resize="vertical horizontal"
+       width="300"
+       height="150"
+       x="0" y="0"
+       stroke="black" fill="white" stroke-width="2" /> 
+    <rect
+       id="guardConditionBorder"
+       oryx:anchor="top bottom left right"
+       oryx:resize="vertical horizontal"
+       width="300"
+       height="25"
+       x="0" y="-25"
+       stroke="black" fill="white" stroke-width="2" />   
+    <text id="guardConditionText" x="150" y="-12" oryx:align="middle center"></text> 
+  </g>
+</svg>
+}}}
+
+Furthermore you have to add the description in the JSON file for both types of interaction, like you did before for the top diagram.
+
+{{{
+{
+			"type":		"node",
+			"id":			"complexInteraction",
+			"title":		"ComplexInteraction",	
+			"groups":		["Interaction"],
+			"description":	"Representation of a complex Interaction in Let's Dance",
+			"view":		"node.complexinteraction.svg",
+			"icon":		"node.complexinteraction.png",
+			"roles":		["interaction"]
+},
+{
+			"type":			"node",
+			"id":			"simpleInteraction",
+			"title":		"simpleInteraction",	
+			"groups":		["Interaction"],
+			"description":	"",
+			"view":			"node.simpleinteraction.svg",
+			"icon":			"simpleinteraction.png",
+			"roles":		["interaction"]
+}
+}}}
+
+But if you now try to drag & drop a new interaction on your diagram, oryx will permit this. The reason is a semantic control in the oryx-editor. At least you have to define which element can contain an other element and which ones can connect to each other.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/002_interaction_no_rules.png
+
+So insert some in the rules section. The attributes of the rules section are arrays. They again hold the specified rules for connection or containment for example. In our Let’s Dance example add the following rules.
+
+{{{
+"rules":{
+		"containmentRules":	[
+			{
+				"role":		"Diagram",
+				"contains": [
+					"interaction"
+				]
+			},
+			{
+				"role":		"complexInteraction",
+				"contains": [
+					"interaction"
+				]
+			}
+		]
+		
+	}
+}}}
+
+Remember that we earlier added the role “interaction” to simple- and complexinteraction. It can now be used to specify the containment rule. Generally it is possible to address an element either over its id or roles.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/003_interaction_containmentrules.png
