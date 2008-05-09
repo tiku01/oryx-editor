@@ -2073,6 +2073,12 @@
 							console.log("Lane: " + lane.bounds.toString())
 						});
 						
+						var lastLane = lanes.last();
+						var difference = currentLaneTop - lastLane.bounds.lowerRight().y;
+						console.log("Difference: " + difference);
+						if (difference != 0) {
+							lastLane.bounds.extend({x:0, y:difference});
+						}
 					}
 				}
 				
