@@ -1,5 +1,5 @@
+#summary This page describes the different search terms for quering models.
 #labels Phase-Implementation,Phase-Design
-This page describes the different search terms for quering models.
 
 = Introduction =
 
