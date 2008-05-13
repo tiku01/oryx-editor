@@ -31,9 +31,20 @@ With the keywords from and to it is possible to define a specific range of time.
 
 Possible values: Dates in format dd-mm-yyyy
 
+=== is_public ===
+The result set contains only models that are public visible. By default this filter is false.
 
-=== Filter in progress ===
+Possible values: true
+All other values trigger the default behavior
 
- * public
- * reader
- * contributor
+=== contributor ===
+The result set contains only models the user contributes to. By default this filter is false.
+
+Possible values: true
+All other values trigger the default behavior
+
+=== reader ===
+The result set contains only (unpublished) models the user can read but not write. By default this filter is false.
+
+Possible values: true
+All other values trigger the default behavior
