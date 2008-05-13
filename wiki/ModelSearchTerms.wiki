@@ -14,13 +14,13 @@ The type-filter restricts the response-set to one type of models. There is no po
 Possible values: bpmn, epc, workflownet, petrinet
 
 
-=== must_be_owner ===
+=== owner ===
 This filter determines if the result set only contains models created by the quering user or not. By default this filter is false.
 
 Possible values: true
 All other values trigger the default behavior
 
-=== shared ===
+=== is_shared ===
 This filter is only relevant if must_be_owner is true. The result set contains only models that have at least one reader or contributor. By default this filter is false.
 
 Possible values: true
