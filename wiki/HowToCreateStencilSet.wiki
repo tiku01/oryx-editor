@@ -39,6 +39,25 @@ To start modeling, a kind of background/canvas is needed. On it you can place in
 Our background `node.diagram.svg` only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
 
 {{{
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.1">
+   <g>
+    <rect oryx:anchors="top bottom left right" x="0" y="0" width="80" 
+     height="80" stroke="black" fill="#D3DEFF" stroke-width="2"/>
+   </g>
+</svg>
+}}}
+
+So that’s all, your first stencil is ready. Besides the SVG file you have to create a picture file for each stencil. It is recommended to use a size of 32 to 32 pixels and a common format for pictures on the web such as JPEG, PNG or BMP. To create picture files from SVG files use Inkscape for example and save them in the icon folder.
+
+For Oryx we add the attribute “anchors” to the rect element. With these anchors the rectangle is fixed to all four sides so that it will always have the same distance to the border of the stencil. The border of a stencil is defined by the smallest rectangle aligned along the axes that includes all SVG shapes of the stencil.
+
+Let’s take a look at the current result inside the oryx-editor. But therefore you have to define a kind of description for rules and additional attributes. To do this edit the JSON file. The basic structure of our Let’s Dance modeling language description is shown below:
+
+{{{
 {
 	"title":"Let's Dance",
 	"namespace":"http://b3mn.org/stencilset/letsdance#",
@@ -58,9 +77,9 @@ The description of the head node is added just by insertion of a new node elemen
 	 "stencils": [
 		{
 			"type":		"node",
-			"id":			"Diagram",
-			"title":		"Diagram",	
-			"groups":		["Diagram"],
+			"id":		"Diagram",
+			"title":	"Diagram",	
+			"groups":	["Diagram"],
 			"description":	"A Let’s Dance Diagram",
 			"view":		"node.diagram.svg",
 			"icon":		"diagram.png",
