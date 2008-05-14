@@ -196,28 +196,28 @@ The specification of a complex interaction is even easier. It consist of big rec
 
 =Define Language description=
 
-Furthermore you have to add the description in the JSON file for both types of interaction, like you did before for the top diagram.
+Furthermore you have to add the description in the JSON file for both types of interaction, like you did before for the top diagram. 
 
 {{{
 {
-			"type":		"node",
-			"id":			"complexInteraction",
-			"title":		"ComplexInteraction",	
-			"groups":		["Interaction"],
+			"type":		"node",                // type of the element node or edge
+			"id":		"complexInteraction",  // unique id within the stencil set
+			"title":	"ComplexInteraction",	
+			"groups":	["Interaction"],       // group where to display stencil in oryx's shape repository
 			"description":	"Representation of a complex Interaction in Let's Dance",
-			"view":		"node.complexinteraction.svg",
-			"icon":		"node.complexinteraction.png",
-			"roles":		["interaction"]
+			"view":		"node.complexinteraction.svg",  // SVG-File of the stencil
+			"icon":		"node.complexinteraction.png",  // icon for preview in shape repository
+			"roles":	["interaction"]  // roles can later be used for defining rules
 },
 {
-			"type":			"node",
-			"id":			"simpleInteraction",
-			"title":		"simpleInteraction",	
-			"groups":		["Interaction"],
+			"type":		"node",
+			"id":		"simpleInteraction",
+			"title":	"simpleInteraction",	
+			"groups":	["Interaction"],
 			"description":	"",
-			"view":			"node.simpleinteraction.svg",
-			"icon":			"simpleinteraction.png",
-			"roles":		["interaction"]
+			"view":		"node.simpleinteraction.svg",
+			"icon":		"simpleinteraction.png",
+			"roles":	["interaction"]
 }
 }}}
 
@@ -225,7 +225,7 @@ But if you now try to drag & drop a new interaction on your diagram, oryx will p
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/002_interaction_no_rules.png
 
-So insert some in the rules section. The attributes of the rules section are arrays. They again hold the specified rules for connection or containment for example. In our Let’s Dance example add the following rules.
+So insert some in the rules section. The attributes of the rules section are arrays. They again hold the specified rules for connection or containment for example. In our Let’s Dance example add the following rules. Both the ID of stencil and its roles identify a stencil to create rules.
 
 {{{
 "rules":{
@@ -251,15 +251,17 @@ Remember that we earlier added the role “interaction” to simple- and complex
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/003_interaction_containmentrules.png
 
+==Change graphics over property panel==
+
 In the SVG graphics we added some empty text fields. Now we want to use them to label the Let’s Dance interaction elements over the properties panel. To start with the complex interaction is rather easy. There is only the guard condition: text can type in it and a Boolean signals, whether this part is visible or not. Properties have to be specified for each edge or node separately. It is just another attribute to the stencil, but each property has a unique id within a stencil.
 
 {{{
 …
 {
 			"type":		"node",
-			"id":			"complexInteraction",
-			"title":		"ComplexInteraction",	
-			"groups":		["Interaction"],
+			"id":		"complexInteraction",
+			"title":	"ComplexInteraction",	
+			"groups":	["Interaction"],
 			"description":	"Representation of a complex Interaction in Let's Dance",
 			"view":		"node.complexinteraction.svg",
 			"icon":		"node.complexinteraction.png",
@@ -267,7 +269,7 @@ In the SVG graphics we added some empty text fields. Now we want to use them to 
 			"properties": [
 				{
 					"id":"guardCondition",
-					"type":"String",
+					"type":"String",   // for more information to different property types see [http://oryx-editor.googlecode.com/files/OryxSSS.pdf bachelor's paper of Nicolas Peters] 
 					"title":"Guard Condition",
 					"value":"",
 					"description":"",
@@ -319,7 +321,7 @@ And now insert the properties for the simple interaction.
 			"properties": [
 				{
 					"id":"messageType",
-					"type":"String",
+					"type":"String",       
 					"title":"Message Type",
 					"value":"",
 					"description":"",
@@ -361,7 +363,7 @@ And now insert the properties for the simple interaction.
 					"description":	"",
 					"readonly":		false,
 					"optional":		true,
-					"refToView":	"sender",
+					"refToView":	        "sender",
 					"fill":			true,
 					"stroke":		false
 				},
@@ -387,9 +389,11 @@ http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/006_colorchange1.p
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/007_colorchange2.png
 
+==Realize control flow==
+
 In the last step we have to realize some control flow. It is done by drawing some arrows and declaring them as “edge” in the description file.
 
-The “precedes” element only consists of a black line and the arrow at the end is realized by markers.
+The “precedes” element consists of a black line and the arrow at the end is realized by markers.
 
 {{{
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -442,7 +446,7 @@ Now add them to the description file of the Let’s Dance stencil set.
 			"id":			"Precedes",
 			"title":		"Precedes",	
 			"groups":		["Relationship"],
-			"description":	"A precedes edges",
+			"description":	        "A precedes edges",
 			"view":			"edge.precedes.svg",
 			"icon":			"precedes.png",
 			"roles":		["controlflow"]
@@ -470,7 +474,7 @@ Now add them to the description file of the Let’s Dance stencil set.
 
 }}}
 
-They are from type edge and to collect them in a own group in Oryx’s shape repository just set the value of the attribute groups to “Relationship” for instance. 
+They are from type edge. To collect them in a own group in Oryx’s shape repository just set the value of the attribute groups to “Relationship” for instance. 
 
 Only the connection rules are left in the rules section. Add them through:
 
@@ -505,9 +509,9 @@ Only the connection rules are left in the rules section. Add them through:
 	}
 }}}
 
-In each edge the role controlflow is defined, so that we can specify, that an edge connects two interactions of any type.
+Each edge defines the role controlflow. It allows, that an edge connects two interactions of any type.
 
-Now look at the border of an interaction while crossing it with the end of an edge – the magnets come out from behind and you dock to them.
+When looking at the border of an interaction while crossing it with the end of an edge – the magnets come out from behind and you dock to them.
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/008_magnets.png
 
