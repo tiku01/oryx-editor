@@ -17,7 +17,7 @@ These files are stored in a specific folder structure.
 	   |- icons 
 	   |- view
 }}}
-= Creating Graphical Representation =
+= Create Graphical Representation =
 
 First of all let us create the SVG files for the graphical representation of the "Let's dance" modeling language and store them in the view folder.
 
@@ -32,7 +32,9 @@ When using oryx elements and attributes in a SVG document, you have to set a pre
 </svg>
 }}}
 
-To start modeling, a kind of background is needed. On it you can place interaction and relationship objects. 
+==Specify Canvas==
+
+To start modeling, a kind of background/canvas is needed. On it you can place interaction and relationship objects. 
 
 Our background `node.diagram.svg` only consists of a square with a stroke and fill color. It is done by adding a "rect" element to the "g" element:
 
@@ -71,15 +73,19 @@ The description of the head node is added just by insertion of a new node elemen
 
 Finally you have to edit the editor.xhtml. There it is necessary to tell oryx to use the Let’s Dance stencil set.
 
-First add a reference to the JSON file. For example like this:
+First add a reference to the folder, which contains your JSON File, icons and view elements . For example:
 
 {{{
 <meta name="oryx.type" content="http://b3mn.org/stencilset/letsdance#Diagram" />
 }}}
 
+You also have to add the id of the root diagram (canvas) at the end: _foldername#canavasID_.
+
 When open the editor.xhtml in Firefox, you should see a blank diagram background.
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/001_firstdiagram.PNG
+
+==Draw Let's Dance Elements==
 
 Now it is the task to define the SVG files for the elements, which can put on this background diagram. Oryx decide between edges and Nodes.
 
@@ -132,7 +138,7 @@ Then add text to label sender, receiver and the message type. If you assign an u
 </svg>
 }}}
 
-The specification of a complex interaction is even easier. It consist of big rectangle and a smaller one with a text inside for possible guard conditions.
+The specification of a complex interaction is even easier. It consist of big rectangle and a smaller one with a text inside for a possible guard condition.
 
 {{{
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -168,6 +174,8 @@ The specification of a complex interaction is even easier. It consist of big rec
   </g>
 </svg>
 }}}
+
+=Define Language description=
 
 Furthermore you have to add the description in the JSON file for both types of interaction, like you did before for the top diagram.
 
