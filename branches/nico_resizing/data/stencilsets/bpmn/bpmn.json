@@ -2045,7 +2045,7 @@
 				"fromtoall"				
 			],
 			"layout":function(shape) {		
-				if (shape.bounds.width() == shape._oldBounds.width() &&
+				/*if (shape.bounds.width() == shape._oldBounds.width() &&
 					shape.bounds.height() == shape._oldBounds.height()) {
 
 				} else {
@@ -2080,9 +2080,9 @@
 							lastLane.bounds.extend({x:0, y:difference});
 						}
 					}
-				}
-				
-				/*var lanes = shape.getChildNodes(false).findAll(function(node) {
+				}*/
+				console.log(shape)
+				var lanes = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn#Lane");
 				});
 				
@@ -2092,7 +2092,15 @@
 						return lane.bounds.upperLeft().y;
 					});
 					
-					var shapeWidth = shape.bounds.width();
+					var shapeWidth = 0;
+					
+					lanes.each(function(lane) {
+						var width = lane.bounds.width();
+						
+						if(shapeWidth < width)
+							shapeWidth = width;
+					});
+					console.log(shapeWidth);
 					var shapeHeight = 0;
 					var topBound = 0;
 					lanes.each(function(lane) {
@@ -2102,13 +2110,13 @@
 						lr.y = ul.y + lane.bounds.height();
 						shapeHeight += lane.bounds.height();
 						ul.x = 30;
-						lr.x = shapeWidth;
+						lr.x = shapeWidth + 30;
 						lane.bounds.set(ul, lr);
 					});
 					
 					var upl = shape.bounds.upperLeft();
-					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight);
-				}*/
+					shape.bounds.set(upl.x, upl.y, upl.x + 30 + shapeWidth, upl.y + shapeHeight);
+				}
  			},
 			"properties": [
 				{
