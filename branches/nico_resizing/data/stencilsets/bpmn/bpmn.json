@@ -2081,7 +2081,7 @@
 						}
 					}
 				}*/
-				console.log(shape)
+
 				var lanes = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn#Lane");
 				});
@@ -2100,7 +2100,7 @@
 						if(shapeWidth < width)
 							shapeWidth = width;
 					});
-					console.log(shapeWidth);
+
 					var shapeHeight = 0;
 					var topBound = 0;
 					lanes.each(function(lane) {
