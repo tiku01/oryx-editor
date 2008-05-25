@@ -229,9 +229,29 @@
             <classes dir="build/classes"/>
             
         </war>
-    	
-    	<copy todir='C:/Philipp/Programme/Tomcat-6.0.16/webapps' file= 'dist/oryx.war'/>
     </target>
     
     <target name="all" depends="build, examples, compress, dist"/>
+	
+	<target name="copywar" depends="all">
+		<delete dir="C:\Programme\Apache Software Foundation\Tomcat 6.0\webapps\oryx"/>
+		<copy todir='C:\Programme\Apache Software Foundation\Tomcat 6.0\webapps'>
+            <fileset dir='dist' includes='oryx.war'/>
+        </copy>
+	</target>
+	
+	<target name="tomcat-start">
+	    <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
+	    </java>
+	</target>
+	
+	<target name="tomcat-stop">
+	    <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
+	        <arg line="stop"/>
+	    </java>
+	</target>
+	
+	<target name="deploy" depends="tomcat-stop, copywar, tomcat-start" />   
 </project>
