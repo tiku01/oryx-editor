@@ -135,6 +135,19 @@
 		<servlet-name>AutoLayouter</servlet-name>
 		<url-pattern>/layouter</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<display-name>Abstraction of Process Models Captured in BPMN</display-name>
+		<servlet-name>BPMNViewGenerator</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.BPMNViewGenerator
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BPMNViewGenerator</servlet-name>
+		<url-pattern>/bpmnview</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>/server</welcome-file>
 	</welcome-file-list>

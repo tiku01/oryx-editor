@@ -2,4 +2,4 @@
 		<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />		<!-- following plugins are currenty not bug-free, but all affected functionality is commented out, so they are safe to use, but not feature-complete -->		<plugin source="edit.js" name="ORYX.Plugins.Edit" />
 		
 		<!-- plugin for PNML export and deployment -->		<plugin source="pnmlexport.js" name="ORYX.Plugins.Pnmlexport" />		
-		<plugin source="simplepnmlexport.js" name="ORYX.Plugins.SimplePnmlexport" />			</plugins>		<properties>		<property group="File" index="1" />		<property group="Edit" index="2" />		</properties>	</config>
+		<plugin source="simplepnmlexport.js" name="ORYX.Plugins.SimplePnmlexport" />					<plugin source="bpmnviewgen.js" name="ORYX.Plugins.BPMNViewGenerator" />		</plugins>		<properties>		<property group="File" index="1" />		<property group="Edit" index="2" />		</properties>	</config>
