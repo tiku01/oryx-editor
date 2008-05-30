@@ -7,17 +7,13 @@ Oryx Editor is a web application that is designed to run well in Firefox, beginn
 
 Following the steps in this document will set up a development environment for Oryx on Mircosoft Windows. But most steps are exactly the same on MacOSX and on Linux and all required software is available for all platforms. So, with these instructions you should also be able to set up a development environment on any system. In this environment, you will be able to test changes in Oryx on a local test page. However, the environment does not include the complete server. You will be able to use server-side plugins like PDF export, but e.g. the process repository and the ability to save models are not supported. For some server-side plugins more steps might be necessary before using them. Instructions for deploying the whole project will be available shortly.
 
-= Set Up =
-
-You are recommended to use Eclipse for Oryx Editor development. Plugins you should use include the Aptana IDE and Subclipse. You will have to set up Ant on your system, and you might want to set up an Apache web server. You will need to use Firefox for viewing.
-
 == Installing JDK ==
 
 The Java SE Development Kit is required for building the project. You can download it [http://java.sun.com/javase/downloads/index.jsp here].
 
 == Installing a Server ==
 
-Oryx requires a server that supports Java Servlets. We recommend using [http://tomcat.apache.org/ Apache Tomcat]. Download the latest version and follow the installation instructions. On Windows Vista do not use the Windows Service Installer! Just download the zip archive and unpack it in a folder in your user folder.
+Oryx requires a server that supports Java Servlets for server-side plugins like PDF export. You won't need a server, if you don't want to use or develop server-side plugins. We recommend using [http://tomcat.apache.org/ Apache Tomcat]. Download the latest version and follow the installation instructions. On Windows Vista do not use the Windows Service Installer! Just download the zip archive and unpack it in a folder in your user folder.
 
 == Installing IDE ==
 
@@ -76,6 +72,8 @@ For building the project you have to adjust the _build.xml_ file and set up an A
  # On tab _Main_ browse the workspace to add the buildfile (_build.xml_) and the base directory.
  # On tab _Targets_ check the target _deploy_ and click on _Apply_.
  # Click on _Run_ to build and deploy the project.
+
+If you do not want to use or develop server-side plugins, just select the target _all_ in the Ant build and run the file _./build/editor.xhtml_.
 
 == Run ==
 
