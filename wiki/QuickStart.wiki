@@ -3,20 +3,26 @@
 
 = Introduction =
 
-Oryx Editor is a web application that is designed to run well in Firefox, beginning with version 2.0. Most of the application is written in JavaScript, a tiny server module is written in PHP. In addition to that, you will need to get familiar with SVG and JSON to design or edit additional stencil sets.
+Oryx Editor is a web application that is designed to run well in Firefox, beginning with version 2.0. Most of the application is written in JavaScript, the server is written in Java and JRuby. In addition to that, you will need to get familiar with SVG and JSON to design or edit additional stencil sets. To get more information of all technologies used in this project, have a look at [http://www.ohloh.net/projects/oryx-editor the Ohloh project site].
+
+Following the steps in this document will set up a development environment for Oryx on Mircosoft Windows. But most steps are exactly the same on MacOSX and on Linux and all required software is available for all platforms. So, with these instructions you should also be able to set up a development environment on any system. In this environment, you will be able to test changes in Oryx on a local test page. However, the environment does not include the complete server. The process repository and the ability to save models are not supported. Instructions for deploying the whole project will be available shortly.
 
 = Set Up =
 
 You are recommended to use Eclipse for Oryx Editor development. Plugins you should use include the Aptana IDE and Subclipse. You will have to set up Ant on your system, and you might want to set up an Apache web server. You will need to use Firefox for viewing.
+
+== Installing a Server ==
+
+Oryx requires a server that supports Java Servlets.
 
 == Development Environment ==
 
 You will need a JavaScript development environment to start Oryx Editor development. You may prefer a simple text editor or one that has special support for JavaScript. However, we recommend you get yourself the [http://www.aptana.com/ Aptana IDE], which has served the original development team well. This instructions will guide you to a working setup as an Eclipse plugin:
   # [http://www.eclipse.org/downloads/ Download] and extract/install Eclipse 3.2. You may prefer the 'Classic' distribution. When using a newer version of Eclipse, check for Aptana IDE compatibility.
   # Start Eclipse.
-  # With the help of the integrated Software Update mechanism, install the plugins from the following update site URL: {{{http://update.aptana.com/install/3.2/}}}. Detailed instructions on how to do this can be found [http://www.aptana.com/docs/index.php/Plugging_Aptana_into_an_existing_Eclipse_configuration here].
+  # With the help of the integrated Software Update mechanism, install the plugins from the following update site URL: [http://update.aptana.com/update/studio/3.2/ http://update.aptana.com/update/studio/3.2/]. Open the link in your browser to get more information on how to install the Aptana plugin.
   # You will have to restart Eclipse.
-  # Unless your Elipse version has integrated support for SVN, install it from the update site URL {{{http://subclipse.tigris.org/update_1.2.x}}} using the same mechanism.
+  # Unless your Elipse version has integrated support for SVN, install it from the update site URL [http://subclipse.tigris.org/update_1.2.x http://subclipse.tigris.org/update_1.2.x] using the same mechanism.
   # Again, you will have to restart Eclipse.
   # Make sure you have an Oryx Editor compatible version of Firefox on your system. If there is none, [http://www.mozilla.com/ download] and install version 2.0.
 
