@@ -11,30 +11,74 @@ Following the steps in this document will set up a development environment for O
 
 You are recommended to use Eclipse for Oryx Editor development. Plugins you should use include the Aptana IDE and Subclipse. You will have to set up Ant on your system, and you might want to set up an Apache web server. You will need to use Firefox for viewing.
 
+== Installing JDK ==
+
+The Java SE Development Kit is required for building the project. You can download it [http://java.sun.com/javase/downloads/index.jsp here].
+
 == Installing a Server ==
 
-Oryx requires a server that supports Java Servlets.
+Oryx requires a server that supports Java Servlets. We recommend using [http://tomcat.apache.org/ Apache Tomcat]. Download the latest version and follow the installation instructions. On Windows Vista do not use the Windows Service Installer! Just download the zip archive and unpack it in a folder in your user folder.
 
-== Development Environment ==
+== Installing IDE ==
 
 You will need a JavaScript development environment to start Oryx Editor development. You may prefer a simple text editor or one that has special support for JavaScript. However, we recommend you get yourself the [http://www.aptana.com/ Aptana IDE], which has served the original development team well. This instructions will guide you to a working setup as an Eclipse plugin:
-  # [http://www.eclipse.org/downloads/ Download] and extract/install Eclipse 3.2. You may prefer the 'Classic' distribution. When using a newer version of Eclipse, check for Aptana IDE compatibility.
+  # [http://www.eclipse.org/downloads/ Download] and extract/install Eclipse 3.2. You may prefer the 'Classic' distribution. If you decide to use another distribution, make sure that Ant is included. When using a newer version of Eclipse, check for Aptana IDE compatibility.
   # Start Eclipse.
   # With the help of the integrated Software Update mechanism, install the plugins from the following update site URL: [http://update.aptana.com/update/studio/3.2/ http://update.aptana.com/update/studio/3.2/]. Open the link in your browser to get more information on how to install the Aptana plugin.
   # You will have to restart Eclipse.
   # Unless your Elipse version has integrated support for SVN, install it from the update site URL [http://subclipse.tigris.org/update_1.2.x http://subclipse.tigris.org/update_1.2.x] using the same mechanism.
   # Again, you will have to restart Eclipse.
-  # Make sure you have an Oryx Editor compatible version of Firefox on your system. If there is none, [http://www.mozilla.com/ download] and install version 2.0.
 
-== Checkout and Build ==
+== Installing Firefox ==
 
-Descriptions on how to checkout the Oryx Editor will follow. Once you have a local copy of the Oryx source files, use these instructions to build:
-  # Back in Eclipse, make sure it supports Ant.
-  # Use External Tools to register a new ant build. Choose build.xml in your trunk root to be the buildfile.
-  # Switch to targets and select clean, build, compress, all. Maintain this order.
-  # Run the build.
-Oryx will be built into the build directory of your workspace. You may need to refresh the view.
+Make sure you have an Oryx Editor compatible version of Firefox on your system. If there is none, [http://www.mozilla.com/ download] and install version 2.0.
+
+== Checkout the Project ==
+
+ # Start Eclipse.
+ # Open _File_ -> _Import_.
+ # Under the node _Other_ choose _Checkout Projects from SVN_.
+ # Enter the URL of the trunk. You can find the URL [http://code.google.com/p/oryx-editor/source/checkout here]. The trunk contains an Eclipse project file. Downloading the trunk may take a while.
+
+== Build the Project ==
+
+For building the project you have to adjust the _build.xml_ file and set up an Ant task.
+
+ # In Eclipse open the file _build.xml_ in the project's root folder.
+ # Add the following lines at the end of the file, but before the {{{</project>}}} tag:
+{{{
+        <target name="copywar" depends="all">
+                <delete dir="C:\Programme\Apache Software Foundation\Tomcat 6.0\webapps\oryx"/>
+                <copy todir='C:\Programme\Apache Software Foundation\Tomcat 6.0\webapps'>
+            <fileset dir='dist' includes='oryx.war'/>
+        </copy>
+        </target>
+        
+        <target name="tomcat-start">
+            <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
+                <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
+            </java>
+        </target>
+        
+        <target name="tomcat-stop">
+            <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
+                <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
+                <arg line="stop"/>
+            </java>
+        </target>
+        
+        <target name="deploy" depends="tomcat-stop, copywar, tomcat-start" /> 
+}}}
+ # Adjust the path to the Tomcat, if necessary. This addition will automatically deploy Oryx to the web server.
+ # Save your changes.
+ # In the Eclipse toolbar open _External Tools..._.
+ # Create a new _Ant Build_ and enter a name like "Oryx deploy".
+ # On tab _Main_ browse the workspace to add the buildfile (_build.xml_) and the base directory.
+ # On tab _Targets_ check the target _deploy_ and click on _Apply_.
+ # Click on _Run_ to build and deploy the project.
 
 == Run ==
 
-Open {{{./build/editor.xhtml}}} in Firefox to run Oryx Editor with the BPMN stencil set.
+If Oryx is deployed successfully, you can open the example page _editor.xhtml_ that loads Oryx with the BPMN stencil set. In the default configuration of Tomcat, the URL would be [http://localhost:8080/oryx/editor.xhtml http://localhost:8080/oryx/editor.xhtml].
+
+Congratulation! You have now set up your development environment for Oryx.
