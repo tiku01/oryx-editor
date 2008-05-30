@@ -32,26 +32,44 @@ _Issue #51_
 
 There are several plugins that can only be used with BPMN models, for example the PNML export. But the plugins are also loaded when creating an EPC model. Therefore, it should be possible to load those plugins stencil set dependant.
 
-But where should it be defined? In the plugins configuration xml file or in each stencil set definition?
+_But where should it be defined? In the plugins configuration xml file or in each stencil set definition?_
 
 == Different Categories for Properties ==
 
 _Issue #43_
 
+For reason of clarity it should be possible to group properties in the Property Window just the same way you can already group stencils in the Shape Repository.
 
 
-
-== onChange onCreate Callback for Properties ==
+== Event Callbacks ==
 
 _Issues #28, #47_
 
-The stencil set specification should support onChange methods that are
-called whenever a stencil's property at runtime is changed.
+The stencil set specification should support event callbacks to react on changes of a shape. Already existing callbacks:
+ * layout
+ * serialize
+ * deserialize
+ * canConnect
+ * canContain
 
-Scenario (from let's dance stencil set):
-There is a stencil with a text property name and a color property that sets
-the stencil's background color. At runtime you have a stencil instance A
-where you set the text to 'abc' and the color to purple. Then you create
-another stencil instance B and also set the text to 'abc'. At this point,
-the color of stencil B should be automatically set to A's color, because
-they have the same text.
+Possible new callbacks:
+ * onPropertyChanged
+   * Called whenever a stencil's property at run time has been changed.
+   * Use case (from let's dance stencil set): There is a stencil with a text property name and a color property that sets the stencil's background color. At runtime you have a stencil instance A where you set the text to 'abc' and the color to purple. Then you create another stencil instance B and also set the text to 'abc'. At this point, the color of stencil B should be automatically set to A's color, because they have the same text.
+ * onCreated
+   * Called when a shape object has been created
+   * Use case: filling properties of that object, for example creating an id.
+ * onDeleted
+   * Called when a shape object has been deleted
+   * Use case: ?
+ * onResized
+   * Called when a shape object has been resized
+   * Use case: ?
+ * onPositionChanged
+   * Called when a shape object's position has been changed
+   * Use case: ?
+ * ?
+
+=== Remarks ===
+
+This requirement is very critical for the performance. It already showed that adding a canConnect callback to the BPMN stencil set dramatically decreases the performance. But in fact, the canConnect callback is currently not used in any stencil set. Of course, you can think of some use cases for that callback, but maybe these use cases are not really important and we should be remove this callback from the specification. So, for each new callback there should exist a really important use case.
