@@ -16,13 +16,23 @@ Currently, you have to define the properties for each stencil seperately. In cas
 
 == Property-dependant Properties ==
 
-In case of BPMN Intermediate Events an event has different properties dependant on the value of the property _Trigger_.
+In case of BPMN Intermediate Events an event has different properties dependant on the value of the property _Trigger_. To only show the valid properties is currently not possible in Oryx. That is why I want to add the option that a property is only shown, when another property has a specific value.
 
 == Extend existing Stencil Sets ==
 
+_Issue #53_
+
+For adding properties to stencils of an existing stencil set or adding another stencil to an existing stencil set, I want to introduce stencil set extensions. Those extensions are no complete stencil sets on their own. In an extension you can define properties for existing stencils, new stencils and rules to connect a new stencil with the existing ones. With these extensions you can for example add a property to BPMN Activities for costs.
+
+The user must be able to load those extensions at run-time. This information must also be stored in the diagram's meta data so that the extension is automatically loaded when opening the process model at a later time.
 
 == Stencil Set dependant Plugins ==
 
+_Issue #51_
+
+There are several plugins that can only be used with BPMN models, for example the PNML export. But the plugins are also loaded when creating an EPC model. Therefore, it should be possible to load those plugins stencil set dependant.
+
+But where should it be defined? In the plugins configuration xml file or in each stencil set definition?
 
 == Different Categories for Properties ==
 
@@ -32,6 +42,9 @@ _Issue #43_
 
 
 == onChange onCreate Callback for Properties ==
+
+_Issues #28, #47_
+
 The stencil set specification should support onChange methods that are
 called whenever a stencil's property at runtime is changed.
 
