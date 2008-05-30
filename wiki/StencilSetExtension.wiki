@@ -18,7 +18,7 @@ Currently, you have to define the properties for each stencil seperately. In cas
 
 == Split Stencil Set Definition into several Files ==
 
-Although the property packages can already shorten a stencil set definition, it could still be very long. To ease the handling of that much data, it should be possible to define the different parts of a stencil set definition in several files and just reference these files in the main file of the definition.
+Although the property packages can already shorten a stencil set definition (the JSON part), it could still be very long. To ease the handling of that much data, it should be possible to define the different parts of a stencil set definition in several files and just reference these files in the main file of the definition.
 
 
 == Property-dependant Properties ==
