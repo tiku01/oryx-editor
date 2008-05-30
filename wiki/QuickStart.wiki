@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Oryx Editor is a web application that is designed to run well in Firefox, beginning with version 2.0. Most of the application is written in JavaScript, the server is written in Java and JRuby. In addition to that, you will need to get familiar with SVG and JSON to design or edit additional stencil sets. To get more information of all technologies used in this project, have a look at [http://www.ohloh.net/projects/oryx-editor the Ohloh project site].
+Oryx Editor is a web application that is designed to run well in Firefox, beginning with version 2.0. Most of the application is written in !JavaScript, the server is written in Java and JRuby. In addition to that, you will need to get familiar with SVG and JSON to design or edit additional stencil sets. To get more information of all technologies used in this project, have a look at [http://www.ohloh.net/projects/oryx-editor the Ohloh project site].
 
 Following the steps in this document will set up a development environment for Oryx on Mircosoft Windows. But most steps are exactly the same on MacOSX and on Linux and all required software is available for all platforms. So, with these instructions you should also be able to set up a development environment on any system. In this environment, you will be able to test changes in Oryx on a local test page. However, the environment does not include the complete server. You will be able to use server-side plugins like PDF export, but e.g. the process repository and the ability to save models are not supported. For some server-side plugins more steps might be necessary before using them. Instructions for deploying the whole project will be available shortly.
 
@@ -15,15 +15,21 @@ The Java SE Development Kit is required for building the project. You can downlo
 
 Oryx requires a server that supports Java Servlets for server-side plugins like PDF export. You won't need a server, if you don't want to use or develop server-side plugins. We recommend using [http://tomcat.apache.org/ Apache Tomcat]. Download the latest version and follow the installation instructions. On Windows Vista do not use the Windows Service Installer! Just download the zip archive and unpack it in a folder in your user folder.
 
-== Installing IDE ==
+== Installing Eclipse IDE ==
 
-You will need a JavaScript development environment to start Oryx Editor development. You may prefer a simple text editor or one that has special support for JavaScript. However, we recommend you get yourself the [http://www.aptana.com/ Aptana IDE], which has served the original development team well. This instructions will guide you to a working setup as an Eclipse plugin:
+You will need a !JavaScript development environment to start Oryx Editor development. You may prefer a simple text editor or one that has special support for !JavaScript. However, we recommend you get yourself the [http://www.aptana.com/ Aptana IDE], which has served the original development team well. This instructions will guide you to a working setup as an Eclipse plugin:
   # [http://www.eclipse.org/downloads/ Download] and extract/install Eclipse 3.2. You may prefer the 'Classic' distribution. If you decide to use another distribution, make sure that Ant is included. When using a newer version of Eclipse, check for Aptana IDE compatibility.
   # Start Eclipse.
   # With the help of the integrated Software Update mechanism, install the plugins from the following update site URL: [http://update.aptana.com/update/studio/3.2/ http://update.aptana.com/update/studio/3.2/]. Open the link in your browser to get more information on how to install the Aptana plugin.
   # You will have to restart Eclipse.
   # Unless your Elipse version has integrated support for SVN, install it from the update site URL [http://subclipse.tigris.org/update_1.2.x http://subclipse.tigris.org/update_1.2.x] using the same mechanism.
   # Again, you will have to restart Eclipse.
+
+Make sure that Eclipse uses the previously installed JDK. To check this, do the following:
+  # Open _Window_ -> _Preferences..._ .
+  # In the tree view on the left open _Java_ -> _Installed JREs_.
+  # If the JDK is included in the list of installed JREs, mark it as the default JRE by checking the box in the first column. If the JDK is not included in the list, you have to add it first.
+  # Click on _OK_ to apply the changes.
 
 == Installing Firefox ==
 
@@ -34,7 +40,7 @@ Make sure you have an Oryx Editor compatible version of Firefox on your system. 
  # Start Eclipse.
  # Open _File_ -> _Import_.
  # Under the node _Other_ choose _Checkout Projects from SVN_.
- # Enter the URL of the trunk. You can find the URL [http://code.google.com/p/oryx-editor/source/checkout here]. The trunk contains an Eclipse project file. Downloading the trunk may take a while.
+ # Enter the URL of the trunk. You can find the URL [http://code.google.com/p/oryx-editor/source/checkout here]. The trunk contains an Eclipse project file and will automatically be found. Downloading the trunk may take a while.
 
 == Build the Project ==
 
@@ -65,11 +71,11 @@ For building the project you have to adjust the _build.xml_ file and set up an A
         
         <target name="deploy" depends="tomcat-stop, copywar, tomcat-start" /> 
 }}}
- # Adjust the path to the Tomcat, if necessary. This addition will automatically deploy Oryx to the web server.
+ # Adjust the paths to the Tomcat server, if necessary. This addition will automatically deploy Oryx to the web server. Of course, if you use another server than Tomcat, this will not work!
  # Save your changes.
- # In the Eclipse toolbar open _External Tools..._.
+ # In the Eclipse toolbar open _External Tools..._ .
  # Create a new _Ant Build_ and enter a name like "Oryx deploy".
- # On tab _Main_ browse the workspace to add the buildfile (_build.xml_) and the base directory.
+ # On tab _Main_ browse the workspace to add the buildfile (_build.xml_) and the base directory (the project's root directory).
  # On tab _Targets_ check the target _deploy_ and click on _Apply_.
  # Click on _Run_ to build and deploy the project.
 
