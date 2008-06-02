@@ -59,6 +59,9 @@ For building the project you have to adjust the _build.xml_ file and set up an A
         <target name="tomcat-start">
             <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
                 <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
+                <jvmarg value="-Xdebug"/>
+                <jvmarg
+value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
             </java>
         </target>
         
@@ -71,7 +74,7 @@ For building the project you have to adjust the _build.xml_ file and set up an A
         
         <target name="deploy" depends="tomcat-stop, copywar, tomcat-start" /> 
 }}}
- # Adjust the paths to the Tomcat server, if necessary. This addition will automatically deploy Oryx to the web server. Of course, if you use another server than Tomcat, this will not work!
+ # Adjust the paths to the Tomcat server, if necessary. This addition will automatically deploy Oryx to the web server in debug mode. Of course, if you use another server than Tomcat, this will not work!
  # Save your changes.
  # In the Eclipse toolbar open _External Tools..._ .
  # Create a new _Ant Build_ and enter a name like "Oryx deploy".
@@ -86,3 +89,13 @@ If you do not want to use or develop server-side plugins, just select the target
 If Oryx is deployed successfully, you can open the example page _editor.xhtml_ that loads Oryx with the BPMN stencil set. In the default configuration of Tomcat, the URL would be [http://localhost:8080/oryx/editor.xhtml http://localhost:8080/oryx/editor.xhtml].
 
 Congratulation! You have now set up your development environment for Oryx.
+
+== Debug ==
+
+For debugging server-side plugins you have to do the following:
+# In Eclipse open _Debug..._ .
+# Add a new _Java Remote Application_ and enter a name like "Oryx debug".
+# On tab _Connect_ set the project to Oryx.
+# Click on _Apply_ and then _Debug_.
+
+Now you should be able to set breakpoints and debug your Java code.
