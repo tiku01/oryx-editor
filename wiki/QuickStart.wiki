@@ -60,8 +60,7 @@ For building the project you have to adjust the _build.xml_ file and set up an A
             <java jar="C:\Programme\Apache Software Foundation\Tomcat 6.0\bin\bootstrap.jar" fork="true">
                 <jvmarg value="-Dcatalina.home=C:\Programme\Apache Software Foundation\Tomcat 6.0"/>
                 <jvmarg value="-Xdebug"/>
-                <jvmarg
-value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
+                <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
             </java>
         </target>
         
