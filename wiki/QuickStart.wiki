@@ -93,9 +93,9 @@ Congratulation! You have now set up your development environment for Oryx.
 == Debug ==
 
 For debugging server-side plugins you have to do the following:
-# In Eclipse open _Debug..._ .
-# Add a new _Java Remote Application_ and enter a name like "Oryx debug".
-# On tab _Connect_ set the project to Oryx.
-# Click on _Apply_ and then _Debug_.
+  # In Eclipse open _Debug..._ .
+  # Add a new _Java Remote Application_ and enter a name like "Oryx debug".
+  # On tab _Connect_ set the project to Oryx.
+  # Click on _Apply_ and then _Debug_.
 
 Now you should be able to set breakpoints and debug your Java code.
