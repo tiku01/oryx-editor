@@ -4,26 +4,11 @@
 
 Although the current stencil set specification was good enough for implementing various stencil sets, there are some restrictions we now want to get rid of. The stencil set extension shall mainly ease the definition of stencil sets and introduce ways of extending existing stencil sets with properties.
 
-= Requirements =
+= Requirements (Ordered by Priority) =
 
 == Backwards Compatibility ==
 
 The changes on the stencil set specification may not have an impact on existing stencil sets. Only very small adjustments that could be done for all existing stencil sets as part of this project are allowed.
-
-
-== Property Packages ==
-
-Currently, you have to define the properties for each stencil seperately. In case of BPMN this restriction blows the stencil set definition up to almost 6000 lines. But also in this case, all stencils share some general properties and each group of stencils (e.g. Intermediate Events) has even more properties in common. That is why I want to introduce property packages to define properties only once and then add 0..n property packages to a stencil. Of course, you can still add properties to a stencil directly.
-
-
-== Split Stencil Set Definition into several Files ==
-
-Although the property packages can already shorten a stencil set definition (the JSON part), it could still be very long. To ease the handling of that much data, it should be possible to define the different parts of a stencil set definition in several files and just reference these files in the main file of the definition.
-
-
-== Property-dependant Properties ==
-
-In case of BPMN Intermediate Events an event has different properties dependant on the value of the property _Trigger_. To only show the valid properties is currently not possible in Oryx. That is why I want to add the option that a property is only shown, when another property has a specific value.
 
 
 == Extend existing Stencil Sets ==
@@ -34,6 +19,8 @@ For adding properties to stencils of an existing stencil set or adding another s
 
 The user must be able to load those extensions at run-time. This information must also be stored in the diagram's meta data so that the extension is automatically loaded when opening the process model at a later time.
 
+The first version should only add properties to existing stencils.
+
 
 == Stencil Set dependant Plugins ==
 
@@ -42,6 +29,16 @@ _Issue #51_
 There are several plugins that can only be used with BPMN models, for example the PNML export. But the plugins are also loaded when creating an EPC model. Therefore, it should be possible to load those plugins stencil set dependant.
 
 _But where should it be defined? In the plugins configuration xml file or in each stencil set definition?_
+
+
+== Property Packages ==
+
+Currently, you have to define the properties for each stencil seperately. In case of BPMN this restriction blows the stencil set definition up to almost 6000 lines. But also in this case, all stencils share some general properties and each group of stencils (e.g. Intermediate Events) has even more properties in common. That is why I want to introduce property packages to define properties only once and then add 0..n property packages to a stencil. Of course, you can still add properties to a stencil directly.
+
+
+== Property-dependant Properties ==
+
+In case of BPMN Intermediate Events an event has different properties dependant on the value of the property _Trigger_. To only show the valid properties is currently not possible in Oryx. That is why I want to add the option that a property is only shown, when another property has a specific value.
 
 
 == Different Categories for Properties ==
@@ -62,24 +59,11 @@ The stencil set specification should support event callbacks to react on changes
  * canConnect
  * canContain
 
-Possible new callbacks:
+New Callback:
  * onPropertyChanged
    * Called whenever a stencil's property at run time has been changed.
    * Use case (from let's dance stencil set): There is a stencil with a text property name and a color property that sets the stencil's background color. At runtime you have a stencil instance A where you set the text to 'abc' and the color to purple. Then you create another stencil instance B and also set the text to 'abc'. At this point, the color of stencil B should be automatically set to A's color, because they have the same text.
- * onCreated
-   * Called when a shape object has been created
-   * Use case: filling properties of that object, for example creating an id.
- * onDeleted
-   * Called when a shape object has been deleted
-   * Use case: ?
- * onResized
-   * Called when a shape object has been resized
-   * Use case: ?
- * onPositionChanged
-   * Called when a shape object's position has been changed
-   * Use case: ?
- * ?
 
 === Remarks ===
 
-This requirement is very critical for the performance. It already showed that adding a canConnect callback to the BPMN stencil set dramatically decreases the performance. But in fact, the canConnect callback is currently not used in any stencil set. Of course, you can think of some use cases for that callback, but maybe these use cases are not really important and we should be remove this callback from the specification. So, for each new callback there should exist a really important use case.
+Because canContain and canConnect have a major impact on the performance, we decided in the team meeting on 4th June 08 to exclude them from the specification.
