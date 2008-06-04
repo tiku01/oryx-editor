@@ -16,7 +16,7 @@ This article focus on the deployment on Windows and Debian operation systems, al
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
-The default configuration of Oryx uses a database user called _poem_ with the password _123456_ to connect to the database. If you create the poem user with the default password, it's not necessary to make any changes to the configurations files. But if you want to change the password, you'll find the instructions in PART III. *It's strongly recommended to use a save password for the poem user instead of the default one. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
+The default configuration of Oryx uses a database user called _poem_ with the password _123456_ to connect to the database. If you create the poem user with the default password, it's not necessary to make any changes to the configurations files. But if you want to change the password, you'll find the instructions in PART III. *It's strongly recommended to use a secure password for the poem user instead of the default one. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
 The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new Postgres user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Let's assume your superuser is _postgres_ than enter the following command:
 
 {{{ createuser -U postgres poem }}}
