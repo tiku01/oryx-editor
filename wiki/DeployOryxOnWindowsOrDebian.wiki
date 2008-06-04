@@ -12,6 +12,7 @@ This article focus on the deployment on Windows and Debian operation systems, al
     * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server.
   * PostgresSQL 8.3 (with PLPython)
     * Superuser privileges for the database. 
+  * Python2.5
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
@@ -28,18 +29,25 @@ The default name of the Oryx database is _poem_. To create the database named _p
 You can use any database name you like, but if you use poem, it's not necessary to make any changes to the Tomcat configuration. 
 
 == STEP 3 - Deploy the Database Schema ==
-The the file _oryx_db_schema.sql_ contains all necessary information to initialize the poem database. Enter the following command to install the schema:
+The the file _oryx_db_schema.sql_ in our download package contains all necessary information to initialize the poem database. Enter the following command to install the schema:
 
-{{{ psql -U postgres -d poem -f  oryx_db_schema}}}
+{{{ psql -U postgres -d poem -f  oryx_db_schema.sql}}}
 
 This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
 
-You can also create execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
-= Appendix A - Install and Configure Apache Tomcat =
+You can also execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
 
-= Appendix B - Install and Configure PostgreSQL =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= PART II: Deploy the WAR Files on the Tomcat =
+Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_) Notice: The Manager isn't installed by default in all Tomcat distributions and you need an Tomcat user which have the right to access the manager. (--> Appendix B) 
+First scroll down to the end of the manager page an make sure that the JVM-Version starts with _1.6_. Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager. Go on and upload the second war file _backend.war_ .
+If you used all the default options from the walkthrough, you won't need to make any changes to the configuration. If not then go on with PART III. The default url of the repository is _http://servername/backend/poem/repository_ .
+Notice: The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration.  
+
+= PART III: Configuration = 
+
+= Appendix A - Install SUN Java 6 =
+
+= Appendix B - Install and Configure Apache Tomcat =
+
+= Appendix C - Install and Configure PostgreSQL =
