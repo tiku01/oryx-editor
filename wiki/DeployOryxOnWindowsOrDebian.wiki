@@ -13,17 +13,28 @@ This article focus on the deployment on Windows and Debian operation systems, al
   * PostgresSQL 8.3 (with PLPython)
     * Superuser privileges for the database. 
 
-= PART I: Deploy Database Schema =
+= PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
-The default configuration of Oryx uses a database user called _poem_ with the password _123456_to connect to the database. If you create the poem user with the default password, it's not necessary to make any changes to the configurations files. But if you want to change the password, you'll find the instructions in PART III. *It's strongly recommended to use a save password for the poem user instead of the default one. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
+The default configuration of Oryx uses a database user called _poem_ with the password _123456_ to connect to the database. If you create the poem user with the default password, it's not necessary to make any changes to the configurations files. But if you want to change the password, you'll find the instructions in PART III. *It's strongly recommended to use a save password for the poem user instead of the default one. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
 The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new Postgres user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Let's assume your superuser is _postgres_ than enter the following command:
 
 {{{ createuser -U postgres poem }}}
 
 == STEP 2 - Create the _poem_ Database ==
-The default name of the Oryx database is _poem_
+The default name of the Oryx database is _poem_. To create the database named _poem_ from the command shell using the superuser _postgres_ and set the user _poem_ as owner enter the following command:
 
+{{{ createdb -U postgres -O poem poem }}}
 
+You can use any database name you like, but if you use poem, it's not necessary to make any changes to the Tomcat configuration. 
+
+== STEP 3 - Deploy the Database Schema ==
+The the file _oryx_db_schema.sql_ contains all necessary information to initialize the poem database. Enter the following command to install the schema:
+
+{{{ psql -U postgres -d poem -f  oryx_db_schema}}}
+
+This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
+
+You can also create execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
 = Appendix A - Install and Configure Apache Tomcat =
 
 = Appendix B - Install and Configure PostgreSQL =
