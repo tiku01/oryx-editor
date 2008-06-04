@@ -1,15 +1,19 @@
 = DRAFT: THIS PAGE IS STILL UNDER CONSTRUCTION AND INCOMPLETE =
 = Introduction =
 
-This walkthrough demostrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may have at this article.
+This walkthrough demonstrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may read this article.
 
 = Before You Get Started =
-This article focus on the deployment on Windows and Debian operation systems, although it isn't limited to these systems. Before you can deploy the system you need to install an Apache Tomcat and PostgreSQL server. You can find an quick installation guide for both servers in the end of the article.
+This article focus on the deployment on Windows and Debian operation systems, although it isn't limited to these systems. Before you can deploy the system you need to install an Apache Tomcat and PostgreSQL server. You can find an quick installation guide for both servers in the end of the article. 
+
+*Checklist:*
   * SUN Java 6
   * Apache Tomcat 5.5 (using SUN Java 6)
-    * Privileges to deploy new web applications using the Tomcat Manager or privileges to add the war files in webapps directory of tomcat and restart the tomcat server. 
+    * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server. 
 
-
+= PART I: Deploy Database Schema =
+== STEP I - Create User ==
+The default configuration of Oryx uses a user called _poem_ with an empty password to connect to the database. If you want to use another user than poem, then skip this step and customize the Hibernate configuration file as shown in PART III.   
 = Appendix A - Install and Configure Apache Tomcat =
 
 = Appendix B - Install and Configure PostgreSQL =
