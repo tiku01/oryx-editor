@@ -9,7 +9,6 @@ public class TransformationTransitionImpl extends TauTransitionImpl implements T
 	protected boolean triggerManually;
 	protected String action;
 	protected String label;
-	protected String task;
 	
 	public String getXsltURL() {
 		return xsltURL;
@@ -33,14 +32,6 @@ public class TransformationTransitionImpl extends TauTransitionImpl implements T
 
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public String getTask() {
-		return task;
-	}
-
-	public void setTask(String taskId) {
-		this.task = taskId;
 	}
 	
 }

@@ -40,8 +40,6 @@ const TRIPLE_ADD =		0x02;
 const TRIPLE_RELOAD =	0x04;
 const TRIPLE_SAVE =		0x08;
 
-const PROCESSDATA_ID = 'processdata';
-
 // HTTP status code constants
 //
 //// 2xx
@@ -154,13 +152,10 @@ var DataManager = {
 			var id = DataManager.__provideId();
 			shape.resourceId = id;
 			
-			if(!$(PROCESSDATA_ID))
-				DataManager.graft(XMLNS.XHTML,
-					document.getElementsByTagNameNS(XMLNS.XHTML, 'body').item(0), ['div', {'id': PROCESSDATA_ID, 'style':'display:none;'}]);
-				
 			// object is literal
 			DataManager.graft(XMLNS.XHTML,
-				$(PROCESSDATA_ID), [
+				document.getElementsByTagNameNS(XMLNS.XHTML,
+				'body').item(0), [
 				
 				'div', {'id': id}, [
 					'a', { 'href': 'http://www.apfelfabrik.de/dummyresource', 'rel':'raziel-entry' }]
@@ -862,11 +857,9 @@ ResourceManager = {
 					var id = div.getAttribute('id');
 					
 					// store div in DOM
-					if(!$(PROCESSDATA_ID))
-						DataManager.graft(XMLNS.XHTML,
-							document.getElementsByTagNameNS(XMLNS.XHTML, 'body').item(0), ['div', {'id': PROCESSDATA_ID, 'style':'display:none;'}]);
-				
-					$(PROCESSDATA_ID).appendChild(div.cloneNode(true));
+					
+					document.getElementsByTagNameNS(XMLNS.XHTML,
+						'body').item(0).appendChild(div.cloneNode(true));
 
 					// parse local erdf data once more.
 					
@@ -1112,11 +1105,8 @@ ResourceManager = {
 				localDiv.parentNode.removeChild(localDiv);
 				
 				// store div in DOM
-				if(!$(PROCESSDATA_ID))
-					DataManager.graft(XMLNS.XHTML,
-						document.getElementsByTagNameNS(XMLNS.XHTML, 'body').item(0), ['div', {'id': PROCESSDATA_ID, 'style':'display:none;'}]);
-				
-				$(PROCESSDATA_ID).appendChild(div.cloneNode(true));
+				document.getElementsByTagNameNS(XMLNS.XHTML,
+					'body').item(0).appendChild(div.cloneNode(true));
 				DataManager.__synclocal();
 				break;
 

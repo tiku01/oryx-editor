@@ -24,13 +24,18 @@
 module Handler
   class MetaHandler < DefaultHandler
     def doGet(interaction)
-      Helper.jsonResponse(interaction.response, Helper.getModelMetadata(interaction))
+      Helper.jsonResponse(interaction.response, Helper.getModelInfo(interaction))
     end
   end
   
   class InfoHandler < DefaultHandler
     def doGet(interaction)
-      Helper.jsonResponse(interaction.response, Helper.getModelInfo(interaction.object, interaction.hostname))
+      representation = interaction.object.read
+      output = Helper.toHash(representation, %w{Title Summary Updated Created Type})
+      output['edit_uri'] = interaction.hostname + interaction.object.getUri + '/info'
+      output['self_uri'] = interaction.hostname + interaction.object.getUri + '/self'
+      output['meta_uri'] = interaction.hostname + interaction.object.getUri + '/info-access'
+      Helper.jsonResponse(interaction.response, output)
     end
       
     def doPost(interaction)
@@ -39,7 +44,7 @@ module Handler
         representation.send "set#{key.capitalize}", value
       end
       representation.update 
-      Helper.jsonResponse(interaction.response, Helper.getModelMetadata(interaction, interaction.object))
+      Helper.jsonResponse(interaction.response, Helper.getModelInfo(interaction, interaction.object))
     end
   end
 

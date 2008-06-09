@@ -18,7 +18,6 @@ public abstract class NodeImpl implements Node {
 	private String guard;
 	private Vector<Locator> locators = new Vector<Locator>();
 	private String rolename;
-	private String contextPlaceID;
 
 	public String getId() {
 		return id;
@@ -67,14 +66,6 @@ public abstract class NodeImpl implements Node {
 		this.rolename = rolename;
 	}
 
-	public String getContextPlaceID(){
-		return contextPlaceID;
-	}
-	
-	public void setContextPlaceID(String contextPlaceID){
-		this.contextPlaceID = contextPlaceID;
-	}
-	
 	public Vector<Locator> getLocators() {
 		return locators;
 	}

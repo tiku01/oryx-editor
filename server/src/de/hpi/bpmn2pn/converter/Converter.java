@@ -545,7 +545,11 @@ public abstract class Converter {
 	public LabeledTransition addLabeledTransition(PetriNet net, String id, String label) {
 		LabeledTransition t = pnfactory.createLabeledTransition();
 		t.setId(id);
-		t.setLabel(getDescriptiveLabel(label, id));		
+		if (label != null){
+			t.setLabel(label);
+		}else{
+			t.setLabel(id);
+		}
 		net.getTransitions().add(t);
 		return t;
 	}
@@ -571,19 +575,4 @@ public abstract class Converter {
 		return rel;
 	}
 
-	
-	// returns label if it's not null or emtpy, else returns id
-	public String getDescriptiveLabel(String label, String id){
-		String newLabel;
-		if (label != null){
-			if (label.trim().equals("")){
-				newLabel = id;
-			}else{
-				newLabel = label;
-			}
-		}else{
-			newLabel = id;
-		}
-		return newLabel;
-	}
 }

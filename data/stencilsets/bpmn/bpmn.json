@@ -2475,8 +2475,7 @@
 			"view":"artifact/node.group.svg",
 			"icon":"new_group.png",
 			"roles": [
-				"fromtoall",
-				"tc"
+				"fromtoall"
 			],
 			"properties": [
 				{
@@ -2566,8 +2565,7 @@
 			"icon":"new_text_annotation.png",
 			"roles": [
 				"from_artifact",
-				"to_artifact",
-				"tc"
+				"to_artifact"
 			],
 			"properties": [
 				{
@@ -2659,8 +2657,7 @@
 			"roles": [
 				"from_artifact",
 				"to_artifact",
-				"fromtoall",
-				"tc"
+				"fromtoall"
 			],
 			"properties": [
 				{
@@ -5855,6 +5852,23 @@
 				]
 			},
 			{
+				"role":"fromtoall",
+				"contains": [
+					"Group"
+				]
+			},
+			{
+				"role":"fromtoall",
+				"contains": [
+					"DataObject"
+				]
+			},
+			{
+				"role":"fromtoall",
+				"contains": [
+					"TextAnnotation"
+				]
+			}, {
 				role: "Subprocess",
 				contains: ["tc"]
 			}

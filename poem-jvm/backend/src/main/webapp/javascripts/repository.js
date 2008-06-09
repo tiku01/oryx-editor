@@ -94,7 +94,6 @@ Repository.app = {
     /**
      * creates a callback that register a penal for preloading data
      */
-
     registerPanel: function(params, container, min_items){
         min_items = min_items || 3;
         return function(panel){
@@ -273,7 +272,6 @@ Repository.app = {
 		// show filter button, if no filter was set
 		var filter_info = ""
 		for(var i in this.filter) {
-			if(i == "to" || i == "from"){ continue }
 			filter_info += (filter_info.length == 0 ? "" : ", ")
 			        + i + ": " + this.filter[i];
 		}
@@ -488,16 +486,16 @@ Repository.app = {
 		});
     },
 	
-	createModel: function(modelnamespace) {
+	createModel: function(modeltype) {
 
-		ORYX.Log.debug("Create new Model:%0",modelnamespace);
+		ORYX.Log.debug("Create new Model:%0",modeltype);
 		
 		
 		var callback = function(){
 			var modelTypeObj;
 			
 			Repository.app.model_types.each(function(el){
-				if (el.namespace == modelnamespace) {
+				if (el.id == modeltype) {
 					modelTypeObj = el
 				}
 			});
@@ -609,6 +607,7 @@ Repository.app = {
 			// load list of diagram types
 			Ext.Ajax.request({
 				method: "GET",
+				// TODO change URL to be dynamically
 				url: "/backend/poem/model_types",
 				success: function success(response, options) {
 					Repository.app.model_types  = Ext.util.JSON.decode(response.responseText);
@@ -639,14 +638,14 @@ Repository.app = {
 		}
 	},
 	
-	filterModelsByModelType: function(modeltype_namespace) {
+	filterModelsByModelType: function(modeltype_id) {
 						
-		this.filter = modeltype_namespace ? {type: modeltype_namespace} : {};
+		this.filter = modeltype_id ? {type: modeltype_id} : {};
 		
 		this.updatePanels();
 	},
 	
-	filterModelsByAccessAndType: function(access, modeltype_namespace) {
+	filterModelsByAccessAndType: function(access, modeltype_id) {
 		
 		var newFilter = {};
 		
@@ -668,8 +667,8 @@ Repository.app = {
 				break;
 		}
 		
-		if(modeltype_namespace){
-			newFilter['type'] = modeltype_namespace
+		if(modeltype_id){
+			newFilter['type'] = modeltype_id
 		}
 		
 		this.filter = newFilter;
@@ -708,7 +707,7 @@ Repository.render = {
 							'<span>',
 								'<img src="/backend/images/repository/hpi.png" onclick="Repository.render.openid_tpl.changeOpenId(\'https://openid.hpi.uni-potsdam.de/user/username\', 39, 8)"/>',
 								'<img src="/backend/images/repository/blogger.png" onclick="Repository.render.openid_tpl.changeOpenId(\'http://username.blogspot.com/\', 7, 8)"/>',
-								'<img src="/backend/images/repository/getopenid.png" onclick="Repository.render.openid_tpl.changeOpenId(\'http://getopenid.com/username\', 21, 8)"/>',
+								'<img src="/backend/images/repository/myopenid.png" onclick="Repository.render.openid_tpl.changeOpenId(\'http://username.myopenid.com/  \', 7, 8)"/>',
 							'</span>',
 							'<input type="text" name="openid_identifier" id="openid_login_openid" class="text gray" value="your.openid.net" onblur="if(this.value.replace(/^\s+/, \'\').replace(/\s+$/, \'\').length==0) {this.value=\'your.openid.net\'; this.className+=\' gray\';}" onfocus="this.className = this.className.replace(/ gray/ig, \'\'); if(this.value==\'your.openid.net\') this.value=\'\';" />',
 							'<input type="submit" class="button" value="login"/>',
@@ -804,7 +803,7 @@ Repository.render = {
 		'<tpl for="info">',
 	        '<h3>',
 				'<a href="#start-modeling" onclick="Repository.app.startModel(\'{[parent.item_id]}\',\'{[parent.info.edit_uri]}\'); return false;">',
-					'{title} ({ss_name})',
+					'{title} ({type})',
 				'</a>',
 			'</h3>',
 	        '<p class="description">{summary:htmlEncode}</p>',
@@ -813,6 +812,7 @@ Repository.render = {
 		
 		'<tpl for="access">',
     	    '<p class="owner">owner: {access_rights:this.getOwner}</p>',
+//			'<p>access: {access:this.access}</p>',
 		'</tpl>',
 		
 		{
@@ -980,13 +980,12 @@ Repository.render = {
 										node.appendChild(
 											new Ext.tree.TreeNode({
 												text: modeltype.title,
-												id: modeltype.namespace,
 												leaf: true,
 												icon: modeltype.icon_url,
 												qtip: modeltype.description,
 												listeners: {
 													click: function() {
-														Repository.app.filterModelsByModelType(modeltype.namespace);
+														Repository.app.filterModelsByModelType(modeltype.id);
 													}
 												}
 											})
@@ -1018,7 +1017,7 @@ Repository.render = {
 													qtip: modeltype.description,
 													listeners: {
 														click: function() {
-															Repository.app.filterModelsByAccessAndType( child.id, modeltype.uri);
+															Repository.app.filterModelsByAccessAndType( child.id, modeltype.id );
 														}
 													}
 												})
@@ -1133,7 +1132,7 @@ Repository.render = {
 														icon: modeltype.icon_url,
 														qtip: modeltype.description,
 														handler: function(){
-															Repository.app.createModel(modeltype.namespace);
+															Repository.app.createModel(modeltype.id);
 														}
 													})
 												})
@@ -1152,11 +1151,7 @@ Repository.render = {
 								text: 'Updates the list of displayed models',
 								autoHide: true
 							},
-							handler: function(){
-								//Repository.app.filter = this.filter
-								Repository.app.updatePanels();
-								//Repository.app.filterModelsByNothing();
-							}
+							handler: Repository.app.updatePanels,
 						},
 						'->', // spacer,
 						new Ext.Toolbar.Button({
@@ -1256,11 +1251,6 @@ Repository.render = {
         model.item_id =  toHtmlId(model.info.edit_uri);
         var item = $(model.item_id);
         
-		
-		// Set the stencil set name
-		model.info["ss_name"] = ""
-		Repository.app.model_types.each(function(el){ if( el.namespace == model.info.type ){model.info.ss_name = el.title}})
-		
         // if item is null, it does not exist in the dom, thus it is new 
         // if item exists but lies in another container we should not overwrite that one
 		// this can only be performed if the container is given and valid
