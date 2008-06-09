@@ -47,6 +47,8 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 = PART III: Configuration = 
 
 = Appendix A - Install SUN Java 6 =
+*Debian:* SUN Java 6 is currently only available in the unstable version of Debian. You have to enable non-free packages in the apt configuration file. The _/etc/apt/sources.list_ file on a debian unstable system may look like this:
+
 
 = Appendix B - Install and Configure Apache Tomcat =
 
