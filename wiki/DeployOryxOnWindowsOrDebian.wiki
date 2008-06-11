@@ -46,7 +46,12 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 
 = PART III: Configuration = 
 
-= Appendix A - Install SUN Java 6 =
+
+
+*Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
+ 
+= Appendix A: Install SUN Java 6 =
+== Step 01 - Download and Install Binaries ==
 *Debian:* SUN Java 6 is currently only available in the unstable version of Debian. You have to enable non-free packages in the apt configuration file first in order to install Java using the following command:
 {{{ apt-get install sun-java6-bin }}} 
 The _/etc/apt/sources.list_ file on a debian unstable system may look like this:
@@ -58,7 +63,19 @@ deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
 
+== Step 02 - Set _JAVA_HOME_ Environment Variable ==
+*Debian:* Before you can start the Tomcat Server you have to set the JAVA_HOME environment variable. If you want set _JAVA_HOME_ system wide and if you installed Java 6 to the default directory, then add the following line to the _/etc/profile_ file:
+{{{ export JAVA_HOME=/usr/lib/jvm/java-6-sun }}} 
 
+*Windows:*
+
+== Step 03 (optional) - Change Listening Port ==
+Tomcat listens on port 8180 for incoming requests by default. In order to change the port open the _ /etc/tomcat5.5/server.xml_ file, go to the following line
+{{{
+<Connector *port="8180"* maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
+redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
+}}}
+and change the xml port attribute to any port you like. 
 = Appendix B - Install and Configure Apache Tomcat =
 
 = Appendix C - Install and Configure PostgreSQL =
