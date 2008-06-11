@@ -50,7 +50,11 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 
 *Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
  
-= Appendix A: Install SUN Java 6 =
+= Appendix A: Install Python =
+*Windows:* You can download Python [here http://python.org/download/]. I used the Windows Installer and didn't made any changes to the default values in the wizard. 
+
+
+= Appendix B: Install SUN Java 6 =
 == Step 01 - Download and Install Binaries ==
 *Debian:* SUN Java 6 is currently only available in the unstable version of Debian. You have to enable non-free packages in the apt configuration file first in order to install Java using the following command:
 {{{ apt-get install sun-java6-bin }}} 
@@ -76,6 +80,6 @@ Tomcat listens on port 8180 for incoming requests by default. In order to change
 redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
 }}}
 and change the xml port attribute to any port you like. 
-= Appendix B - Install and Configure Apache Tomcat =
+= Appendix C - Install and Configure Apache Tomcat =
 
-= Appendix C - Install and Configure PostgreSQL =
+= Appendix D - Install and Configure PostgreSQL =
