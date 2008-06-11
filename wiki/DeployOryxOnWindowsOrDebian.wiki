@@ -51,7 +51,7 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 *Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
  
 = Appendix A: Install Python =
-*Windows:* You can download Python [here http://python.org/download/]. I used the Windows Installer and didn't made any changes to the default values in the wizard. 
+*Windows:* You can download Python [http://python.org/download/ here]. I used the Windows Installer and didn't made any changes to the default values in the wizard. The complete Python documentation can be found [http://python.org/doc/ here]. 
 
 
 = Appendix B: Install SUN Java 6 =
