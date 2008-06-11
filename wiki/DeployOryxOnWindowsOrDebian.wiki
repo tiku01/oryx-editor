@@ -67,7 +67,8 @@ deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
 
-*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. 
+*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java\_ directory.
+
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
 *Debian:* Before you can start the Tomcat Server you have to set the JAVA_HOME environment variable. If you want set _JAVA_HOME_ system wide and if you installed Java 6 to the default directory, then add the following line to the _/etc/profile_ file:
@@ -85,3 +86,9 @@ and change the xml port attribute to any port you like.
 = Appendix C - Install and Configure Apache Tomcat =
 
 = Appendix D - Install and Configure PostgreSQL =
+*Debian:*
+
+*Windows:* Go to PostgreSQL [http://wwwmaster.postgresql.org/download/mirrors-ftp mirror site] and download at least version 8.3.0 for Win32. Extract all the files from the zip archive and open the postgresql-8.3.msi file. You can install the packages which are selected by default. 
+The next step is very important. You should install PostgreSQL as a service with a service user. The user is named _postgres_ by default. In addition to that you have to set a password, otherwise the installer creates one for you. The password is used to change the configuration of the postgresql service.
+On the next page you have to set the password for the superuser of the database, which is also _postgres_ by default. This user is used to access the actual database. You shouldn't change the other value on this page if you have no compelling reasons. 
+Finally enable PL/Python as procedural language and finish the wizard with the default settings. After the installation completes quit the wizard and don't install any other database connectors. 
