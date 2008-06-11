@@ -51,7 +51,7 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 *Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
  
 = Appendix A: Install Python =
-*Windows:* You can download Python [http://python.org/download/ here]. I used the Windows Installer and didn't made any changes to the default values in the wizard. The complete Python documentation can be found [http://python.org/doc/ here]. 
+*Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
 
 
 = Appendix B: Install SUN Java 6 =
@@ -66,6 +66,8 @@ deb-src http://ftp.de.debian.org/debian/ lenny main
 deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
+
+*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. 
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
 *Debian:* Before you can start the Tomcat Server you have to set the JAVA_HOME environment variable. If you want set _JAVA_HOME_ system wide and if you installed Java 6 to the default directory, then add the following line to the _/etc/profile_ file:
