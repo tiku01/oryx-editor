@@ -79,13 +79,14 @@ deb-src http://security.debian.org/ lenny/updates main
 == Step 03 (optional) - Change Listening Port ==
 Tomcat listens on port 8180 for incoming requests by default. In order to change the port open the _ /etc/tomcat5.5/server.xml_ file, go to the following line
 {{{
-<Connector *port="8180"* maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
+<Connector port="8180" maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
 redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
 }}}
 and change the xml port attribute to any port you like. 
-= Appendix C - Install and Configure Apache Tomcat =
 
-= Appendix D - Install and Configure PostgreSQL =
+
+
+= Appendix C - Install and Configure PostgreSQL =
 *Debian:*
 
 *Windows:* Go to PostgreSQL [http://wwwmaster.postgresql.org/download/mirrors-ftp mirror site] and download at least version 8.3.0 for Win32. Extract all the files from the zip archive and open the postgresql-8.3.msi file. You can install the packages which are selected by default. 
@@ -93,3 +94,8 @@ The next step is very important. You should install PostgreSQL as a service with
 On the next page you have to set the password for the superuser of the database, which is also _postgres_ by default. This user is used to access the actual database. You shouldn't change the other value on this page if you have no compelling reasons. 
 Finally enable PL/Python as procedural language and finish the wizard with the default settings. After the installation completes quit the wizard. It's not necessary to install any other database connectors. 
 If you want to use the PostgreSQL comandline tools directly, add the path to the PostgreSQL bin directory (default: C:\Programme\PostgreSQL\8.3\bin) to your Windows environmental variables or use the _Start->All Programs->PostgreSQL 8.3->Command Prompt_ short cut.
+
+= Appendix D - Install and Configure Apache Tomcat =
+*Debian:*
+
+*Windows:* Download Tomcat 6.0 Windows Service Installer from the offical [http://tomcat.apache.org/download-60.cgi Apache Website]. Start the installer and select all options except examples as shown in the following screenshot. The next important step is the basic configuration. If the server is used as productive system you should use port 80. Otherwise you can stick with port 8080. After that select an username and password for the server administrator. On the next page you have to select path to your Java JRE. The installer automatically finds the standard version. Make sure that you select Java 6 if you have installed multiple versions of Java on your system. After the setup has completed select start Tomcat and finish the wizard. Now you can begin with the deployment of oryx as shown in Part I.
