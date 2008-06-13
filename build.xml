@@ -12,7 +12,6 @@
             <fileset file="editor.xhtml"/>
             <fileset file="*.htm"/>
             <fileset file="*.php"/>
-			<fileset file="*.xhtml"/>
         </copy>
         <copy todir='build/css'>
             <fileset dir='src/css'/>

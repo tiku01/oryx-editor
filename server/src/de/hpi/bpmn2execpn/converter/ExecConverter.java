@@ -146,9 +146,6 @@ public class ExecConverter extends Converter {
 		exTask.tr_resume.setContextPlaceID(exTask.pl_context.getId());
 		exTask.tr_finish.setContextPlaceID(exTask.pl_context.getId());
 		
-		
-
-		
 		// create Documents for model, form, bindings
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance (  ) ; 
 		
@@ -174,7 +171,6 @@ public class ExecConverter extends Converter {
 					addReadOnlyExecFlowRelationship(net, ExecTask.getDataPlace(dataObject.getId()), exTask.tr_enable, null);
 					// create XML Structure for Task
 					String modelXML = dataObject.getModel();
-
 					
 					// attach to task model
 					Element dataEl = modelDoc.createElement("data");
@@ -290,7 +286,7 @@ public class ExecConverter extends Converter {
 		//note: structure of context place must be initialized by engine
 		//addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(task)), exTask.tr_enable);
 		addFlowRelationship(net, exTask.pl_inited, exTask.tr_enable);
-		addExecFlowRelationship(net, exTask.tr_enable, exTask.pl_ready, extractFormDataURL);
+		addFlowRelationship(net, exTask.tr_enable, exTask.pl_ready);
 		addFlowRelationship(net, exTask.pl_context, exTask.tr_enable);
 		addExecFlowRelationship(net, exTask.tr_enable, exTask.pl_context, baseXsltURL + "context_enable.xsl");
 		enable.setModelURL(model);
@@ -671,8 +667,8 @@ public class ExecConverter extends Converter {
 				div.appendChild(input);
 				
 				Element input2 = doc.createElement("x:input");
-				input2.setAttribute("ref", "instance('ui_settings')/"+ dataObjectName+"_"+attributeName +"/@futurewritable");
-				input2.setAttribute("class", "rightcheckbox");
+				input2.setAttribute("ref", "instance('ui_settings')/"+ dataObjectName+"_"+attributeName +"/@futurevisible");
+				input2.setAttribute("class", "leftcheckbox");
 				div.appendChild(input2);
 				
 				Element group = doc.createElement("x:group");
@@ -743,7 +739,7 @@ public class ExecConverter extends Converter {
 				delaction.appendChild(value4);
 				
 				Element value5 = doc.createElement("x:setvalue");
-				value5.setAttribute("bind", "firstOwner.readonly");
+				value5.setAttribute("bind", "owner.readonly");
 				value5.setTextContent("true");
 				delaction.appendChild(value5);
 				
@@ -766,10 +762,10 @@ public class ExecConverter extends Converter {
 					valuereadonly.setAttribute("value", "instance('ui_settings')/"+dataObjectName+"_"+attributeName+"/@futurereadonly = 'true'");
 					delaction.appendChild(valuereadonly);
 					
-					Element valuewritable = doc.createElement("x:setvalue");
-					valuewritable.setAttribute("bind", dataObjectName+"_"+attributeName + ".writable");
-					valuewritable.setAttribute("value", "instance('ui_settings')/"+dataObjectName+"_"+attributeName+"/@futurewritable = 'true'");
-					delaction.appendChild(valuewritable);
+					Element valuevisible = doc.createElement("x:setvalue");
+					valuevisible.setAttribute("bind", dataObjectName+"_"+attributeName + ".visible");
+					valuevisible.setAttribute("value", "instance('ui_settings')/"+dataObjectName+"_"+attributeName+"/@futurevisible = 'true'");
+					delaction.appendChild(valuevisible);
 					} while ((dataElements = dataElements.getNextSibling()) != null);
 				
 				}
@@ -909,10 +905,10 @@ public class ExecConverter extends Converter {
 					valuereadonly.setTextContent("false");
 					submitaction.appendChild(valuereadonly);
 					
-					Element valuewritable = doc.createElement("x:setvalue");
-					valuewritable.setAttribute("bind", dataObjectName+"_"+attributeName + ".writable");
-					valuewritable.setTextContent("true");
-					submitaction.appendChild(valuewritable);
+					Element valuevisible = doc.createElement("x:setvalue");
+					valuevisible.setAttribute("bind", dataObjectName+"_"+attributeName + ".visible");
+					valuevisible.setTextContent("true");
+					submitaction.appendChild(valuevisible);
 					
 					} while ((dataElements = dataElements.getNextSibling()) != null);
 				
@@ -985,7 +981,7 @@ public class ExecConverter extends Converter {
 						if (dataElements.getNodeName().equals("#text")) continue;
 						Element property = doc.createElement(dataObjectName + "_" + dataElements.getNodeName());
 						property.setAttribute("futurereadonly", "false");
-						property.setAttribute("futurewritable", "false");
+						property.setAttribute("futurevisible", "false");
 						for (Node ui_setting_nodes = list.item(i).getFirstChild(); ; ui_setting_nodes = ui_setting_nodes.getNextSibling()) {
 							if (ui_setting_nodes.getNodeName().equals("#text")) continue;
 							ui_setting_nodes.appendChild(property);
@@ -1019,8 +1015,8 @@ public class ExecConverter extends Converter {
 				root.appendChild(bind2);
 				
 				Element bind3 = doc.createElement("x:bind");
-				bind3.setAttribute("id", dataObjectName+"_"+attributeName+".writable");
-				bind3.setAttribute("nodeset", "instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable");
+				bind3.setAttribute("id", dataObjectName+"_"+attributeName+".visible");
+				bind3.setAttribute("nodeset", "instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible");
 				root.appendChild(bind3);
 				
 				Element bind4 = doc.createElement("x:bind");
@@ -1030,27 +1026,27 @@ public class ExecConverter extends Converter {
 				
 				Element bind5 = doc.createElement("x:bind");
 				bind5.setAttribute("type", "xsd:boolean");
-				bind5.setAttribute("nodeset", "instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable");
+				bind5.setAttribute("nodeset", "instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible");
 				root.appendChild(bind5);
 				
 				Element bind6 = doc.createElement("x:bind");
 				bind6.setAttribute("type", "xsd:boolean");
-				bind6.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName + "_" +attributeName +"/@futurereadonly");
+				bind6.setAttribute("nodeset", "instance('ui_settings')/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@futurereadonly");
 				root.appendChild(bind6);
 				
 				Element bind7 = doc.createElement("x:bind");
 				bind7.setAttribute("type", "xsd:boolean");
-				bind7.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName + "_" +attributeName +"/@futurewritable");
+				bind7.setAttribute("nodeset", "instance('ui_settings')/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@futurevisible");
 				root.appendChild(bind7);
 				
 				Element bind8 = doc.createElement("x:bind");
-				bind8.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurewritable");
-				bind8.setAttribute("relevant", "instance('output-token')/places/metadata/isDelegated = 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable = 'true'");
+				bind8.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurevisible");
+				bind8.setAttribute("relevant", "instance('output-token')/places/metadata/isDelegated = 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible = 'true'");
 				root.appendChild(bind8);
 				
 				Element bind9 = doc.createElement("x:bind");
 				bind9.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurereadonly");
-				bind9.setAttribute("relevant", "instance('output-token')/places/metadata/isDelegated = 'true' and ((instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@readonly = 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable != 'true') or instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable = 'true')");
+				bind9.setAttribute("relevant", "instance('output-token')/places/metadata/isDelegated = 'true' and ((instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@readonly = 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible != 'true') or instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible = 'true')");
 				root.appendChild(bind9);
 				
 				Element bind10 = doc.createElement("x:bind");
@@ -1060,18 +1056,18 @@ public class ExecConverter extends Converter {
 				
 				Element bind11 = doc.createElement("x:bind");
 				bind11.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName);
-				bind11.setAttribute("relevant", "not(instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@writable != 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@readonly != 'true')");
+				bind11.setAttribute("relevant", "not(instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@visible != 'true' and instance('output-token')/places/processdata[" + "@name='"+dataObjectName+"'" + "]/" +attributeName +"/@readonly != 'true')");
 				bind11.setAttribute("id", "fade." + dataObjectName+"_"+attributeName);
 				root.appendChild(bind11);
 				
 				Element bind12 = doc.createElement("x:bind");
-				bind12.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurewritable");
+				bind12.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurevisible");
 				bind12.setAttribute("readonly", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurereadonly = 'true'");
 				root.appendChild(bind12);
 				
 				Element bind13 = doc.createElement("x:bind");
 				bind13.setAttribute("nodeset", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurereadonly");
-				bind13.setAttribute("readonly", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurewritable = 'true'");
+				bind13.setAttribute("readonly", "instance('ui_settings')/" + dataObjectName+"_"+attributeName +"/@futurevisible = 'true'");
 				root.appendChild(bind13);
 				
 			} while ((dataElements = dataElements.getNextSibling()) != null);
