@@ -109,19 +109,13 @@ public class ExecPNPNMLExporter extends PetriNetPNMLExporter {
 	protected Element appendPlace(Document doc, Node netnode, PetriNet net,
 			Place place) {
 		Element pnode = super.appendPlace(doc, netnode, net, place);
-		Element ts = tsHelper.addToolspecificElement(doc, pnode);
 		
 		// set type of Place and add data model to DataPlace
 		if (place instanceof ExecPlace) {
 			ExecPlace execplace = ((ExecPlace)place);
 			pnode.setAttribute("type", execplace.getType().toString());
-			if (execplace.getType() == ExecPlace.Type.data) {
+			if (execplace.getType() == ExecPlace.Type.data)
 				addContentElement(doc, pnode, "model", execplace.getModel());
-				// add Data Object name
-				Element namenode = doc.createElement("name");
-				namenode.setTextContent(execplace.getName());
-				ts.appendChild(namenode);
-			}
 		}
 		else
 			pnode.setAttribute("type", ExecPlace.Type.flow.toString());
@@ -131,6 +125,7 @@ public class ExecPNPNMLExporter extends PetriNetPNMLExporter {
 		addContentElement(doc, n1node, "value", place.getId());
 		addContentElement(doc, n1node, "text", place.getId());
 		
+		Element ts = tsHelper.addToolspecificElement(doc, pnode);
 
 		for (Locator loc : place.getLocators()) {
 			tsHelper.addLocator(doc, ts, loc);			

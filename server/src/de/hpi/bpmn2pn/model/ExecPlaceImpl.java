@@ -28,7 +28,6 @@ public class ExecPlaceImpl extends PlaceImpl implements ExecPlace {
 	// Attributes
 	protected Type type;
 	protected String model = null;
-	protected String name = null;
 	
 	// Accessors
 	public Type getType () {
@@ -46,15 +45,6 @@ public class ExecPlaceImpl extends PlaceImpl implements ExecPlace {
 	public void setModel (String model) {
 		if (type == Type.data)
 			this.model = model;
-	}
-	
-	public String getName () {
-		return name;
-	}
-	
-	public void setName (String name) {
-		if (type == Type.data)
-			this.name = name;
 	}
 	
 }

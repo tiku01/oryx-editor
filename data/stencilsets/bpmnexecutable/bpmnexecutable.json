@@ -2765,7 +2765,7 @@
 					"id":"datamodel",
 					"type":"String",
 					"title":"DataModel",
-					"value":"<data><processdata>\n</processdata></data>",
+					"value":"<data>\n</data>",
 					"description":"Do not change DataModel Structure if unsure",
 					"readonly":false,
 					"optional":false,
