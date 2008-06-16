@@ -52,7 +52,6 @@ public class Structure {
 		setString("hierarchy", hierarchy).
 		setInteger("id", owner_id).
 		uniqueResult();
-		Persistance.commit();
 		
 		return structure;
 	}

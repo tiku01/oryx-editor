@@ -26,6 +26,7 @@ module Handler
     include_class 'org.b3mn.poem.Persistance'
     def doGet(interaction)
       representation = interaction.object.read
+    	Persistance.commit
       model = {'title' => representation.getTitle, 'content' => representation.getContent}
       interaction.response.setStatus(200)
     	interaction.response.setContentType "application/xhtml+xml"
@@ -39,7 +40,10 @@ module Handler
 
     def doPost(interaction)
       if(interaction.params['data'] && interaction.params['svg'])
-        Representation.update(interaction.object.getId, nil, nil, interaction.params['data'], interaction.params['svg'])
+        representation = interaction.object.read
+        representation.setContent(interaction.params['data'])
+        representation.setSvg(interaction.params['svg'])
+        representation.update
         interaction.response.setStatus(200)
       else
         interaction.response.setStatus(400)

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
 
 import org.b3mn.poem.Identity;
+import org.b3mn.poem.Persistance;
 
 public class RdfExporter {
 
@@ -17,6 +18,7 @@ public class RdfExporter {
   		res.setStatus(200);	
   		try {
   			String rdfRepresentation = object.read().getRdf();
+  			Persistance.commit();
     		PrintWriter out = res.getWriter();
 			out.write(rdfRepresentation);
 		} catch (TransformerException e) {

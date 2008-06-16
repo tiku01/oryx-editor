@@ -77,9 +77,8 @@ ORYX.Plugins.EPC2BPMN = Clazz.extend({
 
 		this.facade.raiseEvent({ type: 'loading.enable',text: 'Import' });
 				
-		var url = "./engineproxy?url=" + options.url;
 				
-        new Ajax.Request( url , {
+        new Ajax.Request(options.url, {
             method: 'GET',
             onSuccess: function(request){
 				
@@ -118,6 +117,10 @@ ORYX.Plugins.EPC2BPMN = Clazz.extend({
 	 * @param {Object} options
 	 */
     doTransform: function( erdfString , options){
+
+		var start = new Date()
+		start = (start.getSeconds()+(start.getMinutes()*60))
+		console.log("Start: " + start);
 
 		var elements = this.parseToObject( erdfString );
 		
@@ -316,7 +319,11 @@ ORYX.Plugins.EPC2BPMN = Clazz.extend({
 			
 			shapes.push({shape: shape, epc:epc})
 		}.bind(this))		
-	
+
+		var s1 = new Date()
+		s1 = (s1.getSeconds()+(s1.getMinutes()*60))
+		console.log("Before Orga: " + (s1 - start));
+		
 		
 
 		// ------------------------------------------
