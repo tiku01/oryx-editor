@@ -87,7 +87,7 @@ and change the xml port attribute to any port you like.
 
 
 = Appendix C - Install and Configure PostgreSQL =
-*Debian:*
+*Debian:* Use the following command to download and install the binaries: {{{apt-get install postgresql-plpython-8.3 }}} After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the webserver and {{{/etc/init.d/pgsql stop}}} to stop the server. 
 
 *Windows:* Go to PostgreSQL [http://wwwmaster.postgresql.org/download/mirrors-ftp mirror site] and download at least version 8.3.0 for Win32. Extract all the files from the zip archive and open the postgresql-8.3.msi file. You can install the packages which are selected by default. 
 The next step is very important. You should install PostgreSQL as a service with a service user. The user is named _postgres_ by default. In addition to that you have to set a password, otherwise the installer creates one for you. The password is used to change the configuration of the postgresql service.
@@ -96,6 +96,6 @@ Finally enable PL/Python as procedural language and finish the wizard with the d
 If you want to use the PostgreSQL comandline tools directly, add the path to the PostgreSQL bin directory (default: C:\Programme\PostgreSQL\8.3\bin) to your Windows environmental variables or use the _Start->All Programs->PostgreSQL 8.3->Command Prompt_ short cut.
 
 = Appendix D - Install and Configure Apache Tomcat =
-*Debian:*
+*Debian:* Use the following command to download and install the binaries: {{{apt-get install tomcat5.5 tomcat5.5-admin }}}
 
 *Windows:* Download Tomcat 6.0 Windows Service Installer from the offical [http://tomcat.apache.org/download-60.cgi Apache Website]. Start the installer and select all options except examples as shown in the following screenshot. The next important step is the basic configuration. If the server is used as productive system you should use port 80. Otherwise you can stick with port 8080. After that select an username and password for the server administrator. On the next page you have to select path to your Java JRE. The installer automatically finds the standard version. Make sure that you select Java 6 if you have installed multiple versions of Java on your system. After the setup has completed select start Tomcat and finish the wizard. Now you can begin with the deployment of oryx as shown in Part I.
