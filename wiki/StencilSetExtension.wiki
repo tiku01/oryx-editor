@@ -24,11 +24,9 @@ The first version should only add properties to existing stencils.
 
 == Stencil Set dependant Plugins ==
 
-_Issue #51_
+_Issue #140_
 
 There are several plugins that can only be used with BPMN models, for example the PNML export. But the plugins are also loaded when creating an EPC model. Therefore, it should be possible to load those plugins stencil set dependant.
-
-_But where should it be defined? In the plugins configuration xml file or in each stencil set definition?_
 
 
 == Property Packages ==
