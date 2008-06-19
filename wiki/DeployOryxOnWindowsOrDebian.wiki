@@ -13,10 +13,11 @@ This article focus on the deployment on Windows and Debian operation systems, al
   * PostgresSQL 8.3 (with PLPython)
     * Superuser privileges for the database. 
   * Python2.5
+  * Download the [http://www.oryx-editor.org/downloads Oryx-Server].
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
-The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _database.yml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
+The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _hibernate.cfg.xml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
 The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following command:
 
 {{{ createuser --username postgres --echo --pwprompt --encrypted poem }}}
