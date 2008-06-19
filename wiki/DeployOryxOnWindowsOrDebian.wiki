@@ -50,7 +50,22 @@ Notice: The Oryx-Editor currently needs the Firefox browser and if you want to s
 
 = PART III: Configuration = 
 
+== Option 1 : Change Database Server, Name, User and Password ==
+The Oryx Server uses Hibernate Technology to access the database. If you deployed the backend war file once, then Tomcat creates a backend directory in the webapps folder. Assuming that _$(TOMCAT_HOME)_ is the root path to the Tomcat folder open the _$(TOMCAT_HOME)/webapps/backend/WEB-INF/classes/hibernate.cfg.xml_ file and edit the XML-Elements according to your server configuration.
 
+{{{
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://server_name/database_name</property>
+        <property name="connection.username">user_name</property>
+        <property name="connection.password">password</property>
+}}}
+
+
+After you finished editing the file, you have to restart the Tomcat to apply the changes. 
+
+
+= APPENDIX =
 
 *Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
  
