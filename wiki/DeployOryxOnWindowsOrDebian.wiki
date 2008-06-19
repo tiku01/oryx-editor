@@ -15,8 +15,7 @@ This article focus on the deployment on Windows and Debian operation systems, al
   * PostgresSQL 8.3 (with PLPython)
     * Superuser privileges for the database. 
   * Python2.5
-
-Download [http://www.oryx-editor.org/downloads Server].
+  * Download the [http://www.oryx-editor.org/downloads Oryx-Server].
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
