@@ -3,8 +3,6 @@
 
 This walkthrough demonstrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may read this article.
 
-
-
 = Before You Get Started =
 This article focus on the deployment on Windows and Debian operation systems, although it isn't limited to these systems. Before you can deploy the system you need to install an Apache Tomcat and PostgreSQL server. You can find an quick installation guide for both servers in the end of the article. 
 
@@ -15,26 +13,29 @@ This article focus on the deployment on Windows and Debian operation systems, al
   * PostgresSQL 8.3 (with PLPython)
     * Superuser privileges for the database. 
   * Python2.5
-  * Download the [http://www.oryx-editor.org/downloads Oryx-Server].
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
-The default configuration of Oryx uses a database user called _poem_ with an empty password to connect to the database. If you create the poem user without a password, it's not necessary to make any changes to the configurations files. But if you want to set the password, you'll find the instructions in PART III. *It's strongly recommended to use a secure password for the poem user instead of the default one. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
-The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new Postgres user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Let's assume your superuser is _postgres_ than enter the following command:
+The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _database.yml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
+The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following command:
 
-{{{ createuser -PEeU postgres poem }}}
+{{{ createuser --username postgres --echo --pwprompt --encrypted poem }}}
 
 == STEP 2 - Create the _poem_ Database ==
 The default name of the Oryx database is _poem_. To create the database named _poem_ from the command shell using the superuser _postgres_ and set the user _poem_ as owner enter the following command:
 
-{{{ createdb -U postgres -O poem poem }}}
+{{{ createdb --username postgres --echo --encoding utf8 --owner poem poem }}}
 
-You can use any database name you like, but if you use poem, it's not necessary to make any changes to the Tomcat configuration. 
+You can use any database name you like, but if you use poem, it will not be necessary to make any changes to the Tomcat configuration. 
 
 == STEP 3 - Deploy the Database Schema ==
-The the file _oryx_db_schema.sql_ in our download package contains all necessary information to initialize the poem database. Enter the following command to install the schema:
+The file _oryx_db_schema.sql_ in our download package contains all necessary information to initialize the poem database. The schema can also be retrieved from a development system using:
 
-{{{ psql -U postgres -d poem -f  oryx_db_schema.sql}}}
+{{{ pg_dump --username postgres --clean --file=oryx_db_schema.sql --format=plain poem }}}
+
+Enter the following command to install the schema:
+
+{{{ psql --username postgres --dbname poem --file oryx_db_schema.sql}}}
 
 This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
 
@@ -70,14 +71,14 @@ deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
 
-*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java\_ directory.
+*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java_ directory.
 
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
 *Debian:* Before you can start the Tomcat Server you have to set the JAVA_HOME environment variable. If you want set _JAVA_HOME_ system wide and if you installed Java 6 to the default directory, then add the following line to the _/etc/profile_ file:
 {{{ export JAVA_HOME=/usr/lib/jvm/java-6-sun }}} 
 
-*Windows:*
+*Windows:* Control Panel -> System -> Advanced -> Environment Variables -> System Variables -> New
 
 == Step 03 (optional) - Change Listening Port ==
 Tomcat listens on port 8180 for incoming requests by default. In order to change the port open the _ /etc/tomcat5.5/server.xml_ file, go to the following line
