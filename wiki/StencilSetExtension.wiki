@@ -31,10 +31,14 @@ There are several plugins that can only be used with BPMN models, for example th
 
 == Property Packages ==
 
+_Issue #141_
+
 Currently, you have to define the properties for each stencil seperately. In case of BPMN this restriction blows the stencil set definition up to almost 6000 lines. But also in this case, all stencils share some general properties and each group of stencils (e.g. Intermediate Events) has even more properties in common. That is why I want to introduce property packages to define properties only once and then add 0..n property packages to a stencil. Of course, you can still add properties to a stencil directly.
 
 
 == Property-dependant Properties ==
+
+_Issue #142_
 
 In case of BPMN Intermediate Events an event has different properties dependant on the value of the property _Trigger_. To only show the valid properties is currently not possible in Oryx. That is why I want to add the option that a property is only shown, when another property has a specific value.
 
