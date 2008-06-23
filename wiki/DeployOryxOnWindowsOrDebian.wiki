@@ -127,11 +127,14 @@ apt-get install postgresql-plpython-8.3
 
 After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the webserver and {{{/etc/init.d/pgsql stop}}} to stop the server. 
 
-*Windows:* Go to PostgreSQL [http://wwwmaster.postgresql.org/download/mirrors-ftp mirror site] and download at least version 8.3.0 for Win32. Extract all the files from the zip archive and open the file _SETUP.bat_. You can install the packages which are selected by default. 
-The next step is very important. You should install PostgreSQL as a service with a service user. The user is named _postgres_ by default. In addition to that you have to set a password, otherwise the installer creates one for you. The password is used to change the configuration of the postgresql service.
-On the next page you have to set the password for the superuser of the database, which is also _postgres_ by default. This user is used to access the actual database. You shouldn't change the other value on this page if you have no compelling reasons. 
-Finally enable PL/Python as procedural language and finish the wizard with the default settings. After the installation completes quit the wizard. It's not necessary to install any other database connectors. 
-If you want to use the PostgreSQL comandline tools directly, add the path to the PostgreSQL bin directory (default: C:\Programme\PostgreSQL\8.3\bin) to your Windows environmental variables or use the _Start->All Programs->PostgreSQL 8.3->Command Prompt_ short cut.
+*Windows:*
+  # Go to one of the [http://wwwmaster.postgresql.org/download/mirrors-ftp PostgreSQL mirror sites] and download a binary release of at least version 8.3.0 for Win32, e.g. _binary/v8.3.3/win32/postgresql-8.3.3-1.zip_.
+  # Extract all the files from the zip archive and open the file _SETUP.bat_.
+  # You can install the packages which are selected by default. 
+  # The next step is very important. You should install PostgreSQL as a service with a service user. This user is a Windows user account which is named _postgres_ by default. In addition to that you have to set a password, otherwise the installer creates long and secure one for you. The account is used to run and change the configuration of the PostgreSQL service.
+  # On the next page you have to set the password for the superuser of the database server, which is also named _postgres_ by default. This user is a PostgreSQL user used to access the actual database. You shouldn't change the other values on this page if you have no compelling reasons.
+  # Finally enable PL/Python as procedural language and finish the wizard with the default settings. After the installation completes quit the wizard. It's not necessary to install any other database connectors.
+  # If you want to use the PostgreSQL commandline tools directly from every directory, add the PostgreSQL bin directory (default: %ProgramFiles%\PostgreSQL\8.3\bin) to the environment variable _PATH_. Otherwise just use the _Start->All Programs->PostgreSQL 8.3->Command Prompt_ short cut.
 
 = Appendix D - Install and Configure Apache Tomcat =
 *Debian:* Use the following command to download and install the binaries:
