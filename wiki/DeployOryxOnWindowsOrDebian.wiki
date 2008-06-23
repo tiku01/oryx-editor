@@ -20,23 +20,31 @@ This article focus on the deployment on Windows and Debian operation systems, al
 The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _hibernate.cfg.xml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
 The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following command:
 
-{{{ createuser --username postgres --echo --pwprompt --encrypted poem }}}
+{{{
+createuser --username postgres --echo --pwprompt --encrypted poem
+}}}
 
 == STEP 2 - Create the _poem_ Database ==
 The default name of the Oryx database is _poem_. To create the database named _poem_ from the command shell using the superuser _postgres_ and set the user _poem_ as owner enter the following command:
 
-{{{ createdb --username postgres --echo --encoding utf8 --owner poem poem }}}
+{{{
+createdb --username postgres --echo --encoding utf8 --owner poem poem
+}}}
 
 You can use any database name you like, but if you use poem, it will not be necessary to make any changes to the Tomcat configuration. 
 
 == STEP 3 - Deploy the Database Schema ==
 The file _oryx_db_schema.sql_ in our download package contains all necessary information to initialize the poem database. The schema can also be retrieved from a development system using:
 
-{{{ pg_dump --username postgres --clean --file=oryx_db_schema.sql --format=plain poem }}}
+{{{
+pg_dump --username postgres --clean --file=oryx_db_schema.sql --format=plain poem
+}}}
 
 Enter the following command to install the schema:
 
-{{{ psql --username postgres --dbname poem --file oryx_db_schema.sql}}}
+{{{
+psql --username postgres --dbname poem --file oryx_db_schema.sql
+}}}
 
 This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
 
@@ -44,10 +52,14 @@ You can also execute all those commands remotely if the PostgreSQL Database allo
 
 
 = PART II: Deploy the WAR Files on the Tomcat =
-Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_) Notice: The Manager isn't installed by default in all Tomcat distributions and you need an Tomcat user which have the right to access the manager. (--> Appendix B) 
-First scroll down to the end of the manager page an make sure that the JVM-Version starts with _1.6_. Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager. Go on and upload the second war file _backend.war_ .
-If you used all the default options from the walkthrough, you won't need to make any changes to the configuration. If not then go on with PART III. The default url of the repository is _http://servername/backend/poem/repository_ .
-Notice: The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration.  
+  # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_ (Debian) or _http://servername:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
+  # First scroll down to the end of the manager page an make sure that the JVM-Version starts with _1.6_.
+  # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
+  # Go on and upload the second war file _backend.war_ .
+
+If you used all the default options from the walkthrough, you won't need to make any changes to the configuration. If not then go on with PART III. The default url of the repository is _http://servername:port/backend/poem/repository_ .
+
+*Notice:* The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration.  
 
 = PART III: Configuration = 
 
@@ -76,9 +88,14 @@ After you finished editing the file, you have to restart the Tomcat to apply the
 
 = Appendix B: Install SUN Java 6 =
 == Step 01 - Download and Install Binaries ==
-*Debian:* SUN Java 6 is currently only available in the unstable version of Debian. You have to enable non-free packages in the apt configuration file first in order to install Java using the following command:
-{{{ apt-get install sun-java6-bin }}} 
+*Debian:* SUN Java 6 is currently only available in the unstable version of Debian. First you have to enable non-free packages in the apt configuration file _/etc/apt/sources.list_ in order to install Java using the following command:
+
+{{{
+apt-get install sun-java6-bin
+}}}
+ 
 The _/etc/apt/sources.list_ file on a debian unstable system may look like this:
+
 {{{
 deb http://ftp.de.debian.org/debian/ lenny main non-free
 deb-src http://ftp.de.debian.org/debian/ lenny main
@@ -92,14 +109,23 @@ deb-src http://security.debian.org/ lenny/updates main
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
 *Debian:* Before you can start the Tomcat Server you have to set the JAVA_HOME environment variable. If you want set _JAVA_HOME_ system wide and if you installed Java 6 to the default directory, then add the following line to the _/etc/profile_ file:
-{{{ export JAVA_HOME=/usr/lib/jvm/java-6-sun }}} 
+
+{{{
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+}}} 
 
 *Windows:* Control Panel -> System -> Advanced -> Environment Variables -> System Variables -> New
 
 
 
 = Appendix C - Install and Configure PostgreSQL =
-*Debian:* Use the following command to download and install the binaries: {{{apt-get install postgresql-plpython-8.3 }}} After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the webserver and {{{/etc/init.d/pgsql stop}}} to stop the server. 
+*Debian:* Use the following command to download and install the binaries:
+
+{{{
+apt-get install postgresql-plpython-8.3
+}}}
+
+After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the webserver and {{{/etc/init.d/pgsql stop}}} to stop the server. 
 
 *Windows:* Go to PostgreSQL [http://wwwmaster.postgresql.org/download/mirrors-ftp mirror site] and download at least version 8.3.0 for Win32. Extract all the files from the zip archive and open the file _SETUP.bat_. You can install the packages which are selected by default. 
 The next step is very important. You should install PostgreSQL as a service with a service user. The user is named _postgres_ by default. In addition to that you have to set a password, otherwise the installer creates one for you. The password is used to change the configuration of the postgresql service.
@@ -108,7 +134,10 @@ Finally enable PL/Python as procedural language and finish the wizard with the d
 If you want to use the PostgreSQL comandline tools directly, add the path to the PostgreSQL bin directory (default: C:\Programme\PostgreSQL\8.3\bin) to your Windows environmental variables or use the _Start->All Programs->PostgreSQL 8.3->Command Prompt_ short cut.
 
 = Appendix D - Install and Configure Apache Tomcat =
-*Debian:* Use the following command to download and install the binaries: {{{apt-get install tomcat5.5 tomcat5.5-admin }}}
+*Debian:* Use the following command to download and install the binaries:
+{{{
+apt-get install tomcat5.5 tomcat5.5-admin
+}}}
 
 *Windows:* Download Tomcat 6.0 Windows Service Installer from the offical [http://tomcat.apache.org/download-60.cgi Apache Website]. Start the installer and select all options except examples as shown in the following screenshot. The next important step is the basic configuration. If the server is used as productive system you should use port 80. Otherwise you can stick with port 8080. After that select an username and password for the server administrator. On the next page you have to select path to your Java JRE. The installer automatically finds the standard version. Make sure that you select Java 6 if you have installed multiple versions of Java on your system. After the setup has completed select start Tomcat and finish the wizard. Now you can begin with the deployment of oryx as shown in Part I.
 
