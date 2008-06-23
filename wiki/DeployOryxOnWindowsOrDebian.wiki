@@ -119,4 +119,4 @@ Look for the following XML element:
 <Connector port="8180" maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
 redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
 }}}
-and change the attribute _port_ to the desired port number. 
+and change the attribute _port_ to the desired port number. After that you have to restart Tomcat.
