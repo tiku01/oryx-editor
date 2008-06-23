@@ -84,6 +84,7 @@ After you finished editing the file, you have to restart the Tomcat to apply the
 = Appendix A: Install Python =
 *Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
 
+*Debian:* If Python 2.5 isn't already installed, use {{{apt-get install python2.5}}} to download ad install it. 
 
 = Appendix B: Install SUN Java 6 =
 == Step 01 - Download and Install Binaries ==
