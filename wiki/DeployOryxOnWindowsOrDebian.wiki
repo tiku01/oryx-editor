@@ -96,14 +96,6 @@ deb-src http://security.debian.org/ lenny/updates main
 
 *Windows:* Control Panel -> System -> Advanced -> Environment Variables -> System Variables -> New
 
-== Step 03 (optional) - Change Listening Port ==
-Tomcat listens on port 8180 for incoming requests by default. In order to change the port open the _ /etc/tomcat5.5/server.xml_ file, go to the following line
-{{{
-<Connector port="8180" maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
-redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
-}}}
-and change the xml port attribute to any port you like. 
-
 
 
 = Appendix C - Install and Configure PostgreSQL =
@@ -119,3 +111,12 @@ If you want to use the PostgreSQL comandline tools directly, add the path to the
 *Debian:* Use the following command to download and install the binaries: {{{apt-get install tomcat5.5 tomcat5.5-admin }}}
 
 *Windows:* Download Tomcat 6.0 Windows Service Installer from the offical [http://tomcat.apache.org/download-60.cgi Apache Website]. Start the installer and select all options except examples as shown in the following screenshot. The next important step is the basic configuration. If the server is used as productive system you should use port 80. Otherwise you can stick with port 8080. After that select an username and password for the server administrator. On the next page you have to select path to your Java JRE. The installer automatically finds the standard version. Make sure that you select Java 6 if you have installed multiple versions of Java on your system. After the setup has completed select start Tomcat and finish the wizard. Now you can begin with the deployment of oryx as shown in Part I.
+
+== Optional: Change Listening Port ==
+By default Tomcat listens on port 8180 (Debian) or 8080 (Windows) for incoming requests by default. In order to change the port open the _server.xml_ file which can be found in _/etc/tomcat5.5/_ (Debian) or _%ProgramFiles%\Apache Software Foundation\Tomcat x.x\conf_ (Windows).
+Look for the following XML element:
+{{{
+<Connector port="8180" maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" enableLookups="false" 
+redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
+}}}
+and change the attribute _port_ to the desired port number. 
