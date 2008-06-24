@@ -50,7 +50,7 @@ This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sq
 You can also execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
 
 
-= PART II: Deploy the WAR Files on the Tomcat =
+= PART II: Deploy the WAR Files to Tomcat =
   # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_ (Debian) or _http://servername:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
   # First scroll down to the end of the manager page an make sure that the JVM-Version starts with _1.6_.
   # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
@@ -82,9 +82,13 @@ After you finished editing the file, you have to restart the Tomcat to apply the
 *Notice:* The following quick start guides demonstrate, how to install the software packages using the default configuration. You may have to customize the given examples according to your system and security policies. 
  
 = Appendix A: Install Python =
-*Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
+*Debian:* If Python 2.5 isn't already installed, use the following command to download and install it:
 
-*Debian:* If Python 2.5 isn't already installed, use {{{apt-get install python2.5}}} to download and install it. 
+{{{
+apt-get install python2.5
+}}}
+
+*Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
 
 = Appendix B: Install SUN Java 6 =
 == Step 01 - Download and Install Binaries ==
