@@ -1,33 +1,35 @@
-#summary Roadmap for the following months.
-#labels Draft
+#summary Roadmap for the next months
 
 = Introduction =
 
-All work packages are prioritized and assigned to a person.
+The roadmap describes the most important work packages for the next months. Of course, bug fixing and small enhancements are also implemented beside this. The roadmap is divides into three phases. Phase I is scheduled from now till the end of July. Phase II is the summer season. Phase III contains work packages for the next semester.
 
-= Prioritization =
 
-|| *Rank* || *ID* || *Summary* ||
-|| 1 ||  ||  ||
-|| 2 ||  ||  ||
-|| 3 ||  ||  ||
-|| 4 ||  ||  ||
-|| 5 ||  ||  ||
-|| 6 ||  ||  ||
-|| 7 ||  ||  ||
-|| 8 ||  ||  ||
-|| 9 ||  ||  ||
-|| 10 ||  ||  ||
-|| 11 ||  ||  ||
-|| 12 ||  ||  ||
-|| 13 ||  ||  ||
-|| 14 ||  ||  ||
-|| 15 ||  ||  ||
-|| 16 ||  ||  ||
-|| 17 ||  ||  ||
-|| 18 ||  ||  ||
-|| 19 ||  ||  ||
+= Phase I =
 
-= Assignments =
+ * Performance tests (client/server and improvements
+ * Fixing Firefox 3 specific bugs
+ * Documentation of Plugin API
+ * Documentation of Backend
+ * Design Oryx flyer and poster
+ * Migration and backup scripts
 
-|| || Nico || Willi || Björn || Sven || Daniel || Ole ||
+
+= Phase II =
+
+ * Internationalization
+ * Prepare Oryx to support UML class diagrams
+ * Undo/Redo
+ * Stencil set improvements
+ * Repository improvements
+ * Process model tagging
+ * Import and additional export interfaces
+ * Include existing plugins from contributors into the productive system
+ * Marketing
+
+= Phase III =
+
+ * Browser independence
+ * Versioning of process models
+ * Collaborative work on process models
+ * ...
