@@ -1,4 +1,4 @@
 #summary The server architecture in general
 
 
-[http://oryx-editor.googlecode.com/svn/wiki/ServerDoc/ServerArchitecture.png Server Architecture]
+http://oryx-editor.googlecode.com/svn/wiki/ServerDoc/ServerArchitecture.png
