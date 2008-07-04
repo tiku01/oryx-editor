@@ -58,7 +58,7 @@ You can also execute all those commands remotely if the PostgreSQL Database allo
 
 If you used all the default options from the walkthrough, you won't need to make any changes to the configuration. If not then go on with PART III. The default url of the repository is _http://servername:port/backend/poem/repository_ .
 
-*Notice:* The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration.  
+*Notice:* The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration except if your server connects to the internet through an HTTP proxy. In that case, you can change the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend.
 
 = PART III: Configuration = 
 
