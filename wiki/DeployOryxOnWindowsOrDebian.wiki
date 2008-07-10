@@ -45,7 +45,7 @@ Enter the following command to install the schema:
 psql --username postgres --dbname poem --file database_dump_raw.sql
 }}}
 
-This uses the _postgres_ superuser to add the schema from the _oryx_db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
+This uses the _postgres_ superuser to add the schema from the _database_dump_raw.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
 
 You can also execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
 
