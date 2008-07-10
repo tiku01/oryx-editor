@@ -1,3 +1,4 @@
+#labels Phase-Deploy
 = Introduction =
 
 This walkthrough demonstrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may read this article.
@@ -17,10 +18,12 @@ This article focus on the deployment on Windows and Debian operation systems, al
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
 The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _hibernate.cfg.xml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
-The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following command:
+The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following commands:
 
 {{{
+su postgres  # become the postgres user to avoid authentication problems
 createuser --username postgres --echo --pwprompt --encrypted poem
+exit
 }}}
 
 == STEP 2 - Create the _poem_ Database ==
@@ -129,7 +132,7 @@ export JAVA_HOME=/usr/lib/jvm/java-6-sun
 apt-get install postgresql-plpython-8.3
 }}}
 
-After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the webserver and {{{/etc/init.d/pgsql stop}}} to stop the server. 
+After the setup finished you can use {{{/etc/init.d/pgsql start}}} to start the  DB server and {{{/etc/init.d/pgsql stop}}} to stop the server. Note: Depending on the version of your PostgreSQL package, the name of the script might be {{{postgresql-8.1}}} instead of {{{pgsql}}}
 
 *Windows:*
   # Go to one of the [http://wwwmaster.postgresql.org/download/mirrors-ftp PostgreSQL mirror sites] and download a binary release of at least version 8.3.0 for Win32, e.g. _binary/v8.3.3/win32/postgresql-8.3.3-1.zip_.
