@@ -33,7 +33,7 @@ createdb --username postgres --echo --encoding utf8 --owner poem poem
 You can use any database name you like, but if you use poem, it will not be necessary to make any changes to the Tomcat configuration. 
 
 == STEP 3 - Deploy the Database Schema ==
-The file _oryx_db_schema.sql_ in our download package contains all necessary information to initialize the poem database. The schema can also be retrieved from a development system using:
+The file _database_dump_raw.sql_ in our download package contains all necessary information to initialize the poem database. The schema can also be retrieved from a development system using:
 
 {{{
 pg_dump --username postgres --clean --file=database_dump_raw.sql --format=plain poem
