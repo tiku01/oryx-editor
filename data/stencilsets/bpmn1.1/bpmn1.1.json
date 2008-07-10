@@ -13,7 +13,8 @@
 			"icon":				"new_diagram.png",
 			"mayBeRoot":		true,
 			"hide":				true,
-			"roles":			["canContainArtifacts"],
+			"roles":			["fromtoall",
+								 "canContainArtifacts"],
 			"properties": [
 				{
 					"id":"id",
@@ -91,7 +92,7 @@
 					"id":"creationDate",
 					"type":"Date",
 					"title":"CreationDate",
-					"value":"",
+					"value":"10/07/07",
 					"description":"This defines the date on which the Diagram was created.",
 					"readonly":false,
 					"optional":true,
@@ -101,7 +102,7 @@
 					"id":"modificationDate",
 					"type":"Date",
 					"title":"ModificationDate",
-					"value":"",
+					"value":"10/07/07",
 					"description":"This defines the date on which the Diagram was last modified.",
 					"readonly":false,
 					"optional":true,
@@ -196,16 +197,6 @@
 					"optional":true,
 					"refToView":"acttext",
 					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
 					"wrapLines":true
 				},
 				{
@@ -771,11 +762,11 @@
 		},
  		{
 			"type": "node",
-			"id":"collapsedSubprocess",
-			"title":"Collapsed Subprocess",
+			"id":"Subprocess",
+			"title":"Sub-Process",
 			"groups":["Activities"],
 			"description":"An subprocess.",
-			"view":"activity/node.collapsed.subprocess.svg",
+			"view":"activity/node.subprocess.svg",
 			"icon":"new_subprocess.png",
 			"roles": [
 				"sequence_start",
@@ -787,7 +778,8 @@
 				"conditional_start",
 				"default_start",
 				"tc",
-				"fromtoall"
+				"fromtoall",
+				"canContainArtifacts"
 			],
 			"properties": [
 				{
@@ -834,16 +826,6 @@
 					"optional":true,
 					"refToView":"acttext",
 					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
 					"wrapLines":true
 				},
 				{
@@ -1291,7 +1273,7 @@
 				{
 					"id":"transaction",
 					"type":"String",
-					"title":"TransactionRef",
+					"title":"Transaction",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1366,24 +1348,18 @@
 		},
 		{
 			"type": "node",
-			"id":"expandedSubprocess",
-			"title":"Expanded Subprocess",
-			"groups":["Activities"],
-			"description":"An subprocess.",
-			"view":"activity/node.expanded.subprocess.svg",
-			"icon":"new_task.png",
+			"id":"AND_Gateway",
+			"title":"AND Gateway",
+			"groups":["Gateways"],
+			"description":"A decision point.",
+			"view":"gateway/node.gateway.and.svg",
+			"icon":"new_gateway_and.png",
 			"roles": [
 				"sequence_start",
 				"sequence_end",
-				"messageflow_start",
-				"messageflow_end",
-				"to_task_event",
-				"from_task_event",
 				"conditional_start",
-				"default_start",
 				"tc",
-				"fromtoall",
-				"canContainArtifacts"
+				"fromtoall"
 			],
 			"properties": [
 				{
@@ -1421,26 +1397,134 @@
 					"length":"30"
 				},
 				{
-					"id":"name",
+					"id":"pool",
 					"type":"String",
-					"title":"Name",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"acttext",
+					"length":""
+				},
+				{
+					"id":"gatewayType",
+					"type":"String",
+					"title":"GatewayType",
+					"value":"AND",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"gates",
+					"type":"String",
+					"title":"Gates",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
 					"length":"50",
 					"wrapLines":true
 				},
 				{
-					"id":"assignments",
+					"id":"gates_outgoingSequenceFlow",
 					"type":"String",
-					"title":"Assignments",
+					"title":"[Gates] OutgoingSequenceFlow",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
+					"refToView":"",
+					"length":"50",
 					"wrapLines":true
+				},
+				{
+					"id":"gates_Assignments",
+					"type":"String",
+					"title":"[Gates] Assignments",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"OR_Gateway",
+			"title":"OR Gateway",
+			"groups":["Gateways"],
+			"description":"A decision point.",
+			"view":"gateway/node.gateway.or.svg",
+			"icon":"new_gateway_or.png",
+			"roles": [
+				"sequence_start",
+				"sequence_end",
+				"conditional_start",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
 				},
 				{
 					"id":"pool",
@@ -1463,99 +1547,19 @@
 					"length":""
 				},
 				{
-					"id":"activityType",
+					"id":"gatewayType",
 					"type":"String",
-					"title":"ActivityType",
-					"value":"Sub-Process",
-					"description":"The Type of Activity.",
+					"title":"GatewayType",
+					"value":"OR",
+					"description":"",
 					"readonly":true,
 					"optional":false,
 					"length":""
 				},
 				{
-					"id":"status",
-					"type":"Choice",
-					"title":"Status",
-					"value":"None",
-					"description":"The Status of an activity is determined when the activity is being executed by a process engine.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"None",
-							"refToView":"None"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Ready",
-							"refToView":"Ready"
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"Active",
-							"refToView":"Active"
-						},
-						{
-							"id":"c4",
-							"title":"c4",
-							"value":"Cancelled",
-							"refToView":"Cancelled"
-						},
-						{
-							"id":"c5",
-							"title":"c5",
-							"value":"Aborting",
-							"refToView":"Aborting"
-						},
-						{
-							"id":"c6",
-							"title":"c6",
-							"value":"Aborted",
-							"refToView":"Aborted"
-						},
-						{
-							"id":"c7",
-							"title":"c7",
-							"value":"Completing",
-							"refToView":"Completing"
-						},
-						{
-							"id":"c8",
-							"title":"c8",
-							"value":"Completed",
-							"refToView":"Completed"
-						}
-					]
-				},
-				{
-					"id":"performers",
+					"id":"gates",
 					"type":"String",
-					"title":"Performers",
-					"value":"",
-					"description":"The Performer attribute defines the resource that will perform or will be responsible for the activity.",
-					"readonly": 	false,
-					"optional": 	true,
-					"length":""
-				},
-				{
-					"id":"properties",
-					"type":"String",
-					"title":"Properties",
-					"value":"",
-					"description":"Describes local Properties may added to the activity. These Properties are only for use within the processing of the activity",
-					"readonly": 	false,
-					"optional": 	true,
-					"length":""
-				},
-				{
-					"id":"inputSets",
-					"type":"String",
-					"title":"InputSets",
+					"title":"Gates",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1565,9 +1569,9 @@
 					"wrapLines":true
 				},
 				{
-					"id":"inputs",
+					"id":"gates_outgoingSequenceFlow",
 					"type":"String",
-					"title":"Inputs",
+					"title":"[Gates] OutgoingSequenceFlow",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1577,9 +1581,9 @@
 					"wrapLines":true
 				},
 				{
-					"id":"outputSets",
+					"id":"gates_Assignments",
 					"type":"String",
-					"title":"OutputSets",
+					"title":"[Gates] Assignments",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1589,9 +1593,9 @@
 					"wrapLines":true
 				},
 				{
-					"id":"outputs",
+					"id":"defaultGate",
 					"type":"String",
-					"title":"Outputs",
+					"title":"DefaultGate",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1601,360 +1605,37 @@
 					"wrapLines":true
 				},
 				{
-					"id":"ioRules",
+					"id":"gate_outgoingSequenceFlow",
 					"type":"String",
-					"title":"IORules",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"startQuantity",
-					"type":"Integer",
-					"title":"StartQuantity",
-					"value":1,
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"min":"1"
-				},
-				{
-					"id":"completionQuantity",
-					"type":"Integer",
-					"title":"CompletionQuantity",
-					"value":1,
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"min":"1"
-				},
-				{
-					"id":"loopType",
-					"type":"Choice",
-					"title":"LoopType",
-					"value":"None",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"None",
-							"refToView":"none"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Standard",
-							"refToView":"loop"
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"MultiInstance",
-							"refToView":"multiple"
-						}
-					]
-				},
-				{
-					"id":"loopCondition",
-					"type":"String",
-					"title":"LoopCondition",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"loopCounter",
-					"type":"Integer",
-					"title":"LoopCounter",
-					"value":1,
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":""
-				},
-				{
-					"id":"loopMaximum",
-					"type":"Integer",
-					"title":"LoopMaximum",
-					"value":1,
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":""
-				},
-				{
-					"id":"testTime",
-					"type":"Choice",
-					"title":"TestTime",
-					"value":"After",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"Before",
-							"refToView":"Before"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"After",
-							"refToView":"After"
-						}
-					]
-				},
-				{
-					"id":"MI_Condition",
-					"type":"String",
-					"title":"MI_Condition",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"MI_Ordering",
-					"type":"Choice",
-					"title":"MI_Ordering",
-					"value":"Sequential",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"Sequential",
-							"refToView":"Sequential"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Parallel",
-							"refToView":"Parallel"
-						}
-					]
-				},
-				{
-					"id":"MI_FlowCondition",
-					"type":"Choice",
-					"title":"MI_FlowCondition",
-					"value":"All",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"None",
-							"refToView":"None"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"One",
-							"refToView":"One"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"All",
-							"refToView":"All"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Complex",
-							"refToView":"Complex"
-						}
-					]
-				},
-				{
-					"id":"isadhoc",
-					"type":"Boolean",
-					"title":"isAdHoc",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"adhoc"
-				},
-				{
-					"id":"AdHocOrdering",
-					"type":"Choice",
-					"title":"AdHocOrdering",
-					"value":"Sequential",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"Sequential",
-							"refToView":"Sequential"
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Parallel",
-							"refToView":"Parallel"
-						}
-					]
-				},
-				{
-					"id":"AdHocCompletionCondition",
-					"type":"String",
-					"title":"AdHocCompletionCondition",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"isCompensation",
-					"type":"Boolean",
-					"title":"isCompensation",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"compensation"
-				},
-				{
-					id: "subProcessType",
-					type: "Choice",
-					title: "subProcessType",
-					value: "Embedded",
-					description: "SubProcessType is an attribute that defines whether the Sub-Process details are embedded within the higher level Process or refers to another, re-usable Process. The default is Embedded.",
-					optional: false,
-					refToView: "",
-					items: [
-						{
-							id: "choice1",
-							title:"embedded",
-							value:"Embedded",
-							refToView: "None"
-						},
-						{
-							id: "choice2",
-							title: "independent",
-							value: "Independent",
-							refToView: "None"
-						},
-						{
-							id: "choice3",
-							title: "reference",
-							value: "Reference",
-							refToView: "None"
-						}
-					]
-				},
-				{
-					"id":"isATransaction",
-					"type":"Boolean",
-					"title":"isATransaction",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"border"
-				},
-				{
-					"id":"transaction",
-					"type":"String",
-					"title":"TransactionRef",
+					"title":"[Gate] OutgoingSequenceFlow",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
-				{
-					"id":"entry",
-					"prefix":"raziel",
-					"type":"Url",
-					"title":"SubProcessRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"u"
 				},
 				{
-					"id":"diagramRef",
+					"id":"gate_Assignments",
 					"type":"String",
-					"title":"DiagramRef",
+					"title":"[Gate] Assignments",
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":false,
-					"refToView":""
-				},
-				{
-					"id":"processRef",
-					"type":"String",
-					"title":"ProcessRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":""
-				},
-				{
-					"id":"inputMaps",
-					"type":"String",
-					"title":"InputMaps",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":""
-				},
-				{
-					"id":"outputMaps",
-					"type":"String",
-					"title":"OutputMaps",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":""
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
 				},				
 				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"value":"white",
+					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"taskrect",
+					"refToView":"frame",
 					"fill":true,
 					"stroke":false
 				}
@@ -1963,7 +1644,7 @@
 		{
 			"type": "node",
 			"id":"Exclusive_Databased_Gateway",
-			"title":"Exclusive Data-based (XOR) Gateway",
+			"title":"Data-based Exclusive (XOR) Gateway",
 			"groups":["Gateways"],
 			"description":"A decision point.",
 			"view":"gateway/node.gateway.xor.databased.svg",
@@ -2010,26 +1691,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -2169,7 +1830,7 @@
 		{
 			"type": "node",
 			"id":"Exclusive_Eventbased_Gateway",
-			"title":"Exclusive Event-based (XOR) Gateway",
+			"title":"Event-based Exclusive (XOR) Gateway",
 			"groups":["Gateways"],
 			"description":"A decision point.",
 			"view":"gateway/node.gateway.xor.eventbased.svg",
@@ -2215,26 +1876,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -2338,341 +1979,6 @@
 		},
 		{
 			"type": "node",
-			"id":"AND_Gateway",
-			"title":"AND Gateway",
-			"groups":["Gateways"],
-			"description":"A decision point.",
-			"view":"gateway/node.gateway.and.svg",
-			"icon":"new_gateway_and.png",
-			"roles": [
-				"sequence_start",
-				"sequence_end",
-				"conditional_start",
-				"tc",
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"gatewayType",
-					"type":"String",
-					"title":"GatewayType",
-					"value":"AND",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"gates",
-					"type":"String",
-					"title":"Gates",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"gates_outgoingSequenceFlow",
-					"type":"String",
-					"title":"[Gates] OutgoingSequenceFlow",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"gates_Assignments",
-					"type":"String",
-					"title":"[Gates] Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"OR_Gateway",
-			"title":"OR Gateway",
-			"groups":["Gateways"],
-			"description":"A decision point.",
-			"view":"gateway/node.gateway.or.svg",
-			"icon":"new_gateway_or.png",
-			"roles": [
-				"sequence_start",
-				"sequence_end",
-				"conditional_start",
-				"tc",
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"gatewayType",
-					"type":"String",
-					"title":"GatewayType",
-					"value":"OR",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"gates",
-					"type":"String",
-					"title":"Gates",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"gates_outgoingSequenceFlow",
-					"type":"String",
-					"title":"[Gates] OutgoingSequenceFlow",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"gates_Assignments",
-					"type":"String",
-					"title":"[Gates] Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"defaultGate",
-					"type":"String",
-					"title":"DefaultGate",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"gate_outgoingSequenceFlow",
-					"type":"String",
-					"title":"[Gate] OutgoingSequenceFlow",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"gate_Assignments",
-					"type":"String",
-					"title":"[Gate] Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
 			"id":"Complex_Gateway",
 			"title":"Complex Gateway",
 			"groups":["Gateways"],
@@ -2720,26 +2026,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -2865,17 +2151,7 @@
 				});
 				
 				if(lanes.length > 0) {
-					
-					// only one lane in pool
-					if(lanes.length == 1) {
-						lanes.first().setProperty("oryx-showcaption", false);
-					} else {
-						lanes.each(function(lane) {
-							lane.setProperty("oryx-showcaption", true);
-						});
-					}
-					
-					
+				
 					lanes = lanes.sortBy(function(lane) {
 						return lane.bounds.upperLeft().y;
 					});
@@ -2976,328 +2252,7 @@
 					"description":"Defines, if the rectangular boundary for the Pool is visible.",
 					"readonly":false,
 					"optional":false,
-					"refToView": ["border", "c", "caption", "captionDisableAntialiasing"]
-				},
-				{
-					"id":"mainPool",
-					"type":"Boolean",
-					"title":"MainPool",
-					"value":false,
-					"description":"Defines, if the current Pool is the main Pool of the diagram.",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"processRef",
-					"type":"String",
-					"title":"ProcessRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"processName",
-					"type":"String",
-					"title":"ProcessName",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"processType",
-					"type":"Choice",
-					"title":"ProcessType",
-					"value":"None",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"processtype",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"None",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Private",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"Abstract",
-							"refToView":""
-						},
-						{
-							"id":"c4",
-							"title":"c4",
-							"value":"Collaboration",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"status",
-					"type":"Choice",
-					"title":"Status",
-					"value":"None",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"state",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"None",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Ready",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"Active",
-							"refToView":""
-						},
-						{
-							"id":"c4",
-							"title":"c4",
-							"value":"Cancelled",
-							"refToView":""
-						},
-						{
-							"id":"c5",
-							"title":"c5",
-							"value":"Aborting",
-							"refToView":""
-						},
-						{
-							"id":"c6",
-							"title":"c6",
-							"value":"Aborted",
-							"refToView":""
-						},
-						{
-							"id":"c7",
-							"title":"c7",
-							"value":"Completing",
-							"refToView":""
-						},
-						{
-							"id":"c8",
-							"title":"c8",
-							"value":"Completed",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"adHoc",
-					"type":"Boolean",
-					"title":"AdHoc",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"adHocOrdering",
-					"type":"Choice",
-					"title":"AdHocOrdering",
-					"value":"Parallel",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"Sequential",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"Parallel",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"adHocCompletionCondition",
-					"type":"String",
-					"title":"AdHocCompletionCondition",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Boolean",
-					"title":"SuppressJoinFailure",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"enableInstanceCompensation",
-					"type":"Boolean",
-					"title":"EnableBooleanCompensation",
-					"value":false,
-					"description":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"processCategories",
-					"type":"String",
-					"title":"ProcessCategories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"processDocumentation",
-					"type":"String",
-					"title":"ProcessDocumentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"c",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"CollapsedPool",
-			"title":"Collapsed Pool",
-			"groups":["Swimlanes"],
-			"description":"",
-			"view":"swimlane/node.collapsed.pool.svg",
-			"icon":"new_lane.png",
-			"roles": [
-				"messageflow_start",
-				"messageflow_end",
-				"to_task_event",
-				"from_task_event",
-				"fromtoall"				
-			],
-			"properties": [
-				{
-					"id":"poolId",
-					"type":"String",
-					"title":"PoolId",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"poolCategories",
-					"type":"String",
-					"title":"PoolCategories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"poolDocumentation",
-					"type":"String",
-					"title":"PoolDocumentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text_v",
-					"length":""
-				},
-				{
-					"id":"participantRef",
-					"type":"String",
-					"title":"ParticipantRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"boundaryVisible",
-					"type":"Boolean",
-					"title":"BoundaryVisible",
-					"value":true,
-					"description":"Defines, if the rectangular boundary for the Pool is visible.",
-					"readonly":false,
-					"optional":false,
-					"refToView": ["border", "c"]
+					"refToView":"border"
 				},
 				{
 					"id":"mainPool",
@@ -3528,7 +2483,7 @@
 		{
 			"type": "node",
 			"id":"Lane",
-			"title":"Lane",
+			"title":"Lanes",
 			"groups":["Swimlanes"],
 			"description":"",
 			"view":"swimlane/node.lane.svg",
@@ -3546,6 +2501,7 @@
 				});
 				
 				if(lanes.length > 0) {
+				
 					lanes = lanes.sortBy(function(lane) {
 						return lane.bounds.upperLeft().y;
 					});
@@ -3645,18 +2601,6 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":"showCaption",
-					"type":"Boolean",
-					"title":"ShowCaption",
-					"value":"true",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView": ["caption", "captionDisableAntialiasing", "text_v"],
 					"fill":true,
 					"stroke":false
 				}
@@ -3929,7 +2873,7 @@
 					"description":"Text description",
 					"readonly":false,
 					"optional":true,
-					"refToView":"text_name",
+					"refToView":"text",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -3939,7 +2883,6 @@
 					"title":"State",
 					"value":"",
 					"description":"",
-					"refToView":"text_state",
 					"readonly":false,
 					"optional":true
 				},
@@ -3989,13 +2932,14 @@
 		{
 			"type": "node",
 			"id":"StartEvent",
-			"title":"Start Event",
-			"groups":["Start Events"],
+			"title":"Start event",
+			"groups":["Startevents"],
 			"description":"An event without incoming edges.",
 			"view":"startevent/node.event.start.svg",
 			"icon":"startevent/node.event.start.png",		
 			"roles": [
 				"sequence_start",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -4036,25 +2980,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4114,8 +3039,8 @@
 		{
 			"type": "node",
 			"id":"StartMessageEvent",
-			"title":"Start Message Event",
-			"groups":["Start Events"],
+			"title":"Start message event",
+			"groups":["Startevents"],
 			"description":"A message event without incoming edges.",
 			"view":"startevent/node.event.message.start.svg",
 			"icon":"startevent/node.event.message.start.png",
@@ -4162,26 +3087,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4282,13 +3187,14 @@
 		{
 			"type": "node",
 			"id":"StartTimerEvent",
-			"title":"Start Timer Event",
-			"groups":["Start Events"],
+			"title":"Start timer event",
+			"groups":["Startevents"],
 			"description":"A timer event without incoming edges.",
 			"view":"startevent/node.event.timer.start.svg",
 			"icon":"startevent/node.event.timer.start.png",
 			"roles": [
 				"sequence_start",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -4329,26 +3235,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4429,13 +3315,14 @@
 		{
 			"type": "node",
 			"id":"StartConditionalEvent",
-			"title":"Start Conditional Event",
-			"groups":["Start Events"],
+			"title":"Start conditional event",
+			"groups":["Startevents"],
 			"description":"A rule event without incoming edges.",
 			"view":"startevent/node.event.conditional.start.svg",
 			"icon":"startevent/node.event.conditional.start.png",
 			"roles": [
 				"sequence_start",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -4476,26 +3363,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4566,13 +3433,14 @@
 		{
 			"type": "node",
 			"id":"StartSignalEvent",
-			"title":"Start Signal Event",
-			"groups":["Start Events"],
+			"title":"Start signal event",
+			"groups":["Startevents"],
 			"description":"A multiple event without incoming edges.",
 			"view":"startevent/node.event.signal.start.svg",
 			"icon":"startevent/node.event.signal.start.png",
 			"roles": [
 				"sequence_start",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -4601,26 +3469,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
 					"wrapLines":true
 				},
 				{
@@ -4713,8 +3561,8 @@
 		{
 			"type": "node",
 			"id":"StartMultipleEvent",
-			"title":"Start Multiple Event",
-			"groups":["Start Events"],
+			"title":"Start multiple event",
+			"groups":["Startevents"],
 			"description":"A multiple event without incoming edges.",
 			"view":"startevent/node.event.multiple.start.svg",
 			"icon":"startevent/node.event.multiple.start.png",
@@ -4761,26 +3609,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4852,14 +3680,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateEventCatching",
-			"title":"Intermediate Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.intermediate.svg",
 			"icon":"intermediateevent/node.event.none.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -4902,26 +3731,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -4992,8 +3801,8 @@
 		{
 			"type": "node",
 			"id":"IntermediateMessageEventCatching",
-			"title":"Intermediate Message Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate message event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate message event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.message.catching.intermediate.svg",
 			"icon":"intermediateevent/node.event.message.catching.intermediate.png",
@@ -5043,26 +3852,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5174,15 +3963,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateMessageEventThrowing",
-			"title":"Intermediate Message Event",
-			"groups":["Throwing Intermediate Events"],
+			"title":"Intermediate message event",
+			"groups":["Intermediate Events Throwing"],
 			"description":"An intermediate message event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.message.throwing.intermediate.svg",
 			"icon":"intermediateevent/node.event.message.throwing.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
-				"messageflow_start",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -5222,26 +4011,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5353,14 +4122,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateTimerEventCatching",
-			"title":"Intermediate Timer Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate timer event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate timer event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.timer.intermediate.svg",
 			"icon":"intermediateevent/node.timerevent.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -5402,26 +4172,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5513,16 +4263,18 @@
 		{
 			"type": "node",
 			"id":"IntermediateErrorEvent",
-			"title":"Intermediate Error Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate error event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate error event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.error.intermediate.svg",
 			"icon":"intermediateevent/node.event.error.intermediate.png",
 			"roles":[
 				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"onBoundaryOnly",
+				"tc",
 				"fromtoall",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary"
@@ -5561,26 +4313,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5662,16 +4394,18 @@
 		{
 			"type": "node",
 			"id":"IntermediateCancelEvent",
-			"title":"Intermediate Cancel Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate cancel event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate cancel event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.cancel.intermediate.svg",
 			"icon":"intermediateevent/node.event.cancel.intermediate.png",
 			"roles":[
 				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"onBoundaryOnly",
+				"tc",
 				"fromtoall",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary"
@@ -5710,26 +4444,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5800,14 +4514,18 @@
 		{
 			"type": "node",
 			"id":"IntermediateCompensationEventCatching",
-			"title":"Intermediate Compensation Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate compensation event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate compensation event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.compensation.catching.intermediate.svg",
+			"view":"intermediateevent/node.event.compensation.intermediate.svg",
 			"icon":"intermediateevent/node.event.compensation.catching.intermediate.png",
 			"roles":[
-				"onBoundaryOnly",
+				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
+				"to_task_event",
 				"from_task_event",
+				"tc",
 				"fromtoall",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary"
@@ -5846,26 +4564,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -5947,14 +4645,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateCompensationEventThrowing",
-			"title":"Intermediate Compensation Event",
-			"groups":["Throwing Intermediate Events"],
+			"title":"Intermediate compensation event",
+			"groups":["Intermediate Events Throwing"],
 			"description":"An intermediate compensation event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.compensation.throwing.intermediate.svg",
 			"icon":"intermediateevent/node.event.compensation.throwing.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -5994,26 +4693,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -6095,14 +4774,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateConditionalEvent",
-			"title":"Intermediate Conditional Event",
-			"groups":["Catching Intermediate Events"],
+			"title":"Intermediate conditional event",
+			"groups":["Intermediate Events Catching"],
 			"description":"An intermediate rule event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.conditional.intermediate.svg",
 			"icon":"intermediateevent/node.event.conditional.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -6144,26 +4824,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -6244,15 +4904,296 @@
 		},
 		{
 			"type": "node",
-			"id":"IntermediateSignalEventCatching",
-			"title":"Intermediate Signal Event",
-			"groups":["Catching Intermediate Events"],
-			"description":"An intermediate multiple event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.signal.catching.intermediate.svg",
-			"icon":"intermediateevent/node.event.signal.catching.intermediate.png",
+			"id":"IntermediateLinkEventCatching",
+			"title":"Intermediate link event",
+			"groups":["Intermediate Events Catching"],
+			"description":"An intermediate link event with incoming and outgoing edges.",
+			"view":"intermediateevent/node.event.link.catching.intermediate.svg",
+			"icon":"intermediateevent/node.event.link.catching.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"eventType",
+					"type":"String",
+					"title":"EventType",
+					"value":"Intermediate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"value":"Link",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"linkId",
+					"type":"String",
+					"title":"LinkId",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"processRef",
+					"type":"String",
+					"title":"ProcessRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateLinkEventThrowing",
+			"title":"Intermediate link event",
+			"groups":["Intermediate Events Throwing"],
+			"description":"An intermediate link event with incoming and outgoing edges.",
+			"view":"intermediateevent/node.event.link.throwing.intermediate.svg",
+			"icon":"intermediateevent/node.event.link.throwing.intermediate.png",
+			"roles":[
+				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"eventType",
+					"type":"String",
+					"title":"EventType",
+					"value":"Intermediate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"value":"Link",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"linkId",
+					"type":"String",
+					"title":"LinkId",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"processRef",
+					"type":"String",
+					"title":"ProcessRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateMultipleEventCatching",
+			"title":"Intermediate multiple event",
+			"groups":["Intermediate Events Catching"],
+			"description":"An intermediate multiple event with incoming and outgoing edges.",
+			"view":"intermediateevent/node.event.multiple.catching.intermediate.svg",
+			"icon":"intermediateevent/node.event.multiple.catching.intermediate.png",
+			"roles":[
+				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -6296,24 +5237,266 @@
 					"length":"30"
 				},
 				{
-					"id":"name",
+					"id":"pool",
 					"type":"String",
-					"title":"Name",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
+					"length":""
+				},
+				{
+					"id":"eventType",
+					"type":"String",
+					"title":"EventType",
+					"value":"Intermediate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"triggers",
+					"type":"String",
+					"title":"Triggers",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateMultipleEventThrowing",
+			"title":"Intermediate multiple event",
+			"groups":["Intermediate Events Throwing"],
+			"description":"An intermediate multiple event with incoming and outgoing edges.",
+			"view":"intermediateevent/node.event.multiple.throwing.intermediate.svg",
+			"icon":"intermediateevent/node.event.multiple.throwing.intermediate.png",
+			"roles":[
+				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
 					"wrapLines":true
 				},
 				{
-					"id":"assignments",
+					"id":"documentation",
 					"type":"String",
-					"title":"Assignments",
+					"title":"Documentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"eventType",
+					"type":"String",
+					"title":"EventType",
+					"value":"Intermediate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":""
+				},
+				{
+					"id":"triggers",
+					"type":"String",
+					"title":"Triggers",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50",
 					"wrapLines":true
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateSignalEventCatching",
+			"title":"Intermediate signal event",
+			"groups":["Intermediate Events Catching"],
+			"description":"An intermediate multiple event with incoming and outgoing edges.",
+			"view":"intermediateevent/node.event.signal.catching.intermediate.svg",
+			"icon":"intermediateevent/node.event.signal.catching.intermediate.png",
+			"roles":[
+				"sequence_start",
+				"sequence_end",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall",
+				"IntermediateEventOnActivityBoundary",
+				"IntermediateEventOnSubprocessBoundary"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
 				},
 				{
 					"id":"pool",
@@ -6408,14 +5591,15 @@
 		{
 			"type": "node",
 			"id":"IntermediateSignalEventThrowing",
-			"title":"Intermediate Signal Event",
-			"groups":["Throwing Intermediate Events"],
+			"title":"Intermediate signal event",
+			"groups":["Intermediate Events Throwing"],
 			"description":"An intermediate multiple event with incoming and outgoing edges.",
 			"view":"intermediateevent/node.event.signal.throwing.intermediate.svg",
 			"icon":"intermediateevent/node.event.signal.throwing.intermediate.png",
 			"roles":[
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -6455,26 +5639,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -6568,750 +5732,9 @@
 		},
 		{
 			"type": "node",
-			"id":"IntermediateMultipleEventCatching",
-			"title":"Intermediate Multiple Event",
-			"groups":["Catching Intermediate Events"],
-			"description":"An intermediate multiple event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.multiple.catching.intermediate.svg",
-			"icon":"intermediateevent/node.event.multiple.catching.intermediate.png",
-			"roles":[
-				"sequence_start",
-				"sequence_end",
-				"to_task_event",
-				"from_task_event",
-				"tc",
-				"fromtoall",
-				"IntermediateEventOnActivityBoundary",
-				"IntermediateEventOnSubprocessBoundary"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"eventType",
-					"type":"String",
-					"title":"EventType",
-					"value":"Intermediate",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"trigger",
-					"type":"String",
-					"title":"Trigger",
-					"value":"Multiple",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"target",
-					"type":"String",
-					"title":"Target",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"triggers",
-					"type":"String",
-					"title":"Triggers",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"IntermediateMultipleEventThrowing",
-			"title":"Intermediate Multiple Event",
-			"groups":["Throwing Intermediate Events"],
-			"description":"An intermediate multiple event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.multiple.throwing.intermediate.svg",
-			"icon":"intermediateevent/node.event.multiple.throwing.intermediate.png",
-			"roles":[
-				"sequence_start",
-				"sequence_end",
-				"messageflow_start",
-				"to_task_event",
-				"from_task_event",
-				"tc",
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"eventType",
-					"type":"String",
-					"title":"EventType",
-					"value":"Intermediate",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"trigger",
-					"type":"String",
-					"title":"Trigger",
-					"value":"Multiple",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"target",
-					"type":"String",
-					"title":"Target",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"triggers",
-					"type":"String",
-					"title":"Triggers",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"IntermediateLinkEventCatching",
-			"title":"Intermediate Link Event",
-			"groups":["Catching Intermediate Events"],
-			"description":"An intermediate link event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.link.catching.intermediate.svg",
-			"icon":"intermediateevent/node.event.link.catching.intermediate.png",
-			"roles":[
-				"sequence_start",
-				"to_task_event",
-				"from_task_event",
-				"tc",
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"eventType",
-					"type":"String",
-					"title":"EventType",
-					"value":"Intermediate",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"trigger",
-					"type":"String",
-					"title":"Trigger",
-					"value":"Link",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"target",
-					"type":"String",
-					"title":"Target",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"linkId",
-					"type":"String",
-					"title":"LinkId",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"processRef",
-					"type":"String",
-					"title":"ProcessRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"IntermediateLinkEventThrowing",
-			"title":"Intermediate Link Event",
-			"groups":["Throwing Intermediate Events"],
-			"description":"An intermediate link event with incoming and outgoing edges.",
-			"view":"intermediateevent/node.event.link.throwing.intermediate.svg",
-			"icon":"intermediateevent/node.event.link.throwing.intermediate.png",
-			"roles":[
-				"sequence_end",
-				"to_task_event",
-				"from_task_event",
-				"tc",
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"eventType",
-					"type":"String",
-					"title":"EventType",
-					"value":"Intermediate",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"trigger",
-					"type":"String",
-					"title":"Trigger",
-					"value":"Link",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"target",
-					"type":"String",
-					"title":"Target",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"linkId",
-					"type":"String",
-					"title":"LinkId",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"processRef",
-					"type":"String",
-					"title":"ProcessRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},				
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"EndEvent",
-			"title":"End Event",
-			"groups":["End Events"],
-			"description":"An event without outgoing edges.",
-			"view":"endevent/node.event.end.svg",
-			"icon":"endevent/node.event.end.png",
-			"roles":[
-				"sequence_end",
-				"to_task_event",
-				"from_task_event",
-				"tc",
-				"fromtoall",
-				"Endevents_all"
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"pool",
-					"type":"String",
-					"title":"Pool",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"eventType",
-					"type":"String",
-					"title":"EventType",
-					"value":"End",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"result",
-					"type":"String",
-					"title":"Result",
-					"value":"None",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
 			"id":"MessageEndEvent",
-			"title":"Message End Event",
-			"groups":["End Events"],
+			"title":"Message end event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
 			"view":"endevent/node.event.message.end.svg",
 			"icon":"endevent/node.event.message.end.png",
@@ -7358,26 +5781,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -7476,13 +5879,14 @@
 		{
 			"type": "node",
 			"id":"ErrorEndEvent",
-			"title":"Error End Event",
-			"groups":["End Events"],
+			"title":"Error end event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
 			"view":"endevent/node.event.error.end.svg",
 			"icon":"endevent/node.event.error.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -7523,26 +5927,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -7609,13 +5993,14 @@
 		{
 			"type": "node",
 			"id":"CancelEndEvent",
-			"title":"Cancel End Event",
-			"groups":["End Events"],
+			"title":"Cancel end event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
 			"view":"endevent/node.event.cancel.end.svg",
 			"icon":"endevent/node.event.cancel.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -7656,26 +6041,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -7733,13 +6098,14 @@
 		{
 			"type": "node",
 			"id":"CompensationEndEvent",
-			"title":"Compensation End Event",
-			"groups":["End Events"],
+			"title":"Compensation end event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
 			"view":"endevent/node.event.compensation.end.svg",
 			"icon":"endevent/node.event.compensation.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -7780,26 +6146,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -7868,13 +6214,14 @@
 		{
 			"type": "node",
 			"id":"SignalEndEvent",
-			"title":"Signal End Event",
-			"groups":["End Events"],
+			"title":"Signal end event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
 			"view":"endevent/node.event.signal.end.svg",
 			"icon":"endevent/node.event.signal.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -7915,26 +6262,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
 				},
 				{
 					"id":"pool",
@@ -8002,14 +6329,15 @@
 		},
 		{
 			"type": "node",
-			"id":"MultipleEndEvent",
-			"title":"Multiple End Event",
-			"groups":["End Events"],
+			"id":"TerminateEndEvent",
+			"title":"Terminate Flow",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
-			"view":"endevent/node.event.multiple.end.svg",
-			"icon":"endevent/node.event.multiple.end.png",
+			"view":"endevent/node.event.terminate.end.svg",
+			"icon":"endevent/node.event.terminate.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -8052,24 +6380,109 @@
 					"length":"30"
 				},
 				{
-					"id":"name",
+					"id":"pool",
 					"type":"String",
-					"title":"Name",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
+					"length":""
+				},
+				{
+					"id":"eventType",
+					"type":"String",
+					"title":"EventType",
+					"value":"End",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"result",
+					"type":"String",
+					"title":"Result",
+					"value":"Terminate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"MultipleEndEvent",
+			"title":"Multiple end event",
+			"groups":["Endevents"],
+			"description":"An event without outgoing edges.",
+			"view":"endevent/node.event.multiple.end.svg",
+			"icon":"endevent/node.event.multiple.end.png",
+			"roles":[
+				"sequence_end",
+				"messageflow_start",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall",
+				"Endevents_all"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
 					"wrapLines":true
 				},
 				{
-					"id":"assignments",
+					"id":"documentation",
 					"type":"String",
-					"title":"Assignments",
+					"title":"Documentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"wrapLines":true
+					"refToView":"",
+					"length":"30"
 				},
 				{
 					"id":"pool",
@@ -8126,14 +6539,15 @@
 		},
 		{
 			"type": "node",
-			"id":"TerminateEndEvent",
-			"title":"Terminate Flow",
-			"groups":["End Events"],
+			"id":"EndEvent",
+			"title":"End event",
+			"groups":["Endevents"],
 			"description":"An event without outgoing edges.",
-			"view":"endevent/node.event.terminate.end.svg",
-			"icon":"endevent/node.event.terminate.end.png",
+			"view":"endevent/node.event.end.svg",
+			"icon":"endevent/node.event.end.png",
 			"roles":[
 				"sequence_end",
+				"messageflow_start",
 				"to_task_event",
 				"from_task_event",
 				"tc",
@@ -8176,26 +6590,6 @@
 					"length":"30"
 				},
 				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
-					"id":"assignments",
-					"type":"String",
-					"title":"Assignments",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"wrapLines":true
-				},
-				{
 					"id":"pool",
 					"type":"String",
 					"title":"Pool",
@@ -8229,7 +6623,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Terminate",
+					"value":"None",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -8251,7 +6645,7 @@
 		{
 			"type": "edge",
 			"id":"SequenceFlow",
-			"title":"Sequence Flow",
+			"title":"Sequence flow",
 			"description":"",
 			"groups":["Connecting Objects"],
 			"view":"connection/connection.sequenceflow.normal.svg",
@@ -8349,7 +6743,7 @@
 		{
 			"type": "edge",
 			"id":"ConditionalFlow",
-			"title":"Conditional Flow",
+			"title":"Conditional flow",
 			"description":"",
 			"groups":["Connecting Objects"],
 			"view":"connection/connection.sequenceflow.conditional.svg",
@@ -8457,7 +6851,7 @@
 		{
 			"type": "edge",
 			"id":"DefaultFlow",
-			"title":"Default Flow",
+			"title":"Default flow",
 			"description":"",
 			"groups":["Connecting Objects"],
 			"view":"connection/connection.sequenceflow.default.svg",
@@ -8549,95 +6943,6 @@
 					"optional":false,
 					"refToView":"",
 					"min":"1"
-				}
-			]
-		},
-		{
-			"type": "edge",
-			"id":"MessageFlow",
-			"title":"Message Flow",
-			"description":"",
-			"groups":["Connecting Objects"],
-			"view":"connection/connection.messageflow.svg",
-			"icon":"new_messageflow.png",
-			"roles": [
-			],
-			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"categories",
-					"type":"String",
-					"title":"Categories",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"30"
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"source",
-					"type":"String",
-					"title":"SourceRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"target",
-					"type":"String",
-					"title":"TargetRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"message",
-					"type":"String",
-					"title":"MessageRef",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"20",
-					"wrapLines":true
 				}
 			]
 		},
@@ -8901,6 +7206,95 @@
 					"length":""
 				}
 			]
+		},
+		{
+			"type": "edge",
+			"id":"MessageFlow",
+			"title":"Message flow",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection/connection.messageflow.svg",
+			"icon":"new_messageflow.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"SourceRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"TargetRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"message",
+					"type":"String",
+					"title":"MessageRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"20",
+					"wrapLines":true
+				}
+			]
 		}
 	],
 	
@@ -9010,11 +7404,7 @@
 				"role":"IntermediateEventOnSubprocessBoundary",
 				"connects": [
 					{
-						"from":"collapsedSubprocess",
-						"to":["IntermediateEventOnSubprocessBoundary"]
-					},
-					{
-						"from":"expandedSubprocess",
+						"from":"Subprocess",
 						"to":["IntermediateEventOnSubprocessBoundary"]
 					}
 				]
@@ -9062,7 +7452,7 @@
 			{
 				"role":"BPMNDiagram",
 				"contains": [
-					"Pool", "CollapsedPool", "tc", "onBoundaryOnly"
+					"Pool", "tc"
 				]
 			},
 			{
@@ -9096,7 +7486,7 @@
 				]
 			}, 
 			{
-				"role": "expandedSubprocess",
+				"role": "Subprocess",
 				"contains": [
 					"tc"
 				]

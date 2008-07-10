@@ -1,7 +1,7 @@
 
 /**
  * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner, Gero Decker
+ * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -105,9 +105,8 @@ ORYX.Plugins.SimplePnmlexport = Clazz.extend({
 		try {
 			var rdf = xsltProcessor.transformToDocument(parsedDOM);
 			var serialized_rdf = (new XMLSerializer()).serializeToString(rdf);
-			if (!serialized_rdf.startsWith("<?xml")) {
-				serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
-			}
+			serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
+			
 			// Send the request to the server.
 			new Ajax.Request(ORYX.CONFIG.SIMPLE_PNML_EXPORT_URL, {
 				method: 'POST',

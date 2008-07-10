@@ -73,7 +73,6 @@ public class ExportServlet extends HttpServlet {
 		}
 		String postVariable = config.getString("pnengine.post_variable");
 		String engineURL = config.getString("pnengine.url") + "/petrinets";
-                String engineURL_host = config.getString("pnengine.url");
 		String modelURL = config.getString("pnengine.default_model_url");
 		String formURL = null;
 		String bindingsURL = null;
@@ -147,7 +146,7 @@ public class ExportServlet extends HttpServlet {
 			res.getWriter().print("tmp/" + basefilename + ".pnml" + "\">View PNML</a><br/><br/>");
 			if (errorMessage == null && connection_engine.getResponseCode() == 200) {
 				res.getWriter().println(
-						"Deployment to Engine <a href=\"" + engineURL_host + "/worklist\" target=\"_blank\">" + engineURL_host
+						"Deployment to Engine <a href=\"" + engineURL + "\" target=\"_blank\">" + engineURL
 								+ "</a><br/><b>successful</b>!");
 			} else {
 				res.getWriter().println("Deployment to Engine <a href=\"" 

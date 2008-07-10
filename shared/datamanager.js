@@ -162,8 +162,15 @@ var DataManager = {
 			DataManager.graft(XMLNS.XHTML,
 				$$('.' + PROCESSDATA_REF)[0], [
 				
-				'div', {'id': id}
+				'div', {'id': id}, [
+					'a', { 'href': 'http://www.apfelfabrik.de/dummyresource', 'rel':'raziel-entry' }]
 			]);
+			
+			this._triples.push(new ERDF.Triple(
+				new ERDF.Resource(id),
+				{prefix: 'raziel', name: 'entry'},
+				new ERDF.Resource('http://www.apfelfabrik.de/dummyresource')			
+			));
 			
 		} else {
 			
@@ -271,14 +278,6 @@ var DataManager = {
 				{prefix: "oryx", name: "stencilset"},
 				new ERDF.Resource(stencilset.source())
 			));
-			
-			stencilset.extensions().keys().each(function(extension) {
-				DataManager.addTriple( new ERDF.Triple(
-					shapeResource,
-					{prefix: "oryx", name: "ssextension"},
-					new ERDF.Literal(extension)
-				));
-			});
 		});
 						
 		shapes.each(function(shape) {

@@ -1,8 +1,6 @@
 package de.hpi.petrinet.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import de.hpi.petrinet.FlowRelationship;
 import de.hpi.petrinet.LabeledTransition;
@@ -21,11 +19,10 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 	private static final String NODE_NOT_SET = "A node is not set for a flowrelationship";
 	
 	protected PetriNet net;
-	protected Map<String,String> errors;
+	protected String errorCode;
 	
 	public PetriNetSyntaxCheckerImpl(PetriNet net) {
 		this.net = net;
-		this.errors = new HashMap<String,String>();
 	}
 	
 	public boolean checkSyntax() {
@@ -35,30 +32,30 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 			return false;
 		if (!noDuplicateFlowrelationships())
 			return false;
-		errors.clear();
+		errorCode = null;
 		return true;
 	}
 
-	public Map<String,String> getErrors() {
-		return errors;
+	public String getError() {
+		return errorCode;
 	}
 
 	protected boolean isBipartite() {
 		for (Iterator<Place> it=net.getPlaces().iterator(); it.hasNext(); ) {
 			Place p = it.next();
 			if (p.getId() == null) {
-				addNodeError(p, NO_ID);
+				errorCode = NO_ID;
 				return false;
 			}
 		}
 		for (Iterator<Transition> it=net.getTransitions().iterator(); it.hasNext(); ) {
 			Transition t = it.next();
 			if (t.getId() == null) {
-				addNodeError(t, NO_ID);
+				errorCode = NO_ID;
 				return false;
 			}
 			if (t instanceof LabeledTransition && ((LabeledTransition)t).getLabel() == null) {
-				addNodeError(t, NO_LABEL);
+				errorCode = NO_LABEL+" (transition "+t.getId()+")";
 				return false;
 			}
 		}
@@ -67,8 +64,7 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 			Node s = rel.getSource();
 			Node t = rel.getTarget();
 			if (!((s instanceof Place && t instanceof Transition) || (s instanceof Transition && t instanceof Place))) {
-				addNodeError(s, NOT_BIPARTITE);
-				addNodeError(t, NOT_BIPARTITE);
+				errorCode = NOT_BIPARTITE+" ("+s+" and "+t+" are connected)";
 				return false;
 			}
 		}
@@ -83,7 +79,7 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 				for (Iterator<FlowRelationship> it3=rel1.getSource().getOutgoingFlowRelationships().iterator(); it3.hasNext(); ) {
 					FlowRelationship rel2 = it3.next();
 					if (rel1 != rel2 && p == rel2.getTarget()) {
-						addFlowRelationshipError(rel1, SAME_SOURCE_AND_TARGET);
+						errorCode = SAME_SOURCE_AND_TARGET+" (transition "+rel1.getSource()+", place "+p+")";
 						return false;
 					}
 				}
@@ -93,7 +89,7 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 				for (Iterator<FlowRelationship> it3=rel1.getTarget().getIncomingFlowRelationships().iterator(); it3.hasNext(); ) {
 					FlowRelationship rel2 = it3.next();
 					if (rel1 != rel2 && p == rel2.getSource()) {
-						addFlowRelationshipError(rel1, SAME_SOURCE_AND_TARGET);
+						errorCode = SAME_SOURCE_AND_TARGET+" (place "+p+", transition "+rel1.getSource()+")";
 						return false;
 					}
 				}
@@ -106,19 +102,11 @@ public class PetriNetSyntaxCheckerImpl implements SyntaxChecker {
 		for (Iterator<FlowRelationship> it=net.getFlowRelationships().iterator(); it.hasNext(); ) {
 			FlowRelationship rel = it.next();
 			if (rel.getSource() == null || rel.getTarget() == null) {
-				addFlowRelationshipError(rel, NODE_NOT_SET);
+				errorCode = NODE_NOT_SET+"("+rel.getSource()+", "+rel.getTarget()+")";
 				return false;
 			}
 		}
 		return true;
-	}
-	
-	protected void addNodeError(Node node, String errorCode) {
-		errors.put(node.getId(), errorCode);
-	}
-
-	protected void addFlowRelationshipError(FlowRelationship rel, String errorCode) {
-		errors.put(rel.toString(), errorCode);
 	}
 
 }

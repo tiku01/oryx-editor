@@ -121,7 +121,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 				if (rootXMLNode != null){
 					var childXMLNodes = rootXMLNode.childNodes;
 					for (var j = 0; j < childXMLNodes.length; j++) {
-						var dataFieldTagName = childXMLNodes[j].attributes['name'].nodeValue;
+						var dataFieldTagName = childXMLNodes[j].tagName;
 						if (dataFieldTagName != null) {
 							dataArray.push([[resourceID, dataFieldTagName], resourceName + "/" + dataFieldTagName]);
 						}

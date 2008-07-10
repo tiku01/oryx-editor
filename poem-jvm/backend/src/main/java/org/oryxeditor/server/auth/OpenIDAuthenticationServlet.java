@@ -27,9 +27,6 @@ import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.FetchResponse;
 import org.openid4java.message.sreg.SRegRequest;
 
-import org.openid4java.util.ProxyProperties;
-import org.openid4java.util.HttpClientFactory;
-
 /**
 * This servlet provedes openID authentication.
 *
@@ -52,16 +49,6 @@ public class OpenIDAuthenticationServlet extends HttpServlet {
        config.getServletContext();
 
        try {
-           // --- Forward proxy setup (only if needed) --- 
-           String proxyHostName = getInitParameter("proxy-host-name").trim();
-           String proxyPort = getInitParameter("proxy-port").trim();
-           
-           if (proxyHostName.length() > 0 && proxyPort.length() > 0) {
-               ProxyProperties proxyProps = new ProxyProperties(); 
-               proxyProps.setProxyHostName(proxyHostName); 
-               proxyProps.setProxyPort(Integer.valueOf(proxyPort)); 
-               HttpClientFactory.setProxyProperties(proxyProps);
-           }
 
            this.manager = new ConsumerManager();
            manager.setAssociations(new InMemoryConsumerAssociationStore());
@@ -210,7 +197,6 @@ public class OpenIDAuthenticationServlet extends HttpServlet {
            }
        } catch (OpenIDException e) {
            // present error to the user
-           throw new ServletException(e);
        }
 
 
@@ -270,7 +256,7 @@ public class OpenIDAuthenticationServlet extends HttpServlet {
            }
        } catch (OpenIDException e) {
            // present error to the user
-           throw new ServletException(e);
+           // throw new ServletException(e);
        }
 
        return null;
