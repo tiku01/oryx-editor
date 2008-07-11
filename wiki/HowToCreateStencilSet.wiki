@@ -1,4 +1,5 @@
 #summary How to create a stencil set for oryx by the example of Let's Dance
+#labels Featured
 
 = Introduction =
 
