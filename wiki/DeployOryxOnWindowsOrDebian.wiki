@@ -1,4 +1,4 @@
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 = Introduction =
 
 This walkthrough demonstrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may read this article.
