@@ -249,4 +249,24 @@
     
     <target name="all" depends="build, examples, compress, dist"/>
     
+	<target name="tomcat-start">
+	    <java jar="/Users/nicolas.peters/Documents/tomcat6/bin/bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=/Users/nicolas.peters/Documents/tomcat6"/>
+	    </java>
+	</target>
+
+	<target name="tomcat-stop">
+	    <java jar="/Users/nicolas.peters/Documents/tomcat6/bin/bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=/Users/nicolas.peters/Documents/tomcat6"/>
+	        <arg line="stop"/>
+	    </java>
+	</target>
+
+	<target name="copywars">
+		<copy file="dist/oryx.war" todir='/Users/nicolas.peters/Documents/tomcat6/webapps'/>
+	</target>
+	
+	<target name="deploy" depends="all, copywars, tomcat-start">
+		
+	</target>
 </project>

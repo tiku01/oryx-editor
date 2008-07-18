@@ -46,7 +46,7 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
      * @param source {URL} A reference to the stencil set specification.
      *
      */
-    construct: function(source){
+    construct: function(source, readyCallback, editorId){
         arguments.callee.$.construct.apply(this, arguments);
         
         if (!source) {
@@ -65,15 +65,16 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
         this._jsonObject = {};
         
         this._stencils = new Hash();
-        
+		
+		this._readyCallback = readyCallback;
+        this._editorId = editorId;
+		
         new Ajax.Request(source, {
-            asynchronous: false,
+            asynchronous: true,
             method: 'get',
             onSuccess: this._init.bind(this),
             onFailure: this._cancelInit.bind(this)
         });
-        if (this.errornous) 
-            throw "Loading stencil set " + source + " failed.";
     },
     
     /**
@@ -282,7 +283,6 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
      * 			stencil set specification.
      */
     _init: function(response){
-    
         // init and check consistency.
         this.__handleStencilset(response);
 		
@@ -302,10 +302,21 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 			this._stencils[oStencil.id()] = oStencil;
             
         }).bind(this));
+		
+		this._checkLoaded();
     },
+	
+	_checkLoaded: function() {
+		if(this._stencils.values().all(function(stencil) {
+					return stencil.isLoaded();
+				}))
+			this._readyCallback(this, this._editorId);
+		else
+			window.setTimeout(this._checkLoaded.bind(this), 250);
+	},
     
     _cancelInit: function(response){
-        this.errornous = true;
+        throw "Loading stencil set " + source + " failed.";
     },
     
     toString: function(){

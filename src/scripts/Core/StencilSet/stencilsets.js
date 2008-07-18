@@ -47,6 +47,10 @@ ORYX.Core.StencilSet._StencilSetNSByEditorInstance = new Hash();
 //storage for rules by editor instances
 ORYX.Core.StencilSet._rulesByEditorInstance = new Hash();
 
+ORYX.Core.StencilSet._readyCallbacksByUrl = new Hash();
+
+ORYX.Core.StencilSet.time = 0;
+
 /**
  * 
  * @param {String} editorId
@@ -133,21 +137,32 @@ ORYX.Core.StencilSet.rules = function(editorId) {
  * It also stores which editor instance loads the stencil set and 
  * initializes the Rules object for the editor instance.
  */
-ORYX.Core.StencilSet.loadStencilSet = function(url, editorId) {
+ORYX.Core.StencilSet.loadStencilSet = function(url, editorId, readyCallback) {
+	ORYX.Core.StencilSet.time = new Date().getTime();
+	
+	if(url.endsWith("/"))
+		url = url.substring(0, url.length - 1);
+	
 	var stencilSet = ORYX.Core.StencilSet._stencilSetsByUrl[url];
 
 	if(!stencilSet) {
+		ORYX.Core.StencilSet._readyCallbacksByUrl[url] = readyCallback;
+		
 		//load stencil set
-		stencilSet = new ORYX.Core.StencilSet.StencilSet(url);
-		
-		//store stencil set
-		ORYX.Core.StencilSet._stencilSetsByNamespace[stencilSet.namespace()] = stencilSet;
-		
+		stencilSet = new ORYX.Core.StencilSet.StencilSet(url, ORYX.Core.StencilSet._loadStencilSet, editorId);
+			
 		//store stencil set by url
 		ORYX.Core.StencilSet._stencilSetsByUrl[url] = stencilSet;
+	} else {
+		ORYX.Core.StencilSet._loadStencilSet(stencilSet, editorId);
 	}
-	
+};
+
+ORYX.Core.StencilSet._loadStencilSet = function(stencilSet, editorId) {
 	var namespace = stencilSet.namespace();
+	
+	//store stencil set
+	ORYX.Core.StencilSet._stencilSetsByNamespace[namespace] = stencilSet;
 	
 	//store which editorInstance loads the stencil set
 	if(ORYX.Core.StencilSet._StencilSetNSByEditorInstance[editorId]) {
@@ -164,4 +179,7 @@ ORYX.Core.StencilSet.loadStencilSet = function(url, editorId) {
 		rules.initializeRules(stencilSet);
 		ORYX.Core.StencilSet._rulesByEditorInstance[editorId] = rules;
 	}
+	
+	console.log("LoadingSS: " + (new Date().getTime() - ORYX.Core.StencilSet.time));
+	ORYX.Core.StencilSet._readyCallbacksByUrl[stencilSet.source()]();
 };

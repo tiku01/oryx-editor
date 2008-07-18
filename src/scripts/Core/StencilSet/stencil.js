@@ -56,6 +56,8 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 		this._namespace = namespace;
 		//this._propertyPackages = propertyPackages;
 		
+		this._loaded = false;
+		
 		this._view;
 		this._properties = new Hash();
 
@@ -141,7 +143,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 		*/
 			new Ajax.Request(
 				url, {
-					asynchronous:false, method:'get',
+					asynchronous:true, method:'get',
 					onSuccess:this._loadSVGOnSuccess.bind(this),
 					onFailure:this._loadSVGOnFailure.bind(this)
 			});
@@ -260,9 +262,12 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 			this._properties[oProp.prefix() + "-" + oProp.id()] = oProp;
 		}
 	},
+	
+	isLoaded: function() {
+		return this._loaded;
+	},
 
 	_loadSVGOnSuccess: function(result) {
-		
 		var xml = null;
 		
 		/*
@@ -298,6 +303,8 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 		} else {
 			throw "ORYX.Core.StencilSet.Stencil(_loadSVGOnSuccess): The response is not a SVG document."
 		}
+		
+		this._loaded = true;
 	},
 
 	_loadSVGOnFailure: function(result) {

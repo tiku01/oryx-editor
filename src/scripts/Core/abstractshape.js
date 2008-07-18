@@ -42,19 +42,25 @@ ORYX.Core.AbstractShape = {
 		
 		this.resourceId = undefined; //Id of resource in DOM
 		
-		// stencil reference
-		this._stencil = stencil;
-		
 		//Hash map for all properties. Only stores the values of the properties.
 		this.properties = new Hash();
 		this.propertiesChanged = new Hash();
 		
-		//Initialization of property map and initial value.
-		this._stencil.properties().each((function(property) {
-			var key = property.prefix() + "-" + property.id();
-			this.properties[key] = property.value();
-			this.propertiesChanged[key] = true;
-		}).bind(this));
+		//initialize stencil
+		this.initStencil(stencil);
+	},
+	
+	initStencil: function(stencil) {
+		// stencil reference
+		this._stencil = stencil;
+		
+		if(this._stencil) {
+			this._stencil.properties().each((function(property) {
+				var key = property.prefix() + "-" + property.id();
+				this.properties[key] = property.value();
+				this.propertiesChanged[key] = true;
+			}).bind(this));
+		}
 	},
 
 	layout: function() {
@@ -261,20 +267,15 @@ ORYX.Core.AbstractShape = {
 		
 	deserialize: function(serialze){
 		// Search in Serialize
-		var initializedDocker = 0;
 		serialze.each((function(obj){
-			
-			var name 	= obj.name;
-			var prefix 	= obj.prefix;
-			var value 	= obj.value;
 
-			switch(prefix + "-" + name){
+			switch(obj.prefix + "-" + obj.name){
 				case 'raziel-parent': 
 							// Set parent
 							if(!this.parent) {break};
 							
 							// Set outgoing Shape
-							var parent = this.getCanvas().getChildShapeByResourceId(value);
+							var parent = this.getCanvas().getChildShapeByResourceId(obj.value);
 							if(parent) {
 								parent.add(this);
 							}
@@ -282,8 +283,8 @@ ORYX.Core.AbstractShape = {
 							break;											
 				default:
 							// Set property
-							if(this.properties.keys().member(prefix+"-"+name)) {
-								this.setProperty(prefix+"-"+name, value);
+							if(this.properties.keys().member(obj.prefix+"-"+obj.name)) {
+								this.setProperty(obj.prefix+"-"+obj.name, obj.value);
 							}
 					
 			}
