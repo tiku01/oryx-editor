@@ -408,19 +408,16 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 		}
 	},
 	
-	isPointIncluded: function(pointX, pointY) {
-	
+	isPointIncluded: function(point) {
 		
-	
 		// Check if there are the right arguments and if the node is visible
-		if(!pointX || !pointX || !this.isVisible()) {
+		if(!point || point.x == undefined || point.y == undefined || !this.isVisible()) {
 			return false;
 		}
 		
-		
 		if(this.element instanceof SVGRectElement || this.element instanceof SVGImageElement) {
-			return (pointX >= this.x && pointX <= this.x + this.width &&
-					pointY >= this.y && pointY <= this.y+this.height);
+			return (point.x >= this.x && point.x <= this.x+this.width &&
+					point.y >= this.y && point.y <= this.y+this.height);
 
 		} else if(this.element instanceof SVGCircleElement) {
 			//calculate the radius
@@ -434,7 +431,7 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			var cx = this.x + this.width/2.0;
 			var cy = this.y + this.height/2.0;
 			
-			return ORYX.Core.Math.isPointInEllipse({x: pointX, y:pointY}, {x:cx, y:cy, radiusX:r, radiusY:r});
+			return ORYX.Core.Math.isPointInEllipse(point, {x:cx, y:cy, radiusX:r, radiusY:r});
 
 		} else if(this.element instanceof SVGEllipseElement) {
 			var rx = this.width/2;
@@ -442,13 +439,13 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			var cx = this.x + rx;
 			var cy = this.y + ry;
 
-			return ORYX.Core.Math.isPointInEllipse({x: pointX, y:pointY}, {x:cx, y:cy, radiusX:rx, radiusY:ry});
+			return ORYX.Core.Math.isPointInEllipse(point, {x:cx, y:cy, radiusX:rx, radiusY:ry});
 			
 		} else if(this.element instanceof SVGLineElement) {
 			var x2 = this.x + this.width;
 			var y2 = this.y + this.height;
 			
-			return ORYX.Core.Math.isPointInLine({x: pointX, y:pointY}, {point1:{x:this.x, y:this.y},
+			return ORYX.Core.Math.isPointInLine(point, {point1:{x:this.x, y:this.y},
 												  point2:{x:x2, y:y2}});
 
 		} else if(this.element instanceof SVGPolylineElement || this.element instanceof SVGPolygonElement) {
@@ -465,7 +462,7 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 										y:parseFloat(pointsArray[++i])});		
 				}
 				
-				return ORYX.Core.Math.isPointInPolygone({x: pointX, y:pointY}, arrayOfPoints);
+				return ORYX.Core.Math.isPointInPolygone(point, arrayOfPoints);
 			} else {
 				return false;
 			}
@@ -476,7 +473,7 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			parser.setHandler(handler);
 			parser.parsePath(this.element);
 
-			return ORYX.Core.Math.isPointInPolygone({x: pointX, y:pointY}, handler.points);
+			return ORYX.Core.Math.isPointInPolygone(point, handler.points);
 
 			delete parser;
 			delete handler;
@@ -502,16 +499,7 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 		
 					});*/
 		
-		if (this.element instanceof SVGElement) {
-			for (var attr in this.element.attribute) {
-				if (attr.name == 'display' && attr.value == 'none') {
-					return false;
-				}
-			}
-		}
-		return true;
-		
-		/*var isVisible
+		var isVisible
 		
 		try{
 			// Check if there have a SVG Bounding box, if yes, than the element is visible
@@ -522,7 +510,7 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			isVisible = false;
 		}
 					
-		return isVisible	*/	
+		return isVisible		
 	},
 
 	toString: function() { return (this.element) ? "SVGShape " + this.element.id : "SVGShape " + this.element;}

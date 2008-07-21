@@ -35,7 +35,7 @@ if(!ORYX.Core.StencilSet) {ORYX.Core.StencilSet = {};}
  *
  * This class implements the API to check the stencil sets' rules.
  */
-ORYX.Core.StencilSet.Rules = {
+ORYX.Core.StencilSet.Rules = Clazz.extend({
 
 	/**
 	 * Constructor
@@ -73,8 +73,7 @@ ORYX.Core.StencilSet.Rules = {
 						cr[rules.role] = new Hash();
 					}
 				} else {
-					if(!cr[namespace + rules.role])
-						cr[namespace + rules.role] = new Hash();
+					cr[namespace + rules.role] = new Hash();
 				}
 				
 				rules.connects.each((function(connect) {
@@ -92,22 +91,19 @@ ORYX.Core.StencilSet.Rules = {
 						}).bind(this));
 					} 
 					
-					var role, from;
-					if(this._isRoleOfOtherNamespace(rules.role))
-						role = rules.role;
-					else
-						role = namespace + rules.role;
-						  
-					if(this._isRoleOfOtherNamespace(connect.from))
-						from = connect.from;
-					else
-						from = namespace + connect.from;
-					
-					if(!cr[role][from])	
-						cr[role][from] = toRoles;
-					else
-						cr[role][from] = cr[role][from].concat(toRoles);
-				
+					if(this._isRoleOfOtherNamespace(rules.role)) {
+						if(this._isRoleOfOtherNamespace(connect.from)) {
+							cr[rules.role][connect.from] = toRoles;
+						} else {
+							cr[rules.role][namespace + connect.from] = toRoles;
+						}	
+					} else {
+						if(this._isRoleOfOtherNamespace(connect.from)) {
+							cr[namespace + rules.role][connect.from] = toRoles;
+						} else {
+							cr[namespace + rules.role][namespace + connect.from] = toRoles;
+						}
+					}
 				}).bind(this));
 			}).bind(this));
 		}
@@ -519,7 +515,7 @@ ORYX.Core.StencilSet.Rules = {
 					result = edge;
 			}
 		}	
-			
+		
 		//check cardinality
 		if (result) {
 			if(args.sourceShape) {
@@ -580,7 +576,7 @@ ORYX.Core.StencilSet.Rules = {
 							});
 				}
 			}
-		}
+		} 	
 		
 		return result;
 	},
@@ -941,5 +937,4 @@ ORYX.Core.StencilSet.Rules = {
 	},
 
 	toString: function() { return "Rules"; }
-}
-ORYX.Core.StencilSet.Rules = Clazz.extend(ORYX.Core.StencilSet.Rules);
+});

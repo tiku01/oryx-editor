@@ -505,19 +505,19 @@
 				"connects": [
 					{
 						"from":"event",
-						"to":["function", "connector", "interface"]
+						"to":["function", "connector", "interface" ]
 					},
 					{
 						"from":"function",
-						"to":["event", "connector"]
+						"to":["event", "connector", "interface" ]
 					},
 					{
 						"from":"connector",
-						"to":["event", "function", "connector", "interface"]
+						"to":["event", "function", "connector"]
 					},
 					{
 						"from":"interface",
-						"to":["event", "connector"]
+						"to":["function", "event"]
 					}
 				]
 			},
