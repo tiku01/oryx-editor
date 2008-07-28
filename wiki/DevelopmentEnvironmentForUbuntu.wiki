@@ -74,7 +74,7 @@ permission java.io.FilePermission "${catalina.base}${file.separator}webapps${fil
 
 == PostgreSQL ==
 {{{
-sudo apt-get install postgresql postgresql-plpython-8.3 postgresql-contrib libpq-dev pgadmin3 &
+sudo apt-get install postgresql postgresql-plpython-8.3 postgresql-contrib pgadmin3
 }}}
 
 Changing password of postgresql superuser to 'kubuntu'
@@ -89,7 +89,7 @@ sudo su postgres -c psql < /usr/share/postgresql/8.3/contrib/adminpack.sql
 
 Start pgAdmin III and try connecting
 {{{
-pgadmin3
+pgadmin3 &
 }}}
 
 Configure postgres to not require passwords for local tcp connections:
@@ -114,7 +114,7 @@ exit
 
 == Buildr ==
 {{{
-sudo apt-get install ruby-full ruby1.8-dev libopenssl-ruby build-essential 
+sudo apt-get install ruby-full ruby1.8-dev libopenssl-ruby libpq-dev build-essential 
 }}}
 
 The Debian package for rubygems will not allow you to install Buildr, so you need to install RubyGems from source:
