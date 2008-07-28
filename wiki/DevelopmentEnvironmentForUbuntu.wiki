@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This page documents the configuration steps which have been made for setting up the Oryx VirtualBox image. Thus it has been tested with Kubuntu 8.04 but it should mostly also work for other Debian-based Linux distributions.
+This page documents the configuration steps which have been made for setting up the Oryx VirtualBox image which can be downloaded here: [http://myhpi.de/~fmenge/oryx-vm.zip oryx-vm.zip (1.8 GB)]. It has been tested with Kubuntu 8.04 but it should mostly work for other Debian-based Linux distributions as well.
 
 The virtual machine uses username 'kubuntu' with password 'kubuntu'.
 
@@ -56,7 +56,7 @@ grant codeBase \"file:\${catalina.base}/webapps/backend/-\" {
 };' >> /etc/tomcat5.5/policy.d/50user.policy"
 }}}
 
-Additionally the following permissions can be added to tomcat-juli.jar in /etc/tomcat5.5/policy.d/03catalina.policy:
+Additionally the following permissions can be granted to tomcat-juli.jar in /etc/tomcat5.5/policy.d/03catalina.policy to avoid some security exceptions:
 {{{
 permission java.io.FilePermission "${catalina.base}${file.separator}webapps${file.separator}oryx${file.separator}WEB-INF${file.separator}classes${file.separator}logging.properties", "read";
 permission java.io.FilePermission "${catalina.base}${file.separator}webapps${file.separator}backend${file.separator}WEB-INF${file.separator}classes${file.separator}logging.properties", "read";
@@ -64,7 +64,7 @@ permission java.io.FilePermission "${catalina.base}${file.separator}webapps${fil
 
 == PostgreSQL ==
 {{{
-sudo apt-get install postgresql postgresql-plpython-8.3 postgresql-contrib libpq-dev pgadmin3
+sudo apt-get install postgresql postgresql-plpython-8.3 postgresql-contrib libpq-dev pgadmin3 &
 }}}
 
 Changing password of postgresql superuser to 'kubuntu'
@@ -78,6 +78,9 @@ sudo su postgres -c psql < /usr/share/postgresql/8.3/contrib/adminpack.sql
 }}}
 
 Start pgAdmin III and try connecting
+{{{
+pgadmin3
+}}}
 
 Configure postgres to not require passwords for local tcp connections:
 {{{
@@ -138,8 +141,20 @@ buildr clean-postgres migrate
 buildr clean package
 }}}
 
-Deploy Oryx using
+Deploy Oryx using:
 {{{
+sudo /etc/init.d/tomcat5.5 stop
 sudo cp /home/kubuntu/eclipse-workspace/oryx/poem-jvm/backend/target/poem-backend-1.0.war /var/lib/tomcat5.5/webapps/backend.war
 sudo cp /home/kubuntu/eclipse-workspace/oryx/dist/oryx.war /var/lib/tomcat5.5/webapps/oryx.war
+sudo /etc/init.d/tomcat5.5 start
+}}}
+
+To monitor the Tomcat logfiles you can use:
+{{{
+sudo tail -f /var/lib/tomcat5.5/logs/catalina.YYYY-MM-DD.log
+}}}
+
+Finally open the model repository in Firefox 3:
+{{{
+firefox http://localhost:8180/backend/poem/repository/ &
 }}}
