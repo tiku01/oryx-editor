@@ -1,25 +1,15 @@
 package de.hpi.execpn;
 
+import de.hpi.petrinet.LabeledTransition;
 
-public class FormTransition extends ExecLabeledTransition {
+public interface FormTransition extends LabeledTransition, ExecTransition {
 	
-	protected String bindingsURL;
-	protected String formURL;
+	String getBindingsURL();
 	
-	public String getBindingsURL() {
-		return bindingsURL;
-	}
+	void setBindingsURL(String url);
+	
+	String getFormURL();
+	
+	void setFormURL(String url);
 
-	public void setBindingsURL(String bindingsURL) {
-		this.bindingsURL = bindingsURL;
-	}
-	
-	public String getFormURL() {
-		return formURL;
-	}
-
-	public void setFormURL(String formURL) {
-		this.formURL = formURL;
-	}
-	
 }

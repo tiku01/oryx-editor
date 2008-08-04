@@ -103,12 +103,12 @@ public class BPMNDiagram implements Container {
 		// attention: navigate into both directions!
 		for (Iterator<Edge> eiter = node.getIncomingEdges().iterator(); eiter.hasNext(); ) {
 			Edge e = eiter.next();
-			if (e instanceof SequenceFlow)
+			if (e instanceof ControlFlow)
 				addNode(process, (Node)e.getSource(), allNodes);
 		}
 		for (Iterator<Edge> eiter = node.getOutgoingEdges().iterator(); eiter.hasNext(); ) {
 			Edge e = eiter.next();
-			if (e instanceof SequenceFlow)
+			if (e instanceof ControlFlow)
 				addNode(process, (Node)e.getTarget(), allNodes);
 		}
 		// attention: navigate into both directions!

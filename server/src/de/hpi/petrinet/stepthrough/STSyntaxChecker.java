@@ -2,6 +2,7 @@ package de.hpi.petrinet.stepthrough;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.ComplexGateway;
+import de.hpi.bpmn.Container;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.ORGateway;
 import de.hpi.bpmn.validation.BPMNSyntaxChecker;
@@ -17,22 +18,19 @@ public class STSyntaxChecker extends BPMNSyntaxChecker {
 		super(diagram);
 	}
 	
-	@Override
-	protected boolean checkNode(Node node) {
-		boolean ok = super.checkNode(node);
-		
-		// Complex Gateway and OR Gateway are not supported
-		if (node instanceof ComplexGateway) {
-			addError(node, COMP_GATEWAY);
-			ok = false;
-		}
-		if (node instanceof ORGateway) {
-			addError(node, OR_GATEWAY);
-			ok = false;
-		}
+	protected boolean checkSTCompatibilityRecursively(Container container) {
+		boolean incompatibilityFound = false;
 
-		return ok;
-	}
+		for(Node node : container.getChildNodes()) {
+			// Complex Gateway and OR Gateway are not supported
+			if (node instanceof ComplexGateway) {
+				addError(node, COMP_GATEWAY);
+				incompatibilityFound = true;
+			}
+			if (node instanceof ORGateway) {
+				addError(node, OR_GATEWAY);
+				incompatibilityFound = true;
+			}
 
 //			// For activities (Task / SubProcess):
 //			// only one incoming and one outgoing edge is supported
@@ -56,5 +54,25 @@ public class STSyntaxChecker extends BPMNSyntaxChecker {
 //					incompatibilityFound = true;
 //				}
 //			}
+			// Check nodes inside the container
+			if (node instanceof Container) {
+				incompatibilityFound = incompatibilityFound || checkSTCompatibilityRecursively((Container)node);
+			}
+		}
+		
+		return !incompatibilityFound;
+	}
 	
+	public boolean checkSTCompatibility() {
+		return this.checkSTCompatibilityRecursively(diagram);
+	}
+
+	public boolean checkDiagram() {
+		boolean isErrorFree;
+		
+		isErrorFree = this.checkSyntax();
+		isErrorFree = isErrorFree && this.checkSTCompatibility();
+		
+		return isErrorFree;
+	}
 }

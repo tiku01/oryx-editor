@@ -1,18 +1,11 @@
 package de.hpi.interactionnet;
 
-import de.hpi.petrinet.LabeledTransitionImpl;
+import de.hpi.petrinet.LabeledTransition;
 
-public class ActionTransition extends LabeledTransitionImpl {
+public interface ActionTransition extends LabeledTransition {
 
-	protected Role role;
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-		label = ""+role;
-	}
+	Role getRole();
+	
+	void setRole(Role role);
 
 }

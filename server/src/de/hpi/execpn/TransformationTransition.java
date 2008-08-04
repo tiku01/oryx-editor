@@ -1,25 +1,18 @@
 package de.hpi.execpn;
 
+import de.hpi.petrinet.LabeledTransition;
 
-public class TransformationTransition extends ExecLabeledTransition {
+public interface TransformationTransition extends LabeledTransition {
 
-	protected String xsltURL;
-	protected boolean triggerManually;
-	
-	public String getXsltURL() {
-		return xsltURL;
-	}
+	String getAction();
 
-	public void setXsltURL(String url) {
-		xsltURL = url;		
-	}
+	String getXsltURL();
 
-	public String getLabel() {
-		return label;
-	}
+	String getLabel();
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
+	void setAction(String action);
 
+	void setXsltURL(String url);
+
+	void setLabel(String label);
 }

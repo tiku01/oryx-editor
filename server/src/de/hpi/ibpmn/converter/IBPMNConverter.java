@@ -12,13 +12,14 @@ import de.hpi.ibpmn.Interaction;
 import de.hpi.interactionnet.InteractionNetFactory;
 import de.hpi.interactionnet.InteractionTransition;
 import de.hpi.interactionnet.Role;
+import de.hpi.interactionnet.impl.InteractionNetFactoryImpl;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.Transition;
 
 public class IBPMNConverter extends StandardConverter {
 
 	public IBPMNConverter(BPMNDiagram diagram) {
-		super(diagram, new InteractionNetFactory());
+		super(diagram, new InteractionNetFactoryImpl());
 	}
 	
 	@Override

@@ -416,7 +416,8 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 		if(!pointX || !pointX || !this.isVisible()) {
 			return false;
 		}
-
+		
+		
 		if(this.element instanceof SVGRectElement || this.element instanceof SVGImageElement) {
 			return (pointX >= this.x && pointX <= this.x + this.width &&
 					pointY >= this.y && pointY <= this.y+this.height);
@@ -484,28 +485,44 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 		}
 	},
 
-	isVisible: function(elem) {
+	isVisible: function() {
 		
-		if (!elem) {
-			elem = this.element;
+		/*var svgNodes = [this.element];
+		
+		var parent = this.element.parentNode;
+		while(parent && parent instanceof SVGElement && parent.className !== "me") {
+			svgNodes.push(parent);
+			parent = parent.parentNode;
 		}
-		//console.log(this, elem, elem.getAttributeNS(null, "display"));
-		if (elem instanceof SVGElement) {
-			if (elem instanceof SVGGElement) {
-				if (elem.className && elem.className.baseVal == "me") 
-					return true;
+		
+		return !svgNodes.any(function(node){
+						isDisplay = node.getAttributeNS(NAMESPACE_ORYX, "display") 		!== "none";
+						isVisible = node.getAttributeNS(NAMESPACE_ORYX, "visibility") 	!== "hidden";
+						return !(isDisplay && isVisible);
+		
+					});*/
+		
+		if (this.element instanceof SVGElement) {
+			for (var attr in this.element.attribute) {
+				if (attr.name == 'display' && attr.value == 'none') {
+					return false;
+				}
 			}
-
-			var attr = elem.getAttributeNS(null, "display");
-			if(!attr)
-				return this.isVisible(elem.parentNode);
-			else if (attr == "none") 
-				return false;
-			else 
-				return true;
 		}
-
 		return true;
+		
+		/*var isVisible
+		
+		try{
+			// Check if there have a SVG Bounding box, if yes, than the element is visible
+			isVisible = this.element instanceof SVGElement && this.element.getBBox() ? 
+							true :
+							false;
+		} catch(e) {
+			isVisible = false;
+		}
+					
+		return isVisible	*/	
 	},
 
 	toString: function() { return (this.element) ? "SVGShape " + this.element.id : "SVGShape " + this.element;}

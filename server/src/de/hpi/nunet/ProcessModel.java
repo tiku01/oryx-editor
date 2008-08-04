@@ -7,16 +7,10 @@
 package de.hpi.nunet;
 
 
-public class ProcessModel {
+public interface ProcessModel {
 
-	private String name;
+	String getName();
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String value) {
-		name = value;
-	}
+	void setName(String value);
 
 } // ProcessModel

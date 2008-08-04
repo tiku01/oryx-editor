@@ -34,7 +34,8 @@ public class EnabledTransition {
 //
 	
 	public boolean createsFreshName() {
-		for (FlowRelationship rel: transition.getOutgoingFlowRelationships()) {
+		for (Iterator<FlowRelationship> it=transition.getOutgoingFlowRelationships().iterator(); it.hasNext(); ) {
+			FlowRelationship rel = it.next();
 			for (Iterator<String> it2=rel.getVariables().iterator(); it2.hasNext(); ) {
 				String v = it2.next();
 				if (v.equals(NuNet.NEW)) 

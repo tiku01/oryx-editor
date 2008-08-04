@@ -6,40 +6,18 @@
  */
 package de.hpi.nunet;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class NuNet {
+public interface NuNet {
 	
 	public static String NEW = "new";
-
-	private List<Place> places;
-	private List<Transition> transitions;
-	private List<FlowRelationship> flowRelationships;
-	private Marking initialMarking;
 	
-	public List getPlaces() {
-		if (places == null)
-			places = new ArrayList();
-		return places;
-	}
+	List<Place> getPlaces();
 
-	public List<Transition> getTransitions() {
-		if (transitions == null)
-			transitions = new ArrayList();
-		return transitions;
-	}
+	List<Transition> getTransitions();
 
-	public List<FlowRelationship> getFlowRelationships() {
-		if (flowRelationships == null)
-			flowRelationships = new ArrayList();
-		return flowRelationships;
-	}
+	List<FlowRelationship> getFlowRelationships();
 
-	public Marking getInitialMarking() {
-		if (initialMarking == null)
-			initialMarking = NuNetFactory.eINSTANCE.createMarking(this);
-		return initialMarking;
-	}
-	
+	Marking getInitialMarking();
+
 } // NuNet
