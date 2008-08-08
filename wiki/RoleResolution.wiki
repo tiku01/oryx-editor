@@ -4,8 +4,6 @@
 
 In this document the roles that are involved in the development of Oryx are mapped to team members.
 
-(Has to be discussed.)
-
 
 = Mapping =
 
