@@ -394,7 +394,7 @@ http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/007_colorchange2.p
 
 In the last step we have to realize some control flow. It is done by drawing some arrows and declaring them as “edge” in the description file.
 
-The “precedes” element consists of a black line and the arrow at the end is realized by markers. Note that it is extremely important that you do not reference markers that are not defined! Doing this will result in the unavailability of some features like PDF export.
+The “precedes” element consists of a black line and the arrow at the end is realized by markers. *Note* that it is extremely important that you do not reference markers that are not defined! Doing this will result in the unavailability of some features like PDF export.
 
 {{{
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
