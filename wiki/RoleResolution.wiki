@@ -10,13 +10,12 @@ In this document the roles that are involved in the development of Oryx are mapp
 = Mapping =
 
 || *Role* || *Team Members* ||
-|| _Project Manager_ || Nico ||
-|| Developer (Client-side) || Willi, Nico ||
-|| Developer (Server-side) || Ole, Björn ||
-|| Bug Verification (Client-side) || Nico ||
-|| Bug Verification (Server-side) || Ole, Nico ||
-|| Tester (Server-side) || Björn, Ole ||
+|| Team Manager || Nico ||
+|| Developer (Client-side) || Willi, Nico, Sven ||
+|| Developer (Server-side) || Björn, Kai ||
+|| Bug Verification (Client-side) || Willi, Nico, Sven ||
+|| Bug Verification (Server-side) || Björn, Kai ||
+|| Tester (Server-side) || Björn, Kai, Nico ||
 || Tester (Client-side) || Björn, Willi, Sven, Nico ||
-|| Test User || Sven ||
 || Server Administration || Daniel ||
-|| Contributor || Martin :) ||
+|| Contributor || Martin, Ole ||
