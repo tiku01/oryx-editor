@@ -1,0 +1,6 @@
+#summary Development Guideline for Oryx
+
+ * Write Java code Java 5 compliant!
+ * Only use UTF-8 encoding (for source code, client/server communication etc.)!
+
+to be continued!
