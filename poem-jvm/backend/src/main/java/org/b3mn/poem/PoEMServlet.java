@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,9 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.b3mn.poem.handler.HandlerBase;
 
-
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 public class PoEMServlet extends HttpServlet {
 	private static final long serialVersionUID = -9128262564769832181L;
@@ -47,56 +46,68 @@ public class PoEMServlet extends HttpServlet {
 	// Returns the identity of the model that is referenced in the request URL or null if 
 	// the request doesn't contain an id
 	protected Identity getObjectIdentity(String path) {
-		// Extract id from the request URL 
-		Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
-		Matcher matcher = pattern.matcher(path);
-		String id = matcher.group(2);
-		// If the request doesn't contain an id
-		if (id != null) {
-			return null;
-		}
-		else {
-			// TODO: Seems to be quick and dirty
-			return Identity.instance("data/model/"+id);
-		}
+		try {
+			// Extract id from the request URL 
+			Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
+			Matcher matcher = pattern.matcher(new StringBuffer(path));
+			String id = matcher.group(2);
+			matcher.find();
+			// If the request doesn't contain an id
+			if (id == null) {
+				return null;
+			}
+			else {
+				// TODO: Seems to be quick and dirty
+				return Identity.instance("/data/model/"+id);
+			}
+		} catch (Exception e) { return null; }
 	}
 	
 	// Returns an initialized instance of the requested handler  
 	protected HandlerBase getHandler(String path) {
-		// Extract handler name from the request URL 
-		Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
-		Matcher matcher = pattern.matcher(path);
-		String name = matcher.group(3);
-		// If the request doesn't contain an id
-		if (name != null) {
-			return null;
-		}
-		else {
-			// Get class name of the handler from the database
-			String className = (String) Persistance.getSession().
-			createSQLQuery("SELECT className FROM plugin WHERE rel= :rel")
-			.setString("rel", name)
-			.uniqueResult();
-			Persistance.commit();
-			// If handler exists 
-			if (className != null ) {
-				// Create new handler instance with Java reflection
-				Class handlerClass = Class.forName(className);
-				// TODO: Check if handlerClass is derived from HandlerBase and use 
-				// java.lang.reflect.Constructor.newInstance() to create the instance
-				return (HandlerBase) handlerClass.newInstance();
+		try {
+			// Extract handler name from the request URL 
+			Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
+			Matcher matcher = pattern.matcher(new StringBuffer(path));
+			matcher.find();
+			String name = matcher.group(0);
+			// If the request doesn't contain an id
+			if (name == null) {
+				return null;
 			}
 			else {
-				return null; // TODO: May implement an handler exception 
+				// Get class name of the handler from the database
+				String className = (String) Persistance.getSession().
+				createSQLQuery("SELECT java_class FROM plugin WHERE rel= :rel")
+				.setString("rel", name)
+				.uniqueResult();
+				Persistance.commit();
+				// If handler exists 
+				if (className != null ) {
+					try {
+						// Create new handler instance with Java reflection
+						Class handlerClass = Class.forName(className);
+						// TODO: Check if handlerClass is derived from HandlerBase and use 
+						// java.lang.reflect.Constructor.newInstance() to create the instance
+						return (HandlerBase) handlerClass.newInstance();
+					} catch(Exception e) {
+						return null;
+					}
+				}
+				else {
+					return null; // TODO: May implement an handler exception 
+				}
 			}
-				
-		}
-		
+		} catch (Exception e) { return null; }	
 	}
 
 	protected void dispatch(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 		String openId =  (String) request.getSession().getAttribute("openid"); 
+		// If the user isn't logged in, set the OpenID to public
+		if (openId == null) {
+			openId = "public";
+		}
 		Identity subject = Identity.instance(openId);
 		Identity object = this.getObjectIdentity(request.getPathInfo());
 		HandlerBase handler = this.getHandler(request.getPathInfo()); 

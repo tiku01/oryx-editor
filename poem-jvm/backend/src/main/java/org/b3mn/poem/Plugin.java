@@ -32,9 +32,8 @@ public class Plugin {
 	private String rel;
 	private String title;
 	private String description;
-	@Column(name="class_name")
+	@Column(name="java_class")
 	private String javaClass;
-	private int revision;
 	@Column(name="is_export")
 	private boolean isExport;
 	
@@ -66,12 +65,7 @@ public class Plugin {
 		this.javaClass = javaClass;
 	}
 	
-	public int getRevision() {
-		return this.revision;
-	}	
-	public void setRevision(int revision) {
-		this.revision = revision;
-	}
+
 	public void setExport(boolean isExport) {
 		this.isExport = isExport;
 	}
