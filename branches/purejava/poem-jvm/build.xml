@@ -1,0 +1,49 @@
+<project name="Oryx-Server: Pure JAVA">
+	<property name="src-dir" value="backend/src/main/java" />
+	<property name="bin-dir" value="backend/bin" />
+	<property name="lib-dir" value="lib" />
+	<property name="target-dir" value="backend/target" />
+	<property name="hibernate-config-dir" value="backend/src/main/resources" />
+	
+	<path id="libs"> 
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+		
+		<fileset dir="shared">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete dir="${bin-dir}" />
+		<delete file="${target-dir}/backend.war" />
+	</target>
+	
+	<target name="compile-server">
+		<mkdir dir="${bin-dir}"/>
+		<javac srcdir="${src-dir}" destdir="${bin-dir}" classpathref="libs" debug="on" >
+		</javac>
+	</target>
+	
+	<target name="build-war-file" depends="compile-server" >
+		<copy todir="${bin-dir}">
+			<fileset dir="${hibernate-config-dir}">
+				<include name="*.xml" />
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<war destfile="${target-dir}/backend.war"  
+			webxml="backend/src/main/webapp/WEB-INF/web.xml" 
+			update="true">
+			<fileset dir="backend/src/main/webapp" >
+				<exclude name="WEB-INF" />
+			</fileset>
+			<!-- lib refid="libs" / -->
+			<lib dir="lib">
+
+			</lib>
+			<classes dir="${bin-dir}" />
+		</war>
+	</target>
+</project>

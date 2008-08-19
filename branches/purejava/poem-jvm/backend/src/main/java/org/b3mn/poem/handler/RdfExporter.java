@@ -18,14 +18,14 @@ public class RdfExporter extends HandlerBase {
 		
 		res.setContentType("text/xml");
   		res.setStatus(200);	
-  		PrintWriter out = res.getWriter();
   		try {
+  			PrintWriter out = res.getWriter();
   			String rdfRepresentation = object.read().getRdf(this.getServletContext());    		
 			out.write(rdfRepresentation);
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		} catch (IOException ie) {
-			e.printStackTrace();
+			ie.printStackTrace();
 		}
     }
 }

@@ -3,6 +3,7 @@ package org.b3mn.poem.handler;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +26,8 @@ public class CollectionHandler extends HandlerBase {
 	protected Date parseDate(String strDate, boolean set1970OnError) {
     	if (strDate != null){
     		try {
-				return DateFormat.getDateInstance().parse(strDate);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");			
+    			return formatter.parse(strDate);
 			} catch (ParseException e) {
 				Calendar c = Calendar.getInstance();
 				c.set(1970, 1, 1);
@@ -79,7 +81,7 @@ public class CollectionHandler extends HandlerBase {
         // Collect meta data as json
         JSONArray output = new JSONArray();
         for (Representation model : models) {
-        	output.put(this.getModelMetaData(subject, object, req));
+        	output.put(this.getModelMetaData(subject, Identity.instance(model.getIdent_id()), req));
         }
         // Write json to output stream
         try {

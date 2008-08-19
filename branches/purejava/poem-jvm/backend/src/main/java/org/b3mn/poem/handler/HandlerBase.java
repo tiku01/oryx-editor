@@ -71,10 +71,11 @@ public class HandlerBase {
 			access.put("access_rights", accessRights);
 			access.put("edit_uri", req.getServerName() + model.getUri() + "/access");
 			JSONObject output = new JSONObject();
-			access.put("uris", uris);
-			access.put("info", info);
-			access.put("access", access);
-		} catch (JSONException e) {e.printStackTrace();}
+			output.put("uris", uris);
+			output.put("info", info);
+			output.put("access", access);
+			return output;
+		} catch (JSONException e) {e.printStackTrace(); return null;}
 		
 	}
 	
