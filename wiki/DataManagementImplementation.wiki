@@ -1,3 +1,5 @@
+#summary How Oryx data management and querying works. Excerpt from Bachelor's Paper.
+
 = Implementation =
 
 This is an extract taken from my final bachelor's paper; Martin Czuchra. Oryx - Embedding Business Process Data into the Web. Final bachelor’s paper, Hasso Plattner Institute at the University of Potsdam, July 2007.
