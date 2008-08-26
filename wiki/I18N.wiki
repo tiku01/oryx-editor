@@ -14,7 +14,7 @@ In the following sections I will explain how I18N in these two areas works and h
 
 = I18N of Stencil Set Definitions =
 
-
+Translated texts are directly added to the stencil set definition file. If you are not familiar with the definition of stencil sets, you can have a look [http://code.google.com/p/oryx-editor/wiki/HowToCreateStencilSet here].
 
 = I18N of the User Interface =
 
