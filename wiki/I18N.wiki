@@ -1,0 +1,21 @@
+#summary Internationalization of Oryx
+#labels Phase-Implementation
+
+= Introduction =
+
+To support multiple languages in Oryx, we will implement internationalization features step by step and add additional languages. Once all features are implemented, we also hope that external contributors will help us adding more languages.
+
+You can seperate I18N into two packages within Oryx:
+ * Translation of stencil set definitions (first version implemented in revision 893)
+ * Translation of the user interface
+
+In the following sections I will explain how I18N in these two areas works and how you can add additional languages.
+
+
+= I18N of Stencil Set Definitions =
+
+
+
+= I18N of the User Interface =
+
+_coming soon..._
