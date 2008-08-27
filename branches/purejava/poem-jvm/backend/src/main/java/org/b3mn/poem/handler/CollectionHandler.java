@@ -41,7 +41,10 @@ public class CollectionHandler extends HandlerBase {
 				return c.getTime();
 			}
 			else {
-				return new Date(); // Return a date from now
+				Date date = new Date();
+				// TODO: Find the damn time bug. You have to add 24h to get all the models. Why ever...
+				date.setTime(date.getTime() + 24 * 3600 * 1000); 
+				return date; 
 			}
     	}
     }
@@ -93,8 +96,6 @@ public class CollectionHandler extends HandlerBase {
     	Identity identity = Identity.newModel(subject, 
     			req.getParameter("title"), 
     			req.getParameter("type"), 
-    			req.getParameter("mime_type"), 
-    			req.getParameter("language"), 
     			req.getParameter("summary"), 
     			req.getParameter("svg"), 
     			req.getParameter("content")); 
