@@ -2,6 +2,6 @@
 
  * Write Java code Java 5 compliant!
  * Only use UTF-8 encoding (for source code, client/server communication etc.)!
- * Only use Unix text file line delimiter for all source files!
+ * Only use Windows text file line delimiter for all source files!
 
 to be continued!
