@@ -48,17 +48,17 @@ public class PoEMServlet extends HttpServlet {
 	protected Identity getObjectIdentity(String path) {
 		try {
 			// Extract id from the request URL 
-			Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
+			Pattern pattern = Pattern.compile("(\\/([0-9]+))?(\\/[^\\/]+\\/?)$");
 			Matcher matcher = pattern.matcher(new StringBuffer(path));
+			matcher.find();			
 			String id = matcher.group(2);
-			matcher.find();
 			// If the request doesn't contain an id
 			if (id == null) {
 				return null;
 			}
 			else {
 				// TODO: Seems to be quick and dirty
-				return Identity.instance("/data/model/"+id);
+				return Identity.instance(Integer.parseInt(id));
 			}
 		} catch (Exception e) { return null; }
 	}
@@ -67,10 +67,10 @@ public class PoEMServlet extends HttpServlet {
 	protected HandlerBase getHandler(String path) {
 		try {
 			// Extract handler name from the request URL 
-			Pattern pattern = Pattern.compile("(\\/([0-9]+))?\\/([^\\/]+\\/?)$");
+			Pattern pattern = Pattern.compile("(\\/([0-9]+))?(\\/[^\\/]+\\/?)$");
 			Matcher matcher = pattern.matcher(new StringBuffer(path));
 			matcher.find();
-			String name = matcher.group(0);
+			String name = matcher.group(3);
 			// If the request doesn't contain an id
 			if (name == null) {
 				return null;
@@ -108,7 +108,7 @@ public class PoEMServlet extends HttpServlet {
 		if (openId == null) {
 			openId = "public";
 		}
-		Identity subject = Identity.instance(openId);
+		Identity subject = Identity.ensureSubject(openId);
 		Identity object = this.getObjectIdentity(request.getPathInfo());
 		HandlerBase handler = this.getHandler(request.getPathInfo()); 
 		handler.setServletContext(this.getServletContext()); // Initialize handler with ServletContext

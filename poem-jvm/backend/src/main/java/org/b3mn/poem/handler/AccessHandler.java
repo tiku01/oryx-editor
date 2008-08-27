@@ -20,7 +20,7 @@ public class AccessHandler extends  HandlerBase {
 		String object_hierarchy = object.getModelHierarchy();
 		String term = request.getParameter("predicate");
 		Interaction right = Interaction.exist(subject_hierarchy, object_hierarchy, term);
-		if (right != null) {
+		if (right == null) {
 			right = new Interaction();
 			right.setSubject(subject_hierarchy);
 			right.setObject(object_hierarchy);
@@ -34,7 +34,7 @@ public class AccessHandler extends  HandlerBase {
 			response.setStatus(200);
 		}
 
-		String location = request.getServerName() + object.getUri() + right.getUri();
+		String location = this.getServerPath(request) +  object.getUri() + right.getUri();
 		try {
 			JSONObject output = new JSONObject();
 			output.put("predicate", right.getPredicate());
@@ -44,4 +44,18 @@ public class AccessHandler extends  HandlerBase {
 			output.write(response.getWriter());
 	      } catch (JSONException e) {e.printStackTrace();}
 	}
+	
+	@Override
+    public void doDelete(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
+		Interaction right = Interaction.exist(Integer.parseInt(request.getParameter("id")));
+		if (right != null) {
+			right.delete();
+			response.setStatus(200);
+		}
+		else {
+			response.setStatus(400);
+		}
+	}
+	
+	
 }

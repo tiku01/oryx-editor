@@ -34,7 +34,7 @@ public class HandlerBase {
 		for (String method : keys) {
 			try {
 				// Invoke the getter method of the key with some reflection magic ;)
-				json.put(method, c.getMethod("get" + method, null).invoke(o));
+				json.put(method.toLowerCase(), c.getMethod("get" + method, null).invoke(o));
 			} catch (Exception e) {
 				return null;
 			}
@@ -49,27 +49,27 @@ public class HandlerBase {
 			if (plugin.isExport()) {
 				JSONObject jsonPlugin = new JSONObject();
 				try {
-					jsonPlugin.put("href", req.getServerName() + model.getUri() + plugin.getRel());
+					jsonPlugin.put("href", this.getServerPath(req) + model.getUri() + plugin.getRel());
 					jsonPlugin.put("title", plugin.getTitle());
 					uris.put(jsonPlugin);
 				} catch (JSONException e) {e.printStackTrace();}
 			}
 		}
-		JSONObject info = this.getModelInfo(model, req.getServerName());
+		JSONObject info = this.getModelInfo(model, this.getServerPath(req));
 		
 		JSONArray accessRights = new JSONArray();
 		for (Access right : model.getAccess()) {
 			try {
-				String[] keys = {"Subject, Predicate"};
+				String[] keys = {"Subject", "Predicate"};
 				JSONObject item = this.toJSON(right, keys);
-				item.put("uri", right.getUri());
+				item.put("uri", this.getServerPath(req) + right.getUri());
 				accessRights.put(item);
 			} catch (JSONException e) {e.printStackTrace();}
 		}
 		try {
 			JSONObject access = new JSONObject();
 			access.put("access_rights", accessRights);
-			access.put("edit_uri", req.getServerName() + model.getUri() + "/access");
+			access.put("edit_uri", this.getServerPath(req) + model.getUri() + "/access");
 			JSONObject output = new JSONObject();
 			output.put("uris", uris);
 			output.put("info", info);
@@ -95,6 +95,11 @@ public class HandlerBase {
 		} catch (JSONException e) {
 			return null;
 		}
+	}
+	
+	// Returns the complete server path including the application e.g. 'http://localhost:8080/backend'
+	protected String getServerPath(HttpServletRequest req) {
+		return "http://" + req.getServerName() + ":" + String.valueOf(req.getServerPort()) + "/backend" + req.getServletPath();
 	}
 	
     public void doGet(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws IOException {
