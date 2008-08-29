@@ -3,7 +3,7 @@
 
 = Introduction =
 
-To support multiple languages in Oryx, we will implement internationalization features step by step and add additional languages. Once all features are implemented, we also hope that external contributors will help us adding more languages. The first version does not support manual selection of the language, but is dependant on the browser's language.
+To support multiple languages in Oryx, we will implement internationalization features step by step and add additional languages. Once all features are implemented, we also hope that external contributors will help us adding more languages. The decision which language is used, is decided by the translation files that are included in the xhtml page (see section 'I18N of the User Interface' for details).
 
 You can seperate I18N into two packages within Oryx:
  * Translation of stencil set definitions (first version implemented in revision 893)
@@ -66,4 +66,22 @@ The decision which translation is used works as follows (for each attribute each
 
 = I18N of the User Interface =
 
-_coming soon..._
+For each language a Javascript file must be added to the folder */etc/i18n*. After building Oryx the language files can be found in the build folder in */i18n*. Each file must be named according to the following template:
+{{{
+translation_<ISO language code>_<ISO country code>.js
+}}}
+The ISO country code is optional, but the use of lower case characters is required. The default language file is *translation_en_us.js*. The language file of the selected language must be added to the Oryx xhtml page after the script tag of the oryx.js file:
+{{{
+<script src="oryx.js" type="text/javascript" />
+		
+<script src="i18n/translation_en_us.js" type="text/javascript"/>
+}}}
+The strings are defined as Javascript string variables according to the following template:
+{{{
+ORYX.I18N.<plugin class name>.<variable name>
+}}}
+These variables can then be referenced in the plugins' classes. You have to ensure that the object *ORYX.I18N.<plugin class name>* is defined. To do that you have to add the following line for each new plugin before the definition of the string variables:
+{{{
+if(!ORYX.I18N.<plugin class name>) ORYX.I18N.<plugin class name> = {};
+}}}
+Your string variables must be copied to all existing language files and the texts must be translated, if you want your plugin to be available after the next version of the productive system. Non-internationalized plugins will not be available on the productive system.
