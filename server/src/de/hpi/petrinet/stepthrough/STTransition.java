@@ -8,6 +8,9 @@ public interface STTransition extends Transition {
 	DiagramObject getBPMNObj();
 	void setBPMNObj(DiagramObject obj);
 	
+//	boolean isOnlyTransitionForObj();
+//	void isOnlyTransitionForObj(boolean isOnlyTransition);
+	
 	AutoSwitchLevel getAutoSwitchLevel();
 	void setAutoSwitchLevel(AutoSwitchLevel level);
 	

@@ -1,10 +1,11 @@
 package de.hpi.petrinet.stepthrough;
 
-import de.hpi.highpetrinet.HighPetriNetFactory;
+import de.hpi.PTnet.PTNetFactory;
 import de.hpi.petrinet.LabeledTransition;
 import de.hpi.petrinet.SilentTransition;
 
-public class STPetriNetFactoryImpl extends HighPetriNetFactory { // oder PetriNetFactoryImpl?
+public class STPetriNetFactoryImpl extends PTNetFactory { // oder PetriNetFactoryImpl?
+	
 	public LabeledTransition createLabeledTransition() {
 		return new STLabeledTransitionImpl();
 	}
@@ -12,4 +13,5 @@ public class STPetriNetFactoryImpl extends HighPetriNetFactory { // oder PetriNe
 	public SilentTransition createSilentTransition() {
 		return new STSilentTransition();
 	}
+
 }

@@ -41,11 +41,11 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		this.facade = facade;
 		
 		this.facade.offer({
-			'name':ORYX.I18N.AdHocCC.compl,
+			'name':"Edit Completion Condition",
 			'functionality': this.editCC.bind(this),
-			'group': ORYX.I18N.AdHocCC.group,
+			'group': "adhoc",
 			'icon': ORYX.PATH + "images/adhoc.gif",
-			'description': ORYX.I18N.AdHocCC.complDesc,
+			'description': "Edit an Ad-Hoc Activity's Completion Condition",
 			'index': 0,
 			'minShape': 1,
 			'maxShape': 1
@@ -66,12 +66,12 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		var elements = this.facade.getSelection();
 		if (elements.length != 1) {
 			// Should not happen!
-			this.openErroDialog(ORYX.I18N.AdHocCC.notOne);
+			this.openErroDialog("Not exactly one element selected!");
 			return ; 
 		}
 		var adHocActivity = elements[0];
 		if (adHocActivity._stencil.id() != "http://b3mn.org/stencilset/bpmnexec#Subprocess" || !adHocActivity.properties['oryx-isadhoc']){
-			this.openErroDialog(ORYX.I18N.AdHocCC.nodAdHocCC); 
+			this.openErroDialog("Selected element has no ad-hoc completion condition!"); 
 			return ;
 		}
 	
@@ -152,7 +152,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
     		store: taskStore,
 			valueField: taskArrayFields[0],
 			displayField: taskArrayFields[1],
-    		emptyText: ORYX.I18N.AdHocCC.selectTask,
+    		emptyText: 'Select a task...',
 			typeAhead: true,
     		mode: 'local',
     		triggerAction: 'all',
@@ -164,7 +164,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		var stateCombo = new Ext.form.ComboBox({
     		store: stateStore,
     		displayField: stateArrayFields[0],
-    		emptyText: ORYX.I18N.AdHocCC.selectState,
+    		emptyText: 'Select a state...',
 			typeAhead: true,
     		mode: 'local',
     		triggerAction: 'all',
@@ -174,7 +174,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		});
 
 		var addStateExprButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.addExp,
+			text: "Add Expression",
 			handler: function(){
 				var task = taskCombo.getValue();
 				var state = stateCombo.getValue();
@@ -190,7 +190,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
     		store: dataStore,
 			valueField: dataArrayFields[0],
     		displayField: dataArrayFields[1],
-    		emptyText: ORYX.I18N.AdHocCC.selectDataField,
+    		emptyText: 'Select a data field...',
 			typeAhead: true,
     		mode: 'local',
     		triggerAction: 'all',
@@ -201,11 +201,11 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		
 		var valueField = new Ext.form.TextField({
 			width: 180,
-			emptyText: ORYX.I18N.AdHocCC.enterEqual,
+			emptyText: 'Enter a value that must equal...',
 		});
 		
 		var addDataExprButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.addExp,
+			text: "Add Expression",
 			handler: function(){
 				var data = dataCombo.getValue();
 				var value = valueField.getValue();
@@ -218,7 +218,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		});
 		
 		var addAndButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.and, 
+			text: "and", 
 			minWidth: 50,
 			handler: function(){
 				this.addStringToTextArea(textArea, "&");
@@ -226,7 +226,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		});
 					
 		var addOrButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.or, 
+			text: "or", 
 			minWidth: 50,
 			handler: function(){
 				this.addStringToTextArea(textArea, "|");
@@ -250,7 +250,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		});
 		
 		var addNotButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.not, 
+			text: "not", 
 			minWidth: 50,
 			handler: function(){
 				this.addStringToTextArea(textArea, "!");
@@ -264,7 +264,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		});
 		
 		var clearButton = new Ext.Button({
-			text: ORYX.I18N.AdHocCC.clearCC,
+			text: "Clear Completion Condition",
 			handler: function(){
 				textArea.setValue("");
 			}
@@ -279,7 +279,7 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 			minimizable: false,
 			modal: true,
 			autoScroll: true,
-			title: ORYX.I18N.AdHocCC.editCC,
+			title: 'Edit Ad-Hoc Completion Condtions',
 			layout: 'table',
 			defaults: {
 		        bodyStyle:'padding:3px;background-color:transparent;border-width:0px'
@@ -288,18 +288,18 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		        columns: 7
 		    },
 			items: [
-				{ items: [new Ext.form.Label({text: ORYX.I18N.AdHocCC.addExecState, style: 'font-size:12px;'})], colspan: 7},
+				{ items: [new Ext.form.Label({text: "Add Execution State Expression: ", style: 'font-size:12px;'})], colspan: 7},
 				{}, {items: [taskCombo], colspan: 6},
 				{}, {items: [stateCombo], colspan: 4}, {items: [addStateExprButton]}, {},
 				{colspan: 7},
-				{ items: [new Ext.form.Label({text: ORYX.I18N.AdHocCC.addDataExp, style: 'font-size:12px;'})], colspan: 7},	
+				{ items: [new Ext.form.Label({text: "Add Data Expression: ", style: 'font-size:12px;'})], colspan: 7},	
 				{}, {items: [dataCombo], colspan: 6},
 				{}, {items: [valueField], colspan: 4}, {items: [addDataExprButton]}, {},
 				{colspan: 7},
-				{ items: [new Ext.form.Label({text: ORYX.I18N.AdHocCC.addLogOp, style: 'font-size:12px;'})], colspan: 7},	
+				{ items: [new Ext.form.Label({text: "Add Logical Operators: ", style: 'font-size:12px;'})], colspan: 7},	
 				{}, {items: [addAndButton]}, {items: [addOrButton]}, {items: [addLPButton]}, {items: [addRPButton]}, {items: [addNotButton]}, {},
 				{colspan: 7},
-				{ items: [new Ext.form.Label({text: ORYX.I18N.AdHocCC.curCond, style: 'font-size:12px;'})], colspan: 7},
+				{ items: [new Ext.form.Label({text: "Current Completion Condition: ", style: 'font-size:12px;'})], colspan: 7},
 				{}, {items: [textArea], colspan: 5}, {},
 				{colspan: 5}, {items: [clearButton]}, {}
 			],

@@ -55,7 +55,6 @@ import de.hpi.bpmn.TextAnnotation;
 import de.hpi.bpmn.UndirectedAssociation;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.XOREventBasedGateway;
-import de.hpi.bpmn.Activity.LoopType;
 import de.hpi.bpmn.exec.ExecDataObject;
 
 /**
@@ -193,10 +192,6 @@ public class BPMNRDFImporter {
 						addEndCompensationEvent(node, c);
 					} else if (result.equals("Message")) {
 						addEndMessageEvent(node, c);
-					} else if (result.equals("Terminate")) {
-						addEndTerminateEvent(node, c);
-					} else if (result.equals("Error")) {
-						addEndErrorEvent(node, c);
 					}
 
 				} else if (type.equals("Exclusive_Databased_Gateway")) {
@@ -387,35 +382,6 @@ public class BPMNRDFImporter {
 			lane.setId(lane.getResourceId());
 	}
 
-	/**
-	 * Please use this method for attributes that are part of class Activity 
-	 * and not of its subtypes Task and Subprocess.
-	 * 
-	 * @param node must represent a subtype of activity
-	 * @param c 
-	 * @param activity must be a Task or a Subprocess
-	 */
-	protected void handleStandardActivityAttributes(Node node, ImportContext c, Activity activity) {
-		if (node.hasChildNodes()) {
-			Node n = node.getFirstChild();
-			while ((n = n.getNextSibling()) != null) {
-				if (n instanceof Text)
-					continue;
-				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
-
-				if (attribute.equals("looptype")) {
-					String looptypeValue = getContent(n);
-					if (looptypeValue != null && looptypeValue.equals("Standard")) {
-						activity.setLoopType(LoopType.Standard);
-					} else if (looptypeValue != null && looptypeValue.equals("MultiInstance")) {
-						activity.setLoopType(LoopType.Multiinstance);
-					}
-				}
-			}
-		}
-	}
-	
-	
 	protected void addTask(Node node, ImportContext c) {
 		Task task = factory.createTask();
 		task.setResourceId(getResourceId(node));
@@ -466,9 +432,6 @@ public class BPMNRDFImporter {
 
 			}
 		}
-		
-		handleStandardActivityAttributes(node, c, task);
-		
 		if (task.getId() == null)
 			task.setId(task.getResourceId());
 	}
@@ -512,9 +475,6 @@ public class BPMNRDFImporter {
 				}
 			}
 		}
-
-		handleStandardActivityAttributes(node, c, sp);
-
 		if (sp.getId() == null)
 			sp.setId(sp.getResourceId());
 	}

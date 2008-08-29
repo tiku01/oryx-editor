@@ -56,11 +56,19 @@ public class EPCUpload extends HttpServlet {
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
     	
+    	// Get the PrintWriter
+    	res.setContentType("text/html");
+    	PrintWriter out = null;
+    	try {
+    	    out = res.getWriter();
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
     	
     	// No isMultipartContent => Error
     	final boolean isMultipartContent = ServletFileUpload.isMultipartContent(req);
     	if (!isMultipartContent){
-    		printError(res, "No Multipart Content transmitted.");
+    		printError(out, "No Multipart Content transmitted.");
 			return ;
     	}
     	
@@ -72,11 +80,11 @@ public class EPCUpload extends HttpServlet {
     	try {
     		items = servletFileUpload.parseRequest(req);
     		if (items.size() != 1){
-    			printError(res, "Not exactly one File.");
+    			printError(out, "Not exactly one File.");
     			return ;
     		}
     	} catch (FileUploadException e) {
-    		handleException(res, e); 
+    		handleException(out, e); 
 	   		return;
     	} 
     	final FileItem fileItem = (FileItem)items.get(0);
@@ -91,13 +99,12 @@ public class EPCUpload extends HttpServlet {
     	try {
     		inputStream = fileItem.getInputStream();
     	} catch (IOException e){ 
-    		handleException(res, e); 
+    		handleException(out, e); 
     		return;
     	}
 	   		
     	// epml2eRDF XSLT source
-    	final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/EPML2eRDF.xslt";
-    	final File epml2eRDFxsltFile = new File(xsltFilename);
+    	final File epml2eRDFxsltFile = new File("../webapps/oryx/xslt/EPML2eRDF.xslt");
     	final Source epml2eRDFxsltSource = new StreamSource(epml2eRDFxsltFile);	
 
     	// Transformer Factory
@@ -109,7 +116,7 @@ public class EPCUpload extends HttpServlet {
     	if (fileName.endsWith(".epml") || content.contains("http://www.epml.de")){
     		epmlSource = new StreamSource(inputStream);
     	} else {
-    		printError(res, "No EPML or AML file uploaded.");
+    		printError(out, "No EPML or AML file uploaded.");
     		return ;
     	}
     		
@@ -121,60 +128,50 @@ public class EPCUpload extends HttpServlet {
     		transformer.transform(epmlSource, new StreamResult(writer));
     		resultString = writer.toString();
     	} catch (Exception e){
-    		handleException(res, e); 
+    		handleException(out, e); 
     		return;
     	}
 
     	if (resultString != null){
     		try {
-    			
-    			printResponse( res, resultString );
+    			if (resultString.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>")){
+    				resultString = resultString.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>", "");
+    				resultString = resultString.replace("</root>", "");
+    				resultString = resultString.replaceAll("<", "&lt;");
+    				resultString = resultString.replaceAll(">", "&gt;");
+    		        out.print("{success:true, content:'"+resultString+"'}"); 
+    		        return ;
+    			} else if (resultString.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>")) {
+    				resultString = resultString.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>", "");
+    				resultString = resultString.replace("</root>", "");
+    				resultString = resultString.replaceAll("<", "&lt;");
+    				resultString = resultString.replaceAll(">", "&gt;");
+    		        out.print("{success:true, content:'"+resultString+"'}"); 
+    		        return ;
+    			} else {
+    				printError(out, "Error during transformation.");
+    				return ;
+    			}
 
     		} catch (Exception e){
-    			handleException(res, e); 
+    			handleException(out, e); 
     			return;
     		}
     	}
     }
     
-    private void printResponse(HttpServletResponse res, String text){
-    	if (res != null){
- 
-        	// Get the PrintWriter
-        	res.setContentType("text/plain");
-        	
-        	PrintWriter out = null;
-        	try {
-        	    out = res.getWriter();
-        	} catch (IOException e) {
-        	    e.printStackTrace();
-        	}
-        	
-    		out.print(text);
-    	}
-    }
     
     
-    private void printError(HttpServletResponse res, String err){
-    	if (res != null){
- 
-        	// Get the PrintWriter
-        	res.setContentType("text/html");
-        	
-        	PrintWriter out = null;
-        	try {
-        	    out = res.getWriter();
-        	} catch (IOException e) {
-        	    e.printStackTrace();
-        	}
-        	
+    private void printError(PrintWriter out, String err){
+    	if (out != null){
     		out.print("{success:false, content:'"+err+"'}");
+
     	}
     }
     
-	private void handleException(HttpServletResponse res, Exception e) {
+	private void handleException(PrintWriter out, Exception e) {
 		e.printStackTrace();
-		printError(res, e.getLocalizedMessage());
+		printError(out, e.getLocalizedMessage());
 	}
     
 }

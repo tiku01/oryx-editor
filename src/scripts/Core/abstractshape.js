@@ -219,18 +219,6 @@ ORYX.Core.AbstractShape = {
 			this.properties[key] = value;
 			this.propertiesChanged[key] = true;
 			this._changed();
-			
-			// Raise an event, to show that the property has changed
-			window.setTimeout( function(){
-
-				this._delegateEvent({
-						type	: 'propertyChanged', 
-						name	: key, 
-						value	: value,
-						oldValue: oldValue
-					});
-								
-			}.bind(this), 10)
 		}
 	},
 	

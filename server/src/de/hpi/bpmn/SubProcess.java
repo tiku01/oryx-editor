@@ -3,8 +3,6 @@ package de.hpi.bpmn;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.bpmn.serialization.BPMNSerialization;
-
 public class SubProcess extends Activity implements Container {
 	
 	protected List<Node> childNodes;
@@ -42,8 +40,4 @@ public class SubProcess extends Activity implements Container {
 		this.parallelOrdering = parallelOrdering;
 	}
 	
-	@Override
-	public StringBuilder getSerialization(BPMNSerialization serialization) {
-		return serialization.getSerializationForDiagramObject(this);
-	}
 }

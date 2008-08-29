@@ -36,11 +36,11 @@ ORYX.Plugins.DesynchronizabilityOverlay = Clazz.extend({
 		this.callback = undefined;
 		
         this.facade.offer({
-            'name': ORYX.I18N.DesynchronizabilityOverlay.name,
+            'name': "Desynchronizability Checker",
             'functionality': this.showOverlay.bind(this),
-            'group': ORYX.I18N.DesynchronizabilityOverlay.group,
+            'group': "Overlay",
             'icon': ORYX.PATH + "images/bpmn2pn.png",
-            'description': ORYX.I18N.DesynchronizabilityOverlay.desc,
+            'description': "Desynchronizability Checker",
             'index': 3,
             'minShape': 0,
             'maxShape': 0
@@ -125,7 +125,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = Clazz.extend({
 
 						} else {
 
-							Ext.Msg.alert("Oryx", ORYX.I18N.DesynchronizabilityOverlay.sync);
+							Ext.Msg.alert("Oryx", "The net is desynchronizable.");
 							// var win = window.open('data:text/plain,' +request.responseText, '_blank', "resizable=yes,width=640,height=480,toolbar=0,scrollbars=yes");
 						}
 						} else if (resp.syntaxerrors) {
@@ -133,12 +133,12 @@ ORYX.Plugins.DesynchronizabilityOverlay = Clazz.extend({
 							// Get all Valid ResourceIDs and collect all shapes
 //							var shapes = transitions.collect(function(res){ return this.facade.getCanvas().getChildShapeByResourceId( res ) }.bind(this)).compact();
 
-							Ext.Msg.alert("Oryx", ORYX.I18N.DesynchronizabilityOverlay.error.replace(/1/, resp.syntaxerrors.length));
+							Ext.Msg.alert("Oryx", "The net has "+resp.syntaxerrors.length+" syntax errors.");
 
 //							this.active = !this.active;				
 
 						} else {
-							Ext.Msg.alert("Oryx", ORYX.I18N.DesynchronizabilityOverlay.invalid);
+							Ext.Msg.alert("Oryx", "Invalid answer from server.");
 						}
 				}.bind(this)
 			});

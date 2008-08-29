@@ -1,7 +1,5 @@
 package de.hpi.bpmn;
 
-import de.hpi.bpmn.serialization.BPMNSerialization;
-
 public class Task extends Activity {
 	protected boolean skippable;
 	protected String rolename;
@@ -35,8 +33,4 @@ public class Task extends Activity {
 		this.form = form;
 	}
 
-	@Override
-	public StringBuilder getSerialization(BPMNSerialization serialization) {
-		return serialization.getSerializationForDiagramObject(this);
-	}
 }

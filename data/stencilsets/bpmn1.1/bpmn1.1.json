@@ -33,7 +33,7 @@
 					"description":"Name is an attribute that is text description of the Diagram.",
 					"readonly":false,
 					"optional":false,
-					"length":"",
+					"length":"50",
 					"refToView":"diagramtext",
 					"wrapLines":true
 				},
@@ -194,7 +194,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"acttext",
-					"length":"",
+					"length":"50",
 					"wrapLines":true
 				},
 				{
@@ -893,7 +893,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"acttext",
-					"length":"",
+					"length":"50",
 					"wrapLines":true
 				},
 				{
@@ -2218,7 +2218,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -2315,7 +2314,7 @@
 					"id":"markerVisible",
 					"type":"Boolean",
 					"title":"MarkerVisible",
-					"value":"true",
+					"value":"false",
 					"description":"",
 					"readonly":false,
 					"optional":false,
@@ -2461,7 +2460,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -2670,7 +2668,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -2859,7 +2856,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -3083,7 +3079,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -3707,8 +3702,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"text_v",
-					"length":"",
-					"wrapLines":true
+					"length":""
 				},
 				{
 					"id":"participantRef",
@@ -4200,8 +4194,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"text",
-					"length":"",
-					"wrapLines":true
+					"length":"20"
 				}
 			]
 		},
@@ -4390,7 +4383,7 @@
 					"id":"state",
 					"type":"String",
 					"title":"State",
-					"value":"[ ]",
+					"value":"",
 					"description":"",
 					"refToView":"text_state",
 					"readonly":false,
@@ -4465,7 +4458,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":["frame", "celem2", "celem3"],
+					"refToView":"frame",
 					"fill":true,
 					"stroke":false
 				}
@@ -4521,15 +4514,13 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
+				},{
 					"id":"name",
 					"type":"String",
 					"title":"Name",
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -4696,7 +4687,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -4903,7 +4893,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -5090,7 +5079,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -5256,7 +5244,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -5455,9 +5442,8 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
-					"wrapLines":false
+					"wrapLines":true
 				},
 				{
 					"id":"assignments",
@@ -5636,7 +5622,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -5818,7 +5803,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -6037,7 +6021,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -6258,7 +6241,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -6457,7 +6439,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -6645,7 +6626,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -6821,7 +6801,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7009,7 +6988,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7199,7 +7177,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7390,7 +7367,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7591,7 +7567,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7794,7 +7769,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -7984,7 +7958,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -8172,7 +8145,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -8370,7 +8342,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -8569,7 +8540,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -8734,7 +8704,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -8821,7 +8790,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Message",
+					"value":"Terminate",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -8939,7 +8908,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9026,7 +8994,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Error",
+					"value":"Terminate",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -9112,7 +9080,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9199,7 +9166,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Cancel",
+					"value":"Terminate",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -9276,7 +9243,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9363,7 +9329,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Compensation",
+					"value":"Terminate",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -9451,7 +9417,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9538,7 +9503,7 @@
 					"id":"result",
 					"type":"String",
 					"title":"Result",
-					"value":"Signal",
+					"value":"Terminate",
 					"description":"",
 					"readonly":true,
 					"optional":false,
@@ -9626,7 +9591,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9735,7 +9699,7 @@
 		{
 			"type": "node",
 			"id":"EndTerminateEvent",
-			"title":"Terminate End Event",
+			"title":"Terminate Flow",
 			"groups":["End Events"],
 			"description":"A terminate event without outgoing edges.",
 			"view":"endevent/node.event.terminate.end.svg",
@@ -9790,7 +9754,6 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"refToView":"text_name",
 					"optional":true,
 					"wrapLines":true
 				},
@@ -9906,25 +9869,6 @@
 			"icon":"new_sequenceflow.png",
 			"roles": [
 			],
-			"layout":function(shape) {		
-				var incomingShapes = shape.getIncomingShapes();
-				var incomingGateway = incomingShapes.find(function(aShape) {
-						var foundGateway = aShape.getStencil().groups().find(function(group) {
-							if(group == "Gateways") 
-								return group;
-						});
-						if(foundGateway)
-							return foundGateway;
-					});
-					
-				if(!incomingGateway &&
-					(shape.properties["oryx-conditiontype"] == "Expression")) {
-						// show diamond on edge source
-						shape.setProperty("oryx-showdiamondmarker", true);
-				} else {
-					shape.setProperty("oryx-showdiamondmarker", false);
-				}
- 			},
 			"properties": [
 				{
 					"id":"id",
@@ -10009,7 +9953,7 @@
 							"id":"expression",
 							"title":"expression",
 							"value":"Expression",
-							"refToView":""
+							"refToView":"conditional"
 						},
 						{
 							"id":"default",
@@ -10039,16 +9983,6 @@
 					"optional":false,
 					"refToView":"",
 					"min":"1"
-				},
-				{
-					"id":"showdiamondmarker",
-					"type":"Boolean",
-					"title":"ShowDiamontMarker",
-					"value":"false",
-					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
-					"readonly":true,
-					"optional":false,
-					"refToView":"conditional"
 				}
 			]
 		},

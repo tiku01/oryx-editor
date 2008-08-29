@@ -58,9 +58,7 @@ import de.hpi.bpmn.TextAnnotation;
 import de.hpi.bpmn.UndirectedAssociation;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.XOREventBasedGateway;
-import de.hpi.bpmn.Activity.LoopType;
 import de.hpi.bpmn.exec.ExecDataObject;
-import de.hpi.bpmn.rdf.BPMNRDFImporter.ImportContext;
 
 /**
  * Copyright (c) 2008 Gero Decker
@@ -404,41 +402,6 @@ public class BPMN11RDFImporter {
 			lane.setId(lane.getResourceId());
 	}
 
-	
-	/**
-	 * Please use this method for attributes that are part of class Activity 
-	 * and not of its subtypes Task and Subprocess.
-	 * 
-	 * @param node must represent a subtype of activity
-	 * @param c 
-	 * @param activity must be a Task or a Subprocess
-	 */
-	protected void handleStandardActivityAttributes(Node node, ImportContext c, Activity activity) {
-		if (node.hasChildNodes()) {
-			Node n = node.getFirstChild();
-			while ((n = n.getNextSibling()) != null) {
-				if (n instanceof Text)
-					continue;
-				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
-
-				if (attribute.equals("looptype")) {
-					String looptypeValue = getContent(n);
-					if (looptypeValue != null && looptypeValue.equals("Standard")) {
-						activity.setLoopType(LoopType.Standard);
-					} else if (looptypeValue != null && looptypeValue.equals("MultiInstance")) {
-						activity.setLoopType(LoopType.Multiinstance);
-					}
-				}
-				if (attribute.equals("loopcondition")) {
-					String loopconditionValue = getContent(n);
-					if (loopconditionValue != null) {
-						activity.setLoopCondition(loopconditionValue);
-					}
-				}
-			}
-		}
-	}
-
 	protected void addTask(Node node, ImportContext c) {
 		Task task = factory.createTask();
 		task.setResourceId(getResourceId(node));
@@ -462,9 +425,6 @@ public class BPMN11RDFImporter {
 
 			}
 		}
-		
-		handleStandardActivityAttributes(node, c, task);
-		
 		if (task.getId() == null)
 			task.setId(task.getResourceId());
 	}
@@ -508,9 +468,6 @@ public class BPMN11RDFImporter {
 				}
 			}
 		}
-		
-		handleStandardActivityAttributes(node, c, sp);
-		
 		if (sp.getId() == null)
 			sp.setId(sp.getResourceId());
 	}
@@ -527,25 +484,6 @@ public class BPMN11RDFImporter {
 
 	protected void addStartTimerEvent(Node node, ImportContext c) {
 		StartTimerEvent event = factory.createStartTimerEvent();
-		if (node.hasChildNodes()) {
-			Node n = node.getFirstChild();
-			while ((n = n.getNextSibling()) != null) {
-				if (n instanceof Text)
-					continue;
-				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
-
-				if (attribute.equals("timedate")) {
-					String timeDateValue = getContent(n);
-					if (timeDateValue != null)
-						event.setTimeDate(timeDateValue);
-				}
-				if (attribute.equals("timecycle")) {
-					String timeCycleValue = getContent(n);
-					if (timeCycleValue != null)
-						event.setTimeDate(timeCycleValue);
-				}
-			}
-		}
 		handleEvent(node, event, c, "timeDate");
 	}
 
@@ -573,28 +511,9 @@ public class BPMN11RDFImporter {
 		IntermediatePlainEvent event = factory.createIntermediatePlainEvent();
 		handleEvent(node, event, c, "documentation");
 	}
-	
+
 	protected void addIntermediateTimerEvent(Node node, ImportContext c) {
 		IntermediateTimerEvent event = factory.createIntermediateTimerEvent();
-		if (node.hasChildNodes()) {
-			Node n = node.getFirstChild();
-			while ((n = n.getNextSibling()) != null) {
-				if (n instanceof Text)
-					continue;
-				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
-
-				if (attribute.equals("timedate")) {
-					String timeDateValue = getContent(n);
-					if (timeDateValue != null)
-						event.setTimeDate(timeDateValue);
-				}
-				if (attribute.equals("timecycle")) {
-					String timeCycleValue = getContent(n);
-					if (timeCycleValue != null)
-						event.setTimeDate(timeCycleValue);
-				}
-			}
-		}
 		handleEvent(node, event, c, "timeCycle");
 	}
 
@@ -827,12 +746,6 @@ public class BPMN11RDFImporter {
 						flow.setConditionType(SequenceFlow.ConditionType.EXPRESSION);
 					else if (ctype.equals("Default"))
 						flow.setConditionType(SequenceFlow.ConditionType.DEFAULT);
-				}
-				
-				if (attribute.equals("conditionexpression")) {
-					String expression = getContent(n);
-					if (expression != null)
-						flow.setConditionExpression(expression);
 				}
 			}
 		}
