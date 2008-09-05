@@ -11,8 +11,8 @@ To be able to access the server from the host system or even from other machines
 
 {{{
 path\to\virtualbox\VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/Protocol" TCP
-path\to\virtualbox/VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/GuestPort" 8180
-path\to\virtualbox/VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/HostPort" 8180
+path\to\virtualbox\VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/GuestPort" 8180
+path\to\virtualbox\VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/HostPort" 8180
 }}}
 
 That makes the Oryx server accessible from the host system at [http://localhost:8180/].
