@@ -1,4 +1,5 @@
 #summary How to use the virtual machine image provided for Oryx development.
+#labels Featured,Phase-Implementation
 
 = Introduction =
 A [http://virtualbox.org VirtualBox] image containing a complete development environment for Oryx can be downloaded here: [http://myhpi.de/~fmenge/oryx-vm.zip oryx-vm.zip (1.8 GB)].
