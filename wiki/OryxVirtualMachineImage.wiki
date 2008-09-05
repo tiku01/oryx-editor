@@ -1,0 +1,19 @@
+#How to use the virtual machine image provided for Oryx development.
+
+= Introduction =
+A !VirtualBox image containing a complete development environment for Oryx can be downloaded here: [http://myhpi.de/~fmenge/oryx-vm.zip oryx-vm.zip (1.8 GB)].
+
+The virtual machine uses username 'kubuntu' with password 'kubuntu'.The image is based on the Kubuntu 8.04 image from http://virtualbox.wordpress.com/images/ which is a default installation from the Kubuntu ISO image. In addition to that, the guest additions have been installed from !VirtualBox 1.6.2 using this [http://virtualbox.wordpress.com/doc/installing-guest-additions-on-ubuntu/ guide].
+
+= Accessing the Server from Outside =
+
+To be able to access the server from the host system or even from other machines you have to configure a port forwarding. Therefore, shut down the virtual machine and type the following commands in a command prompt:
+
+{{{
+path\to\virtualbox\VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/Protocol" TCP
+path\to\virtualbox/VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/GuestPort" 8180
+path\to\virtualbox/VBoxManage setextradata "OryxVM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/tomcat/HostPort" 8180
+}}}
+
+That makes the Oryx server accessible from the host system at [http://localhost:8180/].
+If you are configuring multiple forwardings make sure to the name _tomcat_ in the commands into something different describing your service.
