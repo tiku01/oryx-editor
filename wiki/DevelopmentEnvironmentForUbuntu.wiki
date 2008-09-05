@@ -2,9 +2,7 @@
 
 = Introduction =
 
-This page documents the configuration steps which have been made for setting up the Oryx !VirtualBox image which can be downloaded here: [http://myhpi.de/~fmenge/oryx-vm.zip oryx-vm.zip (1.8 GB)]. It has been tested with Kubuntu 8.04 but it should mostly work for other Debian-based Linux distributions as well.
-
-The virtual machine uses username 'kubuntu' with password 'kubuntu'.The image is based on the Kubuntu 8.04 image from http://virtualbox.wordpress.com/images/ which is a default installation from the Kubuntu ISO image. In addition to that, the guest additions have been installed from !VirtualBox 1.6.2 using this [http://virtualbox.wordpress.com/doc/installing-guest-additions-on-ubuntu/ guide].
+This page documents the configuration steps which have been made for setting up the [OryxVirtualMachineImage Oryx VirtualBox image]. It has been tested with Kubuntu 8.04 but it should mostly work for other Debian-based Linux distributions as well.
 
 = Details =
 
