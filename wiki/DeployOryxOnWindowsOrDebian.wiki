@@ -57,7 +57,6 @@ You can also execute all those commands remotely if the PostgreSQL Database allo
 
 = PART II: Deploy the WAR Files to Tomcat =
   # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_ (Debian) or _http://servername:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
-  # First scroll down to the end of the manager page an make sure that the JVM-Version starts with _1.6_.
   # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
   # Go on and upload the second war file _backend.war_ .
 
