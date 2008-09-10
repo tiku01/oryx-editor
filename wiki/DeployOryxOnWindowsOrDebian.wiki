@@ -57,7 +57,7 @@ You can also execute all those commands remotely if the PostgreSQL Database allo
 
 = PART II: Deploy the WAR Files to Tomcat =
   # Download [http://www.oryx-editor.org/downloads the latest Oryx release] and extract the web applications from the zip file.
-  # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_ (Debian) or _http://servername:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
+  # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://hostname:8180/manager/html_ (Debian) or _http://hostname:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
   # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
   # Go on and upload the second war file _backend.war_ .
 
@@ -78,8 +78,24 @@ The Oryx Server uses Hibernate Technology to access the database. If you deploye
         <property name="connection.password">password</property>
 }}}
 
-
 After you finished editing the file, you have to restart the Tomcat to apply the changes. If your database doesn't run on the same server like the Tomcat, make sure that the database accepts Tcp connections from the Tomcat host.  
+
+
+= PART IV: Upgrading an Existing Installation = 
+
+*Windows:* 
+ # Have a look at http://hostname:port/manager/html/sessions?path=/backend if there are any active users. The 'Inactive Time' of a session does NOT imply that the user has stopped modeling since then. It only shows the last time the user accessed the backend, e.g., for storing or loading a model.
+ # Use http://hostname:port/manager/html to stop the applications 'oryx' and 'backend'
+ # To make backup of the current data open a command prompt and go to 'C:\Program Files\PostgreSQL\8.3\bin'. You can also use the link 'Command Prompt' in the PostgreSQL group of the Windows Start Menu.
+ # Create a database dump using:
+{{{
+pg_dump --username postgres --clean --file=YYYY-MM-DD-database-dump.sql" --format=plain poem
+}}}
+ # Undeploy the applications 'oryx' and 'backend' using _http://hostname:port/manager/html/undeploy?path=/oryx_ and _http://hostname:port/manager/html/undeploy?path=/backend_
+ # If 'backend' is not completely undeployed, restart Tomcat and undeploy it again using: _http://hostname:port/manager/html/undeploy?path=/backend_
+ # If the Oryx team release any databas migration scripts you can install them using
+`psql --username postgres --dbname poem --file migration-script.sql`
+ # Deploy the two web applications oryx.war and backend.war using the Tomcat manager _http://hostname:port/manager/html_ as described in Part II.
 
 
 = APPENDIX =
@@ -113,7 +129,7 @@ deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
 
-*Windows:* The files for the Java 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java_ directory.
+*Windows:* The files for the Java JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java_ directory.
 
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
@@ -161,7 +177,7 @@ Before you can access the web front end to administrate the server, you have to 
 </tomcat-users>
 }}}  
 
-After that, use {{{/etc/init.d/tomcat5.5 start }}} or {{{/usr/share/tomcat5.5/bin/startup.sh}}} to start the server. The URL of the manager application is _http://server-name:port/manager/html_.
+After that, use {{{/etc/init.d/tomcat5.5 start }}} or {{{/usr/share/tomcat5.5/bin/startup.sh}}} to start the server. The URL of the manager application is _http://hostname:port/manager/html_.
 
 *Windows:* Download Tomcat 6.0 Windows Service Installer from the official [http://tomcat.apache.org/download-60.cgi Apache Website]. Start the installer and select all options except examples as shown in the following screenshot. The next important step is the basic configuration. If the server is used as productive system you should use port 80. Otherwise you can stick with port 8080. After that select an username and password for the server administrator. On the next page you have to select path to your Java JRE. The installer automatically finds the standard version. Make sure that you select Java 6 if you have installed multiple versions of Java on your system. After the setup has completed select start Tomcat and finish the wizard. Now you can begin with the deployment of oryx as shown in Part I.
 
