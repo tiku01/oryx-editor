@@ -96,7 +96,7 @@ pg_dump --username postgres --clean --file=YYYY-MM-DD-database-dump.sql" --forma
 {{{
 psql --username postgres --dbname poem --file migration-script.sql
 }}}
- # Deploy the two web applications _oryx.war_ and _backend.war_ using the Tomcat manager [http://hostname:port/manager/html] as described in [#PART_II:_Deploy_the_WAR_Files_to_Tomcat Part II].
+ # Deploy the two web applications _oryx.war_ and _backend.war_ using the Tomcat manager [http://hostname:port/manager/html] as described in _Part II_.
  # If needed, set the HTTP proxy configuration using the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend and restart Tomcat to make them effective. You can also do that before deployment by unzipping the backend.war, changing the _web.xml_ and zipping it again.
 
 = APPENDIX =
