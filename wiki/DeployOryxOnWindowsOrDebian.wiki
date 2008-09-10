@@ -92,11 +92,11 @@ pg_dump --username postgres --clean --file=YYYY-MM-DD-database-dump.sql" --forma
 }}}
  # Undeploy the applications 'oryx' and 'backend' using [http://hostname:port/manager/html/undeploy?path=/oryx] and [http://hostname:port/manager/html/undeploy?path=/backend]
  # If the 'backend' application is not completely undeployed, restart Tomcat and undeploy it again using: [http://hostname:port/manager/html/undeploy?path=/backend]
- # If the Oryx team release any databas migration scripts you can install them using:
+ # If the Oryx team released any database migration scripts you can install them using:
 {{{
 psql --username postgres --dbname poem --file migration-script.sql
 }}}
- # Deploy the two web applications oryx.war and backend.war using the Tomcat manager [http://hostname:port/manager/html] as described in Part II.
+ # Deploy the two web applications _oryx.war_ and _backend.war_ using the Tomcat manager [http://hostname:port/manager/html] as described in [#PART_II:_Deploy_the_WAR_Files_to_Tomcat Part II].
  # If needed, set the HTTP proxy configuration using the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend and restart Tomcat to make them effective. You can also do that before deployment by unzipping the backend.war, changing the _web.xml_ and zipping it again.
 
 = APPENDIX =
