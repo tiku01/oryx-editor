@@ -9,13 +9,13 @@ This walkthrough demonstrates how you deploy the complete Oryx web application i
 This article focus on the deployment on Windows and Debian operation systems, although it isn't limited to these systems. Before you can deploy the system you need to install an Apache Tomcat and PostgreSQL server. You can find an quick installation guide for both servers in the end of the article. 
 
 *Checklist:*
-  * SUN Java 6
-  * Apache Tomcat 5.5 (using SUN Java 6)
+  * [http://www.java.com/ J2SE 5 Java Runtime Environment] or higher
+  * [http://tomcat.apache.org/ Apache Tomcat] Version 5.5 or higher
     * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server.
-  * PostgresSQL 8.3 (with PLPython)
+  * [http://www.postgresql.org/ PostgresSQL] 8.3 or higher (with PLPython)
     * Superuser privileges for the database. 
-  * Python2.5
-  * Download the [http://www.oryx-editor.org/downloads Oryx-Server].
+  * [http://www.python.org/ Python] Version 2.5 or higher
+  * [http://www.oryx-editor.org/downloads Download the Oryx-Server].
 
 = PART I: Configure the Database =
 == STEP 1 - Create the _poem_ User ==
@@ -56,13 +56,14 @@ You can also execute all those commands remotely if the PostgreSQL Database allo
 
 
 = PART II: Deploy the WAR Files to Tomcat =
+  # Download [http://www.oryx-editor.org/downloads the latest Oryx release] and extract the web applications from the zip file.
   # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://servername:8180/manager/html_ (Debian) or _http://servername:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
   # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
   # Go on and upload the second war file _backend.war_ .
 
 If you used all the default options from the walkthrough, you won't need to make any changes to the configuration. If not then go on with PART III. The default url of the repository is _http://servername:port/backend/poem/repository_ .
 
-*Notice:* The Oryx-Editor currently needs the Firefox browser and if you want to save your models you need an OpenID. The OpenID login works without further configuration except if your server connects to the internet through an HTTP proxy. In that case, you can change the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend.
+*Notice:* The Oryx-Editor currently needs [http://getfirefox.com the Firefox browser] and if you want to save your models you need an [http://openid.net/ OpenID]. The OpenID login works without further configuration except if your server connects to the internet through an HTTP proxy. In that case, you can change the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend.
 
 = PART III: Configuration = 
 
@@ -94,7 +95,7 @@ apt-get install python2.5
 
 *Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
 
-= Appendix B: Install SUN Java 6 =
+= Appendix B: Install Java =
 == Step 01 - Download and Install Binaries ==
 *Debian:* SUN Java 6 is currently only available in the unstable version of Debian. First you have to enable non-free packages in the apt configuration file _/etc/apt/sources.list_ in order to install Java using the following command:
 
@@ -112,7 +113,7 @@ deb http://security.debian.org/ lenny/updates main
 deb-src http://security.debian.org/ lenny/updates main
 }}}
 
-*Windows:* The files for the JAVA 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java_ directory.
+*Windows:* The files for the Java 6 JRE for Windows can be directly downloaded from this [http://www.java.com/en/download/manual.jsp SUN Website]. Select either the online or offline version, download the file and start the installer. If you simply click on next, the installer will put all the java files in the _C:\Programme\Java_ directory.
 
 
 == Step 02 - Set _JAVA_HOME_ Environment Variable ==
