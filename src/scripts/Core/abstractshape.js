@@ -46,14 +46,14 @@ ORYX.Core.AbstractShape = {
 		this._stencil = stencil;
 		
 		//Hash map for all properties. Only stores the values of the properties.
-		this.properties = new Hash();
-		this.propertiesChanged = new Hash();
+		this.properties = $H();
+		this.propertiesChanged = $H();
 		
 		//Initialization of property map and initial value.
 		this._stencil.properties().each((function(property) {
 			var key = property.prefix() + "-" + property.id();
-			this.properties[key] = property.value();
-			this.propertiesChanged[key] = true;
+			this.properties.set(key, property.value());
+			this.propertiesChanged.set(key, true);
 		}).bind(this));
 	},
 
@@ -185,14 +185,14 @@ ORYX.Core.AbstractShape = {
 			var childEdges = this.getChildEdges();
 			
 			[childNodes, childEdges].each(function(ne){
-				var nodesAtPosition = new Hash();
+				var nodesAtPosition = $H();
 				
 				ne.each(function(node) {
 					var candidates = node.getAbstractShapesAtPosition( x , y );
 					if(candidates.length > 0) {
 						var nodesInZOrder = $A(node.node.parentNode.childNodes);
 						var zOrderIndex = nodesInZOrder.indexOf(node.node);
-						nodesAtPosition[zOrderIndex] = candidates;
+						nodesAtPosition.set(zOrderIndex, candidates);
 					}
 				});
 				
@@ -214,10 +214,10 @@ ORYX.Core.AbstractShape = {
 	 * @param value {Object} Can be of type String or Number according to property type.
 	 */
 	setProperty: function(key, value) {
-		var oldValue = this.properties[key];
+		var oldValue = this.properties.get(key);
 		if(oldValue !== value) {
-			this.properties[key] = value;
-			this.propertiesChanged[key] = true;
+			this.properties.set(key, value);
+			this.propertiesChanged.set(key, true);
 			this._changed();
 			
 			// Raise an event, to show that the property has changed
@@ -263,8 +263,7 @@ ORYX.Core.AbstractShape = {
 			var prefix = property.prefix();	// Get prefix
 			var name = property.id();		// Get name
 			
-			//if(typeof this.properties[prefix+'-'+name] == 'boolean' || this.properties[prefix+'-'+name] != "")
-				serializedObject.push({name: name, prefix: prefix, value: this.properties[prefix+'-'+name], type: 'literal'});
+			serializedObject.push({name: name, prefix: prefix, value: this.properties.get(prefix+'-'+name), type: 'literal'});
 
 		}).bind(this));
 		

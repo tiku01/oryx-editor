@@ -54,7 +54,7 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 		this._jsonItem = jsonItem;
 		this._namespace = namespace;
 		this._property = property;
-		this._items = new Hash();
+		this._items = $H();
 		
 		//init all values
 		if(!jsonItem.name) {
@@ -70,7 +70,7 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 		if(jsonItem.type === ORYX.CONFIG.TYPE_CHOICE) {
 			if(jsonItem.items && jsonItem.items instanceof Array) {
 				jsonItem.items.each((function(item) {
-					this._items[item.value] = new ORYX.Core.StencilSet.PropertyItem(item, namespace, this);
+					this._items.set(item.value, new ORYX.Core.StencilSet.PropertyItem(item, namespace, this));
 				}).bind(this));
 			} else {
 				throw "ORYX.Core.StencilSet.Property(construct): No property items defined."

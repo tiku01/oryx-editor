@@ -122,7 +122,7 @@ ORYX.Plugins.SyntaxChecker = Clazz.extend({
 	
 									if( sh ){
 										
-										this.raiseOverlay(sh, resp[value]);
+										this.raiseOverlay(sh, resp.get(value));
 										
 									}
 									
