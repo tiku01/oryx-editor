@@ -790,7 +790,7 @@ ResourceManager = {
 		var token = ResourceManager.__token++;
 		
 		// add new listener.
-		ResourceManager.__listeners[token] = controller;
+		ResourceManager.__listeners.set(token, controller);
 		
 		// return the token generated.
 		return token;
@@ -1056,7 +1056,7 @@ ResourceManager = {
 		var h = $H(headers)
 		h.keys().each(function(key) {
 			
-			httpRequest.setRequestHeader(key, h[key]);
+			httpRequest.setRequestHeader(key, h.get(key));
 		}); 
 		
 		try {

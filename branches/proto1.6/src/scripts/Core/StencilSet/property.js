@@ -51,8 +51,8 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
         this._namespace = namespace || ORYX.Log.error("Parameter namespace is not defined.");
         this._stencil = stencil || ORYX.Log.error("Parameter stencil is not defined.");
         
-        this._items = new Hash();
-        this._complexItems = new Hash();
+        this._items = $H();
+        this._complexItems = $H();
         
         jsonProp.id = jsonProp.id || ORYX.Log.error("ORYX.Core.StencilSet.Property(construct): Id is not defined.");
 		jsonProp.id = jsonProp.id.toLowerCase();
@@ -121,7 +121,7 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
         if (jsonProp.type === ORYX.CONFIG.TYPE_CHOICE) {
             if (jsonProp.items && jsonProp.items instanceof Array) {
                 jsonProp.items.each((function(jsonItem){
-                    this._items[jsonItem.value] = new ORYX.Core.StencilSet.PropertyItem(jsonItem, namespace, this);
+                    this._items.set(jsonItem.value, new ORYX.Core.StencilSet.PropertyItem(jsonItem, namespace, this));
                 }).bind(this));
             }
             else {
@@ -133,7 +133,7 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
             if (jsonProp.type === ORYX.CONFIG.TYPE_COMPLEX) {
                 if (jsonProp.complexItems && jsonProp.complexItems instanceof Array) {
                     jsonProp.complexItems.each((function(jsonComplexItem){
-                        this._complexItems[jsonComplexItem.id] = new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this);
+                        this._complexItems.set(jsonComplexItem.id, new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this));
                     }).bind(this));
                 }
                 else {
@@ -325,7 +325,7 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     },
     
     complexItem: function(value){
-        return this._complexItems[value];
+        return this._complexItems.get(value);
     }
     // extended by Kerstin (end)
 });

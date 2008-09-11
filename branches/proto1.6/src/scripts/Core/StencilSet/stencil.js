@@ -57,7 +57,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 		//this._propertyPackages = propertyPackages;
 		
 		this._view;
-		this._properties = new Hash();
+		this._properties = $H();
 
 		// check stencil consistency and set defaults.
 		/*with(this._jsonStencil) {
@@ -160,7 +160,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 		if(this._jsonStencil.properties && this._jsonStencil.properties instanceof Array) {
 			this._jsonStencil.properties.each((function(prop) {
 				var oProp = new ORYX.Core.StencilSet.Property(prop, this._namespace, this);
-				this._properties[oProp.prefix() + "-" + oProp.id()] = oProp;
+				this._properties.set(oProp.prefix() + "-" + oProp.id(), oProp);
 			}).bind(this));
 		}
 		
@@ -235,7 +235,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 	},
 
 	property: function(id) {
-		return this._properties[id];
+		return this._properties.get(id);
 	},
 
 	roles: function() {
@@ -257,7 +257,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 	addProperty: function(property, namespace) {
 		if(property && namespace) {
 			var oProp = new ORYX.Core.StencilSet.Property(property, namespace, this);
-			this._properties[oProp.prefix() + "-" + oProp.id()] = oProp;
+			this._properties.set(oProp.prefix() + "-" + oProp.id(), oProp);
 		}
 	},
 	
@@ -267,7 +267,7 @@ ORYX.Core.StencilSet.Stencil = Clazz.extend({
 				return (propertyId == prop.id());
 			});
 			if(oProp)
-				delete this._properties[oProp.prefix() + "-" + oProp.id()];
+				this._properties.unset(oProp.prefix() + "-" + oProp.id());
 		}
 	},
 

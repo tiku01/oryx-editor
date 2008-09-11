@@ -264,14 +264,14 @@ openDownloadWindow: function(outputFile, outputData, zip) {
 								
 								JSONobj.items.each((function(entrie){
 								
-									var fromEntrie = new Hash();
-									var toEntrie = new Hash();
+									var fromEntrie = $H();
+									var toEntrie = $H();
 									fromFields.each((function(field){
-										fromEntrie[field]=entrie[field];
+										fromEntrie.set(field, entrie[field]);
 									}).bind(this));
 									
 									toFields.each((function(field){
-										toEntrie[field]=entrie[field];
+										toEntrie.set(field, entrie[field]);
 									}).bind(this));
 									
 									
@@ -818,8 +818,8 @@ openDownloadWindow: function(outputFile, outputData, zip) {
 	},
 	
 	spec:function(xmlElem, JsonObj, propertie, type){
-			JsonObj= new Hash(JsonObj);
-			var valueType = JsonObj[type];
+			JsonObj= $H(JsonObj);
+			var valueType = JsonObj.get(type);
 			var disabledItems;
 			propertieFromSpec =propertie.complexItem(type);
 			propertie.complexItems("disable").any((function(choice){
@@ -835,7 +835,7 @@ openDownloadWindow: function(outputFile, outputData, zip) {
 			
 			propertie.complexItems().each((function(propertie){
 				var id = propertie.id();
-				var value = JsonObj[id];
+				var value = JsonObj.get(id);
 				
 				if(JsonObj.keys().member(id) ){
 					if(!disabledItems.member(id)){
@@ -858,11 +858,11 @@ openDownloadWindow: function(outputFile, outputData, zip) {
 								case "fromspecquery":
 								case "tospecquery":
 									var subElem = document.createElementNS("","query");
-									if (JsonObj["fromspecquerylanguage"] && JsonObj["fromspecquerylanguage"]!=""){
-										subElem.setAttribute("queryLanguage",JsonObj["fromspecquerylanguage"]);
+									if (JsonObj.get("fromspecquerylanguage") && JsonObj.get("fromspecquerylanguage")!=""){
+										subElem.setAttribute("queryLanguage",JsonObj.get("fromspecquerylanguage"));
 									}else
-										if (JsonObj["tospecquerylanguage"] && JsonObj["tospecquerylanguage"]!=""){
-											subElem.setAttribute("queryLanguage",JsonObj["tospecquerylanguage"]);
+										if (JsonObj.get("tospecquerylanguage") && JsonObj.get("tospecquerylanguage")!=""){
+											subElem.setAttribute("queryLanguage",JsonObj.get("tospecquerylanguage"));
 										}
 									subElem.appendChild(document.createTextNode(value))
 									xmlElem.appendChild(subElem);
