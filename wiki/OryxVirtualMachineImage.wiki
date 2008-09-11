@@ -11,6 +11,19 @@ A detailed description of how the virtual machine was set up can be found [Devel
 
 For detailed instructions on how to rebuild Oryx see the [DevelopmentEnvironmentForUbuntu#Build_and_Deploy_Oryx section Build and Deploy Oryx of the detailed setup description].
 
+== Eclipse Heap Space ==
+
+In case eclipse encounters heap size problems, you might want to adjust the respective heap size options:
+ * -Xms<size> initial Java heap size
+ * -Xmx<size> maximum Java heap size
+
+You can adjust these parameters in your local eclipse configuration file: ~/.eclipse/eclipserc
+
+This file might look similar to:
+VM_ARGS="-Djava.library.path=/usr/lib/jni -Xms256m -Xmx1024m"
+
+Make sure you start your VM with a sufficient amount of memory.
+
 = Accessing the Server from Outside =
 
 To be able to access the server from the host system or even from other machines you have to configure a port forwarding. Therefore, shut down the virtual machine and type the following commands in a command prompt. You have to change _OryxVM_ into the name of your virtual machine. If you are configuring multiple forwardings make sure to change the name _tomcat_ in the commands into something different describing your particular service.
