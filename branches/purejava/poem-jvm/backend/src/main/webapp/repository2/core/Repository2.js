@@ -122,6 +122,9 @@ Repository2 = {
 		
 		changeSelection : function(selectedIds) {
 			selArray =  $A(selectedIds); // Make sure that it's an array
+			if (selArray.length > 1) {
+				selArray = selArray.reduce(); // remove double entries
+			}
 			this._selectedModels = selArray;
 			this._selectionChangedHandler.invoke(selArray);
 		},

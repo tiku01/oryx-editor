@@ -203,15 +203,8 @@ public class OpenIDAuthenticationServlet extends HttpServlet {
            } else {
                // Option 2: HTML FORM Redirection (Allows payloads >2048 bytes)
 
-               /*RequestDispatcher dispatcher = getServletContext()
-                       .getRequestDispatcher("/formredirection.jsp");
-               httpReq.setAttribute("parameterMap", httpReq.getParameterMap());
-               httpReq.setAttribute("message", authReq);
-               
-               // httpReq.setAttribute("destinationUrl", httpResp
-               // .getDestinationUrl(false));
-               dispatcher.forward(httpReq, httpResp);*/
-        	   httpResp.getWriter().println(this.getRedirectPage(authReq, authReq.getDestinationUrl(true)));
+        	   httpResp.getWriter().println(
+        			   this.getRedirectPage(authReq, authReq.getDestinationUrl(true)));
            }
        } catch (OpenIDException e) {
            // present error to the user

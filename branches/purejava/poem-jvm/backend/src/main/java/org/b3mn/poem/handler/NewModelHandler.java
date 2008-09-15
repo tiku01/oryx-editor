@@ -23,7 +23,8 @@ public class NewModelHandler extends HandlerBase {
 			+ "<span class=\"oryx-mode\">fullscreen</span>"
 			+ "<a href=\"http://" + request.getServerName() + ':' + String.valueOf(request.getServerPort()) + "/oryx" + stencilset + "\" rel=\"oryx-stencilset\"></a>\n"
 			+ "</div>\n";
-		response.getWriter().print(this.getOryxModel("New Process Model", content));
+		response.getWriter().print(this.getOryxModel("New Process Model", content,
+				this.getLanguageCode(request), this.getCountryCode(request)));
 
 		response.setStatus(200);
 		response.setContentType("application/xhtml+xml");
@@ -32,8 +33,9 @@ public class NewModelHandler extends HandlerBase {
 	@Override
     public void doPost(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
 		// Check whether the user is public
-		if (subject.getUri().equals("public")) {
+		if (subject.getUri().equals(getPublicUser())) {
 			response.getWriter().println("The public user is not allowed to create new models. Please login first.");
+			response.setStatus(403);
 			return;
 		}
 		// Check whether the request contains at least the data and svg parameters

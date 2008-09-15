@@ -46,4 +46,10 @@
 			<classes dir="${bin-dir}" />
 		</war>
 	</target>
+	
+	<target name="transform">
+		<xslt style="data/create_template_js.xslt" basedir="data" destdir="bin" extension=".js">
+			
+		</xslt>
+	</target> 
 </project>

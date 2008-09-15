@@ -15,7 +15,9 @@ public class ModelHandler extends  HandlerBase {
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
 		Representation representation = object.read();
-		response.getWriter().println(this.getOryxModel(representation.getTitle(), representation.getContent()));
+		response.getWriter().println(this.getOryxModel(representation.getTitle(), 
+				representation.getContent(), this.getLanguageCode(request), 
+				this.getCountryCode(request)));
 		response.setStatus(200);
 	}
 	
