@@ -32,18 +32,19 @@ Repository.Plugins.DebugView.prototype = {
 		// this.viewPanel.getEl().update('');
 		var container = new Ext.Panel({id : 'debug_view_container'});
 		modelData.each(function (pair){
-			var damnButton = new Ext.Button({text : 'Click Me!'});
+			var damnButton = new Ext.Button({text : 'Select model!'});
+			
 			var dataPanel = new Ext.Panel({
-				html: '<h1>Title: ' + pair.value.title + '</h1> <br />', 
+				html: '<h1>Title: ' + pair.value.title + '</h1><img src="'+ pair.value.thumbnailUri +'" height="50" /> <br />', 
 				modelId : pair.key, 
 				facade : this.facade, // quick and dirty
 				isSelected : this.facade.getSelectedModels().indexOf(pair.key) != -1 });
+			
 			damnButton.addListener('click', function() {
 				if (this.isSelected) {					
 					this.removeClass('test_selected_item');
 					this.addClass('test_unselected_item');
-					this.facade.getSelectedModels().without(this.modelId)
-					this.facade.changeSelection(this.facade.getSelectedModels());
+					this.facade.changeSelection(this.facade.getSelectedModels().without(this.modelId));
 				} else {
 					this.removeClass('test_unselected_item');
 					this.addClass('test_selected_item');	
@@ -52,9 +53,10 @@ Repository.Plugins.DebugView.prototype = {
 				}
 				this.isSelected = !this.isSelected;
 				this.doLayout();
-			}.bind(dataPanel))
+			}.bind(dataPanel));
+			
 			dataPanel.add(damnButton);
-			container.add(dataPanel); // <img src="'+ pair.value.thumbnailUri +'"/><br />'});
+			container.add(dataPanel); // v<br />'});
 		}.bind(this));
 		this.viewPanel.add(container);
 		this.viewPanel.doLayout(); // Force rendering to show the panel

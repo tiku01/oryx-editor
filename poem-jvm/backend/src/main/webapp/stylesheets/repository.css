@@ -223,3 +223,15 @@ body, td, input, textarea {
 	background-image: url(/backend/images/silk/delete.png) !important;
 }
 
+/* Some test stuff for the new repository
+*/
+
+.test_selected_item {
+	border-color:#FF0000;
+	border-width: 10px;	
+}
+
+.test_unselected_item {
+	border-color:#000000;
+	border-width: 10px;	
+}

@@ -163,6 +163,15 @@ public abstract class HandlerBase {
     	return (String) req.getSession().getAttribute("countrycode");
     }
     
+    // Removes spaces in the beginning and in the end of the string
+    protected String removeSpaces(String str) {
+    	int start = 0;
+    	int end= str.length() - 1;
+    	for (; str.charAt(start) == ' '; start++); // Count spaces in the beginning
+    	for (; str.charAt(end) == ' '; end--); // Count spaces in the end
+    	return str.substring(start, end+1);
+    }
+    
     protected String getOryxModel(String title, String content, 
     		String languageCode, String countryCode) {
     	
