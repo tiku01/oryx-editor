@@ -28,6 +28,7 @@ import javax.persistence.*;
 import org.hibernate.Session;
 
 @Entity
+@Table(name="tag_definition")
 public class TagDefinition {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -40,8 +40,8 @@ public class Model extends BusinessObject {
 	
 	protected TagDefinition getTagDefintion(User user, String name) {
 		TagDefinition tagDefinition = (TagDefinition) Persistance.getSession()
-		.createSQLQuery("SELECT {tag.*} FROM {tag} WHERE subject_id:subject_id AND name=:name")
-		.addEntity("tag", TagDefinition.class)
+		.createSQLQuery("SELECT {tag_definition.*} FROM {tag_definition} WHERE subject_id=:subject_id AND name=:name")
+		.addEntity("tag_definition", TagDefinition.class)
 		.setInteger("subject_id", user.getId())
 		.setString("name", name)
 		.uniqueResult();
@@ -52,8 +52,8 @@ public class Model extends BusinessObject {
 	
 	protected TagRelation getTagRelation(User user, String name) {
 		TagRelation tagRelation = (TagRelation) Persistance.getSession()
-		.createSQLQuery("SELECT {tag.*} FROM {tag} WHERE tag_definition.subject_id:subject_id AND tag_definition.name=:name AND tag_definition.id=tag.tag_id AND tag.object_id=:object_id")
-		.addEntity("tag", TagRelation.class)
+		.createSQLQuery("SELECT {tag_relation.*} FROM {tag_relation}, tag_definition WHERE tag_definition.subject_id=:subject_id AND tag_definition.name=:name AND tag_definition.id=tag_relation.tag_id AND tag_relation.object_id=:object_id")
+		.addEntity("tag_relation", TagRelation.class)
 		.setInteger("subject_id", user.getId())
 		.setInteger("object_id", this.getId())
 		.setString("name", name)
@@ -138,22 +138,24 @@ public class Model extends BusinessObject {
 		representation.setSvg(svg);
 	}
 	
-	public Collection<String> getTags() {
+	public Collection<String> getPublicTags(User user) {
 		Collection<?> tags = Persistance.getSession().
 			createSQLQuery("SELECT DISTINCT ON(tag_definition.name) tag_definition.name " 
 			+ "FROM tag_definition, tag_relation " 
 			+ "WHERE tag_definition.id=tag_relation.tag_id AND "
-			+ "tag_relation.object_id=:object_id")
+			+ "tag_relation.object_id=:object_id AND "
+			+ "NOT tag_definition.subject_id=:subject_id")
 			.setInteger("object_id", this.identity.getId())
+			.setInteger("subject_id", user.getId())
 			.list();
 		
 		Persistance.commit();
 		return toStringCollection(tags);
 	}
 	
-	public Collection<String> getTags(User user) {
+	public Collection<String> getUserTags(User user) {
 		Collection<?> tags = Persistance.getSession().
-			createSQLQuery("SELECT DISTINCT ON(tag_definition.name) tag_definition.name" 
+			createSQLQuery("SELECT DISTINCT ON(tag_definition.name) tag_definition.name " 
 			+ "FROM tag_definition, tag_relation " 
 			+ "WHERE tag_definition.id=tag_relation.tag_id AND "
 			+ "tag_relation.object_id=:object_id AND "
@@ -168,7 +170,8 @@ public class Model extends BusinessObject {
 	
 	public void addTag(User user, String tag) {
 		// TODO check access right of the user
-		if (!this.getTags(user).contains(tag)) {
+		// If the user hasn't already tagged the model with this tag
+		if (!this.getUserTags(user).contains(tag)) {
 			
 			TagDefinition tagDefinition = this.getTagDefintion(user, tag);
 			Session session = Persistance.getSession();
@@ -190,9 +193,11 @@ public class Model extends BusinessObject {
 	}
 	
 	public void removeTag(User user, String tag) {
-		TagRelation tagRel = this.getTagRelation(user, tag);
-		if (tag != null) {
+		TagRelation tagRel = this.getTagRelation(user, tag);	
+		if (tagRel != null) {
 			Persistance.getSession().delete(tagRel);
+			Persistance.commit();
+			// TODO: remove tag_defintion if no other models are tagged with this tag anymore
 		}
 	}
 	
