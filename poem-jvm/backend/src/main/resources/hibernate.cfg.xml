@@ -9,7 +9,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost/poem</property>
+        <property name="connection.url">jdbc:postgresql://10.211.55.5/poem</property>
         <property name="connection.username">poem</property>
         <property name="connection.password"></property>
 
@@ -26,13 +26,17 @@
         <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
 
         <!-- Echo all executed SQL to stdout OFF -->
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
 
         <mapping class="org.b3mn.poem.Identity"/>
         <mapping class="org.b3mn.poem.Representation"/>
         <mapping class="org.b3mn.poem.Plugin"/>
 		<mapping class="org.b3mn.poem.Interaction"/>
 		<mapping class="org.b3mn.poem.Structure"/>
+		<mapping class="org.b3mn.poem.Subject"/>
+		<mapping class="org.b3mn.poem.Setting"/>	
+		<mapping class="org.b3mn.poem.TagDefinition"/>
+		<mapping class="org.b3mn.poem.TagRelation"/>	
 		<mapping resource="Access.hbm.xml"/>		
     </session-factory>
 

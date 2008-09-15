@@ -13,7 +13,7 @@ public class RepositoryHandler extends  HandlerBase {
 	// Return the HTML code for the repository
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
-		String[] java_script_includes = {"log", "application", "repository", "model_properties"};
+		String[] java_script_includes = {"log", "application", "connector", "repository", "model_properties"};
 		String[] stylesheet_links = {"openid", "repository", "model_properties"};
 
 		String backend_path = "/backend";

@@ -1,6 +1,6 @@
 /***************************************
  * Copyright (c) 2008
- * Ole Eckermann
+ * Bjoern Wagner, Ole Eckermann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -24,7 +24,9 @@
 package org.b3mn.poem;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,12 +37,44 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 
 import org.b3mn.poem.handler.HandlerBase;
+import org.b3mn.poem.manager.UserManager;
 
 
 public class PoEMServlet extends HttpServlet {
 	private static final long serialVersionUID = -9128262564769832181L;
 	
+	protected Map<String, HandlerBase> loadedHandlers = new Hashtable<String, HandlerBase>();
+	
 	public PoEMServlet() {
+	}
+	
+	protected String getErrorPage(String stacktrace) {
+		String page = "<html><head><title>ORYX: Error</title><body><h1>We're sorry, but an server error occurred.</h1>" + stacktrace +"</body></head></html>";
+		return page;
+	}
+	
+	// Returns the actual instance of the requested handler
+	// TODO: insert better exception handling
+	protected HandlerBase getHandlerInstance(String className) {
+		if (className != null) {
+			// Has the handler already been loaded?
+			if (this.loadedHandlers.get(className) != null) {
+				return this.loadedHandlers.get(className);
+			} else {
+				try {
+					// Create new handler instance with Java reflection
+					Class handlerClass = Class.forName(className);
+					// TODO: Check if handlerClass is derived from HandlerBase and use 
+					// java.lang.reflect.Constructor.newInstance() to create the instance
+					HandlerBase handler = (HandlerBase) handlerClass.newInstance();
+					handler.init(); // Initialize the handler
+					this.loadedHandlers.put(className, handler);
+					return handler;
+				} catch(Exception e) {
+					return null;
+				}
+			}
+		} else return null;
 	}
 	
 	// Returns the identity of the model that is referenced in the request URL or null if 
@@ -82,47 +116,43 @@ public class PoEMServlet extends HttpServlet {
 				.setString("rel", name)
 				.uniqueResult();
 				Persistance.commit();
-				// If handler exists 
-				if (className != null ) {
-					try {
-						// Create new handler instance with Java reflection
-						Class handlerClass = Class.forName(className);
-						// TODO: Check if handlerClass is derived from HandlerBase and use 
-						// java.lang.reflect.Constructor.newInstance() to create the instance
-						return (HandlerBase) handlerClass.newInstance();
-					} catch(Exception e) {
-						return null;
-					}
-				}
-				else {
-					return null; // TODO: May implement an handler exception 
-				}
+				return this.getHandlerInstance(className);
 			}
 		} catch (Exception e) { return null; }	
 	}
 
+	// The dispatching magic goes here. Each exception is caught and the tomcat stackstrace page 
+	// is replaced by a custom oryx error page.
 	protected void dispatch(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
-		String openId =  (String) request.getSession().getAttribute("openid"); 
-		// If the user isn't logged in, set the OpenID to public
-		if (openId == null) {
-			openId = "public";
-		}
-		Identity subject = Identity.ensureSubject(openId);
-		Identity object = this.getObjectIdentity(request.getPathInfo());
-		HandlerBase handler = this.getHandler(request.getPathInfo()); 
-		handler.setServletContext(this.getServletContext()); // Initialize handler with ServletContext
-		if (request.getMethod().equals("GET")) {
-			handler.doGet(request, response, subject, object);
-		}
-		if (request.getMethod().equals("POST")) {
-			handler.doPost(request, response, subject, object);
-		}
-		if (request.getMethod().equals("PUT")) {
-			handler.doPut(request, response, subject, object);
-		}
-		if (request.getMethod().equals("DELETE")) {
-			handler.doDelete(request, response, subject, object);
+		try {
+			String openId =  (String) request.getSession().getAttribute("openid"); 
+			// If the user isn't logged in, set the OpenID to public
+			if (openId == null) {
+				openId = HandlerBase.getPublicUser();
+				request.getSession().setAttribute("openid", openId);
+				UserManager.getInstance().login(openId, request, response); // Login public user to handle language selection
+			}
+			Identity subject = Identity.ensureSubject(openId);
+			Identity object = this.getObjectIdentity(request.getPathInfo());
+			HandlerBase handler = this.getHandler(request.getPathInfo()); 
+			handler.setServletContext(this.getServletContext()); // Initialize handler with ServletContext
+			if (request.getMethod().equals("GET")) {
+				handler.doGet(request, response, subject, object);
+			}
+			if (request.getMethod().equals("POST")) {
+				handler.doPost(request, response, subject, object);
+			}
+			if (request.getMethod().equals("PUT")) {
+				handler.doPut(request, response, subject, object);
+			}
+			if (request.getMethod().equals("DELETE")) {
+				handler.doDelete(request, response, subject, object);
+			}
+		} catch (Exception e) {
+			//response.reset(); // Undo all changes --> this may cause some trouble because of a SUN bug
+			// response.getWriter().print(this.getErrorPage(e.getStackTrace().toString()));
+			throw new ServletException(e);
 		}
 	}
 	@Override

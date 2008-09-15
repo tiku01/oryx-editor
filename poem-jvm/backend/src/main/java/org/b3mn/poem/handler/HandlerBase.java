@@ -1,8 +1,10 @@
 package org.b3mn.poem.handler;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +14,18 @@ import org.b3mn.poem.Access;
 import org.b3mn.poem.Identity;
 import org.b3mn.poem.Plugin;
 import org.b3mn.poem.Representation;
+import org.b3mn.poem.Subject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class HandlerBase {
+public abstract class HandlerBase {
 	private  ServletContext context;
+	private static String publicUser = "public";
+	
+	public static String getPublicUser() {
+		return publicUser;
+	}
 	
 	public ServletContext getServletContext() {
 		return this.context;
@@ -26,6 +34,7 @@ public class HandlerBase {
 	public void setServletContext(ServletContext context) {
 		this.context = context;
 	}
+	
 	
 	// Returns a JSONObject that contain all keys given in the String array and their values
 	protected JSONObject toJSON(Object o, String[] keys) {
@@ -102,30 +111,75 @@ public class HandlerBase {
 		return "http://" + req.getServerName() + ":" + String.valueOf(req.getServerPort()) + "/backend" + req.getServletPath();
 	}
 	
-    public void doGet(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws IOException {
+	// This method is called by the dispatcher before the first request is passed 
+	public void init() {};
+	
+	// This method is called before the handler is unloaded
+	public void destroy() {};
+	
+    public void doGet(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws Exception {
   		res.setStatus(403);
 	   	PrintWriter out = res.getWriter();
 	   	out.write("Forbidden!");
 	}
 	
-    public void doPost(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws Exception {
   		res.setStatus(403);
 	   	PrintWriter out = res.getWriter();
 	   	out.write("Forbidden!");
 	}
-    public void doPut(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws IOException {
+    public void doPut(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws Exception {
   		res.setStatus(403);
 	   	PrintWriter out = res.getWriter();
 	   	out.write("Forbidden!");
 	}
-    public void doDelete(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws IOException {
+    public void doDelete(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws Exception {
   		res.setStatus(403);
 	   	PrintWriter out = res.getWriter();
 	   	out.write("Forbidden!");
 	}
     
-    protected String getOryxModel(String title, String content) {
+    // Checks whether the given file exists
+    protected boolean fileExists(String path) {
+    	String realPath = this.getServletContext().getRealPath(path);
+    	File file = new File(realPath);
+    	return file.exists();
+    }
+    
+    // Returns the absolute path to the root directory of the oryx webapp
+    protected String getOryxRootDirectory() {
+    	String realPath = this.getServletContext().getRealPath("");
+    	realPath = realPath.substring(0, realPath.indexOf("/backend"));
+    	return realPath + "/oryx";
+    	
+    }
+    // Convenience method to get the language data from the session
+    protected String getLanguageCode(HttpServletRequest req) {
+    	return (String) req.getSession().getAttribute("languagecode");
+    }
+    
+    // Convenience method to get the language data from the session
+    protected String getCountryCode(HttpServletRequest req) {
+    	return (String) req.getSession().getAttribute("countrycode");
+    }
+    
+    protected String getOryxModel(String title, String content, 
+    		String languageCode, String countryCode) {
+    	
     	String oryx_path = "/oryx/";
+    	String languageFiles = "";
+    	
+    	if (new File(this.getOryxRootDirectory() + "/i18n/translation_"+languageCode+".js").exists()) {
+    		languageFiles += "<script src=\"" + oryx_path 
+    		+ "i18n/translation_"+languageCode+".js\" type=\"text/javascript\" />\n";
+    	}
+    	
+    	if (new File(this.getOryxRootDirectory() + "/i18n/translation_" + languageCode+"_" + countryCode + ".js").exists()) {
+    		languageFiles += "<script src=\"" + oryx_path 
+    		+ "i18n/translation_" + languageCode+"_" + countryCode 
+    		+ ".js\" type=\"text/javascript\" />\n";
+    	}
+    	
       	return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
       	  	+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
       	  	+ "xmlns:b3mn=\"http://b3mn.org/2007/b3mn\"\n"
@@ -151,6 +205,10 @@ public class HandlerBase {
       	  	+ "<script src=\"" + oryx_path + "shared/datamanager.js\" type=\"text/javascript\" />\n"
       	  	+ "<!-- oryx editor -->\n"
       	  	+ "<script src=\"" + oryx_path + "oryx.js\" type=\"text/javascript\" />\n"
+      	  	// EN_US is default an base language
+      	  	+ "<!-- language files -->\n"
+      	  	+ "<script src=\"" + oryx_path + "i18n/translation_en_us.js\" type=\"text/javascript\" />\n"      	  	
+      	  	+ languageFiles
       	  	+ "<link rel=\"Stylesheet\" media=\"screen\" href=\"" + oryx_path + "css/theme_norm.css\" type=\"text/css\" />\n"
 
       	  	+ "<!-- erdf schemas -->\n"
