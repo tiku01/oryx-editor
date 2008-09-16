@@ -4,6 +4,8 @@
 	<property name="lib-dir" value="lib" />
 	<property name="target-dir" value="backend/target" />
 	<property name="hibernate-config-dir" value="backend/src/main/resources" />
+	<property name="repo2-dir" value="backend/src/main/webapp/repository2" />
+	<property name="tomcat-dir" value="/Users/sven.wagner-boysen/dev/apache-tomcat-5.5.26/webapps" />
 	
 	<path id="libs"> 
 		<fileset dir="lib">
@@ -51,5 +53,15 @@
 		<xslt style="data/create_template_js.xslt" basedir="data" destdir="bin" extension=".js">
 			
 		</xslt>
-	</target> 
+	</target>
+	
+	<target name="deploy-backend">
+		<copy file="${target-dir}/backend.war" todir="${tomcat-dir}" />
+	</target>
+	
+	<target name="deploy-repo-js-only">
+		<copy todir="${tomcat-dir}/backend/repository2" >
+			<fileset dir="${repo2-dir}"/>
+		</copy>
+	</target>	 
 </project>
