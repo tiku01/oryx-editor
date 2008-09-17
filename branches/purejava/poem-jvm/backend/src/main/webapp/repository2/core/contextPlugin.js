@@ -21,26 +21,38 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-/**
- * SuperClass for all Plugins.
- * @param {Object} facade
- */
+Ext.namespace("Repository.Core");
 
-Ext.namespace("Repository.Core")
-
-Repository.Core.Plugin = {
+Repository.Core.ContextPlugin = {
 	/**
 	 * 
 	 */
 	construct: function(facade) {
+		// call Plugin constructor
 		arguments.callee.$.construct.apply(this, arguments);
-		this.facade = facade;
-		this.name = "Plugin";
-		this.dataUris = [];
-		this.toolbarButtons = [];
+		
+		this.panel = this.facade.registerPluginOnPanel(this.name, 'right');
+		
+		// register on events SectionChanged and ModelUpdate
+		this.facade.registerOnSelectionChanged(this.selectionChanged.bind(this));
+		this.facade.modelCache.getUpdateHandler().registerCallback(this.modelUpdate.bind(this));
+		
 	},
-
+	selectionChanged : function(modelIds) {
+		if (modelIds.length != 0) {
+			this.facade.modelCache.getDataAsync(this.dataUris, modelIds, this.render.bind(this));
+		} else {
+			this.render(null); // Just clear the panel
+		}
+	},
+	
+	modelUpdate : function(modelId) {
+		if (this.facade.getSelectedModels().indexOf(modelId) != -1) {
+			var a = new Array();
+			a.push(modelId);
+			this.facade.modelCache.getDataAsync(this.dataUris, a, this.render.bind(this));
+		}
+	}
 };
 
-
-Repository.Core.Plugin = Clazz.extend(Repository.Core.Plugin);
+Repository.Core.ContextPlugin = Repository.Core.Plugin.extend(Repository.Core.ContextPlugin);
