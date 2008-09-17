@@ -21,26 +21,18 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-/**
- * SuperClass for all Plugins.
- * @param {Object} facade
- */
+Ext.namespace("Repository.Core");
 
-Ext.namespace("Repository.Core")
-
-Repository.Core.Plugin = {
+Repository.Core.ContextFreePlugin = {
 	/**
 	 * 
 	 */
 	construct: function(facade) {
 		arguments.callee.$.construct.apply(this, arguments);
-		this.facade = facade;
-		this.name = "Plugin";
-		this.dataUris = [];
-		this.toolbarButtons = [];
+		
+		// register ContextFree-Plugins on panel on left-side
+		this.panel = this.facade.registerPluginOnPanel(this.name, 'left');
 	},
-
 };
 
-
-Repository.Core.Plugin = Clazz.extend(Repository.Core.Plugin);
+Repository.Core.ContextFreePlugin = Repository.Core.Plugin.extend(Repository.Core.ContextFreePlugin);
