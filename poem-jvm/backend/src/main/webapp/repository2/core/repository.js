@@ -1,7 +1,32 @@
-Ext.namespace('Repository');
+/**
+ * Copyright (c) 2008
+ * Bjšrn Wagner, Sven Wagner-Boysen
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ **/
+
+// init repository namespace
+
+if(!Repository) var Repository = {};
 
 
-Repository2 = {
+Repository.Core = {
 		construct : function(modelUris, currentUser) {
 			this._currentUser = currentUser;
 			this._publicUser = 'public';
@@ -23,8 +48,8 @@ Repository2 = {
 			this._controls = new Object();
 			
 			this._plugins = [];
-			this._views = new Array();
-			this._currentView = -1;
+			this._views = new Hash();
+			this._currentView = "";
 			
 			this.bootstrapUI();
 			this.loadPlugins();
@@ -116,8 +141,11 @@ Repository2 = {
 		},
 		
 		switchView : function(name) {
+			this._views.get(this._currentView).disable();
+			
+			this._views.get(name).enable();
+			this._views.get(name).preRender(this.getDisplayedModels());
 			this._currentView = name;
-			this._viewChangedHandler.invoke(name);
 		},
 		
 		changeSelection : function(selectedIds) {
@@ -202,6 +230,7 @@ Repository2 = {
 		
 		registerPluginOnView : function(config) {
 			// TODO: check if all values are passed and check whether the plugin already exists
+			
 			this._views.push(config.name); 
 			if (this._currentView == -1)
 				this._currentView = 0;
@@ -215,6 +244,7 @@ Repository2 = {
 		},
 		
 		loadPlugins : function() {
+			// Todo...instanceOf and register on correct panel
 			this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.NewModelControls(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
@@ -294,4 +324,6 @@ Repository2 = {
 					       ]
 			});
 		}
-}
+};
+
+Repository.Core = Clazz.extend(Repository.Core);

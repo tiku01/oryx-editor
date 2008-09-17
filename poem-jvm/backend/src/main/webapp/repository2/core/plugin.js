@@ -26,7 +26,9 @@
  * @param {Object} facade
  */
 
-Ext.namespace("Repository.Core")
+// define namespace
+
+if(!Repository.Core) Repository.Core = {};
 
 Repository.Core.Plugin = {
 	/**
@@ -38,6 +40,12 @@ Repository.Core.Plugin = {
 		this.name = "Plugin";
 		this.dataUris = [];
 		this.toolbarButtons = [];
+	},
+	preRender: function(modelIds) {
+		this.facade.getDataAsync(this.dataUris, modelIds, this.render.bind(this))
+	},
+	render: function(modelData) {
+		
 	},
 
 };
