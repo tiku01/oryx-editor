@@ -21,7 +21,9 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-Ext.namespace("Repository.Core");
+// define namespace
+
+if(!Repository.Core) Repository.Core = {};
 
 Repository.Core.ContextFreePlugin = {
 	/**

@@ -1,6 +1,6 @@
-/***************************************
+/**
  * Copyright (c) 2008
- * Bjoern Wagner
+ * Bjšrn Wagner, Sven Wagner-Boysen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -19,43 +19,31 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
-****************************************/
+ **/
 
-Ext.namespace('Repository.Core');
+/**
+ * SuperClass for all Plugins.
+ * @param {Object} facade
+ */
 
-Repository.Core.ViewPlugin = {
-		construct : function(facade) {
-			arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
-			this.name = 'View Plugin'
-			this.enabled = false;
-			this.panel = this.facade.registerPluginOnView({name : this.name});
-			this.facade.registerOnFilterChanged(this.filterChanged.bind(this));
-		},
+// define plugin namespace
+
+if(!Repository.Plugins) Repository.Core = {};
+
+Repository.Plugins.TableView = {
+	construct: function(facade) {
+		arguments.callee.$.construct.apply(this, arguments);
 		
-		enable : function() {
-			this.enabled = true;
-			this.panel.setVisible(true);
-		},
-		
-		disable : function() {
-			this.enabled = false;
-			this.panel.setVisible(false);
-		},
-		
-		filterChanged : function(modelIds) {
-			this.preRender(modelIds);
-		},
-		
-		updateModels : function(modelIds) {
-			modelIds.each(function(modelId) {
-				if (this.facade.getDisplayedModels().indexOf(modelId) != -1) {
-					this.preRender(this.facade.getDisplayedModels());
-				}
-			}.bind(this));
-		}
-		
-		
+		// define menu meta data
+		this.toolbarButtons.push({
+			text : 'BPMN', 
+			menu : 'View',
+			icon : '/backend/images/silk/lightbulb.png', 
+			handler : function(event, options) {alert("YEAH!")}
+		});
+	},
+	
+	
 };
 
-
-Repository.Core.ViewPlugin = Repository.Core.Plugin.extend(Repository.Core.ViewPlugin);
+Repository.Plugins.TableView = Repository.Core.ViewPlugin.extend(Repository.Plugins.TableView);
