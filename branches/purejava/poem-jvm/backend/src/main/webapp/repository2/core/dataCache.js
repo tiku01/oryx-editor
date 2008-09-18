@@ -25,7 +25,8 @@
 
 if(!Repository.Core) Repository.Core = {};
 
-function DataCache(models) {
+Repository.Core.DataCache = function DataCache(models) {
+
 	
 	// Stores the id of all models available to the user as key and their uri as value
 	this._models = new Hash(models); 

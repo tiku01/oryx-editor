@@ -26,9 +26,8 @@ Ext.namespace('Repository.Core');
 Repository.Core.ViewPlugin = {
 		construct : function(facade) {
 			arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
-			this.name = 'View Plugin'
 			this.enabled = false;
-			this.panel = this.facade.registerPluginOnView({name : this.name});
+	
 			this.facade.registerOnFilterChanged(this.filterChanged.bind(this));
 		},
 		
