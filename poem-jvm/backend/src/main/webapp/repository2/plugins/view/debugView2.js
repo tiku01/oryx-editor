@@ -27,9 +27,9 @@ if(!Repository.Plugin) var RepositoryPlugin = {};
 
 Repository.Plugins.DebugView = {
 	consturct: function(fascade) {
-		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
-		
 		this.name = "DebugView";
+		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
+				
 		
 		// define menu meta data
 		this.toolbarButtons.push({

@@ -37,9 +37,9 @@ Repository.Core.Plugin = {
 	construct: function(facade) {
 		arguments.callee.$.construct.apply(this, arguments);
 		this.facade = facade;
-		this.name = "Plugin";
 		this.dataUris = [];
 		this.toolbarButtons = [];
+		this.panel = this.facade.registerPlugin(this);
 	},
 	preRender: function(modelIds) {
 		this.facade.getDataAsync(this.dataUris, modelIds, this.render.bind(this))

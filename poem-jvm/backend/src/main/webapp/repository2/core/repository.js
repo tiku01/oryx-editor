@@ -30,7 +30,7 @@ Repository.Core = {
 		construct : function(modelUris, currentUser) {
 			this._currentUser = currentUser;
 			this._publicUser = 'public';
-			this._modelCache = new DataCache(modelUris);
+			this._modelCache = new Repository.Core.DataCache(modelUris);
 			// Event handler
 			this._viewChangedHandler = new EventHandler();
 			this._selectionChangedHandler = new EventHandler();
@@ -78,6 +78,7 @@ Repository.Core = {
 						createNewModel : this.createNewModel.bind(this),
 						openModelInEditor : this.openModelInEditor.bind(this),
 						
+						registerPlugin: this._registerPlugin.bind(this),
 						registerPluginOnPanel : this.registerPluginOnPanel.bind(this),
 						registerPluginOnToolbar : this.registerPluginOnToolbar.bind(this),
 						registerPluginOnView : this.registerPluginOnView.bind(this)
@@ -169,7 +170,33 @@ Repository.Core = {
 		
 		},
 		
-		registerPluginOnPanel : function(pluginName, panelName) {
+		/**
+		 * register plugin on panel for this plugin type and returns a panel, where the plugin can render itselfs. 
+		 * @param {Object} plugin
+		 */
+		_registerPlugin: function(plugin) {
+			var pluginPanel = null;
+			switch(plugin) {
+				case plugin instanceof Repository.Core.ContextPlugin: 
+					pluginPanel = this._registerPluginOnPanel(plugin.name, "right");
+					break;
+					
+				case plugin instanceof Repository.Core.ContextFreePlugin:
+					pluginPanel = this._registerPluginOnPanel(plugin.name, "left");
+					break;
+					
+				case plugin instanceof Repository.Core.ViewPlugin:
+					pluginPanel = this._registerPluginOnView(plugin.name, "left");
+					break;
+				
+				default: 
+					break;
+			};
+			
+			return pluginPanel;
+		},
+		
+		_registerPluginOnPanel : function(pluginName, panelName) {
 			panel = this._controls[panelName + 'Panel'];
 			if (!panel) return null; // Panel doesn't exist
 			var pluginPanel = new Ext.Panel({
@@ -184,7 +211,7 @@ Repository.Core = {
 			return pluginPanel;
 		},
 		
-		registerPluginOnToolbar : function(plugin) {
+		_registerPluginOnToolbar : function(plugin) {
 			if (plugin) {
 				if ((plugin.text != "undefined") && (typeof(plugin.handler) == "function")) {
 					var menu = null;
@@ -228,13 +255,13 @@ Repository.Core = {
 			}
 		},
 		
-		registerPluginOnView : function(config) {
+		_registerPluginOnView : function(config) {
 			// TODO: check if all values are passed and check whether the plugin already exists
 			
 			this._views.push(config.name); 
 			if (this._currentView == -1)
 				this._currentView = 0;
-			this.registerPluginOnToolbar({
+			this._registerPluginOnToolbar({
 				text : config.name, 
 				icon : config.icon, 
 				menu : 'Views', 
@@ -244,12 +271,14 @@ Repository.Core = {
 		},
 		
 		loadPlugins : function() {
-			// Todo...instanceOf and register on correct panel
-			this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
+			
+			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
+			this.switchView('Debug View');
+			/**this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.NewModelControls(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.ModelTagInfo(this.getFacade()));
-			this.switchView('Debug View');
+			this.switchView('Debug View');**/
 		},
 		
 		
