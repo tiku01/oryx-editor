@@ -21,17 +21,38 @@
  * DEALINGS IN THE SOFTWARE.
 ****************************************/
 
-Ext.namespace('Repository.Core');
+if(!Repository.Core) Repository.Core = {};
 
 Repository.Core.ViewPlugin = {
 		construct : function(facade) {
 			arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
 			this.enabled = false;
+			this.lastDisplayedModel = -1; // index of last displayed model in filteredModels array
+			this.numOfDisplayedModels = 10; //number of models to display in view
+			if(!this.icon) this.icon = "/backend/images/silk/lightbulb.png";
 	
 			this.facade.registerOnFilterChanged(this.filterChanged.bind(this));
 		},
 		
+		getNextDisplayedModels : function() {
+			var newLast = this.lastDisplayedModel + this.numOfDisplayedModels;
+			var filteredModels = this.facade.getFilteredModels();
+			newLast = (newLast <= filteredModels.length) ? newLast : filteredModels.length;
+			
+			var newDisplayedModels = [];
+			
+			for(var i = this.lastDisplayed+1; i < newLast; i++ )
+				newDisplayedModels.push(filteredModels[i]);
+				
+			this.lastDisplayed = newLast;
+			this.facade.setDisplayedModels(newDisplayedModels);
+		},
+		
 		enable : function() {
+			// determine models to display
+			this.lastDisplayed = -1;
+			this.getNextDisplayedModels();
+			// make it visible
 			this.enabled = true;
 			this.panel.setVisible(true);
 		},

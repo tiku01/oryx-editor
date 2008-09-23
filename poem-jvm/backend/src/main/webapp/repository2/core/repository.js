@@ -24,22 +24,33 @@
 // init repository namespace
 
 if(!Repository) var Repository = {};
+if(!Repository.Core) Repository.Core = {};
 
 
-Repository.Core = {
+
+
+Repository.Core.Repository = {
 		construct : function(modelUris, currentUser) {
+			arguments.callee.$.construct.apply(this, arguments); // call super class constructor
 			this._currentUser = currentUser;
 			this._publicUser = 'public';
 			this._modelCache = new Repository.Core.DataCache(modelUris);
+			this._oryxUrl = '/oryx';
+			this._stencilsetUrl = '/stencilsets';
+			this._modelTypes = null;
+			
 			// Event handler
 			this._viewChangedHandler = new EventHandler();
 			this._selectionChangedHandler = new EventHandler();
 			this._filterChangedHandler = new EventHandler();
+			
 			// Plugin facade
 			this._facade = null;
+			
 			// Model arrays
 			this._filteredModels = this._modelCache.getIds();
 			this._selectedModels = new Array();
+			this._displayedModels = new Array();
 			
 			this._filters = new Hash();
 			this._sort = new Array();
@@ -51,10 +62,39 @@ Repository.Core = {
 			this._views = new Hash();
 			this._currentView = "";
 			
-			this.bootstrapUI();
-			this.loadPlugins();
+			this._bootstrapUI();
+			this._loadModelTypes();
+			this._loadPlugins();
+			
 		},
 
+		_loadModelTypes : function() {
+			new Ajax.Request("/oryx/stencilsets/stencilsets.json", 
+			 {
+				method: "get",
+				asynchronous : false,
+				onSuccess: this._fetchModelTypes.bind(this),
+				onFailure: function() {alert("Fehler modelTypes")}
+			});
+		},
+		
+		/**
+		 * receives response from server in "transport" and build up the Urls for icons and stencilsets
+		 * @param {Object} transport
+		 */
+		_fetchModelTypes : function(transport) {
+			this._modelTypes = transport.responseText.evalJSON();
+			this._modelTypes.each(function(type) {
+				type.iconUrl = this._oryxUrl + this._stencilsetUrl + type.icon_url;
+				type.url = this._stencilsetUrl + type.uri
+			}.bind(this));
+			console.log(this._modelTypes);
+		},
+		
+		getModelTypes : function() {
+			return this._modelTypes;
+		},
+		
 		getFacade : function() {
 			if (!this._facade) {
 				this._facade = {
@@ -64,6 +104,7 @@ Repository.Core = {
 						registerOnFilterChanged : this._filterChangedHandler.registerCallback.bind(this._filterChangedHandler),
 						
 						modelCache : this._modelCache,
+						getModelTypes : this.getModelTypes.bind(this),
 						
 						applyFilter : this.applyFilter.bind(this),
 						removeFilter : this.removeFilter.bind(this),
@@ -75,13 +116,14 @@ Repository.Core = {
 						changeSelection : this.changeSelection.bind(this),
 						getSelectedModels : this.getSelectedModels.bind(this),
 						
+						getDisplayedModels: this.getDisplayedModels.bind(this),						
+						setDisplayedModels: this.setDisplayedModels.bind(this),
+						
+						
 						createNewModel : this.createNewModel.bind(this),
 						openModelInEditor : this.openModelInEditor.bind(this),
 						
-						registerPlugin: this._registerPlugin.bind(this),
-						registerPluginOnPanel : this.registerPluginOnPanel.bind(this),
-						registerPluginOnToolbar : this.registerPluginOnToolbar.bind(this),
-						registerPluginOnView : this.registerPluginOnView.bind(this)
+						registerPlugin: this.registerPlugin.bind(this)
 				};
 			}
 			return this._facade;
@@ -141,12 +183,13 @@ Repository.Core = {
 			return this._views;
 		},
 		
-		switchView : function(name) {
-			this._views.get(this._currentView).disable();
+		switchView : function(view) {
+			if(this._currentView instanceof Repository.Core.ViewPlugin)
+				this._currentView.disable();
 			
-			this._views.get(name).enable();
-			this._views.get(name).preRender(this.getDisplayedModels());
-			this._currentView = name;
+			view.enable();
+			view.preRender(this.getDisplayedModels());
+			this._currentView = view;
 		},
 		
 		changeSelection : function(selectedIds) {
@@ -162,8 +205,21 @@ Repository.Core = {
 			return this._selectedModels;
 		},
 		
-		createNewModel : function(stencilset) {
-			
+		getDisplayedModels : function() {
+			return this._displayedModels;
+		},
+		
+		setDisplayedModels : function(modelIds) {
+			displArray =  $A(modelIds); // Make sure that it's an array
+			if (displArray.length > 1) {
+				displArray = displArray.reduce(); // remove double entries
+			}
+			this._displayedModels = displArray;
+		},
+		
+		createNewModel : function(stencilsetUrl) {
+			var url = './new' + '?stencilset=' + stencilsetUrl;
+			var editor = window.open(url);
 		},
 		
 		openModelInEditor : function (model_id) {
@@ -174,24 +230,23 @@ Repository.Core = {
 		 * register plugin on panel for this plugin type and returns a panel, where the plugin can render itselfs. 
 		 * @param {Object} plugin
 		 */
-		_registerPlugin: function(plugin) {
+		registerPlugin: function(plugin) {
 			var pluginPanel = null;
-			switch(plugin) {
-				case plugin instanceof Repository.Core.ContextPlugin: 
-					pluginPanel = this._registerPluginOnPanel(plugin.name, "right");
-					break;
-					
-				case plugin instanceof Repository.Core.ContextFreePlugin:
+			if(plugin instanceof Repository.Core.ContextPlugin) {
+				pluginPanel = this._registerPluginOnPanel(plugin.name, "right");
+			} else {
+				if(plugin instanceof Repository.Core.ContextFreePlugin) {
 					pluginPanel = this._registerPluginOnPanel(plugin.name, "left");
-					break;
-					
-				case plugin instanceof Repository.Core.ViewPlugin:
-					pluginPanel = this._registerPluginOnView(plugin.name, "left");
-					break;
-				
-				default: 
-					break;
-			};
+				} else {
+					if(plugin instanceof Repository.Core.ViewPlugin) {
+						return pluginPanel = this._registerPluginOnView(plugin, "view");
+					}
+				}
+			}
+			
+			plugin.toolbarButtons.each(function(button) {
+				this._registerButtonOnToolbar(button);
+			}.bind(this));
 			
 			return pluginPanel;
 		},
@@ -211,69 +266,73 @@ Repository.Core = {
 			return pluginPanel;
 		},
 		
-		_registerPluginOnToolbar : function(plugin) {
-			if (plugin) {
-				if ((plugin.text != "undefined") && (typeof(plugin.handler) == "function")) {
+		_registerButtonOnToolbar : function(buttonConfig) {
+			if (buttonConfig) {
+				if ((buttonConfig.text != undefined) && (typeof(buttonConfig.handler) == "function")) {
 					var menu = null;
 					// if the button should be added to a sub menu try to find it and create it if it isn't there
-					if (plugin.menu != undefined) {
+					if (buttonConfig.menu != undefined) {
 						this._controls.toolbar.items.each(function(item) {
-							if ((item.text == plugin.text) && (item.menu != "undefined")) {
+							if ((item.text == buttonConfig.menu) && (item.menu != undefined)) {
 								menu = item.menu;
 							}
 						});
 						// If no menu exists
 						if (menu == null) {
 							menu = new Ext.menu.Menu({items : []});
-							this._controls.toolbar.addButton(new Ext.Toolbar.Button({
-									id : 'bla',
-									text : plugin.menu, 
-									"menu" : menu
-								}));
+							this._controls.toolbar.addButton({
+									//id : buttonConfig.menu,
+									iconCls: 'some_class_that_does_not_exist_but_fixes-rendering', // do not remove!
+									text : buttonConfig.menu, 
+									menu : menu
+								});
+							menu.render();
 						}
 						menu.addMenuItem({
-							text : plugin.text,
-							handler : plugin.handler,
-							icon : plugin.icon,
-							qtip : plugin.text
-						});
-						menu.addMenuItem({
-							text : 'TEST',
-							handler : plugin.handler,
-							icon : plugin.icon,
-							qtip : plugin.text
+							text : buttonConfig.text,
+							handler : buttonConfig.handler,
+							icon : buttonConfig.icon,
+							
 						});
 					} else {
 						this._controls.toolbar.addButton(new Ext.Toolbar.Button({
-							text : plugin.text,
-							handler : plugin.handler,
+							text : buttonConfig.text,
+							handler : buttonConfig.handler,
 							iconCls: 'some_class_that_does_not_exist_but_fixes-rendering', // do not remove!
-							icon : plugin.icon
+							icon : buttonConfig.icon
 						}));
 					}
 				}
 			}
 		},
 		
-		_registerPluginOnView : function(config) {
+		_registerPluginOnView : function(plugin) {
 			// TODO: check if all values are passed and check whether the plugin already exists
 			
-			this._views.push(config.name); 
+			this._registerButtonOnToolbar({
+				text : plugin.name, 
+				icon : plugin.icon, 
+				menu : 'Views', 
+				handler : function() {this.switchView(plugin)}.bind(this)
+			});
+			/*this._views.set(plugin.name, plugin); 
 			if (this._currentView == -1)
 				this._currentView = 0;
 			this._registerPluginOnToolbar({
-				text : config.name, 
-				icon : config.icon, 
+				text : plugin.name, 
+				icon : plugin.icon, 
 				menu : 'Views', 
 				handler : function() {this.switchView(config.name)}.bind(this)
-			});
+			});*/
 			return this._controls.viewPanel;
 		},
 		
-		loadPlugins : function() {
+		_loadPlugins : function() {
 			
-			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
-			this.switchView('Debug View');
+			this._plugins.push(new Repository.Plugins.NewModel(this.getFacade()));
+			var startView = new Repository.Plugins.DebugView(this.getFacade());
+			this._plugins.push(startView);
+			this.switchView(startView);
 			/**this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.NewModelControls(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
@@ -285,7 +344,10 @@ Repository.Core = {
 		/* This functions defines and initialize the basic UI components
 		 * 
 		 */
-		bootstrapUI : function() {
+		_bootstrapUI : function() {
+			
+			Ext.QuickTips.init();
+			
 			test_tpl = new Ext.XTemplate('<div id="oryx_repository_header"> <tpl if="isPublicUser"> PUBLIC </tpl><tpl if="!isPublicUser">  NOT PUBLIC </tpl></div>');
 			
 			// View panel
@@ -320,9 +382,11 @@ Repository.Core = {
             });
 			// Toolbar
 			this._controls.toolbar = new Ext.Toolbar({
-    		   region : 'south', 
-    		   items : [] // Button
-     	   	});
+				region : "south",
+				items : []
+			});
+			
+			
 			// center panel, contains view panel and bottom panel
 			this._controls.centerPanel = new Ext.Panel({
 				region : 'center',
@@ -345,7 +409,7 @@ Repository.Core = {
 							                height: 30
 							           },
 							           this._controls.toolbar
-							           	] // Toolbar
+							    ] // Toolbar
 							}), // Panel 
 							this._controls.centerPanel,
 				            this._controls.leftPanel,	
@@ -355,4 +419,4 @@ Repository.Core = {
 		}
 };
 
-Repository.Core = Clazz.extend(Repository.Core);
+Repository.Core.Repository = Clazz.extend(Repository.Core.Repository);

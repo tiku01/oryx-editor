@@ -21,7 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-Ext.namespace("Repository.Core");
+if(!Repository.Core) Repository.Core ={};
 
 Repository.Core.ContextPlugin = {
 	/**
