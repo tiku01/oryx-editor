@@ -23,35 +23,52 @@
 
 // set namespace
 
+if(!Repository) var Repository = {};
 if(!Repository.Core) Repository.Core = {};
 
-Repository.Core.DataCache = function DataCache(models) {
+Repository.Core.DataCache = {
 
+	construct : function(models) {
+		
+		// Stores the id of all models available to the user as key and their uri as value
+		this._models = new Hash(models); 
+		// Stores cache type as key and the corresponding hash as value
+		this._data = new Hash();
 	
-	// Stores the id of all models available to the user as key and their uri as value
-	this._models = new Hash(models); 
-	// Stores cache type as key and the corresponding hash as value
-	this._data = new Hash();
-
+		
+		this._addHandler = new EventHandler();
+		this._updateHandler = new EventHandler();
+		this._removeHandler = new EventHandler();
+		
+		// stores meta data of available modeltypes
+		this.model_types = [];	
+		// Stores the id of all models available to the user as key and their uri as value
+		this._models = new Hash(models); 
+		// Stores cache type as key and the corresponding hash as value
+		this._data = new Hash();
 	
-	this._addHandler = new EventHandler();
-	this._updateHandler = new EventHandler();
-	this._removeHandler = new EventHandler();
+		
+		this._addHandler = new EventHandler();
+		this._updateHandler = new EventHandler();
+		this._removeHandler = new EventHandler();
+		
+		
+		
+	},
 	
-	
-	this.addModel = function(id, uri) {
+	addModel : function(id, uri) {
 		this._models.set(id, uri);
-	}
+	},
 	
-	this.getAddHandler = function() {return this._addHandler;}
-	this.getUpdateHandler = function() {return this._updateHandler;}
-	this.getRemoveHandler = function() {return this._removeHandler;}
+	getAddHandler : function() {return this._addHandler;},
+	getUpdateHandler : function() {return this._updateHandler;},
+	getRemoveHandler : function() {return this._removeHandler;},
 	
-	this.getModelUri = function(modelId) {
+	getModelUri : function(modelId) {
 		return this._models.get(modelId);
-	}
+	},
 	
-	this.getDataAsync = function(fetchDataUri, id, callback) {
+	getDataAsync : function(fetchDataUri, id, callback) {
 		var modelIds = $A(id); // Ensure that ids is an array
 		var cacheMisses = []; // Stores ids of models that aren't cached
 		if (this._data.get(fetchDataUri)) {
@@ -91,17 +108,17 @@ Repository.Core.DataCache = function DataCache(models) {
 			var requestUrl = this._models.get(modelId).substring(1) +  fetchDataUri // + "?id=" + id;
 			Ext.Ajax.request({url : requestUrl,  success : this.getDefaultReturnHandler(query) });
 		}.bind(this));
-	}
+	},
 	
-	this.updateObject = function(fetchDataUri, id, data) {
+	updateObject : function(fetchDataUri, id, data) {
 		if (!this._data.get(fetchDataUri)) {
 			this._data.set(fetchDataUri, new Hash())
 		}
 		this._data.get(fetchDataUri).set(id, data);
 		this._updateHandler.invoke(id);
-	}
+	},
 	
-	this.getDefaultReturnHandler = function(binding) { 
+	getDefaultReturnHandler : function(binding) { 
 		// Returns function which handles the Ext.Ajax.Request success response
 		// The function has to be in a query context
 		return function(response, options) {
@@ -121,11 +138,13 @@ Repository.Core.DataCache = function DataCache(models) {
 				this.callback(queriedData); 
 			}
 		}.bind(binding);
-	}
+	},
 	
-	this.getIds = function() {
+	getIds : function() {
 		// May be clone it before return
 		return this._models.keys();
 	}
-}
+};
+
+Repository.Core.DataCache = Clazz.extend(Repository.Core.DataCache);
 

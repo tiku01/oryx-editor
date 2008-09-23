@@ -23,24 +23,30 @@
 
 // define plugin namespace
 
-if(!Repository.Plugin) var RepositoryPlugin = {};
+if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.DebugView = {
-	consturct: function(fascade) {
+	construct: function(fascade) {
 		this.name = "DebugView";
-		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
-				
+		this.icon = "/backend/images/silk/lightbulb.png";
+		this.numOfDisplayedModels = 12;
 		
 		// define menu meta data
-		this.toolbarButtons.push({
+		this.toolbarBottons = [{
 			text : 'BPMN', 
 			menu : 'View',
 			icon : '/backend/images/silk/lightbulb.png', 
 			handler : function(event, options) {alert("YEAH!")}
-		});
+		}];
+		
 		
 		// define required data uris
-		this.dataUris.push("/meta");
+		this.dataUris = ["/meta"];
+		
+		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
+				
+		
+		
 	},
 	
 	render : function(modelData) {

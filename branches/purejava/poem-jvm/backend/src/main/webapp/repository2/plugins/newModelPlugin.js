@@ -21,34 +21,36 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-/**
- * SuperClass for all Plugins.
- * @param {Object} facade
- */
 
 // define namespace
 if(!Repository) var Repository = {};
-if(!Repository.Core) Repository.Core = {};
+if(!Repository.Plugins) Repository.Plugins = {};
 
-Repository.Core.Plugin = {
-	/**
-	 * 
-	 */
+/**
+ * renders the dropdown menu for modeltypes and calls the oryx editor with the choosen type
+ */
+
+Repository.Plugins.NewModel = {
 	construct: function(facade) {
-		arguments.callee.$.construct.apply(this, arguments);
-		if(!this.facade) this.facade = facade;
-		if(!this.dataUris) this.dataUris = [];
-		if(!this.toolbarButtons) this.toolbarButtons = [];
-		this.panel = this.facade.registerPlugin(this);
-	},
-	preRender: function(modelIds) {
-		this.facade.modelCache.getDataAsync(this.dataUris, modelIds, this.render.bind(this))
-	},
-	render: function(modelData) {
+		this.name = "Create New Model";
+		this.facade = facade;
 		
-	}
+		// define Create New Model menu
+		this.toolbarButtons = new Array();
+		
+		this.facade.getModelTypes().each(function(type) {
+			this.toolbarButtons.push({
+				text : type.title,
+				menu : this.name,
+				icon : type.iconUrl,
+				handler: function(){
+					this.facade.createNewModel(type.url)
+				}.bind(this)				
+			});
+		}.bind(this));
 
+		arguments.callee.$.construct.apply(this, arguments); //call Plugin super class
+	}
 };
 
-
-Repository.Core.Plugin = Clazz.extend(Repository.Core.Plugin);
+Repository.Plugins.NewModel = Repository.Core.Plugin.extend(Repository.Plugins.NewModel);
