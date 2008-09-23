@@ -50,7 +50,7 @@ public class Repository2Handler extends  HandlerBase {
 	// Return the HTML code for the repository
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
-		String[] java_script_includes = {"prototype", "ext_templates", "core/EventHandler", "core/DataCache", "plugins/ModelTypeFilter", "plugins/NewModelControls", "plugins/DebugView", "plugins/ModelTagInfo", "core/Repository2"};
+		String[] java_script_includes = {"ext_templates", "core/clazz", "core/eventHandler", "core/dataCache", "core/repository", "core/plugin", "core/viewPlugin", "core/contextFreePlugin", "core/contextPlugin", "plugins/newModelPlugin","plugins/view/debugView2"};
 		String[] stylesheet_links = {"openid", "repository", "model_properties"};
 
 		String backend_path = "/backend";
@@ -66,7 +66,9 @@ public class Repository2Handler extends  HandlerBase {
     	out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
     	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/ext-all.css\">");
     	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/xtheme-gray.css\">");
+    	out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/prototype.js\"></script>");
     	out.println("<script type=\"text/javascript\" src=\"" + ext_path + "adapter/ext/ext-base.js\"></script>");
+    	//out.println("<script type=\"text/javascript\" src=\"" + ext_path + "ext-all.js\"></script>");
     	out.println("<script type=\"text/javascript\" src=\"" + ext_path + "ext-all-debug.js\"></script>");
     	for (String include : java_script_includes) {	
     		out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/" + include + ".js\"></script>");
@@ -75,7 +77,7 @@ public class Repository2Handler extends  HandlerBase {
     		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + backend_path + "/stylesheets/" + stylesheet + ".css\">");
     	}
     	
-    	out.println("<script type=\"text/javascript\">Ext.onReady(function(){Repository2.construct(" + this.getModelData(new User(subject.getId())) + ", \"" + subject.getUri() + "\");});</script>");  
+    	out.println("<script type=\"text/javascript\">Ext.onReady(function(){new Repository.Core.Repository(" + this.getModelData(new User(subject.getId())) + ", \"" + subject.getUri() + "\");});</script>");  
     	out.println("<title>Oryx - Repository RELOADED</title>");
     	out.println("</head>");
     	out.println("<body>");
