@@ -32,7 +32,7 @@ if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.NewModel = {
 	construct: function(facade) {
-		this.name = "Create New Model";
+		this.name = Repository.I18N.NewModel.name;
 		this.facade = facade;
 		
 		// define Create New Model menu

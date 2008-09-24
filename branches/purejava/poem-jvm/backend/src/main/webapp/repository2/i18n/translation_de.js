@@ -1,28 +1,31 @@
 /**
- * Copyright (c) 2008
- * Bjšrn Wagner, Sven Wagner-Boysen
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ * @author sven.wagner-boysen
+ * 
+ * contains all strings for german language (de)
+ * 
+ */
 
- // namespace
- if(!Repository.I18N) Repository.I18N = {};
+
+// namespace
+if(!Repository.I18N) Repository.I18N = {};
+
+Repository.I18N.Language = "de"; //Pattern <ISO language code>_<ISO country code> in lower case!
+
+// Repository strings
+
+if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
+
+Repository.I18N.Repository.openIdSample = "ihre.openid.de";
+Repository.I18N.Repository.sayHello = "Hallo";
+Repository.I18N.Repository.login = "Anmelden";
+Repository.I18N.Repository.logout = "Abmelden";
+
+Repository.I18N.Repository.leftPanelTitle = "Modelorganisation";
+Repository.I18N.Repository.rightPanelTitle = "Modelinfo";
+Repository.I18N.Repository.bottomPanelTitle = "Kommentare";
+// Plugins here
  
- // Plugins here
- 
+// NewModel Plugin
+if(!Repository.I18N.NewModel) Repository.I18N.NewModel = {};
+
+Repository.I18N.NewModel.name = "Neues Model";
