@@ -165,6 +165,7 @@ body, td, input, textarea {
 	color:#AA0000;
 	cursor:pointer;
 	font-weight:bold;
+	width:auto;
 }
 
 #openid_login input.text {
