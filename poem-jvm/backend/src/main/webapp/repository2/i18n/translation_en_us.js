@@ -1,30 +1,55 @@
 /**
- * Copyright (c) 2008
- * Bjšrn Wagner, Sven Wagner-Boysen
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ * @author sven.wagner-boysen
+ * 
+ * contains all strings for default language (en_us)
+ * 
+ */
 
- // namespace
- if(!Repository.I18N) Repository.I18N = {};
+
+// namespace
+if(!Repository.I18N) Repository.I18N = {};
+
+Repository.I18N.Language = "en_us"; //Pattern <ISO language code>_<ISO country code> in lower case!
+
+// Repository strings
+
+if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
+
+Repository.I18N.Repository.openIdSample = "your.openid.net";
+Repository.I18N.Repository.sayHello = "Hi";
+Repository.I18N.Repository.login = "login";
+Repository.I18N.Repository.logout = "logout";
+
+Repository.I18N.Repository.viewMenu = "View";
+
+Repository.I18N.Repository.windowTimeoutMessage = "The editor does not seem to be started yet. Please check, whether you have a popup blocker enabled and disable it or allow popups for this site. We will never display any commercials on this site.";
+Repository.I18N.Repository.windowTitle = "Editor not started.";
+
+Repository.I18N.Repository.noSaveTitle = "Message";
+Repository.I18N.Repository.noSaveMessage = "As a public user, you can not save a model. Do you want to model anyway?";
+Repository.I18N.Repository.yes = "yes";
+
+Repository.I18N.Repository.leftPanelTitle = "Organize Models";
+Repository.I18N.Repository.rightPanelTitle = "Model Info";
+Repository.I18N.Repository.bottomPanelTitle = "Comments";
+
+
+// Plugin strings
  
- // Plugins here
- 
- 
- 
+// NewModel Plugin
+if(!Repository.I18N.NewModel) Repository.I18N.NewModel = {};
+
+Repository.I18N.NewModel.name = "Create New Model";
+
+// TableView Plugin
+
+if(!Repository.I18N.TableView) Repository.I18N.TableView = {};
+
+Repository.I18N.TableView.name = "Table View";
+
+
+
+
+
+
+

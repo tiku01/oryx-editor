@@ -1,8 +1,8 @@
 
-Ext.namespace('Repository');
+if(!Repository) var Repository = {};
 
 Repository.Templates = {
-		login :  function() { tpl = new Ext.XTemplate(		'<div id="oryx_repository_header" onmouseover="this.className = \'mouseover\'" onmouseout="this.className = \'\'">'+
+		login :  new Ext.XTemplate(		'<div id="oryx_repository_header" onmouseover="this.className = \'mouseover\'" onmouseout="this.className = \'\'">'+
 					        '<a href="http://oryx-editor.org" target="_blank">'+
 						    '<img src="/backend/images/style/oryx.small.gif" id="oryx_repository_logo" alt="ORYX Logo" title="ORYX"/>'+
 					    '</a>'+
@@ -11,12 +11,12 @@ Repository.Templates = {
 							'<form action="/backend/poem/login" method="post" id="openid_login">'+
 								'<div>'+
 									'<span>'+
-										'<img src="/backend/images/repository/hpi.png" onclick="Repository.render.openid_tpl.changeOpenId(\'https://openid.hpi.uni-potsdam.de/user/username\'+ 39, 8)"/>'+
-										'<img src="/backend/images/repository/blogger.png" onclick="Repository.render.openid_tpl.changeOpenId(\'http://username.blogspot.com/\'+ 7, 8)"/>'+
-										'<img src="/backend/images/repository/getopenid.png" onclick="Repository.render.openid_tpl.changeOpenId(\'http://getopenid.com/username\'+ 21, 8)"/>'+
+										'<img src="/backend/images/repository/hpi.png" onclick="Repository.Templates.login.changeOpenId(\'https://openid.hpi.uni-potsdam.de/user/username\' , 39, 8)"/>'+
+										'<img src="/backend/images/repository/blogger.png" onclick="Repository.Templates.login.changeOpenId(\'http://username.blogspot.com/\' , 7, 8)"/>'+
+										'<img src="/backend/images/repository/getopenid.png" onclick="Repository.Templates.login.changeOpenId(\'http://getopenid.com/username\', 21, 8)"/>'+
 									'</span>'+
-									'<input type="text" name="openid_identifier" id="openid_login_openid" class="text gray" value="your.openid.net" onblur="if(this.value.replace(/^\s+/, \'\').replace(/\s+$/, \'\').length==0) {this.value=\'your.openid.net\'; this.className+=\' gray\';}" onfocus="this.className = this.className.replace(/ gray/ig, \'\'); if(this.value==\'your.openid.net\') this.value=\'\';" />'+
-									'<input type="submit" class="button" value="login"/>'+
+									'<input type="text" name="openid_identifier" id="openid_login_openid" class="text gray" value={Repository.I18N.Repository.openIdSample} onblur="if(this.value.replace(/^\s+/, \'\').replace(/\s+$/, \'\').length==0) {this.value=Repository.I18N.Repository.openIdSample; this.className+=\' gray\';}" onfocus="this.className = this.className.replace(/ gray/ig, \'\'); if(this.value==Repository.I18N.Repository.openIdSample) this.value=\'\';" />'+
+									'<input type="submit" class="button" value={Repository.I18N.Repository.login} />'+
 								'</div>'+
 							'</form>'+
 						'</tpl>'+
@@ -24,8 +24,8 @@ Repository.Templates = {
 						'<tpl if="!isPublicUser">'+
 							'<form action="/backend/logout.jsp" method="post" id="openid_login">'+
 								'<div>'+
-									'Hi, {currentUser}'+
-									'<input type="submit" class="button" value="logout"/>'+
+									'{Repository.I18N.Repository.SayHello}, {currentUser}'+
+									'<input type="submit" class="button" value={Repository.I18N.Repository.logout} />'+
 								'</div>'+
 							'</form>'+
 					
@@ -54,10 +54,7 @@ Repository.Templates = {
 								o.setSelectionRange(start, start + size);
 							}
 						}
-					});
-		  //tpl.compile();
-		  return tpl;
-		}, // end of login
+					}), // end of login
 		login2 : function () {
 			tpl = new Ext.XTemplate('<div id="oryx_repository_header"> <tpl if="isPublicUser"> PUBLIC </tpl><tpl if="!isPublicUser">  NOT PUBLIC </tpl></div>');
 			//tpl.compile;

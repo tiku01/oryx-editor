@@ -88,7 +88,6 @@ Repository.Core.Repository = {
 				type.iconUrl = this._oryxUrl + this._stencilsetUrl + type.icon_url;
 				type.url = this._stencilsetUrl + type.uri
 			}.bind(this));
-			console.log(this._modelTypes);
 		},
 		
 		getModelTypes : function() {
@@ -110,9 +109,6 @@ Repository.Core.Repository = {
 						removeFilter : this.removeFilter.bind(this),
 						getFilteredModels : this.getFilteredModels.bind(this),
 						
-						getViews : this.getViews.bind(this),
-						switchView : this.switchView.bind(this),
-						
 						changeSelection : this.changeSelection.bind(this),
 						getSelectedModels : this.getSelectedModels.bind(this),
 						
@@ -127,6 +123,34 @@ Repository.Core.Repository = {
 				};
 			}
 			return this._facade;
+		},
+		
+		/**
+		 * compares, whether two openids are the same --- is sort of flexible and fault tolerant
+		 * 
+		 * @param {String} openid1
+		 * @param {String} openid2
+		 */
+		equalUsers: function(openid1, openid2) {
+			openid1 = openid1+"";
+			openid2 = openid2+"";
+			
+			filter = function(url) {
+				return url.replace(/^https?:\/\//, "").replace(/\/*$/,"");
+			}
+			
+			return filter(openid1) == filter(openid2)
+		},
+		
+		/**
+		 * Checks whether a user is the public user, 
+		 * based on the definition that an empty string (!== null) identifies the anonymous user
+		 * 
+		 * @param {String} openid
+		 */
+		isPublicUser: function(openid) {
+			if( !openid ){ openid = this._currentUser };
+			return this.equalUsers(openid, this._publicUser);
 		},
 		
 		applyFilter : function(name, parameters) {
@@ -183,7 +207,7 @@ Repository.Core.Repository = {
 			return this._views;
 		},
 		
-		switchView : function(view) {
+		_switchView : function(view) {
 			if(this._currentView instanceof Repository.Core.ViewPlugin)
 				this._currentView.disable();
 			
@@ -218,8 +242,34 @@ Repository.Core.Repository = {
 		},
 		
 		createNewModel : function(stencilsetUrl) {
-			var url = './new' + '?stencilset=' + stencilsetUrl;
-			var editor = window.open(url);
+			
+			var callback = function() {
+				var url = './new' + '?stencilset=' + stencilsetUrl;
+				var editor = window.open(url);
+				
+				window.setTimeout(function(){
+					if (!editor || !editor.opener || editor.closed) {
+						Ext.MessageBox.alert(Repository.I18N.Repository.windowTitle, Repository.I18N.Repository.windowTimeoutMessage).setIcon(Ext.MessageBox.QUESTION)
+					}
+				}, 5000);
+			}
+		
+			if(this.isPublicUser()){
+	
+				Ext.Msg.show({
+				   title: Repository.I18N.Repository.noSaveTitle,
+				   msg: Repository.I18N.Repository.noSaveMessage,
+				   buttons: Ext.Msg.YESNO,
+				   fn: function(btn, text){
+				   		if(btn == Repository.I18N.Repository.yes){
+							callback();
+						}
+				   }
+				});
+						
+			} else {
+				callback();
+			}
 		},
 		
 		openModelInEditor : function (model_id) {
@@ -312,18 +362,10 @@ Repository.Core.Repository = {
 			this._registerButtonOnToolbar({
 				text : plugin.name, 
 				icon : plugin.icon, 
-				menu : 'Views', 
-				handler : function() {this.switchView(plugin)}.bind(this)
+				menu : Repository.I18N.Repository.viewMenu, 
+				handler : function() {this._switchView(plugin)}.bind(this)
 			});
-			/*this._views.set(plugin.name, plugin); 
-			if (this._currentView == -1)
-				this._currentView = 0;
-			this._registerPluginOnToolbar({
-				text : plugin.name, 
-				icon : plugin.icon, 
-				menu : 'Views', 
-				handler : function() {this.switchView(config.name)}.bind(this)
-			});*/
+			
 			return this._controls.viewPanel;
 		},
 		
@@ -332,7 +374,7 @@ Repository.Core.Repository = {
 			this._plugins.push(new Repository.Plugins.NewModel(this.getFacade()));
 			var startView = new Repository.Plugins.DebugView(this.getFacade());
 			this._plugins.push(startView);
-			this.switchView(startView);
+			this._switchView(startView);
 			/**this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.NewModelControls(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
@@ -358,7 +400,7 @@ Repository.Core.Repository = {
 			// Left panel
 			this._controls.leftPanel = new Ext.Panel({ 
                 region: 'west',
-                title: 'Organize Models',
+                title: Repository.I18N.Repository.leftPanelTitle,
                 collapsible: true,
                 collapsed: false,
                 split : true,			            		
@@ -366,7 +408,7 @@ Repository.Core.Repository = {
 			// Right panel
 			this._controls.rightPanel = new Ext.Panel({ 
                 region: 'east',
-                title: 'Model Info',
+                title: Repository.I18N.Repository.rightPanelTitle,
                 collapsible: true,
                 collapsed: false,
                 split : true,		            		
@@ -374,7 +416,7 @@ Repository.Core.Repository = {
 			// Bottom panel
 			this._controls.bottomPanel = new Ext.Panel({ 
                 region: 'south',
-                title: 'Comments',
+                title: Repository.I18N.Repository.bottomPanelTitle,
                 collapsible: true,
                 collapsed: false,
                 split : true,
@@ -405,7 +447,7 @@ Repository.Core.Repository = {
 								border : true,
 								items :[{ // Header with logo and login
 							                region: 'north',
-							                html: Repository.Templates.login().apply({currentUser : this._currentUser, isPublicUser : this._currentUser=='public'}),
+							                html: Repository.Templates.login.apply({currentUser : this._currentUser, isPublicUser : this._currentUser=='public'}),
 							                height: 30
 							           },
 							           this._controls.toolbar

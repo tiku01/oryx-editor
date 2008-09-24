@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008
- * Bjšrn Wagner, Sven Wagner-Boysen
+ * Sven Wagner-Boysen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,29 +21,67 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-/**
- * SuperClass for all Plugins.
- * @param {Object} facade
- */
-
 // define plugin namespace
 
-if(!Repository.Plugins) Repository.Core = {};
+if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.TableView = {
-	construct: function(facade) {
-		arguments.callee.$.construct.apply(this, arguments);
+	construct: function(fascade) {
+		this.name = Repository.I18N.TableView.name;
+		this.icon = '/backend/images/silk/table.png';
+		this.numOfDisplayedModels = 30;
 		
-		// define menu meta data
-		this.toolbarButtons.push({
-			text : 'BPMN', 
-			menu : 'View',
-			icon : '/backend/images/silk/lightbulb.png', 
-			handler : function(event, options) {alert("YEAH!")}
-		});
+		// define required data uris
+		this.dataUris = ["/meta"];
+		
+		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
 	},
 	
-	
+	render : function(modelData) {
+		
+		if (this.panel.items) {
+			this.panel.items.clear; // remove all items
+		}
+		if (this.panel.findById('debug_view_container')) {
+			this.panel.remove('debug_view_container');
+		}
+		
+		
+		
+		
+		
+		// this.viewPanel.getEl().update('');
+		var container = new Ext.Panel({id : 'debug_view_container'});
+		modelData.each(function (pair){
+			var damnButton = new Ext.Button({text : 'Select model!'});
+			
+			var dataPanel = new Ext.Panel({
+				html: '<h1>Title: ' + pair.value.title + '</h1><img src="'+ pair.value.thumbnailUri +'" height="50" /> <br />', 
+				modelId : pair.key, 
+				facade : this.facade, // quick and dirty
+				isSelected : this.facade.getSelectedModels().indexOf(pair.key) != -1 });
+			
+			damnButton.addListener('click', function() {
+				if (this.isSelected) {					
+					this.removeClass('test_selected_item');
+					this.addClass('test_unselected_item');
+					this.facade.changeSelection(this.facade.getSelectedModels().without(this.modelId));
+				} else {
+					this.removeClass('test_unselected_item');
+					this.addClass('test_selected_item');	
+					this.facade.getSelectedModels().push(this.modelId)
+					this.facade.changeSelection(this.facade.getSelectedModels());
+				}
+				this.isSelected = !this.isSelected;
+				this.doLayout();
+			}.bind(dataPanel));
+			
+			dataPanel.add(damnButton);
+			container.add(dataPanel); // v<br />'});
+		}.bind(this));
+		this.panel.add(container);
+		this.panel.doLayout(); // Force rendering to show the panel
+	},
 };
 
-Repository.Plugins.TableView = Repository.Core.ViewPlugin.extend(Repository.Plugins.TableView);
+Repository.Plugins.DebugView = Repository.Core.ViewPlugin.extend(Repository.Plugins.DebugView);
