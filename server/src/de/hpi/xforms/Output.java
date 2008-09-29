@@ -13,7 +13,6 @@ public class Output extends FormControl {
 		attributes.put("mediatype", null);
 	}
 	
-	@Override
 	public String getTagName() {
 		return "output";
 	}

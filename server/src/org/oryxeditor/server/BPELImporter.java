@@ -57,11 +57,22 @@ public class BPELImporter extends HttpServlet {
      * The POST request.
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
+    
+    	System.out.println("importing...");
+    	
+    	// Get the PrintWriter
+    	res.setContentType("text/html");
+    	PrintWriter out = null;
+    	try {
+    	    out = res.getWriter();
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
     	
     	// No isMultipartContent => Error
     	final boolean isMultipartContent = ServletFileUpload.isMultipartContent(req);
     	if (!isMultipartContent){
-    		printError(res, "No Multipart Content transmitted.");
+    		printError(out, "No Multipart Content transmitted.");
 			return ;
     	}
     	
@@ -73,24 +84,26 @@ public class BPELImporter extends HttpServlet {
     	try {
     		items = servletFileUpload.parseRequest(req);
     		if (items.size() != 1){
-    			printError(res, "Not exactly one File.");
+    			printError(out, "Not exactly one File.");
     			return ;
     		}
     	} catch (FileUploadException e) {
-    		handleException(res, e); 
+    		handleException(out, e); 
 	   		return;
     	} 
     	final FileItem fileItem = (FileItem)items.get(0);
     		
     	// Get filename and content (needed to distinguish between EPML and AML)
     	final String fileName = fileItem.getName();
-    	
+    	String content = fileItem.getString();
+
+
     	// Get the input stream	
     	final InputStream inputStream;
     	try {
     		inputStream = fileItem.getInputStream();
     	} catch (IOException e){ 
-    		handleException(res, e); 
+    		handleException(out, e); 
     		return;
     	}
 	   		
@@ -98,7 +111,7 @@ public class BPELImporter extends HttpServlet {
     	final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/BPEL2eRDF.xslt";
     	final File bpel2eRDFxsltFile = new File(xsltFilename);
     	final Source bpel2eRDFxsltSource = new StreamSource(bpel2eRDFxsltFile);	
-    	
+
     	// Transformer Factory
     	final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
@@ -108,10 +121,10 @@ public class BPELImporter extends HttpServlet {
     	if (fileName.endsWith(".bpel")){
     		bpelSource = new StreamSource(inputStream);
     	} else {
-    		printError(res, "No file with .bepl extension uploaded.");
+    		printError(out, "No file with .bepl extension uploaded.");
     		return ;
     	}
-  
+    		
     	// Get the result string
     	String resultString = null;
     	try {
@@ -120,60 +133,53 @@ public class BPELImporter extends HttpServlet {
     		transformer.transform(bpelSource, new StreamResult(writer));
     		resultString = writer.toString();
     	} catch (Exception e){
-    		handleException(res, e); 
+    		handleException(out, e); 
     		return;
     	}
 
     	if (resultString != null){
     		try {
-    		       printResponse (res, resultString);
-    		       return;
+    			if (resultString.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>")){
+    				resultString = resultString.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>", "");
+    				resultString = resultString.replace("</root>", "");
+    				resultString = resultString.replaceAll("<", "&lt;");
+    				resultString = resultString.replaceAll(">", "&gt;");
+    		        out.print("{success:true, content:'"+resultString+"'}"); 
+    		        return ;
+    			} else if (resultString.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>")) {
+    				resultString = resultString.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>", "");
+    				resultString = resultString.replace("</root>", "");
+    				resultString = resultString.replaceAll("<", "&lt;");
+    				resultString = resultString.replaceAll(">", "&gt;");
+    		        out.print("{success:true, content:'"+resultString+"'}"); 
+    		        return ;
+    			} else {
+    				printError(out, "Error during transformation.");
+    				return ;
+    			}
+
     		} catch (Exception e){
-    		       handleException(res, e); 
+    			handleException(out, e); 
+    			return;
     		}
     	}
+    	
+    	System.out.println("imported");
+    	System.out.println("File name:" + fileName);
+    	System.out.println("Content:" + resultString);
     }
     
     
     
-   private void printResponse(HttpServletResponse res, String text){
-    	if (res != null){
- 
-        	// Get the PrintWriter
-        	res.setContentType("text/plain");
-        	
-        	PrintWriter out = null;
-        	try {
-        	    out = res.getWriter();
-        	} catch (IOException e) {
-        	    e.printStackTrace();
-        	}
-        	
-    		out.print(text);
-    	}
-    }
-    
-    
-    private void printError(HttpServletResponse res, String err){
-    	if (res != null){
- 
-        	// Get the PrintWriter
-        	res.setContentType("text/html");
-        	
-        	PrintWriter out = null;
-        	try {
-        	    out = res.getWriter();
-        	} catch (IOException e) {
-        	    e.printStackTrace();
-        	}
-        	
+    private void printError(PrintWriter out, String err){
+    	if (out != null){
     		out.print("{success:false, content:'"+err+"'}");
     	}
     }
     
-	private void handleException(HttpServletResponse res, Exception e) {
+	private void handleException(PrintWriter out, Exception e) {
 		e.printStackTrace();
-		printError(res, e.getLocalizedMessage());
+		printError(out, e.getLocalizedMessage());
 	}
     
 }

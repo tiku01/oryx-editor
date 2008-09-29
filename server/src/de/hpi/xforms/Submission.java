@@ -19,8 +19,7 @@ public class Submission extends XFormsElement {
 		attributes.put("encoding", null);
 		attributes.put("target", null);
 	}
-	
-	@Override
+
 	public String getTagName() {
 		return "submission";
 	}

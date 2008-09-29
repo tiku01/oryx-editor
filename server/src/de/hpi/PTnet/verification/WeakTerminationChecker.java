@@ -63,8 +63,7 @@ public class WeakTerminationChecker {
 		
 		return doCheck(net.getInitialMarking(), conflictingTransitions, false);
 	}
-	
-	//TODO badTransitions is never used, what about this container? Just for optimization?
+
 	protected boolean doCheck(Marking marking, List<Transition> conflictingTransitions, boolean returnFalseIfVisited) {
 		String markingStr = marking.toString();
 //		System.out.println("Checking marking "+markingStr);

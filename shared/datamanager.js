@@ -149,7 +149,10 @@ var DataManager = {
 		
 	__forceExistance: function(shape) {
 		
-		if(!$(shape.resourceId)) {
+		if(!(shape.resourceId)) {
+			
+			var id = DataManager.__provideId();
+			shape.resourceId = id;
 			
 			if(!$$('.' + PROCESSDATA_REF)[0])
 				DataManager.graft(XMLNS.XHTML,
@@ -159,11 +162,12 @@ var DataManager = {
 			DataManager.graft(XMLNS.XHTML,
 				$$('.' + PROCESSDATA_REF)[0], [
 				
-				'div', {'id': shape.resourceId}
+				'div', {'id': id}
 			]);
 			
 		} else {
-			var resource = $(shape.resourceId)
+			
+			var resource = $(shape.resourceId);
 			var children = $A(resource.childNodes)
 			children.each( function(child) {
 				resource.removeChild(child);
@@ -327,11 +331,12 @@ var DataManager = {
 
 			// select shapes without resource id.
 
-			return !($(shape.resourceId));
+			return !(shape.resourceId);
 
 		}).each( function(shape) {
 
 			// create new resources for them.
+			
 			if(USE_ARESS_WORKAROUNDS) {
 				
 				/*
@@ -571,7 +576,7 @@ var DataManager = {
 	 * need to graft elements in a certain xmlns and wish to assign attributes
 	 * in both that and another xmlns, you will need to do stepwise grafting,
 	 * adding non-default attributes yourself or you'll have to enhance this
-	 * function. Latter, I would appreciate: martinï¿½apfelfabrik.de
+	 * function. Latter, I would appreciate: martin«apfelfabrik.de
 	 * @param {Object} namespace The namespace in which
 	 * 					elements should be grafted.
 	 * @param {Object} parent The element that should contain the grafted

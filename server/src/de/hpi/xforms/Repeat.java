@@ -31,7 +31,6 @@ public class Repeat extends XFormsUIElement implements UIElementContainer, Actio
 		return actions;
 	}
 	
-	@Override
 	public String getTagName() {
 		return "repeat";
 	}

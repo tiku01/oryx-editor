@@ -25,7 +25,6 @@ public class Instance extends XFormsElement {
 		this.content = content;
 	}
 	
-	@Override
 	public String getTagName() {
 		return "instance";
 	}

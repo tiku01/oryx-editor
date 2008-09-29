@@ -8,10 +8,6 @@ package de.hpi.xforms;
 public class Alert extends UICommon implements PCDataContainer {
 	
 	protected String content;
-	
-	public Alert() {
-		super();
-	}
 
 	public String getContent() {
 		return content;
@@ -21,7 +17,6 @@ public class Alert extends UICommon implements PCDataContainer {
 		this.content = content;
 	}
 	
-	@Override
 	public String getTagName() {
 		return "alert";
 	}

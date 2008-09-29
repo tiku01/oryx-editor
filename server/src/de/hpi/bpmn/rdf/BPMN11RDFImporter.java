@@ -834,12 +834,6 @@ public class BPMN11RDFImporter {
 					if (expression != null)
 						flow.setConditionExpression(expression);
 				}
-				
-				if (attribute.equals("name")) {
-					String name = getContent(n);
-					if (name != null)
-						flow.setName(name);
-				}
 			}
 		}
 		setConnections(flow, node, c);

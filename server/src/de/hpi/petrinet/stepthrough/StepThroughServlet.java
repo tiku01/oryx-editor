@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.oryxeditor.server.StencilSetUtil;
 import org.w3c.dom.Document;
 
+import de.hpi.PTnet.PTNet;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.BPMNFactory;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
@@ -86,10 +87,8 @@ public class StepThroughServlet extends HttpServlet {
 			for (int i = 0; i < objectsToFire.length; i++) {
 				// If necessary, delete all uninteresting changed objects
 				if(onlyChangedObjects) stm.clearChangedObjs();
-				// Check for proper string: While initializing step through, there is 
-				// an post with empty fire header. This seems to result in 
-				// objectsToFire = [""] which cannot be fired.
-				if(objectsToFire[i].trim().equals("")) continue;
+				// Check for proper string
+				if(!objectsToFire[i].startsWith("resource")) continue;
 				// and fire
 				stm.fireObject(objectsToFire[i]);
 			}

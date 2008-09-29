@@ -9,10 +9,6 @@ public class Help extends UICommon implements PCDataContainer {
 	
 	protected String content;
 
-	public Help() {
-		super();
-	}
-
 	public String getContent() {
 		return content;
 	}
@@ -21,7 +17,6 @@ public class Help extends UICommon implements PCDataContainer {
 		this.content = content;
 	}
 	
-	@Override
 	public String getTagName() {
 		return "help";
 	}

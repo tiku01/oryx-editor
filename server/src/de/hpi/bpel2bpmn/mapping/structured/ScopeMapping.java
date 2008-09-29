@@ -38,7 +38,7 @@ public class ScopeMapping extends StructuredActivityMapping {
 		 */
 		if (!(BPEL2BPMNMappingUtil.hasActivityChildNodeWithCreateInstanceSet(node))) {
 			StartPlainEvent startEvent = mappingContext.getFactory().createStartPlainEvent();
-			startEvent.setParent(subProcess);
+			startEvent.setParent(mappingContext.getDiagram());
 			
 			createSequenceFlowBetweenDiagramObjects(startEvent, 
 					mappingContext.getMappingConnectionIn().get(child), 
@@ -47,7 +47,7 @@ public class ScopeMapping extends StructuredActivityMapping {
 		}
 		
 		EndPlainEvent endEvent = mappingContext.getFactory().createEndPlainEvent();
-		endEvent.setParent(subProcess);
+		endEvent.setParent(mappingContext.getDiagram());
 		
 		createSequenceFlowBetweenDiagramObjects(mappingContext.getMappingConnectionOut().get(child),
 				endEvent,
@@ -63,6 +63,7 @@ public class ScopeMapping extends StructuredActivityMapping {
 		}
 		else {
 			XORDataBasedGateway gateway = mappingContext.getFactory().createXORDataBasedGateway();
+			gateway.setParent(mappingContext.getDiagram());
 			
 			for(Node catchNode : BPEL2BPMNMappingUtil.getAllSpecificChildNodes(faultHandlersNode, "catch")) {
 				mapExceptionHandler(catchNode, mappingContext, subProcess, gateway);
@@ -80,6 +81,7 @@ public class ScopeMapping extends StructuredActivityMapping {
 	
 	private void mapExceptionHandler(Node catchNode, MappingContext mappingContext, Activity activity, DiagramObject out) {
 		IntermediateErrorEvent errorEvent = mappingContext.getFactory().createIntermediateErrorEvent();
+		errorEvent.setParent(mappingContext.getDiagram());
 		errorEvent.setActivity(activity);
 		
 		// in case of a catchall we won't find any fault name

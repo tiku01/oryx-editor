@@ -23,7 +23,6 @@ public class Submit extends FormControl {
 		this.attributes.put("submission", submission.getAttributes().get("id"));
 	}
 	
-	@Override
 	public String getTagName() {
 		return "submit";
 	}

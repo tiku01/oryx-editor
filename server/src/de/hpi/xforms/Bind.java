@@ -19,7 +19,6 @@ public class Bind extends XFormsElement {
 		attributes.put("p3ptype", null);
 	}
 	
-	@Override
 	public String getTagName() {
 		return "bind";
 	}

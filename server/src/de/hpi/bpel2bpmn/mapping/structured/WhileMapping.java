@@ -56,8 +56,8 @@ public class WhileMapping extends StructuredActivityMapping {
 		EndPlainEvent endEvent = mappingContext.getFactory().createEndPlainEvent();
 		startEvent.setLabel(name);
 		endEvent.setLabel(name);
-		startEvent.setParent(subProcess);
-		endEvent.setParent(subProcess);
+		startEvent.setParent(mappingContext.getDiagram());
+		endEvent.setParent(mappingContext.getDiagram());
 		
 		// connect the start and end event with the mapping of the contained activity
 		DiagramObject in  = mappingContext.getMappingConnectionIn().get(activityNode);

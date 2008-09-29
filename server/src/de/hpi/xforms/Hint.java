@@ -9,10 +9,6 @@ public class Hint extends UICommon implements PCDataContainer {
 	
 	protected String content;
 
-	public Hint() {
-		super();
-	}
-
 	public String getContent() {
 		return content;
 	}
@@ -21,7 +17,6 @@ public class Hint extends UICommon implements PCDataContainer {
 		this.content = content;
 	}
 	
-	@Override
 	public String getTagName() {
 		return "hint";
 	}

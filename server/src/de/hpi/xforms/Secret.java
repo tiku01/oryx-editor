@@ -13,7 +13,6 @@ public class Secret extends FormControl {
 		attributes.put("incremental", null);
 	}
 	
-	@Override
 	public String getTagName() {
 		return "secret";
 	}

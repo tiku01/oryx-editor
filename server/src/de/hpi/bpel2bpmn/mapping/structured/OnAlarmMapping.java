@@ -24,6 +24,7 @@ public class OnAlarmMapping extends StructuredActivityMapping {
 		String name = BPEL2BPMNMappingUtil.getRealNameOfNode(node);
 		
 		IntermediateTimerEvent event = mappingContext.getFactory().createIntermediateTimerEvent();
+		event.setParent(mappingContext.getDiagram());
 		event.setLabel(name);
 		
 		Node timerNode = BPEL2BPMNMappingUtil.getSpecificChildNode(node, "for");
