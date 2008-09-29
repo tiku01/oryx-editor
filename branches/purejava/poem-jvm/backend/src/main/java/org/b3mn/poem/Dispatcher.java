@@ -24,6 +24,7 @@
 package org.b3mn.poem;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +41,34 @@ import org.b3mn.poem.handler.HandlerBase;
 import org.b3mn.poem.manager.UserManager;
 
 
-public class PoEMServlet extends HttpServlet {
+public class Dispatcher extends HttpServlet {
 	private static final long serialVersionUID = -9128262564769832181L;
+	
+	private static String publicUser = "public";  
+	private static String backendRootPath = "/backend/"; // Root path of the backend war file
+	private static String oryxRootPath = "/oryx/"; // Root path of the oryx war file
+	private static String handlerRootPath = backendRootPath + "poem/"; // Root url of all server handlers
 	
 	protected Map<String, HandlerBase> loadedHandlers = new Hashtable<String, HandlerBase>();
 	
-	public PoEMServlet() {
+	public static String getPublicUser() {
+		return publicUser;
+	}
+
+	public static String getBackendRootPath() {
+		return backendRootPath;
+	}
+
+	public static String getOryxRootPath() {
+		return oryxRootPath;
+	}
+
+	public static String getHandlerRootPath() {
+		return handlerRootPath;
+	}
+
+	public Dispatcher() {
+		HandlerBase.setDispatcher(this);
 	}
 	
 	protected String getErrorPage(String stacktrace) {
@@ -53,26 +76,31 @@ public class PoEMServlet extends HttpServlet {
 		return page;
 	}
 	
+	public Collection<String> getHandlerClassNames() {
+		// Get class names of the handlers from the database
+		Collection<String> result = Persistance.getSession()
+			.createSQLQuery("SELECT java_class FROM plugin")
+			.list();
+		Persistance.commit();
+		return result;
+	}
+	
 	// Returns the actual instance of the requested handler
 	// TODO: insert better exception handling
 	protected HandlerBase getHandlerInstance(String className) {
 		if (className != null) {
-			// Has the handler already been loaded?
-			if (this.loadedHandlers.get(className) != null) {
-				return this.loadedHandlers.get(className);
-			} else {
-				try {
-					// Create new handler instance with Java reflection
-					Class handlerClass = Class.forName(className);
-					// TODO: Check if handlerClass is derived from HandlerBase and use 
-					// java.lang.reflect.Constructor.newInstance() to create the instance
-					HandlerBase handler = (HandlerBase) handlerClass.newInstance();
-					handler.init(); // Initialize the handler
-					this.loadedHandlers.put(className, handler);
-					return handler;
-				} catch(Exception e) {
-					return null;
-				}
+			try {
+				// Create new handler instance with Java reflection
+				Class handlerClass = Class.forName(className);
+				// TODO: Check if handlerClass is derived from HandlerBase and use 
+				// java.lang.reflect.Constructor.newInstance() to create the instance
+				HandlerBase handler = (HandlerBase) handlerClass.newInstance();
+				handler.setServletContext(this.getServletContext()); // Initialize handler with ServletContext
+				handler.init(); // Initialize the handler
+				
+				return handler;
+			} catch(Exception e) {
+				return null;
 			}
 		} else return null;
 	}
@@ -110,13 +138,20 @@ public class PoEMServlet extends HttpServlet {
 				return null;
 			}
 			else {
-				// Get class name of the handler from the database
-				String className = (String) Persistance.getSession().
-				createSQLQuery("SELECT java_class FROM plugin WHERE rel= :rel")
-				.setString("rel", name)
-				.uniqueResult();
-				Persistance.commit();
-				return this.getHandlerInstance(className);
+				// Has the handler already been loaded?
+				if (this.loadedHandlers.get(name) != null) {
+					return this.loadedHandlers.get(name);
+				} else {
+					// Get class name of the handler from the database
+					String className = (String) Persistance.getSession().
+					createSQLQuery("SELECT java_class FROM plugin WHERE rel= :rel")
+					.setString("rel", name)
+					.uniqueResult();
+					Persistance.commit();
+					HandlerBase handler = this.getHandlerInstance(className);
+					this.loadedHandlers.put(name, handler);
+					return handler;
+				}
 			}
 		} catch (Exception e) { return null; }	
 	}
@@ -136,7 +171,6 @@ public class PoEMServlet extends HttpServlet {
 			Identity subject = Identity.ensureSubject(openId);
 			Identity object = this.getObjectIdentity(request.getPathInfo());
 			HandlerBase handler = this.getHandler(request.getPathInfo()); 
-			handler.setServletContext(this.getServletContext()); // Initialize handler with ServletContext
 			if (request.getMethod().equals("GET")) {
 				handler.doGet(request, response, subject, object);
 			}

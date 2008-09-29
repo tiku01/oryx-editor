@@ -26,20 +26,11 @@ package org.b3mn.poem.util;
 import java.lang.annotation.*;
 
 
-/* This annotatiion is used to provide server side filtering. If you register a 
- * class to the FilterHandler all methods of this class with the signature shown
- * below will be accessible to the client filter infrastructure by the FilterHandler. 
+/* This annotatiion is used to provide server side sorting. 
 */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 
-public @interface FilterMethod {
-	String FilterName() default "";
+public @interface SortMethod {
+	String SortName() default "";
 };
-
-/* Method signature
- * Parameters: 	int subjectId
- * 				int modelId
- * 				String params
- * Returntype	boolean
- */
