@@ -14,7 +14,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import org.b3mn.poem.Access;
+import org.b3mn.poem.Dispatcher;
 import org.b3mn.poem.Identity;
 import org.b3mn.poem.Plugin;
 import org.b3mn.poem.Representation;
@@ -24,11 +26,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class HandlerBase {
-	private  ServletContext context;
-	private static String publicUser = "public";
+	private ServletContext context;
+	private static Dispatcher dispatcher;
+	
+	public static Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+	
+	public static void setDispatcher(Dispatcher d) {
+		dispatcher = d;
+	}
 	
 	public static String getPublicUser() {
-		return publicUser;
+		return dispatcher.getPublicUser();
 	}
 	
 	public ServletContext getServletContext() {
@@ -41,6 +51,7 @@ public abstract class HandlerBase {
 	
 	
 	// Returns a JSONObject that contain all keys given in the String array and their values
+	@Deprecated
 	protected JSONObject toJSON(Object o, String[] keys) {
 		Class c = o.getClass();
 		JSONObject json = new JSONObject();
