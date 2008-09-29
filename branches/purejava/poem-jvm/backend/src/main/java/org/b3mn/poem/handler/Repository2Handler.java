@@ -23,9 +23,11 @@
 
 package org.b3mn.poem.handler;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,12 +62,30 @@ public class Repository2Handler extends  HandlerBase {
     	response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
 
+    	String languageFiles = "";
+    	
+    	String languageCode = this.getLanguageCode(request);
+    	String countryCode = this.getCountryCode(request);
+    	
+    	// Add language file with language code only if it exists  
+    	if (new File(this.getBackendRootDirectory() + "/i18n/translation_"+languageCode+".js").exists()) {
+    		languageFiles += "<script src=\"" + backend_path 
+    		+ "/i18n/translation_"+languageCode+".js\" type=\"text/javascript\" ></script>\n";
+    	}
+    	// Add language file for country and language code if it exists
+    	if (new File(this.getBackendRootDirectory() + "/i18n/translation_" + languageCode+"_" + countryCode + ".js").exists()) {
+    		languageFiles += "<script src=\"" + backend_path 
+    		+ "i18n/translation_" + languageCode+"_" + countryCode 
+    		+ ".js\" type=\"text/javascript\" ></script>\n";
+    	}
+    	
+    	
     	out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
     	out.println("<html>");
     	out.println("<head>");
     	out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
     	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/ext-all.css\">");
-    	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/xtheme-gray.css\">");
+    	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/xtheme-gray.css\">");     	  	
     	out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/prototype.js\"></script>");
     	out.println("<script type=\"text/javascript\" src=\"" + ext_path + "adapter/ext/ext-base.js\"></script>");
     	//out.println("<script type=\"text/javascript\" src=\"" + ext_path + "ext-all.js\"></script>");
@@ -73,6 +93,8 @@ public class Repository2Handler extends  HandlerBase {
     	for (String include : java_script_includes) {	
     		out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/" + include + ".js\"></script>");
     	}
+    	out.println("<script src=\"" + backend_path + "/i18n/translation_en_us.js\" type=\"text/javascript\" ></script>\n"); 
+    	out.println(languageFiles);
     	for (String stylesheet : stylesheet_links) {
     		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + backend_path + "/stylesheets/" + stylesheet + ".css\">");
     	}
