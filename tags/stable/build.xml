@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+    <property file="build.properties" />
+    
+    <target name="clean">
+        <delete dir="dist"/>
+        <delete dir="build"/>
+    </target>
+    
+    <target name='examples' depends='build'>
+        
+        <copy todir='build'>
+            <fileset file="test/examples/*.xhtml"/>
+            <fileset file="*.php"/>
+        </copy>
+        <copy todir='build/css'>
+            <fileset dir='src/css'/>
+        </copy>
+        <echo>
+            Copied example files into build destination
+        </echo>
+        
+    </target>
+	
+	 <target name='copy-license'>
+        
+        <copy todir='build'>
+            <fileset file="LICENSE"/>
+            <fileset file="LIBRARIES"/>
+        </copy>
+        <echo>
+            Copied license file into build destination
+        </echo>
+        
+    </target>
+    
+    <target name="build-plugins">
+        
+        <copy todir='build/Plugins'>
+            <fileset dir="src/scripts/Plugins"/>
+        </copy>
+        <echo>
+            Copied plugins into build destination
+        </echo>
+        <copy todir='build/xslt'>
+            <fileset dir="src/xslt"/>
+        </copy>
+        <echo>
+            Copied XSL stylesheets into build destination
+        </echo>
+        
+    </target>
+    
+    <target name="build-stencilsets">
+        
+        <copy todir='build/stencilsets'>
+            <fileset dir="data/stencilsets"/>
+        </copy>
+        <echo>
+            Copied stencilsets into build destination
+        </echo>
+        
+    </target>
+    
+   <target name="build-execution">
+        
+        <copy todir='build/execution'>
+            <fileset dir="data/execution"/>
+        </copy>
+        <echo>
+            Copied execution data into build destination
+        </echo>
+        
+    </target>
+    
+    <target name="build-server">
+        
+        <mkdir dir="build/classes"/>
+        
+        <copy todir='build/classes'>
+            <fileset dir="etc">
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
+        
+        <copy todir='build'>
+            <fileset dir="server">
+                <include name="*.jsp"/>
+            </fileset>
+        </copy>
+        
+        <javac srcdir="server/src" destdir="build/classes" debug="on">
+            <classpath>
+				<fileset dir="lib">
+                    <include name="*.jar"/>
+                    <exclude name="deprecated/**" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="build-editor-core">
+        
+        <mkdir dir="build/tmp"/>
+        <copy todir='build' file='src/scripts/Core/config.js'/>
+        <concat destfile='build/oryx.debug.js'>
+            <filelist id="coresourcefiles" dir="src">
+                <file name='scripts/oryx.js'/>
+                <file name='scripts/Core/SVG/editpathhandler.js'/>
+                <file name='scripts/Core/SVG/minmaxpathhandler.js'/>
+                <file name='scripts/Core/SVG/pointspathhandler.js'/>
+                <file name='scripts/Core/SVG/svgmarker.js'/>
+                <file name='scripts/Core/SVG/svgshape.js'/>
+                <file name='scripts/Core/SVG/label.js'/>
+                <file name='scripts/Core/Math/math.js'/>
+                <file name='scripts/Core/StencilSet/stencil.js'/>
+                <file name='scripts/Core/StencilSet/property.js'/>
+                <file name='scripts/Core/StencilSet/propertyitem.js'/>
+                <file name='scripts/Core/StencilSet/complexpropertyitem.js'/>
+                <file name='scripts/Core/StencilSet/rules.js'/>
+                <file name='scripts/Core/StencilSet/stencilset.js'/>
+                <file name='scripts/Core/StencilSet/stencilsets.js'/>
+                <file name='scripts/Core/bounds.js'/>
+                <file name='scripts/Core/uiobject.js'/>
+                <file name='scripts/Core/abstractshape.js'/>
+                <file name='scripts/Core/canvas.js'/>
+                <file name='scripts/Core/main.js'/>
+                <file name='scripts/Core/svgDrag.js'/>
+                <file name='scripts/Core/shape.js'/>
+                <file name='scripts/Core/Controls/control.js'/>
+                <file name='scripts/Core/Controls/docker.js'/>
+                <file name='scripts/Core/Controls/magnet.js'/>
+                <file name='scripts/Core/node.js'/>
+                <file name='scripts/Core/edge.js'/>
+				<file name='scripts/Core/command.js'/>
+            </filelist>
+        </concat>
+        <echo>
+            Concatenated source files into oryx.js
+        </echo>
+        
+        <copy todir='build/lib'>
+            <fileset dir='lib' includes='**/*'>
+				<exclude name="**/*.jar"/>
+				<exclude name="deprecated/**"/>
+			</fileset>
+        </copy>
+        <copy todir='build/shared'>
+            <fileset dir='shared' includes='**/*.js'/>
+        </copy>
+        <echo>
+            Copied dependencies into library destination
+        </echo>
+        <copy todir='build/images'>
+            <fileset dir='src/images' includes='**/*.png'/>
+            <fileset dir='src/images' includes='**/*.gif'/>
+        </copy>
+        <echo>
+            Copied images into oryx build destination
+        </echo>
+        <copy todir="build/i18n">
+			<fileset dir="data/i18n"/>
+		</copy>
+		<echo>
+            Copied language files into oryx build destination
+        </echo>
+    </target>
+
+    <target name='generate-version-file'>
+        <exec executable="svn" output="build/version.xml" failifexecutionfails="false">
+            <arg value="info"/>
+            <arg value="--non-interactive"/>
+            <arg value="--xml"/>
+        </exec>
+    </target>
+        
+    <target name="build" depends="copy-license, build-plugins, build-stencilsets, build-execution, build-server, build-editor-core, generate-version-file" />
+    
+    <target name='compress'>
+        
+        <tempfile property="compress.temp" destDir="build"/>
+        
+        <java dir="build" jar="lib/custom_rhino.jar" fork="true"
+         failonerror="true" output='${compress.temp}'>
+            <arg value="-c"/>
+            <arg file='build/oryx.debug.js'/>
+        </java>
+        <echo>
+            Using ${compress.temp} for compression
+        </echo>
+        
+        <echo>
+            Compressing Oryx into build destination
+        </echo>
+        <concat destfile='build/oryx.js'>
+            <fileset file="license"/>
+            <fileset file="${compress.temp}"/>
+        </concat>
+        
+        <delete file='${compress.temp}'/>
+        
+    </target>
+    
+    <target name="dist">
+        <mkdir dir="dist"/>
+        
+        <!--
+        <echo>Creating zip for offline or php use, and online war file.</echo>
+        <zip destfile="dist/oryx.zip">
+        <fileset dir="build">
+        <exclude name="*.php"/>
+        <exclude name="classes/"/>
+        </fileset>
+        
+        </zip>
+        -->
+        
+        <echo>
+            Creating web application archive.
+        </echo>
+        <war destfile="dist/oryx.war" webxml="etc/web.xml">
+            
+            <lib dir="lib">
+                <include name="*.jar"/>
+				<exclude name="deprecated/**"/>
+				<!--<include name="batik-*.jar"/>
+                <include name="js.jar"/>
+                <include name="fop.jar"/>
+                <include name="pdf-transcoder.jar"/>
+                <include name="commons-*.jar"/>
+                <include name="serializer-2.7.0.jar"/>
+                <include name="xalan-2.6.0.jar"/>
+                <include name="xerces-2.5.0.jar"/>
+                <include name="xml-apis.jar"/>
+                <include name="xml-apis-ext.jar"/>
+                <include name="xmlgraphics-commons-1.1.jar"/>-->
+                
+                <!-- jsp and servlet development dependencies -->
+                <!--<include name="jstl.jar"/>
+                <include name="standard.jar"/>-->
+                
+                <!-- needed for openid authentication -->
+                <!--<include name="openid4java.jar"/>
+                <include name="openxri-*.jar"/>
+                <include name="htmlparser.jar"/>
+                <include name="dom3-*.jar"/>
+                <include name="icu4j_3_4_1.jar"/>
+                <include name="jug-1.1.jar"/>
+                <include name="xmlsec-1.1.jar"/>
+                <include name="infocard/*.jar"/>-->
+                
+                <!-- database connectors. consider moving this to users responsibility -->
+                <!--<include name="mysql-connector-java-5.1.5-bin.jar"/>-->
+                <!-- <include name="postgresql-8.3dev-602.jdbc3.jar"/> -->
+				
+				<!--<include name="oryxAtlas.jar"/>-->
+            </lib>
+            
+            <fileset dir="build">
+                <exclude name="classes/"/>
+                <exclude name="*.php"/>
+            </fileset>
+            
+            <classes dir="build/classes"/>
+			
+			<metainf file="build/LICENSE"/>
+            <metainf file="build/LIBRARIES"/>
+        </war>
+        
+          
+    </target>
+    
+    <target name="all" depends="build, examples, compress, dist"/>
+
+
+    <target name="deploy">
+        <copy file="dist/oryx.war" todir="${deploymentdir}" />
+    </target>
+
+    <target name="deploy-stencilsets">
+        <copy todir='${deploymentdir}/oryx/stencilsets'>
+            <fileset dir="data/stencilsets"/>
+        </copy>
+        <echo>
+            Copied stencilsets into deployment destination
+        </echo>
+    </target>
+
+    <target name="undeploy">
+        <delete file="${deploymentdir}/oryx.war" />
+    </target>
+
+    <!-- tasks for PoEM Backend -->
+    <target name="clean-backend">
+        <exec executable="buildr" dir="poem-jvm">
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+    <target name="build-backend">
+        <exec executable="buildr" dir="poem-jvm">
+            <arg value="package"/>
+        </exec>
+    </target>
+
+    <target name="deploy-backend">
+        <copy file="poem-jvm/backend/target/poem-backend-1.0.war" tofile="${deploymentdir}/backend.war" />
+    </target>
+
+    <target name="undeploy-backend">
+        <delete file="${deploymentdir}/backend.war" />
+    </target>
+
+    <!-- tasks for backend database -->
+    <target name="clean-db">
+        <exec executable="buildr" dir="poem-jvm">
+            <arg value="clean-postgres"/>
+        </exec>
+    </target>
+
+    <target name="build-db">
+        <exec executable="buildr" dir="poem-jvm">
+            <arg value="migrate"/>
+        </exec>
+    </target>
+
+    <target name="dump-db">
+        <exec executable="buildr" dir="poem-jvm">
+            <arg value="dump-db"/>
+        </exec>
+    </target>
+
+    <!-- combined tasks for editor and backend -->
+    <target name="rebuild-all" depends="clean, all, clean-backend, build-backend" />
+
+    <target name="rebuild-all-parallel">
+        <parallel>
+            <sequential>
+                <antcall target="clean" />
+                <antcall target="all" />
+            </sequential>
+            <sequential>
+                <antcall target="clean-backend" />
+                <antcall target="build-backend" />
+            </sequential>
+        </parallel>
+    </target>
+
+    <target name="deploy-all" depends="deploy, deploy-backend" /> 
+
+    <target name="undeploy-all" depends="undeploy, undeploy-backend" /> 
+
+	<!--<target name="tomcat-start">
+	    <java jar="${tomcat6}/bin/bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=${tomcat6}"/>
+	    </java>
+	</target>
+	
+	<target name="tomcat-stop">
+	    <java jar="${tomcat6}/bin/bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=${tomcat6}"/>
+	        <arg line="stop"/>
+	    </java>
+	</target>-->
+
+</project>
