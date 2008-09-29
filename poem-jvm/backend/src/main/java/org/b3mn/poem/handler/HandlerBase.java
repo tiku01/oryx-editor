@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -151,8 +155,15 @@ public abstract class HandlerBase {
     	String realPath = this.getServletContext().getRealPath("");
     	realPath = realPath.substring(0, realPath.indexOf("/backend"));
     	return realPath + "/oryx";
-    	
     }
+    
+    // Returns the absolute path to the root directory of the backend webapp
+    protected String getBackendRootDirectory() {
+    	String realPath = this.getServletContext().getRealPath("");
+    	realPath = realPath.substring(0, realPath.indexOf("/backend"));
+    	return realPath + "/backend";
+    }
+    
     // Convenience method to get the language data from the session
     protected String getLanguageCode(HttpServletRequest req) {
     	return (String) req.getSession().getAttribute("languagecode");
@@ -171,6 +182,23 @@ public abstract class HandlerBase {
     	for (; str.charAt(end) == ' '; end--); // Count spaces in the end
     	return str.substring(start, end+1);
     }
+    
+    protected Map<String, String> getLanguageFiles(String absoluteLanguageDir) {
+    	Map<String, String> files = new HashMap<String, String>();
+    	File dir = new File(absoluteLanguageDir);
+    	for (String fileName : dir.list()) {
+			Pattern pattern = Pattern.compile("translation_([a-z]{2,2})(_([a-z]{2,2}))?\\.js");
+			Matcher matcher = pattern.matcher(new StringBuffer(fileName));
+			matcher.find();			
+			if (matcher.group(3) == null) {
+				files.put(matcher.group(1), fileName);
+			} else {
+				files.put(matcher.group(1) + "_" +  matcher.group(3), fileName);
+    		}
+    	}
+    	return files;
+    }
+    
     
     protected String getOryxModel(String title, String content, 
     		String languageCode, String countryCode) {

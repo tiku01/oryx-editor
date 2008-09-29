@@ -6,8 +6,10 @@
  */
 
 
+
 // namespace
-if(!Repository.I18N) Repository.I18N = {};
+if(window.Repository == undefined) Repository = {};
+if(window.Repository.I18N == undefined) Repository.I18N = {};
 
 Repository.I18N.Language = "en_us"; //Pattern <ISO language code>_<ISO country code> in lower case!
 
