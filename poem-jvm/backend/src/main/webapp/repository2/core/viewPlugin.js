@@ -63,13 +63,14 @@ Repository.Core.ViewPlugin = {
 		},
 		
 		filterChanged : function(modelIds) {
-			this.preRender(modelIds);
+			this.preRender(this.facade.getDisplayedModels());
 		},
 		
 		updateModels : function(modelIds) {
 			modelIds.each(function(modelId) {
 				if (this.facade.getDisplayedModels().indexOf(modelId) != -1) {
 					this.preRender(this.facade.getDisplayedModels());
+					return;
 				}
 			}.bind(this));
 		}
