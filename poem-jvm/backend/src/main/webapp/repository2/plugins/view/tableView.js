@@ -37,6 +37,8 @@ Repository.Plugins.TableView = {
 		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
 	},
 	
+	
+	
 	render : function(modelData) {
 		
 		if (this.panel.items) {
@@ -51,7 +53,8 @@ Repository.Plugins.TableView = {
 		
 		
 		// this.viewPanel.getEl().update('');
-		var container = new Ext.Panel({id : 'debug_view_container'});
+		var container = new Ext.Panel({id : 'table_view_container'});
+		console.log(modelData.values);
 		modelData.each(function (pair){
 			var damnButton = new Ext.Button({text : 'Select model!'});
 			
@@ -84,4 +87,4 @@ Repository.Plugins.TableView = {
 	},
 };
 
-Repository.Plugins.DebugView = Repository.Core.ViewPlugin.extend(Repository.Plugins.DebugView);
+Repository.Plugins.TableView = Repository.Core.ViewPlugin.extend(Repository.Plugins.TableView);
