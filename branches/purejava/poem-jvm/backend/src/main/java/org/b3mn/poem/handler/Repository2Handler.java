@@ -52,7 +52,7 @@ public class Repository2Handler extends  HandlerBase {
 	// Return the HTML code for the repository
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
-		String[] java_script_includes = {"ext_templates", "core/clazz", "core/eventHandler", "core/dataCache", "core/repository", "core/plugin", "core/viewPlugin", "core/contextFreePlugin", "core/contextPlugin", "plugins/newModelPlugin","plugins/view/debugView2"};
+		String[] java_script_includes = {"ext_templates", "core/clazz", "core/eventHandler", "core/dataCache", "core/repository", "core/plugin", "core/viewPlugin", "core/contextFreePlugin", "core/contextPlugin", "plugins/newModelPlugin","plugins/view/debugView2", "plugins/view/tableView"};
 		String[] stylesheet_links = {"openid", "repository", "model_properties"};
 
 		String backend_path = "/backend";
