@@ -372,6 +372,7 @@ Repository.Core.Repository = {
 		_loadPlugins : function() {
 			
 			this._plugins.push(new Repository.Plugins.NewModel(this.getFacade()));
+			this._plugins.push(new Repository.Plugins.TableView(this.getFacade()));
 			var startView = new Repository.Plugins.DebugView(this.getFacade());
 			this._plugins.push(startView);
 			this._switchView(startView);
