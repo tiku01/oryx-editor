@@ -52,14 +52,13 @@ public class ModelInfoHandler extends  HandlerBase {
 		String typeQuery = "";
 		for (String type : params.split(",")) {
 			type = removeSpaces(type);
-			typeQuery+=type+" OR ";
+			typeQuery+="representation.type='"+type+"' OR ";
 		}
 		// Remove last OR
 		if (typeQuery.length() > 4) {
 			typeQuery = typeQuery.substring(0, typeQuery.length() - 4);
 		}
 		
-
 		List<Integer> results = Persistance.getSession()
 			.createSQLQuery("SELECT identity.id FROM identity, access, representation "
 			+ "WHERE access.subject_id=:subject_id AND access.object_id=identity.id AND representation.ident_id=access.object_id "
