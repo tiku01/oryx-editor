@@ -36,17 +36,39 @@ Repository.Core.Plugin = {
 	 */
 	construct: function(facade) {
 		arguments.callee.$.construct.apply(this, arguments);
+		this.oryxUrl = '/oryx';
+		this.stencilsetUrl = '/stencilsets';
 		if(!this.facade) this.facade = facade;
 		if(!this.dataUris) this.dataUris = [];
 		if(!this.toolbarButtons) this.toolbarButtons = [];
 		this.panel = this.facade.registerPlugin(this);
+		this.modelTypes = null;
 	},
 	preRender: function(modelIds) {
 		this.facade.modelCache.getDataAsync(this.dataUris, modelIds, this.render.bind(this))
 	},
 	render: function(modelData) {
 		
-	}
+	},
+	getModelTypes : function() {
+		// lazy loading
+		if (!this.modelTypes) {
+			new Ajax.Request("/oryx/stencilsets/stencilsets.json", 
+			 {
+				method: "get",
+				asynchronous : false,
+				onSuccess: function(transport) {
+					this.modelTypes = transport.responseText.evalJSON();
+					this.modelTypes.each(function(type) {
+						type.iconUrl = this._oryxUrl + this.stencilsetUrl + type.icon_url;
+						type.url = this.stencilsetUrl + type.uri
+					}.bind(this));
+				}.bind(this),
+				onFailure: function() {alert("Fehler modelTypes")}
+			});
+		}
+		return this.modelTypes;
+	},
 
 };
 

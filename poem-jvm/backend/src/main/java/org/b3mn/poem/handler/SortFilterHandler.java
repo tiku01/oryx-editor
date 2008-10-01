@@ -78,6 +78,7 @@ public class SortFilterHandler extends HandlerBase {
 				// Find filtering methods ************************************************************
 				// Check if the method is static, annotated with the FilterMethod annotation,
 				// returns a collection and has the right parameters
+				System.out.println(method.getName()); // TODO: Remove debug line
 				if ((method.getAnnotation(FilterMethod.class) != null) && 
 						(method.getReturnType().equals(Collection.class)) && 
 						(method.getParameterTypes().length == 2) &&
@@ -126,22 +127,6 @@ public class SortFilterHandler extends HandlerBase {
 	@SuppressWarnings("unchecked")
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
-		Set<Integer> filteredIds = new HashSet<Integer>(); // Stores the ids of the filtered models
-		// Iterate over http parameters
-		Enumeration<String> e = request.getParameterNames();
-		while (e.hasMoreElements()) {
-			String filterName = (String) e.nextElement();
-			if (!filterName.equals("sort")) {
-				Method filterMethod = this.filterMapping.get(filterName.toLowerCase());
-				// If the filter method exists
-				if (filterMethod != null) {
-					Object[] args = { subject, request.getParameter(filterName) };
-					// Invoke the filter method an add the filtered ids to the result set
-					filteredIds.addAll((Collection<Integer>) filterMethod.invoke(null, args)); 
-				}
-			}
-		}
-		
 		String sortName = request.getParameter("sort");
 		String defaultSort = "lastChange";
 		if (sortName == null) {
@@ -153,11 +138,27 @@ public class SortFilterHandler extends HandlerBase {
 		
 		if (sortMethod == null) {
 			sortName = defaultSort; // set default filter
+			sortMethod = this.sortMapping.get(sortName);
 		}
 
 		Object[] arg = { subject };
 		List<Integer> orderedIds= (List<Integer>) sortMethod.invoke(null, arg);
-		orderedIds.retainAll(filteredIds); // remove all ids that aren't filtered successfully before
+		
+		// Iterate over http parameters
+		Enumeration<String> e = request.getParameterNames();
+		while (e.hasMoreElements()) {
+			String filterName = (String) e.nextElement();
+			if (!filterName.equals("sort")) {
+				Method filterMethod = this.filterMapping.get(filterName.toLowerCase());
+				// If the filter method exists
+				if (filterMethod != null) {
+					Object[] args = { subject, request.getParameter(filterName) };
+					// Invoke the filter method an add the filtered ids to the result set
+					orderedIds.retainAll((Collection<Integer>) filterMethod.invoke(null, args)); 
+				}
+			}
+		}
+		
 		JSONArray jsonArray = new JSONArray(orderedIds); // Transform List to json
 		jsonArray.write(response.getWriter()); // Write json to http response
 		response.setStatus(200);

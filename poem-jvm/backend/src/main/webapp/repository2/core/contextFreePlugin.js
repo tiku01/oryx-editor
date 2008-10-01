@@ -32,8 +32,6 @@ Repository.Core.ContextFreePlugin = {
 	construct: function(facade) {
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		// register ContextFree-Plugins on panel on left-side
-		this.panel = this.facade.registerPluginOnPanel(this.name, 'left');
 	},
 };
 

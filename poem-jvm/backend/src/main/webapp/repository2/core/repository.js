@@ -35,9 +35,7 @@ Repository.Core.Repository = {
 			this._currentUser = currentUser;
 			this._publicUser = 'public';
 			this._modelCache = new Repository.Core.DataCache(modelUris);
-			this._oryxUrl = '/oryx';
-			this._stencilsetUrl = '/stencilsets';
-			this._modelTypes = null;
+
 			
 			// Event handler
 			this._viewChangedHandler = new EventHandler();
@@ -53,7 +51,8 @@ Repository.Core.Repository = {
 			this._displayedModels = new Array();
 			
 			this._filters = new Hash();
-			this._sort = new Array();
+			this._sorts = new Array();
+			this._currentSort = -1;
 			
 			// UI
 			this._controls = new Object();
@@ -63,35 +62,8 @@ Repository.Core.Repository = {
 			this._currentView = "";
 			
 			this._bootstrapUI();
-			this._loadModelTypes();
 			this._loadPlugins();
 			
-		},
-
-		_loadModelTypes : function() {
-			new Ajax.Request("/oryx/stencilsets/stencilsets.json", 
-			 {
-				method: "get",
-				asynchronous : false,
-				onSuccess: this._fetchModelTypes.bind(this),
-				onFailure: function() {alert("Fehler modelTypes")}
-			});
-		},
-		
-		/**
-		 * receives response from server in "transport" and build up the Urls for icons and stencilsets
-		 * @param {Object} transport
-		 */
-		_fetchModelTypes : function(transport) {
-			this._modelTypes = transport.responseText.evalJSON();
-			this._modelTypes.each(function(type) {
-				type.iconUrl = this._oryxUrl + this._stencilsetUrl + type.icon_url;
-				type.url = this._stencilsetUrl + type.uri
-			}.bind(this));
-		},
-		
-		getModelTypes : function() {
-			return this._modelTypes;
 		},
 		
 		getFacade : function() {
@@ -103,7 +75,6 @@ Repository.Core.Repository = {
 						registerOnFilterChanged : this._filterChangedHandler.registerCallback.bind(this._filterChangedHandler),
 						
 						modelCache : this._modelCache,
-						getModelTypes : this.getModelTypes.bind(this),
 						
 						applyFilter : this.applyFilter.bind(this),
 						removeFilter : this.removeFilter.bind(this),
@@ -125,49 +96,27 @@ Repository.Core.Repository = {
 			return this._facade;
 		},
 		
-		/**
-		 * compares, whether two openids are the same --- is sort of flexible and fault tolerant
-		 * 
-		 * @param {String} openid1
-		 * @param {String} openid2
-		 */
-		equalUsers: function(openid1, openid2) {
-			openid1 = openid1+"";
-			openid2 = openid2+"";
-			
-			filter = function(url) {
-				return url.replace(/^https?:\/\//, "").replace(/\/*$/,"");
-			}
-			
-			return filter(openid1) == filter(openid2)
-		},
 		
-		/**
-		 * Checks whether a user is the public user, 
-		 * based on the definition that an empty string (!== null) identifies the anonymous user
-		 * 
-		 * @param {String} openid
-		 */
-		isPublicUser: function(openid) {
-			if( !openid ){ openid = this._currentUser };
-			return this.equalUsers(openid, this._publicUser);
+		isPublicUser: function() {
+			return this._currentUser == this.publicUser;
 		},
 		
 		applyFilter : function(name, parameters) {
-			Ext.Ajax.request({
-				url : 'filter', 
-				method : 'post',
-				params : {
-					filterName : name,
-					modelIds : this._modelCache.getIds().toJSON(),
-					"params" : parameters.toJSON()
-				},
-				success : function(response) {
-					// Store the result in the _filter hash
-					this._filters.set(name, Ext.util.JSON.decode(response.responseText));
-					this.updateFilteredIds();
-				}.bind(this)
-			});
+			this._filters.set(name, parameters);
+			var params = this._filters.clone();
+			if (this._currentSort != -1) {
+				params.put('sort', this._sorts[this._currentSort]);
+			}
+			new Ajax.Request("filter", 
+					 {
+						method: "get",
+						asynchronous : false,
+						onSuccess: function(transport) {
+							this._filteredModels = eval(response.responseText);
+							this._filterChangedHandler.invoke(this._filteredModels);
+						}.bind(this),
+						parameters : params,
+					});
 		},
 		
 		removeFilter : function(name) {
@@ -194,8 +143,7 @@ Repository.Core.Repository = {
 				this._filterChangedHandler.invoke(filterResult);
 				this._filteredModels = filterResult;
 			} else {
-				this._filterChangedHandler.invoke(this._modelCache.getIds());
-				this._filteredModels = this._modelCache.getIds();
+
 			}
 		},
 		
@@ -372,7 +320,9 @@ Repository.Core.Repository = {
 		_loadPlugins : function() {
 			
 			this._plugins.push(new Repository.Plugins.NewModel(this.getFacade()));
+			this._plugins.push(new Repository.Plugins.TypeFilter(this.getFacade()));
 			this._plugins.push(new Repository.Plugins.TableView(this.getFacade()));
+
 			var startView = new Repository.Plugins.DebugView(this.getFacade());
 			this._plugins.push(startView);
 			this._switchView(startView);
