@@ -62,6 +62,9 @@ Repository.Core.Repository = {
 			this._currentView = "";
 			
 			this._bootstrapUI();
+			
+			// Loads all required plugins which 
+			// are specified in the plugins.xml
 			this._loadPlugins();
 			
 		},
@@ -319,20 +322,75 @@ Repository.Core.Repository = {
 		
 		_loadPlugins : function() {
 			
-			this._plugins.push(new Repository.Plugins.NewModel(this.getFacade()));
-			this._plugins.push(new Repository.Plugins.TypeFilter(this.getFacade()));
-			this._plugins.push(new Repository.Plugins.TableView(this.getFacade()));
-
-			var startView = new Repository.Plugins.DebugView(this.getFacade());
-			this._plugins.push(startView);
-			this._switchView(startView);
-			/**this._plugins.push(new Repository.Plugins.ModelTypeFilter(this.getFacade()));
-			this._plugins.push(new Repository.Plugins.NewModelControls(this.getFacade()));
-			this._plugins.push(new Repository.Plugins.DebugView(this.getFacade()));
-			this._plugins.push(new Repository.Plugins.ModelTagInfo(this.getFacade()));
-			this.switchView('Debug View');**/
+			var source = Repository.Config.PATH + Repository.Config.PLUGIN_PATH	+ Repository.Config.PLUGIN_CONFIG
+	
+			new Ajax.Request(source, {
+				asynchronous: false,
+				method: 'get',
+				onSuccess: function(result){
+				
+					// get plugins.xml content
+					var resultXml = result.responseXML;
+					
+					// Get all source names
+					var files = $A(resultXml.getElementsByTagName("plugin")).map(function(p){ return p.getAttribute('source') }).compact()
+					this._intializePluginFiles( files );
+					
+					// Get all plugin names
+					var names = $A(resultXml.getElementsByTagName("plugin")).map(function(p){ return p.getAttribute('name') }).compact()
+					window.setTimeout(this._initializePlugins.bind(this, names), 200);
+					 					
+				}.bind(this),
+				onFailure: function(){
+				
+					Ext.Msg.alert('Oryx', 'Plugin config could not be loaded!')
+					
+				}
+			});
+			
 		},
 		
+		_initializePlugins: function( names ){
+			
+			names.each(function( name ){
+				
+				// Try to initialize a new plugin-class
+				try {
+					var className 	= eval( name )
+					var plugin 		= new className( this.getFacade() )
+					this._plugins.push( plugin )
+					
+				} catch(e){
+					// TODO: Error Handling
+				}
+			}.bind(this));
+			
+			// Find a view plugin and switch to the first one
+			var firstView = this._plugins.find(function(plugin){ return plugin instanceof Repository.Core.ViewPlugin })
+			if( firstView ){
+				this._switchView( firstView );
+			}
+
+
+		}, 
+		
+		_intializePluginFiles: function( files ){
+
+			var prefixURL = Repository.Config.PATH + Repository.Config.PLUGIN_PATH;
+
+			files.each(function(file){
+
+				// prepare a script tag and place it in html head.
+				var head = document.getElementsByTagName('head')[0];
+				var s = document.createElementNS(XMLNS.XHTML, "script");
+				s.setAttributeNS(XMLNS.XHTML, 'type', 'text/javascript');
+			   	s.src = prefixURL + file;
+		
+			   	head.appendChild(s);
+							
+			});
+			
+		},
 		
 		/* This functions defines and initialize the basic UI components
 		 * 

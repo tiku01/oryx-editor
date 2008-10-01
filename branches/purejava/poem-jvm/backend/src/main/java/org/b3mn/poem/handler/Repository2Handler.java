@@ -55,17 +55,14 @@ public class Repository2Handler extends  HandlerBase {
 
 		String[] java_script_includes = {"ext_templates", 
 				"core/clazz", 
+				"config", 
 				"core/eventHandler", 
 				"core/dataCache", 
 				"core/repository", 
 				"core/plugin", 
 				"core/viewPlugin", 
 				"core/contextFreePlugin", 
-				"core/contextPlugin", 
-				"plugins/newModelPlugin",
-				"plugins/view/debugView2",
-				"plugins/contextFree/typeFilter",
-				"plugins/view/tableView"
+				"core/contextPlugin",
 				};
 
 		String[] stylesheet_links = {"openid", "repository", "model_properties"};
