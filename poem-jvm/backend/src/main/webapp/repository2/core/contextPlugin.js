@@ -31,7 +31,7 @@ Repository.Core.ContextPlugin = {
 		// call Plugin constructor
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		this.panel = this.facade.registerPluginOnPanel({name : this.name});
+		this.panel = this.facade.registerPlugin(this);
 		
 		// register on events SectionChanged and ModelUpdate
 		this.facade.registerOnSelectionChanged(this.selectionChanged.bind(this));

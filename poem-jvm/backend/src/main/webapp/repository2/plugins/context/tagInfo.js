@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008
- * Bjšrn Wagner, Sven Wagner-Boysen
+ * Willi Tscheschner
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,39 +21,47 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-// set namespace
+// define namespace
+if(!Repository) var Repository = {};
+if(!Repository.Plugins) Repository.Plugins = {};
 
-if(!Repository.Core) Repository.Core = {};
+/**
+ * Supplies filtering by model type (stencil set)
+ * Note: Only stencil sets defined in the stencilsets.json can be selected as filter
+ */
 
-function EventHandler() {
-	this._callbacks = new Array();
-}
+Repository.Plugins.TagInfo = {
+	construct: function( facade ) {
+		// Set the name
+		this.name = Repository.I18N.TagInfo.name;
 
-EventHandler.prototype = {
-	registerCallback : function(callback) {
-		if ( callback instanceof Function ) {
-			this._callbacks.push(callback);
-		}
+		this.dataUris = ["/tags"];
+				
+		// call Plugin super class
+		arguments.callee.$.construct.apply(this, arguments); 
+
 	},
 	
-	unregisterCallback : function(callback) {
-		// if callback exists
-		if (this._callbacks.indexOf(callback) > -1) {
-			this._callbacks[this._callbacks.indexOf(callback)] = null; // remove it
-			this._callbacks = this._callbacks.compact(); // remove null item from array
-		}
+	render: function( modelData ){
+		
+		var div = "<div>";
+		
+		var modelTags = $H(modelData).values().map(function( tags ){ return tags.userTags }).flatten().compact().uniq();
+		modelTags.each(function(tag){
+			div += '<a href="Delete" onclick="' + this._onTagClick.bind(this, tag) + '">' + tag + '</a><br/>';
+		}.bind(this))
+		
+		div += "</div>";
+		
+		this.panel.add( new Ext.Panel({html:div}) );
+		this.panel.doLayout();
+
 	},
 	
-	invoke : function(arg) {
-		this._callbacks.each(function(callback) { 
-			try {
-				callback(arg);
-			} catch(e) {
-				// if the call fails do nothing but call remaining callbacks
-			}});
-	},
-	
-	invoke : function(arg1, arg2) {
-		this._callbacks.each(function(callback) {callback(arg1, arg2);})
-	}
-}
+	_onTagClick: function( tag ){
+		
+		return false;
+	}	
+};
+
+Repository.Plugins.TagInfo = Repository.Core.ContextPlugin.extend(Repository.Plugins.TagInfo);
