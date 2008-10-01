@@ -52,20 +52,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sun.tools.javac.tree.Tree.Annotation;
+
 
 
 public class SortFilterHandler extends HandlerBase {
 	
-	
 	private Map<String, Method> filterMapping = new HashMap<String, Method>();
 	private Map<String, Method> sortMapping = new HashMap<String, Method>();
+	
+	protected static boolean isSuperclass(Class<?> subClass, Class<?> parentClass) {
+		if (subClass.equals(parentClass)) return true;
+		if (subClass.getSuperclass() == null) return false;
+		return isSuperclass(subClass.getSuperclass(), parentClass);
+	}
 	
 	@Override
 	public void init() {
 		try {
 			load();
 		} catch (Exception e) {
-
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -74,15 +81,17 @@ public class SortFilterHandler extends HandlerBase {
 		for (String handlerName : getDispatcher().getHandlerClassNames()) {
 			Class<?> handlerClass = Class.forName(handlerName);
 			// Iterate over all public methods of the class
-			for (Method method : handlerClass.getMethods()) {
+			for (Method method : handlerClass.getMethods()) {  
 				// Find filtering methods ************************************************************
 				// Check if the method is static, annotated with the FilterMethod annotation,
 				// returns a collection and has the right parameters
-				System.out.println(method.getName()); // TODO: Remove debug line
+				for (java.lang.annotation.Annotation annotation : method.getAnnotations()) {
+					System.out.println("Oryx:"  + method.getDeclaringClass().getName() + "  -   "+ annotation.getClass().getName());
+				}
 				if ((method.getAnnotation(FilterMethod.class) != null) && 
-						(method.getReturnType().equals(Collection.class)) && 
+						(isSuperclass(method.getReturnType(),Collection.class)) && 
 						(method.getParameterTypes().length == 2) &&
-						(method.getModifiers() == Modifier.STATIC)) {
+						((method.getModifiers() & Modifier.STATIC) != 0)) {
 					// Check: 1st parameter: Identity, 2nd String
 					if ((method.getParameterTypes()[0].equals(Identity.class)) && 
 							(method.getGenericParameterTypes()[1].equals(String.class))) {
@@ -90,31 +99,31 @@ public class SortFilterHandler extends HandlerBase {
 						// Note: filter names are case-insensitive
 						String filterName = method.getName().toLowerCase();
 						
-						if (method.getAnnotation(FilterMethod.class).FilterName().equals("")) {
+						if (!method.getAnnotation(FilterMethod.class).FilterName().equals("")) {
 							filterName = method.getAnnotation(FilterMethod.class).FilterName().toLowerCase();
 						}
 						this.filterMapping.put(filterName, method);
 					}
-					// Find sorting methods ************************************************************
-					// Check if the method is static, annotated with the SortMethod annotation,
-					// returns a list and has the right parameters
-					if ((method.getAnnotation(SortMethod.class) != null) && 
-							(method.getReturnType().equals(List.class)) && 
-							(method.getParameterTypes().length == 1) &&
-							(method.getModifiers() == Modifier.STATIC)) {
-						// Check: 1st and only parameter: Identity
-						if (method.getParameterTypes()[0].equals(Identity.class)) {			
-							// If no filter name is supplied by the annotation, use the method name
-							// Note: filter names are case-insensitive
-							String sortName = method.getName().toLowerCase();
-							
-							if (method.getAnnotation(SortMethod.class).SortName().equals("")) {
-								sortName = method.getAnnotation(SortMethod.class).SortName().toLowerCase();
-							}
-							this.sortMapping.put(sortName, method);
+				}
+				// Find sorting methods ************************************************************
+				// Check if the method is static, annotated with the SortMethod annotation,
+				// returns a list and has the right parameters  
+				if ((method.getAnnotation(SortMethod.class) != null) && 
+						(isSuperclass(method.getReturnType(),List.class)) && 
+						(method.getParameterTypes().length == 1) &&
+						((method.getModifiers() & Modifier.STATIC) != 0)) {
+					// Check: 1st and only parameter: Identity
+					if (method.getParameterTypes()[0].equals(Identity.class)) {			
+						// If no filter name is supplied by the annotation, use the method name
+						// Note: filter names are case-insensitive
+						String sortName = method.getName().toLowerCase();
+
+						if (!method.getAnnotation(SortMethod.class).SortName().equals("")) {
+							sortName = method.getAnnotation(SortMethod.class).SortName().toLowerCase();
 						}
-					}				
-				}				
+						this.sortMapping.put(sortName, method);
+					}
+				}											
 			}
 		}
 	}
@@ -128,7 +137,7 @@ public class SortFilterHandler extends HandlerBase {
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
 		String sortName = request.getParameter("sort");
-		String defaultSort = "lastChange";
+		String defaultSort = "lastchange";
 		if (sortName == null) {
 			sortName = defaultSort; // set default filter
 		} 

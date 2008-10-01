@@ -187,10 +187,11 @@ public abstract class HandlerBase {
     
     // Removes spaces in the beginning and in the end of the string
     protected static String removeSpaces(String str) {
+    	if (str.length() < 1) return str;
     	int start = 0;
     	int end= str.length() - 1;
-    	for (; str.charAt(start) == ' '; start++); // Count spaces in the beginning
-    	for (; str.charAt(end) == ' '; end--); // Count spaces in the end
+    	for (; str.charAt(start) == ' ' && start < str.length(); start++); // Count spaces in the beginning
+    	for (; str.charAt(end) == ' ' && end >= 0; end--); // Count spaces in the end
     	return str.substring(start, end+1);
     }
     
