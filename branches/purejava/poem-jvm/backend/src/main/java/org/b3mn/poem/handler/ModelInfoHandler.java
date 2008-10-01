@@ -15,6 +15,7 @@ import org.b3mn.poem.Representation;
 import org.b3mn.poem.business.Model;
 import org.b3mn.poem.util.FilterMethod;
 import org.b3mn.poem.util.JavaBeanJsonTransformation;
+import org.b3mn.poem.util.SortMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,12 +46,12 @@ public class ModelInfoHandler extends  HandlerBase {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access" })
 	@FilterMethod(FilterName="type")
-	public List<Integer> filterByModelType(Identity subject, String params) {
+	public static Collection<Integer> filterByModelType(Identity subject, String params) {
 		String typeQuery = "";
 		for (String type : params.split(",")) {
-			type = this.removeSpaces(type);
+			type = removeSpaces(type);
 			typeQuery+=type+" OR ";
 		}
 		// Remove last OR
@@ -70,4 +71,20 @@ public class ModelInfoHandler extends  HandlerBase {
 		
 		return results;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@SortMethod(SortName="lastChange")	
+	public static List<Integer> sortByLastChange(Identity subject) {
+		List<Integer> results = Persistance.getSession()
+		.createSQLQuery("SELECT identity.id FROM identity, access, representation "
+		+ "WHERE access.subject_id=:subject_id AND access.object_id=identity.id AND representation.ident_id=access.object_id " 
+		+ "ORDER BY representation.updated")
+		.setInteger("subject_id", subject.getId())
+		.list();
+	
+		Persistance.commit();
+		return results;
+	}
+	
+	
 }

@@ -229,10 +229,18 @@ body, td, input, textarea {
 
 .test_selected_item {
 	border-color:#FF0000;
-	border-width: 10px;	
+	border-width: 2px;	
 }
 
 .test_unselected_item {
 	border-color:#000000;
-	border-width: 10px;	
+	border-width: 2px;	
+}
+
+.test_selected_text {
+	font-weight: bold;
+}
+
+.test_unselected_text {
+	font-weight: normal;
 }

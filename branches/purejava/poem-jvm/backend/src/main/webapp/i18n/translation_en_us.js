@@ -49,6 +49,12 @@ if(!Repository.I18N.TableView) Repository.I18N.TableView = {};
 
 Repository.I18N.TableView.name = "Table View";
 
+// TypeFilter Plugin
+
+if(!Repository.I18N.TypeFilter) Repository.I18N.TypeFilter = {};
+
+Repository.I18N.TypeFilter.name = "Type Filter";
+
 
 
 

@@ -32,13 +32,14 @@ if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.NewModel = {
 	construct: function(facade) {
+		arguments.callee.$.construct.apply(this, arguments); //call Plugin super class
 		this.name = Repository.I18N.NewModel.name;
 		this.facade = facade;
 		
 		// define Create New Model menu
 		this.toolbarButtons = new Array();
 		
-		this.facade.getModelTypes().each(function(type) {
+		this.getModelTypes().each(function(type) {
 			this.toolbarButtons.push({
 				text : type.title,
 				menu : this.name,
@@ -48,8 +49,6 @@ Repository.Plugins.NewModel = {
 				}.bind(this)				
 			});
 		}.bind(this));
-
-		arguments.callee.$.construct.apply(this, arguments); //call Plugin super class
 	}
 };
 
