@@ -44,24 +44,79 @@ Repository.Plugins.TagInfo = {
 	
 	render: function( modelData ){
 		
-		var div = "<div>";
+		var oneIsSelected = $H(modelData).keys().length !== 0;
+		
+		
+		var buttons = [];
 		
 		var modelTags = $H(modelData).values().map(function( tags ){ return tags.userTags }).flatten().compact().uniq();
 		modelTags.each(function(tag){
-			div += '<a href="Delete" onclick="' + this._onTagClick.bind(this, tag) + '">' + tag + '</a><br/>';
+			buttons.push( new Ext.LinkButton({text:tag, click:this._onTagClick.bind(this, tag), style:'display:block'}) );
 		}.bind(this))
 		
-		div += "</div>";
 		
-		this.panel.add( new Ext.Panel({html:div}) );
+		// Generate a new panel for the buttons
+		var buttonsPanel = new Ext.Panel({
+					style	: 'padding-bottom:10px;border:none;',
+					items	: buttons
+				})
+
+		// Generate a new panel for the add form
+		var addPanel = new Ext.Panel({
+					layout	: 'absolute',
+					style	: 'border:none;',
+					height	: 40,
+					items	: [
+								new Ext.form.TextField({
+											x		: 0, 
+											y		: 0, 
+											width	: 100,
+											emptyText : 'New Tag',
+											disabled  : oneIsSelected,  
+										}),
+								new Ext.Panel({
+											x		: 100, 
+											y		: 0,
+											style	: 'border:none;',  
+											items:[ new Ext.Button({
+															text 	: 'Add',
+															disabled 	: oneIsSelected, 
+															listeners	: {
+																click : function(){
+																	this._addTag(Ext.getCmp('repository_taginfo_textfield').getValue())
+																}.bind(this)
+															}
+														}) ]})
+							]
+				});
+
+
+		var newPanel = new Ext.Panel({
+					style	: 'padding:10px; border:none;', 
+					items	: [buttonsPanel, addPanel]
+				})
+		
+		// Removes the old child ...
+		this.panel.remove( this.panel.getComponent(0) )
+		// ... before the new child gets added		
+		this.panel.add( panel );
+		// Update layouting
 		this.panel.doLayout();
 
 	},
 	
 	_onTagClick: function( tag ){
 		
-		return false;
-	}	
+		// TODO: Implementing the deletion of a tag
+		
+	},	
+	
+	_addTag: function( tagname ){
+		
+		if( !tagname || tagname.length <= 0 ){ return }
+		// TODO: Implementing the adding of a new tag
+		
+	}
 };
 
 Repository.Plugins.TagInfo = Repository.Core.ContextPlugin.extend(Repository.Plugins.TagInfo);
