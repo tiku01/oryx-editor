@@ -37,6 +37,8 @@ Repository.Core.ContextPlugin = {
 		this.facade.registerOnSelectionChanged(this.selectionChanged.bind(this));
 		this.facade.modelCache.getUpdateHandler().registerCallback(this.modelUpdate.bind(this));
 		
+		this.preRender( this.facade.getSelectedModels() )
+		
 	},
 	selectionChanged : function(modelIds) {
 		if (modelIds.length != 0) {

@@ -31,11 +31,14 @@ if(!Repository.Plugins) Repository.Plugins = {};
  */
 
 Repository.Plugins.TagInfo = {
+	
+	TAG_URL : "/tags",
+	
 	construct: function( facade ) {
 		// Set the name
 		this.name = Repository.I18N.TagInfo.name;
 
-		this.dataUris = ["/tags"];
+		this.dataUris = [this.TAG_URL];
 				
 		// call Plugin super class
 		arguments.callee.$.construct.apply(this, arguments); 
@@ -43,44 +46,53 @@ Repository.Plugins.TagInfo = {
 	},
 	
 	render: function( modelData ){
+
+		// Try to removes the old child ...
+		var child = Ext.getCmp( 'repository_taginfo_mainpanel' );
+		if( child )
+			this.panel.remove( child );
+			
+					
+		var oneIsSelected 	= $H(modelData).keys().length !== 0;
+		var buttons 		= [];
 		
-		var oneIsSelected = $H(modelData).keys().length !== 0;
-		
-		
-		var buttons = [];
-		
-		var modelTags = $H(modelData).values().map(function( tags ){ return tags.userTags }).flatten().compact().uniq();
+		var modelTags 		= $H(modelData).values().map(function( tags ){ return tags.userTags }).flatten().compact().uniq();
 		modelTags.each(function(tag){
 			buttons.push( new Ext.LinkButton({text:tag, click:this._onTagClick.bind(this, tag), style:'display:block'}) );
 		}.bind(this))
 		
 		
-		// Generate a new panel for the buttons
-		var buttonsPanel = new Ext.Panel({
-					style	: 'padding-bottom:10px;border:none;',
-					items	: buttons
-				})
+		var buttonsPanel
+		if( buttons.length > 0 ){
+			// Generate a new panel for the buttons
+			buttonsPanel = new Ext.Panel({
+						items	: buttons,
+						border	: false
+					})			
+		}
 
 		// Generate a new panel for the add form
 		var addPanel = new Ext.Panel({
+					style	: 'padding-top:10px;',
 					layout	: 'absolute',
-					style	: 'border:none;',
+					border	: false,
 					height	: 40,
 					items	: [
 								new Ext.form.TextField({
+											id		: 'repository_taginfo_textfield',
 											x		: 0, 
 											y		: 0, 
 											width	: 100,
 											emptyText : 'New Tag',
-											disabled  : oneIsSelected,  
+											disabled  : !oneIsSelected,  
 										}),
 								new Ext.Panel({
 											x		: 100, 
 											y		: 0,
-											style	: 'border:none;',  
+											border	: false,
 											items:[ new Ext.Button({
 															text 	: 'Add',
-															disabled 	: oneIsSelected, 
+															disabled 	: !oneIsSelected, 
 															listeners	: {
 																click : function(){
 																	this._addTag(Ext.getCmp('repository_taginfo_textfield').getValue())
@@ -92,16 +104,17 @@ Repository.Plugins.TagInfo = {
 
 
 		var newPanel = new Ext.Panel({
-					style	: 'padding:10px; border:none;', 
-					items	: [buttonsPanel, addPanel]
+					id		: 'repository_taginfo_mainpanel',
+					style	: 'padding:10px;', 
+					border	: false,
+					items	: buttonsPanel ? [buttonsPanel, addPanel] : [addPanel]
 				})
-		
-		// Removes the old child ...
-		this.panel.remove( this.panel.getComponent(0) )
+						
 		// ... before the new child gets added		
-		this.panel.add( panel );
+		this.panel.add( newPanel );
 		// Update layouting
 		this.panel.doLayout();
+
 
 	},
 	
@@ -114,6 +127,11 @@ Repository.Plugins.TagInfo = {
 	_addTag: function( tagname ){
 		
 		if( !tagname || tagname.length <= 0 ){ return }
+		
+		this.facade.getSelectedModels().each(function( id ){
+			this.facade.modelCache.setData( id, this.TAG_URL, {tag_name:tagname} )
+		}.bind(this))
+		
 		// TODO: Implementing the adding of a new tag
 		
 	}
