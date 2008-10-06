@@ -56,6 +56,7 @@ public class Repository2Handler extends  HandlerBase {
 		String[] java_script_includes = {"ext_templates", 
 				"core/clazz", 
 				"config", 
+				"core/extExtention", 
 				"core/eventHandler", 
 				"core/dataCache", 
 				"core/repository", 

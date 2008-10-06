@@ -33,6 +33,10 @@ Repository.Core.ContextFreePlugin = {
 		arguments.callee.$.construct.apply(this, arguments);
 		
 	},
+	
+	preRender: function(){
+		
+	}
 };
 
 Repository.Core.ContextFreePlugin = Repository.Core.Plugin.extend(Repository.Core.ContextFreePlugin);

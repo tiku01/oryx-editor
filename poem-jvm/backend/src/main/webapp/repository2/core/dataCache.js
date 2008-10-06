@@ -143,7 +143,33 @@ Repository.Core.DataCache = {
 	getIds : function() {
 		// May be clone it before return
 		return this._models.keys();
+	},
+	
+	setData: function( modelId, uriSuffix, params, successHandler ){
+		uriSuffix = (uriSuffix.startsWith("/") ? uriSuffix : "/" + uriSuffix)
+		var requestUrl = this._models.get(modelId).substring(1) + uriSuffix;
+		
+		new Ajax.Request(requestUrl, {
+							method			: 'post',
+							asynchronous	: false,
+							parameters		: params,
+							onSuccess		: function(res) {
+							
+								var returnedData = new Hash(Ext.util.JSON.decode(res.responseText));
+								
+								returnedData.each(function(pair) {
+									this.updateObject(uriSuffix, pair.key, pair.value);
+								}.bind(this));
+								
+							}.bind(this),
+							onFailure: function(){
+								Ext.Msg.alert('Oryx','Server communication failed!')
+							}
+						});
+
 	}
+	
+	
 };
 
 Repository.Core.DataCache = Clazz.extend(Repository.Core.DataCache);

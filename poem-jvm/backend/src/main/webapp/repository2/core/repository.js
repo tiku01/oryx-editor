@@ -412,7 +412,8 @@ Repository.Core.Repository = {
                 title: Repository.I18N.Repository.leftPanelTitle,
                 collapsible: true,
                 collapsed: false,
-                split : true,			            		
+                split : true,	
+				width:200			            		
             });
 			// Right panel
 			this._controls.rightPanel = new Ext.Panel({ 
@@ -420,7 +421,8 @@ Repository.Core.Repository = {
                 title: Repository.I18N.Repository.rightPanelTitle,
                 collapsible: true,
                 collapsed: false,
-                split : true,		            		
+                split : true,
+				width:200		            		
             });			
 			// Bottom panel
 			this._controls.bottomPanel = new Ext.Panel({ 
