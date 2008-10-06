@@ -1,18 +1,16 @@
 #This guide shows how to build and deploy the Oryx WAR files.
-
 = Introduction =
 
 This guide explains how to build and deploy the Oryx Server Application.
 
-Checklist:
-
-    * J2SE 5 Java Runtime Environment or higher
-    * Apache Tomcat Version 5.5 or higher
-          o Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in webapps directory of Tomcat and restart the Tomcat server. 
-    * PostgresSQL 8.3 or higher (with PLPython)
-          o Superuser privileges for the database. 
-    * Python Version 2.5 or higher
-    * Apache ANT 1.6
+*Checklist:*
+  * [http://www.java.com/ J2SE 5 Java Runtime Environment] or higher
+  * [http://tomcat.apache.org/ Apache Tomcat] Version 5.5 or higher
+    * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server.
+  * [http://www.postgresql.org/ PostgresSQL] 8.3 or higher (with PLPython)
+    * Superuser privileges for the database. 
+  * [http://www.python.org/ Python] Version 2.5 or higher
+  * [http://www.oryx-editor.org/downloads Download the Oryx-Server].
 
 = Building the WAR files =
 The build process is implemented in Apache ANT. The _build.xml_ file can be found in the root directory of the svn trunk. Oryx consists of two different WAR files:
