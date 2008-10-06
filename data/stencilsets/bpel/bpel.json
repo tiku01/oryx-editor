@@ -1,20 +1,20 @@
 {
-	"title":"BPEL-Process",
-   	"title_de":"BPEL-Prozess",
+	"title":"Bpel",
+	"title_de":"Bpel",
 	"namespace":"http://b3mn.org/stencilset/bpel#",
-	"description":"The stencil set for the BPEL Process.",
- 	"description_de":"Die Schablone-Menge des BPELs.",
+	"description":"The stencil set for the BpelProcess.",
+ 	"description_de":"Die Schablone des BPELs.",
 	"stencils" : [
  		{
 			"type":"node",
 			"id":"Process",
 			"title":"Worksheet",
-            "title_de":"Arbeitsblatt",
+			"title_de":"Arbeitszettel",
 			"groups":["Project"],
 			"groups_de":["Projekt"],
 			"description":"",
 			"view":"others/node.Bpel.svg",
-			"icon":"diagram.png",
+			"icon":"new_task.png",
 			"roles": [],
 			"properties": []
 		},
@@ -24,15 +24,37 @@
 			"title":"Bpel",
 			"title_de":"Bpel",
 			"description":"An Bpel Process",
-			"description_de":"Ein Bpel-Prozess",
+			"description_de":"Ein Bpel-Vorgang",
 			"groups":["BPEL"],
 			"groups_de":["BPEL"],
 			"view":"others/node.Bpel.svg",
-			"icon":"task.png",
-			"roles": ["HandlerHolder","SingleActivityContainer"],
+			"icon":"new_task.png",
+			"roles": ["ActivityHolder","ProcessChild","HandlerHolder","SingleActivityContainer"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -80,7 +102,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"abstractProcessProfile",
-					"title_de":"abstraktesProzessprofil",
+					"title_de":"abstraktVorgangsprofil",
 					"value":"",
 					"readonly":false,
 					"optional":false
@@ -100,7 +122,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"expressionLanguage",
-					"title_de":"Ausdruckssprache",
+					"title_de":"Ausdrucksprache",
 					"value":"urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0",
 					"readonly":false,
 					"optional":false
@@ -109,7 +131,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -120,7 +142,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -183,7 +205,7 @@
 					"prefix":"oryx",
 					"type":"Complex",
 					"title":"other xmlns",
-					"title_de":"andere xml-Namensräume",
+					"title_de":"andere xmlns",
 					"value":"",
 					"readonly":false,
 					"optional":true,
@@ -210,7 +232,7 @@
 					"id":"extensions",
 					"type":"Complex",
 					"title":"extensions",
-					"title_de":"Erweiterungen",
+					"title_de":"Extensions",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -235,14 +257,12 @@
 								{
 									"id":"yes",
 									"title":"yes",
-									"title_de":"ja",
 									"value":"yes",
 									"tooltip":""
 								},
 								{
 									"id":"no",
 									"title":"no",
-									"title_de":"nein",
 									"value":"no",
 									"tooltip":""
 								}
@@ -562,7 +582,7 @@
 							"width":100,
 							"optional":true,
 						}
-					]			
+				]			
 				},	
 				{
 					"id":"PartnerLinks",
@@ -617,14 +637,12 @@
 								{
 									"id":"yes",
 									"title":"yes",
-									"title_de":"ja",
 									"value":"yes",
 									"tooltip":""
 								},
 								{
 									"id":"no",
 									"title":"no",
-									"title_de":"nein",
 									"value":"no",
 									"tooltip":""
 								}
@@ -639,7 +657,7 @@
 					"id":"CorrelationSets",
 					"type":"Complex",
 					"title":"CorrelationSets",
-					"title_de":"Korrelationsmengen",
+					"title_de":"Korrelationssets",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -667,7 +685,7 @@
 					"id":"messageExchanges",
 					"type":"Complex",
 					"title":"messageExchanges",
-					"title_de":"Nachrichtenaustauschliste",
+					"title_de":"Mitteilungstauschen",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -703,16 +721,38 @@
 			"id":"invoke",
 			"title":"Invoke",
 			"title_de":"Invoke",
-			"groups":["Actions (WS)"],
-			"groups_de":["Aktionen (WS)"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Invoke activity.",
 			"description_de":"Eine Invoke-Aktivität.",
 			"view":"action/node.action.invoke.svg",
-			"icon":"invoke.png",
-			"roles": ["Activity","CompensationHandlerHolder"],
+			"icon":"new_invoke.png",
+			"roles": ["Activity","PoolChild","CatchHolder","compensationHandlerHolder"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -750,7 +790,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -765,7 +805,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -780,7 +820,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -791,7 +831,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -802,7 +842,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -845,7 +885,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"portType",
-					"title_de":"Port-typ",
+					"title_de":"Porttyp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -877,7 +917,7 @@
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
 					"title":"inputVariable",
-					"title_de":"Eingabevariable",
+					"title_de":"Eingabenvariable",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -892,7 +932,7 @@
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
 					"title":"outputVariable",
-					"title_de":"Ausgabevariable",
+					"title_de":"Ausgabenvariable",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1067,13 +1107,13 @@
 			"id":"receive",
 			"title":"Receive",
 			"title_de":"Receive",
-			"groups":["Actions (WS)"],
-			"groups_de":["Aktionen (WS)"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Receive activity.",
 			"description_de":"Eine Receive-Aktivität.",
 			"view":"action/node.action.receive.svg",
-			"icon":"receive.png",
-			"roles": ["Activity"],
+			"icon":"new_receive.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -1110,7 +1150,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1125,7 +1165,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1140,7 +1180,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -1151,7 +1191,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -1162,7 +1202,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -1205,7 +1245,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"portType",
-					"title_de":"Port-Typ",
+					"title_de":"Portstyp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1252,7 +1292,7 @@
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"messageExchanges","searchPropertieScope":"messageExchanges",
 					"title":"messageExchange",
-					"title_de":"Nachrichtenaustauschliste",
+					"title_de":"Mitteilungstauschen",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1266,7 +1306,7 @@
 					"id":"createInstance",
 					"type":"Choice",
 					"title":"createInstance",
-					"title_de":"Instanz erstellen",
+					"title_de":"BeispielErstellen",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1367,13 +1407,13 @@
 			"id":"reply",
 			"title":"Reply",
 			"title_de":"Reply",
-			"groups":["Actions (WS)"],
-			"groups_de":["Aktionen (WS)"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Reply activity.",
 			"description_de":"Eine Reply Aktivität.",
 			"view":"action/node.action.reply.svg",
-			"icon":"reply.png",
-			"roles": ["Activity"],
+			"icon":"new_reply.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -1410,7 +1450,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1425,7 +1465,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1440,7 +1480,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -1451,7 +1491,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -1462,7 +1502,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -1505,7 +1545,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"portType",
-					"title_de":"Port-Typ",
+					"title_de":"Portstyp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1567,7 +1607,7 @@
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"messageExchanges","searchPropertieScope":"messageExchanges",
 					"title":"messageExchange",
-					"title_de":"Nachrichtenaustauschliste",
+					"title_de":"Mitteilungtauschen",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1713,19 +1753,13 @@
 			"id":"assign",
 			"title":"Assign",
 			"title_de":"Assign",
-			"groups":["Assignment"],
-			//TODO : german translation
-			"groups_de":["Assignment"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Assign activity.",
 			"description_de":"Eine Assign-Aktivität.",
 			"view":"action/node.action.assign.svg",
-			"icon":"assign.png",
-			"roles": ["Activity"],
-			//TODO : fix layout problem
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
- 			},
+			"icon":"new_assign.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -1762,7 +1796,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1777,7 +1811,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -1792,7 +1826,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -1803,7 +1837,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -1814,7 +1848,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -1852,7 +1886,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -1876,6 +1910,497 @@
 					]
 				},
 				{
+					"id":"copy",
+					"type":"Complex",
+					"title":"Copy",
+					"title_de":"Kopieren",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"complexItems": [
+						{
+							"id":"keepSrcElementName",
+							"name":"keepSrcElementName",
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"c2",
+									"title":"c2",
+									"title_de":"c2",
+									"value":"yes",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"c3",
+									"title_de":"c3",
+									"value":"no",
+									"refToView":""
+								}
+							]
+						},
+						{
+							"id":"ignoreMissingFromData",
+							"name":"ignoreMissingFromData",
+							"type":"Choice",
+							"value":"fromParent",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"fromParent",
+									"title":"fromParent",
+									"title_de":"ausEltern",
+									"value":"fromParent",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"c2",
+									"title_de":"c2",
+									"value":"yes",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"c3",
+									"title_de":"c3",
+									"value":"no",
+									"refToView":""
+								}
+							]
+						},
+						{
+							"id":"fromspectype",
+							"name":"FromSpecType",
+							"type":"Choice",
+							"value":"Variable",
+							"width":100,
+							"optional":false,
+							"items": [
+								{
+									"id":"c1",
+									"title":"c1",
+									"title_de":"c1",
+									"value":"Variable",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"c2",
+									"title_de":"c2",
+									"value":"partnerLink",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"c3",
+									"title_de":"c3",
+									"value":"VarProperty",
+									"refToView":""
+								},
+								{
+									"id":"c4",
+									"title":"c4",
+									"title_de":"c4",
+									"value":"Expression",
+									"refToView":""
+								},
+								{
+									"id":"c5",
+									"title":"c5",
+									"title_de":"c5",
+									"value":"Literal",
+									"refToView":""
+								},
+								{
+									"id":"c6",
+									"title":"c6",
+									"title_de":"c6",
+									"value":"Opaque",
+									"refToView":""
+								},
+								{
+									"id":"c7",
+									"title":"c7",
+									"title_de":"c7",
+									"value":"Empty",
+									"refToView":""
+								}
+							],
+							"disable": [
+								{
+									"value":"Variable",
+									"items": [
+										"fromspecproperty",
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecliteral",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"
+									]
+								},
+								{
+									"value":"partnerLink",
+									"items": [
+										"fromspecvariablename",
+										"fromspecpart",
+										"fromspecproperty",
+										"fromspecquerylanguage",
+										"fromspecquery",
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecliteral"
+									]
+								},
+								{
+									"value":"VarProperty",
+									"items": [
+										"fromspecpart",
+										"fromspecquerylanguage",
+										"fromspecquery",							
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecliteral",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"
+									]
+								},
+								{
+									"value":"Expression",
+									"items": [
+										"fromspecvariablename",
+										"fromspecpart",
+										"fromspecproperty",
+										"fromspecquerylanguage",
+										"fromspecquery",
+										"fromspecliteral",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"							
+									]
+								},
+								{
+									"value":"Literal",
+									"items": [
+										"fromspecvariablename",
+										"fromspecpart",
+										"fromspecproperty",
+										"fromspecquerylanguage",
+										"fromspecquery",
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"							
+									]
+								},
+								{
+									"value":"Opaque",
+									"items": [
+										"fromspecvariablename",
+										"fromspecpart",
+										"fromspecproperty",
+										"fromspecquerylanguage",
+										"fromspecquery",
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecliteral",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"						
+									]
+								},
+								{
+									"value":"Empty",
+									"items": [
+										"fromspecvariablename",
+										"fromspecpart",
+										"fromspecproperty",
+										"fromspecquerylanguage",
+										"fromspecquery",
+										"fromspecexpressionlanguage",
+										"fromspecexpression",
+										"fromspecliteral",
+										"fromspecpartnerLink",
+										"fromspecendpointReference"						
+									]
+								}
+							]
+						},
+						{
+							"id":"fromspecvariablename",
+							"name":"FS_VariableName",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
+							"value":"",
+							"width":110,
+							"optional":true,
+							"prefix":"oryx"
+						},
+						{
+							"id":"fromspecpart",
+							"name":"FS_Part",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"fromspecpartnerLink",
+							"name":"FS_partnerLink",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
+							"width":110,
+							"value":"",
+							"optional":false,
+							"prefix":"oryx"
+						},
+						{
+							"id":"fromspecendpointReference",
+							"name":"FS_endpointReference",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false,
+						},			
+						{
+							"id":"fromspecquerylanguage",
+							"name":"FS_QueryLanguage",
+							"type":"String",
+							"value":"",
+							"width":150,
+							"optional":false,
+						},
+						{
+							"id":"fromspecquery",
+							"name":"FS_Query",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"fromspecproperty",
+							"name":"FS_Property",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false,
+						},
+						{
+							"id":"fromspecexpressionlanguage",
+							"name":"FS_ExpLanguage",
+							"type":"String",
+							"value":"",
+							"width":150,
+							"optional":true,
+						},
+						{
+							"id":"fromspecexpression",
+							"name":"FS_Exp",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"fromspecliteral",
+							"name":"FS_Literal",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"tospectype",
+							"name":"ToSpecType",
+							"type":"Choice",
+							"value":"Variable",
+							"width":100,
+							"optional":false,
+							"items": [
+								{
+									"id":"c1",
+									"title":"c1",
+									"title_de":"c1",
+									"value":"Variable",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"c2",
+									"title_de":"c2",
+									"value":"partnerLink",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"c3",
+									"title_de":"c3",
+									"value":"VarProperty",
+									"refToView":""
+								},
+								{
+									"id":"c4",
+									"title":"c4",
+									"title_de":"c4",
+									"value":"Expression",
+									"refToView":""
+								},
+								{
+									"id":"c5",
+									"title":"c5",
+									"title_de":"c5",
+									"value":"Literal",
+									"refToView":""
+								},
+								{
+									"id":"c6",
+									"title":"c6",
+									"title_de":"c6",
+									"value":"Opaque",
+									"refToView":""
+								}
+							],
+							"disable": [
+								{
+									"value":"Variable",
+									"items": [
+										"tospecproperty",
+										"tospecexpressionlanguage",
+										"tospecexpression",
+										"tospecpartnerLink"										
+									]
+								},
+								{
+									"value":"partnerLink",
+									"items": [
+										"tospecvariablename",
+										"tospecpart",
+										"tospecproperty",
+										"tospecquerylanguage",
+										"tospecquery",
+										"tospecexpressionlanguage",
+										"tospecexpression"
+									]
+								},
+								{
+									"value":"VarProperty",
+									"items": [
+										"tospecpart",
+										"tospecquerylanguage",
+										"tospecquery",							
+										"tospecexpressionlanguage",
+										"tospecexpression",
+										"tospecpartnerLink"
+										
+									]
+								},
+								{
+									"value":"Expression",
+									"items": [
+										"tospecvariablename",
+										"tospecpart",
+										"tospecproperty",
+										"tospecquerylanguage",
+										"tospecquery",
+										"tospecexpressionlanguage",
+										"tospecexpression",
+										"tospecpartnerLink"
+									]
+								},
+								{
+									"value":"Opaque",
+									"items": [
+										"tospecvariablename",
+										"tospecpart",
+										"tospecproperty",
+										"tospecquerylanguage",
+										"tospecquery",
+										"tospecexpressionlanguage",
+										"tospecexpression",
+										"tospecpartnerLink"
+									]
+								}
+							]
+						},
+						{
+							"id":"tospecvariablename",
+							"name":"TS_VariableName",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
+							"value":"",
+							"width":110,
+							"optional":true,
+							"prefix":"oryx"
+						},
+						{
+							"id":"tospecpart",
+							"name":"TS_Part",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"tospecpartnerLink",
+							"name":"TS_partnerLink",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
+							"width":110,
+							"value":"",
+							"optional":false,
+							"prefix":"oryx"
+						},
+						{
+							"id":"tospecquerylanguage",
+							"name":"TS_QueryLanguage",
+							"type":"String",
+							"value":"",
+							"width":150,
+							"optional":false,
+						},
+						{
+							"id":"tospecquery",
+							"name":"TS_Query",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						},
+						{
+							"id":"tospecproperty",
+							"name":"TS_Property",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false,
+						},
+						{
+							"id":"tospecexpressionlanguage",
+							"name":"TS_ExpLanguage",
+							"type":"String",
+							"value":"",
+							"width":150,
+							"optional":true,
+						},
+						{
+							"id":"tospecexpression",
+							"name":"TS_Exp",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true,
+						}
+					]
+				},
+				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -1891,674 +2416,17 @@
 			]
 		},
 		{
-		    // TODO add .svg file
-			"type": "node",
-			"id":"copy",
-			"title":"Copy",
-			"title_de":"Copy",
-			"groups":["Assignment"],
-			//TODO : german translation
-			"groups_de":["Assignment"],
-			"description":"Copy",
-			"description_de":"Copieren.",
-			"view":"action/node.action.empty.svg",
-			"icon":"copy.png",
-			// TODO : delete role "Activity"
-			"roles": ["Activity"],
-			"properties": [	
-				{
-					"id":"keepSrcElementName",
-					"prefix":"oryx",
-					"type":"Choice",
-					"title":"keepSrcElementName",
-					//TODO : german translation
-					"title_de":"keepSrcElementName",
-					"value":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false,
-					"items": [
-						{
-							"id":"c2",
-							"title":"c2",
-							"title_de":"c2",
-							"value":"yes",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"title_de":"c3",
-							"value":"no",
-							"refToView":""
-						}
-					]
-				},		
-				{
-					"id":"ignoreMissingFromData",
-					"prefix":"oryx",
-					"type":"Choice",
-					"title":"ignoreMissingFromData",
-					//TODO : german translation
-					"title_de":"ignoreMissingFromData",
-					"value":"fromParent",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false,
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"title_de":"c2",
-							"value":"yes",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"title_de":"c3",
-							"value":"no",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"fromspectype",
-					"prefix":"oryx",
-					"type":"Choice",
-					"title":"FromSpecType",
-					//TODO : german translation
-					"title_de":"FromSpecType",
-					"value":"Variable",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false,
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"title_de":"c1",
-							"value":"Variable",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"title_de":"c2",
-							"value":"partnerLink",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"title_de":"c3",
-							"value":"VarProperty",
-							"refToView":""
-						},
-						{
-							"id":"c4",
-							"title":"c4",
-							"title_de":"c4",
-							"value":"Expression",
-							"refToView":""
-						},
-						{
-							"id":"c5",
-							"title":"c5",
-							"title_de":"c5",
-							"value":"Literal",
-							"refToView":""
-						},
-						{
-							"id":"c6",
-							"title":"c6",
-							"title_de":"c6",
-							"value":"Opaque",
-							"refToView":""
-						},
-						{
-							"id":"c7",
-							"title":"c7",
-							"title_de":"c7",
-							"value":"Empty",
-							"refToView":""
-						}
-					],
-					"disable": [
-						{
-							"value":"Variable",
-							"items": [
-								"fromspecproperty",
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecliteral",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"
-							]
-						},
-						{
-							"value":"partnerLink",
-							"items": [
-								"fromspecvariablename",
-								"fromspecpart",
-								"fromspecproperty",
-								"fromspecquerylanguage",
-								"fromspecquery",
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecliteral"
-							]
-						},
-						{
-							"value":"VarProperty",
-							"items": [
-								"fromspecpart",
-								"fromspecquerylanguage",
-								"fromspecquery",							
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecliteral",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"
-							]
-						},
-						{
-							"value":"Expression",
-							"items": [
-								"fromspecvariablename",
-								"fromspecpart",
-								"fromspecproperty",
-								"fromspecquerylanguage",
-								"fromspecquery",
-								"fromspecliteral",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"							
-							]
-						},
-						{
-							"value":"Literal",
-							"items": [
-								"fromspecvariablename",
-								"fromspecpart",
-								"fromspecproperty",
-								"fromspecquerylanguage",
-								"fromspecquery",
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"							
-							]
-						},
-						{
-							"value":"Opaque",
-							"items": [
-								"fromspecvariablename",
-								"fromspecpart",
-								"fromspecproperty",
-								"fromspecquerylanguage",
-								"fromspecquery",
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecliteral",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"						
-							]
-						},
-						{
-							"value":"Empty",
-							"items": [
-								"fromspecvariablename",
-								"fromspecpart",
-								"fromspecproperty",
-								"fromspecquerylanguage",
-								"fromspecquery",
-								"fromspecexpressionlanguage",
-								"fromspecexpression",
-								"fromspecliteral",
-								"fromspecpartnerLink",
-								"fromspecendpointReference"						
-							]
-						}
-					]
-				},
-				{
-					"id":"fromspecvariablename",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
-					"title":"FS_VariableName",
-					//TODO german translation
-					"title_de":"FS_Variablename",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined
-				},
-				{
-					"id":"fromspecpart",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_Part",
-					"title_de":"FS_Part",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecpartnerLink",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
-					"title":"FS_partnerLink",
-					"title_de":"FS_Partnerverbindung",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"length":undefined
-				},
-				{
-					"id":"fromspecendpointReference",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_endpointReference",
-					//TODO:german translation
-					"title_de":"FS_ReferenzDesEndpunkts",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},			
-				{
-					"id":"fromspecquerylanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_QueryLanguage",
-					"title_de":"FS_Abfragesprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecquery",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_Query",
-					"title_de":"FS_Abfrage",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecproperty",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_Property",
-					//TODO:german translation
-					"title_de":"FS_Eigentum",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecexpressionlanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_ExpLanguage",
-					"title_de":"FS_Ausdruckssprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecexpression",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_Exp",
-					"title_de":"FS_Ausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"fromspecliteral",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"FS_Literal",
-					"title_de":"FS_Literal",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospectype",
-					"prefix":"oryx",
-					"type":"Choice",
-					"title":"ToSpecType",
-					//TODO:german translation
-					"title_de":"ToSpecType",
-					"value":"Variable",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false,
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"title_de":"c1",
-							"value":"Variable",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"title_de":"c2",
-							"value":"partnerLink",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"title_de":"c3",
-							"value":"VarProperty",
-							"refToView":""
-						},
-						{
-							"id":"c4",
-							"title":"c4",
-							"title_de":"c4",
-							"value":"Expression",
-							"refToView":""
-						},
-						{
-							"id":"c5",
-							"title":"c5",
-							"title_de":"c5",
-							"value":"Literal",
-							"refToView":""
-						},
-						{
-							"id":"c6",
-							"title":"c6",
-							"title_de":"c6",
-							"value":"Opaque",
-							"refToView":""
-						}
-					],
-					"disable": [
-						{
-							"value":"Variable",
-							"items": [
-								"tospecproperty",
-								"tospecexpressionlanguage",
-								"tospecexpression",
-								"tospecpartnerLink"										
-							]
-						},
-						{
-							"value":"partnerLink",
-							"items": [
-								"tospecvariablename",
-								"tospecpart",
-								"tospecproperty",
-								"tospecquerylanguage",
-								"tospecquery",
-								"tospecexpressionlanguage",
-								"tospecexpression"
-							]
-						},
-						{
-							"value":"VarProperty",
-							"items": [
-								"tospecpart",
-								"tospecquerylanguage",
-								"tospecquery",							
-								"tospecexpressionlanguage",
-								"tospecexpression",
-								"tospecpartnerLink"
-								
-							]
-						},
-						{
-							"value":"Expression",
-							"items": [
-								"tospecvariablename",
-								"tospecpart",
-								"tospecproperty",
-								"tospecquerylanguage",
-								"tospecquery",
-								"tospecexpressionlanguage",
-								"tospecexpression",
-								"tospecpartnerLink"
-							]
-						},
-						{
-							"value":"Opaque",
-							"items": [
-								"tospecvariablename",
-								"tospecpart",
-								"tospecproperty",
-								"tospecquerylanguage",
-								"tospecquery",
-								"tospecexpressionlanguage",
-								"tospecexpression",
-								"tospecpartnerLink"
-							]
-						}
-					]
-				},
-				{
-					"id":"tospecvariablename",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
-					"title":"TS_VariableName",
-					// TODO german translation
-					"title_de":"TS_Variablenname",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined
-				},
-				{
-					"id":"tospecpart",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_Part",
-					"title_de":"TS_Part",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospecpartnerLink",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
-					"title":"TS_partnerLink",
-					"title_de":"TS_Partnerverbindung",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"length":undefined
-				},
-				{
-					"id":"tospecquerylanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_QueryLanguage",
-					"title_de":"TS_Abfragesprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospecquery",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_Query",
-					"title_de":"TS_Abfrage",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospecproperty",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_Property",
-					// TODO german translation
-					"title_de":"TS_Eigentum",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospecexpressionlanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_ExpLanguage",
-					"title_de":"TS_Ausdruckssprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"tospecexpression",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"TS_Exp",
-					"title_de":"TS_Ausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}			
-			]
-		},		
-		{
 			"type": "node",
 			"id":"empty",
 			"title":"Empty",
 			"title_de":"Empty",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Empty activity.",
 			"description_de":"Eine Empty-Aktivität.",
 			"view":"action/node.action.empty.svg",
-			"icon":"task_none.png",
-			"roles": ["Activity"],
+			"icon":"new_task_none.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -2595,7 +2463,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2610,7 +2478,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2625,7 +2493,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -2636,7 +2504,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -2647,7 +2515,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -2690,13 +2558,13 @@
 			"id":"opaqueActivity",
 			"title":"opaqueActivity",
 			"title_de":"opaqueActivity",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Opaque activity.",
-			"description_de":"Eine opake Aktivität.",
+			"description_de":"Eine undurchsichtige Aktivität.",
 			"view":"action/node.action.opaqueActivity.svg",
-			"icon":"task.png",
-			"roles": ["Activity"],
+			"icon":"new_task.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -2733,7 +2601,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2748,7 +2616,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2763,7 +2631,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -2774,7 +2642,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -2785,7 +2653,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -2828,13 +2696,13 @@
 			"id":"validate",
 			"title":"Validate",
 			"title_de":"Validate",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An validate activity.",
 			"description_de":"Eine Validate-Aktivität.",
 			"view":"action/node.action.validate.svg",
-			"icon":"validate.png",
-			"roles": ["Activity"],
+			"icon":"new_validate.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -2871,7 +2739,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2886,7 +2754,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2901,7 +2769,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -2912,7 +2780,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -2923,7 +2791,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -2989,13 +2857,13 @@
 			"id":"extensionActivity",
 			"title":"extensionActivity",
 			"title_de":"extensionActivity",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Action"],
+			"groups_de":["Aktion"],
 			"description":"An Extension activity.",
-			"description_de":"Eine Erweiterung-Aktivität.",
+			"description_de":"Eine Extension-Aktivität.",
 			"view":"action/node.action.extensionActivity.svg",
-			"icon":"extensionActivity.png",
-			"roles": ["Activity"],
+			"icon":"new_extensionActivity.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -3047,7 +2915,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3062,7 +2930,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3077,7 +2945,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -3088,7 +2956,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -3099,7 +2967,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -3135,218 +3003,6 @@
 					"fill":true,
 					"stroke":false
 				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"wait",
-			"title":"wait",
-			"title_de":"wait",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
-			"description":"An Wait activity.",
-			"description_de":"Eine Wait-Aktivität.",
-			"view":"action/node.action.wait.svg",
-			"icon":"wait.png",
-			"roles": ["Activity"],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"comum_expressionLanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"expressionLanguage",
-					"title_de":"Ausdruckssprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"expressionForOrUntil",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"expression",
-					"title_de":"Ausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"ForUntil_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"ForUntil_opaque",
-					"title_de":"ForUntil_opak",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-
-				{
-					"id":"ForOrUntil",
-					"type":"Choice",
-					"title":"ForOrUntil",
-					"title_de":"ForOrUntil",
-					"value":"for",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"for",
-							"title":"for",
-							"title_de":"for",
-							"value":"for",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"until",
-							"title":"until",
-							"title_de":"until",
-							"value":"until",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-				
 			]
 		},
 		{
@@ -3354,13 +3010,13 @@
 			"id":"throw",
 			"title":"throw",
 			"title_de":"throw",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Fault"],
+			"groups_de":["Fehler"],
 			"description":"An throw activity.",
 			"description_de":"Eine Throw-Aktivität.",
 			"view":"fault/node.fault.throw.svg",
-			"icon":"throw.png",
-			"roles": ["Activity"],
+			"icon":"new_throw.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -3396,7 +3052,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3411,7 +3067,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3426,7 +3082,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -3437,7 +3093,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -3448,7 +3104,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -3464,7 +3120,7 @@
 						{
 							"id":"no",
 							"title":"no",
-							"title_de":"nein",
+							"title_de":"no",
 							"value":"no",
 							"tooltip":"",
 							"refToView":"none"
@@ -3521,20 +3177,20 @@
 			"id":"exit",
 			"title":"exit",
 			"title_de":"exit",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Fault"],
+			"groups_de":["Fehler"],
 			"description":"An Exit activity.",
 			"description_de":"Eine Exit-Aktivität.",
 			"view":"fault/node.fault.exit.svg",
-			"icon":"exit.png",
-			"roles": ["Activity"],
+			"icon":"new_exit.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
 					"prefix":"oryx",
 					"type":"String",
 					"title":"name",
-					"title_de":"Name",
+					"title_de":"name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3563,7 +3219,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3578,7 +3234,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3593,7 +3249,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -3604,7 +3260,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -3615,7 +3271,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -3658,13 +3314,13 @@
 			"id":"rethrow",
 			"title":"rethrow",
 			"title_de":"rethrow",
-			"groups":["Actions"],
-			"groups_de":["Aktionen"],
+			"groups":["Fault"],
+			"groups_de":["Fehler"],
 			"description":"An rethrow activity.",
 			"description_de":"Eine Rethrow-Aktivität.",
 			"view":"fault/node.fault.rethrow.svg",
-			"icon":"throw.png",
-			"roles": ["Activity"],
+			"icon":"new_throw.png",
+			"roles": ["Activity","PoolChild"],
 			"properties": [
 				{
 					"id":"name",
@@ -3701,7 +3357,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3716,7 +3372,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3731,7 +3387,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -3742,7 +3398,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -3753,7 +3409,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -3789,23 +3445,257 @@
 					"fill":true,
 					"stroke":false
 				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"wait",
+			"title":"wait",
+			"title_de":"wait",
+			"groups":["Action"],
+			"groups_de":["Aktion"],
+			"description":"An Wait activity.",
+			"description_de":"Eine Wait-Aktivität.",
+			"view":"action/node.action.wait.svg",
+			"icon":"new_wait.png",
+			"roles": ["Activity","PoolChild"],
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"title_de":"Dokumentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"title_de":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"title_de":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"title_de":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"title_de":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"title_de":"ausParent",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"title_de":"ja",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"title_de":"nein",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"comum_expressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"expressionLanguage",
+					"title_de":"Ausdrucksprache",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"expressionForOrUntil",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"expression",
+					"title_de":"Ausdruck",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"ForUntil_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"ForUntil_opaque",
+					"title_de":"ForUntil_opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+
+				{
+					"id":"ForOrUntil",
+					"type":"Choice",
+					"title":"ForOrUntil",
+					"title_de":"ForOrUntil",
+					"value":"for",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"for",
+							"title":"for",
+							"title_de":"for",
+							"value":"for",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"until",
+							"title":"until",
+							"title_de":"until",
+							"value":"until",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+				
 			]
 		},
 		{
 			"type": "node",
 			"id":"if",
-			"title":"If-Container",
-			"title_de":"If-Container",
-			"description":"One If Container",
-			"description_de":"Ein If-Container",
-			"groups":["If"],
-			"groups_de":["If"],
+			"title":"If Holder",
+			"title_de":"If Holder",
+			"description":"One If Holder",
+			"description_de":"Eine If-Halter",
+			"groups":["Controls If"],
+			"groups_de":["Controls If"],
 			"view":"controls/controls.ifHolder.svg",
-			"icon":"if_container.png",
-			"roles": ["Activity"],
+			"icon":"new_ifHolder.png",
+			"roles": ["PoolHolder","Activity","PoolChild","If"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30,horizontalLayout:true});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -3843,7 +3733,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3858,7 +3748,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3873,7 +3763,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -3884,7 +3774,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -3895,7 +3785,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -3934,30 +3824,49 @@
 			]
 		},
 		{
-		  // TODO complete perperties
-		  // TODO modify .svg file 
 			"type": "node",
-			"id":"if_branch",
-			"title":"If (/ else-if) Branch",
-			"title_de":"If (/ else-if) Zweig",
-			"groups":["If"],
-			"groups_de":["If"],
-			"description":"One If-Branch",
-			"description_de":"Ein If-Zweig",
+			"id":"if_condition",
+			"title":"If condition",
+			"title_de":"If-Bedingung",
+			"groups":["Controls If"],
+			"groups_de":["Controls If"],
+			"description":"If condition",
+			"description_de":"Die Bedingung der If-Aktivität",
 			"view":"controls/node.if_condition.svg",
-			"icon":"if_branch.png",
-			//TODO delete role "Activity"
-			"roles": ["Activity","SingleActivityContainer"],
+			"icon":"new_if_condition.png",
+			"roles": ["Condition"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
-					"id":"conditionExpressionLanguage",
+					"id":"expressionLanguage",
 					"type":"String",
-					"title":"conditionExpressionLanguage",
-					"title_de":"Ausdruckssprache der Bedingung",
+					"title":"expressionLanguage",
+					"title_de":"Ausdrucksprache",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -3966,10 +3875,10 @@
 					"wrapLines":false
 				},
 				{
-					"id":"conditionBool_expression",
+					"id":"bool_expression",
 					"type":"String",
-					"title":"condition_bool_expression",
-					"title_de":"Bool'scher Ausdruck der Bedingung",
+					"title":"bool_expression",
+					"title_de":"bool_Ausdruck",
 					"value":"",
 					"description":"",
 					"refToView":"label",
@@ -3982,48 +3891,13 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"opaque",
-					"title_de":"opak",
+					"title_de":"undurchsichtig",
 					"value":false,
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":false
 				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-		    // TODO complete perperties
-		    // TODO modify .svg file 
-			"type": "node",
-			"id":"Else_branch",
-			"title":"Else Branch",
-			"title_de":"else-Zweig",
-			"groups":["If"],
-			"groups_de":["If"],
-			"description":"one Else-Branch",
-			"description_de":"Ein Else-Zweig",
-			"view":"controls/node.if_condition.svg",
-			"icon":"else_branch.png",
-			//TODO delete role "Activity"
-			"roles": ["Activity","SingleActivityContainer"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
- 			},
-			"properties": [
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4045,157 +3919,37 @@
 			"title":"Flow",
 			"title_de":"Flow",
 			"description":"One Flow",
-			"description_de":"Ein Flow",
-			"groups":["Flow and Sequence"],
-			"groups_de":["Flow und Sequence"],
+			"description_de":"Ein Fluss",
+			"groups":["Controls Flow"],
+			"groups_de":["Controls Flow"],
 			"view":"controls/controls.flow.svg",
-			"icon":"flow.png",
-			"roles": ["Activity","MultiActivitiesContainer"],
+			"icon":"new_flow.png",
+			"roles": ["PoolHolder","Activity","PoolChild","Flow"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30,horizontalLayout:true});	
- 			},
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
 				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"pick",
-			"title":"pick",
-			"title_de":"pick",
-			"description":"One pick activity",
-			"description_de":"Eine Pick-Aktivität",
-			"groups":["Pick"],
-			"groups_de":["Pick"],
-			"view":"controls/controls.pick.svg",
-			"icon":"task.png",
-			"roles": ["Activity"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
  			},
 			"properties": [
 				{
@@ -4233,7 +3987,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -4248,7 +4002,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -4263,7 +4017,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -4274,7 +4028,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -4285,7 +4039,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"AusEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -4307,739 +4061,6 @@
 							"refToView":"none"
 						}
 					]
-				},
-				{
-					"id":"createInstance",
-					"type":"Choice",
-					"title":"createInstance",
-					"title_de":"Instanz erstellen",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},	
-		{
-			"type": "node",
-			"id":"onMessage",
-			"title":"onMessage",
-			"title_de":"onMessage",
-			"description":"One onMessage from the element Pick",
-			"description_de":"Ein onMessage-Zweig der Aktivität Pick",
-			"groups":["Pick"],
-			"groups_de":["Pick"],
-			"view":"handler/node.handler.onMessage.svg",
-			"icon":"onMessage.png",
-			"roles": ["SingleActivityContainer"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
- 			},
-			"properties": [
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"partnerLink",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
-					"title":"partnerLink",
-					"title_de":"PartnerVerbindung",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"portType",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"portType",
-					"title_de":"Port-Typ",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"operation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"operation",
-					"title_de":"Operation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"variable",
-					"prefix":"oryx",
-					"type":"searcher",
-					"searchBPELId":"BPEL","searchScopeId":"Scope",
-					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
-					"title":"variable",
-					"title_de":"Variable",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined
-				},
-				{
-					"id":"fromParts",
-					"type":"Complex",
-					"title":"fromParts",
-					"title_de":"fromParts",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"complexItems": [
-						{
-							"id":"part",
-							"name":"part",
-							"type":"String",
-							"value":"",
-							"width":100,
-							"optional":false 
-						},
-						{
-							"id":"toVariable",
-							"name":"toVariable",
-							"type":"searcher",
-							"searchBPELId":"BPEL","searchScopeId":"Scope",
-							"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
-							"width":100,
-							"value":"",
-							"optional":false,
-							"prefix":"oryx"
-						}
-					]
-				},
-				{
-					"id":"Correlations",
-					"type":"Complex",
-					"title":"Correlations",
-					"title_de":"Korrelationen",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"complexItems": [
-						{
-							"id":"Correlation",
-							"name":"Correlation",
-							"type":"searcher",
-							"searchBPELId":"BPEL","searchScopeId":"Scope",
-							"searchPropertieBPEL":"CorrelationSets","searchPropertieScope":"CorrelationSets",
-							"width":100,
-							"value":"",
-							"optional":true,
-							"prefix":"oryx"
-						},
-						{
-							"id":"initiate",
-							"name":"initiate",
-							"type":"Choice",
-							"value":"",
-							"width":100,
-							"optional":true,
-							"items": [
-								{
-									"id":"yes",
-									"title":"yes",
-									"title_de":"ja",
-									"value":"yes",
-									"refToView":""
-								},
-								{
-									"id":"join",
-									"title":"join",
-									"title_de":"verbinden",
-									"value":"join",
-									"refToView":""
-								},
-								{
-									"id":"no",
-									"title":"no",
-									"title_de":"nein",
-									"value":"no",
-									"refToView":""
-								}
-							]
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"sequence",
-			"title":"Sequence",
-			"title_de":"Sequence",
-			"description":"One Sequence",
-			"description_de":"Ein Sequence",
-			"groups":["Flow and Sequence"],
-			"groups_de":["Flow und Sequence"],
-			"view":"controls/controls.sequence.svg",
-			"icon":"sequence.png",
-			"roles": ["Activity","MultiActivitiesContainer"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30,horizontalLayout:true});	
- 			},
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"while",
-			"title":"While",
-			"title_de":"While",
-			"description":"One While",
-			"description_de":"Ein While",
-			"groups":["Loops"],
-			"groups_de":["Schleifen"],
-			"view":"loop/loop.while.svg",
-			"icon":"while.png",
-			"roles": ["Activity","SingleActivityContainer"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
- 			},
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"condition_expressionLanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"cond_expressionLanguage",
-					"title_de":"Bedingungsausdruckssprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"condition_booleanExpression",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"cond_booleanExpression",
-					"title_de":"Bedingung:bool'scher Ausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"condition_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"cond_Opaque",
-					"title_de":"Opale Bedingung",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}				
-			]
-		},
-		{
-			"type": "node",
-			"id":"repeatUntil",
-			"title":"RepeatUntil",
-			"title_de":"RepeatUntil",
-			"description":"One repeat Until",
-			"description_de":"Ein repeat Until",
-			"groups":["Loops"],
-			"groups_de":["Schleifen"],
-			"view":"loop/loop.repeatUntil.svg",
-			"icon":"repeatUntil.png",
-			"roles": ["Activity","SingleActivityContainer"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
- 			},
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"condition_expressionLanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"cond_expressionLanguage",
-					"title_de":"Bedingungsausdruckssprache",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"condition_booleanExpression",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"cond_booleanExpression",
-					"title_de":"Bedingung:bool'scher Ausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"condition_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"cond_Opaque",
-					"title_de":"opake Bedingung",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5063,14 +4084,36 @@
 			"title_de":"For Each",
 			"description":"One for each activity",
 			"description_de":"Eine ForEach-Aktivität",
-			"groups":["Loops"],
-			"groups_de":["Schleifen"],
+			"groups":["Controls For Each"],
+			"groups_de":["Controls For Each"],
 			"view":"loop/loop.foreach.svg",
-			"icon":"forEach.png",
-			"roles": ["Activity","SingleActivityContainer"],
+			"icon":"new_for_each.png",
+			"roles": ["Activity","PoolChild"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -5108,7 +4151,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -5123,7 +4166,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -5138,7 +4181,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -5149,7 +4192,7 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -5160,7 +4203,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -5310,313 +4353,42 @@
 			]
 		},
 		{
-		
 			"type": "node",
-			"id":"compensate",
-			"title":"compensate",
-			"title_de":"compensate",
-			"description":"One Compensate",
-			"description_de":"Ein Compensate",
-			"groups":["Compensation"],
-			"groups_de":["Compensation"],
-			"view":"compensate/node.compensate.compensate.svg",
-			"icon":"compensation.png",
-			"roles": ["Activity"],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-		
-			"type": "node",
-			"id":"compensateScope",
-			"title":"compensateScope",
-			"title_de":"compensateScope",
-			"description":"one Compensate Scope",
-			"description_de":"Ein Compensate Scope",
-			"groups":["Compensation"],
-			"groups_de":["Compensation"],
-			"view":"compensate/node.compensate.compensateScope.svg",
-			"icon":"compensationScope.png",
-			"roles": ["Activity"],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"JC_expLang",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_boolExp",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"JoinCond_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"suppressJoinFailure",
-					"type":"Choice",
-					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
-					"value":"fromParent",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"fromParent",
-							"title":"fromParent",
-							"title_de":"vonEltern",
-							"value":"fromParent",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"yes",
-							"title":"yes",
-							"title_de":"ja",
-							"value":"yes",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"no",
-							"title":"no",
-							"title_de":"nein",
-							"value":"no",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
-					"id":"target",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"target",
-					"title_de":"Ziel",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"scope",
-			"title":"Scope",
-			"title_de":"Scope",
-			"description":"One Scope",
-			"description_de":"Ein Scope",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
-			"view":"controls/controls.scope.svg",
-			"icon":"scope.png",
-			"roles": ["Activity","SingleActivityContainer","HandlerHolder","CompensationHandlerHolder"],
+			"id":"pick",
+			"title":"pick",
+			"title_de":"pick",
+			"description":"One pick activity",
+			"description_de":"Eine Pick-Aktivität",
+			"groups":["Controls Pick"],
+			"groups_de":["Controls Pick"],
+			"view":"controls/controls.pick.svg",
+			"icon":"new_task.png",
+			"roles": ["Activity","PoolChild"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -5654,7 +4426,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_expLang",
-					"title_de":"Join-Bedi.Ausd.Spra.",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -5669,7 +4441,7 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"JoinCond_boolExp",
-					"title_de":"Join-Bedi.bool.Ausd.",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -5684,7 +4456,7 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"JoinCond_Opaque",
-					"title_de":"opake Join-Bedi.",
+					"title_de":"JoinCond_Opaque",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -5695,7 +4467,201 @@
 					"id":"suppressJoinFailure",
 					"type":"Choice",
 					"title":"suppressJoinFailure",
-					"title_de":"Join-Fehler unterdrücken",
+					"title_de":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"title_de":"ausEltern",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"title_de":"ja",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"title_de":"nein",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"createInstance",
+					"type":"Choice",
+					"title":"createInstance",
+					"title_de":"Beispielerstellen",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"yes",
+							"title":"yes",
+							"title_de":"ja",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"title_de":"nein",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"scope",
+			"title":"Scope",
+			"title_de":"Scope",
+			"description":"One Scope",
+			"description_de":"Ein Scope",
+			"groups":["Controls Scope", "Controls For Each"],
+			"groups_de":["Controls Scope", "Controls For Each"],
+			"view":"controls/controls.scope.svg",
+			"icon":"new_scope.png",
+			"roles": ["Activity","ActivityHolder","PoolChild","HandlerHolder","compensationHandlerHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"title_de":"Dokumentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"title_de":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"title_de":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"title_de":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"title_de":"suppressJoinFailure",
 					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
@@ -5722,7 +4688,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -5744,7 +4710,7 @@
 						{
 							"id":"fromParent",
 							"title":"fromParent",
-							"title_de":"vonEltern",
+							"title_de":"ausEltern",
 							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
@@ -6124,7 +5090,7 @@
 					"id":"CorrelationSets",
 					"type":"Complex",
 					"title":"CorrelationSets",
-					"title_de":"Korrelationsmengen",
+					"title_de":"Korrelationssets",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -6152,7 +5118,7 @@
 					"id":"messageExchanges",
 					"type":"Complex",
 					"title":"messageExchanges",
-					"title_de":"Nachrichtenaustauschliste",
+					"title_de":"Mitteilungstauschen",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -6185,22 +5151,36 @@
 		},
 		{
 			"type": "node",
-			"id":"onAlarm",
-			"title":"onAlarm",
-			"title_de":"onAlarm",
-			"description":"One element onAlarm",
-			"description_de":"Ein Element onAlarm",
-			"groups":["Pick","Scope"],
-			"groups_de":["Pick","Scope"],
-			"view":"others/node.shared.onAlarm.svg",
-			"icon":"onAlarm.png",
-			// TODO : delete role "Activity"
-			"roles": ["SingleActivityContainer","Activity"],
+			"id":"sequence",
+			"title":"Sequence",
+			"title_de":"Sequence",
+			"description":"One Sequence",
+			"description_de":"Ein Sequence",
+			"groups":["Controls Sequence"],
+			"groups_de":["Controls Sequence"],
+			"view":"controls/controls.sequence.svg",
+			"icon":"new_sequence.png",
+			"roles": ["PoolHolder","Activity","PoolChild"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30,horizontalLayout:true});	
  			},
 			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
 				{
 					"id":"documentation",
 					"prefix":"oryx",
@@ -6217,11 +5197,11 @@
 					"wrapLines":true
 				},
 				{
-					"id":"comum_expressionLanguage",
+					"id":"JC_expLang",
 					"prefix":"oryx",
 					"type":"String",
-					"title":"(FOR/UNTIL)expr Lang",
-					"title_de":"(FOR/UNTIL)Ausdruckssprache",
+					"title":"JoinCond_expLang",
+					"title_de":"JoinCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6232,11 +5212,11 @@
 					"wrapLines":false
 				},
 				{
-					"id":"expressionForOrUntil",
+					"id":"JoinCond_boolExp",
 					"prefix":"oryx",
 					"type":"String",
-					"title":"(For/Until)expression",
-					"title_de":"(For/Until)Ausdruck",
+					"title":"JoinCond_boolExp",
+					"title_de":"JoinCond_boolExp",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6247,91 +5227,57 @@
 					"wrapLines":false
 				},
 				{
-					"id":"ForOrUntil",
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"title_de":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
 					"type":"Choice",
-					"title":"ForOrUntil",
-					"title_de":"ForOrUntil",
-					"value":"for",
+					"title":"suppressJoinFailure",
+					"title_de":"suppressJoinFailure",
+					"value":"fromParent",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
-					"optional":false,
+					"optional":true,
 					"refToView":"",
 					"items": [
 						{
-							"id":"for",
-							"title":"for",
-							"title_de":"for",
-							"value":"for",
+							"id":"fromParent",
+							"title":"fromParent",
+							"title_de":"ausEltern",
+							"value":"fromParent",
 							"tooltip":"",
 							"refToView":"none"
 						},
 						{
-							"id":"until",
-							"title":"until",
-							"title_de":"until",
-							"value":"until",
+							"id":"yes",
+							"title":"yes",
+							"title_de":"ja",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"title_de":"nein",
+							"value":"no",
 							"tooltip":"",
 							"refToView":"none"
 						}
 					]
 				},
 				{
-					"id":"ForUntil_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"ForUntil_opaque",
-					"title_de":"opake-ForUntil",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"repeatExpressionLanguage",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Repeat Exp Lang",
-					"title_de":"Wiederholungsausdruckssparche",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"repeatTimeExpression",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"repeat time exp",
-					"title_de":"Wiederholungszeitausdruck",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"repeat_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"repeat_opaque",
-					"title_de":"opake Wiederholung",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-				 	"id":"bgColor",
+					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
 					"title_de":"Hintergrundfarbe",
@@ -6343,25 +5289,706 @@
 					"fill":true,
 					"stroke":false
 				}
-				
 			]
 		},
 		{
 			"type": "node",
-			"id":"onEvent",
-			"title":"onEvent",
-			"title_de":"onEvent",
-			"description":"One onEvent from the element EventHandlers",
-			"description_de":"Ein onEvent in der Aktivität EventHandlers",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
-			"view":"handler/node.handler.onEvent.svg",
-			"icon":"onEvent.png",
-			// TODO : delete role "Activity"
-			"roles": ["SingleActivityContainer","Activity"],
+			"id":"while",
+			"title":"While",
+			"title_de":"While",
+			"description":"One While",
+			"description_de":"Ein While",
+			"groups":["Loop"],
+			"groups_de":["Schleife"],
+			"view":"loop/loop.while.svg",
+			"icon":"new_while.png",
+			"roles": ["Activity","PoolChild","ActivityHolder","SingleActivityContainer"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"title_de":"Dokumentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"title_de":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"title_de":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"title_de":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"title_de":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"title_de":"ausEltern",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"title_de":"ja",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"title_de":"nein",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"condition_expressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"cond_expressionLanguage",
+					"title_de":"Bedingungsausdrucksprache",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"condition_booleanExpression",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"cond_booleanExpression",
+					"title_de":"Bedingungsbooleanausdruck",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"condition_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"cond_Opaque",
+					"title_de":"cond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}				
+			]
+		},
+		{
+			"type": "node",
+			"id":"repeatUntil",
+			"title":"RepeatUntil",
+			"title_de":"RepeatUntil",
+			"description":"One repeat Until",
+			"groups":["Loop"],
+			"view":"loop/loop.repeatUntil.svg",
+			"icon":"new_repeatUntil.png",
+			"roles": ["Activity","PoolChild", "ActivityHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"condition_expressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"cond_expressionLanguage",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"condition_booleanExpression",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"cond_booleanExpression",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"condition_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"cond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+		
+			"type": "node",
+			"id":"compensate",
+			"title":"compensate",
+			"description":"One Compensate",
+			"groups":["Compensate"],
+			"view":"compensate/node.compensate.compensate.svg",
+			"icon":"new_compensation.png",
+			"roles": ["Activity","PoolChild"],
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+		
+			"type": "node",
+			"id":"compensanteScope",
+			"title":"compensateScope",
+			"description":"One Compensate Scope",
+			"groups":["Compensate"],
+			"view":"compensate/node.compensate.compensateScope.svg",
+			"icon":"new_compensationScope.png",
+			"roles": ["Activity","PoolChild"],
+			"properties": [
+				{
+					"id":"name",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"JC_expLang",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_expLang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_boolExp",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"JoinCond_boolExp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"JoinCond_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"JoinCond_Opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"suppressJoinFailure",
+					"type":"Choice",
+					"title":"suppressJoinFailure",
+					"value":"fromParent",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"fromParent",
+							"title":"fromParent",
+							"value":"fromParent",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"yes",
+							"title":"yes",
+							"value":"yes",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"no",
+							"title":"no",
+							"value":"no",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"target",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"target",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+		
+			"type": "node",
+			"id":"compensationHandler",
+			"title":"compensationHandler",
+			"description":"One compensationHandler",
+			"groups":["Compensate"],
+			"view":"compensate/node.compensate.compensateHandler.svg",
+			"icon":"new_compensationHandler.png",
+			"roles": ["Handler","ActivityHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -6369,7 +5996,70 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"onMessage",
+			"title":"onMessage",
+			"description":"One onMessage from the element Pick",
+			"groups":["Controls Pick"],
+			"view":"handler/node.handler.onMessage.svg",
+			"icon":"new_onMessage.png",
+			"roles": ["ActivityHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6386,20 +6076,19 @@
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
 					"title":"partnerLink",
-					"title_de":"Partnerverbindung",
 					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":false,
-					"length":undefined
+					"length":undefined,
+					"wrapLines":false
 				},
 				{
 					"id":"portType",
 					"prefix":"oryx",
 					"type":"String",
 					"title":"portType",
-					"title_de":"Port-Typ",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6414,7 +6103,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"operation",
-					"title_de":"Operation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6425,66 +6113,12 @@
 					"wrapLines":false
 				},
 				{
-					"id":"choiceValue",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"messageType/element",
-					"title_de":"Nachrichtentyp/Element",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"choiceType",
-					"type":"Choice",
-					"title":"choiceType",
-					"title_de":"Auswahltyp",
-					"value":"Empty",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"Empty",
-							"title":"Empty",
-							"title_de":"leer",
-							"value":"Empty",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"messageType",
-							"title":"messageType",
-							"title_de":"Nachrichtentyp",
-							"value":"messageType",
-							"tooltip":"",
-							"refToView":"none"
-						},
-						{
-							"id":"element",
-							"title":"element",
-							"title_de":"Element",
-							"value":"element",
-							"tooltip":"",
-							"refToView":"none"
-						}
-					]
-				},
-				{
 					"id":"variable",
 					"prefix":"oryx",
 					"type":"searcher",
 					"searchBPELId":"BPEL","searchScopeId":"Scope",
 					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
-					"title":"Variable",
-					"title_de":"Variable",
+					"title":"variable",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6496,7 +6130,6 @@
 					"id":"fromParts",
 					"type":"Complex",
 					"title":"fromParts",
-					"title_de":"fromParts",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -6527,7 +6160,6 @@
 					"id":"Correlations",
 					"type":"Complex",
 					"title":"Correlations",
-					"title_de":"Korrelationen",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -6555,21 +6187,18 @@
 								{
 									"id":"yes",
 									"title":"yes",
-									"title_de":"ja",
 									"value":"yes",
 									"refToView":""
 								},
 								{
 									"id":"join",
 									"title":"join",
-									"title_de":"verbinden",
 									"value":"join",
 									"refToView":""
 								},
 								{
 									"id":"no",
 									"title":"no",
-									"title_de":"nein",
 									"value":"no",
 									"refToView":""
 								}
@@ -6578,10 +6207,9 @@
 					]
 				},
 				{
-					"id":"bgColor",
+				"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
 					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
@@ -6593,22 +6221,39 @@
 			]
 		},
 		{
-		
 			"type": "node",
-			"id":"compensationHandler",
-			"title":"compensationHandler",
-			"title_de":"CompensationHandler",
-			"description":"One compensationHandler",
-			"description_de":"Ein Compensationsbehandlung",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
-			"view":"compensate/node.compensate.compensateHandler.svg",
-			"icon":"compensationHandler.png",
-			// TODO : delete role "Activity"
-			"roles": ["Handler","Activity","SingleActivityContainer"],
+			"id":"onAlarm",
+			"title":"onAlarm",
+			"description":"One element onAlarm",
+			"groups":["Controls Pick","Handler EventHandlers"],
+			"view":"others/node.shared.onAlarm.svg",
+			"icon":"new_onAlarm.png",
+			"roles": ["ActivityHolder"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -6616,7 +6261,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6627,10 +6271,427 @@
 					"wrapLines":true
 				},
 				{
-					"id":"bgColor",
+					"id":"comum_expressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"(FOR/UNTIL)expr Lang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"expressionForOrUntil",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"(For/Until)expression",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"ForOrUntil",
+					"type":"Choice",
+					"title":"ForOrUntil",
+					"value":"for",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"for",
+							"title":"for",
+							"value":"for",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"until",
+							"title":"until",
+							"value":"until",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"ForUntil_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"ForUntil_opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"repeatExpressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"Repeat Exp Lang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"repeatTimeExpression",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"repeat time exp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"repeat_opaque",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"repeat_opaque",
+					"value":false,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+				"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+				
+			]
+		},
+		{
+			"type": "node",
+			"id":"eventHandlers",
+			"title":"eventHandlers",
+			"description":"One eventHandlers",
+			"groups":["Handler EventHandlers"],
+			"view":"handler/node.handler.eventHandlers.svg",
+			"icon":"new_task.png",
+			"roles": ["eventHandlers"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"onEvent",
+			"title":"onEvent",
+			"description":"One onEvent from the element EventHandlers",
+			"groups":["Handler EventHandlers"],
+			"view":"handler/node.handler.onEvent.svg",
+			"icon":"new_onEvent.png",
+			"roles": ["ActivityHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"partnerLink",
+					"prefix":"oryx",
+					"type":"searcher",
+					"searchBPELId":"BPEL","searchScopeId":"Scope",
+					"searchPropertieBPEL":"PartnerLinks","searchPropertieScope":"PartnerLinks",
+					"title":"partnerLink",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"length":undefined
+				},
+				{
+					"id":"portType",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"portType",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"operation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"operation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"choiceValue",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"messageType/element",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"choiceType",
+					"type":"Choice",
+					"title":"choiceType",
+					"value":"Empty",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"Empty",
+							"title":"Empty",
+							"value":"Empty",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"messageType",
+							"title":"messageType",
+							"value":"messageType",
+							"tooltip":"",
+							"refToView":"none"
+						},
+						{
+							"id":"element",
+							"title":"element",
+							"value":"element",
+							"tooltip":"",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"variable",
+					"prefix":"oryx",
+					"type":"searcher",
+					"searchBPELId":"BPEL","searchScopeId":"Scope",
+					"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
+					"title":"Variable",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined
+				},
+				{
+					"id":"fromParts",
+					"type":"Complex",
+					"title":"fromParts",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"part",
+							"name":"part",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"toVariable",
+							"name":"toVariable",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"variables","searchPropertieScope":"variables",
+							"width":100,
+							"value":"",
+							"optional":false,
+							"prefix":"oryx"
+						}
+					]
+				},
+				{
+					"id":"Correlations",
+					"type":"Complex",
+					"title":"Correlations",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"Correlation",
+							"name":"Correlation",
+							"type":"searcher",
+							"searchBPELId":"BPEL","searchScopeId":"Scope",
+							"searchPropertieBPEL":"CorrelationSets","searchPropertieScope":"CorrelationSets",
+							"width":100,
+							"value":"",
+							"optional":true,
+							"prefix":"oryx"
+						},
+						{
+							"id":"initiate",
+							"name":"initiate",
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"yes",
+									"title":"yes",
+									"value":"yes",
+									"refToView":""
+								},
+								{
+									"id":"join",
+									"title":"join",
+									"value":"join",
+									"refToView":""
+								},
+								{
+									"id":"no",
+									"title":"no",
+									"value":"no",
+									"refToView":""
+								}
+							]
+						}
+					]
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
 					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
@@ -6646,17 +6707,36 @@
 			"type": "node",
 			"id":"terminationHandler",
 			"title":"terminationHandler",
-			"title_de":"terminationHandler",
 			"description":"One terminationHandler",
-			"description_de":"Ein Termination-Behandlung",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
+			"groups":["Handler termination"],
 			"view":"handler/node.handler.terminationHandler.svg",
-			"icon":"termination.png",
-			"roles": ["Handler","SingleActivityContainer"],
+			"icon":"new_termination.png",
+			"roles": ["Handler","ActivityHolder"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -6664,7 +6744,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6675,10 +6754,86 @@
 					"wrapLines":true
 				},
 				{
-					"id":"bgColor",
+				"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+		
+			"type": "node",
+			"id":"faultHandlers",
+			"title":"faultHandlers",
+			"description":"One faultHandlers",
+			"groups":["Handler faultHandlers"],
+			"view":"handler/node.handler.faultHandlers.svg",
+			"icon":"new_faultHandlers.png",
+			"roles": ["Handler","CatchHolder"],
+			"layout":function(shape) {		
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
+ 			},
+			"properties": [
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+				"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
 					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
@@ -6694,18 +6849,36 @@
 			"type": "node",
 			"id":"catch",
 			"title":"catch",
-			"title_de":"catch",
 			"description":"One catch",
-			"description_de":"Ein catch",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
+			"groups":["Handler faultHandlers"],
 			"view":"handler/node.handler.catch1.svg",
-			"icon":"catch.png",
-			// TODO : delete role "Activity"
-			"roles": ["SingleActivityContainer","Activity"],
+			"icon":"new_catch.png",
+			"roles": ["ActivityHolder"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -6713,7 +6886,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"name",
-					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6728,7 +6900,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"faultVariable",
-					"title_de":"Fehlervariable",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6741,7 +6912,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6756,7 +6926,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"FMessageType",
-					"title_de":"FNachrichtentye",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6771,7 +6940,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"faultElement",
-					"title_de":"Fehlerelement",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6782,10 +6950,9 @@
 					"wrapLines":false
 				},
 				{
-					"id":"bgColor",
+				"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
 					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
@@ -6801,18 +6968,36 @@
 			"type": "node",
 			"id":"catchAll",
 			"title":"catchAll",
-			"title_de":"catchAll",
 			"description":"One Catch All",
-			"description_de":"Ein Catch All",
-			"groups":["Scope"],
-			"groups_de":["Scope"],
+			"groups":["Handler faultHandlers"],
 			"view":"handler/node.handler.catchAll.svg",
-			"icon":"catchAll.png",
-			// TODO : delete role "Activity"
-			"roles": ["Activity","SingleActivityContainer"],
+			"icon":"new_catchAll.png",
+			"roles": ["ActivityHolder"],
 			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:100,spacingX:30,spacingY:30});	
+				var pools = shape.getChildNodes();
+				
+				if(pools.length > 0) {
+				
+					pools = pools.sortBy(function(pool) {
+						return pool.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = shape.bounds.height();
+					var topBound = 0;
+					pools.each(function(pool) {
+						var ul = pool.bounds.upperLeft();
+						var lr = pool.bounds.lowerRight();
+						
+						if (ul.x < 0) ul.x = 0 ;
+						if (lr.x > shapeWidth) lr.x  = shapeWidth;
+						
+						if (lr.y > shapeHeight) lr.y = shapeHeight;
+						if (ul.y < 0) ul.y = 0 ;
+						pool.bounds.set(ul, lr);
+					});
+					
+				}
  			},
 			"properties": [
 				{
@@ -6820,7 +7005,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6831,10 +7015,9 @@
 					"wrapLines":true
 				},
 				{
-					"id":"bgColor",
+				"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
 					"value":"#ffffff",
 					"description":"",
 					"readonly":false,
@@ -6847,15 +7030,12 @@
 		},
 		{
 			"type": "edge",
-			"id":"bpelLink",
-			"title":"Bpel Link",
-			"title_de":"Bpel Link",
+			"id":"sequenceFlow",
+			"title":"Bpel Flow",
 			"description":"Defines a Link in a Flow Element",
-			"description_de":"Definiere eine Kante des Flow-Elements",
-			"groups":["Flow and Sequence"],
-			"groups_de":["Flow und Sequence"],
+			"groups":["Controls Flow"],
 			"view":"controls/edge.sequenceFlow.svg",
-			"icon":"sequence_flow.png",
+			"icon":"new_sequence_flow.png",
 			"roles": [],
 			"properties": [
 				{
@@ -6863,7 +7043,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"Name",
-					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6877,7 +7056,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6892,7 +7070,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"expression",
-					"title_de":"Ausdruck",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6907,7 +7084,6 @@
 					"prefix":"oryx",
 					"type":"String",
 					"title":"expressionLanguage",
-					"title_de":"Ausdruckssprache",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -6922,7 +7098,6 @@
 					"prefix":"oryx",
 					"type":"boolean",
 					"title":"opaque",
-					"title_de":"opak",
 					"value":false,
 					"description":"",
 					"tooltip":"",
@@ -6930,48 +7105,93 @@
 					"optional":false
 				}
 			]
+		},
+		{
+			"type": "edge",
+			"id":"sequenceIfTrue",
+			"title":"If True",
+			"description":"Connects the Activity related if the condition is True",
+			"groups":["Controls If"],
+			"view":"controls/edge.ifTrue.svg",
+			"icon":"new_sequence_flow.png",
+			"roles": ["sequenceIf","if"],
+			"properties": []
+		},
+		{
+			"type": "edge",
+			"id":"sequenceIfFalse",
+			"title":"If False",
+			"description":"Defines the Activity related within the condition if is True",
+			"groups":["Controls If"],
+			"view":"controls/edge.ifFalse.svg",
+			"icon":"new_sequence_flow.png",
+			"roles": ["Controls Sequence","if"],
+			"properties": []
 		}
+	
 	],
 	"rules": {
 		"connectionRules": [
 			{
-				"role":"bpelLink",
+				"role":"sequenceIfTrue",
+				"connects": [
+					{
+						"from":"if_condition",
+						"to":["Activity"]
+					}
+				]
+			},
+			{
+				"role":"sequenceIfFalse",
+				"connects": [
+					{
+						"from":"if_condition",
+						"to":["Activity","if_condition"]
+					}
+				]
+			},
+			{
+				"role":"sequenceFlow",
 				"connects": [
 					{
 						"from":"Activity",
 						"to":["Activity"]
 					}
 				]
+			},
+			{
+				"role":"Association",
+				"connects": [
+					{
+						"from":"ActSrc",
+						"to":["AssTgt"]
+					},
+					{
+						"from":"AssSrc",
+						"to":["ActTgt"]
+					}
+				]
+			},
+			{
+				"role":"Timer",
+				"connects": [
+					{
+						"from":"Activity",
+						"to":"Timer"
+					}
+				]
 			}
 		],
 		
 		"cardinalityRules":[
-		   	{	
+			{
 				"role":"SingleActivityContainer",
-				"maximumChildren":[
-					{
-					   "quantity":1,
-					   "countingRoles":["Activity"],
-					   "exceptions":[],
-					   "recursive":false
-					}
-				]
-			},
+				"maximumChildren":1
+            },
 			{	
-				"role":"MultiActivitiesContainer",
-				"maximumChildren":[
-					{
-					   "quantity":undefined,
-					   "countingRoles":["Activity"],
-					   "exceptions":[],
-					   "recursive":false
-					}
-				]
-			},
-			{	
-				"role":"BPEL",
+				"role":"ProcessChild",
 				"maximumOccurrence":1,
-			},
+			},	
 			{	
 				"role":"compensationHandler",
 				"maximumOccurrence":1,
@@ -6981,30 +7201,52 @@
 				"maximumOccurrence":1,
 			},
 			{	
+				"role":"faultHandlers",
+				"maximumOccurrence":1,
+			},
+			{	
 				"role":"terminationHandler",
 				"maximumOccurrence":1,
 			},
 			{	
-				"role":"else_branch",
-				"maximumOccurrence":1,
-			},
-			{	
-				"role":"copy",
-				"maximumOccurrence":1,
+				"role":"Condition",
+				"maximumOccurrence":undefined,
+				"outgoingEdges": [
+					{
+						"role":"sequenceIfFalse",
+						"maximum":1
+					},
+					{
+						"role":"sequenceIfTrue",
+						"maximum":1
+					}
+				],
+				"incomingEdges": [
+					{
+						"role":"sequenceIfTrue",
+						"maximum":1
+					}
+				]
 			},
 			{	
 				"role":"Activity",
 				"outgoingEdges": [
 					{
-						"role":"bpelLink",
+						"role":"sequenceFlow",
 						"maximum":undefined
 					}
 				],
 				"incomingEdges": [
 					{
-						"role":"bpelLink",
+						"role":"sequenceFlow",
 						"maximum":undefined
+					},
+					{
+						"role":"sequenceIf",
+						"maximum":1
 					}
+					
+
 				]
 			}
 			
@@ -7014,10 +7256,22 @@
 		"containmentRules": [
 			{
 				"role":"If",
-				"contains": ["if_branch", "else_branch"]			
+				"contains": ["Condition"]			
+			},
+			{
+				"role":"PoolHolder",
+				"contains": ["PoolChild"]
+			},
+			{
+				"role":"CatchHolder",
+				"contains": ["catch","catchAll"]
+			},
+			{
+				"role":"eventHandlers",
+				"contains": ["onEvent","onAlarm"]
 			},
 			{ 
-			    "role":"forEach",
+				"role":"forEach",
 				"contains": ["scope"]
 			},
 			{
@@ -7025,30 +7279,23 @@
 				"contains": ["onMessage","onAlarm"]
 			},
 			{
-				"role":"SingleActivityContainer",
-				"contains": ["Activity"]
-			},
-			{
-				"role":"MultiActivitiesContainer",
+				"role":"ActivityHolder",
 				"contains": ["Activity"]
 			},
 			{
 				"role":"HandlerHolder",
-				"contains": ["terminationHandler"]
+				"contains": ["faultHandlers","terminationHandler", "eventHandlers"]
 			},
 			{
-				"role":"CompensationHandlerHolder",
+				"role":"compensationHandlerHolder",
 				"contains": ["compensationHandler"]
 			},
 			{
 				"role":"Process",
-				"contains": ["BPEL"]
-			},
-			{
-				"role":"assign",
-				"contains": ["copy"]
+				"contains": [
+					"ProcessChild"
+				]
 			}
-			
 		],
 		canContain: function(args) {return args.result;  },
 		canConnect: function(args) { 
@@ -7099,7 +7346,7 @@
 				
 					
 					
-				if(args.edgeStencil.id() == args.edgeStencil.namespace() + "bpelLink"){
+				if(args.edgeStencil.id() == args.edgeStencil.namespace() + "sequenceFlow"){
 						
 					//if the parent shape has a role for the target edge
 					var targetResult= true, sourceResult =true;

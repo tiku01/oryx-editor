@@ -2,16 +2,6 @@
 	display:none;
 }
 
-/* Fix for Firefox 3 */
-.x-date-middle {
-width: 160px;
-}
-
-.x-grid3 table {
-table-layout:fixed;
-}
-
-
 .x-grid3-row-table {
 	table-layout: fixed;
 }
