@@ -11,7 +11,7 @@ Although the current stencil set specification was good enough for implementing 
 The changes on the stencil set specification may not have an impact on existing stencil sets. Only very small adjustments that could be done for all existing stencil sets as part of this project are allowed.
 
 
-== Extend existing Stencil Sets ==
+== Extend existing Stencil Sets (DONE) ==
 
 _Issue #53_
 
@@ -22,7 +22,7 @@ The user must be able to load those extensions at run-time. This information mus
 The first version should only add properties to existing stencils.
 
 
-== Stencil Set dependant Plugins ==
+== Stencil Set dependant Plugins (DONE) ==
 
 _Issue #140_
 
