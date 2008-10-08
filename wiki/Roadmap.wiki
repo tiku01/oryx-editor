@@ -18,10 +18,15 @@
 
 == +6 Months ==
 
- * Folder structure for organizing process models
+ * Folder structure for organizing process models (maybe a way to support process variants)
  * User groups for sharing process models with a group
  * Versioning of process models
  * Expand/Collapse BPMN Subprocesses
+ * Testing:
+   * Test Cases
+   * Usage of WebGUI frameworks
+   * Security
+ * Release Planning
 
 
 ----
