@@ -9,11 +9,9 @@ In this document the roles that are involved in the development of Oryx are mapp
 
 || *Role* || *Team Members* ||
 || Team Manager || Nico ||
-|| Developer (Client-side) || Willi, Nico, Sven ||
+|| Developer (Client-side) || Willi, Nico, Sven, Jan-Felix ||
 || Developer (Server-side) || Björn, Kai ||
-|| Bug Verification (Client-side) || Willi, Nico, Sven ||
-|| Bug Verification (Server-side) || Björn, Kai ||
-|| Tester (Server-side) || Björn, Kai, Nico ||
 || Tester (Client-side) || Björn, Willi, Sven, Nico ||
+|| Tester (Server-side) || Björn, Kai, Nico ||
 || Server Administration || Daniel ||
 || Contributor || Martin, Ole ||
