@@ -1,11 +1,39 @@
 #summary Roadmap for the next months
 
-= Introduction =
+= Roadmap October 2008 =
+
+== +2 Months ==
+
+ * *Performance Improvements*
+ * *Process Repository 2.0*
+ * Undo/Redo bugfixing
+ * Server improvements
+ * XForms Import
+ * Step-Through bugfixing
+ * BPMN validation bugfixing
+ * Webkit/Opera bugfixing
+ * Bugfixing
+ * Documentation of Plugin API
+ * Documentation of Backend / Process Repository 2.0
+
+== +6 Months ==
+
+ * Folder structure for organizing process models
+ * User groups for sharing process models with a group
+ * Versioning of process models
+ * Expand/Collapse BPMN Subprocesses
+
+
+----
+
+= Roadmap April 2008 =
+
+== Introduction ==
 
 The roadmap describes the most important work packages for the next months. Of course, bug fixing and small enhancements are also implemented beside this. The roadmap is divides into three phases. Phase I is scheduled from now till the end of July. Phase II is the summer season. Phase III contains work packages for the next semester.
 
 
-= Phase I =
+== Phase I ==
 
  * Performance tests (client/server and improvements
  * Fixing Firefox 3 specific bugs
@@ -15,7 +43,7 @@ The roadmap describes the most important work packages for the next months. Of c
  * Migration and backup scripts
 
 
-= Phase II =
+== Phase II ==
 
  * Internationalization
  * Prepare Oryx to support UML class diagrams
@@ -27,7 +55,7 @@ The roadmap describes the most important work packages for the next months. Of c
  * Include existing plugins from contributors into the productive system
  * Marketing
 
-= Phase III =
+== Phase III ==
 
  * Browser independence
  * Versioning of process models
