@@ -2,6 +2,54 @@
 	"title":"Developer",
 	"namespace":"http://b3mn.org/2007/b3mn#",
 	"description":"This is the B3MN stencil set specification.",
+	"propertyPackages":[
+		{
+			"id":"standard",
+			"properties":[
+				{
+					"id":"label",
+					"type":"String",
+					"title":"String",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"20"
+				}
+			]
+		},
+				{
+			"id":"extended",
+			"properties":[
+				{
+					"id":"bool",
+					"type":"Boolean",
+					"title":"Boolean",
+					"value":true,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"b"
+				},
+				{
+					"id":"int",
+					"type":"Integer",
+					"title":"Integer",
+					"value":10,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"min":"-5",
+					"max":"100"
+				},
+			]
+		}
+	],
  	"stencils" : [
  		{
 			"type": "node",
@@ -11,6 +59,7 @@
 			"description":"",
 			"view":"node.group.svg",
 			"icon":"node.group.png",
+			"mayBeRoot":true,
 			"roles": [
 			],
 			"properties": [
@@ -44,9 +93,12 @@
 				"tc",
 				"child"
 			],
+			"propertyPackages":[
+				"standard"
+			],
 			"properties": [
 				{
-					"id":"aufgabe",
+					"id":"label",
 					"type":"String",
 					"title":"String",
 					"value":"Aufgabe",
@@ -57,30 +109,6 @@
 					"refToView":"",
 					"length":"20",
 					"wrapLines":true
-				},
-				{
-					"id":"bool",
-					"type":"Boolean",
-					"title":"Boolean",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"b"
-				},
-				{
-					"id":"int",
-					"type":"Integer",
-					"title":"Integer",
-					"value":10,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"min":"-5",
-					"max":"100"
 				},
 				{
 					"id":"float",
@@ -198,6 +226,10 @@
 			"icon":"node.group.png",
 			"roles": [
 				"child"
+			],
+			"propertyPackages":[
+				"standard",
+				"extended"
 			],
 			"properties": [
 				{
