@@ -1,0 +1,3017 @@
+{
+	"title":"XForms",
+	"namespace":"http://b3mn.org/stencilset/xforms#",
+	"description":"This is the XForms stencil set specification.",
+ 	"stencils" : [
+ 		{
+			"type":				"node",
+			"id":				"XForm",
+			"title":			"XForm",
+			"groups":			["Form"],
+			"description":		"A XForms Form.",
+			"view":				"node.form.svg",
+			"icon":				"new_form.png",
+			"mayBeRoot":		true,
+			"hide":				true,
+			"roles":			["form"],
+			"layout":function(shape) {
+				 var raiseEvent = shape._delegateEvent.bind(shape);
+				 raiseEvent({type:'layout.rows',shape:shape,marginTop:50,marginLeft:50,spacingX:30,spacingY:30});
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the form from other forms.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"name",
+					"value":"",
+					"description":"Name is an attribute that is text description of the form.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"formcaption",
+					"wrapLines":true
+				},
+				{
+					"id":"version",
+					"type":"String",
+					"title":"version",
+					"value":"",
+					"description":"This defines the version number of the form model.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				}
+			]
+		},	
+ 		{
+			"type": "node",
+			"id":"Input",
+			"title":"Input",
+			"groups":["Controls"],
+			"description":"An input control.",
+			"view":"node.input.svg",
+			"icon":"new_input.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height() - 1;
+						lr.y = - 1;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"inputmode",
+					"type":"String",
+					"title":"inputmode",
+					"value":"",
+					"description":"Hint to the user agent to select an appropriate input mode for the text input",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"navindex",
+					"type":"Integer",
+					"title":"navindex",
+					"value":0,
+					"description":"Integer used to define the navigation sequence",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"accesskey",
+					"type":"String",
+					"title":"accesskey",
+					"value":"",
+					"description":"Shortcut for moving the input focus to this control",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"1"
+				},
+				{
+					"id":"type",
+					"type":"String",
+					"title":"type",
+					"value":"",
+					"description":"Any xsd:QName representing the expected datatype",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"required",
+					"type":"String",
+					"title":"required",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"constraint",
+					"type":"String",
+					"title":"constraint",
+					"value":"",
+					"description":"A predicate that needs to be satisfied for the associated instance data node to be considered valid",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"p3ptype",
+					"type":"String",
+					"title":"p3ptype",
+					"value":"",
+					"description":"A P3P data element indicating the specific kind of data collected here",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Secret",
+			"title":"Secret",
+			"groups":["Controls"],
+			"description":"A secret input control.",
+			"view":"node.secret.svg",
+			"icon":"new_secret.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height() - 1;
+						lr.y = - 1;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"inputmode",
+					"type":"String",
+					"title":"inputmode",
+					"value":"",
+					"description":"Hint to the user agent to select an appropriate input mode for the text input",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"navindex",
+					"type":"Integer",
+					"title":"navindex",
+					"value":0,
+					"description":"Integer used to define the navigation sequence",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"accesskey",
+					"type":"String",
+					"title":"accesskey",
+					"value":"",
+					"description":"Shortcut for moving the input focus to this control",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"1"
+				},
+				{
+					"id":"type",
+					"type":"String",
+					"title":"type",
+					"value":"",
+					"description":"Any xsd:QName representing the expected datatype",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"required",
+					"type":"String",
+					"title":"required",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"constraint",
+					"type":"String",
+					"title":"constraint",
+					"value":"",
+					"description":"A predicate that needs to be satisfied for the associated instance data node to be considered valid",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"p3ptype",
+					"type":"String",
+					"title":"p3ptype",
+					"value":"",
+					"description":"A P3P data element indicating the specific kind of data collected here",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}	
+			]
+		},
+		{
+			"type": "node",
+			"id":"Textarea",
+			"title":"Textarea",
+			"groups":["Controls"],
+			"description":"A textarea control.",
+			"view":"node.textarea.svg",
+			"icon":"new_textarea.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height() - 1;
+						lr.y = - 1;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"inputmode",
+					"type":"String",
+					"title":"inputmode",
+					"value":"",
+					"description":"Hint to the user agent to select an appropriate input mode for the text input",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"navindex",
+					"type":"Integer",
+					"title":"navindex",
+					"value":0,
+					"description":"Integer used to define the navigation sequence",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"accesskey",
+					"type":"String",
+					"title":"accesskey",
+					"value":"",
+					"description":"Shortcut for moving the input focus to this control",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"1"
+				},
+				{
+					"id":"type",
+					"type":"String",
+					"title":"type",
+					"value":"",
+					"description":"Any xsd:QName representing the expected datatype",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"required",
+					"type":"String",
+					"title":"required",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"constraint",
+					"type":"String",
+					"title":"constraint",
+					"value":"",
+					"description":"A predicate that needs to be satisfied for the associated instance data node to be considered valid",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"p3ptype",
+					"type":"String",
+					"title":"p3ptype",
+					"value":"",
+					"description":"A P3P data element indicating the specific kind of data collected here",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}	
+			]
+		},
+		{
+			"type": "node",
+			"id":"Output",
+			"title":"Output",
+			"groups":["Controls"],
+			"description":"Renders content but provides no means for editing data",
+			"view":"node.output.svg",
+			"icon":"new_output.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height();
+						lr.y = 0;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"outputref",
+					"length":"50"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Upload",
+			"title":"Upload",
+			"groups":["Controls"],
+			"description":"Renders an upload control",
+			"view":"node.upload.svg",
+			"icon":"new_upload.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height();
+						lr.y = 0;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"mediatype",
+					"type":"String",
+					"title":"mediatype",
+					"value":"",
+					"description":"A space-separated list of suggested media types",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}		
+			]
+		},
+		{
+			"type": "node",
+			"id":"Range",
+			"title":"Range",
+			"groups":["Controls"],
+			"description":"Renders a control that allows selection from a sequential range of values",
+			"view":"node.range.svg",
+			"icon":"new_range.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height();
+						lr.y = 0;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"start",
+					"type":"String",
+					"title":"start",
+					"value":"",
+					"description":"The lexical starting bound for the range",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"end",
+					"type":"String",
+					"title":"end",
+					"value":"",
+					"description":"The lexical ending bound for the range",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"step",
+					"type":"String",
+					"title":"step",
+					"value":"",
+					"description":"Value to use for incrementing or decrementing",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}			
+			]
+		},
+		{
+			"type": "node",
+			"id":"Trigger",
+			"title":"Trigger",
+			"groups":["Controls"],
+			"description":"Renders a button",
+			"view":"node.trigger.svg",
+			"icon":"new_trigger.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = 2;
+						lr.y = 2 + label.bounds.height();
+						
+						if((shape.bounds.width()-4)<label.bounds.width()) {
+							var sul = shape.bounds.upperLeft();
+							var slr = shape.bounds.lowerRight();
+							slr.x = sul.x + label.bounds.width() + 4;
+							shape.bounds.set(sul, slr);
+						}
+
+						ul.x = (shape.bounds.width() - 4 - label.bounds.width()) * 0.5;
+						lr.x = ul.x + label.bounds.width();
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}		
+			]
+		},
+		{
+			"type": "node",
+			"id":"Submit",
+			"title":"Submit",
+			"groups":["Controls"],
+			"description":"Renders a submit button",
+			"view":"node.submit.svg",
+			"icon":"new_submit.png",
+			"roles": [
+				"core_form_controls"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = 2;
+						lr.y = 2 + label.bounds.height();
+						
+						if((shape.bounds.width()-4)<label.bounds.width()) {
+							var sul = shape.bounds.upperLeft();
+							var slr = shape.bounds.lowerRight();
+							slr.x = sul.x + label.bounds.width() + 4;
+							shape.bounds.set(sul, slr);
+						}
+
+						ul.x = (shape.bounds.width() - 4 - label.bounds.width()) * 0.5;
+						lr.x = ul.x + label.bounds.width();
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Select",
+			"title":"Select",
+			"groups":["Controls"],
+			"description":"Renders a multi select control",
+			"view":"node.select.svg",
+			"icon":"new_select.png",
+			"roles": [
+				"core_form_controls",
+				"item_container"
+			],
+			"layout":function(shape) {	
+				
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height() - 1;
+						lr.y = - 1;
+						ul.x = 0;
+						lr.x = label.bounds.width();
+						label.bounds.set(ul, lr);
+					});
+				}
+				
+				var items = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Item");
+				});
+				
+				if(items.length > 0) {
+				
+					items = items.sortBy(function(item) {
+						return item.bounds.upperLeft().y;
+					});
+					
+					var shapeWidth = shape.bounds.width();
+					var shapeHeight = 0;
+					items.each(function(item) {
+						var ul = item.bounds.upperLeft();
+						var lr = item.bounds.lowerRight();
+						ul.y = shapeHeight + 5;
+						lr.y = ul.y + item.bounds.height();
+						shapeHeight += item.bounds.height() + 5;
+						ul.x = 30;
+						lr.x = shapeWidth;
+						item.bounds.set(ul, lr);
+					});
+					
+					var upl = shape.bounds.upperLeft();
+					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight + 5);
+				}
+				
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"navindex",
+					"type":"Integer",
+					"title":"navindex",
+					"value":0,
+					"description":"Integer used to define the navigation sequence",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"accesskey",
+					"type":"String",
+					"title":"accesskey",
+					"value":"",
+					"description":"Shortcut for moving the input focus to this control",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"1"
+				},
+				{
+					"id":"type",
+					"type":"String",
+					"title":"type",
+					"value":"",
+					"description":"Any xsd:QName representing the expected datatype",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"required",
+					"type":"String",
+					"title":"required",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"constraint",
+					"type":"String",
+					"title":"constraint",
+					"value":"",
+					"description":"A predicate that needs to be satisfied for the associated instance data node to be considered valid",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"p3ptype",
+					"type":"String",
+					"title":"p3ptype",
+					"value":"",
+					"description":"A P3P data element indicating the specific kind of data collected here",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"selection",
+					"type":"Choice",
+					"title":"selection",
+					"value":"closed",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"c1",
+							"value":"closed",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"c2",
+							"value":"open",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"incremental",
+					"type":"Boolean",
+					"title":"incremental",
+					"value":true,
+					"description":"When true, this form control will generate additional xforms-value-changed events.",
+					"readonly":false,
+					"optional":true,
+					"refToView":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Group",
+			"title":"Group",
+			"groups":["Containers"],
+			"description":"A container for defining a hierarchy of form controls.",
+			"view":"node.group.svg",
+			"icon":"new_group.png",
+			"roles": [
+				"container_form_controls",
+				"ui_common_container",
+				"labeled"
+			],
+			"layout":function(shape) {
+				var raiseEvent = shape._delegateEvent.bind(shape);
+				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:10,spacingX:30,spacingY:30,exclude:["http://b3mn.org/stencilset/xforms#Label"]});
+ 				
+ 				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = - label.bounds.height() - 1;
+						lr.y = - 1;
+						ul.x = 0;
+						lr.x = label.bounds.width();;
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"readonly",
+					"type":"String",
+					"title":"readonly",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"calculate",
+					"type":"String",
+					"title":"calculate",
+					"value":"",
+					"description":"An expression used to calculate a string value for the associated instance data node",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Repeat",
+			"title":"Repeat",
+			"groups":["Containers"],
+			"description":"A UI mapping over a node-set.",
+			"view":"node.repeat.svg",
+			"icon":"new_repeat.png",
+			"roles": [
+				"container_form_controls",
+				"actions_container"
+			],
+			"layout":function(shape) {
+				var raiseEvent = shape._delegateEvent.bind(shape);
+				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:10,spacingX:30,spacingY:30});
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"nodeset",
+					"type":"String",
+					"title":"nodeset",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"200"
+				}	
+			]
+		},
+		{
+			"type": "node",
+			"id":"Label",
+			"title":"Label",
+			"groups":["Support Elements"],
+			"description":"A label for form controls.",
+			"view":"node.label.svg",
+			"icon":"new_label.png",
+			"roles": [
+				"label"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"text",
+					"type":"String",
+					"title":"text",
+					"value":"Label",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"labeltext",
+					"length":"100",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Help",
+			"title":"Help",
+			"groups":["Support Elements"],
+			"description":"Help information for form controls.",
+			"view":"node.help.svg",
+			"icon":"new_help.png",
+			"roles": [
+				"ui_common"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"message",
+					"type":"String",
+					"title":"message",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Hint",
+			"title":"Hint",
+			"groups":["Support Elements"],
+			"description":"Hint information for form controls.",
+			"view":"node.hint.svg",
+			"icon":"new_hint.png",
+			"roles": [
+				"ui_common"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"message",
+					"type":"String",
+					"title":"message",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Alert",
+			"title":"Alert",
+			"groups":["Support Elements"],
+			"description":"Error alert for form controls.",
+			"view":"node.alert.svg",
+			"icon":"new_alert.png",
+			"roles": [
+				"ui_common"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"message",
+					"type":"String",
+					"title":"message",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"relevant",
+					"type":"String",
+					"title":"relevant",
+					"value":"",
+					"description":"Any expression that is convertible to XPath boolean",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Item",
+			"title":"Item",
+			"groups":["Support Elements"],
+			"description":"An item for select controls.",
+			"view":"node.item.svg",
+			"icon":"new_item.png",
+			"roles": [
+				"item",
+				"labeled"
+			],
+			"layout":function(shape) {	
+				var labels = shape.getChildNodes(false).findAll(function(node) {
+					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+				});
+				
+				if(labels.length > 0) {
+					labels.each(function(label) {
+						var ul = label.bounds.upperLeft();
+						var lr = label.bounds.lowerRight();
+						ul.y = 2;
+						ul.x = 2;
+						lr.y = 2 + label.bounds.height();
+						lr.x = 2 + label.bounds.width();
+						label.bounds.set(ul, lr);
+					});
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"value",
+					"type":"String",
+					"title":"value",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Action",
+			"title":"Action",
+			"groups":["Actions"],
+			"description":"Causes its child actions to be invoked in the order that they are specified.",
+			"view":"node.action.svg",
+			"icon":"new_action.png",
+			"roles": [
+				"actions_container",
+				"action"
+			],
+			"layout":function(shape) {		
+				var actions = shape.getChildNodes(false);
+
+				if(actions.length > 0) {
+					
+					actions = actions.sortBy(function(action) {
+						return action.bounds.upperLeft().y;
+					});
+					
+					var shapeHeight = 5;
+					actions.each(function(action) {
+						var ul = action.bounds.upperLeft();
+						var lr = action.bounds.lowerRight();
+						ul.y = shapeHeight;
+						lr.y = ul.y + action.bounds.height();
+						shapeHeight += action.bounds.height() + 5;
+						ul.x = 2;
+						lr.x = 2 + action.bounds.width();
+						action.bounds.set(ul, lr);
+					});
+					
+					var upl = shape.bounds.upperLeft();
+					var lor = shape.bounds.lowerRight();
+					shape.bounds.set(upl.x, upl.y, lor.x, upl.y + shapeHeight + 15);
+				}
+ 			},
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				}		
+			]
+		},
+		{
+			"type": "node",
+			"id":"SetValue",
+			"title":"Set Value",
+			"groups":["Actions"],
+			"description":"This action explicitly sets the value of the specified instance data node.",
+			"view":"node.setvalue.svg",
+			"icon":"new_setvalue.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"value",
+					"type":"String",
+					"title":"value",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Insert",
+			"title":"Insert",
+			"groups":["Actions"],
+			"description":"This action is used to create one or more nodes of instance data by cloning one or more existing instance nodes.",
+			"view":"node.insert.svg",
+			"icon":"new_insert.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"context",
+					"type":"String",
+					"title":"context",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"nodeset",
+					"type":"String",
+					"title":"nodeset",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"at",
+					"type":"String",
+					"title":"at",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"position",
+					"type":"Choice",
+					"title":"position",
+					"value":"After",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"c1",
+							"value":"Before",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"c2",
+							"value":"After",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"origin",
+					"type":"String",
+					"title":"origin",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Delete",
+			"title":"Delete",
+			"groups":["Actions"],
+			"description":"This action deletes one or more nodes from instance data.",
+			"view":"node.delete.svg",
+			"icon":"new_delete.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"context",
+					"type":"String",
+					"title":"context",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"nodeset",
+					"type":"String",
+					"title":"nodeset",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"at",
+					"type":"String",
+					"title":"at",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"SetIndex",
+			"title":"Set Index",
+			"groups":["Actions"],
+			"description":"This action marks a specific item as current in a repeating sequence.",
+			"view":"node.setindex.svg",
+			"icon":"new_setindex.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"repeat",
+					"type":"String",
+					"title":"repeat",
+					"value":"/",
+					"description":"Required reference to a repeating element.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"index",
+					"type":"String",
+					"title":"index",
+					"value":"/",
+					"description":"Required XPath expression that evaluates to a 1-based offset into the sequence.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Toggle",
+			"title":"Toggle",
+			"groups":["Actions"],
+			"description":"This action selects one possible case from an exclusive list of alternatives in a switch.",
+			"view":"node.toggle.svg",
+			"icon":"new_toggle.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"case",
+					"type":"String",
+					"title":"case",
+					"value":"/",
+					"description":"Optional reference to the case element to select.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"SetFocus",
+			"title":"Set Focus",
+			"groups":["Actions"],
+			"description":"This action dispatches an xforms-focus event to the element identified by attribute control.",
+			"view":"node.setfocus.svg",
+			"icon":"new_setfocus.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"control",
+					"type":"String",
+					"title":"control",
+					"value":"/",
+					"description":"Optional reference to a form control.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Dispatch",
+			"title":"Dispatch",
+			"groups":["Actions"],
+			"description":"This action dispatches an XML Event to a specific target element.",
+			"view":"node.dispatch.svg",
+			"icon":"new_dispatch.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"name",
+					"value":"",
+					"description":"Optional name of the event to dispatch.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"target",
+					"value":"/",
+					"description":"Optional reference to the event target.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"delay",
+					"type":"Integer",
+					"title":"delay",
+					"value":0,
+					"description":"Optional attribute that indicates the minimum number of milliseconds to delay dispatching of the event to the target.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":0
+				},
+				{
+					"id":"bubbles",
+					"type":"Boolean",
+					"title":"bubbles",
+					"value":true,
+					"description":"Optional boolean indicating if this event bubbles.",
+					"readonly":false,
+					"optional":true,
+					"refToView":""
+				},
+				{
+					"id":"cancelable",
+					"type":"Boolean",
+					"title":"cancelable",
+					"value":true,
+					"description":"Optional boolean indicating if this event is cancelable.",
+					"readonly":false,
+					"optional":true,
+					"refToView":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Rebuild",
+			"title":"Rebuild",
+			"groups":["Actions"],
+			"description":"This action results in rebuilding any internal data structures used to track computational dependencies among instance data nodes.",
+			"view":"node.rebuild.svg",
+			"icon":"new_rebuild.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"model",
+					"type":"String",
+					"title":"model",
+					"value":"",
+					"description":"Optional XForms Model selector.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Recalculate",
+			"title":"Recalculate",
+			"groups":["Actions"],
+			"description":"This action causes that instance data nodes whose values need to be recalculated are updated.",
+			"view":"node.recalculate.svg",
+			"icon":"new_recalculate.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"model",
+					"type":"String",
+					"title":"model",
+					"value":"",
+					"description":"Optional XForms Model selector.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Revalidate",
+			"title":"Revalidate",
+			"groups":["Actions"],
+			"description":"This action results in the instance data being revalidated as specified by the processing model.",
+			"view":"node.revalidate.svg",
+			"icon":"new_revalidate.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"model",
+					"type":"String",
+					"title":"model",
+					"value":"",
+					"description":"Optional XForms Model selector.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Refresh",
+			"title":"Refresh",
+			"groups":["Actions"],
+			"description":"This action results in the XForms user interface being refreshed.",
+			"view":"node.refresh.svg",
+			"icon":"new_refresh.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"model",
+					"type":"String",
+					"title":"model",
+					"value":"",
+					"description":"Optional XForms Model selector.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Reset",
+			"title":"Reset",
+			"groups":["Actions"],
+			"description":"This action is used to reset the instance data.",
+			"view":"node.reset.svg",
+			"icon":"new_reset.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"model",
+					"type":"String",
+					"title":"model",
+					"value":"",
+					"description":"Optional XForms Model selector.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Load",
+			"title":"Load",
+			"groups":["Actions"],
+			"description":"This action traverses the specified link.",
+			"view":"node.load.svg",
+			"icon":"new_load.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"resource",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"Optional link to an external resource to load.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"show",
+					"type":"Choice",
+					"title":"show",
+					"value":"replace",
+					"description":"Optional link behavior specifier.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"c1",
+							"value":"Replace",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"c2",
+							"value":"New",
+							"refToView":""
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Send",
+			"title":"Send",
+			"groups":["Actions"],
+			"description":"This action initiates submit processing.",
+			"view":"node.send.svg",
+			"icon":"new_send.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"submission",
+					"type":"String",
+					"title":"submission",
+					"value":"",
+					"description":"Optional reference to a submission element.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Message",
+			"title":"Message",
+			"groups":["Actions"],
+			"description":"This action encapsulates a message to be displayed to the to the user.",
+			"view":"node.message.svg",
+			"icon":"new_message.png",
+			"roles": [
+				"action"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"if",
+					"type":"String",
+					"title":"if",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"while",
+					"type":"String",
+					"title":"while",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"100",
+					"wrapLines":true
+				},
+				{
+					"id":"ev:event",
+					"type":"String",
+					"title":"event",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ref",
+					"type":"String",
+					"title":"ref",
+					"value":"/",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				},
+				{
+					"id":"level",
+					"type":"Choice",
+					"title":"level",
+					"value":"modal",
+					"description":"Optional message level identifier.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"c1",
+							"value":"ephemeral",
+							"refToView":""
+						},
+						{
+							"id":"c1",
+							"title":"c1",
+							"value":"modeless",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"c2",
+							"value":"modal",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"message",
+					"type":"String",
+					"title":"message",
+					"value":"",
+					"description":"Optional message text to show.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"100"
+				}
+			]
+		}
+	],	
+	"rules": {
+		"containmentRules": [
+			{
+				"role":"form",
+				"contains": [
+					"core_form_controls",
+					"container_form_controls"
+				]
+			},
+			{
+				"role":"container_form_controls",
+				"contains": [
+					"core_form_controls",
+					"container_form_controls"
+				]
+			},
+			{
+				"role":"core_form_controls",
+				"contains": [
+					"label",
+					"ui_common",
+					"action"
+				]
+			},
+			{
+				"role":"labeled",
+				"contains": [
+					"label"
+				]
+			},
+			{
+				"role":"ui_common_container",
+				"contains": [
+					"ui_common"
+				]
+			},
+			{
+				"role":"actions_container",
+				"contains": [
+					"action"
+				]
+			},
+			{
+				"role":"item_container",
+				"contains": [
+					"item"
+				]
+			}
+		]
+	}
+}
