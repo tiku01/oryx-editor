@@ -416,4 +416,10 @@
 	        <arg line="stop"/>
 	    </java>
 	</target>-->
+	
+	<target name="stick">
+		<copy todir='build/stick'>
+            <fileset dir="stick"/>
+        </copy>
+	</target>
 </project>
