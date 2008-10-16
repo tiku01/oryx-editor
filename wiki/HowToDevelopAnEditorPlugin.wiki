@@ -1,0 +1,6 @@
+#summary Coming soon...
+
+ * facade
+ * events (com between plugins)
+ * UI plugin vs. functionality plugin
+ * aufbau
