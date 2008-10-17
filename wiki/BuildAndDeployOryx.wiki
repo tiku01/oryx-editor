@@ -29,7 +29,7 @@ In order to build the WAR files, use either the bash tool "ant" or the external 
 
   backend.war: *build-backend*
 
-  both WAR files: *rebuild-all*, *rebuild-all-parallel*
+  both WAR files: *rebuild-all*
 
 
 = Deploying the WAR files =
