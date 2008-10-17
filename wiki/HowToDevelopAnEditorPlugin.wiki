@@ -4,3 +4,92 @@
  * events (com between plugins)
  * UI plugin vs. functionality plugin
  * aufbau
+
+== The Facade ==
+
+The facade is the interface to access the editor. The interface object is one of the parameters of a plugin's constructor. The following methods are defined in the interface:
+
+{{{
+offer(pluginData: Object): void
+
+getStencilSets(): Hash
+getRules(): ORYX.Core.StencilSet.Rules
+loadStencilSet(source:URL): void
+
+createShape(option:Object): ORYX.Core.Shape
+deleteShape(shape:ORYX.Core.Shape): void
+getSelection(): ORYX.Core.Shape[]
+setSelection(elements:ORYX.Core.Shape[], subSelectionElements:ORYX.Core.Shape[]): void
+updateSelection(): void
+getCanvas(): ORYX.Core.Canvas
+
+importJSON(jsonObject: JSON, noSelectionAfterImport: boolean): ORYX.Core.Shape[]
+importERDF(erdfDOM: XMLDocument): ORYX.Core.Shape[]
+getERDF(): string
+
+executeCommands(commands: ORYX.Core.Command[]): void
+registerOnEvent(eventType: string, callback: function): void
+unregisterOnEvent(eventType: string, callback: function): void
+registerEventType(eventType: string): void (TODO: REMOVE THIS METHOD!!!)
+raiseEvent(event: Object, uiObj: ORYX.Core.UIObject): void
+enableEvent(eventType: string): void
+disableEvent(eventType: string): void
+eventCoordinates(event: Event): SVGPoint
+
+getLayout(): Ext.Panel | Ext.Viewport
+addToRegion(region: string, component: Ext.Component, title: String): Ext.Component
+}}}
+
+===offer===
+
+{{{
+offer(pluginData): void
+}}}
+
+*Parameters:*
+
+ * _pluginData_: Object with the following properties
+   * _name_: string
+     * Name of the feature.
+   * _functionality_: function
+     * Callback of the feature.
+   * _group_: string
+     * Name of the group the feature belongs to (e. g. used by toolbar).
+   * _icon_: string
+     * URL to an icon for the feature. URL must be absolute or relative to the root folder.
+   * _description_: string
+     * Description of the feature
+   * _index_: int
+     * Index for ordering of one group's features.
+   * _minShape_: int
+     * Minimum number of shapes that have to be selected so that the feature is available/activated.
+   * _maxShape_: int
+     * Maximum number of shapes that have to be selected so that the feature is available/activated.
+   * _isEnabled_: function
+     * Optional callback that activates the feature, if it returns *true*, or deactivates it, if it returns *false*.
+
+*Returns:*
+
+void
+
+*Description:*
+
+A plugin must register each of its features with this method. This method shall be called in the constructor of the plugin. Once registered, the features are available in the toolbar or any other plugin that offers a UI for accessing other plugins' features.
+
+===getStencilSets===
+
+{{{
+getStencilSets(): Hash
+}}}
+
+*Parameters:*
+
+none
+
+*Returns:*
+
+A hash object with the stencil sets' namespaces of all available stencil sets as keys and the stencil set objects (ORYX.Core.StencilSet.StencilSet) as values.
+
+*Description:*
+
+This method is used for accessing the loaded stencil sets.
