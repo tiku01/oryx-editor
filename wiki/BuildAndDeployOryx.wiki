@@ -9,7 +9,7 @@ This guide explains how to build and deploy the Oryx Server Application.
     * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server.
   * [http://www.postgresql.org/ PostgresSQL] 8.3 or higher (with PLPython)
     * Superuser privileges for the database. 
-  * [http://www.python.org/ Python] Version 2.5 or higher
+  * [http://www.python.org/ Python] Version 2.5 (PotgresSQL 8.3 only works with this version)
   * [http://ant.apache.org/bindownload.cgi ANT] 1.6 or higher
 
 = Building the WAR files =
