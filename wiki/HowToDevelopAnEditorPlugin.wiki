@@ -244,7 +244,6 @@ getERDF(): string
 A string that represents the current model in eRDF format.
 
 
-
 ===executeCommands===
 
 {{{
@@ -259,3 +258,21 @@ executeCommands(commands: ORYX.Core.Command[]): void
 *Description:*
 
 If your feature needs undo/redo support, you have to implement it as a sub class of ORX.Core.Command and execute it with this method. 
+
+
+===registerOnEvent===
+
+{{{
+registerOnEvent(eventType: string, callback: function): void
+}}}
+
+*Parameters:*
+
+ * _eventType_: string
+   * The type of event you want to register a callback. The types are defined in the file config.js.
+ * _callback_: function
+   * Function that is called when the event occurs. The parameters of the function are event specific.
+
+*Description:*
+
+Use this method to react on event occurrence.
