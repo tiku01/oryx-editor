@@ -76,6 +76,7 @@ void
 
 A plugin must register each of its features with this method. This method shall be called in the constructor of the plugin. Once registered, the features are available in the toolbar or any other plugin that offers a UI for accessing other plugins' features.
 
+
 ===getStencilSets===
 
 {{{
@@ -88,8 +89,114 @@ none
 
 *Returns:*
 
-A hash object with the stencil sets' namespaces of all available stencil sets as keys and the stencil set objects (ORYX.Core.StencilSet.StencilSet) as values.
+A hash object with the stencil sets' namespaces of all available stencil sets as keys and the stencil set objects (_ORYX.Core.StencilSet.StencilSet_) as values.
 
 *Description:*
 
 This method is used for accessing the loaded stencil sets.
+
+
+===getRules===
+
+{{{
+getRules(): ORYX.Core.StencilSet.Rules
+}}}
+
+*Parameters:*
+
+none
+
+*Returns:*
+
+An object of type _ORYX.Core.StencilSet.Rules_ that enables you to check if two shapes can be connected or contain each other.
+
+
+===loadStencilSet===
+
+{{{
+loadStencilSet(source:URL): void
+}}}
+
+*Parameters:*
+
+ * _source_:URL
+   * URL that points to a stencil set's definition file.
+
+*Returns:*
+
+void
+
+*Description:*
+
+Calling this method loads a stencil set and fires a _stencilSetLoaded_ event.
+
+
+===createShape===
+
+{{{
+createShape(option:Object): ORYX.Core.Shape
+}}}
+
+*Parameters:*
+
+ * _object_: Object
+   * Object with parameters about the new shape
+
+*Returns:*
+
+The created shape object.
+
+*Description:*
+
+This method will soon be reimplemented, because it was initially designed for a specific case. If you need it, check the code where the method is used.
+
+
+===deleteShape===
+
+{{{
+deleteShape(shape:ORYX.Core.Shape): void
+}}}
+
+*Parameters:*
+
+ * _shape_: ORYX.Core.Shape
+   * Shape that you want to delete.
+
+*Returns:*
+
+void
+
+
+===getSelection===
+
+{{{
+getSelection(): ORYX.Core.Shape[]
+}}}
+
+*Parameters:*
+
+none
+
+*Returns:*
+
+An array of shape objects that are selected.
+
+
+===setSelection===
+
+{{{
+setSelection(elements:ORYX.Core.Shape[], subSelectionElements:ORYX.Core.Shape[]): void
+}}}
+
+*Parameters:*
+
+ * _object_: Object
+   * Object with parameters about the new shape
+
+*Returns:*
+
+The created shape object.
+
+*Description:*
+
+This method will soon be reimplemented, because it was initially designed for a specific case. If you need it, check the code where the method is used.
