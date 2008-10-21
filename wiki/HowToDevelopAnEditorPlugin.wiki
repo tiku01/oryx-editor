@@ -1,5 +1,16 @@
 #summary Coming soon...
 
+=Introduction=
+
+Oryx can easily be extended by implementing a plugin. Most of the features are implemented as plugins. Plugins can be implemented on client side and on server side. Both types will be explained here.
+
+=Create a Server Side Plugin=
+
+Server side plugins are simply Java Servlets that extends the class _javax.servlet.http.HttpServlet. If you want to know more about Java Servlets go [http://java.sun.com/products/servlet/ here]. You can add your servlet to the folder 'trunk/editor/server/src/org/oryxeditor/server'. The _web.xml_ file where you have to add information about your servlet can be found in 'trunk/editor/etc'. You should also define the URL of your servlet in the editor's config.js file.
+
+
+=Create a Client Side Plugin=
+
  * facade
  * events (com between plugins)
  * UI plugin vs. functionality plugin
