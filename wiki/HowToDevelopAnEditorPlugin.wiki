@@ -6,7 +6,7 @@ Oryx can easily be extended by implementing a plugin. Most of the features are i
 
 =Create a Server Side Plugin=
 
-Server side plugins are simply Java Servlets that extends the class _javax.servlet.http.HttpServlet. If you want to know more about Java Servlets go [http://java.sun.com/products/servlet/ here]. You can add your servlet to the folder 'trunk/editor/server/src/org/oryxeditor/server'. The _web.xml_ file where you have to add information about your servlet can be found in 'trunk/editor/etc'. You should also define the URL of your servlet in the editor's config.js file.
+Server side plugins are simply Java Servlets that extends the class _javax.servlet.http.!HttpServlet. If you want to know more about Java Servlets go [http://java.sun.com/products/servlet/ here]. You can add your servlet to the folder `trunk/editor/server/src/org/oryxeditor/server`. The _web.xml_ file where you have to add information about your servlet can be found in `trunk/editor/etc`. You should also define the URL of your servlet in the editor's config.js file.
 
 
 =Create a Client Side Plugin=
@@ -41,10 +41,10 @@ getERDF(): string
 executeCommands(commands: ORYX.Core.Command[]): void
 registerOnEvent(eventType: string, callback: function): void
 unregisterOnEvent(eventType: string, callback: function): void
-raiseEvent(event: Object, uiObj: ORYX.Core.UIObject): void
+raiseEvent(event: Object, uiObj: ORYX.Core.!UIObject): void
 enableEvent(eventType: string): void
 disableEvent(eventType: string): void
-eventCoordinates(event: Event): SVGPoint
+eventCoordinates(event: Event): !SVGPoint
 
 addToRegion(region: string, component: Ext.Component, title: string): Ext.Component
 }}}
@@ -90,7 +90,7 @@ getStencilSets(): Hash
 
 *Returns:*
 
-A hash object with the stencil sets' namespaces of all available stencil sets as keys and the stencil set objects (_ORYX.Core.StencilSet.StencilSet_) as values.
+A hash object with the stencil sets' namespaces of all available stencil sets as keys and the stencil set objects (_ORYX.Core.!StencilSet.!StencilSet_) as values.
 
 *Description:*
 
@@ -105,7 +105,7 @@ getRules(): ORYX.Core.StencilSet.Rules
 
 *Returns:*
 
-An object of type _ORYX.Core.StencilSet.Rules_ that enables you to check if two shapes can be connected or contain each other.
+An object of type _ORYX.Core.!StencilSet.Rules_ that enables you to check if two shapes can be connected or contain each other.
 
 
 ===loadStencilSet===
