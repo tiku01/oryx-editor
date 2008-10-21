@@ -30,14 +30,12 @@ getERDF(): string
 executeCommands(commands: ORYX.Core.Command[]): void
 registerOnEvent(eventType: string, callback: function): void
 unregisterOnEvent(eventType: string, callback: function): void
-registerEventType(eventType: string): void (TODO: REMOVE THIS METHOD!!!)
 raiseEvent(event: Object, uiObj: ORYX.Core.UIObject): void
 enableEvent(eventType: string): void
 disableEvent(eventType: string): void
 eventCoordinates(event: Event): SVGPoint
 
-getLayout(): Ext.Panel | Ext.Viewport
-addToRegion(region: string, component: Ext.Component, title: String): Ext.Component
+addToRegion(region: string, component: Ext.Component, title: string): Ext.Component
 }}}
 
 ===offer===
@@ -312,3 +310,71 @@ raiseEvent(event: Object, uiObj: ORYX.Core.UIObject): void
 *Description:*
 
 Use this method to fire an event. For _event.type_ use one of the constants defined in config.js.
+
+
+===enableEvent===
+
+{{{
+enableEvent(eventType: string): void
+}}}
+
+*Parameters:*
+
+ * _eventType_: string
+   * The event type you want to enable.
+
+
+===disableEvent===
+
+{{{
+disableEvent(eventType: string): void
+}}}
+
+*Parameters:*
+
+ * _eventType_: string
+   * The event type you want to disable.
+
+
+===eventCoordinates(event: Event): SVGPoint===
+
+{{{
+eventCoordinates(event: Event): SVGPoint
+}}}
+
+*Parameters:*
+
+ * _event_: Event
+   * The event object of a mouse event.
+
+*Returns:*
+
+An SVGPoint that is the mouse position on the canvas.
+
+*Description:*
+
+Mouse events define the mouse position relative to the origin of the page. To find out the mouse position relative to the canvas, you can use this method.
+
+
+===addToRegion===
+
+{{{
+addToRegion(region: string, component: Ext.Component, title: string): Ext.Component
+}}}
+
+*Parameters:*
+
+ * _region_: string
+   * Decides where the component is added. Possible values: 'north', 'south', 'east', 'west'.
+ * _component_: Ext.Component
+   * The Ext.Component object to add.
+ * _title_: string
+   * The title of the added component.
+
+*Returns:*
+
+The added Ext.Component object.
+
+*Description:*
+
+Use this method to add a new UI component to the editor's UI.
