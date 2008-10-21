@@ -271,8 +271,44 @@ registerOnEvent(eventType: string, callback: function): void
  * _eventType_: string
    * The type of event you want to register a callback. The types are defined in the file config.js.
  * _callback_: function
-   * Function that is called when the event occurs. The parameters of the function are event specific.
+   * Function that is called when the event occurs. 
 
 *Description:*
 
 Use this method to react on event occurrence.
+
+
+===unregisterOnEvent===
+
+{{{
+unregisterOnEvent(eventType: string, callback: function): void
+}}}
+
+*Parameters:*
+
+ * _eventType_: string
+   * The type of event you want to unregister a callback. The types are defined in the file config.js.
+ * _callback_: function
+   * Function that is called when the event occurs.
+
+*Description:*
+
+Use this method to stop reacting on an event occurrence.
+
+
+===raiseEvent===
+
+{{{
+raiseEvent(event: Object, uiObj: ORYX.Core.UIObject): void
+}}}
+
+*Parameters:*
+
+ * _event_: Object
+   * An event object with event specific attributes. The only attribute that is available in all events is _type_.
+ * _uiObj_: function
+   * You can optionally specify a ORYX.Core.UIObject object the event is referenced to. It is also possible to reference it in the event object.
+
+*Description:*
+
+Use this method to fire an event. For _event.type_ use one of the constants defined in config.js.
