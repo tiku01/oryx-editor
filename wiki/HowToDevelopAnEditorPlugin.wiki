@@ -242,3 +242,20 @@ getERDF(): string
 *Returns:*
 
 A string that represents the current model in eRDF format.
+
+
+
+===executeCommands===
+
+{{{
+executeCommands(commands: ORYX.Core.Command[]): void
+}}}
+
+*Parameters:*
+
+ * _commands_: ORYX.Core.Command[]
+   * Array of Command objects. The Command class is abstract and must be extended by a sub class. The Command class defines the methods _execute_ and _rollback_.
+
+*Description:*
+
+If your feature needs undo/redo support, you have to implement it as a sub class of ORX.Core.Command and execute it with this method. 
