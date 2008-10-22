@@ -134,6 +134,12 @@ Second, you can reference a stencil set via its namespace and define it as requi
   <requires namespace="http://b3mn.org/stencilset/epc#"/>	
 </plugin>
 }}}
+Third, you can explicitly exclude a stencil set:
+{{{
+<plugin source="file.js" name="ORYX.Plugins.Save">
+  <notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
+</plugin>
+}}}
 
 == The Facade ==
 
