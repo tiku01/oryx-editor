@@ -16,6 +16,17 @@ Server side plugins are simply Java Servlets that extends the class _javax.servl
  * UI plugin vs. functionality plugin
  * aufbau
 
+With client side plugins you can extend the functionality of the editor. For example, you can implement an import plugin for a specific data format. This feature will be offered in the toolbar to the user. Plugins can access the editor's core via the facade (see below) that defines an interface. The communication between different plugins is realized via an event mechanism.
+
+The following steps must be performed when implementing a plugin:
+ * Create a Javascript file with the basic structure of a plugin.
+ * Define events in config.js.
+ * Add metadata about the plugin to the plugins configuration file.
+
+== Create a Plugin File ==
+
+Let us first create the plugin file to get to know the general structure of a plugin. I will use the undo/redo plugin as an example. All plugins can be found in `trunk/editor/client/scripts/Plugins`. You have to add your own plugin to this directory.
+
 == The Facade ==
 
 The facade is the interface to access the editor. The interface object is one of the parameters of a plugin's constructor. The following methods are defined in the interface:
