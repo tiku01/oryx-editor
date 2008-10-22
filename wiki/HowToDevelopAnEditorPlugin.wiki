@@ -21,11 +21,79 @@ With client side plugins you can extend the functionality of the editor. For exa
 The following steps must be performed when implementing a plugin:
  * Create a Javascript file with the basic structure of a plugin.
  * Define events in config.js.
+ * Define all strings in the translation files of all available languages.
  * Add metadata about the plugin to the plugins configuration file.
 
 == Create a Plugin File ==
 
-Let us first create the plugin file to get to know the general structure of a plugin. I will use the undo/redo plugin as an example. All plugins can be found in `trunk/editor/client/scripts/Plugins`. You have to add your own plugin to this directory.
+Let us first create the plugin file to get to know the general structure of a plugin. I will use the undo/redo plugin as an example. All plugins can be found in `trunk/editor/client/scripts/Plugins`. You have to add your own plugin to this directory. The undo/redo plugin file is called `undo.js`. Let us have a look at the file:
+{{{
+if (!ORYX.Plugins) 
+    ORYX.Plugins = new Object();
+
+ORYX.Plugins.Undo = Clazz.extend({
+	
+  // Defines the facade
+  facade		: undefined,
+    
+  // Defines the undo/redo Stack
+  undoStack	: [],
+  redoStack	: [],
+	
+  // Constructor 
+  construct: function(facade){
+    
+    this.facade = facade;     
+		
+    // Offers the functionality of undo                
+    this.facade.offer({
+      name		: ORYX.I18N.Undo.undo,
+      description	: ORYX.I18N.Undo.undoDesc,
+      icon		: ORYX.PATH + "images/arrow_undo.png",
+      functionality	: this.doUndo.bind(this),
+      group		: ORYX.I18N.Undo.group,
+      isEnabled		: function(){ return this.undoStack.length > 0 }.bind(this),
+			   index			: 0
+		          }); 
+
+    // Offers the functionality of redo
+    this.facade.offer({
+      name		: ORYX.I18N.Undo.redo,
+      description	: ORYX.I18N.Undo.redoDesc,
+      icon		: ORYX.PATH + "images/arrow_redo.png",
+      functionality	: this.doRedo.bind(this),
+      group		: ORYX.I18N.Undo.group,
+      isEnabled		: function(){ return this.redoStack.length > 0 }.bind(this),
+			    index			: 1
+		          }); 
+		
+    // Register on event for executing commands-->store all commands in a stack		 
+    this.facade.registerOnEvent(ORYX.CONFIG.EVENT_EXECUTE_COMMANDS,
+      this.handleExecuteCommands.bind(this) );
+    	
+  },
+	
+  handleExecuteCommands: function( evt ){
+		
+    //...
+		
+  },
+	
+  doUndo: function(){
+	
+    //...
+	
+  },
+	
+  doRedo: function(){
+		
+    //...
+  }
+	
+});
+}}}
+
+The Undo class is part of the namespace _ORYX.Plugins_. It extends the _Clazz_ object that is used throughout the whole project as the base class. For example, it adds a constructor (function construct) that is automatically called when a new Object of that type is created. The constructor has a single 
 
 == The Facade ==
 
