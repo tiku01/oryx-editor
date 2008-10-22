@@ -1,4 +1,4 @@
-#summary Coming soon...
+#summary Guideline on how to develop a plugin
 
 =Introduction=
 
