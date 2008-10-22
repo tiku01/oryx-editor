@@ -93,7 +93,25 @@ ORYX.Plugins.Undo = Clazz.extend({
 });
 }}}
 
-The Undo class is part of the namespace _ORYX.Plugins_. It extends the _Clazz_ object that is used throughout the whole project as the base class. For example, it adds a constructor (function construct) that is automatically called when a new Object of that type is created. The constructor has a single 
+The Undo class is part of the namespace _ORYX.Plugins_. It extends the _Clazz_ object that is used throughout the whole project as the base class. For example, it adds a constructor (function construct) that is automatically called when a new Object of that type is created. The constructor has a single parameter and that is a reference to the editor's facade.
+
+Let us now have a look at the constructor. This plugin has two features: undo and redo. Both features must be registered with the facade's _offer_ method. Other plugins like the toolbar will get a notification when new features are registered and make it available to the user. If you want to create your own UI component, you have to implement an Ext component and add it to the UI with the facade's _addToRegion_ method. To learn more about Ext development, please go [http://extjs.com/deploy/dev/docs/ here]. Note that the current Ext version we use is 2.0.2.
+
+The undo/redo plugin also registers a callback on an event. Whenever the event _ORYX.CONFIG.EVENT_EXECUTE_COMMANDS_ is fired, the callback will be executed. The callback's parameters are event specific. If you cannot find information about the parameters in the config.js, search in other plugins for the event to find out the parameters on your own.
+
+The rest of the methods in the plugin are the callbacks of the registered features and for the event. You can add any number of methods to the plugin object and perform any operation you like.
+
+The server communication must implemented with Ajax requests. You can use the Ajax object of the Prototype library or the Ajax object of Ext.
+
+== Define Events ==
+
+If you want to define your own event, you can do so by adding a constant for the event to the config.js. Please provide some information about the event and its parameters.
+
+== Define Strings in Translation Files ==
+
+Please go [I18N here] to learn more about internationalization in Oryx.
+
+
 
 == The Facade ==
 
