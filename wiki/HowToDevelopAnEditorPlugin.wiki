@@ -111,7 +111,29 @@ If you want to define your own event, you can do so by adding a constant for the
 
 Please go [I18N here] to learn more about internationalization in Oryx.
 
+== Configure a Plugin ==
 
+To make a plugin available in the editor you have to register it in the plugins configuration file (`trunk/editor/client/scripts/Plugins/plugins.xml`). For our example, you have to add the following line to the file:
+{{{
+<plugin source="undo.js" name="ORYX.Plugins.Undo" />
+}}}
+The attribute _source_ is the name of the Javascript file, the attribute _name_ specifies the name of the plugin's class.
+
+Three configuration options are available. First you can define properties for a plugin that are passed to the plugins constructor. For example, the shapemenu plugin has the following properties:
+{{{
+<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin">			
+  <property group="Z-Order" align="Oryx_Top" />
+  <property group="Alignment" align="Oryx_Top" />
+  <property group="Grouping" align="Oryx_Top" />
+  <property group="Edit" align="Oryx_Left" />					
+</plugin>
+}}}
+Second, you can reference a stencil set via its namespace and define it as required. For example, the epcSupport plugin implements features that only makes sense for EPC models. Therefore, it requires the EPC stencil set:
+{{{
+<plugin source="epcSupport.js" name="ORYX.Plugins.EPCSupport">
+  <requires namespace="http://b3mn.org/stencilset/epc#"/>	
+</plugin>
+}}}
 
 == The Facade ==
 
