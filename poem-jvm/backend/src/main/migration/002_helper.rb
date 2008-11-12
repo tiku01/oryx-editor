@@ -275,8 +275,8 @@
                  access.scheme		    as access_scheme,	
                  access.term			    as access_term,
                  plugin.rel			    as plugin_relation,
-                 plugin.title		    as scheme,
-                 plugin.description			    as term
+                 plugin.scheme		    as scheme,
+                 plugin.term			    as term
          from    "interaction" as access,
                  "structure"   as context,
                  "identity"    as context_name,
