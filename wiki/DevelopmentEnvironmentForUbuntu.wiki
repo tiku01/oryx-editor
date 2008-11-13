@@ -1,5 +1,5 @@
 #summary How to setup a development environment for Oryx using Ubuntu Linux
-#labels Deprecated
+#labels ADAPT
 
 = Introduction =
 
