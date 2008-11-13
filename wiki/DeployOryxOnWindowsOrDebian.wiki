@@ -1,5 +1,5 @@
 #summary How to setup a runtime environment for Oryx using Linux or Windows
-#labels Phase-Deploy,Deprecated
+#labels Phase-Deploy,ADAPT
 
 = Introduction =
 
