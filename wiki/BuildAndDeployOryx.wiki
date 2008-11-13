@@ -1,4 +1,5 @@
 #summary This guide shows how to build and deploy the Oryx WAR files.
+#labels ADAPT
 = Introduction =
 
 This guide explains how to build and deploy the Oryx Server Application.
