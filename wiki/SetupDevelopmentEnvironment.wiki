@@ -1,0 +1,13 @@
+#This guide shows how to set up and configure a development environment in order to build the Oryx application from source.
+
+= Introduction =
+This guide primarily addresses developers. If you intend to simply install, update or configure the standard version of Oryx, please read the installation guide.
+In case you're experiencing any problems, feel free to contact us by mail or join out discussion group.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
