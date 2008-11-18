@@ -1,0 +1,17 @@
+#This guide gives a quick overview about the default installation, update and configuration processes of the Oryx application.
+
+= WORK IN PROGRESS. THIS IS A NEW ARTICLE AND ITS CONTENT IS STILL INCOMPLETE! =
+
+= Who should read this? =
+This guide should be interesting for administrators of Oryx application, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the developer guide.
+
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
