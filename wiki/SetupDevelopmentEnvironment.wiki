@@ -1,7 +1,10 @@
-#This guide shows how to set up and configure a development environment in order to build the Oryx application from source.
+#summary This guide shows how to set up and configure a development environment in order to build the Oryx application from source.
+
+= WORK IN PROGRESS. THIS IS A NEW ARTICLE AND ITS CONTENT IS STILL INCOMPLETE! =
 
 = Introduction =
-This guide primarily addresses developers. If you intend to simply install, update or configure the standard version of Oryx, please read the installation guide.
+This guide primarily addresses developers. If you intend to simply install, update or configure the standard version of Oryx, please read the [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems installation guide].
+
 In case you're experiencing any problems, feel free to contact us by mail or join out discussion group.
 
 
