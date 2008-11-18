@@ -123,6 +123,7 @@ ORYX.CONFIG = {
 	EVENT_AUTOLAYOUT_LAYOUT:		"autolayout.layout",
 	EVENT_UNDO_EXECUTE:				"undo.execute",
 	EVENT_UNDO_ROLLBACK:			"undo.rollback",
+	EVENT_CANVAS_SHAPEADDED:		"canvas.shapeadded",
 	
 	/* Selection Shapes Highlights */
 	SELECTION_HIGHLIGHT_SIZE:				5,
