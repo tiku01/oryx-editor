@@ -115,6 +115,10 @@
 		<plugin source="bpmn1.1DiamondSwitch.js" name="ORYX.Plugins.BPMN11DiamondSwitch">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
+
+		<plugin source="collapsePool.js" name="ORYX.Plugins.CollapsePool">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+		</plugin>		
 		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
 		<plugin source="bpmnplus2bpel4chor.js" name="ORYX.Plugins.Bpel4ChorTransformation">
