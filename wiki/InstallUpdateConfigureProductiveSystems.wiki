@@ -1,14 +1,24 @@
-#This guide gives a quick overview about the default installation, update and configuration processes of the Oryx application.
+#summary This guide gives a quick overview about the default installation, update and configuration processes of the Oryx application.
 
 = WORK IN PROGRESS. THIS IS A NEW ARTICLE AND ITS CONTENT IS STILL INCOMPLETE! =
 
 = Who should read this? =
-This guide should be interesting for administrators of Oryx applications, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the developer [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems guide].
+This guide should be interesting for administrators of Oryx applications, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems developer guide].
 
 In case you're experiencing any problems, feel free to contact us by mail or join our discussion group.
 
+= Introduction =
 
-Add your content here.
+The Oryx application can be installed on all systems that support Java, Python 2.5 and PostgreSQL 8.3. We've tested installations successfully on Windows Server 2003 and Debian (Lenny) operating systems. Although it's also possible to use Mac OS X, Windows Vista, Windows XP, Ubuntu and other desktop operating systems we recommend to use server sytems in productive environments.
+
+*Checklist:*
+  * [http://www.java.com/ J2SE 5 Java Runtime Environment] or higher
+  * [http://tomcat.apache.org/ Apache Tomcat] Version 5.5 or higher
+    * Privileges to deploy new web applications using the Tomcat-Manager or privileges to add the war files in _webapps_ directory of Tomcat and restart the Tomcat server.
+  * [http://www.postgresql.org/ PostgresSQL] 8.3 or higher (with PLPython)
+    * Superuser privileges for the database. 
+  * [http://www.python.org/ Python] Version 2.5 (PotgresSQL 8.3 only works with this version)
+  * [http://ant.apache.org/bindownload.cgi ANT] 1.6 or higher
 
 
 = Details =
