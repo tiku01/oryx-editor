@@ -3,7 +3,9 @@
 = WORK IN PROGRESS. THIS IS A NEW ARTICLE AND ITS CONTENT IS STILL INCOMPLETE! =
 
 = Who should read this? =
-This guide should be interesting for administrators of Oryx application, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the developer guide.
+This guide should be interesting for administrators of Oryx applications, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the developer [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems guide].
+
+In case you're experiencing any problems, feel free to contact us by mail or join our discussion group.
 
 
 Add your content here.
