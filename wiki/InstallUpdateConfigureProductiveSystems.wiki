@@ -18,10 +18,9 @@ The Oryx application can be installed on all systems that support Java, Python 2
   * [http://www.postgresql.org/ PostgresSQL] 8.3 or higher (with PLPython)
     * Superuser privileges for the database. 
   * [http://www.python.org/ Python] Version 2.5 (PotgresSQL 8.3 only works with this version)
-  * [http://ant.apache.org/bindownload.cgi ANT] 1.6 or higher
   * [http://www.oryx-editor.org/downloads Download the latest version of the Oryx application].
 
-You find basic installation instructions for all those applications in the appendix in the end of this guide.
+You find basic installation instructions for all those applications in the appendix in [http://code.google.com/p/oryx-editor/wiki/Install3rdPartyApplication this guide]
 
 = INSTALLATION =
 
@@ -109,4 +108,11 @@ psql --username postgres --dbname poem --file migration-script.sql
 
 
 
-= APPENDIX =
+= CONFIGURATION =
+
+== Add or Remove Custom Stencil Sets ==
+
+
+== Add or Remove Custom Plug Ins ==
+
+== ... ==
