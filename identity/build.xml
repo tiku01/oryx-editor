@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- Load additional properties -->
+    <property file="build.properties" />
+	
+	<target name="compile-identity">
+		<mkdir dir="identity/bin"/>
+		<javac srcdir="identity/src/java" destdir="identity/bin" debug="on" >
+			<classpath id="libs"> 
+				<fileset dir="editor/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="build-identity" depends="compile-identity" >
+		<war destfile="dist/identity.war"  
+			webxml="identity/etc/web.xml" 
+			update="true">
+
+			<fileset dir="identity/test/html" >
+				<include name="*.html" />
+			</fileset>	
+			
+			<fileset dir="identity/src/javascript" >
+				<include name="*.js" />
+			</fileset>
+			
+			<lib dir="editor/lib" />
+			<classes dir="identity/bin" />
+			<metainf file="LICENSE"/>
+			
+			<fileset file="favicon.ico"/>
+		</war>
+	</target>
+	
+	<target name="deploy-identity">
+        <copy file="dist/identity.war" tofile="${deploymentdir}/identity.war" />
+    </target>
+
+    <target name="undeploy-identity">
+        <delete file="${deploymentdir}/identity.war" />
+    </target>
+</project>
