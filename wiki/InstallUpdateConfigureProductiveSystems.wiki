@@ -24,7 +24,9 @@ You find basic installation instructions for all those applications in the appen
 
 = INSTALLATION =
 
-= PART I: Configure the Database =
+Unzip the Oryx installation package on your disk. The package contains 2 WAR files and a directory with database scripts.  
+
+= PART I: Setup the Database =
 == STEP 1 - Create the _poem_ User ==
 The default configuration of Oryx uses a database user called _poem_ without password to connect to the database. If you create the poem user with an empty password, it will not be necessary to make any changes to the configuration file _hibernate.cfg.xml_. But if you want to change the password, you'll find the instructions in PART III. *It is strongly recommended to use a secure password for the poem user. This applies particularly if your PostgreSQL server allows TCP connections from other hosts.*
 The _poem_ user may not be a superuser itself. It simply needs owner rights for the poem database. In order to create a new PostgreSQL user open the command shell (Windows: cmd.exe/Debian: bash). Now you need the user name and password from a database superuser to create the poem user. Assuming your superuser is _postgres_ you have to enter the following commands:
@@ -48,22 +50,21 @@ You can use any database name you like, but if you use poem, it will not be nece
 The file _database_dump_raw.sql_ in our download package contains all necessary information to initialize the poem database. The schema can also be retrieved from a development system using:
 
 {{{
-pg_dump --username postgres --clean --file=database_dump_raw.sql --format=plain poem
+pg_dump --username postgres --clean --file=db_dump.sql --format=plain poem
 }}}
 
 Enter the following command to install the schema:
 
 {{{
-psql --username postgres --dbname poem --file database_dump_raw.sql
+psql --username postgres --dbname poem --file db_schema.sql
 }}}
 
-This uses the _postgres_ superuser to add the schema from the _database_dump_raw.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
+This uses the _postgres_ superuser to add the schema from the _db_schema.sql_ file to the _poem_ database. If the sql file isn't in the working directory of the shell, than you have to qualify the full path to the file. 
 
 You can also execute all those commands remotely if the PostgreSQL Database allows remote access. Simply add the option -H _hostname_ to each command.  [http://www.postgresql.org/docs/8.3/interactive/index.html Here] you can find a very detailed documentation of the PostgreSQL Database.   
 
 
 = PART II: Deploy the WAR Files to Tomcat =
-  # Download [http://www.oryx-editor.org/downloads the latest Oryx release] and extract the web applications from the zip file.
   # Open the Tomcat Manager in your web browser (Default Tomcat configuration: _http://hostname:8180/manager/html_ (Debian) or _http://hostname:8080/manager/html_ (Windows)). *Notice:* The Manager isn't installed by default in all Tomcat distributions and you need a Tomcat user which have the right to access the manager. (--> Appendix B)
   # Then use the _"Warfile to deploy"_ feature of the manager to upload the _oryx.war_ file from the download package. This may take a moment depending on your connection speed to the server. After Tomcat deployed the war file succesfully it prints an OK message on top of the manager.
   # Go on and upload the second war file _backend.war_ .
@@ -114,5 +115,7 @@ psql --username postgres --dbname poem --file migration-script.sql
 
 
 == Add or Remove Custom Plug Ins ==
+
+== Setup Proxy== 
 
 == ... ==
