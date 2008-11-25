@@ -49,7 +49,7 @@
 		<xsl:param name="parentBoundLeftUpperX"/>
 		<xsl:param name="parentBoundLeftUpperY"/>
 	
-		<xsl:for-each select="invoke|receive|reply|assign|copy|empty|opaqueActivity|validate|extensionActivity|wait|throw|exit|rethrow|if|elseif|else|flow|sequence|link|pick|onMessage|onAlarm|while|repeatUntil|forEach|compensate|compensateScope|scope|onEvent|eventHandlers|faultHandlers|compensationHandler|terminationHandler|catch|catchAll">
+		<xsl:for-each select="invoke|receive|reply|assign|copy|empty|opaqueActivity|validate|extensionActivity|wait|throw|exit|rethrow|if|elseif|else|flow|sequence|link|pick|onMessage|onAlarm|while|repeatUntil|forEach|compensate|compensateScope|scope|onEvent|eventHandler|faultHandler|compensationHandler|terminationHandler|catch|catchAll">
 			<xsl:variable name="id" select="concat($parentID,'_',position())" />
 			<xsl:variable name="BoundLUX" select="$parentBoundLeftUpperX + position()*3+ 10" />
 			<xsl:variable name="BoundLUY" select="$parentBoundLeftUpperY + position()*3+ 10" />
@@ -59,8 +59,7 @@
 			<div>		
 		 		<xsl:attribute name="id">
 		 			<xsl:value-of select="$id"/>
-		 		</xsl:attribute>	
-					
+		 		</xsl:attribute>		
 		   		<span class="oryx-type">
 					<xsl:value-of select="concat('http://b3mn.org/stencilset/bpel#',name())" />
 				</span>
@@ -80,7 +79,7 @@
 				</a>		
 			</div>	
 			
-			<xsl:if test="name()='assign' or name()='if' or name()='elseif' or name()='else' or name()='flow' or name()='pick' or name()='onMessage' or name()='sequence' or name()='while' or name()='repeatUntil' or name()='forEach' or name()='scope' or name()='onAlarm' or name()='onEvent' or name()='eventHandlers'or name()='faultHandlers'or name()='compensationHandler' or name()='terminationHandler' or name()='catch' or name()='catchAll'">
+			<xsl:if test="name()='assign' or name()='if' or name()='elseif' or name()='else' or name()='flow' or name()='pick' or name()='onMessage' or name()='sequence' or name()='while' or name()='repeatUntil' or name()='forEach' or name()='scope' or name()='onAlarm' or name()='onEvent' or name()='eventHandler'or name()='faultHandler'or name()='compensationHandler' or name()='terminationHandler' or name()='catch' or name()='catchAll'">
 			    <xsl:call-template name="add-children-nodes">
 					<xsl:with-param name="parentID" select="$id"/>	
 					<xsl:with-param name="parentBoundLeftUpperX" select="$BoundLUX"/>
@@ -294,7 +293,7 @@
 					<span>
 						<xsl:attribute name="class">oryx-correlations</xsl:attribute>	
 						
-						<xsl:value-of select="concat('%7B%27totalCount%27%3A',$numberOfCorrelationElement,'%2C%20%27items%27%3A%5B%7B')"/>
+						<xsl:value-of select="concat('%7B%27totalCount%27%3A',$numberOfCorrelationSetElement,'%2C%20%27items%27%3A%5B%7B')"/>
 						
 						<xsl:for-each select="correlation[not(position()=last())]">
 							<xsl:variable name="Correlation" select='@set'/>
@@ -325,7 +324,7 @@
 					<span>
 						<xsl:attribute name="class">oryx-correlations</xsl:attribute>	
 						
-						<xsl:value-of select="concat('%7B%27totalCount%27%3A',$numberOfCorrelationElement,'%2C%20%27items%27%3A%5B%7B')"/>
+						<xsl:value-of select="concat('%7B%27totalCount%27%3A',$numberOfCorrelationSetElement,'%2C%20%27items%27%3A%5B%7B')"/>
 						
 						<xsl:for-each select="correlation[not(position()=last())]">
 							<xsl:variable name="Correlation" select='@set'/>
@@ -693,7 +692,7 @@
 	<xsl:template name="DFS-for-adding-render">
 		<xsl:param name="parentID"/>
 		
-		<xsl:for-each select="invoke|receive|reply|assign|copy|empty|opaqueActivity|validate|extensionActivity|wait|throw|exit|rethrow|if|elseif|else|flow|sequence|link|pick|onMessage|onAlarm|while|repeatUntil|forEach|compensate|compensateScope|scope|onEvent|eventHandlers|faultHandlers|compensationHandler|terminationHandler|catch|catchAll"> 
+		<xsl:for-each select="invoke|receive|reply|assign|copy|empty|opaqueActivity|validate|extensionActivity|wait|throw|exit|rethrow|if|elseif|else|flow|sequence|link|pick|onMessage|onAlarm|while|repeatUntil|forEach|compensate|compensateScope|scope|onEvent|eventHandler|faultHandler|compensationHandler|terminationHandler|catch|catchAll"> 
 		    <xsl:variable name="id">
  		    	<xsl:value-of select="concat($parentID,'_',position())"/>
 			</xsl:variable>	

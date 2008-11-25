@@ -29,11 +29,6 @@ public class XFormsXHTMLImporter {
 		form = factory.createXForm();
 		Element root = doc.getDocumentElement();
 		addElementsRecursive(form, root, 0);
-		
-		if(doc.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "head").getLength()>0) {
-			form.setHead((Element) doc.getElementsByTagName("head").item(0));
-		}
-		
 		return form;
 	}
 	
@@ -101,19 +96,6 @@ public class XFormsXHTMLImporter {
 			if(parent instanceof UICommonContainer) {
 				UICommonContainer uiCommonContainer = (UICommonContainer) parent;
 				uiCommonContainer.setAlert((Alert) element);
-			}
-		} else if(element instanceof Value) {
-			if(parent instanceof Item) {
-				Item item = (Item) parent;
-				item.setValue((Value) element);
-			} else if(parent instanceof Itemset) {
-				Itemset itemset = (Itemset) parent;
-				itemset.setValue((Value) element);
-			}
-		} else if(element instanceof Copy) {
-			if(parent instanceof Itemset) {
-				Itemset itemset = (Itemset) parent;
-				itemset.setCopy((Copy) element);
 			}
 		} else if(element instanceof Submission) {
 			if(parent instanceof Model) {

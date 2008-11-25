@@ -28,26 +28,31 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 
 	public EPCStepThroughInterpreter(IEPC epcDiag) {
 		this.epcDiag = epcDiag;
+
+		Marking marking = new Marking();
+		for (IControlFlow edge : epcDiag.getControlFlow()) {
+			marking.applyContext(edge, Marking.Context.WAIT);
+			marking.applyState(edge, Marking.State.NEG_TOKEN);
+		}
+		
+		for (IFlowObject node : epcDiag.getFlowObjects()) {
+			if (epcDiag.getIncomingControlFlow(node).size() == 0) {
+				marking.applyState(epcDiag.getOutgoingControlFlow(node).iterator().next(),
+						Marking.State.POS_TOKEN);
+			}
+		}
+
+
+		nodeNewMarkings = marking.propagate(epcDiag);
+
+		changedObjects = new LinkedList<IGObject>();
+		changedObjects.addAll(getFireableNodes());
 	}
 
 	public void clearChangedObjs() {
 		changedObjects.clear();
 	}
-	
-	// Sets initial marking by marking all nodes corresponding to resourceIds as initial
-	public void setInitialMarking(List<String> resourceIds) {
-		List<IFlowObject> startNodes = new LinkedList<IFlowObject>();
-		for(String id : resourceIds){
-			startNodes.add((IFlowObject)findNodeById(id));
-		}
-		
-		nodeNewMarkings = Marking.getInitialMarking(epcDiag, startNodes).propagate(epcDiag);
-		
-		changedObjects = new LinkedList<IGObject>();
-		changedObjects.addAll(getFireableNodes());
-	}
 
-	// TODO this method should be refactored and should call a method fireObject(node)
 	public boolean fireObject(String resourceId) {
 		// For firing or-splits, resourceId looks like as follows:
 		// orSplitId#arc1Id,arc2Id
@@ -116,16 +121,6 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 		return false;
 	}
 	
-	// TODO this method only finds flow objects 
-	protected IGObject findNodeById(String resourceId){
-		for(IFlowObject node : epcDiag.getFlowObjects()){
-			if(resourceId.equals(node.getId())){
-				return node;
-			}
-		}
-		return null;
-	}
-	
 	/* Fire given marking. Normally, marking.node would be added to changedObjects,
 	 * but by giving a change object directly, this behavior can be avoided. 
 	 * This method performs automatic execution of Events, XOR-Joins and AND-Connectors,
@@ -139,7 +134,10 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 		while(changed && this.getFireableNodes().size() > 0){
 			NodeNewMarkingPair markingPairToFire = null;
 			for(NodeNewMarkingPair nodeNewMarking : nodeNewMarkings){
-				if( shouldBeAutomaticallyExecuted(nodeNewMarking.node) ){
+				IFlowObject node = nodeNewMarking.node;
+				if( Marking.isAndConnector(node) ||
+						node instanceof Event ||
+						(Marking.isJoin(node, epcDiag) && (Marking.isXorConnector(node)) || Marking.isOrConnector(node)) ){
 					markingPairToFire = nodeNewMarking;
 					break; //leave loop because markings have changed
 				}
@@ -211,9 +209,4 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 		return resourceId + "," + String.valueOf(timesExecuted) + "," + (fireable ? "t" : "f") + ";";
 	}
 
-	private boolean shouldBeAutomaticallyExecuted(IFlowObject node){
-		return Marking.isAndConnector(node) ||
-			node instanceof Event ||
-			(Marking.isJoin(node, epcDiag) && (Marking.isXorConnector(node) || Marking.isOrConnector(node)));
-	}
 }

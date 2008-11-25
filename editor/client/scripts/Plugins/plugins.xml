@@ -95,7 +95,6 @@
 		<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
 			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
-			<requires namespace="http://b3mn.org/stencilset/epc#"/>
 		</plugin>
 		
 		<!-- plugins for XForms editor --> 
@@ -108,31 +107,14 @@
 		</plugin>
 
 		<plugin source="rowlayouting.js" name="ORYX.Plugins.RowLayouting">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
+			<!-- BPEL plugin also requires rowlayout -->
+			<requires namespace="http://b3mn.org/stencilset/bpel#"/>				
 		</plugin>
 		
 		<!-- BPMN1.1 specific plugins -->
 		<plugin source="bpmn1.1DiamondSwitch.js" name="ORYX.Plugins.BPMN11DiamondSwitch">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
-		</plugin>
-		
-		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
-		<plugin source="bpmnplus2bpel4chor.js" name="ORYX.Plugins.Bpel4ChorTransformation">
-			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>	
-		</plugin>
-				
-		<!-- plugin for BPEL and BPEL4Chor editor --> 
-		<plugin source="bpelSupport.js" name="ORYX.Plugins.BPELSupport">
-			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
-		</plugin>
-		
-		<plugin source="bpel4chorSupport.js" name="ORYX.Plugins.BPEL4ChorSupport">
-			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
-		</plugin>
-		
-		<plugin source="bpelLayout.js" name="ORYX.Plugins.BPELLayouting">
-			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
-			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
 		<!-- Following Plugins are examples to demonstrate certain functionality -->

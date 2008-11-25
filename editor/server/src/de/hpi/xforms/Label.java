@@ -11,7 +11,6 @@ public class Label extends XFormsElement implements PCDataContainer {
 
 	public Label() {
 		super();
-		attributes.put("ref", null);
 	}
 
 	public String getContent() {

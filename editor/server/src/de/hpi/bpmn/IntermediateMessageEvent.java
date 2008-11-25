@@ -18,12 +18,4 @@ public class IntermediateMessageEvent extends IntermediateEvent {
 	public StringBuilder getSerialization(BPMNSerialization serialization) {
 		return serialization.getSerializationForDiagramObject(this);
 	}
-	
-	@Override
-	public Node getCopy() {
-		IntermediateMessageEvent newnode = (IntermediateMessageEvent)super.getCopy();
-		newnode.setThrowing(this.isThrowing());
-		return newnode;
-	}
-
 }

@@ -551,24 +551,24 @@
 					</onEvent>
 				</xsl:if>
 				
-				<!--eventHandlers-->
-				<xsl:if test="$type='eventHandlers'">
-					<eventHandlers>
+				<!--eventHandler-->
+				<xsl:if test="$type='eventHandler'">
+					<eventHandler>
 						<xsl:call-template name="add-documentation-element"/>
 						<xsl:call-template name="find-children-nodes">
 							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
 					    </xsl:call-template>
-		            </eventHandlers>
+		            </eventHandler>
 				</xsl:if>
 				
-				<!--faultHandlers-->
-				<xsl:if test="$type='faultHandlers'">
-					<faultHandlers>
+				<!--faultHandler-->
+				<xsl:if test="$type='faultHandler'">
+					<faultHandler>
 						<xsl:call-template name="add-documentation-element"/>
 						<xsl:call-template name="find-children-nodes">
 							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
 					    </xsl:call-template>
-		            </faultHandlers>
+		            </faultHandler>
 				</xsl:if>
 				
 				<!--compensationHandler-->

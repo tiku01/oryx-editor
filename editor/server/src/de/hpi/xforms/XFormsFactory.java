@@ -63,10 +63,6 @@ public class XFormsFactory {
 		return new Select();
 	}
 	
-	public Select1 createSelect1() {
-		return new Select1();
-	}
-	
 	public Group createGroup() {
 		return new Group();
 	}
@@ -103,16 +99,8 @@ public class XFormsFactory {
 		return new Item();
 	}
 	
-	public Itemset createItemset() {
-		return new Itemset();
-	}
-	
 	public Value createValue() {
 		return new Value();
-	}
-	
-	public Copy createCopy() {
-		return new Copy();
 	}
 	
 	public Choices createChoices() {
@@ -211,8 +199,6 @@ public class XFormsFactory {
 			return createSubmit();
 		else if(tagName.equals("select"))
 			return createSelect();
-		else if(tagName.equals("select1"))
-			return createSelect1();
 		else if(tagName.equals("group"))
 			return createGroup();
 		else if(tagName.equals("repeat"))
@@ -231,12 +217,8 @@ public class XFormsFactory {
 			return createAlert();
 		else if(tagName.equals("item"))
 			return createItem();
-		else if(tagName.equals("itemset"))
-			return createItemset();
 		else if(tagName.equals("value"))
 			return createValue();
-		else if(tagName.equals("copy"))
-			return createCopy();
 		else if(tagName.equals("choices"))
 			return createChoices();
 		else if(tagName.equals("action"))

@@ -1,9 +1,7 @@
 package de.hpi.bpmn.serialization.erdf.templates;
 
-import de.hpi.bpmn.Activity;
 import de.hpi.bpmn.DiagramObject;
 import de.hpi.bpmn.SequenceFlow;
-import de.hpi.bpmn.Task;
 import de.hpi.bpmn.serialization.erdf.ERDFSerializationContext;
 
 public class SequenceFlowTemplate extends ConnectorTemplate implements
@@ -25,7 +23,6 @@ public class SequenceFlowTemplate extends ConnectorTemplate implements
 		StringBuilder s = getResourceStartPattern(context.getResourceIDForDiagramObject(e));
 		appendOryxField(s,"type",STENCIL_URI + "#SequenceFlow");
 		appendStandardFields(s);
-		appendDockerInformation(s, e);
 		appendResourceEndPattern(s, e, context);
 		
 		return s;

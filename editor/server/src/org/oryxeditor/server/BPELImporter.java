@@ -1,7 +1,6 @@
 
 package org.oryxeditor.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,22 +80,28 @@ public class BPELImporter extends HttpServlet {
     		handleException(res, e); 
 	   		return;
     	} 
-    	
-    	// === prepare the bpel source ===
-		// Get filename and content
     	final FileItem fileItem = (FileItem)items.get(0);
+    		
+    	// Get filename and content (needed to distinguish between EPML and AML)
     	final String fileName = fileItem.getName();
-    	final String fileContent = fileItem.getString();
-
-    	// because the namespace of bpel process is't unique, and it's difficult 
-    	// to handle a unknown namespace in XSLT 1.0 (it doesn't support the xPath 
-    	// e.g."*:process"), we remove the attribute "xmlns" before we transform
-    	// this file. 
-    	final String contentWithoutNamespace = removeAttributeXMLNS(fileContent);
     	
     	// Get the input stream	
-    	final InputStream inputStream = new ByteArrayInputStream(contentWithoutNamespace.getBytes());
-	   	
+    	final InputStream inputStream;
+    	try {
+    		inputStream = fileItem.getInputStream();
+    	} catch (IOException e){ 
+    		handleException(res, e); 
+    		return;
+    	}
+	   		
+    	// BPEL2eRDF XSLT source
+    	final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/BPEL2eRDF.xslt";
+    	final File bpel2eRDFxsltFile = new File(xsltFilename);
+    	final Source bpel2eRDFxsltSource = new StreamSource(bpel2eRDFxsltFile);	
+    	
+    	// Transformer Factory
+    	final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
     	// Get the bpel source
     	final Source bpelSource;
 
@@ -106,17 +111,8 @@ public class BPELImporter extends HttpServlet {
     		printError(res, "No file with .bepl extension uploaded.");
     		return ;
     	}
-    	
-    	// === prepare the xslt source ===
-    	// BPEL2eRDF XSLT source
-    	final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/BPEL2eRDF.xslt";
-    	final File bpel2eRDFxsltFile = new File(xsltFilename);
-    	final Source bpel2eRDFxsltSource = new StreamSource(bpel2eRDFxsltFile);	
-    	
-    	// Transformer Factory
-    	final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
-    	// === Get the eRDF result ===
+  
+    	// Get the result string
     	String resultString = null;
     	try {
     		Transformer transformer = transformerFactory.newTransformer(bpel2eRDFxsltSource);
@@ -140,22 +136,7 @@ public class BPELImporter extends HttpServlet {
     
     
     
-   private String removeAttributeXMLNS(String fileContent) {
-	int beginIndex = fileContent.indexOf("xmlns=");
-	
-	if (beginIndex == -1) return fileContent;
-	
-	int endIndex = fileContent.indexOf(" ", beginIndex);
-	
-	// locate the attribute "xmlns"
-	String attributeXMLNS = fileContent.substring(beginIndex, endIndex + 1); 
-	
-	return fileContent.replace(attributeXMLNS, "");
-}
-
-
-
-private void printResponse(HttpServletResponse res, String text){
+   private void printResponse(HttpServletResponse res, String text){
     	if (res != null){
  
         	// Get the PrintWriter

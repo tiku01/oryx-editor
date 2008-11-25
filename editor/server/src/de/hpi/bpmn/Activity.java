@@ -38,12 +38,4 @@ public abstract class Activity extends Node {
 		this.loopCondition = loopCondition;
 	}
 
-	@Override
-	public Node getCopy() {
-		Activity newnode = (Activity)super.getCopy();
-		newnode.setLoopCondition(this.getLoopCondition());
-		newnode.setLoopType(this.getLoopType());
-		return newnode;
-	}
-
 }

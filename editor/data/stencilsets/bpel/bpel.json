@@ -7,7 +7,7 @@
 	"stencils" : [
  		{
 			"type":"node",
-			"id":"worksheet",
+			"id":"Worksheet",
 			"title":"Worksheet",
 			"title_de":"Arbeitsblatt",
 			"groups":["Project"],
@@ -28,10 +28,10 @@
 			"groups":["Process and Scope"],
 			"view":"others/node.Bpel.svg",
 			"icon":"task.png",
-			"roles": ["singleActivityContainer"],
-			"layout":function(shape) {
+			"roles": ["SingleActivityContainer"],
+			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL});
  			},
 			"properties": [
 				{
@@ -80,7 +80,7 @@
 					"title":"abstractProcessProfile",
 					"title_de":"abstraktesProzessprofil",
 					"value":"",
-					"description":"observableBehavior - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08; templates - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
+					"description":"observableBehavior - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08; \ntemplates - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
@@ -90,21 +90,21 @@
 							"id":"c1",
 							"title":"observableBehavior",
 							"title_de":"observableBehavior",
-							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08",
+							"value":"observableBehavior",
 							"refToView":"observableBehavior"
 						},
 						{
 							"id":"c2",
 							"title":"templates",
 							"title_de":"templates",
-							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
+							"value":"templates",
 							"refToView":"templates"
 						},
 						{
 							"id":"c3",
 							"title":"your Definition",
 							"title_de":"your Definition",
-							"value":"please type your definition below",
+							"value":"your Definition",
 							"refToView":""
 						},
 						{
@@ -114,32 +114,7 @@
 							"value":"null",
 							"refToView":""
 						}
-					],
-					"disable":[
-						{
-							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08",
-							"items": [
-								"appURI"
-							]
-						},
-						{
-							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
-							"items": [
-								"appURI"
-							]
-						}
 					]
-					
-				},
-				{
-					"id":"appURI",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"user's definition of abstractProcessProfile",
-					"title_de":"von Benutzer eingegebene Definition des abstractProcessProfiles",
-					"value":"",
-					"readonly":false,
-					"optional":true
 				},
 				{
 					"id":"queryLanguage",
@@ -747,10 +722,10 @@
 			"description_de":"Eine Invoke-Aktivität.",
 			"view":"action(ws)/node.action.invoke.svg",
 			"icon":"invoke.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL});
  			},
 			"properties": [
 				{
@@ -1103,7 +1078,7 @@
 			"description_de":"Eine Receive-Aktivität.",
 			"view":"action(ws)/node.action.receive.svg",
 			"icon":"receive.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -1395,7 +1370,7 @@
 			"description_de":"Eine Reply Aktivität.",
 			"view":"action(ws)/node.action.reply.svg",
 			"icon":"reply.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -1732,10 +1707,10 @@
 			"groups_de":["Pick"],
 			"view":"pick/node.pick.svg",
 			"icon":"task.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_ROWS,shape:shape,marginTop:30,marginLeft:30,spacingX:30,spacingY:30,horizontalLayout:true});	
  			},
 			"properties": [
 				{
@@ -1896,10 +1871,10 @@
 			"groups_de":["Pick"],
 			"view":"pick/node.handler.onMessage.svg",
 			"icon":"onMessage.png",
-			"roles": ["singleActivityContainer"],
+			"roles": ["SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -2105,10 +2080,10 @@
 			"groups_de":["Flow und Sequence"],
 			"view":"flow and sequence/node.sequence.svg",
 			"icon":"sequence.png",
-			"roles": ["activity", "multiActivitiesContainer"],
+			"roles": ["Activity","MultiActivitiesContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_ROWS,shape:shape,marginTop:30,marginLeft:30,spacingX:30,spacingY:30,horizontalLayout:true});	
  			},
 			"properties": [
 				{
@@ -2239,10 +2214,10 @@
 			"groups_de":["Flow und Sequence"],
 			"view":"flow and sequence/node.flow.svg",
 			"icon":"flow.png",
-			"roles": ["activity","multiActivitiesContainer"],
+			"roles": ["Activity","MultiActivitiesContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_AUTORESIZE,shape:shape});
+				raiseEvent({type:EVENT_LAYOUT_BPEL_AUTORESIZE});
  			},
 			"properties": [
 				{
@@ -2459,10 +2434,10 @@
 			"groups_de":["If"],
 			"view":"if/node.if_container.svg",
 			"icon":"if_container.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_ROWS,shape:shape,marginTop:30,marginLeft:30,spacingX:30,spacingY:30,horizontalLayout:true});	
  			},
 			"properties": [
 				{
@@ -2593,10 +2568,10 @@
 			"description_de":"Inhalt von <if> und <elseif>",
 			"view":"if/node.if_branch.svg",
 			"icon":"if_branch.png",
-			"roles": ["singleActivityContainer"],
+			"roles": ["SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLEACTIVITY});
  			},
 			"properties": [
 				{
@@ -2667,10 +2642,10 @@
 			"description_de":"Ein Else-Zweig",
 			"view":"if/node.else_branch.svg",
 			"icon":"else_branch.png",
-			"roles": ["singleActivityContainer"],
+			"roles": ["SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLEACTIVITY});
  			},
 			"properties": [
 				{
@@ -2699,10 +2674,10 @@
 			"groups_de":["Schleifen"],
 			"view":"loop/loop.while.svg",
 			"icon":"while.png",
-			"roles": ["activity","singleActivityContainer"],
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLEACTIVITY});
  			},
 			"properties": [
 				{
@@ -2875,10 +2850,10 @@
 			"groups_de":["Schleifen"],
 			"view":"loop/loop.repeatUntil.svg",
 			"icon":"repeatUntil.png",
-			"roles": ["activity","singleActivityContainer"],
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLEACTIVITY});
  			},
 			"properties": [
 				{
@@ -3051,10 +3026,10 @@
 			"groups_de":["Schleifen"],
 			"view":"loop/loop.foreach.svg",
 			"icon":"forEach.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLEACTIVITY});
  			},
 			"properties": [
 				{
@@ -3184,7 +3159,7 @@
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"start_expLang",
@@ -3314,10 +3289,10 @@
 			"description_de":"Eine Assign-Aktivität.",
 			"view":"assignment/node.action.assign.svg",
 			"icon":"assign.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_ROWS,shape:shape,marginTop:30,marginLeft:30,spacingX:30,spacingY:30,verticalLayout:true});	
  			},
 			"properties": [
 				{
@@ -4117,10 +4092,10 @@
 			"groups":["Process and Scope"],
 			"view":"scope/node.scope.svg",
 			"icon":"scope.png",
-			"roles": ["activity","singleActivityContainer"],
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL});
  			},
 			"properties": [
 				{
@@ -4280,7 +4255,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"type",
@@ -4288,7 +4263,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"element",
@@ -4296,7 +4271,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspectype",
@@ -4455,7 +4430,7 @@
 							"value":"",
 							"prefix":"oryx",
 							"width":110,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecpart",
@@ -4463,7 +4438,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecpartnerLink",
@@ -4482,7 +4457,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},			
 						{
 							"id":"fromspecquerylanguage",
@@ -4490,7 +4465,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"fromspecquery",
@@ -4498,7 +4473,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecproperty",
@@ -4506,7 +4481,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"fromspecexpressionlanguage",
@@ -4514,7 +4489,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecexpression",
@@ -4522,7 +4497,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecliteral",
@@ -4530,7 +4505,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						}
 				]			
 				},
@@ -4558,7 +4533,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"myRole",
@@ -4566,7 +4541,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"partnerRole",
@@ -4574,7 +4549,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"initializePartnerRole",
@@ -4632,7 +4607,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						}
 					]
 				},
@@ -4671,54 +4646,7 @@
 				}
 			]
 		},
-		{
-		
-			"type": "node",
-			"id":"eventHandlers",
-			"title":"eventHandlers",
-			"title_de":"eventHandlers",
-			"description":"One eventHandlers",
-			"description_de":"Ein Ereignisbehandlung",
-			"groups":["Event Handling"],
-			"view":"scope/node.handler.eventHandlers.svg",
-			"icon":"handler.png",
-			"roles": ["handler"],
-			"layout":function(shape) {		
-				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
- 			},
-			"properties": [
-				{
-					"id":"documentation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"documentation",
-					"title_de":"Dokumentation",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":true
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"mainBody",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
+{
 			"type": "node",
 			"id":"onAlarm",
 			"title":"onAlarm",
@@ -4729,10 +4657,10 @@
 			"groups_de":["Pick","Event Handling"],
 			"view":"others/node.shared.onAlarm.svg",
 			"icon":"onAlarm.png",
-			"roles": ["singleActivityContainer"],
+			"roles": ["SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -4893,7 +4821,7 @@
 			"roles": [],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5143,18 +5071,67 @@
 		{
 		
 			"type": "node",
-			"id":"faultHandlers",
-			"title":"faultHandlers",
-			"title_de":"faultHandlers",
-			"description":"One faultHandlers",
-			"description_de":"Ein Fehlerbehandlung",
+			"id":"eventHandler",
+			"title":"eventHandler",
+			"title_de":"eventHandler",
+			"description":"One eventHandler",
+			"description_de":"Ein Ereignisbehandlung",
 			"groups":["Exception Handling"],
-			"view":"scope/node.handler.faultHandlers.svg",
+			"view":"scope/node.handler.eventHandler.svg",
 			"icon":"handler.png",
-			"roles": ["handler"],
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
+ 			},
+			"properties": [
+				{
+					"id":"documentation",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"documentation",
+					"title_de":"Dokumentation",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"mainBody",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+		
+			"type": "node",
+			"id":"faultHandler",
+			"title":"faultHandler",
+			"title_de":"faultHandler",
+			"description":"One faultHandler",
+			"description_de":"Ein Fehlerbehandlung",
+			"groups":["Exception Handling"],
+			"view":"scope/node.handler.faultHandler.svg",
+			"icon":"handler.png",
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
+			"layout":function(shape) {		
+				var raiseEvent = shape._delegateEvent.bind(shape);
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5198,11 +5175,11 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.compensate.compensateHandler.svg",
 			"icon":"handler.png",
-			"roles": ["handler", "singleActivityContainer", "activity"],
-			//"roles": ["handler", "singleActivityContainer"],
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5246,10 +5223,11 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.handler.terminationHandler.svg",
 			"icon":"handler.png",
-			"roles": ["handler", "singleActivityContainer"],
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5293,10 +5271,11 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.handler.catch.svg",
 			"icon":"catch.png",
-			"roles": ["singleActivityContainer"],
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5398,10 +5377,11 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.handler.catchAll.svg",
 			"icon":"catchAll.png",
-			"roles": ["singleActivityContainer"],
+			//TODO:delete role "activity"
+			"roles": ["Activity","SingleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD});
  			},
 			"properties": [
 				{
@@ -5444,7 +5424,7 @@
 			"description_de":"Eine Throw-Aktivität.",
 			"view":"action/node.action.throw.svg",
 			"icon":"throw.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -5602,7 +5582,7 @@
 			"description_de":"Eine Rethrow-Aktivität.",
 			"view":"action/node.action.rethrow.svg",
 			"icon":"throw.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -5732,7 +5712,7 @@
 			"groups":["Exception Handling"],
 			"view":"compensate/node.compensate.compensate.svg",
 			"icon":"compensation.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -5862,7 +5842,7 @@
 			"groups":["Exception Handling"],
 			"view":"compensate/node.compensate.compensateScope.svg",
 			"icon":"compensationScope.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6007,7 +5987,7 @@
 			"description_de":"Eine Empty-Aktivität.",
 			"view":"action/node.action.empty.svg",
 			"icon":"task_none.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6137,7 +6117,7 @@
 			"description_de":"Eine Wait-Aktivität.",
 			"view":"action/node.action.wait.svg",
 			"icon":"wait.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6341,7 +6321,7 @@
 			"description_de":"Eine Validate-Aktivität.",
 			"view":"action/node.action.validate.svg",
 			"icon":"validate.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6486,7 +6466,7 @@
 			"description_de":"Eine Exit-Aktivität.",
 			"view":"action/node.action.exit.svg",
 			"icon":"exit.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6615,7 +6595,7 @@
 			"description_de":"Eine opake Aktivität.",
 			"view":"action/node.action.opaqueActivity.svg",
 			"icon":"opaqueActivity.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6745,7 +6725,7 @@
 			"description_de":"Eine Erweiterung-Aktivität.",
 			"view":"action/node.action.extensionActivity.svg",
 			"icon":"extensionActivity.png",
-			"roles": ["activity"],
+			"roles": ["Activity"],
 			"properties": [
 				{
 					"id":"name",
@@ -6878,7 +6858,7 @@
 					"stroke":false
 				}
 			]
-		}
+		},
 	],
 	"rules": {
 		"connectionRules": [
@@ -6886,8 +6866,8 @@
 				"role":"link",
 				"connects": [
 					{
-						"from":"activity",
-						"to":["activity"]
+						"from":"Activity",
+						"to":["Activity"]
 					}
 				]
 			}
@@ -6895,21 +6875,21 @@
 		
 		"cardinalityRules":[
 		   	{	
-				"role":"singleActivityContainer",
+				"role":"SingleActivityContainer",
 				"maximumChildren":[
 					{
 					   "quantity":1,
-					   "countingRoles":["activity"]
+					   "countingRoles":["Activity"]
 					}
 				]
 			},
 			/* not necessary, since undefinded is the default quantity
 			{	
-				"role":"multiActivitiesContainer",
+				"role":"MultiActivitiesContainer",
 				"maximumChildren":[
 					{
 					   "quantity":undefined,
-					   "countingRoles":["activity"],
+					   "countingRoles":["Activity"],
 					}
 				]
 			},
@@ -6919,19 +6899,7 @@
 				"maximumOccurrence":1
 			},
 			{	
-				"role":"eventHandlers",
-				"maximumOccurrence":1
-			},
-			{	
-				"role":"faultHandlers",
-				"maximumOccurrence":1
-			},
-			{	
 				"role":"compensationHandler",
-				"maximumOccurrence":1
-			},
-			{	
-				"role":"terminationHandler",
 				"maximumOccurrence":1
 			},
 			{	
@@ -6939,33 +6907,52 @@
 				"maximumOccurrence":1
 			},
 			{	
-				"role":"else_branch",
+				"role":"terminationHandler",
 				"maximumOccurrence":1
-			}		
+			},
+			{	
+				"role":"else_branch",
+				"maximumOccurrence":1,
+			},
+			{	
+				"role":"Activity",
+				"outgoingEdges": [
+					{
+						"role":"link",
+						"maximum":undefined
+					}
+				],
+				"incomingEdges": [
+					{
+						"role":"link",
+						"maximum":undefined
+					}
+				]
+			}			
 		],
 		"containmentRules": [
 			// real roles
 			{
-				"role":"singleActivityContainer",
-				"contains": ["activity"]
+				"role":"SingleActivityContainer",
+				"contains": ["Activity"]
 			},
 			{
-				"role":"multiActivitiesContainer",
-				"contains": ["activity"]
+				"role":"MultiActivitiesContainer",
+				"contains": ["Activity"]
 			},
 			
 			// nodes
 			{
-				"role":"worksheet",
+				"role":"Worksheet",
 				"contains": ["process"]
 			},
 			{
 				"role":"process",
-				"contains": ["faultHandlers","eventHandlers"]
+				"contains": ["catch","catchAll","onEvent","onAlarm"]
             },
 			{
 				"role":"invoke",
-				"contains": ["compensationHandler","catch","catchAll"]
+				"contains": ["compensationHandler"]
 			},
 			{
 				"role":"pick",
@@ -6984,25 +6971,13 @@
 				"contains": ["copy"]
 			},
 			{
+				"role":"scope",
+				"contains": ["onEvent","onAlarm","catch","catchAll","terminationHandler","compensationHandler"]
+			},
+			{
 				"role":"onEvent",
 				"contains":["scope"]
-			},
-			{
-				"role":"onAlarm",
-				"contains":["scope"]
-			},			
-			{
-				"role":"scope",
-				"contains": ["eventHandlers","faultHandlers","terminationHandler","compensationHandler"]
-			},
-			{
-				"role":"eventHandlers",
-				"contains": ["onEvent","onAlarm"]
-			},
-			{
-				"role":"faultHandlers",
-				"contains": ["catch","catchAll"]
-			},
+			}
 		]
 	}
 }

@@ -20,12 +20,4 @@ public class IntermediateErrorEvent extends IntermediateEvent {
 	public StringBuilder getSerialization(BPMNSerialization serialization) {
 		return serialization.getSerializationForDiagramObject(this);
 	}
-
-	@Override
-	public Node getCopy() {
-		IntermediateErrorEvent newnode = (IntermediateErrorEvent)super.getCopy();
-		newnode.setErrorCode(this.getErrorCode());
-		return newnode;
-	}
-
 }

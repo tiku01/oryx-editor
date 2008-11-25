@@ -65,8 +65,7 @@ Repository.Core.Repository = {
 			this._selectedModels = new Array();
 			this._displayedModels = new Array();
 			
-			this._filters = this.isPublicUser() ? new Hash() : new Hash({access:'owner'});
-
+			this._filters = new Hash();
 			this._currentSort = null;
 			this._currentSortDirection = null;
 			// UI
@@ -196,7 +195,6 @@ Repository.Core.Repository = {
 						 
 						applyFilter 		: this.applyFilter.bind(this),
 						removeFilter 		: this.removeFilter.bind(this),
-						getFilter			: this.getFilter.bind(this),
 						getFilteredModels 	: this.getFilteredModels.bind(this),
 						
 						changeSelection 	: this.changeSelection.bind(this),
@@ -261,11 +259,7 @@ Repository.Core.Repository = {
 				this.updateFilteredIds();
 			}
 		},
-
-		getFilter : function() {
-			return this._filters;
-		},
-				
+		
 		getFilteredModels : function(){
 			return this._filteredModels;
 		},		
@@ -604,7 +598,11 @@ Repository.Core.Repository = {
 			this._controls.viewPanel = new Ext.Panel({ 
                 region		: 'center',
 				autoScroll	: true,
-				border		: false
+				border		: false,
+				listeners	: {resize: function(panel, adjWidth, adjHeigth, rawWidth, rawHeight){
+					if(this.getCurrentView().setWidth)
+						this.getCurrentView().setWidth( adjWidth )
+				}.bind(this)}
             });
 			// Left panel
 			this._controls.leftPanel = new Ext.Panel({ 

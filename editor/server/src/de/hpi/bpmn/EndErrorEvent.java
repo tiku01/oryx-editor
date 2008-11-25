@@ -19,12 +19,4 @@ public class EndErrorEvent extends EndEvent {
 	public StringBuilder getSerialization(BPMNSerialization serialization) {
 		return serialization.getSerializationForDiagramObject(this);
 	}
-
-	@Override
-	public Node getCopy() {
-		EndErrorEvent newnode = (EndErrorEvent)super.getCopy();
-		newnode.setErrorCode(this.getErrorCode());
-		return newnode;
-	}
-
 }

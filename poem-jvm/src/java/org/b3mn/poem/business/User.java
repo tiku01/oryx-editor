@@ -65,7 +65,7 @@ public class User extends BusinessObject {
 		ensureSubject();
 	}
 	
-	private synchronized void ensureSubject() {
+	private void ensureSubject() {
 		this.subject = (Subject) Persistance.getSession()
 		.createSQLQuery("SELECT {subject.*} FROM {subject} WHERE ident_id=:id")
 		.addEntity("subject", Subject.class)

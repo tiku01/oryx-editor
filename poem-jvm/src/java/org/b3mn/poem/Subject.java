@@ -79,7 +79,6 @@ public class Subject {
 		subject.loginCount = 0;
 
 		Persistance.getSession().save(subject);
-		Persistance.commit();
 		return subject;
 	}
 	

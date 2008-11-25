@@ -1,6 +1,5 @@
 package de.hpi.xforms.rdf;
 
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,13 +7,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
 
 import de.hpi.xforms.*;
 
@@ -65,7 +61,7 @@ public class XFormsRDFImporter {
 		c.form.setModel(factory.createModel());
 		c.form.setResourceId("#oryx-canvas123");
 		c.objects.put("#oryx-canvas123", c.form);
-
+		
 		if(root.hasChildNodes()) {
 			for (Node node = root.getFirstChild(); node != null; node = node.getNextSibling()) {
 				
@@ -76,9 +72,7 @@ public class XFormsRDFImporter {
 				if (type == null)
 					continue;
 				
-				if (type.equals("XForm")) {
-					handleAttributes(node, c.form, c);
-				} else if (type.equals("Input")) {
+				if (type.equals("Input")) {
 					addInput(node, c);
 				} else if (type.equals("Secret")) {
 					addSecret(node, c);
@@ -96,8 +90,6 @@ public class XFormsRDFImporter {
 					addSubmit(node, c);
 				} else if (type.equals("Select")) {
 					addSelect(node, c);
-				} else if (type.equals("Select1")) {
-					addSelect1(node, c);
 				} else if (type.equals("Group")) {
 					addGroup(node, c);
 				} else if (type.equals("Repeat")) {
@@ -116,10 +108,6 @@ public class XFormsRDFImporter {
 					addAlert(node, c);
 				} else if (type.equals("Item")) {
 					addItem(node, c);
-				} else if (type.equals("Itemset")) {
-					addItemset(node, c);
-				} else if (type.equals("Choices")) {
-					addChoices(node, c);
 				} else if (type.equals("Action")) {
 					addAction(node, c);
 				} else if (type.equals("SetValue")) {
@@ -164,10 +152,6 @@ public class XFormsRDFImporter {
 	}
 	
 	private void handleAttributes(Node node, XFormsElement element, ImportContext c) {
-		handleAttributes(node, element, null, c);
-	}
-	
-	private void handleAttributes(Node node, XFormsElement element, String prefix, ImportContext c) {
 		if (node.hasChildNodes()) {
 			Node n = node.getFirstChild();
 			while ((n = n.getNextSibling()) != null) {
@@ -181,21 +165,12 @@ public class XFormsRDFImporter {
 					
 					attribute = attribute.substring(3);
 					
-					if((prefix!=null) && (attribute.startsWith(prefix)))
-						attribute = attribute.substring(prefix.length());
-						
 					if(element.getAttributes().containsKey(attribute)) {
 						element.getAttributes().put(attribute, getContent(n));
 					} else {
-						if(element instanceof Submit) {
+						handleModelItemProperty(attribute, getContent(n), element, c);
+						if(element instanceof Submit)
 							handleSubmissionProperty(attribute, getContent(n), (Submit) element, c);
-						} else if((element instanceof XForm) && attribute.equals("head")) {
-							String head = getContent(n);
-							if(head!=null)
-								addHead(head, c);
-						} else {
-							handleModelItemProperty(attribute, getContent(n), element, c);
-						}
 					}
 				} else if(attribute.startsWith("ev_")) {
 					// handle attributes of xml events namespace
@@ -203,10 +178,9 @@ public class XFormsRDFImporter {
 					if(element.getAttributes().containsKey(attribute)) {
 						element.getAttributes().put(attribute, getContent(n));
 					} else {
+						handleModelItemProperty(attribute, getContent(n), element, c);
 						if(element instanceof Submit)
 							handleSubmissionProperty(attribute, getContent(n), (Submit) element, c);
-						else
-							handleModelItemProperty(attribute, getContent(n), element, c);
 					}
 				} else {
 					// handle oryx attributes
@@ -245,6 +219,17 @@ public class XFormsRDFImporter {
 	}
 	
 	private void handleSubmissionProperty(String attribute, String value, Submit submit, ImportContext c) {
+		if(submit.getSubmission()==null) {
+			Submission submission = new Submission();
+			String submissionId = "bind_";
+			if(submit.getAttributes().get("id")==null)
+				submissionId += submit.getResourceId().substring(1);
+			else 
+				submissionId += submit.getAttributes().get("id");
+			submission.getAttributes().put("id", submissionId);
+			submit.setSubmission(submission);
+			c.form.getModel().getSubmissions().add(submission);
+		}
 		if(!submit.getSubmission().getAttributes().containsKey(attribute)) return;
 		submit.getSubmission().getAttributes().put(attribute, value);
 	}
@@ -321,7 +306,13 @@ public class XFormsRDFImporter {
 						UICommonContainer uiCommonContainer = (UICommonContainer) parent;
 						uiCommonContainer.setAlert((Alert) element);
 					}
-				} 
+				}  else if(element instanceof Submission) {
+					// note: Submission not implemented in stencilset atm
+					c.form.getModel().getSubmissions().add((Submission) element);
+					if(parent instanceof Submit) {
+						((Submit) parent).setSubmission((Submission) element);
+					}
+				}
 				
 			} else {
 				// no parent relationship found: set form as parent
@@ -336,7 +327,7 @@ public class XFormsRDFImporter {
 	
 	private void addModel(ImportContext c) {
 		c.form.getModel().setInstance(factory.createInstance());
-		if((c.form.getHead()==null) && (instanceModelDoc==null))
+		if(instanceModelDoc==null)
 			generateInstanceModelDoc(c);
 		c.form.getModel().getInstance().setContent(instanceModelDoc);
 	}
@@ -457,19 +448,8 @@ public class XFormsRDFImporter {
 	private void addSubmit(Node node, ImportContext c) {
 		Submit submit = factory.createSubmit();
 		submit.setResourceId(getResourceId(node));
-		submit.setSubmission(factory.createSubmission());
-		c.form.getModel().getSubmissions().add(submit.getSubmission());
 		c.objects.put(submit.getResourceId(), submit);
 		handleAttributes(node, submit, c);
-		if(submit.getAttributes().get("submission")==null) {
-			String submissionId = "subm_";
-			if(submit.getAttributes().get("id")==null)
-				submissionId += submit.getResourceId().substring(1);
-			else 
-				submissionId += submit.getAttributes().get("id");
-			submit.getAttributes().put("submission", submissionId);
-		}
-		submit.getSubmission().getAttributes().put("id", submit.getAttributes().get("submission"));
 		// reassign ref attribute -> oryx property 'ref' of submit stencil specifies the 'ref' attribute of the submission element
 		submit.getSubmission().getAttributes().put("ref", submit.getAttributes().get("ref"));
 		submit.getAttributes().put("ref", null);
@@ -480,13 +460,6 @@ public class XFormsRDFImporter {
 		select.setResourceId(getResourceId(node));
 		c.objects.put(select.getResourceId(), select);
 		handleAttributes(node, select, c);
-	}
-	
-	private void addSelect1(Node node, ImportContext c) {
-		Select1 select1 = factory.createSelect1();
-		select1.setResourceId(getResourceId(node));
-		c.objects.put(select1.getResourceId(), select1);
-		handleAttributes(node, select1, c);
 	}
 	
 	private void addGroup(Node node, ImportContext c) {
@@ -522,7 +495,7 @@ public class XFormsRDFImporter {
 		label.setResourceId(getResourceId(node));
 		c.objects.put(label.getResourceId(), label);
 		handleAttributes(node, label, c);
-		label.setContent(getContent(getChild(node, "xf_text")));
+		label.setContent(getContent(getChild(node, "text")));
 	}
 	
 	private void addHelp(Node node, ImportContext c) {
@@ -530,7 +503,7 @@ public class XFormsRDFImporter {
 		help.setResourceId(getResourceId(node));
 		c.objects.put(help.getResourceId(), help);
 		handleAttributes(node, help, c);
-		help.setContent(getContent(getChild(node, "xf_message")));
+		help.setContent(getContent(getChild(node, "message")));
 	}
 	
 	private void addHint(Node node, ImportContext c) {
@@ -538,7 +511,7 @@ public class XFormsRDFImporter {
 		hint.setResourceId(getResourceId(node));
 		c.objects.put(hint.getResourceId(), hint);
 		handleAttributes(node, hint, c);
-		hint.setContent(getContent(getChild(node, "xf_message")));
+		hint.setContent(getContent(getChild(node, "message")));
 	}
 	
 	private void addAlert(Node node, ImportContext c) {
@@ -546,7 +519,7 @@ public class XFormsRDFImporter {
 		alert.setResourceId(getResourceId(node));
 		c.objects.put(alert.getResourceId(), alert);
 		handleAttributes(node, alert, c);
-		alert.setContent(getContent(getChild(node, "xf_message")));
+		alert.setContent(getContent(getChild(node, "message")));
 	}
 	
 	private void addItem(Node node, ImportContext c) {
@@ -554,38 +527,10 @@ public class XFormsRDFImporter {
 		item.setResourceId(getResourceId(node));
 		c.objects.put(item.getResourceId(), item);
 		handleAttributes(node, item, c);
-		
 		Value value = factory.createValue();
-		handleAttributes(node, value, "value_", c);
-		if(((value.getAttributes().get("ref")!=null) && !value.getAttributes().get("ref").equals("/"))
-				|| (value.getAttributes().get("value")!=null) || (value.getAttributes().get("bind")!=null))
-			item.setValue(value);
-	}
-	
-	private void addItemset(Node node, ImportContext c) {
-		Itemset itemset = factory.createItemset();
-		itemset.setResourceId(getResourceId(node));
-		c.objects.put(itemset.getResourceId(), itemset);
-		handleAttributes(node, itemset, c);
-		
-		Value value = factory.createValue();
-		handleAttributes(node, value, "value_", c);
-		if(((value.getAttributes().get("ref")!=null) && !value.getAttributes().get("ref").equals("/")) 
-				|| (value.getAttributes().get("value")!=null) || (value.getAttributes().get("bind")!=null))
-			itemset.setValue(value);
-		
-		Copy copy = factory.createCopy();
-		handleAttributes(node, copy, "copy_", c);
-		if(((value.getAttributes().get("ref")!=null) && !value.getAttributes().get("ref").equals("/"))
-				|| (copy.getAttributes().get("bind")!=null))
-			itemset.setCopy(copy);
-	}
-	
-	private void addChoices(Node node, ImportContext c) {
-		Choices choices = factory.createChoices();
-		choices.setResourceId(getResourceId(node));
-		c.objects.put(choices.getResourceId(), choices);
-		handleAttributes(node, choices, c);
+		handleAttributes(node, value, c); 		// side effect: assigns Item's id to Value object...
+		value.getAttributes().put("id", null); 	// ...so reset Value's id attribute
+		item.setValue(value);
 	}
 	
 	private void addAction(Node node, ImportContext c) {
@@ -698,25 +643,7 @@ public class XFormsRDFImporter {
 		message.setResourceId(getResourceId(node));
 		c.objects.put(message.getResourceId(), message);
 		handleAttributes(node, message, c);
-		message.setContent(getContent(getChild(node, "xf_message")));
-	}
-	
-	private void addHead(String head, ImportContext c) {
-		URLCodec codec = new URLCodec();
-		try {
-			head = codec.decode(head);
-		} catch (DecoderException e) {	
-			e.printStackTrace();
-		}
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document headDoc = builder.parse(new InputSource(new StringReader(head)));
-			c.form.setHead(headDoc.getDocumentElement());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		message.setContent(getContent(getChild(node, "message")));
 	}
 	
 	private String getContent(Node node) {
@@ -757,7 +684,7 @@ public class XFormsRDFImporter {
 		if (n == null)
 			return null;
 		for (Node node=n.getFirstChild(); node != null; node=node.getNextSibling())
-			if (node.getNodeName().equals(name)) 
+			if (node.getNodeName().indexOf(name) >= 0) 
 				return node;
 		return null;
 	}

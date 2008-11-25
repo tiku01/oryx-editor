@@ -1,7 +1,5 @@
 package de.hpi.xforms.rdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,20 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
 import de.hpi.xforms.AbstractAction;
 import de.hpi.xforms.ActionContainer;
 import de.hpi.xforms.Alert;
 import de.hpi.xforms.Bind;
 import de.hpi.xforms.Case;
-import de.hpi.xforms.Copy;
 import de.hpi.xforms.Help;
 import de.hpi.xforms.Hint;
-import de.hpi.xforms.Item;
-import de.hpi.xforms.Itemset;
 import de.hpi.xforms.Label;
 import de.hpi.xforms.LabelContainer;
 import de.hpi.xforms.ListUICommon;
@@ -32,7 +23,6 @@ import de.hpi.xforms.Submission;
 import de.hpi.xforms.Switch;
 import de.hpi.xforms.UICommonContainer;
 import de.hpi.xforms.UIElementContainer;
-import de.hpi.xforms.Value;
 import de.hpi.xforms.XForm;
 import de.hpi.xforms.XFormsElement;
 import de.hpi.xforms.XFormsUIElement;
@@ -141,51 +131,40 @@ public class XFormsERDFExporter {
 		}
 		if(element instanceof LabelContainer) {
 			Label label = ((LabelContainer) element).getLabel();
-			if(label!=null)
+			if(label!=null) {
 				registerResourcesRecursive(label, element);
+			}
 		}
 		if(element instanceof UICommonContainer) {
 			
 			Help help = ((UICommonContainer) element).getHelp();
-			if(help!=null)
+			if(help!=null) {
 				registerResourcesRecursive(help, element);
+			}
 			
 			Hint hint = ((UICommonContainer) element).getHint();
-			if(hint!=null)
+			if(hint!=null) {
 				registerResourcesRecursive(hint, element);
+			}
 			
 			Alert alert = ((UICommonContainer) element).getAlert();
-			if(alert!=null)
+			if(alert!=null) {
 				registerResourcesRecursive(alert, element);
+			}
 			
 		}
+		
 	}
 	
 	private void appendFormERDF(PrintWriter writer) {
 		String name = context.getForm().getAttributes().get("name");
 		if(name==null) name = "";
 		
-		String head = "";
-		if(context.getForm().getHead()!=null) {
-			try {
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				XMLSerializer serializer = new XMLSerializer();
-				serializer.setOutputByteStream(stream);
-				serializer.asDOMSerializer();
-				serializer.setNamespaces(true);
-				serializer.serialize(context.getForm().getHead());
-				head = StringEscapeUtils.escapeXml(stream.toString());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		writer.append("<div id=\""+ context.getForm().getResourceId() +"\" class=\"-oryx-canvas\">");
 		appendOryxField(writer, "type", STENCILSET_URI + "#" + context.getForm().getStencilId());
 		appendXFormsField(writer, "id", "");
 		appendXFormsField(writer, "name", name);
 		appendXFormsField(writer, "version", "");
-		appendXFormsField(writer, "head", head);
 		appendOryxField(writer, "mode", "writable");
 		appendOryxField(writer, "mode", "fullscreen");
 		writer.append("<a rel=\"oryx-stencilset\" href=\"./stencilsets/xforms/xforms.json\"/>");
@@ -202,7 +181,7 @@ public class XFormsERDFExporter {
 		appendOryxField(writer,"type",STENCILSET_URI + "#" + element.getStencilId());
 		
 		for(String field : element.getAttributes().keySet()) {
-			if(!field.equals("bind"))
+			if(!(field.equals("bind")||field.equals("submission")))
 				appendXFormsField(writer, field, element.getAttributes().get(field));
 		}
 		
@@ -238,37 +217,6 @@ public class XFormsERDFExporter {
 						appendXFormsField(writer, field, submission.getAttributes().get(field));
 				}
 			}
-		}
-		
-		// handle item element
-		if(element instanceof Item) {
-			Item item = (Item) element;
-			Value value = item.getValue();
-			if(value!=null) {
-				for(String field : value.getAttributes().keySet()) {
-					if(!field.equals("id"))
-						appendXFormsField(writer, "value_" + field, value.getAttributes().get(field));
-				}
-			}
-			appendOryxField(writer, "bounds", "0," + item.getYPosition() + ",0," + item.getYPosition());
-		}
-		
-		// handle itemset element
-		if(element instanceof Itemset) {
-			Itemset itemset = (Itemset) element;
-			Value value = itemset.getValue();
-			if(value!=null) {
-				for(String field : value.getAttributes().keySet()) {
-					appendXFormsField(writer, "value_" + field, value.getAttributes().get(field));
-				}
-			}
-			Copy copy = ((Itemset) element).getCopy();
-			if(copy!=null) {
-				for(String field : copy.getAttributes().keySet()) {
-					appendXFormsField(writer, "copy_" + field, copy.getAttributes().get(field));
-				}
-			}
-			appendOryxField(writer, "bounds", "0," + itemset.getYPosition() + ",0," + itemset.getYPosition());
 		}
 		
 		if(element instanceof XFormsUIElement) {
@@ -313,7 +261,6 @@ public class XFormsERDFExporter {
 	}
 	
 	private Bind getBindByNodeset(String nodeset) {
-		if(context.getForm().getModel()==null) return null;
 		for(Bind bind : context.getForm().getModel().getBinds()) {
 			if(bind.getAttributes().get("nodeset")!=null && bind.getAttributes().get("nodeset").equals(nodeset))
 				return bind;
@@ -322,7 +269,6 @@ public class XFormsERDFExporter {
 	}
 	
 	private Submission getSubmissionById(String id) {
-		if(context.getForm().getModel()==null) return null;
 		for(Submission submission : context.getForm().getModel().getSubmissions()) {
 			if(submission.getAttributes().get("id")!=null && submission.getAttributes().get("id").equals(id))
 				return submission;
