@@ -7,6 +7,11 @@ This guide primarily addresses developers. If you intend to simply install, upda
 
 In case you're experiencing any problems, feel free to contact us by mail or join out discussion group.
 
+= What do you need to get started? =
+The Oryx application consists of 2 major parts. The first part contains the editor itself and stateless Java Servlets running on the Tomcat webserver. In addition to that the second part contains the Oryx Repository and statefull Java Servlets including the database. It is possible to run the first part stand-alone without the database, repository and the backend. Note that you won't be able to save any models without the backend.
+Therefore if your development focus lies on the editor functionality and you don't need to modify repository or backend functionality, you may skip the steps concerning database configuration. 
+
+= Install Necessary Software =
 
 = Details =
 
