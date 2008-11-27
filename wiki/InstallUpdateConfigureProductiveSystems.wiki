@@ -124,6 +124,7 @@ All configuration files for the backend can be found in the _backend_ directory 
 
 === Change Database Server, Name, User and Password ===
 Configuration file: _$(TOMCAT_HOME)/webapps/backend/WEB-INF/classes/*hibernate.cfg.xml*_
+
 The Oryx Server uses Hibernate Technology to access the database. Just edit the following xml elements according to your server configuration.
 
 {{{
@@ -139,8 +140,8 @@ After you finished editing the file, you have to restart the Tomcat to apply the
 === Add a Custom Stencil Set to the Repository ===
 Configuration file: _$(TOMCAT_HOME)/webapps/backend/stencilsets/*stencilsets.json*_
 
-# Copy the stencil set directory to _$(TOMCAT_HOME)/webapps/backend/stencilsets
-# Add an entry to the configuration file according to the following json example:
+  # Copy the stencil set directory to _$(TOMCAT_HOME)/webapps/backend/stencilsets
+  # Add an entry to the configuration file according to the following json example:
 {{{
         {
             "title":"BPMN 1.1",
@@ -160,6 +161,9 @@ Configuration file: _$(TOMCAT_HOME)/webapps/backend/stencilsets/*stencilsets.jso
 || icon_url || The URL of the icon shown in the repository. ||
 || visible || Boolean (true/false) that controls if the stencil set is available in the new model menu of the repository  ||
 
+=== Remove a Custom Stencil Set to the Repository ===
+The best pratice to remove a stencil set is to keep all the files and remove the stencil set from the new model menu of the repository. This is explained above.
+If you remove the files and the stencilset.json entry it's not possible to open models based on this stencilset!
 == Setup Proxy== 
 
 == ... ==
