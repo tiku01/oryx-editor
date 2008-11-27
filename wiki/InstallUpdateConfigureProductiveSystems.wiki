@@ -153,7 +153,7 @@ Configuration file: _$(TOMCAT_HOME)/webapps/backend/stencilsets/*stencilsets.jso
         }
 }}} 
 
-||*Attribute*||*Documentation* ||
+|| *Attribute* || *Documentation* ||
 || title || The Title of the stencil set that is shown in the repository ||
 || namespace || Unique namespace of the stencil set.||
 || description || Short textual description. ||
@@ -164,6 +164,24 @@ Configuration file: _$(TOMCAT_HOME)/webapps/backend/stencilsets/*stencilsets.jso
 === Remove a Custom Stencil Set to the Repository ===
 The best pratice to remove a stencil set is to keep all the files and remove the stencil set from the new model menu of the repository. This is explained above.
 If you remove the files and the stencilset.json entry it's not possible to open models based on this stencilset!
-== Setup Proxy== 
 
-== ... ==
+
+=== Setup Proxy===
+Configuration file: _$(TOMCAT_HOME)/webapps/backend/WEB-INF/*web.xml* 
+
+If the Tomcat doesn't have direct internet access and have to use a proxy instead, it's necessary to configure this proxy in the web.xml to enable OpenID login. Add the proxy settings to the dispatcher servlet. The next example shows settings for a proxy server named _proyx.server.name_ on port _8080_.
+{{{
+    <servlet>
+        <display-name>Oryx Dispatcher</display-name>
+        <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>org.b3mn.poem.Dispatcher</servlet-class>
+		<init-param>
+            <param-name>proxy-host-name</param-name>
+            <param-value>proxy.server.name</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxy-port</param-name>
+            <param-value>8080</param-value>
+        </init-param>
+    </servlet>
+}}}
