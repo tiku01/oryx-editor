@@ -1,5 +1,8 @@
 #summary This guide shows how to build and deploy the Oryx WAR files.
 #labels ADAPT
+
+= THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
+
 = Introduction =
 
 This guide explains how to build and deploy the Oryx Server Application.
