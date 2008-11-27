@@ -1,6 +1,8 @@
 #summary How to setup a development environment for Oryx using Ubuntu Linux
 #labels ADAPT
 
+= THIS GUIDE IS DEPRECATED. PLEASE USE THE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
+
 = Introduction =
 
 This page documents the configuration steps which have been made for setting up the [OryxVirtualMachineImage Oryx VirtualBox image]. It has been tested with Kubuntu 8.04 but it should mostly work for other Debian-based Linux distributions as well.
