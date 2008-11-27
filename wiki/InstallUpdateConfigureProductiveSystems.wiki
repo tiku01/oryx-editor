@@ -105,7 +105,7 @@ Configuration file: _$(TOMCAT_HOME)/webapps/oryx/*plugins.xml*_
 
 Each plug-in of the editor has a relation xml element in the configuration file. If you like to disable a plug-in, use an xml comment to comment it out
 {{{
-<!-- Enabled >
+<!-- Enabled -->
 <plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
 	<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
         <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
@@ -116,11 +116,15 @@ Each plug-in of the editor has a relation xml element in the configuration file.
 	<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
         <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 </plugin>
->
+-->
 }}}
 
-== Change Database Server, Name, User and Password ==
-The Oryx Server uses Hibernate Technology to access the database and the configuration file can be found here: {_backend-root_}WEB-INF/classes/hibernate.cfg.xml_. Simply edit the following XML-Elements according to your server configuration.
+== Backend Configuration ==
+All configuration files for the backend can be found in the _backend_ directory of your Tomcat's webapps folder. 
+
+=== Change Database Server, Name, User and Password ===
+Configuration file: _$(TOMCAT_HOME)/webapps/backend/WEB-INF/classes/*hibernate.cfg.xml*_
+The Oryx Server uses Hibernate Technology to access the database. Just edit the following xml elements according to your server configuration.
 
 {{{
         <!-- Database connection settings -->
@@ -132,11 +136,29 @@ The Oryx Server uses Hibernate Technology to access the database and the configu
 
 After you finished editing the file, you have to restart the Tomcat to apply the changes. If your database doesn't run on the same server like the Tomcat, make sure that the database accepts Tcp connections from the Tomcat host.  
 
+=== Add a Custom Stencil Set to the Repository ===
+Configuration file: _$(TOMCAT_HOME)/webapps/backend/stencilsets/*stencilsets.json*_
 
-== Add or Remove Custom Stencil Sets ==
+# Copy the stencil set directory to _$(TOMCAT_HOME)/webapps/backend/stencilsets
+# Add an entry to the configuration file according to the following json example:
+{{{
+        {
+            "title":"BPMN 1.1",
+            "namespace":"http://b3mn.org/stencilset/bpmn1.1#",
+            "description":"BPMN 1.1 stencil set specification.",
+            "uri":"/bpmn1.1/bpmn1.1.json",
+            "icon_url":"/bpmn1.1/bpmn1.1.png",
+            "visible":true
+        }
+}}} 
 
-
-
+||*Attribute*||*Documentation* ||
+|| title || The Title of the stencil set that is shown in the repository ||
+|| namespace || Unique namespace of the stencil set.||
+|| description || Short textual description. ||
+|| uri || The URI of the JSON defintion of the stencil set relative to the __$(TOMCAT_HOME)/webapps/backend/stencilsets_ directory||
+|| icon_url || The URL of the icon shown in the repository. ||
+|| visible || Boolean (true/false) that controls if the stencil set is available in the new model menu of the repository  ||
 
 == Setup Proxy== 
 
