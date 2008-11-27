@@ -1,6 +1,8 @@
 #summary How to get started with Oryx Development
 #labels Featured
 
+= THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
+
 = Introduction =
 
 Oryx Editor is a web application that is designed to run well in Firefox, beginning with version 2.0. Most of the application is written in !JavaScript, the server is written in Java and JRuby. In addition to that, you will need to get familiar with SVG and JSON to design or edit additional stencil sets. To get more information of all technologies used in this project, have a look at [http://www.ohloh.net/projects/oryx-editor the Ohloh project site].
