@@ -95,7 +95,29 @@ psql --username postgres --dbname poem --file migration-script.sql
 
 
 = CONFIGURATION =
-All configuration files can be found in 2 directories. Both are sub directories of the webapps directory of the tomcat installation. The following steps use _oryx-root_ to refer to the _webapps/oryx_ directory and _backend-root_ to refer to the _webapps/backend_ directory. Note that the Tomcat automatically creates this directories, after you deployed the WAR files. 
+Note: You have to deploy the WAR files before you can make any configuration changes. If you redeploy the application (e.g. for an update) all changes will be lost.
+
+== Editor Configuration ==
+All configuration files for the editor can be found in the _oryx_ directory of your Tomcat's webapps folder. 
+
+=== Enable or Disable Custom Editor Plug-ins ===
+Configuration file: _$(TOMCAT_HOME)/webapps/oryx/*plugins.xml*_
+
+Each plug-in of the editor has a relation xml element in the configuration file. If you like to disable a plug-in, use an xml comment to comment it out
+{{{
+<!-- Enabled >
+<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
+	<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+        <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+</plugin>
+
+<!-- Disabled 
+<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
+	<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+        <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+</plugin>
+>
+}}}
 
 == Change Database Server, Name, User and Password ==
 The Oryx Server uses Hibernate Technology to access the database and the configuration file can be found here: {_backend-root_}WEB-INF/classes/hibernate.cfg.xml_. Simply edit the following XML-Elements according to your server configuration.
@@ -114,7 +136,7 @@ After you finished editing the file, you have to restart the Tomcat to apply the
 == Add or Remove Custom Stencil Sets ==
 
 
-== Add or Remove Custom Plug Ins ==
+
 
 == Setup Proxy== 
 
