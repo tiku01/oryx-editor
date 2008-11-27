@@ -1,6 +1,6 @@
 #summary This guide gives a quick overview about the default installation, update and configuration processes of the Oryx application.
 
-= WORK IN PROGRESS. THIS IS A NEW ARTICLE AND ITS CONTENT IS STILL INCOMPLETE! =
+= WORK IN PROGRESS. IF YOU HAVE PROBLEMS FOLLOWING THESE INSTRUCTIONS, DROP US A COMMENT OR FIX IT BY YOURSELF. THANK YOU! =
 
 = Who should read this? =
 This guide should be interesting for administrators of Oryx applications, but NOT for developers. All developers and users that want to customize their installation beyond the configuration options explained below may read the [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems developer guide].
