@@ -1,6 +1,8 @@
 #summary How to setup a runtime environment for Oryx using Linux or Windows
 #labels Phase-Deploy,ADAPT
 
+= THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems THIS GUIDE] TO SET UP A PRODUCTIVE INSTALLATION OF ORYX. =
+
 = Introduction =
 
 This walkthrough demonstrates how you deploy the complete Oryx web application including the repository, the editor and the database schema. It is basically designed for the deployment in productive environments. If you want to build your own binaries from source, you may read this article.
