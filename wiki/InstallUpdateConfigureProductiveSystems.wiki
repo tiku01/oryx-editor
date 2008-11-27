@@ -177,11 +177,22 @@ If the Tomcat doesn't have direct internet access and have to use a proxy instea
         <servlet-class>org.b3mn.poem.Dispatcher</servlet-class>
 		<init-param>
             <param-name>proxy-host-name</param-name>
-            <param-value>proxy.server.name</param-value>
+            <param-value> *proxy.server.name* </param-value>
         </init-param>
         <init-param>
             <param-name>proxy-port</param-name>
-            <param-value>8080</param-value>
+            <param-value> *8080* </param-value>
         </init-param>
     </servlet>
 }}}
+
+=UPDATE=
+The following steps explain how to migrate an existing Oryx installation to a new version. 
+
+  # Download the current version and unpack all files.
+  # Find out your installed version. Open the editor
+  # Shutdown the Tomcat server.
+  # Backup your database. (e.g. use the pg_dump tool) {{{ pg_dump -U poem -f YYYY-MM-DD_backup.sql poem}}} This will create a file called _YYYY-MM-DD_backup.sql_ that contains all information to restore the database later if the update fails.
+  # Check the database folder for migration scripts. Execute all scripts from you installed version to the newest in ascending order. E.g. {{{psql -U poem -d poem -f upgrade_XXXtoYYY.sql}}}
+  # Copy the WAR files in the webapps directory 
+  # Start the Tomcat server. 
