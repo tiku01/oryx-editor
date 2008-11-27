@@ -34,5 +34,25 @@ Make sure that Eclipse uses the previously installed JDK. To check this, do the 
   # Click on _OK_ to apply the changes.
 
 == Install Firefox 3 ==
+[http://www.mozilla.com/ Download] the latest version of Firefox 3 and install it. In addition to that it's recommended to install Firebug and the web developer toolbar. (Click on Tools/Add-ons/Get Add-ons and search for these two tools). We recommend to use the toolbar to turn off caching during javascript debugging. 
 
+== Checkout the Project from Eclipse ==
+
+ # Start Eclipse.
+ # Open _File_ -> _Import_.
+ # Under the node _Other_ choose _Checkout Projects from SVN_.
+ # Enter the URL of the trunk. You can find the URL [http://code.google.com/p/oryx-editor/source/checkout here]. The trunk contains an Eclipse project file and will automatically be found. Downloading the trunk may take a while.
+
+== Configure Build Properties ==
+Open the file _build.properties_ in the root folder of the Oryx trunk and set _deploymentdir_ to the path of your Tomcat webapps directory. Don't put the path into quotation marks but escape all backslash characters on windows systems (use \\ instead of \).  If you like to debug Java code, then also set java-debug to _on_. 
+
+== Configure Eclipse External Tools==
+The whole application is build using Apache ANT. Instead of launching ANT from bash or command line Eclipse provides a convenient way to use ANT from the GUI.
+Click on to the _Run/External Tools/External Tools Configurations_ in the eclipse menu. Create a new ANT build in the configurations windows and select the build.xml file in the SVN root directory as build file. After that switch to the _Target_ tab.
+The targets you need depend the part of Oryx you use:
+  * If you use the editor without backend and database select _build-editor_ and _deploy editor_  
+  * But if you also use the repository and backend with database then select _rebuild-all_ and _deploy-all_.
+Finally go to the JRE tab and make sure that at least a Java 1.5 runtime is selected.
+
+   
 = ... =
