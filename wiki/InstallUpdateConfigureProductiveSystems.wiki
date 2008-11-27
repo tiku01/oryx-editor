@@ -73,21 +73,6 @@ If you used all the default options from the walkthrough, you won't need to make
 
 *Notice:* The Oryx-Editor currently needs [http://getfirefox.com the Firefox browser] and if you want to save your models you need an [http://openid.net/ OpenID]. The OpenID login works without further configuration except if your server connects to the internet through an HTTP proxy. In that case, you can change the parameters _proxy-host-name_ and _proxy-port_ in the _web.xml_ file of the backend.
 
-= PART III: Configuration = 
-
-== Optional : Change Database Server, Name, User and Password ==
-The Oryx Server uses Hibernate Technology to access the database. If you deployed the backend war file once, then Tomcat creates a backend directory in the webapps folder. Assuming that _$(TOMCAT_HOME)_ is the root path to the Tomcat folder open the _$(TOMCAT_HOME)/webapps/backend/WEB-INF/classes/hibernate.cfg.xml_ file and edit the XML-Elements according to your server configuration.
-
-{{{
-        <!-- Database connection settings -->
-        <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://server_name/database_name</property>
-        <property name="connection.username">user_name</property>
-        <property name="connection.password">password</property>
-}}}
-
-After you finished editing the file, you have to restart the Tomcat to apply the changes. If your database doesn't run on the same server like the Tomcat, make sure that the database accepts Tcp connections from the Tomcat host.  
-
 
 = PART IV: Upgrading an Existing Installation and Creating a Backup = 
 
@@ -110,6 +95,21 @@ psql --username postgres --dbname poem --file migration-script.sql
 
 
 = CONFIGURATION =
+All configuration files can be found in 2 directories. Both are sub directories of the webapps directory of the tomcat installation. The following steps use _oryx-root_ to refer to the _webapps/oryx_ directory and _backend-root_ to refer to the _webapps/backend_ directory. Note that the Tomcat automatically creates this directories, after you deployed the WAR files. 
+
+== Change Database Server, Name, User and Password ==
+The Oryx Server uses Hibernate Technology to access the database and the configuration file can be found here: {_backend-root_}WEB-INF/classes/hibernate.cfg.xml_. Simply edit the following XML-Elements according to your server configuration.
+
+{{{
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://server_name/database_name</property>
+        <property name="connection.username">user_name</property>
+        <property name="connection.password">password</property>
+}}}
+
+After you finished editing the file, you have to restart the Tomcat to apply the changes. If your database doesn't run on the same server like the Tomcat, make sure that the database accepts Tcp connections from the Tomcat host.  
+
 
 == Add or Remove Custom Stencil Sets ==
 
