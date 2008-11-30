@@ -9,8 +9,8 @@
 			"title"		: "Diagram",
 			"groups"	: ["Tree Graph"],
 			"description":"A Diagram",
-			"view"		: "node.diagram.svg",
-			"icon"		: "new_diagram.png",
+			"view"		: "diagram.svg",
+			"icon"		: "diagram.png",
 			"mayBeRoot"	: true,
 			"roles"		: [],
 			"properties": [
@@ -35,9 +35,8 @@
 			"title"		: "Node",
 			"groups"	: ["Tree Graph"],
 			"description":"A node.",
-			"view"		:"node.place.svg",
-			"icon"		:"new_place.png",
-			"intersectionType":"ellipse",			
+			"view"		:"node.svg",
+			"icon"		:"node.png",			
 			"roles"		: [
 							"node"
 							],
@@ -52,7 +51,8 @@
 					"readonly"	: false,
 					"optional"	: true,
 					"refToView"	: "text",
-					"length"	: ""
+					"length"	: "",
+					"wrapLines" :true
 				}							
 			]
 		},
@@ -63,7 +63,7 @@
 			"description":"",
 			"groups"	: ["Tree Graph"],
 			"view"		: "connection.flow.svg",
-			"icon"		: "new_flow.png",
+			"icon"		: "flow.png",
 			"roles": [
 						"edge"
 						],
