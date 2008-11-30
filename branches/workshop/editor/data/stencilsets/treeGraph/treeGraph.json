@@ -28,98 +28,11 @@
 					"wrapLines"	: true
 				}			
 			]
-		},		
-		{
-			"type"		: "node",
-			"id"		: "Node",
-			"title"		: "Node",
-			"groups"	: ["Tree Graph"],
-			"description":"A node.",
-			"view"		:"node.svg",
-			"icon"		:"node.png",			
-			"roles"		: [
-							"node"
-							],
-			"properties": [		
-				{
-					"id"		: "title",
-					"type"		: "String",
-					"title"		: "Title",
-					"value"		: "",
-					"description":"",
-					"tooltip"	: "",
-					"readonly"	: false,
-					"optional"	: true,
-					"refToView"	: "text",
-					"length"	: "",
-					"wrapLines" :true
-				}							
-			]
-		},
-		{
-			"type"		: "edge",
-			"id"		: "Edge",
-			"title"		: "Edge",
-			"description":"",
-			"groups"	: ["Tree Graph"],
-			"view"		: "connection.flow.svg",
-			"icon"		: "flow.png",
-			"roles": [
-						"edge"
-						],
-			"properties": [				
-				{
-					"id"		: "label",
-					"type"		: "String",
-					"title"		: "Label",
-					"value"		: "",
-					"description":"",
-					"tooltip"	: "",
-					"readonly"	: false,
-					"optional"	: true,
-					"refToView"	: "text",
-					"length"	: ""
-				}							
-			]
 		}
 	],	
 	"rules": {
-			"cardinalityRules": [ 
-				{ 
-					"role"		: "node", 
-					"outgoingEdges": [ 
-										{ 
-											"role":"edge", 
-											"maximum":2 
-										} 
-									],					
-					"incomingEdges": [ 
-										{ 
-											"role":"edge", 
-											"maximum":1 
-										} 
-									] 
-				}
-			],
-			"connectionRules": [
-				{
-					"role":"edge",
-					"connects": [
-						{
-							"from":"node",
-							"to":["node"]
-						}
-					]
-				}	
-			],
-			"containmentRules": [
-				{
-					"role":"Diagram",
-					"contains": [
-						"edge",
-						"node"
-					]
-				}
-			]
+			"cardinalityRules": [],
+			"connectionRules": [],
+			"containmentRules": []
 	}
 }
