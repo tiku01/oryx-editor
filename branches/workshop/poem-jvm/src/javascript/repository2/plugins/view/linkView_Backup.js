@@ -45,9 +45,7 @@ Repository.Plugins.LinkView = Repository.Core.ViewPlugin.extend({
 	render : function(modelData) {
 		
 		// Remove current panel		
-		if( this.myPanel ){
-			this.panel.remove( this.myPanel )
-		}
+		this.deletePanelItems();
 		
 		var data = [];
 		modelData.each(function( pair ){			
