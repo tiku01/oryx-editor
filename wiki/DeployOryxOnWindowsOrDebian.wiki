@@ -1,5 +1,5 @@
 #summary How to setup a runtime environment for Oryx using Linux or Windows
-#labels Phase-Deploy,ADAPT
+#labels Phase-Deploy,ADAPT,Deprecated
 
 = THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/InstallUpdateConfigureProductiveSystems THIS GUIDE] TO SET UP A PRODUCTIVE INSTALLATION OF ORYX. =
 
