@@ -11,7 +11,6 @@ import de.hpi.PTnet.verification.StateSpaceCalculator;
 import de.hpi.interactionnet.ActionTransition;
 import de.hpi.interactionnet.InteractionNet;
 import de.hpi.interactionnet.InteractionTransition;
-import de.hpi.interactionnet.Role;
 import de.hpi.interactionnet.serialization.InteractionNetPNMLExporter;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.Place;
@@ -33,8 +32,7 @@ public class InteractionNetReducer extends PTNetReducer {
 			ActionTransition ta = (ActionTransition)t;
 			ActionTransition tnew = ((InteractionNet)net).getFactory().createActionTransition();
 			tnew.setLabel(ta.getLabel());
-			for (Role r: ta.getRoles())
-				tnew.getRoles().add(r);
+			tnew.setRole(ta.getRole());
 			return tnew;
 		} else {
 			return super.createNewTransition(net, t);

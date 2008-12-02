@@ -55,7 +55,7 @@ public class InteractionNetSyntaxCheckerImpl extends PetriNetSyntaxChecker
 				
 			} else if (t instanceof ActionTransition) {
 				ActionTransition ta = (ActionTransition)t;
-				if (ta.getRoles().size() == 0) {
+				if (ta.getRole() == null) {
 					addNodeError(t, ROLE_NOT_SET);
 				}
 				

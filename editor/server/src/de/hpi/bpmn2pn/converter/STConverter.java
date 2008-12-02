@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.DiagramObject;
-import de.hpi.bpmn2pn.model.ConversionContext;
 import de.hpi.petrinet.LabeledTransition;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.SilentTransition;
@@ -27,7 +26,7 @@ public class STConverter extends HighConverter {
 	}
 	
 	@Override
-	protected LabeledTransition addLabeledTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel, String label, ConversionContext c) {
+	protected LabeledTransition addLabeledTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel, String label) {
 		STLabeledTransitionImpl t = (STLabeledTransitionImpl) addSimpleLabeledTransition(net, id, label);
 		t.setBPMNObj(BPMNObj);
 		t.setAutoSwitchLevel(intLevelToAutoSwitchLevel(autoLevel));

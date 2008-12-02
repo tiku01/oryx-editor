@@ -1,18 +1,18 @@
 package de.hpi.interactionnet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hpi.petrinet.LabeledTransitionImpl;
 
 public class ActionTransition extends LabeledTransitionImpl {
 
-	protected List<Role> roles;
+	protected Role role;
 
-	public List<Role> getRoles() {
-		if (roles == null)
-			roles = new ArrayList<Role>();
-		return roles;
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+		label = ""+role;
 	}
 
 }

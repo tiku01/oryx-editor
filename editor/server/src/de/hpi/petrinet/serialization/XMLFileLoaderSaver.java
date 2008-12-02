@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -63,15 +62,6 @@ public class XMLFileLoaderSaver {
 		FileOutputStream os     = new FileOutputStream( new File(fileName) );
 		StreamResult     result = new StreamResult( os );
 		transformer.transform( source, result );
-	}
-
-	public String serializeToString(Document doc) throws TransformerFactoryConfigurationError, TransformerException {
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		DOMSource source = new DOMSource(doc);
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-		transformer.transform(source, result);
-		return writer.toString();
 	}
 	
 }

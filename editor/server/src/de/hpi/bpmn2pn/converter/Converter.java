@@ -25,6 +25,7 @@ import de.hpi.bpmn.SubProcess;
 import de.hpi.bpmn.Task;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.XOREventBasedGateway;
+import de.hpi.bpmn.analysis.BPMNNormalizer;
 import de.hpi.bpmn2pn.model.ConversionContext;
 import de.hpi.bpmn2pn.model.SubProcessPlaces;
 import de.hpi.petrinet.FlowRelationship;
@@ -99,6 +100,7 @@ public abstract class Converter {
 	}
 	
 	protected void handleDiagram(PetriNet net, ConversionContext c) {
+		(new BPMNNormalizer(diagram)).normalize();
 	}
 	
 	protected void postProcessDiagram(PetriNet net, ConversionContext c){
@@ -269,7 +271,7 @@ public abstract class Converter {
 
 	// assumption: exactly one input and one output edge
 	protected void handleTask(PetriNet net, Task task, ConversionContext c) {
-		Transition t = addLabeledTransition(net, task.getId(), task, 2, task.getLabel(), c);
+		Transition t = addLabeledTransition(net, task.getId(), task, 2, task.getLabel());
 		handleMessageFlow(net, task, t, t, c);
 		addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(task)), t);
 		addFlowRelationship(net, t, c.map.get(getOutgoingSequenceFlow(task)));
@@ -318,7 +320,7 @@ public abstract class Converter {
 			handleNodesRecursively(net, process, c);
 			c.ancestorHasExcpH = ancestorHasExcpH;
 		} else {
-			Transition t = addLabeledTransition(net, process.getId(), process, 2, process.getLabel(), c);
+			Transition t = addLabeledTransition(net, process.getId(), process, 2, process.getLabel());
 			handleMessageFlow(net, process, t, t, c);
 			addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(process)), t);
 			addFlowRelationship(net, t, c.map.get(getOutgoingSequenceFlow(process)));
@@ -343,7 +345,7 @@ public abstract class Converter {
 			process = event.getParent();
 		}
 		Place p = c.getSubprocessPlaces(process).startP;
-		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
+		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel());
 		handleMessageFlow(net, event, t, t, c);
 		addFlowRelationship(net, p, t);
 		addFlowRelationship(net, t, c.map.get(getOutgoingSequenceFlow(event)));
@@ -357,7 +359,7 @@ public abstract class Converter {
 		// do not handle attached intermediate events here...
 		if (event.getActivity() != null)
 			return;
-		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
+		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel());
 		handleMessageFlow(net, event, t, t, c);
 		addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(event)), t);
 		addFlowRelationship(net, t, c.map.get(getOutgoingSequenceFlow(event)));
@@ -372,7 +374,7 @@ public abstract class Converter {
 			process = event.getParent();
 		}
 
-		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
+		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel());
 		handleMessageFlow(net, event, t, t, c);
 		addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(event)), t);
 		Place p = c.getSubprocessPlaces(process).endP;
@@ -422,7 +424,7 @@ public abstract class Converter {
 				|| gateway.getIncomingEdges().size() == 1) {
 			for (Edge e : gateway.getOutgoingEdges()) {
 				// Here the edge is saved, because each edge represents an option for the user.
-				Transition t2 = addXOROptionTransition(net, e, c);
+				Transition t2 = addXOROptionTransition(net, e);
 				addFlowRelationship(net, p, t2);
 				addFlowRelationship(net, t2, c.map.get(e));
 			}
@@ -499,7 +501,7 @@ public abstract class Converter {
 	// assumption: exactly one output edge
 	protected void handleAttachedIntermediateEventForSubProcess(PetriNet net,
 			IntermediateEvent event, ConversionContext c) {
-		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
+		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel());
 		handleMessageFlow(net, event, t, t, c);
 
 		SubProcessPlaces pl = c.getSubprocessPlaces((SubProcess) event
@@ -521,7 +523,7 @@ public abstract class Converter {
 	// assumption: exactly one output edge
 	protected void handleAttachedIntermediateEventForTask(PetriNet net,
 			IntermediateEvent event, ConversionContext c) {
-		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
+		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel());
 		handleMessageFlow(net, event, t, t, c);
 		Place p = c.map.get(getIncomingSequenceFlow(event.getActivity()));
 		addFlowRelationship(net, p, t);
@@ -578,22 +580,22 @@ public abstract class Converter {
 		return p;
 	}
 
-	protected Transition addSilentTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel) {
+	protected SilentTransition addSilentTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel) {
 		return addSimpleSilentTransition(net, id);
 	}
 	
-	protected Transition addSimpleSilentTransition(PetriNet net, String id) {
+	protected SilentTransition addSimpleSilentTransition(PetriNet net, String id) {
 		SilentTransition t = pnfactory.createSilentTransition();
 		t.setId(id);
 		net.getTransitions().add(t);
 		return t;
 	}
 	
-	protected Transition addLabeledTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel, String label, ConversionContext c) {
+	protected LabeledTransition addLabeledTransition(PetriNet net, String id, DiagramObject BPMNObj, int autoLevel, String label) {
 		return addSimpleLabeledTransition(net, id, label);
 	}
 	
-	protected Transition addSimpleLabeledTransition(PetriNet net, String id, String label) {
+	protected LabeledTransition addSimpleLabeledTransition(PetriNet net, String id, String label) {
 		LabeledTransition t = pnfactory.createLabeledTransition();
 		t.setId(id);
 		t.setLabel(label);
@@ -629,7 +631,7 @@ public abstract class Converter {
 	}
 	
 	/* Mapping XOR Splits creates a transition for each outgoing edge */
-	protected Transition addXOROptionTransition(PetriNet net, Edge e, ConversionContext c){
+	protected Transition addXOROptionTransition(PetriNet net, Edge e){
 		return addSilentTransition(net, "option"+e.getId(), e, 0);
 	}
 }

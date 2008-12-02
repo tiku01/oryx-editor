@@ -3,7 +3,6 @@ package org.oryxeditor.server;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,11 +23,6 @@ import de.hpi.bpmn.DiagramObject;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn.validation.BPMNValidator;
-import de.hpi.bpt.process.epc.EPCFactory;
-import de.hpi.bpt.process.epc.IControlFlow;
-import de.hpi.bpt.process.epc.IEPC;
-import de.hpi.bpt.process.epc.util.OryxParser;
-import de.hpi.epc.validation.EPCSoundnessChecker;
 
 /**
  * Copyright (c) 2008 Kai Schlichting
@@ -51,7 +45,7 @@ import de.hpi.epc.validation.EPCSoundnessChecker;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class ValidatorServlet extends HttpServlet {
+public class BPMNValidatorServlet extends HttpServlet {
 	private static final long serialVersionUID = 730839148324562928L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -76,21 +70,15 @@ public class ValidatorServlet extends HttpServlet {
 	}
 	
 	protected void processDocument(Document document, PrintWriter writer) {
+		BPMNDiagram diagram = null;
+		
 		String type = new StencilSetUtil().getStencilSet(document);
 		if (type.equals("bpmn.json") || type.equals("bpmneec.json")){
-			processBPMN(new BPMNRDFImporter(document).loadBPMN(), writer);
+			diagram = new BPMNRDFImporter(document).loadBPMN();
 		} else if (type.equals("bpmn1.1.json")) {
-			processBPMN(new BPMN11RDFImporter(document).loadBPMN(), writer);
-		} else if (type.equals("epc.json")) {
-			try{
-				processEPC(new OryxParser(new EPCFactory()).parse(document), writer);
-			} catch(Exception e){
-				e.printStackTrace();
-			}
+			diagram = new BPMN11RDFImporter(document).loadBPMN();
 		}
-	}
-	
-	protected void processBPMN(BPMNDiagram diagram, PrintWriter writer){
+		
 		BPMNValidator validator = new BPMNValidator(diagram);
 		validator.validate();
 		
@@ -108,36 +96,6 @@ public class ValidatorServlet extends HttpServlet {
 			}
 			
 			jsonObject.put("conflictingNodes", conflictingNodes);
-			
-			writer.print(jsonObject.toString());
-		} catch (JSONException exception) {
-			exception.printStackTrace();
-		}
-	}
-	
-	protected void processEPC(List<IEPC> epcs, PrintWriter writer){
-		EPCSoundnessChecker soundChecker = new EPCSoundnessChecker(epcs.get(0));
-		soundChecker.calculate();
-		
-		try{
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("isSound", soundChecker.isSound());
-			
-			JSONArray badStartArcs = new JSONArray();
-			for(IControlFlow node: soundChecker.badStartArcs){
-				JSONObject nodeObject = new JSONObject();
-				nodeObject.put("id", node.getId());
-				badStartArcs.put(nodeObject);
-			}
-			jsonObject.put("badStartArcs", badStartArcs);
-			
-			JSONArray badEndArcs = new JSONArray();
-			for(IControlFlow node: soundChecker.badEndArcs){
-				JSONObject nodeObject = new JSONObject();
-				nodeObject.put("id", node.getId());
-				badEndArcs.put(nodeObject);
-			}
-			jsonObject.put("badEndNodes", badEndArcs);
 			
 			writer.print(jsonObject.toString());
 		} catch (JSONException exception) {

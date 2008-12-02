@@ -27,8 +27,6 @@ if(!ORYX.Plugins)
 ORYX.Plugins.BPEL4ChorSupport = Clazz.extend({
 
 	facade: undefined,
-	
-	dialogSupport: undefined,
 
 	/**
 	 * Offers the plugin functionality:
@@ -37,8 +35,6 @@ ORYX.Plugins.BPEL4ChorSupport = Clazz.extend({
 		
 		this.facade = facade;
 
-		this.dialogSupport = new ORYX.Plugins.TransformationDownloadDialog();
-		
 	    this.facade.offer({
 			'name':ORYX.I18N.BPEL4ChorSupport.exp,
 			'functionality': this.exportProcess.bind(this),
@@ -107,6 +103,7 @@ ORYX.Plugins.BPEL4ChorSupport = Clazz.extend({
 		this.facade.importERDF( doc );
 
 	}
+
 	
 });
 	

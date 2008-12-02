@@ -134,37 +134,6 @@
 					"length":"30"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
 					"id":"xf_navindex",
 					"type":"Integer",
 					"title":"navindex",
@@ -338,37 +307,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
 				},
 				{
 					"id":"xf_navindex",
@@ -546,37 +484,6 @@
 					"length":"30"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
 					"id":"xf_navindex",
 					"type":"Integer",
 					"title":"navindex",
@@ -740,37 +647,6 @@
 					"length":"50"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
 					"id":"xf_type",
 					"type":"String",
 					"title":"type",
@@ -920,61 +796,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"xf_navindex",
-					"type":"Integer",
-					"title":"navindex",
-					"prefix":"oryx",
-					"value":0,
-					"description":"Integer used to define the navigation sequence",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"min":"0"
-				},
-				{
-					"id":"xf_accesskey",
-					"type":"String",
-					"title":"accesskey",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Shortcut for moving the input focus to this control",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"1"
 				},
 				{
 					"id":"xf_type",
@@ -1152,61 +973,6 @@
 					"length":"50"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"xf_navindex",
-					"type":"Integer",
-					"title":"navindex",
-					"prefix":"oryx",
-					"value":0,
-					"description":"Integer used to define the navigation sequence",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"min":"0"
-				},
-				{
-					"id":"xf_accesskey",
-					"type":"String",
-					"title":"accesskey",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Shortcut for moving the input focus to this control",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"1"
-				},
-				{
 					"id":"xf_type",
 					"type":"String",
 					"title":"type",
@@ -1353,61 +1119,6 @@
 					"optional":false,
 					"refToView":"",
 					"length":"50"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"xf_navindex",
-					"type":"Integer",
-					"title":"navindex",
-					"prefix":"oryx",
-					"value":0,
-					"description":"Integer used to define the navigation sequence",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"min":"0"
-				},
-				{
-					"id":"xf_accesskey",
-					"type":"String",
-					"title":"accesskey",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Shortcut for moving the input focus to this control",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"1"
 				},
 				{
 					"id":"xf_type",
@@ -1830,61 +1541,6 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"xf_navindex",
-					"type":"Integer",
-					"title":"navindex",
-					"prefix":"oryx",
-					"value":0,
-					"description":"Integer used to define the navigation sequence",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"min":"0"
-				},
-				{
-					"id":"xf_accesskey",
-					"type":"String",
-					"title":"accesskey",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Shortcut for moving the input focus to this control",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"1"
 				}
 			]
 		},
@@ -1976,37 +1632,6 @@
 					"optional":false,
 					"refToView":"",
 					"length":"50"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
 				},
 				{
 					"id":"xf_navindex",
@@ -2244,37 +1869,6 @@
 					"length":"50"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
 					"id":"xf_navindex",
 					"type":"Integer",
 					"title":"navindex",
@@ -2479,61 +2073,6 @@
 					"length":"50"
 				},
 				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
-				},
-				{
-					"id":"xf_navindex",
-					"type":"Integer",
-					"title":"navindex",
-					"prefix":"oryx",
-					"value":0,
-					"description":"Integer used to define the navigation sequence",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"min":"0"
-				},
-				{
-					"id":"xf_accesskey",
-					"type":"String",
-					"title":"accesskey",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Shortcut for moving the input focus to this control",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"1"
-				},
-				{
 					"id":"xf_type",
 					"type":"String",
 					"title":"type",
@@ -2659,7 +2198,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"200"
-				}
+				}	
 			]
 		},
 		{
@@ -2727,37 +2266,6 @@
 					"readonly":false,
 					"optional":false,
 					"length":"200"
-				},
-				{
-					"id":"xf_appearance",
-					"type":"Choice",
-					"title":"appearance",
-					"prefix":"oryx",
-					"value":"",
-					"description":"Optional attribute to define an appearance hint.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"c1",
-							"value":"full",
-							"refToView":""
-						},
-						{
-							"id":"c2",
-							"title":"c2",
-							"value":"compact",
-							"refToView":""
-						},
-						{
-							"id":"c3",
-							"title":"c3",
-							"value":"minimal",
-							"refToView":""
-						}
-					]
 				},
 				{
 					"id":"xf_navindex",

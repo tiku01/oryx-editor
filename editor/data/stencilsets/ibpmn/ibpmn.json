@@ -26,6 +26,18 @@
 					"length":"50"
 				},
 				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Name is an attribute that is text description of the Diagram.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"diagramtext",
+					"wrapLines":true
+				},
+				{
 					"id":"version",
 					"type":"String",
 					"title":"Version",
@@ -64,6 +76,47 @@
 					"readonly":false,
 					"optional":true,
 					"length":"50"
+				},
+				{
+					"id":"queryLanguage",
+					"type":"String",
+					"title":"QueryLanguage",
+					"value":"",
+					"description":"A Language may be provided so that the syntax of queries used in the Diagram can be understood.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"creationDate",
+					"type":"Date",
+					"title":"CreationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was created.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationDate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"pools",
+					"type":"String",
+					"title":"Pools",
+					"value":"",
+					"description":"A Business Process Diagramm shall contain one or more Pools.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"wrapLines":true
 				},
 				{
 					"id":"documentation",
@@ -272,7 +325,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"text_name",
+					"refToView":"",
 					"length":""
 				},
 				{
@@ -415,7 +468,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"text_roles",
+					"refToView":"",
 					"length":"30"
 				},
 				{
@@ -704,7 +757,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"text_name",
+					"refToView":"",
 					"length":""
 				},
 				{
@@ -1490,12 +1543,10 @@
 		{
 			"type": "edge",
 			"id":"SequenceFlow",
-			"title":"Sequence Flow",
-			"title_de":"Sequenzfluß",
-			"description":"Sequence Flow defines the execution order of activities.",
-			"description_de":"Ein Sequenzfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
+			"title":"Sequence flow",
+			"description":"",
 			"groups":["Control Flow"],
-			"view":"connection/connection.sequenceflow.svg",
+			"view":"connection/connection.sequenceflow.normal.svg",
 			"icon":"new_sequenceflow.png",
 			"roles": [
 			],
@@ -1515,7 +1566,6 @@
 					"id":"documentation",
 					"type":"String",
 					"title":"Documentation",
-					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1535,57 +1585,13 @@
 				},
 				{
 					"id":"ConditionType",
-					"type":"Choice",
-					"title":"ConditionType",
-					"title_de":"Bedingungstyp",
-					"value":"None",
-					"description":"Determine the typ of the flow object.",
-					"description_de":"Legt den Typ des Flußobjectes fest.",
-					"readonly":false,
-					"optional":false,
-					"items": [
-						{
-							"id":"none",
-							"title":"none",
-							"value":"None",
-							"refToView":""
-						},
-						{
-							"id":"expression",
-							"title":"expression",
-							"value":"Expression",
-							"refToView":""
-						},
-						{
-							"id":"default",
-							"title":"default",
-							"value":"Default",
-							"refToView":"default"
-						}
-					]
-				},
-				{
-					"id":"ConditionExpression",
 					"type":"String",
-					"title":"ConditionExpression",
-					"title_de":"Bedingungsausdruck",
-					"value":"",
+					"title":"ConditionType",
+					"value":"None",
 					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":"",
-					"refToView":"condition"
-				},
-				{
-					"id":"showdiamondmarker",
-					"type":"Boolean",
-					"title":"ShowDiamontMarker",
-					"title_de":"Zeige-Diamanten",
-					"value":"false",
-					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
 					"readonly":true,
 					"optional":false,
-					"refToView":"conditional"
+					"length":""
 				}
 			]
 		}
