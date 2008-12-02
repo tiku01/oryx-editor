@@ -1,5 +1,5 @@
 #summary How to get started with Oryx Development
-#labels Featured
+#labels Featured,Deprecated
 
 = THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
 
