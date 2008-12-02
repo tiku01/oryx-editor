@@ -1,5 +1,5 @@
 #summary How to use the virtual machine image provided for Oryx development.
-#labels Featured,Phase-Implementation
+#labels Featured,Phase-Implementation,Deprecated
 
 = THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
 
