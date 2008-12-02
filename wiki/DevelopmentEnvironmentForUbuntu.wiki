@@ -1,5 +1,5 @@
 #summary How to setup a development environment for Oryx using Ubuntu Linux
-#labels ADAPT
+#labels ADAPT,Deprecated
 
 = THIS TUTORIAL IS DEPRECATED. PLEASE USE [http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment THIS GUIDE] TO SET UP A DEVELOPMENT ENVIRONMENT FOR ORYX. =
 
