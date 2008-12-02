@@ -10,7 +10,9 @@ The following quick start guides demonstrate, how to install all needed software
 apt-get install python2.5
 }}}
 
-*Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. The complete Python documentation can be found [http://python.org/doc/ here]. 
+*Windows:* You can download Python [http://python.org/download/ here]. It's not necessary to make any changes to the default values in the wizard. But it useful to change the installation path to your _Program Files_ directory. 
+Afterwards, add the python directory to the Windows "Path" environment variable!
+The complete Python documentation can be found [http://python.org/doc/ here]. 
 
 = Java =
 == Step 01 - Download and Install Binaries ==
