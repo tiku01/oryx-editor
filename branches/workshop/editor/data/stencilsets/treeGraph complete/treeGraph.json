@@ -37,9 +37,7 @@
 			"description":"A node.",
 			"view"		:"node.svg",
 			"icon"		:"node.png",			
-			"roles"		: [
-							"node"
-							],
+			"roles"		: [],
 			"properties": [		
 				{
 					"id"		: "title",
@@ -74,9 +72,7 @@
 			"groups"	: ["Tree Graph"],
 			"view"		: "connection.flow.svg",
 			"icon"		: "flow.png",
-			"roles": [
-						"edge"
-						],
+			"roles": [],
 			"properties": [				
 				{
 					"id"		: "label",
@@ -96,16 +92,16 @@
 	"rules": {
 			"cardinalityRules": [ 
 				{ 
-					"role"		: "node", 
+					"role"		: "Node", 
 					"outgoingEdges": [ 
 										{ 
-											"role":"edge", 
+											"role":"Edge", 
 											"maximum":2 
 										} 
 									],					
 					"incomingEdges": [ 
 										{ 
-											"role":"edge", 
+											"role":"Edge", 
 											"maximum":1 
 										} 
 									] 
@@ -113,11 +109,11 @@
 			],
 			"connectionRules": [
 				{
-					"role":"edge",
+					"role":"Edge",
 					"connects": [
 						{
-							"from":"node",
-							"to":["node"]
+							"from":"Node",
+							"to":["Node"]
 						}
 					]
 				}	
@@ -126,8 +122,8 @@
 				{
 					"role":"Diagram",
 					"contains": [
-						"edge",
-						"node"
+						"Edge",
+						"Node"
 					]
 				}
 			]
