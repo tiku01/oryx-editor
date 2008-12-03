@@ -66,7 +66,7 @@ The decision which translation is used works as follows (for each attribute each
 
 = I18N of the User Interface =
 
-For each language a Javascript file must be added to the folder */data/i18n*. After building Oryx the language files can be found in the build folder in */i18n*. Each file must be named according to the following template:
+For each language a Javascript file must be added to the folder */editor/data/i18n*. After building Oryx the language files can be found in the build folder in */i18n*. Each file must be named according to the following template:
 {{{
 translation_<ISO language code>_<ISO country code>.js
 }}}
