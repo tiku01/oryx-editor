@@ -13,21 +13,7 @@
 			"icon"		: "diagram.png",
 			"mayBeRoot"	: true,
 			"roles"		: [],
-			"properties": [
-				{
-					"id"		: "title",
-					"type"		: "String",
-					"title"		: "Title",
-					"value"		: "",
-					"description":"",
-					"tooltip"	: "",
-					"readonly"	: false,
-					"optional"	: true,
-					"refToView"	: "",
-					"length"	: "",
-					"wrapLines"	: true
-				}			
-			]
+			"properties": []
 		}
 	],	
 	"rules": {
