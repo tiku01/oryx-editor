@@ -186,7 +186,7 @@ offer(pluginData): void
    * _name_: string
      * Name of the feature.
    * _functionality_: function
-     * Callback of the feature.
+     * Callback of the feature. Callback gets following parameters: Generated button (Ext.Button) and, if _toggle=false_, the event (Ext.EventObject), else the next state (boolean).
    * _group_: string
      * Name of the group the feature belongs to (e. g. used by toolbar).
    * _icon_: string
@@ -199,6 +199,8 @@ offer(pluginData): void
      * Minimum number of shapes that have to be selected so that the feature is available/activated.
    * _maxShape_: int
      * Maximum number of shapes that have to be selected so that the feature is available/activated.
+   * _toggle_: boolean
+     * (default: false) Creates a toggling button instead of simple one.
    * _isEnabled_: function
      * Optional callback that activates the feature, if it returns *true*, or deactivates it, if it returns *false*.
 
