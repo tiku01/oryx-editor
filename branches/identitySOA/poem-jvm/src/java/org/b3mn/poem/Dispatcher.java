@@ -217,6 +217,9 @@ public class Dispatcher extends HttpServlet {
 	protected void dispatch(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException {
 		try { 
+			String userdata = this.getServletConfig().getInitParameter("userid_request_attr");
+			System.out.println(userdata);
+			
 			response.setCharacterEncoding("UTF-8");
 			
 			// Parse request uri to extract handler uri and model uri

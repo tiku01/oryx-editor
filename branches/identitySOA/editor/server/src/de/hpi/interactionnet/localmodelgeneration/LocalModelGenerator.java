@@ -9,6 +9,7 @@ import de.hpi.PTnet.PTNet;
 import de.hpi.interactionnet.ActionTransition;
 import de.hpi.interactionnet.InteractionNet;
 import de.hpi.interactionnet.InteractionTransition;
+import de.hpi.interactionnet.Role;
 import de.hpi.petrinet.FlowRelationship;
 import de.hpi.petrinet.Node;
 import de.hpi.petrinet.PetriNet;
@@ -70,20 +71,37 @@ public class LocalModelGenerator {
 	
 	private NextTransition findNextTransition(InteractionNet newnet, String roleName, StateSpaceAdmin admin) {
 		for (Transition t: newnet.getTransitions()) {
-			if (t instanceof InteractionTransition) {
-				InteractionTransition it = (InteractionTransition) t;
-				if (inRoles(it, roleName)) continue;
-				
-				Marking m = admin.findPostMarking(it);
-				if (m != null)
-					return new NextTransition(it, m);
-			}
+			if (inRoles(t, roleName)) continue;
+			if (t instanceof SilentTransition && !isInChoice(t)) continue;
+			
+			Marking m = admin.findPostMarking(t);
+			if (m != null)
+				return new NextTransition(t, m);
 		}
 		return null;
 	}
 	
-	private boolean inRoles(InteractionTransition t, String roleName) {
-		return roleName.equals(t.getSender().getName()) || roleName.equals(t.getReceiver().getName());
+	private boolean inRoles(Transition t, String roleName) {
+		if (t instanceof InteractionTransition) {
+			InteractionTransition it = (InteractionTransition)t;
+			return roleName.equals(it.getSender().getName()) || roleName.equals(it.getReceiver().getName());
+		} else if (t instanceof ActionTransition) {
+			ActionTransition at = (ActionTransition)t;
+			for (Role r: at.getRoles())
+				if (roleName.equals(r.getName()))
+					return true;
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isInChoice(Transition t) {
+		for (FlowRelationship rel: t.getIncomingFlowRelationships()) {
+			if (rel.getSource().getOutgoingFlowRelationships().size() > 1)
+				return true;
+		}
+		return false;
 	}
 
 	private List<Transition> getPrecedingTransitions(Marking m, Transition t, String roleName) {
@@ -399,7 +417,8 @@ public class LocalModelGenerator {
 			ActionTransition ta = (ActionTransition)t;
 			ActionTransition tnew = ((InteractionNet)net).getFactory().createActionTransition();
 			tnew.setLabel(ta.getLabel());
-			tnew.setRole(ta.getRole());
+			for (Role r: ta.getRoles())
+				tnew.getRoles().add(r);
 			return tnew;
 		} else {
 			SilentTransition tnew = net.getFactory().createSilentTransition();

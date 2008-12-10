@@ -189,7 +189,7 @@ public class XFormsXHTMLExporter {
 			doc.createElementNS("http://www.w3.org/1999/xhtml", "body"));
 		String formName = form.getAttributes().get("name");
 		if(formName!=null) {
-			Element headline = (Element) html.appendChild(
+			Element headline = (Element) body.appendChild(
 					doc.createElementNS("http://www.w3.org/1999/xhtml", "h1"));
 			headline.appendChild(doc.createCDATASection(form.getAttributes().get("name")));
 		}
@@ -214,26 +214,14 @@ public class XFormsXHTMLExporter {
 		if(xfElement==null) return;
 		Element newXmlElement = (Element) xmlElement.appendChild(getElement(xfElement));
 		
-		if(xfElement instanceof UICommonContainer) {
-			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getHelp());
-			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getHint());
-			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getAlert());
-		}
-		
-		if(xfElement instanceof ActionContainer) {
-			for(AbstractAction xfChild : ((ActionContainer) xfElement).getActions()) {
-				addElementsRecursive(newXmlElement, xfChild);
-			}
+		if(xfElement instanceof LabelContainer) {
+			addElementsRecursive(newXmlElement, ((LabelContainer) xfElement).getLabel());
 		}
 		
 		if(xfElement instanceof Switch) {
 			for(Case xfChild : ((Switch) xfElement).getCases()) {
 				addElementsRecursive(newXmlElement, xfChild);
 			}
-		}
-		
-		if(xfElement instanceof LabelContainer) {
-			addElementsRecursive(newXmlElement, ((LabelContainer) xfElement).getLabel());
 		}
 		
 		if(xfElement instanceof ListUICommonContainer) {
@@ -255,6 +243,27 @@ public class XFormsXHTMLExporter {
 					lastYPosition = xfChild.getYPosition();
 				}
 				addElementsRecursive(rowDiv, xfChild);
+			}
+		}
+		
+		if(xfElement instanceof Item) {
+			addElementsRecursive(newXmlElement, ((Item) xfElement).getValue());
+		}
+		
+		if(xfElement instanceof Itemset) {
+			addElementsRecursive(newXmlElement, ((Itemset) xfElement).getValue());
+			addElementsRecursive(newXmlElement, ((Itemset) xfElement).getCopy());
+		}
+		
+		if(xfElement instanceof UICommonContainer) {
+			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getHelp());
+			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getHint());
+			addElementsRecursive(newXmlElement, ((UICommonContainer) xfElement).getAlert());
+		}
+		
+		if(xfElement instanceof ActionContainer) {
+			for(AbstractAction xfChild : ((ActionContainer) xfElement).getActions()) {
+				addElementsRecursive(newXmlElement, xfChild);
 			}
 		}
 		

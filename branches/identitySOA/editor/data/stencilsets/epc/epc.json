@@ -828,16 +828,14 @@
 				"role":"event",
 				"incomingEdges": [
                 	{
-                    	"role": "edge",
-                     	"maximum":1,
-                     	"minimum":0
+                    	"role": "epcEdge",
+                     	"maximum":1
                     }
                 ],
                 "outgoingEdges": [
                  	{
-                		"role": "edge",
-                    	"maximum":1,
-                     	"minimum":0
+                		"role": "epcEdge",
+                    	"maximum":1
               		}
                	]
 			},
@@ -845,16 +843,14 @@
 				"role":"function",
 				"incomingEdges": [
            			{
-                    	"role": "edge",
-                        "maximum":1,
-                   		"minimum":1
+                    	"role": "epcEdge",
+                        "maximum":1
                 	}
                 ],
                   	"outgoingEdges": [
                      {
-                      	"role": "edge",
-                      	"maximum":1,
-                      	"minimum":0
+                      	"role": "epcEdge",
+                      	"maximum":1
                   	}
            		]
 			},
@@ -862,16 +858,14 @@
 				"role":"connector",
 				"incomingEdges": [
            			{
-                    	"role": "edge",
-                        "maximum":2,
-                   		"minimum":1
+                    	"role": "epcEdge",
+                        "maximum":2
                 	}
                 ],
                   	"outgoingEdges": [
                      {
-                      	"role": "edge",
-                      	"maximum":2,
-                      	"minimum":1
+                      	"role": "epcEdge",
+                      	"maximum":2
                   	}
            		]
 			}
