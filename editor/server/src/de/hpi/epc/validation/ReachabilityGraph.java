@@ -1,14 +1,16 @@
 package de.hpi.epc.validation;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import de.hpi.bpt.process.epc.IControlFlow;
+import de.hpi.bpt.graph.abs.AbstractDirectedGraph;
+import de.hpi.bpt.graph.algo.DirectedGraphAlgorithms;
+import de.hpi.bpt.process.epc.FlowObject;
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.bpt.process.epc.IFlowObject;
 import de.hpi.epc.Marking;
@@ -18,137 +20,186 @@ import de.hpi.epc.Marking.NodeNewMarkingPair;
  * TODO title thesis?
  * Implementation as proposed by Jan Mendling, p. 90 
  */
-public class ReachabilityGraph {
+public class ReachabilityGraph extends
+		AbstractDirectedGraph<Transition, MarkingNode> {
 	IEPC diag;
-	
-	// Simple map which maps from a fromMarking to several toMarkings (children)
-	public Map<Marking, List<Marking>> tree;
-	
-	public ReachabilityGraph(IEPC diag){
+	DirectedGraphAlgorithms<Transition, MarkingNode> directedGraphAlgorithms;
+
+	public ReachabilityGraph(IEPC diag) {
 		this.diag = diag;
-		tree = new HashMap<Marking, List<Marking>>();
+		directedGraphAlgorithms = new DirectedGraphAlgorithms<Transition, MarkingNode>();
 	}
-	
+
+	//FIXME Very dirty!
+	// Code just copied because of cast exception
+	@Override
+	public Transition addEdge(MarkingNode s, MarkingNode t) {
+		if (s == null || t == null)
+			return null;
+		Collection<Transition> es = this.getEdgesWithSourceAndTarget(s, t);
+		if (es.size() > 0) {
+			Iterator<Transition> i = es.iterator();
+			while (i.hasNext()) {
+				Transition e = i.next();
+				if (e.getVertices().size() == 2)
+					return null;
+			}
+		}
+
+		Transition e = new Transition(this, s, t);
+		return e;
+	}
+
 	// Calculates RG for all possible initial markings
-	public void calculate(){
-		//TODO this calculation should be made public in a graph algo class
+	public void calculate() {
+		// TODO this calculation should be made public in a graph algo class
 		List<IFlowObject> startNodes = new LinkedList<IFlowObject>();
-		for(IFlowObject fo : diag.getFlowObjects()){
-			if(diag.getIncomingControlFlow(fo).size() == 0){
+		for (FlowObject fo : (Collection<FlowObject>) diag.getFlowObjects()) {
+			if (diag.getIncomingControlFlow(fo).size() == 0) {
 				startNodes.add(fo);
 			}
 		}
-		
-		for(List<IFlowObject> initialNodes : (List<List<IFlowObject>>)de.hpi.bpmn.analysis.Combination.findCombinations(startNodes) ){
-			if(initialNodes.size() > 0)
-				calculate(Marking.getInitialMarking(diag, initialNodes));
+
+		List<Marking> initialMarkings = new LinkedList<Marking>();
+		for (List<IFlowObject> initialNodes : (List<List<IFlowObject>>) de.hpi.bpmn.analysis.Combination
+				.findCombinations(startNodes)) {
+			if (initialNodes.size() > 0)
+				initialMarkings.add(Marking.getInitialMarking(diag,
+						initialNodes));
 		}
+		calculate(initialMarkings);
 	}
-	
-	public void calculate(Marking marking){
+
+	public void clear() {
+		this.getVertices().clear();
+	}
+
+	public void calculate(List<Marking> initialMarkings) {
+		clear();
+
 		Stack<Marking> toBePropagated = new Stack<Marking>();
-		toBePropagated.push(marking);
-		
+		System.out.println("InitialMarking: "
+				+ initialMarkings.get(0).toString());
+		toBePropagated.addAll(initialMarkings);
+
 		Set<Marking> propagated = new HashSet<Marking>();
-		
-		while(!toBePropagated.isEmpty()){
+
+		while (toBePropagated.size() > 0) {
 			Marking currentMarking = toBePropagated.pop();
 			Marking oldMarking = currentMarking.clone();
-			List<NodeNewMarkingPair> nodeNewMarkings = currentMarking.propagate(diag);
+			List<NodeNewMarkingPair> nodeNewMarkings = currentMarking.clone()
+					.propagate(diag);
 			propagated.add(oldMarking);
-			for(NodeNewMarkingPair nodeNewMarking : nodeNewMarkings){
-				add(oldMarking, nodeNewMarking.newMarking);
-				if(!propagated.contains(nodeNewMarking.newMarking)){
+			for (NodeNewMarkingPair nodeNewMarking : nodeNewMarkings) {
+				add(oldMarking, nodeNewMarking.newMarking, nodeNewMarking.node);
+
+				// TODO why cannot be used propagate.contains?
+				boolean contains = false;
+				for (Marking m : propagated) {
+					if (m.equals(nodeNewMarking.newMarking)) {
+						contains = true;
+					}
+				}
+				// if(!propagated.contains(nodeNewMarking.newMarking)){
+				if (!contains) {
 					toBePropagated.push(nodeNewMarking.newMarking);
 				}
 			}
 		}
 	}
-	
-	public void add(Marking fromMarking, Marking toMarking){
-		if(tree.get(fromMarking) == null){
-			tree.put(fromMarking, new LinkedList<Marking>());
+
+	public void add(Marking fromMarking, Marking toMarking, IFlowObject node) {
+		if (!toMarking.hasToken(diag))
+			return;
+
+		MarkingNode fromMarkingNode = findByMarking(fromMarking);
+		if (fromMarkingNode == null) {
+			fromMarkingNode = new MarkingNode(fromMarking);
+			addVertex(fromMarkingNode);
 		}
-		tree.get(fromMarking).add(toMarking);
+		MarkingNode toMarkingNode = findByMarking(toMarking);
+		if (toMarkingNode == null) {
+			toMarkingNode = new MarkingNode(toMarking);
+			addVertex(toMarkingNode);
+		}
+
+		// Only add new transition if there isn't already one
+		if (this.getEdgesWithSourceAndTarget(fromMarkingNode, toMarkingNode)
+				.size() == 0) {
+			Transition transition = this
+					.addEdge(fromMarkingNode, toMarkingNode);
+			transition.setFlowObject(node);
+		}
 	}
-	
-	public boolean isRoot(Marking m){
-		return this.getRoots().contains(m);
+
+	/*
+	 * public void doubledMarkings(){ for( Marking m1 : getMarkings() ){ for(
+	 * Marking m2 : getMarkings() ){ if(m1 == m2) break; if(m1.equals(m2)){
+	 * System.out.print("+"+m2.toString()); return; } } } }
+	 */
+
+	public boolean contains(Marking m) {
+		return findByMarking(m) != null;
 	}
-	
-	public boolean isLeaf(Marking m){
-		return this.getLeaves().contains(m);
+
+	public List<Marking> getMarkings() {
+		List<Marking> markings = new LinkedList<Marking>();
+		for (MarkingNode mNode : this.getVertices()) {
+			markings.add(mNode.getMarking());
+		}
+		return markings;
 	}
-	
-	//TODO expensive search!!
-	public List<Marking> getPredecessors(Marking m){
-		List<Marking> predecessors = new LinkedList<Marking>();
-		
-		for(Marking marking : tree.keySet()){
-			if(tree.get(marking).contains(m)){
-				predecessors.add(marking);
-				predecessors.addAll(getPredecessors(marking));
+
+	public MarkingNode findByMarking(Marking m) {
+		for (MarkingNode fo : this.getVertices()) {
+			if (fo.getMarking().equals(m)) {
+				return fo;
 			}
 		}
-		return predecessors;
+		return null;
 	}
-	
-	public List<Marking> getSuccessors(Marking m){
-		List<Marking> successors = new LinkedList<Marking>();
-		
-		if(tree.get(m) != null) {
-			successors.addAll(tree.get(m));
-			for(Marking sucMarking : tree.get(m)){
-				successors.addAll(getSuccessors(sucMarking));
-			}
-		}
-		return successors;
+
+	public boolean isRoot(Marking m) {
+		return this.getIncomingEdges(findByMarking(m)).size() == 0;
 	}
-	
-	public List<Marking> getRoots(){
-		// Calc all keys which don't appears as values
-		Set<Marking> keys = (Set<Marking>) new HashSet<Marking>(tree.keySet()).clone();
-		for(List<Marking> value : tree.values()){
-			keys.removeAll(value);
-		}
-		return new LinkedList<Marking>(keys);
+
+	public boolean isLeaf(Marking m) {
+		return this.getOutgoingEdges(findByMarking(m)).size() == 0;
 	}
-	
-	public List<Marking> getLeaves(){
-		// Calc all values which don't appears as keys
-		Set<List<Marking>> valueLists = (Set<List<Marking>>) new HashSet<List<Marking>>(tree.values()).clone();
-		Set<Marking> values = new HashSet<Marking>();
-		for(List<Marking> value : valueLists){
-			values.addAll(value);
+
+	/* TODO should this return all predecessors or only direct ones??? */
+	// TODO expensive search!! Avoid Marking => MarkingNode => Marking
+	public List<Marking> getPredecessors(Marking m) {
+		List<Marking> list = new LinkedList<Marking>();
+		for (MarkingNode markingNode : getPredecessors(findByMarking(m))) {
+			list.add(markingNode.getMarking());
 		}
-		values.removeAll(tree.keySet());
-		return new LinkedList<Marking>(values);
+		return list;
 	}
-	
-	// Returns a list of nodes that do not have a positive
-	// token in any marking of the MarkingList.
-	public List<IControlFlow> missing(List<Marking> markings){
-		LinkedList<IControlFlow> missings = new LinkedList<IControlFlow>();
-		
-		// Initialize list with all start and end arcs
-		for(IControlFlow cf : diag.getControlFlow()){
-			if(diag.getIncomingControlFlow(cf.getSource()).size() == 0){
-				missings.add(cf);
-			} else if (diag.getOutgoingControlFlow(cf.getTarget()).size() == 0){
-				missings.add(cf);
-			}
+
+	/* TODO should this return all successors or only direct ones??? */
+	// TODO expensive search!! Avoid Marking => MarkingNode => Marking
+	public List<Marking> getSuccessors(Marking m) {
+		List<Marking> list = new LinkedList<Marking>();
+		for (MarkingNode markingNode : getSuccessors(findByMarking(m))) {
+			list.add(markingNode.getMarking());
 		}
-		
-		// For each marking, those arcs with a positive token are deleted
-		for(Marking marking : markings) {
-			List<IControlFlow> missingsClone = (List<IControlFlow>)missings.clone();
-			for(IControlFlow cf : missingsClone){
-				if(marking.state.get(cf) == Marking.State.POS_TOKEN){
-					missings.remove(cf);
-				}
-			}
+		return list;
+	}
+
+	public List<Marking> getRoots() {
+		List<Marking> list = new LinkedList<Marking>();
+		for (MarkingNode node : directedGraphAlgorithms.getInputVertices(this)) {
+			list.add(node.getMarking());
 		}
-		
-		return missings;
+		return list;
+	}
+
+	public List<Marking> getLeaves() {
+		List<Marking> list = new LinkedList<Marking>();
+		for (MarkingNode node : directedGraphAlgorithms.getOutputVertices(this)) {
+			list.add(node.getMarking());
+		}
+		return list;
 	}
 }

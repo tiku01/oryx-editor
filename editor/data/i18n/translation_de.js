@@ -121,10 +121,28 @@ ORYX.I18N.BPELSupport.progressImp = "Importiere...";
 ORYX.I18N.BPELSupport.progressExp = "Exportiere...";
 ORYX.I18N.BPELSupport.impFailed = "Während des Importierens ist ein Fehler aufgetreten. <br/>Fehlermeldung: <br/><br/>";
 
+if(!ORYX.I18N.BPEL4ChorSupport) ORYX.I18N.BPEL4ChorSupport = {};
+
+ORYX.I18N.BPEL4ChorSupport.group = "BPEL4Chor";
+ORYX.I18N.BPEL4ChorSupport.exp = "BPEL4Chor Export";
+ORYX.I18N.BPEL4ChorSupport.expDesc = "Exportieren nach BPEL4Chor";
+ORYX.I18N.BPEL4ChorSupport.imp = "BPEL4Chor Import";
+ORYX.I18N.BPEL4ChorSupport.impDesc = "Importieren einer BPEL4Chor Datei";
+ORYX.I18N.BPEL4ChorSupport.selectFile = "Wählen Sie eine BPEL4Chor Datei aus, die Sie importieren möchten.";
+ORYX.I18N.BPEL4ChorSupport.file = "Datei";
+ORYX.I18N.BPEL4ChorSupport.impPanel = "BPEL4Chor Datei importieren";
+ORYX.I18N.BPEL4ChorSupport.impBtn = "Importieren";
+ORYX.I18N.BPEL4ChorSupport.content = "Inhalt";
+ORYX.I18N.BPEL4ChorSupport.close = "Schließen";
+ORYX.I18N.BPEL4ChorSupport.error = "Fehler";
+ORYX.I18N.BPEL4ChorSupport.progressImp = "Importiere...";
+ORYX.I18N.BPEL4ChorSupport.progressExp = "Exportiere...";
+ORYX.I18N.BPEL4ChorSupport.impFailed = "Während des Importierens ist ein Fehler aufgetreten. <br/>Fehlermeldung: <br/><br/>";
+
 if(!ORYX.I18N.Bpel4ChorTransformation) ORYX.I18N.Bpel4ChorTransformation = {};
 
 ORYX.I18N.Bpel4ChorTransformation.group = "BPEL4Chor";
-ORYX.I18N.Bpel4ChorTransformation.exportBPEL = "BPEL4Chor Eport";
+ORYX.I18N.Bpel4ChorTransformation.exportBPEL = "BPEL4Chor Export";
 ORYX.I18N.Bpel4ChorTransformation.exportBPELDesc = "Exportieren nach BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.exportXPDL = "XPDL4Chor Export";
 ORYX.I18N.Bpel4ChorTransformation.exportXPDLDesc = "Exportieren nach XPDL4Chor";
@@ -135,15 +153,19 @@ ORYX.I18N.Bpel4ChorTransformation.error = "Fehler";
 ORYX.I18N.Bpel4ChorTransformation.noSource = "1 mit der Id 2 hat kein Quellobjekt.";
 ORYX.I18N.Bpel4ChorTransformation.noTarget = "1 mit der Id 2 hat kein Zielobjekt.";
 ORYX.I18N.Bpel4ChorTransformation.transCall = "Während der Transformation ist ein Fehler aufgetreten. 1:2";
-ORYX.I18N.Bpel4ChorTransformation.noResult = "Der Transformations Web Service hat kein Ergebnis zurückgeliefert.";
-ORYX.I18N.Bpel4ChorTransformation.errorParsing = "Während der Analyse des Diagramms ist ein Fehler aufgetreten.";
-ORYX.I18N.Bpel4ChorTransformation.transResult = "Transformationsergebnisse";
-ORYX.I18N.Bpel4ChorTransformation.showFile = "Ergebnisdatei anzeigen";
-ORYX.I18N.Bpel4ChorTransformation.downloadFile = "Ergebnisdatei herunterladen";
-ORYX.I18N.Bpel4ChorTransformation.downloadAll = "Alle Ergebnisdateien herunterladen";
 ORYX.I18N.Bpel4ChorTransformation.loadingXPDL4ChorExport = "Exportiere nach XPDL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.loadingBPEL4ChorExport = "Exportiere nach BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.noGen = "Die Transformationseingabedaten konnten nicht erzeugt werden: 1\n2\n";
+
+if(!ORYX.I18N.TransformationDownloadDialog) ORYX.I18N.TransformationDownloadDialog = {};
+
+ORYX.I18N.TransformationDownloadDialog.error = "Fehler";
+ORYX.I18N.TransformationDownloadDialog.noResult = "Der Transformations Web Service hat kein Ergebnis zurückgeliefert.";
+ORYX.I18N.TransformationDownloadDialog.errorParsing = "Während der Analyse des Diagramms ist ein Fehler aufgetreten.";
+ORYX.I18N.TransformationDownloadDialog.transResult = "Transformationsergebnisse";
+ORYX.I18N.TransformationDownloadDialog.showFile = "Ergebnisdatei anzeigen";
+ORYX.I18N.TransformationDownloadDialog.downloadFile = "Ergebnisdatei herunterladen";
+ORYX.I18N.TransformationDownloadDialog.downloadAll = "Alle Ergebnisdateien herunterladen";
 
 if(!ORYX.I18N.DesynchronizabilityOverlay) ORYX.I18N.DesynchronizabilityOverlay = {};
 //TODO translate
@@ -289,6 +311,7 @@ ORYX.I18N.StepThroughPlugin.stepThroughDesc = "Schrittweise Ausführung des BPMN
 ORYX.I18N.StepThroughPlugin.undo = "Rückgängig";
 ORYX.I18N.StepThroughPlugin.undoDesc = "Rückgängig";
 ORYX.I18N.StepThroughPlugin.error = "Ausführung des Modells nicht möglich.";
+ORYX.I18N.StepThroughPlugin.executing = "Führe aus";
 
 if(!ORYX.I18N.SyntaxChecker) ORYX.I18N.SyntaxChecker = {};
 
@@ -305,6 +328,9 @@ ORYX.I18N.Undo.undo = "Rückgängig";
 ORYX.I18N.Undo.undoDesc = "Rückgängig";
 ORYX.I18N.Undo.redo = "Wiederherstellen";
 ORYX.I18N.Undo.redoDesc = "Wiederherstellen";
+
+if(!ORYX.I18N.Validator) ORYX.I18N.Validator = {};
+ORYX.I18N.Validator.checking = "Prüfe";
 
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 
@@ -332,3 +358,28 @@ ORYX.I18N.XFormsSerialization.impTitle = "XForms+XHTML Dokument importieren";
 ORYX.I18N.XFormsSerialization.impButton = "Importieren";
 ORYX.I18N.XFormsSerialization.impProgress = "Importiere...";
 ORYX.I18N.XFormsSerialization.close = "Schließen";
+
+
+
+/** New Language Properties: 08.12.2008 **/
+
+ORYX.I18N.PropertyWindow.title = "Eigenschaften";
+
+if(!ORYX.I18N.ShapeRepository) ORYX.I18N.ShapeRepository = {};
+ORYX.I18N.ShapeRepository.title = "Shape Verzeichnis";
+
+ORYX.I18N.Save.dialogDesciption = "Bitte ändern sie den Namen und die Beschreibung.";
+ORYX.I18N.Save.dialogLabelTitle = "Titel";
+ORYX.I18N.Save.dialogLabelDesc = "Beschreibung";
+ORYX.I18N.Save.dialogLabelType = "Typ";
+
+ORYX.I18N.Validator.name = "BPMN Überprüfung";
+ORYX.I18N.Validator.description = "Überprüfung von BPMN Modellen";
+
+ORYX.I18N.SSExtensionLoader.labelImport = "Import";
+ORYX.I18N.SSExtensionLoader.labelCancel = "Abbrechen";
+
+Ext.MessageBox.buttonText.yes = "Ja";
+Ext.MessageBox.buttonText.no = "Nein";
+Ext.MessageBox.buttonText.cancel = "Abbrechen";
+Ext.MessageBox.buttonText.ok = "OK";

@@ -4,79 +4,167 @@
  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
  id="oryx" version="2.4">
     
-    <display-name>PoEM</display-name>
+    <display-name>
+        PoEM
+    </display-name>
     
-	<!-- the number within the session-timout element must be expressed in
-		minutes. it is now 24 hours. -->
-	<session-config>
-		<session-timeout>1440</session-timeout>
-	</session-config>
+    <!-- the number within the session-timout element must be expressed in
+    minutes. it is now 24 hours. -->
+    <session-config>
+        <session-timeout>
+            1440
+        </session-timeout>
+    </session-config>
+    
+    <filter>
+        <filter-name>
+            JICFilter
+        </filter-name>
+        <filter-class>
+            de.fraunhofer.fokus.jic.filter.JICFilter
+        </filter-class>
+        <init-param>
+            <!--
+            the name of the HTTP request parameter containing the SAML token
+            supplied by the user.
+            -->
+            <param-name>
+                request_param_name
+            </param-name>
+            <param-value>
+                xmltoken
+            </param-value>
+        </init-param>
+        <init-param>
+            <!--
+            The name of the Session attribute into which the resulting
+            ClaimIdentity object should be placed.
+            -->
+            <param-name>
+                userid_request_attr
+            </param-name>
+            <param-value>
+                userdata
+            </param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <!--
+        specify the URLs or servlets to which the filter should be
+        applied.
+        -->
+        <filter-name>
+            JICFilter
+        </filter-name>
+        <url-pattern>
+            /poem/new
+        </url-pattern>
+    </filter-mapping>
 	
+    <error-page>
+        <!--
+        the Servlet or JSP to use if an invalid token is detected
+        by the JInfoCard Framework.
+        -->
+        <exception-type>
+            javax.servlet.ServletException
+        </exception-type>
+        <location>
+            /poem/repository
+        </location>
+    </error-page>
+    
     <servlet>
-        <display-name>Oryx Dispatcher</display-name>
-        <servlet-name>Dispatcher</servlet-name>
-        <servlet-class>org.b3mn.poem.Dispatcher</servlet-class>
+        <display-name>
+            Oryx Dispatcher
+        </display-name>
+        <servlet-name>
+            Dispatcher
+        </servlet-name>
+        <servlet-class>
+            org.b3mn.poem.Dispatcher
+        </servlet-class>
     </servlet>
-	
+    
     <servlet-mapping>
-        <servlet-name>Dispatcher</servlet-name>
-        <url-pattern>/poem/*</url-pattern>
+        <servlet-name>
+            Dispatcher
+        </servlet-name>
+        <url-pattern>
+            /poem/*
+        </url-pattern>
     </servlet-mapping>
-	
-	<!-- Registering OpenID Consumer Servlet for Authentication -->
-	<!-- 
-	
-	<servlet>
-        <display-name>Oryx OpenID Authentication Servlet</display-name>
-        <servlet-name>AuthServlet</servlet-name>
-        <servlet-class>org.oryxeditor.server.auth.OpenIDAuthenticationServlet</servlet-class>
-        <init-param>
-            <param-name>proxy-host-name</param-name>
-            <param-value></param-value>
-        </init-param>
-        <init-param>
-            <param-name>proxy-port</param-name>
-            <param-value></param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AuthServlet</servlet-name>
-        <url-pattern>/consumer</url-pattern>
-    </servlet-mapping>
-	-->
-
-	<!-- Load jstl, needed for OpenID Authentication -->
+    
+    <!-- Registering OpenID Consumer Servlet for Authentication -->
     <!--
-	<jsp-config>
-        <taglib>
-            <taglib-uri>
-                http://java.sun.com/jstl/core
-            </taglib-uri>
-            <taglib-location>
-                /WEB-INF/c.tld
-            </taglib-location>
-        </taglib>
+    
+    <servlet>
+    <display-name>Oryx OpenID Authentication Servlet</display-name>
+    <servlet-name>AuthServlet</servlet-name>
+    <servlet-class>org.oryxeditor.server.auth.OpenIDAuthenticationServlet</servlet-class>
+    <init-param>
+    <param-name>proxy-host-name</param-name>
+    <param-value></param-value>
+    </init-param>
+    <init-param>
+    <param-name>proxy-port</param-name>
+    <param-value></param-value>
+    </init-param>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>AuthServlet</servlet-name>
+    <url-pattern>/consumer</url-pattern>
+    </servlet-mapping>
+    -->
+    
+    <!-- Load jstl, needed for OpenID Authentication -->
+    <!--
+    <jsp-config>
+    <taglib>
+    <taglib-uri>
+    http://java.sun.com/jstl/core
+    </taglib-uri>
+    <taglib-location>
+    /WEB-INF/c.tld
+    </taglib-location>
+    </taglib>
     </jsp-config>
-	
-	-->
-
-	<mime-mapping>
-		<extension>svg</extension>
-		<mime-type>image/svg+xml</mime-type>
-	</mime-mapping>
-	<mime-mapping>
-		<extension>json</extension>
-		<mime-type>text/plain</mime-type>
-	</mime-mapping>
-	<mime-mapping>
-		<extension>css</extension>
-		<mime-type>text/css</mime-type>
-	</mime-mapping>
-	
-	<!-- Set Favourites Icon MIME-Type --> 
-	<mime-mapping>
-	    <extension>ico</extension>
-	    <mime-type>image/x-icon</mime-type>
-	</mime-mapping>
-
+    
+    -->
+    
+    <mime-mapping>
+        <extension>
+            svg
+        </extension>
+        <mime-type>
+            image/svg+xml
+        </mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>
+            json
+        </extension>
+        <mime-type>
+            text/plain
+        </mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>
+            css
+        </extension>
+        <mime-type>
+            text/css
+        </mime-type>
+    </mime-mapping>
+    
+    <!-- Set Favourites Icon MIME-Type -->
+    <mime-mapping>
+        <extension>
+            ico
+        </extension>
+        <mime-type>
+            image/x-icon
+        </mime-type>
+    </mime-mapping>
+    
 </web-app>

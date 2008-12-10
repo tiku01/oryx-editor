@@ -20,7 +20,7 @@ ORYX.CONFIG = {
 	DESYNCHRONIZABILITY_URL:	"/oryx/desynchronizability",
 	IBPMN2BPMN_URL:				"/oryx/ibpmn2bpmn",
 	SYNTAXCHECKER_URL:			"/oryx/syntaxchecker",
-	VALIDATOR_URL:				"/oryx/bpmnvalidator",
+	VALIDATOR_URL:				"/oryx/validator",
 	AUTO_LAYOUTER_URL:			"/oryx/layouter",
 	SS_EXTENSIONS_FOLDER:		"/oryx/stencilsets/extensions/",
 	SS_EXTENSIONS_CONFIG:		"/oryx/stencilsets/extensions/extensions.json",	
@@ -30,6 +30,7 @@ ORYX.CONFIG = {
 	XFORMS_EXPORT_URL:			"/oryx/xformsexport",
 	XFORMS_IMPORT_URL:			"/oryx/xformsimport",
 	BPEL_EXPORT_URL:			"/oryx/bpelexporter",
+	BPEL4CHOR_EXPORT_URL:		"/oryx/bpel4chorexporter",
 	TREEGRAPH_SUPPORT:			"/oryx/treegraphsupport",
 	XPDL4CHOR2BPEL4CHOR_TRANSFORMATION_URL: "/oryx/xpdl4chor2bpel4chor",
 	
@@ -73,6 +74,7 @@ ORYX.CONFIG = {
 	TYPE_CHOICE:				"choice",
 	TYPE_URL:					"url",
 	TYPE_COMPLEX:				"complex",
+	TYPE_TEXT:					"text",
 	
 	/* Vertical line distance of multiline labels */
 	LABEL_LINE_DISTANCE:		2,
@@ -118,6 +120,8 @@ ORYX.CONFIG = {
 	EVENT_PROPWINDOW_PROP_CHANGED:	"propertyWindow.propertyChanged",
 	EVENT_LAYOUT_ROWS:				"layout.rows",
 	EVENT_LAYOUT_BPEL:				"layout.BPEL",
+	EVENT_LAYOUT_BPEL_VERTICAL:     "layout.BPEL.vertical",
+	EVENT_LAYOUT_BPEL_HORIZONTAL:   "layout.BPEL.horizontal",
 	EVENT_LAYOUT_BPEL_SINGLECHILD:  "layout.BPEL.singlechild",
 	EVENT_LAYOUT_BPEL_AUTORESIZE:	"layout.BPEL.autoresize",
 	EVENT_AUTOLAYOUT_LAYOUT:		"autolayout.layout",

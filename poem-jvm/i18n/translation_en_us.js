@@ -16,6 +16,9 @@ Repository.I18N.Language = "en_us"; //Pattern <ISO language code>_<ISO country c
 
 Repository.I18N.en_us = "English";
 Repository.I18N.de = "Deutsch";
+Repository.I18N.ru = "Русский";
+Repository.I18N.es = "español";
+
 // Repository strings
 
 if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
@@ -104,8 +107,10 @@ Repository.I18N.TagInfo.newTag = "New Tag"
 Repository.I18N.TagInfo.addTag = "Add"
 		
 if(!Repository.I18N.ModelRangeSelection) Repository.I18N.ModelRangeSelection = {};
-Repository.I18N.ModelRangeSelection.previous = "<< Previous Page"
-Repository.I18N.ModelRangeSelection.next = "Next Page >>"
+Repository.I18N.ModelRangeSelection.previous = "« Previous Page"
+Repository.I18N.ModelRangeSelection.next = "Next Page »"
+Repository.I18N.ModelRangeSelection.nextSmall = "»"
+Repository.I18N.ModelRangeSelection.previousSmall = "«"
 Repository.I18N.ModelRangeSelection.last = "Last"
 Repository.I18N.ModelRangeSelection.first = "First"
 Repository.I18N.ModelRangeSelection.modelsOfZero = "(0 models)" 

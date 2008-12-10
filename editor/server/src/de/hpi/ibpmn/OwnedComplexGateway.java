@@ -1,21 +1,21 @@
 package de.hpi.ibpmn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hpi.bpmn.ComplexGateway;
-import de.hpi.bpmn.Pool;
 
 /**
  * @author Gero.Decker
  */
-public class OwnedComplexGateway extends ComplexGateway implements OwnedGateway {
+public class OwnedComplexGateway extends ComplexGateway implements OwnedNode {
 
-	protected Pool owner;
+	protected List<Pool> owners;
 
-	public Pool getDecisionOwner() {
-		return owner;
-	}
-
-	public void setDecisionOwner(Pool owner) {
-		this.owner = owner;
+	public List<Pool> getOwners() {
+		if (owners == null)
+			owners = new ArrayList<Pool>();
+		return owners;
 	}
 
 }
