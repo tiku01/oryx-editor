@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<saml:Assertion MajorVersion="1" MinorVersion="1" AssertionID="SamlSecurityToken-89a834e4-4343-4041-8239-e428150d1279" Issuer="http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self" IssueInstant="2008-12-10T20:50:52.368Z" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
+    <saml:Conditions NotBefore="2008-12-10T20:50:52.368Z" NotOnOrAfter="2008-12-10T21:50:52.368Z">
+        <saml:AudienceRestrictionCondition>
+            <saml:Audience>
+                http://localhost:8080/identity/login.html
+            </saml:Audience>
+        </saml:AudienceRestrictionCondition>
+    </saml:Conditions>
+    <saml:AttributeStatement>
+        <saml:Subject>
+            <saml:SubjectConfirmation>
+                <saml:ConfirmationMethod>
+                    urn:oasis:names:tc:SAML:1.0:cm:bearer
+                </saml:ConfirmationMethod>
+            </saml:SubjectConfirmation>
+        </saml:Subject>
+        <saml:Attribute AttributeName="emailaddress" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+            <saml:AttributeValue>
+                NicoPeters.NP@gmail.com
+            </saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute AttributeName="givenname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+            <saml:AttributeValue>
+                Nicolas
+            </saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute AttributeName="surname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+            <saml:AttributeValue>
+                Peters
+            </saml:AttributeValue>
+        </saml:Attribute>
+    </saml:AttributeStatement>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+            </CanonicalizationMethod>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+            </SignatureMethod>
+            <Reference URI="#SamlSecurityToken-89a834e4-4343-4041-8239-e428150d1279">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
+                    </Transform>
+                    <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                    </Transform>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">
+                </DigestMethod>
+                <DigestValue>
+                    okGW2BB0hTPsXJaeArapo9Z69w8=
+                </DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>
+            CqKayrgvhSjEzxFvu0OondDzakXtRATnrpYXw4yzTaPeVknUtxZZYWamBx290idp/0isOOZWsRi0tg8tNh2z8vR8T0LERDNmSzs15ku44kUwpiiFdIWAgS4kaldDycbSq6UFAPxX8Q0QK8/FGcwzTXx47sgzKXyhYVNFNKLLXtpFBY817Uu40fKTYujIWxnHWVHKQqK+x1lJglQNnClPQO3AZsL1NbNDpuX/xOmFuRVXbizj8CjQz+gKpUbB+Qlth2y16XIjLS7DsX+Q4+7J+gvbF5soOq2HunkGpqSbO2DOD2/4qpZ49EgYnfJjh0pRrjae4gy1keIXsTUHZMLZSg==
+        </SignatureValue>
+        <KeyInfo>
+            <KeyValue>
+                <RSAKeyValue>
+                    <Modulus>
+                        zRi2kSu+UGaPcZ63r1URivJYTb8Etp98vtO4YYsPff0vZrtT/Q49bEC46jFinae6I/sd1ovDGgh1w+EegsCg7SspG1ZIt2kKDysblZZohdUWHztqOzd8catYQF+RiGD5F++GufYqoIcMvma7hdzuL94x4Jn8RwcDOsyUBgNPy1nCeJBED8pbxjWMc0F7x1AXdOCLiBVFEefV8Pk6+t1GAqK8BoqsZxbRn6u/I8dZIyWD44rNboJNREXDGNv2O3DYH8pB1Ugiwa+LTEgNmaoJvBlz2M1rXDgAb7fQSiJLSnrOQTyLpBPdifDBByLQ2M3LERxMBteAP8uN51bXZRHRzQ==
+                    </Modulus>
+                    <Exponent>
+                        AQAB
+                    </Exponent>
+                </RSAKeyValue>
+            </KeyValue>
+        </KeyInfo>
+    </Signature>
+</saml:Assertion>
