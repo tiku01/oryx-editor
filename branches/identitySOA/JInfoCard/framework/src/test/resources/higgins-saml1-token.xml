@@ -1,0 +1,58 @@
+<saml:Assertion AssertionID="urn:uuid:B5B607D5333CCA6ECA122347820666214" IssueInstant="2008-10-08T15:03:26.662Z" Issuer="https://higgins.fokus.fraunhofer.de:18443/TokenService/services/Trust" MajorVersion="1" MinorVersion="1" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
+  <saml:Conditions NotBefore="2008-10-08T15:03:26.662Z" NotOnOrAfter="2008-10-15T15:03:26.662Z" />
+  <saml:AttributeStatement>
+    <saml:Subject>
+      <saml:SubjectConfirmation>
+        <saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:Attribute AttributeName="privatepersonalidentifier" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>EIW5TFJRnS4wRdINhUpHdzsCiFRZ9+sestMoIW0+iHQ=</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="givenname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Christopher</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="surname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Taylor</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="emailaddress" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>christopher.taylor@fokus.fraunhofert.de</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="streetaddress" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Kaiserin-Augusta-Allee 31</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="stateorprovince" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Berlin</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="otherphone" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>+49 30 3463 9225</saml:AttributeValue>
+    </saml:Attribute>
+  </saml:AttributeStatement>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+      <ds:Reference URI="#urn:uuid:B5B607D5333CCA6ECA122347820666214" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:Transforms xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+        <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">9DS2FLXEElbTKZKYMwtx2Pb7J/4=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">n77ELzBIiWD3mtOLxez/o+i90nkcKczl797z7PlNgXZJJ9NZqDp69m4UEJ7edFqkkeTsCRfPMQvIYFdYMuhbk/Rk3m62MqXz/wTACEHljz5VejdQGQs8c8h/PXPoY8hjfxJh27C9JUOJcTRXqAYB9ylLzGcbaficJ5QEHk/8/C0=</ds:SignatureValue>
+    <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:KeyValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:RSAKeyValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:Modulus xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            v4JbzNXjJ6XgeT9VdF4tZ5VSxuJHCX/gXF5SaSPU8TG7p+MF4mAog9klKh1T303pjuEUwsHpUb7D
+            6l16yAgJOR3qNptc8shqBOraHqGmeL/ruTuX4crOm9VAuTDotVZtDjUatc7s2SCmYoho5TVwdg5y
+            s24UtcHHn0jlvSrx5uE=
+          </ds:Modulus>
+          <ds:Exponent xmlns:ds="http://www.w3.org/2000/09/xmldsig#">AQAB</ds:Exponent>
+        </ds:RSAKeyValue>
+      </ds:KeyValue>
+    </ds:KeyInfo>
+  </ds:Signature>
+</saml:Assertion>

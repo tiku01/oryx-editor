@@ -1,0 +1,174 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.fraunhofer.fokus</groupId>
+	<artifactId>jic-framework</artifactId>
+	<name>JInfoCard Framework</name>
+	<version>2.0.0</version>
+	<description>Webapp-independent components</description>
+	<url>http://sourceforge.net/projects/informationcard</url>
+	<inceptionYear>2007</inceptionYear>
+	<!-- 
+	<parent>
+		<artifactId>jic-parent</artifactId>
+		<groupId>de.fraunhofer.fokus</groupId>
+		<version>2.0.0</version>
+	</parent>
+	 -->
+	<issueManagement>
+		<system>Sourceforge</system>
+		<url>https://sourceforge.net/tracker/?group_id=196726</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<id>jayfro</id>
+			<name>Jens Fromm</name>
+			<email>jens.fromm@fokus.fraunhofer.de</email>
+			<organization>Fraunhofer FOKUS</organization>
+			<organizationUrl>http://www.fokus.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>administration</role>
+				<role>contact</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>vijayrvr</id>
+			<name>Vijay Rajagopalan</name>
+			<email>vijayrvr@users.sourceforge.net</email>
+			<url>https://sourceforge.net/users/vijayrvr/</url>
+			<organization>Microsoft</organization>
+			<organizationUrl>http://www.microsoft.com/</organizationUrl>
+			<roles>
+				<role>administration</role>
+				<role>QA</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>skonman</id>
+			<name>Steffen Konegen</name>
+			<email>skonman@users.sourceforge.net</email>
+			<organization>Fraunhofer FOKUS</organization>
+			<organizationUrl>http://www.fokus.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>developer</role>
+				<role>QA</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>pattbergj</id>
+			<name>Jonas Pattberg</name>
+			<email>pattbergj@users.sourceforge.net</email>
+			<organization>Fraunhofer FOKUS</organization>
+			<organizationUrl>http://www.fokus.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>developer</role>
+				<role>QA</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>timrod</id>
+			<name>Christopher Taylor</name>
+			<email>timrod@users.sourceforge.net</email>
+			<organization>Fraunhofer FOKUS</organization>
+			<organizationUrl>http://www.fokus.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>developer</role>
+				<role>documentation</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>kazcor</id>
+			<name>Maximilian Schmidt</name>
+			<roles>
+				<role>inactive</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>tkusber</id>
+			<name>Tomasz Kusber</name>
+			<roles>
+				<role>inactive</role>
+			</roles>
+		</developer>
+	</developers>
+	<scm>
+		<connection>https://informationcard.svn.sourceforge.net/svnroot/informationcard/trunk/framework</connection>
+		<developerConnection>https://informationcard.svn.sourceforge.net/svnroot/informationcard/trunk/framework</developerConnection>
+		<url>http://informationcard.svn.sourceforge.net/viewvc/informationcard/trunk/framework</url>
+	</scm>
+	<organization>
+		<name>Fraunhofer FOKUS</name>
+		<url>http://www.fokus.fraunhofer.de/</url>
+	</organization>
+	<build>
+		<pluginManagement>
+			<plugins></plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>org.opensaml</id>
+			<name>OpenSAML</name>
+			<url>http://shibboleth.internet2.edu/downloads/maven2</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>opensaml</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.5.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-ext-jdk15</artifactId>
+			<version>1.40</version>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies></dependencies>
+	</dependencyManagement>
+</project>
