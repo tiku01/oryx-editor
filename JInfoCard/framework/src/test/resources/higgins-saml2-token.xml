@@ -1,0 +1,49 @@
+<saml:Assertion ID="urn:uuid:B5B607D5333CCA6ECA12234761950269" IssueInstant="2008-10-08T14:29:55.26Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+  <saml:Conditions NotBefore="2008-10-08T14:29:55.26Z" NotOnOrAfter="2008-10-15T14:29:55.26Z" />
+  <saml:AttributeStatement>
+    <saml:Subject>
+      <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:1.0:cm:bearer">
+        <saml:SubjectConfirmationData />
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:Attribute FriendlyName="Private Personal Identifier" Name="privatepersonalidentifier" NameFormat="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>EIW5TFJRnS4wRdINhUpHdzsCiFRZ9+sestMoIW0+iHQ=</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute FriendlyName="First Name" Name="givenname" NameFormat="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Christopher</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute FriendlyName="Last Name" Name="surname" NameFormat="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Taylor</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute FriendlyName="Email Address" Name="emailaddress" NameFormat="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>christopher.taylor@fokus.fraunhofert.de</saml:AttributeValue>
+    </saml:Attribute>
+  </saml:AttributeStatement>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+      <ds:Reference URI="#urn:uuid:B5B607D5333CCA6ECA12234761950269" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:Transforms xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" />
+        <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">SHor3A21BUKJDB7ERQ/FSR4fJtY=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">RovU4x29KUrKeLwJlbgNgYcmnLGbYnqlYs4aUJELb3khfoEv1NPbDlVBS+YWoSW/0XRlHygHyD2i7zv19lyk7RNY8cRsAYcpg9Cjp9sAmB8//A2QTra6l6vz1gxxlZos6AxaiIfRE1t1rySXpgxgJ5fg6qDetwUU8Ny5GYtBoS0=</ds:SignatureValue>
+    <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:KeyValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:RSAKeyValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:Modulus xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            v4JbzNXjJ6XgeT9VdF4tZ5VSxuJHCX/gXF5SaSPU8TG7p+MF4mAog9klKh1T303pjuEUwsHpUb7D
+            6l16yAgJOR3qNptc8shqBOraHqGmeL/ruTuX4crOm9VAuTDotVZtDjUatc7s2SCmYoho5TVwdg5y
+            s24UtcHHn0jlvSrx5uE=
+          </ds:Modulus>
+          <ds:Exponent xmlns:ds="http://www.w3.org/2000/09/xmldsig#">AQAB</ds:Exponent>
+        </ds:RSAKeyValue>
+      </ds:KeyValue>
+    </ds:KeyInfo>
+  </ds:Signature>
+</saml:Assertion>

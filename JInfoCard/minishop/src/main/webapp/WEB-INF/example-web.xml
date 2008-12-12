@@ -1,0 +1,81 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="minishop" version="2.5">
+	<display-name>JInfoCard Sample Web Application</display-name>
+	
+	<!-- Configure the JInfoCard framework Filter -->
+	<filter>
+		<filter-name>JICFilter</filter-name>
+		<filter-class>
+			de.fraunhofer.fokus.jic.filter.JICFilter
+		</filter-class>
+		<init-param>
+			<param-name>request_param_name</param-name>
+			<param-value>xmltoken</param-value>
+		</init-param>
+		<init-param>
+			<param-name>userid_request_attr</param-name>
+			<param-value>userdata</param-value>
+		</init-param>
+		<!-- SSL setup.
+			 When deploying an HTTP-only (noSSL) relying party,
+			 you can omit the following settings. 
+		-->
+		<init-param>
+			<!-- the path should be relative to the WEB-INF/classes directory. -->
+			<param-name>keystore_file</param-name>
+			<param-value>path/to/keystore.p12</param-value>
+		</init-param>
+		<init-param>
+			<param-name>keystore_alias</param-name>
+			<param-value>tomcat</param-value>
+		</init-param>
+		<init-param>
+			<param-name>keystore_pswd</param-name>
+			<param-value>s3cr3t</param-value>
+		</init-param>
+		<init-param>
+			<param-name>private_key_pswd</param-name>
+			<param-value>3v3n_m0r3_s3cr3t</param-value>
+		</init-param>
+		<init-param>
+			<!-- can be PKCS12 or JKS -->
+			<param-name>keystore_type</param-name>
+			<param-value>PKCS12</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- Configure the Sample Webapp authorisation Filter -->
+	<filter>
+		<filter-name>AuthorisationFilter</filter-name>
+		<filter-class>
+			de.fraunhofer.fokus.jic.minishop.AuthorisationFilter
+		</filter-class>
+		<init-param>
+			<param-name>error_page</param-name>
+			<param-value>error.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>userid_request_attr</param-name>
+			<param-value>userdata</param-value>
+		</init-param>
+	</filter>
+
+	<!-- Apply the filters configured above. Order is important! -->
+	<filter-mapping>
+		<filter-name>JICFilter</filter-name>
+		<url-pattern>/shop.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AuthorisationFilter</filter-name>
+		<url-pattern>/shop.jsp</url-pattern>
+	</filter-mapping>
+	
+	<!-- The JSP to show when an exception occurs. -->
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/error.jsp</location>
+	</error-page>
+</web-app>

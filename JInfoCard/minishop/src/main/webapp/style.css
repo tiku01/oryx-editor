@@ -1,0 +1,156 @@
+
+
+.text_body{ 
+margin-left:12px;
+position: relative;
+font-family: Arial, Helvatic, Tahoma;
+font-color:#00000;
+}
+
+
+.on1{ 
+background:url(images/but_over.gif);
+font-family:Arial,Helvetica,sans-serif;
+font-size:12px;
+cursor:pointer;
+height:18px;
+width:112px;
+
+}
+.off1{ 
+background:url(images/but_.gif);
+font-family:Arial,Helvetica,sans-serif;
+font-size:12px;
+font-weight:300;
+height:18px;
+width:112px;
+}
+
+.table{
+border:1pt solid #D4D3D3;
+background-color:efefef;
+
+}
+
+.menue{
+background-color:#C1CF60;
+border:1px solid #000000;
+border-radius: 5px;
+width:100px;
+height:100px;
+position:absolute;  left:5px;
+
+}
+
+.menue_lang{
+background-color:#ffffff;
+border:1px solid #000000;
+border-radius: 5px;
+width:430px;
+height:100;
+position:absolute;  left:110px;
+}
+ .menue_in{
+background-color:#ffffff;
+border:1px solid #000000;
+-moz-border-radius: 5px;
+width:160px;
+height:70;
+margin-left:20px;
+position:absolute;  left:20px;
+}
+ 
+ .menue_in2{
+background-color:#C1CF60;
+border:1px solid #000000;
+-moz-border-radius: 5px;
+width:160px;
+height:70;
+margin-left:20px;
+position:absolute;  left:200px;
+}
+	 
+.blur{
+	background-color: #ccc; /*shadow color*/
+	color: inherit;
+	margin-left: 4px;
+	margin-top: 4px;
+}
+
+.shadow,
+.content{
+	position: relative;
+	bottom: 2px;
+	right: 2px;
+	-moz-border-radius: 5px;
+}
+
+.shadow{
+	background-color: #666; /*shadow color*/
+	color: inherit;
+	-moz-border-radius: 5px;
+}
+
+.content{
+	background-color:EBE3BC;
+	border:1px solid #000000;
+	-moz-border-radius: 5px;
+}
+
+
+.shadow1,
+.content1{
+	position: relative;
+	bottom: 2px;
+	right: 2px;
+	-moz-border-radius: 5px;
+
+}
+
+.shadow1{
+	background-color: #666; /*shadow color*/
+	color: inherit;
+	-moz-border-radius: 5px;
+	margin-right:40px;
+}
+
+.content1{
+	background-color:ffffff;
+border:1px solid #000000;
+-moz-border-radius: 5px;
+
+
+}
+
+
+.text{
+background-color:EBE3BC;
+margin-left:12px;
+position: relative
+}
+
+
+.text2{
+background-color:ffffff;
+margin:15px;
+font-family: Arial, Helvetica, Tahoma, sans-serif;
+font-color:#000000;
+text-align:left;
+}
+
+.table2{
+border:1pt intset #000000;
+background-color:#ffffff;
+font-style:italic;
+font-weight:600;
+}
+.subtext{
+font-family:Arial,Helvetica,sans-serif;
+font-size:10px;
+font-weight:400;
+font-style:italic;
+position:absolute; top:57px; left:5px;
+}
+
+
+
