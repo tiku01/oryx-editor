@@ -57,22 +57,9 @@
             JICFilter
         </filter-name>
         <url-pattern>
-            /poem/new
+            /poem/saml
         </url-pattern>
     </filter-mapping>
-	
-    <error-page>
-        <!--
-        the Servlet or JSP to use if an invalid token is detected
-        by the JInfoCard Framework.
-        -->
-        <exception-type>
-            javax.servlet.ServletException
-        </exception-type>
-        <location>
-            /poem/repository
-        </location>
-    </error-page>
     
     <servlet>
         <display-name>
