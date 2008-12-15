@@ -1,4 +1,5 @@
 #summary Guideline on how to develop a plugin
+#labels Featured
 
 =Introduction=
 
