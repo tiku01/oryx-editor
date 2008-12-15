@@ -1,4 +1,5 @@
 #summary The server architecture in general
+#labels Deprecated
 
 
 http://oryx-editor.googlecode.com/svn/wiki/ServerDoc/ServerArchitecture.png
