@@ -1,5 +1,5 @@
 #summary This page describes the different search terms for quering models.
-#labels Phase-Implementation,Phase-Design
+#labels Phase-Implementation,Phase-Design,Deprecated
 
 = Introduction =
 
