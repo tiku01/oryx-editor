@@ -14,6 +14,7 @@ ORYX.CONFIG = {
 	PLUGINS_ENABLED:			true,
 	PLUGINS_CONFIG:				"plugins.xml",
 	PLUGINS_FOLDER:				"Plugins/",
+	ABSTRACTION:				"/oryx/abstraction",
 	PDF_EXPORT_URL:				"/oryx/pdf",
 	PNML_EXPORT_URL:			"/oryx/pnml",
 	SIMPLE_PNML_EXPORT_URL:		"/oryx/simplepnmlexporter",
