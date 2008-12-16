@@ -139,6 +139,11 @@
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
+		<!-- Abstraction specific plug-ins -->
+		<plugin source="abstraction.js" name="ORYX.Plugins.Abstraction"/>
+		
+		<!--<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>-->
+		
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
 		
 		<!--		

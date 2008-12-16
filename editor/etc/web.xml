@@ -253,6 +253,18 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<display-name>Abstraction</display-name>
+		<servlet-name>Abstraction</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.AbstractionServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Abstraction</servlet-name>
+		<url-pattern>/abstraction</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<display-name>XForms Export</display-name>
 		<servlet-name>XFormsExportServlet</servlet-name>
 		<servlet-class>
