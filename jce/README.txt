@@ -1,3 +1,8 @@
+ATTENTION! Installing this is only necessary, if you want to use
+ single-sign-on via SAML in Oryx!!!
+ 
+
+
    Unlimited Strength Java(TM) Cryptography Extension Policy Files
    for the Java(TM) Platform, Standard Edition Development Kit, v6
 
