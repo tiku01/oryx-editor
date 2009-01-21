@@ -75,6 +75,7 @@ public class AbstractionServlet extends HttpServlet {
 			response.put("fragment", new JSONArray(ids));
 			response.put("entry",info.getEntry());
 			response.put("exit",info.getExit());
+			response.put("type", info.getType().toString());
 		} catch (JSONException e) {}
 		
 		
