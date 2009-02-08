@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Issuer;
 import org.opensaml.saml2.encryption.Decrypter;
 import org.opensaml.security.SAMLSignatureProfileValidator;
 import org.opensaml.xml.ConfigurationException;
@@ -436,6 +437,15 @@ public class FrameworkImpl implements Framework, TokenValidator {
 		DateTime notOnOrAfter = saml1Assertion.getConditions().getNotOnOrAfter();
 		tokenValidator.validateTokenLifetime(notBefore, notOnOrAfter);
 
+		// get issuer as ClaimIdentity
+		String _issuerType = "urn:oasis:names:tc:SAML:2.0:assertion:NameIDType";
+		ClaimIdentity _issuer = new ClaimIdentityImpl();
+		String _is = saml1Assertion.getIssuer();
+		Claim _issuerClaim = new ClaimImpl(null, null, _issuerType, _is);
+		ArrayList<Claim> _issuerList = new ArrayList<Claim>();
+		_issuerList.add(_issuerClaim);
+		_issuer.put(_issuerType, _issuerList);
+		
 		log.debug("building ClaimIdentity.");
 		ClaimIdentity _id = new ClaimIdentityImpl();
 		for (org.opensaml.saml1.core.AttributeStatement _statement : saml1Assertion
@@ -446,7 +456,7 @@ public class FrameworkImpl implements Framework, TokenValidator {
 				String _ns = _attr.getAttributeNamespace();
 				String _type = _ns + "/" + _name;
 
-				_id.put(_type, makeClaimList(_id, null, // FIXME: issuer in ID not yet implemented
+				_id.put(_type, makeClaimList(_id, _issuer,
 						_type, _attr.getAttributeValues()));
 			}
 		}
@@ -486,6 +496,15 @@ public class FrameworkImpl implements Framework, TokenValidator {
 		DateTime notOnOrAfter = saml2Assertion.getConditions().getNotOnOrAfter();
 		tokenValidator.validateTokenLifetime(notBefore, notOnOrAfter);
 		
+		// get issuer as ClaimIdentity
+		String _issuerType = "urn:oasis:names:tc:SAML:2.0:assertion:NameIDType";
+		ClaimIdentity _issuer = new ClaimIdentityImpl();
+		Issuer _is = saml2Assertion.getIssuer();
+		Claim _issuerClaim = new ClaimImpl(null, null, _issuerType, _is.getValue());
+		ArrayList<Claim> _issuerList = new ArrayList<Claim>();
+		_issuerList.add(_issuerClaim);
+		_issuer.put(_issuerType, _issuerList);
+
 		// build the identity.
 		log.debug("building ClaimIdentity.");
 		ClaimIdentity _id = new ClaimIdentityImpl();
@@ -525,7 +544,7 @@ public class FrameworkImpl implements Framework, TokenValidator {
 					_type = _nameFormat + "/" + _name;
 				}
 
-				_id.put(_type, makeClaimList(_id, null, // FIXME: issuer in ID
+				_id.put(_type, makeClaimList(_id, _issuer,
 						// not yet implemented
 						_type, _attr.getAttributeValues()));
 			}
