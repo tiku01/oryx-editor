@@ -187,9 +187,12 @@ offer(pluginData): void
    * _name_: string
      * Name of the feature.
    * _functionality_: function
-     * Callback of the feature. Callback gets following parameters: Generated button (Ext.Button) and, if _toggle=false_, the event (Ext.EventObject), else the next state (boolean).
+     * Callback of the feature. Callback gets following parameters: Generated button (Ext.Button or Ext.menu.Item) and, if _toggle=false_, the event (Ext.EventObject), else the next state (boolean).
    * _group_: string
      * Name of the group the feature belongs to (e. g. used by toolbar).
+   * _dropDownGroupIcon_: string
+     * (default: undefined) If provided, all plugins of the same _group_ and the same _dropDownGroupIcon_ are grouped together into one drop down button. 
+     * Pay attention on setting _index_ property correctly: Per group, the index of the buttons should be counted from left to right, including the items in the drop down list (e.g. if one group should have 2 simple buttons and 1 drop down button with 2 other buttons, the indices should be 1 + 2 for the simple buttons and 3 + 4 for the buttons in the drop down list (so do not restart counting from 1)).
    * _icon_: string
      * URL to an icon for the feature. URL must be absolute or relative to the root folder.
    * _description_: string
@@ -201,7 +204,7 @@ offer(pluginData): void
    * _maxShape_: int
      * Maximum number of shapes that have to be selected so that the feature is available/activated.
    * _toggle_: boolean
-     * (default: false) Creates a toggling button instead of simple one.
+     * (default: false) Creates a toggling button or, if _dropDownGroupIcon_ provided, a check box instead of simple one.
    * _isEnabled_: function
      * Optional callback that activates the feature, if it returns *true*, or deactivates it, if it returns *false*.
 
