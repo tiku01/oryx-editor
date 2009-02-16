@@ -18,10 +18,9 @@ function getPerson(name) {
 }
 }}}
 
-=== Best Practices ===
 JavaScript as a dynamic programming language based on prototypes makes documenting classes and methods more difficult than commenting Java code. Here are some best practices.
 
-==== Documenting namespaces ====
+=== Documenting namespaces ===
 (This must be done if the jsdoc tool throws errors when it doesn't find a namespace)
 
 {{{
@@ -35,7 +34,7 @@ if(!Oryx.Plugins)
 Ext.namespace("ORYX.Plugins");
 }}}
 
-==== Documenting classes and functions constructed with Clazz.extend ====
+=== Documenting classes and functions constructed with Clazz.extend ===
 {{{
 /**
    This is my wonderful class.
