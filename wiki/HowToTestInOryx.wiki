@@ -1,4 +1,5 @@
 #summary This document describes how to run and write tests for oryx
+#labels Phase-Implementation,Phase-QA
 
 = Selenium =
 == Run tests ==
