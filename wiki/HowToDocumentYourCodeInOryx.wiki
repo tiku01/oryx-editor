@@ -1,0 +1,73 @@
+#summary When contributing to Oryx, your code should be well-documented. This document provides some best practices and tools to comment your code.
+#labels Phase-Implementation,Phase-QA
+
+= JavaScript =
+For documenting JavaScript, [http://code.google.com/p/jsdoc-toolkit/ JsDoc Toolkit] is used in Oryx to generate documentation directly from code (like in JavaDoc). [http://code.google.com/p/jsdoc-toolkit/wiki/FAQ#How_this_project_is_related_to_JSDoc Why aren't we using JSDoc?]
+
+== Write Documentation ==
+ * [http://code.google.com/p/jsdoc-toolkit/wiki/TagReference Tag Reference]
+ * [http://code.google.com/p/jsdoc-toolkit/wiki/InlineDocs Inline Documentation (for nicer documentation, advanced)]
+
+Small example:
+{{{
+/**
+    @param {String} name
+    @type Array
+*/
+function getPerson(name) {
+}
+}}}
+
+=== Best Practices ===
+JavaScript as a dynamic programming language based on prototypes makes documenting classes and methods more difficult than commenting Java code. Here are some best practices.
+
+==== Documenting namespaces ====
+(This must be done if the jsdoc tool throws errors when it doesn't find a namespace)
+
+{{{
+/**
+   @namespace Oryx name space for plugins
+   @name ORYX.Plugins
+*/
+if(!Oryx.Plugins)
+  Oryx.Plugins = {}
+// Alternative
+Ext.namespace("ORYX.Plugins");
+}}}
+
+==== Documenting classes and functions constructed with Clazz.extend ====
+{{{
+/**
+   This is my wonderful class.
+   @class ORYX.Plugins.MyPlugin
+   @constructor Creates a new instance
+*/
+ORYX.Plugins.MyPlugin= Clazz.extend({
+    /**
+       This is a function description
+       @methodOf ORYX.Plugins.MyPlugin
+    */
+    myFunction: function(){
+        //do sth.
+    }
+
+    /**
+       This is a private method
+       @methodOf ORYX.Plugins.MyPlugin
+       @private
+    */
+   myPrivateFunction: function(){
+       //do sth. private
+   }
+})
+}}}
+
+== Generate Documentation - Tool Support ==
+ * [http://code.google.com/p/jsdoc-toolkit/downloads/list Tool Download]
+ * [http://code.google.com/p/jsdoc-toolkit/wiki/CommandlineOptions Tool Command Line Options]
+
+{{{
+java -jar <JsDocDir>\jsrun.jar <JsDocDir>\app\run.js "<PathToSourceFile(s)>" -t=<JsDocDir>\templates\jsdoc -d="<OutputPath>"
+}}}
+
+_TODO: Writing ant tasks, generate jsdoc from whole javascript and publish it, intgration into cruise control, ..._
