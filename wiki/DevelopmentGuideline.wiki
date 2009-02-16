@@ -1,7 +1,16 @@
 #summary Development Guideline for Oryx
+#labels Phase-Implementation,Phase-QA
 
- * Write Java code Java 5 compliant!
+= General =
+ * Write [HowToTestInOryx tests]!
+ * Write [HowToDocumentYourCodeInOryx documentation/ comments]!
  * Only use UTF-8 encoding (for source code, client/server communication etc.)!
  * Only use Windows text file line delimiter for all source files!
+
+= Java =
+ * Write Java code Java 5 compliant!
+
+= JavaScript =
+ * Use 4 spaces for indentation! Especially, do not use no tabs!
 
 to be continued!
