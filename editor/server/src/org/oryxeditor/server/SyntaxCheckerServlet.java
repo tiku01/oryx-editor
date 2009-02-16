@@ -62,7 +62,7 @@ public class SyntaxCheckerServlet extends HttpServlet {
 			DocumentBuilder builder;
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes("UTF-8")));
+			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes()));
 			
 			processDocument(document, res.getWriter());
 			

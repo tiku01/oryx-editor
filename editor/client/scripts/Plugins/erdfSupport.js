@@ -84,8 +84,10 @@ ORYX.Plugins.ERDFSupport = Clazz.extend({
 	 */
 	exportERDF: function(){
 		
-		var s 	= this.facade.getERDF();
-		
+		var s 	= DataManager.serializeDOM( this.facade );
+		s		= s.gsub('><div', ">\n<div");		
+		s		= '<?xml version="1.0" encoding="utf-8"?>\n<div class="processdata">\n' + s + "\n</div>"; 
+
 		//this.openXMLWindow( s );
 		this.openDownloadWindow(window.document.title + ".xml", s);
 	},	
@@ -353,7 +355,7 @@ ORYX.Plugins.ERDFSupport = Clazz.extend({
 				
 		// Adds the change event handler to 
 		form.items.items[1].getEl().dom.addEventListener('change',function(evt){
-				var text = evt.target.files[0].getAsText('UTF-8');
+				var text = evt.target.files[0].getAsBinary();
 				form.items.items[2].setValue( text );
 			}, true)
 

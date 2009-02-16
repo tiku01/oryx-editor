@@ -102,17 +102,15 @@ public class BPMNDiagram implements Container {
 		node.setProcess(process);
 		
 		// attention: navigate into both directions!
-		for (Iterator<SequenceFlow> eiter = node.getIncomingSequenceFlows().iterator(); eiter.hasNext(); ) {
+		for (Iterator<Edge> eiter = node.getIncomingEdges().iterator(); eiter.hasNext(); ) {
 			Edge e = eiter.next();
-			if(e.sourceAndTargetContainedInSamePool()){
+			if (e instanceof SequenceFlow)
 				addNode(process, (Node)e.getSource(), allNodes);
-			}
 		}
-		for (Iterator<SequenceFlow> eiter = node.getOutgoingSequenceFlows().iterator(); eiter.hasNext(); ) {
+		for (Iterator<Edge> eiter = node.getOutgoingEdges().iterator(); eiter.hasNext(); ) {
 			Edge e = eiter.next();
-			if(e.sourceAndTargetContainedInSamePool()){
+			if (e instanceof SequenceFlow)
 				addNode(process, (Node)e.getTarget(), allNodes);
-			}
 		}
 		// attention: navigate into both directions!
 		if (node instanceof IntermediateEvent) {

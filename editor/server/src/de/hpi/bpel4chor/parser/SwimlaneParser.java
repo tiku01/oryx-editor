@@ -73,7 +73,7 @@ public class SwimlaneParser {
 				activity.setParentSwimlane(swimlane);
 			} else {
 				this.output.addError("Activity " + 
-						" is located in multiple swimlanes.", activity.getId());
+						activity.getId() + " is located in multiple swimlanes.");
 			}
 		}
 	}
@@ -101,8 +101,8 @@ public class SwimlaneParser {
 				Object object = this.diagram.getObject(processId);
 				if ((object == null) || !(object instanceof Process)) {
 					this.output.addError("The process with the id " +
-							processId + " referenced by the swimlane with the id "+ 
-							" does not exist.", swimlane.getId());
+							processId + " referenced by the swimlane with the id " + 
+							swimlane.getId() + " does not exist.");
 				} else {
 					Process process = (Process)object;
 					swimlane.setProcess(process);
@@ -113,12 +113,12 @@ public class SwimlaneParser {
 		
 		if (swimlane.getName() == null) {
 			this.output.addError("A swimlane element does " +
-					"not have a specified Name.", swimlane.getId());
+					"not have a specified Name.");
 		}
 		
 		if (swimlane.getProcess() == null) {
-			this.output.addError("The swimlane" +
-				" does not have a specified process.", swimlane.getId());
+			this.output.addError("The swimlane element with the id" +
+				swimlane.getId() + " does not have a specified process.");
 		}
 	}
 	

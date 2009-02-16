@@ -2,8 +2,6 @@ package de.hpi.petrinet;
 
 import java.util.List;
 
-import de.hpi.util.Bounds;
-
 /**
  * Copyright (c) 2008 Gero Decker
  * 
@@ -36,8 +34,5 @@ public interface Node {
 	public List<? extends FlowRelationship> getOutgoingFlowRelationships();
 
 	public String toString();
-	
-	public Bounds getBounds();
-	public void setBounds(Bounds bounds);
 
 }

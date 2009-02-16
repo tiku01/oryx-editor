@@ -110,8 +110,6 @@ ORYX.Plugins.XFormsImport = Clazz.extend({
 						
 		var parser	= new DOMParser();			
 		var doc 	=  parser.parseFromString( s ,"text/xml");
-		
-		doc.normalize();
 							
 		if( doc.firstChild.tagName == "parsererror" ){
 
@@ -320,7 +318,7 @@ ORYX.Plugins.XFormsImport = Clazz.extend({
 		    $A(node.childNodes).each( function(node){ 
 				if( node.nodeName.toLowerCase() == "span" && node.getAttribute('class')){
 		            var name 	= node.getAttribute('class').split("-");
-					var value 	= node.firstChild ? node.firstChild.textContent : '';
+					var value 	= node.firstChild ? node.firstChild.nodeValue : '';
 					
 					res.serialize.push({name: name[1], prefix:  name[0], value: value})
 

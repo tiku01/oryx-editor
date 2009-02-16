@@ -28,15 +28,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,15 +44,9 @@ import org.b3mn.poem.Subject;
 import org.b3mn.poem.handler.HandlerBase;
 import org.b3mn.poem.manager.ConfigurationManager;
 
-import org.b3mn.poem.security.AuthenticationTokenException;
-import org.b3mn.poem.security.AuthenticationToken;
-
 
 
 public class User extends BusinessObject {
-	
-	private static final String USER_SESSION_IDENTIFIER = "openid";
-	private static final String USER_AUTHENTIFICATION_TOKENS = "user_auth_tokens";
 	
 	protected Subject subject;
 	
@@ -139,7 +129,6 @@ public class User extends BusinessObject {
 		request.getSession().setAttribute("countrycode", countrycode);
 		response.addCookie(new Cookie("languagecode", languagecode));
 		response.addCookie(new Cookie("countrycode", countrycode));
-		response.addCookie(new Cookie("identifier", this.getOpenId()));
 	}
 	
 	public String getLanguageCode(HttpServletRequest request) {
@@ -294,67 +283,4 @@ public class User extends BusinessObject {
 		}
 		return result;
 	}	
-	
-	@SuppressWarnings("unchecked")
-	public void addAuthentificationAttributes(ServletContext con, HttpServletRequest req, HttpServletResponse res) {
-		addAuthenticationAttributes(con, req, res, null);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void addAuthenticationAttributes(ServletContext con, HttpServletRequest req, HttpServletResponse res, UUID uuid) {
-		
-		String openId = getOpenId();
-		
-		// bind session to authenticated user
-		req.getSession().setAttribute(USER_SESSION_IDENTIFIER, openId);
-		
-		//TODO is it necessary???
-		req.setAttribute("identifier", openId);
-		
-		if(uuid != null) {
-			
-			List<AuthenticationToken> authList = (List<AuthenticationToken>) con.getAttribute(USER_AUTHENTIFICATION_TOKENS);
-			
-			if(authList != null) {
-			
-				System.out.println("adding token " + uuid.toString() + " " + openId);
-				try {
-					authList.add(new AuthenticationToken(uuid.toString(), openId));
-				} catch (AuthenticationTokenException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				con.setAttribute(USER_AUTHENTIFICATION_TOKENS, authList);
-			}
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void removeAuthenticationAttributes(ServletContext con, HttpServletRequest req, HttpServletResponse res) {
-		req.getSession().removeAttribute(USER_SESSION_IDENTIFIER);
-		
-		String openId = this.getOpenId();
-		
-		List<AuthenticationToken> authList = (List<AuthenticationToken>) con.getAttribute(USER_AUTHENTIFICATION_TOKENS);
-
-		if(authList != null) {
-				
-			int index = 0;
-			while(true) {
-				if(index < authList.size()) {
-					AuthenticationToken token = authList.get(index);
-					if(token.getUserUniqueId().equals(openId)) {
-						authList.remove(index);
-					} else {
-						index++;
-					}
-				} else {
-					break;
-				}
-			}
-		}
-		
-		con.setAttribute(USER_AUTHENTIFICATION_TOKENS, authList);
-	}
 }

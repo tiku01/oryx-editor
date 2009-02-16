@@ -13,7 +13,6 @@ ORYX.I18N.Language = "en_us"; //Pattern <ISO language code>_<ISO country code> i
 if(!ORYX.I18N.Oryx) ORYX.I18N.Oryx = {};
 
 ORYX.I18N.Oryx.pleaseWait = "Please wait while Oryx is loading...";
-ORYX.I18N.Oryx.notLoggedOn = "Not logged on";
 
 if(!ORYX.I18N.AddDocker) ORYX.I18N.AddDocker = {};
 
@@ -122,14 +121,6 @@ ORYX.I18N.BPELSupport.progressImp = "Import...";
 ORYX.I18N.BPELSupport.progressExp = "Export...";
 ORYX.I18N.BPELSupport.impFailed = "An error while importing occurs! <br/>Please check error message: <br/><br/>";
 
-if(!ORYX.I18N.BPELLayout) ORYX.I18N.BPELLayout = {};
-
-ORYX.I18N.BPELLayout.group = "BPELLayout";
-ORYX.I18N.BPELLayout.disable = "disable layout";
-ORYX.I18N.BPELLayout.disDesc = "disable auto layout plug-in";
-ORYX.I18N.BPELLayout.enable = "enable layout";
-ORYX.I18N.BPELLayout.enDesc = "enable auto layout plug-in";
-
 if(!ORYX.I18N.BPEL4ChorSupport) ORYX.I18N.BPEL4ChorSupport = {};
 
 ORYX.I18N.BPEL4ChorSupport.group = "BPEL4Chor";
@@ -137,8 +128,6 @@ ORYX.I18N.BPEL4ChorSupport.exp = "Export BPEL4Chor";
 ORYX.I18N.BPEL4ChorSupport.expDesc = "Export diagram to BPEL4Chor";
 ORYX.I18N.BPEL4ChorSupport.imp = "Import BPEL4Chor";
 ORYX.I18N.BPEL4ChorSupport.impDesc = "Import a BPEL4Chor file";
-ORYX.I18N.BPEL4ChorSupport.gen = "BPEL4Chor generator";
-ORYX.I18N.BPEL4ChorSupport.genDesc = "generate values of some BPEL4Chor properties if they are already known(e.g. sender of messageLink)";
 ORYX.I18N.BPEL4ChorSupport.selectFile = "Select a BPEL4Chor file to import";
 ORYX.I18N.BPEL4ChorSupport.file = "file";
 ORYX.I18N.BPEL4ChorSupport.impPanel = "Import BPEL4Chor file";
@@ -168,22 +157,10 @@ ORYX.I18N.Bpel4ChorTransformation.loadingXPDL4ChorExport = "Export to XPDL4Chor"
 ORYX.I18N.Bpel4ChorTransformation.loadingBPEL4ChorExport = "Export to BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.noGen = "The transformation input could not be generated: 1\n2\n";
 
-ORYX.I18N.BPMN2PNConverter = {
-  name: "Convert to Petri net",
-  desc: "Converts BPMN diagrams to Petri nets",
-  group: "Export",
-  error: "Error",
-  errors: {
-    server: "Couldn't import BPNM diagram.",
-    noRights: "Don't you have read permissions on given model?",
-    notSaved: "Model must be saved and reopened for using Petri net exporter!"
-  }
-}
-
 if(!ORYX.I18N.TransformationDownloadDialog) ORYX.I18N.TransformationDownloadDialog = {};
 
 ORYX.I18N.TransformationDownloadDialog.error = "Error";
-ORYX.I18N.TransformationDownloadDialog.noResult = "The transformation service did not return a result.";
+ORYX.I18N.TransformationDownloadDialog.noResult = "The transformation web service did not return a result.";
 ORYX.I18N.TransformationDownloadDialog.errorParsing = "Error During the Parsing of the Diagram.";
 ORYX.I18N.TransformationDownloadDialog.transResult = "Transformation Results";
 ORYX.I18N.TransformationDownloadDialog.showFile = "Show the result file";
@@ -311,7 +288,6 @@ ORYX.I18N.PropertyWindow.clickIcon = "Click Icon";
 ORYX.I18N.PropertyWindow.add = "Add";
 ORYX.I18N.PropertyWindow.rem = "Remove";
 ORYX.I18N.PropertyWindow.complex = "Editor for a Complex Type";
-ORYX.I18N.PropertyWindow.text = "Editor for a Text Type";
 ORYX.I18N.PropertyWindow.ok = "Ok";
 ORYX.I18N.PropertyWindow.cancel = "Cancel";
 ORYX.I18N.PropertyWindow.dateFormat = "m/d/y";
@@ -324,8 +300,8 @@ ORYX.I18N.ShapeMenuPlugin.clickDrag = "Click or drag";
 if(!ORYX.I18N.SimplePnmlexport) ORYX.I18N.SimplePnmlexport = {};
 
 ORYX.I18N.SimplePnmlexport.group = "Export";
-ORYX.I18N.SimplePnmlexport.name = "Export to PNML";
-ORYX.I18N.SimplePnmlexport.desc = "Export to PNML";
+ORYX.I18N.SimplePnmlexport.name = "Simple BPMN to PNML Export";
+ORYX.I18N.SimplePnmlexport.desc = "Export as PNML";
 
 if(!ORYX.I18N.StepThroughPlugin) ORYX.I18N.StepThroughPlugin = {};
 
@@ -335,7 +311,6 @@ ORYX.I18N.StepThroughPlugin.stepThroughDesc = "Step through your BPMN model";
 ORYX.I18N.StepThroughPlugin.undo = "Undo";
 ORYX.I18N.StepThroughPlugin.undoDesc = "Undo one Step";
 ORYX.I18N.StepThroughPlugin.error = "Can't step through this diagram.";
-ORYX.I18N.StepThroughPlugin.executing = "Executing";
 
 if(!ORYX.I18N.SyntaxChecker) ORYX.I18N.SyntaxChecker = {};
 
@@ -352,9 +327,6 @@ ORYX.I18N.Undo.undo = "Undo";
 ORYX.I18N.Undo.undoDesc = "Undo the last action";
 ORYX.I18N.Undo.redo = "Redo";
 ORYX.I18N.Undo.redoDesc = "Redo the last undone action";
-
-if(!ORYX.I18N.Validator) ORYX.I18N.Validator = {};
-ORYX.I18N.Validator.checking = "Checking";
 
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 
@@ -389,34 +361,3 @@ if(!ORYX.I18N.TreeGraphSupport) ORYX.I18N.TreeGraphSupport = {};
 ORYX.I18N.TreeGraphSupport.syntaxCheckName = "Syntax Check";
 ORYX.I18N.TreeGraphSupport.group = "Tree Graph Support";
 ORYX.I18N.TreeGraphSupport.syntaxCheckDesc = "Check the syntax of an tree graph structure";
-
-
-
-/** New Language Properties: 08.12.2008 */
-
-ORYX.I18N.PropertyWindow.title = "Properties";
-
-if(!ORYX.I18N.ShapeRepository) ORYX.I18N.ShapeRepository = {};
-ORYX.I18N.ShapeRepository.title = "Shape Repository";
-
-ORYX.I18N.Save.dialogDesciption = "Please enter a name and a description.";
-ORYX.I18N.Save.dialogLabelTitle = "Title";
-ORYX.I18N.Save.dialogLabelDesc = "Description";
-ORYX.I18N.Save.dialogLabelType = "Type";
-
-ORYX.I18N.Validator.name = "BPMN Validator";
-ORYX.I18N.Validator.description = "Validation for BPMN";
-
-ORYX.I18N.SSExtensionLoader.labelImport = "Import";
-ORYX.I18N.SSExtensionLoader.labelCancel = "Cancel";
-
-Ext.MessageBox.buttonText.yes = "Yes";
-Ext.MessageBox.buttonText.no = "No";
-Ext.MessageBox.buttonText.cancel = "Cancel";
-Ext.MessageBox.buttonText.ok = "OK";
-
-
-/** New Language Properties: 28.01.2009 */
-if(!ORYX.I18N.BPMN2XPDL) ORYX.I18N.BPMN2XPDL = {};
-ORYX.I18N.BPMN2XPDL.group = "Export";
-ORYX.I18N.BPMN2XPDL.xpdlExport = "Export to XPDL";

@@ -55,7 +55,7 @@ ORYX.Plugins.ProcessLink = Clazz.extend({
 		if( option.name !== "oryx-refuri" || !node instanceof ORYX.Core.Node ){ return }
 		
 		
-		if( option.value && option.value.length > 0 && option.value != "undefined"){
+		if(option.value.length > 0){
 			
 			this.show( node, option.value );
 					

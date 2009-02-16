@@ -9,17 +9,6 @@ public abstract class Activity extends Node {
 		None,Standard,Multiinstance
 	}
 
-	public enum TestTime {
-		Before,After
-	}
-
-	public enum MIOrdering {
-		Sequential,Parallel
-	}
-
-	public enum MIFlowCondition {
-		None,One,All,Complex
-	}
 	
 	protected List<IntermediateEvent> attachedEvents;
 	
@@ -27,16 +16,6 @@ public abstract class Activity extends Node {
 	
 	protected String loopCondition = "";
 
-	protected String miCondition = "";
-	
-	protected MIOrdering miOrdering = MIOrdering.Sequential;
-
-	protected TestTime testTime = TestTime.After;
-	
-	protected MIFlowCondition miFlowCondition = MIFlowCondition.All;
-	
-	protected String complexMIFlowCondition = "";
-	
 	public List<IntermediateEvent> getAttachedEvents() {
 		if (attachedEvents == null)
 			attachedEvents = new ArrayList<IntermediateEvent>();
@@ -59,53 +38,6 @@ public abstract class Activity extends Node {
 		this.loopCondition = loopCondition;
 	}
 
-	public TestTime getTestTime() {
-		return testTime;
-	}
-
-	public void setTestTime(TestTime testTime) {
-		this.testTime = testTime;
-	}
-
-	public String getComplexMIFlowCondition() {
-		return complexMIFlowCondition;
-	}
-
-	public void setComplexMIFlowCondition(String complexMIFlowCondition) {
-		this.complexMIFlowCondition = complexMIFlowCondition;
-	}
-
-	public String getMiCondition() {
-		return miCondition;
-	}
-
-	public void setMiCondition(String miCondition) {
-		this.miCondition = miCondition;
-	}
-
-	public MIFlowCondition getMiFlowCondition() {
-		return miFlowCondition;
-	}
-
-	public void setMiFlowCondition(MIFlowCondition miFlowCondition) {
-		this.miFlowCondition = miFlowCondition;
-	}
-
-	public MIOrdering getMiOrdering() {
-		return miOrdering;
-	}
-
-	public void setMiOrdering(MIOrdering miOrdering) {
-		this.miOrdering = miOrdering;
-	}
-	
-	public boolean isMultipleInstance(){
-		return loopType == LoopType.Multiinstance;
-	}
-	public void setMultipleInstance(){
-		loopType = LoopType.Multiinstance;
-	}
-	
 	@Override
 	public Node getCopy() {
 		Activity newnode = (Activity)super.getCopy();

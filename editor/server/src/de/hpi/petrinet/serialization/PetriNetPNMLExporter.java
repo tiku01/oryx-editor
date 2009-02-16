@@ -36,12 +36,7 @@ import de.hpi.petrinet.Transition;
  * SOFTWARE.
  */
 public class PetriNetPNMLExporter {
-	public enum Tool {
-	    YASPER
-	}
 
-	protected Tool targetTool;
-	
 	public void savePetriNet(Document doc, PetriNet net) {
 		ensureUniqueIDs(net);
 		
@@ -71,17 +66,17 @@ public class PetriNetPNMLExporter {
 		
 		for (Transition t: net.getTransitions()) {
 			if (t.getId() == null || ids.contains(t.getId())) {
-				while (ids.contains("t_"+newtcounter))
+				while (ids.contains("t$"+newtcounter))
 					newtcounter++;
-				t.setId("p_"+(newtcounter++));
+				t.setId("p$"+(newtcounter++));
 			}
 			ids.add(t.getId());
 		}
 		for (Place p: net.getPlaces()) {
 			if (p.getId() == null || ids.contains(p.getId())) {
-				while (ids.contains("p_"+newpcounter))
+				while (ids.contains("p$"+newpcounter))
 					newpcounter++;
-				p.setId("p_"+(newpcounter++));
+				p.setId("p$"+(newpcounter++));
 			}
 			ids.add(p.getId());
 		}
@@ -96,12 +91,6 @@ public class PetriNetPNMLExporter {
 		Element pnode = (Element)netnode.appendChild(doc.createElement("place"));
 		pnode.setAttribute("id", place.getId());
 		
-		// If initial marking needed
-		if(net.getInitialMarking().getNumTokens(place) > 0){
-			Node markingNode = pnode.appendChild(doc.createElement("initialMarking"));
-			addContentElement(doc, markingNode, "text", String.valueOf(net.getInitialMarking().getNumTokens(place)));
-		}
-		
 		return pnode;
 	}
 
@@ -110,9 +99,7 @@ public class PetriNetPNMLExporter {
 		tnode.setAttribute("id", transition.getId());
 		if (transition instanceof LabeledTransition) {
 			Node n1node = tnode.appendChild(doc.createElement("name"));
-			if(targetTool != Tool.YASPER){
-				addContentElement(doc, n1node, "value", ((LabeledTransition)transition).getLabel());
-			}
+			addContentElement(doc, n1node, "value", ((LabeledTransition)transition).getLabel());
 			addContentElement(doc, n1node, "text", ((LabeledTransition)transition).getLabel());
 		}
 		return tnode;
@@ -120,31 +107,11 @@ public class PetriNetPNMLExporter {
 
 	protected Element appendFlowRelationship(Document doc, Node netnode, FlowRelationship rel) {
 		Element fnode = (Element)netnode.appendChild(doc.createElement("arc"));
-		fnode.setAttribute("id", "from_"+rel.getSource().getId()+"_to_"+rel.getTarget().getId());
+		fnode.setAttribute("id", "from "+rel.getSource().getId()+" to "+rel.getTarget().getId());
 		fnode.setAttribute("source", rel.getSource().getId());
 		fnode.setAttribute("target", rel.getTarget().getId());
-		
-		if(rel instanceof de.hpi.highpetrinet.HighFlowRelationship){
-			de.hpi.highpetrinet.HighFlowRelationship hRel = (de.hpi.highpetrinet.HighFlowRelationship)rel;
-			
-			if (hRel.getType()==de.hpi.highpetrinet.HighFlowRelationship.ArcType.Read){
-				Node typeNode = fnode.appendChild(doc.createElement("type"));
-				addContentElement(doc, typeNode, "text", "read");
-			} else if (hRel.getType()==de.hpi.highpetrinet.HighFlowRelationship.ArcType.Reset){
-				Node typeNode = fnode.appendChild(doc.createElement("type"));
-				addContentElement(doc, typeNode, "text", "reset");
-			} else if (hRel.getType()==de.hpi.highpetrinet.HighFlowRelationship.ArcType.Inhibitor){
-				Node typeNode = fnode.appendChild(doc.createElement("type"));
-				addContentElement(doc, typeNode, "text", "inhibitor");
-			}
-		}
-		
 		Node insnode = fnode.appendChild(doc.createElement("inscription"));
-		
-		if(targetTool != Tool.YASPER){
-			addContentElement(doc, insnode, "value", "1");
-		}
-		addContentElement(doc, insnode, "text", "1");
+		addContentElement(doc, insnode, "value", "1");
 		
 		return fnode;
 	}
@@ -154,11 +121,4 @@ public class PetriNetPNMLExporter {
 		cnode.appendChild(doc.createTextNode(content));
 	}
 
-	public Tool getTargetTool() {
-		return targetTool;
-	}
-
-	public void setTargetTool(Tool targetTool) {
-		this.targetTool = targetTool;
-	}
 }

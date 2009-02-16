@@ -48,42 +48,14 @@
     	stroke="black" 
     	stroke-width="1" 
     	fill="white" />
-    
-    <g id="documentation"
-	   pointer-events="fill">
-    	
-    	<circle 
-    		cx="84" 
-    		cy="64" 
-    		r="15" 
-    		stroke="black" 
-    		fill="white"
-    		oryx:anchors="bottom right"
-	  	 	stroke-width="1"/>
-    	<rect 
-    		x="76" 
-    		y="56" 
-    		width="16" 
-    		height="16" 
-    		stroke="black" 
-    		stroke-width="1"
-    		oryx:anchors="bottom right"
-    		fill="none" />
-    	<path 
-    		d="	M 78 58 L 90 58
-    			M 78 62 L 90 62
-    			M 78 66 L 90 66
-    			M 78 70 L 90 70" 
-    		fill="none"
-    		oryx:anchors="bottom right"
-    		stroke="black" />
-  	</g>
-  		
-  	<text 
-    	oryx:anchors="top left"
-    	x="30" 
-    	y="20" 
-    	style="font-family:Arial; font-size: 10pt; fill:black;">catchAll</text>
+    <text
+       oryx:rotate="270"
+       id="label"
+	   x="10" 
+	   y="40" 
+	   oryx:align="middle left"
+       style="font-family:Arial; font-size: 8pt; fill:black;"
+       xml:space="preserve"></text>
 	<path
 	   style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
 	   d="M 20,43 
@@ -130,5 +102,10 @@
 	      L 9.789,38.503953 z "
 	      transform="translate(0,-30)"
 	      oryx:anchors="top left"/>
+    <text 
+    	oryx:anchors="top left"
+    	x="35" 
+    	y="20" 
+    	style="font-family:Arial; font-size: 10pt; fill:black;">catchAll</text>
  </g>
 </svg>

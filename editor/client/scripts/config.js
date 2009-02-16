@@ -30,7 +30,6 @@ ORYX.CONFIG = {
 	XFORMS_EXPORT_URL:			"/oryx/xformsexport",
 	XFORMS_IMPORT_URL:			"/oryx/xformsimport",
 	BPEL_EXPORT_URL:			"/oryx/bpelexporter",
-	BPEL4CHOR_EXPORT_URL:		"/oryx/bpel4chorexporter",
 	TREEGRAPH_SUPPORT:			"/oryx/treegraphsupport",
 	XPDL4CHOR2BPEL4CHOR_TRANSFORMATION_URL: "/oryx/xpdl4chor2bpel4chor",
 	
@@ -74,7 +73,6 @@ ORYX.CONFIG = {
 	TYPE_CHOICE:				"choice",
 	TYPE_URL:					"url",
 	TYPE_COMPLEX:				"complex",
-	TYPE_TEXT:					"text",
 	
 	/* Vertical line distance of multiline labels */
 	LABEL_LINE_DISTANCE:		2,
@@ -97,13 +95,11 @@ ORYX.CONFIG = {
 	EVENT_DBLCLICK:				"dblclick",
 	EVENT_KEYDOWN:				"keydown",
 	EVENT_KEYUP:				"keyup",
-
-	EVENT_LOADED:				"editorloaded",
 	
 	EVENT_EXECUTE_COMMANDS:			"executeCommands",
 	EVENT_STENCIL_SET_LOADED:		"stencilSetLoaded",
 	EVENT_SELECTION_CHANGED:		"selectionchanged",
-	EVENT_CANVAS_SHAPEADDED:		"shapeadded",
+	
 	EVENT_PROPERTY_CHANGED:			"propertyChanged",
 	EVENT_DRAGDROP_START:			"dragdrop.start",
 	EVENT_DRAGDROP_END:				"dragdrop.end",
@@ -129,8 +125,6 @@ ORYX.CONFIG = {
 	EVENT_AUTOLAYOUT_LAYOUT:		"autolayout.layout",
 	EVENT_UNDO_EXECUTE:				"undo.execute",
 	EVENT_UNDO_ROLLBACK:			"undo.rollback",
-	
-	EVENT_SHOW_PROPERTYWINDOW:		"propertywindow.show",
 	
 	/* Selection Shapes Highlights */
 	SELECTION_HIGHLIGHT_SIZE:				5,

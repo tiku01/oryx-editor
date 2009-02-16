@@ -90,7 +90,8 @@ public class BasicActivityFactory {
 		if (fromSpec != null) {
 			result.appendChild(fromSpec);
 		} else {
-			this.output.addError("The assign task has a copy without a specified from spec element.", task.getId());
+			this.output.addError("The assign task " + task.getId() + 
+					" has a copy without a specified from spec element.");
 		}
 		
 		Element toSpec = 
@@ -98,7 +99,8 @@ public class BasicActivityFactory {
 		if (toSpec != null) {
 			result.appendChild(toSpec);
 		} else {
-			this.output.addError("The assign task has a copy without a specified to spec element.", task.getId());
+			this.output.addError("The assign task " + task.getId() + 
+					" has a copy without a specified from to element.");
 		}
 		
 		return result;
@@ -173,7 +175,8 @@ public class BasicActivityFactory {
 				if (fromParts != null) {
 					result.appendChild(fromParts);
 				} else {
-					this.output.addError("The message event must define an output variable.", event.getId());
+					this.output.addError("The message event " + event.getId() + 
+							" must define an output variable.");
 				}
 			} 
 		}
@@ -283,7 +286,8 @@ public class BasicActivityFactory {
 		} else if (fromParts != null) {
 			result.appendChild(fromParts);
 		} else {
-			this.output.addError("The receive task must define an output variable.", task.getId());
+			this.output.addError("The receive task " + task.getId() + 
+					" must define an output variable.");
 		}
 		
 		return createScopeForAttachedHandlers(result, task);
@@ -358,7 +362,8 @@ public class BasicActivityFactory {
 		} else if (toParts != null) {
 				invoke.appendChild(toParts);
 		} else {
-			this.output.addError("The service task must define an input variable.", task.getId());
+			this.output.addError("The service task " + task.getId() + 
+					" must define an input variable.");
 		}
 		
 		Element fromParts = 
@@ -371,7 +376,8 @@ public class BasicActivityFactory {
 		} else if (fromParts != null) {
 			invoke.appendChild(fromParts);
 		} else {
-			this.output.addError("The service task must define an output variable.", task.getId());
+			this.output.addError("The service task " + task.getId() + 
+					" must define an output variable.");
 		}
 		
 		Element terminationHandler = 
@@ -470,7 +476,8 @@ public class BasicActivityFactory {
 		} else if (toParts != null) {
 			invoke.appendChild(toParts);
 		} else {
-			this.output.addError("The send task must define an input variable.", task.getId());
+			this.output.addError("The send task " + task.getId() + 
+					" must define an input variable.");
 		}
 		
 		return invoke;
@@ -640,7 +647,8 @@ public class BasicActivityFactory {
 		} else if (toParts != null) {
 			reply.appendChild(toParts);
 		} else {
-			this.output.addError("The send task must define an input variable.", task.getId());
+			this.output.addError("The send task " + task.getId() + 
+				" must define an input variable.");
 		}
 		
 		return createScopeForAttachedHandlers(reply, task);
@@ -672,7 +680,8 @@ public class BasicActivityFactory {
 		
 		List<Copy> copy = task.getCopyElements();
 		if (copy.isEmpty()) {
-			this.output.addError("The assign task must define at least one copy statement.", task.getId());
+			this.output.addError("The assign task " + task.getId() + 
+					" must define at least one copy statement.");
 			return assign;
 		}
 		for (Iterator<Copy> it = copy.iterator(); it.hasNext();) {
@@ -747,7 +756,9 @@ public class BasicActivityFactory {
 						if (act.getAttachedEvents(
 							IntermediateEvent.TRIGGER_COMPENSATION).isEmpty()) {
 							
-							this.output.addError("The task must have an attached compensation event to be compensated.", act.getId());
+							this.output.addError("The task " + act.getId() + 
+									" must have an attached " +
+									"compensation event to be compensated.");
 							return null;
 						}
 						// scope created around task is compensated
@@ -797,7 +808,9 @@ public class BasicActivityFactory {
 				result = this.document.createElement("rethrow");
 				BPELUtil.setStandardAttributes(result, event);
 			} else {
-				this.output.addError("The activity must define an error code, because a rethrow is not allowed in this context.", event.getId());
+				this.output.addError("The activity " + event.getId() + 
+						" must define an error code" +
+						" because a rethrow is not allowed in this context.");
 				return null;
 			}
 		} else if (event.getTrigger() instanceof ResultError) {
@@ -807,7 +820,9 @@ public class BasicActivityFactory {
 					result = this.document.createElement("rethrow");
 					BPELUtil.setStandardAttributes(result, event);
 				} else {
-					this.output.addError("The activity must define an error code because a rethrow is not allowed in this context.", event.getId());
+					this.output.addError("The activity " + event.getId() + 
+							" must define an error code" +
+							" because a rethrow is not allowed in this context.");
 					return null;
 				}
 			} else {
@@ -856,11 +871,14 @@ public class BasicActivityFactory {
 				result.appendChild(this.supportingFactory.createExpressionElement(
 						"for", trigger.getTimeDurationExpression()));
 			} else {
-				this.output.addError("The duration or deadline expression of the wait activity could not be generated.", event.getId());
+				this.output.addError("The duration or deadline " +
+						"expression of the wait activity " + event.getId() + 
+						" coult not be generated.");
 				return null;
 			}
 		} else {
-			this.output.addError("The event must define a timer trigger element.", event.getId());
+			this.output.addError("The event " + event.getId() + 
+					" must define a timer trigger element.");
 			return null;
 		}
 		return result;
@@ -894,7 +912,8 @@ public class BasicActivityFactory {
 		}
 		
 		if (variablesStr.equals("")) {
-			this.output.addError("The variables for this validate task could not be determined.", task.getId() );
+			this.output.addError("The variables for validate task " + 
+					task.getId() + " could not be determined." );
 		} else {
 			result.setAttribute("variables", variablesStr);
 		}

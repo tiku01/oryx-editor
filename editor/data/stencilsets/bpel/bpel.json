@@ -40,7 +40,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"process",
+					"value":"NCName",
 					"description":"",
 					"description_de":"",
 					"tooltip":"",
@@ -58,7 +58,6 @@
 					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
-					"refToView":"documentation",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
@@ -772,7 +771,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"invoke",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -792,7 +791,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -1136,14 +1135,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"receive",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -1156,7 +1155,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -1428,14 +1427,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"reply",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -1448,7 +1447,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -1760,7 +1759,7 @@
 			"roles": ["activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});	
  			},
 			"properties": [
 				{
@@ -1769,7 +1768,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"pick",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -1789,7 +1788,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -1950,7 +1949,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -2166,7 +2165,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"sequence",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2186,7 +2185,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -2312,7 +2311,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"flow",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2332,7 +2331,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -2454,7 +2453,7 @@
 					"type":"String",
 					"title":"Name",
 					"title_de":"Name",
-					"value":"link",
+					"value":"NCName",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2463,11 +2462,11 @@
 					"length":""
 				},
 				{
-					"id":"TC_expressionLanguage",
+					"id":"documentation",
 					"prefix":"oryx",
 					"type":"String",
-					"title":"transCond_expLang",
-					"title_de":"Ausdruckssprache",
+					"title":"documentation",
+					"title_de":"Dokumentation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -2475,15 +2474,30 @@
 					"optional":true,
 					"refToView":"",
 					"length":undefined,
-					"wrapLines":false
-				},				
+					"wrapLines":true
+				},
 				{
 					"id":"transition_expression",
 					"prefix":"oryx",
 					"type":"String",
-					"title":"transCond_boolExp",
+					"title":"expression",
 					"title_de":"Ausdruck",
-					"value":"transionCondition",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"label",
+					"length":undefined,
+					"wrapLines":false
+				},
+				{
+					"id":"TC_expressionLanguage",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"expressionLanguage",
+					"title_de":"Ausdruckssprache",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2496,7 +2510,7 @@
 					"id":"TC_opaque",
 					"prefix":"oryx",
 					"type":"boolean",
-					"title":"transCond_opaque",
+					"title":"opaque",
 					"title_de":"opak",
 					"value":false,
 					"description":"",
@@ -2529,7 +2543,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"if_block",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2549,7 +2563,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -2805,7 +2819,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"while",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2825,7 +2839,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -2993,7 +3007,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"repeatUntil",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3013,7 +3027,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -3181,7 +3195,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"forEach",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3201,7 +3215,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -3335,18 +3349,6 @@
 					"wrapLines":false
 				},
 				{
-					"id":"start_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"start_Opaque",
-					"title_de":"start_opake",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"final_expLang",
 					"prefix":"oryx",
 					"type":"String",
@@ -3377,23 +3379,11 @@
 					"wrapLines":false
 				},
 				{
-					"id":"final_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"final_Opaque",
-					"title_de":"final_opake",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"branches_expLang",
+					"id":"compCond_expLang",
 					"prefix":"oryx",
 					"type":"String",
-					"title":"branches_expLang",
-					"title_de":"branches_expLang",
+					"title":"compCond_expLang",
+					"title_de":"compCond_expLang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -3414,18 +3404,6 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true
-				},
-				{
-					"id":"branches_opaque",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"branches_Opaque",
-					"title_de":"branches_opake",
-					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"branches_intExp",
@@ -3492,7 +3470,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"assign",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3512,7 +3490,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -4271,6 +4249,18 @@
 					"wrapLines":false
 				},
 				{
+					"id":"autoLayout",
+					"prefix":"oryx",
+					"type":"boolean",
+					"title":"auto layout?",
+					"title_de":"automatische Anordnung?",
+					"value":true,
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -4307,7 +4297,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"scope",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -4327,7 +4317,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -4889,7 +4879,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -4948,7 +4938,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -5121,7 +5111,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -5394,7 +5384,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -5436,7 +5426,7 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.compensate.compensateHandler.svg",
 			"icon":"handler.png",
-			"roles": ["singleActivityContainer","handler"],
+			"roles": ["singleActivityContainer", "handler"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
@@ -5453,21 +5443,9 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5512,7 +5490,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -5571,7 +5549,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"",
+					"refToView":"top",
 					"length":undefined,
 					"wrapLines":false
 				},
@@ -5599,7 +5577,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -5688,21 +5666,9 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5737,14 +5703,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"throw",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -5757,7 +5723,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},{
@@ -5895,14 +5861,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"rethrow",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -5915,7 +5881,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6025,14 +5991,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"compensate",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6045,7 +6011,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6155,14 +6121,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"compensateScope",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":false,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6175,7 +6141,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6300,14 +6266,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"empty",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6320,7 +6286,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6430,14 +6396,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"wait",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6450,7 +6416,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6634,14 +6600,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"validate",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6654,7 +6620,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -6779,14 +6745,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"exit",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6799,7 +6765,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},{
@@ -6908,14 +6874,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"opaqueActivity",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"documentation",
@@ -6928,7 +6894,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},
@@ -7038,14 +7004,14 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"extensionActivity",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"label",
 					"length":undefined,
-					"wrapLines":true
+					"wrapLines":false
 				},
 				{
 					"id":"elementName",
@@ -7073,7 +7039,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"documentation",
+					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
 				},

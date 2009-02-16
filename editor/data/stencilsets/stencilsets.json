@@ -8,9 +8,9 @@
             "visible":false
         },
         {
-            "title":"BPMN 1.2",
+            "title":"BPMN 1.1",
             "namespace":"http://b3mn.org/stencilset/bpmn1.1#",
-            "description":"BPMN 1.2 stencil set specification.",
+            "description":"BPMN 1.1 stencil set specification.",
             "uri":"/bpmn1.1/bpmn1.1.json",
             "icon_url":"/bpmn1.1/bpmn1.1.png",
             "visible":true
@@ -54,13 +54,5 @@
             "uri":"/xforms/xforms.json",
             "icon_url":"/xforms/xforms.png",
             "visible":true
-        },
-        {
-            "title":"BPMN-Q",
-            "namespace":"http://b3mn.org/stencilset/bpmnq#",
-            "description":"BPMN-Q querying shapes.",
-            "uri":"/bpmn1.1/bpmn1.1.json",
-            "icon_url":"/bpmn1.1/bpmn1.1.png",
-            "visible":false
         }
 ]

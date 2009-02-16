@@ -1,7 +1,6 @@
 package de.hpi.epc.stepthrough;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 					// Determine, if current newMarking is this marking which leads exactly
 					// to fired control flow in enabledOrSplitArcs
 					boolean isRightMarking = true;
-					for(IControlFlow cf : (Collection<IControlFlow>)epcDiag.getOutgoingControlFlow(node)){
+					for(IControlFlow cf : epcDiag.getOutgoingControlFlow(node)){
 						
 						if(		// If cf has token but shouldn't have one
 								(nodeNewMarking.newMarking.hasToken(cf) && !enabledOrSplitArcs.contains(cf.getId()))
@@ -95,7 +94,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 				}
 			// If Xor Split is enabled, look for if current marking is for given edge
 			} else if (Marking.isXorConnector(node)) {
-				for(IControlFlow edge : (Collection<IControlFlow>)epcDiag.getOutgoingControlFlow(node)){
+				for(IControlFlow edge : epcDiag.getOutgoingControlFlow(node)){
 					if(edge.getId().equals(resourceId) &&
 							nodeNewMarking.newMarking.hasToken(edge)){
 						// edge and not xor split changed
@@ -119,7 +118,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 	
 	// TODO this method only finds flow objects 
 	protected IGObject findNodeById(String resourceId){
-		for(IFlowObject node : (Collection<IFlowObject>)epcDiag.getFlowObjects()){
+		for(IFlowObject node : epcDiag.getFlowObjects()){
 			if(resourceId.equals(node.getId())){
 				return node;
 			}
@@ -174,7 +173,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 			// TODO times executed: node.getTimesExecuted()
 			// if xor split is enabled (otherwise there would be only his controlflows)
 			if(Marking.isXorConnector(object) && Marking.isSplit((IFlowObject)object, epcDiag)){
-				for(IControlFlow edge : (Collection<IControlFlow>)epcDiag.getOutgoingControlFlow((IFlowObject)object)){
+				for(IControlFlow edge : epcDiag.getOutgoingControlFlow((IFlowObject)object)){
 					sb.append(buildChangedObjsString(edge.getId(), 1, true));
 				}
 			} else {
@@ -193,7 +192,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 		// Deactivate outgoing control flow of connectors
 		for(IFlowObject node : changedSplitConnectors.keySet()){
 			sb.append(buildChangedObjsString(node.getId(), 0, false));
-			for(IControlFlow cf : (Collection<IControlFlow>)epcDiag.getOutgoingControlFlow(node)){
+			for(IControlFlow cf : epcDiag.getOutgoingControlFlow(node)){
 				if(!changedSplitConnectors.get(node).contains(cf)){
 					sb.append(buildChangedObjsString(cf.getId(), 0, false));
 				}

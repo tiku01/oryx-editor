@@ -16,77 +16,7 @@
 			"view":"others/node.Bpel.svg",
 			"icon":"diagram.png",
 			"roles": [],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"name",
-					"title_de":"Name",
-					"value":"NCName",
-					"description":"",
-					"description_de":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"label",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"participantType",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"participantType",
-					"title_de":"participantType",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"targetNamespace",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"targetNamespace",
-					"title_de":"Zielnamensraum",
-					"value":"http://bpel.com/process",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"otherxmlns",
-					"prefix":"oryx",
-					"type":"Complex",
-					"title":"other xmlns",
-					"title_de":"andere xml-Namensräume",
-					"value":"",
-					"readonly":false,
-					"optional":true,
-					"complexItems": [
-						{
-							"id":"prefix",
-							"name":"prefix",
-							"type":"String",
-							"value":"",
-							"width":100,
-							"optional":true 
-						},
-						{
-							"id":"namespace",
-							"name":"namespace",
-							"type":"String",
-							"value":"",
-							"width":100,
-							"optional":true 
-						}
-					]
-				}
-			]
+			"properties": []
 		},
 		{
 			"type": "node",
@@ -110,7 +40,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"process",
+					"value":"NCName",
 					"description":"",
 					"description_de":"",
 					"tooltip":"",
@@ -144,6 +74,73 @@
 					"readonly":false,
 					"optional":false
 				},			
+				{
+					"id":"abstractProcessProfile",
+					"type":"Choice",
+					"title":"abstractProcessProfile",
+					"title_de":"abstraktesProzessprofil",
+					"value":"",
+					"description":"observableBehavior - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08; templates - http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"observableBehavior",
+							"title_de":"observableBehavior",
+							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08",
+							"refToView":"observableBehavior"
+						},
+						{
+							"id":"c2",
+							"title":"templates",
+							"title_de":"templates",
+							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
+							"refToView":"templates"
+						},
+						{
+							"id":"c3",
+							"title":"your Definition",
+							"title_de":"your Definition",
+							"value":"please type your definition below",
+							"refToView":""
+						},
+						{
+							"id":"c4",
+							"title":"null",
+							"title_de":"leer",
+							"value":"null",
+							"refToView":""
+						}
+					],
+					"disable":[
+						{
+							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08",
+							"items": [
+								"appURI"
+							]
+						},
+						{
+							"value":"http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08",
+							"items": [
+								"appURI"
+							]
+						}
+					]
+					
+				},
+				{
+					"id":"appURI",
+					"prefix":"oryx",
+					"type":"String",
+					"title":"user's definition of abstractProcessProfile",
+					"title_de":"von Benutzer eingegebene Definition des abstractProcessProfiles",
+					"value":"",
+					"readonly":false,
+					"optional":true
+				},
 				{
 					"id":"queryLanguage",
 					"prefix":"oryx",
@@ -725,18 +722,6 @@
 					]
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -762,7 +747,7 @@
 			"description_de":"Eine Invoke-Aktivität.",
 			"view":"action(ws)/node.action.invoke.svg",
 			"icon":"invoke.png",
-			"roles": ["activity","receiveActivity","sendActivity"],
+			"roles": ["activity", "receiveActivity", "sendActivity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
@@ -774,7 +759,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"invoke",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -1093,18 +1078,6 @@
 					]
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -1138,7 +1111,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"receive",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -1430,7 +1403,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"reply",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -1762,7 +1735,7 @@
 			"roles": ["activity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});	
  			},
 			"properties": [
 				{
@@ -1771,7 +1744,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"pick",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -1898,18 +1871,6 @@
 					]
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -1935,7 +1896,7 @@
 			"groups_de":["Pick"],
 			"view":"pick/node.handler.onMessage.svg",
 			"icon":"onMessage.png",
-			"roles": ["singleActivityContainer","receiveActivity"],
+			"roles": ["singleActivityContainer", "receiveActivity"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
@@ -1947,7 +1908,7 @@
 					"type":"String",
 					"title":"documentation",
 					"title_de":"Dokumentation",
-					"value":"onMessage",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2119,18 +2080,6 @@
 					"length":undefined
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -2168,7 +2117,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"sequence",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2263,18 +2212,6 @@
 							"refToView":"none"
 						}
 					]
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -2314,7 +2251,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"flow",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2411,18 +2348,6 @@
 					]
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -2456,7 +2381,7 @@
 					"type":"String",
 					"title":"Name",
 					"title_de":"Name",
-					"value":"link",
+					"value":"NCName",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2546,7 +2471,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"if",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2641,18 +2566,6 @@
 							"refToView":"none"
 						}
 					]
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -2729,18 +2642,6 @@
 					"optional":false
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -2773,18 +2674,6 @@
  			},
 			"properties": [
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -2810,7 +2699,7 @@
 			"groups_de":["Schleifen"],
 			"view":"loop/loop.while.svg",
 			"icon":"while.png",
-			"roles": ["singleActivityContainer","activity"],
+			"roles": ["activity","singleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
@@ -2822,7 +2711,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"while",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -2961,18 +2850,6 @@
 					"optional":false
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -2998,7 +2875,7 @@
 			"groups_de":["Schleifen"],
 			"view":"loop/loop.repeatUntil.svg",
 			"icon":"repeatUntil.png",
-			"roles": ["singleActivityContainer","activity"],
+			"roles": ["activity","singleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
@@ -3010,7 +2887,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"repeatUntil",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3149,18 +3026,6 @@
 					"optional":false
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -3198,7 +3063,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"forEach",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3424,18 +3289,6 @@
 					"wrapLines":false
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -3473,7 +3326,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"assign",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -3598,18 +3451,6 @@
 							"refToView":"none"
 						}
 					]
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -4276,7 +4117,7 @@
 			"groups":["Process and Scope"],
 			"view":"scope/node.scope.svg",
 			"icon":"scope.png",
-			"roles": ["singleActivityContainer","activity"],
+			"roles": ["activity","singleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
@@ -4288,7 +4129,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"scope",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -4816,18 +4657,6 @@
 					]
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -4873,18 +4702,6 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5042,18 +4859,6 @@
 					"title":"repeat_opaque",
 					"title_de":"opake Wiederholung",
 					"value":false,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -5321,18 +5126,6 @@
 					"length":undefined
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -5380,18 +5173,6 @@
 					"wrapLines":true
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -5417,7 +5198,7 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.compensate.compensateHandler.svg",
 			"icon":"handler.png",
-			"roles": ["singleActivityContainer","handler"],
+			"roles": ["handler", "singleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
@@ -5437,18 +5218,6 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5476,7 +5245,7 @@
 			"groups":["Exception Handling"],
 			"view":"scope/node.handler.terminationHandler.svg",
 			"icon":"handler.png",
-			"roles": ["singleActivityContainer","handler"],
+			"roles": ["handler", "singleActivityContainer"],
 			"layout":function(shape) {		
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
@@ -5496,18 +5265,6 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5547,7 +5304,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"catch",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -5615,18 +5372,6 @@
 					"wrapLines":false
 				},
 				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
-				},
-				{
 					"id":"bgColor",
 					"type":"Color",
 					"title":"BackgroundColor",
@@ -5664,7 +5409,7 @@
 					"type":"String",
 					"title":"documentation",
 					"title_de":"Dokumentation",
-					"value":"catchAll",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -5672,18 +5417,6 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":true
-				},
-				{
-					"id":"autoLayout",
-					"prefix":"oryx",
-					"type":"boolean",
-					"title":"auto layout?",
-					"title_de":"automatische Anordnung?",
-					"value":true,
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false
 				},
 				{
 					"id":"bgColor",
@@ -5718,7 +5451,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"throw",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -5876,7 +5609,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"rethrow",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6006,7 +5739,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"compensate",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6136,7 +5869,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"compensateScope",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6281,7 +6014,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"empty",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6411,7 +6144,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"wait",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6615,7 +6348,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"validate",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6760,7 +6493,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"exit",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -6889,7 +6622,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"opaqueActivity",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -7019,7 +6752,7 @@
 					"type":"String",
 					"title":"name",
 					"title_de":"Name",
-					"value":"extensionActivity",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -7145,163 +6878,6 @@
 				}
 			]
 		},
-// ************************** Participant **************************
-		{
-			"type": "node",
-			"id":"participant",
-			"title":"participant",
-			"description":"A participant reference data object.",
-			"groups":["Artifacts"],
-			"view":"artifact/node.data.participant.ref.svg",
-			"icon":"participant.png",
-			"roles": [],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Name",
-					"value":"participant",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"text",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"type",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Type",
-					"value":"Reference",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"selects",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Selects",
-					"value":"",
-					"description":"A whitespace separated list of participant names.",
-					"readonly":false,
-					"optional":true
-				},
-				{
-					"id":"copyto",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"CopyTo",
-					"value":"",
-					"description":"The name of another reference to copy this reference to.",
-					"readonly":false,
-					"optional":true
-				},
-				{
-					"id":"scope",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Scope",
-					"value":"",
-					"description":"The id of the scope that limits the context of the reference.",
-					"readonly":false,
-					"optional":true
-				},
-				{
-					"id":"forEach",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Scope",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true
-				}
-			]
-		},
-// ************************** Participant Set *****************************
-		{
-			"type": "node",
-			"id":"participantSet",
-			"title":"Participant Set",
-			"description":"A participant set data object.",
-			"groups":["Artifacts"],
-			"view":"artifact/node.data.participant.set.svg",
-			"icon":"participant_set.png",
-			"roles": [],
-			"properties": [
-				{
-					"id":"name",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Name",
-					"value":"set",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"text",
-					"length":undefined,
-					"wrapLines":false
-				},
-				{
-					"id":"type",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Type",
-					"value":"Set",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"copyto",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"CopyTo",
-					"value":"",
-					"description":"The name of another set to copy this set to.",
-					"readonly":false,
-					"optional":true
-				},
-				{
-					"id":"scope",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Scope",
-					"value":"",
-					"description":"The id of the scope that limits the context of the set.",
-					"readonly":false,
-					"optional":true
-				},
-				{
-					"id":"forEach",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"Scope",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true
-				}
-			]
-		},						
-// ******************** Directed Association ******************		
-		{
-			"type": "edge",
-			"id":"directedAssociation",
-			"title":"Association Directed",
-			"description":"A directed association.",
-			"groups":["Artifacts"],
-			"view":"edges/edge.association.directed.svg",
-			"icon":"association.png",
-			"roles": [],
-			"properties": []
-		},
-// ****************** Message Flow	***************************************	
 		{
 			"type": "edge",
 			"id":"messageLink",
@@ -7321,7 +6897,7 @@
 					"type":"String",
 					"title":"Name",
 					"title_de":"Name",
-					"value":"NCName",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -7335,123 +6911,11 @@
 					"type":"String",
 					"title":"messageName",
 					"title_de":"messageName",
-					"value":"NCName",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"sender",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"sender",
-					"title_de":"Sender",
 					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"senders",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"senders",
-					"title_de":"Senders",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"sendActivity",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"sendActivity",
-					"title_de":"Sendactivität",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"sendActivities",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"sendActivities",
-					"title_de":"Sendactivitäten",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"receiver",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"receiver",
-					"title_de":"Empfänger",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"receiveActivity",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"receiveActivity",
-					"title_de":"Empfängactivität",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"receiveActivities",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"receiveActivities",
-					"title_de":"Empfängactivitäten",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"bindSenderTo",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"bindSenderTo",
-					"title_de":"bindSenderTo",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
 					"refToView":"",
 					"length":""
 				},
@@ -7461,48 +6925,6 @@
 					"type":"String",
 					"title":"participantRefs",
 					"title_de":"participantRefs",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"copyParticipantRefsTo",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"copyParticipantRefsTo",
-					"title_de":"copyParticipantRefsTo",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"portType",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"portType",
-					"title_de":"portType",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":""
-				},
-				{
-					"id":"operation",
-					"prefix":"oryx",
-					"type":"String",
-					"title":"operation",
-					"title_de":"Operation",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -7531,27 +6953,6 @@
 					{
 						"from":"sendActivity",
 						"to":["receiveActivity"]
-					}
-				]
-			},
-			{
-				"role":"directedAssociation",
-				"connects": [
-					{
-						"from":"process",
-						"to":"participantSet"
-					},
-					{
-						"from":"participant",
-						"to":"participantSet"
-					},					
-					{
-						"from":"participantSet",
-						"to":"participantSet"
-					},
-					{
-						"from":"process",
-						"to":"participant"
 					}
 				]
 			}
@@ -7603,7 +7004,7 @@
 			// nodes
 			{
 				"role":"worksheet",
-				"contains": ["process", "participant", "participantSet"]
+				"contains": ["process"]
 			},
 			{
 				"role":"process",

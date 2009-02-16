@@ -31,20 +31,19 @@ ORYX.Plugins.Validator = Clazz.extend({
         this.raisedEventIds = [];
         
         this.facade.offer({
-            'name': ORYX.I18N.Validator.name,
+            'name': "BPMN Validator",
             'functionality': this.load.bind(this),
             'group': "Verification",
             'icon': ORYX.PATH + "images/checker_validation.png",
-            'description': ORYX.I18N.Validator.description,
+            'description': "Validate",
             'index': 1,
-            'toggle': true,
             'minShape': 0,
             'maxShape': 0
         });
     },
     
-    load: function(button, pressed){
-        if (!pressed) {
+    load: function(){
+        if (this.active) {
             this.hideOverlays();
             this.active = !this.active;
         }
@@ -106,11 +105,6 @@ ORYX.Plugins.Validator = Clazz.extend({
     },
     
     validate: function(){
-        this.facade.raiseEvent({
-            type: ORYX.CONFIG.EVENT_LOADING_ENABLE,
-            text: ORYX.I18N.Validator.checking
-        });
-      
         // Send the request to the server.
         new Ajax.Request(ORYX.CONFIG.VALIDATOR_URL, {
             method: 'POST',
@@ -124,17 +118,8 @@ ORYX.Plugins.Validator = Clazz.extend({
                 
                 // This should be implemented by child instances of validator 
                 this.handleValidationResponse(result);
-                
-                this.facade.raiseEvent({
-                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
-                });
             }
-.bind(this),
-            onFailure: function(){
-                this.facade.raiseEvent({
-                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
-                });
-            }.bind(this)
+.bind(this)
         });
     },
     
@@ -189,80 +174,37 @@ ORYX.Plugins.BPMNValidator = Ext.extend(ORYX.Plugins.Validator, {
 });
 
 ORYX.Plugins.EPCValidator = Ext.extend(ORYX.Plugins.Validator, {
-  getLabelOfShape: function(node){
-    if(node.properties["oryx-title"] === ""){
-      return node.id;
-    } else {
-      return node.properties["oryx-title"];
-    }
-  },
-  findShapeById: function(id){
-    return this.facade.getCanvas().getChildShapeByResourceId(id);
-  },
-  
     handleValidationResponse: function(result){
-      //TODO use Ext XTemplate
         var isSound = result.isSound;
         var badStartArcs = result.badStartArcs;
-        var badEndArcs = result.badEndArcs;
-        var goodInitialMarkings = result.goodInitialMarkings;
-        var goodFinalMarkings = result.goodFinalMarkings;
-        
-        var message = "";
+        var badEndArcs = result.badStartArcs;
         
         if (isSound) {
-          message += "<p><b>The EPC is sound, no problems found!</b></p>";
+            Ext.Msg.alert("Oryx", "The process is sound, no problems found!");
         } else {
-          message += "<p><b>The EPC is <i>NOT</i> sound!</b></p>";
+            Ext.Msg.alert("Oryx", "The process is not sound!");
+            
+            if (badStartArcs) {
+              badStartArcs.each(function(node){
+                sh = this.facade.getCanvas().getChildShapeByResourceId(node.id);
+                if (sh) {
+                  this.showOverlay(sh, "Some following pathes will never reach a final state!");
+                }
+              }
+.bind(this));
+            }
+            
+            if (badEndArcs) {
+              badEndArcs.each(function(node){
+                sh = this.facade.getCanvas().getChildShapeByResourceId(node.id);
+                if (sh) {
+                  this.showOverlay(sh, "Some following pathes will never reach a final state!");
+                }
+              }
+.bind(this));
+            }
+            
+            this.active = !this.active; //for indicating that there are overlays
         }
-        
-        message += "<hr />";
-        
-        var arrayOfArraysToMessage = function(arrayOfArrays, formatter){
-          var message = "<ul>"
-          arrayOfArrays.each(function(array){
-            message += "<li> - ";
-            array.each(function(element){
-              message += '"' + formatter(element) + '" ';
-            });
-            message += "</li>";
-          });
-          message += "</ul>";
-          return message;
-        }
-        var arrayToMessage = function(array, formatter){
-          var message = "<ul>"
-          array.each(function(element){
-            message += "<li> - " + formatter(element) + "</li>";
-          });
-          message += "</ul>";
-          return message;
-        }
-        
-        message += "<p>There are "+ goodInitialMarkings.length +" initial markings which does not run into a deadlock.</p>";
-        message += arrayOfArraysToMessage(goodInitialMarkings, function(arc){
-          return this.getLabelOfShape(this.findShapeById(arc.id).getIncomingShapes()[0]);
-        }.createDelegate(this));
-        message += "<p>The initial markings do not include "+ badStartArcs.length +" start nodes.</p>";
-        message += arrayToMessage(badStartArcs, function(arc){
-          return this.getLabelOfShape(this.findShapeById(arc.id).getIncomingShapes()[0]);
-        }.createDelegate(this));
-        
-        message += "<hr />";
-        
-        message += "<p>There are "+ goodFinalMarkings.length +" final markings which can be reached from the initial markings.</p>";
-        message += arrayOfArraysToMessage(goodFinalMarkings, function(arc){
-          return this.getLabelOfShape(this.findShapeById(arc.id).getOutgoingShapes()[0]);
-        }.createDelegate(this));
-        message += "<p>The final markings do not include "+ badEndArcs.length +" end nodes.</p>";
-        message += arrayToMessage(badEndArcs, function(arc){
-          return this.getLabelOfShape(this.findShapeById(arc.id).getOutgoingShapes()[0]);
-        }.createDelegate(this))
-        
-        message += "<hr />";
-        
-        message += "<p><i>Remark: Set titles of functions and events to get some nicer output (names instead of ids)</i></p>"
-        
-        Ext.Msg.alert('Validation Result', message);
     }
 });

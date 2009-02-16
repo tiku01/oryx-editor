@@ -15,7 +15,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
-import de.hpi.bpel4chor.transformation.TransformationResult.Type;
 import de.hpi.bpel4chor.transformation.factories.ProcessFactory;
 import de.hpi.bpel4chor.transformation.factories.TopologyFactory;
 import de.hpi.bpel4chor.util.Output;
@@ -23,12 +22,37 @@ import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpel4chor.model.Diagram;
 import de.hpi.bpel4chor.model.Pool;
 import de.hpi.bpel4chor.model.PoolSet;
-import de.hpi.bpel4chor.parser.Parser;
 
 /**
  * This class transforms the parsed diagram to BPEL4Chor.
  */
 public class Transformation {
+	
+	/**
+	 * Serializes a DOM document to String.
+	 * 
+	 * @param document The document to serialize.
+	 * @param output   The Output to print errors to.
+	 * 
+	 * @return The serialized document as string.
+	 */
+	private String domToString(Document document, Output output) {
+		Source source = new DOMSource(document);
+		try {
+			TransformerFactory factory = TransformerFactory.newInstance();
+			Transformer transformer = factory.newTransformer();
+			transformer.setOutputProperty(OutputKeys. INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "1");
+			
+			StringWriter sw=new StringWriter();
+            StreamResult resultStream = new StreamResult(sw);
+            transformer.transform(source, resultStream);
+            return sw.toString();
+		} catch (TransformerException e) {
+			output.addError(e);
+		}
+		return output.getErrors();
+	}
 	
 	/**
 	 * Transforms the diagram to BPEL4Chor.
@@ -42,79 +66,43 @@ public class Transformation {
 	 * string contains either the error message or the result
 	 * The first element of the list is the topology, subsequent elements are BPEL processes
 	 */
-	private List<TransformationResult> transform(Diagram diagram) {
+	public List<TransformationResult> transform(Diagram diagram) {
 		List<TransformationResult> result = new ArrayList<TransformationResult>();
 		
 		if (diagram == null) {
-			result.add(new TransformationResult(Type.DIAGRAM, new Output("No diagram found.")));
+			result.add(new TransformationResult(false,"Now diagram found."));
 		} else {
-			Output topOutput = new Output();
+			TransformationErrors topOutput = new TransformationErrors();
 			Document topology = new TopologyFactory(diagram, topOutput).transformTopology();
-			if (topOutput.isEmpty()) {
-				result.add(new TransformationResult(Type.TOPOLOGY, topology));
-			} else {
-				result.add(new TransformationResult(Type.TOPOLOGY, topOutput));				
-			}
 			
 			ProcessFactory factory = new ProcessFactory(diagram);
+			if (topOutput.isEmpty()) {
+				result.add(new TransformationResult(true, domToString(topology, topOutput)));
+			} else {
+				result.add(new TransformationResult(false, topOutput.getErrors()));				
+			}
+			
 			for (Iterator<Pool> it = diagram.getPools().iterator(); it.hasNext();) {
-				Output processOutput = new Output();
+				TransformationErrors processOutput = new TransformationErrors();
 				Document process = factory.transformProcess(it.next(), processOutput);
 				if (processOutput.isEmpty()) {
-					result.add(new TransformationResult(Type.PROCESS, process));
+					result.add(new TransformationResult(true, domToString(process, processOutput)));
 				} else {
-					result.add(new TransformationResult(Type.PROCESS, processOutput, process));				
+					result.add(new TransformationResult(false, processOutput.getErrors()));				
 				}
 			}
 			
 			for (Iterator<PoolSet> it = diagram.getPoolSets().iterator(); it.hasNext();) {
-				Output processOutput = new Output();
+				TransformationErrors processOutput = new TransformationErrors();
 				Document process = factory.transformProcess(it.next(), processOutput);
 				if (processOutput.isEmpty()) {
-					result.add(new TransformationResult(Type.PROCESS, process));
+					result.add(new TransformationResult(true, domToString(process, processOutput)));
 				} else {
-					result.add(new TransformationResult(Type.PROCESS, processOutput, process));				
+					result.add(new TransformationResult(false, processOutput.getErrors()));				
 				}
 			}
 		}
 		
 		return result;
 	}	
-
-	/**
-	 * Implementation of the service operation transform.
-	 * 
-	 * First the given string will be parsed. 
-	 * Then it will be transformed to BPEL4Chor.
-	 * 
-	 * The result is an array that either holds the topology (first String in array)
-	 * and each processes as string or it holds the error information that were generated 
-	 * during the parsing or transformation. Errors are combined as string and they are 
-	 * located as first element of the array.
-	 * 
-	 * @param diagramStr the diagram as XPDL4Chor serialized to a string
-	 * @param validate if true, the diagram will be validated against the XPDL4Chor schema 
-	 * before the parsing starts
-	 * 
-	 * @return the topology (first element) and processes serialized as strings or
-	 * error messages (first element)
-	 */
-	public List<TransformationResult> transform(String diagramStr, boolean validate) {
-		System.out.println("Start parsing");
-		Output parserOutput = new Output();
-		Diagram diagram = Parser.parse(diagramStr, validate, parserOutput);
-		System.out.println("Finished parsing");
-		
-		List<TransformationResult> result;
-		if (parserOutput.isEmpty()) {
-			System.out.println("Start Transformation");
-			result = transform(diagram);
-			System.out.println("Finished Transformation");
-			return result;
-		} else {
-			result = new ArrayList<TransformationResult>();
-			result.add(new TransformationResult(Type.DIAGRAM, parserOutput));
-			return result;
-		}
-	}
 }

@@ -33,7 +33,43 @@ ORYX.Plugins.TransformationDownloadDialog = {
 	},
 	
 	
+	/**
+	 * Analyzes the result of the servlet call.
+	 * 
+	 * If an fault occured or the answer is undefined, the error is shown
+	 * using a message dialog.
+	 * 
+	 * If the first result starts with "ParserError" the error is shown using an 
+	 * error dialog. Otherwise the result is shown using the result dialog.
+	 * 
+	 * @param {Object} result - the result of the transformation servlet (JSON)
+	 */
+	displayResult: function(result) {
+		this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_DISABLE});
 
+		var resultString = '(' + result + ')';
+		var resultObject;
+		
+		try {
+			resultObject = eval(resultString);
+		} catch (e1) {
+			alert("Error during evaluation of result: " + e1 + "\r\n" + resultString);
+		}
+		
+		if ((!resultObject.res) || (resultObject.res.length == 0)) {
+			this.openMessageDialog(ORYX.I18N.Bpel4ChorTransformation.error,ORYX.I18N.Bpel4ChorTransformation.noResult);
+		} else if (resultObject.res[0].content.indexOf("Parser Error")>0) {
+			this.openErrorDialog(resultObject.res[0].content);
+		} else {
+			var topology = resultObject.res[0].content;
+			var processes = new Array();
+			for (var i = 1; i < resultObject.res.length; i++) {
+				processes[i-1] = resultObject.res[i].content;
+			}
+			var data = this.buildTransData(topology, processes);
+			this.openResultDialog(data);
+		}
+	},
 	
 	/**
 	 * Opens a message dialog with the given title that shows
@@ -83,7 +119,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		// Basic Dialog
 		var text = new Ext.form.TextArea({
 			id:'error-field',
-			fieldLabel: ORYX.I18N.TransformationDownloadDialog.error,
+			fieldLabel: ORYX.I18N.Bpel4ChorTransformation.error,
 			name: 'desc',
 			height: 405,
 			width: 633,
@@ -94,7 +130,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		
 		var dialog = new Ext.Window({ 
 			autoCreate: true, 
-			title: ORYX.I18N.TransformationDownloadDialog.errorParsing, 
+			title: ORYX.I18N.Bpel4ChorTransformation.errorParsing, 
 			modal:true,
 			height: 450,
 			width: 650,
@@ -123,14 +159,10 @@ ORYX.Plugins.TransformationDownloadDialog = {
 	 * The dialog shows a list containing the resulting XML files.
 	 * Each file can be shown in a new window or downloaded.
      *
-	 * @param {Object} data The data to be shown in the dialog
-	 * Format: array with three elements: 
-	 *   * file - the file
-	 *   * result - the content of file, may also be an error message.
-	 *   * info - status of the result: "success" or "error"
+	 * @param {Object} data The data to be shown in the dialgo
 	 */
 	openResultDialog: function(data) {
-
+		
 		var ds = new Ext.data.Store({
 	        proxy: new Ext.data.MemoryProxy(data),
 	        reader: new Ext.data.ArrayReader({}, [
@@ -168,7 +200,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		
 		var dialog = new Ext.Window({ 
 			autoCreate: true, 
-			title: ORYX.I18N.TransformationDownloadDialog.transResult, 
+			title: ORYX.I18N.Bpel4ChorTransformation.transResult, 
 			autoHeight: true, 
 			width: 297, 
 			modal:true,
@@ -191,7 +223,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		toolbar.add({
 			icon: 'images/view.png', // icons can also be specified inline
 	        cls: 'x-btn-icon',
-    	    tooltip: ORYX.I18N.TransformationDownloadDialog.showFile,
+    	    tooltip: ORYX.I18N.Bpel4ChorTransformation.showFile,
 			handler: function() {
 				var ds = grid.getStore();
 				var selection = grid.getSelectionModel().getSelected();
@@ -209,7 +241,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		toolbar.add({
 			icon: 'images/disk.png', // icons can also be specified inline
 	        cls: 'x-btn-icon',
-    	    tooltip: ORYX.I18N.TransformationDownloadDialog.downloadFile,
+    	    tooltip: ORYX.I18N.Bpel4ChorTransformation.downloadFile,
 			handler: function() {
 				var ds = grid.getStore();
 				var selection = grid.getSelectionModel().getSelected();
@@ -222,7 +254,7 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		toolbar.add({
 			icon: 'images/disk_multi.png', // icons can also be specified inline
 	        cls: 'x-btn-icon',
-    	    tooltip: ORYX.I18N.TransformationDownloadDialog.downloadAll,
+    	    tooltip: ORYX.I18N.Bpel4ChorTransformation.downloadAll,
 			handler: function() {
 				var ds = grid.getStore();				
 				this.openDownloadWindow(ds.getRange(0, ds.getCount()), true);
@@ -365,6 +397,33 @@ ORYX.Plugins.TransformationDownloadDialog = {
 		var doc		= parser.parseFromString(process,"text/xml");
 		var name 	= doc.documentElement.getAttribute("name");
 		return name;
+	},
+	
+	
+	/**
+	 * Builds up the data that will be shown in the result dialog of
+	 * the BPEL4Chor transformation.
+	 * For this purpose the process names are determined and
+	 * it is checked if the topology and process were generated
+	 * successfully.
+	 * 
+	 * @param {String} topology    The generated topology 
+	 * @param {String[]} processes The generated processes
+	 */
+	buildTransData: function(topology, processes) {
+		var data = [
+		    ["topology", topology, this.getResultInfo(topology)]
+		];
+		
+		for (var i = 0; i < processes.length; i++) {
+			var name = this.getProcessName(processes[i]);
+			if (name == undefined) {
+				name = "Process " + (i+1);
+			}
+			data[i+1] = [name, processes[i], this.getResultInfo(processes[i])];
+		}	
+		
+		return data;
 	}
 }
 

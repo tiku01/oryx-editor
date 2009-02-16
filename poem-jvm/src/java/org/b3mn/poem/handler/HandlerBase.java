@@ -228,15 +228,9 @@ public abstract class HandlerBase {
     	return files;
     }
     
-
-    protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode) {
-    	
-    	return getOryxModel(title, content, languageCode, countryCode, "");
-    }
     
     protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode, String headExtentions) {
+    		String languageCode, String countryCode) {
     	
     	String oryx_path = "/oryx/";
     	String languageFiles = "";
@@ -253,7 +247,6 @@ public abstract class HandlerBase {
     	}
     	
       	return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-      	    + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
       	  	+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
       	  	+ "xmlns:b3mn=\"http://b3mn.org/2007/b3mn\"\n"
       	  	+ "xmlns:ext=\"http://b3mn.org/2007/ext\"\n"
@@ -278,8 +271,6 @@ public abstract class HandlerBase {
       	  	+ "<script src=\"" + oryx_path + "i18n/translation_en_us.js\" type=\"text/javascript\" />\n"      	  	
       	  	+ languageFiles
       	  	+ "<script src=\"" + oryx_path + "oryx.js\" type=\"text/javascript\" />\n"
-      	 
-      	  	+ headExtentions
       	  	
       	  	+ "<link rel=\"Stylesheet\" media=\"screen\" href=\"" + oryx_path + "css/theme_norm.css\" type=\"text/css\" />\n"
 

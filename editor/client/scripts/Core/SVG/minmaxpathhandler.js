@@ -30,11 +30,7 @@ if(!ORYX.Core.SVG) {ORYX.Core.SVG = {};}
 
 
 /**
- * MinMaxPathHandler
- * 
- * Determine the minimum and maximum of a SVG path's absolute coordinates.
- * For relative coordinates the absolute value is computed for consideration.
- * The values are stored in attributes minX, minY, maxX, and maxY.
+ * PathHandler
  * 
  * @constructor
  */
@@ -53,7 +49,7 @@ ORYX.Core.SVG.MinMaxPathHandler = Clazz.extend({
 	},
 
 	/**
-	 * Store minimal and maximal coordinates of passed points to attributes minX, maxX, minY, maxY
+	 * calculateMinMax
 	 * 
 	 * @param {Array} points Array of absolutePoints
 	 */

@@ -65,25 +65,24 @@ Repository.Core.Repository = {
 			this._selectedModels = new Array();
 			this._displayedModels = new Array();
 			
-			this._filters = this.isPublicUser() ? new Hash() : new Hash({access:'owner,read,write'});
+			this._filters = this.isPublicUser() ? new Hash() : new Hash({access:'owner'});
 
-			this._currentSort = this.isPublicUser() ? "rating" : "lastChange";
+			this._currentSort = null;
 			this._currentSortDirection = null;
 			// UI
 			this._controls = new Object();
 			
 			this._plugins = [];
 			this._views = new Hash();
-			this._currentView = "";				
-			
+			this._currentView = "";
+									
 			this._bootstrapUI();
 					
 			// Loads all required plugins which 
 			// are specified in the plugins.xml
 			this._loadPlugins();
 			
-			// Apply Filter and Refresh
-			this.setSort( this._currentSort , Repository.Config.SORT_DESC);
+			this.setSort('lastChange', Repository.Config.SORT_DESC);
 			
 			
  		},

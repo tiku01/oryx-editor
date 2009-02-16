@@ -114,15 +114,15 @@ public class StructuredElementsFactory {
 			String prefix = value.substring(0, value.indexOf(':'));
 			if (value.indexOf(':') < 0) {
 				this.output.addError("There is a prefix missing for the " +
-						"variable type value "+ value + 
-						" of this fault variable ", faultVar.getId());
+						"variable type value " + value + 
+						" of the fault variable " + faultVar.getId());
 				return null;
 			}
 			Import imp = event.getParentSwimlane().getImportForPrefix(prefix);
 			if (imp == null) {
 				this.output.addError(
 						"There is an import element missing for the prefix " 
-						+ prefix + " of this fault variable ", faultVar.getId());
+						+ prefix + " of the fault variable " + faultVar.getId());
 				return null;
 			}
 			
@@ -134,8 +134,8 @@ public class StructuredElementsFactory {
 				result.setAttribute("faultElement", value);
 			} else {
 				this.output.addError(
-						"The type of the fault variable defined in this handler " +
-						 "cannot be determined.", handler.getId());
+						"The type of the fault variable defined in handler " + 
+						handler.getId() + " can not be determined.");
 				return null;
 			}
 		}
@@ -213,8 +213,8 @@ public class StructuredElementsFactory {
 			Handler errorHandler = event.getConnectedHandler(); 
 			
 			if (errorHandler == null) {
-				this.output.addError("The error event " +
-					"is not connected with an error handler.", event.getId());
+				this.output.addError("The error event " + event.getId() + 
+					" is not connected with an error handler.");
 				continue;
 			}
 			
@@ -234,7 +234,7 @@ public class StructuredElementsFactory {
 			} else {
 				this.output.addError(
 					"There is more than one error event without a specified" +
-					" error name attached to this activity ", activity.getId());
+					" error name attached to the activity " + activity.getId());
 			}
 		}
 		
@@ -292,8 +292,8 @@ public class StructuredElementsFactory {
 			activity.getAttachedEvents(IntermediateEvent.TRIGGER_TERMINATION);
 		
 		if (attachedTermEvents.size() > 1) {
-			this.output.addError("The activity " +
-				"is not allowed to have more than one termination event attached. ", activity.getId());
+			this.output.addError("The activity " + activity.getId() +
+				" is not allowed to have more than one termination event attached. ");
 			return null;
 		} 
 		
@@ -302,8 +302,8 @@ public class StructuredElementsFactory {
 			Handler termHandler = event.getConnectedHandler();
 			
 			if (termHandler == null) {
-				this.output.addError("A termination handler attached the event " +
-						"could not be found.", event.getId());
+				this.output.addError("A termination handler attached the event " + 
+						event.getId() + " could not be found.");
 				return null;
 			}
 			
@@ -346,17 +346,16 @@ public class StructuredElementsFactory {
 			activity.getAttachedEvents(IntermediateEvent.TRIGGER_COMPENSATION);
 		if (attachedCompEvents.size() > 1) {
 			this.output.addError(
-				"The activity is not allowed to " +
-				"have more than one compensation event attached.",
-				activity.getId());
+				"The activity " + activity.getId() + " is not allowed to " +
+				"have more than one compensation event attached.");
 		} 
 		if (!attachedCompEvents.isEmpty()) {
 			IntermediateEvent event = attachedCompEvents.get(0);
 			Handler compHandler = 
 				this.diagram.getAssociatedCompensationHandler(event);
 			if (compHandler == null) {
-				this.output.addError("A compensation handler attached to this event " +
-						"could not be found.", event.getId());
+				this.output.addError("A compensation handler attached the event " + 
+						event.getId() + " could not be found.");
 				return null;
 			}
 			
@@ -466,14 +465,14 @@ public class StructuredElementsFactory {
 			String prefix = value.substring(0, value.indexOf(':'));
 			if (value.indexOf(':') < 0) {
 				this.output.addError(
-					"There is a prefix missing for the variable type value " +
-					value + "of this message variable", messageVar.getId());
+					"There is a prefix missing for the variable type value " + 
+					value + " of the message variable " + messageVar.getId());
 			}
 			Import imp = handler.getParentSwimlane().getImportForPrefix(prefix);
 			if (imp == null) {
 				this.output.addError(
-					"There is an import element missing for the prefix " +
-					prefix + "of this message variable", messageVar.getId());
+					"There is an import element missing for the prefix " + 
+					prefix + " of the message variable " + messageVar.getId());
 			}
 			if (messageVar.getVariableType().equals(
 					VariableDataObject.VARIABLE_TYPE_MESSAGE)) {	
@@ -483,8 +482,8 @@ public class StructuredElementsFactory {
 				result.setAttribute("element", value);
 			} else {
 				this.output.addError(
-					"The type of the message variable defined here " +
-					"cannot be determined.", handler.getId());
+					"The type of the message variable defined in handler " + 
+					handler.getId() + " can not be determined.");
 			}
 		}
 	}
@@ -505,7 +504,7 @@ public class StructuredElementsFactory {
 			result.appendChild(scopeElement);
 		} else {
 			this.output.addError("The content of the event handler " +
-					"could not be generated properly.", handler.getId());
+					handler.getId() + " could not be generated properly.");
 		}
 	}
 	
@@ -819,7 +818,8 @@ public class StructuredElementsFactory {
 			this.diagram.getCounterVariable(loopingActivity);
 		if ((counter == null) && 
 				(this.diagram.getLoopCounterSet(loopingActivity) == null )) {
-			this.output.addError("Loop counter is missing.", loopingActivity.getId());
+			this.output.addError("Loop counter for " + 
+					loopingActivity.getId() + " is missing.");
 		} else {
 			appendLoopCounterAttrEl(counter, loop, result);
 		}
@@ -876,8 +876,8 @@ public class StructuredElementsFactory {
 			result.appendChild(this.supportingFactory.createExpressionElement(
 				"condition", loopingActivity.getLoop().getLoopCondition()));
 		} else {
-			this.output.addError("The loop " +
-					"must define a loop condition.", loopingActivity.getId());
+			this.output.addError("The loop " + loopingActivity.getId() +
+					" must define a loop condition.");
 		}
 		
 		BPELUtil.setStandardAttributes(result, loopingActivity);
@@ -893,8 +893,8 @@ public class StructuredElementsFactory {
 				result.appendChild(sequenceFlow);
 			}
 		} else {
-			this.output.addError("Content of looping activity " +
-				"could not be generated.", loopingActivity.getId());
+			this.output.addError("Content of looping activity " + 
+				loopingActivity.getId() + " could not be generated.");
 		}
 		
 		return result;
@@ -930,16 +930,16 @@ public class StructuredElementsFactory {
 				result.appendChild(sequenceFlow);
 			}
 		} else {
-			this.output.addError("Content of looping activity " +
-					"could not be generated.", loopingActivity.getId());
+			this.output.addError("Content of looping activity " + 
+					loopingActivity.getId() + " could not be generated.");
 		}
 		
 		if (loopingActivity.getLoop().getLoopCondition() != null) {
 			result.appendChild(this.supportingFactory.createExpressionElement(
 				"condition", loopingActivity.getLoop().getLoopCondition()));
 		} else {
-			this.output.addError("The loop " +
-					"must define a loop condition.", loopingActivity.getId());
+			this.output.addError("The loop " + loopingActivity.getId() +
+					" must define a loop condition.");
 		}
 		
 		return result;
@@ -1123,14 +1123,14 @@ public class StructuredElementsFactory {
 						"for", trigger.getTimeDurationExpression()));
 			} else {
 				this.output.addError("The duration or deadline " +
-						"expression of the wait activity "+  
-						" coult not be generated.", event.getId() );
+						"expression of the wait activity " + event.getId() + 
+						" coult not be generated.");
 			}
 		} else {
 			// event must define trigger to identify which expression
 			// should be used (deadline or duration)
-			this.output.addError("The event " +
-					"must define a timer trigger element.", event.getId());
+			this.output.addError("The event " + event.getId() + 
+					" must define a timer trigger element.");
 		}
 		
 		if (content != null) {

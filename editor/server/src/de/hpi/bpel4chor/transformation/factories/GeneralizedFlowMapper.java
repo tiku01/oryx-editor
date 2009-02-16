@@ -398,19 +398,21 @@ public class GeneralizedFlowMapper {
 	 */
 	private FoldedTask finishFlow(List<Link> links) {
 		if (this.component.getActivities().size() != 1) {
-			this.output.addError("A generalized flow pattern could not be mapped correctly.", this.component.getId());
+			this.output.addError(
+				"A generalized flow pattern could not be mapped correctly.");
 			return null;
 		}
 		
 		Activity act = this.component.getActivities().get(0);
 		if (!(act instanceof FoldedTask)) {
-			this.output.addError("A generalized flow pattern could not be mapped correctly.", this.component.getId());
+			this.output.addError(
+				"A generalized flow pattern could not be mapped correctly.");
 			return null;
 		}
 		
 		Element element = ((FoldedTask)act).getBPELElement();
 		if (element == null) {
-			this.output.addError("An Activity could not be mapped correctly, since the BPELElement is null", act.getId());
+			this.output.addError("An Activity could not be mapped correctly.");
 			return null;
 		}
 		Element linksElement = 
@@ -486,7 +488,8 @@ public class GeneralizedFlowMapper {
 						succ.addTargetFor(trans, this.output);
 					}
 				} else {
-					this.output.addError("The generalized flow component was not generated correctly.", this.component.getId());
+					this.output.addError("The generalized flow component " +
+							"was not generated correctly.");
 					break;
 				}
 			} else {
@@ -507,13 +510,13 @@ public class GeneralizedFlowMapper {
 	public FoldedTask mapGeneralizedFlow() {		
 		Transition toTask = this.component.getEntry();
 		if (toTask == null) {
-			this.output.addError("A component could not be folded.", this.component.getId());
+			this.output.addError("A component could not be folded.");
 			return null;
 		}
 		
 		Transition fromTask = this.component.getExit();
 		if (fromTask == null) {
-			this.output.addError("A component could not be folded.", this.component.getId());
+			this.output.addError("A component could not be folded.");
 			return null;
 		}
 		

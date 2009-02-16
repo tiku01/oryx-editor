@@ -26,10 +26,6 @@ if(!ORYX.Plugins)
 
 ORYX.Plugins.BPELLayouting = Clazz.extend({
 
-	facade: undefined,
-	
-	isEnabled : undefined,
-	
 	/**
 	 *	Constructor
 	 *	@param {Object} Facade: The Facade of the Editor
@@ -37,32 +33,6 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 	construct: function(facade) {
 		this.facade = facade;
 		
-		this.isEnabled = true;
-		
-		this.facade.offer({
-			'name':ORYX.I18N.BPELSupport.enable,
-			'functionality': this.enableBpelLayout.bind(this),
-			'group': ORYX.I18N.BPELLayout.group,
-			'icon': ORYX.PATH + "images/bpel_layout_enable.png",
-			'description': ORYX.I18N.BPELLayout.enDesc,
-			'index': 0,
-			'minShape': 0,
-			'maxShape': 0,
-			'isEnabled': function(){ return !(this.isEnabled)}.bind(this)
-		});
-		
-		this.facade.offer({
-			'name':ORYX.I18N.BPELSupport.disable,
-			'functionality': this.disableBpelLayout.bind(this),
-			'group': ORYX.I18N.BPELLayout.group,
-			'icon': ORYX.PATH + "images/bpel_layout_disable.png",
-			'description': ORYX.I18N.BPELLayout.disDesc,
-			'index': 1,
-			'minShape': 0,
-			'maxShape': 0,
-			'isEnabled': function(){ return this.isEnabled}.bind(this)
-		});
-	
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LAYOUT_BPEL, this.handleLayoutEvent.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL, this.handleLayoutVerticalEvent.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL, this.handleLayoutHorizontalEvent.bind(this));
@@ -70,139 +40,25 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LAYOUT_BPEL_AUTORESIZE, this.handleAutoResizeLayoutEvent.bind(this));
 	},
 	
-	/**************************** plug-in control ****************************/
-	
-	disableBpelLayout : function(){
-		
-		this.isEnabled = false;
-	},
-	
-	enableBpelLayout : function(){
-		
-		this.isEnabled = true;
-		
-		this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_ENABLE,text: 'Auto Layouting...'});
-		
-		//adjust all immediate child nodes(grand-children are adjusted recursively)
-		nodes = this.facade.getCanvas().getChildNodes();
-		for (var i = 0; i < nodes.size(); i++) {
-			node = nodes[i];
-			if (node.getStencil().id() == node.getStencil().namespace() + "process"){
-				this._adjust_node(node);
-			}
-		}
-		
-		this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_DISABLE});
-	},
-	
-	_adjust_node : function (node){
-		
-		// handle children first
-		// that means, the innermost children should be at first arranged,
-		var nodes = node.getChildNodes();
-		for (var i = 0; i < nodes.size(); i++) {
-			this._adjust_node(nodes[i]);
-		};
-		
-		// handle the current node
-		this._handleLayoutEventAdapter (node);
-		//alert (node.getStencil().id());
-		
-	},
-	
-	_handleLayoutEventAdapter : function(node){
-		
-		if (node.getStencil().id() == node.getStencil().namespace() + "process"
-	 		|| node.getStencil().id() == node.getStencil().namespace() + "invoke" 
-	    	|| node.getStencil().id() == node.getStencil().namespace() + "scope"){
-	    		
-			this._handleLayoutEvent (node);
-			
-		} else if (node.getStencil().id() == node.getStencil().namespace() + "assign"
-			|| node.getStencil().id() == node.getStencil().namespace() + "eventHandlers"
-			|| node.getStencil().id() == node.getStencil().namespace() + "faultHandlers"
-			|| node.getStencil().id() == node.getStencil().namespace() + "compensationHandler"
-			|| node.getStencil().id() == node.getStencil().namespace() + "terminationHandler"){
-			
-			this._handleLayoutVerticalEvent (node);
-			
-		} else if  (node.getStencil().id() == node.getStencil().namespace() + "if"
-			|| node.getStencil().id() == node.getStencil().namespace() + "sequence"
-			|| node.getStencil().id() == node.getStencil().namespace() + "pick"){
-			
-			this._handleLayoutHorizontalEvent (node);
-			
-		} else if (node.getStencil().id() == node.getStencil().namespace() + "onMessage"
-			|| node.getStencil().id() == node.getStencil().namespace() + "if_branch"
-			|| node.getStencil().id() == node.getStencil().namespace() + "else_branch"
-			|| node.getStencil().id() == node.getStencil().namespace() + "while"
-			|| node.getStencil().id() == node.getStencil().namespace() + "repeatUntil"
-			|| node.getStencil().id() == node.getStencil().namespace() + "forEach"
-			|| node.getStencil().id() == node.getStencil().namespace() + "onAlarm"
-			|| node.getStencil().id() == node.getStencil().namespace() + "onEvent"
-			|| node.getStencil().id() == node.getStencil().namespace() + "catch"
-			|| node.getStencil().id() == node.getStencil().namespace() + "catchAll"){
-			
-			this._handleSingleChildLayoutEvent (node);
-			
-		} else if (node.getStencil().id() == node.getStencil().namespace() + "flow"){
-			
-			this._handleAutoResizeLayoutEvent (node);
-		} else {
-			// other shapes cann't contein any children shapes.
-			return;
-		}
-	
-	},
-	
-	
-	/***************************** Event Handler *****************************/
-	
-	handleLayoutEvent: function(event) {
-		this._handleLayoutEvent (event.shape);
-	},
-	
-	handleLayoutVerticalEvent: function(event) {
-		this._handleLayoutVerticalEvent (event.shape);
-	},
-	
-	handleLayoutHorizontalEvent: function(event) {
-		this._handleLayoutHorizontalEvent (event.shape);
-	},
-	
-	handleSingleChildLayoutEvent: function(event) {
-		this._handleSingleChildLayoutEvent (event.shape);
-	},
-	
-	handleAutoResizeLayoutEvent: function(event) {
-		this._handleAutoResizeLayoutEvent (event.shape);
-	},
-	
-		
-	/************************* Auto Layout Processes ****************************/
+	/**************************** Layout ****************************/
 	
 	/**
 	 *  realize special BPEL layouting:
 	 *  main activity: placed left,
 	 *  Handler: placed right.
 	 */
-	_handleLayoutEvent: function(shape) {
+	handleLayoutEvent: function(event) {
 		
-		if (this.isEnabled == false) {
-			return;
-		}
-		
-     	var elements = shape.getChildShapes(false);
+     	var elements = event.shape.getChildShapes(false);
      	
      	// if Autolayout is not required, do nothing.
-		if (!this._requiredAutoLayout (shape)){
+		if (!this.requiredAutoLayout (event.shape)){
      		return;
      	};
      	
 		// If there are no elements
 		if(!elements || elements.length == 0) {
-			this._resetBounds(shape);
-			this._update(shape);
+			this.resetBounds(event);
 			return;
 		};
 		
@@ -241,7 +97,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			// move some certain elements to the last child position
 			// if it "true" returns, that means, the arrangement of elements
 			// is changed, we should sort all elements again
-			if (this._moveSomeElementToLastPosition(otherElements)){
+			if (this.moveSomeElementToLastPosition(otherElements)){
 				// Sort again
 				otherElements = otherElements.sortBy(function(element){
 					return element.bounds.upperLeft().y;
@@ -284,7 +140,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			nextUpperBound = eventHandlers.bounds.lowerRight().y + 10;
 			
 			// record maximal width
-			width = this._getRightestBoundOfAllChildren(eventHandlers)+ 30;
+			width = this.getRightestBoundOfAllChildren(eventHandlers)+ 30;
 			if (width > maxWidth){
 				maxWidth = width;
 			}
@@ -295,7 +151,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			nextUpperBound = faultHandlers.bounds.lowerRight().y + 10;
 			
 			// record maximal width
-			width = this._getRightestBoundOfAllChildren(faultHandlers)+ 30;
+			width = this.getRightestBoundOfAllChildren(faultHandlers)+ 30;
 			if (width > maxWidth){
 				maxWidth = width;
 			}
@@ -306,7 +162,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			nextUpperBound = compensationHandler.bounds.lowerRight().y + 10;
 			
 			// record maximal width
-			width = this._getRightestBoundOfAllChildren(compensationHandler)+ 30;
+			width = this.getRightestBoundOfAllChildren(compensationHandler)+ 30;
 			if (width > maxWidth){
 				maxWidth = width;
 			}
@@ -317,7 +173,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			terminationHandler.bounds.moveTo(nextLeftBound, nextUpperBound);
 			
 			// record maximal width
-			width = this._getRightestBoundOfAllChildren(terminationHandler)+ 30;
+			width = this.getRightestBoundOfAllChildren(terminationHandler)+ 30;
 			if (width > maxWidth){
 				maxWidth = width;
 			}
@@ -334,7 +190,6 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 					ul = eventHandlers.bounds.upperLeft();
 					lr = eventHandlers.bounds.lowerRight();
 					eventHandlers.bounds.set(ul.x, ul.y, ul.x + maxWidth, lr.y);
-					//eventHandlers._changed();
 				}
 			}
 
@@ -344,7 +199,6 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 					ul = faultHandlers.bounds.upperLeft();
 					lr = faultHandlers.bounds.lowerRight();
 					faultHandlers.bounds.set(ul.x, ul.y, ul.x + maxWidth, lr.y);
-					//faultHandlers._changed();
 				}
 			}
 
@@ -354,7 +208,6 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 					ul = compensationHandler.bounds.upperLeft();
 					lr = compensationHandler.bounds.lowerRight();
 					compensationHandler.bounds.set(ul.x, ul.y, ul.x + maxWidth, lr.y);
-					//compensationHandler._changed();
 				}
 			}
 			
@@ -364,20 +217,17 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 					ul = terminationHandler.bounds.upperLeft();
 					lr = terminationHandler.bounds.lowerRight();
 					terminationHandler.bounds.set(ul.x, ul.y, ul.x + maxWidth, lr.y);
-					//terminationHandler._changed();
 				}
 			}
 		}
 		
-		this._autoResizeLayout(shape);
-		
-		this._update(shape);
+		this.autoResizeLayout(event);
 		
 		return;
 		
 	},
 	
-	_getRightestBoundOfAllChildren : function(shape){
+	getRightestBoundOfAllChildren : function(shape){
 		var elements = shape.getChildShapes(false);
      	
 		// If there are no elements
@@ -394,22 +244,18 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		return elements.last().bounds.lowerRight().x;
 	},
 	
-	_handleLayoutVerticalEvent: function(shape) {
-		
-		if (this.isEnabled == false) {
-			return;
-		}
-		
-		var elements = shape.getChildShapes(false);
+	handleLayoutVerticalEvent: function(event) {
+	
+		var elements = event.shape.getChildShapes(false);
 		
 		// if Autolayout is not required, do nothing.
-		if (!this._requiredAutoLayout (shape)){
+		if (!this.requiredAutoLayout (event.shape)){
      		return;
      	};
 		
 		// If there are no elements
 		if(!elements || elements.length == 0) {
-			this._resetBounds(shape);
+			this.resetBounds(event);
 			return;
 		};
 		
@@ -422,7 +268,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		// move some certain elements to the last child position
 		// if it "true" returns, that means, the arrangement of elements
 		// is changed, we should sort all elements again
-		if (this._moveSomeElementToLastPosition(elements)){
+		if (this.moveSomeElementToLastPosition(elements)){
 			// Sort again
 			elements = elements.sortBy(function(element){
 				return element.bounds.upperLeft().y;
@@ -444,27 +290,23 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			}
 		});
 		
-		this._autoResizeLayout(shape);
+		this.autoResizeLayout(event);
 	
 		return;
 	},
 	
-	_handleLayoutHorizontalEvent: function(shape) {
+	handleLayoutHorizontalEvent: function(event) {
 
-		if (this.isEnabled == false) {
-			return;
-		}
-		
-		var elements = shape.getChildShapes(false);
+		var elements = event.shape.getChildShapes(false);
 		
 		// if Autolayout is not required, do nothing.
-		if (!this._requiredAutoLayout (shape)){
+		if (!this.requiredAutoLayout (event.shape)){
      		return;
      	};
 		
 		// If there are no elements
 		if(!elements || elements.length == 0) {
-			this._resetBounds(shape);
+			this.resetBounds(event);
 			return;
 		};
 					
@@ -477,7 +319,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		// move some certain elements to the last child position
 		// if it "true" returns, that means, the arrangement of elements
 		// is changed, we should sort all elements again
-		if (this._moveSomeElementToLastPosition(elements)){
+		if (this.moveSomeElementToLastPosition(elements)){
 			// Sort again
 			elements = elements.sortBy(function(element){
 				return element.bounds.upperLeft().x;
@@ -500,51 +342,49 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			}
 		});
 		
-		this._autoResizeLayout(shape);
+		this.autoResizeLayout(event);
 			
 		return;
 	},
 	
 	
 	
-	_handleSingleChildLayoutEvent: function(shape) {
+	handleSingleChildLayoutEvent: function(event) {
      	
-		if (this.isEnabled == false) {
-			return;
-		}
-		
-		var elements = shape.getChildShapes(false);
+		var elements = event.shape.getChildShapes(false);
 		
 		// if Autolayout is not required, do nothing.
-		if (!this._requiredAutoLayout (shape)){
+		if (!this.requiredAutoLayout (event.shape)){
      		return;
      	};
 		
 		// If there are no elements
 		if(!elements || elements.length == 0) {
-			this._resetBounds(shape);
+			this.resetBounds(event);
 			return;
 		};
 		
 		elements.first().bounds.moveTo(30, 30);
 		
-		this._autoResizeLayout(shape);
+		this.autoResizeLayout(event);
 		
 		return;
 	},
 	
-	_handleAutoResizeLayoutEvent: function(shape) {
+	handleAutoResizeLayoutEvent: function(event) {
 		
-		if (this.isEnabled == false) {
-			return;
-		};
-		
-		var elements = shape.getChildShapes(false);
+		var elements = event.shape.getChildShapes(false);
 		
 		// if Autolayout is not required, do nothing.
-		if (!this._requiredAutoLayout (shape)){
+		if (!this.requiredAutoLayout (event.shape)){
      		return;
      	};
+		
+		// If there are no elements
+		if(!elements || elements.length == 0) {
+			this.resetBounds(event);
+			return;
+		};
 		
 		elements.each(function(element){
 		
@@ -560,15 +400,15 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 			}
 		});
 		
-		this._autoResizeLayout(shape);
+		this.autoResizeLayout(event);
 	},
 	
 	/**
 	 * Resizes the shape to the bounds of the child shapes 
 	 */
-	_autoResizeLayout: function(shape) {
+	autoResizeLayout: function(event) {
 		
-		var elements = shape.getChildShapes(false);
+		var elements = event.shape.getChildShapes(false);
 		
 		if (elements.length > 0) {
 
@@ -584,73 +424,33 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		    
 			var lowerBound = elements.last().bounds.lowerRight().y;
 			
-			var ul = shape.bounds.upperLeft();
-			var lr = shape.bounds.lowerRight();
+			var ul = event.shape.bounds.upperLeft();
 			
-			//handle "flow" specially.
-			if (shape.getStencil().id() ==shape.getStencil().namespace() + "flow"){
-			 	
-			 	if (lr.x < ul.x + rightBound + 30){
-			 		shape.bounds.set(ul.x, ul.y, ul.x + rightBound + 30, lr.y);
-			 		lr.x = ul.x + rightBound + 30;
-			 		//shape._changed();
-			 	};
-			 	
-			 	if (lr.y < ul.y + lowerBound + 30){
-			 		shape.bounds.set(ul.x, ul.y, lr.x, ul.y + lowerBound + 30);
-			 		//shape._changed();
-			 	};			 	
-			 } else {
-			 	if (lr.x != ul.x + rightBound + 30 || lr.y != ul.y + lowerBound + 30){
-			 		shape.bounds.set(ul.x, ul.y, ul.x + rightBound + 30, ul.y + lowerBound + 30);
-			 		//shape._changed();
-			 	};
-			 };
+			event.shape.bounds.set(ul.x, ul.y, ul.x + rightBound + 30, ul.y + lowerBound + 30);
 		};
 		
 		return;
 	},
 	
-	_resetBounds: function (shape) {
-
-		// all the shapes without children will be reseted
-		var ul = shape.bounds.upperLeft();
-		var lr = shape.bounds.lowerRight();
+	resetBounds: function (event) {
+		/*var shape = event.shape;
 		
 		if (shape.getStencil().id() == shape.getStencil().namespace() + "process"){
-			if (shape.getStencil().namespace() == "http://b3mn.org/stencilset/bpel#"){
-				if (lr.x != ul.x + 600 || lr.y != ul.y + 500){
-					shape.bounds.set(ul.x, ul.y, ul.x + 600, ul.y + 500);
-					//shape._changed();
-				};
-			} else if (shape.getStencil().namespace() == "http://b3mn.org/stencilset/bpel4chor#"){
-				if (lr.x != ul.x + 690 || lr.y != ul.y + 200){
-					shape.bounds.set(ul.x, ul.y, ul.x + 690, ul.y + 200);
-					//shape._changed();
-				};
-			} else {
-				return;
-			}
-		} else if (shape.getStencil().id() == shape.getStencil().namespace() + "flow"){
-			if (lr.x != ul.x + 290 || lr.y != ul.y + 250){
-				shape.bounds.set(ul.x, ul.y, ul.x + 290, ul.y + 250);
-				//shape._changed();
-			};
-		} else if (this._isHandlers(shape)){
-			if (lr.x != ul.x + 160 || lr.y != ul.y + 80){
-				shape.bounds.set(ul.x, ul.y, ul.x + 160, ul.y + 80);
-				//shape._changed();
-			};
+	  		return;
+	  	};
+	  	
+		var ul = shape.bounds.upperLeft();
+		
+		if (this.isHandlers(shape)){
+			shape.bounds.set(ul.x, ul.y, ul.x + 160, ul.y + 80);
 		} else {
-			if (lr.x != ul.x + 100 || lr.y != ul.y + 80){
-				shape.bounds.set(ul.x, ul.y, ul.x + 100, ul.y + 80);
-				//shape._changed();
-			};	
-		};
-
+			shape.bounds.set(ul.x, ul.y, ul.x + 100, ul.y + 80);	
+		};*/
+		
+		return;
 	},
 	
-	_isHandlers: function (shape) {
+	isHandlers: function (shape) {
 	  	if (shape.getStencil().id() == shape.getStencil().namespace() + "eventHandlers"){
 	  		return true;
 	  	};
@@ -670,20 +470,17 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 	  	return false;
 	},
 	
-	_requiredAutoLayout: function(shape) {
+	requiredAutoLayout: function(shape) {
+		/*var autolayout = shape.getStencil().property("oryx-autolayout").value();
+				
+		alert (shape.getStencil().id());
+		alert (autolayout);
 		
-		var key = "oryx-autolayout";
-		var autolayout = shape.properties[key];
-		
-		if (autolayout == null){
-			return true;
+		if (!autolayout || autolayout == "false"){
+			return false;
 		};
-		
-		if (autolayout){
-			return true;
-		};
-		
-		return false;
+		*/
+		return true;
 	},
 	
 	/**
@@ -697,7 +494,7 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 	 *           "lastChild" after the current last one. 
 	 * @return   if the arrangement of elements is changed.
 	 */
-	_moveSomeElementToLastPosition: function (elements){
+	moveSomeElementToLastPosition: function (elements){
 		var lastChild = elements.find(function(node) {
 			 	return (Array.indexOf(node.getStencil().roles(), node.getStencil().namespace() + "lastChild")>= 0);
 			});	
@@ -713,17 +510,5 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		lastChild.bounds.moveTo(ulOfCurrentLastChild.x + 1, ulOfCurrentLastChild.y + 1);
 		
 		return true;
-	},
-	
-	_update : function(shape){
-		// update the canvas only wenn the current node "process" is, with this we can
-		// make sure that, each time just once update after all the nodes are arranged
-		// and we must check, whether the node "process" changed is, if not, don't update,
-		// otherwise, an endless loop may occur, wenn there are more than three nesting level 
-		// in a shape.
-		if (shape.getStencil().id() == shape.getStencil().namespace() + "process"
-		&& shape.isChanged){
-			this.facade.getCanvas().update();
-		}
 	}
 });

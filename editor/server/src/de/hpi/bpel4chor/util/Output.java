@@ -1,96 +1,46 @@
 package de.hpi.bpel4chor.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.w3c.dom.Node;
-
-import de.hpi.bpel4chor.util.Output;
-
 /**
- * Simple class to store errors that occurred during the transformation.  
- * The errors are combined in a string and separated with new lines.
+ * Simple singleton class to store errors that occured during the parsing of
+ * transformation. The errors are combined in a string and separated with new
+ * lines.
  */
-public class Output {
-
-	private ArrayList<OutputElement> errors = new ArrayList<OutputElement>();
-
-	/**
-	 * Shortcut to create a new instance containing one error message
-	 * 
-	 * @param errorMsg the error message to add
-	 */
-	public Output(String errorMsg) {
-		addGeneralError(errorMsg);
-	}
-
-	public Output() {
-	}
-
+public interface Output {
+	
 	/**
 	 * Appends a string to the output.
 	 * 
-	 * @param msg the message
-	 * @param id the id of the element
+	 * @param newOutput the string to add
 	 */
-	public void addError(String msg, String id) {
-		this.errors.add(new OutputElement(msg, id));
-	}
-	
-	/**
-	 * Add a parse error resulting from direct XML representation
-	 * @param msg
-	 * @param node
-	 */
-	public void addParseError(String msg, Node node) {
-		this.errors.add(new OutputElement(msg, node));
-	}
-	
-	public void addGeneralError(String msg) {
-		this.errors.add(new OutputElement(msg));
-	}
+	public abstract void addError(String newOutput);
 	
 	/**
 	 * Adds the stack trace of the exception to the output.
 	 * 
 	 * @param e The exception
 	 */
-	public void addError(Exception e) {
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw));
-		this.errors.add(new OutputElement(sw.toString()));
-	}
+	public abstract void addError(Exception e);
 	
 	/**
 	 * Adds the stack trace of the error to the output.
 	 * 
 	 * @param e The error
 	 */
-	public void addError(Error e) {
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw));
-		this.errors.add(new OutputElement(sw.toString()));
-	}
+	public abstract void addError(Error e);
 	
 	/**
-	 * Clears the stored data
+	 * Clears the output. After the call of this method, 
+	 * the Output holds an empty string.
 	 */
-	public void clear() {
-		this.errors.clear();
-	}
+	public abstract void clear();	
+	/**
+	 * @return     The current Output as String.
+	 */
+	public abstract String getErrors();
 	
 	/**
-	 * @return     	Returns true, if no error was reported, 
-	 * 				false otherwise
+	 * @return True if there was no error added to the output before,
+	 * false otherwise. 
 	 */
-	public boolean isEmpty() {
-		return this.errors.isEmpty();
-	}
-	
-	public Iterator<OutputElement> iterator() {
-		return errors.iterator();
-	}
-
+	public abstract boolean isEmpty();
 }

@@ -13,7 +13,6 @@ ORYX.I18N.Language = "de_DE"; //Pattern <ISO language code>_<ISO country code> i
 if(!ORYX.I18N.Oryx) ORYX.I18N.Oryx = {};
 
 ORYX.I18N.Oryx.pleaseWait = "Oryx wird geladen. Bitte warten...";
-ORYX.I18N.Oryx.notLoggedOn = "Nicht angemeldet";
 
 if(!ORYX.I18N.AddDocker) ORYX.I18N.AddDocker = {};
 
@@ -122,14 +121,6 @@ ORYX.I18N.BPELSupport.progressImp = "Importiere...";
 ORYX.I18N.BPELSupport.progressExp = "Exportiere...";
 ORYX.I18N.BPELSupport.impFailed = "Während des Importierens ist ein Fehler aufgetreten. <br/>Fehlermeldung: <br/><br/>";
 
-if(!ORYX.I18N.BPELLayout) ORYX.I18N.BPELLayout = {};
-
-ORYX.I18N.BPELLayout.group = "BPELLayout";
-ORYX.I18N.BPELLayout.disable = "disable layout";
-ORYX.I18N.BPELLayout.disDesc = "disable auto layout plug-in";
-ORYX.I18N.BPELLayout.enable = "enable layout";
-ORYX.I18N.BPELLayout.enDesc = "enable auto layout plug-in";
-
 if(!ORYX.I18N.BPEL4ChorSupport) ORYX.I18N.BPEL4ChorSupport = {};
 
 ORYX.I18N.BPEL4ChorSupport.group = "BPEL4Chor";
@@ -137,8 +128,6 @@ ORYX.I18N.BPEL4ChorSupport.exp = "BPEL4Chor Export";
 ORYX.I18N.BPEL4ChorSupport.expDesc = "Exportieren nach BPEL4Chor";
 ORYX.I18N.BPEL4ChorSupport.imp = "BPEL4Chor Import";
 ORYX.I18N.BPEL4ChorSupport.impDesc = "Importieren einer BPEL4Chor Datei";
-ORYX.I18N.BPEL4ChorSupport.gen = "BPEL4Chor Generator";
-ORYX.I18N.BPEL4ChorSupport.genDesc = "Generieren Werte einiger BPEL4Chor Eigenschaften sofern sie schon bekannt sind (z.B. Sender von messageLink)";
 ORYX.I18N.BPEL4ChorSupport.selectFile = "Wählen Sie eine BPEL4Chor Datei aus, die Sie importieren möchten.";
 ORYX.I18N.BPEL4ChorSupport.file = "Datei";
 ORYX.I18N.BPEL4ChorSupport.impPanel = "BPEL4Chor Datei importieren";
@@ -168,22 +157,10 @@ ORYX.I18N.Bpel4ChorTransformation.loadingXPDL4ChorExport = "Exportiere nach XPDL
 ORYX.I18N.Bpel4ChorTransformation.loadingBPEL4ChorExport = "Exportiere nach BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.noGen = "Die Transformationseingabedaten konnten nicht erzeugt werden: 1\n2\n";
 
-ORYX.I18N.BPMN2PNConverter = {
-  name: "Konvertiere zu Petrinetz",
-  desc: "Konvertiert BPMN-Diagramme in Petrinetze",
-  group: "Export",
-  error: "Fehler",
-  errors: {
-    server: "BPMN Diagramm konnte nicht importiert werden!",
-    noRights: "Es sind keine Leserechte für das importierte Diagramm vorhanden!",
-    notSaved: "Das Diagramm wurde noch nicht gespeichert und/ oder muss neu geöffnet werden!"
-  }
-}
-
 if(!ORYX.I18N.TransformationDownloadDialog) ORYX.I18N.TransformationDownloadDialog = {};
 
 ORYX.I18N.TransformationDownloadDialog.error = "Fehler";
-ORYX.I18N.TransformationDownloadDialog.noResult = "Der Transformationsservice hat kein Ergebnis zurückgeliefert.";
+ORYX.I18N.TransformationDownloadDialog.noResult = "Der Transformations Web Service hat kein Ergebnis zurückgeliefert.";
 ORYX.I18N.TransformationDownloadDialog.errorParsing = "Während der Analyse des Diagramms ist ein Fehler aufgetreten.";
 ORYX.I18N.TransformationDownloadDialog.transResult = "Transformationsergebnisse";
 ORYX.I18N.TransformationDownloadDialog.showFile = "Ergebnisdatei anzeigen";
@@ -300,7 +277,7 @@ ORYX.I18N.Loading.waiting ="Bitte warten...";
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
 
 ORYX.I18N.Pnmlexport.group ="Export";
-ORYX.I18N.Pnmlexport.name ="Nach PNML exportieren";
+ORYX.I18N.Pnmlexport.name ="PNML Export";
 ORYX.I18N.Pnmlexport.desc ="Exportieren nach ausführbarem PNML und Deployen";
 
 if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
@@ -311,7 +288,6 @@ ORYX.I18N.PropertyWindow.clickIcon = "Symbol anklicken";
 ORYX.I18N.PropertyWindow.add = "Hinzufügen";
 ORYX.I18N.PropertyWindow.rem = "Löschen";
 ORYX.I18N.PropertyWindow.complex = "Editor für komplexe Eigenschaft";
-ORYX.I18N.PropertyWindow.text = "Editor für einen Text";
 ORYX.I18N.PropertyWindow.ok = "Ok";
 ORYX.I18N.PropertyWindow.cancel = "Abbrechen";
 ORYX.I18N.PropertyWindow.dateFormat = "d/m/y";
@@ -324,7 +300,7 @@ ORYX.I18N.ShapeMenuPlugin.clickDrag = "Klicken oder ziehen";
 if(!ORYX.I18N.SimplePnmlexport) ORYX.I18N.SimplePnmlexport = {};
 
 ORYX.I18N.SimplePnmlexport.group = "Export";
-ORYX.I18N.SimplePnmlexport.name = "Nach PNML exportieren";
+ORYX.I18N.SimplePnmlexport.name = "Einfacher PNML Export";
 ORYX.I18N.SimplePnmlexport.desc = "Exportieren nach PNML";
 
 if(!ORYX.I18N.StepThroughPlugin) ORYX.I18N.StepThroughPlugin = {};
@@ -335,7 +311,6 @@ ORYX.I18N.StepThroughPlugin.stepThroughDesc = "Schrittweise Ausführung des BPMN
 ORYX.I18N.StepThroughPlugin.undo = "Rückgängig";
 ORYX.I18N.StepThroughPlugin.undoDesc = "Rückgängig";
 ORYX.I18N.StepThroughPlugin.error = "Ausführung des Modells nicht möglich.";
-ORYX.I18N.StepThroughPlugin.executing = "Führe aus";
 
 if(!ORYX.I18N.SyntaxChecker) ORYX.I18N.SyntaxChecker = {};
 
@@ -352,9 +327,6 @@ ORYX.I18N.Undo.undo = "Rückgängig";
 ORYX.I18N.Undo.undoDesc = "Rückgängig";
 ORYX.I18N.Undo.redo = "Wiederherstellen";
 ORYX.I18N.Undo.redoDesc = "Wiederherstellen";
-
-if(!ORYX.I18N.Validator) ORYX.I18N.Validator = {};
-ORYX.I18N.Validator.checking = "Prüfe";
 
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 
@@ -382,32 +354,3 @@ ORYX.I18N.XFormsSerialization.impTitle = "XForms+XHTML Dokument importieren";
 ORYX.I18N.XFormsSerialization.impButton = "Importieren";
 ORYX.I18N.XFormsSerialization.impProgress = "Importiere...";
 ORYX.I18N.XFormsSerialization.close = "Schließen";
-
-/** New Language Properties: 08.12.2008 **/
-
-ORYX.I18N.PropertyWindow.title = "Eigenschaften";
-
-if(!ORYX.I18N.ShapeRepository) ORYX.I18N.ShapeRepository = {};
-ORYX.I18N.ShapeRepository.title = "Shape Verzeichnis";
-
-ORYX.I18N.Save.dialogDesciption = "Bitte ändern sie den Namen und die Beschreibung.";
-ORYX.I18N.Save.dialogLabelTitle = "Titel";
-ORYX.I18N.Save.dialogLabelDesc = "Beschreibung";
-ORYX.I18N.Save.dialogLabelType = "Typ";
-
-ORYX.I18N.Validator.name = "BPMN Überprüfung";
-ORYX.I18N.Validator.description = "Überprüfung von BPMN Modellen";
-
-ORYX.I18N.SSExtensionLoader.labelImport = "Import";
-ORYX.I18N.SSExtensionLoader.labelCancel = "Abbrechen";
-
-Ext.MessageBox.buttonText.yes = "Ja";
-Ext.MessageBox.buttonText.no = "Nein";
-Ext.MessageBox.buttonText.cancel = "Abbrechen";
-Ext.MessageBox.buttonText.ok = "OK";
-
-
-
-/** New Language Properties: 28.01.2009 */
-ORYX.I18N.BPMN2XPDL.group = "Export";
-ORYX.I18N.BPMN2XPDL.xpdlExport = "Nach XPDL exportieren";

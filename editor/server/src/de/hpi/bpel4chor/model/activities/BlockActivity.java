@@ -39,9 +39,8 @@ public abstract class BlockActivity extends Activity {
 	public void addSourceFor(Transition transition, Output output) {
 		if (!this.sourceFor.isEmpty()) {
 			output.addError(
-					"This block activity " +
-					"is not allowed to have multiple outgoing transitions.",
-					getId());
+					"The block activity " + getId() + 
+					" is not allowed to have multiple outgoing transitions.");
 		} else {
 			super.addSourceFor(transition, output);
 		}
@@ -55,9 +54,8 @@ public abstract class BlockActivity extends Activity {
 	public void addTargetFor(Transition transition, Output output) {
 		if (!this.targetFor.isEmpty()) {
 			output.addError(
-					"Thois block activity " +
-					"is not allowed to have multiple incoming transitions.",
-					getId());
+					"The block activity " + getId() + 
+					" is not allowed to have multiple incoming transitions.");
 		} else {
 			super.addTargetFor(transition, output);
 		}

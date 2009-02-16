@@ -26,9 +26,7 @@ package org.b3mn.poem.handler;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,8 +48,6 @@ import org.openid4java.message.ax.AxMessage;
 import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.FetchResponse;
 import org.openid4java.message.sreg.SRegRequest;
-import org.openid4java.util.HttpClientFactory;
-import org.openid4java.util.ProxyProperties;
 
 @HandlerWithoutModelContext(uri="/login")
 public class LoginHandler extends HandlerBase {
@@ -72,21 +68,6 @@ public class LoginHandler extends HandlerBase {
 	
 	@Override
 	public void init() {
-		
-		ServletContext context = getServletContext();
-		
-		// --- Forward proxy setup (only if needed) --- 
-		if (context != null) {
-			String proxyHostName = context.getInitParameter("proxy-host-name");
-			String proxyPort = getServletContext().getInitParameter("proxy-port");
-			if (proxyHostName != null && proxyPort != null && proxyHostName.length() > 0 && proxyPort.length() > 0) {
-				ProxyProperties proxyProps = new ProxyProperties(); 
-				proxyProps.setProxyHostName(proxyHostName.trim()); 
-				proxyProps.setProxyPort(Integer.valueOf(proxyPort.trim())); 
-				HttpClientFactory.setProxyProperties(proxyProps);
-			}
-		}
-		
         try {
 			this.manager = new ConsumerManager();
 	        manager.setAssociations(new InMemoryConsumerAssociationStore());
@@ -107,13 +88,7 @@ public class LoginHandler extends HandlerBase {
         // If logout is true remove session attribute and redirect to the repository
     	// which will force a new login as public user
     	if ("true".equals(req.getParameter("logout"))) {
-    		//req.getSession().removeAttribute("openid");
-    		String openid = (String)req.getSession().getAttribute("openid");
-    		
-    		if(openid != null && openid != "" && openid != getPublicUser()) {
-    			User user = new User(openid);
-    			user.removeAuthenticationAttributes(this.getServletContext(), req, res);
-    		}
+    		req.getSession().removeAttribute("openid");
     		res.sendRedirect(REPOSITORY_REDIRECT);
     		return;
     	}
@@ -130,23 +105,19 @@ public class LoginHandler extends HandlerBase {
 
     private void processReturn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = this.verifyResponse(req, resp);
-
     	if (user == null) {
     		this.getServletContext().getRequestDispatcher("/index.jsp")
     		.forward(req, resp);
     	} else {
 
     		// authentication successful.
-    		// store openid in session for future use by java dispatcher.
-    		//req.getSession().setAttribute(OPENID_SESSION_IDENTIFIER,
-    		//		user.getOpenId());
 
-    		//req.setAttribute("identifier", user.getOpenId());
-    		user.addAuthentificationAttributes(this.getServletContext(), req, resp);
-    		
-    		
-    		String rPage = req.getParameter("redirect");
-    		resp.sendRedirect( rPage != null ? rPage : REPOSITORY_REDIRECT);
+    		// store openid in session for future use by java dispatcher.
+    		req.getSession().setAttribute(OPENID_SESSION_IDENTIFIER,
+    				user.getOpenId());
+
+    		req.setAttribute("identifier", user.getOpenId());
+    		resp.sendRedirect(REPOSITORY_REDIRECT);
     	}
     }
 
@@ -160,7 +131,7 @@ public class LoginHandler extends HandlerBase {
             // the authentication responses from the OpenID provider
             // String returnToUrl = "http://example.com/openid";
             String returnToUrl = httpReq.getRequestURL().toString()
-                    + "?is_return=true" + (httpReq.getParameter("redirect") != null ? "&redirect=" + httpReq.getParameter("redirect") : "");
+                    + "?is_return=true";
 
             // perform discovery on the user-supplied identifier
             List discoveries = manager.discover(userSuppliedString);

@@ -1,7 +1,6 @@
 package de.hpi.bpmn.validation;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import de.hpi.bpmn.Activity;
@@ -12,7 +11,6 @@ import de.hpi.bpmn.Edge;
 import de.hpi.bpmn.EndEvent;
 import de.hpi.bpmn.Event;
 import de.hpi.bpmn.Gateway;
-import de.hpi.bpmn.IntermediateCompensationEvent;
 import de.hpi.bpmn.IntermediateEvent;
 import de.hpi.bpmn.MessageFlow;
 import de.hpi.bpmn.Node;
@@ -56,28 +54,16 @@ public class BPMNSyntaxChecker implements SyntaxChecker {
 //	protected static final String INTERMEDIATEEVENT_WITHOUT_INCOMING_CONTROL_FLOW = "An intermediate event must have incoming sequence flow.";
 	protected static final String STARTEVENT_WITH_INCOMING_CONTROL_FLOW = "Start events must not have incoming sequence flow.";
 	protected static final String ATTACHEDINTERMEDIATEEVENT_WITH_INCOMING_CONTROL_FLOW = "Attached intermediate events must not have incoming sequence flow.";
-	protected static final String ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW = "Attached intermediate events must have exactly one outgoing sequence flow.";
+	protected static final String ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW = "Attached intermediate events must have outgoing sequence flow.";
 	protected static final String ENDEVENT_WITH_OUTGOING_CONTROL_FLOW = "End events must not have outgoing sequence flow.";
 	protected static final String EVENTBASEDGATEWAY_BADCONTINUATION = "Event-based gateways must not be followed by gateways or subprocesses.";
-	protected static final String NODE_NOT_ALLOWED = "Node type is not allowed.";
 
 	protected BPMNDiagram diagram;
 	protected Map<String,String> errors;
 	
-	/**
-	 * Use these as configuration options
-	 */
-	// Whitelist of nodes. Checks that all nodes are of given classes.
-	public HashSet<String> allowedNodes;
-	// Blacklist of nodes. Checks that no nodes are of given classes if no allowedNodes is given.
-	public HashSet<String> forbiddenNodes;
-	
 	public BPMNSyntaxChecker(BPMNDiagram diagram) {
 		this.diagram = diagram;
 		this.errors = new HashMap<String,String>();
-		
-		allowedNodes = new HashSet<String>();
-		forbiddenNodes = new HashSet<String>();
 	}
 
 	public boolean checkSyntax() {
@@ -99,10 +85,6 @@ public class BPMNSyntaxChecker implements SyntaxChecker {
 
 	public Map<String,String> getErrors() {
 		return errors;
-	}
-	
-	public void clearErrors(){
-		errors.clear();
 	}
 
 	protected boolean checkEdges(boolean checkControlFlowOnly) {
@@ -184,8 +166,11 @@ public class BPMNSyntaxChecker implements SyntaxChecker {
 			}
 			
 			//attached intermediate events
-			if (node instanceof IntermediateEvent) {
-				checkIntermediateEvent((IntermediateEvent)node);
+			if (node instanceof IntermediateEvent && ((IntermediateEvent)node).getActivity() != null ) {
+				if(hasIncomingControlFlow(node))
+					addError(node, ATTACHEDINTERMEDIATEEVENT_WITH_INCOMING_CONTROL_FLOW);
+				if(!hasOutgoingControlFlow(node))
+					addError(node, ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW);
 			}
 			
 			if (node instanceof XOREventBasedGateway) {
@@ -199,60 +184,24 @@ public class BPMNSyntaxChecker implements SyntaxChecker {
 	}
 
 	protected boolean checkNode(Node node) {
-		checkForAllowedAndForbiddenNode(node);
-		
 		if (node.getParent() == null) 
 			return false;
-			
+		
 		return true;
-	}
-	
-	protected void checkForAllowedAndForbiddenNode(Node node){
-		// Check for allowed and permitted nodes
-		if(!checkForAllowedNode(node, allowedNodes, true) || !checkForAllowedNode(node, forbiddenNodes, false)){
-			System.out.println("error");
-			addError(node, NODE_NOT_ALLOWED);
-		}
-	}
-	
-	protected boolean checkForAllowedNode(Node node, HashSet<String> classes, boolean allowed){
-		// If checking for allowed classes, empty classes means all are allowed
-		if(allowed && classes.size() == 0)
-			return true;
-		
-		boolean containedInClasses = false;
-		String nodeClassName = node.getClass().getSimpleName();
-		
-		for(String clazz : classes){
-			//TODO this doesn't checks for superclasses!!!
-			// better would be "node instanceof Class.forName(clazz)" 
-			if(clazz.equals(nodeClassName)){
-				containedInClasses = true;
-			} else if(clazz.equals("MultipleInstanceActivity")){
-				containedInClasses = (node instanceof Activity) && ((Activity)node).isMultipleInstance();
-			}
-			
-			if(containedInClasses) break;
-		}
-		
-		return containedInClasses == allowed;
-	}
-	
-	protected void checkIntermediateEvent(IntermediateEvent event){
-		if(event.isAttached()){
-			if(hasIncomingControlFlow(event))
-				addError(event, ATTACHEDINTERMEDIATEEVENT_WITH_INCOMING_CONTROL_FLOW);
-			if(event.getOutgoingSequenceFlows().size() != 1 && !(event instanceof IntermediateCompensationEvent))
-				addError(event, ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW);
-		}
 	}
 
 	protected boolean hasIncomingControlFlow(Node node) {
-		return node.getIncomingSequenceFlows().size() > 0;
+		for (Edge edge: node.getIncomingEdges())
+			if (edge instanceof SequenceFlow)
+				return true;
+		return false;
 	}
 
 	protected boolean hasOutgoingControlFlow(Node node) {
-		return node.getOutgoingSequenceFlows().size() > 0;
+		for (Edge edge: node.getOutgoingEdges())
+			if (edge instanceof SequenceFlow)
+				return true;
+		return false;
 	}
 	
 	protected void checkEventBasedGateway(XOREventBasedGateway gateway) {
@@ -262,7 +211,7 @@ public class BPMNSyntaxChecker implements SyntaxChecker {
 				addError(gateway, EVENTBASEDGATEWAY_BADCONTINUATION);
 		}
 	}
-	
+
 	protected void addError(DiagramObject obj, String errorCode) {
 		errors.put(obj.getResourceId(), errorCode);
 	}

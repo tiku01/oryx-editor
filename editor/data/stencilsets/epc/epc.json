@@ -10,7 +10,7 @@
 			"id":"Diagram",
 			"title":"Diagram",
 			"title_de":"Diagramm",
-			"groups":[],
+			"groups":[ "Diagram" ],
 			"groups_de":[ "Diagramm" ],
 			"description":"A Diagram",
 			"description_de":"Diagramm",
@@ -74,7 +74,8 @@
 			"id":"Event",
 			"title":"Event",
 			"title_de": "Ereignis",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"description":"An Event",
 			"description_de":"Ereignis",
 			"view":"node.event.svg",
@@ -146,7 +147,8 @@
 			"id":"Function",
 			"title":"Function",
 			"title_de":"Funktion",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"description":"A Function",
 			"description_de":"Funktion",
 			"view":"node.function.svg",
@@ -232,7 +234,8 @@
 			"id":"AndConnector",
 			"title":"AND Connector",
 			"title_de":"UND-Regel",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"description":"A AND Connector",
 			"description_de":"UND-Regel",
 			"view":"node.and.svg",
@@ -264,7 +267,8 @@
 			"id":"XorConnector",
 			"title":"XOR Connector",
 			"title_de":"XOR-Regel",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"description":"A XOR Connector",
 			"description_de":"XOR-Regel",
 			"view":"node.xor.svg",
@@ -296,7 +300,8 @@
 			"id":"OrConnector",
 			"title":"OR Connector",
 			"title_de":"ODER-Regel",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"description":"A OR Connector",
 			"description_de":"ODER-Regel",
 			"view":"node.or.svg",
@@ -330,7 +335,8 @@
 			"title_de":"Kontrollflusskante",
 			"description":"A Controlflow Edge",
 			"description_de":"Kontrollflusskante",
-			"groups":[],
+			"groups":[ "EPC" ],
+			"groups_de":[ "EPK" ],
 			"view":"connection.flow.svg",
 			"icon":"new_flow.png",
 			"roles": [
@@ -359,7 +365,8 @@
 			"id":"ProcessInterface",
 			"title":"Process Interface",
 			"title_de":"Prozessschnittstelle",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A Process Interface",
 			"description_de":"Prozessschnittstelle",
 			"view":"node.pInterface.svg",
@@ -430,7 +437,8 @@
 			"id":"Organization",
 			"title":"Organization",
 			"title_de":"Organisationseinheit",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A Organizational Unit",
 			"description_de":"Organisationseinheit",
 			"view":"node.organization.svg",
@@ -486,7 +494,8 @@
 			"type": "node",
 			"id":"Position",
 			"title":"Position",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A Position",
 			"description_de":"Position",
 			"view":"node.position.svg",
@@ -543,7 +552,8 @@
 			"id":"Data",
 			"title":"Data",
 			"title_de":"Dokument",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A Data Object",
 			"description":"Dokument",
 			"view":"node.data.svg",
@@ -600,7 +610,8 @@
 			"type": "node",
 			"id":"System",
 			"title":"System",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A System / Application",
 			"description_de":"System / Anwendung",
 			"view":"node.system.svg",
@@ -657,7 +668,8 @@
 			"id":"TextNote",
 			"title":"Text Note",
 			"title_de":"Textnotiz",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"description":"A Text Note",
 			"description_de":"Textnotiz",
 			"view":"node.text.note.svg",
@@ -713,7 +725,8 @@
 			"title_de":"Beziehungskante",
 			"description":"A Relation Edge",
 			"description_de":"Beziehungen zwischen zwei Knoten (kein Kontrollfluss)",
-			"groups":[],
+			"groups":[ "extended EPC" ],
+			"groups_de":[ "erweitertes EPK" ],
 			"view":"connection.relation.svg",
 			"icon":"new_relation.png",
 			"roles": [
@@ -776,7 +789,7 @@
 					},
 					{
 						"from":"function",
-						"to":["event", "connector", "function"]
+						"to":["event", "connector"]
 					},
 					{
 						"from":"connector",
@@ -815,14 +828,16 @@
 				"role":"event",
 				"incomingEdges": [
                 	{
-                    	"role": "epcEdge",
-                     	"maximum":1
+                    	"role": "edge",
+                     	"maximum":1,
+                     	"minimum":0
                     }
                 ],
                 "outgoingEdges": [
                  	{
-                		"role": "epcEdge",
-                    	"maximum":1
+                		"role": "edge",
+                    	"maximum":1,
+                     	"minimum":0
               		}
                	]
 			},
@@ -830,14 +845,16 @@
 				"role":"function",
 				"incomingEdges": [
            			{
-                    	"role": "epcEdge",
-                        "maximum":1
+                    	"role": "edge",
+                        "maximum":1,
+                   		"minimum":1
                 	}
                 ],
                   	"outgoingEdges": [
                      {
-                      	"role": "epcEdge",
-                      	"maximum":1
+                      	"role": "edge",
+                      	"maximum":1,
+                      	"minimum":0
                   	}
            		]
 			},
@@ -845,14 +862,16 @@
 				"role":"connector",
 				"incomingEdges": [
            			{
-                    	"role": "epcEdge",
-                        "maximum":2
+                    	"role": "edge",
+                        "maximum":2,
+                   		"minimum":1
                 	}
                 ],
                   	"outgoingEdges": [
                      {
-                      	"role": "epcEdge",
-                      	"maximum":2
+                      	"role": "edge",
+                      	"maximum":2,
+                      	"minimum":1
                   	}
            		]
 			}

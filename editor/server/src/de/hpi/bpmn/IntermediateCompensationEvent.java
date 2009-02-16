@@ -4,7 +4,7 @@ import de.hpi.bpmn.serialization.BPMNSerialization;
 
 public class IntermediateCompensationEvent extends IntermediateEvent {
 
-	protected boolean isThrowing = false;
+	protected boolean isThrowing;
 
 	public boolean isThrowing() {
 		return isThrowing;

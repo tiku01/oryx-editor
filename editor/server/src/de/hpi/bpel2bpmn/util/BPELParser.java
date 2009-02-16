@@ -136,8 +136,6 @@ public class BPELParser {
 		            validator.validate(new DOMSource(doc));
 					this.successfulValidation = true;
 				} catch (SAXException e) {
-					// schema validation failed!
-					// we continue with the transformation, however, the user is notified
 					this.successfulValidation = false;
 					this.validationException = e.getMessage();
 				}

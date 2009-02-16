@@ -7,28 +7,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.w3c.dom.Document;
+
 
 /**
- * Copyright (c) 2008-2009 
- * 
- * Zhen Peng
+ * Copyright (c) 2008 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,55 +45,28 @@ public class BPELExporter extends HttpServlet {
 
 	private static final long serialVersionUID = 316274845723034029L;
 	
-	private BPELProcessRefiner refiner = new BPELProcessRefiner();
-
-	private static String escapeJSON(String json) {
-		// escape (some) JSON special characters
-		String res = json.replace("\"", "\\\"");
-		res = res.replace("\n","\\n");
-		res = res.replace("\r","\\r");
-		res = res.replace("\t","\\t");
-		return res;
-	}
+//	private static Configuration config = null;
 	
     /**
      * The POST request.
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
     	
-    	res.setContentType("application/json");
-    	PrintWriter out = null;
-    	try {
-    	    out = res.getWriter();
-    	} catch (IOException e) {
-    	    e.printStackTrace();
-    	}
-    	  	
-    	out.print("{\"res\":[");
+    	// RDF2BPEL XSLT source
+    	final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/RDF2BPEL.xslt";
+    	final File xsltFile = new File(xsltFilename);
+    	final Source xsltSource = new StreamSource(xsltFile);	
     	
-    	String rdfString = req.getParameter("data");
-    	
-    	transformProcesses (rdfString, out);
-    	
-    	out.print("]}");
-    }
-   
-   public void transformProcesses (String rdfString, PrintWriter out){
-	   
-	   // Get the rdf source
-	   final Source rdfSource;
-	   InputStream rdf = new ByteArrayInputStream(rdfString.getBytes());
-	   rdfSource = new StreamSource(rdf);
+    	// Transformer Factory
+    	final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-	   	// RDF2BPEL XSLT source
-   		final String xsltFilename = System.getProperty("catalina.home") + "/webapps/oryx/xslt/RDF2BPEL.xslt";
-   		final File xsltFile = new File(xsltFilename);
-   		final Source xsltSource = new StreamSource(xsltFile);	
-   	
-   		// Transformer Factory
-   		final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    	
-   		// Get the result string
+    	// Get the rdf source
+    	final Source rdfSource;
+    	String rdfString = req.getParameter("data");
+    	InputStream rdf = new ByteArrayInputStream(rdfString.getBytes());
+    	rdfSource = new StreamSource(rdf);
+  
+    	// Get the result string
     	String resultString = null;
     	try {
     		Transformer transformer = transformerFactory.newTransformer(xsltSource);
@@ -108,105 +74,60 @@ public class BPELExporter extends HttpServlet {
     		transformer.transform(rdfSource, new StreamResult(writer));
     		resultString = writer.toString();
     	} catch (Exception e){
-    		handleException(out, e); 
+    		handleException(res, e); 
     		return;
     	}
-    	
-    	//System.out.println(resultString);
+
     	if (resultString != null){
     		try {
-    			resultString = rearrange (out, resultString);
-
-    			ArrayList<String> processList = separateProcesses(resultString);
-    			
-    			Iterator<String> processListIter = processList.iterator();
-    			String process;
-    			while (processListIter.hasNext()){
-				   process = processListIter.next();
-				   printResponse (out, process);
-				   if (processListIter.hasNext()){
-					   out.print(',');
-				   }
-    			};
-    		    return;
+    		       printResponse (res, resultString);
+    		       return;
     		} catch (Exception e){
-    		    handleException(out, e); 
+    		       handleException(res, e); 
     		}
     	}
-   }
-   
-   private String rearrange (PrintWriter out, String oldString){
-	   
-	   StringWriter stringOut = new StringWriter();
-	   try {
-			// transform string to document
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			InputStream oldResultInputStream = new ByteArrayInputStream(oldString.getBytes());
-			Document oldDocument = builder.parse(oldResultInputStream);
-			
-			// rearrange document
-			Document newDocument = refiner.rearrangeDocument (oldDocument);
-			
-			// transform document to string
-			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Transformer transformer = tFactory.newTransformer();
-			DOMSource source = new DOMSource(newDocument);
-			StreamResult result = new StreamResult(stringOut);
-			transformer.transform(source, result);
-			stringOut.flush();
-	 
-		} catch (Exception e){
-		    handleException(out, e); 
-		}
-		
-		return stringOut.toString();
-
-   }
-   
-   private ArrayList<String> separateProcesses (String resultString){
-	   ArrayList<String> resultList = new ArrayList<String>();
-	   int indexOfProcess = resultString.indexOf("<process");
-	   int indexOfEndProcess = 0;
-	   
-	   while (indexOfProcess != -1){
-		   indexOfEndProcess = resultString.indexOf("process>", indexOfProcess + 1);
-		   if (indexOfEndProcess == -1){
-			   indexOfEndProcess = resultString.indexOf("/>", indexOfProcess + 1) - 6;
-		   }
-		   String process = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" 
-			   + resultString.substring(indexOfProcess, indexOfEndProcess + 8);
-		   
-		   resultList.add(process);
-		   
-		   indexOfProcess = resultString.indexOf("<process", indexOfEndProcess + 1);
-	   }
-	
-	   return resultList;
-   }
-   
-   
-   private void printResponse(PrintWriter out, String text){
-		out.print("{\"type\":\"process\",");
-		out.print("\"success\":true,");
-		out.print("\"content\":\"");
-		out.print(escapeJSON(text));
-		out.print("\"}");
-
     }
     
     
-    private void printError(PrintWriter out, String err){
-		out.print("{\"type\":\"process\",");
-		out.print("\"success\":false,");
-		out.print("\"content\":\"");
-		out.print(escapeJSON(err));
-		out.print("\"}");
+    
+   private void printResponse(HttpServletResponse res, String text){
+    	if (res != null){
+ 
+        	// Get the PrintWriter
+        	res.setContentType("text/plain");
+        	
+        	PrintWriter out = null;
+        	try {
+        	    out = res.getWriter();
+        	} catch (IOException e) {
+        	    e.printStackTrace();
+        	}
+        	
+    		out.print(text);
+    	}
     }
     
-	private void handleException(PrintWriter out, Exception e) {
+    
+    private void printError(HttpServletResponse res, String err){
+    	if (res != null){
+ 
+        	// Get the PrintWriter
+        	res.setContentType("text/html");
+        	
+        	PrintWriter out = null;
+        	try {
+        	    out = res.getWriter();
+        	} catch (IOException e) {
+        	    e.printStackTrace();
+        	}
+        	
+    		out.print("{success:false, content:'"+err+"'}");
+    	}
+    }
+    
+	private void handleException(HttpServletResponse res, Exception e) {
 		e.printStackTrace();
-		printError(out, e.getLocalizedMessage());
+		printError(res, e.getLocalizedMessage());
 	}
     
 }

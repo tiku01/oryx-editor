@@ -50,11 +50,11 @@ public class Handler extends BlockActivity {
 				this.handlerType.equals(TYPE_TIMER) ||
 				this.handlerType.equals(TYPE_COMPENSATION) ||
 				this.handlerType.equals(TYPE_TERMINATION)) {
-			output.addError("This handler" +  
-					" is not allowed to have outgoing transitions.", getId());
+			output.addError("The handler" + getId() + 
+					" is not allowed to have outgoing transitions.");
 		} else if (!this.sourceFor.isEmpty()) {
-			output.addError("This handler " +
-					"is not allowed to have multiple outgoing transitions.", getId());
+			output.addError("The handler " + getId() + 
+					" is not allowed to have multiple outgoing transitions.");
 		} else {
 			super.addSourceFor(transition, output);
 		}
@@ -74,30 +74,30 @@ public class Handler extends BlockActivity {
 		if (this.handlerType.equals(TYPE_MESSAGE) ||
 				this.handlerType.equals(TYPE_TIMER) ||
 				this.handlerType.equals(TYPE_COMPENSATION)) {
-			output.addError("This handler" +  
-					" is not allowed to have incoming transitions.", getId());
+			output.addError("The handler" + getId() + 
+					" is not allowed to have incoming transitions.");
 		} else if (!this.targetFor.isEmpty()) {
-			output.addError("This handler " +
-					"is not allowed to have multiple incoming transitions.", getId());
+			output.addError("The handler " + getId() + 
+					" is not allowed to have multiple incoming transitions.");
 		} else if (!(transition.getSource() instanceof IntermediateEvent) || 
 				((IntermediateEvent)transition.getSource()).getTarget() == null){
-			output.addError("This handler " +
-					" can only be connected with a transition from"+
-					" an attached intermediate event.", getId());
+			output.addError("The handler " + getId() + 
+					" can only be connected with a transition from" +
+					" an attached intermediate event.");
 		} else {
 			IntermediateEvent sourceEvent = (IntermediateEvent)transition.getSource();
 			if (this.handlerType.equals(TYPE_FAULT)) {
 				if (!sourceEvent.getTriggerType().equals(IntermediateEvent.TRIGGER_ERROR)) {
-					output.addError("This handler " +
-							" must be connected with a transition from"+
-							" an attached fault intermediate event.", getId());
+					output.addError("The handler " + getId() + 
+							" must be connected with a transition from" +
+							" an attached fault intermediate event.");
 					return;
 				}
 			} else if (this.handlerType.equals(TYPE_TERMINATION)) {
 				if (!sourceEvent.getTriggerType().equals(IntermediateEvent.TRIGGER_TERMINATION)) {
-					output.addError("This handler " +
-							" must be connected with a transition from"+
-							" an attached termination intermediate event.", getId());
+					output.addError("The handler " + getId() + 
+							" must be connected with a transition from" +
+							" an attached termination intermediate event.");
 					return;
 				}
 			}
@@ -119,18 +119,18 @@ public class Handler extends BlockActivity {
 		List<StartEvent> startEvents = getSubProcess().getStartEvents();
 		StartEvent start = null;
 		if (startEvents.isEmpty()) {
-			output.addError("Message event handler " +
-					"does not contain a message start event.", getId());
+			output.addError("Message event handler " + 
+					getId() + " does not contain a message start event.");
 			return null;
 		} else if (startEvents.size() > 1) {
-			output.addError("Message event handler " +
-					"is not allowed to have multiple start events.", getId());
+			output.addError("Message event handler " + 
+					getId() + " is not allowed to have multiple start events.");
 			return null;
 		} else {
 			start = startEvents.get(0);
 			if (!start.getTriggerType().equals(StartEvent.TRIGGER_MESSAGE)) {
 				output.addError("Message event handler " +
-						"must contain a start event with a message trigger.", getId());
+						getId() + " must contain a start event with a message trigger.");
 				return null;
 			}
 		}
@@ -150,18 +150,18 @@ public class Handler extends BlockActivity {
 		List<StartEvent> startEvents = getSubProcess().getStartEvents();
 		StartEvent start = null;
 		if (startEvents.isEmpty()) {
-			output.addError("Timer event handler " +
-					"does not contain a timer start event.", getId());
+			output.addError("Timer event handler " + 
+					getId() + " does not contain a timer start event.");
 			return null;
 		} else if (startEvents.size() > 1) {
-			output.addError("Timer event handler " +
-					"is not allowed to have multiple start events.", getId());
+			output.addError("Timer event handler " + 
+					getId() + " is not allowed to have multiple start events.");
 			return null;
 		} else {
 			start = startEvents.get(0);
 			if (!start.getTriggerType().equals(StartEvent.TRIGGER_TIMER)) {
 				output.addError("Timer event handler " +
-						"must contain a start event with a timer trigger.", getId());
+						getId() + " must contain a start event with a timer trigger.");
 				return null;
 			}
 		}

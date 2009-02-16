@@ -154,27 +154,27 @@
 				},
 				{
 					"id":"creationdate",
-					"type":"String",
-					"title":"Tracker Creation Date",
-					"value":"",
-					"description":"This holds the date when tracker was created.",
+					"type":"Date",
+					"title":"CreationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was created.",
 					"readonly":false,
 					"optional":true,
-					"length":""
+					"dateFormat":"j/m/y"
 				},
 				{
 					"id":"modificationdate",
-					"type":"String",
-					"title":"Tracker Extraction Date",
-					"value":"",
-					"description":"This holds the date when tracker was lastly changed before diagram creation.",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
 					"readonly":false,
 					"optional":true,
-					"length":""
+					"dateFormat":"j/m/y"
 				},
 				{
 					"id":"documentation",
-					"type":"Text",
+					"type":"String",
 					"title":"Documentation",
 					"value":"",
 					"description":"The modeler may add optional text documentation about the Diagram.",
@@ -182,20 +182,7 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
-				},
-				{
-					"id":"refuri",
-					"type":"String",
-					"title":"URI",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"",
-					"wrapLines":false
-				}				
+				},				
 			]
 		},
 		{
@@ -273,12 +260,6 @@
 							"refToView":""
 						},
 						{
-							"id":"move",
-							"title":"move",
-							"value":"move",
-							"refToView":""
-						},
-						{
 							"id":"all",
 							"title":"*",
 							"value":"*",
@@ -300,7 +281,7 @@
 				},
 				{
 					"id":"expression",
-					"type":"Text",
+					"type":"String",
 					"title":"Expression",
 					"value":"true",
 					"description":"Expression that should be evaluated for this tracker rule",
@@ -388,12 +369,6 @@
 							"refToView":""
 						},
 						{
-							"id":"move",
-							"title":"move",
-							"value":"move",
-							"refToView":""
-						},
-						{
 							"id":"all",
 							"title":"*",
 							"value":"*",
@@ -415,7 +390,7 @@
 				},
 				{
 					"id":"expression",
-					"type":"Text",
+					"type":"String",
 					"title":"Expression",
 					"value":"true",
 					"description":"Expression that should be evaluated for this tracker rule",
@@ -509,12 +484,6 @@
 							"refToView":""
 						},
 						{
-							"id":"move",
-							"title":"move",
-							"value":"move",
-							"refToView":""
-						},
-						{
 							"id":"all",
 							"title":"*",
 							"value":"*",
@@ -536,7 +505,7 @@
 				},
 				{
 					"id":"expression",
-					"type":"Text",
+					"type":"String",
 					"title":"Expression",
 					"value":"true",
 					"description":"Expression that should be evaluated for this tracker rule",
@@ -630,12 +599,6 @@
 							"refToView":""
 						},
 						{
-							"id":"move",
-							"title":"move",
-							"value":"move",
-							"refToView":""
-						},
-						{
 							"id":"all",
 							"title":"*",
 							"value":"*",
@@ -657,7 +620,7 @@
 				},
 				{
 					"id":"expression",
-					"type":"Text",
+					"type":"String",
 					"title":"Expression",
 					"value":"true",
 					"description":"Expression that should be evaluated for this tracker rule",
@@ -751,12 +714,6 @@
 							"refToView":""
 						},
 						{
-							"id":"move",
-							"title":"move",
-							"value":"move",
-							"refToView":""
-						},
-						{
 							"id":"all",
 							"title":"*",
 							"value":"*",
@@ -778,7 +735,7 @@
 				},
 				{
 					"id":"expression",
-					"type":"Text",
+					"type":"String",
 					"title":"Expression",
 					"value":"true",
 					"description":"Expression that should be evaluated for this tracker rule",
@@ -1007,7 +964,7 @@
 				},
 				{
 					"id":"documentation",
-					"type":"Text",
+					"type":"String",
 					"title":"Documentation",
 					"title_de":"Dokumentation",
 					"value":"",

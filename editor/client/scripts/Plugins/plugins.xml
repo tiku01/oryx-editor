@@ -137,19 +137,6 @@
 			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
-        
-        <plugin source="bpmn2pn.js" name="ORYX.Plugins.BPMNImport">
-            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
-        </plugin>
-        
-        <plugin source="bpmn2pn.js" name="ORYX.Plugins.PNExport">
-            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/> 
-            <requires namespace="http://b3mn.org/stencilset/bpmn#"/>
-        </plugin>
-		
-		<plugin source="bpmn2xpdl.js" name="ORYX.Plugins.BPMN2XPDL">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
-		</plugin>
 		
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
 		
@@ -160,6 +147,7 @@
 		<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
 		-->
+		
 
 	</plugins>
 	

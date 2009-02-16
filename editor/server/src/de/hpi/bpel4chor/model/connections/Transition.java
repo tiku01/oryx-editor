@@ -84,8 +84,8 @@ public class Transition extends GraphicalObject {
 	 */
 	public void setSource(Activity source, Output output) {
 		if ((this.target != null) && (this.target.equals(source))) {
-			output.addError("The source and the target of this transition " +
-					"have to be different.", getId());
+			output.addError("The source and the target of transition " + 
+					getId() + " have to be different.");
 			return;
 		}
 		this.source = source;
@@ -109,8 +109,8 @@ public class Transition extends GraphicalObject {
 	public void setTarget(Activity target, Output output) {
 		if ((this.source != null) && (this.source.equals(target))) {
 			output.addError(
-					"The source and the target of this transition " +
-					"have to be different.", getId());
+					"The source and the target of transition " + 
+					getId() + " have to be different.");
 			return;
 		}
 		this.target = target;

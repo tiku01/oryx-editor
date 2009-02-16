@@ -2,11 +2,10 @@
 <xsl:stylesheet version="1.0" 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:oryx="http://oryx-editor.org/"
-	xmlns:raziel="http://raziel.org/">
+	xmlns:oryx="http://oryx-editor.org/">
 
 	<xsl:output method="xml" />
-	
+
 	<xsl:template match="rdf:Description">	
 		<xsl:variable name="typeString" select="./oryx:type" />	
 		<xsl:variable name="type">
@@ -15,673 +14,46 @@
 			</xsl:call-template>
 		</xsl:variable>
 
-		<xsl:if test="$type='worksheet'">
-			<!-- root element -->
-			<worksheet>
-				<xsl:variable name="realID"><xsl:value-of select="@rdf:about" /></xsl:variable>
-				<xsl:call-template name="find-children-nodes">
-					<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-			    </xsl:call-template>
-			</worksheet>	
+		<xsl:if test="$type='process'">
+			<!-- process -->
+			<xsl:variable name="abstractProcessProfile" select="./oryx:abstractprocessprofile" />
+			
+			<xsl:if test="$abstractProcessProfile='' or $abstractProcessProfile='null'">
+				<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+					<xsl:call-template name="add-children-of-process-element"/>
+				</process>	
+			</xsl:if>
+			
+			<xsl:if test="$abstractProcessProfile!='' and $abstractProcessProfile!='null'">
+				<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/abstract">
+					
+					<xsl:if test="$abstractProcessProfile='observableBehavior'">
+						<xsl:attribute name="abstractProcessProfile">http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08</xsl:attribute>
+					</xsl:if>	
+					
+					<xsl:if test="$abstractProcessProfile='templates'">
+						<xsl:attribute name="abstractProcessProfile">http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08</xsl:attribute>
+					</xsl:if>	
+					
+					<xsl:if test="$abstractProcessProfile!='observableBehavior' and $abstractProcessProfile!='templates'">
+						<xsl:attribute name="abstractProcessProfile">
+							<xsl:value-of select="$abstractProcessProfile"/>
+						</xsl:attribute>	
+					</xsl:if>
+					
+					<xsl:call-template name="add-children-of-process-element"/>
+				</process>	
+			</xsl:if>
 	 	</xsl:if>
 	</xsl:template>
-
 	
-	<xsl:template name="find-children-nodes">
-		<xsl:param name="searchedParentID" />
-        <xsl:for-each select="//rdf:Description">
-			<xsl:variable name="currentParentID"><xsl:value-of select="(./raziel:parent/@rdf:resource)" /></xsl:variable>         
-			<xsl:if test="$currentParentID = $searchedParentID">
-      		  	<xsl:variable name="realID"><xsl:value-of select="@rdf:about" /></xsl:variable>
-				<xsl:variable name="typeString" select="./oryx:type" />	
-				<xsl:variable name="type">
-					<xsl:call-template name="get-exact-type">
-						<xsl:with-param name="typeString" select="$typeString" />
-					</xsl:call-template>
-				</xsl:variable>
-				
-				<!--process-->
-				<xsl:if test="$type='process'">
-					
-					<xsl:variable name="existsAbstractProcessProfileElement" select="count(./oryx:abstractprocessprofile)" />
-					
-					<!-- bpel4chor editor -->
-					<xsl:if test="$existsAbstractProcessProfileElement=0">
-						<process>
-							<xsl:call-template name="add-children-of-process-element"/>
-							<xsl:call-template name="record-link-nodes"/>
-						</process>
-					</xsl:if>
-					
-					<!-- bpel editor -->
-					<xsl:if test="$existsAbstractProcessProfileElement!=0">
-						<xsl:variable name="abstractProcessProfile" select="./oryx:abstractprocessprofile" />
-						
-						<xsl:if test="$abstractProcessProfile='' or $abstractProcessProfile='null'">
-							<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
-								<xsl:call-template name="add-children-of-process-element"/>
-								<xsl:call-template name="record-link-nodes"/>
-							</process>	
-						</xsl:if>
-						
-						<xsl:if test="$abstractProcessProfile!='' and $abstractProcessProfile!='null'">
-							<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/abstract">
-								
-								<xsl:if test="$abstractProcessProfile='observableBehavior'">
-									<xsl:attribute name="abstractProcessProfile">http://docs.oasis-open.org/wsbpel/2.0/process/abstract/ap11/2006/08</xsl:attribute>
-								</xsl:if>	
-								
-								<xsl:if test="$abstractProcessProfile='templates'">
-									<xsl:attribute name="abstractProcessProfile">http://docs.oasis-open.org/wsbpel/2.0/process/abstract/simple-template/2006/08</xsl:attribute>
-								</xsl:if>	
-								
-								<xsl:if test="$abstractProcessProfile!='observableBehavior' and $abstractProcessProfile!='templates'">
-									<xsl:attribute name="abstractProcessProfile">
-										<xsl:value-of select="$abstractProcessProfile"/>
-									</xsl:attribute>	
-								</xsl:if>
-								
-								<xsl:call-template name="add-children-of-process-element"/>
-								
-								<xsl:call-template name="record-link-nodes"/>
-							</process>	
-						</xsl:if>
-					</xsl:if>
-				</xsl:if>	
-					
-				<!--invoke-->
-				<xsl:if test="$type='invoke'">
-					<invoke>
-						<xsl:call-template name="add-standard-attributes"/>
-						
-						<xsl:call-template name="add-documentation-element"/>
-						
-						<xsl:call-template name="add-standard-elements"/>
-						
-						<xsl:call-template name="add-bounds-attribute"/>
-
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
-						
-						<xsl:variable name="inputVariable" select="./oryx:inputvariable" />
-						<xsl:if test="$inputVariable!=''">
-							<xsl:attribute name="inputVariable">
-								<xsl:value-of select="$inputVariable" />
-							</xsl:attribute>
-						</xsl:if>	
-						
-						<xsl:variable name="outputVariable" select="./oryx:outputvariable" />
-						<xsl:if test="$outputVariable!=''">
-							<xsl:attribute name="outputVariable">
-								<xsl:value-of select="$outputVariable" />
-							</xsl:attribute>
-						</xsl:if>
-						
-						<xsl:call-template name="add-correlations-element"/>
-						
-						<xsl:call-template name="add-toParts-element"/>
-						
-						<xsl:call-template name="add-fromParts-element"/>			
-		            </invoke>
-				</xsl:if>	
-				
-				<!--receive-->
-				<xsl:if test="$type='receive'">
-					<receive>
-						<xsl:call-template name="add-standard-attributes"/>
-						
-						<xsl:call-template name="add-documentation-element"/>
-						
-						<xsl:call-template name="add-standard-elements"/>
-		
-						<xsl:call-template name="add-bounds-attribute"/>
-
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
-		                
-						<xsl:call-template name="add-correlations-element"/>
-						
-						<xsl:call-template name="add-variable-attribute"/>	
-						
-						<xsl:call-template name="add-createInstance-attribute"/>
-						
-						<xsl:call-template name="add-messageExchange-attribute"/>					
-					</receive>
-				</xsl:if>
-				
-				<!--reply-->
-				<xsl:if test="$type='reply'">
-					<reply>
-						<xsl:call-template name="add-standard-attributes"/>
-						
-						<xsl:call-template name="add-documentation-element"/>
-						
-						<xsl:call-template name="add-standard-elements"/>
-						
-						<xsl:call-template name="add-bounds-attribute"/>
-						
-						<xsl:call-template name="add-outgoing-attribute"/>
-
-						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
-						
-		            	<xsl:call-template name="add-correlations-element"/>
-						
-						<xsl:call-template name="add-toParts-element"/>
-						
-						<xsl:call-template name="add-variable-attribute"/>
-						
-						<xsl:call-template name="add-messageExchange-attribute"/>
-						
-						<xsl:call-template name="add-faultName-attribute"/>	
-					</reply>
-				</xsl:if>
-				
-				<!--assign-->
-				<xsl:if test="$type='assign'">
-					<assign>
-						<xsl:call-template name="add-standard-attributes"/>
-						
-						<xsl:call-template name="add-documentation-element"/>
-						
-						<xsl:call-template name="add-standard-elements"/>
-						
-						<xsl:call-template name="add-bounds-attribute"/>
-						
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:variable name="validate" select="./oryx:validate" />
-						<xsl:if test="$validate!=''">
-							<xsl:attribute name="validate">
-								<xsl:value-of select="$validate" />
-							</xsl:attribute>
-						</xsl:if>
-						
-				        <xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-					</assign>
-				</xsl:if>
-				
-				<!--copy-->
-				<xsl:if test="$type='copy'">
-					<copy>
-						<xsl:call-template name="add-standard-attributes"/>
-						
-						<xsl:call-template name="add-documentation-element"/>
-						
-						<xsl:call-template name="add-bounds-attribute"/>
-
-						<xsl:variable name="keepSrcElementName" select="./oryx:keepsrcelementname" />
-						<xsl:if test="$keepSrcElementName!=''">
-							<xsl:attribute name="keepSrcElementName">
-								<xsl:value-of select="$keepSrcElementName" />
-							</xsl:attribute>
-						</xsl:if>
-						
-						<xsl:variable name="ignoreMissingFromData" select="./oryx:ignoremissingfromdata" />
-						<xsl:if test="$ignoreMissingFromData!=''">
-							<xsl:attribute name="ignoreMissingFromData">
-								<xsl:value-of select="$ignoreMissingFromData" />
-							</xsl:attribute>
-						</xsl:if>
-						
-						<xsl:call-template name="add-from-spec-elements"/>
-						
-						<xsl:call-template name="add-to-spec-elements"/>
-		            </copy>
-				</xsl:if>
-				
-				<!--empty-->
-				<xsl:if test="$type='empty'">
-					<empty>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-		            	<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-					</empty>
-				</xsl:if>
-				
-				<!--opaqueActivity-->
-				<xsl:if test="$type='opaqueActivity'">
-					<opaqueActivity>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-		            	<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-					</opaqueActivity>
-				</xsl:if>
-				
-				<!--validate-->
-				<xsl:if test="$type='validate'">
-					<validate>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:variable name="variables" select="./oryx:variables" />
-						<xsl:if test="$variables!=''">
-							<xsl:attribute name="variables">
-								<xsl:value-of select="$variables" />
-							</xsl:attribute>
-						</xsl:if>	
-						
-						<xsl:call-template name="add-standard-elements"/>							
-		            </validate>
-				</xsl:if>
-				
-				<!--extensionActivity-->
-				<xsl:if test="$type='extensionActivity'">
-					<extensionActivity>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:variable name="elementName" select="./oryx:elementname" />
-						<xsl:if test="$elementName!=''">
-							<xsl:element name="{$elementName}">
-								<xsl:call-template name="add-standard-attributes"/>
-								<xsl:call-template name="add-documentation-element"/>
-								<xsl:call-template name="add-standard-elements"/>								
-							</xsl:element>
-						</xsl:if>
-						
-						<xsl:if test="$elementName=''">
-							<xsl:element name="anyElementQName">
-								<xsl:call-template name="add-standard-attributes"/>
-								<xsl:call-template name="add-documentation-element"/>
-								<xsl:call-template name="add-standard-elements"/>								
-							</xsl:element>
-						</xsl:if>	
-		            </extensionActivity>
-				</xsl:if>
-				
-				<!--wait-->
-				<xsl:if test="$type='wait'">
-					<wait>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-ForOrUntil-element"/>
-		            </wait>
-				</xsl:if>
-				
-				<!--throw-->
-				<xsl:if test="$type='throw'">
-					<throw>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-faultName-attribute"/>
-						<xsl:call-template name="add-faultVariable-attribute"/>
-		            </throw>
-				</xsl:if>
-				
-				<!--exit-->
-				<xsl:if test="$type='exit'">
-					<exit>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-		            	<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-					</exit>
-				</xsl:if>
-				
-				<!--rethrow-->
-				<xsl:if test="$type='rethrow'">
-					<rethrow>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-		            </rethrow>
-				</xsl:if>
-				
-				<!--if-->
-				<xsl:if test="$type='if'">
-					<if>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </if>
-				</xsl:if>
-				
-				<!--if_branch-->
-				<xsl:if test="$type='if_branch'">
-					<elseif>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-condition-element"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-					</elseif>				
-				</xsl:if>
-				
-				<!--else_branch-->
-				<xsl:if test="$type='else_branch'">
-					<else>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>						
-		            </else>
-				</xsl:if>
-				
-				<!--flow-->
-				<xsl:if test="$type='flow'">
-					<flow>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-					 	<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </flow>
-				</xsl:if>
-				
-				<!--pick-->
-				<xsl:if test="$type='pick'">
-					<pick>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-createInstance-attribute"/>
-				        <xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </pick>
-				</xsl:if>
-				
-				<!--onMessage-->
-				<xsl:if test="$type='onMessage'">
-					<onMessage>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
-		            	<xsl:call-template name="add-correlations-element"/>
-						<xsl:call-template name="add-fromParts-element"/>
-						<xsl:call-template name="add-variable-attribute"/>	
-						<xsl:call-template name="add-messageExchange-attribute"/>
-					    <xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-					</onMessage>
-				</xsl:if>
-				
-				<!--sequence-->
-				<xsl:if test="$type='sequence'">
-					<sequence>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </sequence>
-				</xsl:if>
-				
-				<!--while-->
-				<xsl:if test="$type='while'">
-					<while>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-condition-element"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </while>
-				</xsl:if>
-				
-				<!--repeatUntil-->
-				<xsl:if test="$type='repeatUntil'">
-					<repeatUntil>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-condition-element"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </repeatUntil>
-				</xsl:if>
-				
-				<!--forEach-->
-				<xsl:if test="$type='forEach'">
-					<forEach>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:variable name="counterName" select="./oryx:countername" />
-						<xsl:if test="$counterName!=''">
-							<xsl:attribute name="counterName">
-								<xsl:value-of select="$counterName" />
-							</xsl:attribute>
-						</xsl:if>	
-
-						
-						<xsl:variable name="parallel" select="./oryx:parallel" />
-						<xsl:if test="$parallel!=''">
-							<xsl:attribute name="parallel">
-								<xsl:value-of select="$parallel" />
-							</xsl:attribute>
-						</xsl:if>	
-						
-						<xsl:call-template name="add-counterValue-elements"/>
-						
-						<xsl:call-template name="add-completionCondition-element"/>
-						
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </forEach>
-				</xsl:if>
-				
-				<!--compensate-->
-				<xsl:if test="$type='compensate'">
-					<compensate>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-		            </compensate>
-				</xsl:if>
-				
-				<!--compensateScope-->
-				<xsl:if test="$type='compensateScope'">
-					<compensateScope>
-						<xsl:call-template name="add-standard-attributes"/>						
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						
-						<xsl:variable name="target" select="./oryx:target" />
-						<xsl:if test="$target!=''">
-							<xsl:attribute name="target">
-								<xsl:value-of select="$target" />
-							</xsl:attribute>
-						</xsl:if>	
-		            </compensateScope>
-				</xsl:if>
-				
-				<!--scope-->
-				<xsl:if test="$type='scope'">
-					<scope>
-						<xsl:call-template name="add-standard-attributes"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-outgoing-attribute"/>
-						<xsl:call-template name="add-exitOnStandardFault-attribute"/>
-						<xsl:call-template name="add-variables-element"/>	
-						<xsl:call-template name="add-partnerLinks-element"/>				
-						<xsl:call-template name="add-correlationSets-element"/>
-						<xsl:call-template name="add-messageExchanges-element"/>
-						<xsl:call-template name="add-standard-elements"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </scope>
-				</xsl:if>
-				
-				<!--onAlarm-->
-				<xsl:if test="$type='onAlarm'">
-					<onAlarm>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-ForOrUntil-element"/>
-						<xsl:call-template name="add-repeatEvery-element"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </onAlarm>
-				</xsl:if>
-				
-				<!--onEvent-->
-				<xsl:if test="$type='onEvent'">
-					<onEvent>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
-		            	<xsl:call-template name="add-correlations-element"/>
-						<xsl:call-template name="add-fromParts-element"/>
-						<xsl:call-template name="add-variable-attribute"/>
-						<xsl:call-template name="add-messageExchange-attribute"/>
-						<xsl:call-template name="add-faultMessageOrFaultElement-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>	
-					</onEvent>
-				</xsl:if>
-				
-				<!--eventHandlers-->
-				<xsl:if test="$type='eventHandlers'">
-					<eventHandlers>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </eventHandlers>
-				</xsl:if>
-				
-				<!--faultHandlers-->
-				<xsl:if test="$type='faultHandlers'">
-					<faultHandlers>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </faultHandlers>
-				</xsl:if>
-				
-				<!--compensationHandler-->
-				<xsl:if test="$type='compensationHandler'">
-					<compensationHandler>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </compensationHandler>
-				</xsl:if>
-				
-				<!--terminationHandler-->
-				<xsl:if test="$type='terminationHandler'">
-					<terminationHandler>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </terminationHandler>
-				</xsl:if>
-				
-				<!--catch-->
-				<xsl:if test="$type='catch'">
-					<catch>
-						<xsl:call-template name="add-documentation-element"/>	
-						
-						<xsl:call-template name="add-bounds-attribute"/>
-								
-						<xsl:call-template name="add-faultName-attribute"/>
-						
-						<xsl:call-template name="add-faultVariable-attribute"/>
-						
-						<xsl:call-template name="add-faultMessageType-attribute"/>
-						
-						<xsl:call-template name="add-faultElement-attribute"/>
-						
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </catch>
-				</xsl:if>
-				
-				<!--catchAll-->
-				<xsl:if test="$type='catchAll'">
-					<catchAll>
-						<xsl:call-template name="add-bounds-attribute"/>
-						<xsl:call-template name="add-documentation-element"/>
-						<xsl:call-template name="find-children-nodes">
-							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
-					    </xsl:call-template>
-		            </catchAll>
-				</xsl:if>				
-			</xsl:if>
-		</xsl:for-each>
-	</xsl:template>
-
-		
-	<xsl:template name="add-bounds-attribute">	
-		<xsl:variable name="bounds" select="./oryx:bounds" />
-		<xsl:if test="$bounds!=''">
-			<xsl:attribute name="bounds">
-				<xsl:value-of select="$bounds" />
-			</xsl:attribute>
-		</xsl:if>
-	</xsl:template>	
-	
-	
-	<xsl:template name="add-children-of-process-element">	
+	<xsl:template name="add-children-of-process-element">
 		<xsl:variable name="realID"><xsl:value-of select="@rdf:about" /></xsl:variable>
 		
         <xsl:call-template name="add-standard-attributes"/>
 		
 		<xsl:call-template name="add-documentation-element"/>
 		
-     	<xsl:call-template name="add-bounds-attribute"/>
-
 		<xsl:variable name="targetNamespace" select="./oryx:targetnamespace" />
 		<xsl:if test="$targetNamespace!=''">
 			<xsl:attribute name="targetNamespace">
@@ -724,12 +96,569 @@
 	    </xsl:call-template>
 	</xsl:template>
 	
-	
+	<xsl:template name="find-children-nodes">
+		<xsl:param name="searchedParentID" />
+        <xsl:for-each select="//rdf:Description">
+			<xsl:variable name="currentParentID"><xsl:value-of select="(*/@rdf:resource)[last()]" /></xsl:variable>         
+			<xsl:if test="$currentParentID = $searchedParentID">
+      		  	<xsl:variable name="realID"><xsl:value-of select="@rdf:about" /></xsl:variable>
+				<xsl:variable name="typeString" select="./oryx:type" />	
+				<xsl:variable name="type">
+					<xsl:call-template name="get-exact-type">
+						<xsl:with-param name="typeString" select="$typeString" />
+					</xsl:call-template>
+				</xsl:variable>
+					
+				<!--invoke-->
+				<xsl:if test="$type='invoke'">
+					<invoke>
+						<xsl:call-template name="add-standard-attributes"/>
+						
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:call-template name="add-standard-elements"/>
+						
+						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
+						
+						<xsl:variable name="inputVariable" select="./oryx:inputvariable" />
+						<xsl:if test="$inputVariable!=''">
+							<xsl:attribute name="inputVariable">
+								<xsl:value-of select="$inputVariable" />
+							</xsl:attribute>
+						</xsl:if>	
+						
+						<xsl:variable name="outputVariable" select="./oryx:outputvariable" />
+						<xsl:if test="$outputVariable!=''">
+							<xsl:attribute name="outputVariable">
+								<xsl:value-of select="$outputVariable" />
+							</xsl:attribute>
+						</xsl:if>
+						
+						<xsl:call-template name="add-correlations-element"/>
+						
+						<xsl:call-template name="add-toParts-element"/>
+						
+						<xsl:call-template name="add-fromParts-element"/>			
+		            </invoke>
+				</xsl:if>	
+				
+				<!--receive-->
+				<xsl:if test="$type='receive'">
+					<receive>
+						<xsl:call-template name="add-standard-attributes"/>
+						
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:call-template name="add-standard-elements"/>
+		
+						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
+		                
+						<xsl:call-template name="add-correlations-element"/>
+						
+						<xsl:call-template name="add-variable-attribute"/>	
+						
+						<xsl:call-template name="add-createInstance-attribute"/>
+						
+						<xsl:call-template name="add-messageExchange-attribute"/>					
+					</receive>
+				</xsl:if>
+				
+				<!--reply-->
+				<xsl:if test="$type='reply'">
+					<reply>
+						<xsl:call-template name="add-standard-attributes"/>
+						
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:call-template name="add-standard-elements"/>
+						
+						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
+						
+		            	<xsl:call-template name="add-correlations-element"/>
+						
+						<xsl:call-template name="add-toParts-element"/>
+						
+						<xsl:call-template name="add-variable-attribute"/>
+						
+						<xsl:call-template name="add-messageExchange-attribute"/>
+						
+						<xsl:call-template name="add-faultName-attribute"/>	
+					</reply>
+				</xsl:if>
+				
+				<!--assign-->
+				<xsl:if test="$type='assign'">
+					<assign>
+						<xsl:call-template name="add-standard-attributes"/>
+						
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:call-template name="add-standard-elements"/>
+						
+						<xsl:variable name="validate" select="./oryx:validate" />
+						<xsl:if test="$validate!=''">
+							<xsl:attribute name="validate">
+								<xsl:value-of select="$validate" />
+							</xsl:attribute>
+						</xsl:if>
+						
+				        <xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+					</assign>
+				</xsl:if>
+				
+				<!--copy-->
+				<xsl:if test="$type='copy'">
+					<copy>
+						<xsl:call-template name="add-standard-attributes"/>
+						
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:variable name="keepSrcElementName" select="./oryx:keepsrcelementname" />
+						<xsl:if test="$keepSrcElementName!=''">
+							<xsl:attribute name="keepSrcElementName">
+								<xsl:value-of select="$keepSrcElementName" />
+							</xsl:attribute>
+						</xsl:if>
+						
+						<xsl:variable name="ignoreMissingFromData" select="./oryx:ignoremissingfromdata" />
+						<xsl:if test="$ignoreMissingFromData!=''">
+							<xsl:attribute name="ignoreMissingFromData">
+								<xsl:value-of select="$ignoreMissingFromData" />
+							</xsl:attribute>
+						</xsl:if>
+						
+						<xsl:call-template name="add-from-spec-elements"/>
+						
+						<xsl:call-template name="add-to-spec-elements"/>
+		            </copy>
+				</xsl:if>
+				
+				<!--empty-->
+				<xsl:if test="$type='empty'">
+					<empty>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </empty>
+				</xsl:if>
+				
+				<!--opaqueActivity-->
+				<xsl:if test="$type='opaqueActivity'">
+					<opaqueActivity>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </opaqueActivity>
+				</xsl:if>
+				
+				<!--validate-->
+				<xsl:if test="$type='validate'">
+					<validate>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						
+						<xsl:variable name="variables" select="./oryx:variables" />
+						<xsl:if test="$variables!=''">
+							<xsl:attribute name="variables">
+								<xsl:value-of select="$variables" />
+							</xsl:attribute>
+						</xsl:if>	
+						
+						<xsl:call-template name="add-standard-elements"/>							
+		            </validate>
+				</xsl:if>
+				
+				<!--extensionActivity-->
+				<xsl:if test="$type='extensionActivity'">
+					<extensionActivity>
+						<xsl:variable name="elementName" select="./oryx:elementname" />
+						<xsl:if test="$elementName!=''">
+							<xsl:element name="{$elementName}">
+								<xsl:call-template name="add-standard-attributes"/>
+								<xsl:call-template name="add-documentation-element"/>
+								<xsl:call-template name="add-standard-elements"/>								
+							</xsl:element>
+						</xsl:if>
+						
+						<xsl:if test="$elementName=''">
+							<xsl:element name="anyElementQName">
+								<xsl:call-template name="add-standard-attributes"/>
+								<xsl:call-template name="add-documentation-element"/>
+								<xsl:call-template name="add-standard-elements"/>								
+							</xsl:element>
+						</xsl:if>	
+		            </extensionActivity>
+				</xsl:if>
+				
+				<!--wait-->
+				<xsl:if test="$type='wait'">
+					<wait>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-ForOrUntil-element"/>
+		            </wait>
+				</xsl:if>
+				
+				<!--throw-->
+				<xsl:if test="$type='throw'">
+					<throw>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-faultName-attribute"/>
+						<xsl:call-template name="add-faultVariable-attribute"/>
+		            </throw>
+				</xsl:if>
+				
+				<!--exit-->
+				<xsl:if test="$type='exit'">
+					<exit>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </exit>
+				</xsl:if>
+				
+				<!--rethrow-->
+				<xsl:if test="$type='rethrow'">
+					<rethrow>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </rethrow>
+				</xsl:if>
+				
+				<!--if-->
+				<xsl:if test="$type='if'">
+					<if>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </if>
+				</xsl:if>
+				
+				<!--if_branch-->
+				<xsl:if test="$type='if_branch'">
+					<xsl:if test="position()=1">
+						<xsl:call-template name="add-condition-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </xsl:if>
+
+					<xsl:if test="not(position()=1)">
+						<elseif>
+							<xsl:call-template name="add-condition-element"/>
+							<xsl:call-template name="find-children-nodes">
+								<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+						    </xsl:call-template>
+						</elseif>
+		            </xsl:if>					
+				</xsl:if>
+				
+				<!--else_branch-->
+				<xsl:if test="$type='else_branch'">
+					<else>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>						
+		            </else>
+				</xsl:if>
+				
+				<!--flow-->
+				<xsl:if test="$type='flow'">
+					<flow>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-link-elements">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+					 	<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </flow>
+				</xsl:if>
+				
+				<!--pick-->
+				<xsl:if test="$type='pick'">
+					<pick>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-createInstance-attribute"/>
+				        <xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </pick>
+				</xsl:if>
+				
+				<!--onMessage-->
+				<xsl:if test="$type='onMessage'">
+					<onMessage>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
+		            	<xsl:call-template name="add-correlations-element"/>
+						<xsl:call-template name="add-fromParts-element"/>
+						<xsl:call-template name="add-variable-attribute"/>	
+						<xsl:call-template name="add-messageExchange-attribute"/>
+					    <xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+					</onMessage>
+				</xsl:if>
+				
+				<!--sequence-->
+				<xsl:if test="$type='sequence'">
+					<sequence>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </sequence>
+				</xsl:if>
+				
+				<!--while-->
+				<xsl:if test="$type='while'">
+					<while>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-condition-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </while>
+				</xsl:if>
+				
+				<!--repeatUntil-->
+				<xsl:if test="$type='repeatUntil'">
+					<repeatUntil>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="add-condition-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </repeatUntil>
+				</xsl:if>
+				
+				<!--forEach-->
+				<xsl:if test="$type='forEach'">
+					<forEach>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						
+						<xsl:variable name="counterName" select="./oryx:countername" />
+						<xsl:if test="$counterName!=''">
+							<xsl:attribute name="counterName">
+								<xsl:value-of select="$counterName" />
+							</xsl:attribute>
+						</xsl:if>	
+
+						
+						<xsl:variable name="parallel" select="./oryx:parallel" />
+						<xsl:if test="$parallel!=''">
+							<xsl:attribute name="parallel">
+								<xsl:value-of select="$parallel" />
+							</xsl:attribute>
+						</xsl:if>	
+						
+						<xsl:call-template name="add-counterValue-elements"/>
+						
+						<xsl:call-template name="add-completionCondition-element"/>
+						
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </forEach>
+				</xsl:if>
+				
+				<!--compensate-->
+				<xsl:if test="$type='compensate'">
+					<compensate>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </compensate>
+				</xsl:if>
+				
+				<!--compensateScope-->
+				<xsl:if test="$type='compensateScope'">
+					<compensateScope>
+						<xsl:variable name="target" select="./oryx:target" />
+						<xsl:attribute name="target">
+							<xsl:value-of select="$target" />
+						</xsl:attribute>
+						<xsl:call-template name="add-standard-attributes"/>						
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+		            </compensateScope>
+				</xsl:if>
+				
+				<!--scope-->
+				<xsl:if test="$type='scope'">
+					<scope>
+						<xsl:call-template name="add-standard-attributes"/>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-exitOnStandardFault-attribute"/>
+						<xsl:call-template name="add-variables-element"/>	
+						<xsl:call-template name="add-partnerLinks-element"/>				
+						<xsl:call-template name="add-correlationSets-element"/>
+						<xsl:call-template name="add-messageExchanges-element"/>
+						<xsl:call-template name="add-standard-elements"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </scope>
+				</xsl:if>
+				
+				<!--onAlarm-->
+				<xsl:if test="$type='onAlarm'">
+					<onAlarm>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-ForOrUntil-element"/>
+						<xsl:call-template name="add-repeatEvery-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </onAlarm>
+				</xsl:if>
+				
+				<!--onEvent-->
+				<xsl:if test="$type='onEvent'">
+					<onEvent>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="add-partnerLink-portType-operation-attributes"/>
+		            	<xsl:call-template name="add-correlations-element"/>
+						<xsl:call-template name="add-fromParts-element"/>
+						<xsl:call-template name="add-variable-attribute"/>
+						<xsl:call-template name="add-messageExchange-attribute"/>
+						<xsl:call-template name="add-faultMessageOrFaultElement-attribute"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>	
+					</onEvent>
+				</xsl:if>
+				
+				<!--eventHandlers-->
+				<xsl:if test="$type='eventHandlers'">
+					<eventHandlers>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </eventHandlers>
+				</xsl:if>
+				
+				<!--faultHandlers-->
+				<xsl:if test="$type='faultHandlers'">
+					<faultHandlers>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </faultHandlers>
+				</xsl:if>
+				
+				<!--compensationHandler-->
+				<xsl:if test="$type='compensationHandler'">
+					<compensationHandler>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </compensationHandler>
+				</xsl:if>
+				
+				<!--terminationHandler-->
+				<xsl:if test="$type='terminationHandler'">
+					<terminationHandler>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </terminationHandler>
+				</xsl:if>
+				
+				<!--catch-->
+				<xsl:if test="$type='catch'">
+					<catch>
+						<xsl:call-template name="add-documentation-element"/>	
+								
+						<xsl:call-template name="add-faultName-attribute"/>
+						
+						<xsl:call-template name="add-faultVariable-attribute"/>
+						
+						<xsl:call-template name="add-faultMessageType-attribute"/>
+						
+						<xsl:call-template name="add-faultElement-attribute"/>
+						
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </catch>
+				</xsl:if>
+				
+				<!--catchAll-->
+				<xsl:if test="$type='catchAll'">
+					<catchAll>
+						<xsl:call-template name="add-documentation-element"/>
+						<xsl:call-template name="find-children-nodes">
+							<xsl:with-param name="searchedParentID"><xsl:value-of select="$realID" /></xsl:with-param>
+					    </xsl:call-template>
+		            </catchAll>
+				</xsl:if>				
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
+		
+  	<xsl:template name="add-link-elements">
+    	<xsl:param name="searchedParentID" />
+		
+		<links>
+	        <xsl:for-each select="//rdf:Description">
+	    		<xsl:variable name="typeString" select="./oryx:type" />	
+				<xsl:variable name="type">
+					<xsl:call-template name="get-exact-type">
+						<xsl:with-param name="typeString" select="$typeString" />
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:if test="$type='link'">
+					<xsl:variable name="targetID" select="(*/@rdf:resource)[last()]"/>
+					<xsl:variable name="linkName" select="./oryx:linkname"/>
+					<xsl:for-each select="//rdf:Description">
+						<xsl:variable name="currentID"><xsl:value-of select="@rdf:about" /></xsl:variable>
+						<xsl:if test="$currentID=$targetID">
+							<xsl:variable name="currentParentID" select="(*/@rdf:resource)[last()]" />         
+				            <xsl:if test="$currentParentID=$searchedParentID">
+				            	<link>
+				            		<xsl:attribute name="name">
+				            			<xsl:value-of select="$linkName"/>
+									</xsl:attribute>
+								</link>
+							</xsl:if>
+						</xsl:if>
+					</xsl:for-each>				
+				</xsl:if>	
+       		 </xsl:for-each>	
+		</links>	 
+	</xsl:template>
+
 	<xsl:template name="add-completionCondition-element">
-		<xsl:variable name="expressionLanguage" select="./oryx:branches_explang" />
+		<xsl:variable name="expressionLanguage" select="./oryx:compcond_explang" />
 		<xsl:variable name="successfulBranchesOnly" select="./oryx:successfulbranchesonly" />
 		<xsl:variable name="branches_counter" select="./oryx:branches_intexp" />
-		<xsl:variable name="opaque" select="./oryx:branches_opaque" />
 		
 		<xsl:if test="$expressionLanguage!='' or $successfulBranchesOnly!='' or $branches_counter!=''">
 			<completionCondition>
@@ -743,9 +672,6 @@
 						<xsl:attribute name="successfulBranchesOnly">
 							<xsl:value-of select="$successfulBranchesOnly" />
 						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$opaque='true'">
-						<xsl:attribute name="opaque">yes</xsl:attribute>
 					</xsl:if>
 					<xsl:value-of select="$branches_counter" />
 				</branches>
@@ -766,7 +692,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$opaque='true'">
-				<xsl:attribute name="opaque">yes</xsl:attribute>
+				<xsl:attribute name="opaque">
+					<xsl:value-of select="$opaque" />
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="$expression" />
 		</condition>
@@ -815,8 +743,7 @@
 
 	<xsl:template name="add-counterValue-elements">
 		<xsl:variable name="s_expressionLanguage" select="./oryx:start_explang" />
-		<xsl:variable name="s_expression" select="./oryx:start_intexp" />
-		<xsl:variable name="s_opaque" select="./oryx:start_opaque" />		
+		<xsl:variable name="s_expression" select="./oryx:start_intexp" />		
 		
 		<startCounterValue>
 			<xsl:if test="$s_expressionLanguage!=''">
@@ -824,24 +751,17 @@
 					<xsl:value-of select="$s_expressionLanguage" />
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$s_opaque='true'">
-				<xsl:attribute name="opaque">yes</xsl:attribute>
-			</xsl:if>
 			<xsl:value-of select="$s_expression" />
 		</startCounterValue>
 		
 		<xsl:variable name="f_expressionLanguage" select="./oryx:final_explang" />
-		<xsl:variable name="f_expression" select="./oryx:final_intexp" />
-		<xsl:variable name="f_opaque" select="./oryx:final_opaque" />		
+		<xsl:variable name="f_expression" select="./oryx:final_intexp" />		
 		
 		<finalCounterValue>
 			<xsl:if test="$f_expressionLanguage!=''">
 				<xsl:attribute name="expressionLanguage">
 					<xsl:value-of select="$f_expressionLanguage" />
 				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$f_opaque='true'">
-				<xsl:attribute name="opaque">yes</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="$f_expression" />
 		</finalCounterValue>	
@@ -975,7 +895,9 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$opaque='true'">
-					<xsl:attribute name="opaque">yes</xsl:attribute>
+					<xsl:attribute name="opaque">
+						<xsl:value-of select="$opaque" />
+					</xsl:attribute>
 				</xsl:if>
 				<xsl:value-of select="$expression" />	
 			</for>
@@ -989,7 +911,9 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$opaque='true'">
-					<xsl:attribute name="opaque">yes</xsl:attribute>
+					<xsl:attribute name="opaque">
+						<xsl:value-of select="$opaque" />
+					</xsl:attribute>
 				</xsl:if>
 				<xsl:value-of select="$expression" />	
 			</until>
@@ -1099,6 +1023,9 @@
 			</xsl:call-template>		
 		</xsl:if>
 	</xsl:template>
+	
+
+
 				
 	<xsl:template name="add-messageExchange-attribute">
 		<xsl:variable name="messageExchange" select="./oryx:messageexchange" />
@@ -1130,7 +1057,7 @@
 		</xsl:if>
 	</xsl:template>
 	
-	
+						
 	<xsl:template name="add-otherxmlns-attribute">
 		<xsl:variable name="otherxmlns" select="./oryx:otherxmlns" />
 		<xsl:if test="$otherxmlns!=''">
@@ -1146,17 +1073,6 @@
 				<xsl:with-param name="data-set" select="$otherxmlns" />
 			</xsl:call-template>
 		</xsl:if>
-	</xsl:template>
-		
-						
-	<xsl:template name="add-outgoing-attribute">
-		<xsl:variable name="numberOfOutgoingLinks" select="count(./raziel:outgoing)" />
-		<xsl:if test="$numberOfOutgoingLinks!=0">
-			<xsl:call-template name="loop-for-adding-outgoing-attribute">
-				<xsl:with-param name="i">1</xsl:with-param>
-				<xsl:with-param name="count" select="$numberOfOutgoingLinks" />
-			</xsl:call-template>
-		</xsl:if>	
 	</xsl:template>
 	
 
@@ -1213,8 +1129,10 @@
 						<xsl:value-of select="$expressionLanguage" />
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="$opaque='true'">
-					<xsl:attribute name="opaque">yes</xsl:attribute>
+				<xsl:if test="$opaque!='true'">
+					<xsl:attribute name="opaque">
+						<xsl:value-of select="$opaque" />
+					</xsl:attribute>
 				</xsl:if>
 				<xsl:value-of select="$expression" />
 			</repeatEvery>
@@ -1236,14 +1154,6 @@
 				<xsl:value-of select="$suppressJoinFailure" />
 			</xsl:attribute>
 		</xsl:if>		
-		
-		<xsl:variable name="id" select="@rdf:about"/>
-		<xsl:if test="$id!=''">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id" />
-			</xsl:attribute>
-		</xsl:if>
-					
 	</xsl:template>
 	
 	
@@ -1258,8 +1168,8 @@
 	    			<xsl:attribute name="expressionLanguage">
 	    				<xsl:value-of select="$JC_expLang" />
 					</xsl:attribute>
-					<xsl:if test="$JC_opaque='true'">
-						<xsl:attribute name="opaque">yes</xsl:attribute>
+					<xsl:if test="$JC_opaque = 'true'">
+						<xsl:attribute name="opaque">true</xsl:attribute>
 					</xsl:if>
 	    			<xsl:value-of select="$JC_boolExp"/>
 				</joinCondition>
@@ -1372,11 +1282,11 @@
 		</xsl:if>
 	</xsl:template>
 	
-
+	
 	
 	<xsl:template name="get-exact-type">
 		<xsl:param name="typeString" />
-		<xsl:value-of select="substring-after($typeString, '#')" />
+		<xsl:value-of select="substring-after($typeString, 'bpel#')" />
 	</xsl:template>
 
 	
@@ -1581,27 +1491,6 @@
     </xsl:template>
 
 
-	<xsl:template name="loop-for-adding-outgoing-attribute">
-		<xsl:param name="i"/>
- 		<xsl:param name="count"/>
-			
- 		<xsl:if test="$i &lt;= $count">
- 			<xsl:variable name="linkID" select="(./raziel:outgoing/@rdf:resource)[$i]" />
-			
-			<outgoingLink>
-				<xsl:attribute name="linkID">
-					<xsl:value-of select="$linkID" />
-				</xsl:attribute>
-			</outgoingLink>		
-			
-  			<xsl:call-template name="loop-for-adding-outgoing-attribute">
-   				<xsl:with-param name="i" select="$i + 1"/>
-   				<xsl:with-param name="count" select="$count"/>
-  			</xsl:call-template>
- 		</xsl:if>
-    </xsl:template>
-	
-
 	<xsl:template name="loop-for-adding-partnerLinks-element">
 		<xsl:param name="i"/>
  		<xsl:param name="count"/>
@@ -1785,62 +1674,6 @@
   			</xsl:call-template>
  		</xsl:if>
     </xsl:template>
-	
-	<xsl:template name="record-link-nodes">
-        <xsl:for-each select="//rdf:Description">
-			<xsl:variable name="typeString" select="./oryx:type" />	
-			<xsl:variable name="type">
-				<xsl:call-template name="get-exact-type">
-					<xsl:with-param name="typeString" select="$typeString" />
-				</xsl:call-template>
-			</xsl:variable>
 
-			<xsl:if test="$type='link'">
-				<linkInfoSet>
-					<xsl:variable name="id" select="@rdf:about " />
- 					<xsl:variable name="linkName" select="./oryx:linkname" />
-					<xsl:variable name="targetID" select="./raziel:outgoing/@rdf:resource" />
- 					<xsl:variable name="transCond_expLang" select="./oryx:tc_expressionlanguage" />
-		 			<xsl:variable name="transCond_boolExp" select="./oryx:transition_expression " />
-		 			<xsl:variable name="transCond_opaque" select="./oryx:tc_opaque" />
-					
-					<xsl:if test="$id!=''">
-						<xsl:attribute name="id">
-							<xsl:value-of select="$id" />
-						</xsl:attribute>
-					</xsl:if>
-					
-					<xsl:if test="$linkName!=''">
-						<xsl:attribute name="linkName">
-							<xsl:value-of select="$linkName" />
-						</xsl:attribute>
-					</xsl:if>
-					
-					<xsl:if test="$targetID!=''">
-						<xsl:attribute name="targetID">
-							<xsl:value-of select="$targetID" />
-						</xsl:attribute>
-					</xsl:if>					
-					
-					<xsl:if test="$transCond_expLang!=''">
-						<xsl:attribute name="transCond_expLang">
-							<xsl:value-of select="$transCond_expLang" />
-						</xsl:attribute>
-					</xsl:if>
-					
-					<xsl:if test="$transCond_boolExp!=''">
-						<xsl:attribute name="transCond_boolExp">
-							<xsl:value-of select="$transCond_boolExp" />
-						</xsl:attribute>
-					</xsl:if>
-					
-					<xsl:if test="$transCond_opaque='true'">
-						<xsl:attribute name="transCond_opaque">yes</xsl:attribute>
-					</xsl:if>
-				</linkInfoSet>	
-			</xsl:if>
-		</xsl:for-each>	
-	</xsl:template>			
-	
-	
+			
 </xsl:stylesheet>

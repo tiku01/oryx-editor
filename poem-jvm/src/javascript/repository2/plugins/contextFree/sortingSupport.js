@@ -31,7 +31,9 @@ if(!Repository.Plugins) Repository.Plugins = {};
  */
 
 Repository.Plugins.SortingSupport = {
-		
+	
+	defaultSort: 'lastchange',
+	
 	hidePanel: true,
 	
 	construct: function( facade ) {
@@ -43,7 +45,7 @@ Repository.Plugins.SortingSupport = {
 		
 		this.facade.modelCache.getAvailableSorts().each(function(type) {
 			
-			var isCurrent = type.toLowerCase() === this.facade.getSort();
+			var isDefault = type.toLowerCase() === this.defaultSort;
 			
 			this.toolbarButtons.push({
 				text 		: Repository.I18N.SortingSupport[type],
@@ -52,8 +54,8 @@ Repository.Plugins.SortingSupport = {
 				tooltipText : Repository.I18N.SortingSupport.name,
 				//icon 		: type,
 				handler		: this._setSorting.bind(this, type),		
-				sort		: isCurrent ? Repository.Config.SORT_DESC : false,
-				iconCls		: isCurrent ? 'repository_ext_icon_arrow_down' : ''
+				sort		: isDefault ? Repository.Config.SORT_DESC : false,
+				iconCls		: isDefault ? 'repository_ext_icon_arrow_down' : ''
 						
 			});
 		}.bind(this));

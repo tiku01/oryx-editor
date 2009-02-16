@@ -16,6 +16,16 @@
 			],
 			"properties": [
 				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+				},
+				{
 					"id":"name",
 					"type":"String",
 					"title":"Name",
@@ -176,7 +186,21 @@
 				}
  			},
  			"serialize":function(shape, data) {
- 				var poolId = shape.resourceId;
+ 				var poolId = shape.properties["oryx-id"];
+				if (poolId == "") {
+					poolId = shape.resourceId;
+					if (poolId == undefined) {
+						poolId = "";
+					}
+					var poolRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							poolRec = data[i];
+							break;
+						}
+					}
+					poolRec.value=poolId;
+				}
 				
 				var processId = shape.properties["oryx-processid"];
 				if (processId == "") {
@@ -194,7 +218,17 @@
 				return data;	
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -370,7 +404,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -419,7 +453,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -427,7 +461,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -454,7 +488,7 @@
 							"type":"String",
 							"value":"",
 							"width":200,
-							"optional":false
+							"optional":false,
 						}
 					]
 				},
@@ -685,7 +719,7 @@
 					"title":"BackgroundColor",
 					"value":"#ffffff",
 					"description":"",
-					"readonly":false,
+					"readonly":false,
 					"optional":false,
 					"refToView":"c",
 					"fill":true,
@@ -754,7 +788,21 @@
 				}
  			},
  			"serialize":function(shape, data) {
-				var poolId = shape.resourceId;
+				var poolId = shape.properties["oryx-id"];
+				if (poolId == "") {
+					poolId = shape.resourceId;
+					if (poolId == undefined) {
+						poolId = "";
+					}
+					var poolRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							poolRec = data[i];
+							break;
+						}
+					}
+					poolRec.value=poolId;
+				}
 				
 				var processId = shape.properties["oryx-processid"];
 				if (processId == "") {
@@ -771,7 +819,17 @@
 				return data;	
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -947,7 +1005,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -996,7 +1054,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -1004,7 +1062,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -1031,7 +1089,7 @@
 							"type":"String",
 							"value":"",
 							"width":200,
-							"optional":false
+							"optional":false,
 						}
 					]
 				},
@@ -1082,7 +1140,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"",
+					"refToView":"",
 					"length":"30"
 				},				
 				{
@@ -1235,9 +1293,37 @@
 				"poolChild",
 				"fromtoall"				
 			],
-					
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},		
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -1313,9 +1399,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -1374,7 +1488,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -1493,7 +1607,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -1501,7 +1615,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -1850,7 +1964,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"part",
@@ -1895,7 +2009,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 					]
 				},
@@ -1937,9 +2051,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -1998,7 +2140,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -2117,7 +2259,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -2125,7 +2267,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -2345,7 +2487,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"implementation",
@@ -2457,7 +2599,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 					]
 				},
@@ -2468,7 +2610,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -2510,9 +2652,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -2571,7 +2741,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -2690,7 +2860,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -2698,7 +2868,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -3011,7 +3181,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"messageexchange",
@@ -3020,7 +3190,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"opaqueinput",
@@ -3047,7 +3217,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"part",
@@ -3090,9 +3260,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -3151,7 +3349,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -3270,7 +3468,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -3278,7 +3476,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -3516,7 +3714,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":50,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"ignoremissingfromdata",
@@ -3524,7 +3722,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":50,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspectype",
@@ -3649,7 +3847,7 @@
 							"type":"String",
 							"value":"",
 							"width":110,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecpart",
@@ -3657,7 +3855,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecquerylanguage",
@@ -3665,7 +3863,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecquery",
@@ -3673,7 +3871,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecproperty",
@@ -3681,15 +3879,15 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecexpressionlanguage",
 							"name":"FS_ExpressionLanguage",
 							"type":"String",
 							"value":"",
-							"width":150,
-							"optional":true
+							"width":150,
+							"optional":true,
 						},
 						{
 							"id":"fromspecexpression",
@@ -3697,7 +3895,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"fromspecliteral",
@@ -3705,7 +3903,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospectype",
@@ -3801,7 +3999,7 @@
 							"type":"String",
 							"value":"",
 							"width":110,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecpart",
@@ -3809,7 +4007,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecquerylanguage",
@@ -3817,7 +4015,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecquery",
@@ -3825,7 +4023,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecproperty",
@@ -3833,7 +4031,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecexpressionlanguage",
@@ -3841,7 +4039,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"tospecexpression",
@@ -3849,7 +4047,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},			
@@ -3884,9 +4082,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -3945,7 +4171,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -4064,7 +4290,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -4072,7 +4298,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -4320,9 +4546,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -4381,7 +4635,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -4500,7 +4754,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -4508,7 +4762,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -4756,9 +5010,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -4803,7 +5085,7 @@
 					"readonly":false,
 					"optional":true,
 					"complexItems": [
-						{
+						{
 							"id":"to",
 							"name":"To",
 							"type":"String",
@@ -4817,7 +5099,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -4936,7 +5218,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -4944,7 +5226,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -5191,7 +5473,25 @@
 				"assoc_start_from_set",
 				"assoc_start_from_ref",
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -5202,7 +5502,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -5214,7 +5514,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -5225,7 +5525,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -5235,7 +5535,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -5260,7 +5560,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -5294,7 +5594,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -5379,7 +5679,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -5387,11 +5687,11 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
-				{
+				{
 					"id":"correlationsets",
 					"type":"Complex",
 					"title":"CorrelationSets",
@@ -5414,7 +5714,7 @@
 							"type":"String",
 							"value":"",
 							"width":200,
-							"optional":false
+							"optional":false,
 						}
 					]
 				},
@@ -5427,7 +5727,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"looptype",
@@ -5468,7 +5768,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"st_loopconditionlanguage",
@@ -5479,7 +5779,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"50"
+					"length":"50",
 				},				
 				{
 					"id":"st_testtime",
@@ -5530,7 +5830,7 @@
 					"value":"All",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"mi_startcountervalue",
@@ -5539,7 +5839,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"mi_startcountervaluelanguage",
@@ -5548,7 +5848,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"mi_finalcountervalue",
@@ -5557,7 +5857,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"mi_finalcountervaluelanguage",
@@ -5566,7 +5866,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"mi_completioncondition",
@@ -5575,16 +5875,16 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"mi_completionconditionlanguage",
 					"type":"String",
 					"title":"MI_CompletionConditionLanguage",
 					"value":"",
-					"description":"",
+					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"mi_successfulbranchesonly",
@@ -5593,7 +5893,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"suppressjoinfailure",
@@ -5612,7 +5912,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -5622,7 +5922,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -5631,7 +5931,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"exitonstandardfault",
@@ -5640,7 +5940,7 @@
 					"value":false,
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"messageexchanges",
@@ -5649,7 +5949,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"adhoc",
@@ -5658,7 +5958,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"isolated",
@@ -5667,7 +5967,7 @@
 					"value":false,
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -5679,7 +5979,7 @@
 					"optional":false,
 					"refToView":"taskrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				}
             ]
 		},
@@ -5687,7 +5987,7 @@
 		{
 			"type": "node",
 			"id":"FaultHandler",
-			"title":"Fault Handler",
+			"title":"Fault Handler",
 			"groups":["Sub-Processes"],
 			"description":"A fault handler.",
 			"view":"activity/node.handler.fault.svg",
@@ -5698,7 +5998,25 @@
 				"fromtoall",
 				"subProcess"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -5709,7 +6027,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -5721,7 +6039,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -5732,7 +6050,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -5742,7 +6060,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -5767,7 +6085,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -5801,7 +6119,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -5886,7 +6204,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -5894,7 +6212,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -5907,7 +6225,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"suppressjoinfailure",
@@ -5926,7 +6244,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -5936,7 +6254,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -5945,7 +6263,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"handlertype",
@@ -5955,7 +6273,7 @@
 					"description":"The type of the handler.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"adhoc",
@@ -5964,7 +6282,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"isolated",
@@ -5973,7 +6291,7 @@
 					"value":false,
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -5985,7 +6303,7 @@
 					"optional":false,
 					"refToView":"handlerrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				}
             ]
 		},
@@ -6003,7 +6321,25 @@
 				"tc",
 				"fromtoall",
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -6014,7 +6350,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -6026,7 +6362,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -6037,7 +6373,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -6047,7 +6383,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -6072,7 +6408,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -6106,7 +6442,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -6191,7 +6527,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -6199,7 +6535,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -6212,7 +6548,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"subprocesstype",
@@ -6222,7 +6558,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -6232,7 +6568,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -6241,7 +6577,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"handlertype",
@@ -6251,7 +6587,7 @@
 					"description":"The type of the handler.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"adhoc",
@@ -6260,7 +6596,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"exitonstandardfault",
@@ -6269,7 +6605,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"isolated",
@@ -6278,7 +6614,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -6290,7 +6626,7 @@
 					"optional":false,
 					"refToView":"handlerrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				},
             ]
 		},
@@ -6308,7 +6644,25 @@
 				"tc",
 				"fromtoall",				
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -6319,7 +6673,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -6331,7 +6685,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -6342,7 +6696,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -6352,7 +6706,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -6377,7 +6731,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -6411,7 +6765,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -6496,7 +6850,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -6504,7 +6858,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -6517,7 +6871,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"subprocesstype",
@@ -6527,7 +6881,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -6537,7 +6891,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -6546,7 +6900,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"handlertype",
@@ -6556,7 +6910,7 @@
 					"description":"The type of the handler.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"adhoc",
@@ -6565,7 +6919,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"exitonstandardfault",
@@ -6574,7 +6928,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"isolated",
@@ -6583,7 +6937,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -6595,7 +6949,7 @@
 					"optional":false,
 					"refToView":"handlerrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				},
             ]
 		},
@@ -6614,7 +6968,25 @@
 				"fromtoall",
 				"subProcess"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -6625,7 +6997,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -6637,7 +7009,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -6648,7 +7020,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -6658,7 +7030,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -6683,7 +7055,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -6717,7 +7089,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -6802,7 +7174,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -6810,7 +7182,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -6823,7 +7195,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"subprocesstype",
@@ -6833,7 +7205,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -6843,7 +7215,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -6852,7 +7224,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"handlertype",
@@ -6862,7 +7234,7 @@
 					"description":"The type of the handler.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"adhoc",
@@ -6871,7 +7243,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"bgcolor",
@@ -6883,7 +7255,7 @@
 					"optional":false,
 					"refToView":"handlerrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				}
             ]
 		},
@@ -6902,7 +7274,25 @@
 				"fromtoall",
 				"subProcess"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
             "properties": [
 				{
 					"id":"id",
@@ -6913,7 +7303,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"categories",
@@ -6925,7 +7315,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50",
-					"wrapLines":true
+					"wrapLines":true,
 				},
 				{
 					"id":"documentation",
@@ -6936,7 +7326,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"length":"30"
+					"length":"30",
 				},
 				{
 					"id":"name",
@@ -6946,7 +7336,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"assignments",
@@ -6971,7 +7361,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7005,7 +7395,7 @@
 					"description":"The Type of Acitivity.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"status",
@@ -7090,7 +7480,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -7098,7 +7488,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -7111,7 +7501,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-					"min":"1"
+					"min":"1",
 				},
 				{
 					"id":"subprocesstype",
@@ -7121,7 +7511,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"embeddedsubprocesstype",
@@ -7131,7 +7521,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"length":"50"
+					"length":"50",
 				},
 				{
 					"id":"isatransaction",
@@ -7140,17 +7530,17 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
-					"id":"handlertype",
+					"id":"handlertype",
 					"type":"String",
 					"title":"HandlerType",
 					"value":"Compensation",
 					"description":"The type of the handler.",
 					"readonly":true,
 					"optional":false,
-					"length":""
+					"length":"",
 				},
 				{
 					"id":"adhoc",
@@ -7159,7 +7549,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"bgcolor",
@@ -7171,7 +7561,7 @@
 					"optional":false,
 					"refToView":"handlerrect",
 					"fill":true,
-					"stroke":false
+					"stroke":false,
 				}
             ]
 		},
@@ -7190,9 +7580,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7250,7 +7668,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7314,9 +7732,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7374,7 +7820,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7439,9 +7885,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7499,7 +7973,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7564,9 +8038,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7624,7 +8126,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7691,9 +8193,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7751,7 +8281,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7850,9 +8380,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -7875,7 +8433,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},
+				},
 				{
 					"id":"name",
 					"type":"String",
@@ -7910,7 +8468,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -7963,7 +8521,7 @@
 					"value":"false",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -7994,9 +8552,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -8054,7 +8640,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -8140,9 +8726,37 @@
 			"roles": [
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -8201,9 +8815,37 @@
 			"roles": [
 				"tc"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -8251,7 +8893,7 @@
 				}
 			]
 		},
-// ************************** Standard Variable Data Object ******************* 
+// ************************** Standard Variable Data Object *******************
 		{
 			"type": "node",
 			"id":"StandardVariableDataObject",
@@ -8264,7 +8906,21 @@
 				"fromtoall",
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool, poolSet, process and subProcess
 				var parent = shape.getParentShape();
@@ -8277,7 +8933,7 @@
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#MessageHandler") ||
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#TimerHandler")) {
 						// determine oryx-subprocess
-						var id = parent.resourceId;
+						var id = parent.properties["oryx-id"];
 						if (id == "") {
 							id = parent.resourceId;
 							if (id == undefined) {
@@ -8289,7 +8945,7 @@
 								name:"subprocess",
 							 	prefix:"oryx",				 
 							 	value:id,
-								type:"literal"
+								type:"literal",
 							});										
 							subProcess = true;
 						}
@@ -8304,7 +8960,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -8316,7 +8972,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});
 								
 						if (!subProcess) {
@@ -8328,7 +8984,7 @@
 								name:"process",
 							 	prefix:"oryx",				 
 							 	value:processId,
-								type:"literal"
+								type:"literal",
 							});
 						}
 												
@@ -8341,7 +8997,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -8419,7 +9085,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -8427,7 +9093,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -8439,7 +9105,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -8449,7 +9115,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},		
 				{
 					"id":"type",
@@ -8655,7 +9321,7 @@
 							"type":"String",
 							"value":"",
 							"width":110,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"part",
@@ -8663,7 +9329,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"querylanguage",
@@ -8671,7 +9337,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"query",
@@ -8679,7 +9345,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"property",
@@ -8687,7 +9353,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"expressionlanguage",
@@ -8695,7 +9361,7 @@
 							"type":"String",
 							"value":"",
 							"width":150,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"expression",
@@ -8703,7 +9369,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 						{
 							"id":"literal",
@@ -8711,7 +9377,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -8743,7 +9409,21 @@
 				"tc",
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool, poolSet, process and subProcess
 				var parent = shape.getParentShape();
@@ -8756,7 +9436,7 @@
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#MessageHandler") ||
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#TimerHandler")) {
 						// determine oryx-subprocess
-						var id = parent.resourceId;
+						var id = parent.properties["oryx-id"];
 						if (id == "") {
 							id = parent.resourceId;
 							if (id == undefined) {
@@ -8768,7 +9448,7 @@
 								name:"subprocess",
 							 	prefix:"oryx",				 
 							 	value:id,
-								type:"literal"
+								type:"literal",
 							});										
 							subProcess = true;
 						}
@@ -8783,7 +9463,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -8795,7 +9475,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});
 								
 						if (!subProcess) {
@@ -8807,7 +9487,7 @@
 								name:"process",
 							 	prefix:"oryx",				 
 							 	value:processId,
-								type:"literal"
+								type:"literal",
 							});
 						}
 												
@@ -8820,7 +9500,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -8898,7 +9588,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -8906,7 +9596,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},	
@@ -8918,7 +9608,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -8928,7 +9618,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},	
 				{
 					"id":"type",
@@ -8947,7 +9637,7 @@
 					"value":"Fault",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},	
 				{
 					"id":"deftype",
@@ -9016,7 +9706,21 @@
 				"tc",
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool, poolSet, process and subProcess
 				var parent = shape.getParentShape();
@@ -9029,7 +9733,7 @@
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#MessageHandler") ||
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#TimerHandler")) {
 						// determine oryx-subprocess
-						var id = parent.resourceId;
+						var id = parent.properties["oryx-id"];
 						if (id == "") {
 							id = parent.resourceId;
 							if (id == undefined) {
@@ -9041,7 +9745,7 @@
 								name:"subprocess",
 							 	prefix:"oryx",				 
 							 	value:id,
-								type:"literal"
+								type:"literal",
 							});										
 							subProcess = true;
 						}
@@ -9056,7 +9760,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -9068,7 +9772,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});
 								
 						if (!subProcess) {
@@ -9080,7 +9784,7 @@
 								name:"process",
 							 	prefix:"oryx",				 
 							 	value:processId,
-								type:"literal"
+								type:"literal",
 							});
 						}
 												
@@ -9093,7 +9797,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -9171,7 +9885,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -9179,7 +9893,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -9191,7 +9905,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -9201,7 +9915,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},	
 				{
 					"id":"type",
@@ -9220,7 +9934,7 @@
 					"value":"Message",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},		
 				{
 					"id":"deftype",
@@ -9288,7 +10002,21 @@
 				"fromtoall",
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool, poolSet, process and subProcess
 				var parent = shape.getParentShape();
@@ -9301,7 +10029,7 @@
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#MessageHandler") ||
 						(parent.getStencil().id() == "http://b3mn.org/stencilset/bpmnplus#TimerHandler")) {
 						// determine oryx-subprocess
-						var id = parent.resourceId;
+						var id = parent.properties["oryx-id"];
 						if (id == "") {
 							id = parent.resourceId;
 							if (id == undefined) {
@@ -9314,7 +10042,7 @@
 								name:"subprocess",
 							 	prefix:"oryx",				 
 							 	value:id,
-								type:"literal"
+								type:"literal",
 							});										
 							subProcess = true;
 						}
@@ -9329,7 +10057,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -9341,7 +10069,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});
 								
 						if (!subProcess) {
@@ -9353,7 +10081,7 @@
 								name:"process",
 							 	prefix:"oryx",				 
 							 	value:processId,
-								type:"literal"
+								type:"literal",
 							});
 						}
 												
@@ -9366,7 +10094,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -9444,7 +10182,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -9452,7 +10190,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -9464,7 +10202,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -9474,7 +10212,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"type",
@@ -9493,7 +10231,7 @@
 					"value":"Counter",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},	
 				{
 					"id":"bgcolor",	
@@ -9524,7 +10262,21 @@
 				"tc"
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool or poolSet
 				var parent = shape.getParentShape();		
@@ -9539,7 +10291,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -9551,7 +10303,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});													
 												
 						break;
@@ -9563,7 +10315,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -9641,7 +10403,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -9649,7 +10411,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -9661,7 +10423,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -9671,7 +10433,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"type",
@@ -9758,7 +10520,21 @@
 				"tc"
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				// serialize pool or poolSet
 				var parent = shape.getParentShape();				
@@ -9773,7 +10549,7 @@
 							name = "poolset";
 						}
 						
-						var poolId = parent.resourceId;
+						var poolId = parent.properties["oryx-id"];
 						if (poolId == "") {
 							poolId = parent.resourceId;
 							if (poolId == undefined) {
@@ -9785,7 +10561,7 @@
 							name:name,
 						 	prefix:"oryx",				 
 						 	value:poolId,
-							type:"literal"
+							type:"literal",
 						});													
 												
 						break;
@@ -9797,7 +10573,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -9875,7 +10661,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -9883,7 +10669,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -9895,7 +10681,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":true,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"producedatcompletion",
@@ -9905,7 +10691,7 @@
 					"description":"",
 					"readonly":true,
 					"optional":false,
-					"refToView":""
+					"refToView":"",
 				},
 				{
 					"id":"type",
@@ -9951,9 +10737,37 @@
 				"sequence_start",				
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -10012,7 +10826,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -10092,9 +10906,37 @@
 				"noGateway",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -10153,7 +10995,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -10309,7 +11151,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 					]
 				},				
@@ -10353,9 +11195,37 @@
 				"from_task_event",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -10413,7 +11283,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -10490,7 +11360,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"timeexpressionlanguage",
@@ -10499,7 +11369,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"repeatevery",
@@ -10508,7 +11378,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"repeateverylanguage",
@@ -10517,7 +11387,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},		
 				{
 					"id":"bgcolor",
@@ -10554,8 +11424,37 @@
 				"tc",
 				"fromtoall"
 			],
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}				
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -10614,7 +11513,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -10667,7 +11566,7 @@
 					"title":"SuppressJoinFailure",
 					"value":"false",
 					"description":"",
-					"readonly":false,
+					"readonly":false,
 					"optional":true
 				},
 				{
@@ -10707,7 +11606,7 @@
 					"value":"",
 					"description":"The message exchange name to disambiguate the relationship between this event and the following send tasks.",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},				
 				{
 					"id":"fromparts",
@@ -10732,7 +11631,7 @@
 							"type":"String",
 							"value":"##opaque",
 							"width":200,
-							"optional":false
+							"optional":false,
 						},
 					]
 				},
@@ -10743,7 +11642,7 @@
 					"value":"true",
 					"description":"",
 					"readonly":false,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"correlations",
@@ -10824,9 +11723,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -10884,7 +11811,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -10970,7 +11897,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"timeexpressionlanguage",
@@ -10979,7 +11906,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},
 				{
 					"id":"bgcolor",
@@ -11013,7 +11940,21 @@
 				"fromtoall"
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				var attached;
 				var incomingShapes = shape.getIncomingShapes();
@@ -11028,7 +11969,7 @@
 				});
 
 				if (attached != undefined) {
-					var attachedId = attached.resourceId;
+					var attachedId = attached.properties["oryx-id"];
 					if (attachedId == "") {
 						attachedId = attached.resourceId;
 					}
@@ -11037,7 +11978,7 @@
 							name:"target",
 						 	prefix:"oryx",				 
 						 	value:attachedId,
-					 		type:"literal"
+					 		type:"literal",
 						});
 					}
 			 	}
@@ -11045,7 +11986,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11103,7 +12054,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -11136,7 +12087,7 @@
 					"value":"Intermediate",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"trigger",
@@ -11145,7 +12096,7 @@
 					"value":"Error",
 					"description":"",
 					"readonly":true,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"suppressjoinfailure",
@@ -11163,7 +12114,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},		
 				{
 					"id":"bgcolor",
@@ -11198,7 +12149,21 @@
 				"tc"
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				var attached;
 				var incomingShapes = shape.getIncomingShapes();
@@ -11213,7 +12178,7 @@
 				});
 
 				if (attached != undefined) {
-					var attachedId = attached.resourceId;
+					var attachedId = attached.properties["oryx-id"];
 					if (attachedId == "") {
 						attachedId = attached.resourceId;
 					}
@@ -11222,7 +12187,7 @@
 							name:"target",
 						 	prefix:"oryx",				 
 						 	value:attachedId,
-					 		type:"literal"
+					 		type:"literal",
 						});
 					}
 			 	}
@@ -11230,7 +12195,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11268,7 +12243,7 @@
 				{
 					"id":"assignments",
 					"type":"Complex",
-					"title":"Assignments",
+					"title":"Assignments",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -11288,7 +12263,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -11351,7 +12326,7 @@
 					"value":"",
 					"description":"The id of the scope or task to compensate.",
 					"readonly":false,
-					"optional":true
+					"optional":true,
 				},				
 				{
 					"id":"bgcolor",
@@ -11385,7 +12360,21 @@
 				"fromtoall"
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				var attached;
 				var incomingShapes = shape.getIncomingShapes();
@@ -11400,7 +12389,7 @@
 				});
 
 				if (attached != undefined) {
-					var attachedId = attached.resourceId;
+					var attachedId = attached.properties["oryx-id"];
 					if (attachedId == "") {
 						attachedId = attached.resourceId;
 					}
@@ -11409,7 +12398,7 @@
 							name:"target",
 						 	prefix:"oryx",				 
 						 	value:attachedId,
-					 		type:"literal"
+					 		type:"literal",
 						});
 					}
 			 	}
@@ -11417,7 +12406,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11475,7 +12474,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -11562,9 +12561,37 @@
 				"tc",
 				"fromtoall"
 			],
-			
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11622,7 +12649,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"assigntime",
@@ -11695,8 +12722,72 @@
 			"roles": [
 				"flow"
 			],
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				var sources = shape.getIncomingShapes();
+				if (sources.length > 0) {
+					var source = sources[0];
+					var id = source.properties["oryx-id"];
+					if (id == "") {
+						id = source.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+								name:"source",
+							 	prefix:"oryx",
+							 	value:id,
+							 	type:"literal",
+						});
+					}
+				}											
+				
+				// determine oryx-target
+				var targets = shape.getOutgoingShapes();
+				if (targets.length > 0) {
+					var target = targets[0];
+					var id = target.properties["oryx-id"];
+					if (id == "") {
+						id = target.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+							name:"target",
+						 	prefix:"oryx",
+						 	value:id,
+						 	type:"literal",
+						});
+					}
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11765,8 +12856,72 @@
 			"roles": [
 				"flow"
 			],
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
+				var sources = shape.getIncomingShapes();
+				if (sources.length > 0) {
+					var source = sources[0];
+					var id = source.properties["oryx-id"];
+					if (id == "") {
+						id = source.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+								name:"source",
+							 	prefix:"oryx",
+							 	value:id,
+							 	type:"literal",
+						});
+					}
+				}											
+				
+				// determine oryx-target
+				var targets = shape.getOutgoingShapes();
+				if (targets.length > 0) {
+					var target = targets[0];
+					var id = target.properties["oryx-id"];
+					if (id == "") {
+						id = target.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+							name:"target",
+						 	prefix:"oryx",
+						 	value:id,
+						 	type:"literal",
+						});
+					}
+				}
+				
+				return data;
+			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11855,7 +13010,72 @@
 			"roles": [
 				"flow"
 			],
+			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}							
+				
+				var sources = shape.getIncomingShapes();
+				if (sources.length > 0) {
+					var source = sources[0];
+					var id = source.properties["oryx-id"];
+					if (id == "") {
+						id = source.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+								name:"source",
+							 	prefix:"oryx",
+							 	value:id,
+							 	type:"literal",
+						});
+					}
+				}											
+				
+				// determine oryx-target
+				var targets = shape.getOutgoingShapes();
+				if (targets.length > 0) {
+					var target = targets[0];
+					var id = target.properties["oryx-id"];
+					if (id == "") {
+						id = target.resourceId;
+					}
+					if (id != undefined) {
+						data.push({
+							name:"target",
+						 	prefix:"oryx",
+						 	value:id,
+						 	type:"literal",
+						});
+					}
+				}
+				
+				return data;
+			},
 			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -11924,60 +13144,82 @@
 			"roles": [
 			],
 			"serialize":function(shape, data) {
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
 				var sources = shape.getIncomingShapes();
 				var switched = false;
 				if (sources.length > 0) {
 					var source = sources[0];
-					// determine oryx-source
-					var type = source.getStencil().id();
-					var id = source.resourceId;
+					// determine oryx-direction and oryx-source
+					var type= source.getStencil().id();
+					var id = source.properties["oryx-id"];
+					if (id == "") {
+						id = source.resourceId;
+					}
 					var name;
 					if (type == "http://b3mn.org/stencilset/bpmnplus#StandardVariableDataObject" ||
 						type == "http://b3mn.org/stencilset/bpmnplus#FaultVariableDataObject" ||
 						type == "http://b3mn.org/stencilset/bpmnplus#MessageVariableDataObject" ||
 						type == "http://b3mn.org/stencilset/bpmnplus#CounterVariableDataObject" ||
 						type == "http://b3mn.org/stencilset/bpmnplus#ParticipantReferenceDataObject" ||
-						type == "http://b3mn.org/stencilset/bpmnplus#ParticipantSetDataObject") {
+						type == "http://b3mn.org/stencilset/bpmnplus#ParticipantSetDataObject") {						
 						name = "target";
 						switched = true;
 					} else {
-						name = "source";
+						name="source";
 					}
-//					data.push({
-//							name:"direction",
-//						 	prefix:"oryx",
-//						 	value:"None",
-//						 	type:"literal",
-//						});
+					data.push({
+							name:"direction",
+						 	prefix:"oryx",
+						 	value:"None",
+						 	type:"literal",
+						});
 					
 					if (id != undefined) {
 						data.push({
 								name:name,
 							 	prefix:"oryx",
 							 	value:id,
-							 	type:"literal"
+							 	type:"literal",
 						});
 					}
-				}
-
+				}											
+				
 				// determine oryx-target
 				var targets = shape.getOutgoingShapes();
 				if (targets.length > 0) {
 					var target = targets[0];
-					var id = target.resourceId;
+					var id = target.properties["oryx-id"];
+					if (id == "") {
+						id = target.resourceId;
+					}
 					var name;
 					if (switched) {
 						name = "source";
 					} else {
 						name = "target";
 					}
-
+					
 					if (id != undefined) {
 						data.push({
 							name:name,
 						 	prefix:"oryx",
 						 	value:id,
-						 	type:"literal"
+						 	type:"literal",
 						});
 					}
 				}
@@ -11985,7 +13227,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -12033,7 +13285,21 @@
 			"roles": [
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
 				
 				var sources = shape.getIncomingShapes();
 				var switched = false;
@@ -12041,7 +13307,7 @@
 					var source = sources[0];
 					// determine oryx-direction and oryx-source
 					var type= source.getStencil().id();
-					var id = source.resourceId;
+					var id = source.properties["oryx-id"];
 					if (id == "") {
 						id = source.resourceId;
 					}
@@ -12056,7 +13322,7 @@
 							name:"direction",
 						 	prefix:"oryx",
 						 	value:"To",
-						 	type:"literal"
+						 	type:"literal",
 						});
 						name = "target";
 						switched = true;
@@ -12065,7 +13331,7 @@
 							name:"direction",
 						 	prefix:"oryx",
 						 	value:"From",
-						 	type:"literal"
+						 	type:"literal",
 						});
 						name="source";
 					}
@@ -12074,7 +13340,7 @@
 								name:name,
 							 	prefix:"oryx",
 							 	value:id,
-							 	type:"literal"
+							 	type:"literal",
 						});
 					}
 				}											
@@ -12083,7 +13349,7 @@
 				var targets = shape.getOutgoingShapes();
 				if (targets.length > 0) {
 					var target = targets[0];
-					var id = target.resourceId;
+					var id = target.properties["oryx-id"];
 					if (id == "") {
 						id = target.resourceId;
 					}
@@ -12098,7 +13364,7 @@
 							name:name,
 						 	prefix:"oryx",
 						 	value:id,
-						 	type:"literal"
+						 	type:"literal",
 						});
 					}
 				}
@@ -12106,7 +13372,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -12154,17 +13430,35 @@
 			"roles": [
 			],
 			"serialize":function(shape, data) {
-
+				var id = shape.properties["oryx-id"];
+				if (id == "") {
+					id = shape.resourceId;
+					if (id == undefined) {
+						id = "";
+					}
+					var idRec;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].name == "id") {
+							idRec = data[i];
+							break;
+						}
+					}
+					idRec.value=id;
+				}
+				
 				var sources = shape.getIncomingShapes();
 				if (sources.length > 0) {
 					var source = sources[0];
-					var id = source.resourceId;
+					var id = source.properties["oryx-id"];
+					if (id == "") {
+						id = source.resourceId;
+					}
 					if (id != undefined) {
 						data.push({
 							name:"source",
 						 	prefix:"oryx",
 						 	value:id,
-						 	type:"literal"
+						 	type:"literal",
 						});
 					}
 				}
@@ -12172,13 +13466,16 @@
 				var targets = shape.getOutgoingShapes();
 				if (targets.length > 0) {
 					var target = targets[0];
-					var id = target.resourceId;
+					var id = target.properties["oryx-id"];
+					if (id == "") {
+						id = target.resourceId;
+					}
 					if (id != undefined) {
 						data.push({
 							name:"target",
 						 	prefix:"oryx",
 						 	value:id,
-						 	type:"literal"
+						 	type:"literal",
 						});
 					}
 				}
@@ -12186,7 +13483,17 @@
 				return data;
 			},
 			"properties": [
-
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
 				{
 					"id":"categories",
 					"type":"String",
@@ -12227,7 +13534,7 @@
 					"value":"messageName",
 					"description":"",
 					"readonly":false,
-					"optional":false
+					"optional":false,
 				},
 				{
 					"id":"messageproperties",
@@ -12252,7 +13559,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false
+							"optional":false,
 						},
 						{
 							"id":"correlation",
@@ -12260,7 +13567,7 @@
 							"type":"Boolean",
 							"value":"false",
 							"width":100,
-							"optional":true
+							"optional":true,
 						},
 					]
 				},
@@ -12435,14 +13742,14 @@
 				outgoingEdges: [
 					{
 						role:"SequenceFlow",
-						maximum:1
+						maximum:1,
 						
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
-						maximum:1						
+						maximum:1,						
 					}
 				]
 			},
@@ -12452,14 +13759,14 @@
 				outgoingEdges: [
 					{
 						role:"DefaultFlow",
-						maximum:1
+						maximum:1,
 						
 					},					
 				],
 				incomingEdges: [
 					{
 						role:"flow",
-						maximum:1
+						maximum:1,
 						
 					}
 				]
@@ -12470,7 +13777,7 @@
 				incomingEdges: [
 					{
 						role:"flow",
-						maximum:1
+						maximum:1,
 						
 					}
 				]
@@ -12481,7 +13788,7 @@
 				outgoingEdges: [
 					{
 						role:"SequenceFlow",
-						maximum:1
+						maximum:1,
 						
 					}
 				]
@@ -12492,7 +13799,7 @@
 				incomingEdges: [
 					{
 						role:"flow",
-						maximum:1
+						maximum:1,
 						
 					}
 				]
@@ -12503,10 +13810,10 @@
 				outgoingEdges: [
 					{
 						role:"SequenceFlow",
-						maximum:1
+						maximum:1,
 						
 					}					
-				]				
+				],				
 			},
 			{
 				"role":"AND_Gateway_Fork",
@@ -12514,10 +13821,10 @@
 				incomingEdges: [
 					{
 						role:"flow",
-						maximum:1
+						maximum:1,
 						
 					}					
-				]				
+				],				
 			},
 			{
 				"role":"AND_Gateway_Join",
@@ -12525,10 +13832,10 @@
 				outgoingEdges: [
 					{
 						role:"SequenceFlow",
-						maximum:1
+						maximum:1,
 						
 					}					
-				]				
+				],				
 			},
 			{
 				"role":"attachmentAllowed",
@@ -12536,14 +13843,14 @@
 				outgoingEdges: [
 					{
 						role:"IntermediateTerminationEvent",
-						maximum:1
+						maximum:1,
 						
 					},
 					{
 						role:"IntermediateCompensationEvent",
-						maximum:1
+						maximum:1,
 					}					
-				]				
+				],				
 			}
 			
 		],
@@ -12761,7 +14068,7 @@
 						// association from compensation event to compensation handler only if compensation event attached
 						// and only if no other compensation handler connected to
 						if (args.targetStencil && args.sourceShape &&
-							(args.targetStencil.id() == args.sourceStencil.namespace() + "CompensationHandler")) {
+							(args.targetStencil.id() == args.sourceStencil.namespace() + "CompensationHandler")) {
 							
 							if (!isAttached(args.sourceShape)) {
 								return false;

@@ -2,8 +2,6 @@ package de.hpi.petrinet;
 
 import java.util.List;
 
-import de.hpi.util.Bounds;
-
 /**
  * Copyright (c) 2008 Gero Decker
  * 
@@ -29,7 +27,6 @@ public class FlowRelationship {
 	
 	protected Node source;
 	protected Node target;
-	protected String id;
 
 	public Node getSource() {
 		return source;
@@ -58,26 +55,6 @@ public class FlowRelationship {
 	
 	public String toString() {
 		return "("+source+","+target+")";
-	}
-
-	public String getId() {
-		if(id != null){
-			return id;
-		} else if(id == null && 
-				this.getSource().getId() != null && 
-				this.getTarget().getId() != null){
-			return this.getSource().getId() + this.getTarget().getId();
-		} else {
-			return null;
-		}
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public Bounds getCalculatedBounds(){
-		return new Bounds(this.getSource().getBounds().getCenterRelative(), this.getTarget().getBounds().getCenterRelative());
 	}
 
 }

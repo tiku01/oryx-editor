@@ -175,7 +175,7 @@ public class ParticipantsFactory {
 			Element ref = createReferenceElement(document, pool);
 			if (ref == null) {
 				this.output.addError("There are multiple pools defining "+
-						"the same participant or pool name.", pool.getId());
+						"the same participant or pool name.");
 			} else {
 				parent.appendChild(ref);
 			}
@@ -199,8 +199,8 @@ public class ParticipantsFactory {
 		String prefix = act.getParentSwimlane().getPrefix();
 
 		if (prefix == null) {
-			this.output.addError("The prefix for this blockactivity " + 
-					 " could not be determined.", act.getId());
+			this.output.addError("The prefix for blockactivity " + 
+					act.getId() + " could not be determined.");
 			return null;
 		}
 		return prefix + ":" + act.getName();
@@ -233,7 +233,7 @@ public class ParticipantsFactory {
 					scope = ref.getScope();
 				} else if (!scope.equals(ref.getScope())) {
 					this.output.addError("There are participant reference "+
-							"data objects of the same name defining different scopes.", scope.getId());
+							"data objects of the same name defining different scopes.");
 					return null;
 				}
 			}
@@ -270,7 +270,7 @@ public class ParticipantsFactory {
 					scope = ref.getScope();
 				} else if (!scope.equals(ref.getScope())) {
 					this.output.addError("There are participant reference "+
-						"data objects of the same name defining different scopes.", scope.getId());
+						"data objects of the same name defining different scopes.");
 					return null;
 				}
 			}
@@ -307,8 +307,8 @@ public class ParticipantsFactory {
 			List<Activity> activities = getForEach(ref.getId());
 			if (activities.size() > 1) {
 				this.output.addError("The participant reference " + 
-						"can only be connected with " +
-						"one multiple instance activity.", dataObject.getId());
+						dataObject.getName() + "can only be connected with " +
+						"one multiple instance activity.");
 			} else if (activities.size() == 1) {
 				Activity act = activities.get(0);
 				if (result == null) {
@@ -316,7 +316,7 @@ public class ParticipantsFactory {
 				} else if (!result.equals(act)) {
 					this.output.addError("The participant references with the name " + 
 							dataObject.getName() + "must be associated " +
-							"with the same multiple instance activity.", dataObject.getId());
+							"with the same multiple instance activity.");
 				}
 			}
 		}
@@ -1294,8 +1294,8 @@ public class ParticipantsFactory {
 		if (!contained) {
 			String type = getType(setDataObject);			
 			if (type == null) {
-				this.output.addError("Type for this participant set " + 
-						 " could not be determined.", setDataObject.getName() );
+				this.output.addError("Type for participant set " + 
+						setDataObject.getName() + " could not be determined." );
 			} else {
 				result.setAttribute("type", type);
 			}
