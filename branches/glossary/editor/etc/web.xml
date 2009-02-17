@@ -22,6 +22,14 @@
 	</servlet> -->
 	
 	<servlet>
+		<display-name>Glossary Prototype</display-name>
+		<servlet-name>Glossary</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.GlossaryServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<display-name>Oryx Legacy File Download Servlet</display-name>
 		<servlet-name>DownloadServlet</servlet-name>
 		<servlet-class>
@@ -200,6 +208,11 @@
 	<servlet-mapping>
 		<servlet-name>ExportServlet</servlet-name>
 		<url-pattern>/pnml</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Glossary</servlet-name>
+		<url-pattern>/glossary</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

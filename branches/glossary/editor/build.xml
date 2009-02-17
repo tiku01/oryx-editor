@@ -137,6 +137,7 @@
                 <file name='scripts/kickstart.js'/>
 				<file name='scripts/erdfparser.js'/>
 				<file name='scripts/datamanager.js'/>
+				<file name='scripts/Ext/extExtension.js'/>
 				<file name='scripts/oryx.js'/>
 				<file name='scripts/config.js'/>
                 <file name='scripts/Core/SVG/editpathhandler.js'/>
@@ -192,6 +193,11 @@
         </echo>
         <copy todir="${editor-build-root}/i18n">
 			<fileset dir="${editor-src-root}/data/i18n"/>
+		</copy>
+		<copy todir="${editor-build-root}">
+			<fileset dir="${editor-src-root}/data">
+				<include name="glossary.json" />
+			</fileset>
 		</copy>
 		<echo>
             Copied language files into oryx build destination
