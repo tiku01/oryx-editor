@@ -1,0 +1,292 @@
+body {
+	background-image: url(bg.jpg);
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-color: #adadad;
+	color: #222;
+	margin: 0px;
+	padding: 0px;
+	padding-bottom: 10px;
+}
+
+/******************************************************************************
+ * page width - static
+ */
+
+#openid_login, #navigation, #main, #footer {
+	margin: 5px auto;
+	width: 800px;
+}
+
+#header {
+	min-width: 800px;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-Index: 400;
+}
+
+/******************************************************************************
+ * header
+ */
+
+#header {
+	background-image: url(header_bg.orange.png);
+	background-repeat: repeat-x;
+	background-position: bottom center;
+	padding: 5px 0px 30px;
+	width: 100%;
+}
+
+
+#openid_login {
+	text-align: right;
+	margin: 0px auto;
+	padding: 0px 0px 2px;
+	position:relative;
+	height: 20px;
+}
+
+#openid_login input {
+	width: 40px;
+	margin: 0px 1px;
+	font-size: 12px;
+	padding: 1px;
+}
+
+#openid_login input.text {
+	width: 200px;
+	background: #FFFFFF url(openid_login_bg.gif) no-repeat scroll 5px; 
+	padding-left: 25px;
+	border: 1px solid #a00;
+}
+
+#openid_login:hover input.text {
+	color: #222;
+}
+
+#openid_login input.gray {
+	color: #888;
+}
+
+#openid_login input.button {
+	color: #a00;
+	font-weight: bold;
+	border-width: 0px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+#openid_login label {
+	color: #eee;
+}
+
+#openid_login #openid_register  {
+	display: block;
+	text-decoration: none;
+}
+
+#openid_label {
+	z-Index: 1000;
+	display: none;
+	float: right;
+	position: absolute;
+	right: 0px;
+	margin-right: 20px;
+	padding: 20px 2px 2px;
+	width: 190px;
+	background-image: url(tooltip_bg.png);
+	background-position: top right;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+#openid_label a {
+	color: white;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#header span{
+	right:280px;
+	position:absolute;
+	display:none;
+	top:1px;
+}
+
+#header span img{
+	position:relative;
+	right:6px;
+	margin-right:6px;
+	width:16px;
+}
+
+#header:hover span{
+	display:inline;
+}
+/******************************************************************************
+ * navigation
+ */
+
+ul#navigation {
+	list-style-type: none;
+	padding: 0px;
+	margin-top: 70px;
+	height: 80px;
+}
+
+ul#navigation li.logo {
+	float: left;
+	border-width: 0px;
+	margin: -3px -40px;
+}
+
+ul#navigation li.logo img {
+	border-width: 0px;
+}
+
+ul#navigation li {
+	display: block;
+	float: right;
+	position: relative;
+	
+	width: 150px;
+	height: 80px;
+	margin: 2px 0px 5px 5px;
+
+	border-right: 1px solid #d7d7d7;
+	
+	text-align: right;
+}
+
+ul#navigation a {
+	display: block;
+	margin: 5px;
+	bottom: 5px;
+	right: 5px;
+	font-family: trebuchet ms, Times, serif;
+	color: #fff;
+	text-decoration: none;
+	font-size: 9pt;
+}
+
+ul#navigation a:hover,
+ul#navigation .active,
+ul#navigation .active a {
+	color: #a00; #d0002d;
+	border-color: #ab5656; #d0002d;
+}
+
+ul#navigation a strong {
+	display: block;
+	font-size: 15pt;
+}
+
+/******************************************************************************
+ * breadcrumbs
+ */
+
+#main #breadcrumbs, 
+#main #breadcrumbs a {
+	text-align: right;
+	color: #888;
+	font-size: 8.5pt;
+	padding: 1px 3px 0px 0px;
+}
+
+#main #breadcrumbs:hover, 
+#main #breadcrumbs:hover a {
+	color: #222;
+}
+
+#main #breadcrumbs a:hover {
+	color: #a00;
+}
+
+/******************************************************************************
+ * main
+ */
+ 
+#main {
+ 	margin-top: 25px;
+	min-height: 420px;
+ 	clear: both;
+	background-color: white;
+	position: relative;
+	
+	border: 1px solid #888; #b1b1b1;
+}
+
+/******************************************************************************
+ * footer
+ */
+
+#footer {
+	padding: 15px 50px 2px;
+ 	margin-top: 5px;
+ 	clear: both;
+	background-color: #adadad;
+	position: relative;
+	
+	font-size: 8pt;
+	text-align: center;
+	
+	color: #666;
+}
+
+#footer * {
+	margin: 5px;
+	color: #666;
+}
+
+/*******************************************************************************
+ * toolbox - actions for wiki topics
+ */
+#toolbox {
+	color:#fff;
+	padding:5px;
+	position:absolute;
+	position: fixed;
+	top: 4px;
+	left: 4px;
+	
+	background-image: url(../BptSkin/bg_transparent.png);
+	background-position: bottom left;
+	z-Index: 500;
+}
+
+#toolbox a {
+	font-weight: normal;
+	color: #fff;
+	padding: 2px;
+	text-decoration: none;
+}
+
+#toolbox a:hover {
+	text-decoration: underline;
+}
+
+#toolbox a.natHomePageTopicAction {
+	font-weight: bold;
+}
+
+#toolbox ul {
+	list-style-type: none;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#toolbox li {
+	padding-bottom: 2pt;
+}
+	
+
+/*******************************************************************************
+ * some additional styles for the twiki editing markup
+ */
+.bpt_revision {
+	margin: 20px;
+	text-align: right;
+}
