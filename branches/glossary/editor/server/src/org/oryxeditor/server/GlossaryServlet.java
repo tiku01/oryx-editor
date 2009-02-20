@@ -3,6 +3,8 @@ package org.oryxeditor.server;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,15 +61,18 @@ public class GlossaryServlet extends HttpServlet {
 							JSONObject entry = glossary.getJSONObject(i);
 							result.append("<h4>" + entry.getString("title") + "</h4>");
 							result.append("<p>" + entry.getString("description") + "</p>");
-							result.append("<p><strong>Prozesse:</strong><br/>");
-							result.append(entry.getString("occurrence") + "</p>");
-							
+							result.append("<form accept-charset=\"UTF-8\" action=\"/oryx/glossary\" method=\"post\" style=\"text-align:right;\" >");
+							result.append("<input type=\"hidden\" name=\"delete\" value=\"" + entry.getString("id") + "\">");
+							result.append("<input class=\"twikiSubmit\" type=\"submit\" name=\"submit\" value=\"Eintrag löschen\" />");
+							result.append("</form>");
+							//result.append("<p><strong>Prozesse:</strong><br/>");
+							//result.append(entry.getString("occurrence") + "</p>");
 						}
 	
 						result.append("<p> </p>");
-						result.append("<h3>Einen neuen Eintrag hinzufÃ¼gen:</h3><p>");
+						result.append("<h3>Einen neuen Eintrag hinzufügen:</h3><p>");
 						
-						result.append("<form action=\"/oryx/glossary\" method=\"post\">");
+						result.append("<form accept-charset=\"UTF-8\" action=\"/oryx/glossary\" method=\"post\">");
 							result.append("<strong>Name</strong><br/>");
 							result.append("<textarea class=\"twikiInputField\" name=\"name\" cols=\"50\" rows=\"2\"></textarea><br/>");
 							result.append("<strong>Beschreibung</strong><br/>");
@@ -93,9 +98,7 @@ public class GlossaryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("Glossary");
 		try {
-			String name = req.getParameter("name");
-			String description = req.getParameter("description");
-			String occurrence = "";
+			req.setCharacterEncoding("UTF-8");
 			
 			String glosFileName = this.getServletContext().getRealPath("/glossary.json");
 			
@@ -104,17 +107,40 @@ public class GlossaryServlet extends HttpServlet {
 			
 			JSONArray glossary = new JSONArray(glosJSONString);
 			
-			JSONObject newEntry = new JSONObject();
-			newEntry.put("title", name);
-			newEntry.put("description", description);
-			newEntry.put("occurrence", occurrence);
-			glossary.put(newEntry);
+			String delete = req.getParameter("delete");
+			System.out.println(delete);
+			if(delete != null) {
+				JSONArray newGlos = new JSONArray();
+				for (int i = 0; i < glossary.length(); i++) {
+					JSONObject entry = glossary.getJSONObject(i);
+					String id = entry.getString("id");
+					if(!id.equals(delete)) {
+						newGlos.put(entry);
+					}
+				}
+				glossary = newGlos;
+			} else {
 			
-			glosJSONString = glossary.toString();
-			
-			FileUtils.writeStringToFile(glosFile, glosJSONString, "UTF-8");
-			
-			doGet(req, res);
+				String name = req.getParameter("name");
+				String description = req.getParameter("description");
+				System.out.println(name + " " + description);
+	
+				String occurrence = "";
+				
+				JSONObject newEntry = new JSONObject();
+				newEntry.put("id", UUID.randomUUID());
+				newEntry.put("title", name);
+				newEntry.put("description", description);
+				//newEntry.put("occurrence", occurrence);
+				glossary.put(newEntry);
+				
+				}
+				
+				glosJSONString = glossary.toString();
+				
+				FileUtils.writeStringToFile(glosFile, glosJSONString, "UTF-8");
+				
+				doGet(req, res);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
