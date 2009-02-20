@@ -1,38 +1,53 @@
 [
 	{
 		"id":"1",
-		"title":"Leistungsansprüche formal - rechtlich prüfen",
-		"description":"(Vlau,Best,Vtex)"
+		"title":"Betriebsnummer ermitteln",
+		"description":""
 	},
 	{
 		"id":"2",
-		"title":"Erforderliche Anfragen klären",
-		"description":"Rücksrache mit zust. Team\nVP, VS, KH od. Arzt "
+		"title":"Konto anlegen",
+		"description":""
 	},
 	{
 		"id":"3",
-		"title":"Leistungsanspruch aus formal - rechtlicher Sicht prüfen",
-		"description":"LSAW"
+		"title":"Deckblatt anlegen",
+		"description":""
 	},
 	{
 		"id":"4",
-		"title":"Prüfen, ob Kostenübernahmeantrag d. Fahrt zur amb Behandlung vorliegt",
-		"description":"(LKUE)"
+		"title":"Arbeitgeberakte anlegen",
+		"description":""
 	},
 	{
 		"id":"5",
-		"title":"Rücksprache mit IFB's führen",
-		"description":"Bei Bedarf auch Wirtschaftlichkeitsvergleich"
+		"title":"Standort des Arbeitgebers prüfen",
+		"description":""
 	},
 	{
 		"id":"6",
-		"title":"Vorgang an UB GP / 1 / 2 zur Ablehnung und Erfassung weitergegeben",
+		"title":"Unterlagen zusammenstellen",
 		"description":""
 	},
 	{
 		"id":"7",
-		"title":"Ergebnis der Prüfung feststellen",
-		"description":"Beraterfunktion"
+		"title":"Unterlagen sichten und Daten erfassen",
+		"description":""
+	},
+	{
+		"id":"8",
+		"title":"Deckblatt vervollständigen",
+		"description":""
+	},
+	{
+		"id":"9",
+		"title":"Unterlagen einheften (fester Bestandteil der AG-Akte)",
+		"description":""
+	},
+	{
+		"id":"10",
+		"title":"Vorgang ablegen",
+		"description":""
 	}
 ]
 
