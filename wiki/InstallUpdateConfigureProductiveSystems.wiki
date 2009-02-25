@@ -11,3 +11,4 @@
   * create `tomcat4oryx` tomcat
   * modify `bin/startup.sh`
     * add `export JPDA_ADDRESS=8001`
+  * change `deploymentdir` in `build.properties` to the full path to `tomcat4oryx`
