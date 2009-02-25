@@ -12,3 +12,7 @@
   * modify `bin/startup.sh`
     * add `export JPDA_ADDRESS=8001`
   * change `deploymentdir` in `build.properties` to the full path to `tomcat4oryx`
+
+=== Starting and stopping tomcat ===
+  * `tomcat4oryx/bin/startup.sh`
+  * `tomcat4oryx/bin/shutdown.sh`
