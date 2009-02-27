@@ -3,15 +3,14 @@ package de.hpi.epc.validation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hpi.diagram.Diagram;
 import de.hpi.diagram.DiagramEdge;
 import de.hpi.diagram.DiagramNode;
 import de.hpi.diagram.DiagramObject;
-import de.hpi.petrinet.verification.SyntaxChecker;
+import de.hpi.diagram.verification.AbstractSyntaxChecker;
 
-public class EPCSyntaxChecker implements SyntaxChecker {
+public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 	
 	private static final String NO_SOURCE = "Each edge must have a source";
 	private static final String NO_TARGET = "Each edge must have a target";
@@ -30,13 +29,19 @@ public class EPCSyntaxChecker implements SyntaxChecker {
 	private static final String PI_AFTER_FUNCTION =  "There must be no process interface after a function";
 	private static final String FUNCTION_AFTER_PI =  "There must be no function after a process interface";
 
-	
 	protected Diagram diagram;
-	protected Map<String,String> errors;
+	
+	/**
+	 * Here are some configuration options
+	 */
+	public boolean checkFunctionFollowsFunction;
+	public boolean checkExactlyOneStartEvent;
 	
 	public EPCSyntaxChecker(Diagram diagram) {
-		this.diagram = diagram;
-		this.errors = new HashMap<String,String>();
+		diagram = diagram;
+		errors = new HashMap<String,String>();
+		checkFunctionFollowsFunction = true;
+		checkExactlyOneStartEvent = true;
 	}
 
 	public boolean checkSyntax() {
@@ -47,10 +52,6 @@ public class EPCSyntaxChecker implements SyntaxChecker {
 		checkNodes();
 		
 		return errors.size() == 0;
-	}
-
-	public Map<String, String> getErrors() {
-		return errors;
 	}
 	
 	protected void checkEdges() {
@@ -86,7 +87,7 @@ public class EPCSyntaxChecker implements SyntaxChecker {
 				if (in > 1 || out > 1) addError(node, TOO_MANY_EDGES);
 				else if (in == 0 || out == 0) addError(node, NOT_CONNECTED_2);
 				for (DiagramNode next : getNextEventsOrFunctions(node.getOutgoingEdges())){
-					if ("Function".equals(next.getType())) addError(next, FUNCTION_AFTER_FUNCTION);
+					if (checkFunctionFollowsFunction && "Function".equals(next.getType())) addError(next, FUNCTION_AFTER_FUNCTION);
 					if ("ProcessInterface".equals(next.getType())) addError(next, PI_AFTER_FUNCTION);
 				}
 			}
@@ -122,7 +123,7 @@ public class EPCSyntaxChecker implements SyntaxChecker {
 				}
 			}
 		}
-		if (startEvents.size() > 1){
+		if (checkExactlyOneStartEvent && startEvents.size() > 1){
 			for (DiagramNode n : startEvents){
 				addError(n, MANY_STARTS);
 			}
