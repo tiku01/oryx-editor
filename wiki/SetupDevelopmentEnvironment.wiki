@@ -15,6 +15,7 @@
   * modify `bin/startup.sh`
     * add `export JPDA_ADDRESS=8001`
   * change `deploymentdir` in `build.properties` to the full path to `tomcat4oryx`
+  * (quick-hack until a better solution is provided by Ubuntu) modify the last line of `/usr/share/tomcat6/bin/startup.sh` to show `exec "$PRGDIR"/"$EXECUTABLE" jpda start`
   
 === Eclipse ===
   * Manual installation
@@ -26,3 +27,4 @@
 === Starting and stopping tomcat ===
   * `tomcat4oryx/bin/startup.sh`
   * `tomcat4oryx/bin/shutdown.sh`
+  
