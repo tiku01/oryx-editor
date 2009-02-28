@@ -3,16 +3,3 @@
 = WORK IN PROGRESS. =
 
 == We are currently updating and reviewing the complete Oryx documentation. The new guides will be available as soon as we finished this process. If you have urgent problems, please contact us using the official [http://groups.google.com/group/b3mn mailing list]. ==
-
-= Scratch =
-
-== Installation on Ubuntu 8.10 ==
-  * install `tomcat6-user`
-  * create `tomcat4oryx` tomcat
-  * modify `bin/startup.sh`
-    * add `export JPDA_ADDRESS=8001`
-  * change `deploymentdir` in `build.properties` to the full path to `tomcat4oryx`
-
-=== Starting and stopping tomcat ===
-  * `tomcat4oryx/bin/startup.sh`
-  * `tomcat4oryx/bin/shutdown.sh`
