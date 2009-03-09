@@ -34,6 +34,7 @@
 		<plugin source="context/tagInfo.js" name="Repository.Plugins.TagInfo" />
 		<plugin source="context/rating.js" name="Repository.Plugins.Rating" />
 		<plugin source="context/export.js" name="Repository.Plugins.Export" />
+		<plugin source="context/offline.js" name="Repository.Plugins.Offline" />
 				
 	</plugins>
 		

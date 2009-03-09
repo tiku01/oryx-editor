@@ -32,6 +32,7 @@ ORYX.Plugins.AbstractPlugin = Clazz.extend({
      * @memberOf ORYX.Plugins.AbstractPlugin.prototype
      */
 	facade: null,
+	offlineActive: true,
 	
 	construct: function( facade ){
 		this.facade = facade;
