@@ -27,23 +27,25 @@ if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.IconView = {
 	
-	
+	offlineActive: true,
 	construct: function(facade) {
 		this.name = Repository.I18N.IconView.name;
 		
 		this.icon = '/backend/images/silk/application_view_icons.png';
+		this._offlineIcon='/backend/images/offline_klein.png'
 		this.numOfDisplayedModels = 12;
 		
 		// define required data uris
 		this.dataUris = ["/meta"];
+	
 		
 		arguments.callee.$.construct.apply(this, arguments); // call superclass constructor
-		
 	},
 	
 	
 	
 	render : function(modelData) {
+		
 		
 		this.isRendering = true;
 				
@@ -53,7 +55,6 @@ Repository.Plugins.IconView = {
 		
 		var data = [];
 		var offlineModels=this.facade.modelCache.getOfflineModels();
-
 		modelData.each(function( pair ){
 			var stencilset = pair.value.type;
 			// Try to display stencilset title instead of uri
@@ -63,7 +64,8 @@ Repository.Plugins.IconView = {
 					return;
 				}
 			}.bind(this));
-						var tmptitle=unescape(pair.value.title);
+			
+			var tmptitle=unescape(pair.value.title);
 			var tmpIcon="";
 			
 			if(offlineModels.member(pair.key)){
@@ -73,10 +75,11 @@ Repository.Plugins.IconView = {
 			/*seem to be a prevention against caching, temporaly overwritin
 			data.push( [ pair.key, pair.value.thumbnailUri + "?" + Math.random(), unescape(pair.value.title), stencilset, Repository.Helper.CutOpenID(pair.value.author, 45) || 'Unknown' ] )*/
 			data.push( [ pair.key, pair.value.thumbnailUri, tmptitle, stencilset, Repository.Helper.CutOpenID(pair.value.author, 45) || 'Unknown', tmpIcon] )
+
 		}.bind(this));
 		
 		var store = new Ext.data.SimpleStore({
-	        fields	: ['id', 'icon', 'title', 'type', 'author'],
+	        fields	: ['id', 'icon', 'title', 'type', 'author', 'offline'],
 	        data	: data
 	    });
 	
@@ -159,9 +162,11 @@ DataGridPanel = Ext.extend(Ext.DataView, {
             '<tpl for=".">',
 				'<dd>',
 				'<span style="margin-left:-5px;margin-top:-10px;position:absolute;">',
-					'<img src="{offline}" title="Offline" width= "20px" height= "20px" />',
+				'<img src="{offline}" title="Offline" width= "20px" height= "20px" />',
 				'</span>',
-				'<div class="image"><img src="{icon}" title="{title}"/></div>',
+				'<div class="image">',
+				'<style="float: top"><img src="{icon}" title="{title}"/></style>',
+				'</div>',
 	            '<div><span class="title" title="{[ values.title.length + (values.type.length*0.8) > 30 ? values.title : "" ]}">{[ values.title.truncate(30 - (values.type.length*0.8)) ]}</span><span class="author" unselectable="on">({type})</span></div>',
 	            '<div><span class="type">{author}</span></div>',
 				'</dd>',
@@ -170,4 +175,8 @@ DataGridPanel = Ext.extend(Ext.DataView, {
         '</div>'
     )
 });
+
+
+
+
 

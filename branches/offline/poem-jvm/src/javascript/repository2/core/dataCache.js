@@ -747,10 +747,14 @@ Repository.Core.DataCache = {
 								if(this._gearsLocalStore.isCaptured("model/" + modID + "/self")){
 									this._gearsLocalStore.remove( "model/"+modID + "/self");
 								}
+								if (tmp_id.substring(0,6)== "offnew"){
+									successHandler();
+									return
+								}
 								this._data=new Hash();
 								//reload offline data
 								this.saveModelsOffline(this.getOfflineModels())//.push("/model/"+modID));
-								successHandler();
+								
 								}.bind(this)),
 						onFailure: (function(transport) {
 								Ext.Msg.alert("Oryx", ORYX.I18N.Save.failed);

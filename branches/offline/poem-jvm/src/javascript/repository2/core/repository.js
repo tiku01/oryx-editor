@@ -32,7 +32,9 @@ if(!Repository.Core) Repository.Core = {};
 Repository.Core.Repository = {
 		
 		initialized: false,
-	
+		/*offline attribtes*/
+		online: false,
+		gearsEnabled: false,
 		construct : function() {
 
 			arguments.callee.$.construct.apply(this, arguments); // call super class constructor
@@ -276,6 +278,7 @@ Repository.Core.Repository = {
 						this._filteredModels.push(changedMod);
 						
 					}.bind(this))
+					this._filterChangedHandler.invoke(this._filteredModels);
 				}
 		},
 		
