@@ -29,6 +29,7 @@ if(!ORYX.Plugins)
  * 
  */
 ORYX.Plugins.AdHocCC = Clazz.extend({
+	offlineActive: true,
 
 	facade: undefined,
 	UNSAVED_RESOURCE: "unsaved",

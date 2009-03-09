@@ -36,8 +36,12 @@ Repository.Core.Repository = {
 		construct : function() {
 
 			arguments.callee.$.construct.apply(this, arguments); // call super class constructor
+			this._initGears();
+			this.online= navigator.onLine;
 			this._currentUser = decodeURI( Repository.currentUser );
-			this._publicUser = 'public';
+			//this._publicUser = 'public';
+			this._currentUser= this.getUserFromCookie();
+
 			this._modelCache = new Repository.Core.DataCache();
 
 			this._eventListeners = new Hash();
@@ -245,15 +249,34 @@ Repository.Core.Repository = {
 			if (this._currentSort) {
 				params.set('sort', this._currentSort);
 			}
-			
-			this._modelCache.doRequest("filter", function(transport) {
-														this._filteredModels = eval(transport.responseText);
-														if( this._currentSortDirection == Repository.Config.SORT_ASC)
-															this._filteredModels.reverse()
-															
-														this._filterChangedHandler.invoke(this._filteredModels);
-													}.bind(this), params, 'get', false )
-
+			if (this.online || !this.gearsEnabled) {
+					this._modelCache.doRequest("filter", function(transport){
+						try {
+						this._filteredModels = eval(transport.responseText);
+						if (this.gearsEnabled) {
+							this._modelCache.loadOfflineChangedModels().each(function(changeMod){
+								if(!changeMod){return}
+								this._filteredModels.push(changeMod);
+							}.bind(this))
+							
+						}
+						if (this._currentSortDirection == Repository.Config.SORT_ASC) 
+							this._filteredModels.reverse()
+						this._filterChangedHandler.invoke(this._filteredModels);
+						}catch(e){
+							alert(e)
+						}
+					}.bind(this), params, 'get', false);
+					return
+				}
+				if (this.gearsEnabled) {
+					this._filteredModels = this._modelCache.getOfflineModels();
+					this._modelCache.loadOfflineChangedModels().each(function(changedMod){
+						if (!changedMod) {return}
+						this._filteredModels.push(changedMod);
+						
+					}.bind(this))
+				}
 		},
 		
 		removeFilter : function(name) {
@@ -367,6 +390,12 @@ Repository.Core.Repository = {
 		openModelInEditor : function (model_id) {
 
 			var uri	= model_id.slice(1) + "/self";
+			if(this.gearsEnabled && !this.online){
+				uri	= model_id.slice(1) + "/local"
+			} //load result independent from gears
+			else if(this.gearsEnabled && (model_id.split("/")[2].substring(0,6)== "offnew")){
+				uri	= model_id.slice(1) + "/local";
+			}
 			
 			// Open the model in a new window
 			var editor = window.open( uri );
@@ -544,20 +573,26 @@ Repository.Core.Repository = {
 		},
 		
 		_initializePlugins: function( names ){
-			 
 			names.each(function( name ){
 				
 				// Try to initialize a new plugin-class
 				try {
 					var className 	= eval( name )
-					var plugin 		= new className( this.getFacade() )
-					this._plugins.push( plugin )
+					if(this.gearsEnabled && !this.online){
+						
+						if(className.prototype.offlineActive){
+							var plugin 		= new className( this.getFacade() );
+							this._plugins.push( plugin );
+							}
+					}else{
+						var plugin 		= new className( this.getFacade() );
+						this._plugins.push( plugin );
+					}
 					
 				} catch(e){
 					// TODO: Error Handling
 				}
-			}.bind(this));
-			
+			}.bind(this));			
 			// Find a view plugin and switch to the first one
 			var firstView = this._plugins.find(function(plugin){ return plugin instanceof Repository.Core.ViewPlugin })
 			if( firstView ){
@@ -590,6 +625,89 @@ Repository.Core.Repository = {
 							
 			});
 			
+		},
+		// This function initialize the Gears functionality
+		_initGears: function() {
+		  // We aren't already defined. Ouch!
+		  if (!(window.google && google.gears)) {
+		  
+		  
+		  	var factory = null;
+		  	
+		  	// Firefox
+					if (typeof GearsFactory != 'undefined') {
+						factory = new GearsFactory();
+					}
+					else {
+						// IE
+						try {
+							factory = new ActiveXObject('Gears.Factory');
+							// privateSetGlobalObject is only required and supported on WinCE.
+							if (factory.getBuildInfo().indexOf('ie_mobile') != -1) {
+								factory.privateSetGlobalObject(this);
+							}
+						} 
+						catch (e) {
+							// Safari
+							if ((typeof navigator.mimeTypes != 'undefined') &&
+							navigator.mimeTypes["application/x-googlegears"]) {
+								factory = document.createElement("object");
+								factory.style.display = "none";
+								factory.width = 0;
+								factory.height = 0;
+								factory.type = "application/x-googlegears";
+								document.documentElement.appendChild(factory);
+							}
+						}
+					}
+					
+					// *Do not* define any objects if Gears is not installed. This mimics the
+					// behavior of Gears defining the objects in the future.
+					if (!factory) {
+						return;
+					}
+					
+					// Now set up the objects, being careful not to overwrite anything.
+					//
+					// Note: In Internet Explorer for Windows Mobile, you can't add properties to
+					// the window object. However, global objects are automatically added as
+					// properties of the window object in all browsers.
+					if (!window.google) {
+						google = {};
+					}
+					
+					if (!google.gears) {
+						google.gears = {
+							factory: factory
+						};
+					}
+				}
+			/*Check if user allows Gears for Oryx*/
+			  
+			 this.gearsEnabled = google.gears.factory.hasPermission;
+			  
+			  if (!this.interval) {
+			  	this.interval = setInterval(function(){
+			  		if (this.online != navigator.onLine) {
+			  			window.location.reload()
+			  		}
+			  		/*if (this.gearsEnabled != google.gears.factory.hasPermission) {
+			  			window.location.reload()
+			  		}*/
+			  	}.bind(this), 1500);
+			  }
+			  if(this.gearsEnabled){new Ajax.Request("config",{method: "get",asynchronous : false})}
+		},
+		getUserFromCookie: function(){
+			var res={};
+			var p = document.cookie;
+			p.split("; ").each(function(param){ res[param.split("=")[0]] = param.split("=")[1];});
+			var user = res && res.identifier? res.identifier.gsub('"', "") : "";
+			if( user.length <= 0 ){
+				user 	= 	"public";
+			}
+			return user
+
 		},
 		
 		/* This functions defines and initialize the basic UI components

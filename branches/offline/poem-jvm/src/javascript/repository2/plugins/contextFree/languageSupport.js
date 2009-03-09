@@ -41,7 +41,8 @@ Repository.Plugins.LanguageSupport = {
 	},
 
 	hidePanel: true,
-	
+	offlineActive: true,
+
 	construct: function( facade ) {
 		
 		// define Create New Model menu

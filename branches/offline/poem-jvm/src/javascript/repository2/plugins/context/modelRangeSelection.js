@@ -31,7 +31,8 @@ if(!Repository.Plugins) Repository.Plugins = {};
  */
 
 Repository.Plugins.ModelRangeSelection = {
-	
+	offlineActive: true,
+
 	viewRegion : "bottom",
 	
 	lessSpaceIndicator: 500,

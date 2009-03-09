@@ -52,6 +52,8 @@ Repository.Plugins.IconView = {
 		}
 		
 		var data = [];
+		var offlineModels=this.facade.modelCache.getOfflineModels();
+
 		modelData.each(function( pair ){
 			var stencilset = pair.value.type;
 			// Try to display stencilset title instead of uri
@@ -61,8 +63,16 @@ Repository.Plugins.IconView = {
 					return;
 				}
 			}.bind(this));
+						var tmptitle=unescape(pair.value.title);
+			var tmpIcon="";
 			
-			data.push( [ pair.key, pair.value.thumbnailUri + "?" + Math.random(), unescape(pair.value.title), stencilset, Repository.Helper.CutOpenID(pair.value.author, 45) || 'Unknown' ] )
+			if(offlineModels.member(pair.key)){
+					tmptitle=unescape(pair.value.title)+" (Offline)"
+					tmpIcon=this._offlineIcon;
+			}
+			/*seem to be a prevention against caching, temporaly overwritin
+			data.push( [ pair.key, pair.value.thumbnailUri + "?" + Math.random(), unescape(pair.value.title), stencilset, Repository.Helper.CutOpenID(pair.value.author, 45) || 'Unknown' ] )*/
+			data.push( [ pair.key, pair.value.thumbnailUri, tmptitle, stencilset, Repository.Helper.CutOpenID(pair.value.author, 45) || 'Unknown', tmpIcon] )
 		}.bind(this));
 		
 		var store = new Ext.data.SimpleStore({
@@ -148,6 +158,9 @@ DataGridPanel = Ext.extend(Ext.DataView, {
 			'<dl>',
             '<tpl for=".">',
 				'<dd>',
+				'<span style="margin-left:-5px;margin-top:-10px;position:absolute;">',
+					'<img src="{offline}" title="Offline" width= "20px" height= "20px" />',
+				'</span>',
 				'<div class="image"><img src="{icon}" title="{title}"/></div>',
 	            '<div><span class="title" title="{[ values.title.length + (values.type.length*0.8) > 30 ? values.title : "" ]}">{[ values.title.truncate(30 - (values.type.length*0.8)) ]}</span><span class="author" unselectable="on">({type})</span></div>',
 	            '<div><span class="type">{author}</span></div>',

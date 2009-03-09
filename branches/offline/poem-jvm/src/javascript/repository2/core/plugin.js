@@ -44,6 +44,8 @@ Repository.Core.Plugin = {
 	
 	hidePanel	: false,
 	
+	offlineActive: false,
+	
 	/**
 	 * 
 	 */

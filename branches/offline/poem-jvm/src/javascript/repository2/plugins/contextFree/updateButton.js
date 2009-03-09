@@ -33,6 +33,7 @@ if(!Repository.Plugins) Repository.Plugins = {};
 Repository.Plugins.UpdateButton = {
 	
 	hidePanel: true,	
+	offlineActive: true,
 	
 	construct: function( facade ) {
 		
