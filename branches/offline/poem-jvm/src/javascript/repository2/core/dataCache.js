@@ -517,7 +517,7 @@ Repository.Core.DataCache = {
 			this._offlineModels.each(function(offID){
 				if(modID==offID){yetOffline=true;}
 			}.bind(this))
-			if(!yetOffline){
+			if(!yetOffline && modID.substring(0, 6) != "offnew"){
 				this._offlineModels.push(modID)
 			}
 		}.bind(this));
@@ -607,22 +607,27 @@ Repository.Core.DataCache = {
 			try {				
 				dummies.push("/model/"+modID);
 				//Load in the Cache if not yet defined	
-				
-				//Access data
-				this._addModeldata(modID, "/access", ('{ "'+ owner+'": "owner"}').evalJSON(true))
-				//Meta data
-				this._addModeldata(modID,"/meta",('{"summary": "'+summary+'", "author": "'+owner+'", "creationDate": "1999-09-19 19:59:22.629", "title": "'+title+'", "thumbnailUri": "../images/dummy_klein.png", "pngUri": "../images/dummy_groß.png", "lastUpdate": "2009-01-27 15:57:22.629", "type": "'+type+'"}').evalJSON(true)); 
-				//Tag data
-				this._addModeldata(modID,"/tags",('{"publicTags": [], "userTags": []}').evalJSON(true));
-				//Editor Url
+				if (currentOfflineModels.member(modID)) {
+					this._data.get("/meta").get(modID).thumbnailUri="../images/dummy_klein.png";
+					this._data.get("/meta").get(modID).pngUri="../images/dummy_gross.png";
+				}
+				else {
+					//Access data
+					this._addModeldata(modID, "/access", ('{ "' + owner + '": "owner"}').evalJSON(true))
+					//Meta data
+					this._addModeldata(modID, "/meta", ('{"summary": "' + summary + '", "author": "' + owner + '", "creationDate": "1999-09-19 19:59:22.629", "title": "' + title + '", "thumbnailUri": "../images/dummy_klein.png", "pngUri": "../images/dummy_gross.png", "lastUpdate": "2009-01-27 15:57:22.629", "type": "' + type + '"}').evalJSON(true));
+					//Tag data
+					this._addModeldata(modID, "/tags", ('{"publicTags": [], "userTags": []}').evalJSON(true));
+					//Editor Url
 					this._cacheGearsData(editorUrl, function(url, loaded){
-							//old version found
-							if (!this._gearsLocalStore.isCaptured("./model/" + modID + "/local")) {
-								this._gearsLocalStore.copy(editorUrl, "./model/" + modID + "/local");
-							}
-							
-							
-					}.bind(this))				
+						//old version found
+						if (!this._gearsLocalStore.isCaptured("./model/" + modID + "/local")) {
+							this._gearsLocalStore.copy(editorUrl, "./model/" + modID + "/local");
+						}
+						
+						
+					}.bind(this))
+				}				
 				}
 				catch(e){Ext.Msg.alert("Offline Error","Failed on loading offline changed models: "+e)};
   			rs.next();
@@ -747,13 +752,16 @@ Repository.Core.DataCache = {
 								if(this._gearsLocalStore.isCaptured("model/" + modID + "/self")){
 									this._gearsLocalStore.remove( "model/"+modID + "/self");
 								}
-								if (tmp_id.substring(0,6)== "offnew"){
-									successHandler();
-									return
+								this._data.unset("/model/" + modID);
+								if (modID.substring(0,6)== "offnew"){
+									var loc = transport.getResponseHeader("location").toString();
+									loc=loc.split("/")
+									modID=loc[loc.length -2]
 								}
-								this._data=new Hash();
+								//this._data=new Hash();
 								//reload offline data
 								this.saveModelsOffline(this.getOfflineModels())//.push("/model/"+modID));
+								successHandler(modID);
 								
 								}.bind(this)),
 						onFailure: (function(transport) {

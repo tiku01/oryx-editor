@@ -94,8 +94,8 @@ Repository.Plugins.Offline = {
 									});
 									toUpdate.each(function(tmp){
 										this.facade.modelCache.updateChange(tmp, function(){
-											Ext.Msg.alert(Repository.I18N.OfflinePlugin.updateStatus,Repository.I18N.OfflinePlugin.successfulUploadOf+tmp);
 											this.facade.updateView();
+											Ext.Msg.alert(Repository.I18N.OfflinePlugin.updateStatus,Repository.I18N.OfflinePlugin.successfulUploadOf+tmp);
 											}.bind(this));
 									}.bind(this));
 									
