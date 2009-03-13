@@ -1,5 +1,5 @@
 #summary Team Meeting on 7.5.2008
-#labels Protocol
+#labels Protocol,Deprecated
 
 Nico:
  * test server is running
