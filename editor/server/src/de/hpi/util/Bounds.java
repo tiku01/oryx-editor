@@ -6,14 +6,30 @@ public class Bounds {
 	
 	private int x1, x2, y1, y2;
 
+	/**
+	 * if x1 > x2, then switch x1 and x2
+	 * if y1 > y2, then switch y1 and y2
+	 */
 	public Bounds(int x1, int y1, int x2,  int y2) {
 		super();
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
 		this.y2 = y2;
+		correctBounds();
 	}
 	
+	private void correctBounds() {
+		if (x1 > x2) {
+			this.x1 = x2;
+			this.x2 = x1;
+		}
+		if (y1 > y2) {
+			this.y1 = y2;
+			this.y2 = y1;
+		}
+	}
+
 	public Bounds(Point point1, Point point2) {
 		this(point1.x, point1.y, point2.x, point2.y);
 	}

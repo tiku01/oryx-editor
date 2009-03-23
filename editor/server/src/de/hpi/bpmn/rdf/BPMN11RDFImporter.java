@@ -63,6 +63,7 @@ import de.hpi.bpmn.Activity.MIFlowCondition;
 import de.hpi.bpmn.Activity.MIOrdering;
 import de.hpi.bpmn.Activity.TestTime;
 import de.hpi.bpmn.exec.ExecDataObject;
+import de.hpi.util.Bounds;
 
 /**
  * Copyright (c) 2008 Gero Decker
@@ -374,6 +375,13 @@ public class BPMN11RDFImporter {
 						getResourceId(getAttributeValue(n, "rdf:resource")));
 			} else if (attribute.equals(label)) {
 				((de.hpi.bpmn.Node) node).setLabel(getContent(n));
+			} else if (attribute.equals("bounds")) {
+				String[] bounds = getContent(n).split(",");
+				((de.hpi.bpmn.Node) node).setBounds(new Bounds(
+						Integer.valueOf(bounds[0]).intValue(), 
+						Integer.valueOf(bounds[1]).intValue(), 
+						Integer.valueOf(bounds[2]).intValue(),
+						Integer.valueOf(bounds[3]).intValue()));
 			}
 		} else {
 			return false;
