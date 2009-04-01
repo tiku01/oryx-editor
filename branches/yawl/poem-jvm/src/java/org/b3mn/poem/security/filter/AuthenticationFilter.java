@@ -73,13 +73,15 @@ public class AuthenticationFilter implements Filter {
 				chain.doFilter(req, res);
 				return;
 			}
+			
+			
 
 			// If you want to disable OpenID login, hard code the openId here.
 			// You can use any name without spaces as openId
 			// For example:
-			// String openId = "OryxUser";
-			String openId = (String) request.getSession()
-					.getAttribute("openid"); // Retrieve open id from session
+			 String openId = "OryxUser";
+			//String openId = (String) request.getSession()
+			//		.getAttribute("openid"); // Retrieve open id from session
 
 			User user = null;
 
