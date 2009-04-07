@@ -60,6 +60,7 @@ public class FrameworkImpl implements Framework, TokenValidator {
 	private TokenValidator tokenValidator = null;
 	private final int TIME_JITTER_SECONDS = 60;
 
+    /*
 	static {
 		// get logger for this static block
 		Logger _log = LoggerFactory.getLogger(FrameworkImpl.class);
@@ -72,8 +73,13 @@ public class FrameworkImpl implements Framework, TokenValidator {
 		}
 		_log.debug("initialization done.");
 	}
-
+    */
 	public FrameworkImpl() throws JICException {
+		try {
+			DefaultBootstrap.bootstrap();
+		} catch (ConfigurationException e) {
+			throw new JICException(e);
+		}
 		ppMgr = new BasicParserPool();
 		ppMgr.setNamespaceAware(true);
 		tokenValidator = this;
@@ -172,6 +178,20 @@ public class FrameworkImpl implements Framework, TokenValidator {
 
 	public ClaimIdentity getID(Element elem, PrivateKey pk) throws JICException {
 		UnmarshallerFactory umf = Configuration.getUnmarshallerFactory();
+                /* Fix for NullPointerException reported by Nico Peters */                  
+                if(umf == null) {
+                    log.warn("OpenSAML lib isn't initialized any more, doing that now.");
+                    try {
+						DefaultBootstrap.bootstrap();
+					} catch (ConfigurationException e) {
+						throw new JICException(e);
+					}
+                    umf = Configuration.getUnmarshallerFactory();
+                    if (umf == null) {
+                        log.error("still couldn't get UnmarshallerFactory, aborting.");
+                        throw new JICException("couldn't get UnmarshallerFactory - this shouldn't happen.");
+                    }
+                }
 		Unmarshaller unmarshaller = umf.getUnmarshaller(elem);
 		try {
 			log.debug("attempting to unmarshall DOM representation of SAML token.");
