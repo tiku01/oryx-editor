@@ -35,30 +35,37 @@ Ext.namespace("ORYX.Plugins");
 }}}
 
 === Documenting classes and functions constructed with Clazz.extend ===
+If contructing a class, JSDoc cannot know if functions are instance or static methods. With the help of the tag `@methodOf ORYX.Plugins.MyPlugin.prototype` a function can directly reference if it belongs to the class or to an instance/ a prototype. So that you do not have to specify this for each method within one Clazz.extend call, use the [http://code.google.com/p/jsdoc-toolkit/wiki/TagLends @lends] tag (must be defined _directly_ before the object) as in the following example:
+
 {{{
 /**
-   This is my wonderful class.
-   @class ORYX.Plugins.MyPlugin
-   @constructor Creates a new instance
+ * This is my wonderful class..
+ * @class ORYX.Plugins.MyPlugin
+ * @extends Clazz
+ * @param {Object} myParam This is a param referring to the construct of the class.
 */
-ORYX.Plugins.MyPlugin= Clazz.extend({
+ORYX.Plugins.MyPlugin= Clazz.extend(
+    /** @lends ORYX.Editor.prototype */
+{
+    construct: function(myParam){
+      // Do sth.
+    }
+
     /**
-       This is a function description
-       @methodOf ORYX.Plugins.MyPlugin
-    */
+     * This is a function description
+     */
     myFunction: function(){
         //do sth.
     }
 
-    /**
-       This is a private method
-       @methodOf ORYX.Plugins.MyPlugin
-       @private
+   /**
+    *  This is a private method
+    *  @private
     */
    myPrivateFunction: function(){
        //do sth. private
    }
-})
+});
 }}}
 
 == Generate Documentation - Tool Support ==
