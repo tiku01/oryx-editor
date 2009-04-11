@@ -45,7 +45,7 @@ If contructing a class, JSDoc cannot know if functions are instance or static me
  * @param {Object} myParam This is a param referring to the construct of the class.
 */
 ORYX.Plugins.MyPlugin= Clazz.extend(
-    /** @lends ORYX.Editor.prototype */
+    /** @lends ORYX.Plugins.MyPlugin.prototype */
 {
     construct: function(myParam){
       // Do sth.
