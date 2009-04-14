@@ -1,6 +1,9 @@
 #summary How to create a stencil set for oryx by the example of Let's Dance
 #labels Featured
 
+===Table of Content===
+<wiki:toc max_depth="2" />
+
 = Introduction =
 
 In this tutorial we want to give you a brief introduction into the stencil set specification. For more detailed information take a look to the [http://oryx-editor.googlecode.com/files/OryxSSS.pdf bachelor's paper of Nicolas Peters]
@@ -199,6 +202,7 @@ The specification of a complex interaction is even easier. It consist of big rec
 
 Furthermore you have to add the description in the JSON file for both types of interaction, like you did before for the top diagram. 
 
+
 {{{
 {
 			"type":		"node",                // type of the element node or edge
@@ -306,6 +310,7 @@ of SVG elements.
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/004_guardcondition_false.png
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/005_guardcondition_true.png
+
 
 And now insert the properties for the simple interaction.
 
@@ -520,4 +525,132 @@ http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/009_hover_buttons.
 
 The complete implementation of the Let's Dance modeling language is available over the oryx-editor svn. It contains all shapes and descriptions. 
 
-We wish you much success!
+= Stencil Set Callbacks =
+
+There are three more optional attributes. They offer some capabilities to implement requirements, that are not practical with the default stencil set specification. Each of those attributes take an event type and additional user defined attributes respectively an event list. An editor plug-in can handle the appropriate event. See: [HowToDevelopAnEditorPlugin] for implementation details. Do not forget to record the new plug-in into the _plugins.xml_.
+
+Note that these events are handled immediately. They run on a higher priority than other events like _KeyDown_ or _MouseMoved_ .
+
+== Layout ==
+
+The events specified in the layout attribute are triggered whenever the position and size of a shape is recalculated. For example the pool-lane behavior of BPMN 1.1 or the row layout of XForms and BPEL are realized in that way.
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_sscallbacks/pool_lane.png
+
+http://oryx-editor.googlecode.com/svn/wiki/pictures_sscallbacks/xforms.png
+
+To define a layout event, you have to set the layout attribute as part of the definition of a stencil as an array of events.
+
+_from xforms.json:_
+
+{{{
+{
+/*...*/
+"layout": [
+ { 
+   "type"       : 'layout.rows',
+   "marginTop"	: 	50,
+   "marginLeft" :	50,
+   "spacingX"	:	30,
+   "spacingY"	:	30,
+   "exclude"	:	["http://b3mn.org/stencilset/xforms#Label"]
+ },
+ {
+   "type" 	: 'layout.xforms.label',
+   "moveY" : -1,
+   "moveX" : 0
+ }
+],
+/*...*/
+}
+}}}
+
+The event objects holds information affected shape and contains all further attributes specified in the stencils layout attribute.
+
+_example from editor/scripts/plugins/xforms.js:_
+
+{{{
+ORYX.Plugins.XForms = 
+{
+  construct: function(facade) {
+    this.facade = facade;
+    
+    /* Register on the appropriate event */
+    this.facade.registerOnEvent('layout.xforms.label', this.handleLayoutLabel.bind(this));
+  },
+  
+  /* Method to handle the layout event */
+  handleLayoutLabel : function(event) {
+    var shape = event.shape;
+    var moveX = event.moveX;
+    var moveY = event.moveY;
+    
+    var labels = shape.getChildNodes(false).findAll(function(node) {
+	return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
+    });
+    
+    if(labels.length > 0) {
+	labels.each(function(label) {
+	  var ul = label.bounds.upperLeft();
+	  var lr = label.bounds.lowerRight();
+	  ul.y = - label.bounds.height() + moveY;
+	  lr.y = moveY;
+	  ul.x = moveX;
+	  lr.x = label.bounds.width() + moveX;
+	  label.bounds.set(ul, lr);
+	});
+     }
+  }
+}
+}}}
+
+== Serialize ==
+
+The event specified in the serialize attribute of a stencil is triggered whenever a shape is persisted into the DOM.
+
+_example from workfolwnets.json:_
+
+{{{
+{
+/*...*/
+  "serialize":{"type":"Workflownets.Activity.serialize"},
+/*...*/
+}
+}}}
+
+
+The event holds information about the currently serialized shape and its persistence data. The plug-in should modify the data and put the result into the result attribute of the event.
+
+This event is handled in _plugins/workflownets.js_:
+
+{{{
+ORYX.Plugins.Workflownets = {
+
+  construct: function(facade){
+    this.facade = facade;
+		
+    this.facade.registerOnEvent("Workflownets.Activity.serialize", this.handleSerialize.bind(this));
+  },
+	
+  handleSerialize: function(event) {
+    var shape = event.shape;
+    var data = event.data;
+    var numOfOutgoings = shape.getOutgoingShapes().length;
+	data.push({
+	  name:"numOfOutgoings",
+	  prefix:"oryx",
+	  value:numOfOutgoings,
+	  type:"literal"
+	});
+		
+    event.result = data;
+  },
+};
+}}}
+
+
+== Deserialize ==
+
+The event specified in the deserialize attribute of stencil is triggered while loading an object of a stored model.
+
+The handling is analogue to that of a serialize event.
