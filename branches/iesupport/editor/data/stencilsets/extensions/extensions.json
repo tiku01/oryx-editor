@@ -1,0 +1,60 @@
+{
+	"extensions": [
+		{
+			"title":"BPMN Cost Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmncosts#",
+			"description":"BPMN 1.1 extension for adding a cost attribute to activities",
+			"definition":"bpmncosts/bpmncosts.json",
+			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
+		},
+		{
+			"title":"BPMN WikiRef Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnwikirefs#",
+			"description":"BPMN 1.1 extension for adding a WikiRef attribute to all nodes.",
+			"definition":"bpmnwikirefs/bpmnwikirefs.json",
+			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
+		},
+		{
+			"title":"BPMN Sub Set Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnsubset#",
+			"description":"BPMN extension that reduces the available stencils.",
+			"definition":"bpmnsubset/bpmnsubset.json",
+			"extends":"http://b3mn.org/stencilset/bpmn#"
+		},
+		{
+			"title":"BPMN 1.1 Basic Subset",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn1.1basicsubset#",
+			"description":"A basic subset of BPMN 1.1 containing only task, sequence flow, start event, end event, parallel gateway and data-based XOR.",
+			"definition":"bpmn1.1basicsubset/bpmn1.1basicsubset.json",
+			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
+		},
+        {
+            "title":"BPMN Subset for Service Composition",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset#",
+            "description":"A basic subset of BPMN that can be used in the Service Composer.",
+            "definition":"bpmnservicecompositionsubset/bpmnservicecompositionsubset.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+		},
+		{
+			"title":"BPEL4Chor Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpel4chor#",
+			"description":"BPEL4Chor extension for adding a messageLink edge and several BPEL4Chor rules.",
+			"definition":"bpel4chor/bpel4chor.json",
+			"extends":"http://b3mn.org/stencilset/bpel#"
+		},
+		{
+			"title":"jBPM Stencils",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/jbpm#",
+			"description":"A subset of BPMN 1.2 for execution with jBPM",
+			"definition":"jbpm/jbpm.json",
+			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
+		},
+		{
+			"title":"BPEL4Chor Grounding Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpel4chor#",
+			"description":"BPEL4Chor Grounding extension for adding grounding properties .",
+			"definition":"bpel4chor_grounding/bpel4chor_grounding.json",
+			"extends":"http://b3mn.org/stencilset/bpel4chor#"
+		}
+	]
+}

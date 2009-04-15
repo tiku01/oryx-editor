@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	id="oryx" version="2.4">
+
+	<display-name>Oryx Editor</display-name>
+
+	
+
+	<!--<servlet>
+		<display-name>Oryx Process Repository</display-name>
+		<servlet-name>Repository</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.RepositoryProvider
+		</servlet-class>
+	</servlet>-->
+	
+	<!--	<servlet>
+		<servlet-name>EngineProxy</servlet-name>
+		<servlet-class>org.oryxeditor.server.EngineProxy</servlet-class>
+	</servlet> -->
+	
+	<servlet>
+		<display-name>Resource List</display-name>
+		<servlet-name>ResourceList</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.ResourceList
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ResourceList</servlet-name>
+		<url-pattern>/resourceList</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>Oryx Legacy File Download Servlet</display-name>
+		<servlet-name>DownloadServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.MultiDownloader
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx BPMN to PNML Export</display-name>
+		<servlet-name>ExportServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.ExportServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
+			Oryx BPMN to PNML Export - unexecutable
+		</display-name>
+		<servlet-name>SimplePNMLExporter</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.SimplePNMLExporter
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx BPEL IMPORTER</display-name>
+		<servlet-name>BPELImporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.BPELImporter</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx BPEL EXPORTER</display-name>
+		<servlet-name>BPELExporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.BPELExporter</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx BPEL4CHOR IMPORTER</display-name>
+		<servlet-name>BPEL4ChorImporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.BPEL4ChorImporter</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx BPEL4CHOR EXPORTER</display-name>
+		<servlet-name>BPEL4ChorExporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.BPEL4ChorExporter</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Oryx XPDL4Chor to BPEL4Chor Servlet</display-name>
+		<servlet-name>XPDL4Chor2BPEL4ChorServlet</servlet-name>
+		<servlet-class>org.oryxeditor.server.XPDL4Chor2BPEL4ChorServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
+			Oryx Desynchronizability Checker
+		</display-name>
+		<servlet-name>DesynchronizabilityServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.DesynchronizabilityServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
+			Oryx IBPMN 2 BPMN Converter
+		</display-name>
+		<servlet-name>IBPMN2BPMNServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.IBPMN2BPMNServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
+			Oryx syntax checker
+		</display-name>
+		<servlet-name>SyntaxChecker</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.SyntaxCheckerServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
+			Oryx Validator
+		</display-name>
+		<servlet-name>Validator</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.ValidatorServlet
+		</servlet-class>
+	</servlet>
+    
+    <servlet>
+        <display-name>
+            Oryx Petri Net Soundness Checker
+        </display-name>
+        <servlet-name>PetriNetSoundnessChecker</servlet-name>
+        <servlet-class>
+            org.oryxeditor.server.PetriNetSoundnessCheckerServlet
+        </servlet-class>
+    </servlet>
+	
+	<!--<servlet>
+		<display-name>Oryx Simple Storage Servlet</display-name>
+		<servlet-name>SimpleStorageServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.SimpleStorageServlet
+		</servlet-class>
+	</servlet>-->
+	
+	<servlet>
+		<display-name>Alternatives Renderer</display-name>
+		<servlet-name>AlternativesRenderer</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.AlternativesRenderer
+		</servlet-class>
+	</servlet>
+    
+    <servlet>
+        <display-name>BPMN to Petri Net Converter</display-name>
+        <servlet-name>BPMN2PNServlet</servlet-name>
+        <servlet-class>
+            org.oryxeditor.server.BPMN2PNServlet
+        </servlet-class>
+    </servlet>
+	
+<!--<servlet>
+		<display-name>Worklist</display-name>
+		<servlet-name>Worklist</servlet-name>
+		<servlet-class>org.oryxeditor.server.Worklist</servlet-class>
+	</servlet>
+-->
+
+	<servlet>
+		<display-name>Oryx EPC Upload Servlet</display-name>
+		<servlet-name>EPCUpload</servlet-name>
+		<servlet-class>org.oryxeditor.server.EPCUpload</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>Step Through</display-name>
+		<servlet-name>StepThrough</servlet-name>
+		<servlet-class>
+			de.hpi.diagram.stepthrough.StepThroughServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>XForms Export</display-name>
+		<servlet-name>XFormsExportServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.XFormsExportServlet
+		</servlet-class>
+	</servlet>
+	
+<!--	
+	<servlet>
+		<display-name>XForms Export Orbeon</display-name>
+		<servlet-name>XFormsExportOrbeonServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.XFormsExportOrbeonServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>WSDL2XForms Transformation</display-name>
+		<servlet-name>WSDL2XFormsServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.WSDL2XFormsServlet
+		</servlet-class>
+	</servlet> 
+-->
+	
+	<servlet>
+		<display-name>XForms Import</display-name>
+		<servlet-name>XFormsImportServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.XFormsImportServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>StencilSet JSONP</display-name>
+		<servlet-name>StencilSetJSONPServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.StencilSetJSONPServlet
+		</servlet-class>
+	</servlet>
+	
+<!--	
+    <servlet>
+        <display-name>Service Composer Servlet</display-name>
+        <servlet-name>ServiceComposerServlet</servlet-name>
+        <servlet-class>
+             org.oryxeditor.server.ServiceComposerServlet
+        </servlet-class>
+    </servlet>
+-->
+
+
+<!--	
+	<servlet-mapping>
+		<servlet-name>Repository</servlet-name>
+		<url-pattern>/repository</url-pattern>
+	</servlet-mapping>
+-->
+
+<!--
+    <servlet-mapping>
+		<servlet-name>EngineProxy</servlet-name>
+		<url-pattern>/engineproxy</url-pattern>
+	</servlet-mapping>
+-->
+	
+	<servlet-mapping>
+		<servlet-name>ExportServlet</servlet-name>
+		<url-pattern>/pnml</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SimplePNMLExporter</servlet-name>
+		<url-pattern>/simplepnmlexporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPELImporter</servlet-name>
+		<url-pattern>/bpelimporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPELExporter</servlet-name>
+		<url-pattern>/bpelexporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPEL4ChorImporter</servlet-name>
+		<url-pattern>/bpel4chorimporter</url-pattern>
+	</servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>PetriNetSoundnessChecker</servlet-name>
+        <url-pattern>/checksoundness</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPEL4ChorExporter</servlet-name>
+		<url-pattern>/bpel4chorexporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>XPDL4Chor2BPEL4ChorServlet</servlet-name>
+		<url-pattern>/xpdl4chor2bpel4chor</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>DesynchronizabilityServlet</servlet-name>
+		<url-pattern>/desynchronizability</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>IBPMN2BPMNServlet</servlet-name>
+		<url-pattern>/ibpmn2bpmn</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>SyntaxChecker</servlet-name>
+		<url-pattern>/syntaxchecker</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Validator</servlet-name>
+		<url-pattern>/validator</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>DownloadServlet</servlet-name>
+		<url-pattern>/download</url-pattern>
+	</servlet-mapping>
+
+	<!--<servlet-mapping>
+		<servlet-name>SimpleStorageServlet</servlet-name>
+		<url-pattern>/server</url-pattern>
+	</servlet-mapping>-->
+
+	<servlet-mapping>
+		<servlet-name>AlternativesRenderer</servlet-name>
+		<url-pattern>/pdf</url-pattern>
+	</servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>BPMN2PNServlet</servlet-name>
+        <url-pattern>/bpmn2pn</url-pattern>
+    </servlet-mapping>
+
+<!--
+	<servlet-mapping>
+		<servlet-name>Worklist</servlet-name>
+		<url-pattern>/worklist</url-pattern>
+	</servlet-mapping>
+-->
+
+	<servlet-mapping>
+		<servlet-name>EPCUpload</servlet-name>
+		<url-pattern>/epc-upload</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StepThrough</servlet-name>
+		<url-pattern>/stepthrough</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>XFormsExportServlet</servlet-name>
+		<url-pattern>/xformsexport</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Exported XForms are rendered by Orbeon (see below: filter mappings) -->
+<!--	
+	<servlet-mapping>
+		<servlet-name>XFormsExportOrbeonServlet</servlet-name>
+		<url-pattern>/xformsexport-orbeon</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>WSDL2XFormsServlet</servlet-name>
+		<url-pattern>/wsdl2xforms</url-pattern>
+	</servlet-mapping>
+-->
+	
+	<servlet-mapping>
+		<servlet-name>XFormsImportServlet</servlet-name>
+		<url-pattern>/xformsimport</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StencilSetJSONPServlet</servlet-name>
+		<url-pattern>/jsonp</url-pattern>
+	</servlet-mapping>
+	
+<!--	
+    <servlet-mapping>
+            <servlet-name>ServiceComposerServlet</servlet-name>
+            <url-pattern>/servicecomposer</url-pattern>
+    </servlet-mapping>
+-->
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/c.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<!-- the number within the session-timout element must be expressed in
+		minutes. it is now 24 hours. -->
+	<session-config>
+		<session-timeout>1440</session-timeout>
+	</session-config>
+	
+	<!--
+		jBoss' default mapping is to "image/svg", which causes the client not to
+		parse the SVG content as XML. However, the Oryx Editor client relies on
+		that behaviour. The mimetype as per W3C specification must be
+		"image/svg+xml". See http://www.w3.org/TR/SVG/intro.html#MIMEType.
+	-->
+	<mime-mapping>
+		<extension>svg</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>json</extension>
+		<mime-type>text/plain</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>css</extension>
+		<mime-type>text/css</mime-type>
+	</mime-mapping>
+	
+	<!-- Set Favourites Icon MIME-Type --> 
+	<mime-mapping>
+	    <extension>ico</extension>
+	    <mime-type>image/x-icon</mime-type>
+	</mime-mapping>
+
+
+	<!-- Declare and configure the Orbeon Forms XForms filter -->
+<!--	
+	<filter>
+		<filter-name>orbeon-xforms-filter</filter-name>
+		<filter-class>org.orbeon.oxf.servlet.OPSXFormsFilter</filter-class>
+		<init-param>
+			<param-name>oxf.xforms.renderer.context</param-name>
+			<param-value>/orbeon</param-value>
+		</init-param>
+	</filter>
+-->
+	<!--
+		Any web resource under /xforms-jsp is processed by the XForms engine
+	-->
+<!--
+	<filter-mapping>
+		<filter-name>orbeon-xforms-filter</filter-name>
+		<url-pattern>/xformsexport-orbeon</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+-->
+	<!--
+		This is necessary so that XForms engine resources can be served
+		appropriately
+	-->
+<!--
+	<filter-mapping>
+		<filter-name>orbeon-xforms-filter</filter-name>
+		<url-pattern>/orbeon/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+-->
+
+	<!--<welcome-file-list>
+		<welcome-file>/server</welcome-file>
+	</welcome-file-list>-->
+</web-app>
