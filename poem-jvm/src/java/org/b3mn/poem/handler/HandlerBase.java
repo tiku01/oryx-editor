@@ -24,7 +24,9 @@
 package org.b3mn.poem.handler;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -228,15 +230,9 @@ public abstract class HandlerBase {
     	return files;
     }
     
-
-    protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode) {
-    	
-    	return getOryxModel(title, content, languageCode, countryCode, "");
-    }
     
     protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode, String headExtentions) {
+    		String languageCode, String countryCode) {
     	
     	String oryx_path = "/oryx/";
     	String languageFiles = "";
@@ -278,8 +274,6 @@ public abstract class HandlerBase {
       	  	+ "<script src=\"" + oryx_path + "i18n/translation_en_us.js\" type=\"text/javascript\" />\n"      	  	
       	  	+ languageFiles
       	  	+ "<script src=\"" + oryx_path + "oryx.js\" type=\"text/javascript\" />\n"
-      	 
-      	  	+ headExtentions
       	  	
       	  	+ "<link rel=\"Stylesheet\" media=\"screen\" href=\"" + oryx_path + "css/theme_norm.css\" type=\"text/css\" />\n"
 
@@ -298,4 +292,77 @@ public abstract class HandlerBase {
       	  	+ "</body>\n"
       	  	+ "</html>";
     }
+    
+    /**
+     * 
+     * This method is used for IE support. If the XULRunner ActiveX control is installed,
+     * it is possible to run the editor inside IE. It sends a XUL file to the requesting 
+     * client that loads the editor with the same URL within the XUL ActiveX control.
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    protected void returnXULWrapper(HttpServletRequest request, HttpServletResponse response, Boolean newModel) throws IOException {
+    	String resourceUrl = request.getRequestURL().toString();
+    	if(request.getQueryString() != null) {
+    		resourceUrl += "?" + request.getQueryString();
+    	}
+    	
+    	
+    	String sessionId=request.getSession().getId();
+    	sessionId=URLEncoder.encode(sessionId, "UTF-8");
+    	System.out.println(request.getQueryString()+"?????" +sessionId);
+    	if(!newModel){
+    		sessionId="\"?id="+sessionId;
+    	}
+    	else{
+    		sessionId="\"&id="+sessionId;
+    	}
+    	String resp = 	"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"+
+    	"<HTML><HEAD><TITLE>Mozilla control test</TITLE>"+
+    	"<META http-equiv=Content-Type content=\"text/html; charset=utf-8\">"+
+    	"<SCRIPT language=\"JavaScript\">" +
+    	"window.onbeforeunload=onExit;" +
+    	"function onExit(){" +
+    	"var obj=document.getElementById('Browser1');" +
+    	"document.body.removeChild(obj);" +
+    	"" +
+    	"}"+
+    	"function window_onload()"+
+    	"{"+
+    	" var url = location.href; "+
+    	"doBrowse(url+"+sessionId+"\");"+
+    	"}"+
+    	"function doBrowse(url) "+
+    	"{"+
+    	"Browser1.Navigate(url);"+
+    	"}"+
+    	"function statusTextChange(x)"+
+    	"{"+
+    	 " status1.value = x;"+
+    	"}"+
+    	"</SCRIPT>"+
+
+    	"<META content=\"MSHTML 6.00.6001.18203\" name=GENERATOR></HEAD>"+
+    	"<BODY onload=window_onload() style='padding:0px;margin:0px;'>"+
+    	      "<OBJECT id=\"Browser1\" name=\"Browser1\" height=\"100%\" width=\"100%\" "+
+    	      "data=DATA:application/x-oleobject;BASE64,TLU5E1M00hGTuQAAAAAAAAADAADhOQAA3xoAAA== "+
+    	      "classid=clsid:1339B54C-3453-11D2-93B9-000000000000 "+
+    	      "onstatustextchange=\"statusTextChange\" "+
+    	"></OBJECT>"+
+    			"<script for=\"Browser1\" event=\"NewWindow2(x,y,z)\">"+
+    		  "window.open(Browser1.Document.alinkColor)"+
+    		  
+    		 " </script>"+
+
+    		"<p></p> "+
+    	"</BODY></HTML>"
+;
+
+		//response.setContentType("application/vnd.mozilla.xul+xml");
+		response.getWriter().println(resp);
+		response.setStatus(200);
+    }
+    
 }

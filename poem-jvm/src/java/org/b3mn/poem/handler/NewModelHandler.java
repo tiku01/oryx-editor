@@ -24,33 +24,52 @@
 package org.b3mn.poem.handler;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.b3mn.poem.Identity;
+import org.b3mn.poem.Representation;
 import org.b3mn.poem.util.HandlerWithoutModelContext;
 
 @HandlerWithoutModelContext(uri="/new")
 public class NewModelHandler extends HandlerBase {
-
+	
+	private String filterBrowserRegexPattern = "MSIE \\d+\\.\\d+;";
+	
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
-		String stencilset = "/stencilsets/bpmn/bpmn.json";
-		if (request.getParameter("stencilset") != null) {
-			stencilset = request.getParameter("stencilset");
+		
+		Pattern pattern = Pattern.compile(filterBrowserRegexPattern); 
+
+		if(pattern.matcher(new StringBuffer((String)request.getHeader("user-agent"))).find()) {
+			this.returnXULWrapper(request, response, true);
+		} 
+		else if(request.getParameter("id")!=null && !request.getSession().getId().equals(request.getParameter("id"))){
+			response.addCookie(new Cookie("JSESSIONID",request.getParameter("id")));
+			response.sendRedirect(request.getRequestURL().toString().split("id=")[0]);
+	    	System.out.println("redirect sended");
+	    	response.setStatus(200);
+
+		}else {
+			String stencilset = "/stencilsets/bpmn/bpmn.json";
+			if (request.getParameter("stencilset") != null) {
+				stencilset = request.getParameter("stencilset");
+			}
+
+			String content = "<div id=\"oryx-canvas123\" class=\"-oryx-canvas\">"
+				+ "<span class=\"oryx-mode\">writeable</span>"
+				+ "<span class=\"oryx-mode\">fullscreen</span>"
+				+ "<a href=\"" + "/oryx" + stencilset + "\" rel=\"oryx-stencilset\"></a>\n"
+				+ "</div>\n";
+			response.getWriter().print(this.getOryxModel("New Process Model", content,
+					this.getLanguageCode(request), this.getCountryCode(request)));
+
+			response.setStatus(200);
+			response.setContentType("application/xhtml+xml");
 		}
-
-		String content = "<div id=\"oryx-canvas123\" class=\"-oryx-canvas\">"
-			+ "<span class=\"oryx-mode\">writeable</span>"
-			+ "<span class=\"oryx-mode\">fullscreen</span>"
-			+ "<a href=\"" + "/oryx" + stencilset + "\" rel=\"oryx-stencilset\"></a>\n"
-			+ "</div>\n";
-		response.getWriter().print(this.getOryxModel("New Process Model", content,
-				this.getLanguageCode(request), this.getCountryCode(request)));
-
-		response.setStatus(200);
-		response.setContentType("application/xhtml+xml");
 	}
 	
 	@Override

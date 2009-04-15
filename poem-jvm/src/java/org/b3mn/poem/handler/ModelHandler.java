@@ -24,7 +24,9 @@
 package org.b3mn.poem.handler;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,19 +36,33 @@ import org.b3mn.poem.util.AccessRight;
 import org.b3mn.poem.util.HandlerWithModelContext;
 import org.b3mn.poem.util.RestrictAccess;
 
-@HandlerWithModelContext(uri="/self", filterBrowser=true)
+@HandlerWithModelContext(uri="/self", filterBrowser=false)
 public class ModelHandler extends  HandlerBase {
 
+	private String filterBrowserRegexPattern = "MSIE \\d+\\.\\d+;";
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
 
-		Representation representation = object.read();
-		
-		response.setContentType("application/xhtml+xml");
-		response.getWriter().println(this.getOryxModel(representation.getTitle(), 
-				representation.getContent(), this.getLanguageCode(request), 
-				this.getCountryCode(request)));
-		response.setStatus(200);
+		Pattern pattern = Pattern.compile(filterBrowserRegexPattern); 
+		if(pattern.matcher(new StringBuffer((String)request.getHeader("user-agent"))).find()) {
+			this.returnXULWrapper(request, response,false);
+		} 
+		else if(request.getParameter("id")!=null&& !request.getSession().getId().equals(request.getParameter("id"))){
+			response.addCookie(new Cookie("JSESSIONID",request.getParameter("id")));
+			response.sendRedirect(request.getRequestURL().toString().split("id=")[0]);
+	    	System.out.println("redirect sended");
+	    	response.setStatus(200);
+
+		}
+		else {
+			Representation representation = object.read();
+			
+			response.setContentType("application/xhtml+xml");
+			response.getWriter().println(this.getOryxModel(representation.getTitle(), 
+					representation.getContent(), this.getLanguageCode(request), 
+					this.getCountryCode(request)));
+			response.setStatus(200);
+		}
 	}
 	
 	@Override

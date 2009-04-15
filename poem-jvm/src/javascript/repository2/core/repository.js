@@ -330,8 +330,9 @@ Repository.Core.Repository = {
 			
 			var callback = function() {
 				var url = './new' + '?stencilset=' + stencilsetUrl;
-				var editor = window.open(url);
 				
+				var editor = window.open(url);
+
 				window.setTimeout(function(){
 					if (!editor || !editor.opener || editor.closed) {
 						Ext.MessageBox.alert(Repository.I18N.Repository.windowTitle, Repository.I18N.Repository.windowTimeoutMessage).setIcon(Ext.MessageBox.QUESTION)
@@ -367,7 +368,6 @@ Repository.Core.Repository = {
 		openModelInEditor : function (model_id) {
 
 			var uri	= model_id.slice(1) + "/self";
-			
 			// Open the model in a new window
 			var editor = window.open( uri );
 			window.setTimeout(
