@@ -20,6 +20,7 @@ import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn2pn.converter.Converter;
 import de.hpi.bpmn2pn.converter.StandardConverter;
+import de.hpi.bpmn2yawl.BPMN2YAWLSyntaxChecker;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.layouting.PetriNetLayouter;
 import de.hpi.petrinet.serialization.erdf.PetriNeteRDFSerializer;
@@ -79,7 +80,10 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			diagram = new BPMN11RDFImporter(document).loadBPMN();
 
 		//Syntax-Checking
+		BPMN2YAWLSyntaxChecker checker = new BPMN2YAWLSyntaxChecker(diagram);
+		checker.checkSyntax();
 		
+		System.out.println("Hello world, I am the BPMN2YAWLservlet.");
 		//Convert to....
 		/*Converter conv = new StandardConverter(diagram);
 		PetriNet pn = conv.convert();
