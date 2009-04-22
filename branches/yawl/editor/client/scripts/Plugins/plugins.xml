@@ -151,7 +151,7 @@
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
 		
-		<plugin source="bpmn2yawl.js" name="ORYX.Plugins.BPMN2YAWLMapper">
+		<plugin source="bpmn2yawl.js" name="ORYX.Plugins.BPMN2YAWL">
             <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
         </plugin>
         
