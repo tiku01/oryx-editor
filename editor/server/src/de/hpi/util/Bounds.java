@@ -4,13 +4,13 @@ import java.awt.Point;
 
 public class Bounds {
 	
-	private int x1, x2, y1, y2;
+	private double x1, x2, y1, y2;
 
 	/**
 	 * if x1 > x2, then switch x1 and x2
 	 * if y1 > y2, then switch y1 and y2
 	 */
-	public Bounds(int x1, int y1, int x2,  int y2) {
+	public Bounds(double x1, double y1, double x2,  double y2) {
 		super();
 		this.x1 = x1;
 		this.x2 = x2;
@@ -42,19 +42,19 @@ public class Bounds {
 		return String.valueOf(x1)+delimiter+String.valueOf(y1)+delimiter+String.valueOf(x2)+delimiter+String.valueOf(y2);
 	}
 	
-	public int getX1() {
+	public double getX1() {
 		return x1;
 	}
 
-	public int getX2() {
+	public double getX2() {
 		return x2;
 	}
 
-	public int getY1() {
+	public double getY1() {
 		return y1;
 	}
 
-	public int getY2() {
+	public double getY2() {
 		return y2;
 	}
 
@@ -64,6 +64,6 @@ public class Bounds {
 	 * @return center point relatively to bounds
 	 */
 	public Point getCenterRelative(){
-		return new Point((x2 - x1)/2, (y2 - y1)/2);
+		return new Point((int)Math.round((x2 - x1))/2, (int)Math.round((y2 - y1)/2));
 	}
 }
