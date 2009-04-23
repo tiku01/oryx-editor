@@ -378,10 +378,10 @@ public class BPMN11RDFImporter {
 			} else if (attribute.equals("bounds")) {
 				String[] bounds = getContent(n).split(",");
 				((de.hpi.bpmn.Node) node).setBounds(new Bounds(
-						Integer.valueOf(bounds[0]).intValue(), 
-						Integer.valueOf(bounds[1]).intValue(), 
-						Integer.valueOf(bounds[2]).intValue(),
-						Integer.valueOf(bounds[3]).intValue()));
+						Double.valueOf(bounds[0]).doubleValue(), 
+						Double.valueOf(bounds[1]).doubleValue(), 
+						Double.valueOf(bounds[2]).doubleValue(),
+						Double.valueOf(bounds[3]).doubleValue()));
 			}
 		} else {
 			return false;
