@@ -10,8 +10,9 @@ public class Task extends Node{
 	private SplitJoinType splitType = SplitJoinType.NONE;
 	private String decomposesTo = null; // Name of subdecomposition.
 	
-	public Task(String ID, SplitJoinType join, SplitJoinType split, String decomposesTo){
-		setID(ID);
+	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo){
+		super(ID, name);
+		
 		setJoinType(join);
 		setSplitType(split);
 		setDecomposition(decomposesTo);
@@ -63,8 +64,8 @@ public class Task extends Node{
 			s +="\t\t\t\t\tid=\"Node" + getID() + "\"\n";
 			s +="\t\t\t\t>\n";
 
-			s +="\t\t\t\t\t<name>" + getIdentifier() + "</name>\n";
-			s +="\t\t\t\t\t<documentation>" + getIdentifier() + "</documentation>\n";
+			s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
+			s +="\t\t\t\t\t<documentation>" + getName() + "</documentation>\n";
 
 			// First, normal edges
 			Iterator it = getOutEdgesIterator();
