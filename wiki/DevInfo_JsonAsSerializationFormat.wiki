@@ -25,6 +25,9 @@ This is a small example of the JSON representaztion of a model. To see a more so
   properties:{ //model properties
     language: "English"
   },
+  ssextensions: [ //optional list of stencil set extensions
+    "/oryx/stencilsets/extensions/bpmncosts/bpmncosts.json"
+  ],
   stencilset:{
     url:"http://localhost:8080/oryx/stencilsets/bpmn1.1/bpmn1.1.json"
   },
