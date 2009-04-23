@@ -12,13 +12,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import de.hpi.bpmn.BPMNDiagram;
+import de.hpi.bpmn.Node;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
-
+import layout.*;
 /**
  * Copyright (c) 2009 Philip Effinger
  * 
@@ -68,7 +72,24 @@ public class BPMNLayouterServlet extends HttpServlet {
 			diagram = new BPMN11RDFImporter(document).loadBPMN();
 
 		// TODO: diagramm - Importer (in Graph2D)
+		OryxBPMNLayouter layouter = new OryxBPMNLayouter();
+		layouter.setDiagram(diagram);
+		layouter.doLayout();
+		diagram = layouter.getLayout();
 		
+		JSONArray j = new JSONArray();
+		try {
+			for(Node n : diagram.getChildNodes()){
+				JSONObject ob = new JSONObject();
+				ob.put("id",n.getResourceId());
+				ob.put("bounds", n.getBounds().toString());
+				j.put(ob);
+			}
+			j.write(writer);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+//		writer.write(""+diagram.getChildNodes().size());
 //		Converter conv = new StandardConverter(diagram);
 //		PetriNet pn = conv.convert();
 //		
