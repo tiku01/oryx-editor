@@ -20,6 +20,14 @@
 		<servlet-name>EngineProxy</servlet-name>
 		<servlet-class>org.oryxeditor.server.EngineProxy</servlet-class>
 	</servlet> -->
+
+	<servlet>
+		<display-name>Oryx BPMN Layouter</display-name>
+		<servlet-name>BPMNLayoutServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.BPMNLayouterServlet
+		</servlet-class>
+	</servlet>
 	
 	<servlet>
 		<display-name>Oryx Legacy File Download Servlet</display-name>
@@ -242,6 +250,11 @@
 	<servlet-mapping>
 		<servlet-name>ExportServlet</servlet-name>
 		<url-pattern>/pnml</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPMNLayoutServlet</servlet-name>
+		<url-pattern>/bpmnlayout</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

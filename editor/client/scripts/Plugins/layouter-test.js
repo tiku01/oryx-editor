@@ -2,7 +2,7 @@ if(!ORYX) ORYX = new Object();
 if(!ORYX.Plugins) ORYX.Plugins = new Object();
 
 
-ORYX.Plugins.LAYOUTERTEST = Clazz.extend({
+ORYX.Plugins.LAYOUTERTEST = ORYX.Plugins.AbstractPlugin.extend({
 	facade: undefined,
 	construct:function(facade){
 		this.facade = facade;
@@ -17,18 +17,24 @@ ORYX.Plugins.LAYOUTERTEST = Clazz.extend({
 		'maxShape' : 0});
 	},
 	doLayout: function(){
-		new Ajax.Request(ORYX.CONFIG.LAYOUTER-TEST,{
+		new Ajax.Request("/oryx/bpmnlayout",{
 		method : 'POST',
 		asynchronous : false,
 		parameters : {
-			data: this.facade.getERDF()
+			rdf: this.getRDFFromDOM()
 		},
 		onSuccess:function(request){
 			var resp = request.responseText.evalJSON();
+			
 			if (resp instanceof Array && resp.length > 0) {
-				//				alert("Layouter test came back.");
 				console.log(resp);
-				
+				resp.each(function(n){
+					var shape = this.facade.getCanvas().getChildShapeByResourceId(n.id);
+					var bound = n.bounds.split(",");
+					shape.bounds.set(bound[0],bound[1],bound[2],bound[3]);
+					shape.getDockers();
+				}.bind(this));
+			this.facade.getCanvas().update();
 			}
 		}.bind(this)
 		})
