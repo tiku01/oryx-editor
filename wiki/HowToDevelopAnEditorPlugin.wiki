@@ -190,13 +190,14 @@ offer(pluginData): void
      * Callback of the feature. Callback gets following parameters: Generated button (Ext.Button or Ext.menu.Item) and, if _toggle=false_, the event (Ext.EventObject), else the next state (boolean).
    * _keyCodes_: Array
      * List of Object that describes the key down event on which the functionality callback should be called
-     * Each key code consists of a *key code* number (e.g. 67 represents 'c') and a list of the three supported *meta keys* ({{{ORYX.CONFIG.META_KEY_META_CTRL, ORYX.CONFIG.META_KEY_ALT, ORYX.CONFIG.META_KEY_SHIFT}}}).
+     * Each key code consists of a *key code* number (e.g. 67 represents 'c'), the *key action* ({{{ORYX.CONFIG.KEY_ACTION_DOWN, ORYX.CONFIG.KEY_ACTION_UP}}}) and a list of the three supported *meta keys* ({{{ORYX.CONFIG.META_KEY_META_CTRL, ORYX.CONFIG.META_KEY_ALT, ORYX.CONFIG.META_KEY_SHIFT}}}).
      * It is mentionable that the apple meta and control key are handled equally.
      * _Example:_ 
      {{{ 
         keyCodes: [{
 	    metaKeys: [ORYX.CONFIG.META_KEY_META_CTRL],
-	    keyCode: 67
+	    keyCode: 67,
+            keyAction: ORYX.CONFIG.KEY_ACTION_DOWN
 	}] 
      }}}
    * _group_: string
