@@ -17,6 +17,7 @@ This is a small example of the JSON representaztion of a model. To see a more so
       outgoing:[ //list of resource ids defining the outgoings of a shape
         {resourceId: "AnotherShape"}
       ],
+      target: {resourceId: "AnotherShape"},
       bounds:{ lowerRight:{ y:510, x:633 }, upperLeft:{ y:146, x:210 } },
       childShapes:[],
       properties:{}
