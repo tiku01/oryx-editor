@@ -3,14 +3,12 @@ package de.hpi.yawl;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.petrinet.FlowRelationship;
-
 public abstract class Node {
 	
 	protected String id = "";
 	protected String name = "";
-	private List<FlowRelationship> incomingFlowRelationships;
-	private List<FlowRelationship> outgoingFlowRelationships;
+	protected List<FlowRelationship> incomingEdges;
+	protected List<FlowRelationship> outgoingEdges;
 	
 	public Node(String ID, String name){
 		setID(ID);
@@ -35,15 +33,15 @@ public abstract class Node {
 		this.name = nodeName;
 	}
 	
-	public List<? extends FlowRelationship> getIncomingFlowRelationships() {
-		if (incomingFlowRelationships == null)
-			incomingFlowRelationships = new ArrayList();
-		return incomingFlowRelationships;
+	public List<FlowRelationship> getIncomingEdges() {
+		if (incomingEdges == null)
+			incomingEdges = new ArrayList<FlowRelationship>();
+		return incomingEdges;
 	}
 
-	public List<? extends FlowRelationship> getOutgoingFlowRelationships() {
-		if (outgoingFlowRelationships == null)
-			outgoingFlowRelationships = new ArrayList();
-		return outgoingFlowRelationships;
+	public List<FlowRelationship> getOutgoingEdges() {
+		if (outgoingEdges == null)
+			outgoingEdges = new ArrayList<FlowRelationship>();
+		return outgoingEdges;
 	}
 }

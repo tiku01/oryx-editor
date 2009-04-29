@@ -2,12 +2,10 @@ package de.hpi.yawl;
 
 import java.util.*;
 
-import de.hpi.bpmn.Edge;
-
 public class Decomposition {
 	
-	private HashMap<String, Node> nodes = new HashMap(); // Maps node names to nodes
-	private List<Edge> edges;
+	private ArrayList<Node> nodes = new ArrayList<Node>();
+	private ArrayList<Edge> edges = new ArrayList<Edge>();
 	
     private String id; // The id of the decomposition
     private boolean isRootNet; // Whether this decomposition is the root
@@ -49,16 +47,39 @@ public class Decomposition {
     public boolean isRoot() {
         return isRootNet;
     }
-
-    public Collection<Node> getNodes() {
-        return nodes.values();
-    }
     
     public List<Edge> getEdges(){
     	if (edges == null)
 			edges = new ArrayList<Edge>();
 		return edges;
     }
+    
+    public ArrayList<Node> getNodes(){
+    	if (nodes == null)
+			nodes = new ArrayList<Node>();
+		return nodes;
+    }
+    
+    /**
+	 * Gets the set of edges from the first node to the second node.
+	 * @param v1 the first node
+	 * @param v2 the second node
+	 * @return the set of edges from the first node to the second node
+	 */
+	public HashSet<Edge> getEdgesBetween(Node sourceNode, Node targetNode) {
+		HashSet<Edge> s = new HashSet<Edge>();
+		
+		for(FlowRelationship flow: sourceNode.getOutgoingEdges()){
+			if (flow instanceof Edge){
+				Edge edge = (Edge)flow;
+				if (edge.getTarget() == targetNode) {
+					s.add(edge);
+				}
+			}
+		}
+		
+		return s;
+	}
 
     /**
      * Returns whether any normal edge exists form the first node to the second node.
@@ -75,6 +96,10 @@ public class Decomposition {
         }
         return false;
     }
+    
+    public void addNode(Node node){
+    	nodes.add(node);
+    }
 
     /**
      * Adds an input condition with given name.
@@ -82,7 +107,7 @@ public class Decomposition {
      */
     public Condition addInputCondition(String id, String name) {
         Condition condition = new Condition(id, name, Condition.ConditionType.IN);
-        nodes.put(name, condition);
+        addNode(condition);
         return condition;
     }
 
@@ -92,7 +117,7 @@ public class Decomposition {
      */
     public Condition addOutputCondition(String id, String name) {
         Condition condition = new Condition(id, name, Condition.ConditionType.OUT);
-        nodes.put(name, condition);
+        addNode(condition);
         return condition;
     }
 
@@ -102,7 +127,7 @@ public class Decomposition {
      */
     public Condition addCondition(String id, String name) {
         Condition condition = new Condition(id, name, Condition.ConditionType.NONE);
-        nodes.put(name, condition);
+        addNode(condition);
         return condition;
     }
 
@@ -126,12 +151,16 @@ public class Decomposition {
                         split.equals("or") ? Task.SplitJoinType.OR : Task.SplitJoinType.NONE;
         
         Task task = new Task(id, name, joinType, splitType, decomposesTo);
-        nodes.put(name, task);
+        addNode(task);
         return task;
     }
 
-    public void removeYawlNode(String name) {
-        nodes.remove(name);
+    public void removeNode(Node node) {
+        nodes.remove(node);
+    }
+    
+    public void addEdge(Edge edge) {
+        edges.add(edge);
     }
 
     /**
@@ -163,9 +192,7 @@ public class Decomposition {
     	int ordering = 0;
 
     	Edge newEdge = new Edge(fromNode, toNode, Edge.EdgeType.RESET, isDefaultFlow, predicate, ordering); // Absence of extra parameters result in a reset edge
-        addEdge(edge);
-        //nodes.put(fromName, fromVertex);
-        //nodes.put(toName, toVertex);
+        addEdge(newEdge);
     }
 
     /**
@@ -182,7 +209,7 @@ public class Decomposition {
         s += "\t\t\txsi:type=\"" + xsiType + "\"\n";
         s += "\t\t>\n";
 
-        Iterator it = getVerticeList().iterator();
+        Iterator<Node> it = getNodes().iterator();
         if (it.hasNext()) {
             s += "\t\t\t<processControlElements>\n";
             for (int i = 0; i < 3; i++) {
@@ -194,7 +221,7 @@ public class Decomposition {
                         s += ((Condition) object).writeToYAWL(i);
                     }
                 }
-                it = getVerticeList().iterator();
+                it = getNodes().iterator();
             }
             s += "\t\t\t</processControlElements>\n";
         }
