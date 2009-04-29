@@ -49,11 +49,11 @@ public class Condition extends Node {
 				if (this.type == ConditionType.NONE) {
 					s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
 				}
-
-				Iterator it = getOutEdgesIterator();
-				while (it.hasNext()) {
-					Edge edge = (Edge) it.next();
-					s += edge.writeToYAWL(Task.SplitJoinType.NONE, Edge.EdgeType.NORMAL);
+				for(FlowRelationship flow: this.getOutgoingEdges()){
+					if (flow instanceof Edge){
+						Edge edge = (Edge)flow;
+						s += edge.writeToYAWL(Task.SplitJoinType.NONE, Edge.EdgeType.NORMAL);
+					}
 				}
 
 				if (this.type == ConditionType.IN) {

@@ -68,10 +68,11 @@ public class Task extends Node{
 			s +="\t\t\t\t\t<documentation>" + getName() + "</documentation>\n";
 
 			// First, normal edges
-			Iterator it = getOutEdgesIterator();
-			while (it.hasNext()) {
-				Edge edge = (Edge) it.next();
-				s += edge.writeToYAWL(splitType, Edge.EdgeType.NORMAL);
+			for(FlowRelationship flow: this.getOutgoingEdges()){
+				if (flow instanceof Edge){
+					Edge edge = (Edge)flow;
+					s += edge.writeToYAWL(this.splitType, Edge.EdgeType.NORMAL);
+				}
 			}
 
 			// Second, join and split type
@@ -82,10 +83,11 @@ public class Task extends Node{
 					"xor")) + "\"/>\n";
 
 			// Third, reset edges.
-			it = getOutEdgesIterator();
-			while (it.hasNext()) {
-				Edge edge = (Edge) it.next();
-				s += edge.writeToYAWL(splitType, Edge.EdgeType.RESET);
+			for(FlowRelationship flow: this.getOutgoingEdges()){
+				if (flow instanceof Edge){
+					Edge edge = (Edge)flow;
+					s += edge.writeToYAWL(this.splitType, Edge.EdgeType.RESET);
+				}
 			}
 			
             if (decomposesTo.length() > 0) {

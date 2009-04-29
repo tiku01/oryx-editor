@@ -1,7 +1,5 @@
 package de.hpi.yawl;
 
-import java.util.List;
-
 /**
  * Copyright (c) 2009 Armin Zamani Farahani
  * 
@@ -23,7 +21,7 @@ import java.util.List;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class FlowRelationship {
+public abstract class FlowRelationship {
 	
 	protected Node source;
 	protected Node target;
@@ -35,10 +33,10 @@ public class FlowRelationship {
 
 	public void setSource(Node value) {
 		if (source != null)
-			source.getOutgoingFlowRelationships().remove(this);
+			source.getOutgoingEdges().remove(this);
 		source = value;
 		if (source != null)
-			((List<? extends FlowRelationship>)source.getOutgoingFlowRelationships()).add(this);
+			source.getOutgoingEdges().add(this);
 	}
 
 	public Node getTarget() {
@@ -47,10 +45,10 @@ public class FlowRelationship {
 
 	public void setTarget(Node value) {
 		if (target != null)
-			target.getIncomingFlowRelationships().remove(this);
+			target.getIncomingEdges().remove(this);
 		target = value;
 		if (target != null)
-			((List<? extends FlowRelationship>)target.getIncomingFlowRelationships()).add(this);
+			target.getIncomingEdges().add(this);
 	}
 	
 	//perhaps removable method

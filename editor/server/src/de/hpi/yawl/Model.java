@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Model {
 	private String uri; // The uri of the YAWL model
-	private HashMap<String, Decomposition> decompositions = new HashMap(); // All decompositions of the YAWL model
+	private HashMap<String, Decomposition> decompositions = new HashMap<String, Decomposition>(); // All decompositions of the YAWL model
 
 	/**
 	 * Create a new YAWL mode, given its uri.
@@ -44,7 +44,7 @@ public class Model {
 		if (decomposition == null) {
 			return false;
 		}
-		return!decomposition.getVerticeList().isEmpty();
+		return!decomposition.getNodes().isEmpty();
 	}
 
 	/**
