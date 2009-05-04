@@ -19,6 +19,7 @@ This is a small example of the JSON representaztion of a model. To see a more so
       ],
       target: {resourceId: "AnotherShape"},
       bounds:{ lowerRight:{ y:510, x:633 }, upperLeft:{ y:146, x:210 } },
+      dockers:[{x:50,y:40},{x:437,y:31}], //set dockers for edges
       childShapes:[],
       properties:{}
     }
