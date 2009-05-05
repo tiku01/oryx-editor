@@ -18,12 +18,9 @@ import org.xml.sax.SAXException;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
-import de.hpi.bpmn2pn.converter.Converter;
-import de.hpi.bpmn2pn.converter.StandardConverter;
+
+import de.hpi.bpmn2yawl.BPMN2YAWLConverter;
 import de.hpi.bpmn2yawl.BPMN2YAWLSyntaxChecker;
-import de.hpi.petrinet.PetriNet;
-import de.hpi.petrinet.layouting.PetriNetLayouter;
-import de.hpi.petrinet.serialization.erdf.PetriNeteRDFSerializer;
 
 /**
  * Copyright (c) 2009 Armin Zamani
@@ -52,10 +49,11 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		try {
+			System.out.println("Hello, I am the Servlet.");
 			//TODO correct mime type??
 			res.setContentType("application/xhtml");
 
-			String rdf = req.getParameter("rdf");
+			String rdf = req.getParameter("data");
 
 			DocumentBuilder builder;
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -74,6 +72,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	protected void processDocument(Document document, PrintWriter writer) {
 		String type = new StencilSetUtil().getStencilSet(document);
 		BPMNDiagram diagram = null;
+		
 		if (type.equals("bpmn.json"))
 			diagram = new BPMNRDFImporter(document).loadBPMN();
 		else if (type.equals("bpmn1.1.json"))
@@ -83,16 +82,9 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		BPMN2YAWLSyntaxChecker checker = new BPMN2YAWLSyntaxChecker(diagram);
 		checker.checkSyntax();
 		
+		BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
+		converter.translate(diagram);
+		
 		System.out.println("Hello world, I am the BPMN2YAWLservlet.");
-		//Convert to....
-		/*Converter conv = new StandardConverter(diagram);
-		PetriNet pn = conv.convert();
-		
-		PetriNetLayouter layouter = new PetriNetLayouter(pn);
-		layouter.layout();
-		
-		String erdf = new PetriNeteRDFSerializer(this.getServletContext()).serializeDiagram(pn);
-		
-		writer.write(erdf);*/
 	}
 }
