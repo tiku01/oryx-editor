@@ -1,14 +1,26 @@
 package de.hpi.yawl;
 
+import java.util.ArrayList;
+
 public class Task extends Node{
 	
 	public enum SplitJoinType {
 		NONE, AND, OR, XOR
 	}
 	
+	public enum CreationMode {
+		DYNAMIC, STATIC
+	}
+	
 	private SplitJoinType joinType = SplitJoinType.NONE;
 	private SplitJoinType splitType = SplitJoinType.NONE;
 	private String decomposesTo = null; // Name of subdecomposition.
+	private int minimum = 0;
+	private int maximum = 0;
+	private int threshold = 0;
+	private CreationMode creationMode = CreationMode.STATIC;
+	private boolean isMultipleTask = false;
+	private ArrayList<Node> cancellationSet;
 	
 	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo){
 		super(ID, name);
@@ -16,6 +28,16 @@ public class Task extends Node{
 		setJoinType(join);
 		setSplitType(split);
 		setDecomposition(decomposesTo);
+	}
+	
+	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo, int min, int max, int threshold, CreationMode mode){
+		this(ID, name, join, split, decomposesTo);
+		
+		setMinimum(min);
+		setMaximum(max);
+		setThreshold(threshold);
+		setCreationMode(mode);
+		setIsMultipleTask(true);
 	}
 	
 	public SplitJoinType getJoinType(){
@@ -40,6 +62,52 @@ public class Task extends Node{
 	
 	public void setDecomposition(String decomposesTo) {
 		this.decomposesTo = decomposesTo == null ? "" : decomposesTo;
+	}
+	
+	public int getMinimum(){
+		return this.minimum;
+	}
+	
+	public void setMinimum(int min){
+		this.minimum = min >= 0 ? min : 0;
+	}
+	
+	public int getMaximum(){
+		return this.maximum;
+	}
+	
+	public void setMaximum(int max){
+		this.maximum = max >= this.minimum ? max : 0;
+	}
+	
+	public int getThreshold(){
+		return this.threshold;
+	}
+	
+	public void setThreshold(int threshold){
+		this.threshold = threshold >= 0 ? threshold : 0;
+	}
+	
+	public CreationMode getCreationMode(){
+		return this.creationMode;
+	}
+	
+	public void setCreationMode(CreationMode mode){
+		this.creationMode = mode;
+	}
+	
+	public boolean isMultipleTask(){
+		return this.isMultipleTask;
+	}
+	
+	public void setIsMultipleTask(boolean multiple){
+		this.isMultipleTask = multiple;
+	}
+	
+	public ArrayList<Node> getCancellationSet(){
+		if (cancellationSet == null)
+			cancellationSet = new ArrayList<Node>();
+		return cancellationSet;
 	}
 	
 	/**
@@ -82,17 +150,23 @@ public class Task extends Node{
 					"or" :
 					"xor")) + "\"/>\n";
 
-			// Third, reset edges.
-			for(FlowRelationship flow: this.getOutgoingEdges()){
-				if (flow instanceof Edge){
-					Edge edge = (Edge)flow;
-					s += edge.writeToYAWL(this.splitType, Edge.EdgeType.RESET);
+			// Third, reset set
+			if (getCancellationSet().size() > 0){
+				for(Node removeNode: getCancellationSet()){
+					s += "\t\t\t\t\t<removesTokens id=\"" + removeNode.getID() + "\"/>\n";
 				}
 			}
 			
             if (decomposesTo.length() > 0) {
                 s += "\t\t\t\t\t<decomposesTo id=\"" + getDecomposition() + "\"/>\n";
             }
+            if (isMultipleTask()) {
+                s += "\t\t\t\t\t<minimum>" + getMinimum() + "</minimum>\n";
+                s += "\t\t\t\t\t<maximum>" + getMaximum() + "</maximum>\n";
+                s += "\t\t\t\t\t<threshold>" + getThreshold() + "</threshold>\n";            
+                s += "\t\t\t\t\t<creationMode code=\"" + (getCreationMode() == CreationMode.DYNAMIC ? "dynamic" : "static") + "\" />\n";
+            }
+            
 			s +="\t\t\t\t</task>\n";
 		}
 		return s;

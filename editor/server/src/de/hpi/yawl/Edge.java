@@ -3,7 +3,7 @@ package de.hpi.yawl;
 public class Edge extends FlowRelationship {
 
 	public enum EdgeType {
-		NORMAL, RESET
+		NORMAL
 	}
 	
 	private boolean defaultEdge;
@@ -27,11 +27,6 @@ public class Edge extends FlowRelationship {
 			setEdgeToNormal(defaultEdge, predicate, ordering);
 			break;
 		}
-		
-		case RESET:{
-			setEdgeToReset();
-			break;
-		}
 		}
 	}
 	
@@ -41,12 +36,6 @@ public class Edge extends FlowRelationship {
 		setDefault(defaultEdge);
 		setPredicate(predicate);
 		setOrdering(ordering);
-	}
-	
-	public void setEdgeToReset(){
-		this.edgeType = EdgeType.RESET;
-		setPredicate(null);
-		setOrdering(0);
 	}
 	
 	public boolean isNormal(){
@@ -93,8 +82,7 @@ public class Edge extends FlowRelationship {
             if (predicate != null && predicate.length() > 0) {
                 boolean hasPredicate = false;
                 if (splitType == Task.SplitJoinType.XOR) {
-                    s += "\t\t\t\t\t\t<predicate ordering=\"" + ordering +
-                            "\">";
+                    s += "\t\t\t\t\t\t<predicate ordering=\"" + ordering + "\">";
                     hasPredicate = true;
                 } else if (splitType == Task.SplitJoinType.OR) {
                     s += "\t\t\t\t\t\t<predicate>";
@@ -102,9 +90,7 @@ public class Edge extends FlowRelationship {
                 }
                 if (hasPredicate) {
                     // Predicate might contain special characters. Have them replaced.
-                    s += predicate.replaceAll("&", "&amp;").replaceAll("<",
-                            "&lt;").replaceAll(">",
-                                               "&gt;");
+                    s += predicate.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
                     s += "</predicate>\n";
                 }
             }
@@ -112,9 +98,6 @@ public class Edge extends FlowRelationship {
                 s += "\t\t\t\t\t\t<isDefaultFlow/>\n";
             }
             s += "\t\t\t\t\t</flowsInto>\n";
-        } else if (type == EdgeType.RESET) {
-            s += "\t\t\t\t\t<removesTokens id=\"Node" + getTarget().getID() +
-                    "\"/>\n";
         }
         return s;
     }

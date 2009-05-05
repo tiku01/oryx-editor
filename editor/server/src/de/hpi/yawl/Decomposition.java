@@ -159,6 +159,12 @@ public class Decomposition {
         nodes.remove(node);
     }
     
+    public void removeEdge(Edge edge){
+    	edge.getSource().getOutgoingEdges().remove(edge);
+    	edge.getTarget().getIncomingEdges().remove(edge);
+    	edges.remove(edge);
+    }
+    
     public void addEdge(Edge edge) {
         edges.add(edge);
     }
@@ -178,21 +184,6 @@ public class Decomposition {
         Edge newEdge = new Edge(fromNode, toNode, Edge.EdgeType.NORMAL, isDefaultFlow, predicate, ordering);
         addEdge(newEdge);
         return newEdge;
-    }
-
-    /**
-     * Adds a reset edge from the given source node to the given destination node.
-     * @param fromName The name of the source node
-     * @param toName The name of the destination node
-     */
-    public void addResetEdge(Node fromNode, Node toNode) {
-    	
-    	boolean isDefaultFlow = false;
-    	String predicate = "";
-    	int ordering = 0;
-
-    	Edge newEdge = new Edge(fromNode, toNode, Edge.EdgeType.RESET, isDefaultFlow, predicate, ordering); // Absence of extra parameters result in a reset edge
-        addEdge(newEdge);
     }
 
     /**
