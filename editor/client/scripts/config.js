@@ -19,6 +19,7 @@ ORYX.CONFIG = {
 	SIMPLE_PNML_EXPORT_URL:		"/oryx/simplepnmlexporter",
 	DESYNCHRONIZABILITY_URL:	"/oryx/desynchronizability",
 	IBPMN2BPMN_URL:				"/oryx/ibpmn2bpmn",
+	BPMN2YAWL_URL:				"/oryx/bpmn2yawl",
 	SYNTAXCHECKER_URL:			"/oryx/syntaxchecker",
 	VALIDATOR_URL:				"/oryx/validator",
 	AUTO_LAYOUTER_URL:			"/oryx/layouter",
