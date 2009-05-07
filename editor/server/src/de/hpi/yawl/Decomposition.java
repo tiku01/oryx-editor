@@ -10,6 +10,10 @@ public class Decomposition {
     private String id; // The id of the decomposition
     private boolean isRootNet; // Whether this decomposition is the root
     private String xsiType; // the xsi:type of the decomposition
+    
+    private ArrayList<Variable> inputParameters = new ArrayList<Variable>();
+    private ArrayList<Variable> outputParameters = new ArrayList<Variable>();
+    private ArrayList<Variable> localVariables = new ArrayList<Variable>();
 
     public String getID(){
     	return this.id;
@@ -185,6 +189,24 @@ public class Decomposition {
         addEdge(newEdge);
         return newEdge;
     }
+    
+    public ArrayList<Variable> getInputParams(){
+    	if (inputParameters == null)
+    		inputParameters = new ArrayList<Variable>();
+		return inputParameters;
+    }
+    
+    public ArrayList<Variable> getOutputParams(){
+    	if (outputParameters == null)
+    		outputParameters = new ArrayList<Variable>();
+		return outputParameters;
+    }
+    
+    public ArrayList<Variable> getLocalVariables(){
+    	if (localVariables == null)
+    		localVariables = new ArrayList<Variable>();
+		return localVariables;
+    }
 
     /**
      * Export to YAWL file.
@@ -199,6 +221,30 @@ public class Decomposition {
         }
         s += "\t\t\txsi:type=\"" + xsiType + "\"\n";
         s += "\t\t>\n";
+        
+        if(getInputParams().size() > 0){
+        	for(Variable var : getInputParams()){
+        		s += "\t\t\t\t\t<inputParam>\n";
+        		s += var.writeToYAWL();
+        		s += "\t\t\t\t\t</inputParam>\n";
+        	}
+        }
+        
+        if(getOutputParams().size() > 0){
+        	for(Variable var : getOutputParams()){
+        		s += "\t\t\t\t\t<outputParam>\n";
+        		s += var.writeToYAWL();
+        		s += "\t\t\t\t\t</outputParam>\n";
+        	}
+        }
+        
+        if(getLocalVariables().size() > 0){
+        	for(Variable var : getLocalVariables()){
+        		s += "\t\t\t\t\t<localVariable>\n";
+        		s += var.writeToYAWL();
+        		s += "\t\t\t\t\t</localVariable>\n";
+        	}
+        }
 
         Iterator<Node> it = getNodes().iterator();
         if (it.hasNext()) {
