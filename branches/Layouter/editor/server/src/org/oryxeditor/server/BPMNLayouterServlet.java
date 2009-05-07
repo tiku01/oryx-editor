@@ -3,6 +3,7 @@ package org.oryxeditor.server;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import layout.OryxBPMNLayouter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +25,6 @@ import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
-import layout.*;
 /**
  * Copyright (c) 2009 Philip Effinger
  * 
@@ -71,7 +73,6 @@ public class BPMNLayouterServlet extends HttpServlet {
 		else if (type.equals("bpmn1.1.json"))
 			diagram = new BPMN11RDFImporter(document).loadBPMN();
 
-		// TODO: diagramm - Importer (in Graph2D)
 		OryxBPMNLayouter layouter = new OryxBPMNLayouter();
 		layouter.setDiagram(diagram);
 		layouter.doLayout();
@@ -79,25 +80,29 @@ public class BPMNLayouterServlet extends HttpServlet {
 		
 		JSONArray j = new JSONArray();
 		try {
-			for(Node n : diagram.getChildNodes()){
-				JSONObject ob = new JSONObject();
-				ob.put("id",n.getResourceId());
-				ob.put("bounds", n.getBounds().toString());
-				j.put(ob);
-			}
+			writeBoundsToJSON(j, diagram.getChildNodes());
 			j.write(writer);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-//		writer.write(""+diagram.getChildNodes().size());
-//		Converter conv = new StandardConverter(diagram);
-//		PetriNet pn = conv.convert();
-//		
-//		PetriNetLayouter layouter = new PetriNetLayouter(pn);
-//		layouter.layout();
-//		
-//		String erdf = new PetriNeteRDFSerializer(this.getServletContext()).serializeDiagram(pn);
-		
-//		writer.write(erdf);
 	}
+	
+	
+	/**
+	 * set new bounds of diagram nodes, call itself recursively if node is a container
+	 * @param JSONarray arr
+	 * @param List<Node> nodes
+	 * @throws JSONException
+	 */
+	private void writeBoundsToJSON(JSONArray arr, List<Node> nodes) throws JSONException{
+		for(Node n : nodes){
+				JSONObject ob = new JSONObject();
+				ob.put("id",n.getResourceId());
+				ob.put("bounds", n.getBounds().toString());
+				arr.put(ob);
+				if(n instanceof de.hpi.bpmn.Container)
+					writeBoundsToJSON(arr, ((de.hpi.bpmn.Container) n).getChildNodes());
+		}
+	}
+	
 }
