@@ -21,6 +21,8 @@ public class Task extends Node{
 	private CreationMode creationMode = CreationMode.STATIC;
 	private boolean isMultipleTask = false;
 	private ArrayList<Node> cancellationSet;
+	private ArrayList<VariableMapping> startingMappings = new ArrayList<VariableMapping>();
+	private ArrayList<VariableMapping> completedMappings = new ArrayList<VariableMapping>();
 	
 	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo){
 		super(ID, name);
@@ -110,6 +112,18 @@ public class Task extends Node{
 		return cancellationSet;
 	}
 	
+	public ArrayList<VariableMapping> getStartingMappings(){
+		if (startingMappings == null)
+			startingMappings = new ArrayList<VariableMapping>();
+		return startingMappings;
+	}
+	
+	public ArrayList<VariableMapping> getCompletedMappings(){
+		if (completedMappings == null)
+			completedMappings = new ArrayList<VariableMapping>();
+		return completedMappings;
+	}
+	
 	/**
 	 * Export to YAWL file.
 	 * @param phase Writing phase: 0 = inputCondition, 2 = outputCondition, 1 = rest.
@@ -155,6 +169,22 @@ public class Task extends Node{
 				for(Node removeNode: getCancellationSet()){
 					s += "\t\t\t\t\t<removesTokens id=\"" + removeNode.getID() + "\"/>\n";
 				}
+			}
+			
+			if (getStartingMappings().size() > 0){
+				s += "\t\t\t\t\t<startingMappings>\n";
+				for(VariableMapping mapping : getStartingMappings()){
+					mapping.writeToYAWL();
+				}
+				s += "\t\t\t\t\t</startingMappings>\n";
+			}
+			
+			if (getCompletedMappings().size() > 0){
+				s += "\t\t\t\t\t<completedMappings>\n";
+				for(VariableMapping mapping : getCompletedMappings()){
+					mapping.writeToYAWL();
+				}
+				s += "\t\t\t\t\t</completedMappings>\n";
 			}
 			
             if (decomposesTo.length() > 0) {
