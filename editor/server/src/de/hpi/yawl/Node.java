@@ -16,13 +16,13 @@ public abstract class Node {
 	}
 	
 	public String getID() {
-		return id;
+		return this.id;
 	}
 	
 	public void setID(String anID) {
-		int tab = anID.indexOf('\t'); //determine the position of a tab
-		String name = tab < 0 ? anID : anID.substring(0, tab); //if no tab assign id, else take id without tab
-		id = name;
+		//int tab = anID.indexOf('\t'); //determine the position of a tab
+		//String name = tab < 0 ? anID : anID.substring(0, tab); //if no tab assign id, else take id without tab
+		this.id = anID;
 	}
 	
 	public String getName() {

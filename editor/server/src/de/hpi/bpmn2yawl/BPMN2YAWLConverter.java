@@ -39,14 +39,14 @@ public class BPMN2YAWLConverter {
 	
 	/**
 	 */
-	public void translate(BPMNDiagram diagram) {
+	public String translate(BPMNDiagram diagram) {
 		Container pool = diagram.getProcesses().get(0);	
 		
 		Model model = new Model("mymodel");
 		// YAWL
 		mapDecomposition(model, pool);		
 
-		System.out.println(model.writeToYAWL());
+		return model.writeToYAWL();
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class BPMN2YAWLConverter {
 		if (graph instanceof SubProcess) {
 			dec = new Decomposition(((SubProcess)graph).getLabel().trim(), "false", "NetFactsType");
 		} else
-			dec = new Decomposition("NoAccessToProcessName", "true", "NetFactsType");
+			dec = new Decomposition("OryxBPMNtoYAWL_Net", "true", "NetFactsType");
 		
 		model.addDecomposition(dec.getID(), dec);
 		
@@ -115,7 +115,7 @@ public class BPMN2YAWLConverter {
 				
 				if (task.getSplitType() == Task.SplitJoinType.AND) {
 					// Factor out the split decorator to allow a self loop
-					Task split = d.addTask(generateId(), "XOR", "AND", "", null);
+					Task split = d.addTask(generateId(), "SplitTask", "XOR", "AND", "");
 
 					for (FlowRelationship flow : task.getOutgoingEdges()){
 						if (flow instanceof Edge){
@@ -130,7 +130,7 @@ public class BPMN2YAWLConverter {
 
 				if (task.getJoinType() == Task.SplitJoinType.AND) {
 					// Factor out the split decorator to allow a self loop
-					Task join = d.addTask(generateId(), "AND", "AND", "", null);
+					Task join = d.addTask(generateId(), "JoinTask", "AND", "AND", "");
 
 					for (FlowRelationship flow : task.getIncomingEdges()){
 						if(flow instanceof Edge){
@@ -176,7 +176,7 @@ public class BPMN2YAWLConverter {
 			if (compTask.getOutgoingEdges().size() > 1) {
 				// There is a split attached to the composite task
 				// so, factor it out !
-				Task newSplit = dec.addTask(generateId(), "XOR", "AND", "", null);
+				Task newSplit = dec.addTask(generateId(), "newSplitTask", "XOR", "AND", "");
 				
 				for (FlowRelationship flow : compTask.getOutgoingEdges()){
 					if (flow instanceof Edge){
@@ -208,13 +208,13 @@ public class BPMN2YAWLConverter {
 			de.hpi.yawl.Node predecesor = null;
 			boolean needsLinking = false;
 			if (compTask.getIncomingEdges().size() > 1) {
-				predecesor = dec.addTask(generateId(), "XOR", "AND", "", null);
+				predecesor = dec.addTask(generateId(), "Task", "XOR", "AND", "");
 				needsLinking = true;
 			} else {
 				predecesor = (de.hpi.yawl.Node)compTask.getIncomingEdges().get(0).getSource();
 				
 				if ((predecesor instanceof Condition)) {
-					de.hpi.yawl.Node gw = dec.addTask(generateId(), "XOR", "AND", "", null);
+					de.hpi.yawl.Node gw = dec.addTask(generateId(), "Task", "XOR", "AND", "");
 					
 					Edge edge = (Edge) predecesor.getOutgoingEdges().get(0);
 					dec.removeEdge(edge);
@@ -250,7 +250,7 @@ public class BPMN2YAWLConverter {
 			IntermediateEvent eventHandler, LinkedList<IntermediateTimerEvent> timers) {
 		
 		// TODO: I thought that an timer event should have had a Label (this is not the case).
-		Task timer = dec.addTask(generateId("timer"), /*eventHandler.getName(),*/ "XOR", "AND", "", null);
+		Task timer = dec.addTask(generateId("timer"), "TimerTask", "XOR", "AND", "");
 		de.hpi.yawl.Node targetTask = nodeMap.get(eventHandler.getOutgoingSequenceFlows().get(0).getTarget());
 		dec.addNormalEdge(timer, targetTask, false, "", 1);
 		nodeMap.put(eventHandler, timer);
@@ -350,7 +350,7 @@ public class BPMN2YAWLConverter {
 		boolean split = false, join = false;
 		if (node.getOutgoingSequenceFlows().size() > 1 && node.getIncomingSequenceFlows().size() > 1) {
 			// Both roles
-			task = dec.addTask(generateId(), "AND", "XOR", "", null);
+			task = dec.addTask(generateId(), "Task", "XOR", "AND", "");
 
 			split = true; join = true;
 		} else if (node.getOutgoingSequenceFlows().size() > 1) {
@@ -360,7 +360,7 @@ public class BPMN2YAWLConverter {
 			
 			if (predTask == null || (predTask.getOutgoingEdges() != null && predTask.getOutgoingEdges().size() > 1) ||
 					predTask instanceof Condition)
-				task = dec.addTask(generateId(), "AND", "XOR", "", null);
+				task = dec.addTask(generateId(), "Task", "XOR", "AND", "");
 			else
 				task = (Task)predTask;
 			split = true;
@@ -372,7 +372,7 @@ public class BPMN2YAWLConverter {
 			//succTask.getIncidentEdges()
 			if (succTask == null || (succTask.getIncomingEdges() != null && succTask.getIncomingEdges().size() > 1) ||
 					succTask instanceof Condition)
-				task = dec.addTask(generateId(), "AND", "XOR", "", null);
+				task = dec.addTask(generateId(), "Task", "XOR", "AND", "");
 			else
 				task = (Task)succTask;
 			join = true;
@@ -426,10 +426,10 @@ public class BPMN2YAWLConverter {
 		else if (node instanceof XOREventBasedGateway)
 			ynode = mapConditionFromEventBased(model, dec, node, nodeMap);
 		else if (node instanceof IntermediateTimerEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof XOREventBasedGateway) {
-			ynode = dec.addTask(generateId("timer"), "XOR", "AND", "", null);
+			ynode = dec.addTask(generateId("timer"), "TaskMappedFromIntermediateTimerEvent", "XOR", "AND", "");
 			nodeMap.put(node, ynode);
 		} else if (node instanceof IntermediateMessageEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof XOREventBasedGateway) {
-			ynode = dec.addTask(generateId("msg"), "XOR", "AND", "", null);
+			ynode = dec.addTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", "");
 			nodeMap.put(node, ynode);
 		} else if (node instanceof EndErrorEvent)
 			ynode = mapException(model, dec, node, nodeMap);
@@ -523,7 +523,7 @@ public class BPMN2YAWLConverter {
 	private de.hpi.yawl.Node mapException(Model model, Decomposition dec, de.hpi.bpmn.Node node,
 			HashMap<de.hpi.bpmn.Node, de.hpi.yawl.Node> nodeMap) {
 		
-		de.hpi.yawl.Node task = dec.addTask(generateId("ErrorEvent"), "XOR", "AND", "", null);
+		de.hpi.yawl.Node task = dec.addTask(generateId("ErrorEvent"), "TaskMappedFromErrorEvent", "XOR", "AND", "");
 		nodeMap.put(node, task);
 		
 		return task;
@@ -672,9 +672,9 @@ public class BPMN2YAWLConverter {
 		de.hpi.yawl.Node task = null;
 		
 		if (isComposite)
-			task = dec.addTask(node.getLabel(), "XOR", "AND", subdecId, null);
+			task = dec.addTask(node.getLabel(), node.getLabel(), "XOR", "AND", subdecId);
 		else
-			task = dec.addTask(node.getLabel(), "XOR", "AND", "", null);
+			task = dec.addTask(node.getLabel(), node.getLabel(), "XOR", "AND", "");
 		
 		// TODO: Multiple Instances
 		if (((Activity)node).getLoopType() == Activity.LoopType.Multiinstance) {

@@ -142,12 +142,9 @@ public class Task extends Node{
 				jt = SplitJoinType.XOR;
 			}
 			
-			s +="\t\t\t\t<task\n";
-			s +="\t\t\t\t\tid=\"Node" + getID() + "\"\n";
-			s +="\t\t\t\t>\n";
+			s +="\t\t\t\t<task id=\"Node" + getID() + "\">\n";
 
 			s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
-			s +="\t\t\t\t\t<documentation>" + getName() + "</documentation>\n";
 
 			// First, normal edges
 			for(FlowRelationship flow: this.getOutgoingEdges()){
