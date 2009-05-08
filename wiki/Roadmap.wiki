@@ -1,5 +1,23 @@
 #summary Roadmap for the next months
 
+= Summer 2009 = 
+
+We currently assume a more or less stable release of BPMN 2.0 in mid summer 2009. In prospect of this event, we want to provide a stable release of the Editor before. 
+
+This includes elimination of important issues (critical and high) as well as the implementation of a set of new/improved features, as follows:
+
+ * improved shape menu
+ * improved toolbar (including #229, #243, #326)
+ * improved pdf-export
+ * perspectives of the shape repository
+ * "backend work"
+
+these points are open for discussion. Further suggestions are appreciated. 
+Please highlight the defects/bugs you prefer to be solved, too.
+
+
+
+
 = Roadmap October 2008 =
 
 == +2 Months ==
