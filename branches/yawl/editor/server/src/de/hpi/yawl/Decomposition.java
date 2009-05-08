@@ -214,13 +214,12 @@ public class Decomposition {
      */
     public String writeToYAWL() {
         String s = "";
-        s += "\t\t<decomposition\n";
-        s += "\t\t\tid=\"" + id + "\"\n";
+        s += "\t\t<decomposition ";
+        s += "id=\"" + id + "\" ";
         if (isRootNet) {
-            s += "\t\t\tisRootNet=\"true\"\n";
+            s += "isRootNet=\"true\" ";
         }
-        s += "\t\t\txsi:type=\"" + xsiType + "\"\n";
-        s += "\t\t>\n";
+        s += "xsi:type=\"" + xsiType + "\" >\n";
         
         if(getInputParams().size() > 0){
         	for(Variable var : getInputParams()){

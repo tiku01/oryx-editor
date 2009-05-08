@@ -5,6 +5,9 @@ import java.util.*;
 
 public class Model {
 	private String uri; // The uri of the YAWL model
+	private String description = "No description has been given.";
+	//private String name = "";
+	//private String documentation = "";
 	private HashMap<String, Decomposition> decompositions = new HashMap<String, Decomposition>(); // All decompositions of the YAWL model
 
 	/**
@@ -56,17 +59,17 @@ public class Model {
 
 		String s = "";
 		s += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		s += "<specificationSet\n";
-		s += "\txmlns=\"http://www.yawlfoundation.org/yawlschema\"\n";
-		s += "\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n";
-		s += "\tversion=\"2.0\"\n";
-		s +=
-				"\txsi:schemaLocation=\"http://www.yawlfoundation.org/yawlschema http://www.yawlfoundation.org/yawlschema/YAWL_Schema2.0.xsd\"\n";
-		s += ">\n";
+		s += "<specificationSet ";
+		s += "xmlns=\"http://www.yawlfoundation.org/yawlschema\" ";
+		s += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ";
+		s += "version=\"2.0\" ";
+		s +="xsi:schemaLocation=\"http://www.yawlfoundation.org/yawlschema http://www.yawlfoundation.org/yawlschema/YAWL_Schema2.0.xsd\" >\n";
 		s += "\t<specification uri=\"" + uri + "\">\n";
-		s += "\t\t<name>" + uri + "</name>\n";
-		s += "\t\t<documentation>" + uri + "</documentation>\n";
-		s += "\t\t<metaData/>\n";
+		s += "\t\t<metaData>\n";
+		s += "\t\t\t<description>" + description + "</description>\n";
+		s += "\t\t</metaData>\n";
+		s += "\t\t<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" />\n";
+		
 		for (Decomposition decomposition: decompositions.values()) {
 			s += decomposition.writeToYAWL();
 		}

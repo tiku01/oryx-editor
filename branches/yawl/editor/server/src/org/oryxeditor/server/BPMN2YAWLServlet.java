@@ -3,6 +3,7 @@ package org.oryxeditor.server;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.FileWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +59,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			DocumentBuilder builder;
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes("UTF-8")));
+			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes()));
 			
 			processDocument(document, res.getWriter());
 			
@@ -70,6 +71,8 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	}
 
 	protected void processDocument(Document document, PrintWriter writer) {
+		FileWriter fileWriter;
+		String yawlXML;
 		String type = new StencilSetUtil().getStencilSet(document);
 		BPMNDiagram diagram = null;
 		
@@ -83,7 +86,15 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		checker.checkSyntax();
 		
 		BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
-		converter.translate(diagram);
+		yawlXML = converter.translate(diagram);
+		
+		try{
+			fileWriter = new FileWriter("OryxBPMNToYAWL.yawl");
+			fileWriter.write(yawlXML);
+			fileWriter.close();
+		} catch (IOException e){
+			System.out.println("Fehler beim Erstellen des YAWL-Files");
+		}
 		
 		System.out.println("Hello world, I am the BPMN2YAWLservlet.");
 	}

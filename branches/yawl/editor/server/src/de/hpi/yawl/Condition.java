@@ -43,8 +43,7 @@ public class Condition extends Node {
 				} else {
 					s +="\t\t\t\t<condition\n";
 				}
-				s +="\t\t\t\t\tid=\"Node" + getID() + "\"\n";
-				s +="\t\t\t\t>\n";
+				s +="\t\t\t\t\tid=\"Node" + getID() + "\">\n";
 
 				if (this.type == ConditionType.NONE) {
 					s +="\t\t\t\t\t<name>" + getName() + "</name>\n";

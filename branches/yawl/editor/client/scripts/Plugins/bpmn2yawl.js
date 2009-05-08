@@ -28,7 +28,7 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
 			method: 'POST',
 			asynchronous: false,
 			parameters : {
-				data: this.facade.getERDF()
+				data: this.getRDFFromDOM()
 			},
 			onSuccess: function(request){
 				alert("BPMN to YAWL Mapper succeeded");
