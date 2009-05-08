@@ -1,0 +1,25 @@
+{
+	"title":"BPMN Subset for mapping to YAWL",
+	"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn4yawlSubset#",
+	"description":"A subset of BPMN that can be mapped to YAWL for execution.",
+	"extends":"http://b3mn.org/stencilset/bpmn1.1#",
+	"stencils":[],
+	"properties":[],
+	"rules": {
+		"connectionRules": [],
+        "cardinalityRules": [],
+		"containmentRules": []
+	},
+	"removestencils": [
+		"Complex_Gateway",
+		"Group",
+		"DataObject",
+		"MessageFlow",
+		"Association_Undirected",
+		"Association_Unidirectional",
+		"Association_Bidirectional"
+	],
+	"removeproperties": [
+		
+	]
+}
