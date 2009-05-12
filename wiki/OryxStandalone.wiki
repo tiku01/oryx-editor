@@ -58,3 +58,5 @@ To allow non-admin user to install Oryx, one has to add some special prefs to th
 <li> write in the "HKCU" registration key --> defines the uninstaller and has write access for current user</li>
 </ul>
 
+=Download Oryx Standalone=
+<a href="http://oryx-editor.googlecode.com/files/Oryx.exe">Click here to download the Oryx Standalone Installer</a>
