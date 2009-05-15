@@ -243,6 +243,10 @@
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
 		-->
 
+		<plugin source="bpmnLayouter.js" name="ORYX.Plugins.BpmnLayouter">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+		</plugin>
+		
 	</plugins>
 	
 	<properties>
