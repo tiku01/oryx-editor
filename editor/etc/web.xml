@@ -457,6 +457,18 @@
             <url-pattern>/bpmn2bpel</url-pattern>
     </servlet-mapping>
 
+	<servlet>
+		<display-name>Oryx BPMN Layouter</display-name>
+		<servlet-name>BPMNLayouterServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.BPMNLayouterServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>BPMNLayouterServlet</servlet-name>
+		<url-pattern>/bpmnlayouter</url-pattern>
+	</servlet-mapping>
 
 	<jsp-config>
 		<taglib>
