@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 
 import de.hpi.bpmn.ANDGateway;
 import de.hpi.bpmn.Activity;
+import de.hpi.bpmn.Assignment;
 import de.hpi.bpmn.Association;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.BPMNFactory;
@@ -468,6 +469,12 @@ public class BPMN11RDFImporter {
 					} else if (miflowconditionValue != null && miflowconditionValue.equalsIgnoreCase("none")) {
 						activity.setMiFlowCondition(MIFlowCondition.None);
 					}
+					
+				} else if (attribute.equals("assignments")) {
+						String assignmentValue = getContent(n);
+						ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
+						activity.getAssignments().addAll(assignmentList);
+						
 				} else if (attribute.equals("properties")) {
 					String propertiesValue = getContent(n);
 					
@@ -478,14 +485,18 @@ public class BPMN11RDFImporter {
 						//split the properties string for each entry
 						String[] propertiesAsText = propertiesItems.split("}");
 						
-						for(String singleProperty : propertiesAsText){
+						for(String seperateProperty : propertiesAsText){
 							String name = "";
 							String type = "";
 							String value = "";
 							Boolean correlation = false;
 							
-							singleProperty = singleProperty.trim().substring(1);
-							String[] propertyComponents = singleProperty.split(", ");
+							if(seperateProperty.startsWith(",")){
+								seperateProperty = seperateProperty.substring(1);
+							}
+							seperateProperty = seperateProperty.trim();
+							seperateProperty = seperateProperty.substring(1);
+							String[] propertyComponents = seperateProperty.split(", ");
 							
 							for(String propertyComponent : propertyComponents){
 								if(propertyComponent.startsWith("name")){
@@ -787,6 +798,12 @@ public class BPMN11RDFImporter {
 					continue;
 				String attribute = n.getNodeName().substring(
 						n.getNodeName().indexOf(':') + 1);
+				
+				if (attribute.equals("assignments")) {
+					String assignmentValue = getContent(n);
+					ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
+					event.getAssignments().addAll(assignmentList);
+				}
 
 				handleStandardAttributes(attribute, n, event, c, label);
 			}
@@ -848,6 +865,13 @@ public class BPMN11RDFImporter {
 					continue;
 				String attribute = n.getNodeName().substring(
 						n.getNodeName().indexOf(':') + 1);
+				
+				if (attribute.equals("assignments")) {
+					String assignmentValue = getContent(n);
+					ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
+					gateway.getAssignments().addAll(assignmentList);
+				}
+				
 				handleStandardAttributes(attribute, n, gateway, c,
 						"Documentation");
 			}
@@ -1056,6 +1080,55 @@ public class BPMN11RDFImporter {
 		if (node == null || !node.getNodeName().equals("rdf:RDF"))
 			return null;
 		return node;
+	}
+	
+	protected ArrayList<Assignment> handleAssignments(String rawAssignment){
+		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+		
+		if (rawAssignment != null) {
+			String assignmentItems = rawAssignment.substring(rawAssignment.indexOf("[") + 1, rawAssignment.indexOf("]"));
+			
+			//split the properties string for each entry
+			String[] assignmentsAsText = assignmentItems.split("}");
+			
+			for(String seperateAssignment : assignmentsAsText){
+				String to = "";
+				String from = "";
+				Assignment.AssignTime assignTime = Assignment.AssignTime.Start;
+				
+				if(seperateAssignment.startsWith(",")){
+					seperateAssignment = seperateAssignment.substring(1);
+				}
+				seperateAssignment = seperateAssignment.trim();
+				seperateAssignment = seperateAssignment.substring(1);
+				
+				String[] assignmentComponents = seperateAssignment.split(", ");
+				
+				for(String assignmentComponent : assignmentComponents){
+					if(assignmentComponent.startsWith("to")){
+						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
+						to = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+					}
+					else if(assignmentComponent.startsWith("from")){
+						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
+						from = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+					}
+					else if(assignmentComponent.startsWith("assigntime")){
+						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
+						String assignTimeValue = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+						
+						if(assignTimeValue.equalsIgnoreCase("Start"))
+							assignTime = Assignment.AssignTime.Start;
+						
+						else if (assignTimeValue.equalsIgnoreCase("End"))
+							assignTime = Assignment.AssignTime.End;
+					}	
+				}
+				Assignment assignment = new Assignment(to, from, assignTime);
+				assignments.add(assignment);
+			}
+		}
+		return assignments;
 	}
 
 }
