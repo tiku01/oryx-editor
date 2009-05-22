@@ -44,6 +44,7 @@ import de.hpi.bpmn.Lane;
 import de.hpi.bpmn.MessageFlow;
 import de.hpi.bpmn.ORGateway;
 import de.hpi.bpmn.Pool;
+import de.hpi.bpmn.Property;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.StartConditionalEvent;
 import de.hpi.bpmn.StartLinkEvent;
@@ -466,6 +467,53 @@ public class BPMN11RDFImporter {
 						activity.setMiFlowCondition(MIFlowCondition.Complex);
 					} else if (miflowconditionValue != null && miflowconditionValue.equalsIgnoreCase("none")) {
 						activity.setMiFlowCondition(MIFlowCondition.None);
+					}
+				} else if (attribute.equals("properties")) {
+					String propertiesValue = getContent(n);
+					
+					//if the activity has properties
+					if (propertiesValue != null) {
+						String propertiesItems = propertiesValue.substring(propertiesValue.indexOf("[") + 1, propertiesValue.indexOf("]"));
+						
+						//split the properties string for each entry
+						String[] propertiesAsText = propertiesItems.split("}");
+						
+						for(String singleProperty : propertiesAsText){
+							String name = "";
+							String type = "";
+							String value = "";
+							Boolean correlation = false;
+							
+							singleProperty = singleProperty.trim().substring(1);
+							String[] propertyComponents = singleProperty.split(", ");
+							
+							for(String propertyComponent : propertyComponents){
+								if(propertyComponent.startsWith("name")){
+									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
+									name = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								}
+								else if(propertyComponent.startsWith("type")){
+									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
+									type = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								}
+								else if(propertyComponent.startsWith("value")){
+									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
+									value = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								}
+								else if(propertyComponent.startsWith("correlation")){
+									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
+									String correlationValue = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+									
+									if(correlationValue.equalsIgnoreCase("true")){
+										correlation = true;
+									}else{
+										correlation = false;
+									}
+								}	
+							}
+							Property property = new Property(name, type, value, correlation);
+							activity.getProperties().add(property);
+						}
 					}
 				}
 			}
