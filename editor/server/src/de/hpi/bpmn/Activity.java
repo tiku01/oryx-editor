@@ -39,6 +39,8 @@ public abstract class Activity extends Node {
 	
 	protected List<Property> properties;
 	
+	protected List<Assignment> assignments;
+	
 	public List<IntermediateEvent> getAttachedEvents() {
 		if (attachedEvents == null)
 			attachedEvents = new ArrayList<IntermediateEvent>();
@@ -49,6 +51,12 @@ public abstract class Activity extends Node {
 		if (properties == null)
 			properties = new ArrayList<Property>();
 		return properties;
+	}
+	
+	public List<Assignment> getAssignments() {
+		if (assignments == null)
+			assignments = new ArrayList<Assignment>();
+		return assignments;
 	}
 
 	public LoopType getLoopType() {
