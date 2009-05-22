@@ -37,10 +37,18 @@ public abstract class Activity extends Node {
 	
 	protected String complexMIFlowCondition = "";
 	
+	protected List<Property> properties;
+	
 	public List<IntermediateEvent> getAttachedEvents() {
 		if (attachedEvents == null)
 			attachedEvents = new ArrayList<IntermediateEvent>();
 		return attachedEvents;
+	}
+	
+	public List<Property> getProperties() {
+		if (properties == null)
+			properties = new ArrayList<Property>();
+		return properties;
 	}
 
 	public LoopType getLoopType() {
