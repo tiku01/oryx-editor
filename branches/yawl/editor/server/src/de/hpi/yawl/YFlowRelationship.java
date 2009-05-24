@@ -21,17 +21,17 @@ package de.hpi.yawl;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public abstract class FlowRelationship {
+public abstract class YFlowRelationship {
 	
-	protected Node source;
-	protected Node target;
+	protected YNode source;
+	protected YNode target;
 	protected String id;
 	
-	public Node getSource() {
+	public YNode getSource() {
 		return source;
 	}
 
-	public void setSource(Node value) {
+	public void setSource(YNode value) {
 		if (source != null)
 			source.getOutgoingEdges().remove(this);
 		source = value;
@@ -39,11 +39,11 @@ public abstract class FlowRelationship {
 			source.getOutgoingEdges().add(this);
 	}
 
-	public Node getTarget() {
+	public YNode getTarget() {
 		return target;
 	}
 
-	public void setTarget(Node value) {
+	public void setTarget(YNode value) {
 		if (target != null)
 			target.getIncomingEdges().remove(this);
 		target = value;

@@ -1,6 +1,6 @@
 package de.hpi.yawl;
 
-public class Condition extends Node {
+public class YCondition extends YNode {
 	
 	public enum ConditionType {
 		NONE, IN, OUT
@@ -8,7 +8,7 @@ public class Condition extends Node {
 	
 	private ConditionType type = ConditionType.NONE;
 	
-	public Condition(String ID, String name, ConditionType type){
+	public YCondition(String ID, String name, ConditionType type){
 		super(ID, name);
 		
 		setType(type);
@@ -48,10 +48,10 @@ public class Condition extends Node {
 				if (this.type == ConditionType.NONE) {
 					s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
 				}
-				for(FlowRelationship flow: this.getOutgoingEdges()){
-					if (flow instanceof Edge){
-						Edge edge = (Edge)flow;
-						s += edge.writeToYAWL(Task.SplitJoinType.NONE, Edge.EdgeType.NORMAL);
+				for(YFlowRelationship flow: this.getOutgoingEdges()){
+					if (flow instanceof YEdge){
+						YEdge edge = (YEdge)flow;
+						s += edge.writeToYAWL(YTask.SplitJoinType.NONE, YEdge.EdgeType.NORMAL);
 					}
 				}
 
