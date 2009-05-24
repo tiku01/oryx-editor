@@ -1,9 +1,14 @@
 package de.hpi.yawl;
 
-public class VariableMapping {
+public class YVariableMapping {
 
 	private String query = "";
-	private Variable mapsTo;
+	private YVariable mapsTo;
+	
+	public YVariableMapping(String newQuery, YVariable newMapsTo){
+		setQuery(newQuery);
+		setMapsTo(newMapsTo);
+	}
 	
 	public String getQuery(){
 		return query;
@@ -13,11 +18,11 @@ public class VariableMapping {
 		query = newQuery;
 	}
 	
-	public Variable getMapsTo(){
+	public YVariable getMapsTo(){
 		return mapsTo;
 	}
 	
-	public void setMapsTo(Variable mapped){
+	public void setMapsTo(YVariable mapped){
 		mapsTo = mapped; 
 	}
 	
@@ -25,7 +30,7 @@ public class VariableMapping {
 		String s = "";
 		
 		s += "\t\t\t\t\t<mapping>\n";
-		s += "\t\t\t\t\t\t<expression query=\">" + getQuery() + "\" />\n";
+		s += "\t\t\t\t\t\t<expression query=\"" + getQuery() + "\" />\n";
 		s += "\t\t\t\t\t\t<mapsTo>" + getMapsTo().getName() + "</mapsTo>\n";
 		s += "\t\t\t\t\t</mapping>\n";
 		

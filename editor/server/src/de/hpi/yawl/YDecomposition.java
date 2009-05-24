@@ -2,18 +2,18 @@ package de.hpi.yawl;
 
 import java.util.*;
 
-public class Decomposition {
+public class YDecomposition {
 	
-	private ArrayList<Node> nodes = new ArrayList<Node>();
-	private ArrayList<Edge> edges = new ArrayList<Edge>();
+	private ArrayList<YNode> nodes = new ArrayList<YNode>();
+	private ArrayList<YEdge> edges = new ArrayList<YEdge>();
 	
     private String id; // The id of the decomposition
     private boolean isRootNet; // Whether this decomposition is the root
     private String xsiType; // the xsi:type of the decomposition
     
-    private ArrayList<Variable> inputParameters = new ArrayList<Variable>();
-    private ArrayList<Variable> outputParameters = new ArrayList<Variable>();
-    private ArrayList<Variable> localVariables = new ArrayList<Variable>();
+    private ArrayList<YVariable> inputParameters = new ArrayList<YVariable>();
+    private ArrayList<YVariable> outputParameters = new ArrayList<YVariable>();
+    private ArrayList<YVariable> localVariables = new ArrayList<YVariable>();
 
     public String getID(){
     	return this.id;
@@ -30,7 +30,7 @@ public class Decomposition {
      * @param xsiType The xsi:type
      */
         
-    public Decomposition(String id, String isRootNet, String xsiType) {
+    public YDecomposition(String id, String isRootNet, String xsiType) {
         setID(id);
         setRootNet(isRootNet);
         setXSIType(xsiType);
@@ -52,15 +52,15 @@ public class Decomposition {
         return isRootNet;
     }
     
-    public List<Edge> getEdges(){
+    public List<YEdge> getEdges(){
     	if (edges == null)
-			edges = new ArrayList<Edge>();
+			edges = new ArrayList<YEdge>();
 		return edges;
     }
     
-    public ArrayList<Node> getNodes(){
+    public ArrayList<YNode> getNodes(){
     	if (nodes == null)
-			nodes = new ArrayList<Node>();
+			nodes = new ArrayList<YNode>();
 		return nodes;
     }
     
@@ -70,12 +70,12 @@ public class Decomposition {
 	 * @param v2 the second node
 	 * @return the set of edges from the first node to the second node
 	 */
-	public HashSet<Edge> getEdgesBetween(Node sourceNode, Node targetNode) {
-		HashSet<Edge> s = new HashSet<Edge>();
+	public HashSet<YEdge> getEdgesBetween(YNode sourceNode, YNode targetNode) {
+		HashSet<YEdge> s = new HashSet<YEdge>();
 		
-		for(FlowRelationship flow: sourceNode.getOutgoingEdges()){
-			if (flow instanceof Edge){
-				Edge edge = (Edge)flow;
+		for(YFlowRelationship flow: sourceNode.getOutgoingEdges()){
+			if (flow instanceof YEdge){
+				YEdge edge = (YEdge)flow;
 				if (edge.getTarget() == targetNode) {
 					s.add(edge);
 				}
@@ -91,9 +91,9 @@ public class Decomposition {
      * @param toNode YAWLNode The given second node.
      * @return boolean Returns true if any edge from the first to the second node is a normal edge.
      */
-    public boolean hasNormalEdges(Node fromNode, Node toNode) {
-        HashSet<Edge> edges = this.getEdgesBetween(fromNode, toNode);
-        for (Edge edge : edges) {
+    public boolean hasNormalEdges(YNode fromNode, YNode toNode) {
+        HashSet<YEdge> edges = this.getEdgesBetween(fromNode, toNode);
+        for (YEdge edge : edges) {
             if (edge.isNormal()) {
                 return true;
             }
@@ -101,7 +101,7 @@ public class Decomposition {
         return false;
     }
     
-    public void addNode(Node node){
+    public void addNode(YNode node){
     	nodes.add(node);
     }
 
@@ -109,8 +109,8 @@ public class Decomposition {
      * Adds an input condition with given name.
      * @param name The given name
      */
-    public Condition addInputCondition(String id, String name) {
-        Condition condition = new Condition(id, name, Condition.ConditionType.IN);
+    public YCondition addInputCondition(String id, String name) {
+        YCondition condition = new YCondition(id, name, YCondition.ConditionType.IN);
         addNode(condition);
         return condition;
     }
@@ -119,8 +119,8 @@ public class Decomposition {
      * Adds an output condition with given name.
      * @param name The given name
      */
-    public Condition addOutputCondition(String id, String name) {
-        Condition condition = new Condition(id, name, Condition.ConditionType.OUT);
+    public YCondition addOutputCondition(String id, String name) {
+        YCondition condition = new YCondition(id, name, YCondition.ConditionType.OUT);
         addNode(condition);
         return condition;
     }
@@ -129,8 +129,8 @@ public class Decomposition {
      * Adds a (normal) condition with given name.
      * @param name The given name
      */
-    public Condition addCondition(String id, String name) {
-        Condition condition = new Condition(id, name, Condition.ConditionType.NONE);
+    public YCondition addCondition(String id, String name) {
+        YCondition condition = new YCondition(id, name, YCondition.ConditionType.NONE);
         addNode(condition);
         return condition;
     }
@@ -144,32 +144,32 @@ public class Decomposition {
      * @param decomposesTo The given subdecomposition name.
      * @return the task created.
      */
-    public Task addTask(String id, String name, String join, String split,
-                            String decomposesTo) {
-        Task.SplitJoinType joinType = join.equals("and") ? Task.SplitJoinType.AND : join.equals("xor") ?
-                       Task.SplitJoinType.XOR :
-                       join.equals("or") ? Task.SplitJoinType.OR : Task.SplitJoinType.NONE;
+    public YTask addTask(String id, String name, String join, String split,
+                            YDecomposition decomposesTo) {
+        YTask.SplitJoinType joinType = join.equals("and") ? YTask.SplitJoinType.AND : join.equals("xor") ?
+                       YTask.SplitJoinType.XOR :
+                       join.equals("or") ? YTask.SplitJoinType.OR : YTask.SplitJoinType.NONE;
         
-        Task.SplitJoinType splitType = split.equals("and") ? Task.SplitJoinType.AND : split.equals("xor") ?
-        		Task.SplitJoinType.XOR :
-                        split.equals("or") ? Task.SplitJoinType.OR : Task.SplitJoinType.NONE;
+        YTask.SplitJoinType splitType = split.equals("and") ? YTask.SplitJoinType.AND : split.equals("xor") ?
+        		YTask.SplitJoinType.XOR :
+                        split.equals("or") ? YTask.SplitJoinType.OR : YTask.SplitJoinType.NONE;
         
-        Task task = new Task(id, name, joinType, splitType, decomposesTo);
+        YTask task = new YTask(id, name, joinType, splitType, decomposesTo);
         addNode(task);
         return task;
     }
 
-    public void removeNode(Node node) {
+    public void removeNode(YNode node) {
         nodes.remove(node);
     }
     
-    public void removeEdge(Edge edge){
+    public void removeEdge(YEdge edge){
     	edge.getSource().getOutgoingEdges().remove(edge);
     	edge.getTarget().getIncomingEdges().remove(edge);
     	edges.remove(edge);
     }
     
-    public void addEdge(Edge edge) {
+    public void addEdge(YEdge edge) {
         edges.add(edge);
     }
 
@@ -182,29 +182,29 @@ public class Decomposition {
      * @param ordering The given predicate ordering
      */
 
-    public Edge addNormalEdge(Node fromNode, Node toNode, boolean isDefaultFlow, String predicate,
+    public YEdge addNormalEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate,
            int ordering) {
     	
-        Edge newEdge = new Edge(fromNode, toNode, Edge.EdgeType.NORMAL, isDefaultFlow, predicate, ordering);
+        YEdge newEdge = new YEdge(fromNode, toNode, YEdge.EdgeType.NORMAL, isDefaultFlow, predicate, ordering);
         addEdge(newEdge);
         return newEdge;
     }
     
-    public ArrayList<Variable> getInputParams(){
+    public ArrayList<YVariable> getInputParams(){
     	if (inputParameters == null)
-    		inputParameters = new ArrayList<Variable>();
+    		inputParameters = new ArrayList<YVariable>();
 		return inputParameters;
     }
     
-    public ArrayList<Variable> getOutputParams(){
+    public ArrayList<YVariable> getOutputParams(){
     	if (outputParameters == null)
-    		outputParameters = new ArrayList<Variable>();
+    		outputParameters = new ArrayList<YVariable>();
 		return outputParameters;
     }
     
-    public ArrayList<Variable> getLocalVariables(){
+    public ArrayList<YVariable> getLocalVariables(){
     	if (localVariables == null)
-    		localVariables = new ArrayList<Variable>();
+    		localVariables = new ArrayList<YVariable>();
 		return localVariables;
     }
 
@@ -222,39 +222,45 @@ public class Decomposition {
         s += "xsi:type=\"" + xsiType + "\" >\n";
         
         if(getInputParams().size() > 0){
-        	for(Variable var : getInputParams()){
+        	Boolean isParam = true;
+        	
+        	for(YVariable var : getInputParams()){
         		s += "\t\t\t\t\t<inputParam>\n";
-        		s += var.writeToYAWL();
+        		s += var.writeToYAWL(isParam);
         		s += "\t\t\t\t\t</inputParam>\n";
         	}
         }
         
         if(getOutputParams().size() > 0){
-        	for(Variable var : getOutputParams()){
+        	Boolean isParam = true;
+        	
+        	for(YVariable var : getOutputParams()){
         		s += "\t\t\t\t\t<outputParam>\n";
-        		s += var.writeToYAWL();
+        		s += var.writeToYAWL(isParam);
         		s += "\t\t\t\t\t</outputParam>\n";
         	}
         }
         
         if(getLocalVariables().size() > 0){
-        	for(Variable var : getLocalVariables()){
+        	Boolean isParam = true;
+        	
+        	for(YVariable var : getLocalVariables()){
         		s += "\t\t\t\t\t<localVariable>\n";
-        		s += var.writeToYAWL();
+        		s += var.writeToYAWL(isParam);
         		s += "\t\t\t\t\t</localVariable>\n";
         	}
         }
 
-        Iterator<Node> it = getNodes().iterator();
+        Iterator<YNode> it = getNodes().iterator();
         if (it.hasNext()) {
             s += "\t\t\t<processControlElements>\n";
             for (int i = 0; i < 3; i++) {
                 while (it.hasNext()) {
                     Object object = it.next();
-                    if (object instanceof Task) {
-                        s += ((Task) object).writeToYAWL(i);
-                    } else if (object instanceof Condition) {
-                        s += ((Condition) object).writeToYAWL(i);
+                    if (object instanceof YTask) {
+                        s += ((YTask) object).writeToYAWL(i);
+                    } else if (object instanceof YCondition) {
+                        s += ((YCondition) object).writeToYAWL(i);
                     }
                 }
                 it = getNodes().iterator();

@@ -1,6 +1,6 @@
 package de.hpi.yawl;
 
-public class Edge extends FlowRelationship {
+public class YEdge extends YFlowRelationship {
 
 	public enum EdgeType {
 		NORMAL
@@ -11,7 +11,7 @@ public class Edge extends FlowRelationship {
     private int ordering = 0;
     protected EdgeType edgeType = EdgeType.NORMAL;
     
-    public Edge(Node edgeSource, Node edgeTarget, EdgeType type, boolean defaultEdge, String predicate, int ordering){
+    public YEdge(YNode edgeSource, YNode edgeTarget, EdgeType type, boolean defaultEdge, String predicate, int ordering){
     	setSource(edgeSource);
     	setTarget(edgeTarget);
     	setEdgeType(type, defaultEdge, predicate, ordering);
@@ -71,7 +71,7 @@ public class Edge extends FlowRelationship {
      * @param splitType int The split type of the originating YAWL node.
      * @return String The string to export for this YAWLDecompositon.
      */
-    public String writeToYAWL(Task.SplitJoinType splitType, EdgeType type) {
+    public String writeToYAWL(YTask.SplitJoinType splitType, EdgeType type) {
         String s = "";
         if (type != this.edgeType) {
             return "";
@@ -81,10 +81,10 @@ public class Edge extends FlowRelationship {
                     "\"/>\n";
             if (predicate != null && predicate.length() > 0) {
                 boolean hasPredicate = false;
-                if (splitType == Task.SplitJoinType.XOR) {
+                if (splitType == YTask.SplitJoinType.XOR) {
                     s += "\t\t\t\t\t\t<predicate ordering=\"" + ordering + "\">";
                     hasPredicate = true;
-                } else if (splitType == Task.SplitJoinType.OR) {
+                } else if (splitType == YTask.SplitJoinType.OR) {
                     s += "\t\t\t\t\t\t<predicate>";
                     hasPredicate = true;
                 }

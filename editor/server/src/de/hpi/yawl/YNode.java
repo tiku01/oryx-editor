@@ -3,14 +3,14 @@ package de.hpi.yawl;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Node {
+public abstract class YNode {
 	
 	protected String id = "";
 	protected String name = "";
-	protected List<FlowRelationship> incomingEdges;
-	protected List<FlowRelationship> outgoingEdges;
+	protected List<YFlowRelationship> incomingEdges;
+	protected List<YFlowRelationship> outgoingEdges;
 	
-	public Node(String ID, String name){
+	public YNode(String ID, String name){
 		setID(ID);
 		setName(name);
 	}
@@ -33,15 +33,15 @@ public abstract class Node {
 		this.name = nodeName;
 	}
 	
-	public List<FlowRelationship> getIncomingEdges() {
+	public List<YFlowRelationship> getIncomingEdges() {
 		if (incomingEdges == null)
-			incomingEdges = new ArrayList<FlowRelationship>();
+			incomingEdges = new ArrayList<YFlowRelationship>();
 		return incomingEdges;
 	}
 
-	public List<FlowRelationship> getOutgoingEdges() {
+	public List<YFlowRelationship> getOutgoingEdges() {
 		if (outgoingEdges == null)
-			outgoingEdges = new ArrayList<FlowRelationship>();
+			outgoingEdges = new ArrayList<YFlowRelationship>();
 		return outgoingEdges;
 	}
 }

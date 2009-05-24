@@ -3,18 +3,18 @@ package de.hpi.yawl;
 import java.util.*;
 
 
-public class Model {
+public class YModel {
 	private String uri; // The uri of the YAWL model
 	private String description = "No description has been given.";
 	//private String name = "";
 	//private String documentation = "";
-	private HashMap<String, Decomposition> decompositions = new HashMap<String, Decomposition>(); // All decompositions of the YAWL model
+	private HashMap<String, YDecomposition> decompositions = new HashMap<String, YDecomposition>(); // All decompositions of the YAWL model
 
 	/**
 	 * Create a new YAWL mode, given its uri.
 	 * @param uri The given uri.
 	 */
-	public Model(String uri) {
+	public YModel(String uri) {
 		//super("YAWL model");
 		
 		this.uri = uri.replaceAll(" ","."); // spaces are not allowed in uri's
@@ -25,15 +25,15 @@ public class Model {
 	 * @param id The given name
 	 * @param decomposition The given decomposition
 	 */
-	public void addDecomposition(String id, Decomposition decomposition) {
+	public void addDecomposition(String id, YDecomposition decomposition) {
 		decompositions.put(id, decomposition);
 	}
 
-	public Collection<Decomposition> getDecompositions() {
+	public Collection<YDecomposition> getDecompositions() {
 		return decompositions.values();
 	}
 
-	public Decomposition getDecomposition(String id) {
+	public YDecomposition getDecomposition(String id) {
 		return decompositions.get(id);
 	}
 
@@ -43,7 +43,7 @@ public class Model {
 	 * @return Whether this name corresponds to a non-empty decomposition
 	 */
 	public boolean isComposite(String name) {
-		Decomposition decomposition = decompositions.get(name);
+		YDecomposition decomposition = decompositions.get(name);
 		if (decomposition == null) {
 			return false;
 		}
@@ -70,7 +70,7 @@ public class Model {
 		s += "\t\t</metaData>\n";
 		s += "\t\t<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" />\n";
 		
-		for (Decomposition decomposition: decompositions.values()) {
+		for (YDecomposition decomposition: decompositions.values()) {
 			s += decomposition.writeToYAWL();
 		}
 		s += "\t</specification>\n";

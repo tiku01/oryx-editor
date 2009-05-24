@@ -2,7 +2,7 @@ package de.hpi.yawl;
 
 import java.util.ArrayList;
 
-public class Task extends Node{
+public class YTask extends YNode{
 	
 	public enum SplitJoinType {
 		NONE, AND, OR, XOR
@@ -14,17 +14,17 @@ public class Task extends Node{
 	
 	private SplitJoinType joinType = SplitJoinType.NONE;
 	private SplitJoinType splitType = SplitJoinType.NONE;
-	private String decomposesTo = null; // Name of subdecomposition.
+	private YDecomposition decomposesTo = null;
 	private int minimum = 0;
 	private int maximum = 0;
 	private int threshold = 0;
 	private CreationMode creationMode = CreationMode.STATIC;
 	private boolean isMultipleTask = false;
-	private ArrayList<Node> cancellationSet;
-	private ArrayList<VariableMapping> startingMappings = new ArrayList<VariableMapping>();
-	private ArrayList<VariableMapping> completedMappings = new ArrayList<VariableMapping>();
+	private ArrayList<YNode> cancellationSet;
+	private ArrayList<YVariableMapping> startingMappings = new ArrayList<YVariableMapping>();
+	private ArrayList<YVariableMapping> completedMappings = new ArrayList<YVariableMapping>();
 	
-	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo){
+	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo){
 		super(ID, name);
 		
 		setJoinType(join);
@@ -32,7 +32,7 @@ public class Task extends Node{
 		setDecomposition(decomposesTo);
 	}
 	
-	public Task(String ID, String name, SplitJoinType join, SplitJoinType split, String decomposesTo, int min, int max, int threshold, CreationMode mode){
+	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo, int min, int max, int threshold, CreationMode mode){
 		this(ID, name, join, split, decomposesTo);
 		
 		setMinimum(min);
@@ -40,6 +40,14 @@ public class Task extends Node{
 		setThreshold(threshold);
 		setCreationMode(mode);
 		setIsMultipleTask(true);
+		
+		YVariable nullVariable = new YVariable("null", "", "", "", false);
+		
+		YVariableMapping startingVarMap = new YVariableMapping("", nullVariable);
+		YVariableMapping completedVarMap = new YVariableMapping("", nullVariable);
+		
+		startingMappings.add(startingVarMap);
+		completedMappings.add(completedVarMap);
 	}
 	
 	public SplitJoinType getJoinType(){
@@ -58,12 +66,12 @@ public class Task extends Node{
 		this.splitType = split;
 	}
 	
-	public String getDecomposition() {
+	public YDecomposition getDecomposition() {
 		return this.decomposesTo;
 	}
 	
-	public void setDecomposition(String decomposesTo) {
-		this.decomposesTo = decomposesTo == null ? "" : decomposesTo;
+	public void setDecomposition(YDecomposition decomposesTo) {
+		this.decomposesTo = decomposesTo;
 	}
 	
 	public int getMinimum(){
@@ -106,22 +114,38 @@ public class Task extends Node{
 		this.isMultipleTask = multiple;
 	}
 	
-	public ArrayList<Node> getCancellationSet(){
+	public ArrayList<YNode> getCancellationSet(){
 		if (cancellationSet == null)
-			cancellationSet = new ArrayList<Node>();
+			cancellationSet = new ArrayList<YNode>();
 		return cancellationSet;
 	}
 	
-	public ArrayList<VariableMapping> getStartingMappings(){
+	public ArrayList<YVariableMapping> getStartingMappings(){
 		if (startingMappings == null)
-			startingMappings = new ArrayList<VariableMapping>();
+			startingMappings = new ArrayList<YVariableMapping>();
 		return startingMappings;
 	}
 	
-	public ArrayList<VariableMapping> getCompletedMappings(){
+	public ArrayList<YVariableMapping> getCompletedMappings(){
 		if (completedMappings == null)
-			completedMappings = new ArrayList<VariableMapping>();
+			completedMappings = new ArrayList<YVariableMapping>();
 		return completedMappings;
+	}
+	
+	private void createCompletedNullMapping() {
+		YVariable nullVariable = new YVariable("null", "", "", "", false);
+		YVariableMapping completedVarMap = new YVariableMapping("", nullVariable);
+		
+		completedMappings.add(completedVarMap);
+		
+	}
+
+	private void createStartingNullMapping() {
+		YVariable nullVariable = new YVariable("null", "", "", "", false);
+		YVariableMapping startingVarMap = new YVariableMapping("", nullVariable);
+		
+		startingMappings.add(startingVarMap);
+		
 	}
 	
 	/**
@@ -147,10 +171,10 @@ public class Task extends Node{
 			s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
 
 			// First, normal edges
-			for(FlowRelationship flow: this.getOutgoingEdges()){
-				if (flow instanceof Edge){
-					Edge edge = (Edge)flow;
-					s += edge.writeToYAWL(this.splitType, Edge.EdgeType.NORMAL);
+			for(YFlowRelationship flow: this.getOutgoingEdges()){
+				if (flow instanceof YEdge){
+					YEdge edge = (YEdge)flow;
+					s += edge.writeToYAWL(this.splitType, YEdge.EdgeType.NORMAL);
 				}
 			}
 
@@ -163,29 +187,38 @@ public class Task extends Node{
 
 			// Third, reset set
 			if (getCancellationSet().size() > 0){
-				for(Node removeNode: getCancellationSet()){
+				for(YNode removeNode: getCancellationSet()){
 					s += "\t\t\t\t\t<removesTokens id=\"" + removeNode.getID() + "\"/>\n";
 				}
 			}
 			
+			//if the task is a multiple task, the variable mappings may not be empty
+			if(isMultipleTask()){
+				if(getStartingMappings().size() == 0)
+					createStartingNullMapping();
+				
+				if(getCompletedMappings().size() == 0)
+					createCompletedNullMapping();
+			}
+			
 			if (getStartingMappings().size() > 0){
 				s += "\t\t\t\t\t<startingMappings>\n";
-				for(VariableMapping mapping : getStartingMappings()){
-					mapping.writeToYAWL();
+				for(YVariableMapping mapping : getStartingMappings()){
+					s += mapping.writeToYAWL();
 				}
 				s += "\t\t\t\t\t</startingMappings>\n";
 			}
 			
 			if (getCompletedMappings().size() > 0){
 				s += "\t\t\t\t\t<completedMappings>\n";
-				for(VariableMapping mapping : getCompletedMappings()){
-					mapping.writeToYAWL();
+				for(YVariableMapping mapping : getCompletedMappings()){
+					s += mapping.writeToYAWL();
 				}
 				s += "\t\t\t\t\t</completedMappings>\n";
 			}
 			
-            if (decomposesTo.length() > 0) {
-                s += "\t\t\t\t\t<decomposesTo id=\"" + getDecomposition() + "\"/>\n";
+            if (decomposesTo != null) {
+                s += "\t\t\t\t\t<decomposesTo id=\"" + getDecomposition().getID() + "\"/>\n";
             }
             if (isMultipleTask()) {
                 s += "\t\t\t\t\t<minimum>" + getMinimum() + "</minimum>\n";
