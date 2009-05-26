@@ -102,6 +102,15 @@ ORYX.Plugins.BpmnLayouter = ORYX.Plugins.AbstractPlugin.extend({
 								value: elem.dockers
 							}]);
 						}
+						
+						/* docked events */
+						if (elem.docker != null) {
+							shape.deserialize([{
+								prefix: 'oryx',
+								name: 'docker',
+								value: elem.docker
+							}]);
+						}
 						shape.update();
 					}.bind(this));
 				this.facade.getCanvas().update();

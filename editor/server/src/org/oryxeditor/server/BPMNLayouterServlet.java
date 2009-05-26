@@ -53,73 +53,83 @@ import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 public class BPMNLayouterServlet extends HttpServlet {
 
-	
 	protected BPMNDiagram diagram;
+
 	protected BPMNDiagramDao dao;
+
 	private Map<BPMNElement, Grid<BPMNElement>> grids;
+
 	private List<BPMNElement> subprocessOrder;
-	
+
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		grids = new HashMap<BPMNElement, Grid<BPMNElement>>();
-		
-		
-		
+
 		request.setCharacterEncoding("UTF-8");
 		String eRDF = request.getParameter("data");
-		
-//		 readInput
+
+		// readInput
 		this.dao = new BPMNDiagramDao();
 		this.diagram = dao.getBPMNDiagramFromString(eRDF);
-		
-		try{
+
+		try {
 			doLayoutAlgorithm();
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 			response.setStatus(500);
 			response.getWriter().print("layout failed");
 			return;
 		}
-		
+
 		response.setStatus(200);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/xhtml");
-		//response.getWriter().print("testresponse");
+		// response.getWriter().print("testresponse");
 
 		JSONArray json = new JSONArray();
 
 		try {
-			for(String id : this.diagram.getElements().keySet()){
+			for (String id : this.diagram.getElements().keySet()) {
 				BPMNElement element = this.diagram.getElement(id);
 				JSONObject obj = new JSONObject();
 				obj.put("id", id);
-				
+
 				BPMNGeometry bounds = element.getGeometry();
-				String boundsString = bounds.getX() + " " + bounds.getY() + " " + bounds.getX2() + " " + bounds.getY2();
+				String boundsString = bounds.getX() + " " + bounds.getY() + " "
+						+ bounds.getX2() + " " + bounds.getY2();
 				obj.put("bounds", boundsString);
-								
-				if(element.getDockersNode() != null){
-					String dockersString = element.getDockersNode().getNodeValue().trim();
-					dockersString = dockersString.substring(0,dockersString.length() - 1).trim();
-					obj.put("dockers", dockersString);					
-				}else{
-					obj.put("dockers", JSONObject.NULL);					
+
+				if (BPMNType.isAConnectingElement(element.getType())) {
+					if (element.getDockersNode() != null) {
+						String dockersString = element.getDockersNode()
+								.getNodeValue().trim();
+						dockersString = dockersString.substring(0,
+								dockersString.length() - 1).trim();
+						obj.put("dockers", dockersString);
+					} else {
+						obj.put("dockers", JSONObject.NULL);
+					}
+				} else if (BPMNType.isACatchingIntermediateEvent(element.getType())) {
+					//docked events
+					if (element.getDockersNode() != null) {
+						String dockersString = element.getDockersNode()
+								.getNodeValue().trim();
+						dockersString = dockersString.substring(0,
+								dockersString.length() - 1).trim();
+						obj.put("docker", dockersString);
+					} else {
+						obj.put("docker", JSONObject.NULL);
+					}
 				}
-				
-				
+
 				json.put(obj);
 			}
 			json.write(response.getWriter());
 		} catch (JSONException e) {
 			response.getWriter().print("exception");
 		}
-		
-		
 
 	}
-	
-
 
 	protected void doLayoutAlgorithm() {
 		preprocessHeuristics();
@@ -157,7 +167,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 		// Sorting elements topologicaly
 		Queue<BPMNElement> sortedElements = new TopologicalSorter(diagram,
 				parent).getSortedElements();
-		
+
 		// Sorted
 		int count = 0;
 		List<String> sortedIds = new LinkedList<String>();
@@ -174,7 +184,6 @@ public class BPMNLayouterServlet extends HttpServlet {
 
 		return lToRGridLayouter;
 	}
-
 
 	/**
 	 * calculates the nesting order of lanes and subprocesses
