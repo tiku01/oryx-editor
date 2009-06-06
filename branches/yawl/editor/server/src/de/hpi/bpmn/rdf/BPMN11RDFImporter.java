@@ -635,7 +635,7 @@ public class BPMN11RDFImporter {
 				if (attribute.equals("timecycle")) {
 					String timeCycleValue = getContent(n);
 					if (timeCycleValue != null)
-						event.setTimeDate(timeCycleValue);
+						event.setTimeCycle(timeCycleValue);
 				}
 			}
 		}
@@ -684,7 +684,7 @@ public class BPMN11RDFImporter {
 				if (attribute.equals("timecycle")) {
 					String timeCycleValue = getContent(n);
 					if (timeCycleValue != null)
-						event.setTimeDate(timeCycleValue);
+						event.setTimeCycle(timeCycleValue);
 				}
 			}
 		}

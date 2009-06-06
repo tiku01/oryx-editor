@@ -1,5 +1,7 @@
 package de.hpi.yawl;
 
+import java.util.Date;
+
 public class YVariable {
 
 	private String name = "";
