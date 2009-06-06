@@ -4,7 +4,27 @@
 	"description":"A subset of BPMN that can be mapped to YAWL for execution.",
 	"extends":"http://b3mn.org/stencilset/bpmn1.1#",
 	"stencils":[],
-	"properties":[],
+	"properties": [
+	 	{
+			"roles": [
+				"CollapsedSubprocess",
+				"Subprocess"
+			],
+			"properties": [
+				{
+					"id":"isadhoc",
+					"type":"Boolean",
+					"title":"isAdHoc",
+					"title_de":"ist Ad-hoc",
+					"value":false,
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"adhoc"
+				}
+			]
+		}
+	],
 	"rules": {
 		"connectionRules": [],
         "cardinalityRules": [],
@@ -17,9 +37,40 @@
 		"MessageFlow",
 		"Association_Undirected",
 		"Association_Unidirectional",
-		"Association_Bidirectional"
+		"Association_Bidirectional",
+		"TextAnnotation",
+		"StartMessageEvent",
+		"StartConditionalEvent",
+		"StartSignalEvent",
+		"StartMultipleEvent",
+		"IntermediateCancelEvent",
+		"IntermediateCompensationEventCatching",
+		"IntermediateCompensationEventThrowing",
+		"IntermediateConditionalEvent",
+		"IntermediateSignalEventCatching",
+		"IntermediateSignalEventThrowing",
+		"IntermediateMultipleEventCatching",
+		"IntermediateMultipleEventThrowing",
+		"IntermediateLinkEventCatching",
+		"IntermediateLinkEventThrowing",
+		"EndCompensationEvent",
+		"EndSignalEvent",
+		"EndMultipleEvent"
 	],
 	"removeproperties": [
-		
+		{
+			"stencil": "Subprocess",
+			"properties": [
+				"adhocordering",
+				"adhoccompletioncondition"
+			]
+		},
+		{
+			"stencil": "CollapsedSubprocess",
+			"properties": [
+				"adhocordering",
+				"adhoccompletioncondition"
+			]
+		}
 	]
 }

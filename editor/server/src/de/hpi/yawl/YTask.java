@@ -8,46 +8,32 @@ public class YTask extends YNode{
 		NONE, AND, OR, XOR
 	}
 	
-	public enum CreationMode {
-		DYNAMIC, STATIC
-	}
-	
 	private SplitJoinType joinType = SplitJoinType.NONE;
 	private SplitJoinType splitType = SplitJoinType.NONE;
 	private YDecomposition decomposesTo = null;
-	private int minimum = 0;
-	private int maximum = 0;
-	private int threshold = 0;
-	private CreationMode creationMode = CreationMode.STATIC;
+	private String xsiType = "";
+	private YMultiInstanceParam miParam = null;
+
 	private boolean isMultipleTask = false;
 	private ArrayList<YNode> cancellationSet;
 	private ArrayList<YVariableMapping> startingMappings = new ArrayList<YVariableMapping>();
 	private ArrayList<YVariableMapping> completedMappings = new ArrayList<YVariableMapping>();
+	private YTimer timer = null;
 	
+	public YTimer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(YTimer timer) {
+		this.timer = timer;
+	}
+
 	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo){
 		super(ID, name);
 		
 		setJoinType(join);
 		setSplitType(split);
 		setDecomposition(decomposesTo);
-	}
-	
-	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo, int min, int max, int threshold, CreationMode mode){
-		this(ID, name, join, split, decomposesTo);
-		
-		setMinimum(min);
-		setMaximum(max);
-		setThreshold(threshold);
-		setCreationMode(mode);
-		setIsMultipleTask(true);
-		
-		YVariable nullVariable = new YVariable("null", "", "", "", false);
-		
-		YVariableMapping startingVarMap = new YVariableMapping("", nullVariable);
-		YVariableMapping completedVarMap = new YVariableMapping("", nullVariable);
-		
-		startingMappings.add(startingVarMap);
-		completedMappings.add(completedVarMap);
 	}
 	
 	public SplitJoinType getJoinType(){
@@ -74,36 +60,20 @@ public class YTask extends YNode{
 		this.decomposesTo = decomposesTo;
 	}
 	
-	public int getMinimum(){
-		return this.minimum;
+	public void setXsiType(String xsiType) {
+		this.xsiType = xsiType;
 	}
-	
-	public void setMinimum(int min){
-		this.minimum = min >= 0 ? min : 0;
+
+	public String getXsiType() {
+		return xsiType;
 	}
-	
-	public int getMaximum(){
-		return this.maximum;
+
+	public void setMiParam(YMultiInstanceParam miParam) {
+		this.miParam = miParam;
 	}
-	
-	public void setMaximum(int max){
-		this.maximum = max >= this.minimum ? max : 0;
-	}
-	
-	public int getThreshold(){
-		return this.threshold;
-	}
-	
-	public void setThreshold(int threshold){
-		this.threshold = threshold >= 0 ? threshold : 0;
-	}
-	
-	public CreationMode getCreationMode(){
-		return this.creationMode;
-	}
-	
-	public void setCreationMode(CreationMode mode){
-		this.creationMode = mode;
+
+	public YMultiInstanceParam getMiParam() {
+		return miParam;
 	}
 	
 	public boolean isMultipleTask(){
@@ -148,6 +118,17 @@ public class YTask extends YNode{
 		
 	}
 	
+	private void createVariableForTimerMapping(YDecomposition dec) {
+		YVariable timerVariable = new YVariable("timer", "String", "http://www.w3.org/2001/XMLSchema", "", false);
+		dec.getLocalVariables().add(timerVariable);
+		
+		String startQuery = "&lt;" + timerVariable.getName() + "&gt;{/" + dec.getID() + "/" + timerVariable.getName() + "/text()}&lt;/" + timerVariable.getName() +"&gt;";	
+		
+		YVariableMapping startingVarMap = new YVariableMapping(startQuery, timerVariable);
+		
+		startingMappings.add(startingVarMap);
+	}
+	
 	/**
 	 * Export to YAWL file.
 	 * @param phase Writing phase: 0 = inputCondition, 2 = outputCondition, 1 = rest.
@@ -166,7 +147,12 @@ public class YTask extends YNode{
 				jt = SplitJoinType.XOR;
 			}
 			
-			s +="\t\t\t\t<task id=\"Node" + getID() + "\">\n";
+			s +="\t\t\t\t<task id=\"" + getID() + "\"";
+			if(!getXsiType().isEmpty()){
+				s += " xsi:type=\"" + getXsiType() + "\">\n";
+			}else{
+				s += ">\n";
+			}
 
 			s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
 
@@ -192,15 +178,6 @@ public class YTask extends YNode{
 				}
 			}
 			
-			//if the task is a multiple task, the variable mappings may not be empty
-			if(isMultipleTask()){
-				if(getStartingMappings().size() == 0)
-					createStartingNullMapping();
-				
-				if(getCompletedMappings().size() == 0)
-					createCompletedNullMapping();
-			}
-			
 			if (getStartingMappings().size() > 0){
 				s += "\t\t\t\t\t<startingMappings>\n";
 				for(YVariableMapping mapping : getStartingMappings()){
@@ -217,14 +194,15 @@ public class YTask extends YNode{
 				s += "\t\t\t\t\t</completedMappings>\n";
 			}
 			
+			if (timer != null){
+				s += timer.writeToYAWL();
+			}
+			
             if (decomposesTo != null) {
                 s += "\t\t\t\t\t<decomposesTo id=\"" + getDecomposition().getID() + "\"/>\n";
             }
             if (isMultipleTask()) {
-                s += "\t\t\t\t\t<minimum>" + getMinimum() + "</minimum>\n";
-                s += "\t\t\t\t\t<maximum>" + getMaximum() + "</maximum>\n";
-                s += "\t\t\t\t\t<threshold>" + getThreshold() + "</threshold>\n";            
-                s += "\t\t\t\t\t<creationMode code=\"" + (getCreationMode() == CreationMode.DYNAMIC ? "dynamic" : "static") + "\" />\n";
+                s += getMiParam().writeToYAWL();
             }
             
 			s +="\t\t\t\t</task>\n";

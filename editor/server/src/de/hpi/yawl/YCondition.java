@@ -36,14 +36,14 @@ public class YCondition extends YNode {
 		if ((phase == 0 && this.type == ConditionType.IN) || (phase == 1 && this.type == ConditionType.NONE) ||
 				(phase == 2 && this.type == ConditionType.OUT)) {
 			if (this.type == ConditionType.OUT) {
-				s +="\t\t\t\t<outputCondition id=\"Node" + getID() + "\"/>\n";
+				s +="\t\t\t\t<outputCondition id=\"" + getID() + "\"/>\n";
 			} else {
 				if (this.type == ConditionType.IN) {
 					s +="\t\t\t\t<inputCondition\n";
 				} else {
 					s +="\t\t\t\t<condition\n";
 				}
-				s +="\t\t\t\t\tid=\"Node" + getID() + "\">\n";
+				s +="\t\t\t\t\tid=\"" + getID() + "\">\n";
 
 				if (this.type == ConditionType.NONE) {
 					s +="\t\t\t\t\t<name>" + getName() + "</name>\n";

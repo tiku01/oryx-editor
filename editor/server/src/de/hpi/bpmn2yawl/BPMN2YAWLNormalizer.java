@@ -7,47 +7,43 @@ import de.hpi.bpmn.Node;
 import de.hpi.bpmn.Event;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.StartEvent;
+import de.hpi.bpmn.StartPlainEvent;
 import de.hpi.bpmn.Task;
 import de.hpi.bpmn.analysis.BPMNNormalizer;
 import de.hpi.bpmn.XOREventBasedGateway;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
-public class BPMN2YAWLNormalizer{
-	private BPMNDiagram diagram;
+public class BPMN2YAWLNormalizer extends BPMNNormalizer{
+	//private BPMNDiagram diagram;
+	BPMNDiagram diagram;
 	
 	public BPMN2YAWLNormalizer(BPMNDiagram diagram){
+		super(diagram);
 		this.diagram = diagram;
 	}
 	
 	public void normalizeForYAWL(){
-		BPMNNormalizer normalizer = new BPMNNormalizer(diagram);
-		normalizer.normalize();
-		
-		for (Container process : diagram.getProcesses()) {
-			normalizeElementsInProcess(process);
-		}
+		normalize();
 	}
 	
-	private void normalizeElementsInProcess(Container process) {
-		ArrayList<Node> nodesToChange = new ArrayList<Node>();
+	@Override
+	protected void normalizeMultipleStartEvents(Container process,
+			Vector<StartEvent> startEvents){
+		if (startEvents.size() < 2)
+			return;
 		
-		for (Node node : process.getChildNodes()) {
-			if((node instanceof Event) && !(node instanceof StartEvent)){
-				Node predNode = (Node)node.getIncomingEdges().get(0).getSource();
-				if(predNode instanceof Event){
-					nodesToChange.add(node);
-				}
-			} else if(node instanceof XOREventBasedGateway){
-				Node predNode = (Node)node.getIncomingEdges().get(0).getSource();
-				if(predNode instanceof Event){
-					nodesToChange.add(node);
-				}
+		StartPlainEvent start = new StartPlainEvent();
+		addNode(start, process);
+		
+		for (StartEvent s : startEvents){
+			for (Edge e : s.getOutgoingEdges()){
+				Node node = (Node)e.getTarget();
+				connectNodes(start, node);
 			}
-		}
-		
-		for (Node node : nodesToChange){
-			addTask(node, process);
+			
+			removeNode(s);
 		}
 	}
 	
@@ -65,23 +61,9 @@ public class BPMN2YAWLNormalizer{
 		node.setProcess(process);
 	}
 	
-	private void removeEdge(Edge edge) {
-		edge.getSource().getOutgoingEdges().remove(edge);
-		edge.getTarget().getIncomingEdges().remove(edge);
-		diagram.getEdges().remove(edge);
-	}
-	
-	private void addTask(Node node, Container process){
-		Node predNode = (Node)node.getIncomingEdges().get(0).getSource();
-		
-		Task task = new Task();
-		task.setId("TBC");
-		task.setLabel("Task between conditions");
-		addNode(task, process);
-		
-		removeEdge(node.getIncomingEdges().get(0));
-		
-		connectNodes(predNode, task);
-		connectNodes(task, node);
+	private void removeNode(Node node) {
+		diagram.getChildNodes().remove(node);
+		node.setParent(null);
+		node.setProcess(null);
 	}
 }

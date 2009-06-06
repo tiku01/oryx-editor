@@ -1,8 +1,13 @@
 package de.hpi.bpmn2yawl;
 
 import de.hpi.yawl.*;
+import de.hpi.yawl.YMultiInstanceParam.CreationMode;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -14,6 +19,7 @@ import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Container;
 import de.hpi.bpmn.EndErrorEvent;
 import de.hpi.bpmn.EndPlainEvent;
+import de.hpi.bpmn.EndTerminateEvent;
 import de.hpi.bpmn.Gateway;
 import de.hpi.bpmn.IntermediateErrorEvent;
 import de.hpi.bpmn.IntermediateEvent;
@@ -60,11 +66,13 @@ public class BPMN2YAWLConverter {
 	 * @return
 	 */
 	private YDecomposition mapDecomposition(YModel model, Container graph) {
-		de.hpi.yawl.YNode exit = null;
+		YNode start = null;
+		YNode exit = null;
+		
 		YDecomposition dec = null;
 		
 		if (graph instanceof SubProcess) {
-			dec = new YDecomposition(((SubProcess)graph).getLabel().trim(), "false", "NetFactsType");
+			dec = new YDecomposition(generateId(((SubProcess)graph).getLabel().replace(" ", "")), "false", "NetFactsType");
 		} else
 			dec = new YDecomposition("OryxBPMNtoYAWL_Net", "true", "NetFactsType");
 		
@@ -81,6 +89,8 @@ public class BPMN2YAWLConverter {
 			if (ynode == null)
 				controlElements.add(node);
 			else {
+				if (ynode instanceof YCondition && ((YCondition)ynode).isInputCondition())
+					start = ynode;
 				if (ynode instanceof YCondition && ((YCondition)ynode).isOutputCondition())
 					exit = ynode;
 				else if (node instanceof Activity && ((Activity)node).getAttachedEvents().size() > 0) {
@@ -94,7 +104,13 @@ public class BPMN2YAWLConverter {
 			mapControlElement(model, dec, node, nodeMap);
 		
 		if (exit == null)
-			exit = dec.addOutputCondition("", "");
+			exit = dec.addOutputCondition(generateId("Output"), "Output Condition");
+		
+		if (start == null){
+			start = dec.addInputCondition(generateId("Input"), "Input Condition");
+			if(nodeMap.isEmpty())
+				dec.addNormalEdge(start, exit, false, "", 0);	
+		}
 		
 		// Map links
 		linkYawlElements(exit, nodeMap, dec);
@@ -273,60 +289,59 @@ public class BPMN2YAWLConverter {
 			HashMap<Node, YNode> actMap, YTask compTask, YTask sourceTask,
 			IntermediateErrorEvent eventHandler) {
 		
-		// TODO: Error Exception handling
-		//de.hpi.yawl.Node targetTask = actMap.get(eventHandler.getOutgoingEdges().get(0).getTarget());
+		YNode targetTask = actMap.get(eventHandler.getOutgoingEdges().get(0).getTarget());
 
 		// PREDICATE & Mapping
-		//String varName =  "EventName";//eventHandler.getName().replaceAll(" ", "_");
-		//String predicate = String.format("/%s/%s_%s_exception/text()", dec.getID(), compTask.getID(), varName);
-		//String tag = String.format("%s_%s_exception", compTask.getID(), varName);
-		//String query = String.format("<%s>%s</%s>", tag, predicate, tag);
+		String varName =  eventHandler.getLabel().replaceAll(" ", "_");
+		String predicate = String.format("/%s/%s_%s_exception/text()", dec.getID(), compTask.getID(), varName);
+		String tag = String.format("%s_%s_exception", compTask.getID(), varName);
+		String query = String.format("<%s>%s</%s>", tag, predicate, tag);
 
-		//Edge newEdge = dec.addNormalEdge(sourceTask, targetTask, false, predicate, 1);
+		YEdge newEdge = dec.addNormalEdge(sourceTask, targetTask, false, predicate, 1);
 
-//		Variable local = factory.createVariable();
-//		local.setName(compTask.getId() + "_" + varName + "_exception");
-//		local.setType("boolean");
-//		local.setNamespace("http://www.w3.org/2001/XMLSchema");
-//		local.setInitialValue("false");
-//		dec.getLocalVariables().add(local);
-//
-//		VarMapping mapping = factory.createVarMapping();
-//		mapping.setQuery(query);
-//		mapping.setMapsTo(local);
-//		compTask.getCompletedMappings().add(mapping);
-//		
-//		// Add control flow variables ... to composite task decomposition
-//		Variable localVariable = factory.createVariable();
-//		localVariable.setName("_"+varName+"_exception");
-//		localVariable.setType("boolean");
-//		localVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
-//		compTask.getDecomposesTo().getLocalVariables().add(localVariable);
-//		
-//		Variable outputParam = factory.createVariable();
-//		outputParam.setName("_"+varName+"_exception");
-//		outputParam.setType("boolean");
-//		outputParam.setNamespace("http://www.w3.org/2001/XMLSchema");
-//		compTask.getDecomposesTo().getOutputParams().add(outputParam);
-//		
-//		for (Task exceptionTask : compTask.getDecomposesTo().getProcessControlElements()) {
-//			if (exceptionTask.getName() != null && exceptionTask.getName().equals(eventHandler.getName())) {
-//				String anotherQuery = String.format("<%s>true</%s>", localVariable.getName(), localVariable.getName());
-//				VarMapping anotherMapping = factory.createVarMapping();
-//				anotherMapping.setQuery(anotherQuery);
-//				anotherMapping.setMapsTo(localVariable);
-//				exceptionTask.getCompletedMappings().add(anotherMapping);
-//				// Decomposition
-//				Decomposition exceptionDec = factory.createDecomposition();
-//				//exceptionDec.setId(exceptionTask.getId());
-//				exceptionDec.setId(EcoreUtil.generateUUID());
-//				exceptionDec.setIsRootNet(false);
-//				exceptionDec.setXsiType("WebServiceGatewayFactsType");
-//				exceptionTask.setDecomposesTo(exceptionDec);
-//				model.getDecompositions().add(exceptionDec);
-//				break;
-//			}
-//		}
+		YVariable local = new YVariable();
+		local.setName(compTask.getID() + "_" + varName + "_exception");
+		local.setType("boolean");
+		local.setNamespace("http://www.w3.org/2001/XMLSchema");
+		local.setInitialValue("false");
+		dec.getLocalVariables().add(local);
+
+		YVariableMapping mapping = new YVariableMapping(query, local);
+
+		compTask.getCompletedMappings().add(mapping);
+		
+		// Add control flow variables ... to composite task decomposition
+		YVariable localVariable = new YVariable();
+		localVariable.setName("_"+varName+"_exception");
+		localVariable.setType("boolean");
+		localVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
+		compTask.getDecomposition().getLocalVariables().add(localVariable);
+		
+		YVariable outputParam = new YVariable();
+		outputParam.setName("_"+varName+"_exception");
+		outputParam.setType("boolean");
+		outputParam.setNamespace("http://www.w3.org/2001/XMLSchema");
+		compTask.getDecomposition().getOutputParams().add(outputParam);
+		
+		for (YNode exceptionNode : compTask.getDecomposition().getNodes()) {
+			if(exceptionNode instanceof YTask){
+				YTask exceptionTask = (YTask)exceptionNode;
+				
+				if (exceptionTask.getName() != null && exceptionTask.getName().equals(eventHandler.getLabel())) {
+					String anotherQuery = String.format("<%s>true</%s>", localVariable.getName(), localVariable.getName());
+					YVariableMapping anotherMapping = new YVariableMapping(anotherQuery, localVariable);
+
+					exceptionTask.getCompletedMappings().add(anotherMapping);
+					
+					// Decomposition
+					YDecomposition exceptionDec = new YDecomposition(exceptionTask.getID(), "", "WebServiceGatewayFactsType");
+
+					exceptionTask.setDecomposition(exceptionDec);
+					model.getDecompositions().add(exceptionDec);
+					break;
+				}
+			}
+		}
 	}
 
 
@@ -433,7 +448,7 @@ public class BPMN2YAWLConverter {
 	}
 	
 	private String generateId(String prefix) {
-		return prefix + (nodeCount++);
+		return "Node_" + prefix + "_" + (nodeCount++);
 	}
 
 	/**
@@ -455,10 +470,9 @@ public class BPMN2YAWLConverter {
 			ynode = mapOutputCondition(model, dec, node, nodeMap);
 		else if (node instanceof XOREventBasedGateway)
 			ynode = mapConditionFromEventBased(model, dec, node, nodeMap);
-		else if (node instanceof IntermediateTimerEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof XOREventBasedGateway) {
-			ynode = dec.addTask(generateId("timer"), "TaskMappedFromIntermediateTimerEvent", "XOR", "AND", null);
-			nodeMap.put(node, ynode);
-		} else if (node instanceof IntermediateMessageEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof XOREventBasedGateway) {
+		else if (node instanceof IntermediateTimerEvent)
+			ynode = mapTimerEvent(model, dec, node, nodeMap);
+		else if (node instanceof IntermediateMessageEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof XOREventBasedGateway) {
 			ynode = dec.addTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", null);
 			nodeMap.put(node, ynode);
 		} else if (node instanceof IntermediateEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof Gateway) {
@@ -469,7 +483,53 @@ public class BPMN2YAWLConverter {
 			nodeMap.put(node, ynode);
 		} else if (node instanceof EndErrorEvent)
 			ynode = mapException(model, dec, node, nodeMap);
+		else if (node instanceof EndTerminateEvent){
+			ynode = dec.addTask(generateId("endTerminate"), "CancellationTask", "XOR", "AND", null);
+			nodeMap.put(node, ynode);
+		}
 		return ynode;
+	}
+
+	private YNode mapTimerEvent(YModel model, YDecomposition dec, Node node,
+			HashMap<Node, YNode> nodeMap) {
+		YTask timerTask = dec.addTask(generateId("timer"), "TimerTask", "XOR", "AND", null);
+		IntermediateTimerEvent timerEvent = (IntermediateTimerEvent)node;
+		
+		
+		try {
+			if(!timerEvent.getTimeDate().isEmpty()){
+				DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yy");
+				Date timeDate = dateFormatter.parse(timerEvent.getTimeDate());
+			
+				YTimer timer = new YTimer(YTimer.Trigger.OnEnabled, timerEvent.getTimeCycle(), timeDate);
+				timerTask.setTimer(timer);
+			}
+		} catch (ParseException e) {
+			YTimer timer = new YTimer(YTimer.Trigger.OnEnabled, timerEvent.getTimeCycle(), null);
+			timerTask.setTimer(timer);
+		}
+		
+		YVariable timerVariable = new YVariable();
+		
+		timerVariable.setName("timer");
+		timerVariable.setType("string");
+		timerVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
+		timerVariable.setReadOnly(false);
+		dec.getLocalVariables().add(timerVariable);
+		
+		String timerQuery = "&lt;" + timerVariable.getName() + "&gt;{/" + dec.getID() + "/" + timerVariable.getName() + "/text()}&lt;/" + timerVariable.getName() + "&gt;";			
+		YVariableMapping timerStartVarMap = new YVariableMapping(timerQuery, timerVariable);			
+		timerTask.getStartingMappings().add(timerStartVarMap);
+		
+		YDecomposition taskDecomposition = new YDecomposition(timerTask.getID(), "", "WebServiceGatewayFactsType");
+	
+		taskDecomposition.getInputParams().add(timerVariable);
+		timerTask.setDecomposition(taskDecomposition);
+	
+		model.addDecomposition(taskDecomposition.getID(), taskDecomposition);
+		
+		nodeMap.put(node, timerTask);
+		return timerTask;
 	}
 
 	/**
@@ -484,6 +544,13 @@ public class BPMN2YAWLConverter {
 			if (node instanceof EndErrorEvent) {
 				YNode sourceTask = nodeMap.get(node);				
 				dec.addNormalEdge(sourceTask, exitTask, false, "", 1);
+				continue;
+			}
+			if (node instanceof EndTerminateEvent){
+				YNode sourceTask = nodeMap.get(node);
+				dec.addNormalEdge(sourceTask, exitTask, false, "", 1);
+				//postponed to the end because during mapping not all elements are mapped
+				mapEndTerminateToCancellationSet(sourceTask, nodeMap);
 				continue;
 			}
 			for (SequenceFlow edge : node.getOutgoingSequenceFlows()) {
@@ -513,6 +580,26 @@ public class BPMN2YAWLConverter {
 				}
 			}
 		}
+	}
+
+	private void mapEndTerminateToCancellationSet(YNode terminateNode, HashMap<Node, YNode> nodeMap) {
+		
+		YTask terminateTask = (YTask)terminateNode;
+		ArrayList<YNode> cancellationSet = new ArrayList<YNode>();
+		
+		for(YNode ynode : nodeMap.values()){
+			if(ynode instanceof YCondition){
+				if(((YCondition) ynode).isInputCondition() || ((YCondition) ynode).isOutputCondition()){
+					continue;
+				}
+			}
+			if(ynode.equals(terminateNode))
+				continue;
+			
+			cancellationSet.add(ynode);
+		}
+		
+		terminateTask.getCancellationSet().addAll(cancellationSet);
 	}
 
 	/**
@@ -719,7 +806,7 @@ public class BPMN2YAWLConverter {
 		ArrayList<YVariable> taskVariablesOutput = new ArrayList<YVariable>();
 		Boolean addTaskDecomposition = false;
 		
-		YTask task = dec.addTask(generateId(activity.getId()), activity.getLabel(), "XOR", "AND", null);
+		YTask task = dec.addTask(generateId("task"), activity.getLabel(), "XOR", "AND", null);
 		
 		if(activity.getProperties().size() > 0){
 			addTaskDecomposition = true;
@@ -887,55 +974,57 @@ public class BPMN2YAWLConverter {
 		if (activity.isMultipleInstance()) {
 			YTask ytask = (YTask) task;
 			ytask.setIsMultipleTask(true);
-			
-			
-		}
+			ytask.setXsiType("MultipleInstanceExternalTaskFactsType");
+				
+			YMultiInstanceParam param = new YMultiInstanceParam();
+			param.setMinimum(1);
+			param.setMaximum(2147483647);
 		
-//		if (node.getAssociations().size() > 0 && node.getAssociations().get(0).eContainer() instanceof TextAnnotation) {
-//			TextAnnotation multi = (TextAnnotation)node.getAssociations().get(0).eContainer();
-//			StringTokenizer tokenizer = new StringTokenizer(multi.getName(), ",");
-//			if (tokenizer.countTokens() == 4) {
-//				MultiInstanceParam param = factory.createMultiInstanceParam();
-//				param.setMinimum(Integer.valueOf(tokenizer.nextToken()));
-//				param.setMaximum(Integer.valueOf(tokenizer.nextToken()));
-//				param.setThreshold(Integer.valueOf(tokenizer.nextToken()));
-//				param.setCreationMode(tokenizer.nextToken().equals("static") ? CreationMode.STATIC : CreationMode.DYNAMIC);
-//				task.setMultiInstanceParam(param);
-//				
-//				Variable local = factory.createVariable();
-//				local.setName(task.getId() + "_input");
-//				local.setType("string");
-//				local.setNamespace("http://www.w3.org/2001/XMLSchema");
-//				dec.getInputParams().add(local);
-//				
-//				// Decomposition
-//				Decomposition subdec = factory.createDecomposition();
-//				//exceptionDec.setId(exceptionTask.getId());
-//				subdec.setId(EcoreUtil.generateUUID());
-//				subdec.setIsRootNet(false);
-//				subdec.setXsiType("WebServiceGatewayFactsType");
-//				task.setDecomposesTo(subdec);
-//				model.getDecompositions().add(subdec);
-//				
-//				Variable inputParam = factory.createVariable();
-//				inputParam.setName(task.getId() + "_input");
-//				inputParam.setType("string");
-//				inputParam.setNamespace("http://www.w3.org/2001/XMLSchema");
-//				task.getDecomposesTo().getInputParams().add(inputParam);
-//				
-//				MIDataInput miDataInput = factory.createMIDataInput();
-//				miDataInput.setExpression("/" + dec.getId() + "/" + local.getName());
-//				miDataInput.setSplittingExpression("splitting query goes here");
-//				miDataInput.setFormalInputParam(local.getName());
-//				task.setMiDataInput(miDataInput);
-//				
-//				MIDataOutput miDataOutput = factory.createMIDataOutput();
-//				miDataOutput.setFormalOutputExpression("/" + dec.getId() + "/" + local.getName());
-//				miDataOutput.setOutputJoiningExpression("aggregation query goes");
-//				miDataOutput.setResultAppliedToLocalVariable(local.getName());
-//				task.setMiDataOutput(miDataOutput);
-//			}
-//		}
+			// setting the threshold
+			if(activity.getMiFlowCondition() == Activity.MIFlowCondition.One){
+				param.setThreshold(1);
+			} else if (activity.getMiFlowCondition() == Activity.MIFlowCondition.All){
+				param.setThreshold(2147483647);
+			} else if (activity.getMiFlowCondition() == Activity.MIFlowCondition.Complex){
+				param.setThreshold(2147483647);
+			}
+			//how to support MiFlowCondition None?
+		
+			param.setCreationMode(CreationMode.STATIC);
+
+			ytask.setMiParam(param);
+				
+			YVariable local = new YVariable();
+			local.setName(task.getID() + "_input");
+			local.setType("string");
+			local.setNamespace("http://www.w3.org/2001/XMLSchema");
+			dec.getInputParams().add(local);
+				
+			// Decomposition
+			YDecomposition subdec = new YDecomposition(ytask.getID(), "", "WebServiceGatewayFactsType");
+			ytask.setDecomposition(subdec);
+			model.addDecomposition(subdec.getID(), subdec);
+				
+			YVariable inputParam = new YVariable();
+			inputParam.setName(task.getID() + "_input");
+			inputParam.setType("string");
+			inputParam.setNamespace("http://www.w3.org/2001/XMLSchema");
+			ytask.getDecomposition().getInputParams().add(inputParam);
+				
+			YMIDataInput miDataInput = new YMIDataInput();
+			miDataInput.setExpression("/" + dec.getID() + "/" + local.getName());
+			miDataInput.setSplittingExpression("");
+			miDataInput.setFormalInputParam(local);
+			
+			param.setMiDataInput(miDataInput);
+				
+			YMIDataOutput miDataOutput = new YMIDataOutput();
+			miDataOutput.setFormalOutputExpression("/" + dec.getID() + "/" + local.getName());
+			miDataOutput.setOutputJoiningExpression("");
+			miDataOutput.setResultAppliedToLocalVariable(local);
+			
+			param.setMiDataOutput(miDataOutput);
+		}
 		
 		if (activity.getLoopType() == Activity.LoopType.Standard) {
 			if (!loopingActivities.containsKey(dec))

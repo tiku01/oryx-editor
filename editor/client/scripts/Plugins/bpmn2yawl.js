@@ -15,7 +15,7 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
 			'name': 'BPMN to YAWL mapper',
 			'functionality': this.BPMNtoYAWLsyntaxCheck.bind(this),
 			'group': 'Mapping',
-			'icon': ORYX.PATH + 'images/control_end.png',
+			'icon': ORYX.PATH + 'images/door.png',
 			'description': 'Map this diagram to YAWL and execute it',
 			'index': 1,
 			'minShape': 0,

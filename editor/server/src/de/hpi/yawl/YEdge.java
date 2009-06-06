@@ -77,7 +77,7 @@ public class YEdge extends YFlowRelationship {
             return "";
         } else if (type == EdgeType.NORMAL) {
             s += "\t\t\t\t\t<flowsInto>\n";
-            s += "\t\t\t\t\t\t<nextElementRef id=\"Node" + getTarget().getID() +
+            s += "\t\t\t\t\t\t<nextElementRef id=\"" + getTarget().getID() +
                     "\"/>\n";
             if (predicate != null && predicate.length() > 0) {
                 boolean hasPredicate = false;
