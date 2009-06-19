@@ -22,7 +22,11 @@
  **/
 package org.oryxeditor.server;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -34,11 +38,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import de.unihannover.se.infocup2008.bpmn.JsonErdfTransformation;
 import de.unihannover.se.infocup2008.bpmn.dao.BPMNDiagramDao;
 import de.unihannover.se.infocup2008.bpmn.layouter.CatchingIntermediateEventLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.EdgeLayouter;
@@ -67,17 +83,27 @@ public class BPMNLayouterServlet extends HttpServlet {
 		grids = new HashMap<BPMNElement, Grid<BPMNElement>>();
 
 		request.setCharacterEncoding("UTF-8");
-		String eRDF = request.getParameter("data");
+		//String eRDF = request.getParameter("data");
+		
+		String jsonmodel = request.getParameter("data");
+		String eRDF = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<div class=\"processdata\">"
+			+ jsonToErdf(jsonmodel) + "\n</div>";
 
 		// readInput
 		this.dao = new BPMNDiagramDao();
 		this.diagram = dao.getBPMNDiagramFromString(eRDF);
-
+		if(this.diagram == null){
+			response.setStatus(500);
+			response.getWriter().print("import failed");
+			return;
+		}
+	
+		
 		try {
 			doLayoutAlgorithm();
 		} catch (Exception e) {
 			response.setStatus(500);
-			response.getWriter().print("layout failed");
+			response.getWriter().print("layout failed:" + e.toString());
 			return;
 		}
 
@@ -232,5 +258,58 @@ public class BPMNLayouterServlet extends HttpServlet {
 				textAnnotation.addIncomingLink(target);
 			}
 		}
+	}
+	
+//	protected static String erdfToRdf(String erdf) throws TransformerException{
+//		String serializedDOM = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+//		"<html xmlns=\"http://www.w3.org/1999/xhtml\" " +
+//		"xmlns:b3mn=\"http://b3mn.org/2007/b3mn\" " +
+//		"xmlns:ext=\"http://b3mn.org/2007/ext\" " +
+//		"xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "  +
+//		"xmlns:atom=\"http://b3mn.org/2007/atom+xhtml\">" +
+//		"<head profile=\"http://purl.org/NET/erdf/profile\">" +
+//		"<link rel=\"schema.dc\" href=\"http://purl.org/dc/elements/1.1/\" />" +
+//		"<link rel=\"schema.dcTerms\" href=\"http://purl.org/dc/terms/ \" />" +
+//		"<link rel=\"schema.b3mn\" href=\"http://b3mn.org\" />" +
+//		"<link rel=\"schema.oryx\" href=\"http://oryx-editor.org/\" />" +
+//		"<link rel=\"schema.raziel\" href=\"http://raziel.org/\" />" +
+//		"</head><body>" + erdf + "</body></html>";
+//        
+//		InputStream xsltStream = Dispatcher.servletContext.getResourceAsStream("/WEB-INF/lib/extract-rdf.xsl");
+//        Source xsltSource = new StreamSource(xsltStream);
+//        Source erdfSource = new StreamSource(new StringReader(serializedDOM));
+//
+//        TransformerFactory transFact =
+//                TransformerFactory.newInstance();
+//        Transformer trans = transFact.newTransformer(xsltSource);
+//        StringWriter output = new StringWriter();
+//        trans.transform(erdfSource, new StreamResult(output));
+//		return output.toString();
+//	}
+//	
+//	protected static String erdfToJson(String erdf, String serverUrl){
+//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//		factory.setNamespaceAware(true);
+//		DocumentBuilder builder;
+//		try {
+//			builder = factory.newDocumentBuilder();
+//			Document rdfDoc = builder.parse(new ByteArrayInputStream(erdfToRdf(erdf).getBytes()));
+//			return RdfJsonTransformation.toJson(rdfDoc, serverUrl).toString();
+//		} catch (ParserConfigurationException e) {
+//			e.printStackTrace();
+//		} catch (SAXException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (TransformerException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+	
+	protected static String jsonToErdf(String json){
+		JsonErdfTransformation trans = new JsonErdfTransformation(json);
+		
+		return trans.toString();
 	}
 }
