@@ -112,8 +112,8 @@ public class BPMNDiagramDao {
 	/**
 	 * Reads the model from the eRDF and parses it
 	 * 
-	 * @param oryxId
-	 *            the id in the oryx repository
+	 * @param eRDF
+	 *            the eRDF
 	 * @return the diagram or <code>null</code> in case of errors
 	 */
 	public BPMNDiagram getBPMNDiagramFromString(String eRDF) {

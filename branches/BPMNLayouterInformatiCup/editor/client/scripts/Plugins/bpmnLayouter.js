@@ -46,7 +46,7 @@ ORYX.Plugins.BpmnLayouter = ORYX.Plugins.AbstractPlugin.extend({
 			method : 'POST',
 			asynchronous : false,
 			parameters : {
-				data: this.facade.getERDF()
+				data: this.facade.getSerializedJSON()
 			},
 			onSuccess: function(request){
 
