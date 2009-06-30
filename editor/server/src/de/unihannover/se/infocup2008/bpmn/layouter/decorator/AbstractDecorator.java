@@ -22,7 +22,7 @@
  **/
 package de.unihannover.se.infocup2008.bpmn.layouter.decorator;
 
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
 
 /**
  * AbstractDecorator implements just delegation for all methods.
@@ -30,22 +30,22 @@ import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
  * @author Team Royal Fawn 
  * 
  */
-public abstract class AbstractDecorator implements BPMNGeometry {
+public abstract class AbstractDecorator implements BPMNBounds {
 
 	
-	private BPMNGeometry target;
+	private BPMNBounds target;
 	
 	/**
 	 * @param target
 	 */
-	protected AbstractDecorator(BPMNGeometry target) {
+	protected AbstractDecorator(BPMNBounds target) {
 		super();
 		this.target = target;
 	}
 	
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getHeight()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getHeight()
 	 */
 	public double getHeight() {
 		return target.getHeight();
@@ -55,7 +55,7 @@ public abstract class AbstractDecorator implements BPMNGeometry {
 
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getWidth()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getWidth()
 	 */
 	public double getWidth() {
 		return target.getWidth();
@@ -65,7 +65,7 @@ public abstract class AbstractDecorator implements BPMNGeometry {
 
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getX()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getX()
 	 */
 	public double getX() {
 		return target.getX();
@@ -75,7 +75,7 @@ public abstract class AbstractDecorator implements BPMNGeometry {
 
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getX2()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getX2()
 	 */
 	public double getX2() {
 		return getX() + getWidth();
@@ -85,7 +85,7 @@ public abstract class AbstractDecorator implements BPMNGeometry {
 
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getY()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getY()
 	 */
 	public double getY() {
 		return target.getY();
@@ -95,7 +95,7 @@ public abstract class AbstractDecorator implements BPMNGeometry {
 
 	/**
 	 * @return
-	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry#getY2()
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNBounds#getY2()
 	 */
 	public double getY2() {
 		return getY() + getHeight();

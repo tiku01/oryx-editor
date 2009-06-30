@@ -28,7 +28,7 @@ package de.unihannover.se.infocup2008.bpmn.model;
  * @author Team Royal Fawn
  * 
  */
-public class BPMNGeometryImpl implements BPMNGeometry {
+public class BPMNBoundsImpl implements BPMNBounds {
 
 	/**
 	 * @param x
@@ -36,7 +36,7 @@ public class BPMNGeometryImpl implements BPMNGeometry {
 	 * @param width
 	 * @param height
 	 */
-	public BPMNGeometryImpl(double x, double y, double width, double height) {
+	public BPMNBoundsImpl(double x, double y, double width, double height) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -44,7 +44,7 @@ public class BPMNGeometryImpl implements BPMNGeometry {
 		this.height = height;
 	}
 
-	public BPMNGeometryImpl() {
+	public BPMNBoundsImpl() {
 		this(0, 0, 0, 0);
 	}
 

@@ -1,25 +1,3 @@
-/**
- * Copyright (c) 2009
- * Ingo Kitzmann, Christoph Koenig
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
 package de.unihannover.se.infocup2008.bpmn.model;
 
 import java.util.Collections;
@@ -28,28 +6,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.w3c.dom.Node;
 
-/**
- * Implements the <code>BPMNElement</code> Interface.
- * 
- * @author Team Royal Fawn
- * 
- */
-public class BPMNElementImpl implements BPMNElement {
+public abstract class BPMNAbstractElement implements BPMNElement {
+
 	private String type = "";
 	private String id = "";
 	private List<BPMNElement> outgoingLinks = new LinkedList<BPMNElement>();
 	private List<BPMNElement> incomingLinks = new LinkedList<BPMNElement>();
-	private Node boundsNode = null;
-	private Node dockersNode = null;
-	private BPMNGeometry geometry = new BPMNGeometryImpl();
+	protected BPMNBounds geometry = new BPMNBoundsImpl();
 	private BPMNElement parent = null;
+	protected BPMNDockers dockers = new BPMNDockers();
+
+	public BPMNAbstractElement() {
+		super();
+	}
 
 	/**
 	 * @return the geometry
 	 */
-	public BPMNGeometry getGeometry() {
+	public BPMNBounds getGeometry() {
 		return geometry;
 	}
 
@@ -57,7 +32,7 @@ public class BPMNElementImpl implements BPMNElement {
 	 * @param geometry
 	 *            the geometry to set
 	 */
-	public void setGeometry(BPMNGeometry geometry) {
+	public void setGeometry(BPMNBounds geometry) {
 		this.geometry = geometry;
 	}
 
@@ -67,14 +42,6 @@ public class BPMNElementImpl implements BPMNElement {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Node getBoundsNode() {
-		return boundsNode;
-	}
-
-	public void setBoundsNode(Node node) {
-		this.boundsNode = node;
 	}
 
 	public String getType() {
@@ -97,23 +64,9 @@ public class BPMNElementImpl implements BPMNElement {
 		this.outgoingLinks.add(element);
 	}
 
-	public void updateNodes() {
-		this.boundsNode.setNodeValue(geometry.getX() + "," + geometry.getY()
-				+ "," + geometry.getX2() + "," + geometry.getY2());
-	}
-
-	public String toString() {
-		String out = "BPMNElement: ";
-		out += " ID=" + getId();
-		out += " Type=" + getType();
-		out += geometry.toString();
-		out += " links=" + getOutgoingLinks().size();
-		return out;
-	}
-
 	public List<BPMNElement> getFollowingElements() {
 		List<BPMNElement> followingElements = new LinkedList<BPMNElement>();
-
+	
 		for (BPMNElement element : getOutgoingLinks()) {
 			if (BPMNType.isAConnectingElement(element.getType())) {
 				followingElements.addAll(element.getFollowingElements());
@@ -124,16 +77,8 @@ public class BPMNElementImpl implements BPMNElement {
 				followingElements.add(element);
 			}
 		}
-
+	
 		return followingElements;
-	}
-
-	public Node getDockersNode() {
-		return this.dockersNode;
-	}
-
-	public void setDockersNode(Node node) {
-		this.dockersNode = node;
 	}
 
 	public List<BPMNElement> getIncomingLinks() {
@@ -150,7 +95,7 @@ public class BPMNElementImpl implements BPMNElement {
 
 	public List<BPMNElement> getPrecedingElements() {
 		List<BPMNElement> precedingElements = new LinkedList<BPMNElement>();
-
+	
 		for (BPMNElement element : getIncomingLinks()) {
 			if (BPMNType.isAConnectingElement(element.getType())) {
 				precedingElements.addAll(element.getPrecedingElements());
@@ -163,7 +108,7 @@ public class BPMNElementImpl implements BPMNElement {
 				precedingElements.add(element);
 			}
 		}
-
+	
 		return precedingElements;
 	}
 
@@ -204,7 +149,7 @@ public class BPMNElementImpl implements BPMNElement {
 		Set<BPMNElement> newHistory = new HashSet<BPMNElement>(history);
 		newHistory.add(this);
 		for (BPMNElement el : this.getPrecedingElements()) {
-			d = Math.min(d, ((BPMNElementImpl) el)._backwardDistanceTo(other, newHistory));
+			d = Math.min(d, ((BPMNAbstractElement) el)._backwardDistanceTo(other, newHistory));
 		}
 		return d == Integer.MAX_VALUE ? d : d + 1;
 	}
@@ -247,13 +192,13 @@ public class BPMNElementImpl implements BPMNElement {
 		if (!BPMNType.isACatchingIntermediateEvent(this.type)) {
 			return false;
 		}
-
+	
 		for (BPMNElement element : this.incomingLinks) {
 			if (BPMNType.isAActivity(element.getType())) {
 				return true;
 			}
 		}
-
+	
 		return false;
 	}
 
@@ -267,6 +212,31 @@ public class BPMNElementImpl implements BPMNElement {
 
 	public void setParent(BPMNElement element) {
 		this.parent = element;
+	}
+
+	public String toString() {
+		String out = "BPMNElement: ";
+		out += " ID=" + getId();
+		out += " Type=" + getType();
+		out += geometry.toString();
+		out += " links=" + getOutgoingLinks().size();
+		return out;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNElement#getDockers()
+	 */
+	@Override
+	public BPMNDockers getDockers() {
+		return dockers;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNElement#setDockers(de.unihannover.se.infocup2008.bpmn.model.BPMNDockers)
+	 */
+	@Override
+	public void setDockers(BPMNDockers dockers) {
+		this.dockers = dockers;
 	}
 
 }

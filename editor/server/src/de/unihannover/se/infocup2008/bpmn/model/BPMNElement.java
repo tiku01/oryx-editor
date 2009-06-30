@@ -39,15 +39,8 @@ public interface BPMNElement {
 	public abstract String getId();
 
 	public abstract void setId(String id);
-
-	public abstract Node getBoundsNode();
-
-	public abstract void setBoundsNode(Node node);
-
-	public abstract Node getDockersNode();
-
-	public abstract void setDockersNode(Node node);
-
+		
+	
 	public abstract String getType();
 
 	public abstract void setType(String type);
@@ -86,11 +79,18 @@ public interface BPMNElement {
 
 	public abstract String toString();
 
-	public abstract BPMNGeometry getGeometry();
+	public abstract BPMNBounds getGeometry();
 
-	public abstract void setGeometry(BPMNGeometry geometry);
+	public abstract void setGeometry(BPMNBounds geometry);
+	
+	public abstract BPMNDockers getDockers();
+	
+	public abstract void setDockers(BPMNDockers dockers);
 
-	public abstract void updateNodes();
+	/**
+	 * Updates the underlying DataModel e.g. JSONObject or XMLNode
+	 */
+	public abstract void updateDataModel();
 
 	/**
 	 * @return true if Element joins more then one path

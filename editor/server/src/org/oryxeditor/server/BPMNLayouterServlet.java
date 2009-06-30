@@ -22,11 +22,7 @@
  **/
 package org.oryxeditor.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,40 +34,31 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import de.unihannover.se.infocup2008.bpmn.JsonErdfTransformation;
-import de.unihannover.se.infocup2008.bpmn.dao.BPMNDiagramDao;
+import de.unihannover.se.infocup2008.bpmn.dao.ERDFDiagramDao;
 import de.unihannover.se.infocup2008.bpmn.layouter.CatchingIntermediateEventLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.EdgeLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.LeftToRightGridLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.grid.Grid;
 import de.unihannover.se.infocup2008.bpmn.layouter.topologicalsort.TopologicalSorter;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBoundsImpl;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagramERDF;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometryImpl;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNElementERDF;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 public class BPMNLayouterServlet extends HttpServlet {
 
-	protected BPMNDiagram diagram;
+	protected BPMNDiagramERDF diagram;
 
-	protected BPMNDiagramDao dao;
+	protected ERDFDiagramDao dao;
 
 	private Map<BPMNElement, Grid<BPMNElement>> grids;
 
@@ -90,7 +77,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 			+ jsonToErdf(jsonmodel) + "\n</div>";
 
 		// readInput
-		this.dao = new BPMNDiagramDao();
+		this.dao = new ERDFDiagramDao();
 		this.diagram = dao.getBPMNDiagramFromString(eRDF);
 		if(this.diagram == null){
 			response.setStatus(500);
@@ -116,11 +103,11 @@ public class BPMNLayouterServlet extends HttpServlet {
 
 		try {
 			for (String id : this.diagram.getElements().keySet()) {
-				BPMNElement element = this.diagram.getElement(id);
+				BPMNElementERDF element = this.diagram.getElement(id);
 				JSONObject obj = new JSONObject();
 				obj.put("id", id);
 
-				BPMNGeometry bounds = element.getGeometry();
+				BPMNBounds bounds = element.getGeometry();
 				String boundsString = bounds.getX() + " " + bounds.getY() + " "
 						+ bounds.getX2() + " " + bounds.getY2();
 				obj.put("bounds", boundsString);
@@ -169,7 +156,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 			// set bounds
 			double subprocessWidth = lToRGridLayouter.getWidthOfDiagramm();
 			double subprocessHeight = lToRGridLayouter.getHeightOfDiagramm();
-			subProcess.setGeometry(new BPMNGeometryImpl(0, 0, subprocessWidth,
+			subProcess.setGeometry(new BPMNBoundsImpl(0, 0, subprocessWidth,
 					subprocessHeight));
 			grids.putAll(lToRGridLayouter.getGridParentMap());
 		}

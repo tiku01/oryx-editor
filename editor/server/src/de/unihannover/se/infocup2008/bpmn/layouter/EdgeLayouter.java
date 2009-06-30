@@ -27,9 +27,10 @@ import java.util.Random;
 
 import de.unihannover.se.infocup2008.bpmn.layouter.grid.Grid;
 import de.unihannover.se.infocup2008.bpmn.layouter.grid.Grid.Cell;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDockers;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometryImpl;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBoundsImpl;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 /**
@@ -48,8 +49,8 @@ public class EdgeLayouter {
 
 	private BPMNElement source;
 	private BPMNElement target;
-	private BPMNGeometry sourceGeometry;
-	private BPMNGeometry targetGeometry;
+	private BPMNBounds sourceGeometry;
+	private BPMNBounds targetGeometry;
 
 	// Relative coordinates
 	private double sourceRelativCenterX;
@@ -75,6 +76,7 @@ public class EdgeLayouter {
 	private boolean sourceSplit;
 	private boolean targetJoin;
 	private boolean backwards;
+
 	public EdgeLayouter(BPMNElement edge) {
 		this(null, edge);
 	}
@@ -85,7 +87,7 @@ public class EdgeLayouter {
 		this.grids = grids;
 		calculateGlobals();
 		pickLayoutForEdge();
-		this.edge.updateNodes();
+		this.edge.updateDataModel();
 	}
 
 	private void calculateGlobals() {
@@ -141,7 +143,7 @@ public class EdgeLayouter {
 				+ targetParentAdjustmentX;
 		this.targetAbsoluteY = this.targetGeometry.getY()
 				+ targetParentAdjustmentY;
-		
+
 		this.targetAbsoluteY2 = this.targetGeometry.getY2()
 				+ targetParentAdjustmentY;
 
@@ -175,7 +177,6 @@ public class EdgeLayouter {
 		// should go out an in diagonal at the corners to not interference with
 		// the sequence flows
 
-
 		if (source.getType().equals(BPMNType.CollapsedPool)
 				|| target.getType().equals(BPMNType.CollapsedPool)) {
 			setEdgeDirectVertical();
@@ -188,17 +189,15 @@ public class EdgeLayouter {
 			return;
 		}
 
-
 		setEdgeDirectCenter();
-
 
 	}
 
 	private void pickLayoutForSequenceFlow() {
 		if (source.isADockedIntermediateEvent()) {
-			if(backwards){
+			if (backwards) {
 				setEdgeAroundTheCorner(true);
-			}else{
+			} else {
 				setEdge90DegreeRightUnderAntiClockwise();
 			}
 			return;
@@ -231,7 +230,7 @@ public class EdgeLayouter {
 				setEdge90DegreeRightUnderClockwise();
 				return;
 			}
-					
+
 		} else if (sourceAbsoluteCenterX <= targetAbsoluteCenterX
 				&& sourceAbsoluteCenterY > targetAbsoluteCenterY) {
 			// target is right above
@@ -264,7 +263,7 @@ public class EdgeLayouter {
 		if (this.grids == null || source.getParent() != target.getParent()) {
 			return (Math.abs(sourceAbsoluteCenterX - targetAbsoluteCenterX) < 210);
 		}
-		
+
 		Grid<BPMNElement> grid = this.grids.get(source.getParent());
 
 		Cell<BPMNElement> fromCell;
@@ -302,30 +301,29 @@ public class EdgeLayouter {
 				targetAbsoluteCenterY);
 
 		// set bounds
-		edge.setGeometry(new BPMNGeometryImpl(boundsMinX, boundsMinY,
-				boundsMaxX - boundsMinX, boundsMaxY - boundsMinY));
+		edge.setGeometry(new BPMNBoundsImpl(boundsMinX, boundsMinY, boundsMaxX
+				- boundsMinX, boundsMaxY - boundsMinY));
 
 		// set dockers - direct connection
-		String sourceDocker = sourceRelativCenterX + " " + sourceRelativCenterY
-				+ " ";
+		BPMNDockers dockers = edge.getDockers();
+
 		if (source.getType().equals(BPMNType.TextAnnotation)) {
 			// TextAnnotation has its docker at the left
-			sourceDocker = 0 + " " + sourceRelativCenterY + " ";
+			dockers.setPoints(0, sourceRelativCenterY);
+		} else {
+			dockers.setPoints(sourceRelativCenterX, sourceRelativCenterY);
 		}
-
-		String targetDocker = targetRelativCenterX + " " + targetRelativCenterY
-				+ " ";
+		
 		if (target.getType().equals(BPMNType.TextAnnotation)) {
 			// TextAnnotation has its docker at the left
-			targetDocker = 0 + " " + targetRelativCenterY + " ";
+			dockers.addPoint(0, targetRelativCenterY);
+		} else {
+			dockers.addPoint(targetRelativCenterX, targetRelativCenterY);
 		}
-
-		edge.getDockersNode().setNodeValue(sourceDocker + targetDocker + " # ");
 
 	}
 
 	private void setEdgeDirectVertical() {
-		double displacementFactor = 0.05;
 		// make bounding box
 		double boundsX = 0;
 		double boundsMinY = Math
@@ -333,43 +331,42 @@ public class EdgeLayouter {
 		double boundsMaxY = Math.max(this.sourceAbsoluteY2,
 				this.targetAbsoluteY2);
 
-		String sourceDocker;
+		BPMNDockers dockers = edge.getDockers();
 		if (source.getType().equals(BPMNType.CollapsedPool)) {
-			double displacement = 30;// + (Math.abs(targetAbsoluteCenterY - sourceAbsoluteCenterY) * displacementFactor);
+			double displacement = 30;// + (Math.abs(targetAbsoluteCenterY -
+			// sourceAbsoluteCenterY) *
+			// displacementFactor);
 			// take middle of target
-			double startPoint = (targetAbsoluteCenterX-displacement);
-			sourceDocker = startPoint + " " + 70 + " "; // pools
+			double startPoint = (targetAbsoluteCenterX - displacement);
+			dockers.setPoints(startPoint, 70); // pools
 			// start at
 			// x=0
 			boundsX = startPoint;
 		} else {
 			double displacement = 10;
 			// take source middle
-			sourceDocker = (sourceRelativCenterX + displacement) + " " + sourceRelativCenterY
-					+ " ";
 			boundsX = (sourceAbsoluteCenterX + displacement);
+			dockers.setPoints(boundsX, sourceRelativCenterY);
 		}
 
-		String targetDocker;
 		if (target.getType().equals(BPMNType.CollapsedPool)) {
-			double displacement = 30;// + (Math.abs(targetAbsoluteCenterY - sourceAbsoluteCenterY) * displacementFactor);
+			double displacement = 30;// + (Math.abs(targetAbsoluteCenterY -
+			// sourceAbsoluteCenterY) *
+			// displacementFactor);
 			// take middle of source
-			targetDocker = (sourceAbsoluteCenterX + displacement) + " " + 70 + " "; // pools
+			dockers.addPoint(sourceAbsoluteCenterX + displacement, 70);// pools
 			// start at
 			// x=0
 		} else {
 			double displacement = 10;
 			// take target middle
-			targetDocker = (targetRelativCenterX - displacement) + " " + targetRelativCenterY
-					+ " ";
+			dockers.addPoint(targetRelativCenterX - displacement,
+					targetRelativCenterY);
 		}
 
 		// set bounds
-		edge.setGeometry(new BPMNGeometryImpl(boundsX, boundsMinY, 0,
-				boundsMaxY - boundsMinY));
-
-		// set dockers - direct connection
-		edge.getDockersNode().setNodeValue(sourceDocker + targetDocker + " # ");
+		edge.setGeometry(new BPMNBoundsImpl(boundsX, boundsMinY, 0, boundsMaxY
+				- boundsMinY));
 	}
 
 	private void setEdge90DegreeRightAboveAntiClockwise() {
@@ -420,15 +417,13 @@ public class EdgeLayouter {
 			double boundsMaxX, double boundsMaxY, double cornerDockerX,
 			double cornerDockerY) {
 		// set bounds
-		edge.setGeometry(new BPMNGeometryImpl(boundsMinX, boundsMinY,
-				boundsMaxX - boundsMinX, boundsMaxY - boundsMinY));
+		edge.setGeometry(new BPMNBoundsImpl(boundsMinX, boundsMinY, boundsMaxX
+				- boundsMinX, boundsMaxY - boundsMinY));
 
 		// set dockers
-		edge.getDockersNode().setNodeValue(
-				sourceRelativCenterX + " " + sourceRelativCenterY + " "
-						+ cornerDockerX + " " + cornerDockerY + " "
-						+ targetRelativCenterX + " " + targetRelativCenterY
-						+ "  # ");
+		edge.getDockers().setPoints(sourceRelativCenterX, sourceRelativCenterY,
+				cornerDockerX, cornerDockerY, targetRelativCenterX,
+				targetRelativCenterY);
 	}
 
 	private void setEdgeAroundTheCorner(boolean down) {
@@ -454,8 +449,8 @@ public class EdgeLayouter {
 		}
 
 		// set bounds
-		edge.setGeometry(new BPMNGeometryImpl(boundsMinX, boundsMinY,
-				boundsMaxX - boundsMinX, boundsMaxY - boundsMinY));
+		edge.setGeometry(new BPMNBoundsImpl(boundsMinX, boundsMinY, boundsMaxX
+				- boundsMinX, boundsMaxY - boundsMinY));
 
 		// set dockers
 		double docker1X = sourceAbsoluteCenterX;
@@ -478,11 +473,9 @@ public class EdgeLayouter {
 			docker2Y = boundsMinY;
 		}
 
-		edge.getDockersNode().setNodeValue(
-				sourceRelativCenterX + " " + sourceRelativCenterY + " "
-						+ docker1X + " " + docker1Y + " " + docker2X + " "
-						+ docker2Y + " " + targetRelativCenterX + " "
-						+ targetRelativCenterY + "  # ");
+		edge.getDockers().setPoints(sourceRelativCenterX, sourceRelativCenterY,
+				docker1X, docker1Y, docker2X, docker2Y, targetRelativCenterX,
+				targetRelativCenterY);
 
 	}
 
@@ -499,20 +492,18 @@ public class EdgeLayouter {
 				targetAbsoluteCenterY);
 
 		// set bounds
-		edge.setGeometry(new BPMNGeometryImpl(boundsMinX, boundsMinY,
-				boundsMaxX - boundsMinX, boundsMaxY - boundsMinY));
+		edge.setGeometry(new BPMNBoundsImpl(boundsMinX, boundsMinY, boundsMaxX
+				- boundsMinX, boundsMaxY - boundsMinY));
 
 		// set dockers
 		// double halfBoundsX = sourceGeometry.getX2()
 		// + ((targetGeometry.getX() - sourceGeometry.getX2()) / 2);
 		double halfBoundsX = sourceAbsoluteX2 + 15;
 
-		edge.getDockersNode().setNodeValue(
-				sourceRelativCenterX + " " + sourceRelativCenterY + " "
-						+ halfBoundsX + " " + sourceAbsoluteCenterY + " "
-						+ halfBoundsX + " " + targetAbsoluteCenterY + " "
-						+ targetRelativCenterX + " " + targetRelativCenterY
-						+ "  # ");
+		edge.getDockers().setPoints(sourceRelativCenterX, sourceRelativCenterY,
+				halfBoundsX, sourceAbsoluteCenterY, halfBoundsX,
+				targetAbsoluteCenterY, targetRelativCenterX,
+				targetRelativCenterY);
 
 	}
 }

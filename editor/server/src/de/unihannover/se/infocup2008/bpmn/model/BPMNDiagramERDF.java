@@ -1,3 +1,5 @@
+package de.unihannover.se.infocup2008.bpmn.model;
+
 /**
  * Copyright (c) 2009
  * Ingo Kitzmann, Christoph Koenig
@@ -20,42 +22,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
-package de.unihannover.se.infocup2008.bpmn.model;
 
-/**
- * Represents the geometry of an element. Needed for the decorators
- * 
- * @author Team Royal Fawn
- * 
- */
-public interface BPMNGeometry {
-	/**
-	 * @return the x
-	 */
-	public abstract double getX();
+public class BPMNDiagramERDF extends BPMNAbstractDiagram<BPMNElementERDF> {
 
-	/**
-	 * @return the y
-	 */
-	public abstract double getY();
+	@Override
+	protected BPMNElementERDF newElement() {
+		return new BPMNElementERDF();
+	}
 
-	/**
-	 * @return the width
-	 */
-	public abstract double getWidth();
-
-	/**
-	 * @return the height
-	 */
-	public abstract double getHeight();
-
-	/**
-	 * @return the x2
-	 */
-	public abstract double getX2();
-
-	/**
-	 * @return the y2
-	 */
-	public abstract double getY2();
 }
