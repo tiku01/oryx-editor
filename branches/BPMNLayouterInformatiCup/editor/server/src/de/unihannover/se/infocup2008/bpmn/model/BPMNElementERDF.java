@@ -20,45 +20,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
-package de.unihannover.se.infocup2008.bpmn.layouter.decorator;
+package de.unihannover.se.infocup2008.bpmn.model;
 
-import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
+import org.w3c.dom.Node;
+
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDockers.Point;
 
 /**
- * This decorator describes, how an attached event is positioned relative to the
- * task
+ * Implements the <code>BPMNElement</code> Interface.
  * 
  * @author Team Royal Fawn
  * 
  */
-public class DocketEventDecorator extends AbstractDecorator {
+public class BPMNElementERDF extends BPMNAbstractElement implements BPMNElement {
+	private Node dockersNode = null;
+	protected Node boundsNode = null;
 
-	private BPMNBounds relative;
-
-	private int positionFromLeft;
-
-	public DocketEventDecorator(BPMNBounds target, BPMNBounds relative,
-			int positionFromLeft) {
-		super(target);
-		this.relative = relative;
-		this.positionFromLeft = positionFromLeft;
+	public void updateDataModel() {
+		this.boundsNode.setNodeValue(geometry.getX() + "," + geometry.getY()
+				+ "," + geometry.getX2() + "," + geometry.getY2());
+		StringBuilder dockerSB = new StringBuilder();
+		for (Point p: dockers.getPoints()){
+			dockerSB.append(p.x);
+			dockerSB.append(" ");
+			dockerSB.append(p.y);
+			dockerSB.append(" ");
+		}
+		dockerSB.append(" # ");
+		dockersNode.setNodeValue(dockerSB.toString());
 	}
 
-	@Override
-	public double getX() {
-		double firstX = this.relative.getX()
-				+ LayoutConstants.EVENT_DOCKERS_MARGIN;
-		// + LayoutConstants.EVENT_DIAMETER;
-
-		double relPostion = this.positionFromLeft
-				* (LayoutConstants.EVENT_DOCKERS_MARGIN + LayoutConstants.EVENT_DIAMETER);
-		double newX = firstX + relPostion;
-		return newX;
+	public Node getDockersNode() {
+		return this.dockersNode;
 	}
 
-	@Override
-	public double getY() {
-		return this.relative.getY2() - 18;
+	public void setDockersNode(Node node) {
+		this.dockersNode = node;
+	}
+
+	public Node getBoundsNode() {
+		return boundsNode;
+	}
+
+	public void setBoundsNode(Node node) {
+		this.boundsNode = node;
 	}
 
 }

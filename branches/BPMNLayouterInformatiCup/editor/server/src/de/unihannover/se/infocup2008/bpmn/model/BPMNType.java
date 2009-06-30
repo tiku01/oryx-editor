@@ -25,22 +25,24 @@ package de.unihannover.se.infocup2008.bpmn.model;
 /**
  * This class holds all constants from the oryx erdf and provides some methods
  * to check types.
- * 
+ * TODO adapt this for JSON
  * @author Team Royal Fawn
  * 
  */
 public class BPMNType {
+	public final static String PREFIX = "http://b3mn.org/stencilset/bpmn1.1#";
+	
 	// Canvas
-	public final static String BPMNDiagram = "http://b3mn.org/stencilset/bpmn1.1#BPMNDiagram";
+	public final static String BPMNDiagram = PREFIX + "BPMNDiagram";
 
 	public static boolean isADiagram(String type) {
 		return type.equals(BPMNDiagram);
 	}
 
 	// Activities
-	public final static String Task = "http://b3mn.org/stencilset/bpmn1.1#Task";
-	public final static String CollapsedSubprocess = "http://b3mn.org/stencilset/bpmn1.1#CollapsedSubprocess";
-	public final static String Subprocess = "http://b3mn.org/stencilset/bpmn1.1#Subprocess";
+	public final static String Task = PREFIX + "Task";
+	public final static String CollapsedSubprocess = PREFIX + "CollapsedSubprocess";
+	public final static String Subprocess = PREFIX + "Subprocess";
 
 	public static boolean isAActivity(String type) {
 		return type.equals(Task) || type.equals(CollapsedSubprocess)
@@ -48,9 +50,9 @@ public class BPMNType {
 	}
 
 	// Artifacts
-	public final static String Group = "http://b3mn.org/stencilset/bpmn1.1#Group";
-	public final static String TextAnnotation = "http://b3mn.org/stencilset/bpmn1.1#TextAnnotation";
-	public final static String DataObject = "http://b3mn.org/stencilset/bpmn1.1#DataObject";
+	public final static String Group = PREFIX + "Group";
+	public final static String TextAnnotation = PREFIX + "TextAnnotation";
+	public final static String DataObject = PREFIX + "DataObject";
 
 	public static boolean isAArtifact(String type) {
 		return type.equals(Group) || type.equals(TextAnnotation)
@@ -58,11 +60,11 @@ public class BPMNType {
 	}
 
 	// Oryx Throwing Intermediate Events
-	public final static String IntermediateMessageEventThrowing = "http://b3mn.org/stencilset/bpmn1.1#IntermediateMessageEventThrowing";
-	public final static String IntermediateSignalEventThrowing = "http://b3mn.org/stencilset/bpmn1.1#IntermediateSignalEventThrowing";
-	public final static String IntermediateLinkEventThrowing = "http://b3mn.org/stencilset/bpmn1.1#IntermediateLinkEventThrowing";
-	public final static String IntermediateMultipleEventThrowing = "http://b3mn.org/stencilset/bpmn1.1#IntermediateMultipleEventThrowing";
-	public final static String IntermediateCompensationEventThrowing = "http://b3mn.org/stencilset/bpmn1.1#IntermediateCompensationEventThrowing";
+	public final static String IntermediateMessageEventThrowing = PREFIX + "IntermediateMessageEventThrowing";
+	public final static String IntermediateSignalEventThrowing = PREFIX + "IntermediateSignalEventThrowing";
+	public final static String IntermediateLinkEventThrowing = PREFIX + "IntermediateLinkEventThrowing";
+	public final static String IntermediateMultipleEventThrowing = PREFIX + "IntermediateMultipleEventThrowing";
+	public final static String IntermediateCompensationEventThrowing = PREFIX + "IntermediateCompensationEventThrowing";
 
 	public static boolean isAThrowingIntermediateEvent(String type) {
 		return type.equals(IntermediateMessageEventThrowing)
@@ -73,16 +75,16 @@ public class BPMNType {
 	}
 
 	// Catching Intermediate Events
-	public final static String IntermediateEvent = "http://b3mn.org/stencilset/bpmn1.1#IntermediateEvent";
-	public final static String IntermediateMessageEventCatching = "http://b3mn.org/stencilset/bpmn1.1#IntermediateMessageEventCatching";
-	public final static String IntermediateTimerEvent = "http://b3mn.org/stencilset/bpmn1.1#IntermediateTimerEvent";
-	public final static String IntermediateErrorEvent = "http://b3mn.org/stencilset/bpmn1.1#IntermediateErrorEvent";
-	public final static String IntermediateCancelEvent = "http://b3mn.org/stencilset/bpmn1.1#IntermediateCancelEvent";
-	public final static String IntermediateCompensationEventCatching = "http://b3mn.org/stencilset/bpmn1.1#IntermediateCompensationEventCatching";
-	public final static String IntermediateConditionalEvent = "http://b3mn.org/stencilset/bpmn1.1#IntermediateConditionalEvent";
-	public final static String IntermediateSignalEventCatching = "http://b3mn.org/stencilset/bpmn1.1#IntermediateSignalEventCatching";
-	public final static String IntermediateMultipleEventCatching = "http://b3mn.org/stencilset/bpmn1.1#IntermediateMultipleEventCatching";
-	public final static String IntermediateLinkEventCatching = "http://b3mn.org/stencilset/bpmn1.1#IntermediateLinkEventCatching";
+	public final static String IntermediateEvent = PREFIX + "IntermediateEvent";
+	public final static String IntermediateMessageEventCatching = PREFIX + "IntermediateMessageEventCatching";
+	public final static String IntermediateTimerEvent = PREFIX + "IntermediateTimerEvent";
+	public final static String IntermediateErrorEvent = PREFIX + "IntermediateErrorEvent";
+	public final static String IntermediateCancelEvent = PREFIX + "IntermediateCancelEvent";
+	public final static String IntermediateCompensationEventCatching = PREFIX + "IntermediateCompensationEventCatching";
+	public final static String IntermediateConditionalEvent = PREFIX + "IntermediateConditionalEvent";
+	public final static String IntermediateSignalEventCatching = PREFIX + "IntermediateSignalEventCatching";
+	public final static String IntermediateMultipleEventCatching = PREFIX + "IntermediateMultipleEventCatching";
+	public final static String IntermediateLinkEventCatching = PREFIX + "IntermediateLinkEventCatching";
 
 	public static boolean isACatchingIntermediateEvent(String type) {
 		return type.equals(IntermediateEvent)
@@ -98,11 +100,11 @@ public class BPMNType {
 	}
 
 	// Connecting Elements
-	public final static String SequenceFlow = "http://b3mn.org/stencilset/bpmn1.1#SequenceFlow";
-	public final static String MessageFlow = "http://b3mn.org/stencilset/bpmn1.1#MessageFlow";
-	public final static String Association_Undirected = "http://b3mn.org/stencilset/bpmn1.1#Association_Undirected";
-	public final static String Association_Unidirectional = "http://b3mn.org/stencilset/bpmn1.1#Association_Unidirectional";
-	public final static String Association_Bidirectional = "http://b3mn.org/stencilset/bpmn1.1#Association_Bidirectional";
+	public final static String SequenceFlow = PREFIX + "SequenceFlow";
+	public final static String MessageFlow = PREFIX + "MessageFlow";
+	public final static String Association_Undirected = PREFIX + "Association_Undirected";
+	public final static String Association_Unidirectional = PREFIX + "Association_Unidirectional";
+	public final static String Association_Bidirectional = PREFIX + "Association_Bidirectional";
 
 	public static boolean isAConnectingElement(String type) {
 		return type.equals(SequenceFlow) || type.equals(MessageFlow)
@@ -112,14 +114,14 @@ public class BPMNType {
 	}
 
 	// End Events
-	public final static String EndEvent = "http://b3mn.org/stencilset/bpmn1.1#EndEvent";
-	public final static String EndMessageEvent = "http://b3mn.org/stencilset/bpmn1.1#EndMessageEvent";
-	public final static String EndErrorEvent = "http://b3mn.org/stencilset/bpmn1.1#EndErrorEvent";
-	public final static String EndCancelEvent = "http://b3mn.org/stencilset/bpmn1.1#EndCancelEvent";
-	public final static String EndCompensationEvent = "http://b3mn.org/stencilset/bpmn1.1#EndCompensationEvent";
-	public final static String EndSignalEvent = "http://b3mn.org/stencilset/bpmn1.1#EndSignalEvent";
-	public final static String EndMultipleEvent = "http://b3mn.org/stencilset/bpmn1.1#EndMultipleEvent";
-	public final static String EndTerminateEvent = "http://b3mn.org/stencilset/bpmn1.1#EndTerminateEvent";
+	public final static String EndEvent = PREFIX + "EndEvent";
+	public final static String EndMessageEvent = PREFIX + "EndMessageEvent";
+	public final static String EndErrorEvent = PREFIX + "EndErrorEvent";
+	public final static String EndCancelEvent = PREFIX + "EndCancelEvent";
+	public final static String EndCompensationEvent = PREFIX + "EndCompensationEvent";
+	public final static String EndSignalEvent = PREFIX + "EndSignalEvent";
+	public final static String EndMultipleEvent = PREFIX + "EndMultipleEvent";
+	public final static String EndTerminateEvent = PREFIX + "EndTerminateEvent";
 
 	public static boolean isAEndEvent(String type) {
 		return type.equals(EndEvent) || type.equals(EndMessageEvent)
@@ -130,11 +132,11 @@ public class BPMNType {
 	}
 
 	// GateWays
-	public final static String Exclusive_Databased_Gateway = "http://b3mn.org/stencilset/bpmn1.1#Exclusive_Databased_Gateway";
-	public final static String Exclusive_Eventbased_Gateway = "http://b3mn.org/stencilset/bpmn1.1#Exclusive_Eventbased_Gateway";
-	public final static String AND_Gateway = "http://b3mn.org/stencilset/bpmn1.1#AND_Gateway";
-	public final static String OR_Gateway = "http://b3mn.org/stencilset/bpmn1.1#OR_Gateway";
-	public final static String Complex_Gateway = "http://b3mn.org/stencilset/bpmn1.1#Complex_Gateway";
+	public final static String Exclusive_Databased_Gateway = PREFIX + "Exclusive_Databased_Gateway";
+	public final static String Exclusive_Eventbased_Gateway = PREFIX + "Exclusive_Eventbased_Gateway";
+	public final static String AND_Gateway = PREFIX + "AND_Gateway";
+	public final static String OR_Gateway = PREFIX + "OR_Gateway";
+	public final static String Complex_Gateway = PREFIX + "Complex_Gateway";
 
 	public static boolean isAGateWay(String type) {
 		return type.equals(Exclusive_Databased_Gateway)
@@ -144,12 +146,12 @@ public class BPMNType {
 	}
 
 	// Start Events
-	public final static String StartEvent = "http://b3mn.org/stencilset/bpmn1.1#StartEvent";
-	public final static String StartMessageEvent = "http://b3mn.org/stencilset/bpmn1.1#StartMessageEvent";
-	public final static String StartTimerEvent = "http://b3mn.org/stencilset/bpmn1.1#StartTimerEvent";
-	public final static String StartConditionalEvent = "http://b3mn.org/stencilset/bpmn1.1#StartConditionalEvent";
-	public final static String StartSignalEvent = "http://b3mn.org/stencilset/bpmn1.1#StartSignalEvent";
-	public final static String StartMultipleEvent = "http://b3mn.org/stencilset/bpmn1.1#StartMultipleEvent";
+	public final static String StartEvent = PREFIX + "StartEvent";
+	public final static String StartMessageEvent = PREFIX + "StartMessageEvent";
+	public final static String StartTimerEvent = PREFIX + "StartTimerEvent";
+	public final static String StartConditionalEvent = PREFIX + "StartConditionalEvent";
+	public final static String StartSignalEvent = PREFIX + "StartSignalEvent";
+	public final static String StartMultipleEvent = PREFIX + "StartMultipleEvent";
 
 	public static boolean isAStartEvent(String type) {
 		return type.equals(StartEvent) || type.equals(StartMessageEvent)
@@ -160,9 +162,9 @@ public class BPMNType {
 	}
 
 	// Swimlanes
-	public final static String Pool = "http://b3mn.org/stencilset/bpmn1.1#Pool";
-	public final static String Lane = "http://b3mn.org/stencilset/bpmn1.1#Lane";
-	public final static String CollapsedPool = "http://b3mn.org/stencilset/bpmn1.1#CollapsedPool";
+	public final static String Pool = PREFIX + "Pool";
+	public final static String Lane = PREFIX + "Lane";
+	public final static String CollapsedPool = PREFIX + "CollapsedPool";
 
 	public static boolean isASwimlane(String type) {
 		return type.equals(Pool) || type.equals(Lane)

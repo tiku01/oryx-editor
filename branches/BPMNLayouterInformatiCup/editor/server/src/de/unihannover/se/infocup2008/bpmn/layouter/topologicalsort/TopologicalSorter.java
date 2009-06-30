@@ -30,7 +30,7 @@ import java.util.Queue;
 
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNElementImpl;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNElementERDF;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 /**
@@ -62,7 +62,7 @@ public class TopologicalSorter {
 		backwardsEdges = new LinkedList<BackwardsEdge>();
 
 		// create global start
-		BPMNElement globalStartDummyElement = new BPMNElementImpl();
+		BPMNElement globalStartDummyElement = new BPMNElementERDF();
 		globalStartDummyElement.setId("#####Global-Start#####");
 		globalStartDummyElement.setType(BPMNType.StartEvent);
 		for (BPMNElement startElement : this.diagram.getStartEvents()) {

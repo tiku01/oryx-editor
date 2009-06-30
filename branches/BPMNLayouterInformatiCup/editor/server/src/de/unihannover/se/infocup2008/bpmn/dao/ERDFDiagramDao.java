@@ -49,8 +49,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagramERDF;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDockers;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometryImpl;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNElementERDF;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBoundsImpl;
 
 /**
  * This class gets eRDF from a file or a oryxid and parses it
@@ -58,13 +61,13 @@ import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometryImpl;
  * @author Team Royal Fawn
  * 
  */
-public class BPMNDiagramDao {
+public class ERDFDiagramDao {
 
-	private BPMNDiagram bpmnDiagram = null;
+	private BPMNDiagramERDF bpmnDiagram = null;
 	private Document document = null;
 	private DocumentBuilder db = null;
 
-	public BPMNDiagramDao() {
+	public ERDFDiagramDao() {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
 			this.db = dbf.newDocumentBuilder();
@@ -109,6 +112,7 @@ public class BPMNDiagramDao {
 		String eRDF = OryxRepositoryDao.getERDFFromOryx(oryxId);
 		return getBPMNDiagramFromString(eRDF);
 	}
+
 	/**
 	 * Reads the model from the eRDF and parses it
 	 * 
@@ -116,7 +120,7 @@ public class BPMNDiagramDao {
 	 *            the eRDF
 	 * @return the diagram or <code>null</code> in case of errors
 	 */
-	public BPMNDiagram getBPMNDiagramFromString(String eRDF) {
+	public BPMNDiagramERDF getBPMNDiagramFromString(String eRDF) {
 		if (eRDF == null) {
 			return null;
 		}
@@ -134,8 +138,6 @@ public class BPMNDiagramDao {
 		}
 		return null;
 	}
-	
-	
 
 	private TreeWalker normalizeDocumentAndPrepareTreewalker() {
 		this.document.getDocumentElement().normalize();
@@ -146,11 +148,11 @@ public class BPMNDiagramDao {
 
 	}
 
-	private BPMNDiagram walkTree(TreeWalker walker) {
-		BPMNDiagram diagram = new BPMNDiagram();
+	private BPMNDiagramERDF walkTree(TreeWalker walker) {
+		BPMNDiagramERDF diagram = new BPMNDiagramERDF();
 
 		walker.setCurrentNode(walker.getRoot());
-		if(walker.getRoot().getNodeName().equals("html")){
+		if (walker.getRoot().getNodeName().equals("html")) {
 			walkHTMLVersion(walker, diagram);
 		}
 
@@ -165,11 +167,11 @@ public class BPMNDiagramDao {
 			if (n.getNodeName().equals("body")) {
 				return;
 			}
-			
+
 		}
 	}
 
-	private void processProcessData(TreeWalker walker, BPMNDiagram diagram) {
+	private void processProcessData(TreeWalker walker, BPMNDiagramERDF diagram) {
 		Node currentNode = walker.getCurrentNode();
 
 		// walk children
@@ -187,13 +189,13 @@ public class BPMNDiagramDao {
 		walker.setCurrentNode(currentNode);
 	}
 
-	private void processElement(TreeWalker walker, BPMNDiagram diagram) {
+	private void processElement(TreeWalker walker, BPMNDiagramERDF diagram) {
 		Node currentNode = walker.getCurrentNode();
 
 		String id = currentNode.getAttributes().getNamedItem("id")
 				.getNodeValue().trim();
 
-		BPMNElement element = diagram.getElement(id);
+		BPMNElementERDF element = diagram.getElement(id);
 
 		// walk children
 		for (Node n = walker.firstChild(); n != null; n = walker.nextSibling()) {
@@ -242,7 +244,7 @@ public class BPMNDiagramDao {
 
 					double x = Double.valueOf(values[0]);
 					double y = Double.valueOf(values[1]);
-					element.setGeometry(new BPMNGeometryImpl(x, y, Double
+					element.setGeometry(new BPMNBoundsImpl(x, y, Double
 							.valueOf(values[2])
 							- x, Double.valueOf(values[3]) - y));
 
@@ -250,6 +252,17 @@ public class BPMNDiagramDao {
 						|| nodeClass.equals("oryx-docker")) {
 					// remember dockers-node
 					element.setDockersNode(n.getFirstChild());
+					BPMNDockers dockers = element.getDockers();
+
+					dockers.getPoints().clear();
+					String[] values = n.getFirstChild().getNodeValue().split(
+							" +");
+					if (values.length % 2 != 1)
+						throw new RuntimeException("There must be even docker coordinates");
+					for (int i = 0; i < values.length; i += 2) {
+						dockers.addPoint(Double.parseDouble(values[i]), Double
+								.parseDouble(values[i + 1]));
+					}
 				}
 			}
 
@@ -282,33 +295,30 @@ public class BPMNDiagramDao {
 		}
 
 	}
-	
+
 	public void saveToWriter(Writer writer) {
-				
-			// Prepare the DOM document for writing
-			Source source = new DOMSource(this.document);
-			
-			// Prepare the output
-			Result result = new StreamResult(writer);
-			
-			// Write the DOM document to the file
-			Transformer xformer;
-			try {
-				xformer = TransformerFactory.newInstance()
-				.newTransformer();
-				xformer.transform(source, result);
-			} catch (TransformerConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransformerFactoryConfigurationError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		
+
+		// Prepare the DOM document for writing
+		Source source = new DOMSource(this.document);
+
+		// Prepare the output
+		Result result = new StreamResult(writer);
+
+		// Write the DOM document to the file
+		Transformer xformer;
+		try {
+			xformer = TransformerFactory.newInstance().newTransformer();
+			xformer.transform(source, result);
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

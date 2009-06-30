@@ -20,45 +20,42 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
-package de.unihannover.se.infocup2008.bpmn.layouter.decorator;
-
-import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
+package de.unihannover.se.infocup2008.bpmn.model;
 
 /**
- * This decorator describes, how an attached event is positioned relative to the
- * task
+ * Represents the geometry of an element. Needed for the decorators
  * 
  * @author Team Royal Fawn
  * 
  */
-public class DocketEventDecorator extends AbstractDecorator {
+public interface BPMNBounds {
+	/**
+	 * @return the x
+	 */
+	public abstract double getX();
 
-	private BPMNBounds relative;
+	/**
+	 * @return the y
+	 */
+	public abstract double getY();
 
-	private int positionFromLeft;
+	/**
+	 * @return the width
+	 */
+	public abstract double getWidth();
 
-	public DocketEventDecorator(BPMNBounds target, BPMNBounds relative,
-			int positionFromLeft) {
-		super(target);
-		this.relative = relative;
-		this.positionFromLeft = positionFromLeft;
-	}
+	/**
+	 * @return the height
+	 */
+	public abstract double getHeight();
 
-	@Override
-	public double getX() {
-		double firstX = this.relative.getX()
-				+ LayoutConstants.EVENT_DOCKERS_MARGIN;
-		// + LayoutConstants.EVENT_DIAMETER;
+	/**
+	 * @return the x2
+	 */
+	public abstract double getX2();
 
-		double relPostion = this.positionFromLeft
-				* (LayoutConstants.EVENT_DOCKERS_MARGIN + LayoutConstants.EVENT_DIAMETER);
-		double newX = firstX + relPostion;
-		return newX;
-	}
-
-	@Override
-	public double getY() {
-		return this.relative.getY2() - 18;
-	}
-
+	/**
+	 * @return the y2
+	 */
+	public abstract double getY2();
 }

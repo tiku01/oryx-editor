@@ -44,8 +44,8 @@ import de.unihannover.se.infocup2008.bpmn.layouter.grid.Grid.Cell;
 import de.unihannover.se.infocup2008.bpmn.layouter.grid.Grid.Row;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometryImpl;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBoundsImpl;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 /**
@@ -162,7 +162,7 @@ public class LeftToRightGridLayouter implements Layouter {
 				// make them small to not disturb finding the biggest ones in
 				// each row / column
 
-				collapsedPool.setGeometry(new BPMNGeometryImpl(0, 0, 0,
+				collapsedPool.setGeometry(new BPMNBoundsImpl(0, 0, 0,
 						COLLAPSED_POOL_HEIGHT));
 				for (Cell<BPMNElement> insertCell : cpGrid.addLastRow()) {
 					insertCell.setValue(collapsedPool);
@@ -191,10 +191,10 @@ public class LeftToRightGridLayouter implements Layouter {
 
 			for (BPMNElement collapsedPool : collapsedPools) {
 				collapsedPool
-						.setGeometry(new BPMNGeometryImpl(0, collapsedPool
+						.setGeometry(new BPMNBoundsImpl(0, collapsedPool
 								.getGeometry().getY(), poolWidth,
 								COLLAPSED_POOL_HEIGHT));
-				collapsedPool.updateNodes();
+				collapsedPool.updateDataModel();
 			}
 
 			// convert Coordinates of Elements in Lanes from absolut to
@@ -276,8 +276,8 @@ public class LeftToRightGridLayouter implements Layouter {
 			return placeLane(lane, relY, level);
 		}
 
-		lane.setGeometry(new BPMNGeometryImpl(0, relY, width, height));
-		lane.updateNodes();
+		lane.setGeometry(new BPMNBoundsImpl(0, relY, width, height));
+		lane.updateDataModel();
 		return height;
 	}
 
@@ -297,10 +297,10 @@ public class LeftToRightGridLayouter implements Layouter {
 		int xTrans = level * -LANE_HEAD_WIDTH;
 		for (BPMNElement content : diagram.getChildElementsOf(lane)) {
 			if (!BPMNType.isASwimlane(content.getType())) {
-				BPMNGeometry geom = content.getGeometry();
-				content.setGeometry(new BPMNGeometryImpl(geom.getX() + xTrans,
+				BPMNBounds geom = content.getGeometry();
+				content.setGeometry(new BPMNBoundsImpl(geom.getX() + xTrans,
 						geom.getY() - absY, geom.getWidth(), geom.getHeight()));
-				content.updateNodes();
+				content.updateDataModel();
 			}
 		}
 	}
@@ -618,7 +618,7 @@ public class LeftToRightGridLayouter implements Layouter {
 			for (Cell<BPMNElement> c : r) {
 				if (c.isFilled()) {
 					BPMNElement elem = c.getValue();
-					BPMNGeometry geom = elem.getGeometry();
+					BPMNBounds geom = elem.getGeometry();
 					widthOfColumn[column] = Math.max(widthOfColumn[column],
 							geom.getWidth() + CELL_MARGIN);
 					heightOfRow[row] = Math.max(heightOfRow[row], geom
@@ -660,16 +660,16 @@ public class LeftToRightGridLayouter implements Layouter {
 				double cellWidth = widthOfColumn[column];
 				if (c.isFilled()) {
 					BPMNElement elem = c.getValue();
-					BPMNGeometry geom = elem.getGeometry();
+					BPMNBounds geom = elem.getGeometry();
 					double newX = x + (cellWidth / 2.0)
 							- (geom.getWidth() / 2.0) + maxLaneDepth
 							* LANE_HEAD_WIDTH;
 					double newY = y + (cellHeight / 2.0)
 							- (geom.getHeight() / 2.0);
 
-					elem.setGeometry(new BPMNGeometryImpl(newX, newY, geom
+					elem.setGeometry(new BPMNBoundsImpl(newX, newY, geom
 							.getWidth(), geom.getHeight()));
-					elem.updateNodes();
+					elem.updateDataModel();
 				}
 				x += cellWidth;
 				column++;

@@ -27,8 +27,9 @@ import org.w3c.dom.Node;
 import de.unihannover.se.infocup2008.bpmn.layouter.decorator.DocketEventDecorator;
 import de.unihannover.se.infocup2008.bpmn.layouter.decorator.LayoutConstants;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNDockers;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNGeometry;
+import de.unihannover.se.infocup2008.bpmn.model.BPMNBounds;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 /**
@@ -48,22 +49,22 @@ public class CatchingIntermediateEventLayouter {
 				for (BPMNElement connectedElement : element.getOutgoingLinks()) {
 					if (BPMNType.isACatchingIntermediateEvent(connectedElement
 							.getType())) {
-						BPMNGeometry relativeGeometry = element.getGeometry();
-						BPMNGeometry newGeometry = new DocketEventDecorator(
+						BPMNBounds relativeGeometry = element.getGeometry();
+						BPMNBounds newGeometry = new DocketEventDecorator(
 								connectedElement.getGeometry(),
 								relativeGeometry, count);
 
 						connectedElement.setGeometry(newGeometry);
-						Node dockersNode = connectedElement.getDockersNode();
-
-						if (dockersNode != null) {
+						
+						BPMNDockers dockers = connectedElement.getDockers();
+						if (dockers != null) {
 							double dockerX = newGeometry.getX()
 									- relativeGeometry.getX()
 									+ (LayoutConstants.EVENT_DIAMETER / 2);
 							double dockerY = relativeGeometry.getHeight() - 8;
 
 							System.out.println(dockerX + "," + dockerY);
-							dockersNode.setNodeValue(dockerX + "," + dockerY);
+							dockers.setPoints(dockerX, dockerY);
 						} else {
 							System.err.println("Fehler beim dockersnode");
 						}
