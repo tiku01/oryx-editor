@@ -72,9 +72,89 @@
 		<plugin source="overlay.js" name="ORYX.Plugins.Overlay" />		
 		<plugin source="edit.js" name="ORYX.Plugins.Edit" />
 		<plugin source="keysMove.js" name="ORYX.Plugins.KeysMove" />
-‚
+		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter" />
+
+		<!-- plugin for PNML export and deployment -->
+		<plugin source="pnmlexport.js" name="ORYX.Plugins.Pnmlexport">
+			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>	
+		</plugin>		
+		<plugin source="simplepnmlexport.js" name="ORYX.Plugins.SimplePnmlexport">
+			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
+			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
+		</plugin>	
+
+		<plugin source="desynchronizabilityOverlay.js" name="ORYX.Plugins.DesynchronizabilityOverlay">
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
+			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
+		</plugin>
+<!--		<plugin source="ibpmn2bpmn.js" name="ORYX.Plugins.IBPMN2BPMN">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+		</plugin>-->
+		<plugin source="syntaxchecker.js" name="ORYX.Plugins.SyntaxChecker">
+			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>
+		</plugin>
+        <plugin source="syntaxchecker.js" name="ORYX.Plugins.PetrinetSyntaxChecker">
+            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+        </plugin>
+		<plugin source="validator.js" name="ORYX.Plugins.BPMNValidator">
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+		</plugin>
+        <plugin source="validator.js" name="ORYX.Plugins.EPCValidator">
+            <requires namespace="http://b3mn.org/stencilset/epc#"/>
+        </plugin>
+		
+		<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>
+		</plugin>
+		<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.PetriNetStepThroughPlugin">
+            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+        </plugin>
+		
+		<!-- plugins for XForms editor --> 
+		<plugin source="xformsexport.js" name="ORYX.Plugins.XFormsExport">
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
+		</plugin>	
+<!--		
+		<plugin source="xformsexportorbeon.js" name="ORYX.Plugins.XFormsExportOrbeon">
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
+		</plugin>	
+-->
+		
+		<plugin source="xformsimport.js" name="ORYX.Plugins.XFormsImport">
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
+		</plugin>
+
+		<plugin source="rowlayouting.js" name="ORYX.Plugins.RowLayouting">
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
+		</plugin>
+		
+		<plugin source="xforms.js" name="ORYX.Plugins.XForms">
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
+		</plugin>
+		
+		<!-- BPMN1.1 specific plugins -->
+		<plugin source="bpmn11.js" name="ORYX.Plugins.BPMN11">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+		</plugin>
+				
+		
 		
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
+		
+		<plugin source="extractCoreProcess.js" name="ORYX.Plugins.ExtractCoreProcess">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+		</plugin>
 		
 		<!--		
 		<plugin source="epc2bpmn.js" name="ORYX.Plugins.EPC2BPMN">

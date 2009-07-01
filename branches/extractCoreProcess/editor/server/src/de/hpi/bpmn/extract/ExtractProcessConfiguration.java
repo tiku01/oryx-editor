@@ -8,12 +8,14 @@ import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.BPMNFactory;
 import de.hpi.bpmn.Container;
 import de.hpi.bpmn.DiagramObject;
+import de.hpi.bpmn.Edge;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.StartEvent;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
+import de.hpi.diagram.OryxUUID;
 
 /**
  * 
@@ -59,19 +61,38 @@ public class ExtractProcessConfiguration {
 		attachInitialSplit(diagramB);
 		attachInitialJoin(diagramA);
 		attachInitialJoin(diagramB);
-		
-		
-		// Add all child from A to diagram
-		for (Node node:diagramA.getChildNodes()) {
-			node.setParent(diagram);
-		}
 
-		// Add all child from B to diagram
-		for (Node node:diagramB.getChildNodes()) {
-			node.setParent(diagram);
-		}
+		addAll(diagramA);
+		addAll(diagramB);
 		
 		return diagram;
+	}
+	
+	private void addAll(BPMNDiagram diagram) {
+		
+		List<Node> nodes = new ArrayList<Node>();
+		
+		// Add all child from A to diagram
+		for (Node node:diagram.getChildNodes()) {
+			nodes.add(node);
+		}
+		
+		for (Node node:nodes) {
+			node.setParent(this.diagram);
+		}
+
+		List<Edge> edges = new ArrayList<Edge>();
+		
+		// Add all child from A to diagram
+		for (Edge edge:diagram.getEdges()) {
+			edges.add(edge);
+		}
+		
+		for (Edge edge:edges) {
+			diagram.getEdges().remove(edge);
+			this.diagram.getEdges().add(edge);
+		}
+		
 	}
 	
 	private List<Node> getCommonNodes(BPMNDiagram diagramA, BPMNDiagram diagramB){
@@ -83,7 +104,7 @@ public class ExtractProcessConfiguration {
 		
 		// Add all common nodes from A
 		for (Node nodeA:nodesA){
-			if ("".equals(nodeA.getLabel())){
+			if (nodeA.getLabel() == null || "".equals(nodeA.getLabel())){
 				continue;
 			}
 			for (Node nodeB:nodesB){
@@ -96,7 +117,7 @@ public class ExtractProcessConfiguration {
 
 		// Add all common nodes from B
 		for (Node nodeB:nodesB){
-			if ("".equals(nodeB.getLabel())){
+			if (nodeB.getLabel() == null || "".equals(nodeB.getLabel())){
 				continue;
 			}
 			for (Node nodeA:nodesA){
@@ -145,6 +166,7 @@ public class ExtractProcessConfiguration {
 			f.setTarget(start);
 			f.setConditionExpression(getCondition(diagram));
 			setIds(f);
+			addEdges(f);
 		}		
 	}
 
@@ -162,6 +184,7 @@ public class ExtractProcessConfiguration {
 			f.setTarget(initialJoin);
 			f.setConditionExpression(getCondition(diagram));
 			setIds(f);
+			addEdges(f);
 		}		
 	}
 	
@@ -218,7 +241,7 @@ public class ExtractProcessConfiguration {
 		
 		// Set up diagram
 		diagram = new BPMNDiagram();
-		diagram.setId(UUID.randomUUID().toString().replace("-", ""));
+		diagram.setId(OryxUUID.generate());
 		diagram.setTitle("Extract Process Configuration from: " + diagramA.getTitle() + ", " + diagramB.getTitle());
 		
 		// Init events
@@ -244,13 +267,20 @@ public class ExtractProcessConfiguration {
 		f2.setSource(start);
 		f2.setTarget(initialSplit);
 		
+		addEdges(f1, f2);
 		setIds(initialJoin, initialSplit, start, end, f1, f2);
+	}
+	
+	private void addEdges(Edge ... edges) {
+		for (Edge edge : edges){
+			diagram.getEdges().add(edge);
+		}
 	}
 	
 	private void setIds(DiagramObject ... objs){
 		
 		for (DiagramObject obj : objs){
-			obj.setResourceId(UUID.randomUUID().toString().replace("-", ""));
+			obj.setResourceId(OryxUUID.generate());
 			obj.setId(obj.getResourceId());
 		}
 		
