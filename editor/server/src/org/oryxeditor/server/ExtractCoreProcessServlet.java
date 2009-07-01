@@ -2,10 +2,15 @@ package org.oryxeditor.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,27 +18,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
-import org.b3mn.poem.util.JsonErdfTransformation;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import de.hpi.bpmn.BPMNDiagram;
-import de.hpi.bpmn.DiagramObject;
 import de.hpi.bpmn.extract.ExtractProcessConfiguration;
+import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
+import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn.serialization.erdf.BPMNeRDFSerializer;
-import de.hpi.bpmn.validation.BPMNValidator;
-import de.hpi.bpt.process.epc.EPCFactory;
-import de.hpi.bpt.process.epc.IControlFlow;
-import de.hpi.bpt.process.epc.IEPC;
-import de.hpi.bpt.process.epc.util.OryxParser;
-import de.hpi.epc.Marking;
-import de.hpi.epc.validation.EPCSoundnessChecker;
 
 /**
  * Copyright (c) 2009 Willi Tscheschner
@@ -62,21 +65,34 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = -1;
 
+	private static ServletContext servletContext;
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+		servletContext = this.getServletContext();
+		
 		try {
-			res.setContentType("text/json");
 
 			String modelA = req.getParameter("modelA");
 			String modelB = req.getParameter("modelB");
 
 			
-			BPMNDiagram  extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
-			
-			BPMNeRDFSerializer serializer = new BPMNeRDFSerializer();
-	    	String eRDF = serializer.serializeBPMNDiagram(extractModel);
-	    	
-			res.getWriter().print(eRDF);
+			BPMNDiagram extractModel;
+			try {
+				extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
+
+				res.setContentType("text/json");
+		    	res.setStatus(200);
+				res.getWriter().print(getOutputFormat(extractModel, req));
+				
+			} catch (NoStartNodeException e) {
+		    	res.setStatus(404);
+				this.printError("One model has no start node.", res.getWriter());
+			} catch (NoEndNodeException e) {
+		    	res.setStatus(404);
+				this.printError("One model has no end node.", res.getWriter());
+			}
+
 			
 			
 		} catch (ParserConfigurationException e) {
@@ -84,6 +100,42 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void printError(String error, Writer writer){
+		
+		try {
+
+			JSONObject er = new JSONObject();
+			er.put("error", error);
+			er.write(writer);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private String getOutputFormat(BPMNDiagram diagram, HttpServletRequest req){
+		
+		BPMNeRDFSerializer serializer = new BPMNeRDFSerializer();
+    	String eRDF = serializer.serializeBPMNDiagram(diagram);
+
+		try {
+			URL serverUrl = new URL( req.getScheme(),
+			        req.getServerName(),
+			        req.getServerPort(),
+			        "" );
+
+	    	return erdfToJson(eRDF, serverUrl.toString());
+	    	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+    	
 	}
 	
 	private BPMNDiagram getDiagram(String rdf) throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException{
@@ -97,7 +149,55 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 		Document doc = builder.parse(new ByteArrayInputStream(rdf.getBytes("UTF-8")));
 		
 		
-		return new BPMNRDFImporter(doc).loadBPMN();
+		return new BPMN11RDFImporter(doc).loadBPMN();
 		
 	}
+	
+	
+	protected static String erdfToRdf(String erdf) throws TransformerException{
+		String serializedDOM = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+		"<html xmlns=\"http://www.w3.org/1999/xhtml\" " +
+		"xmlns:b3mn=\"http://b3mn.org/2007/b3mn\" " +
+		"xmlns:ext=\"http://b3mn.org/2007/ext\" " +
+		"xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "  +
+		"xmlns:atom=\"http://b3mn.org/2007/atom+xhtml\">" +
+		"<head profile=\"http://purl.org/NET/erdf/profile\">" +
+		"<link rel=\"schema.dc\" href=\"http://purl.org/dc/elements/1.1/\" />" +
+		"<link rel=\"schema.dcTerms\" href=\"http://purl.org/dc/terms/ \" />" +
+		"<link rel=\"schema.b3mn\" href=\"http://b3mn.org\" />" +
+		"<link rel=\"schema.oryx\" href=\"http://oryx-editor.org/\" />" +
+		"<link rel=\"schema.raziel\" href=\"http://raziel.org/\" />" +
+		"</head><body>" + erdf + "</body></html>";
+        
+		InputStream xsltStream = servletContext.getResourceAsStream("/WEB-INF/lib/extract-rdf.xsl");
+        Source xsltSource = new StreamSource(xsltStream);
+        Source erdfSource = new StreamSource(new StringReader(serializedDOM));
+
+        TransformerFactory transFact =
+                TransformerFactory.newInstance();
+        Transformer trans = transFact.newTransformer(xsltSource);
+        StringWriter output = new StringWriter();
+        trans.transform(erdfSource, new StreamResult(output));
+		return output.toString();
+	}
+	
+	protected static String erdfToJson(String erdf, String serverUrl){
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+			Document rdfDoc = builder.parse(new ByteArrayInputStream(erdfToRdf(erdf).getBytes()));
+			return RdfJsonTransformation.toJson(rdfDoc, serverUrl).toString();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
 }

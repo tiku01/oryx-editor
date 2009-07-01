@@ -73,7 +73,11 @@
     <target name="build-with-xhtml-test-files-flag">
         <property name="build-with-xhtml-test-files-flag" value="*.xhtml" />
     </target>
-    
+
+    <target name="build-with-xml-test-files-flag">
+        <property name="build-with-xml-test-files-flag" value="*.xml" />
+    </target>
+	    
     <target name="build-with-script-files-flag">
         <property name="build-with-script-files-flag" value="scripts/**" />
     </target>
@@ -87,6 +91,9 @@
         
         <copy todir='${editor-build-root}'>
             <fileset file="${editor-src-root}/test/examples/*.xhtml"/>
+        </copy>
+         <copy todir='${editor-build-root}'>
+            <fileset file="${editor-src-root}/test/examples/*.xml"/>
         </copy>
         <copy todir='${editor-build-root}/css'>
             <fileset dir='${editor-src-client}/css'/>
@@ -352,7 +359,11 @@
             <fileset dir="${editor-build-root}">
                 <include name="${build-with-xhtml-test-files-flag}"/>
             </fileset>
-            
+
+            <fileset dir="${editor-build-root}">
+                <include name="${build-with-xml-test-files-flag}"/>
+            </fileset>
+			            
             <classes dir="${editor-build-root}/classes"/>
             
             <metainf file="${editor-build-root}/LICENSE"/>

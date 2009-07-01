@@ -309,6 +309,16 @@
     </servlet>
 
 
+	
+	<servlet>
+        <display-name>Extract Core Process Servlet</display-name>
+        <servlet-name>ExtractCoreProcessServlet</servlet-name>
+        <servlet-class>
+             org.oryxeditor.server.ExtractCoreProcessServlet
+        </servlet-class>
+    </servlet>
+
+
 
 <!--	
 	<servlet-mapping>
@@ -435,7 +445,12 @@
 		<servlet-name>XFormsExportServlet</servlet-name>
 		<url-pattern>/xformsexport</url-pattern>
 	</servlet-mapping>
-	
+
+	<servlet-mapping>
+		<servlet-name>ExtractCoreProcessServlet</servlet-name>
+		<url-pattern>/extract</url-pattern>
+	</servlet-mapping>
+		
 	<!-- Exported XForms are rendered by Orbeon (see below: filter mappings) -->
 <!--	
 	<servlet-mapping>

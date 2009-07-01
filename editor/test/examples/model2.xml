@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:admin="http://webns.net/mvcb/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+<rdf:Description rdf:about="">
+<admin:generatorAgent rdf:resource="http://purl.org/NET/erdf/extract"/>
+</rdf:Description>
+<rdf:Description rdf:about=""/>
+<rdf:Description rdf:about="#oryx-canvas123">
+<rdf:type rdf:resource="http://oryx-editor.org/canvas"/>
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#BPMNDiagram</type>
+<id xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<version xmlns="http://oryx-editor.org/"/>
+<author xmlns="http://oryx-editor.org/"/>
+<language xmlns="http://oryx-editor.org/">English</language>
+<expressionlanguage xmlns="http://oryx-editor.org/"/>
+<querylanguage xmlns="http://oryx-editor.org/"/>
+<creationdate xmlns="http://oryx-editor.org/"/>
+<modificationdate xmlns="http://oryx-editor.org/"/>
+<pools xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<mode xmlns="http://oryx-editor.org/">writable</mode>
+<mode xmlns="http://oryx-editor.org/">fullscreen</mode>
+<stencilset xmlns="http://oryx-editor.org/" rdf:resource="/oryx/stencilsets/bpmn1.1/bpmn1.1.json"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_1A797E2C-4681-4BF1-BFF7-3F1A8D815AFF"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_001E59E2-0214-4BA5-9731-F3A266F7C9C9"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_D03DDA37-9568-4CD2-9AA0-7EBE601AC5EA"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_83B80F6D-7905-46EF-B883-33308A76DB75"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_B91CB95D-5558-4244-9D7E-B5D3753D9766"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_C8A8AEA1-2FFF-4E44-874E-947901273A1E"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_97A886FC-3CD5-4E79-A8EF-F0E925565493"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_45E944FC-96E1-41C1-88C3-253EBBFC3AF8"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_ADA0F65E-1617-4DB3-B792-48AB30152032"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_C6ABAD1F-3322-4813-8D56-1EA7387452B8"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_C549383D-49A7-4494-AA96-2411F548F89C"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_03198237-4C42-474A-B7A4-A54A1DF6A876"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_896A5165-CC7B-4C82-ACE2-23F0D6A0157D"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_A47E292E-3E70-4B39-BB8A-92E3790775DA"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_D7E3352D-A860-42D2-B11B-F776C2D325FC"/>
+<render xmlns="http://oryx-editor.org/" rdf:resource="#oryx_4248514F-5A83-4E04-B49A-23EE31DFD739"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_1A797E2C-4681-4BF1-BFF7-3F1A8D815AFF">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">A</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">69,393,169,473</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_D03DDA37-9568-4CD2-9AA0-7EBE601AC5EA"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_001E59E2-0214-4BA5-9731-F3A266F7C9C9">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">B.1</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">244,393,344,473</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_B91CB95D-5558-4244-9D7E-B5D3753D9766"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_D03DDA37-9568-4CD2-9AA0-7EBE601AC5EA">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">169.21875,432,243.78125,434</bounds>
+<dockers xmlns="http://oryx-editor.org/">50 40 50 40  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_001E59E2-0214-4BA5-9731-F3A266F7C9C9"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_001E59E2-0214-4BA5-9731-F3A266F7C9C9"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_83B80F6D-7905-46EF-B883-33308A76DB75">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Exclusive_Databased_Gateway</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<gatewaytype xmlns="http://oryx-editor.org/">XOR</gatewaytype>
+<xortype xmlns="http://oryx-editor.org/">Data</xortype>
+<markervisible xmlns="http://oryx-editor.org/">true</markervisible>
+<gates xmlns="http://oryx-editor.org/"/>
+<gates_outgoingsequenceflow xmlns="http://oryx-editor.org/"/>
+<gates_assignments xmlns="http://oryx-editor.org/"/>
+<defaultgate xmlns="http://oryx-editor.org/"/>
+<gate_outgoingsequenceflow xmlns="http://oryx-editor.org/"/>
+<gate_assignments xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffff</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">419,413,459,453</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_97A886FC-3CD5-4E79-A8EF-F0E925565493"/>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_03198237-4C42-474A-B7A4-A54A1DF6A876"/>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_D7E3352D-A860-42D2-B11B-F776C2D325FC"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_B91CB95D-5558-4244-9D7E-B5D3753D9766">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">344.44725972054005,433.1733582808266,418.60742777945995,433.4282042191734</bounds>
+<dockers xmlns="http://oryx-editor.org/">50 40 20.5 20.5  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_83B80F6D-7905-46EF-B883-33308A76DB75"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_83B80F6D-7905-46EF-B883-33308A76DB75"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_C8A8AEA1-2FFF-4E44-874E-947901273A1E">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">D.1</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">534,393,634,473</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_45E944FC-96E1-41C1-88C3-253EBBFC3AF8"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_97A886FC-3CD5-4E79-A8EF-F0E925565493">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">459.6914002635354,433.17533518689805,533.3281309864647,433.43013356310195</bounds>
+<dockers xmlns="http://oryx-editor.org/">20.5 20.5 50 40  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_C8A8AEA1-2FFF-4E44-874E-947901273A1E"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_C8A8AEA1-2FFF-4E44-874E-947901273A1E"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Exclusive_Databased_Gateway</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<gatewaytype xmlns="http://oryx-editor.org/">XOR</gatewaytype>
+<xortype xmlns="http://oryx-editor.org/">Data</xortype>
+<markervisible xmlns="http://oryx-editor.org/">true</markervisible>
+<gates xmlns="http://oryx-editor.org/"/>
+<gates_outgoingsequenceflow xmlns="http://oryx-editor.org/"/>
+<gates_assignments xmlns="http://oryx-editor.org/"/>
+<defaultgate xmlns="http://oryx-editor.org/"/>
+<gate_outgoingsequenceflow xmlns="http://oryx-editor.org/"/>
+<gate_assignments xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffff</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">709,413,749,453</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_C6ABAD1F-3322-4813-8D56-1EA7387452B8"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_45E944FC-96E1-41C1-88C3-253EBBFC3AF8">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">634.44725972054,433.1733582808266,708.60742777946,433.4282042191734</bounds>
+<dockers xmlns="http://oryx-editor.org/">50 40 20.5 20.5  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_ADA0F65E-1617-4DB3-B792-48AB30152032">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">E</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">824,393,924,473</bounds>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_C6ABAD1F-3322-4813-8D56-1EA7387452B8">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">749.6914002635353,433.17533518689805,823.3281309864647,433.43013356310195</bounds>
+<dockers xmlns="http://oryx-editor.org/">20.5 20.5 50 40  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_ADA0F65E-1617-4DB3-B792-48AB30152032"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_ADA0F65E-1617-4DB3-B792-48AB30152032"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_C549383D-49A7-4494-AA96-2411F548F89C">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">D.2</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">534,500,634,580</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_896A5165-CC7B-4C82-ACE2-23F0D6A0157D"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_03198237-4C42-474A-B7A4-A54A1DF6A876">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">439.5,453.63671875,533.328125,540</bounds>
+<dockers xmlns="http://oryx-editor.org/">20.5 20.5 439.5 540 50 40  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_C549383D-49A7-4494-AA96-2411F548F89C"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_C549383D-49A7-4494-AA96-2411F548F89C"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_896A5165-CC7B-4C82-ACE2-23F0D6A0157D">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/"/>
+<bounds xmlns="http://oryx-editor.org/">634.447265625,453.63671875,729.5,540</bounds>
+<dockers xmlns="http://oryx-editor.org/">50 40 729.5 540 20.5 20.5  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_A47E292E-3E70-4B39-BB8A-92E3790775DA">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#Task</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/">C</name>
+<assignments xmlns="http://oryx-editor.org/"/>
+<pool xmlns="http://oryx-editor.org/"/>
+<lanes xmlns="http://oryx-editor.org/"/>
+<activitytype xmlns="http://oryx-editor.org/">Task</activitytype>
+<status xmlns="http://oryx-editor.org/">None</status>
+<performers xmlns="http://oryx-editor.org/"/>
+<properties xmlns="http://oryx-editor.org/"/>
+<inputsets xmlns="http://oryx-editor.org/"/>
+<inputs xmlns="http://oryx-editor.org/"/>
+<outputsets xmlns="http://oryx-editor.org/"/>
+<outputs xmlns="http://oryx-editor.org/"/>
+<iorules xmlns="http://oryx-editor.org/"/>
+<startquantity xmlns="http://oryx-editor.org/">1</startquantity>
+<completionquantity xmlns="http://oryx-editor.org/">1</completionquantity>
+<looptype xmlns="http://oryx-editor.org/">None</looptype>
+<loopcondition xmlns="http://oryx-editor.org/"/>
+<loopcounter xmlns="http://oryx-editor.org/">1</loopcounter>
+<loopmaximum xmlns="http://oryx-editor.org/">1</loopmaximum>
+<testtime xmlns="http://oryx-editor.org/">After</testtime>
+<mi_condition xmlns="http://oryx-editor.org/"/>
+<mi_ordering xmlns="http://oryx-editor.org/">Sequential</mi_ordering>
+<mi_flowcondition xmlns="http://oryx-editor.org/">All</mi_flowcondition>
+<complexmi_condition xmlns="http://oryx-editor.org/"/>
+<iscompensation xmlns="http://oryx-editor.org/"/>
+<tasktype xmlns="http://oryx-editor.org/">None</tasktype>
+<inmessage xmlns="http://oryx-editor.org/"/>
+<outmessage xmlns="http://oryx-editor.org/"/>
+<implementation xmlns="http://oryx-editor.org/">Webservice</implementation>
+<messageref xmlns="http://oryx-editor.org/"/>
+<instantiate xmlns="http://oryx-editor.org/"/>
+<script xmlns="http://oryx-editor.org/"/>
+<taskref xmlns="http://oryx-editor.org/"/>
+<bgcolor xmlns="http://oryx-editor.org/">#ffffcc</bgcolor>
+<bounds xmlns="http://oryx-editor.org/">534,290,634,370</bounds>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_4248514F-5A83-4E04-B49A-23EE31DFD739"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_D7E3352D-A860-42D2-B11B-F776C2D325FC">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/">false</showdiamondmarker>
+<bounds xmlns="http://oryx-editor.org/">439.5,330,533.328125,412.28515625</bounds>
+<dockers xmlns="http://oryx-editor.org/">20.5 20.5 439.5 330 50 40  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_A47E292E-3E70-4B39-BB8A-92E3790775DA"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_A47E292E-3E70-4B39-BB8A-92E3790775DA"/>
+</rdf:Description>
+<rdf:Description rdf:about="#oryx_4248514F-5A83-4E04-B49A-23EE31DFD739">
+<type xmlns="http://oryx-editor.org/">http://b3mn.org/stencilset/bpmn1.1#SequenceFlow</type>
+<id xmlns="http://oryx-editor.org/"/>
+<categories xmlns="http://oryx-editor.org/"/>
+<documentation xmlns="http://oryx-editor.org/"/>
+<name xmlns="http://oryx-editor.org/"/>
+<sourceref xmlns="http://oryx-editor.org/"/>
+<targetref xmlns="http://oryx-editor.org/"/>
+<conditiontype xmlns="http://oryx-editor.org/">None</conditiontype>
+<conditionexpression xmlns="http://oryx-editor.org/"/>
+<quantity xmlns="http://oryx-editor.org/">1</quantity>
+<showdiamondmarker xmlns="http://oryx-editor.org/"/>
+<bounds xmlns="http://oryx-editor.org/">634.447265625,330,729.5,412.28515625</bounds>
+<dockers xmlns="http://oryx-editor.org/">50 40 729.5 330 20.5 20.5  # </dockers>
+<outgoing xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+<parent xmlns="http://raziel.org/" rdf:resource="#oryx-canvas123"/>
+<target xmlns="http://raziel.org/" rdf:resource="#oryx_35D15B1E-7B94-4AD7-970F-79934A136851"/>
+</rdf:Description>
+</rdf:RDF>
