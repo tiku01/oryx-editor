@@ -1,5 +1,7 @@
 package de.hpi.yawl;
 
+import java.util.Locale;
+
 public class YMultiInstanceParam {
 	
 	public enum CreationMode {
@@ -67,7 +69,7 @@ public class YMultiInstanceParam {
 		s += "\t\t\t\t\t<minimum>" + getMinimum() + "</minimum>\n";
         s += "\t\t\t\t\t<maximum>" + getMaximum() + "</maximum>\n";
         s += "\t\t\t\t\t<threshold>" + getThreshold() + "</threshold>\n";            
-        s += "\t\t\t\t\t<creationMode code=\"" + (getCreationMode() == CreationMode.DYNAMIC ? "dynamic" : "static") + "\" />\n";
+        s += "\t\t\t\t\t<creationMode code=\"" + getCreationMode().toString().toLowerCase(Locale.ENGLISH) + "\" />\n";
         
         s += getMiDataInput().writeToYAWL();
         s += getMiDataOutput().writeToYAWL();

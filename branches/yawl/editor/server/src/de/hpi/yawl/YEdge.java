@@ -1,45 +1,28 @@
 package de.hpi.yawl;
 
 public class YEdge extends YFlowRelationship {
-
-	public enum EdgeType {
-		NORMAL
-	}
 	
 	private boolean defaultEdge;
     private String predicate = "";
     private int ordering = 0;
-    protected EdgeType edgeType = EdgeType.NORMAL;
     
-    public YEdge(YNode edgeSource, YNode edgeTarget, EdgeType type, boolean defaultEdge, String predicate, int ordering){
+    public YEdge(YNode edgeSource, YNode edgeTarget)
+    {
     	setSource(edgeSource);
     	setTarget(edgeTarget);
-    	setEdgeType(type, defaultEdge, predicate, ordering);
+    	setEdgeType(false, "", 0);
     }
     
-    public EdgeType getEdgeType() {
-		return edgeType;
-	}
+    public YEdge(YNode edgeSource, YNode edgeTarget, boolean defaultEdge, String predicate, int ordering){
+    	setSource(edgeSource);
+    	setTarget(edgeTarget);
+    	setEdgeType(defaultEdge, predicate, ordering);
+    }
 
-	public void setEdgeType(EdgeType edgeType, boolean defaultEdge, String predicate, int ordering) {
-		switch(edgeType){
-		case NORMAL:{
-			setEdgeToNormal(defaultEdge, predicate, ordering);
-			break;
-		}
-		}
-	}
-	
-	public void setEdgeToNormal(boolean defaultEdge, String predicate, int ordering){
-		this.edgeType = EdgeType.NORMAL;
-		
+	public void setEdgeType(boolean defaultEdge, String predicate, int ordering) {
 		setDefault(defaultEdge);
 		setPredicate(predicate);
 		setOrdering(ordering);
-	}
-	
-	public boolean isNormal(){
-		return this.edgeType == EdgeType.NORMAL;
 	}
 	
 	public boolean isDefault() {
@@ -55,7 +38,10 @@ public class YEdge extends YFlowRelationship {
 	}
 
 	public void setPredicate(String givenPredicate) {
-		this.predicate = givenPredicate;
+		if(givenPredicate.equals("true()"))
+			this.defaultEdge = true;
+		else
+			this.predicate = givenPredicate;
 	}
 	
 	public int getOrdering() {
@@ -71,34 +57,31 @@ public class YEdge extends YFlowRelationship {
      * @param splitType int The split type of the originating YAWL node.
      * @return String The string to export for this YAWLDecompositon.
      */
-    public String writeToYAWL(YTask.SplitJoinType splitType, EdgeType type) {
+    public String writeToYAWL(YTask.SplitJoinType splitType) {
         String s = "";
-        if (type != this.edgeType) {
-            return "";
-        } else if (type == EdgeType.NORMAL) {
-            s += "\t\t\t\t\t<flowsInto>\n";
-            s += "\t\t\t\t\t\t<nextElementRef id=\"" + getTarget().getID() +
-                    "\"/>\n";
-            if (predicate != null && predicate.length() > 0) {
-                boolean hasPredicate = false;
-                if (splitType == YTask.SplitJoinType.XOR) {
-                    s += "\t\t\t\t\t\t<predicate ordering=\"" + ordering + "\">";
-                    hasPredicate = true;
-                } else if (splitType == YTask.SplitJoinType.OR) {
-                    s += "\t\t\t\t\t\t<predicate>";
-                    hasPredicate = true;
-                }
-                if (hasPredicate) {
-                    // Predicate might contain special characters. Have them replaced.
-                    s += predicate.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-                    s += "</predicate>\n";
-                }
+
+        s += "\t\t\t\t\t<flowsInto>\n";
+        s += String.format("\t\t\t\t\t\t<nextElementRef id=\"%s\"/>\n", getTarget().getID());
+        
+        if (predicate != null && predicate.length() > 0) {
+        	boolean hasPredicate = false;
+            if (splitType == YTask.SplitJoinType.XOR) {
+            	s += String.format("\t\t\t\t\t\t<predicate ordering=\"%s\">", ordering);
+                hasPredicate = true;
+            } else if (splitType == YTask.SplitJoinType.OR) {
+            	s += "\t\t\t\t\t\t<predicate>";
+                hasPredicate = true;
             }
-            if (this.defaultEdge) {
-                s += "\t\t\t\t\t\t<isDefaultFlow/>\n";
+            if (hasPredicate) {
+            	// Predicate might contain special characters. Have them replaced.
+                s += predicate.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+                s += "</predicate>\n";
             }
-            s += "\t\t\t\t\t</flowsInto>\n";
         }
+        if (isDefault()) {
+        	s += "\t\t\t\t\t\t<isDefaultFlow/>\n";
+        }
+        s += "\t\t\t\t\t</flowsInto>\n";
         return s;
     }
 }

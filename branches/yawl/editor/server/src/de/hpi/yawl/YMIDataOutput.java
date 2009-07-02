@@ -46,9 +46,11 @@ public class YMIDataOutput {
 		String s = "";
 		
 		s += "\t\t\t\t<miDataOutput>\n";
-		s += "\t\t\t\t\t<formalOutputExpression query=\"" + getFormalOutputExpression() + "\" />\n";
-        s += "\t\t\t\t\t<outputJoiningExpression query=\"" + getOutputJoiningExpression() + "\" />\n";
-        s += "\t\t\t\t\t<resultAppliedToLocalVariable>" + getResultAppliedToLocalVariable().getName() + "</resultAppliedToLocalVariable>\n";
+		
+        s += String.format("\t\t\t\t\t<formalOutputExpression query=\"%s\" />\n",getFormalOutputExpression());
+        s += String.format("\t\t\t\t\t<outputJoiningExpression query=\"%s\" />\n",getOutputJoiningExpression());
+        s += String.format("\t\t\t\t\t<resultAppliedToLocalVariable>%s</resultAppliedToLocalVariable>\n", getResultAppliedToLocalVariable().getName());
+        
         s += "\t\t\t\t</miDataOutput>\n";
         
         return s;

@@ -23,6 +23,37 @@
 					"refToView":"adhoc"
 				}
 			]
+		},
+		{
+			"roles": [
+				"BPMNDiagram"
+			],
+			"properties": [
+				{
+					"id":"expressionLanguage",
+					"type":"String",
+					"title":"ExpressionLanguage",
+					"title_de":"AusdrucksSprache",
+					"value":"XQuery",
+					"description":"A Language may be provided so that the syntax of expressions used in the Diagram can be understood.",
+					"description_de":"Sprache, mit welcher im Diagramm verwendete Ausdrücke beschrieben sind.",
+					"readonly":true,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"queryLanguage",
+					"type":"String",
+					"title":"QueryLanguage",
+					"title_de":"AbfrageSprache",
+					"value":"XQuery",
+					"description":"A Language may be provided so that the syntax of queries used in the Diagram can be understood.",
+					"description_de":"Sprache, mit welcher im Diagramm verwendete Abfragen beschrieben sind.",
+					"readonly":true,
+					"optional":true,
+					"length":"50"
+				}
+			]
 		}
 	],
 	"rules": {

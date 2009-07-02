@@ -46,9 +46,11 @@ public class YMIDataInput {
 		String s = "";
 		
 		s += "\t\t\t\t<miDataInput>\n";
-		s += "\t\t\t\t\t<expression query=\"" + getExpression() + "\" />\n";
-        s += "\t\t\t\t\t<splittingExpression query=\"" + getSplittingExpression() + "\" />\n";
-        s += "\t\t\t\t\t<formalInputParam>" + getFormalInputParam().getName() + "</formalInputParam>\n";
+		
+		s += String.format("\t\t\t\t\t<expression query=\"%s\" />\n", getExpression());
+        s += String.format("\t\t\t\t\t<splittingExpression query=\"%s\" />\n", getSplittingExpression());
+        s += String.format("\t\t\t\t\t<formalInputParam>%s</formalInputParam>\n", getFormalInputParam().getName());
+        
         s += "\t\t\t\t</miDataInput>\n";
         
         return s;

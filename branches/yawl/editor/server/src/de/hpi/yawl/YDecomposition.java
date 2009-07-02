@@ -4,6 +4,10 @@ import java.util.*;
 
 public class YDecomposition {
 	
+	public enum ExternalInteraction {
+		MANUAL, AUTOMATED
+	}
+	
 	private ArrayList<YNode> nodes = new ArrayList<YNode>();
 	private ArrayList<YEdge> edges = new ArrayList<YEdge>();
 	
@@ -14,6 +18,9 @@ public class YDecomposition {
     private ArrayList<YVariable> inputParameters = new ArrayList<YVariable>();
     private ArrayList<YVariable> outputParameters = new ArrayList<YVariable>();
     private ArrayList<YVariable> localVariables = new ArrayList<YVariable>();
+    
+	private ExternalInteraction externalInteraction = ExternalInteraction.MANUAL;
+	private String codelet = "";
 
     public String getID(){
     	return this.id;
@@ -43,6 +50,22 @@ public class YDecomposition {
     public void setXSIType(String xsiType){
     	this.xsiType = xsiType;
     }
+    
+	public void setExternalInteraction(ExternalInteraction externalInteraction) {
+		this.externalInteraction = externalInteraction;
+	}
+
+	public ExternalInteraction getExternalInteraction() {
+		return externalInteraction;
+	}
+
+	public void setCodelet(String codelet) {
+		this.codelet = codelet;
+	}
+
+	public String getCodelet() {
+		return codelet;
+	}
 
     /**
      * Returns whether root.
@@ -71,35 +94,19 @@ public class YDecomposition {
 	 * @return the set of edges from the first node to the second node
 	 */
 	public HashSet<YEdge> getEdgesBetween(YNode sourceNode, YNode targetNode) {
-		HashSet<YEdge> s = new HashSet<YEdge>();
+		HashSet<YEdge> result = new HashSet<YEdge>();
 		
 		for(YFlowRelationship flow: sourceNode.getOutgoingEdges()){
 			if (flow instanceof YEdge){
 				YEdge edge = (YEdge)flow;
 				if (edge.getTarget() == targetNode) {
-					s.add(edge);
+					result.add(edge);
 				}
 			}
 		}
 		
-		return s;
+		return result;
 	}
-
-    /**
-     * Returns whether any normal edge exists form the first node to the second node.
-     * @param fromNode YAWLNode The given first node.
-     * @param toNode YAWLNode The given second node.
-     * @return boolean Returns true if any edge from the first to the second node is a normal edge.
-     */
-    public boolean hasNormalEdges(YNode fromNode, YNode toNode) {
-        HashSet<YEdge> edges = this.getEdgesBetween(fromNode, toNode);
-        for (YEdge edge : edges) {
-            if (edge.isNormal()) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public void addNode(YNode node){
     	nodes.add(node);
@@ -146,13 +153,22 @@ public class YDecomposition {
      */
     public YTask addTask(String id, String name, String join, String split,
                             YDecomposition decomposesTo) {
-        YTask.SplitJoinType joinType = join.equals("and") ? YTask.SplitJoinType.AND : join.equals("xor") ?
-                       YTask.SplitJoinType.XOR :
-                       join.equals("or") ? YTask.SplitJoinType.OR : YTask.SplitJoinType.NONE;
+    	YTask.SplitJoinType joinType = YTask.SplitJoinType.XOR;
+    	YTask.SplitJoinType splitType = YTask.SplitJoinType.AND;
+    	
+    	if(join.equalsIgnoreCase("and"))
+    		joinType = YTask.SplitJoinType.AND;
+    	else if(join.equalsIgnoreCase("xor"))
+    		joinType = YTask.SplitJoinType.XOR;
+    	else if(join.equalsIgnoreCase("or"))
+    		joinType = YTask.SplitJoinType.OR;
         
-        YTask.SplitJoinType splitType = split.equals("and") ? YTask.SplitJoinType.AND : split.equals("xor") ?
-        		YTask.SplitJoinType.XOR :
-                        split.equals("or") ? YTask.SplitJoinType.OR : YTask.SplitJoinType.NONE;
+    	if(split.equalsIgnoreCase("and"))
+    		splitType = YTask.SplitJoinType.AND;
+    	else if(split.equalsIgnoreCase("xor"))
+    		splitType = YTask.SplitJoinType.XOR;
+    	else if(split.equalsIgnoreCase("or"))
+    		splitType = YTask.SplitJoinType.OR;
         
         YTask task = new YTask(id, name, joinType, splitType, decomposesTo);
         addNode(task);
@@ -169,26 +185,44 @@ public class YDecomposition {
     	edges.remove(edge);
     }
     
+    /**
+     * Adds an edge to the edges list of the decomposition.
+     * @param edge The edge object
+     */
+    
     public void addEdge(YEdge edge) {
         edges.add(edge);
     }
 
     /**
-     * Adds a normal edge from the given source node to the given destination node, given whether it is a default flow, given its predicate and its ordering.
-     * @param fromName The name of the source node
-     * @param toName The name of the destination node
+     * Adds an edge from the given source node to the given destination node, given whether it is a default flow, given its predicate and its ordering.
+     * @param fromNode The name of the source node
+     * @param toNode The name of the destination node
      * @param isDefaultFLow Whether it is a default edge
      * @param predicate The given predicate
      * @param ordering The given predicate ordering
      */
 
-    public YEdge addNormalEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate,
+    public YEdge addEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate,
            int ordering) {
     	
-        YEdge newEdge = new YEdge(fromNode, toNode, YEdge.EdgeType.NORMAL, isDefaultFlow, predicate, ordering);
+        YEdge newEdge = new YEdge(fromNode, toNode, isDefaultFlow, predicate, ordering);
         addEdge(newEdge);
         return newEdge;
     }
+    
+    /**
+     * Adds an edge from the given source node to the given destination node.
+     * @param fromNode The name of the source node
+     * @param toNode The name of the destination node
+     */
+    
+    public YEdge addEdge(YNode fromNode, YNode toNode) {
+     	
+         YEdge newEdge = new YEdge(fromNode, toNode);
+         addEdge(newEdge);
+         return newEdge;
+     }
     
     public ArrayList<YVariable> getInputParams(){
     	if (inputParameters == null)
@@ -266,6 +300,13 @@ public class YDecomposition {
                 it = getNodes().iterator();
             }
             s += "\t\t\t</processControlElements>\n";
+        }
+        
+        if(xsiType.equals("WebServiceGatewayFactsType")){
+        	if(!codelet.isEmpty())
+        		s += String.format("\t\t\t<codelet>%s</codelet>\n", codelet);
+        	
+        	s += String.format("\t\t\t<externalInteraction>%s</externalInteraction>\n", externalInteraction.toString().toLowerCase(Locale.ENGLISH));
         }
 
         s += "\t\t</decomposition>\n";
