@@ -4,7 +4,7 @@
  * org.b3mn.poem.util.RdfJsonTransformation
  */
 
-package org.oryxeditor.server;
+package de.hpi.util;
 
 import java.util.HashMap;
 import java.util.Map;

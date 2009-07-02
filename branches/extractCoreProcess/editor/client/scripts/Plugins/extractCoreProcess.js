@@ -176,7 +176,7 @@ new function(){
 			new Ajax.Request(ORYX.CONFIG.ROOT_PATH + "extract", {
 	            method		: 'POST',
 				asynchronous: false,
-				parameters	: {modelA:model1, modelB:model2},
+				parameters	: {modelA:Object.toJSON(model1), modelB:Object.toJSON(model2)},
 	            onSuccess	: function(request){
 					var json = request.responseText;
 					this.facade.importJSON(json);
@@ -280,23 +280,23 @@ new function(){
 		 */
 		retrieveModel: function(url, callback){
 			
-			/*var attr = "model" + parseInt(Math.random()*100000);
+			var attr = "model" + parseInt(Math.random()*100000);
 			
 			var s = document.createElement("script");
-			s.src = url + "/json?jsonp=window."+attr+"=";
+			s.src = url + "?jsonp=window."+attr+"=";
 			$(s).observe("load", function(){
 				callback(window[attr]);
 			});
 			
-			document.getElementsByTagName("head")[0].appendChild(s);*/
+			document.getElementsByTagName("head")[0].appendChild(s);
 						
-	        new Ajax.Request( url, {
+	       /* new Ajax.Request( url, {
 	            method		: 'GET',
 				asynchronous: false,
 	            onSuccess	: function(request){
 					callback(request.responseText)
 				}
-			});
+			});*/
 		},
 	 
 	 
@@ -317,7 +317,7 @@ new function(){
 						    labelWidth: 	80,
 						    defaultType: 	'textfield',
 						    bodyStyle:		'padding:15px',
-							defaults:		{width: 260,msgTarget:'side',labelSeparator:''},
+							defaults:		{width: 250, msgTarget:'side',labelSeparator:'', style:'overflow:hidden;'},
 						    items: [{
 									text:	'This tool extract the core process of different processes. You can load the core process by defining the urls to the related processes.',
 									xtype: 	'label',
@@ -350,11 +350,12 @@ new function(){
 									xtype	: 'radio'
 						        },{
 									fieldLabel: "Process 1",
-									value	: "http://localhost:8080/oryx/model1.xml"
+									//value	: "http://localhost:8080/oryx/model1.xml"
+									value	: "http://oryx-editor.org/backend/poem/model/4420/json"
 								},{
 									fieldLabel: "Process 2",
-									value	: "http://localhost:8080/oryx/model2.xml"
-									//value	: "http://oryx-editor.org/backend/poem/model/4419"
+									//value	: "http://localhost:8080/oryx/model2.xml"
+									value	: "http://oryx-editor.org/backend/poem/model/4419/json"
 								}]
 						});
 	

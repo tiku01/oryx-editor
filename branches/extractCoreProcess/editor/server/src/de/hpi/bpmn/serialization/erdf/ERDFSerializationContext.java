@@ -41,7 +41,7 @@ public class ERDFSerializationContext {
 
 	
 	private void registerResource(DiagramObject d) {
-		resourceIDs.put(d, d.getId());
+		resourceIDs.put(d, d.getResourceId());
 	}
 
 	public String getResourceIDForDiagramObject(DiagramObject diagramObject) {

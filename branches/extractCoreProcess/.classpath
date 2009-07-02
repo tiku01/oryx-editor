@@ -165,5 +165,6 @@
 	<classpathentry kind="lib" path="editor/lib/activation.jar"/>
 	<classpathentry kind="lib" path="editor/lib/mail.jar"/>
 	<classpathentry kind="lib" path="editor/lib/SuperCSV-1.52.jar"/>
+	<classpathentry kind="lib" path="editor/lib/bpmnLayouter.jar" sourcepath="/oryx_layouting"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

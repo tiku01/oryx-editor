@@ -34,9 +34,11 @@ import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.extract.ExtractProcessConfiguration;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
+import de.hpi.bpmn.layout.BPMNLayouter;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn.serialization.erdf.BPMNeRDFSerializer;
+import de.hpi.util.JsonErdfTransformation;
 
 /**
  * Copyright (c) 2009 Willi Tscheschner
@@ -91,8 +93,10 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 			} catch (NoEndNodeException e) {
 		    	res.setStatus(404);
 				this.printError("One model has no end node.", res.getWriter());
+			} catch (TransformerException e) {
+		    	res.setStatus(404);
+				this.printError("Model can not transfer to the RDF representation.", res.getWriter());
 			}
-
 			
 			
 		} catch (ParserConfigurationException e) {
@@ -128,6 +132,12 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 			        req.getServerPort(),
 			        "" );
 
+			BPMNLayouter layouter = new BPMNLayouter(erdfToJson(eRDF, serverUrl.toString()));
+			StringWriter writer = new StringWriter();
+			layouter.write(writer);
+			
+			eRDF = writer.toString().substring(38);
+			
 	    	return erdfToJson(eRDF, serverUrl.toString());
 	    	
 		} catch (MalformedURLException e) {
@@ -138,11 +148,13 @@ public class ExtractCoreProcessServlet extends HttpServlet {
     	
 	}
 	
-	private BPMNDiagram getDiagram(String rdf) throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException{
-		
-		//JsonErdfTransformation jsonTransform = new JsonErdfTransformation(json)
-		//String erdf = jsonTransform.toString();
+	private BPMNDiagram getDiagram(String json) throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException, TransformerException{
 	 
+		// Get eRDF
+		String erdf = new JsonErdfTransformation(json).toString();
+		// Get RDF
+		String rdf = erdfToRdf(erdf);
+		
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		builder = factory.newDocumentBuilder();
