@@ -8,7 +8,6 @@ public class BPMNElementJSON extends BPMNAbstractElement {
 	private JSONObject boundsJSON;
 	private JSONArray dockersJSON;
 	
-	@Override
 	public void updateDataModel() {
 		
 	}
