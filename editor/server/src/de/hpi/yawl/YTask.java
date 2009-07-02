@@ -1,15 +1,16 @@
 package de.hpi.yawl;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class YTask extends YNode{
 	
 	public enum SplitJoinType {
-		NONE, AND, OR, XOR
+		AND, OR, XOR
 	}
 	
-	private SplitJoinType joinType = SplitJoinType.NONE;
-	private SplitJoinType splitType = SplitJoinType.NONE;
+	private SplitJoinType joinType = SplitJoinType.XOR;
+	private SplitJoinType splitType = SplitJoinType.AND;
 	private YDecomposition decomposesTo = null;
 	private String xsiType = "";
 	private YMultiInstanceParam miParam = null;
@@ -28,12 +29,22 @@ public class YTask extends YNode{
 		this.timer = timer;
 	}
 
+	public YTask(String ID)
+	{
+		super(ID, "");
+	}
+	
+	public YTask(String ID, String name)
+	{
+		super(ID, name);
+	}
+	
 	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo){
 		super(ID, name);
 		
 		setJoinType(join);
 		setSplitType(split);
-		setDecomposition(decomposesTo);
+		setDecomposesTo(decomposesTo);
 	}
 	
 	public SplitJoinType getJoinType(){
@@ -52,11 +63,11 @@ public class YTask extends YNode{
 		this.splitType = split;
 	}
 	
-	public YDecomposition getDecomposition() {
+	public YDecomposition getDecomposesTo() {
 		return this.decomposesTo;
 	}
 	
-	public void setDecomposition(YDecomposition decomposesTo) {
+	public void setDecomposesTo(YDecomposition decomposesTo) {
 		this.decomposesTo = decomposesTo;
 	}
 	
@@ -101,8 +112,8 @@ public class YTask extends YNode{
 			completedMappings = new ArrayList<YVariableMapping>();
 		return completedMappings;
 	}
-	
-	private void createCompletedNullMapping() {
+
+/*	private void createCompletedNullMapping() {
 		YVariable nullVariable = new YVariable("null", "", "", "", false);
 		YVariableMapping completedVarMap = new YVariableMapping("", nullVariable);
 		
@@ -127,49 +138,36 @@ public class YTask extends YNode{
 		YVariableMapping startingVarMap = new YVariableMapping(startQuery, timerVariable);
 		
 		startingMappings.add(startingVarMap);
-	}
+	}*/
 	
 	/**
 	 * Export to YAWL file.
 	 * @param phase Writing phase: 0 = inputCondition, 2 = outputCondition, 1 = rest.
-	 * @return String The string to export for this YAWLDecompositon.
+	 * @return String The string to export for this YTask.
 	 */
 	public String writeToYAWL(int phase) {
 		String s = "";
 		if (phase == 1) {
-			SplitJoinType st = getSplitType();
-			SplitJoinType jt = getJoinType();
 			
-			if (st == SplitJoinType.NONE) {
-				st = SplitJoinType.AND;
-			}
-			if (jt == SplitJoinType.NONE) {
-				jt = SplitJoinType.XOR;
-			}
-			
-			s +="\t\t\t\t<task id=\"" + getID() + "\"";
 			if(!getXsiType().isEmpty()){
-				s += " xsi:type=\"" + getXsiType() + "\">\n";
+				s += String.format("\t\t\t\t<task id=\"%s\" xsi:type=\"%s\">\n", getID(), getXsiType());
 			}else{
-				s += ">\n";
+				s += String.format("\t\t\t\t<task id=\"%s\">\n", getID());
 			}
 
-			s +="\t\t\t\t\t<name>" + getName() + "</name>\n";
+			s += String.format("\t\t\t\t\t<name>%s</name>\n", getName());
 
 			// First, normal edges
 			for(YFlowRelationship flow: this.getOutgoingEdges()){
 				if (flow instanceof YEdge){
 					YEdge edge = (YEdge)flow;
-					s += edge.writeToYAWL(this.splitType, YEdge.EdgeType.NORMAL);
+					s += edge.writeToYAWL(this.splitType);
 				}
 			}
 
 			// Second, join and split type
-			s +="\t\t\t\t\t<join code=\"" + (jt == SplitJoinType.AND ? "and" : (jt == SplitJoinType.OR ? "or" :
-					"xor")) + "\"/>\n";
-			s +="\t\t\t\t\t<split code=\"" + (st == SplitJoinType.AND ? "and" : (st == SplitJoinType.OR ?
-					"or" :
-					"xor")) + "\"/>\n";
+			s += String.format("\t\t\t\t\t<join code=\"%s\"/>\n", getJoinType().toString().toLowerCase(Locale.ENGLISH));
+			s += String.format("\t\t\t\t\t<split code=\"%s\"/>\n", getSplitType().toString().toLowerCase(Locale.ENGLISH));
 
 			// Third, reset set
 			if (getCancellationSet().size() > 0){
@@ -199,7 +197,7 @@ public class YTask extends YNode{
 			}
 			
             if (decomposesTo != null) {
-                s += "\t\t\t\t\t<decomposesTo id=\"" + getDecomposition().getID() + "\"/>\n";
+                s += String.format("\t\t\t\t\t<decomposesTo id=\"%s\"/>\n", getDecomposesTo().getID());
             }
             if (isMultipleTask()) {
                 s += getMiParam().writeToYAWL();

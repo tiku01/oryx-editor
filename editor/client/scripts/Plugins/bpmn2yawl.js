@@ -1,7 +1,6 @@
 /**
  * Copyright (c) 2009
  * Armin Zamani
- * 
  **/
 
 if (!ORYX) ORYX = new Object();
@@ -34,5 +33,8 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
 				alert("BPMN to YAWL Mapper succeeded");
 			}
 		})
+	},
+	getSubprocessRDF: function(){
+		
 	}
 })

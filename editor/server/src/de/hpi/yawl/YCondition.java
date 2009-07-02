@@ -33,8 +33,8 @@ public class YCondition extends YNode {
 	 */
 	public String writeToYAWL(int phase) {
 		String s = "";
-		if ((phase == 0 && this.type == ConditionType.IN) || (phase == 1 && this.type == ConditionType.NONE) ||
-				(phase == 2 && this.type == ConditionType.OUT)) {
+		if ((phase == 0 && isInputCondition()) || (phase == 1 && this.type == ConditionType.NONE) ||
+				(phase == 2 && isOutputCondition())) {
 			if (this.type == ConditionType.OUT) {
 				s +="\t\t\t\t<outputCondition id=\"" + getID() + "\"/>\n";
 			} else {
@@ -51,7 +51,7 @@ public class YCondition extends YNode {
 				for(YFlowRelationship flow: this.getOutgoingEdges()){
 					if (flow instanceof YEdge){
 						YEdge edge = (YEdge)flow;
-						s += edge.writeToYAWL(YTask.SplitJoinType.NONE, YEdge.EdgeType.NORMAL);
+						s += edge.writeToYAWL(YTask.SplitJoinType.AND);
 					}
 				}
 

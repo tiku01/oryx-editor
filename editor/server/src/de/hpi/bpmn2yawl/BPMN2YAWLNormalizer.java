@@ -3,8 +3,13 @@ package de.hpi.bpmn2yawl;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Container;
 import de.hpi.bpmn.Edge;
+import de.hpi.bpmn.EndErrorEvent;
+import de.hpi.bpmn.EndEvent;
+import de.hpi.bpmn.EndPlainEvent;
+import de.hpi.bpmn.IntermediateEvent;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.Event;
+import de.hpi.bpmn.ORGateway;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.StartEvent;
 import de.hpi.bpmn.StartPlainEvent;
@@ -44,6 +49,40 @@ public class BPMN2YAWLNormalizer extends BPMNNormalizer{
 			}
 			
 			removeNode(s);
+		}
+	}
+	
+	@Override
+	protected void normalizeMultipleEndEvents(Container process,
+			Vector<EndEvent> endEvents) {
+		for(EndEvent event : endEvents){
+			if(event instanceof EndErrorEvent){
+				return;
+			}
+		}
+		EndPlainEvent end = new EndPlainEvent();
+		addNode(end, process);
+
+		ORGateway gateway = new ORGateway();
+		addNode(gateway, process);
+
+		connectNodes(gateway, end);
+
+		int index = 0;
+		for (EndEvent e : endEvents) {
+			removeNode(e);
+
+			IntermediateEvent iEvent = convertToIntermediateEvent(e);
+
+			addNode(iEvent, process);
+
+			e.getIncomingEdges().get(0).setTarget(iEvent);
+
+			// Id is needed because incoming edges of or-join needs ids to find
+			// all combinations
+			connectNodes(iEvent, gateway).setId(
+					"seq" + String.valueOf(index) + e.getId());
+			index++;
 		}
 	}
 	

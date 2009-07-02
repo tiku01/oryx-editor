@@ -183,7 +183,7 @@ public class BPMNNormalizer {
 	}
 
 	// Do not pass any terminate events!
-	private void normalizeMultipleEndEvents(Container process,
+	protected void normalizeMultipleEndEvents(Container process,
 			Vector<EndEvent> endEvents) {
 		EndPlainEvent end = new EndPlainEvent();
 		addNode(end, process);
