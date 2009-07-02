@@ -57,11 +57,7 @@ public class ExtractProcessConfiguration {
 	}
 	
 	private BPMNDiagram combine() throws NoStartNodeException, NoEndNodeException {
-
-		HashMap<String, ArrayList<Node>> commonNodes = getCommonNodes(diagramA, diagramB);
-		
-		compress(commonNodes);
-		
+	
 		// Attach initial split and join
 		attachInitialSplit(diagramA);
 		attachInitialSplit(diagramB);
@@ -70,6 +66,8 @@ public class ExtractProcessConfiguration {
 
 		addAll(diagramA);
 		addAll(diagramB);
+
+		compress(getCommonNodes());		
 		
 		return diagram;
 	}
@@ -78,19 +76,49 @@ public class ExtractProcessConfiguration {
 		
 		for (ArrayList<Node> nodes:common.values()){
 
+			if (nodes.size() <= 1){
+				continue;
+			}
+			
+			XORDataBasedGateway pSplit = getXOR();
+			XORDataBasedGateway nJoin = getXOR();
+			
+			Node leftNode = nodes.get(0);
+			
 			for (Node node:nodes) {
-				node.setParent(null);
+				
+				List<Edge> iEdges = node.getIncomingEdges();
+				for (Edge edge : iEdges){
+					if (edge instanceof SequenceFlow){
+						edge.setTarget(pSplit);
+					} else {
+						edge.setTarget(leftNode);
+					}
+				}
+
+				List<Edge> oEdges = node.getOutgoingEdges();
+				for (Edge edge : oEdges){
+					if (edge instanceof SequenceFlow){
+						edge.setSource(nJoin);
+					} else {
+						edge.setSource(leftNode);
+					}
+				}
+
+				if (node != leftNode) {
+					node.setParent(null);
+				}
+				
+				//Todo: set condition
+				//seq.setConditionType(getCondition(diagram))
 			}
 
-			XORDataBasedGateway p = getXOR();
-			XORDataBasedGateway n = getXOR();
-			
-			getSequenceFlow(p, nodes.get(0));
-			getSequenceFlow(nodes.get(0), n);
-			nodes.get(0).setParent(this.diagram);
+			getSequenceFlow(pSplit, leftNode);
+			SequenceFlow seq = getSequenceFlow(leftNode, nJoin);
 		}
 				
 	}
+	
 	
 	/**
 	 * Add all elements from the diagram 
@@ -129,47 +157,29 @@ public class ExtractProcessConfiguration {
 	
 	}
 	
-	private HashMap<String, ArrayList<Node>> getCommonNodes(BPMNDiagram diagramA, BPMNDiagram diagramB){
+	/**
+	 * Returns a set on nodes which are contained in both process models
+	 * @return
+	 */
+	private HashMap<String, ArrayList<Node>> getCommonNodes(){
 
-		List<Node> nodesA = getAllChildNodes(diagramA);
-		List<Node> nodesB = getAllChildNodes(diagramB);	
-		
-		
-		HashMap<String, ArrayList<Node>>  nodes = new HashMap<String, ArrayList<Node>>();
-		
-		// Add all common nodes from A
-		for (Node nodeA:nodesA){
-			if (nodeA.getLabel() == null || "".equals(nodeA.getLabel())){
+		List<Node> nodes = getAllChildNodes(this.diagram);
+		HashMap<String, ArrayList<Node>> common = new HashMap<String, ArrayList<Node>>();
+
+		for (Node node:nodes){
+			if (node.getLabel() == null || "".equals(node.getLabel())){
 				continue;
 			}
-			String label = nodeA.getLabel().trim();
-			for (Node nodeB:nodesB){
-				if (nodeB.getLabel() != null && label.equals(nodeB.getLabel().trim())) {
-					if (!nodes.containsKey(label)) {
-						nodes.put(label, new ArrayList<Node>());
-					}
-					nodes.get(label).add(nodeA);
-				}
+			
+			String label = node.getLabel().trim();
+			
+			if (!common.containsKey(label)) {
+				common.put(label, new ArrayList<Node>());
 			}
-		}
-
-		// Add all common nodes from B
-		for (Node nodeB:nodesB){
-			if (nodeB.getLabel() == null || "".equals(nodeB.getLabel())){
-				continue;
-			}
-			String label = nodeB.getLabel().trim();
-			for (Node nodeA:nodesA){
-				if (nodeA.getLabel() != null && label.equals(nodeA.getLabel().trim())) {
-					if (!nodes.containsKey(label)) {
-						nodes.put(label, new ArrayList<Node>());
-					}
-					nodes.get(label).add(nodeB);
-				}
-			}
+			common.get(label).add(node);
 		}
 		
-		return nodes;
+		return common;
 	}
 
 	
