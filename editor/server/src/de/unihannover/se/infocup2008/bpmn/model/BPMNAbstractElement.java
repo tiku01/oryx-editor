@@ -226,7 +226,6 @@ public abstract class BPMNAbstractElement implements BPMNElement {
 	/* (non-Javadoc)
 	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNElement#getDockers()
 	 */
-	@Override
 	public BPMNDockers getDockers() {
 		return dockers;
 	}
@@ -234,7 +233,6 @@ public abstract class BPMNAbstractElement implements BPMNElement {
 	/* (non-Javadoc)
 	 * @see de.unihannover.se.infocup2008.bpmn.model.BPMNElement#setDockers(de.unihannover.se.infocup2008.bpmn.model.BPMNDockers)
 	 */
-	@Override
 	public void setDockers(BPMNDockers dockers) {
 		this.dockers = dockers;
 	}

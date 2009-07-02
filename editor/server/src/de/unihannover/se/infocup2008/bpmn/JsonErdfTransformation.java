@@ -131,7 +131,7 @@ public class JsonErdfTransformation {
 			JSONObject bounds = shape.getJSONObject("bounds");
 			JSONObject lowerRight = bounds.getJSONObject("lowerRight");
 			JSONObject upperLeft = bounds.getJSONObject("upperLeft");
-			shapeEl.appendChild(createOryxNsElement("bounds", upperLeft.getString("x")+","+upperLeft.getString("y") +","+ lowerRight.getString("x")+","+lowerRight.getString("y")));
+			shapeEl.appendChild(createOryxNsElement("bounds", upperLeft.getString("x")+","+upperLeft.getString("y")+","+lowerRight.getString("x")+","+lowerRight.getString("y")));
 		}
 		
 		// Properties
@@ -160,13 +160,13 @@ public class JsonErdfTransformation {
 		
 		// Dockers
 		if(shape.has("dockers")){
-			String dockers = " # ";
+			String dockers = "";
 			JSONArray dockerArray = shape.getJSONArray("dockers");
 			for(int i = 0; i < dockerArray.length(); i++){
 				JSONObject docker = dockerArray.getJSONObject(i);
-				dockers = docker.getString("x") + " " + docker.getString("y") + " " + dockers;
+				dockers += docker.getString("x") + " " + docker.getString("y") + " ";
 			}
-			shapeEl.appendChild(createOryxNsElement("docker", dockers));
+			shapeEl.appendChild(createOryxNsElement("dockers", dockers + " # "));
 		}
 		
 		// Target
