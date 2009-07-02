@@ -6,6 +6,10 @@ public class Bounds implements Cloneable {
 	
 	private int x1, x2, y1, y2;
 
+	public Bounds(){
+		this(0,0,0,0);
+	}
+	
 	public Bounds(int x1, int y1, int x2,  int y2) {
 		super();
 		this.x1 = x1;

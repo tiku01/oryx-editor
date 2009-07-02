@@ -66,6 +66,7 @@ import de.hpi.bpmn.Activity.MIFlowCondition;
 import de.hpi.bpmn.Activity.MIOrdering;
 import de.hpi.bpmn.Activity.TestTime;
 import de.hpi.bpmn.exec.ExecDataObject;
+import de.hpi.util.Bounds;
 
 /**
  * Copyright (c) 2008 Gero Decker
@@ -302,7 +303,7 @@ public class BPMN11RDFImporter {
 		c.diagram.identifyProcesses();
 		return c.diagram;
 	}
-
+	
 	protected void attachIntermediateEvents(ImportContext c) {
 		for (de.hpi.bpmn.Node node : c.diagram.getChildNodes()) {
 			if (node instanceof IntermediateEvent) {
@@ -337,6 +338,8 @@ public class BPMN11RDFImporter {
 				// TODO: add further attributes...
 				if (attribute.equals("title")) {
 					c.diagram.setTitle(getContent(n));
+				} else if (attribute.equals("name")) {
+						c.diagram.setTitle(getContent(n));
 				} else if (attribute.equals("id")) {
 					c.diagram.setId(getContent(n));
 					// } else {
@@ -371,7 +374,7 @@ public class BPMN11RDFImporter {
 		if (pool.getId() == null)
 			pool.setId(pool.getResourceId());
 	}
-
+	
 	protected boolean handleStandardAttributes(String attribute, Node n,
 			de.hpi.bpmn.DiagramObject node, ImportContext c, String label) {
 		if (attribute.equals("id")) {
@@ -387,6 +390,8 @@ public class BPMN11RDFImporter {
 				if(cNode.getLabel() == null || cNode.getLabel().equals("")){
 					cNode.setLabel(getContent(n));
 				}
+			} else if (attribute.equals("bounds")) {
+				cNode.setBounds(new Bounds(getContent(n).split(",")));
 			}
 		} else {
 			return false;

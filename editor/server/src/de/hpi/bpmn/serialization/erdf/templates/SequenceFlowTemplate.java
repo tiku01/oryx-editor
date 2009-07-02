@@ -22,6 +22,8 @@ public class SequenceFlowTemplate extends ConnectorTemplate implements
 		SequenceFlow e = (SequenceFlow) diagramObject;
 		StringBuilder s = getResourceStartPattern(context.getResourceIDForDiagramObject(e));
 		appendOryxField(s,"type",STENCIL_URI + "#SequenceFlow");
+		appendOryxField(s,"conditionexpression",e.getConditionExpression());
+		appendOryxField(s,"conditiontype",e.getConditionType().name().toUpperCase().substring(0,1)+e.getConditionType().name().toLowerCase().substring(1)); 
 		appendStandardFields(s);
 		appendDockerInformation(s, e);
 		appendBounds(s, e);
