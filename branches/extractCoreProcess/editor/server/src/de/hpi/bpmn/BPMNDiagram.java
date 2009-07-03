@@ -409,5 +409,37 @@ public class BPMNDiagram implements Container {
 		}
 		return null;
 	}
+	
+	/**
+	 * Returns a list on all nodes which are 
+	 * contained in the given container
+	 * @param container
+	 * @return
+	 */
+	public List<Node> getAllChildNodes(){
+		return getAllChildNodes(this);
+	}
+
+	
+	private List<Node> getAllChildNodes(Container container){
+		
+		List<Node> nodes = container.getChildNodes();
+		for (Node node:container.getChildNodes()){
+			if (node instanceof Container) {
+				nodes.addAll(this.getAllChildNodes((Container) node));
+			}
+		}
+		return nodes;
+	}
+	/**
+	 * Returns a TRUE if the child is contained
+	 * in the diagram
+	 * @param child
+	 * @return
+	 */
+	public boolean contains(DiagramObject child){
+		List<Node> childs = getAllChildNodes();
+		return childs.contains(child);
+	}
 
 }
