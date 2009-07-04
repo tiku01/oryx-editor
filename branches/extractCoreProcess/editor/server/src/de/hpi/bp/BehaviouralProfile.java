@@ -149,6 +149,15 @@ public class BehaviouralProfile {
 		return nodes;
 	}
 	
+	public Collection<Node> getNodesInRelation(Node n) {
+		Collection<Node> nodes = new ArrayList<Node>();
+		nodes.addAll(getNodesInRelation(n, CharacteristicRelationType.Concurrency));
+		nodes.addAll(getNodesInRelation(n, CharacteristicRelationType.Exclusive));
+		nodes.addAll(getNodesInRelation(n, CharacteristicRelationType.ReversedStrictOrder));
+		nodes.addAll(getNodesInRelation(n, CharacteristicRelationType.StrictOrder));
+		return nodes;
+	}
+	
 	public void printAllNodes(CharacteristicRelationType relationType) {
 		if (matrix == null)
 			deriveBehaviouralProfile();
