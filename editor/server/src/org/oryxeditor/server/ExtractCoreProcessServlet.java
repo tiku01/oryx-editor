@@ -25,12 +25,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.cyberneko.html.HTMLEntities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.sun.tools.example.debug.bdi.MethodNotFoundException;
+
 import de.hpi.bpmn.BPMNDiagram;
+import de.hpi.bpmn.extract.CommonActivities;
 import de.hpi.bpmn.extract.ExtractProcessConfiguration;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
@@ -77,11 +81,24 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 
 			String modelA = req.getParameter("modelA");
 			String modelB = req.getParameter("modelB");
+			String algorithm = req.getParameter("algorithm");
 
+			//CONST.EQUIVALENCE = "equivalence";
+			//CONST.ARBITRARY_EQUIVALENCE = "arbitrary";
+			//CONST.LOWEST_COMMON = "lowest";
+			//CONST.LARGEST_COMMON = "largest";
+			//CONST.COMBINED = "combined";
 			
-			BPMNDiagram extractModel;
+			BPMNDiagram extractModel = null;
 			try {
-				extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
+				
+				if ("combined".equals(algorithm)) {
+					extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
+				} else if ("equivalence".equals(algorithm)) {
+					extractModel = new CommonActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
+				} else {
+					throw new MethodNotFoundException();
+				}
 
 				res.setContentType("text/json");
 		    	res.setStatus(200);
@@ -96,6 +113,9 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 			} catch (TransformerException e) {
 		    	res.setStatus(404);
 				this.printError("Model can not transfer to the RDF representation.", res.getWriter());
+			} catch (MethodNotFoundException e) {
+		    	res.setStatus(404);
+				this.printError("Algorithm was not found.", res.getWriter());
 			}
 			
 			
@@ -151,9 +171,15 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 	private BPMNDiagram getDiagram(String json) throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException, TransformerException{
 	 
 		// Get eRDF
-		String erdf = new JsonErdfTransformation(json).toString();
-		// Get RDF
-		String rdf = erdfToRdf(erdf);
+		String erdf;
+		String rdf;
+		if (json.startsWith("\"<")) {
+			rdf = json.substring(1, json.length()-2).replace("\\\\", "\\");
+		} else {
+			erdf = new JsonErdfTransformation(json).toString();
+			rdf = erdfToRdf(erdf);
+		}
+		
 		
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
