@@ -20,6 +20,7 @@
 						<span class="oryx-mode">writeable</span>
 						<span class="oryx-mode">fullscreen</span>
 	  					<a rel="oryx-stencilset" href="./stencilsets/epc/epc.json"/>
+						<a rel="oryx-ssnamespace" href="http://b3mn.org/stencilset/epc#"/>
 						<xsl:call-template name="add-render" />
 	 				</div>
 		         </root>
