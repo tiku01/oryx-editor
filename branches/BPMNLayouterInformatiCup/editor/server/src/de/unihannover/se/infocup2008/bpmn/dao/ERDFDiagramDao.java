@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
+import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,7 +65,9 @@ import de.unihannover.se.infocup2008.bpmn.model.BPMNBoundsImpl;
 public class ERDFDiagramDao {
 
 	private BPMNDiagramERDF bpmnDiagram = null;
+
 	private Document document = null;
+
 	private DocumentBuilder db = null;
 
 	public ERDFDiagramDao() {
@@ -257,11 +260,24 @@ public class ERDFDiagramDao {
 					dockers.getPoints().clear();
 					String[] values = n.getFirstChild().getNodeValue().split(
 							" +");
-					if (values.length % 2 != 1)
-						throw new RuntimeException("There must be even docker coordinates");
-					for (int i = 0; i < values.length; i += 2) {
-						dockers.addPoint(Double.parseDouble(values[i]), Double
-								.parseDouble(values[i + 1]));
+					if (values.length > 2) {
+						if (values.length % 2 != 1) {
+							// values.length = number of coordinates * 2 +
+							// trailing '#'
+							throw new RuntimeException(
+									"There must be even docker coordinates. Was parsing "
+											+ Arrays.toString(values));
+						}
+						try {
+							for (int i = 0; i < values.length - 1; i += 2) {
+								dockers.addPoint(Double.parseDouble(values[i]),
+										Double.parseDouble(values[i + 1]));
+							}
+						} catch (NumberFormatException e) {
+							throw new RuntimeException(
+									"Exception while parsing "
+											+ Arrays.toString(values), e);
+						}
 					}
 				}
 			}

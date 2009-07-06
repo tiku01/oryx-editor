@@ -63,7 +63,9 @@ public class JSONDiagramDao {
 		JSONArray outLinks = node.getJSONArray("outgoing");
 		for (int i = 0; i < outLinks.length(); i++) {
 			JSONObject link = outLinks.getJSONObject(i);
-			elem.addOutgoingLink(dia.getElement(link.getString("resourceId")));
+			BPMNElementJSON target = dia.getElement(link.getString("resourceId"));
+			elem.addOutgoingLink(target);
+			target.addIncomingLink(elem);
 		}
 		JSONObject bounds = node.getJSONObject("bounds");
 		double x = bounds.getJSONObject("upperLeft").getDouble("x");
