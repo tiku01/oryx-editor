@@ -431,6 +431,20 @@ public class BPMNDiagram implements Container {
 		}
 		return nodes;
 	}
+	
+	/**
+	 * Return a list of all containing activities
+	 * @return
+	 */
+	public List<Node> getAllActivities() {
+		List<Node> nodes = new ArrayList<Node>();
+		for (Node node:getAllChildNodes()) {
+			if (node instanceof Activity) {
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
 	/**
 	 * Returns a TRUE if the child is contained
 	 * in the diagram

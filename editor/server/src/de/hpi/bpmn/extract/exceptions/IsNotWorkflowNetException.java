@@ -1,6 +1,6 @@
 package de.hpi.bpmn.extract.exceptions;
 
-public class IsNotWorkflowNetException extends Exception {
+public class IsNotWorkflowNetException extends RuntimeException {
 
 	public IsNotWorkflowNetException() {
 		// TODO Auto-generated constructor stub

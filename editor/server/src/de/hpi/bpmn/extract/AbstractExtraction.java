@@ -41,12 +41,15 @@ abstract public class AbstractExtraction {
 	
 	protected BPMNDiagram diagram;
 	protected BPMNFactory factory;
-	
+
 	protected List<Node> startNodesA;
 	protected List<Node> startNodesB;
 	
+	protected List<Node> endNodesA;
+	protected List<Node> endNodesB;
 	
-	public AbstractExtraction (BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException{
+	
+	public AbstractExtraction (BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException, NoEndNodeException{
 
 		this.diagramA = diagramA;
 		this.diagramB = diagramB;
@@ -291,6 +294,13 @@ abstract public class AbstractExtraction {
 	 */
 	protected List<Node> getStartNodes(BPMNDiagram diagram) throws NoStartNodeException{
 		
+		if (diagram == diagramA && startNodesA != null){
+			return startNodesA;
+		} else if (diagram == diagramB && startNodesB != null) {
+			return startNodesB;
+		}
+		
+		
 		List<Node> nodes = new ArrayList<Node>();
 		
 		for (Node node:diagram.getChildNodes()){
@@ -316,6 +326,12 @@ abstract public class AbstractExtraction {
 	 */
 	protected List<Node> getEndNodes(BPMNDiagram diagram) throws NoEndNodeException{
 		
+		if (diagram == diagramA && endNodesA != null){
+			return endNodesA;
+		} else if (diagram == diagramB && endNodesB != null) {
+			return endNodesB;
+		}
+		
 		List<Node> nodes = new ArrayList<Node>();
 		
 		for (Node node:diagram.getChildNodes()){
@@ -334,16 +350,20 @@ abstract public class AbstractExtraction {
 	/**
 	 * Initialize the diagram with the initial start/end events and their gateways
 	 * @throws NoStartNodeException 
+	 * @throws NoEndNodeException 
 	 */
-	protected void initDiagram() throws NoStartNodeException{
+	protected void initDiagram() throws NoStartNodeException, NoEndNodeException{
 		
 		// Set up diagram
 		diagram = new BPMNDiagram();
 		diagram.setId(OryxUUID.generate());
 		diagram.setTitle("Extract Process Configuration from: " + diagramA.getTitle() + ", " + diagramB.getTitle());
-		
+
 		startNodesA = getStartNodes(diagramA);
 		startNodesB = getStartNodes(diagramB);
+		
+		endNodesA = getEndNodes(diagramA);
+		endNodesB = getEndNodes(diagramB);
 
 	}
 

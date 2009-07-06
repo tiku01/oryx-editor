@@ -42,7 +42,7 @@ public class ExtractProcessConfiguration extends AbstractExtraction{
 
 	
 	
-	public ExtractProcessConfiguration (BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException{
+	public ExtractProcessConfiguration (BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException, NoEndNodeException{
 		super(diagramB, diagramB);
 	}
 	
@@ -305,7 +305,7 @@ public class ExtractProcessConfiguration extends AbstractExtraction{
 	
 	
 	@Override
-	protected void initDiagram() throws NoStartNodeException {
+	protected void initDiagram() throws NoStartNodeException, NoEndNodeException {
 		
 		super.initDiagram();
 		
