@@ -35,7 +35,9 @@ import com.sun.tools.example.debug.bdi.MethodNotFoundException;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.extract.CommonActivities;
+import de.hpi.bpmn.extract.ExtractLargestCommon;
 import de.hpi.bpmn.extract.ExtractProcessConfiguration;
+import de.hpi.bpmn.extract.exceptions.IsNotWorkflowNetException;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 import de.hpi.bpmn.layout.BPMNLayouter;
@@ -96,6 +98,8 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 					extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
 				} else if ("equivalence".equals(algorithm)) {
 					extractModel = new CommonActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
+				} else if ("largest".equals(algorithm)) {
+					extractModel = new ExtractLargestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
 				} else {
 					throw new MethodNotFoundException();
 				}
@@ -116,6 +120,9 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 			} catch (MethodNotFoundException e) {
 		    	res.setStatus(404);
 				this.printError("Algorithm was not found.", res.getWriter());
+			} catch (IsNotWorkflowNetException e) {
+		    	res.setStatus(404);
+				this.printError("Diagram has to be an BPMN diagram which can be mapped to an workflow net.", res.getWriter());
 			}
 			
 			

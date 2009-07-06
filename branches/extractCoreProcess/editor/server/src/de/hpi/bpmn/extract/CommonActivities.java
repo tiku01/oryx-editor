@@ -8,7 +8,7 @@ import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 
 public class CommonActivities extends AbstractExtraction {
 
-	public CommonActivities(BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException {
+	public CommonActivities(BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException, NoEndNodeException {
 		super(diagramA, diagramB);
 	}
 
