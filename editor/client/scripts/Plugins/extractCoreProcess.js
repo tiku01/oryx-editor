@@ -111,9 +111,9 @@ new function(){
 			//this.cacheGraph(model1, this._model1Cached);
 			//this.cacheGraph(model2, this._model2Cached);
 			
-			var graph = [];
+			//var graph = [];
 				
-			switch(algorithm){
+			/*switch(algorithm){
 				case CONST.EQUIVALENCE:
 					graph = this.findEquivalenceActivities(model1, model2);
 					break;
@@ -130,7 +130,9 @@ new function(){
 				graph.each(function(task){
 					this.addShape(task);
 				}.bind(this));	
-			}
+			}*/
+			
+			this.extractProcessConfiguration(model1, model2, algorithm);
 			
 			this.facade.setSelection([]);
 			this.facade.getCanvas().update();
@@ -170,13 +172,13 @@ new function(){
 		/**
 		 * Returns a set on activities which are occured at least once
 		 */
-		extractProcessConfiguration : function(model1, model2){
+		extractProcessConfiguration : function(model1, model2, alg){
 			
 			
 			new Ajax.Request(ORYX.CONFIG.ROOT_PATH + "extract", {
 	            method		: 'POST',
 				asynchronous: false,
-				parameters	: {modelA:Object.toJSON(model1), modelB:Object.toJSON(model2)},
+				parameters	: {modelA:Object.toJSON(model1), modelB:Object.toJSON(model2), algorithm:alg},
 	            onSuccess	: function(request){
 					var json = request.responseText;
 					this.facade.importJSON(json);
@@ -188,7 +190,7 @@ new function(){
 				}.bind(this),
 				on404	: function(request){
 					var json = request.responseText.evalJSON;
-					new Ext.Msg.alert("Extraction Failed", json.error);
+					Ext.Msg.alert("Extraction Failed", json.error);
 				}
 			});
 			
@@ -323,16 +325,16 @@ new function(){
 									xtype: 	'label',
 									style:	'margin-bottom:10px;display:block;'
 						        },{
-									boxLabel: 'Activity Equivalence',
+									boxLabel: 'Common Mandatory Activity',
+									name	: 'algorithm',
+									id		: CONST.ARBITRARY_EQUIVALENCE,
+									xtype	: 'radio'
+						        },{
+									boxLabel: 'Common Activity',
 									name	: 'algorithm',
 									id		: CONST.EQUIVALENCE,
 									xtype	: 'radio',
 									checked	: true
-						        },{
-									boxLabel: 'Arbitrary Activity Equivalences',
-									name	: 'algorithm',
-									id		: CONST.ARBITRARY_EQUIVALENCE,
-									xtype	: 'radio'
 						        },{
 									boxLabel: 'Lowest Common Sub Traces',
 									name	: 'algorithm',
@@ -344,14 +346,14 @@ new function(){
 									id		: CONST.LARGEST_COMMON,
 									xtype	: 'radio'
 						        },{
-									boxLabel: 'Combined Traces',
+									boxLabel: 'Process Configuration',
 									name	: 'algorithm',
 									id		: CONST.COMBINED,
 									xtype	: 'radio'
 						        },{
 									fieldLabel: "Process 1",
 									//value	: "http://localhost:8080/oryx/model1.xml"
-									value	: "http://oryx-editor.org/backend/poem/model/4420/json"
+									value	: "http://oryx-editor.org/backend/poem/model/4759/json"
 								},{
 									fieldLabel: "Process 2",
 									//value	: "http://localhost:8080/oryx/model2.xml"

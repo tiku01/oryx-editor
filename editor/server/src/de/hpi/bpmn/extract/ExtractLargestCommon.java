@@ -55,6 +55,10 @@ public class ExtractLargestCommon extends AbstractExtraction {
 
 	@Override
 	protected SortedSet<CommonEntry> getCommonNodes(BPMNDiagram diagramA, BPMNDiagram diagramB) throws IsNotWorkflowNetException, NoStartNodeException {
+		return getCommonNodes(diagramA, diagramB, false);
+	}
+	
+	protected SortedSet<CommonEntry> getCommonNodes(BPMNDiagram diagramA, BPMNDiagram diagramB, boolean onlyMandatory) throws IsNotWorkflowNetException, NoStartNodeException {
 
 		// Get petri net for diagram a/b
 		HighPetriNet pn1 = getPetriNet(diagramA);		
@@ -125,7 +129,11 @@ public class ExtractLargestCommon extends AbstractExtraction {
 					if (isEqual(nodeX, nodeB)) {
 						eval = evalCharacteristicalRelation(nodeA, nodeB, c1, c2);
 					} else {
-						eval = evalCharacteristicalRelation(nodeA, c1, c2);
+						if (onlyMandatory) {
+							eval = evalCharacteristicalRelation(nodeA, c1, c2);
+						} else {
+							continue;
+						}
 					}
 					
 					
@@ -175,7 +183,7 @@ public class ExtractLargestCommon extends AbstractExtraction {
 	}
 	
 	
-	private void removeNodes(BPMNDiagram diagram, List<Node> nodes) {
+	protected void removeNodes(BPMNDiagram diagram, List<Node> nodes) {
 		for (Node node:nodes){
 			// Add all incoming edges to the outgoing list
 			List<Node> targets = getFollowedNodes(node);
@@ -205,7 +213,7 @@ public class ExtractLargestCommon extends AbstractExtraction {
 	 * @param nodes
 	 * @return
 	 */
-	private List<Node> revertList(BPMNDiagram diagram, SortedSet<CommonEntry> nodes) {
+	protected List<Node> revertList(BPMNDiagram diagram, SortedSet<CommonEntry> nodes) {
 		List<Node> revert = new ArrayList<Node>();
 		for (Node node:diagram.getAllActivities()) {
 			boolean isIncluded = false;
@@ -238,7 +246,7 @@ public class ExtractLargestCommon extends AbstractExtraction {
 				((LabeledTransition) a).getLabel().trim().equals(((LabeledTransition) b).getLabel().trim());
 	}
 	
-	private HashMap<de.hpi.petrinet.Node[], CharacteristicRelationType> getCharacteristicalRelations(BehaviouralProfile bpA, de.hpi.petrinet.Node n1, BehaviouralProfile bpB, de.hpi.petrinet.Node n2){
+	protected HashMap<de.hpi.petrinet.Node[], CharacteristicRelationType> getCharacteristicalRelations(BehaviouralProfile bpA, de.hpi.petrinet.Node n1, BehaviouralProfile bpB, de.hpi.petrinet.Node n2){
 		
 		Collection<de.hpi.petrinet.Node> relationsA = bpA.getNodesInRelation(n1);
 		Collection<de.hpi.petrinet.Node> relationsB = bpB.getNodesInRelation(n2);
@@ -280,7 +288,7 @@ public class ExtractLargestCommon extends AbstractExtraction {
 	 * @param rel2
 	 * @return
 	 */
-	private de.hpi.petrinet.Node[][] evalCharacteristicalRelation(de.hpi.petrinet.Node a, de.hpi.petrinet.Node b, CharacteristicRelationType rel1, CharacteristicRelationType rel2){
+	protected de.hpi.petrinet.Node[][] evalCharacteristicalRelation(de.hpi.petrinet.Node a, de.hpi.petrinet.Node b, CharacteristicRelationType rel1, CharacteristicRelationType rel2){
 		// Take A and B
 		if (		(rel1.equals(CharacteristicRelationType.StrictOrder) && 
 					rel2.equals(CharacteristicRelationType.StrictOrder)) ||
@@ -318,7 +326,13 @@ public class ExtractLargestCommon extends AbstractExtraction {
 					rel2.equals(CharacteristicRelationType.Exclusive)) ||
 							
 					(rel1.equals(CharacteristicRelationType.Exclusive) && 
-					rel2.equals(CharacteristicRelationType.Concurrency)) ) {
+					rel2.equals(CharacteristicRelationType.Concurrency)) ||
+					
+					(rel1.equals(CharacteristicRelationType.Exclusive) && 
+					rel2.equals(CharacteristicRelationType.ReversedStrictOrder)) ||
+									
+					(rel1.equals(CharacteristicRelationType.ReversedStrictOrder) && 
+					rel2.equals(CharacteristicRelationType.Exclusive)) ) {
 
 			return new de.hpi.petrinet.Node[][]{new de.hpi.petrinet.Node[]{}, new de.hpi.petrinet.Node[]{}};
 		}

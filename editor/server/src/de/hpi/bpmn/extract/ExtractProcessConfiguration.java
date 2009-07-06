@@ -43,7 +43,7 @@ public class ExtractProcessConfiguration extends AbstractExtraction{
 	
 	
 	public ExtractProcessConfiguration (BPMNDiagram diagramA, BPMNDiagram diagramB) throws NoStartNodeException, NoEndNodeException{
-		super(diagramB, diagramB);
+		super(diagramA, diagramB);
 	}
 	
 	public BPMNDiagram extract() throws NoStartNodeException, NoEndNodeException {
@@ -71,86 +71,131 @@ public class ExtractProcessConfiguration extends AbstractExtraction{
 		List<Node> fStart = getFollowedNodes(initialSplit);
 		List<Node> pEnd = getPreviousedNodes(initialJoin);
 		
+		List<CommonEntry> used = new ArrayList<CommonEntry>();
+		
 		for (CommonEntry entry:common){
 			
-			XORDataBasedGateway pJoin = getXOR();
-			XORDataBasedGateway nSplit = getXOR();
-			
-			boolean pRemoved = false;
-			boolean nRemoved = false;
+			if (used.contains(entry)){
+				continue;
+			}
+			Node pJoin = getXOR();
+			Node nSplit = getXOR();
 			
 			Node leftNode = entry.getA();
 			
 			// Set initial 
 			if (fStart.containsAll(entry.getNodes()) && entry.getNodes().size() == fStart.size()){
-				pRemoved = true;
-			}
-
-			if (pEnd.containsAll(entry.getNodes()) && entry.getNodes().size() == pEnd.size()){
-				nRemoved = true;
-			}
-			
-			
-			for (Node node:entry.getNodes()){
-				// Reattach all incoming sf to the join and msgf to the node a
-				List<Edge> iEdges = new ArrayList<Edge>(node.getIncomingEdges());
-				for (Edge edge : iEdges){
-					if (edge instanceof SequenceFlow){ 
-						if (pRemoved){
-							edge.setTarget(null);
-							edge.setSource(null);
-							if (diagram.getEdges().contains(edge))
-								diagram.getEdges().remove(edge);
-						} else {
-							edge.setTarget(pJoin);
-						}
-					} else { edge.setTarget(leftNode);
-					}
-				}
-				// Reattach all outgoing sf to the split and msgf to the node a
-				List<Edge> oEdges = new ArrayList<Edge>(node.getOutgoingEdges());
-				for (Edge edge : oEdges){
-					if (edge instanceof SequenceFlow){ 
-						if (nRemoved){
-							edge.setTarget(null);
-							edge.setSource(null);
-							if (diagram.getEdges().contains(edge))
-								diagram.getEdges().remove(edge);
-						} else {
-							edge.setSource(nSplit);
-							if (entry.isDiagramA(node)){
-								((SequenceFlow) edge).setConditionExpression(getCondition(diagramA));
-							} else if (entry.isDiagramB(node)){
-								((SequenceFlow) edge).setConditionExpression(getCondition(diagramB));
-							}
-						}
-					} else { edge.setSource(leftNode); }
-				}
-			}
-
-			if (pRemoved){
+				reattachIncomingEdgesFromTo(initialSplit, leftNode);
+				reattachIncomingEdgesFromTo(entry.getB(), leftNode);
 				pJoin.setParent(null);
-				initialSplit.getIncomingSequenceFlows().get(0).setTarget(leftNode);
+				removeAllOutgoingEdges(initialSplit, diagram);
 				initialSplit.setParent(null);
+				pJoin = leftNode;
 			} else {
+				reattachIncomingEdgesFromTo(entry.getA(), pJoin);
+				reattachIncomingEdgesFromTo(entry.getB(), pJoin);
 				getSequenceFlow(pJoin, leftNode);
 			}
+
+			CommonEntry curr = entry;
 			
-			if (nRemoved){
-				nSplit.setParent(null);
-				initialJoin.getOutgoingSequenceFlows().get(0).setSource(leftNode);
-				initialJoin.setParent(null);
-			} else {
-				getSequenceFlow(leftNode, nSplit);
+			while (curr != null) {
+				List<Node> f1 = getFollowedNodes(curr.getA());
+				List<Node> f2 = getFollowedNodes(curr.getB());
+				curr = null;
+				for (CommonEntry cm:common) {
+					if (used.contains(cm)){
+						continue;
+					}
+					if (f1.contains(cm.getA()) && f2.contains(cm.getB())) {
+						removeAllIncomingEdges(cm.getB(), diagram);
+						cm.getB().setParent(null);
+						entry.getB().setParent(null);
+						leftNode = cm.getA();	
+						used.add(cm);
+						curr = cm;
+						entry = cm;
+						break;
+					}
+				}
 			}
 
-			entry.getB().setParent(null);
+			labelEdges(entry.getA().getOutgoingEdges(), getCondition(diagramA));
+			labelEdges(entry.getB().getOutgoingEdges(), getCondition(diagramB));
 			
+			if (pEnd.containsAll(entry.getNodes()) && entry.getNodes().size() == pEnd.size()){
+				reattachOutgoingEdgesFromTo(initialJoin, leftNode);
+				reattachOutgoingEdgesFromTo(entry.getB(), leftNode);
+				nSplit.setParent(null);
+				removeAllIncomingEdges(initialJoin,  diagram);
+				initialJoin.setParent(null);
+				nSplit = leftNode;
+			} else {
+				reattachOutgoingEdgesFromTo(entry.getA(), nSplit);
+				reattachOutgoingEdgesFromTo(entry.getB(), nSplit);
+				getSequenceFlow(leftNode, nSplit);
+			}
+		
+			entry.getB().setParent(null);	
+			
+			used.add(entry);
 		}
 				
 	}
-
 	
+	private void labelEdges(List<Edge> edges, String label){
+		for (Edge edge:edges) {
+			if (edge instanceof SequenceFlow) {
+				((SequenceFlow) edge).setConditionExpression(label);
+			}
+		}
+	}
+	
+	private void removeAllIncomingEdges(Node node, BPMNDiagram diagram){
+		List<Edge> iEdges = new ArrayList<Edge>(node.getIncomingEdges());
+		for (Edge edge : iEdges){
+			edge.setTarget(null);
+			edge.setSource(null);
+			if (diagram.getEdges().contains(edge)) {
+				diagram.getEdges().remove(edge);
+			}
+		}
+	}
+
+	private void removeAllOutgoingEdges(Node node, BPMNDiagram diagram){
+		List<Edge> iEdges = new ArrayList<Edge>(node.getOutgoingEdges());
+		for (Edge edge : iEdges){
+			edge.setTarget(null);
+			edge.setSource(null);
+			if (diagram.getEdges().contains(edge)) {
+				diagram.getEdges().remove(edge);
+			}
+		}
+	}
+	
+	private void reattachIncomingEdgesFromTo(Node from, Node to){
+		
+		List<Edge> iEdges = new ArrayList<Edge>(from.getIncomingEdges());
+		for (Edge edge : iEdges){
+			if (edge instanceof SequenceFlow){ 
+				edge.setTarget(to);
+			} else { 
+			}
+		}
+		
+	}
+
+	private void reattachOutgoingEdgesFromTo(Node from, Node to){
+		
+		List<Edge> iEdges = new ArrayList<Edge>(from.getOutgoingEdges());
+		for (Edge edge : iEdges){
+			if (edge instanceof SequenceFlow){ 
+				edge.setSource(to);
+			} else { 
+			}
+		}
+		
+	}	
 	/**
 	 * Add all elements from the diagram 
 	 * to the this.diagram
@@ -258,7 +303,7 @@ public class ExtractProcessConfiguration extends AbstractExtraction{
 		
 		for (Node end:nodes){
 			SequenceFlow f = getSequenceFlow(end, initialJoin);
-			f.setConditionExpression(getCondition(diagram));
+			//f.setConditionExpression(getCondition(diagram));
 		}		
 	}
 	

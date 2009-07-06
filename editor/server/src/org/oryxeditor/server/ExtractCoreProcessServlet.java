@@ -35,8 +35,10 @@ import com.sun.tools.example.debug.bdi.MethodNotFoundException;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.extract.CommonActivities;
+import de.hpi.bpmn.extract.CommonMandatoryActivities;
 import de.hpi.bpmn.extract.ExtractLargestCommon;
 import de.hpi.bpmn.extract.ExtractProcessConfiguration;
+import de.hpi.bpmn.extract.ExtractLowestCommon;
 import de.hpi.bpmn.extract.exceptions.IsNotWorkflowNetException;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
@@ -98,8 +100,12 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 					extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
 				} else if ("equivalence".equals(algorithm)) {
 					extractModel = new CommonActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
+				} else if ("arbitrary".equals(algorithm)) {
+					extractModel = new CommonMandatoryActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
 				} else if ("largest".equals(algorithm)) {
 					extractModel = new ExtractLargestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
+				} else if ("lowest".equals(algorithm)) {
+					extractModel = new ExtractLowestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
 				} else {
 					throw new MethodNotFoundException();
 				}
