@@ -328,13 +328,13 @@ new function(){
 									boxLabel: 'Common Mandatory Activity',
 									name	: 'algorithm',
 									id		: CONST.ARBITRARY_EQUIVALENCE,
-									xtype	: 'radio'
+									xtype	: 'radio',
+									checked	: true
 						        },{
 									boxLabel: 'Common Activity',
 									name	: 'algorithm',
 									id		: CONST.EQUIVALENCE,
-									xtype	: 'radio',
-									checked	: true
+									xtype	: 'radio'
 						        },{
 									boxLabel: 'Lowest Common Sub Traces',
 									name	: 'algorithm',
@@ -353,11 +353,11 @@ new function(){
 						        },{
 									fieldLabel: "Process 1",
 									//value	: "http://localhost:8080/oryx/model1.xml"
-									value	: "http://oryx-editor.org/backend/poem/model/4759/json"
+									value	: "http://oryx-editor.org/backend/poem/model/4758/json"
 								},{
 									fieldLabel: "Process 2",
 									//value	: "http://localhost:8080/oryx/model2.xml"
-									value	: "http://oryx-editor.org/backend/poem/model/4419/json"
+									value	: "http://oryx-editor.org/backend/poem/model/4759/json"
 								}]
 						});
 	
