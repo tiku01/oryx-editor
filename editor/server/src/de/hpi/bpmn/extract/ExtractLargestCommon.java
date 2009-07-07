@@ -4,13 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import org.apache.batik.dom.xbl.NodeXBL;
-
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 import de.hpi.PTnet.PTNet;
 import de.hpi.bp.BehaviouralProfile;
@@ -18,15 +13,12 @@ import de.hpi.bp.BehaviouralProfile.CharacteristicRelationType;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Edge;
 import de.hpi.bpmn.Node;
-import de.hpi.bpmn.extract.AbstractExtraction.CommonEntry;
 import de.hpi.bpmn.extract.exceptions.IsNotWorkflowNetException;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 import de.hpi.bpmn2pn.converter.HighConverter;
-import de.hpi.bpt.process.petri.PetriNet;
 import de.hpi.highpetrinet.HighPetriNet;
 import de.hpi.petrinet.LabeledTransition;
-import de.hpi.petrinet.Transition;
 
 public class ExtractLargestCommon extends AbstractExtraction {
 

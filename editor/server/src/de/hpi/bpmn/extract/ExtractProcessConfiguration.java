@@ -1,21 +1,9 @@
 package de.hpi.bpmn.extract;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.UUID;
-
-import net.sf.saxon.exslt.Common;
 
 import de.hpi.bpmn.BPMNDiagram;
-import de.hpi.bpmn.BPMNFactory;
-import de.hpi.bpmn.Container;
 import de.hpi.bpmn.DiagramObject;
 import de.hpi.bpmn.Edge;
 import de.hpi.bpmn.EndEvent;
@@ -25,7 +13,6 @@ import de.hpi.bpmn.StartEvent;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
-import de.hpi.diagram.OryxUUID;
 import de.hpi.util.Bounds;
 
 /**

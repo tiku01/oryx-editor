@@ -5,7 +5,6 @@ import java.util.SortedSet;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Node;
-import de.hpi.bpmn.extract.AbstractExtraction.CommonEntry;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 

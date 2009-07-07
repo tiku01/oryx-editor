@@ -25,7 +25,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.cyberneko.html.HTMLEntities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -37,14 +36,13 @@ import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.extract.CommonActivities;
 import de.hpi.bpmn.extract.CommonMandatoryActivities;
 import de.hpi.bpmn.extract.ExtractLargestCommon;
-import de.hpi.bpmn.extract.ExtractProcessConfiguration;
 import de.hpi.bpmn.extract.ExtractLowestCommon;
+import de.hpi.bpmn.extract.ExtractProcessConfiguration;
 import de.hpi.bpmn.extract.exceptions.IsNotWorkflowNetException;
 import de.hpi.bpmn.extract.exceptions.NoEndNodeException;
 import de.hpi.bpmn.extract.exceptions.NoStartNodeException;
 import de.hpi.bpmn.layout.BPMNLayouter;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
-import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn.serialization.erdf.BPMNeRDFSerializer;
 import de.hpi.util.JsonErdfTransformation;
 
