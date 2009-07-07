@@ -83,11 +83,16 @@ public class BPMNLayouterServlet extends HttpServlet {
 		// this.dao = new ERDFDiagramDao();
 		// this.diagram = dao.getBPMNDiagramFromString(eRDF);
 
+		JSONObject jsonModel;
 		try {
-			this.diagram = new JSONDiagramDao().getDiagramFromJSON(new JSONObject(
-					jsonmodel));
+			jsonModel = new JSONObject(jsonmodel);
+			this.diagram = new JSONDiagramDao().getDiagramFromJSON(jsonModel);
 		} catch (JSONException e1) {
-			throw new ServletException(e1);
+			//throw new ServletException(e1);
+			response.setStatus(500);
+			response.getWriter().print("import of json failed:");
+			e1.printStackTrace(response.getWriter());
+			return;
 		}
 
 		if (this.diagram == null) {
@@ -108,44 +113,62 @@ public class BPMNLayouterServlet extends HttpServlet {
 		response.setStatus(200);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/xhtml");
-		// response.getWriter().print("testresponse");
 
-		JSONArray json = new JSONArray();
-
-		try {
-			for (String id : this.diagram.getElements().keySet()) {
-				BPMNElement element = this.diagram.getElement(id);
-				JSONObject obj = new JSONObject();
-				obj.put("id", id);
-
-				BPMNBounds bounds = element.getGeometry();
-				String boundsString = bounds.getX() + " " + bounds.getY() + " "
-						+ bounds.getX2() + " " + bounds.getY2();
-				obj.put("bounds", boundsString);
-
-				if (BPMNType.isAConnectingElement(element.getType())) {
-					if (element.getDockers() != null) {
-						obj.put("dockers", buildDokersString(element));
-					} else {
-						obj.put("dockers", JSONObject.NULL);
+		if(request.getParameter("output") != null && request.getParameter("output").equals("coordinatesonly")){
+			JSONArray json = new JSONArray();
+	
+			try {
+				for (String id : this.diagram.getElements().keySet()) {
+					BPMNElement element = this.diagram.getElement(id);
+					JSONObject obj = new JSONObject();
+					obj.put("id", id);
+	
+					BPMNBounds bounds = element.getGeometry();
+					String boundsString = bounds.getX() + " " + bounds.getY() + " "
+							+ bounds.getX2() + " " + bounds.getY2();
+					obj.put("bounds", boundsString);
+	
+					if (BPMNType.isAConnectingElement(element.getType())
+							|| BPMNType.isACatchingIntermediateEvent(element
+									.getType())) {
+						if (element.getDockers() != null) {
+							obj.put("dockers", buildDockersArray(element));//buildDokersString(element));
+						} else {
+							obj.put("dockers", JSONObject.NULL);
+						}
 					}
-				} else if (BPMNType.isACatchingIntermediateEvent(element
-						.getType())) {
-					// docked events
-					if (element.getDockers() != null) {
-						obj.put("docker", buildDokersString(element));
-					} else {
-						obj.put("docker", JSONObject.NULL);
-					}
+	
+					json.put(obj);
 				}
-
-				json.put(obj);
+				json.write(response.getWriter());
+			} catch (JSONException e) {
+				response.getWriter().print("exception");
 			}
-			json.write(response.getWriter());
-		} catch (JSONException e) {
-			response.getWriter().print("exception");
+		}else{
+			try {
+				jsonModel.write(response.getWriter());
+			} catch (JSONException e) {
+				response.setStatus(500);
+				response.getWriter().print("json export failed:");
+				e.printStackTrace(response.getWriter());
+				return;
+			}
 		}
 
+	}
+	
+	private JSONArray buildDockersArray(BPMNElement element){
+		JSONArray dockers = new JSONArray();
+		for (Point p : element.getDockers().getPoints()) {
+			JSONObject point = new JSONObject();
+			try {
+				point.put("x", p.x);
+				point.put("y", p.y);
+				dockers.put(point);
+			} catch (JSONException e) {
+			}
+		}
+		return dockers;
 	}
 
 	private String buildDokersString(BPMNElement element) {
@@ -260,55 +283,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 		}
 	}
 
-	// protected static String erdfToRdf(String erdf) throws
-	// TransformerException{
-	// String serializedDOM = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-	// "<html xmlns=\"http://www.w3.org/1999/xhtml\" " +
-	// "xmlns:b3mn=\"http://b3mn.org/2007/b3mn\" " +
-	// "xmlns:ext=\"http://b3mn.org/2007/ext\" " +
-	// "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
-	// "xmlns:atom=\"http://b3mn.org/2007/atom+xhtml\">" +
-	// "<head profile=\"http://purl.org/NET/erdf/profile\">" +
-	// "<link rel=\"schema.dc\" href=\"http://purl.org/dc/elements/1.1/\" />" +
-	// "<link rel=\"schema.dcTerms\" href=\"http://purl.org/dc/terms/ \" />" +
-	// "<link rel=\"schema.b3mn\" href=\"http://b3mn.org\" />" +
-	// "<link rel=\"schema.oryx\" href=\"http://oryx-editor.org/\" />" +
-	// "<link rel=\"schema.raziel\" href=\"http://raziel.org/\" />" +
-	// "</head><body>" + erdf + "</body></html>";
-	//        
-	// InputStream xsltStream =
-	// Dispatcher.servletContext.getResourceAsStream("/WEB-INF/lib/extract-rdf.xsl");
-	// Source xsltSource = new StreamSource(xsltStream);
-	// Source erdfSource = new StreamSource(new StringReader(serializedDOM));
-	//
-	// TransformerFactory transFact =
-	// TransformerFactory.newInstance();
-	// Transformer trans = transFact.newTransformer(xsltSource);
-	// StringWriter output = new StringWriter();
-	// trans.transform(erdfSource, new StreamResult(output));
-	// return output.toString();
-	// }
-	//	
-	// protected static String erdfToJson(String erdf, String serverUrl){
-	// DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	// factory.setNamespaceAware(true);
-	// DocumentBuilder builder;
-	// try {
-	// builder = factory.newDocumentBuilder();
-	// Document rdfDoc = builder.parse(new
-	// ByteArrayInputStream(erdfToRdf(erdf).getBytes()));
-	// return RdfJsonTransformation.toJson(rdfDoc, serverUrl).toString();
-	// } catch (ParserConfigurationException e) {
-	// e.printStackTrace();
-	// } catch (SAXException e) {
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// } catch (TransformerException e) {
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
+	
 
 	protected static String jsonToErdf(String json) {
 		JsonErdfTransformation trans = new JsonErdfTransformation(json);

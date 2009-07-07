@@ -46,11 +46,15 @@ ORYX.Plugins.BpmnLayouter = ORYX.Plugins.AbstractPlugin.extend({
 			method : 'POST',
 			asynchronous : false,
 			parameters : {
-				data: this.facade.getSerializedJSON()
+				data: this.facade.getSerializedJSON(),
+				output: "coordinatesonly"
+			},
+			onFailure: function(request){
+				Ext.Msg.alert("Oryx Layouting Error", "Error while layouting:!\n" + request.responseText);
 			},
 			onSuccess: function(request){
 
-				Ext.Msg.alert("Oryx", "New Layout arrived:!\n" + request.responseText);
+				/*Ext.Msg.alert("Oryx", "New Layout arrived:!\n" + request.responseText);*/
 				var resp = request.responseText.evalJSON();
 
 				if(resp instanceof Array && resp.size() > 0){
@@ -61,56 +65,9 @@ ORYX.Plugins.BpmnLayouter = ORYX.Plugins.AbstractPlugin.extend({
 						shape.bounds.set(bound[0],bound[1],bound[2],bound[3]);
 						
 						if(elem.dockers != null){
-							/* clear all except of the first and last dockers */
-							/*var dockers = shape.getDockers().slice(1,-1);
-							dockers.each(function(docker){
-								shape.removeDocker(docker);
-							});
-							
-							var dockersCoordinates = elem.dockers.split(" ");*/
-							/* set first and last docker */
-							/*var firstDocker = shape.getDockers()[0];
-							var firstPoint = {
-									x: dockersCoordinates.shift(),
-									y: dockersCoordinates.shift()
-								};
-							firstDocker.setReferencePoint(firstPoint);	
-							firstDocker.update();
-							
-							var lastDocker = shape.getDockers()[1];
-							var lastPoint = {
-									y: dockersCoordinates.pop(),
-									x: dockersCoordinates.pop()
-								};
-							lastDocker.setReferencePoint(lastPoint);	
-							lastDocker.update();
-							
-							lastDocker.fail();
-							*/
-							/* add new dockers except of the first and last */
-							/*dockersCoordinates = dockersCoordinates.slice(2,-2);
-							for(var i = 0; i < dockersCoordinates.length; i = i + 2){
-								var point = {
-									x: parseFloat(dockersCoordinates[i]),
-									y: parseFloat(dockersCoordinates[i+1])
-								};
-								shape.addDocker(point);
-							}*/
-							shape.deserialize([{
-								prefix: 'oryx',
-								name: 'dockers',
-								value: elem.dockers
-							}]);
+							this.setDockersBad(shape,elem.dockers);
 						}
 						
-						/* docked events */
-						if (elem.docker != null) {
-							shape.deserialize([{
-								prefix: 'oryx',
-								name: 'docker',
-								value: elem.docker
-							}]);
-						}
 						shape.update();
 					}.bind(this));
 				this.facade.getCanvas().update();
@@ -118,5 +75,59 @@ ORYX.Plugins.BpmnLayouter = ORYX.Plugins.AbstractPlugin.extend({
 				
 			}.bind(this)
 		})
+	},
+	setDockersBad: function(shape, dockers){
+		var dockersString = "";
+		dockers.each(function(p){
+			dockersString += p.x + " " + p.y + " ";
+		});
+		dockersString += " # ";
+		shape.deserialize([{
+								prefix: 'oryx',
+								name: 'dockers',
+								value: dockersString
+							}]);
+	},
+	setDockersGood: function(shape, dockers){
+		if(elem.dockers.length == 1){
+			/* docked event */
+			
+		}else{
+			
+			/* clear all except of the first and last dockers */
+			var dockers = shape.getDockers().slice(1,-1);
+			dockers.each(function(docker){
+				shape.removeDocker(docker);
+			});
+			
+			/* set first and last docker */
+			var firstDocker = shape.getDockers()[0];
+			if (firstDocker.getDockedShape()) {
+				firstDocker.setReferencePoint(elem.dockers[0]);
+			}
+			else {
+				firstDocker.bounds.moveTo(elem.dockers[0].x,elem.dockers[0].y);
+			}
+			firstDocker.refresh();
+			
+			var lastDocker = shape.getDockers()[1];
+			if (lastDocker.getDockedShape()) {
+				lastDocker.setReferencePoint(elem.dockers[elem.dockers.length - 1]);
+			}
+			else {
+				lastDocker.bounds.moveTo(elem.dockers[elem.dockers.length - 1].x, elem.dockers[elem.dockers.length - 1].y);
+			}
+			lastDocker.refresh();
+			
+			/* add new dockers except of the first and last */
+			var dockersToAdd = elem.dockers.slice(1,-1);
+			dockersToAdd.each(function(dockerPoint){
+				var newDocker = shape.createDocker();
+				newDocker.parent = shape;
+				newDocker.bounds.centerMoveTo(dockerPoint.x, dockerPoint.y);
+				/*newDocker.setReferencePoint(dockerPoint);*/
+				newDocker.update();
+			});
+		}		
 	}
 });

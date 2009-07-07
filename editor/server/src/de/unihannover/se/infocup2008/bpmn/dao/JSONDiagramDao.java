@@ -56,6 +56,7 @@ public class JSONDiagramDao {
 	private void walkShape(JSONObject node, BPMNDiagramJSON dia, BPMNElement parent)
 			throws JSONException {
 		BPMNElementJSON elem = dia.getElement(node.getString("resourceId"));
+		elem.setElementJSON(node);
 		JSONObject stencil = node.getJSONObject("stencil");
 		elem.setType(BPMNType.PREFIX + stencil.getString("id"));
 		elem.setParent(parent);
