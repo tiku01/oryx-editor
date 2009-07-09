@@ -15,6 +15,7 @@ public class BPMNDiagram implements Container {
 	
 	protected String title;
 	protected String id;
+	protected String dataTypeDefinition;
 	protected List<Node> childNodes;
 	protected List<DataObject> dataObjects;
 	protected List<Edge> edges;
@@ -30,6 +31,14 @@ public class BPMNDiagram implements Container {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDataTypeDefinition() {
+		return dataTypeDefinition;
+	}
+
+	public void setDataTypeDefinition(String dataTypeDefinition) {
+		this.dataTypeDefinition = dataTypeDefinition;
 	}
 
 	public List<DataObject> getDataObjects() {

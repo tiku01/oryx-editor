@@ -55,12 +55,14 @@ public class BPMN2YAWLConverter {
 		Container pool = diagram.getProcesses().get(0);	
 		
 		YModel model = new YModel("mymodel");
+		model.setDataTypeDefinition(diagram.getDataTypeDefinition());
+		
 		// YAWL
 		mapDecomposition(model, pool);		
 
 		return model.writeToYAWL();
 	}
-
+	
 	/**
 	 * @param model
 	 * @param graph
