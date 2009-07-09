@@ -332,6 +332,8 @@ public class BPMN11RDFImporter {
 					c.diagram.setId(getContent(n));
 					// } else {
 					// handleStandardAttributes(attribute, n, pool, c, "Name");
+				} else if (attribute.equals("datatypedefinition")) {
+					c.diagram.setDataTypeDefinition(getContent(n));
 				}
 			}
 		}

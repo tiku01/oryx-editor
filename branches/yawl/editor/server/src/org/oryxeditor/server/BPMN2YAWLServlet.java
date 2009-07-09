@@ -87,24 +87,28 @@ public class BPMN2YAWLServlet extends HttpServlet {
 
 		//Syntax-Checking
 		BPMN2YAWLSyntaxChecker checker = new BPMN2YAWLSyntaxChecker(diagram);
-		checker.checkSyntax();
+		boolean isOK = checker.checkSyntax();
+		if(!isOK){
+			writer.print(checker.getErrorsAsJson().toString());
+		}else{
 		
-		//normalize the given diagram for easier mapping
-		BPMN2YAWLNormalizer normalizerForBPMN = new BPMN2YAWLNormalizer(diagram);
-		normalizerForBPMN.normalizeForYAWL();
-		System.out.println("BPMN2YAWLServlet: The normalizer has normalized the diagram.");
+			//normalize the given diagram for easier mapping
+			BPMN2YAWLNormalizer normalizerForBPMN = new BPMN2YAWLNormalizer(diagram);
+			normalizerForBPMN.normalizeForYAWL();
+			System.out.println("BPMN2YAWLServlet: The normalizer has normalized the diagram.");
 		
-		BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
-		yawlXML = converter.translate(diagram);
+			BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
+			yawlXML = converter.translate(diagram);
 		
-		try{
-			fileWriter = new FileWriter("OryxBPMNToYAWL.yawl");
-			fileWriter.write(yawlXML);
-			fileWriter.close();
-		} catch (IOException e){
-			System.out.println("Fehler beim Erstellen des YAWL-Files");
-		}
+			try{
+				fileWriter = new FileWriter("OryxBPMNToYAWL.yawl");
+				fileWriter.write(yawlXML);
+				fileWriter.close();
+			} catch (IOException e){
+				System.out.println("Fehler beim Erstellen des YAWL-Files");
+			}
 		
-		System.out.println("Hello world, I am the BPMN2YAWLservlet.");
+			System.out.println("Hello world, I am the BPMN2YAWLservlet.");
+		}	
 	}
 }

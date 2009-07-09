@@ -6,6 +6,7 @@ import java.util.*;
 public class YModel {
 	private String uri; // The uri of the YAWL model
 	private String description = "No description has been given.";
+	private String dataTypeDefinition = "";
 	//private String name = "";
 	//private String documentation = "";
 	private HashMap<String, YDecomposition> decompositions = new HashMap<String, YDecomposition>(); // All decompositions of the YAWL model
@@ -50,6 +51,14 @@ public class YModel {
 		return!decomposition.getNodes().isEmpty();
 	}
 
+	public void setDataTypeDefinition(String dataTypeDefinition) {
+		this.dataTypeDefinition = dataTypeDefinition;
+	}
+
+	public String getDataTypeDefinition() {
+		return dataTypeDefinition;
+	}
+
 	/**
 	 * Export to YAWL file.
 	 * @param bw Writer
@@ -68,7 +77,11 @@ public class YModel {
 		s += "\t\t<metaData>\n";
 		s += "\t\t\t<description>" + description + "</description>\n";
 		s += "\t\t</metaData>\n";
-		s += "\t\t<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" />\n";
+		if(dataTypeDefinition.isEmpty())
+			s += "\t\t<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" />\n";
+		else
+			s += "\t\t" + dataTypeDefinition + "\n";
+		
 		
 		for (YDecomposition decomposition: decompositions.values()) {
 			s += decomposition.writeToYAWL();

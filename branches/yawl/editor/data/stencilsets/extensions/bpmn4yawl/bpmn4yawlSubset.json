@@ -52,6 +52,19 @@
 					"readonly":true,
 					"optional":true,
 					"length":"50"
+				},
+				{
+					"id":"dataTypeDefinition",
+					"type":"String",
+					"title":"DataTypeDefinition",
+					"title_de":"Datentypdefinitionen",
+					"value":"",
+					"description":"Define your own XML datatypes that store specific information",
+					"description_de":"Definieren von eigenen XML Datentypen zur Speicherung spezieller Informationen",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
 				}
 			]
 		}
