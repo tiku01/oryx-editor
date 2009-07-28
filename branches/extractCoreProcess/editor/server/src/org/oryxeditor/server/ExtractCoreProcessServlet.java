@@ -30,8 +30,6 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.tools.example.debug.bdi.MethodNotFoundException;
-
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.extract.CommonActivities;
 import de.hpi.bpmn.extract.CommonMandatoryActivities;
@@ -79,62 +77,59 @@ public class ExtractCoreProcessServlet extends HttpServlet {
 
 		servletContext = this.getServletContext();
 		
+
+		String modelA = req.getParameter("modelA");
+		String modelB = req.getParameter("modelB");
+		String algorithm = req.getParameter("algorithm");
+
+		//CONST.EQUIVALENCE = "equivalence";
+		//CONST.ARBITRARY_EQUIVALENCE = "arbitrary";
+		//CONST.LOWEST_COMMON = "lowest";
+		//CONST.LARGEST_COMMON = "largest";
+		//CONST.COMBINED = "combined";
+		
+		BPMNDiagram extractModel = null;
 		try {
-
-			String modelA = req.getParameter("modelA");
-			String modelB = req.getParameter("modelB");
-			String algorithm = req.getParameter("algorithm");
-
-			//CONST.EQUIVALENCE = "equivalence";
-			//CONST.ARBITRARY_EQUIVALENCE = "arbitrary";
-			//CONST.LOWEST_COMMON = "lowest";
-			//CONST.LARGEST_COMMON = "largest";
-			//CONST.COMBINED = "combined";
 			
-			BPMNDiagram extractModel = null;
-			try {
-				
-				if ("combined".equals(algorithm)) {
-					extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
-				} else if ("equivalence".equals(algorithm)) {
-					extractModel = new CommonActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
-				} else if ("arbitrary".equals(algorithm)) {
-					extractModel = new CommonMandatoryActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
-				} else if ("largest".equals(algorithm)) {
-					extractModel = new ExtractLargestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
-				} else if ("lowest".equals(algorithm)) {
-					extractModel = new ExtractLowestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
-				} else {
-					throw new MethodNotFoundException();
-				}
-
-				res.setContentType("text/json");
-		    	res.setStatus(200);
-				res.getWriter().print(getOutputFormat(extractModel, req));
-				
-			} catch (NoStartNodeException e) {
-		    	res.setStatus(404);
-				this.printError("One model has no start node.", res.getWriter());
-			} catch (NoEndNodeException e) {
-		    	res.setStatus(404);
-				this.printError("One model has no end node.", res.getWriter());
-			} catch (TransformerException e) {
-		    	res.setStatus(404);
-				this.printError("Model can not transfer to the RDF representation.", res.getWriter());
-			} catch (MethodNotFoundException e) {
-		    	res.setStatus(404);
-				this.printError("Algorithm was not found.", res.getWriter());
-			} catch (IsNotWorkflowNetException e) {
-		    	res.setStatus(404);
-				this.printError("Diagram has to be an BPMN diagram which can be mapped to an workflow net.", res.getWriter());
+			if ("combined".equals(algorithm)) {
+				extractModel = new ExtractProcessConfiguration(getDiagram(modelA), getDiagram(modelB)).extract();
+			} else if ("equivalence".equals(algorithm)) {
+				extractModel = new CommonActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
+			} else if ("arbitrary".equals(algorithm)) {
+				extractModel = new CommonMandatoryActivities(getDiagram(modelA), getDiagram(modelB)).extract();					
+			} else if ("largest".equals(algorithm)) {
+				extractModel = new ExtractLargestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
+			} else if ("lowest".equals(algorithm)) {
+				extractModel = new ExtractLowestCommon(getDiagram(modelA), getDiagram(modelB)).extract();					
+			} else {
+				throw new Exception();
+				//throw new MethodNotFoundException();
 			}
+
+			res.setContentType("text/json");
+	    	res.setStatus(200);
+			res.getWriter().print(getOutputFormat(extractModel, req));
 			
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
+		} catch (NoStartNodeException e) {
+	    	res.setStatus(404);
+			this.printError("One model has no start node.", res.getWriter());
+		} catch (NoEndNodeException e) {
+	    	res.setStatus(404);
+			this.printError("One model has no end node.", res.getWriter());
+		} catch (TransformerException e) {
+	    	res.setStatus(404);
+			this.printError("Model can not transfer to the RDF representation.", res.getWriter());
+		//} catch (MethodNotFoundException e) {
+	    //	res.setStatus(404);
+		//	this.printError("Algorithm was not found.", res.getWriter());
+		} catch (IsNotWorkflowNetException e) {
+	    	res.setStatus(404);
+			this.printError("Diagram has to be an BPMN diagram which can be mapped to an workflow net.", res.getWriter());
+		} catch (Exception e) {
+		    res.setStatus(404);
+			this.printError("Algorithm was not found.", res.getWriter());
 		}
+		
 	}
 	
 	private void printError(String error, Writer writer){
