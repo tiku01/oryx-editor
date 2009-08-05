@@ -165,8 +165,11 @@ ORYX.Plugins.EPCGlossaryChecker = Clazz.extend({
     handleResult: function(transport) {
     	this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_DISABLE});
     	
-    	console.log(transport);
     	var result = transport.responseText.evalJSON();
+    	
+    	Ext.Msg.alert("EPC Glossary Checker Results", result.labelQuality.toFixed(2) + "% (" + result.validLabelCounter + " / " + result.labelCounter + ") of the labels have been found in the glossary.<br/><br/>"+
+    					result.bpQuality + "% (" + result.validBPCounter.toFixed(2) + " / " + result.bpCounter + ") of the behavioural profiles are valid.<br/><br/>"+
+    					result.typeQuality + "% (" + result.validTypeCounter.toFixed(2) + " / " + result.typeCounter + ") of the labels are used on the correct element type.");
     	
     	var notInGlossary = result.notInGlossary;
     	var invalidTypes = result.invalidTypes;
