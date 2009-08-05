@@ -403,7 +403,6 @@ Ext.form.ComboBoxMulti = Ext.extend(Ext.form.ComboBoxMulti, Ext.form.ComboBox, {
 	
     // private
     onLoad : function(){
-    	console.log("onLoad")
         if(!this.hasFocus){
             return;
         }
@@ -411,20 +410,20 @@ Ext.form.ComboBoxMulti = Ext.extend(Ext.form.ComboBoxMulti, Ext.form.ComboBox, {
             this.expand();
             this.restrictHeight();
             if(this.lastQuery == this.allQuery){
-                if(this.editable){
-                    this.selectText()
-                }
-                if(!this.selectByValue(this.value, true)){
-                    this.select(0, true);
-                }
+//                if(this.editable){
+//                    this.selectText()
+//                }
+//                if(!this.selectByValue(this.value, true)){
+//                    this.select(0, true);
+//                }
             }else{
-                this.selectNext();
-                if(this.typeAhead && this.lastKey != Ext.EventObject.BACKSPACE && this.lastKey != Ext.EventObject.DELETE){
-                    this.taTask.delay(this.typeAheadDelay);
-                }
+//                this.selectNext();
+//                if(this.typeAhead && this.lastKey != Ext.EventObject.BACKSPACE && this.lastKey != Ext.EventObject.DELETE){
+//                    this.taTask.delay(this.typeAheadDelay);
+//                }
             }
         }else{
-            this.onEmptyResults();
+        	this.onEmptyResults();
         }
 		
         //this.el.focus();
@@ -458,12 +457,12 @@ Ext.form.ComboBoxMulti = Ext.extend(Ext.form.ComboBoxMulti, Ext.form.ComboBox, {
             cancel:false
         };
         if(this.fireEvent('beforequery', qe)===false || qe.cancel){
-            return false;
+        	return false;
         }
         q = qe.query;
         forceAll = qe.forceAll;
         if(forceAll === true || (q.length >= this.minChars)){
-            if(this.lastQuery !== q){
+           //if(this.lastQuery !== q){
                 this.lastQuery = q;
                 if(this.mode == 'local'){
                 	this.selectedIndex = -1;
@@ -473,6 +472,7 @@ Ext.form.ComboBoxMulti = Ext.extend(Ext.form.ComboBoxMulti, Ext.form.ComboBox, {
                         this.store.filter(this.displayField, q, this.anyMatch);
                     }
                     this.onLoad();
+                    this.expand();
                 }else{
                 	this.store.baseParams[this.queryParam] = q;
                     this.store.load({
@@ -480,11 +480,11 @@ Ext.form.ComboBoxMulti = Ext.extend(Ext.form.ComboBoxMulti, Ext.form.ComboBox, {
                     });
                     this.expand();
                 }
-            }else{
-            	this.expand();
+//            }else{
 //            	this.selectedIndex = -1;
 //                this.onLoad();
-            }
+//            	this.expand();
+//            }
         }
     },
 	

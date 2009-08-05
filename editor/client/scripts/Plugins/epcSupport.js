@@ -43,7 +43,8 @@ ORYX.Plugins.EPCSupport = Clazz.extend({
 		this.facade.offer({
 			'name':ORYX.I18N.EPCSupport.exp,
 			'functionality': this.exportEPC.bind(this),
-			'group': ORYX.I18N.EPCSupport.group,
+			'group': "Export",
+			dropDownGroupIcon: ORYX.PATH + "images/import.png",
 			'icon': ORYX.PATH + "images/epml_export_icon.png",
 			'description': ORYX.I18N.EPCSupport.expDesc,
 			'index': 1,
@@ -53,7 +54,8 @@ ORYX.Plugins.EPCSupport = Clazz.extend({
 		this.facade.offer({
 			'name':ORYX.I18N.EPCSupport.imp,
 			'functionality': this.importEPC.bind(this),
-			'group': ORYX.I18N.EPCSupport.group,
+			'group': "Export",
+			dropDownGroupIcon: ORYX.PATH + "images/import.png",
 			'icon': ORYX.PATH + "images/epml_import_icon.png",
 			'description': ORYX.I18N.EPCSupport.impDesc,
 			'index': 2,
@@ -249,7 +251,6 @@ ORYX.Plugins.EPCSupport = Clazz.extend({
 				      		success: function(f,a){
 								
 								dialog.hide();
-								
 								// Get the erdf string					
 								var erdf = a.result;
 								erdf = erdf.startsWith('<?xml') ? erdf : '<?xml version="1.0" encoding="utf-8"?><div>'+erdf+'</div>';	
