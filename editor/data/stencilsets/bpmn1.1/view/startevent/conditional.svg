@@ -11,6 +11,15 @@
   </oryx:magnets>
   <g pointer-events="fill">
     <circle id="frame" cx="16" cy="16" r="15" stroke="black" fill="white" stroke-width="1"/>
+    <circle 
+    	id="frame_non_interrupting" 
+    	cx="16" 
+    	cy="16" 
+    	r="15" 
+    	stroke="black" 
+    	fill="white" 
+    	stroke-width="1"
+    	style="stroke-dasharray: 5.5, 3" />
 
     <rect x="8" y="8" width="16" height="16" stroke="black" stroke-width="1" fill="none" />
     <path d="	M 10 10 L 22 10
