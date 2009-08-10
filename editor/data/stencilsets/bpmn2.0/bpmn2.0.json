@@ -44,7 +44,1067 @@
 					"wrapLines":true
 				}
  			]
- 		}
+ 		},
+		{
+			"name" : "diagram",
+			"properties" : [
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"description_de":"Setzt die Versionsnummer des Diagramms.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"title_de":"Autor",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"description_de": "Name des Autors des Diagramms.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"title_de":"Sprache",
+					"value":"English",
+					"value_de":"Deutsch",
+					"description":"This holds the name of the language in which text is written.",
+					"description_de":"Sprache, in welcher der Text geschrieben ist.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"expressionLanguage",
+					"type":"String",
+					"title":"ExpressionLanguage",
+					"title_de":"AusdrucksSprache",
+					"value":"",
+					"description":"A Language may be provided so that the syntax of expressions used in the Diagram can be understood.",
+					"description_de":"Sprache, mit welcher im Diagramm verwendete Ausdrücke beschrieben sind.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"queryLanguage",
+					"type":"String",
+					"title":"QueryLanguage",
+					"title_de":"AbfrageSprache",
+					"value":"",
+					"description":"A Language may be provided so that the syntax of queries used in the Diagram can be understood.",
+					"description_de":"Sprache, mit welcher im Diagramm verwendete Abfragen beschrieben sind.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"creationDate",
+					"type":"Date",
+					"title":"CreationDate",
+					"title_de":"Erstellt am",
+					"value":"",
+					"description":"This defines the date on which the Diagram was created.",
+					"description_de":"Datum an dem das Diagramm erstellt wurde.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationDate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"title_de":"Geändert am",
+					"value":"",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"description_de":"Datum der letzten Änderung.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"pools",
+					"type":"String",
+					"title":"Pools",
+					"value":"",
+					"description":"A Business Process Diagram shall contain one or more Pools.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"name": "flowElement",
+			"properties" : [
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"title_de":"Kategorien",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"name" : "activity",
+			"properties": [
+				{
+					"id":"startQuantity",
+					"type":"Integer",
+					"title":"StartQuantity",
+					"title_de":"Startanzahl",
+					"value":1,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"min":"1"
+				},
+				{
+					"id":"completionQuantity",
+					"type":"Integer",
+					"title":"CompletionQuantity",
+					"title_de":"Fertigstellungsanzahl",
+					"value":1,
+					"description":"Defines the number of tokens that must be generated from the activity",
+					"description_de":"Legt die Anzahl der Token fest, die von der Aktivität generiert werden müssen.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"min":"1"
+				},
+				{	
+					"id":"status",
+					"type":"Choice",
+					"title":"Status",
+					"value":"None",
+					"description":"The Status of an activity is determined when the activity is being executed by a process engine.",
+					"description_de":"Der Status einer Aktivität wird bestimmt, wenn die Aktivität von einer Prozessengine ausgeführt wird.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None",
+							"refToView":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Ready",
+							"value":"Ready",
+							"refToView":"Ready"
+						},
+						{
+							"id":"c3",
+							"title":"Active",
+							"value":"Active",
+							"refToView":"Active"
+						},
+						{
+							"id":"c4",
+							"title":"Cancelled",
+							"value":"Cancelled",
+							"refToView":"Cancelled"
+						},
+						{
+							"id":"c5",
+							"title":"Aborting",
+							"value":"Aborting",
+							"refToView":"Aborting"
+						},
+						{
+							"id":"c6",
+							"title":"Aborted",
+							"value":"Aborted",
+							"refToView":"Aborted"
+						},
+						{
+							"id":"c7",
+							"title":"Completing",
+							"value":"Completing",
+							"refToView":"Completing"
+						},
+						{
+							"id":"c8",
+							"title":"Completed",
+							"value":"Completed",
+							"refToView":"Completed"
+						}
+					]
+				},
+				{
+					"id":"performers",
+					"type":"String",
+					"title":"Performers",
+					"title_de":"Ausführende",
+					"value":"",
+					"description":"The Performer attribute defines the resource that will perform or will be responsible for the activity.",
+					"description_de":"Das Ausführende Attribut setzt die Ressource, welche die Aktivität ausführen wird oder für sie verantwortlich ist.",
+					"readonly": 	false,
+					"optional": 	true,
+					"length":"",
+					"warpLines" : true
+				},
+				{
+					"id":"properties",
+					"type":"Complex",
+					"title":"Properties",
+					"title_de":"Eigenschaften",
+					"value":"",
+					"description":"Local Properties may be added to the activity. These Properties only apply within the processing of the activity.",
+					"description_de":"Lokale Eigenschaften können der Aktivität hinzugefügt werden. Diese werden ausschließlich während der Abarbeitung der Aktivität angewendet.",
+					"readonly": 	false,
+					"optional": 	false,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"type",
+							"name":"Type",
+							"name_de":"Typ",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"value",
+							"name":"Value",
+							"name_de":"Wert",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"correlation",
+							"name":"Correlation",
+							"name_de":"Korrelation",
+							"type":"Boolean",
+							"value":"false",
+							"width":100,
+							"optional":true
+						}
+					]
+				},
+				{
+					"id":"inputSets",
+					"type":"String",
+					"title":"InputSets",
+					"title_de":"Eingabesätze",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"inputs",
+					"type":"String",
+					"title":"Inputs",
+					"title_de":"Eingaben",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"outputSets",
+					"type":"String",
+					"title":"OutputSets",
+					"title_de":"Ausgabesätze",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"outputs",
+					"type":"String",
+					"title":"Outputs",
+					"title_de":"Ausgaben",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"ioRules",
+					"type":"String",
+					"title":"IORules",
+					"title_de":"EA Regeln",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"testTime",
+					"type":"Choice",
+					"title":"TestTime",
+					"title_de":"Testzeit",
+					"value":"After",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Before",
+							"value":"Before",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"After",
+							"value":"After",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"MI_Condition",
+					"type":"String",
+					"title":"MI_Condition",
+					"title_de":"MI_Bedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"MI_Ordering",
+					"type":"Choice",
+					"title":"MI_Ordering",
+					"title_de":"MI_Anordnung",
+					"value":"Sequential",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Sequential",
+							"value":"Sequential",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Parallel",
+							"value":"Parallel",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"MI_FlowCondition",
+					"type":"Choice",
+					"title":"MI_FlowCondition",
+					"title_de":"MI_Flussbedingung",
+					"value":"All",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"One",
+							"value":"One",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"All",
+							"value":"All",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Complex",
+							"value":"Complex",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"isCompensation",
+					"type":"Boolean",
+					"title":"is Compensation",
+					"title_de":"ist Kompensation",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"compensation"
+				},
+				{
+					"id":"assignments",
+					"type":"Complex",
+					"title":"Assignments",
+					"title_de":"Zuweisungen",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"to",
+							"name":"To",
+							"name_de":"Auf",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"from",
+							"name":"From",
+							"name_de":"Aus",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"assigntime",
+							"name":"AssignTime",
+							"name_de":"Zuweisungszeit",
+							"type":"Choice",
+							"value":"Start",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"c1",
+									"title":"Start",
+									"value":"Start",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"End",
+									"value":"End",
+									"refToView":""
+								}
+							]
+						}
+					]
+				},
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"loopType",
+					"type":"Choice",
+					"title":"LoopType",
+					"title_de":"Schleifentyp",
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None",
+							"refToView":"none"
+						},
+						{
+							"id":"c2",
+							"title":"Standard",
+							"value":"Standard",
+							"refToView":"loop"
+						},
+						{
+							"id":"c3",
+							"title":"MultiInstance",
+							"value":"MultiInstance",
+							"refToView":"multiple"
+						}
+					]
+				},
+				{
+					"id":"loopCondition",
+					"type":"String",
+					"title":"LoopCondition",
+					"title_de":"Schleifenbedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"loopCounter",
+					"type":"Integer",
+					"title":"LoopCounter",
+					"title_de":"Schleifenzähler",
+					"value":1,
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"loopMaximum",
+					"type":"Integer",
+					"title":"LoopMaximum",
+					"title_de":"Schleifenmaximum",
+					"value":1,
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"min":"0"
+				},
+				{
+					"id":"callAcitivity",
+					"type":"Boolean",
+					"title":"is a Call Activity",
+					"title_de":"ist eine Call Activity",
+					"value":0,
+					"description":"",
+					"readonly":false,
+					"optional":"true",
+					"refToView":"callActivity"
+				}
+			]
+		},
+		{
+			"name" : "task",
+			"properties" : [
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Task",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"TaskType",
+					"type":"Choice",
+					"title":"TaskType",
+					"title_de":"Tasktyp",
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items":[
+						{
+							"id":"c1",
+							"title":"Service",
+							"value":"Service",
+							"refToView":"serviceTask"
+						},
+						{
+							"id":"c2",
+							"title":"Receive",
+							"value":"Receive",
+							"refToView":"receiveTask"
+						},
+						{
+							"id":"c3",
+							"title":"Send",
+							"value":"Send",
+							"refToView":"sendTask"
+						},
+						{
+							"id":"c4",
+							"title":"User",
+							"value":"User",
+							"refToView":"userTask"
+						},
+						{
+							"id":"c5",
+							"title":"Human",
+							"value":"Human",
+							"refToView":"humanTask"	
+						},
+						{
+							"id":"c6",
+							"title":"Business Rule",
+							"value":"Business Rule",
+							"refToView":"businessRuleTask"
+						},
+						{
+							"id":"c7",
+							"title":"Script",
+							"value":"Script",
+							"refToView":"scriptTask"
+						},
+						{
+							"id":"c8",
+							"title":"Manual",
+							"value":"Manual",
+							"refToView":""
+						},
+						{
+							"id":"c9",
+							"title":"Reference",
+							"value":"Reference",
+							"refToView":""
+						},
+						{
+							"id":"c10",
+							"title":"None",
+							"value":"None",
+							"refToView":"none"
+						}
+					]
+				},
+				{
+					"id":"InMessage",
+					"type":"String",
+					"title":"InMessage",
+					"title_de":"Eingangsnachricht",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"OutMessage",
+					"type":"String",
+					"title":"OutMessage",
+					"title_de":"Ausgangsnachricht",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"Implementation",
+					"type":"Choice",
+					"title":"Implementation",
+					"title_de":"Implementierung",
+					"value":"Webservice",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Webservice",
+							"value":"Webservice",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Other",
+							"value":"Other",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Unspecified",
+							"value":"Unspecified",
+							"refToView":""
+						}
+					]
+				},
+				{				
+					"id":"ComplexMI_Condition",
+					"type":"String",
+					"title":"ComplexMI_Condition",
+					"title_de":"KomplexeMI Bedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"MessageRef",
+					"type":"String",
+					"title":"MessageRef",
+					"title_de":"NachrichtRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"OperationRef",
+					"type":"String",
+					"title":"OperationRef",
+					"title_de":"OperationsRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"TaskRef",
+					"type":"String",
+					"title":"TaskRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},	
+				{
+					"id":"Instantiate",
+					"type":"Boolean",
+					"title":"Instantiate",
+					"title_de":"Instanziieren",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				
+				{
+					"id":"Script",
+					"type":"String",
+					"title":"Script",
+					"title_de":"Skript",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}		
+			]
+		},
+		{
+			"name" : "subprocess",
+			"properties" : [
+				{
+					"id": "subProcessType",
+					"type": "Choice",
+					"title": "subProcessType",
+					"title_de":"Subprozesstyp",
+					"value": "Embedded",
+					"description": "SubProcessType is an attribute that defines whether the Sub-Process details are embedded within the higher level Process or refers to another, re-usable Process. The default is Embedded.",
+					"description_de":"Der Subprozesstyp gibt an, ob die Subprozessdetails in einen übergeordneten Prozess eingebettet sind oder auf einen anderen wiederverwendbaren Prozess verweisen.",
+					"optional": false,
+					"refToView": "",
+					"items": [
+						{
+							"id": "choice1",
+							"title":"Embedded",
+							"value":"Embedded",
+							"refToView": "None"
+						},
+						{
+							"id": "choice2",
+							"title": "Independent",
+							"value": "Independent",
+							"refToView": "None"
+						},
+						{
+							"id": "choice3",
+							"title": "Reference",
+							"value": "Reference",
+							"refToView": "None"
+						}
+					]
+				},
+				{
+					"id":"isATransaction",
+					"type":"Boolean",
+					"title":"is a Transaction",
+					"title_de":"ist eine Transaktion",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"border"
+				},
+				{
+					"id":"transaction",
+					"type":"String",
+					"title":"TransactionRef",
+					"title_de":"TransaktionsRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"isadhoc",
+					"type":"Boolean",
+					"title":"isAdHoc",
+					"title_de":"ist Ad-hoc",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"adhoc"
+				},
+				{
+					"id":"AdHocOrdering",
+					"type":"Choice",
+					"title":"AdHocOrdering",
+					"title_de":"Ad-hoc Anordnung",
+					"value":"Sequential",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Sequential",
+							"value":"Sequential",
+							"refToView":"Sequential"
+						},
+						{
+							"id":"c2",
+							"title":"Parallel",
+							"value":"Parallel",
+							"refToView":"Parallel"
+						}
+					]
+				},
+				{
+					"id":"AdHocCompletionCondition",
+					"type":"String",
+					"title":"AdHocCompletionCondition",
+					"title_de":"Ad-hoc Fertigstellungsbedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"entry",
+					"type":"DiagramLink",
+					"title":"SubProcessRef",
+					"title_de":"SubprozessRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"u"
+				},
+				{
+					"id":"diagramRef",
+					"type":"String",
+					"title":"DiagramRef",
+					"title_de":"DiagrammRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"processRef",
+					"type":"String",
+					"title":"ProcessRef",
+					"title_de":"ProzessRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"inputMaps",
+					"type":"String",
+					"title":"InputMaps",
+					"title_de":"Eingabeabbildung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"outputMaps",
+					"type":"String",
+					"title":"OutputMaps",
+					"title_de":"Ausgabeabbildung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"eventSubprocess",
+					"type":"boolean",
+					"title":"is a Event-Subproces",
+					"title_de":"ist ein Ereignis-Unterprozess",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"taskrect",
+					"inverseBoolean":true
+				}
+			]
+		},
+		{
+			"name" : "collapsedSubprocess",
+			"properties" : [
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Sub-Process",
+					"value_de":"Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"name" : "expandedSubprocess",
+			"properties" : [
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Sub-Process",
+					"value_de":"Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"white",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		}
 	],
 	
 	"stencils" : [
@@ -59,20 +1119,54 @@
 			"icon":				"diagram.png",
 			"mayBeRoot":		true,
 			"hide":				true,
+			"propertyPackages" : ["baseAttributes","diagram"],
 			"roles":			["canContainArtifacts"]
 		},
 		{
-			"type" : "node",
-			"id": "task",
-			"title": "Task",
-			"title_de" : "Task",
-			"groups" : ["Activities"],
-			"description" : "",
-			"description_de" : "",
-			"view" : "activity/node.task.svg",
-			"icon" : "new_task.png",
-			"propertyPackages":["baseAttributes"],
-			"roles" : [""]
+			"type" : 			"node",
+			"id": 				"task",
+			"title" : 			"Task",
+			"title_de" : 		"Task",
+			"groups" : 			["Activities"],
+			"groups_de" :		["Aktivitäten"],
+			"description" : 	"",
+			"description_de" : 	"",
+			"view" : 			"activity/task.svg",
+			"icon" : 			"new_task.png",
+			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
+			"roles" : 			["all"]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"CollapsedSubprocess",
+			"title" : 			"Collapsed Subprocess",
+			"title_de" :		"Zugeklappter Unterprozess",
+			"groups" :			["Activities"],
+			"groups_de" :		["Aktivitäten"],
+			"description" :		"A Subprocess is a decomposable activity. It can be collapsed to hide the details.",
+			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
+			"view" :			"activity/collapsed.subprocess.svg",
+			"icon" :			"new_subprocess.png",
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","collapsedSubprocess"],
+			"roles": 			["all"]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"Subprocess",
+			"title" :			"Expanded Subprocess",
+			"title_de" :		"Aufgeklappter Unterprozess",
+			"groups" :			["Activities"],
+			"groups_de" :		["Aktivitäten"],
+			"description" :		"A Subprocess is a decomposable activity. An Expanded Subprocess contains a valid BPMN diagram.",
+			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Ein Aufgeklappter Unterprozess enthält ein BPMN Diagramm.",
+			"view" :			"activity/expanded.subprocess.svg",
+			"icon" :			"new_task.png",
+			"roles" :	 		["all"],
+ 			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
+			"propertyPackages" :["baseAttributes","activity","flowElement","subprocess","expandedSubprocess"]
+		},
+		{
+			
 		}
 	],
 	
@@ -80,7 +1174,7 @@
 		"containmentRules" : [
 			{
 				"role" : "BPMNDiagram",
-				"contains" : ["task"]
+				"contains" : ["task","CollapsedSubprocess","Subprocess"]
 			}
 		]
 	}
