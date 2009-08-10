@@ -180,6 +180,13 @@ ORYX.Plugins.PropertyWindow = {
 		} else {
 			return false;
 		}
+		
+		var key = this.dataSource.getAt(option.row).data.gridProperties.propId;
+		
+		this.oldValues = new Hash();
+		this.shapeSelection.shapes.each(function(shape){
+			this.oldValues[shape.getId()] = shape.properties[key];
+		}.bind(this)); 
 	},
 
 	afterEdit: function(option) {
@@ -189,10 +196,7 @@ ORYX.Plugins.PropertyWindow = {
 		var key 			 = option.record.data.gridProperties.propId;
 		var selectedElements = this.shapeSelection.shapes;
 		
-		var oldValues = new Hash();
-		selectedElements.each(function(shape){
-			oldValues[shape.getId()] = shape.properties[key];
-		}); 	
+		var oldValues 	= this.oldValues;	
 		
 		var newValue	= option.value;
 		var facade		= this.facade;
@@ -242,6 +246,19 @@ ORYX.Plugins.PropertyWindow = {
 			value		: option.value
 		});
 		// extended by Kerstin (end)
+	},
+	
+	editDirectly:function(key, value){
+		
+		this.shapeSelection.shapes.each(function(shape){
+			if(!shape.getStencil().property(key).readonly()) {
+				shape.setProperty(key, value);
+				shape.update();
+			}
+		}.bind(this));
+
+		this.facade.getCanvas().update();
+		
 	},
 
 	// extended by Kerstin (start)	
@@ -388,7 +405,7 @@ ORYX.Plugins.PropertyWindow = {
 		this.properties = [];
 
 		if(this.shapeSelection.commonProperties) {
-
+			
 			// add new property lines
 			this.shapeSelection.commonProperties.each((function(pair, index) {
 
@@ -407,28 +424,58 @@ ORYX.Plugins.PropertyWindow = {
 							// If the Text is MultiLine
 							if(pair.wrapLines()) {
 								// Set the Editor as TextArea
-								editorGrid = new Ext.Editor(new Ext.form.TextArea({alignment: "tl-tl", allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()}));
+								var editorTextArea = new Ext.form.TextArea({alignment: "tl-tl", allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()});
+								editorTextArea.on('keyup', function(textArea, event) {
+									this.editDirectly(key, textArea.getValue());
+								}.bind(this));								
+								
+								editorGrid = new Ext.Editor(editorTextArea);
 							} else {
 								// If not, set the Editor as InputField
-								editorGrid = new Ext.Editor(new Ext.form.TextField({allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()}));
+								var editorInput = new Ext.form.TextField({allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()});
+								editorInput.on('keyup', function(input, event) {
+									this.editDirectly(key, input.getValue());
+								}.bind(this));
+								
+								editorGrid = new Ext.Editor(editorInput);
 							}
 							break;
 						case ORYX.CONFIG.TYPE_BOOLEAN:
 							// Set the Editor as a CheckBox
-							editorGrid = new Ext.Editor(new Ext.form.Checkbox());
+							var editorCheckbox = new Ext.form.Checkbox();
+							editorCheckbox.on('check', function(c,checked) {
+								this.editDirectly(key, checked);
+							}.bind(this));
+							
+							editorGrid = new Ext.Editor(editorCheckbox);
 							break;
 						case ORYX.CONFIG.TYPE_INTEGER:
 							// Set as an Editor for Integers
-							editorGrid = new Ext.Editor(new Ext.form.NumberField({allowBlank: pair.optional(), allowDecimals:false, msgTarget:'title', minValue: pair.min(), maxValue: pair.max()}));
+							var numberField = new Ext.form.NumberField({allowBlank: pair.optional(), allowDecimals:false, msgTarget:'title', minValue: pair.min(), maxValue: pair.max()});
+							numberField.on('keyup', function(input, event) {
+								this.editDirectly(key, input.getValue());
+							}.bind(this));							
+							
+							editorGrid = new Ext.Editor(numberField);
 							break;
 						case ORYX.CONFIG.TYPE_FLOAT:
 							// Set as an Editor for Float
-							editorGrid = new Ext.Editor(new Ext.form.NumberField({ allowBlank: pair.optional(), allowDecimals:true, msgTarget:'title', minValue: pair.min(), maxValue: pair.max()}));
+							var numberField = new Ext.form.NumberField({ allowBlank: pair.optional(), allowDecimals:true, msgTarget:'title', minValue: pair.min(), maxValue: pair.max()});
+							numberField.on('keyup', function(input, event) {
+								this.editDirectly(key, input.getValue());
+							}.bind(this));
+							
+							editorGrid = new Ext.Editor();
 							break;
 						case ORYX.CONFIG.TYPE_COLOR:
 							// Set as a ColorPicker
 							// Ext1.0 editorGrid = new gEdit(new form.ColorField({ allowBlank: pair.optional(),  msgTarget:'title' }));
-							editorGrid = new Ext.Editor(new Ext.ux.ColorField({ allowBlank: pair.optional(),  msgTarget:'title' }));
+							var editorPicker = new Ext.ux.ColorField({ allowBlank: pair.optional(),  msgTarget:'title' });
+							editorPicker.on('select', function(picker) {
+								this.editDirectly(key, picker.getValue());
+							}.bind(this));
+							
+							editorGrid = new Ext.Editor(editorPicker);
 							break;
 						case ORYX.CONFIG.TYPE_CHOICE:
 							var items = pair.items();
@@ -447,7 +494,12 @@ ORYX.Plugins.PropertyWindow = {
 							var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", null, options);
 							
 							// Set the grid Editor
-							editorGrid = new Ext.Editor(new Ext.form.ComboBox({ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title'}));
+							var editorCombo = new Ext.form.ComboBox({ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title'});
+							editorCombo.on('select', function(combo, record, index) {
+								this.editDirectly(key, combo.getValue());
+							}.bind(this))
+							
+							editorGrid = new Ext.Editor(editorCombo);
 							break;
 						case ORYX.CONFIG.TYPE_DATE:
 							var currFormat = ORYX.I18N.PropertyWindow.dateFormat
@@ -462,7 +514,9 @@ ORYX.Plugins.PropertyWindow = {
 								allowBlank: pair.optional(),
 								dataSource:this.dataSource,
 								grid:this.grid,
-								row:index,								facade:this.facade							});
+								row:index,
+								facade:this.facade
+							});
 							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1});							
 							editorGrid = new Ext.Editor(cf);
 							break;
@@ -478,7 +532,12 @@ ORYX.Plugins.PropertyWindow = {
 						
 						
 						default:
-							editorGrid = new Ext.Editor(new Ext.form.TextField({ allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()}));
+							var editorInput = new Ext.form.TextField({ allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length(), enableKeyEvents: true});
+							editorInput.on('keyup', function(input, event) {
+								this.editDirectly(key, input.getValue());
+							}.bind(this));
+							
+							editorGrid = new Ext.Editor(editorInput);
 					}
 
 
@@ -954,7 +1013,13 @@ Ext.form.ComplexTextField = Ext.extend(Ext.form.TriggerField,  {
 		        
 		var grid = new Ext.form.TextArea({
 	        anchor		: '100% 100%',
-			value		: this.value,			listeners	: {				focus: function(){					this.facade.disableEvent(ORYX.CONFIG.EVENT_KEYDOWN);				}.bind(this)			}		})
+			value		: this.value,
+			listeners	: {
+				focus: function(){
+					this.facade.disableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
+				}.bind(this)
+			}
+		})
 		
 		
 		// Basic Dialog

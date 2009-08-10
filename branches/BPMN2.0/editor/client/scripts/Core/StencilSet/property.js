@@ -119,6 +119,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
             jsonProp.stroke = false;
         }
         
+        if(!jsonProp.inverseBoolean) {
+        	jsonProp.inverseBoolean = false;
+        }
+        
         if (jsonProp.type === ORYX.CONFIG.TYPE_CHOICE) {
             if (jsonProp.items && jsonProp.items instanceof Array) {
                 jsonProp.items.each((function(jsonItem){
@@ -172,6 +176,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     
     type: function(){
         return this._jsonProp.type;
+    },
+    
+    inverseBoolean: function() {
+    	return this._jsonProp.inverseBoolean;
     },
     
     title: function(){
