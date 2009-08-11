@@ -1163,7 +1163,7 @@
 			"icon" :			"new_task.png",
 			"roles" :	 		["all"],
  			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
-			"propertyPackages" :["baseAttributes","activity","flowElement","subprocess","expandedSubprocess"]
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","expandedSubprocess"]
 		},
 		{
 			
