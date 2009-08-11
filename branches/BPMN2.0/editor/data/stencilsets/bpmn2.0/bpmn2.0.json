@@ -1171,68 +1171,6 @@
 			]
 		},
 		{
-			"name" : "collapsedSubprocess",
-			"properties" : [
-				{
-					"id":"activityType",
-					"type":"String",
-					"title":"ActivityType",
-					"title_de":"Aktivitätstyp",
-					"value":"Sub-Process",
-					"value_de":"Unterprozess",
-					"description":"The Type of Activity.",
-					"description":"Typ der Aktivität",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffcc",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"taskrect",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
-			"name" : "expandedSubprocess",
-			"properties" : [
-				{
-					"id":"activityType",
-					"type":"String",
-					"title":"ActivityType",
-					"title_de":"Aktivitätstyp",
-					"value":"Sub-Process",
-					"value_de":"Unterprozess",
-					"description":"The Type of Activity.",
-					"description":"Typ der Aktivität",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"white",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"taskrect",
-					"fill":true,
-					"stroke":false
-				}
-			]
-		},
-		{
 			"name" : "gateway",
 			"properties" : [
 				{
@@ -1403,7 +1341,35 @@
 			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
 			"view" :			"activity/collapsed.subprocess.svg",
 			"icon" :			"new_subprocess.png",
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","collapsedSubprocess"],
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"properties" :		[
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Sub-Process",
+					"value_de":"Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}
+			],
 			"roles": 			[
 				"sequence_start",
 				"sequence_end",
@@ -1427,7 +1393,35 @@
 			"view" :			"activity/expanded.subprocess.svg",
 			"icon" :			"new_task.png",
  			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","expandedSubprocess"],
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"properties" :		[
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Sub-Process",
+					"value_de":"Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"white",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}
+			],
 			"roles"	:			[
 				"sequence_start",
 				"sequence_end",
@@ -1442,13 +1436,12 @@
 			]
 		},
 		{
-			{
 			"type" : 			"node",
 			"id" :				"Exclusive_Databased_Gateway",
 			"title" :			"Data-based Exclusive (XOR) Gateway",
 			"title_de" : 		"Daten-basiertes exklusives Gateway",
 			"description" :		"When splitting, it routes the sequence flow to exactly one of the outgoing branches based on conditions. When merging, it awaits one incoming branch to complete before triggering the outgoing flow.",
-			"description_de" :	"Bei einer Verzweigung wird der Steuerfluss abhängig von Verzweigungsbedingungen zu genau einer ausgehenden Kante geleitet. Bei einer Zusammenführung wird auf eine der eingehenden Kante gewartet, um den ausgehenden Steuerfluss zu aktivieren.",
+			"description_de" :	"Bei einer Verzweigung wird der Steuerfluss abhÃ¤ngig von Verzweigungsbedingungen zu genau einer ausgehenden Kante geleitet. Bei einer Zusammenführung wird auf eine der eingehenden Kante gewartet, um den ausgehenden Steuerfluss zu aktivieren.",
 			"groups" : 			["Gateways"],
 			"view" : 			"gateway/xor.databased.svg",
 			"icon" : 			"new_gateway_xor_data.png",
@@ -1486,8 +1479,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"cross"
-				},
-				
+				},		
 				{
 					"id":"defaultGate",
 					"type":"String",
@@ -1580,7 +1572,7 @@
 					"optional":false,
 					"length":""
 				}
-			]
+			],
 			"roles":			[
 				"sequence_end",
 				"tc",
@@ -1627,7 +1619,7 @@
 			"title_de" :		"Inklusives Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"When splitting, one or more branches are activated based on branching conditions. When merging, it awaits all active incoming branches to complete.",
-			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhängig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
+			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhÃ¤ngig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
 			"view" :			"gateway/or.svg",
 			"icon" :			"new_gateway_or.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway","orGateway"],
@@ -2019,12 +2011,6 @@
 				}
 			]
 		},
-		
-		
-		
-		
-		
-		
 		{
 			"type" :			"edge",
 			"id" :				"SequenceFlow",
