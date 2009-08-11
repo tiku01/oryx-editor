@@ -68,6 +68,19 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
 				}
  			]
  		},
@@ -152,12 +165,12 @@
 					"value":false,
 					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
 					"description_de":"Dieses Attribut gibt an, ob der umfassende Subprozess abgebrochen werden soll.",
+					"inverseBoolean":true,
 					"readonly":false,
 					"optional":true,
-					"refToView":"frame_interrupting"
+					"refToView":"frame"
 				}
  			]
- 		}
  		},
 		{
 			"name" : "diagram",
@@ -1220,7 +1233,6 @@
 			]
 		}
 	],
-	
 	"stencils" : [
  		{
 			"type":				"node",
@@ -1249,6 +1261,7 @@
 			"icon" : 			"new_task.png",
 			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
 			"roles" : 			["all"]
+		},
 		{
 			"type" : "node",
 			"id": "StartNoneEvent",
@@ -1264,7 +1277,22 @@
 				"baseAttributes",
 				"catchEventAttributes"
 			],
-			"roles" : ["all"]
+			"roles" : [
+				"all",
+				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
 		},
 		{
 			"type": "node",
@@ -1285,6 +1313,18 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Message",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1306,6 +1346,18 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Timer",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1330,6 +1382,18 @@
 				"StartEventsMorph",
 				"sequence_start",
 				"sequence_end"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Escalation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1351,6 +1415,82 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Conditional",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartErrorEvent",
+			"title":"Start Error Event",
+			"title_de":"Start-Fehler-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Catching named errors.",
+			"description_de":"Behandeln von benannten Fehlern.",
+			"view":"startevent/error.svg",
+			"icon":"catching/error.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Error",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartCompensationEvent",
+			"title":"Start Compensation Event",
+			"title_de":"Start-Kompensierung-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Compensation handling.",
+			"description_de":"Behandeln von Kompensierung.",
+			"view":"startevent/compensation.svg",
+			"icon":"catching/compensation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Compensation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1372,6 +1512,18 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Signal",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1393,6 +1545,18 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
 		{
@@ -1414,8 +1578,26 @@
 			"roles": [
 				"all",
 				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Parallel Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
 			]
 		},
+		
+		
+		
+		
+		
+		
 		{
 			"type": "edge",
 			"id":"SequenceFlow",
@@ -1454,6 +1636,41 @@
 			{
 				"role" : "BPMNDiagram",
 				"contains" : ["all"]
+			}
+		],
+		"morphingRules": [
+			{
+				"role": "ActivitiesMorph",
+				"baseMorphs": ["Task"]
+			},
+			{
+				"role": "GatewaysMorph",
+				"baseMorphs": ["Exclusive_Databased_Gateway"]
+			},
+			{
+				"role": "StartEventsMorph",
+				"baseMorphs": ["StartNoneEvent"],
+				"showInShapeMenu":false
+			},
+			{
+				"role": "IntermediateEventsMorph",
+				"baseMorphs": ["IntermediateEvent"]
+			},
+			{
+				"role": "EndEventsMorph",
+				"baseMorphs": ["EndEvent"]
+			},
+			{
+				"role": "TextAnnotationMorph",
+				"baseMorphs": ["TextAnnotation"]
+			},
+			{
+				"role": "DataObjectMorph",
+				"baseMorphs": ["DataObject"]
+			},
+			{
+				"role": "ConnectingObjectsMorph",
+				"baseMorphs": ["SequenceFlow"]
 			}
 		]
 	}

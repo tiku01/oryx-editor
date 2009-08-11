@@ -10,7 +10,6 @@
   	<oryx:magnet oryx:cx="16" oryx:cy="16" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill">
-    <circle id="frame" cx="16" cy="16" r="15" stroke="black" fill="white" stroke-width="1"/>
     <circle 
     	id="frame_interrupting" 
     	cx="16" 
@@ -21,6 +20,7 @@
     	stroke-width="1"
     	style="stroke-dasharray: 5.5, 3" />
     	
+    <circle id="frame" cx="16" cy="16" r="15" stroke="black" fill="white" stroke-width="1"/>
     
     <path
        d="M 16,8.75 L22,23.75 L16,17 L10,23.75z "
