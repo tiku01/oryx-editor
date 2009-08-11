@@ -225,12 +225,12 @@
  			]
  		},
  		{
- 			"name":"interruppting",
+ 			"name":"interrupting",
  			"properties":[
  				{
 					"id":"isInterrupting",
 					"type":"Boolean",
-					"title":"IsInterruppting",
+					"title":"IsInterrupting",
 					"title_de":"Blockierend",
 					"value":false,
 					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
@@ -238,7 +238,10 @@
 					"inverseBoolean":true,
 					"readonly":false,
 					"optional":true,
-					"refToView":"frame"
+					"refToView": [
+						"frame",
+						"frame2"
+					]
 				}
  			]
  		},
@@ -1951,7 +1954,7 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles": [
 				"all",
@@ -1984,7 +1987,7 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" : 			[
 				"all",
@@ -2017,7 +2020,7 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" : 			[
 				"all",
@@ -2052,7 +2055,7 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" : 			[
 				"all",
@@ -2149,7 +2152,7 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" : 			[
 				"all",
@@ -2182,7 +2185,7 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" : 			[
 				"all",
@@ -2215,7 +2218,7 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interruppting"
+				"interrupting"
 			],
 			"roles" :			[
 				"all",
@@ -2234,6 +2237,443 @@
 				}
 			]
 		},
+		// Intermediate Events Catching
+		{
+			"type": "node",
+			"id":"IntermediateEvent",
+			"title":"Intermediate Event",
+			"title_de":"Zwischen-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Untyped events, typically showing where the process starts or ends.",
+			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
+			"view":"intermediateevent/none.svg",
+			"icon":"intermediate/none.png",
+			"propertyPackages":[
+				"baseAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateMessageEventCatching",
+			"title":"Intermediate Message Event",
+			"title_de":"Zwischen-Nachrichten-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Receiving messages.",
+			"description_de":"Empfang von Nachrichten.",
+			"view":"intermediateevent/message.catching.svg",
+			"icon":"catching/message.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Message",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateTimerEvent",
+			"title":"Intermediate Timer Event",
+			"title_de":"Zwischen-Zeit-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Cyclic timer events, points in time, time spans or timeouts.",
+			"description_de":"Periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen",
+			"view":"intermediateevent/timer.svg",
+			"icon":"catching/timer.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Timer",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateEscalationEvent",
+			"title":"Intermediate Escalation Event",
+			"title_de":"Zwischen-Eskalations-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"intermediateevent/escalation.catching.svg",
+			"icon":"catching/escalation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Escalation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateConditionalEvent",
+			"title":"Intermediate Conditional Event",
+			"title_de":"Zwischen-Bedingung-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Reacting to changed business conditions or integrating business rules.",
+			"description_de":"Reaktion auf veränderte Bedingungen oder Regeln.",
+			"view":"intermediateevent/conditional.svg",
+			"icon":"catching/conditional.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Rule",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateLinkEventCatching",
+			"title":"Intermediate Link Event",
+			"title_de":"Zwischen-Link-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Off-page connectors. Two corresponding link events equal a sequence flow.",
+			"description_de":"Auslösendes und eintretendes Link-Ereignis mit gleichem Namen entspricht Steuerfluss.",
+			"view":"intermediateevent/link.catching.svg",
+			"icon":"catching/link.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Link",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateErrorEvent",
+			"title":"Intermediate Error Event",
+			"title_de":"Zwischen-Fehler-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Catching named errors.",
+			"description_de":"Behandeln von benannten Fehlern.",
+			"view":"intermediateevent/error.svg",
+			"icon":"catching/error.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Error",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateCancelEvent",
+			"title":"Intermediate Cancel Event",
+			"title_de":"Zwischen-Abbruch-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Reacting to cancelled transactions.",
+			"description_de":"Reaktion auf abgebrochene Transaktionen.",
+			"view":"intermediateevent/cancel.svg",
+			"icon":"catching/cancel.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Cancel",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateCompensationEventCatching",
+			"title":"Intermediate Compensation Event",
+			"title_de":"Zwischen-Kompensierung-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Compensation handling.",
+			"description_de":"Behandeln von Kompensierung.",
+			"view":"intermediateevent/compensation.catching.svg",
+			"icon":"catching/compensation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles":[
+				"all",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Compensation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateSignalEventCatching",
+			"title":"Intermediate Signal Event",
+			"title_de":"Zwischen-Signal-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
+			"view":"intermediateevent/signal.catching.svg",
+			"icon":"catching/signal.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Signal",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateMultipleEventCatching",
+			"title":"Intermediate Multiple Event",
+			"title_de":"Zwischen-Mehrfach-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
+			"view":"intermediateevent/multiple.catching.svg",
+			"icon":"catching/multiple.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateParallelMultipleEventCatching",
+			"title":"Intermediate Parallel Multiple Event",
+			"title_de":"Zwischen-Parallel-Mehrfach-Ereignis",
+			"groups":["Catching Intermediate Events"],
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"intermediateevent/multiple.parallel.svg",
+			"icon":"catching/multiple.parallel.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"interrupting"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
+		
+		// Intermediate Events Throwing
+		
+		// End Events
 		{
 			"type" : "node",
 			"id": "EndNoneEvent",
