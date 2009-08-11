@@ -27,7 +27,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
-					"refToView":"diagramtext",
+					"refToView":"text_name",
 					"wrapLines":true
 				},
 				{
