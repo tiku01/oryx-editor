@@ -1328,7 +1328,10 @@
 			"view" : 			"activity/task.svg",
 			"icon" : 			"new_task.png",
 			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
-			"roles" : 			["all"]
+			"roles" : 			[
+				"all",
+				"ActivitiesMorph"
+			]
 		},
 		{
 			"type" : 			"node",
@@ -1371,6 +1374,7 @@
 				}
 			],
 			"roles": 			[
+				"all",
 				"sequence_start",
 				"sequence_end",
 				"messageflow_start",
@@ -1423,6 +1427,7 @@
 				}
 			],
 			"roles"	:			[
+				"all",
 				"sequence_start",
 				"sequence_end",
 				"messageflow_start",
@@ -1520,6 +1525,7 @@
 				}	
 			],
 			"roles": 			[
+				"all",
 				"sequence_start",
 				"sequence_end",
 				"tc",
@@ -1574,6 +1580,7 @@
 				}
 			],
 			"roles":			[
+				"all",
 				"sequence_end",
 				"tc",
 				"fromtoall",
@@ -1605,6 +1612,7 @@
 				}
 			],
 			"roles": 			[
+				"all",
 				"sequence_start",
 				"sequence_end",
 				"tc",
@@ -1675,12 +1683,70 @@
 				}
 			],
 			"roles": 			[
+				"all",
 				"sequence_start",
 				"sequence_end",
 				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			]
+		},
+		{
+			"type": "node",
+			"id":"Complex_Gateway",
+			"title":"Complex Gateway",
+			"title_de":"Komplexes Gateway",
+			"groups":["Gateways"],
+			"description":"It triggers one or more branches based on complex conditions or verbal descriptions. Use it sparingly as the semantics might not be clear.",
+			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
+			"view":"gateway/node.gateway.complex.svg",
+			"icon":"new_gateway_complex.png",
+			"propertyPackages" : ["baseAttributes","flowElement","gateway"],
+			"properties" : [
+				{
+					"id":"gatewayType",
+					"type":"String",
+					"title":"GatewayType",
+					"title_de":"Gatewaytyp",
+					"value":"Complex",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"incomingCondition",
+					"type":"String",
+					"title":"IncomingCondition",
+					"title_de":"Eingangsbedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"outgoingCondition",
+					"type":"String",
+					"title":"OutgoingCondition",
+					"title_de":"Ausgehendebedingung",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			],
+			"roles": [
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"tc",
+				"fromtoall",
+				"GatewaysMorph"
+			],
 		},
 		{
 			"type" : 			"node",
