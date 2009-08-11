@@ -42,8 +42,122 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
+				},
+				{
+					"id":"auditing",
+					"type":"Text",
+					"title":"Auditing",
+					"title_de":"Prüfung",
+					"value":"",
+					"description":"A hook for specifying audit related properties. Auditing can only be defined for a Process.",
+					"description_de":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"monitoring",
+					"type":"Text",
+					"title":"Monitoring",
+					"title_de":"Überwachung",
+					"value":"",
+					"description":"A hook for specifying monitoring related properties. Monitoring can only be defined for a Process.",
+					"description_de":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
 				}
  			]
+ 		},
+ 		{
+ 			"name":"catchEventAttributes",
+ 			"properties":[
+ 				{
+					"id":"eventDefinitionRef",
+					"type":"String",
+					"title":"EventDefinitionRef",
+					"title_de":"EreignisDefinitionsRef",
+					"value":"",
+					"description":"EventDefinitionRefs (EventDefinition) is an attribute that defines the type of reusable triggers expected for a catch Event.",
+					"description_de":"Das Attribut EreignisDefinitionsRef (EreignisDefinition) definiert einen wiederverwendbaren Auslösertyp für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"eventDefinitions",
+					"type":"String",
+					"title":"EventDefinitions",
+					"title_de":"EreignisDefinitionen",
+					"value":"",
+					"description":"EventDefinitions (EventDefinition) is an attribute that defines the type of contained triggers expected for a catch Event.",
+					"description_de":"Das Attribut EreignisDefinitions (EreignisDefinition) definiert die beinhaltenten Auslöser für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"dataOutputAssociations",
+					"type":"String",
+					"title":"DataOutputAssociations",
+					"title_de":"DatenAusgangAssoziation",
+					"value":"",
+					"description":"The Data Associations of the catch Event.",
+					"description_de":"Die Daten-Assoziation für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"dataOutput",
+					"type":"String",
+					"title":"DataOutput",
+					"title_de":"DatenAusgang",
+					"value":"",
+					"description":"The Data Associations of the catch Event.",
+					"description_de":"Die Daten-Assoziation für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"outputSet",
+					"type":"String",
+					"title":"OutputSet",
+					"title_de":"AusgabeSätze",
+					"value":"",
+					"description":"The OutputSet for the catch Event.",
+					"description_de":"Die Ausgabe-Sätze für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				}
+ 			]
+ 		},
+ 		{
+ 			"name":"iterruppting",
+ 			"properties":[
+ 				{
+					"id":"isInterrupting",
+					"type":"Boolean",
+					"title":"IsInterruppting",
+					"title_de":"Blockierend",
+					"value":false,
+					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
+					"description_de":"Dieses Attribut gibt an, ob der umfassende Subprozess abgebrochen werden soll.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"frame_interrupting"
+				}
+ 			]
+ 		}
  		},
 		{
 			"name" : "diagram",
@@ -1135,46 +1249,211 @@
 			"icon" : 			"new_task.png",
 			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
 			"roles" : 			["all"]
+		{
+			"type" : "node",
+			"id": "StartNoneEvent",
+			"title": "Start Event",
+			"title_de" : "Start-Ereignis",
+			"groups" : ["Start Events"],
+			"groups_de" : ["Start-Ereignisse"],
+			"description" : "Untyped events, typically starts or ends.",
+			"description_de" : "Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
+			"view" : "startevent/none.svg",
+			"icon" : "catching/none.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles" : ["all"]
 		},
 		{
-			"type" : 			"node",
-			"id" :				"CollapsedSubprocess",
-			"title" : 			"Collapsed Subprocess",
-			"title_de" :		"Zugeklappter Unterprozess",
-			"groups" :			["Activities"],
-			"groups_de" :		["Aktivitäten"],
-			"description" :		"A Subprocess is a decomposable activity. It can be collapsed to hide the details.",
-			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
-			"view" :			"activity/collapsed.subprocess.svg",
-			"icon" :			"new_subprocess.png",
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","collapsedSubprocess"],
-			"roles": 			["all"]
+			"type": "node",
+			"id":"StartMessageEvent",
+			"title":"Start Message Event",
+			"title_de":"Start-Nachricht-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Receiving messages.",
+			"description_de":"Empfang von Nachrichten.",
+			"view":"startevent/message.svg",
+			"icon":"catching/message.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
 		},
 		{
-			"type" : 			"node",
-			"id" :				"Subprocess",
-			"title" :			"Expanded Subprocess",
-			"title_de" :		"Aufgeklappter Unterprozess",
-			"groups" :			["Activities"],
-			"groups_de" :		["Aktivitäten"],
-			"description" :		"A Subprocess is a decomposable activity. An Expanded Subprocess contains a valid BPMN diagram.",
-			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Ein Aufgeklappter Unterprozess enthält ein BPMN Diagramm.",
-			"view" :			"activity/expanded.subprocess.svg",
-			"icon" :			"new_task.png",
-			"roles" :	 		["all"],
- 			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess","expandedSubprocess"]
+			"type": "node",
+			"id":"StartTimerEvent",
+			"title":"Start Timer Event",
+			"title_de":"Start-Zeit-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Cyclic timer events, points in time, time spans or timeouts.",
+			"description_de":"Periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen.",
+			"view":"startevent/timer.svg",
+			"icon":"catching/timer.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
 		},
 		{
-			
+			"type": "node",
+			"id":"StartEscalationEvent",
+			"title":"Start Escalation Event",
+			"title_de":"Start-Eskalation-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"startevent/escalation.svg",
+			"icon":"catching/escalation.png",
+			"propertyPackages":["interrupting"],
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph",
+				"sequence_start",
+				"sequence_end"
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartConditionalEvent",
+			"title":"Start Conditional Event",
+			"title_de":"Start-Bedingungs-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Reacting to changed business conditions or integrating business rules.",
+			"description_de":"Reaktion auf veränderte Bedingungen oder Regeln.",
+			"view":"startevent/conditional.svg",
+			"icon":"catching/conditional.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartSignalEvent",
+			"title":"Start Signal Event",
+			"title_de":"Start-Signal-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
+			"view":"startevent/signal.svg",
+			"icon":"catching/signal.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartMultipleEvent",
+			"title":"Start Multiple Event",
+			"title_de":"Start-Mehrfach-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
+			"view":"startevent/multiple.svg",
+			"icon":"catching/multiple.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
+		},
+		{
+			"type": "node",
+			"id":"StartParallelMultipleEvent",
+			"title":"Start Parallel Multiple Event",
+			"title_de":"Start-Parallel-Mehrfach-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Multiple triggers are required before Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
+			"view":"startevent/multiple.svg",
+			"icon":"catching/multiple.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes",
+				"iterruppting"
+			],
+			"roles": [
+				"all",
+				"StartEventsMorph"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"SequenceFlow",
+			"title":"Sequence Flow",
+			"title_de":"Steuerfluss",
+			"description":"Sequence Flow defines the execution order of activities.",
+			"description_de":"Ein Steuerfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"sequenceflow.svg",
+			"icon":"new_sequenceflow.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			]
 		}
 	],
 	
 	"rules" : {
+		"connectionRules": [
+			{
+				"role":"SequenceFlow",
+				"connects": [
+					{
+						"from":"sequence_start",
+						"to":["sequence_end"]
+					},
+					{
+						"from":"Exclusive_Eventbased_Gateway",
+						"to":["FromEventbasedGateway"]
+					}
+				]
+			}
+		],
 		"containmentRules" : [
 			{
 				"role" : "BPMNDiagram",
-				"contains" : ["task","CollapsedSubprocess","Subprocess"]
+				"contains" : ["all"]
 			}
 		]
 	}
