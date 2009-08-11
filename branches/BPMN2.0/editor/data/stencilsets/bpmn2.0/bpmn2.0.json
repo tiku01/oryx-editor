@@ -225,7 +225,6 @@
  			]
  		},
  		{
- 			"name":"iterruppting",
  			"name":"interruppting",
  			"properties":[
  				{
@@ -1492,7 +1491,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"taskrect",
+					"refToView":["taskrect","eventSubprocess"],
 					"fill":true,
 					"stroke":false
 				}
@@ -1521,7 +1520,7 @@
 			"groups" : 			["Gateways"],
 			"view" : 			"gateway/xor.databased.svg",
 			"icon" : 			"new_gateway_xor_data.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway","exclusiveDatabasedGateway"],
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
 					"id":"gatewayType",
@@ -1606,6 +1605,60 @@
 		},
 		{
 			"type" : 			"node",
+			"id" : 				"Eventbased_Gateway",
+			"title" :			"Event-based Gateway",
+			"title_de" :		"Ereignis-basiertes Gateway",
+			"groups" :			["Gateways"],
+			"description" :		"Each event results in the creation of a new process instance.",
+			"description_de" :	"Jedes Ereignis endet mit der Erzeugung einer neuen Prozessinstanz.",
+			"view" :			"gateway/eventbased.svg",
+			"icon" :			"new_gateway_xor_event.png",
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"properties" :		[
+				{
+					"id":"gatewayType",
+					"type":"String",
+					"title":"GatewayType",
+					"title_de":"Gatewaytyp",
+					"value":"XOR",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"xorType",
+					"type":"String",
+					"title":"XORType",
+					"title_de":"XORTyp",
+					"value":"Event",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"instantiate",
+					"type":"Boolean",
+					"title":"Instantiate",
+					"title_de":"Instanzieren",
+					"value":"false",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles":			[
+				"all",
+				"sequence_end",
+				"tc",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		{
+			"type" : 			"node",
 			"id" : 				"Exclusive_Eventbased_Gateway",
 			"title" :			"Event-based Exclusive (XOR) Gateway",
 			"title_de" :		"Ereignis-basiertes exklusives Gateway",
@@ -1614,7 +1667,7 @@
 			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
 			"view" :			"gateway/xor.eventbased.svg",
 			"icon" :			"new_gateway_xor_event.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway","exclusiveEventbasedGateway"],
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
 					"id":"gatewayType",
@@ -1668,7 +1721,40 @@
 			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
 			"view" :			"gateway/and.svg",
 			"icon" :			"new_gateway_and.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway","andGateway"],
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"properties" : [
+				{
+					"id":"gatewayType",
+					"type":"String",
+					"title":"GatewayType",
+					"title_de":"Gatewaytyp",
+					"value":"AND",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"tc",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"Eventbased_AND_Gateway",
+			"title" :			"Parallel Event-based Gateway",
+			"title_de" :		"Paralleles Ereignisbasiertes Gateway",
+			"groups" :			["Gateways"],
+			"description" :		"An event either creates a new proces instance or is correlated to an existing instance.",
+			"description_de" :	"Ein Ereignis erzeugt entweder eine neue Prozessinstanz oder korreliert zu einer bereits bestehnden.",
+			"view" :			"gateway/and.eventbased.svg",
+			"icon" :			"new_gateway_and.png",
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" : [
 				{
 					"id":"gatewayType",
@@ -1701,7 +1787,7 @@
 			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhÃ¤ngig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
 			"view" :			"gateway/or.svg",
 			"icon" :			"new_gateway_or.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway","orGateway"],
+			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
 					"id":"gatewayType",
@@ -1770,7 +1856,7 @@
 			"groups":["Gateways"],
 			"description":"It triggers one or more branches based on complex conditions or verbal descriptions. Use it sparingly as the semantics might not be clear.",
 			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
-			"view":"gateway/node.gateway.complex.svg",
+			"view":"gateway/complex.svg",
 			"icon":"new_gateway_complex.png",
 			"propertyPackages" : ["baseAttributes","flowElement","gateway"],
 			"properties" : [
