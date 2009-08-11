@@ -78,7 +78,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"frame",
+					"refToView":"bg_frame",
 					"fill":true,
 					"stroke":false
 				}
@@ -155,6 +155,77 @@
  			]
  		},
  		{
+ 			"name":"throwEventAttributes",
+ 			"properties":[
+ 				{
+					"id":"eventDefinitionRef",
+					"type":"String",
+					"title":"EventDefinitionRef",
+					"title_de":"EreignisDefinitionsRef",
+					"value":"",
+					"description":"EventDefinitionRefs (EventDefinition) is an attribute that defines the type of reusable triggers expected for a catch Event.",
+					"description_de":"Das Attribut EreignisDefinitionsRef (EreignisDefinition) definiert einen wiederverwendbaren Auslösertyp für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"eventDefinitions",
+					"type":"String",
+					"title":"EventDefinitions",
+					"title_de":"EreignisDefinitionen",
+					"value":"",
+					"description":"EventDefinitions (EventDefinition) is an attribute that defines the type of contained triggers expected for a catch Event.",
+					"description_de":"Das Attribut EreignisDefinitions (EreignisDefinition) definiert die beinhaltenten Auslöser für ein eintretendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"dataInputAssociations",
+					"type":"String",
+					"title":"DataInputAssociations",
+					"title_de":"DatenAusgangAssoziation",
+					"value":"",
+					"description":"The Data Associations of the throw Event.",
+					"description_de":"Die Daten-Assoziation für ein auslösendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"dataInput",
+					"type":"String",
+					"title":"DataInput",
+					"title_de":"DatenAusgang",
+					"value":"",
+					"description":"The Data Associations of the throw Event.",
+					"description_de":"Die Daten-Assoziation für ein auslösendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"inputSet",
+					"type":"String",
+					"title":"InputSet",
+					"title_de":"AusgabeSätze",
+					"value":"",
+					"description":"The InputSet for the throw Event.",
+					"description_de":"Die Ausgabe-Sätze für ein auslösendes Ereignis.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				}
+ 			]
+ 		},
+ 		{
+ 			"name":"iterruppting",
  			"name":"interruppting",
  			"properties":[
  				{
@@ -1847,17 +1918,17 @@
 			]
 		},
 		{
-			"type" : 			"node",
-			"id" :				"StartEscalationEvent",
-			"title" :			"Start Escalation Event",
-			"title_de" :		"Start-Eskalation-Ereignis",
-			"groups" :			["Start Events"],
-			"groups_de" :		["Start-Ereignisse"],
-			"description":		"",
-			"description_de":	"",
-			"view" :			"startevent/escalation.svg",
-			"icon" :			"catching/escalation.png",
-			"propertyPackages" :[
+			"type": "node",
+			"id":"StartEscalationEvent",
+			"title":"Start Escalation Event",
+			"title_de":"Start-Eskalation-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"startevent/escalation.svg",
+			"icon":"catching/escalation.png",
+			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
 				"interruppting"
@@ -2045,17 +2116,17 @@
 			]
 		},
 		{
-			"type" :			"node",
-			"id" :				"StartParallelMultipleEvent",
-			"title" :			"Start Parallel Multiple Event",
-			"title_de" :		"Start-Parallel-Mehrfach-Ereignis",
-			"groups" :			["Start Events"],
-			"groups_de" :		["Start-Ereignisse"],
-			"description" :		"Multiple triggers are required before Catching one out of a set of events.",
-			"description_de" :	"Eintreten eines von mehreren Ereignissen.",
-			"view" :			"startevent/multiple.svg",
-			"icon" :			"catching/multiple.png",
-			"propertyPackages": [
+			"type": "node",
+			"id":"StartParallelMultipleEvent",
+			"title":"Start Parallel Multiple Event",
+			"title_de":"Start-Parallel-Mehrfach-Ereignis",
+			"groups":["Start Events"],
+			"groups_de":["Start-Ereignisse"],
+			"description":"Multiple triggers are required before Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
+			"view":"startevent/multiple.parallel.svg",
+			"icon":"catching/multiple.parallel.png",
+			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
 				"interruppting"
@@ -2078,17 +2149,308 @@
 			]
 		},
 		{
-			"type" :			"edge",
-			"id" :				"SequenceFlow",
-			"title" :			"Sequence Flow",
-			"title_de" :		"Steuerfluss",
-			"description" :		"Sequence Flow defines the execution order of activities.",
-			"description_de" :	"Ein Steuerfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
-			"groups" :			["Connecting Objects"],
-			"groups_de" :		["Konnektoren"],
-			"view" :			"sequenceflow.svg",
-			"icon" :			"new_sequenceflow.png",
-			"roles" : 			[
+			"type" : "node",
+			"id": "EndNoneEvent",
+			"title": "End Event",
+			"title_de" : "Ende-Ereignis",
+			"groups" : ["End Events"],
+			"groups_de" : ["Ende-Ereignisse"],
+			"description" : "Untyped events, typically starts or ends.",
+			"description_de" : "Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
+			"view" : "endevent/none.svg",
+			"icon" : "throwing/none.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles" : [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndMessageEvent",
+			"title":"End Message Event",
+			"title_de":"Ende-Nachricht-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Sending messages.",
+			"description_de":"Senden von Nachrichten.",
+			"view":"endevent/message.svg",
+			"icon":"throwing/message.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwingEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Message",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndEscalationEvent",
+			"title":"End Escalation Event",
+			"title_de":"Ende-Eskalation-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"endevent/escalation.svg",
+			"icon":"throwing/escalation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwingEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph",
+				"sequence_start",
+				"sequence_end"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Escalation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndErrorEvent",
+			"title":"End Error Event",
+			"title_de":"Ende-Fehler-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Throwing named errors.",
+			"description_de":"Auslösen von benannten Fehlern.",
+			"view":"endevent/error.svg",
+			"icon":"throwing/error.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Error",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndCancelEvent",
+			"title":"Cancel End Event",
+			"title_de":"Abbruch-Ende-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Triggering cancellation.",
+			"description_de":"Auslösen von Abbrüchen.",
+			"view":"endevent/cancel.svg",
+			"icon":"throwing/cancel.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_end",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Cancel",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndCompensationEvent",
+			"title":"End Compensation Event",
+			"title_de":"Ende-Kompensierung-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Compensation handling.",
+			"description_de":"Auslösen von Kompensierung.",
+			"view":"endevent/compensation.svg",
+			"icon":"throwing/compensation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwingEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Compensation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndSignalEvent",
+			"title":"End Signal Event",
+			"title_de":"Ende-Signal-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
+			"view":"endevent/signal.svg",
+			"icon":"throwing/signal.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"catchEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Signal",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndMultipleEvent",
+			"title":"End Multiple Event",
+			"title_de":"Ende-Mehrfach-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Throwing one out of a set of events.",
+			"description_de":"Auslösen eines von mehreren Ereignissen.",
+			"view":"endevent/multiple.svg",
+			"icon":"throwing/multiple.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"EndTerminateEvent",
+			"title":"Terminate End Event",
+			"title_de":"Terminierung-Ende-Ereignis",
+			"groups":["End Events"],
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Triggering the immediate termination of a process.",
+			"description_de":"Löst die sofortige Beendigung eines Prozesses aus.",
+			"view":"endevent/terminate.svg",
+			"icon":"throwing/terminate.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles": [
+				"all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Terminate",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"SequenceFlow",
+			"title":"Sequence Flow",
+			"title_de":"Steuerfluss",
+			"description":"Sequence Flow defines the execution order of activities.",
+			"description_de":"Ein Steuerfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"sequenceflow.svg",
+			"icon":"new_sequenceflow.png",
+			"roles": [
 				"all",
 				"ConnectingObjectsMorph"
 			]
@@ -2137,7 +2499,7 @@
 			},
 			{
 				"role": "EndEventsMorph",
-				"baseMorphs": ["EndEvent"]
+				"baseMorphs": ["EndNoneEvent"]
 			},
 			{
 				"role": "TextAnnotationMorph",
