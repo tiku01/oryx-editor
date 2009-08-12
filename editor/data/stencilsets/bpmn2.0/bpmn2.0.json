@@ -1372,6 +1372,31 @@
 					"stroke":false
 				}
 			]
+		},
+		{
+			"name" : "artifact",
+			"properties" : [
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]
 		}
 	],
 	"stencils" : [
@@ -1907,6 +1932,283 @@
 				"fromtoall",
 				"GatewaysMorph"
 			],
+		},
+		{
+			"type" : 			"node",
+			"id" : 				"Group",
+			"title" :			"Group",
+			"title_de" :		"Gruppe",
+			"groups" :			["Artifacts"],
+			"groups_de" :		["Artefakte"],
+			"description" :		"An arbitrary set of objects can be defined as a Group to show that they logically belong together.",
+			"description_de" :	"Mehrere Objekte, die logisch in Verbindung stehen, können in einer Gruppe zusammengefasst werden.",
+			"view" :			"artifact/group.svg",
+			"icon":"new_group.png",
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" : [
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"title_de":"Artefakttyp",
+					"value":"Group",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": [
+				"all",
+				"fromtoall",
+				"canContainArtifacts"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" : 				"TextAnnotation",
+			"title" :			"Text Annotation",
+			"title_de" :		"Text-Anmerkung",
+			"groups" :			["Artifacts"],
+			"groups_de" :		["Artefakte"],
+			"description" :		"Any object can be associated with a Text Annotation to provide additional documentation.",
+			"description_de" :	"Jedes Objekt kann durch eine Text-Anmerkung kommentiert werden.",
+			"view" :			"artifact/text.annotation.svg",
+			"icon" :			"new_text_annotation.png",
+			"defaultAlign" :	"northeast",
+			"propertyPackages": [
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" : 		[
+				{
+					"id":"text",
+					"type":"String",
+					"title":"Text",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"title_de":"Artefakttyp",
+					"value":"Annotation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": [
+				"all",
+				"from_artifact",
+				"to_artifact",
+				"TextAnnotationMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"DataObject",
+			"title" :			"Data Object",
+			"title_de" :		"Datenobjekt",
+			"description" :		"A Data Object represents information flowing through the process, such as business documents, e-mails or letters.",
+			"description_de" :	"Ein Datenobjekt repräsentiert Informationen, die durch den Prozess fließen, wie z.B. Dokumente, Emails oder Briefe.",
+			"groups" :			["Artifacts"],
+			"groups_de" :		["Artefakte"],
+			"view" :			"artifact/data.object.svg",
+			"icon" :			"new_data_object.png",
+			"defaultAlign" :	"southeast",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" :		[
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"title_de":"Artefakttyp",
+					"value":"DataObject",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"state",
+					"type":"String",
+					"title":"State",
+					"title_de":"Zustand",
+					"value":"",
+					"description":"",
+					"refToView":"text_state",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"properties",
+					"type":"Complex",
+					"title":"Properties",
+					"title_de":"Eigenschaften",
+					"value":"",
+					"description":"Modeler-defined Properties may be added to a Data Object",
+					"description_de":"Der Modellierer kann weitere Eigenschaften einem Datenobjekt zuweisen.",
+					"readonly": 	false,
+					"optional": 	false,
+					"complexItems": [
+					{
+						"id":"name",
+						"name":"Name",
+						"type":"String",
+						"value":"",
+						"width":100,
+						"optional":false 
+					},
+					{
+						"id":"type",
+						"name":"Type",
+						"type":"String",
+						"value":"",
+						"width":100,
+						"optional":false
+					},
+					{
+						"id":"value",
+						"name":"Value",
+						"type":"String",
+						"value":"",
+						"width":100,
+						"optional":false
+					},
+					{
+						"id":"correlation",
+						"name":"Correlation",
+						"type":"Boolean",
+						"value":"false",
+						"width":100,
+						"optional":true
+					}
+					]
+				},
+				{
+					"id":"requiredForStart",
+					"type":"Boolean",
+					"title":"Required for start",
+					"title_de":"Erforderlich für Start",
+					"value":true,
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"producedAtCompletion",
+					"type":"Boolean",
+					"title":"Produced at completion",
+					"title_de":"Produziert bei Fertigstellung",
+					"value":true,
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":["frame", "celem2", "celem3"],
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" : 			[
+				"all",
+				"from_artifact",
+				"to_artifact",
+				"fromtoall",
+				"DataObjectMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"Data_Store",
+			"title" :			"Data Store",
+			"title_de" :		"Datenlager",
+			"groups" : 			["Artifacts"],
+			"groups_de" :		["Artefakte"],
+			"description" :		"A Data Store is a place where the process can read or wirte date, e.g. a database or a filling cabinet. It persists beyond the lifetime of the process instance.",
+			"description_de" :	"Ein Datenlager ist ein Platz an dem ein Prozess Daten lesen oder schreiben kann, zum Beispiel eine Datenbank. Es existiert auch über die Lebenszeit der Prozessinstanz hinweg.",
+			"view" :			"artifact/data.store.svg",
+			"icon" :			"new_data_store.png",
+			"propertyPackages": [
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" :		[
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"title_de":"Artefakttyp",
+					"value":"Data Store",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id" : "capacity",
+					"type" : "Integer",
+					"title" : "Capacity",
+					"title_de" : "Kapazität",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : ""
+				},
+				{
+					"id" : "isUnlimited",
+					"type" : "Boolean",
+					"title" : "is Unlimited",
+					"title_de" : "nicht begrenzt",
+					"value" : false,
+					"description" : "",
+					"readonly" : false,
+					"optional" : true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"white",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":["bg_frame","bg_frame2"],
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" :			[
+				"all"
+			]
 		},
 		{
 			"type" : 			"node",
