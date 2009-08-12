@@ -364,6 +364,35 @@
 			]
 		},
 		{
+			"name" : "itemAwareElement",
+			"properties" : [
+				{
+					"id" : "itemSubjectRef",
+					"type" : "String",
+					"title" : "ItemSubjectRef",
+					"title_de" : "ItemSubjectRef",
+					"description" : "Specification of the items that are stored or conveyed by the ItemAwareElement",
+					"description_de" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "dataState",
+					"type" : "String",
+					"title" : "DataState",
+					"title_de" : "DatenZustand",
+					"description" : "A reference to the DataState, which defines certain states for the data contained in the item.",
+					"description_de" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				}
+			]
+		},
+		{
 			"name" : "activity",
 			"properties": [
 				{
@@ -834,7 +863,7 @@
 					"title":"is a Call Activity",
 					"title_de":"ist eine Call Activity",
 					"value":0,
-					"description":"",
+					"description":"a Call Activity is a wrapper for a globally defined Sub-Process that is reused in the current process.",
 					"readonly":false,
 					"optional":"true",
 					"refToView":"callActivity"
@@ -1110,7 +1139,7 @@
 					"title":"is a Transaction",
 					"title_de":"ist eine Transaktion",
 					"value":false,
-					"description":"",
+					"description":"A Transaction is a set of activities that logically belongs together; it might follow a specified transaction protocol.",
 					"readonly":false,
 					"optional":false,
 					"refToView":"border"
@@ -1235,7 +1264,7 @@
 					"type":"boolean",
 					"title":"is a Event-Subproces",
 					"title_de":"ist ein Ereignis-Unterprozess",
-					"description":"",
+					"description":"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
 					"readonly":false,
 					"optional":true,
 					"refToView":"taskrect",
@@ -2024,28 +2053,17 @@
 			"title_de" :		"Datenobjekt",
 			"description" :		"A Data Object represents information flowing through the process, such as business documents, e-mails or letters.",
 			"description_de" :	"Ein Datenobjekt repräsentiert Informationen, die durch den Prozess fließen, wie z.B. Dokumente, Emails oder Briefe.",
-			"groups" :			["Artifacts"],
-			"groups_de" :		["Artefakte"],
-			"view" :			"artifact/data.object.svg",
+			"groups" :			["Data Objects"],
+			"groups_de" :		["Daten Objekte"],
+			"view" :			"dataobjects/data.object.svg",
 			"icon" :			"new_data_object.png",
 			"defaultAlign" :	"southeast",
 			"propertyPackages":	[
 				"baseAttributes",
 				"flowElement",
-				"artifact"
+				"itemAwareElement"
 			],
 			"properties" :		[
-				{
-					"id":"artifactType",
-					"type":"String",
-					"title":"ArtifactType",
-					"title_de":"Artefakttyp",
-					"value":"DataObject",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
 				{
 					"id":"state",
 					"type":"String",
@@ -2121,7 +2139,18 @@
 					"description":"",
 					"readonly":false,
 					"optional":false
-				},				
+				},		
+				{
+					"id" : "isCollection",
+					"type" : "Boolean",
+					"title" : "is Collection",
+					"title_de" : "ist Collection",
+					"value" : false,
+					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "collection"
+				},	
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2146,32 +2175,156 @@
 		},
 		{
 			"type" : 			"node",
+			"id" :				"DataInput",
+			"title" :			"Data Input",
+			"title_de" :		"Dateneingang",
+			"description" :		"A Data Input is a variable which is read by an activity and must be available before the activity can start.",
+			"description_de" :	"Ein Dateneingang ist eine Variable, die von einer Aktivität gelesen wird und die verfügbar sein muss, bevor die Aktivität starten kann.",
+			"groups" :			["Data Objects"],
+			"groups_de" :		["Daten Objekte"],
+			"view" :			"dataobjects/data.input.svg",
+			"icon" :			"new_data_object.png",
+			"defaultAlign" :	"southeast",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"itemAwareElement"
+			],
+			"properties" :		[
+				{
+					"id" : "inputSetRefs",
+					"type" : "String",
+					"title" : "InputSetRefs",
+					"title_de" : "InputSetRefs",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "inputSetWithOptional",
+					"type" : "String",
+					"title" : "InputSetWithOptional",
+					"title_de" : "InputSetWithOptional",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "inputSetWithWhileExecuting",
+					"type" : "String",
+					"title" : "InputSetWithWhileExecuting",
+					"title_de" : "InputSetWithWhileExecuting",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "isCollection",
+					"type" : "Boolean",
+					"title" : "is Collection",
+					"title_de" : "ist Collection",
+					"value" : false,
+					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "collection"
+				}
+			],
+			"roles" :			[
+				"all"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"DataOutput",
+			"title" :			"Data Output",
+			"title_de" :		"Datenausgang",
+			"description" :		"A Data Output is a variable produced by the activity.",
+			"description_de" :	"Ein Datenausgang ist eine Variable, die von der Aktivität erzeugt wurde.",
+			"groups" :			["Data Objects"],
+			"groups_de" :		["Daten Objekte"],
+			"view" :			"dataobjects/data.output.svg",
+			"icon" :			"new_data_object.png",
+			"defaultAlign" :	"southeast",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"itemAwareElement"
+			],
+			"properties" :		[
+				{
+					"id" : "outputSetRefs",
+					"type" : "String",
+					"title" : "InputSetRefs",
+					"title_de" : "InputSetRefs",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "outputSetWithOptional",
+					"type" : "String",
+					"title" : "InputSetWithOptional",
+					"title_de" : "InputSetWithOptional",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "outputSetWithWhileExecuting",
+					"type" : "String",
+					"title" : "OutputSetWithWhileExecuting",
+					"title_de" : "OutputSetWithWhileExecuting",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "isCollection",
+					"type" : "Boolean",
+					"title" : "is Collection",
+					"title_de" : "ist Collection",
+					"value" : false,
+					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "collection"
+				}
+			],
+			"roles" :			[
+				"all"
+			]
+		},
+		{
+			"type" : 			"node",
 			"id" :				"Data_Store",
 			"title" :			"Data Store",
 			"title_de" :		"Datenlager",
-			"groups" : 			["Artifacts"],
-			"groups_de" :		["Artefakte"],
+			"groups" : 			["Data Objects"],
+			"groups_de" :		["Daten Objekte"],
 			"description" :		"A Data Store is a place where the process can read or wirte date, e.g. a database or a filling cabinet. It persists beyond the lifetime of the process instance.",
 			"description_de" :	"Ein Datenlager ist ein Platz an dem ein Prozess Daten lesen oder schreiben kann, zum Beispiel eine Datenbank. Es existiert auch über die Lebenszeit der Prozessinstanz hinweg.",
-			"view" :			"artifact/data.store.svg",
+			"view" :			"dataobjects/data.store.svg",
 			"icon" :			"new_data_store.png",
 			"propertyPackages": [
 				"baseAttributes",
 				"flowElement",
+				"itemAwareElement",
 				"artifact"
 			],
 			"properties" :		[
-				{
-					"id":"artifactType",
-					"type":"String",
-					"title":"ArtifactType",
-					"title_de":"Artefakttyp",
-					"value":"Data Store",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":""
-				},
 				{
 					"id" : "capacity",
 					"type" : "Integer",
@@ -2191,6 +2344,17 @@
 					"description" : "",
 					"readonly" : false,
 					"optional" : true
+				},
+				{
+					"id" : "dataStoreRef",
+					"type" : "String",
+					"title" : "DataStoreRef",
+					"title_de" : "DataStoreRef",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length": 50,
+					"wrapLines" : true
 				},
 				{
 					"id":"bgColor",
