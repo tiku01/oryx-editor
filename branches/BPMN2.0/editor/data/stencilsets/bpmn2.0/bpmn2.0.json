@@ -1386,19 +1386,6 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"frame",
-					"fill":true,
-					"stroke":false
 				}
 			]
 		},
@@ -1445,7 +1432,7 @@
 		},
 		{
 			"type" : 			"node",
-			"id": 				"task",
+			"id": 				"Task",
 			"title" : 			"Task",
 			"title_de" : 		"Task",
 			"groups" : 			["Activities"],
@@ -1453,10 +1440,12 @@
 			"description" : 	"",
 			"description_de" : 	"",
 			"view" : 			"activity/task.svg",
-			"icon" : 			"new_task.png",
+			"icon" : 			"activity/task.png",
 			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
 			"roles" : 			[
 				"all",
+				"sequence_start",
+				"sequence_end",
 				"ActivitiesMorph"
 			]
 		},
@@ -1469,8 +1458,8 @@
 			"groups_de" :		["Aktivitäten"],
 			"description" :		"A Subprocess is a decomposable activity. It can be collapsed to hide the details.",
 			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
-			"view" :			"activity/collapsed.subprocess.svg",
-			"icon" :			"new_subprocess.png",
+			"view" :			"activity/subprocess.collapsed.svg",
+			"icon" :			"activity/subprocess.png",
 			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
 			"properties" :		[
 				{
@@ -1521,8 +1510,8 @@
 			"groups_de" :		["Aktivitäten"],
 			"description" :		"A Subprocess is a decomposable activity. An Expanded Subprocess contains a valid BPMN diagram.",
 			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Ein Aufgeklappter Unterprozess enthält ein BPMN Diagramm.",
-			"view" :			"activity/expanded.subprocess.svg",
-			"icon" :			"new_task.png",
+			"view" :			"activity/subprocess.expanded.svg",
+			"icon" :			"activity/task.png",
  			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
 			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
 			"properties" :		[
@@ -1575,8 +1564,8 @@
 			"description" :		"When splitting, it routes the sequence flow to exactly one of the outgoing branches based on conditions. When merging, it awaits one incoming branch to complete before triggering the outgoing flow.",
 			"description_de" :	"Bei einer Verzweigung wird der Steuerfluss abhÃ¤ngig von Verzweigungsbedingungen zu genau einer ausgehenden Kante geleitet. Bei einer Zusammenführung wird auf eine der eingehenden Kante gewartet, um den ausgehenden Steuerfluss zu aktivieren.",
 			"groups" : 			["Gateways"],
-			"view" : 			"gateway/xor.databased.svg",
-			"icon" : 			"new_gateway_xor_data.png",
+			"view" : 			"gateway/exclusive.databased.svg",
+			"icon" : 			"gateway/exclusive.databased.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
@@ -1662,14 +1651,14 @@
 		},
 		{
 			"type" : 			"node",
-			"id" : 				"Eventbased_Gateway",
+			"id" : 				"EventbasedGateway",
 			"title" :			"Event-based Gateway",
 			"title_de" :		"Ereignis-basiertes Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"Each event results in the creation of a new process instance.",
 			"description_de" :	"Jedes Ereignis endet mit der Erzeugung einer neuen Prozessinstanz.",
 			"view" :			"gateway/eventbased.svg",
-			"icon" :			"new_gateway_xor_event.png",
+			"icon" :			"gateway/eventbased.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
@@ -1716,14 +1705,14 @@
 		},
 		{
 			"type" : 			"node",
-			"id" : 				"Exclusive_Eventbased_Gateway",
+			"id" : 				"ExclusiveEventbasedGateway",
 			"title" :			"Event-based Exclusive (XOR) Gateway",
 			"title_de" :		"Ereignis-basiertes exklusives Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"Is always followed by catching events or receive tasks. Sequence flow is routed to the subsequent event/task which happens first.",
 			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
-			"view" :			"gateway/xor.eventbased.svg",
-			"icon" :			"new_gateway_xor_event.png",
+			"view" :			"gateway/exclusive.eventbased.svg",
+			"icon" :			"gateway/exclusive.eventbased.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
@@ -1770,14 +1759,14 @@
 		},
 		{
 			"type" : 			"node",
-			"id" :				"AND_Gateway",
+			"id" :				"ParallelGateway",
 			"title" :			"Parallel Gateway",
 			"title_de" :		"Paralleles Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"When used to split the sequence flow, all outgoing branches are activated simultaneously. When merging parallel branches it waits for all incoming branches to complete before triggering the outgoing flow.",
 			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
-			"view" :			"gateway/and.svg",
-			"icon" :			"new_gateway_and.png",
+			"view" :			"gateway/parallel.svg",
+			"icon" :			"gateway/parallel.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" : [
 				{
@@ -1803,14 +1792,14 @@
 		},
 		{
 			"type" : 			"node",
-			"id" :				"Eventbased_AND_Gateway",
+			"id" :				"ParallelEventbasedGateway",
 			"title" :			"Parallel Event-based Gateway",
 			"title_de" :		"Paralleles Ereignisbasiertes Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"An event either creates a new proces instance or is correlated to an existing instance.",
 			"description_de" :	"Ein Ereignis erzeugt entweder eine neue Prozessinstanz oder korreliert zu einer bereits bestehnden.",
-			"view" :			"gateway/and.eventbased.svg",
-			"icon" :			"new_gateway_and.png",
+			"view" :			"gateway/parallel.eventbased.svg",
+			"icon" :			"gateway/parallel.eventbased.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" : [
 				{
@@ -1836,14 +1825,14 @@
 		},
 		{
 			"type" : 			"node",
-			"id" :				"OR_Gateway",
+			"id" :				"InclusiveGateway",
 			"title" :			"Inclusive Gateway",
 			"title_de" :		"Inklusives Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"When splitting, one or more branches are activated based on branching conditions. When merging, it awaits all active incoming branches to complete.",
 			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhÃ¤ngig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
-			"view" :			"gateway/or.svg",
-			"icon" :			"new_gateway_or.png",
+			"view" :			"gateway/inclusive.svg",
+			"icon" :			"gateway/inclusive.png",
 			"propertyPackages" :["baseAttributes","flowElement","gateway"],
 			"properties" :		[
 				{
@@ -1907,14 +1896,14 @@
 		},
 		{
 			"type": "node",
-			"id":"Complex_Gateway",
+			"id":"ComplexGateway",
 			"title":"Complex Gateway",
 			"title_de":"Komplexes Gateway",
 			"groups":["Gateways"],
 			"description":"It triggers one or more branches based on complex conditions or verbal descriptions. Use it sparingly as the semantics might not be clear.",
 			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
 			"view":"gateway/complex.svg",
-			"icon":"new_gateway_complex.png",
+			"icon":"gateway/complex.png",
 			"propertyPackages" : ["baseAttributes","flowElement","gateway"],
 			"properties" : [
 				{
@@ -1972,7 +1961,7 @@
 			"description" :		"An arbitrary set of objects can be defined as a Group to show that they logically belong together.",
 			"description_de" :	"Mehrere Objekte, die logisch in Verbindung stehen, können in einer Gruppe zusammengefasst werden.",
 			"view" :			"artifact/group.svg",
-			"icon":"new_group.png",
+			"icon":				"artifact/group.png",
 			"propertyPackages" : [
 				"baseAttributes",
 				"flowElement",
@@ -2007,7 +1996,7 @@
 			"description" :		"Any object can be associated with a Text Annotation to provide additional documentation.",
 			"description_de" :	"Jedes Objekt kann durch eine Text-Anmerkung kommentiert werden.",
 			"view" :			"artifact/text.annotation.svg",
-			"icon" :			"new_text_annotation.png",
+			"icon" :			"artifact/text.annotation.png",
 			"defaultAlign" :	"northeast",
 			"propertyPackages": [
 				"baseAttributes",
@@ -2055,8 +2044,8 @@
 			"description_de" :	"Ein Datenobjekt repräsentiert Informationen, die durch den Prozess fließen, wie z.B. Dokumente, Emails oder Briefe.",
 			"groups" :			["Data Objects"],
 			"groups_de" :		["Daten Objekte"],
-			"view" :			"dataobjects/data.object.svg",
-			"icon" :			"new_data_object.png",
+			"view" :			"dataobject/data.object.svg",
+			"icon" :			"dataobject/data.object.png",
 			"defaultAlign" :	"southeast",
 			"propertyPackages":	[
 				"baseAttributes",
@@ -2182,8 +2171,8 @@
 			"description_de" :	"Ein Dateneingang ist eine Variable, die von einer Aktivität gelesen wird und die verfügbar sein muss, bevor die Aktivität starten kann.",
 			"groups" :			["Data Objects"],
 			"groups_de" :		["Daten Objekte"],
-			"view" :			"dataobjects/data.input.svg",
-			"icon" :			"new_data_object.png",
+			"view" :			"dataobject/data.input.svg",
+			"icon" :			"dataobject/data.input.png",
 			"defaultAlign" :	"southeast",
 			"propertyPackages":	[
 				"baseAttributes",
@@ -2249,8 +2238,8 @@
 			"description_de" :	"Ein Datenausgang ist eine Variable, die von der Aktivität erzeugt wurde.",
 			"groups" :			["Data Objects"],
 			"groups_de" :		["Daten Objekte"],
-			"view" :			"dataobjects/data.output.svg",
-			"icon" :			"new_data_object.png",
+			"view" :			"dataobject/data.output.svg",
+			"icon" :			"dataobject/data.output.png",
 			"defaultAlign" :	"southeast",
 			"propertyPackages":	[
 				"baseAttributes",
@@ -2316,8 +2305,8 @@
 			"groups_de" :		["Daten Objekte"],
 			"description" :		"A Data Store is a place where the process can read or wirte date, e.g. a database or a filling cabinet. It persists beyond the lifetime of the process instance.",
 			"description_de" :	"Ein Datenlager ist ein Platz an dem ein Prozess Daten lesen oder schreiben kann, zum Beispiel eine Datenbank. Es existiert auch über die Lebenszeit der Prozessinstanz hinweg.",
-			"view" :			"dataobjects/data.store.svg",
-			"icon" :			"new_data_store.png",
+			"view" :			"dataobject/data.store.svg",
+			"icon" :			"dataobject/data.store.png",
 			"propertyPackages": [
 				"baseAttributes",
 				"flowElement",
@@ -2758,6 +2747,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -2794,6 +2785,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -2830,7 +2823,8 @@
 			"roles":[
 				"all",
 				"sequence_start",
-				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -2868,6 +2862,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -2939,6 +2935,8 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -2974,6 +2972,7 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3008,6 +3007,9 @@
 			],
 			"roles":[
 				"all",
+				"sequence_start",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3045,6 +3047,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3082,6 +3086,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3119,6 +3125,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"IntermediateEventOnSubprocessBoundary",
+				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3361,6 +3369,7 @@
 			],
 			"roles" : [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3393,6 +3402,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3426,7 +3436,6 @@
 			"roles": [
 				"all",
 				"EndEventsMorph",
-				"sequence_start",
 				"sequence_end"
 			],
 			"properties": [
@@ -3459,6 +3468,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3524,6 +3534,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3556,6 +3567,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3588,6 +3600,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3620,6 +3633,7 @@
 			],
 			"roles": [
 				"all",
+				"sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3635,6 +3649,8 @@
 				}
 			]
 		},
+		
+		// Edges
 		{
 			"type": "edge",
 			"id":"SequenceFlow",
@@ -3644,13 +3660,125 @@
 			"description_de":"Ein Steuerfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
 			"groups":["Connecting Objects"],
 			"groups_de":["Konnektoren"],
-			"view":"sequenceflow.svg",
-			"icon":"new_sequenceflow.png",
+			"view":"connector/sequenceflow.svg",
+			"icon":"connector/sequenceflow.png",
+			"propertyPackages":[
+				"baseAttributes"
+			],
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			],
+			"properties":[
+				{
+					"id":"ConditionType",
+					"type":"Choice",
+					"title":"ConditionType",
+					"title_de":"Bedingungstyp",
+					"value":"None",
+					"description":"Determine the typ of the flow object.",
+					"description_de":"Legt den Typ des Flussobjekts fest.",
+					"readonly":false,
+					"optional":false,
+					"items": [
+						{
+							"id":"none",
+							"title":"None",
+							"value":"None",
+							"refToView":""
+						},
+						{
+							"id":"expression",
+							"title":"Expression",
+							"value":"Expression",
+							"refToView":""
+						},
+						{
+							"id":"default",
+							"title":"Default",
+							"value":"Default",
+							"refToView":"default"
+						}
+					]
+				},
+				{
+					"id":"ConditionExpression",
+					"type":"String",
+					"title":"ConditionExpression",
+					"title_de":"Bedingungsausdruck",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"condition"
+				}
+			],
+		},
+		{
+			"type": "edge",
+			"id":"MessageFlow",
+			"title":"Message Flow",
+			"title_de":"Nachrichtenfluss",
+			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
+			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"connector/messageflow.svg",
+			"icon":"connector/messageflow.png",
 			"roles": [
 				"all",
 				"ConnectingObjectsMorph"
 			]
-		}
+		},
+		{
+			"type": "edge",
+			"id":"Association_Undirected",
+			"title":"Association Undirected",
+			"title_de":"Ungerichtete Assoziation",
+			"description":"Attaching a data object with an Undirected Association to a sequence flow indicates hand-over of information between the activities involved.",
+			"description_de":"Die Zuordnung eines Datenobjekts zu einem Steuerfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"connector/association.undirected.svg",
+			"icon":"connector/association.undirected.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Unidirectional",
+			"title":"Association Unidirectional",
+			"title_de":"Gerichtete Assoziation",
+			"description":"A Directed Association indicates information flow. A data object can be read at the start of an activity or written upon completion.",
+			"description_de":"Eine gerichtete Assoziation zeigt den Informationsfluss. Ausgehende Kanten zeigen Schreiben, eingehende zeigen Lesen an.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"connector/association.unidirectional.svg",
+			"icon":"connector/association.unidirectional.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Bidirectional",
+			"title":"Association Bidirectional",
+			"title_de":"Beidseitige Assoziation",
+			"description":"A Bidirected Association indicates that the data object is modified, i.e. read and written during the execution of an actvity.",
+			"description_de":"Eine beidseitig gerichtete Assoziation zeigt, dass das Datenobjekt während der Ausführung einer Aktivität verändert, d.h. gelesen und geschrieben wird.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"connector/association.bidirectional.svg",
+			"icon":"connector/association.bidirectional.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			]
+		}	
 	],
 	
 	"rules" : {
@@ -3665,6 +3793,28 @@
 					{
 						"from":"Exclusive_Eventbased_Gateway",
 						"to":["FromEventbasedGateway"]
+					}
+				]
+			},
+			{
+				"role":"IntermediateEventOnActivityBoundary",
+				"connects": [
+					{
+						"from":"Task",
+						"to":["IntermediateEventOnActivityBoundary"]
+					}
+				]
+			},
+			{
+				"role":"IntermediateEventOnSubprocessBoundary",
+				"connects": [
+					{
+						"from":"CollapsedSubprocess",
+						"to":["IntermediateEventOnSubprocessBoundary"]
+					},
+					{
+						"from":"Subprocess",
+						"to":["IntermediateEventOnSubprocessBoundary"]
 					}
 				]
 			}
