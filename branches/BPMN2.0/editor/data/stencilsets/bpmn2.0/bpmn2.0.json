@@ -78,7 +78,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"bg_frame",
+					"refToView": "bg_frame",
 					"fill":true,
 					"stroke":false
 				}
@@ -2672,6 +2672,210 @@
 		},
 		
 		// Intermediate Events Throwing
+		
+		{
+			"type": "node",
+			"id":"IntermediateMessageEventThrowing",
+			"title":"Intermediate Message Event",
+			"title_de":"Zwischen-Nachrichten-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Sending Messages",
+			"description_de":"Senden von Nachrichten.",
+			"view":"intermediateevent/message.throwing.svg",
+			"icon":"throwing/message.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Message",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateEscalationEventThrowing",
+			"title":"Intermediate Escalation Event",
+			"title_de":"Zwischen-Eskalation-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
+			"view":"intermediateevent/escalation.throwing.svg",
+			"icon":"throwing/escalation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Escalation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateLinkEventThrowing",
+			"title":"Intermediate Link Event",
+			"title_de":"Zwischen-Link-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Off-page connectors. Two corresponding link events equal a sequence flow.",
+			"description_de":"Auslösendes und eintretendes Link-Ereignis mit gleichem Namen entspricht Steuerfluss.",
+			"view":"intermediateevent/link.throwing.svg",
+			"icon":"throwing/link.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Link",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateCompensationEventThrowing",
+			"title":"Intermediate Compensation Event",
+			"title_de":"Zwischen-Kompensierung-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Triggering compensation.",
+			"description_de":"Auslösen von Kompensierung.",
+			"view":"intermediateevent/compensation.throwing.svg",
+			"icon":"throwing/compensation.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Compensation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateSignalEventThrowing",
+			"title":"Intermediate Signal Event",
+			"title_de":"Zwischen-Signal-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
+			"view":"intermediateevent/signal.throwing.svg",
+			"icon":"throwing/signal.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Signal",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"IntermediateMultipleEventThrowing",
+			"title":"Intermediate Multiple Event",
+			"title_de":"Zwischen-Mehrfach-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Throwing one out of a set of events.",
+			"description_de":"Auslösen eines von mehreren Ereignissen.",
+			"view":"intermediateevent/multiple.throwing.svg",
+			"icon":"throwing/multiple.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"Multiple",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+				}
+			]
+		},
 		
 		// End Events
 		{
