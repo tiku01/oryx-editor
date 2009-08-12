@@ -7,6 +7,14 @@
             "icon_url":"/bpmn/bpmn.png",
             "visible":false
         },
+		{
+            "title":"BPMN 2.0",
+            "namespace":"http://b3mn.org/stencilset/bpmn2.0#",
+            "description":"BPMN 2.0 stencil set specification for processes.",
+            "uri":"/bpmn2.0/bpmn2.0.json",
+            "icon_url":"/bpmn2.0/bpmn2.0.png",
+            "visible":true
+        },
         {
             "title":"BPMN 1.2",
             "namespace":"http://b3mn.org/stencilset/bpmn1.1#",
