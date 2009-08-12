@@ -15,7 +15,7 @@
   <g>
     <path
        d="M -4.5,16 L 16,-4.5 L 35.5,16 L 16,35.5z"
-       id="frame"
+       id="bg_frame"
        fill="#ffffff"
        style="stroke:#000000;stroke-width:1" />
     <path
