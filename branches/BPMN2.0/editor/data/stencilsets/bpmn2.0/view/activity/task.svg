@@ -20,7 +20,7 @@
     <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
 	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="1" fill="white" />
 		<text 
-			font-size="14" 
+			font-size="12" 
 			id="text_name" 
 			x="50" 
 			y="40" 
@@ -28,7 +28,7 @@
 			oryx:fittoelem="bg_frame"
 			stroke="black">
 		</text>
-    <g id="humanTask" transform="scale(0.7,0.7) translate(8,8)">
+    <g id="manualTask" transform="scale(0.7,0.7) translate(8,8)">
     	<path oryx:anchors="top left" id="hand"  style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1" 
 			d="M0.5,3.751l4.083-3.25c0,0,11.166,0.083,12.083,0.083s-2.417,2.917-1.5,2.917
 				s11.667,0,12.584,0c1.166,1.708-0.168,3.167-0.834,3.667s0.875,1.917-1,4.417c-0.75,0.25,0.75,1.875-1.333,3.333
