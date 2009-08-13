@@ -24,11 +24,9 @@
 		
 		<rect id="unvisibleBorder" x="0" y="0" height="97" width="88" stroke="none" fill="none" oryx:resize="horizontal vertical"/>
 		
-		<text font-size="14" id="text_name" x="44" y="48.5" oryx:align="middle center" oryx:fittoelem="unvisibleBorder" stroke="black" />
+		<text font-size="12" id="text_name" x="44" y="48.5" oryx:align="middle center" oryx:fittoelem="unvisibleBorder" stroke="black" />
 		
-		<text font-size="11" id="text_state" x="44" y="87" oryx:align="middle center" stroke="black" oryx:anchors="bottom" />
-		
-		<polygon id="input" stroke="black" fill="white" stroke-width="1.4" points="9,13 19,13 19,10 25,16 19,22 19,19 9,19" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" />
+		<polygon oryx:anchors="left top" id="input" stroke="black" fill="white" stroke-width="1.4" points="9,13 19,13 19,10 25,16 19,22 19,19 9,19" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" />
 		
 		<g id="collection">
 			<path oryx:anchors="bottom" fill="none" stroke="#000000" stroke-width="2" d="M41.833,86.5v10 M45.833,86.5v10 M49.833,86.5v10"/>

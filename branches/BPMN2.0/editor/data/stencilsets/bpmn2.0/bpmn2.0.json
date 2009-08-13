@@ -659,13 +659,13 @@
 							"id":"c1",
 							"title":"Sequential",
 							"value":"Sequential",
-							"refToView":""
+							"refToView":"sequential"
 						},
 						{
 							"id":"c2",
 							"title":"Parallel",
 							"value":"Parallel",
-							"refToView":""
+							"refToView":"parallel"
 						}
 					]
 				},
@@ -817,7 +817,7 @@
 							"id":"c3",
 							"title":"MultiInstance",
 							"value":"MultiInstance",
-							"refToView":"multiple"
+							"refToView":"mi"
 						}
 					]
 				},
@@ -940,18 +940,6 @@
 						},
 						{
 							"id":"c8",
-							"title":"Manual",
-							"value":"Manual",
-							"refToView":""
-						},
-						{
-							"id":"c9",
-							"title":"Reference",
-							"value":"Reference",
-							"refToView":""
-						},
-						{
-							"id":"c10",
 							"title":"None",
 							"value":"None",
 							"refToView":"none"
@@ -1093,7 +1081,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"taskrect",
+					"refToView":"bg_frame",
 					"fill":true,
 					"stroke":false
 				}		
@@ -1188,7 +1176,7 @@
 							"id":"c2",
 							"title":"Parallel",
 							"value":"Parallel",
-							"refToView":"Parallel"
+							"refToView":"Sarallel"
 						}
 					]
 				},
@@ -1258,17 +1246,6 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":""
-				},
-				{
-					"id":"eventSubprocess",
-					"type":"boolean",
-					"title":"is a Event-Subproces",
-					"title_de":"ist ein Ereignis-Unterprozess",
-					"description":"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
-					"readonly":false,
-					"optional":true,
-					"refToView":"taskrect",
-					"inverseBoolean":true
 				}
 			]
 		},
@@ -1484,10 +1461,10 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"taskrect",
+					"refToView":"bg_frame",
 					"fill":true,
 					"stroke":false
-				}
+				}	
 			],
 			"roles": 			[
 				"all",
@@ -1527,19 +1504,68 @@
 					"readonly":true,
 					"optional":false,
 					"length":""
+				}
+			],
+			"roles"	:			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"messageflow_start",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall",
+				"canContainArtifacts",
+				"ActivitiesMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"EventSubprocess",
+			"title" :			"Event-Subprocess",
+			"title_de" :		"Ereignis-Unterprozess",
+			"groups" :			["Activities"],
+			"groups_de" :		["Aktivitäten"],
+			"description" :		"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
+			"description_de" :	"Ein Ereignis-Unterprozess wird in einem anderen Unterprozess platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrehcen oder parallel laufen (nicht-unterbrechend).",
+			"view" :			"activity/event.subprocess.svg",
+			"icon" :			"activity/event.subprocess.png",
+ 			"layout" : 			[{"type" : "layout.bpmn11.subprocess"}],
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"properties" :		[
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Event-Sub-Process",
+					"value_de":"Ereignis-Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
 				},
 				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"white",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":["taskrect","eventSubprocess"],
-					"fill":true,
-					"stroke":false
+					"id":"isATransaction",
+					"type":"Boolean",
+					"title":"is a Transaction",
+					"title_de":"ist eine Transaktion",
+					"value":false,
+					"description":"A Transaction is a set of activities that logically belongs together; it might follow a specified transaction protocol.",
+					"readonly":true,
+					"optional":false
+				},
+				{
+					"id":"callAcitivity",
+					"type":"Boolean",
+					"title":"is a Call Activity",
+					"title_de":"ist eine Call Activity",
+					"value":false,
+					"description":"a Call Activity is a wrapper for a globally defined Sub-Process that is reused in the current process.",
+					"readonly":true,
+					"optional":"true"
 				}
 			],
 			"roles"	:			[
@@ -1706,7 +1732,7 @@
 		{
 			"type" : 			"node",
 			"id" : 				"ExclusiveEventbasedGateway",
-			"title" :			"Event-based Exclusive (XOR) Gateway",
+			"title" :			"Event-based Gateway (Instantiate)",
 			"title_de" :		"Ereignis-basiertes exklusives Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"Is always followed by catching events or receive tasks. Sequence flow is routed to the subsequent event/task which happens first.",
@@ -2139,19 +2165,6 @@
 					"readonly" : false,
 					"optional" : true,
 					"refToView" : "collection"
-				},	
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":["frame", "celem2", "celem3"],
-					"fill":true,
-					"stroke":false
 				}
 			],
 			"roles" : 			[
@@ -2226,7 +2239,8 @@
 				}
 			],
 			"roles" :			[
-				"all"
+				"all",
+				"DataObjectMorph"
 			]
 		},
 		{
@@ -2250,8 +2264,8 @@
 				{
 					"id" : "outputSetRefs",
 					"type" : "String",
-					"title" : "InputSetRefs",
-					"title_de" : "InputSetRefs",
+					"title" : "OutputSetRefs",
+					"title_de" : "OutputSetRefs",
 					"description" : "",
 					"readonly" : false,
 					"optional" : true,
@@ -2261,8 +2275,8 @@
 				{
 					"id" : "outputSetWithOptional",
 					"type" : "String",
-					"title" : "InputSetWithOptional",
-					"title_de" : "InputSetWithOptional",
+					"title" : "OutputSetWithOptional",
+					"title_de" : "OutputSetWithOptional",
 					"description" : "",
 					"readonly" : false,
 					"optional" : true,
@@ -2293,7 +2307,8 @@
 				}
 			],
 			"roles" :			[
-				"all"
+				"all",
+				"DataObjectMorph"
 			]
 		},
 		{
@@ -2311,7 +2326,6 @@
 				"baseAttributes",
 				"flowElement",
 				"itemAwareElement",
-				"artifact"
 			],
 			"properties" :		[
 				{
@@ -2360,7 +2374,66 @@
 				}
 			],
 			"roles" :			[
-				"all"
+				"all",
+				"DataObjectMorph"
+			]
+		},
+		{
+			"type" :			"node",
+			"id" :				"Message",
+			"title" :			"Message",
+			"title_de" : 		"Nachricht",
+			"groups" :			["Data Objects"],
+			"groups_de" :		["Daten Objekte"],
+			"description" :		"A Message is used to depict the contents of a communication between two Participants.",
+			"description_de" :	"Eine Nachricht schildert die Kommunikation zwischen zwei Teilnehmern.",
+			"view" :			"dataobject/message.svg",
+			"icon" :			"dataobject/message.png",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"itemAwareElement"
+			],
+			"properties" :		[
+				{
+					"id" : "structureRef",
+					"type" : "String",
+					"title" : "StructureRef",
+					"title_de" : "StrukturRef",
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "nonInitiating",
+					"type" : "Boolean",
+					"title" : "Non-Initiating",
+					"title_de" : "Nicht-Beginnend",
+					"description" : "",
+					"value" : false,
+					"refToView" : ["nonInitiating", "nonInitiating2"],
+					"readonly" : false,
+					"optional" : true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"white",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":["bg_frame","bg_frame2"],
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" :			[
+				"all",
+				"DataObjectMorph"
 			]
 		},
 		{
