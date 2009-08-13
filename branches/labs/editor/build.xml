@@ -133,6 +133,7 @@
             Copied profiles.xml into build destination
         </echo>
 		<mkdir dir="${editor-build-root}/tempProfiles"/>
+		<mkdir dir="${editor-build-root}/profiles"/>
      	<java dir="${editor-build-root}" classpath="build/buildApps/bin" classname="org.oryxeditor.buildapps.ProfileCreator" fork="true"
          failonerror="true">
             <classpath>
@@ -185,12 +186,23 @@
             	<file name='scripts/Core/abstractLayouter.js'/>
             </filelist>
 			</concat>
-			<echo message="The first five letters of the alphabet are:"/>
-
-				<java dir="${editor-build-root}" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
- 					failonerror="true" output='${editor-build-root}/profiles'>
+			<move todir='${editor-build-root}/profiles'>
+				<fileset dir='${editor-build-root}/tempProfiles/'>
+	                    <include name="*.xml" />
+	            </fileset>
+			</move>
+			<!--TODO shrink
+			<java dir="${editor-build-root}" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
+ 					failonerror="true" output='${editor-build-root}/profiles/'>
     				<arg file='${editor-build-root}/tempProfiles/'/>
-				</java>
+			</java>-->
+			<move todir='${editor-build-root}/profiles'>
+				<fileset dir='${editor-build-root}/tempProfiles/'>
+	                    <include name="*.js" />
+	            </fileset>
+			</move>
+			
+			<delete dir='${editor-build-root}/tempProfiles/' includeemptydirs='true'/>
      </target>
 	 <target name="compress-file">
 	 	<property name="file"/>

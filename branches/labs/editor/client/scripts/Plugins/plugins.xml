@@ -16,13 +16,16 @@
 		</plugin>
 		<plugin source="renameShapes.js" name="ORYX.Plugins.RenameShapes" />
 		<plugin source="erdfSupport.js" name="ORYX.Plugins.ERDFSupport" />
-		<plugin source="jsonSupport.js" name="ORYX.Plugins.JSONSupport" />
+		<plugin source="jsonSupport.js" name="ORYX.Plugins.JSONSupport">
+			<property name="color" value="red"/>
+				
+		</plugin>
 		<plugin source="rdfExport.js" name="ORYX.Plugins.RDFExport" />
 		<plugin source="general/feedbackPlugin.js" name="ORYX.Plugins.FeedbackPlugin" />
 		<plugin source="undo.js" name="ORYX.Plugins.Undo" />
 		
 		<plugin source="epcSupport.js" name="ORYX.Plugins.EPCSupport">
-			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	 
 		</plugin>	
 		
 		<plugin source="jpdlSupport.js" name="ORYX.Plugins.JPDLSupport">
@@ -36,7 +39,7 @@
 		
 		<plugin source="bpmn2bpel.js" name="ORYX.Plugins.BPMN2BPEL">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
-		</plugin>	
+		</plugin>
 			
 		<plugin source="processLink.js" name="ORYX.Plugins.ProcessLink">
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
@@ -52,7 +55,9 @@
 		<plugin source="arrangement.js" name="ORYX.Plugins.Arrangement">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
 		</plugin>
-		<plugin source="file.js" name="ORYX.Plugins.File" />
+		<plugin source="file.js" name="ORYX.Plugins.File" >
+			<property name="color" value="red"/>
+		</plugin>
 		<plugin source="file.js" name="ORYX.Plugins.Save"/>
 		
 		<plugin source="view.js" name="ORYX.Plugins.View">
@@ -250,6 +255,7 @@
 		</plugin>
 		<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
+		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 
 	</plugins>
 	
