@@ -2136,6 +2136,37 @@
 					]
 				},
 				{
+					"id":"input_output",
+					"type":"Choice",
+					"title":"Input/Output",
+					"title_de":"Eingang/Ausgang",
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items":[
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None",
+							"refToView":"none"
+						},
+						{
+							"id":"c2",
+							"title":"Input",
+							"value":"Input",
+							"refToView":"input"
+						},
+						{
+							"id":"c3",
+							"title":"Output",
+							"value":"Output",
+							"refToView":"output"
+						}
+					]
+				},
+				{
 					"id":"requiredForStart",
 					"type":"Boolean",
 					"title":"Required for start",
@@ -2172,142 +2203,6 @@
 				"from_artifact",
 				"to_artifact",
 				"fromtoall",
-				"DataObjectMorph"
-			]
-		},
-		{
-			"type" : 			"node",
-			"id" :				"DataInput",
-			"title" :			"Data Input",
-			"title_de" :		"Dateneingang",
-			"description" :		"A Data Input is a variable which is read by an activity and must be available before the activity can start.",
-			"description_de" :	"Ein Dateneingang ist eine Variable, die von einer Aktivität gelesen wird und die verfügbar sein muss, bevor die Aktivität starten kann.",
-			"groups" :			["Data Objects"],
-			"groups_de" :		["Daten Objekte"],
-			"view" :			"dataobject/data.input.svg",
-			"icon" :			"dataobject/data.input.png",
-			"defaultAlign" :	"southeast",
-			"propertyPackages":	[
-				"baseAttributes",
-				"flowElement",
-				"itemAwareElement"
-			],
-			"properties" :		[
-				{
-					"id" : "inputSetRefs",
-					"type" : "String",
-					"title" : "InputSetRefs",
-					"title_de" : "InputSetRefs",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "inputSetWithOptional",
-					"type" : "String",
-					"title" : "InputSetWithOptional",
-					"title_de" : "InputSetWithOptional",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "inputSetWithWhileExecuting",
-					"type" : "String",
-					"title" : "InputSetWithWhileExecuting",
-					"title_de" : "InputSetWithWhileExecuting",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "isCollection",
-					"type" : "Boolean",
-					"title" : "is Collection",
-					"title_de" : "ist Collection",
-					"value" : false,
-					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
-					"readonly" : false,
-					"optional" : true,
-					"refToView" : "collection"
-				}
-			],
-			"roles" :			[
-				"all",
-				"DataObjectMorph"
-			]
-		},
-		{
-			"type" : 			"node",
-			"id" :				"DataOutput",
-			"title" :			"Data Output",
-			"title_de" :		"Datenausgang",
-			"description" :		"A Data Output is a variable produced by the activity.",
-			"description_de" :	"Ein Datenausgang ist eine Variable, die von der Aktivität erzeugt wurde.",
-			"groups" :			["Data Objects"],
-			"groups_de" :		["Daten Objekte"],
-			"view" :			"dataobject/data.output.svg",
-			"icon" :			"dataobject/data.output.png",
-			"defaultAlign" :	"southeast",
-			"propertyPackages":	[
-				"baseAttributes",
-				"flowElement",
-				"itemAwareElement"
-			],
-			"properties" :		[
-				{
-					"id" : "outputSetRefs",
-					"type" : "String",
-					"title" : "OutputSetRefs",
-					"title_de" : "OutputSetRefs",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "outputSetWithOptional",
-					"type" : "String",
-					"title" : "OutputSetWithOptional",
-					"title_de" : "OutputSetWithOptional",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "outputSetWithWhileExecuting",
-					"type" : "String",
-					"title" : "OutputSetWithWhileExecuting",
-					"title_de" : "OutputSetWithWhileExecuting",
-					"description" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "isCollection",
-					"type" : "Boolean",
-					"title" : "is Collection",
-					"title_de" : "ist Collection",
-					"value" : false,
-					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
-					"readonly" : false,
-					"optional" : true,
-					"refToView" : "collection"
-				}
-			],
-			"roles" :			[
-				"all",
 				"DataObjectMorph"
 			]
 		},
