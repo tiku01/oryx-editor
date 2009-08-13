@@ -2380,6 +2380,8 @@
 			],
 			"roles" : [
 				"all",
+				"Startevents_all",
+				"sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2413,6 +2415,8 @@
 			],
 			"roles": [
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2446,6 +2450,8 @@
 			],
 			"roles" : 			[
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2479,9 +2485,9 @@
 			],
 			"roles" : 			[
 				"all",
-				"StartEventsMorph",
 				"sequence_start",
-				"sequence_end"
+				"Startevents_all",
+				"StartEventsMorph"
 			],
 			"properties": [
 				{
@@ -2514,6 +2520,8 @@
 			],
 			"roles" : 			[
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2546,6 +2554,8 @@
 			],
 			"roles": [
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2578,6 +2588,8 @@
 			],
 			"roles": [
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2611,6 +2623,8 @@
 			],
 			"roles" : 			[
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2644,6 +2658,8 @@
 			],
 			"roles" : 			[
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2677,6 +2693,8 @@
 			],
 			"roles" :			[
 				"all",
+				"sequence_start",
+				"Startevents_all",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -3370,6 +3388,7 @@
 			"roles" : [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3403,6 +3422,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3436,6 +3456,7 @@
 			"roles": [
 				"all",
 				"EndEventsMorph",
+				"Endevents_all",
 				"sequence_end"
 			],
 			"properties": [
@@ -3469,6 +3490,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3502,6 +3524,7 @@
 			"roles":[
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3535,6 +3558,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3568,6 +3592,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3601,6 +3626,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"Endevents_all",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -3782,6 +3808,44 @@
 	],
 	
 	"rules" : {
+		"cardinalityRules": [
+			{
+				"role":"Startevents_all",
+				"maximumOccurrence": undefined,
+				"outgoingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":1
+						
+					}
+				],
+				"incomingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":0
+						
+					}
+				]
+			},
+			{
+				"role":"Endevents_all",
+				"maximumOccurrence":undefined,
+				"outgoingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":0
+						
+					}
+				],
+				"incomingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":1
+						
+					}
+				]
+			}
+		],
 		"connectionRules": [
 			{
 				"role":"SequenceFlow",
@@ -3793,6 +3857,24 @@
 					{
 						"from":"Exclusive_Eventbased_Gateway",
 						"to":["FromEventbasedGateway"]
+					}
+				]
+			},
+			{
+				"role":"MessageFlow",
+				"connects": [
+					{
+						"from":"messageflow_start",
+						"to":["messageflow_end"]
+					}
+				]
+			},
+			{
+				"role":"DataObject",
+				"connects": [
+					{
+						"from":"MessageFlow",
+						"to":["DataObject"]
 					}
 				]
 			},
