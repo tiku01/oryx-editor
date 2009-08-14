@@ -128,7 +128,6 @@ ORYX.Plugins.PropertyWindow = {
 
 	},
 
-	
 	specialKeyDown: function(field, event) {
 		// If there is a TextArea and the Key is an Enter
 		if(field instanceof Ext.form.TextArea && event.button == ORYX.CONFIG.KEY_Code_enter) {
@@ -248,6 +247,7 @@ ORYX.Plugins.PropertyWindow = {
 		// extended by Kerstin (end)
 	},
 	
+	// Cahnges made in the property window will be shown directly
 	editDirectly:function(key, value){
 		
 		this.shapeSelection.shapes.each(function(shape){
@@ -259,6 +259,18 @@ ORYX.Plugins.PropertyWindow = {
 
 		this.facade.getCanvas().update();
 		
+	},
+	
+	// if a field becomes invalid after editing the shape must be restored to the old value
+	updateAfterInvalid : function(key) {
+		this.shapeSelection.shapes.each(function(shape) {
+			if(!shape.getStencil().property(key).readonly()) {
+				shape.setProperty(key, this.oldValues[shape.getId()]);
+				shape.update();
+			}
+		}.bind(this));
+		
+		this.facade.getCanvas().update();
 	},
 
 	// extended by Kerstin (start)	
@@ -435,6 +447,10 @@ ORYX.Plugins.PropertyWindow = {
 								var editorInput = new Ext.form.TextField({allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()});
 								editorInput.on('keyup', function(input, event) {
 									this.editDirectly(key, input.getValue());
+								}.bind(this));
+								editorInput.on('blur', function(input) {
+									if(!input.isValid(false))
+										this.updateAfterInvalid(key);
 								}.bind(this));
 								
 								editorGrid = new Ext.Editor(editorInput);
