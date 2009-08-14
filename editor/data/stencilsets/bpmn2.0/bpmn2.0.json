@@ -1833,7 +1833,7 @@
 						{
 							"id":"c2",
 							"title":"Timer",
-							"title" : "Stoppuhr",
+							"title_de" : "Stoppuhr",
 							"value":"Timer",
 							"refToView":"timer"
 						},
@@ -1898,20 +1898,7 @@
 					"optional" : true,
 					"refToView" : "interrupting",
 					"inverseBoolean" : true
-				},
-				{
-					"id":"bgColor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffcc",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"bg_frame",
-					"fill":true,
-					"stroke":false
-				}	
+				}
 			],
 			"roles": 			[
 				"all",
