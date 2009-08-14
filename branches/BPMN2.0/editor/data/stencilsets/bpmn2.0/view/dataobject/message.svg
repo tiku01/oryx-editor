@@ -5,26 +5,31 @@
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	xmlns:xlink="http://www.w3.org/1999/xlink"
 	
-	width="84px" 
-	height="61px"
+	width="60px" 
+	height="44px"
 	version="1.0">
 	<defs></defs>
 	<oryx:magnets>
-		<oryx:magnet oryx:cx="0" oryx:cy="30.5" oryx:anchors="left" />
-		<oryx:magnet oryx:cx="42" oryx:cy="61" oryx:anchors="bottom" />
-		<oryx:magnet oryx:cx="84" oryx:cy="30.5" oryx:anchors="right" />
-		<oryx:magnet oryx:cx="42" oryx:cy="0" oryx:anchors="top" />
-		<oryx:magnet oryx:cx="42" oryx:cy="30.5" oryx:default="yes" />
+		<oryx:magnet oryx:cx="0" oryx:cy="22" oryx:anchors="left" />
+		<oryx:magnet oryx:cx="30" oryx:cy="44" oryx:anchors="bottom" />
+		<oryx:magnet oryx:cx="60" oryx:cy="22" oryx:anchors="right" />
+		<oryx:magnet oryx:cx="30" oryx:cy="0" oryx:anchors="top" />
+		<oryx:magnet oryx:cx="30" oryx:cy="22" oryx:default="yes" />
 	</oryx:magnets>
-	
-	<g pointer-events="fill" oryx:minimumSize="50 36" oryx:maximumSize="200 145">
-
-		<rect oryx:anchors="bottom top left right" oryx:resize="vertical horizontal" id="bg_frame" x="16.625" y="6.86" fill="none" stroke="#000000" stroke-width="2" width="56.75" height="41"/>
-		<polygon oryx:anchors="top left right" oryx:resize="vertical horizontal" id="bg_frame2" fill="none" stroke="#000000" stroke-width="2" points="17.625,7.235 45.062,29.985 72.5,7.048 "/>
+	<g pointer-events="fill" oryx:maximumSize="200 145" oryx:minimumSize="50 36">
 		
-		<rect oryx:anchors="bottom top left right" oryx:resize="vertical horizontal" id="nonInitiating" x="16.625" y="6.86" fill="#C1C1C1" stroke="#000000" stroke-width="2" width="56.75" height="41"/>
-		<polygon oryx:anchors="top left right" oryx:resize="vertical horizontal" id="nonInitiating2" fill="#C1C1C1" stroke="#000000" stroke-width="2" points="17.625,7.235 45.062,29.985 72.5,7.048 "/>
-	
+		<rect id="bg_frame" x="1.292" y="1.193" oryx:resize="vertical horizontal" oryx:anchors="bottom top left right" fill="none" stroke="#000000" stroke-width="2" width="57.396" height="41.465">
+		</rect>
+		
+		<polygon id="bg_frame2" oryx:resize="vertical horizontal" oryx:anchors="top left right" fill="none" stroke="#000000" stroke-width="2" points="
+		3.314,1.961 30.116,24.184 56.917,1.78 	">
+		</polygon>
+		
+		<rect id="nonInitiating" x="1.292" y="1.193" oryx:resize="vertical horizontal" oryx:anchors="bottom top left right" fill="#C1C1C1" stroke="#000000" stroke-width="2" width="57.396" height="41.465">
+		</rect>
+		
+		<polygon id="nonInitiating2" oryx:resize="vertical horizontal" oryx:anchors="top left right" fill="#C1C1C1" stroke="#000000" stroke-width="2" points="
+		3.314,1.961 30.116,24.184 56.917,1.78 	">
+		</polygon>
 	</g>
-	
 </svg>
