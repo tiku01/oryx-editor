@@ -21,7 +21,7 @@
     <rect id="border" oryx:resize="vertical horizontal" x="2.5" y="2.5" width="195" height="155" rx="8" ry="8" stroke="black" stroke-width="1" fill="none" />
     	<text 
 			font-size="12" 
-			id="acttext" 
+			id="text_name" 
 			x="8" 
 			y="10" 
 			oryx:align="top left"
