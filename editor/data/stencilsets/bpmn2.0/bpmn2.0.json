@@ -27,8 +27,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
-					"refToView":"text_name",
-					"wrapLines":true
+					"refToView":"text_name"	
 				},
 				{
 					"id":"documentation",
@@ -1693,7 +1692,6 @@
 				"messageflow_start",
 				"messageflow_end",
 				"fromtoall",
-				"tc",
 				"ActivitiesMorph"
 			]
 		},
@@ -1744,7 +1742,6 @@
 				"messageflow_start",
 				"messageflow_end",
 				"to_task_event",
-				"tc",
 				"fromtoall",
 				"ActivitiesMorph"
 			]
@@ -1785,7 +1782,6 @@
 				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"tc",
 				"fromtoall",
 				"canContainArtifacts",
 				"ActivitiesMorph"
@@ -1847,7 +1843,6 @@
 				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"tc",
 				"fromtoall",
 				"canContainArtifacts",
 				"ActivitiesMorph"
@@ -1944,7 +1939,6 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
-				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2004,7 +1998,6 @@
 			"roles":			[
 				"all",
 				"sequence_end",
-				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2037,7 +2030,6 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
-				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2108,7 +2100,6 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
-				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2165,7 +2156,6 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
-				"tc",
 				"fromtoall",
 				"GatewaysMorph"
 			],
@@ -2188,6 +2178,7 @@
 				"pool"
 			],
 			"roles" : 			[
+				"all",
 				"messageflow_start",
 				"messageflow_end",
 				"to_task_event",
@@ -2228,6 +2219,7 @@
 				}
 			],
 			"roles" :		 	[
+				"all",
 				"messageflow_start",
 				"messageflow_end",
 				"to_task_event",
@@ -2528,7 +2520,6 @@
 				"from_artifact",
 				"to_artifact",
 				"fromtoall",
-				"tc",
 				"DataObjectMorph"
 			]
 		},
@@ -4015,7 +4006,7 @@
 							"id":"expression",
 							"title":"Expression",
 							"value":"Expression",
-							"refToView":""
+							"refToView":"conditional"
 						},
 						{
 							"id":"default",
@@ -4232,20 +4223,34 @@
 		"containmentRules" : [
 			{
 				"role" : "BPMNDiagram",
-				"contains" : ["Pool","CollapsedPool","all"]
+				"contains" : ["all"]
 			},
 			{
 				"role" : "EventSubprocess",
 				"contains" : [
 					"eventSubprocessElement",
-					"tc"
+					"sequence_start",
+					"sequence_end"
+				]
+			},
+			{
+				"role" : "Pool",
+				"contains" : [
+					"Lane"
+				]
+			},
+			{
+				"role" : "Lane",
+				"contains" : [
+					"sequence_start",
+					"sequence_end"
 				]
 			},
 			{
 				"role" : "Subprocess",
 				"contains" : [
-					"StartEventsMorph",
-					"tc"
+					"sequence_start",
+					"sequence_end"
 				]
 			}
 		],
