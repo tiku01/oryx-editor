@@ -1789,6 +1789,139 @@
 		},
 		{
 			"type" : 			"node",
+			"id" :				"CollapsedEventSubprocess",
+			"title" : 			"Collapsed Event-Subprocess",
+			"title_de" :		"Zugeklappter Ereignis-Unterprozess",
+			"groups" :			["Activities"],
+			"groups_de" :		["Aktivitäten"],
+			"description" :		"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
+			"description_de" :	"Ein Ereignis-Unterprozess wird in einem anderen Unterprozess platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrehcen oder parallel laufen (nicht-unterbrechend).",
+			"view" :			"activity/event.subprocess.collapsed.svg",
+			"icon" :			"activity/event.subprocess.collapsed.png",
+			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"properties" :		[
+				{
+					"id":"activityType",
+					"type":"String",
+					"title":"ActivityType",
+					"title_de":"Aktivitätstyp",
+					"value":"Event-Sub-Process",
+					"value_de":"Ereignis-Unterprozess",
+					"description":"The Type of Activity.",
+					"description":"Typ der Aktivität",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"startEvent",
+					"type":"Choice",
+					"title":"Start-Event",
+					"title_de":"Start-Ereignis",
+					"value":"Message",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"items":[
+						{
+							"id":"c1",
+							"title":"Message",
+							"title_de" : "Nachricht",
+							"value":"Message",
+							"refToView":"message"
+						},
+						{
+							"id":"c2",
+							"title":"Timer",
+							"title" : "Stoppuhr",
+							"value":"Timer",
+							"refToView":"timer"
+						},
+						{
+							"id":"c3",
+							"title":"Escalation",
+							"title_de" : "Eskalation",
+							"value":"Escalation",
+							"refToView":"escalation"
+						},
+						{
+							"id":"c4",
+							"title":"Conditional",
+							"title_de" : "Bedingung",
+							"value":"Conditional",
+							"refToView":"conditional"
+						},
+						{
+							"id":"c5",
+							"title":"Error",
+							"title_de" : "Fehler",
+							"value":"Error",
+							"refToView":"error"	
+						},
+						{
+							"id":"c6",
+							"title":"Compensation",
+							"title_de" : "Kompensation",
+							"value": "Compensation",
+							"refToView":"compensationStart"
+						},
+						{
+							"id":"c7",
+							"title":"Signal",
+							"title_de" : "Signal",
+							"value":"Signal",
+							"refToView":"signal"
+						},
+						{
+							"id":"c8",
+							"title":"Multiple",
+							"title_de" : "Vielzahl",
+							"value":"Multiple",
+							"refToView":"multiple"
+						},
+						{
+							"id":"c9",
+							"title":"Multiple (Parallel)",
+							"title_de" : "Vielzahl (Parallel)",
+							"value":"MultipleParallel",
+							"refToView":"multipleParallel"
+						}
+					]
+				},
+				{
+					"id" : "nonInterrupting",
+					"type" : "Boolean",
+					"title" : "Non-Interrupting",
+					"title_de" : "Nicht-Unterbrechend",
+					"value" : false,
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "interrupting",
+					"inverseBoolean" : true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"bg_frame",
+					"fill":true,
+					"stroke":false
+				}	
+			],
+			"roles": 			[
+				"all",
+				"fromtoall",
+				"canContainArtifacts",
+				"ActivitiesMorph"
+			]
+		},
+		{
+			"type" : 			"node",
 			"id" :				"EventSubprocess",
 			"title" :			"Event-Subprocess",
 			"title_de" :		"Ereignis-Unterprozess",
@@ -1837,12 +1970,6 @@
 			],
 			"roles"	:			[
 				"all",
-				"sequence_start",
-				"sequence_end",
-				"messageflow_start",
-				"messageflow_end",
-				"to_task_event",
-				"from_task_event",
 				"fromtoall",
 				"canContainArtifacts",
 				"ActivitiesMorph"
@@ -2517,15 +2644,15 @@
 			],
 			"roles" : 			[
 				"all",
-				"from_artifact",
-				"to_artifact",
+				"from_task_event",
+				"to_task_event",
 				"fromtoall",
 				"DataObjectMorph"
 			]
 		},
 		{
 			"type" : 			"node",
-			"id" :				"Data_Store",
+			"id" :				"DataStore",
 			"title" :			"Data Store",
 			"title_de" :		"Datenlager",
 			"groups" : 			["Data Objects"],
@@ -4197,7 +4324,15 @@
 						"to" : ["DataObject"]
 					},
 					{
+						"from" : "from_task_event",
+						"to" : ["DataStore"]
+					},
+					{
 						"from" : "DataObject",
+						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "DataStore",
 						"to" : ["to_task_event"]
 					}
 				]
@@ -4250,7 +4385,9 @@
 				"role" : "Subprocess",
 				"contains" : [
 					"sequence_start",
-					"sequence_end"
+					"sequence_end",
+					"from_task_event",
+					"to_task_event"					
 				]
 			}
 		],
