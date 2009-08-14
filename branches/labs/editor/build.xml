@@ -111,7 +111,9 @@
     </target>
     
     <target name="build-plugins">
-        
+        <copy todir='${editor-build-root}/plugins/scripts'>
+             <fileset dir="${editor-src-client}/scripts/Plugins/"/>
+        </copy>
         <copy todir='${editor-build-root}' file="${editor-src-client}/scripts/Plugins/plugins.xml">
             
         </copy>

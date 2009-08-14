@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profiles>
+	<profile name="default">
+		<plugin name="ORYX.Plugins.Toolbar">
+			<property name="color" value="red"/>
+		</plugin>
+		<plugin name="ORYX.Plugins.ShapeMenuPlugin"/>
+		<plugin name="ORYX.Plugins.SelectStencilSetPerspective"/>
+		<plugin name="ORYX.Plugins.ShapeRepository"/>
+		<plugin name="ORYX.Plugins.PropertyWindow"/>
+		<plugin name="ORYX.Plugins.Loading"/>
+		<plugin name="ORYX.Plugins.PluginLoader"/>
+
+		<plugin name="ORYX.Plugins.View">
+		<property zoomLevel="0" maxFitToScreenLevel="0,1" />
+		</plugin>
+		<plugin name="ORYX.Plugins.DragDropResize"/>
+	</profile>
+	<profile name="save" depends="default">
+		<plugin name="ORYX.Plugins.File">
+		</plugin>
+		<plugin source="view.js" name="ORYX.Plugins.View">
+			<property zoomLevel="4"/>
+		</plugin>
+		<plugin name="ORYX.Plugins.Save"/>
+	</profile>
+	<profile name="bpmnValidating" depends="default">
+		<plugin name="ORYX.Plugins.SyntaxChecker"/>
+		<plugin name="ORYX.Plugins.BPMNValidator"/>
+		<plugin name="ORYX.Plugins.EPCValidator"/>
+		<plugin source="view.js" name="ORYX.Plugins.View">
+			<property zoomLevel="0.5" maxFitToScreenLevel="2,3" />
+		</plugin>
+	</profile>
+</profiles>
