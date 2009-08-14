@@ -51,6 +51,9 @@
 		<g id="parallel">
 			<path oryx:anchors="bottom" fill="none" stroke="black" d="M47 65 v10 M51 65 v10 M55 65 v10" stroke-width="2" transform="translate(-14 0)" />
 		</g>
+		<g id="sequential">
+			<path oryx:anchors="bottom" fill="none" stroke="#000000" stroke-width="2" d="M42,66H32 M42,70H32 M42,74H32"/>
+		</g>
 	</g>
 	
 	<g id="adhoc">
