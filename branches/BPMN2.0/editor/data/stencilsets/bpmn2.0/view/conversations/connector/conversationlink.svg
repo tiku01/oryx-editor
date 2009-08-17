@@ -1,0 +1,17 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:oryx="http://www.b3mn.org/oryx"
+	version="1.0"
+	oryx:edge="edge" >
+	<defs></defs>	
+	<g id="edge">
+		
+			<path marker-end="url(#end)" marker-start="url(#start)" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="
+			M10,50h200"/>
+	</g>
+	
+	<polyline id="fork_right" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" points="209.721,34.779 
+		180.138,49.779 180.138,50.279 209.722,65.279 "/>
+	<polyline id="fork_left" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" points="10.138,34.779 
+		39.722,49.779 39.722,50.279 10.138,65.279 "/>
+</svg>
