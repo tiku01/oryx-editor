@@ -31,7 +31,7 @@ if(!ORYX.Core) {ORYX.Core = {};}
 /**
  * @classDescription With Bounds you can set and get position and size of UIObjects.
  */
-ORYX.Core.Bounds = Clazz.extend({
+ORYX.Core.Bounds = {
 
 	/**
 	 * Constructor
@@ -406,4 +406,6 @@ ORYX.Core.Bounds = Clazz.extend({
 
 		return this.a.x+","+this.a.y+","+this.b.x+","+this.b.y;
 	}
- });
+ };
+ 
+ORYX.Core.Bounds = Clazz.extend(ORYX.Core.Bounds);

@@ -231,10 +231,10 @@
 					"type":"Boolean",
 					"title":"IsInterrupting",
 					"title_de":"Blockierend",
-					"value":false,
+					"value":true,
 					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
 					"description_de":"Dieses Attribut gibt an, ob der umfassende Subprozess abgebrochen werden soll.",
-					"inverseBoolean":true,
+					"inverseBoolean":false,
 					"readonly":false,
 					"optional":true,
 					"refToView": [
@@ -3114,41 +3114,7 @@
 			]
 		},
 		// Intermediate Events Catching
-		{
-			"type": "node",
-			"id":"IntermediateEvent",
-			"title":"Intermediate Event",
-			"title_de":"Zwischen-Ereignis",
-			"groups":["Catching Intermediate Events"],
-			"groups_de":["Eintretende-Zwischen-Ereignisse"],
-			"description":"Untyped events, typically showing where the process starts or ends.",
-			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
-			"view":"intermediateevent/none.svg",
-			"icon":"intermediate/none.png",
-			"propertyPackages":[
-				"baseAttributes"
-			],
-			"roles":[
-				"all",
-				"sequence_start",
-				"sequence_end",
-				"IntermediateEventsMorph"
-			],
-			"properties": [
-				{
-					"id":"trigger",
-					"type":"String",
-					"title":"Trigger",
-					"title_de":"Auslöser",
-					"value":"None",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"",
-					"length":""
-				}
-			]
-		},
+		
 		{
 			"type": "node",
 			"id":"IntermediateMessageEventCatching",
@@ -3567,7 +3533,42 @@
 		},
 		
 		// Intermediate Events Throwing
-		
+		{
+			"type": "node",
+			"id":"IntermediateEvent",
+			"title":"Intermediate Event",
+			"title_de":"Zwischen-Ereignis",
+			"groups":["Throwing Intermediate Events"],
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Untyped events, typically showing where the process starts or ends.",
+			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
+			"view":"intermediateevent/none.svg",
+			"icon":"intermediate/none.png",
+			"propertyPackages":[
+				"baseAttributes",
+				"throwEventAttributes"
+			],
+			"roles":[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"IntermediateEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+					"title_de":"Auslöser",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":""
+				}
+			]
+		},
 		{
 			"type": "node",
 			"id":"IntermediateMessageEventThrowing",
@@ -4156,7 +4157,6 @@
 			"view":"connector/messageflow.svg",
 			"icon":"connector/messageflow.png",
 			"roles": [
-				"all",
 				"ConnectingObjectsMorph"
 			]
 		},
@@ -4273,15 +4273,6 @@
 				]
 			},
 			{
-				"role":"DataObject",
-				"connects": [
-					{
-						"from":"MessageFlow",
-						"to":["DataObject"]
-					}
-				]
-			},
-			{
 				"role":"IntermediateEventOnActivityBoundary",
 				"connects": [
 					{
@@ -4376,6 +4367,10 @@
 					"from_task_event",
 					"to_task_event"					
 				]
+			},
+			{
+				"role" : "MessageFlow",
+				"contains" : ["Message"]
 			}
 		],
 		"morphingRules": [
