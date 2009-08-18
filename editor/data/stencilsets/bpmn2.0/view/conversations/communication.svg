@@ -18,6 +18,16 @@
 	
 		<polygon id="bg_frame" fill="#FFFFFF" stroke="#000000" points="8.64,28.429 0.578,14.464 8.64,0.5 24.766,0.5 32.828,14.464 
 			24.766,28.429 "/>
+	
+		<text 
+			font-size="12"
+			id="text_name" 
+			x="16.75" 
+			y="40" 
+			oryx:align="middle center"
+			stroke="black">
+		</text>
+	
 	</g>
 		
 </svg>

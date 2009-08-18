@@ -26,5 +26,9 @@
 			oryx:fittoelem="bg_frame"
 			stroke="black">
 		</text>
+		
+		<g id="mi">
+			<path oryx:anchors="bottom" fill="none" stroke="#000000" stroke-width="2" d="M48.5,137.75v10 M52.5,137.75v10 M56.5,137.75v10" />
+		</g>
 	</g>
 </svg>

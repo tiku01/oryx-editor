@@ -1,6 +1,6 @@
 {
 	"title":"BPMN 2.0 Conversation",
-	"namespace":"http://b3mn.org/stencilset/bpmn2.0#",
+	"namespace":"http://b3mn.org/stencilset/bpmn2.0_conversation#",
 	"description":"This is the BPMN 2.0 Conversation stencil set specification.",
 	"propertyPackages" : [
 		{
@@ -184,64 +184,6 @@
 			]
 		},
 		{
-			"name" : "callableElement",
-			"properties" : [
-				{
-					"id" : "messageFlow",
-					"type" : "String",
-					"title" : "Message Flow",
-					"title_de" : "Nachrichtenfluss",
-					"description" : "",
-					"value" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "participants",
-					"type" : "String",
-					"title" : "Participants",
-					"title_de" : "Teilnehmer",
-					"description" : "",
-					"value" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				}
-			]
-		},
-		{
-			"name" : "conversationContainer",
-			"properties" : [
-				{
-					"id" : "conversationNodes",
-					"type" : "String",
-					"title" : "Conversation Nodes",
-					"title_de" : "Konversationsknoten",
-					"description" : "",
-					"value" : "",
-					"readonly" : false,
-					"optional" : true,
-					"length" : 50,
-					"wrapLines" : true
-				},
-				{
-					"id" : "artifacts",
-					"type" : "String",
-					"title" : "Artifacts",
-					"title_de" : "Artefakte", 
-					"description" : "",
-					"value" : "",
-					"readonly" : false,
-					"optinal" : true,
-					"length" : 50,
-					"wrapLines" : true
-				}
-			]
-		},
-		{
 			"name" : "conversationNode",
 			"properties" : [
 				{
@@ -377,11 +319,24 @@
 			"view" : 			"conversations/participant.svg",
 			"icon" : 			"conversations/participant.png",
 			"propertyPackages": ["baseAttributes", "conversationNode"],
+			"properties" : 		[
+				{
+					"id" : "multiInstance",
+					"type" : "Boolean",
+					"title" : "Multi Instance",
+					"title_de" : "Multi Instanz",
+					"description" : "",
+					"value" : false,
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "mi"
+				}
+			],
 			"roles" : 			[
 				"all",
-				"Participant",
 				"messageflow_start",
-				"messageflow_end"
+				"messageflow_end",
+				"Participant"
 			]
 		},
 		{
@@ -395,23 +350,46 @@
 			"groups_de" :		["Konnektoren"],
 			"view" :			"conversations/connector/conversationlink.svg",
 			"icon" :			"conversations/connector/conversationlink.png",
+			"properties" :		[
+				{
+					"id" : "showforkstart",
+					"type" : "Boolean",
+					"title" : "Fork on Start",
+					"description" : "Internal attribute to show the correct markers for multi instance participants.",
+					"value" : false,
+					"readonly" : true,
+					"optional" : false,
+					"refToView" : "forkStart"
+				},
+				{
+					"id" : "showforkend",
+					"type" : "Boolean",
+					"title" : "Fork on End",
+					"description" : "Internal attribute to show the correct markers for multi instance participants.",
+					"value" : false,
+					"readonly" : true,
+					"optional" : false,
+					"refToView" : "forkEnd"
+				}
+			],
 			"roles": 			[
 				"all",
 				"ConnectingObjectsMorph"
 			]
 		},
 		{
-			"type": "edge",
-			"id":"MessageFlow",
-			"title":"Message Flow",
-			"title_de":"Nachrichtenfluss",
-			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
-			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
-			"groups":["Connecting Objects"],
-			"groups_de":["Konnektoren"],
-			"view":"connector/messageflow.svg",
-			"icon":"connector/messageflow.png",
-			"roles": [
+			"type" : 			"edge",
+			"id" :				"MessageFlow",
+			"title" :			"Message Flow",
+			"title_de" :		"Nachrichtenfluss",
+			"description" :		"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
+			"description_de" :	"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
+			"groups" :			["Connecting Objects"],
+			"groups_de" :		["Konnektoren"],
+			"view" :			"connector/messageflow.svg",
+			"icon" :			"connector/messageflow.png",
+			"propertyPackages": ["baseAttributes"],
+			"roles" : 			[
 				"all",
 				"ConnectingObjectsMorph"
 			]
@@ -452,6 +430,10 @@
 			{
 				"role" : "CommunicationMorph",
 				"baseMorphs" : ["Communication"]
+			},
+			{
+				"role" : "Participant",
+				"baseMorphs" : ["Participant"]
 			},
 			{
 				"role" : "ConnectingObjectsMorph",
