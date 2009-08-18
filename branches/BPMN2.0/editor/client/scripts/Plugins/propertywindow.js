@@ -448,7 +448,14 @@ ORYX.Plugins.PropertyWindow = {
 								editorInput.on('keyup', function(input, event) {
 									this.editDirectly(key, input.getValue());
 								}.bind(this));
+								
+								// reverts the shape if the editor field is invalid
 								editorInput.on('blur', function(input) {
+									if(!input.isValid(false))
+										this.updateAfterInvalid(key);
+								}.bind(this));
+								
+								editorInput.on("specialkey", function(input, e) {
 									if(!input.isValid(false))
 										this.updateAfterInvalid(key);
 								}.bind(this));
