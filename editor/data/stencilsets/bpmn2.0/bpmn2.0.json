@@ -67,7 +67,12 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
-				},
+				}
+ 			]
+ 		},
+		{
+			"name" : "bgColor",
+			"properties" : [
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -81,8 +86,8 @@
 					"fill":true,
 					"stroke":false
 				}
- 			]
- 		},
+			]
+		},
  		{
  			"name":"catchEventAttributes",
  			"properties":[
@@ -1682,7 +1687,12 @@
 			"description_de" : 	"",
 			"view" : 			"activity/task.svg",
 			"icon" : 			"activity/task.png",
-			"propertyPackages" :["baseAttributes","flowElement","activity","task"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"task"
+			],
 			"roles" : 			[
 				"all",
 				"sequence_start",
@@ -1706,7 +1716,13 @@
 			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
 			"view" :			"activity/subprocess.collapsed.svg",
 			"icon" :			"activity/subprocess.png",
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"activityType",
@@ -1758,7 +1774,13 @@
 			"view" :			"activity/subprocess.expanded.svg",
 			"icon" :			"activity/task.png",
  			"layout" : 			[{"type" : "layout.bpmn2_0.subprocess"}],
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"activityType",
@@ -1798,7 +1820,13 @@
 			"description_de" :	"Ein Ereignis-Unterprozess wird in einem anderen Unterprozess platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrehcen oder parallel laufen (nicht-unterbrechend).",
 			"view" :			"activity/event.subprocess.collapsed.svg",
 			"icon" :			"activity/event.subprocess.collapsed.png",
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"activityType",
@@ -1919,7 +1947,13 @@
 			"view" :			"activity/event.subprocess.svg",
 			"icon" :			"activity/event.subprocess.png",
  			"layout" : 			[{"type" : "layout.bpmn2_0.subprocess"}],
-			"propertyPackages" :["baseAttributes","flowElement","activity","subprocess"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"activityType",
@@ -1975,7 +2009,12 @@
 			"groups" : 			["Gateways"],
 			"view" : 			"gateway/exclusive.databased.svg",
 			"icon" : 			"gateway/exclusive.databased.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"gatewayType",
@@ -2067,7 +2106,12 @@
 			"description_de" :	"Jedes Ereignis endet mit der Erzeugung einer neuen Prozessinstanz.",
 			"view" :			"gateway/eventbased.svg",
 			"icon" :			"gateway/eventbased.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"eventType",
@@ -2126,7 +2170,12 @@
 			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
 			"view" :			"gateway/parallel.svg",
 			"icon" :			"gateway/parallel.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
 			"properties" : [
 				{
 					"id":"gatewayType",
@@ -2158,7 +2207,12 @@
 			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhÃ¤ngig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
 			"view" :			"gateway/inclusive.svg",
 			"icon" :			"gateway/inclusive.png",
-			"propertyPackages" :["baseAttributes","flowElement","gateway"],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
 			"properties" :		[
 				{
 					"id":"gatewayType",
@@ -2228,7 +2282,12 @@
 			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
 			"view":"gateway/complex.svg",
 			"icon":"gateway/complex.png",
-			"propertyPackages" : ["baseAttributes","flowElement","gateway"],
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
 			"properties" : [
 				{
 					"id":"gatewayType",
@@ -2315,7 +2374,8 @@
 			"icon" :			"swimlane/lane.png",
 			"propertyPackages": [
 				"baseAttributes",
-				"pool"
+				"pool",
+				"bgColor"
 			],
 			"properties" : 		[
 				{
@@ -2507,7 +2567,8 @@
 			"propertyPackages":	[
 				"baseAttributes",
 				"flowElement",
-				"itemAwareElement"
+				"itemAwareElement",
+				"bgColor"
 			],
 			"properties" :		[
 				{
@@ -2652,6 +2713,7 @@
 				"baseAttributes",
 				"flowElement",
 				"itemAwareElement",
+				"bgColor"
 			],
 			"properties" :		[
 				{
@@ -2779,7 +2841,8 @@
 			"icon" : 			"catching/none.png",
 			"propertyPackages":	[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles" : [
 				"all",
@@ -2814,7 +2877,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -2849,7 +2913,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" : 			[
 				"all",
@@ -2884,7 +2949,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" : 			[
 				"eventSubprocessElement",
@@ -2919,7 +2985,8 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" : 			[
 				"all",
@@ -2953,7 +3020,8 @@
 			"icon":"catching/error.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -2987,7 +3055,8 @@
 			"icon":"catching/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -3022,7 +3091,8 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" : 			[
 				"all",
@@ -3057,7 +3127,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" : 			[
 				"all",
@@ -3092,7 +3163,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles" :			[
 				"all",
@@ -3128,7 +3200,8 @@
 			"icon":"catching/message.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3166,7 +3239,8 @@
 			"icon":"catching/timer.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3205,7 +3279,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"eventSubprocesElement",
@@ -3243,7 +3318,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3281,7 +3357,8 @@
 			"icon":"catching/link.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3317,7 +3394,8 @@
 			"icon":"catching/error.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3354,7 +3432,8 @@
 			"icon":"catching/cancel.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3390,7 +3469,8 @@
 			"icon":"catching/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3428,7 +3508,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3467,7 +3548,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3506,7 +3588,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"interrupting"
+				"interrupting",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3546,7 +3629,8 @@
 			"icon":"intermediate/none.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3582,7 +3666,8 @@
 			"icon":"throwing/message.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3616,7 +3701,8 @@
 			"icon":"throwing/escalation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"eventSubprocessElement",
@@ -3650,7 +3736,8 @@
 			"icon":"throwing/link.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3683,7 +3770,8 @@
 			"icon":"throwing/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3717,7 +3805,8 @@
 			"icon":"throwing/signal.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3751,7 +3840,8 @@
 			"icon":"throwing/multiple.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3787,7 +3877,8 @@
 			"icon" : "throwing/none.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles" : [
 				"all",
@@ -3821,7 +3912,8 @@
 			"icon":"throwing/message.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwingEventAttributes"
+				"throwingEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -3855,7 +3947,8 @@
 			"icon":"throwing/escalation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwingEventAttributes"
+				"throwingEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"eventSubprocessElement",
@@ -3889,7 +3982,8 @@
 			"icon":"throwing/error.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -3923,7 +4017,8 @@
 			"icon":"throwing/cancel.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles":[
 				"all",
@@ -3957,7 +4052,8 @@
 			"icon":"throwing/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwingEventAttributes"
+				"throwingEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -3991,7 +4087,8 @@
 			"icon":"throwing/signal.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"catchEventAttributes"
+				"catchEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -4025,7 +4122,8 @@
 			"icon":"throwing/multiple.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",
@@ -4059,7 +4157,8 @@
 			"icon":"throwing/terminate.png",
 			"propertyPackages":[
 				"baseAttributes",
-				"throwEventAttributes"
+				"throwEventAttributes",
+				"bgColor"
 			],
 			"roles": [
 				"all",

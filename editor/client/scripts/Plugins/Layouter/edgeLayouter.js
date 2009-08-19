@@ -40,6 +40,7 @@ new function(){
 						"http://b3mn.org/stencilset/bpmn1.1#MessageFlow",
 						"http://b3mn.org/stencilset/bpmn2.0#MessageFlow",
 						"http://b3mn.org/stencilset/bpmn2.0#SequenceFlow", 
+						"http://b3mn.org/stencilset/bpmn2.0conversation#ConversationLink",
 						"http://b3mn.org/stencilset/epc#ControlFlow"],
 		
 		/**
