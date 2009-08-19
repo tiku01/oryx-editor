@@ -2300,7 +2300,7 @@
 				"fromtoall",
 				"canContainArtifacts"				
 			],
-			"layout" : [{"type" : "layout.bpmn11.pool"}],
+			"layout" : [{"type" : "layout.bpmn2_0.pool"}],
 		},
 		{
 			"type" : 			"node",
@@ -4329,6 +4329,19 @@
 					{
 						"from" : "TextAnnotation",
 						"to" : "fromtoall"
+					},
+					{
+						"from" : "Message",
+						"to" : ["MessageFlow"]
+					}
+				]
+			},
+			{
+				"role" : "MessageFlow",
+				"connects" : [
+					{
+						"from" : "Task",
+						"to" : ["Task"]
 					}
 				]
 			}
