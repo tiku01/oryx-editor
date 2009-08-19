@@ -157,10 +157,14 @@
 		</plugin>
 		
 		<!-- BPMN2.0 specific plugins -->
-		<plugin source="bpmn2conversation.js" name="ORYX.Plugins.BPMN2CONVERSATION">
+		<plugin source="bpmn2.0/bpmn2.0.js" name="ORYX.Plugins.BPMN2_0">
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
+		
+		<plugin source="bpmn2.0/bpmn2conversation.js" name="ORYX.Plugins.BPMN2CONVERSATION">
 			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0_conversation#" />
 		</plugin>
-		<!-- plugins for BPMN2.0 -->
+		
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter">
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
 		</plugin> 
