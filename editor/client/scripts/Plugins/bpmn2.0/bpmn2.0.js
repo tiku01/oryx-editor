@@ -80,6 +80,57 @@ ORYX.Plugins.BPMN2_0 = {
 		}
 	},
 	
+	hashedSubProcesses: {},
+	
+	handleSubProcess : function(option) {
+		
+		var sh = option.shape;
+		
+		if (!this.hashedSubProcesses[sh.resourceId]) {
+			this.hashedSubProcesses[sh.resourceId] = sh.bounds.clone();
+			return;
+		}
+		
+		var offset = sh.bounds.upperLeft();
+		offset.x -= this.hashedSubProcesses[sh.resourceId].upperLeft().x;
+		offset.y -= this.hashedSubProcesses[sh.resourceId].upperLeft().y;
+		
+		this.hashedSubProcesses[sh.resourceId] = sh.bounds.clone();
+		
+		this.moveChildDockers(sh, offset);
+		
+	},
+	
+	moveChildDockers: function(shape, offset){
+		
+		if (!offset.x && !offset.y) {
+			return;
+		} 
+		
+		// Get all nodes
+		shape.getChildNodes(true)
+			// Get all incoming and outgoing edges
+			.map(function(node){
+				return [].concat(node.getIncomingShapes())
+						.concat(node.getOutgoingShapes())
+			})
+			// Flatten all including arrays into one
+			.flatten()
+			// Get every edge only once
+			.uniq()
+			// Get all dockers
+			.map(function(edge){
+				return edge.dockers.length > 2 ? 
+						edge.dockers.slice(1, edge.dockers.length-1) : 
+						[];
+			})
+			// Flatten the dockers lists
+			.flatten()
+			.each(function(docker){
+				docker.bounds.moveBy(offset);
+			})
+	},
+	
 	/**
 	 * DragDocker.Docked Handler
 	 *
