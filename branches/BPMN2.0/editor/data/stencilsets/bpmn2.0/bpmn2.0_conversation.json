@@ -1,6 +1,6 @@
 {
 	"title":"BPMN 2.0 Conversation",
-	"namespace":"http://b3mn.org/stencilset/bpmn2.0_conversation#",
+	"namespace":"http://b3mn.org/stencilset/bpmn2.0conversation#",
 	"description":"This is the BPMN 2.0 Conversation stencil set specification.",
 	"propertyPackages" : [
 		{

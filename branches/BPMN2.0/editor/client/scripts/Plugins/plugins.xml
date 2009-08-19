@@ -162,12 +162,10 @@
 		</plugin>
 		
 		<plugin source="bpmn2.0/bpmn2conversation.js" name="ORYX.Plugins.BPMN2CONVERSATION">
-			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0_conversation#" />
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 		</plugin>
 		
-		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter">
-			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
-		</plugin> 
+		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
 		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
 		<plugin source="bpmnplus2bpel4chor.js" name="ORYX.Plugins.Bpel4ChorTransformation">
