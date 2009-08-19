@@ -275,7 +275,7 @@ new function(){
 			// For a and b (if exists), create
 			// a new docker and set position
 			[a, b].compact().each(function(pos){
-				var docker = edge.createDocker();
+				var docker = edge.createDocker(undefined, pos);
 				docker.bounds.centerMoveTo(pos);
 			});
 			
