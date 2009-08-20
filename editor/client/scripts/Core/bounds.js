@@ -360,28 +360,44 @@ ORYX.Core.Bounds = {
 		}
 	},
 	
-	isIncluded: function(point) {
-
-		var pointX, pointY;
+	isIncluded: function(point, offset) {
+		
+		var pointX, pointY, offset;
 
 		// Get the the two Points	
 		switch(arguments.length) {
 			case 1:
 				pointX = arguments[0].x;
 				pointY = arguments[0].y;
+				offset = 0;
+				
 				break;
 			case 2:
+				if(arguments[0].x && arguments[0].y) {
+					pointX = arguments[0].x;
+					pointY = arguments[0].y;
+					offset = Math.abs(arguments[1]);
+				} else {
+					pointX = arguments[0];
+					pointY = arguments[1];
+					offset = 0;
+				}
+				break;
+			case 3:
 				pointX = arguments[0];
 				pointY = arguments[1];
+				offset = Math.abs(arguments[2]);
 				break;
 			default:
-				throw "isIncluded needs one or two arguments";
+				throw "isIncluded needs one, two or three arguments";
 		}
 				
 		var ul = this.upperLeft();
 		var lr = this.lowerRight();
 		
-		if(pointX >= ul.x && pointX <= lr.x && pointY >= ul.y && pointY <= lr.y)
+		if(pointX >= ul.x - offset 
+			&& pointX <= lr.x + offset && pointY >= ul.y - offset 
+			&& pointY <= lr.y + offset)
 			return true;
 		else 
 			return false;
