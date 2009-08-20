@@ -23,7 +23,7 @@
 		x="250" 
 		y="30" 
 		font-size="20" 
-		id="text_v" 
+		id="text_name" 
 		oryx:align="middle center" 
 		oryx:fittoelem="border"
 		oryx:anchors="" 
