@@ -27,6 +27,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
+					"wrapLines" : true,
 					"refToView":"text_name"	
 				},
 				{
@@ -269,17 +270,28 @@
 		},
 		{
 			"type" : 			"node",
-			"id" : 				"SubCommunication",
-			"title" : 			"Sub-Communication",
-			"title_de" : 		"Sub-Kommunikation",
+			"id" : 				"SubConversation",
+			"title" : 			"Sub-Conversation",
+			"title_de" : 		"Sub-Konversation",
 			"groups" : 			["Conversation"],
 			"groups_de" : 		["Konversation"],
 			"description" : 	"A Sub-Conversation is a graphical object within a Conversation, but it also can be \"opened up\" to show the lower-level Conversation, which consist of Message Flow, Communications, and/or other Sub-Conversations.",
 			"description_de" : 	"",
-			"view" : 			"conversations/subcommunication.svg",
-			"icon" : 			"conversations/subcommunication.png",
+			"view" : 			"conversations/subconversation.svg",
+			"icon" : 			"conversations/subconversation.png",
 			"propertyPackages": ["baseAttributes","conversationNode"],
 			"properties" : 		[
+				{
+					"id":"entry",
+					"type":"DiagramLink",
+					"title":"SubConversationRef",
+					"title_de":"SubkonversationRef",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"u"
+				},
 				{
 					"id" : "correlationKeyRef",
 					"type" : "String",
@@ -310,8 +322,8 @@
 		{
 			"type": 			"node",
 			"id" : 				"Participant",
-			"title" : 			"Participant",
-			"title_de" : 		"Teilnehmer",
+			"title" : 			"Participant (Pool)",
+			"title_de" : 		"Teilnehmer (Pool)",
 			"groups" : 			["Conversation"],
 			"groups_de" : 		["Konversation"],
 			"description" : 	"",
@@ -357,7 +369,7 @@
 					"title" : "Fork on Start",
 					"description" : "Internal attribute to show the correct markers for multi instance participants.",
 					"value" : false,
-					"readonly" : true,
+					"readonly" : false,
 					"optional" : false,
 					"refToView" : "forkStart"
 				},
@@ -367,7 +379,7 @@
 					"title" : "Fork on End",
 					"description" : "Internal attribute to show the correct markers for multi instance participants.",
 					"value" : false,
-					"readonly" : true,
+					"readonly" : false,
 					"optional" : false,
 					"refToView" : "forkEnd"
 				}

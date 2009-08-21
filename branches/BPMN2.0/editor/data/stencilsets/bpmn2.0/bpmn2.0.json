@@ -27,6 +27,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
+					"wrapLines" : true,
 					"refToView":"text_name"	
 				},
 				{
@@ -902,21 +903,21 @@
 					"items":[
 						{
 							"id":"c1",
-							"title":"Service",
-							"value":"Service",
-							"refToView":"serviceTask"
+							"title":"None",
+							"value":"None",
+							"refToView":"none"
 						},
 						{
 							"id":"c2",
-							"title":"Receive",
-							"value":"Receive",
-							"refToView":"receiveTask"
-						},
-						{
-							"id":"c3",
 							"title":"Send",
 							"value":"Send",
 							"refToView":"sendTask"
+						},
+						{
+							"id":"c3",
+							"title":"Receive",
+							"value":"Receive",
+							"refToView":"receiveTask"
 						},
 						{
 							"id":"c4",
@@ -932,21 +933,21 @@
 						},
 						{
 							"id":"c6",
+							"title":"Service",
+							"value":"Service",
+							"refToView":"serviceTask"
+						},
+						{
+							"id":"c7",
 							"title":"Business Rule",
 							"value":"Business Rule",
 							"refToView":"businessRuleTask"
 						},
 						{
-							"id":"c7",
+							"id":"c8",
 							"title":"Script",
 							"value":"Script",
 							"refToView":"scriptTask"
-						},
-						{
-							"id":"c8",
-							"title":"None",
-							"value":"None",
-							"refToView":"none"
 						}
 					]
 				},
