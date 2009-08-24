@@ -311,7 +311,7 @@
 					"value" : false,
 					"readonly" : false,
 					"optional" : true,
-					"refToView" : "call_conversation"
+					"refToView" : ["call_conversation", "b_call"]
 				}
 			],
 			"roles" : 			[
