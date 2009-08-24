@@ -662,16 +662,16 @@
 					"items": [
 						{
 							"id":"c1",
-							"title":"Sequential",
-							"value":"Sequential",
-							"refToView":"sequential"
-						},
-						{
-							"id":"c2",
 							"title":"Parallel",
 							"value":"Parallel",
 							"refToView":"parallel"
-						}
+						},
+						{
+							"id":"c2",
+							"title":"Sequential",
+							"value":"Sequential",
+							"refToView":"sequential"
+						}						
 					]
 				},
 				{
@@ -3475,7 +3475,7 @@
 			],
 			"roles":[
 				"all",
-				"sequence_start",
+				
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -4315,13 +4315,6 @@
 			{
 				"role":"Startevents_all",
 				"maximumOccurrence": undefined,
-				"outgoingEdges": [
-					{
-						"role":"SequenceFlow",
-						"maximum":1
-						
-					}
-				],
 				"incomingEdges": [
 					{
 						"role":"SequenceFlow",
@@ -4337,13 +4330,6 @@
 					{
 						"role":"SequenceFlow",
 						"maximum":0
-						
-					}
-				],
-				"incomingEdges": [
-					{
-						"role":"SequenceFlow",
-						"maximum":1
 						
 					}
 				]
@@ -4412,6 +4398,10 @@
 					{
 						"from" : "DataStore",
 						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "IntermediateCompensationEventCatching",
+						"to" : ["to_task_event"]
 					}
 				]
 			},
@@ -4478,7 +4468,8 @@
 					"sequence_start",
 					"sequence_end",
 					"from_task_event",
-					"to_task_event"					
+					"to_task_event",
+					"EventSubprocess"			
 				]
 			},
 			{

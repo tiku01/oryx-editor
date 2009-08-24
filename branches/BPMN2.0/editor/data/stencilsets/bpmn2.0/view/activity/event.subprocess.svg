@@ -19,7 +19,7 @@
 	<rect id="bg_frame" oryx:anchors="bottom top right left" oryx:resize="vertical horizontal" x="0" y="0" width="200" height="160" rx="10" ry="10" stroke="black" stroke-width="1" stroke-dasharray="2,2,2" fill="white" />
     	<text 
 			font-size="12" 
-			id="acttext" 
+			id="text_name" 
 			x="8" 
 			y="10" 
 			oryx:align="top left"
