@@ -1826,7 +1826,8 @@
 				"flowElement",
 				"activity",
 				"subprocess",
-				"bgColor"
+				"bgColor",
+				"interrupting"
 			],
 			"properties" :		[
 				{
@@ -1916,17 +1917,6 @@
 							"refToView":"multipleParallel"
 						}
 					]
-				},
-				{
-					"id" : "nonInterrupting",
-					"type" : "Boolean",
-					"title" : "Non-Interrupting",
-					"title_de" : "Nicht-Unterbrechend",
-					"value" : false,
-					"readonly" : false,
-					"optional" : true,
-					"refToView" : "interrupting",
-					"inverseBoolean" : true
 				}
 			],
 			"roles": 			[
@@ -2849,6 +2839,7 @@
 				"all",
 				"Startevents_all",
 				"sequence_start",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2921,6 +2912,7 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2993,6 +2985,7 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -3099,6 +3092,7 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -3135,6 +3129,7 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -3247,6 +3242,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3319,6 +3316,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"interrupting",
 				"bgColor"
 			],
@@ -3364,6 +3363,7 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"choreography_sequence_start",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3516,6 +3516,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3556,6 +3558,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3596,6 +3600,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3743,6 +3749,7 @@
 			"roles":[
 				"all",
 				"sequence_end",
+				"choreography_sequence_end",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3884,6 +3891,7 @@
 			"roles" : [
 				"all",
 				"sequence_end",
+				"choreography_sequence_end",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4164,6 +4172,7 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"choreography_sequence_end",
 				"EndEventsMorph"
 			],
 			"properties": [
@@ -4221,7 +4230,7 @@
 							"id":"expression",
 							"title":"Expression",
 							"value":"Expression",
-							"refToView":"conditional"
+							"refToView":""
 						},
 						{
 							"id":"default",
@@ -4242,6 +4251,17 @@
 					"optional":true,
 					"length":"",
 					"refToView":"condition"
+				},
+				{
+					"id":"showdiamondmarker",
+					"type":"Boolean",
+					"title":"ShowDiamontMarker",
+					"title_de":"Zeige-Diamanten",
+					"value":false,
+					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
+					"readonly":false,
+					"optional":false,
+					"refToView":"conditional"
 				}
 			],
 		},
@@ -4342,6 +4362,10 @@
 					{
 						"from":"sequence_start",
 						"to":["sequence_end"]
+					},
+					{
+						"from":"choreography_sequence_start",
+						"to":["choreography_sequence_end"]
 					},
 					{
 						"from":"Exclusive_Eventbased_Gateway",
@@ -4475,6 +4499,10 @@
 			{
 				"role" : "MessageFlow",
 				"contains" : ["Message"]
+			},
+			{
+				"role" : "ChoreographyTask",
+				"contains" : ["Participant"]
 			}
 		],
 		"morphingRules": [
@@ -4510,6 +4538,10 @@
 			{
 				"role": "ConnectingObjectsMorph",
 				"baseMorphs": ["SequenceFlow"]
+			},
+			{
+				"role": "ChoreographyMorph",
+				"baseMorphs": ["ChoreographyTask"]
 			}
 		],
 		"layoutRules" : [

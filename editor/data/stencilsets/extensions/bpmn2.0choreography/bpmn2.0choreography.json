@@ -1,0 +1,115 @@
+{
+	"title":"BPMN 2.0 Choreography",
+	"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn2.0choreography#",
+	"description":"Adds support for Choreography-Diagrams to BPMN 2.0",
+	"extends":"http://b3mn.org/stencilset/bpmn2.0#",
+	"propertyPackages" : [
+	],
+	"stencils":[
+		{
+			"type" : "node",
+			"id" : "ChoreographyTask",
+			"title" : "Choreography Task",
+			"title_de" : "Choreographie Aufgabe",
+			"groups" : ["Choreography"],
+			"groups_de" : ["Choreographie"],
+			"description" : "A Choreography Task represents an Interaction, which is a coherent set (1 or more) of Message exchanges between two Participants.",
+			"description_de" : "",
+			"view" : "../../extensions/bpmn2.0choreography/view/choreography.task.svg",
+			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.task.png",
+			"properties" : [
+				{
+					"id" : "messageFlow",
+					"type" : "String",
+					"title" : "Message Flow",
+					"title_de" : "Nachrichtenfluss",
+					"value" : "",
+					"description" : "",
+					"readonly" : false,
+					"optional" : false
+				}
+			],
+			"roles" : [
+				"all",
+				"ChoreographyMorph",
+				"choreography_sequence_start",
+				"choreography_sequence_end"
+			]
+		},
+		{
+			"type" : "node",
+			"id" : "Participant",
+			"title" : "Participant",
+			"title_de" : "Teilnehmer",
+			"groups" : ["Choreography"],
+			"groups_de" : ["Choreographie"],
+			"description" : "",
+			"description_de" : "",
+			"view" : "../../extensions/bpmn2.0choreography/view/choreography.participant.svg",
+			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.participant.png",
+			"layout" : 			[{"type" : "layout.bpmn2_0.choreography.task"}],
+			"properties" : [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the BPMN element.",
+					"description_de":"Bezeichnung des BPMN-Elementes.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"behavior",
+					"type":"Choice",
+					"title":"Behavior",
+					"value":"Initiating",
+					"description":"Specifies, whether the participant is of initiating or returning nature",
+					"description_de":"",
+					"readonly":false,
+					"optional":false,
+					"items": [
+						{
+							"id":"c1",
+							"title":"Initiating",
+							"value":"Initiating",
+							"refToView":"initiating"
+						},
+						{
+							"id":"c2",
+							"title":"Returning",
+							"value":"Returning",
+							"refToView":"returning"
+						}
+					]	
+				}
+			],
+			"roles" : [
+				"all"
+			]
+		}
+	],
+	"properties":[],
+	"rules": {
+		"connectionRules": [],
+        "cardinalityRules": [],
+		"containmentRules": []
+	},
+	"removestencils": [
+		"DataStore",
+		"DataObject",
+		"StartMessageEvent",
+		"StartErrorEvent",
+		"EndMessageEvent",
+		"EndErrorEvent",
+		"EndEscalationEvent",
+		"EndCancelEvent",
+		"EndCompensationEvent",
+		"EndSignalEvent",
+		"EndMultipleEvent"
+	],
+	"removeproperties": []
+}
