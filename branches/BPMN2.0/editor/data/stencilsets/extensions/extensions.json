@@ -88,7 +88,7 @@
 			"title":"BPMN 2.0 Choreographies",
 			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn2.0choreography#",
 			"description":"Adds support for Choreography-Diagrams to BPMN 2.0.",
-			"definition":"bpmn2choreography/bpmn2choreography.json",
+			"definition":"bpmn2.0choreography/bpmn2.0choreography.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		}
 	],
