@@ -165,6 +165,10 @@
 			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 		</plugin>
 		
+		<plugin source="bpmn2.0/bpmn2.0choreography.js" name="ORYX.Plugins.Bpmn2_0Choreography">
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
+		
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
 		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
