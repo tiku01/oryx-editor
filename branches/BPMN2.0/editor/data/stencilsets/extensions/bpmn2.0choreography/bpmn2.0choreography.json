@@ -17,6 +17,7 @@
 			"description_de" : "",
 			"view" : "../../extensions/bpmn2.0choreography/view/choreography.task.svg",
 			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.task.png",
+			"layout":[{"type":"layout.bpmn2_0.choreography.task"}],
 			"properties" : [
 				{
 					"id" : "messageFlow",
@@ -32,13 +33,14 @@
 			"roles" : [
 				"all",
 				"ChoreographyMorph",
+				"ChoreographyElement",
 				"choreography_sequence_start",
 				"choreography_sequence_end"
 			]
 		},
 		{
 			"type" : "node",
-			"id" : "Participant",
+			"id" : "ChoreographyParticipant",
 			"title" : "Participant",
 			"title_de" : "Teilnehmer",
 			"groups" : ["Choreography"],
@@ -85,10 +87,62 @@
 							"refToView":"returning"
 						}
 					]	
-				}
+				},
+				{
+					"id":"corners",
+					"type":"Choice",
+					"title":"Corners",
+					"value":"None",
+					"description":"Defines which corners of the participant rectangle should be rounded. For internal use only.",
+					"description_de":"",
+					"visible":false,
+					"readonly":false,
+					"optional":false,
+					"items": [
+						{
+							"id":"c1",
+							"title":"Top",
+							"value":"Top",
+							"refToView":"roundedOnTop"
+						},
+						{
+							"id":"c2",
+							"title":"Bottom",
+							"value":"Bottom",
+							"refToView":"roundedOnBottom"
+						},
+						{
+							"id":"c3",
+							"title":"None",
+							"value":"None",
+							"refToView": [
+								"roundedOnBottom",
+								"roundedOnTop"
+							]
+						}
+					]	
+				},
+				{
+					"id":"color",
+					"type":"Color",
+					"title":"ParticipantColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#c6c6c6",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"visible":false,
+					"refToView": [
+						"roundedOnBottom",
+						"roundedOnTop"
+					],
+					"fill":true,
+					"stroke":false
+				}		
 			],
 			"roles" : [
-				"all"
+				"all",
+				"ChoreographyElement"
 			]
 		}
 	],

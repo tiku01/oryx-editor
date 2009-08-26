@@ -574,13 +574,16 @@ ORYX.Plugins.PropertyWindow = {
 				}
 				
 				// Push to the properties-array
-				this.properties.push([name, attribute, {
-					editor: editorGrid, 
-					propId: key,
-					type: pair.type(), 
-					tooltip: pair.description(),
-					renderer: editorRenderer
-				}])
+				if(pair.visible()) {
+					this.properties.push([name, attribute, {
+						editor: editorGrid, 
+						propId: key,
+						type: pair.type(), 
+						tooltip: pair.description(),
+						renderer: editorRenderer
+					}]);
+				}
+				
 
 			}).bind(this));
 		}

@@ -4501,8 +4501,8 @@
 				"contains" : ["Message"]
 			},
 			{
-				"role" : "ChoreographyTask",
-				"contains" : ["Participant"]
+				"role" : "ChoreographyElement",
+				"contains" : ["ChoreographyParticipant"]
 			}
 		],
 		"morphingRules": [
