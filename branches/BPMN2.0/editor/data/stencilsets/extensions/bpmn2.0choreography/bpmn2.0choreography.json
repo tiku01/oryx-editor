@@ -20,6 +20,19 @@
 			"layout":[{"type":"layout.bpmn2_0.choreography.task"}],
 			"properties" : [
 				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the choreography task.",
+					"description_de":"Bezeichnung des Choreography-Tasks.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : false,
+					"refToView":"text_name"	
+				},
+				{
 					"id" : "messageFlow",
 					"type" : "String",
 					"title" : "Message Flow",
@@ -49,7 +62,6 @@
 			"description_de" : "",
 			"view" : "../../extensions/bpmn2.0choreography/view/choreography.participant.svg",
 			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.participant.png",
-			"layout" : 			[{"type" : "layout.bpmn2_0.choreography.task"}],
 			"properties" : [
 				{
 					"id":"name",
@@ -61,14 +73,14 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
-					"wrapLines" : true,
+					"wrapLines" : false,
 					"refToView":"text_name"	
 				},
 				{
 					"id":"behavior",
 					"type":"Choice",
 					"title":"Behavior",
-					"value":"Initiating",
+					"value":"Returning",
 					"description":"Specifies, whether the participant is of initiating or returning nature",
 					"description_de":"",
 					"readonly":false,
@@ -77,14 +89,12 @@
 						{
 							"id":"c1",
 							"title":"Initiating",
-							"value":"Initiating",
-							"refToView":"initiating"
+							"value":"Initiating"
 						},
 						{
 							"id":"c2",
 							"title":"Returning",
-							"value":"Returning",
-							"refToView":"returning"
+							"value":"Returning"
 						}
 					]	
 				},
@@ -134,7 +144,8 @@
 					"visible":false,
 					"refToView": [
 						"roundedOnBottom",
-						"roundedOnTop"
+						"roundedOnTop",
+						"roundedBgRect"
 					],
 					"fill":true,
 					"stroke":false
