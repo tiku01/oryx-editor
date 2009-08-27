@@ -53,7 +53,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 										this.handleStencilSetLoaded.bind(this));
 		
 		this.participantSize = 20;
-		this.choreographyTasks = new Hash();
+		this.choreographyTasksMeta = new Hash();
 		this.numOfParticipantsOnTop = 0;
 		this.numOfParticipantsOnBottom = 0;
 	},
@@ -78,7 +78,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	registerPluginOnEvents: function() {
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
 		this.facade.registerOnEvent('layout.bpmn2_0.choreography.task', this.handleLayoutChoreographyTask.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
+//		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
 	},
 	
 	/**
@@ -86,8 +86,69 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 */
 	unregisterPluginOnEvents: function() {
 		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
-		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
+//		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
 		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.task', this.handleLayoutChoreographyTask.bind(this));
+	},
+	
+	/**
+	 * Initialize the meta data object for the choreography task if necessary and
+	 * return it.
+	 * 
+	 * @param {Object} choregraphyTask
+	 * 		The choreography task
+	 * @return {Object} choreographyTaskMetaData
+	 * 		Positioning values to handle child participants.
+	 */
+	addOrGetChoreographyTaskMeta: function(choreographyTask) {
+		if(!this.choreographyTasksMeta[choreographyTask.getId()]) {
+			/* Initialize meta values */			
+			this.choreographyTasksMeta[choreographyTask.getId()] = new Object();
+			this.choreographyTasksMeta[choreographyTask.getId()].numOfParticipantsOnTop = 0;
+			this.choreographyTasksMeta[choreographyTask.getId()].numOfParticipantsOnBottom = 0;
+			this.choreographyTasksMeta[choreographyTask.getId()].bottomYStartValue = 
+				choreographyTask.bounds.height();
+			this.choreographyTasksMeta[choreographyTask.getId()].oldHeight = 
+				choreographyTask.bounds.height();
+			this.choreographyTasksMeta[choreographyTask.getId()].oldBounds = 
+				choreographyTask.bounds.clone();
+			this.choreographyTasksMeta[choreographyTask.getId()].topYEndValue = 0;
+		}
+		return this.choreographyTasksMeta[choreographyTask.getId()];
+	},
+	
+	/**
+	 * Adjust the meta values, if the choreography task is resized.
+	 * 
+	 * @param {Object} choreographyTask
+	 * @param {Object} choreographyTaskMeta
+	 */
+	handleResizingOfChoreographyTask: function(choreographyTask, choreographyTaskMeta) {
+		if(choreographyTask.bounds.height() == choreographyTaskMeta.oldHeight) {return;}
+		
+		/* Ensure that the choreography task is not too small in height */
+		
+		var minimumHeight = choreographyTaskMeta.numOfParticipantsOnTop 
+							* this.participantSize + 
+							choreographyTaskMeta.numOfParticipantsOnBottom 
+							* this.participantSize + 40;
+		if(minimumHeight > choreographyTask.bounds.height()) {
+			var ul = choreographyTask.bounds.upperLeft();
+			var oldUl = choreographyTaskMeta.oldBounds.upperLeft();
+			var lr = choreographyTask.bounds.lowerRight();
+			var oldLr = choreographyTaskMeta.oldBounds.lowerRight();
+			
+			if(ul.y != oldUl.y) {
+				/* Resized on top side */
+				choreographyTask.bounds.set(ul.x, lr.y - minimumHeight, lr.x, lr.y);
+			} else if(lr.y != oldLr.y) {
+				/* Resized on bottom side */
+				choreographyTask.bounds.set(ul.x, ul.y, lr.x, ul.y + minimumHeight);
+			}
+		}
+		
+		/* Adjust the y coordinate for the starting position of the bottom participants */
+		var yAdjustment = choreographyTaskMeta.oldHeight - choreographyTask.bounds.height();
+		choreographyTaskMeta.bottomYStartValue -= yAdjustment;
 	},
 	
 	/**
@@ -98,8 +159,12 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 */
 	handleLayoutChoreographyTask: function(event) {
 		var choreographyTask = event.shape;
+		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		
-		/* Handle participants on top side */
+		this.handleResizingOfChoreographyTask(choreographyTask, choreographyTaskMeta);
+		
+		/* ------- Handle participants on top side  ------- */
+		
 		var participants = this.getParticipants(choreographyTask,true,false);
 		
 		if(!participants) {return;}
@@ -107,6 +172,10 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		
 		/* Put participants into the right position */
 		participants.each(function(participant, i) {
+			
+			/* Disable resizing by the user interface */
+			participant.isResizable = false;
+			
 			participant.setProperty('oryx-corners', "None");
 			participant.bounds.set(0, i * this.participantSize, 
 								choreographyTask.bounds.width(), 
@@ -120,49 +189,66 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		
 		/* Resize choreography task to top side */
 		
-		resizeFactor = participants.length - this.numOfParticipantsOnTop;
+		resizeFactor = participants.length - 
+									choreographyTaskMeta.numOfParticipantsOnTop;
 		
 		var bounds = choreographyTask.bounds;
 		var ul = bounds.upperLeft();
 		var lr = bounds.lowerRight();
 		bounds.set(ul.x, ul.y - resizeFactor * this.participantSize, lr.x, lr.y);
 		
+		/* Set new top and bottom border values */
+		choreographyTaskMeta.topYEndValue = participants.length * this.participantSize;
 		
-		this.numOfParticipantsOnTop = participants.length;
+		choreographyTaskMeta.bottomYStartValue += 
+			(participants.length - choreographyTaskMeta.numOfParticipantsOnTop) *
+			this.participantSize;
+			
+		choreographyTaskMeta.numOfParticipantsOnTop = participants.length;
 		
-		/* Handle participants on bottom side */
+		/* ----- Handle participants on bottom side --------- */
 		
-//		var participants = this.getParticipants(choreographyTask,false,true);
-//		
-//		if(!participants) {return;}
-//		this.ensureParticipantsParent(choreographyTask, participants);
-//		
-//		
-//		
-//		/* Put participants into the right position */
-//		participants.each(function(participant, i) {
-//			participant.setProperty('oryx-corners', "None");
-//			participant.bounds.set(0, i * this.participantSize, 
-//								choreographyTask.bounds.width(), 
-//								this.participantSize +  i * this.participantSize);
-//			
-//			/* The first participants gets rounded corners */
-//			if(i == 0) {
-//				participant.setProperty('oryx-corners', "Top");
-//			}
-//		}.bind(this));
-//		
-//		/* Resize choreography task to top bottom side */
-//		
-//		resizeFactor = participants.length - this.numOfParticipantsOnBottom;
-//		
-//		var bounds = choreographyTask.bounds;
-//		var ul = bounds.upperLeft();
-//		var lr = bounds.lowerRight();
-//		bounds.set(ul.x, ul.y, lr.x, lr.y + resizeFactor * this.participantSize);
-//		
-//		
-//		this.numOfParticipantsOnTop = participants.length;
+		var participants = this.getParticipants(choreographyTask,false,true);
+		
+		if(!participants) {return;}
+		this.ensureParticipantsParent(choreographyTask, participants);
+		
+		var bottomStartYValue = choreographyTaskMeta.bottomYStartValue;
+		
+		/* Put participants into the right position */
+		participants.each(function(participant, i) {
+			
+			/* Disable resizing by the user interface */
+			participant.isResizable = false;
+			
+			participant.setProperty('oryx-corners', "None");
+			participant.bounds.set(0, bottomStartYValue + 
+														 i * this.participantSize, 
+								choreographyTask.bounds.width(), 
+								bottomStartYValue +
+								this.participantSize +  i * this.participantSize);
+			
+			/* The last participants gets rounded corners */
+			if(i == participants.length - 1) {
+				participant.setProperty('oryx-corners', "Bottom");
+			}
+		}.bind(this));
+		
+		/* Resize choreography task to top bottom side */
+		
+		resizeFactor = participants.length - 
+								choreographyTaskMeta.numOfParticipantsOnBottom;
+		
+		var bounds = choreographyTask.bounds;
+		var ul = bounds.upperLeft();
+		var lr = bounds.lowerRight();
+		bounds.set(ul.x, ul.y, lr.x, lr.y + resizeFactor * this.participantSize);
+		
+		
+		choreographyTaskMeta.numOfParticipantsOnBottom = participants.length;
+		
+		choreographyTaskMeta.oldHeight = bounds.height();
+		choreographyTaskMeta.oldBounds = bounds.clone();
 		
 	},
 	
@@ -195,20 +281,22 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 			return null;
 		}
 		
-		var centerPoint = shape.absoluteBounds().center();
+		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(shape);
+		var center = shape.bounds.upperLeft().y + 
+			(choreographyTaskMeta.bottomYStartValue - choreographyTaskMeta.topYEndValue) / 2;
 		
 		/* Get participants of top side */
 		var participantsTop = shape.getChildNodes(true).findAll(function(node) { 
 			return (onTop && 
 					node.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant" &&
-					node.absoluteBounds().center().y <= centerPoint.y); 
+					node.absoluteBounds().center().y <= center); 
 		});
 		
 		/* Get participants of bottom side */
 		var participantsBottom = shape.getChildNodes(true).findAll(function(node) { 
 			return (onBottom && 
 					node.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant" &&
-					node.absoluteBounds().center().y > centerPoint.y); 
+					node.absoluteBounds().center().y > center); 
 		});
 		
 		var participants = participantsTop.concat(participantsBottom);
