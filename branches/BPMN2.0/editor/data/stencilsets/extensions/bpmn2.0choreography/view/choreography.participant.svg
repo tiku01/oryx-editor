@@ -26,8 +26,13 @@
 		y="10" 
 		oryx:align="middle center"
 		oryx:fittoelem="initiating"
-		stroke="black">
+		oryx:anchors="top"
+		stroke="black" >
 	</text>
+	<g id="mi">
+		<path id="mi_path" fill="none" stroke="black" d="M46 10 v8 M50 10 v8 M54 10 v8" stroke-width="2"
+			  oryx:anchors="bottom" />
+	</g>
     
   </g>
 </svg>

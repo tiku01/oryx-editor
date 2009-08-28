@@ -2083,6 +2083,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2147,6 +2149,8 @@
 			"roles":			[
 				"all",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2184,6 +2188,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2259,6 +2265,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"fromtoall",
 				"GatewaysMorph"
 			]
@@ -2320,6 +2328,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
 				"fromtoall",
 				"GatewaysMorph"
 			],
@@ -4277,7 +4287,8 @@
 			"view":"connector/messageflow.svg",
 			"icon":"connector/messageflow.png",
 			"roles": [
-				"ConnectingObjectsMorph"
+				"ConnectingObjectsMorph",
+				"MessageContainer"
 			]
 		},
 		{
@@ -4383,6 +4394,24 @@
 				]
 			},
 			{
+				"role":"ChoreographyMessageFlowStart",
+				"connects": [
+					{
+						"from":"messageflow_start",
+						"to":["choreography_messageflow_end"]
+					}
+				]
+			},
+			{
+				"role":"ChoreographyMessageFlowEnd",
+				"connects": [
+					{
+						"from":"choreography_messageflow_start",
+						"to":["messageflow_end"]
+					}
+				]
+			},
+			{
 				"role":"IntermediateEventOnActivityBoundary",
 				"connects": [
 					{
@@ -4447,6 +4476,14 @@
 					{
 						"from" : "Message",
 						"to" : ["MessageFlow"]
+					},
+					{
+						"from" : "Message",
+						"to" : ["ChoreographyElement"]
+					},
+					{
+						"from" : "ChoreographyElement",
+						"to" : ["Message"]
 					}
 				]
 			},
@@ -4497,7 +4534,7 @@
 				]
 			},
 			{
-				"role" : "MessageFlow",
+				"role" : "MessageContainer",
 				"contains" : ["Message"]
 			},
 			{
