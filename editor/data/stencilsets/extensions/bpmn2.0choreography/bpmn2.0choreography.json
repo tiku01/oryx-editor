@@ -29,8 +29,49 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
-					"wrapLines" : false,
+					"wrapLines" : true,
 					"refToView":"text_name"	
+				},
+				{
+					"id":"loopType",
+					"type":"Choice",
+					"title":"LoopType",
+					"title_de":"Schleifentyp",
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Standard",
+							"value":"Standard",
+							"refToView":"loop"
+						},
+						{
+							"id":"c3",
+							"title":"MultiInstance",
+							"value":"MultiInstance",
+							"refToView":"mi"
+						}
+					]
+				},
+				{
+					"id":"callAcitivity",
+					"type":"Boolean",
+					"title":"is a Call Activity",
+					"title_de":"ist eine Call Activity",
+					"value":0,
+					"description":"a Call Activity is a wrapper for a globally defined Sub-Process that is reused in the current process.",
+					"readonly":false,
+					"optional":"true",
+					"refToView":"callActivity"
 				},
 				{
 					"id" : "messageFlow",
@@ -48,7 +89,9 @@
 				"ChoreographyMorph",
 				"ChoreographyElement",
 				"choreography_sequence_start",
-				"choreography_sequence_end"
+				"choreography_sequence_end",
+				"choreography_messageflow_start",
+				"choreography_messageflow_end"
 			]
 		},
 		{
@@ -97,6 +140,17 @@
 							"value":"Returning"
 						}
 					]	
+				},
+				{
+					"id":"multiple_instance",
+					"type":"Boolean",
+					"title":"Multiple Instance",
+					"title_de":"Mehrere Instanzen",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":"true",
+					"refToView":"mi"
 				},
 				{
 					"id":"corners",
@@ -155,7 +209,39 @@
 				"all",
 				"ChoreographyElement"
 			]
-		}
+		},
+		{
+			"type": "edge",
+			"id":"ChoreographyMessageFlowStart",
+			"title":"Message Flow Source",
+			"title_de":"Nachrichtenfluss Quelle",
+			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
+			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"../../extensions/bpmn2.0choreography/view/choreography.messageflow.start.svg",
+			"icon":"../../extensions/bpmn2.0choreography/icons/choreography.messageflow.start.png",
+			"roles": [
+				"ConnectingObjectsMorph",
+				"MessageContainer"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"ChoreographyMessageFlowEnd",
+			"title":"Message Flow Target",
+			"title_de":"Nachrichtenfluss Ziel",
+			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
+			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
+			"groups":["Connecting Objects"],
+			"groups_de":["Konnektoren"],
+			"view":"../../extensions/bpmn2.0choreography/view/choreography.messageflow.end.svg",
+			"icon":"../../extensions/bpmn2.0choreography/icons/choreography.messageflow.end.png",
+			"roles": [
+				"ConnectingObjectsMorph",
+				"MessageContainer"
+			]
+		},
 	],
 	"properties":[],
 	"rules": {
