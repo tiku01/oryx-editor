@@ -27,7 +27,7 @@
 			c47.563,0,53.792-6.729,53.792-11.271S86.529,0.662,53.758,0.662C20.987,0.662,0.925,6.64,0.925,10.683z M107.592,10.517v8.334
 			M0.967,10.517v8.334 M107.592,18.517v8.334 M0.967,18.517v8.334"/>
 			 	
-		<text font-size="12" id="text_name" x="76" y="79" oryx:align="middle center" oryx:fittoelem="bg_frame" stroke="black" />
+		<text font-size="12" id="text_name" x="54" y="68" oryx:align="middle center" oryx:fittoelem="bg_frame" stroke="black" />
 			 
 	</g>
 </svg>
