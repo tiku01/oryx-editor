@@ -25,7 +25,7 @@
 					"description":"The descriptive name of the BPMN element.",
 					"description_de":"Bezeichnung des BPMN-Elementes.",
 					"readonly":false,
-					"optional":false,
+					"optional":true,
 					"length":"",
 					"wrapLines" : true,
 					"refToView":"text_name"	
@@ -3176,6 +3176,7 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -3653,6 +3654,8 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"choreography_sequence_end",
+				"choreography_sequence_start",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -4329,7 +4332,7 @@
 			"title":"Association Bidirectional",
 			"title_de":"Beidseitige Assoziation",
 			"description":"A Bidirected Association indicates that the data object is modified, i.e. read and written during the execution of an actvity.",
-			"description_de":"Eine beidseitig gerichtete Assoziation zeigt, dass das Datenobjekt während der Ausführung einer Aktivität verändert, d.h. gelesen und geschrieben wird.",
+			"description_de":"Eine beidseitig gericEhtete Assoziation zeigt, dass das Datenobjekt während der Ausführung einer Aktivität verändert, d.h. gelesen und geschrieben wird.",
 			"groups":["Connecting Objects"],
 			"groups_de":["Konnektoren"],
 			"view":"connector/association.bidirectional.svg",
@@ -4540,6 +4543,16 @@
 			{
 				"role" : "ChoreographyElement",
 				"contains" : ["ChoreographyParticipant"]
+			},
+			{
+				"role" : "ChoreographySubprocessExpanded",
+				"contains":	[
+								"ChoreographyElement",
+								"choreography_sequence_start",
+								"choreography_sequence_end",
+								"Message"
+																
+							]
 			}
 		],
 		"morphingRules": [

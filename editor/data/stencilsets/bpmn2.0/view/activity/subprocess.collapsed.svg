@@ -9,10 +9,22 @@
    version="1.0">
   <defs></defs>
   <oryx:magnets>
+  	<oryx:magnet oryx:cx="0" oryx:cy="20" oryx:anchors="left" />
   	<oryx:magnet oryx:cx="0" oryx:cy="40" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="0" oryx:cy="60" oryx:anchors="left" />
+  	
+  	<oryx:magnet oryx:cx="25" oryx:cy="80" oryx:anchors="bottom" />
   	<oryx:magnet oryx:cx="50" oryx:cy="80" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="80" oryx:anchors="bottom" />
+  	
+  	<oryx:magnet oryx:cx="100" oryx:cy="20" oryx:anchors="right" />
   	<oryx:magnet oryx:cx="100" oryx:cy="40" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="100" oryx:cy="60" oryx:anchors="right" />
+  	
+  	<oryx:magnet oryx:cx="25" oryx:cy="0" oryx:anchors="top" />
   	<oryx:magnet oryx:cx="50" oryx:cy="0" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="0" oryx:anchors="top" />
+  	
   	<oryx:magnet oryx:cx="50" oryx:cy="40" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="80 60">
@@ -33,8 +45,8 @@
 	 	<g id="b" 
 			oryx:anchors="bottom">
 			
-		 	<rect oryx:anchors="bottom" x="44" y="64" width="14" height="14" fill="none" stroke="black" stroke-width="1" />
-			<path oryx:anchors="bottom" fill="none" stroke="black" d="M51 66 v10 M 46 71 h10" stroke-width="1"/>
+		 	<rect oryx:anchors="bottom" x="44" y="65" width="14" height="14" fill="none" stroke="black" stroke-width="1" />
+			<path oryx:anchors="bottom" fill="none" stroke="black" d="M51 67 v10 M 46 72 h10" stroke-width="1"/>
 		
 		</g>
 	</a>
