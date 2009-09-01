@@ -3216,6 +3216,7 @@
 				"sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
+				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3257,6 +3258,7 @@
 				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
+				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3338,6 +3340,7 @@
 				"sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
+				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3451,6 +3454,7 @@
 				"all",
 				"sequence_start",
 				"IntermediateEventOnSubprocessBoundary",
+				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3486,7 +3490,7 @@
 			],
 			"roles":[
 				"all",
-				
+				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -4433,6 +4437,15 @@
 					{
 						"from":"Subprocess",
 						"to":["IntermediateEventOnSubprocessBoundary"]
+					}
+				]
+			},
+			{
+				"role":"EventOnChoreographyActivityBoundary",
+				"connects": [
+					{
+						"from":"ChoreographyMorph",
+						"to":["EventOnChoreographyActivityBoundary"]
 					}
 				]
 			},
