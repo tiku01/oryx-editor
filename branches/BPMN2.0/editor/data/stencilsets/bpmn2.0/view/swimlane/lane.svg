@@ -40,7 +40,7 @@
 		y="125" 
 		oryx:rotate="270" 
 		font-size="14" 
-		id="text_v" 
+		id="text_name" 
 		oryx:align="middle center" 
 		oryx:anchors="left"
 		fill="black" 
