@@ -337,6 +337,8 @@ public class BPMN11RDFImporter {
 				// TODO: add further attributes...
 				if (attribute.equals("title")) {
 					c.diagram.setTitle(getContent(n));
+				} else if (attribute.equals("name")) {
+					c.diagram.setTitle(getContent(n));
 				} else if (attribute.equals("id")) {
 					c.diagram.setId(getContent(n));
 					// } else {
@@ -516,13 +518,14 @@ public class BPMN11RDFImporter {
 					JSONObject params = null;
 					try {
 						String content = getContent(n);
+						/* Assertion: Content is a JSONObject of a ComplexType property */
 						if(content != null) {
 							JSONObject jsonAttribute = new JSONObject(getContent(n));
 							params = jsonAttribute.getJSONArray("items").getJSONObject(0);
 						}
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						/* Set empty inputsets property */
+						task.setInputSets(null);
 					}
 					task.setInputSets(params);
 				}
@@ -530,6 +533,11 @@ public class BPMN11RDFImporter {
 				/* Set namespace attribute */
 				else if (attribute.equals("namespace")) {
 					task.setNamespace(getContent(n));
+				} 
+				
+				/* Set wsdlUrl attribute */
+				else if (attribute.equals("wsdlurl")) {
+					task.setWsdlUrl(getContent(n));
 				} 
 				
 				/* Set form attribute */
