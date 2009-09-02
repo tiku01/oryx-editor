@@ -187,11 +187,11 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 				parent:shape
 			};
 			var shapeParticipant1 = this.facade.createShape(participant1);
-			shapeParticipant1.setProperty('oryx-behavior', "Initiating");
+			shapeParticipant1.setProperty('oryx-initiating', true);
 			var propEvent = {
 				elements 	: [shapeParticipant1],
-				key 		: "oryx-behavior",
-				value		: "Initiating"
+				key 		: "oryx-initiating",
+				value		: true
 			};
 			this.handlePropertyChanged(propEvent);
 			
@@ -230,6 +230,8 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 			this.choreographyTasksMeta[choreographyTask.getId()].bottomYStartValue = 
 				choreographyTask.bounds.height();
 			this.choreographyTasksMeta[choreographyTask.getId()].topYEndValue = 0;
+			this.choreographyTasksMeta[choreographyTask.getId()].center = 
+				choreographyTask.bounds.height() / 2;
 			
 			this.choreographyTasksMeta[choreographyTask.getId()].oldHeight = 
 				choreographyTask.bounds.height();
@@ -428,6 +430,10 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 					lr.x, 
 					lr.y + resizeFactor * this.participantSize 
 					+ resizeFactorExtended * this.extensionSizeForMarker);
+					
+		/* Handle positioning of sub elements */
+		this.ensureCenterPositionOfMagnets(choreographyTask, isResized);
+		this.adjustTextFieldAndMarkerPosition(choreographyTask);
 		
 		/* Store new meta values */
 		choreographyTaskMeta.numOfParticipantsExtendedOnBottom = numOfParticipantsExtended;
@@ -437,7 +443,6 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		choreographyTaskMeta.oldHeight = bounds.height();
 		choreographyTaskMeta.oldBounds = bounds.clone();
 		
-		this.adjustTextFieldAndMarkerPosition(choreographyTask);
 		
 	},
 	
@@ -526,6 +531,74 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 			miMarker.y = choreographyTaskMeta.bottomYStartValue - 11;
 		}
 		
+	},
+	
+	/**
+	 * The magnets of choreography activity were placed in the middle of both
+	 * participant bands.
+	 * 
+	 * @param {ORYX.Core.Node} choreographyTask
+	 * 		The choregraphy task containing the magnets
+	 * @param {boolean} isResized
+	 * 		Flag indicating a resizing of the task
+	 * 
+	 */
+	ensureCenterPositionOfMagnets: function(choreographyTask, isResized) {
+		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
+		var center = choreographyTaskMeta.topYEndValue + 
+					(choreographyTaskMeta.bottomYStartValue 
+								- choreographyTaskMeta.topYEndValue) / 2;
+		
+		var yAdjustment = center - choreographyTaskMeta.center;
+		
+		var heightDelta = choreographyTask.bounds.height() / 
+							choreographyTaskMeta.oldBounds.height();
+		if(!yAdjustment && !heightDelta) {return;}
+		
+		/* Find magnets that should be positioned relativly to the center */
+		var magnets = choreographyTask.magnets.findAll(function(magnet) {
+			return (!magnet.anchorTop && !magnet.anchorBottom)
+		});
+		
+		/* Move magnets */
+		magnets.each(function(magnet) {
+			var x = magnet.bounds.center().x;
+			var y = (magnet.bounds.center().y + yAdjustment) / heightDelta
+			magnet.bounds.centerMoveTo(x,y);
+		});
+		
+		/* Also move dockers */
+		var absoluteTopYEndValue = choreographyTask.absoluteBounds().upperLeft().y 
+									+ choreographyTaskMeta.topYEndValue;
+		var absoluteBottomYStartValue = choreographyTask.absoluteBounds().upperLeft().y 
+									+ choreographyTaskMeta.bottomYStartValue;
+		var dockers = new Array();
+		
+		choreographyTask.incoming.each(function(seqFlow) {
+			if(!(seqFlow instanceof ORYX.Core.Edge)) {return;}
+			var docker = seqFlow.dockers.last();
+			if(absoluteTopYEndValue <= docker.bounds.center().y 
+				&& docker.bounds.center().y <= absoluteBottomYStartValue ) {
+				dockers.push(docker);
+			}
+		});
+		
+		choreographyTask.outgoing.each(function(seqFlow) {
+			if(!(seqFlow instanceof ORYX.Core.Edge)) {return;}
+			var docker = seqFlow.dockers.first();
+			if(absoluteTopYEndValue <= docker.bounds.center().y 
+				&& docker.bounds.center().y <= absoluteBottomYStartValue ) {
+				dockers.push(docker);
+			}
+		});
+		
+		dockers.each(function(dockerShape) {
+			var ref = dockerShape.referencePoint;
+			dockerShape.setReferencePoint({x:ref.x,y:(ref.y + yAdjustment) / heightDelta});
+		});
+		
+		/* Update center */
+		choreographyTaskMeta.center = center;
 	},
 	
 	/**
@@ -646,12 +719,13 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		shapes.each(function(shape) {
 			if( shape.getStencil().id() === 
 					"http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant" &&
-				propertyKey === "oryx-behavior") {
+				propertyKey === "oryx-initiating") {
 				
 				/* Set appropriate color */
-				if(propertyValue === "Returning") {
+				
+				if(!propertyValue) {
 					shape.setProperty("oryx-color", "#c6c6c6");
-				} else if(propertyValue === "Initiating") {
+				} else {
 					shape.setProperty("oryx-color", "#ffffff");
 				}	
 				

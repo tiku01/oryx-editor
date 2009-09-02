@@ -340,26 +340,14 @@
 					"refToView":"text_name"	
 				},
 				{
-					"id":"behavior",
-					"type":"Choice",
-					"title":"Behavior",
-					"value":"Returning",
-					"description":"Specifies, whether the participant is of initiating or returning nature",
-					"description_de":"",
-					"readonly":false,
-					"optional":false,
-					"items": [
-						{
-							"id":"c1",
-							"title":"Initiating",
-							"value":"Initiating"
-						},
-						{
-							"id":"c2",
-							"title":"Returning",
-							"value":"Returning"
-						}
-					]	
+					"id" : "initiating",
+					"type" : "Boolean",
+					"title" : "Initiating",
+					"title_de" : "Initiierend",
+					"description" : "",
+					"value" : false,
+					"readonly" : false,
+					"optional" : true
 				},
 				{
 					"id":"multiple_instance",
