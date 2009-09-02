@@ -2581,7 +2581,8 @@
 					"description":"",
 					"refToView":"text_state",
 					"readonly":false,
-					"optional":true
+					"optional":true,
+					"directlyEditable":false
 				},
 				{
 					"id":"properties",
@@ -4293,6 +4294,9 @@
 			"groups_de":["Konnektoren"],
 			"view":"connector/messageflow.svg",
 			"icon":"connector/messageflow.png",
+			"propertyPackages":[
+				"baseAttributes"
+			],
 			"roles": [
 				"ConnectingObjectsMorph",
 				"MessageContainer"

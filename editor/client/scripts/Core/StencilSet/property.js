@@ -123,6 +123,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
         	jsonProp.inverseBoolean = false;
         }
 		
+		if(!jsonProp.directlyEditable && jsonProp.directlyEditable != false) {
+        	jsonProp.directlyEditable = true;
+        }
+		
 		if(jsonProp.visible !== false) {
 			jsonProp.visible = true;
 		}
@@ -185,6 +189,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     inverseBoolean: function() {
     	return this._jsonProp.inverseBoolean;
     },
+	
+	directlyEditable: function() {
+		return this._jsonProp.directlyEditable;
+	},
 	
 	visible: function() {
 		return this._jsonProp.visible;
