@@ -253,9 +253,19 @@ ORYX.Plugins.PropertyWindow = {
 		this.shapeSelection.shapes.each(function(shape){
 			if(!shape.getStencil().property(key).readonly()) {
 				shape.setProperty(key, value);
-				shape.update();
+				//shape.update();
 			}
 		}.bind(this));
+		
+		/* Propagate changed properties */
+		var selectedElements = this.shapeSelection.shapes;
+		
+		this.facade.raiseEvent({
+			type 		: ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, 
+			elements	: selectedElements,
+			key			: key,
+			value		: value
+		});
 
 		this.facade.getCanvas().update();
 		

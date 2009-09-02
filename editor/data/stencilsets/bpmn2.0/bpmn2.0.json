@@ -1923,7 +1923,7 @@
 				"all",
 				"fromtoall",
 				"canContainArtifacts",
-				"ActivitiesMorph"
+				"EventActivitiesMorph"
 			]
 		},
 		{
@@ -1984,7 +1984,7 @@
 				"all",
 				"fromtoall",
 				"canContainArtifacts",
-				"ActivitiesMorph"
+				"EventActivitiesMorph"
 			]
 		},
 		
@@ -4535,6 +4535,7 @@
 			{
 				"role" : "Lane",
 				"contains" : [
+					"Lane",
 					"sequence_start",
 					"sequence_end"
 				]
@@ -4546,7 +4547,8 @@
 					"sequence_end",
 					"from_task_event",
 					"to_task_event",
-					"EventSubprocess"			
+					"EventSubprocess",
+					"CollapsedEventSubprocess"			
 				]
 			},
 			{
@@ -4572,6 +4574,10 @@
 			{
 				"role": "ActivitiesMorph",
 				"baseMorphs": ["Task"]
+			},
+			{
+				"role": "EventActivitiesMorph",
+				"baseMorphs": ["CollapsedEventSubprocess"]
 			},
 			{
 				"role": "GatewaysMorph",
@@ -4614,22 +4620,40 @@
 						{"t":1,"r":2,"b":1,"l":2}],
 				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1, "r":2, "b":1, "l":2}]
-			},{
+			},
+			{
+				"role": "EventActivitiesMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			},
+			{
+				"role": "ChoreographyMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			},
+			{
 				"role": "GatewaysMorph",
 				"outs": [{"t":2, "r":1, "b":2, "l":1}]
-			},{
+			},
+			{
 				"role": "StartEventsMorph",
 				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1,"r":2,"b":1,"l":2}],
 				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1, "r":2, "b":1, "l":2}]
-			},{
+			},
+			{
 				"role": "IntermediateEventsMorph",
 				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1,"r":2,"b":1,"l":2}],
 				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1, "r":2, "b":1, "l":2}]
-			},{
+			},
+			{
 				"role": "EndEventsMorph",
 				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
 						{"t":1,"r":2,"b":1,"l":2}],
