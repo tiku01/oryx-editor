@@ -284,8 +284,10 @@ if(!ORYX.I18N.Bpmn2Bpel) ORYX.I18N.Bpmn2Bpel = {};
 ORYX.I18N.Bpmn2Bpel.group = "ExecBPMN";
 ORYX.I18N.Bpmn2Bpel.show = "Transformiertes BPEL anzeigen";
 ORYX.I18N.Bpmn2Bpel.download = "Transformiertes BPEL herunterladen";
+ORYX.I18N.Bpmn2Bpel.deploy = "Transformiertes BPEL bereitstellen";
 ORYX.I18N.Bpmn2Bpel.showDesc = "Transformiert BPMN in BPEL und zeigt das Ergebnis an.";
 ORYX.I18N.Bpmn2Bpel.downloadDesc = "Transformiert BPMN in BPEL und bietet das Ergebnis zum Download an.";
+ORYX.I18N.Bpmn2Bpel.deployDesc = "Transformiert BPMN in BPEL und stellt den Prozess auf der BPEL-Engine Apache ODE bereit.";
 ORYX.I18N.Bpmn2Bpel.transfFailed = "Die Anfrage zur Transformation in BPEL ist fehlgeschlagen.";
 
 if(!ORYX.I18N.Save) ORYX.I18N.Save = {};
@@ -573,16 +575,16 @@ ORYX.I18N.RDFExport.rdfExportDescription = "Exportiert das aktuelle Model in die
 if(!ORYX.I18N.SyntaxChecker.BPMN) ORYX.I18N.SyntaxChecker.BPMN={};
 ORYX.I18N.SyntaxChecker.BPMN_NO_SOURCE = "Eine Kante muss einen Ursprung haben.";
 ORYX.I18N.SyntaxChecker.BPMN_NO_TARGET = "Eine Kante muss ein Ziel haben.";
-ORYX.I18N.SyntaxChecker.BPMN_DIFFERENT_PROCESS = "Ursprungs- und Zielknoten node müssen im gleichen Prozess sein.";
-ORYX.I18N.SyntaxChecker.BPMN_SAME_PROCESS = "Ursprungs- und Zielknoten müssen in müssen in verschiedenen Pools enthalten sein.";
+ORYX.I18N.SyntaxChecker.BPMN_DIFFERENT_PROCESS = "Ursprungs- und Zielknoten müssen im gleichen Prozess sein.";
+ORYX.I18N.SyntaxChecker.BPMN_SAME_PROCESS = "Ursprungs- und Zielknoten müssen in verschiedenen Pools enthalten sein.";
 ORYX.I18N.SyntaxChecker.BPMN_FLOWOBJECT_NOT_CONTAINED_IN_PROCESS = "Ein Kontrollflussobjekt muss sich in einem Prozess befinden.";
-ORYX.I18N.SyntaxChecker.BPMN_ENDEVENT_WITHOUT_INCOMING_CONTROL_FLOW = "Ein End-Ereignis muss eingehenden Sequenzfluss habenAn end event must have incoming sequence flow.";
-ORYX.I18N.SyntaxChecker.BPMN_STARTEVENT_WITHOUT_OUTGOING_CONTROL_FLOW = "Ein Start-Ereignis muss ausgehenden Sequenzfluss haben.";
+ORYX.I18N.SyntaxChecker.BPMN_ENDEVENT_WITHOUT_INCOMING_CONTROL_FLOW = "Ein End-Ereignis muss einen eingehenden Sequenzfluss haben.";
+ORYX.I18N.SyntaxChecker.BPMN_STARTEVENT_WITHOUT_OUTGOING_CONTROL_FLOW = "Ein Start-Ereignis muss einen ausgehenden Sequenzfluss haben.";
 ORYX.I18N.SyntaxChecker.BPMN_STARTEVENT_WITH_INCOMING_CONTROL_FLOW = "Start-Ereignisse dürfen keinen eingehenden Sequenzfluss haben.";
 ORYX.I18N.SyntaxChecker.BPMN_ATTACHEDINTERMEDIATEEVENT_WITH_INCOMING_CONTROL_FLOW = "Angeheftete Zwischen-Ereignisse dürfen keinen eingehenden Sequenzfluss haben.";
 ORYX.I18N.SyntaxChecker.BPMN_ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW = "Angeheftete Zwischen-Ereignisse müssen genau einen ausgehenden Sequenzfluss haben.";
 ORYX.I18N.SyntaxChecker.BPMN_ENDEVENT_WITH_OUTGOING_CONTROL_FLOW = "End-Ereignisse dürfen keinen ausgehenden Sequenzfluss haben.";
-ORYX.I18N.SyntaxChecker.BPMN_EVENTBASEDGATEWAY_BADCONTINUATION = "Auf ereignis-basierte Gateways  dürfen weder Gateways noch Subprozesse folgen.";
+ORYX.I18N.SyntaxChecker.BPMN_EVENTBASEDGATEWAY_BADCONTINUATION = "Auf Ereignis-basierte Gateways dürfen weder Gateways noch Subprozesse folgen.";
 ORYX.I18N.SyntaxChecker.BPMN_NODE_NOT_ALLOWED = "Knotentyp ist nicht erlaubt.";
 
 if(!ORYX.I18N.SyntaxChecker.IBPMN) ORYX.I18N.SyntaxChecker.IBPMN={};
@@ -599,17 +601,17 @@ ORYX.I18N.SyntaxChecker.InteractionNet_ROLE_NOT_SET = "Rolle ist nicht definiert
 if(!ORYX.I18N.SyntaxChecker.EPC) ORYX.I18N.SyntaxChecker.EPC={};
 ORYX.I18N.SyntaxChecker.EPC_NO_SOURCE = "Eine Kante muss einen Ursprung haben.";
 ORYX.I18N.SyntaxChecker.EPC_NO_TARGET = "Eine Kante muss ein Ziel haben.";
-ORYX.I18N.SyntaxChecker.EPC_NOT_CONNECTED = "Knoten muss mit Kanten verbunden sein.";
-ORYX.I18N.SyntaxChecker.EPC_NOT_CONNECTED_2 = "Knoten muss mehr Kanten verbunden sein.";
-ORYX.I18N.SyntaxChecker.EPC_TOO_MANY_EDGES = "Knoten ist mit zuvielen Kanten verbunden.";
-ORYX.I18N.SyntaxChecker.EPC_NO_CORRECT_CONNECTOR = "Knoten ist keinen korrekter Konnektor.";
+ORYX.I18N.SyntaxChecker.EPC_NOT_CONNECTED = "Dieser Knoten muss eingehende oder ausgehende Kanten besitzen.";
+ORYX.I18N.SyntaxChecker.EPC_NOT_CONNECTED_2 = "Dieser Knoten muss sowohl eingehende als auch ausgehende Knoten besitzen.";
+ORYX.I18N.SyntaxChecker.EPC_TOO_MANY_EDGES = "Knoten ist mit zu vielen Kanten verbunden.";
+ORYX.I18N.SyntaxChecker.EPC_NO_CORRECT_CONNECTOR = "Knoten ist kein korrekter Konnektor.";
 ORYX.I18N.SyntaxChecker.EPC_MANY_STARTS = "Es darf nur ein Start-Ereignis geben.";
 ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_OR = "Funktionen hinter einem OR-/XOR-Split sind nicht erlaubt.";
-ORYX.I18N.SyntaxChecker.EPC_PI_AFTER_OR = "Prozessschnittstelle hinter einem OR-/XOR-Split ist nicht erlaubt.";
+ORYX.I18N.SyntaxChecker.EPC_PI_AFTER_OR = "Prozessschnittstellen hinter einem OR-/XOR-Split ist nicht erlaubt.";
 ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_FUNCTION =  "Auf eine Funktion darf keine Funktion folgen.";
 ORYX.I18N.SyntaxChecker.EPC_EVENT_AFTER_EVENT =  "Auf ein Ereignis darf kein Ereignis folgen.";
 ORYX.I18N.SyntaxChecker.EPC_PI_AFTER_FUNCTION =  "Auf eine Funktion darf keine Prozessschnittstelle folgen.";
-ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_PI =  "Auf eine Prozessschnittstelle darf keinen Funktion folgen.";
+ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_PI =  "Auf eine Prozessschnittstelle darf keine Funktion folgen.";
 
 if(!ORYX.I18N.SyntaxChecker.PetriNet) ORYX.I18N.SyntaxChecker.PetriNet={};
 ORYX.I18N.SyntaxChecker.PetriNet_NOT_BIPARTITE = "Der Graph ist nicht bepartit.";
@@ -644,3 +646,6 @@ ORYX.I18N.Validator.epcNotSound = "<p><b>The EPC is <i>NOT</i> sound!</b></p>";
 /** New Language Properties: 15.07.2009*/
 if(!ORYX.I18N.Layouting) ORYX.I18N.Layouting ={};
 ORYX.I18N.Layouting.doing = "Layouten...";
+
+/** New Language Properties: 18.08.2009*/
+ORYX.I18N.SyntaxChecker.MULT_ERRORS = "Mehrere Fehler";
