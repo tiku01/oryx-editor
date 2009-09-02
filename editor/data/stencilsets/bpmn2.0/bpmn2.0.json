@@ -2789,7 +2789,7 @@
 			],
 			"properties" :		[
 				{
-					"id" : "structureRef",
+					"id" : "structureref",
 					"type" : "String",
 					"title" : "StructureRef",
 					"title_de" : "StrukturRef",
@@ -2800,18 +2800,19 @@
 					"wrapLines" : true
 				},
 				{
-					"id" : "nonInitiating",
+					"id" : "initiating",
 					"type" : "Boolean",
-					"title" : "Non-Initiating",
-					"title_de" : "Nicht-Beginnend",
+					"title" : "Initiating",
+					"title_de" : "Initiierend",
 					"description" : "",
-					"value" : false,
+					"value" : true,
+					"inverseBoolean":true,
 					"refToView" : ["nonInitiating", "nonInitiating2"],
 					"readonly" : false,
 					"optional" : true
 				},
 				{
-					"id":"bgColor",
+					"id":"bgcolor",
 					"type":"Color",
 					"title":"BackgroundColor",
 					"title_de":"Hintergrundfarbe",
@@ -2885,6 +2886,7 @@
 			],
 			"roles": [
 				"all",
+				"messageflow_end",
 				"sequence_start",
 				"Startevents_all",
 				"StartEventsMorph"
@@ -3138,6 +3140,7 @@
 			],
 			"roles" : 			[
 				"all",
+				"messageflow_end",
 				"sequence_start",
 				"Startevents_all",
 				"choreography_sequence_start",
@@ -3175,6 +3178,7 @@
 			],
 			"roles" :			[
 				"all",
+				"messageflow_end",
 				"sequence_start",
 				"Startevents_all",
 				"choreography_sequence_start",
@@ -3213,6 +3217,7 @@
 			],
 			"roles":[
 				"all",
+				"messageflow_end",
 				"sequence_start",
 				"sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
@@ -3574,6 +3579,7 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"messageflow_end",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
@@ -3614,6 +3620,7 @@
 			],
 			"roles":[
 				"all",
+				"messageflow_end",
 				"sequence_start",
 				"sequence_end",
 				"choreography_sequence_start",
@@ -3696,6 +3703,7 @@
 			],
 			"roles":[
 				"all",
+				"messageflow_start",
 				"sequence_start",
 				"sequence_end",
 				"IntermediateEventsMorph"
@@ -3871,6 +3879,7 @@
 			],
 			"roles":[
 				"all",
+				"messageflow_start",
 				"sequence_start",
 				"sequence_end",
 				"IntermediateEventsMorph"
@@ -3944,6 +3953,7 @@
 			],
 			"roles": [
 				"all",
+				"messageflow_start",
 				"sequence_end",
 				"Endevents_all",
 				"EndEventsMorph"
@@ -4154,6 +4164,7 @@
 			],
 			"roles": [
 				"all",
+				"messageflow_start",
 				"sequence_end",
 				"Endevents_all",
 				"EndEventsMorph"
@@ -4486,6 +4497,10 @@
 						"to" : ["DataObject"]
 					},
 					{
+						"from" : "DataObject",
+						"to" : ["SequenceFlow"]
+					},
+					{
 						"from" : "fromtoall",
 						"to" : ["TextAnnotation"]
 					},
@@ -4498,21 +4513,16 @@
 						"to" : ["MessageFlow"]
 					},
 					{
+						"from" : "MessageFlow",
+						"to" : ["Message"]
+					},
+					{
 						"from" : "Message",
 						"to" : ["ChoreographyElement"]
 					},
 					{
 						"from" : "ChoreographyElement",
 						"to" : ["Message"]
-					}
-				]
-			},
-			{
-				"role" : "MessageFlow",
-				"connects" : [
-					{
-						"from" : "Task",
-						"to" : ["Task"]
 					}
 				]
 			}
