@@ -117,7 +117,7 @@
 			"description" : "A Choreography Task represents an Interaction, which is a coherent set (1 or more) of Message exchanges between two Participants.",
 			"description_de" : "",
 			"view" : "../../extensions/bpmn2.0choreography/view/choreography.subprocess.collapsed.svg",
-			"icon" : "activity/subprocess.png",
+			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.subprocess.collapsed.png",
 			"layout":[
 				{"type":"layout.bpmn2_0.choreography.task"},
 				{"type":"layout.bpmn2_0.choreography.subprocess.collapsed"}],
@@ -220,7 +220,7 @@
 			"description" : "A Choreography Task represents an Interaction, which is a coherent set (1 or more) of Message exchanges between two Participants.",
 			"description_de" : "",
 			"view" : "../../extensions/bpmn2.0choreography/view/choreography.subprocess.expanded.svg",
-			"icon" : "activity/task.png",
+			"icon" : "../../extensions/bpmn2.0choreography/icons/choreography.subprocess.expanded.png",
 			"layout":[
 				{"type":"layout.bpmn2_0.choreography.task"},
 				{"type":"layout.bpmn2_0.choreography.subprocess.expanded"},
