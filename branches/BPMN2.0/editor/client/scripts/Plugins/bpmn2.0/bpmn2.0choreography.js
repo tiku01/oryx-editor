@@ -55,6 +55,9 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		this.participantSize = 20;
 		this.extensionSizeForMarker = 10;
 		this.choreographyTasksMeta = new Hash();
+		
+		/* Disable the layout callback until the diagram is loaded. */
+		this._isLayoutEnabled = false;
 	},
 	
 	
@@ -63,7 +66,12 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * stencil set extension is loaded and thus register or unregisters on the 
 	 * appropriated events.
 	 */
-	handleStencilSetLoaded : function() {
+	handleStencilSetLoaded : function(event) {
+		/* Enable layout callback */
+		if(event.lazyLoaded) {
+			this._isLayoutEnabled = true;
+		}
+		
 		if(this.isStencilSetExtensionLoaded('http://oryx-editor.org/stencilsets/extensions/bpmn2.0choreography#')) {
 			this.registerPluginOnEvents();
 		} else {
@@ -80,6 +88,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		this.facade.registerOnEvent('layout.bpmn2_0.choreography.task', this.handleLayoutChoreographyTask.bind(this));
 		this.facade.registerOnEvent('layout.bpmn2_0.choreography.subprocess.expanded', this.handleLayoutChoreographySubprocessExpanded.bind(this));
 		this.facade.registerOnEvent('layout.bpmn2_0.choreography.subprocess.collapsed', this.handleLayoutChoreographySubprocessCollapsed.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.afterLoad.bind(this));
 //		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
 	},
 	
@@ -87,12 +96,102 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * Unregisters this plugin from the events.
 	 */
 	unregisterPluginOnEvents: function() {
-		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
-		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_SHAPEADDED, this.addParticipantsOnCreation.bind(this));
-//		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.handlePropertyChanged.bind(this));
-		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.task', this.handleLayoutChoreographyTask.bind(this));
-		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.subprocess.expanded', this.handleLayoutChoreographySubprocessExpanded.bind(this));
-		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.subprocess.collapsed', this.handleLayoutChoreographySubprocessCollapsed.bind(this));
+//		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
+		//this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_SHAPEADDED, this.addParticipantsOnCreation.bind(this));
+//		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.task', this.handleLayoutChoreographyTask.bind(this));
+//		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.subprocess.expanded', this.handleLayoutChoreographySubprocessExpanded.bind(this));
+//		this.facade.unregisterOnEvent('layout.bpmn2_0.choreography.subprocess.collapsed', this.handleLayoutChoreographySubprocessCollapsed.bind(this));
+		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_LOADED, this.afterLoad.bind(this));
+	},
+	
+	/**
+	 * Init the meta values for the layout mechanism of the choreography task 
+	 * and enables the layout callback
+	 * 
+	 * @param {Object} event
+	 * 		The event object
+	 */
+	afterLoad : function(event) {
+		//if(this._isLayoutEnabled) {return;}
+		
+		/* Enable the layout callback for choreography activities */
+		this._isLayoutEnabled = true;
+		
+		/* Initialize layout meta values for each choreography task */
+		this.facade.getCanvas().getChildNodes(true).each(function(shape){
+			if (!(shape.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographyTask" ||
+				shape.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessCollapsed" ||
+				shape.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessExpanded")) {
+				return;
+			}
+
+			var participantsOnTop = new Array();
+			var participantsOnBottom = new Array();
+			
+			var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(shape);
+			
+			/* Get participants */
+			var participants = shape.getChildNodes(false).findAll(function(node) {
+				return node.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant";
+			}); 
+			
+			/* Sort participants from up to bottom */
+			participants = participants.sort(function(a,b) {
+				return (a.absoluteBounds().upperLeft().y >
+										b.absoluteBounds().upperLeft().y);
+			});
+			
+			/* Determine participants on top and bottom side */
+			var expectedYValue = 0;
+			var participantsExtendedOnTop = 0;
+			var participantsExtendedOnBottom = 0;
+			participants.each(function(participant) {
+				/* Disable Resizing */
+				participant.isResizable = false;
+				
+				var extended = (participant.properties['oryx-multiple_instance'] === "" ? 
+						false : participant.properties['oryx-multiple_instance']);
+				if(participant.bounds.upperLeft().y == expectedYValue) {
+					participantsOnTop.push(participant);
+					expectedYValue = participant.bounds.lowerRight().y;
+					if (extended) {
+						participantsExtendedOnTop++;
+					}
+				} else {
+					/* Participant is member of the bottom band */
+					participantsOnBottom.push(participant);
+					if (extended) {
+						participantsExtendedOnBottom++;
+					}
+				}
+			});
+			
+			/* Initialize meta values */
+			choreographyTaskMeta.numOfParticipantsOnTop = participantsOnTop.length;
+			choreographyTaskMeta.numOfParticipantsOnBottom = participantsOnBottom.length;
+			choreographyTaskMeta.numOfParticipantsExtendedOnBottom = participantsExtendedOnBottom;
+			choreographyTaskMeta.numOfParticipantsExtendedOnTop = participantsExtendedOnTop;
+			
+			choreographyTaskMeta.bottomYStartValue = (participantsOnBottom.first() ? 
+					participantsOnBottom.first().bounds.upperLeft().y : shape.bounds.height());
+					
+			choreographyTaskMeta.topYEndValue = (participantsOnTop.last() ? 
+					participantsOnTop.last().bounds.lowerRight().y : 0);
+			
+			choreographyTaskMeta.center = choreographyTaskMeta.topYEndValue +
+				(choreographyTaskMeta.bottomYStartValue - choreographyTaskMeta.topYEndValue) / 2;
+			
+			choreographyTaskMeta.oldHeight = shape.bounds.height();
+			choreographyTaskMeta.oldBounds = shape.bounds.clone();
+			
+			choreographyTaskMeta.topParticipants = participantsOnTop;
+			choreographyTaskMeta.bottomParticipants = participantsOnBottom;
+			
+			shape.isChanged = true;
+		}.bind(this));
+		
+		/* Update to force marker positioning */
+		this.facade.getCanvas().update();
 	},
 	
 	/**
@@ -104,6 +203,8 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event.
 	 */
 	handleLayoutChoreographySubprocessExpanded : function(event) {
+		if(!this._isLayoutEnabled) {return;}
+		
 		var choreographyTask = event.shape;
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		var heightDelta = choreographyTask.bounds.height() / choreographyTask._oldBounds.height();
@@ -133,6 +234,8 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event.
 	 */
 	handleLayoutChoreographySubprocessCollapsed : function(event) {
+		if(!this._isLayoutEnabled) {return;}
+		
 		var choreographyTask = event.shape;
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		
@@ -162,15 +265,16 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The ORYX.CONFIG.EVENT_SHAPEADDED event
 	 */
 	addParticipantsOnCreation: function(event) {
-		if(event.shape._stencil && 
-			(event.shape._stencil.id() === 
+		if(!this._isLayoutEnabled) {return;}
+		var shape = event.shape;
+		if(shape._stencil && 
+			(shape.getStencil().id() === 
 				"http://b3mn.org/stencilset/bpmn2.0#ChoreographyTask" ||
-			event.shape._stencil.id() === 
+			shape.getStencil().id() === 
 				"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessCollapsed" ||
-			event.shape._stencil.id() === 
+			shape.getStencil().id() === 
 				"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessExpanded")	){
 		
-			var shape = event.shape;
 			var hasParticipants = shape.getChildNodes().find(function(node) {
 				return (node.getStencil().id() === 
 							"http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant");
@@ -179,7 +283,6 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 			if(hasParticipants) {return;}
 			
 			/* Insert initial participants */
-			
 			var participant1 = {
 				type:"http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant",
 				position:{x:0,y:0},
@@ -296,6 +399,8 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event
 	 */
 	handleLayoutChoreographyTask: function(event) {
+		if(!this._isLayoutEnabled) {return;}
+		
 		var choreographyTask = event.shape;
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		
@@ -666,7 +771,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		
 		var participants = participantsTop.concat(participantsBottom);
 		
-		participants.sort(function(a,b) {return (a.absoluteBounds().upperLeft().y >
+		participants = participants.sort(function(a,b) {return (a.absoluteBounds().upperLeft().y >
 													b.absoluteBounds().upperLeft().y);
 		});
 		
