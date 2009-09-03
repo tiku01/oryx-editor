@@ -1773,7 +1773,7 @@
 			"description" :		"A Subprocess is a decomposable activity. An Expanded Subprocess contains a valid BPMN diagram.",
 			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Ein Aufgeklappter Unterprozess enthält ein BPMN Diagramm.",
 			"view" :			"activity/subprocess.expanded.svg",
-			"icon" :			"activity/task.png",
+			"icon" :			"activity/expanded.subprocess.png",
  			"layout" : 			[{"type" : "layout.bpmn2_0.subprocess"}],
 			"propertyPackages" :[
 				"baseAttributes",
@@ -2841,7 +2841,7 @@
 			"description" : 	"Untyped events, typically starts or ends.",
 			"description_de" : 	"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view" : 			"startevent/none.svg",
-			"icon" : 			"catching/none.png",
+			"icon" : 			"startevent/none.png",
 			"propertyPackages":	[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -2877,7 +2877,7 @@
 			"description" :		"Receiving messages.",
 			"description_de" :	"Empfang von Nachrichten.",
 			"view" :			"startevent/message.svg",
-			"icon" :			"catching/message.png",
+			"icon" :			"startevent/message.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -2951,7 +2951,7 @@
 			"description":"",
 			"description_de":"",
 			"view":"startevent/escalation.svg",
-			"icon":"catching/escalation.png",
+			"icon":"startevent/escalation.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -2987,7 +2987,7 @@
 			"description" :		"Reacting to changed business conditions or integrating business rules.",
 			"description_de" :	"Reaktion auf veränderte Bedingungen oder Regeln.",
 			"view" :			"startevent/conditional.svg",
-			"icon" 	:			"catching/conditional.png",
+			"icon" 	:			"startevent/conditional.png",
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3024,7 +3024,7 @@
 			"description":"Catching named errors.",
 			"description_de":"Behandeln von benannten Fehlern.",
 			"view":"startevent/error.svg",
-			"icon":"catching/error.png",
+			"icon":"startevent/error.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3059,7 +3059,7 @@
 			"description":"Compensation handling.",
 			"description_de":"Behandeln von Kompensierung.",
 			"view":"startevent/compensation.svg",
-			"icon":"catching/compensation.png",
+			"icon":"startevent/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3094,7 +3094,7 @@
 			"description" :		"Signalling across different processes. One signal thrown can be caught multiple times.",
 			"description_de" :	"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view" :			"startevent/signal.svg",
-			"icon" :			"catching/signal.png",
+			"icon" :			"startevent/signal.png",
 			"propertyPackages": [
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3131,7 +3131,7 @@
 			"description" :		"Catching one out of a set of events.",
 			"description_de" :	"Eintreten eines von mehreren Ereignissen.",
 			"view" :			"startevent/multiple.svg",
-			"icon" :			"catching/multiple.png",
+			"icon" :			"startevent/multiple.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3169,7 +3169,7 @@
 			"description":"Multiple triggers are required before Catching one out of a set of events.",
 			"description_de":"Eintreten eines von mehreren Ereignissen.",
 			"view":"startevent/multiple.parallel.svg",
-			"icon":"catching/multiple.parallel.png",
+			"icon":"startevent/multiple.parallel.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -3656,7 +3656,7 @@
 			"description":"Untyped events, typically showing where the process starts or ends.",
 			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view":"intermediateevent/none.svg",
-			"icon":"intermediate/none.png",
+			"icon":"throwing/none.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwEventAttributes",
@@ -3909,7 +3909,7 @@
 			"description" : "Untyped events, typically starts or ends.",
 			"description_de" : "Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view" : "endevent/none.svg",
-			"icon" : "throwing/none.png",
+			"icon" : "endevent/none.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwEventAttributes",
@@ -3945,7 +3945,7 @@
 			"description":"Sending messages.",
 			"description_de":"Senden von Nachrichten.",
 			"view":"endevent/message.svg",
-			"icon":"throwing/message.png",
+			"icon":"endevent/message.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwingEventAttributes",
@@ -3981,7 +3981,7 @@
 			"description":"",
 			"description_de":"",
 			"view":"endevent/escalation.svg",
-			"icon":"throwing/escalation.png",
+			"icon":"endevent/escalation.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwingEventAttributes",
@@ -4016,7 +4016,7 @@
 			"description":"Throwing named errors.",
 			"description_de":"Auslösen von benannten Fehlern.",
 			"view":"endevent/error.svg",
-			"icon":"throwing/error.png",
+			"icon":"endevent/error.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -4051,7 +4051,7 @@
 			"description":"Triggering cancellation.",
 			"description_de":"Auslösen von Abbrüchen.",
 			"view":"endevent/cancel.svg",
-			"icon":"throwing/cancel.png",
+			"icon":"endevent/cancel.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -4086,7 +4086,7 @@
 			"description":"Compensation handling.",
 			"description_de":"Auslösen von Kompensierung.",
 			"view":"endevent/compensation.svg",
-			"icon":"throwing/compensation.png",
+			"icon":"endevent/compensation.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwingEventAttributes",
@@ -4121,7 +4121,7 @@
 			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
 			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view":"endevent/signal.svg",
-			"icon":"throwing/signal.png",
+			"icon":"endevent/signal.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
@@ -4156,7 +4156,7 @@
 			"description":"Throwing one out of a set of events.",
 			"description_de":"Auslösen eines von mehreren Ereignissen.",
 			"view":"endevent/multiple.svg",
-			"icon":"throwing/multiple.png",
+			"icon":"endevent/multiple.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwEventAttributes",
@@ -4192,7 +4192,7 @@
 			"description":"Triggering the immediate termination of a process.",
 			"description_de":"Löst die sofortige Beendigung eines Prozesses aus.",
 			"view":"endevent/terminate.svg",
-			"icon":"throwing/terminate.png",
+			"icon":"endevent/terminate.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"throwEventAttributes",
