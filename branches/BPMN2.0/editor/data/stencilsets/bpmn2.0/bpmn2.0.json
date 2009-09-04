@@ -2920,7 +2920,7 @@
 			"description" :		"Cyclic timer events, points in time, time spans or timeouts.",
 			"description_de" :	"Periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen.",
 			"view" :			"startevent/timer.svg",
-			"icon" :			"catching/timer.png",
+			"icon" :			"startevent/timer.png",
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
