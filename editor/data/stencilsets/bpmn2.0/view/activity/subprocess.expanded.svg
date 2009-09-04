@@ -9,10 +9,22 @@
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="0" oryx:cy="80" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="100" oryx:cy="160" oryx:anchors="bottom" />
-  	<oryx:magnet oryx:cx="200" oryx:cy="80" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="100" oryx:cy="0" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="50" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="80" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="110" oryx:anchors="left" />
+  	
+  	<oryx:magnet oryx:cx="70" oryx:cy="159" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="100" oryx:cy="159" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="130" oryx:cy="159" oryx:anchors="bottom" />
+  	
+  	<oryx:magnet oryx:cx="199" oryx:cy="50" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="199" oryx:cy="80" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="199" oryx:cy="110" oryx:anchors="right" />
+  	
+  	<oryx:magnet oryx:cx="70" oryx:cy="1" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="100" oryx:cy="1" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="130" oryx:cy="1" oryx:anchors="top" />
+  	
   	<oryx:magnet oryx:cx="100" oryx:cy="80" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="120 100" oryx:maximumSize="" >
