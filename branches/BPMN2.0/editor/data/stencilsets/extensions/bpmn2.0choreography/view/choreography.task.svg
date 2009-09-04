@@ -10,20 +10,20 @@
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="0" oryx:cy="25" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="0" oryx:cy="40" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="0" oryx:cy="55" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="25" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="40" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="55" oryx:anchors="left" />
   	<oryx:magnet oryx:cx="25" oryx:cy="40" oryx:anchors="left" />
   	
   	<oryx:magnet oryx:cx="75" oryx:cy="40" oryx:default="yes" />
   	
   	<oryx:magnet oryx:cx="125" oryx:cy="40" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="150" oryx:cy="25" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="150" oryx:cy="40" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="150" oryx:cy="55" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="149" oryx:cy="25" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="149" oryx:cy="40" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="149" oryx:cy="55" oryx:anchors="right" />
   	
-  	<oryx:magnet oryx:cx="75" oryx:cy="0" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="75" oryx:cy="80" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="1" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="79" oryx:anchors="bottom" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="50 40">
     <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="150" height="80" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
