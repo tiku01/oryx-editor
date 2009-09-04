@@ -2852,6 +2852,9 @@
 				"Startevents_all",
 				"sequence_start",
 				"choreography_sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"StartEventsMorph"
 			],
 			"properties": [
@@ -2887,6 +2890,9 @@
 			"roles": [
 				"all",
 				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"sequence_start",
 				"Startevents_all",
 				"StartEventsMorph"
@@ -2924,6 +2930,9 @@
 			"roles" : 			[
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"choreography_sequence_start",
 				"StartEventsMorph"
@@ -2961,6 +2970,9 @@
 			"roles" : 			[
 				"eventSubprocessElement",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"StartEventsMorph"
 			],
@@ -2997,6 +3009,9 @@
 			"roles" : 			[
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"choreography_sequence_start",
 				"StartEventsMorph"
@@ -3033,6 +3048,9 @@
 			"roles": [
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"StartEventsMorph"
 			],
@@ -3068,6 +3086,9 @@
 			"roles": [
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"StartEventsMorph"
 			],
@@ -3105,6 +3126,9 @@
 				"all",
 				"sequence_start",
 				"Startevents_all",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_start",
 				"StartEventsMorph"
 			],
@@ -3142,6 +3166,9 @@
 				"all",
 				"messageflow_end",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"choreography_sequence_start",
 				"StartEventsMorph"
@@ -3180,6 +3207,9 @@
 				"all",
 				"messageflow_end",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Startevents_all",
 				"choreography_sequence_start",
 				"StartEventsMorph"
@@ -3220,6 +3250,9 @@
 				"messageflow_end",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"EventOnChoreographyActivityBoundary",
@@ -3260,6 +3293,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
@@ -3302,6 +3338,9 @@
 			"roles":[
 				"eventSubprocesElement",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3344,6 +3383,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"EventOnChoreographyActivityBoundary",
@@ -3383,6 +3425,9 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_start",
 				"IntermediateEventsMorph"
 			],
@@ -3421,6 +3466,9 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3459,6 +3507,9 @@
 			"roles":[
 				"all",
 				"sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventOnSubprocessBoundary",
 				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3496,6 +3547,8 @@
 			],
 			"roles":[
 				"all",
+				"from_task_event",
+				"fromtoall",
 				"EventOnChoreographyActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
@@ -3537,6 +3590,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
@@ -3579,6 +3635,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"messageflow_end",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
@@ -3623,6 +3682,9 @@
 				"messageflow_end",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
 				"IntermediateEventOnSubprocessBoundary",
@@ -3666,6 +3728,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_end",
 				"choreography_sequence_start",
 				"IntermediateEventsMorph"
@@ -3706,6 +3771,9 @@
 				"messageflow_start",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3741,6 +3809,9 @@
 				"eventSubprocessElement",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3775,6 +3846,9 @@
 			"roles":[
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_end",
 				"IntermediateEventsMorph"
 			],
@@ -3811,6 +3885,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3846,6 +3923,9 @@
 				"all",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3882,6 +3962,9 @@
 				"messageflow_start",
 				"sequence_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"IntermediateEventsMorph"
 			],
 			"properties": [
@@ -3918,6 +4001,9 @@
 			"roles" : [
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_end",
 				"Endevents_all",
 				"EndEventsMorph"
@@ -3955,6 +4041,9 @@
 				"all",
 				"messageflow_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4025,6 +4114,9 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4060,6 +4152,9 @@
 			"roles":[
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4095,6 +4190,9 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4130,6 +4228,9 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4166,6 +4267,9 @@
 				"all",
 				"messageflow_start",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"Endevents_all",
 				"EndEventsMorph"
 			],
@@ -4201,6 +4305,9 @@
 			"roles": [
 				"all",
 				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
 				"choreography_sequence_end",
 				"EndEventsMorph"
 			],
