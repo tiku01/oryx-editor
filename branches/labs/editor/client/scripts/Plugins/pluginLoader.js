@@ -25,7 +25,7 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 	var data=[];
 	var plugins=this.facade.getAvailablePlugins();
 		plugins.each(function(plugin){
-			data.push([plugin.name, plugin.active?true:false]);
+			data.push([plugin.name, plugin.active]);
 			})
 		if(data.length==0){return};
 		var reader = new Ext.data.ArrayReader({}, [

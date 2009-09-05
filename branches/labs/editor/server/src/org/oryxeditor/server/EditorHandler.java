@@ -38,6 +38,8 @@ public class EditorHandler extends HttpServlet {
 	/**
 	 * 
 	 */
+	private static final String oryx_path = "/oryx/";
+	private static final String defaultSS="stencilsets/bpmn1.1/bpmn1.1.json";
 	private static final long serialVersionUID = 1L;
 	private Collection<String> availableProfiles;
 
@@ -70,10 +72,11 @@ public class EditorHandler extends HttpServlet {
 	        "return para};" +
               "function onOryxResourcesLoaded(){" +
                 "if(location.hash.slice(1).indexOf('new')!=-1){" +
+                "var stencilset=ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):'"+defaultSS+"';"+
                 "new ORYX.Editor({"+
                   "id: 'oryx-canvas123',"+
                   "stencilset: {"+
-                  	"url: '/oryx'+ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):''" +
+                  	"url: '"+oryx_path+"'+stencilset" +
                   "}" +
           		"})}"+
                 "else{" +
@@ -99,7 +102,6 @@ public class EditorHandler extends HttpServlet {
     protected String getOryxModel(String title, String content, 
     		String languageCode, String countryCode, String headExtentions, ArrayList<String> profiles) {
     	
-    	String oryx_path = "/oryx/";
     	String languageFiles = "";
     	String profileFiles="";
     	
@@ -181,7 +183,6 @@ public class EditorHandler extends HttpServlet {
 	public Collection<String> getAvailableProfileNames() {
 		File handlerDir = new File(this.getServletContext().
 				getRealPath("/profiles"));
-		System.out.println(handlerDir.getAbsolutePath());
 		Collection<String> profilNames = new ArrayList<String>();
 		
 		for (File source : handlerDir.listFiles()) {

@@ -162,10 +162,13 @@ public class ProfileCreator {
 							pluginName);
 
 					saveOrUpdateProperties(pluginNode, profilePluginNode);
-					writeXMLToFile(outProfileXMLdocument, outputPath + "/"
-							+ ProfileName + ".xml");
+
+				}else{
+					((Element) pluginNode).setAttribute("active", "false");
 				}
 			}
+			writeXMLToFile(outProfileXMLdocument, outputPath + "/"
+					+ ProfileName + ".xml");
 		} catch (DOMException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
