@@ -71,7 +71,7 @@
   * psql –U postgres –-dbname poem –-file db_schema.sql
 *ANT*
   * It is also possibile to use the build-target create-db
-  * Therefore fill in your postgres installation credentials to the build.properties and run the create.db target 
+  * Therefore fill in your postgres installation credentials to the build.properties and run the create-db target 
 
 === Apache Tomcat ===
   * Get and install apache tomcat
