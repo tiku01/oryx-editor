@@ -60,7 +60,7 @@
   * ATTENTION Procedural language dialoge has to show PL/python (otherwise python installation failed). Install PL/python!
 
 ===Load Database Schema===
-  * add postgresql nin directory to PATH enviroment variable
+  * add postgresql bin directory to PATH enviroment variable
   * Run comandline as user postgres (runas /user:postgres cmd)
   * change to schema file directory
   * Schema-File: /poem-jvm/data/database/db_schema.sql
