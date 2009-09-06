@@ -60,6 +60,7 @@
   * ATTENTION Procedural language dialoge has to show PL/python (otherwise python installation failed). Install PL/python!
 
 ===Load Database Schema===
+*Manually*
   * add postgresql bin directory to PATH enviroment variable
   * Run comandline as user postgres (runas /user:postgres cmd)
   * change to schema file directory
@@ -68,6 +69,9 @@
   * createuser –U postgres –-echo –-pwprompt –-encrypted poem
   * createdb –U postgres –-echo –-encoding utf8 –-owner poem poem
   * psql –U postgres –-dbname poem –-file db_schema.sql
+*ANT*
+  * It is also possibile to use the build-target create-db
+  * Therefore fill in your postgres installation credentials to the build.properties and run the create.db target 
 
 === Apache Tomcat ===
   * Get and install apache tomcat
@@ -91,6 +95,9 @@
   * Now everything done. Congratulation!
 
 
+Other Guides:
+  * http://ddweerasiri.blogspot.com/2009/04/how-to-build-oryx-editor-in-ubuntu.html
+  * http://code.google.com/p/oryx-editor/wiki/DeployOryxOnWindowsOrDebian
 
 
   
