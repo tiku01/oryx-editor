@@ -27,4 +27,70 @@
 === Starting and stopping tomcat ===
   * `tomcat4oryx/bin/startup.sh`
   * `tomcat4oryx/bin/shutdown.sh`
+
+------------------------------------------------------------------------------------------- 
+=Installation on Windows=
+
+===Browser===
+  * Get and Install Firefox http://www.mozilla-europe.org/de/firefox/
+  * Useful for debugging --> Firebug https://addons.mozilla.org/de/firefox/addon/1843
+
+===Java===
+  * Get JDK 5 or higher http://java.sun.com/javase/downloads/index.jsp
+  * Set JAVA_HOME Enviroment variable to java installation dir
+
+===Eclipse===
+  * Get and install Eclipse IDE for Java EE Developers http://www.eclipse.org/downloads/ 
+  * Get subclipse http://subclipse.tigris.org/
+
+===Check out trunk===
+  * Import Eclipse project from svn
+  * SVN link see http://code.google.com/p/oryx-editor/source/checkout
+
+===Get Python===
+  * get and install python
+  * ATTENTION use only version 2.5
+  * http://www.python.org/download/releases/2.5.2 
+
+===Database===
+  * get and install postgresql vesion 8.3.x (use pgInstaller)
+  * http://www.postgresql.org/download 
+  * Execute installer as admin
+  * http://www.pg-forum.de/h-ufig-gestellte-fragen-faq/2082-installation-von-postgresql-unter-windows-vista.html
+  * ATTENTION Procedural language dialoge has to show PL/python (otherwise python installation failed). Install PL/python!
+
+===Load Database Schema===
+  * add postgresql nin directory to PATH enviroment variable
+  * Run comandline as user postgres (runas /user:postgres cmd)
+  * change to schema file directory
+  * Schema-File: /poem-jvm/data/database/db_schema.sql
+  * Run the following commands:
+  * createuser –U postgres –-echo –-pwprompt –-encrypted poem
+  * createdb –U postgres –-echo –-encoding utf8 –-owner poem poem
+  * psql –U postgres –-dbname poem –-file db_schema.sql
+
+=== Apache Tomcat ===
+  * Get and install apache tomcat
+  * http://tomcat.apache.org/download-60.cgi
+  * Add Tomcat to Eclipse server view
+  * Guide on http://www.eclipse.org/webtools/community/tutorials/BuildJ2EEWebApp/BuildJ2EEWebApp.html
+
+=== Build Properties ===
+  * open build-properties
+  * edit deploymentdir and set it to your apache wepapps folder
+  * If you created a password for the poem user, edit password in „/poem-jvm/etc/hibernate.cfg.xml“
+
+===Build===
+  * Create a new external tools configuration in eclipse
+  * buildfile: build.xml
+  * base directory: oryx directory
+  * select targets: build-all and deploy-all
+
+===Test===
+  * Start the server and navigate with firefox to loacalhost:8080/backend/poem/repository
+  * Now everything done. Congratulation!
+
+
+
+
   
