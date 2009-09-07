@@ -171,6 +171,10 @@
 		
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
 
+		<plugin source="epcLayouter.js" name="ORYX.Plugins.EPCLayouter">
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+		</plugin>
+		
 		<plugin source="transformationDownloadDialog.js" name="ORYX.Plugins.TransformationDownloadDialog">
 			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>
 			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
