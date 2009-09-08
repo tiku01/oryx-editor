@@ -8,10 +8,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Scanner;
 
+import javax.sound.midi.SysexMessage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -98,16 +101,26 @@ public class ProfileCreator {
 		HashSet<String> pluginNameSet = new HashSet<String>();
 		pluginNameSet.addAll(pluginNames);
 
-		File profileFile = new File(outputPath + "/" + ProfileName + ".js");
+		File profileFile = new File(outputPath + File.separator + ProfileName + ".js");
 		profileFile.createNewFile();
 		FileWriter writer = new FileWriter(profileFile);
 		for (String name : pluginNameSet) {
 			String source = nameSrc.get(name);
-			FileReader reader = new FileReader(pluginDirPath + "/" + source);
+			FileReader reader = new FileReader(pluginDirPath + File.separator + source);
 			writer.append(FileCopyUtils.copyToString(reader));
 		}
-		;
 		writer.close();
+//		System.err.println("compress");
+//		 ProcessBuilder pb = new ProcessBuilder("java","-jar",File.separator+".."+File.separator+".."+File.separator+".."+File.separator+"lib"+File.separator+"yuicompressor-2.4.2.jar",outputPath + File.separator + ProfileName + ".js",outputPath);
+//		 System.err.println(pb.command());
+//		 System.err.println(new File("..\\..\\.").getAbsolutePath());
+//		 Process process=pb.start();
+//         Scanner lesen = new Scanner(process.getErrorStream());
+//         String text;
+//          while(lesen.hasNextLine()) {//
+//                 text = lesen.nextLine();
+//                 System.out.println(text);
+//          }
 	}
 
 	/**
@@ -126,8 +139,8 @@ public class ProfileCreator {
 			FileNotFoundException {
 
 		FileCopyUtils.copy(new FileInputStream(pluginXMLPath),
-				new FileOutputStream(outputPath + "/" + ProfileName + ".xml"));
-		InputStream reader = new FileInputStream(outputPath + "/" + ProfileName
+				new FileOutputStream(outputPath + File.separator + ProfileName + ".xml"));
+		InputStream reader = new FileInputStream(outputPath + File.separator + ProfileName
 				+ ".xml");
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -167,7 +180,7 @@ public class ProfileCreator {
 					((Element) pluginNode).setAttribute("active", "false");
 				}
 			}
-			writeXMLToFile(outProfileXMLdocument, outputPath + "/"
+			writeXMLToFile(outProfileXMLdocument, outputPath + File.separator
 					+ ProfileName + ".xml");
 		} catch (DOMException e) {
 			// TODO Auto-generated catch block

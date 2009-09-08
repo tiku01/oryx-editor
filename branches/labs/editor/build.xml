@@ -378,7 +378,7 @@
         <tempfile property="compress.temp" suffix=".js" prefix="compressed" destDir="${editor-build-root}"/>
         
         <java dir="${editor-build-root}" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
-         failonerror="true" output='${compress.temp}'>
+         failonerror="true" output='${compress.temp}' logError="true">
             <arg file='${editor-build-root}/oryx.debug.js'/>
         </java>
         <echo>

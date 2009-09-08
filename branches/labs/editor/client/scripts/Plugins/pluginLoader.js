@@ -21,11 +21,12 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 			'maxShape': 0
 		});},
 	showManageDialog: function(){
-		
+	/*var myMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.Oryx.pleaseWait});
+	myMask.show();*/
 	var data=[];
 	var plugins=this.facade.getAvailablePlugins();
 		plugins.each(function(plugin){
-			data.push([plugin.name, plugin.active]);
+			data.push([plugin.name, plugin.active===true]);
 			})
 		if(data.length==0){return};
 		var reader = new Ext.data.ArrayReader({}, [
@@ -95,6 +96,7 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 					//html:"<div style='font-weight:bold;margin-bottom:10px'></div><span></span>",
 				});
 		newURLWin.add(grid2);
+		//myMask.hide();
 		newURLWin.show();
 		}
 		})
