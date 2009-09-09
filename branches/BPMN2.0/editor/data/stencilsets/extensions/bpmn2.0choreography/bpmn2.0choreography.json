@@ -52,6 +52,7 @@
 							"id":"c2",
 							"title":"Standard",
 							"value":"Standard",
+							"icon" : "/activity/list/looptype.standard.png",
 							"refToView":"loop"
 						},
 						{
