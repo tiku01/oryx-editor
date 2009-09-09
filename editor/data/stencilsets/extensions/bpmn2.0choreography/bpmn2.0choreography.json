@@ -348,6 +348,7 @@
 					"description" : "",
 					"value" : false,
 					"readonly" : false,
+					"popular" : true,
 					"optional" : true
 				},
 				{

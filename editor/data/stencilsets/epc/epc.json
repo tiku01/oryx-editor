@@ -360,7 +360,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"",
+					"refToView":"text_name",
 					"length":"8"
 				},
 			]

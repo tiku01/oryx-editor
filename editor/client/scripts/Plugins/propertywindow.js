@@ -97,6 +97,7 @@ ORYX.Plugins.PropertyWindow = {
 				{name: 'popular'},
 				{name: 'name'},
 				{name: 'value'},
+				{name: 'icons'},
 				{name: 'gridProperties'}
 			]),
 			sortInfo: {field: 'popular', direction: "ASC"},
@@ -161,6 +162,7 @@ ORYX.Plugins.PropertyWindow = {
 
 	},
 	
+	// Select the Canvas when the editor is ready
 	selectDiagram: function() {
 		this.shapeSelection.shapes = [this.facade.getCanvas()];
 		
@@ -195,6 +197,14 @@ ORYX.Plugins.PropertyWindow = {
 			value = String(value).gsub(">", "&gt;");
 			value = String(value).gsub("%", "&#37;");
 			value = String(value).gsub("&", "&amp;");
+			
+			record.data.icons.each(function(each) {
+				if(each.name == value) {
+					if(each.icon) {
+						value = "<img src='" + each.icon + "' /> " + value;
+					}
+				}
+			});
 		}
 
 		return value;
@@ -477,6 +487,7 @@ ORYX.Plugins.PropertyWindow = {
 				
 				// Get the property pair
 				var name		= pair.title();
+				var icons		= [];
 				var attribute	= this.shapeSelection.commonPropertiesValues[key];
 				
 				var editorGrid = undefined;
@@ -566,6 +577,11 @@ ORYX.Plugins.PropertyWindow = {
 									refToViewFlag = true;
 									
 								options.push([value.icon() || "", value.title(), value.value()]);
+								
+								icons.push({
+									name: value.value(),
+									icon: value.icon()
+								});
 							});
 							
 							var store = new Ext.data.SimpleStore({
@@ -649,7 +665,7 @@ ORYX.Plugins.PropertyWindow = {
 					} 
 					
 					if(pair.popular()) {
-						this.popularProperties.push([pair.popular(), name, attribute, {
+						this.popularProperties.push([pair.popular(), name, attribute, icons, {
 							editor: editorGrid,
 							propId: key,
 							type: pair.type(),
@@ -658,7 +674,7 @@ ORYX.Plugins.PropertyWindow = {
 						}]);
 					}
 					else {					
-						this.properties.push([pair.popular(), name, attribute, {
+						this.properties.push([pair.popular(), name, attribute, icons, {
 							editor: editorGrid,
 							propId: key,
 							type: pair.type(),

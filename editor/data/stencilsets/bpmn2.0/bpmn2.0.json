@@ -818,6 +818,7 @@
 							"id":"c3",
 							"title":"MultiInstance",
 							"value":"MultiInstance",
+							"icon" : "/activity/list/mi.sequential.png",
 							"refToView":"mi"
 						}
 					]
