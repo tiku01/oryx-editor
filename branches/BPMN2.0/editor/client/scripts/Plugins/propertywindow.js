@@ -50,6 +50,7 @@ ORYX.Plugins.PropertyWindow = {
 		this.currentDateFormat;
 
 		// the properties array
+		this.popularProperties = [];
 		this.properties = [];
 		
 		/* The currently selected shapes whos properties will shown */
@@ -57,6 +58,8 @@ ORYX.Plugins.PropertyWindow = {
 		this.shapeSelection.shapes = new Array();
 		this.shapeSelection.commonProperties = new Array();
 		this.shapeSelection.commonPropertiesValues = new Hash();
+		
+		this.updaterFlag = false;
 
 		// creating the column model of the grid.
 		this.columnModel = new Ext.grid.ColumnModel([
@@ -72,22 +75,44 @@ ORYX.Plugins.PropertyWindow = {
 				header: ORYX.I18N.PropertyWindow.value,
 				dataIndex: 'value',
 				id: 'propertywindow_column_value',
-				width: 90,
+				width: 110,
 				editor: new Ext.form.TextField({
 					allowBlank: false
 				}),
 				renderer: this.renderer.bind(this)
+			},
+			{
+				header: "Pop",
+				dataIndex: 'popular',
+				hidden: true,
+				sortable: true
 			}
 		]);
 
 		// creating the store for the model.
-        this.dataSource = new Ext.data.Store({
+        this.dataSource = new Ext.data.GroupingStore({
 			proxy: new Ext.data.MemoryProxy(this.properties),
 			reader: new Ext.data.ArrayReader({}, [
+				{name: 'popular'},
 				{name: 'name'},
 				{name: 'value'},
 				{name: 'gridProperties'}
-			])
+			]),
+			sortInfo: {field: 'popular', direction: "ASC"},
+			sortData : function(f, direction){
+		        direction = direction || 'ASC';
+		        var st = this.fields.get(f).sortType;
+		        var fn = function(r1, r2){
+		            var v1 = st(r1.data[f]), v2 = st(r2.data[f]);
+					var p1 = r1.data['popular'], p2  = r2.data['popular'];
+		            return p1 && !p2 ? -1 : (!p1 && p2 ? 1 : (v1 > v2 ? 1 : (v1 < v2 ? -1 : 0)));
+		        };
+		        this.data.sort(direction, fn);
+		        if(this.snapshot && this.snapshot != this.data){
+		            this.snapshot.sort(direction, fn);
+				}
+		    },
+			groupField: 'popular'
         });
 		this.dataSource.load();
 		
@@ -98,6 +123,11 @@ ORYX.Plugins.PropertyWindow = {
 			width:'auto',
 			// the column model
 			colModel: this.columnModel,
+			enableHdMenu: false,
+			view: new Ext.grid.GroupingView({
+				forceFit: true,
+				groupTextTpl: '{[values.rs.first().data.popular ? ORYX.I18N.PropertyWindow.oftenUsed : ORYX.I18N.PropertyWindow.moreProps]}'
+			}),
 			
 			// the data store
 			store: this.dataSource
@@ -105,18 +135,20 @@ ORYX.Plugins.PropertyWindow = {
 		});
 
 		region = this.facade.addToRegion('east', new Ext.Panel({
-			width: 200,
+			width: 220,
 			layout: "fit",
 			border: false,
 			//title: 'Properties',
 			items: [
-				this.grid
+				this.grid 
 			]
 		}), ORYX.I18N.PropertyWindow.title)
 
 		// Register on Events
 		this.grid.on('beforeedit', this.beforeEdit, this, true);
 		this.grid.on('afteredit', this.afterEdit, this, true);
+		this.grid.view.on('refresh', this.hideMoreAttrs, this, true);
+		
 		//this.grid.on(ORYX.CONFIG.EVENT_KEYDOWN, this.keyDown, this, true);
 		
 		// Renderer the Grid
@@ -425,6 +457,7 @@ ORYX.Plugins.PropertyWindow = {
 	 */
 	createProperties: function() {
 		this.properties = [];
+		this.popularProperties = [];
 
 		if(this.shapeSelection.commonProperties) {
 			
@@ -439,6 +472,8 @@ ORYX.Plugins.PropertyWindow = {
 				
 				var editorGrid = undefined;
 				var editorRenderer = null;
+				
+				var refToViewFlag = false;
 
 				if(!pair.readonly()){
 					switch(pair.type()) {
@@ -512,22 +547,36 @@ ORYX.Plugins.PropertyWindow = {
 							break;
 						case ORYX.CONFIG.TYPE_CHOICE:
 							var items = pair.items();
-
-							// Generate a new list
-							//var optionTmpl = new Ext.Template('<option value="{value}">{value}</option>');
-							
-							var options = ['select', {style:'display:none'}];
-							items.each(function(value){ 
-								/* Change attribute variable to show the title of the selected choice item */
+													
+							var options = [];
+							items.each(function(value) {
 								if(value.value() == attribute)
 									attribute = value.title();
 									
-								options.push(['option', {value:value.value()}, value.title()]);
-								});
-							var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", null, options);
+								if(value.refToView()[0])
+									refToViewFlag = true;
+									
+								options.push([value.icon() || "", value.title(), value.value()]);
+							});
+							
+							var store = new Ext.data.SimpleStore({
+						        fields: [{name: 'icon'},
+									{name: 'title'},
+									{name: 'value'}	],
+						        data : options // from states.js
+						    });
 							
 							// Set the grid Editor
-							var editorCombo = new Ext.form.ComboBox({ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title'});
+						    var editorCombo = new Ext.form.ComboBox({
+								tpl: '<tpl for="."><div class="x-combo-list-item">{[(values.icon) ? "<img src=\'" + values.icon + "\' />" : ""]} {title}</div></tpl>',
+						        store: store,
+						        displayField:'title',
+						        typeAhead: true,
+						        mode: 'local',
+						        triggerAction: 'all',
+						        selectOnFocus:true
+						    });
+								
 							editorCombo.on('select', function(combo, record, index) {
 								this.editDirectly(key, combo.getValue());
 							}.bind(this))
@@ -585,24 +634,48 @@ ORYX.Plugins.PropertyWindow = {
 				
 				// Push to the properties-array
 				if(pair.visible()) {
-					this.properties.push([name, attribute, {
-						editor: editorGrid, 
-						propId: key,
-						type: pair.type(), 
-						tooltip: pair.description(),
-						renderer: editorRenderer
-					}]);
+					// Popular Properties are those with a refToView set or those which are set to be popular
+					if (pair.refToView()[0] || refToViewFlag || pair.popular()) {
+						pair.setPopular();
+					} 
+					
+					if(pair.popular()) {
+						this.popularProperties.push([pair.popular(), name, attribute, {
+							editor: editorGrid,
+							propId: key,
+							type: pair.type(),
+							tooltip: pair.description(),
+							renderer: editorRenderer
+						}]);
+					}
+					else {					
+						this.properties.push([pair.popular(), name, attribute, {
+							editor: editorGrid,
+							propId: key,
+							type: pair.type(),
+							tooltip: pair.description(),
+							renderer: editorRenderer
+						}]);
+					}
 				}
-				
-
 			}).bind(this));
 		}
 
 		this.setProperties();
 	},
+	
+	hideMoreAttrs: function(panel) {
+		// collapse the "more attr" group
+		this.grid.view.toggleGroup(this.grid.view.getGroupId(this.properties[0][0]), false);
+		
+		// prevent the more attributes pane from closing after a attribute has been edited
+		this.grid.view.un("refresh", this.hideMoreAttrs, this);
+	},
 
 	setProperties: function() {
-		this.dataSource.loadData(this.properties);
+		var props = this.popularProperties.concat(this.properties);
+		
+		this.dataSource.loadData(props);
 	}
 }
 ORYX.Plugins.PropertyWindow = Clazz.extend(ORYX.Plugins.PropertyWindow);

@@ -41,7 +41,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"wrapLines":true
+					"wrapLines":true,
+					"popular" : true
 				},
 				{
 					"id":"auditing",
@@ -664,12 +665,14 @@
 							"id":"c1",
 							"title":"Parallel",
 							"value":"Parallel",
+							"icon" : "/activity/list/mi.parallel.png",
 							"refToView":"parallel"
 						},
 						{
 							"id":"c2",
 							"title":"Sequential",
 							"value":"Sequential",
+							"icon" : "/activity/list/mi.sequential.png",
 							"refToView":"sequential"
 						}						
 					]
@@ -816,6 +819,7 @@
 							"id":"c2",
 							"title":"Standard",
 							"value":"Standard",
+							"icon" : "/activity/list/looptype.standard.png",
 							"refToView":"loop"
 						},
 						{
@@ -911,42 +915,49 @@
 							"id":"c2",
 							"title":"Send",
 							"value":"Send",
+							"icon" : "/activity/list/type.send.png",
 							"refToView":"sendTask"
 						},
 						{
 							"id":"c3",
 							"title":"Receive",
 							"value":"Receive",
+							"icon" : "/activity/list/type.receive.png",
 							"refToView":"receiveTask"
 						},
 						{
 							"id":"c4",
 							"title":"User",
 							"value":"User",
+							"icon" : "/activity/list/type.user.png",
 							"refToView":"userTask"
 						},
 						{
 							"id":"c5",
 							"title":"Manual",
 							"value":"Manual",
+							"icon" : "/activity/list/type.manual.png",
 							"refToView":"manualTask"	
 						},
 						{
 							"id":"c6",
 							"title":"Service",
 							"value":"Service",
+							"icon" : "/activity/list/type.service.png",
 							"refToView":"serviceTask"
 						},
 						{
 							"id":"c7",
 							"title":"Business Rule",
 							"value":"Business Rule",
+							"icon" : "/activity/list/type.business.rule.png",
 							"refToView":"businessRuleTask"
 						},
 						{
 							"id":"c8",
 							"title":"Script",
 							"value":"Script",
+							"icon" : "/activity/list/type.script.png",
 							"refToView":"scriptTask"
 						}
 					]

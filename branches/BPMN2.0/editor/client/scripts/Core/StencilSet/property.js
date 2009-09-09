@@ -130,6 +130,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
 		if(jsonProp.visible !== false) {
 			jsonProp.visible = true;
 		}
+		
+		if(!jsonProp.popular) {
+			jsonProp.popular = false;
+		}
         
         if (jsonProp.type === ORYX.CONFIG.TYPE_CHOICE) {
             if (jsonProp.items && jsonProp.items instanceof Array) {
@@ -189,6 +193,14 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     inverseBoolean: function() {
     	return this._jsonProp.inverseBoolean;
     },
+	
+	popular: function() {
+		return this._jsonProp.popular;
+	},
+	
+	setPopular: function() {
+		this._jsonProp.popular = true;
+	},
 	
 	directlyEditable: function() {
 		return this._jsonProp.directlyEditable;
