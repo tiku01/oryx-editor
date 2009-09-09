@@ -440,50 +440,42 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"value":"None",
-							"refToView":"None"
+							"value":"None"
 						},
 						{
 							"id":"c2",
 							"title":"Ready",
-							"value":"Ready",
-							"refToView":"Ready"
+							"value":"Ready"
 						},
 						{
 							"id":"c3",
 							"title":"Active",
-							"value":"Active",
-							"refToView":"Active"
+							"value":"Active"
 						},
 						{
 							"id":"c4",
 							"title":"Cancelled",
-							"value":"Cancelled",
-							"refToView":"Cancelled"
+							"value":"Cancelled"
 						},
 						{
 							"id":"c5",
 							"title":"Aborting",
-							"value":"Aborting",
-							"refToView":"Aborting"
+							"value":"Aborting"
 						},
 						{
 							"id":"c6",
 							"title":"Aborted",
-							"value":"Aborted",
-							"refToView":"Aborted"
+							"value":"Aborted"
 						},
 						{
 							"id":"c7",
 							"title":"Completing",
-							"value":"Completing",
-							"refToView":"Completing"
+							"value":"Completing"
 						},
 						{
 							"id":"c8",
 							"title":"Completed",
-							"value":"Completed",
-							"refToView":"Completed"
+							"value":"Completed"
 						}
 					]
 				},
@@ -1120,20 +1112,17 @@
 						{
 							"id": "choice1",
 							"title":"Embedded",
-							"value":"Embedded",
-							"refToView": "None"
+							"value":"Embedded"
 						},
 						{
 							"id": "choice2",
 							"title": "Independent",
-							"value": "Independent",
-							"refToView": "None"
+							"value": "Independent"
 						},
 						{
 							"id": "choice3",
 							"title": "Reference",
-							"value": "Reference",
-							"refToView": "None"
+							"value": "Reference"
 						}
 					]
 				},
@@ -1185,14 +1174,12 @@
 						{
 							"id":"c1",
 							"title":"Sequential",
-							"value":"Sequential",
-							"refToView":"Sequential"
+							"value":"Sequential"
 						},
 						{
 							"id":"c2",
 							"title":"Parallel",
-							"value":"Parallel",
-							"refToView":"Sarallel"
+							"value":"Parallel"
 						}
 					]
 				},
@@ -1419,7 +1406,6 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"",
 					"length":"50",
 					"wrapLines":true
 				},
@@ -1431,7 +1417,6 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"",
 					"length":"50",
 					"wrapLines":true
 				},
@@ -1467,7 +1452,6 @@
 					"description":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"",
 					"length":"30"
 				},
 				{
@@ -1491,31 +1475,27 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"processtype",
+					"popular" : true,
 					"items": [
 						{
 							"id":"c1",
 							"title":"None",
-							"value":"None",
-							"refToView":""
+							"value":"None"
 						},
 						{
 							"id":"c2",
 							"title":"Private",
-							"value":"Private",
-							"refToView":""
+							"value":"Private"
 						},
 						{
 							"id":"c3",
 							"title":"Abstract",
-							"value":"Abstract",
-							"refToView":""
+							"value":"Abstract"
 						},
 						{
 							"id":"c4",
 							"title":"Collaboration",
-							"value":"Collaboration",
-							"refToView":""
+							"value":"Collaboration"
 						}
 					]
 				},
@@ -1527,55 +1507,47 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"state",
+					"popular" : true,
 					"items": [
 						{
 							"id":"c1",
 							"title":"None",
-							"value":"None",
-							"refToView":""
+							"value":"None"
 						},
 						{
 							"id":"c2",
 							"title":"Ready",
-							"value":"Ready",
-							"refToView":""
+							"value":"Ready"
 						},
 						{
 							"id":"c3",
 							"title":"Active",
-							"value":"Active",
-							"refToView":""
+							"value":"Active"
 						},
 						{
 							"id":"c4",
 							"title":"Cancelled",
-							"value":"Cancelled",
-							"refToView":""
+							"value":"Cancelled"
 						},
 						{
 							"id":"c5",
 							"title":"Aborting",
-							"value":"Aborting",
-							"refToView":""
+							"value":"Aborting"
 						},
 						{
 							"id":"c6",
 							"title":"Aborted",
-							"value":"Aborted",
-							"refToView":""
+							"value":"Aborted"
 						},
 						{
 							"id":"c7",
 							"title":"Completing",
-							"value":"Completing",
-							"refToView":""
+							"value":"Completing"
 						},
 						{
 							"id":"c8",
 							"title":"Completed",
-							"value":"Completed",
-							"refToView":""
+							"value":"Completed"
 						}
 					]
 				},
@@ -1869,6 +1841,7 @@
 							"title":"Message",
 							"title_de" : "Nachricht",
 							"value":"Message",
+							"icon" : "/activity/list/event.message.png",
 							"refToView":"message"
 						},
 						{
@@ -1876,6 +1849,7 @@
 							"title":"Timer",
 							"title_de" : "Stoppuhr",
 							"value":"Timer",
+							"icon" : "/activity/list/event.timer.png",
 							"refToView":"timer"
 						},
 						{
@@ -1883,6 +1857,7 @@
 							"title":"Escalation",
 							"title_de" : "Eskalation",
 							"value":"Escalation",
+							"icon" : "/activity/list/event.escalation.png",
 							"refToView":"escalation"
 						},
 						{
@@ -1890,6 +1865,7 @@
 							"title":"Conditional",
 							"title_de" : "Bedingung",
 							"value":"Conditional",
+							"icon" : "/activity/list/event.conditional.png",
 							"refToView":"conditional"
 						},
 						{
@@ -1897,6 +1873,7 @@
 							"title":"Error",
 							"title_de" : "Fehler",
 							"value":"Error",
+							"icon" : "/activity/list/event.error.png",
 							"refToView":"error"	
 						},
 						{
@@ -1904,6 +1881,7 @@
 							"title":"Compensation",
 							"title_de" : "Kompensation",
 							"value": "Compensation",
+							"icon" : "/activity/list/event.compensation.png",
 							"refToView":"compensationStart"
 						},
 						{
@@ -1911,6 +1889,7 @@
 							"title":"Signal",
 							"title_de" : "Signal",
 							"value":"Signal",
+							"icon" : "/activity/list/event.signal.png",
 							"refToView":"signal"
 						},
 						{
@@ -1918,6 +1897,7 @@
 							"title":"Multiple",
 							"title_de" : "Vielzahl",
 							"value":"Multiple",
+							"icon" : "/activity/list/event.multiple.png",
 							"refToView":"multiple"
 						},
 						{
@@ -1925,6 +1905,7 @@
 							"title":"Multiple (Parallel)",
 							"title_de" : "Vielzahl (Parallel)",
 							"value":"MultipleParallel",
+							"icon" : "/activity/list/event.multiple.parallel.png",
 							"refToView":"multipleParallel"
 						}
 					]
@@ -2654,19 +2635,21 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"value":"None",
+							"value":"None",						
 							"refToView":"none"
 						},
 						{
 							"id":"c2",
 							"title":"Input",
 							"value":"Input",
+							"icon" : "/dataobject/list/input.png",
 							"refToView":"input"
 						},
 						{
 							"id":"c3",
 							"title":"Output",
 							"value":"Output",
+							"icon" : "/dataobject/list/output.png",
 							"refToView":"output"
 						}
 					]
@@ -2842,6 +2825,9 @@
 				"DataObjectMorph"
 			]
 		},
+		
+		// Start Events
+		
 		{
 			"type" : 			"node",
 			"id": 				"StartNoneEvent",
@@ -3238,6 +3224,7 @@
 				}
 			]
 		},
+		
 		// Intermediate Events Catching
 		
 		{
@@ -3719,6 +3706,7 @@
 		},
 		
 		// Intermediate Events Throwing
+		
 		{
 			"type": "node",
 			"id":"IntermediateEvent",
@@ -3993,6 +3981,7 @@
 		},
 		
 		// End Events
+		
 		{
 			"type" : "node",
 			"id": "EndNoneEvent",
@@ -4337,6 +4326,7 @@
 		},
 		
 		// Edges
+		
 		{
 			"type": "edge",
 			"id":"SequenceFlow",
@@ -4370,19 +4360,20 @@
 						{
 							"id":"none",
 							"title":"None",
-							"value":"None",
-							"refToView":""
+							"value":"None"
 						},
 						{
 							"id":"expression",
 							"title":"Expression",
 							"value":"Expression",
+							"icon" : "/connector/list/type.expression.png",
 							"refToView":""
 						},
 						{
 							"id":"default",
 							"title":"Default",
 							"value":"Default",
+							"icon" : "/connector/list/type.default.png",
 							"refToView":"default"
 						}
 					]
