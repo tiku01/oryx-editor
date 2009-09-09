@@ -35,6 +35,7 @@ ORYX.Plugins.PropertyWindow = {
 		this.facade = facade;
 
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHOW_PROPERTYWINDOW, this.init.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.selectDiagram.bind(this));
 		this.init();
 	},
 	
@@ -158,6 +159,14 @@ ORYX.Plugins.PropertyWindow = {
 		// Sort as Default the first column
 		//this.dataSource.sort('name');
 
+	},
+	
+	selectDiagram: function() {
+		this.shapeSelection.shapes = [this.facade.getCanvas()];
+		
+		this.setPropertyWindowTitle();
+		this.identifyCommonProperties();
+		this.createProperties();
 	},
 
 	specialKeyDown: function(field, event) {
