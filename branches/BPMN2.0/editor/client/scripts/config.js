@@ -163,6 +163,7 @@ ORYX.CONFIG.EVENT_UNDO_EXECUTE =			"undo.execute";
 ORYX.CONFIG.EVENT_UNDO_ROLLBACK =			"undo.rollback";
 ORYX.CONFIG.EVENT_BUTTON_UPDATE =           "toolbar.button.update";
 ORYX.CONFIG.EVENT_LAYOUT = 					"layout.dolayout";
+ORYX.CONFIG.EVENT_COLOR_CHANGE = 			"color.change";
 	
 ORYX.CONFIG.EVENT_SHOW_PROPERTYWINDOW =		"propertywindow.show";
 	
