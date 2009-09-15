@@ -197,7 +197,7 @@ ORYX.Plugins.PropertyWindow = {
 			value = String(value).gsub(">", "&gt;");
 			value = String(value).gsub("%", "&#37;");
 			value = String(value).gsub("&", "&amp;");
-			
+
 			record.data.icons.each(function(each) {
 				if(each.name == value) {
 					if(each.icon) {
@@ -575,11 +575,11 @@ ORYX.Plugins.PropertyWindow = {
 									
 								if(value.refToView()[0])
 									refToViewFlag = true;
-									
-								options.push([value.icon() || "", value.title(), value.value()]);
-								
+																
+								options.push([value.icon(), value.title(), value.value()]);
+															
 								icons.push({
-									name: value.value(),
+									name: value.title(),
 									icon: value.icon()
 								});
 							});
@@ -603,7 +603,15 @@ ORYX.Plugins.PropertyWindow = {
 						    });
 								
 							editorCombo.on('select', function(combo, record, index) {
-								this.editDirectly(key, combo.getValue());
+								var value;
+								
+								combo.store.data.items.each(function(each) {
+									if(each.data.title == combo.getValue()) {
+										value = each.data.value;
+									}
+								});
+																												
+								this.editDirectly(key, value);
 							}.bind(this))
 							
 							editorGrid = new Ext.Editor(editorCombo);
