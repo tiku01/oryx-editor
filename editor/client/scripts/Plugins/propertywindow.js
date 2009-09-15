@@ -596,6 +596,7 @@ ORYX.Plugins.PropertyWindow = {
 								tpl: '<tpl for="."><div class="x-combo-list-item">{[(values.icon) ? "<img src=\'" + values.icon + "\' />" : ""]} {title}</div></tpl>',
 						        store: store,
 						        displayField:'title',
+								valueField: 'value',
 						        typeAhead: true,
 						        mode: 'local',
 						        triggerAction: 'all',
@@ -603,15 +604,7 @@ ORYX.Plugins.PropertyWindow = {
 						    });
 								
 							editorCombo.on('select', function(combo, record, index) {
-								var value;
-								
-								combo.store.data.items.each(function(each) {
-									if(each.data.title == combo.getValue()) {
-										value = each.data.value;
-									}
-								});
-																												
-								this.editDirectly(key, value);
+								this.editDirectly(key, combo.getValue());
 							}.bind(this))
 							
 							editorGrid = new Ext.Editor(editorCombo);
