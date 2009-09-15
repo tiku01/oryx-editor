@@ -45,6 +45,13 @@ table-layout:fixed;
 	width:18px !important;
 }
 
+.prop-background-color {
+	height: 10px;
+	width: 20px;
+	
+	border: 1px solid #000000;
+}
+
 #oryx_editor_header {
        background-image: url('../images/header_bg.small.gif');
        background-position: top center;

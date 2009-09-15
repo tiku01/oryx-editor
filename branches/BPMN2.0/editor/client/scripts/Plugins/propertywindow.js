@@ -198,6 +198,10 @@ ORYX.Plugins.PropertyWindow = {
 			value = String(value).gsub("%", "&#37;");
 			value = String(value).gsub("&", "&amp;");
 
+			if(record.data.gridProperties.type == ORYX.CONFIG.TYPE_COLOR) {
+				value = "<div class='prop-background-color' style='background-color:" + value + "' />";
+			}			
+
 			record.data.icons.each(function(each) {
 				if(each.name == value) {
 					if(each.icon) {
