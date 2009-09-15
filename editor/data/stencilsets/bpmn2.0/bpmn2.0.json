@@ -643,33 +643,6 @@
 					"length":"50"
 				},
 				{
-					"id":"MI_Ordering",
-					"type":"Choice",
-					"title":"MI_Ordering",
-					"title_de":"MI_Anordnung",
-					"value":"Sequential",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"items": [
-						{
-							"id":"c1",
-							"title":"Parallel",
-							"value":"Parallel",
-							"icon" : "/activity/list/mi.parallel.png",
-							"refToView":"parallel"
-						},
-						{
-							"id":"c2",
-							"title":"Sequential",
-							"value":"Sequential",
-							"icon" : "/activity/list/mi.sequential.png",
-							"refToView":"sequential"
-						}						
-					]
-				},
-				{
 					"id":"MI_FlowCondition",
 					"type":"Choice",
 					"title":"MI_FlowCondition",
@@ -811,16 +784,23 @@
 							"id":"c2",
 							"title":"Standard",
 							"value":"Standard",
-							"icon" : "/activity/list/looptype.standard.png",
+							"icon" : "activity/list/looptype.standard.png",
 							"refToView":"loop"
 						},
 						{
 							"id":"c3",
-							"title":"MultiInstance",
-							"value":"MultiInstance",
-							"icon" : "/activity/list/mi.sequential.png",
-							"refToView":"mi"
-						}
+							"title":"MI Parallel",
+							"value":"Parallel",
+							"icon" : "activity/list/mi.parallel.png",
+							"refToView":"parallel"
+						},
+						{
+							"id":"c4",
+							"title":"MI Sequential",
+							"value":"Sequential",
+							"icon" : "activity/list/mi.sequential.png",
+							"refToView":"sequential"
+						}	
 					]
 				},
 				{
@@ -908,49 +888,49 @@
 							"id":"c2",
 							"title":"Send",
 							"value":"Send",
-							"icon" : "/activity/list/type.send.png",
+							"icon" : "activity/list/type.send.png",
 							"refToView":"sendTask"
 						},
 						{
 							"id":"c3",
 							"title":"Receive",
 							"value":"Receive",
-							"icon" : "/activity/list/type.receive.png",
+							"icon" : "activity/list/type.receive.png",
 							"refToView":"receiveTask"
 						},
 						{
 							"id":"c4",
 							"title":"User",
 							"value":"User",
-							"icon" : "/activity/list/type.user.png",
+							"icon" : "activity/list/type.user.png",
 							"refToView":"userTask"
 						},
 						{
 							"id":"c5",
 							"title":"Manual",
 							"value":"Manual",
-							"icon" : "/activity/list/type.manual.png",
+							"icon" : "activity/list/type.manual.png",
 							"refToView":"manualTask"	
 						},
 						{
 							"id":"c6",
 							"title":"Service",
 							"value":"Service",
-							"icon" : "/activity/list/type.service.png",
+							"icon" : "activity/list/type.service.png",
 							"refToView":"serviceTask"
 						},
 						{
 							"id":"c7",
 							"title":"Business Rule",
 							"value":"Business Rule",
-							"icon" : "/activity/list/type.business.rule.png",
+							"icon" : "activity/list/type.business.rule.png",
 							"refToView":"businessRuleTask"
 						},
 						{
 							"id":"c8",
 							"title":"Script",
 							"value":"Script",
-							"icon" : "/activity/list/type.script.png",
+							"icon" : "activity/list/type.script.png",
 							"refToView":"scriptTask"
 						}
 					]
@@ -1842,7 +1822,7 @@
 							"title":"Message",
 							"title_de" : "Nachricht",
 							"value":"Message",
-							"icon" : "/activity/list/event.message.png",
+							"icon" : "activity/list/event.message.png",
 							"refToView":"message"
 						},
 						{
@@ -1850,7 +1830,7 @@
 							"title":"Timer",
 							"title_de" : "Stoppuhr",
 							"value":"Timer",
-							"icon" : "/activity/list/event.timer.png",
+							"icon" : "activity/list/event.timer.png",
 							"refToView":"timer"
 						},
 						{
@@ -1858,7 +1838,7 @@
 							"title":"Escalation",
 							"title_de" : "Eskalation",
 							"value":"Escalation",
-							"icon" : "/activity/list/event.escalation.png",
+							"icon" : "activity/list/event.escalation.png",
 							"refToView":"escalation"
 						},
 						{
@@ -1866,7 +1846,7 @@
 							"title":"Conditional",
 							"title_de" : "Bedingung",
 							"value":"Conditional",
-							"icon" : "/activity/list/event.conditional.png",
+							"icon" : "activity/list/event.conditional.png",
 							"refToView":"conditional"
 						},
 						{
@@ -1874,7 +1854,7 @@
 							"title":"Error",
 							"title_de" : "Fehler",
 							"value":"Error",
-							"icon" : "/activity/list/event.error.png",
+							"icon" : "activity/list/event.error.png",
 							"refToView":"error"	
 						},
 						{
@@ -1882,7 +1862,7 @@
 							"title":"Compensation",
 							"title_de" : "Kompensation",
 							"value": "Compensation",
-							"icon" : "/activity/list/event.compensation.png",
+							"icon" : "activity/list/event.compensation.png",
 							"refToView":"compensationStart"
 						},
 						{
@@ -1890,7 +1870,7 @@
 							"title":"Signal",
 							"title_de" : "Signal",
 							"value":"Signal",
-							"icon" : "/activity/list/event.signal.png",
+							"icon" : "activity/list/event.signal.png",
 							"refToView":"signal"
 						},
 						{
@@ -1898,7 +1878,7 @@
 							"title":"Multiple",
 							"title_de" : "Vielzahl",
 							"value":"Multiple",
-							"icon" : "/activity/list/event.multiple.png",
+							"icon" : "activity/list/event.multiple.png",
 							"refToView":"multiple"
 						},
 						{
@@ -1906,7 +1886,7 @@
 							"title":"Multiple (Parallel)",
 							"title_de" : "Vielzahl (Parallel)",
 							"value":"MultipleParallel",
-							"icon" : "/activity/list/event.multiple.parallel.png",
+							"icon" : "activity/list/event.multiple.parallel.png",
 							"refToView":"multipleParallel"
 						}
 					]
@@ -2643,14 +2623,14 @@
 							"id":"c2",
 							"title":"Input",
 							"value":"Input",
-							"icon" : "/dataobject/list/input.png",
+							"icon" : "dataobject/list/input.png",
 							"refToView":"input"
 						},
 						{
 							"id":"c3",
 							"title":"Output",
 							"value":"Output",
-							"icon" : "/dataobject/list/output.png",
+							"icon" : "dataobject/list/output.png",
 							"refToView":"output"
 						}
 					]
@@ -4367,14 +4347,14 @@
 							"id":"expression",
 							"title":"Expression",
 							"value":"Expression",
-							"icon" : "/connector/list/type.expression.png",
+							"icon" : "connector/list/type.expression.png",
 							"refToView":""
 						},
 						{
 							"id":"default",
 							"title":"Default",
 							"value":"Default",
-							"icon" : "/connector/list/type.default.png",
+							"icon" : "connector/list/type.default.png",
 							"refToView":"default"
 						}
 					]
