@@ -52,8 +52,8 @@ public abstract class TFlowNode
     extends TFlowElement
 {
 
-    protected List<QName> incoming;
-    protected List<QName> outgoing;
+    protected List<TFlowNode> incoming;
+    protected List<TFlowNode> outgoing;
 
     /**
      * Gets the value of the incoming property.
@@ -77,9 +77,9 @@ public abstract class TFlowNode
      * 
      * 
      */
-    public List<QName> getIncoming() {
+    public List<TFlowNode> getIncoming() {
         if (incoming == null) {
-            incoming = new ArrayList<QName>();
+            incoming = new ArrayList<TFlowNode>();
         }
         return this.incoming;
     }
@@ -106,9 +106,9 @@ public abstract class TFlowNode
      * 
      * 
      */
-    public List<QName> getOutgoing() {
+    public List<TFlowNode> getOutgoing() {
         if (outgoing == null) {
-            outgoing = new ArrayList<QName>();
+            outgoing = new ArrayList<TFlowNode>();
         }
         return this.outgoing;
     }
