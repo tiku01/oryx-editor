@@ -1,8 +1,6 @@
-package de.hpi.bpmn2_0.factory;
-
 /**
  * Copyright (c) 2009
- * Philipp Giese, Sven Wagner-Boysen
+ * Sven Wagner-Boysen
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,43 +21,40 @@ package de.hpi.bpmn2_0.factory;
  * SOFTWARE.
  */
 
-import de.hpi.bpmn2_0.model.BaseElement;
+package de.hpi.bpmn2_0.exceptions;
 
-public class BPMNElement {
-	private Object shape;
-	private BaseElement node;
-	private String id;
+/**
+ * This exception class encapsulates exceptions that occurs during the 
+ * transformation to or from a BPMN 2.0 model.
+ * 
+ * @author Sven Wagner-Boysen
+ *
+ */
+public class BpmnConverterException extends Exception {
 
-	public BPMNElement(Object shape, BaseElement node, String id) {
-		this.shape = shape;
-		this.node = node;
-		this.id = id;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
+	public BpmnConverterException() {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param message
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public BpmnConverterException(String message) {
+		super(message);
 	}
-	
-	public Object getShape() {
-		return shape;
+
+	/**
+	 * @param cause
+	 */
+	public BpmnConverterException(Throwable cause) {
+		super(cause);
 	}
-	public void setShape(Object shape) {
-		this.shape = shape;
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public BpmnConverterException(String message, Throwable cause) {
+		super(message, cause);
 	}
-	public BaseElement getNode() {
-		return node;
-	}
-	public void setNode(BaseElement node) {
-		this.node = node;
-	}
+
 }

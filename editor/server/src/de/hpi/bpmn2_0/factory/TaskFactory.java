@@ -26,9 +26,9 @@ package de.hpi.bpmn2_0.factory;
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
-import de.hpi.bpmn2_0.model.ActivityShape;
-import de.hpi.bpmn2_0.model.TBaseElement;
-import de.hpi.bpmn2_0.model.TTask;
+import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Task;
+import de.hpi.bpmn2_0.model.diagram.ActivityShape;
 
 /**
  * Concrete class to create any kind of task objects from a {@link Shape} with 
@@ -59,8 +59,8 @@ public class TaskFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected TBaseElement createProcessElement(Shape shape) {
-		TTask task = new TTask();
+	protected BaseElement createProcessElement(Shape shape) {
+		Task task = new Task();
 		task.setId(shape.getResourceId());
 		task.setName(shape.getProperty("name"));
 		return task;
@@ -68,7 +68,7 @@ public class TaskFactory extends AbstractBpmnFactory {
 
 	@Override
 	public BPMNElement createBpmnElement(Shape shape) {
-		TBaseElement task = this.createProcessElement(shape);
+		BaseElement task = this.createProcessElement(shape);
 		ActivityShape activity = (ActivityShape) this.createDiagramElement(shape);
 		
 		activity.setActivityRef(task);

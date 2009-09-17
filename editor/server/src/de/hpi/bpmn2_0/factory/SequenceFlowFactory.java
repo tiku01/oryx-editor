@@ -27,10 +27,10 @@ import org.oryxeditor.server.diagram.Point;
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
-import de.hpi.bpmn2_0.model.SequenceFlowConnector;
-import de.hpi.bpmn2_0.model.TBaseElement;
-import de.hpi.bpmn2_0.model.TSequenceFlow;
-import de.hpi.bpmn2_0.model.BpmnConnectorType.Bendpoint;
+import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.SequenceFlow;
+import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
+import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
 
 /**
  * @author Philipp Giese
@@ -46,7 +46,7 @@ public class SequenceFlowFactory extends AbstractBpmnFactory {
 	@Override
 	public BPMNElement createBpmnElement(Shape shape) {
 		SequenceFlowConnector seqConnector = (SequenceFlowConnector) this.createDiagramElement(shape);
-		TSequenceFlow seqFlow = (TSequenceFlow) this.createProcessElement(shape);
+		SequenceFlow seqFlow = (SequenceFlow) this.createProcessElement(shape);
 		
 		seqConnector.setSequenceFlowRef(seqFlow);
 		
@@ -81,8 +81,8 @@ public class SequenceFlowFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected TBaseElement createProcessElement(Shape shape) {
-		TSequenceFlow seqFlow = new TSequenceFlow();
+	protected BaseElement createProcessElement(Shape shape) {
+		SequenceFlow seqFlow = new SequenceFlow();
 		seqFlow.setId(shape.getResourceId());
 		seqFlow.setName(shape.getProperty("name"));
 		
