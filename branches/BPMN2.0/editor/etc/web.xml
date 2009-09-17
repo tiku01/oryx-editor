@@ -345,6 +345,16 @@
 			org.oryxeditor.server.EPCLayoutServlet
 		</servlet-class>
 	</servlet>
+	
+<!--	
+	<servlet>
+		<display-name>BPMN 2 Importer/Exporter</display-name>
+		<servlet-name>Bpmn2_0Servlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.Bpmn2_0Servlet
+		</servlet-class>
+	</servlet>
+-->
 
     <!-- Servlet Mappings -->
 <!--	
@@ -557,6 +567,13 @@
 		<servlet-name>EPCLayouterServlet</servlet-name>
 		<url-pattern>/epclayouter</url-pattern>
 	</servlet-mapping>
+	
+<!--	
+	<servlet-mapping>
+		<servlet-name>Bpmn2_0Servlet</servlet-name>
+		<url-pattern>/bpmn2_0serialization</url-pattern>
+	</servlet-mapping>
+-->
 	
 	<jsp-config>
 		<taglib>

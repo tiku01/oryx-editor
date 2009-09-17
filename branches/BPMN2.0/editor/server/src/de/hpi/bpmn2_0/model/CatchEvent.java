@@ -53,7 +53,7 @@ import javax.xml.namespace.QName;
     "eventDefinitionRef"
 })
 @XmlSeeAlso({
-    StartEvent.class,
+    StartEvent.class//,
 //    TIntermediateCatchEvent.class,
 //    TBoundaryEvent.class
 })

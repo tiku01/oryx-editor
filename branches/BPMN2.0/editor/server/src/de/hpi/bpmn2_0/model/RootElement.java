@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlType;
 //    TInterface.class,
 //    TCorrelationProperty.class,
 //    TMessage.class,
-    CallableElement.class,
+    CallableElement.class//,
 //    TEscalation.class
 })
 public abstract class RootElement
