@@ -10,16 +10,17 @@ import java.util.HashMap;
  * stencilset independent
  */
 public class Shape implements Stencil, Bounded{
-	String resourceId;
-	HashMap<String,String> properties;
-	StencilType stencil;
-	ArrayList<Shape> childShapes;
-	ArrayList<Shape> outgoings;
-	ArrayList<Point> dockers;
-	ArrayList<String> glossaryIds;
-	Bounds bounds;
-	Shape target;
-	Shape parent;
+	private String resourceId;
+	private HashMap<String,String> properties;
+	private StencilType stencil;
+	private ArrayList<Shape> childShapes;
+	private ArrayList<Shape> outgoings;
+	private ArrayList<Point> dockers;
+	private ArrayList<String> glossaryIds;
+	private Bounds bounds;
+	private Shape target;
+	private Shape parent;
+	private ArrayList<Shape> incoming;
 
 	/**
 	 * @return the parent
@@ -238,14 +239,15 @@ public class Shape implements Stencil, Bounded{
 		return null;
 	}
 	/* (non-Javadoc)
-	 * @see org.oryxeditor.server.diagram.Bounded#lowerRight()
+	 * @see org.oryxeditor.server.diagram.Bounded#getLowerRight()
 	 */
 	@Override
-	public Point lowerRight() {
+	public Point getLowerRight() {
 		if(this.bounds!=null)
 			 return this.bounds.getLowerRight();
 		return null;
 	}
+	
 	/**
 	 * @return the glossaryIds
 	 */
@@ -263,5 +265,34 @@ public class Shape implements Stencil, Bounded{
 	public boolean addGlossaryIds(String id) {
 		return this.getGlossaryIds().add(id);
 	}
+	public boolean addIncoming(Shape current) {
+		return this.getIncomings().add(current);
+		
+	}
+	public ArrayList<Shape> getIncomings() {
+		if(this.incoming==null)
+			this.incoming=new ArrayList<Shape>();
+		return this.incoming;
+	}
+	public void setIncomings(ArrayList<Shape> cur){
+		this.incoming=cur;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.oryxeditor.server.diagram.Bounded#height()
+	 */
+	@Override
+	public double getHeight() {
+		return this.getLowerRight().getY() - this.getUpperLeft().getY();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.oryxeditor.server.diagram.Bounded#width()
+	 */
+	@Override
+	public double getWidth() {
+		return this.getLowerRight().getX() - this.getUpperLeft().getX();
+	}	
+	
 
 }
