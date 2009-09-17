@@ -54,8 +54,8 @@ import javax.xml.namespace.QName;
 //    TGlobalCommunication.class,
 //    TGlobalTask.class
 })
-public class TCallableElement
-    extends TRootElement
+public class CallableElement
+    extends RootElement
 {
 
     protected List<QName> supportedInterfaceRef;

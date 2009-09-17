@@ -6,28 +6,26 @@
 //
 
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for activityShapeType_1 complex type.
+ * <p>Java class for anonymous complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="activityShapeType_1">
+ * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnNodeType">
- *       &lt;attribute name="activityRef" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
+ *     &lt;extension base="{http://bpmndi.org}bpmnConnectorType">
+ *       &lt;attribute name="sequenceFlowRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -35,44 +33,39 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(namespace="http://bpmndi.org", name = "activityShape")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "activityShapeType_1", namespace = "http://bpmndi.org")
-@XmlSeeAlso({
-//    SubprocessShapeType.class,
-//    CalledSubprocessShapeType.class
-})
-public class ActivityShape
-    extends BpmnNode
+@XmlType(name = "")
+public class SequenceFlowConnector
+    extends BpmnConnectorType
 {
 
-	@XmlAttribute
+    @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected Object activityRef;
+    protected Object sequenceFlowRef;
 
     /**
-     * Gets the value of the activityRef property.
+     * Gets the value of the sequenceFlowRef property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Object }
      *     
      */
-    public Object getActivityRef() {
-        return activityRef;
+    public Object getSequenceFlowRef() {
+        return sequenceFlowRef;
     }
 
     /**
-     * Sets the value of the activityRef property.
+     * Sets the value of the sequenceFlowRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Object }
      *     
      */
-    public void setActivityRef(Object value) {
-        this.activityRef = value;
+    public void setSequenceFlowRef(Object value) {
+        this.sequenceFlowRef = value;
     }
 
 }

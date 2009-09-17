@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "endEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tEndEvent")
-public class TEndEvent
-    extends TThrowEvent
+public class EndEvent
+    extends ThrowEvent
 {
 
 

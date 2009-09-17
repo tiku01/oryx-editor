@@ -6,7 +6,7 @@
 //
 
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram;
 
 import java.util.HashMap;
 import java.util.Map;

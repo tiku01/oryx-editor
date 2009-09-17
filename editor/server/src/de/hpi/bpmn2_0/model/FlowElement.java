@@ -47,13 +47,13 @@ import javax.xml.namespace.QName;
 //    "categoryValue"
 })
 @XmlSeeAlso({
-//    TSequenceFlow.class,
+//    SequenceFlow.class,
 //    TDataObject.class,
 //    TDataStore.class,
-    TFlowNode.class
+    FlowNode.class
 })
-public abstract class TFlowElement
-    extends TBaseElement
+public abstract class FlowElement
+    extends BaseElement
 {
 
 //    protected TAuditing auditing;
