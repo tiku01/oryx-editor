@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <profiles>
-	<profile name="default">
+	<profile name="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
 		<plugin name="ORYX.Plugins.Toolbar">
 			<property name="color" value="red"/>
 		</plugin>

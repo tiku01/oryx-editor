@@ -24,6 +24,9 @@
 package org.oryxeditor.server;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +35,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.util.FileCopyUtils;
 
 public class EditorHandler extends HttpServlet {
 
@@ -62,17 +67,27 @@ public class EditorHandler extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
+		String sset=null;
+		try {
+			sset=getNamedConf("stencilset", profiles.get(0));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(sset==null)
+			sset=defaultSS;
 		String content = 
 	        "<script type='text/javascript'>" +
 	        "if(!ORYX) var ORYX = {};" +
 	        "if(!ORYX.CONFIG) ORYX.CONFIG = {};" +
 	        "ORYX.CONFIG.PLUGINS_CONFIG  =			ORYX.CONFIG.PROFILE_PATH + '"+profiles.get(0)+".xml';" +
-	        "function getStencilSetFromHash(){" +
-	        "var para=location.hash.split('=')[1];" +
-	        "return para};" +
-              "function onOryxResourcesLoaded(){" +
-                "if(location.hash.slice(1).indexOf('new')!=-1){" +
-                "var stencilset=ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):'"+defaultSS+"';"+
+//	        "function getStencilSetFromHash(){" +
+//	        "var para=location.hash.split('=')[1];" +
+//	        "return para};" +
+
+	        "function onOryxResourcesLoaded(){" +
+                "if (location.hash.slice(1).length == 0 || location.hash.slice(1).indexOf('new')!=-1){" +
+                "var stencilset=ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):'"+sset+"';"+
                 "new ORYX.Editor({"+
                   "id: 'oryx-canvas123',"+
                   "stencilset: {"+
@@ -191,5 +206,17 @@ public class EditorHandler extends HttpServlet {
 			}
 		}
 		return profilNames;
+	}
+	public String getNamedConf(String name, String profilename) throws FileNotFoundException, IOException {
+		String conf=FileCopyUtils.copyToString(new FileReader(this.getServletContext().
+				getRealPath("/profiles") + File.separator + profilename
+				+ ".conf"));
+		String[] confs=conf.split("##");
+		for(String attr:confs){
+			String[] pair=attr.split("::");
+			if(pair[0].equals(name))
+				return pair[1];
+		}
+		return null;
 	}
 }

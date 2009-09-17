@@ -155,9 +155,20 @@ public class ProfileCreator {
 					.getElementsByTagName("plugin");
 			Node profileNode = getProfileNodeFromDocument(ProfileName,
 					profilesXMLdocument);
+			
 			if (profileNode == null)
 				throw new IllegalArgumentException(
 						"profile not defined in profile xml");
+			
+			NamedNodeMap attr = profileNode.getAttributes();
+			StringBuilder bld= new StringBuilder();
+			for(int i=0;i<attr.getLength();i++){
+				bld.append(attr.item(i).getNodeName());
+				bld.append("::");
+				bld.append(attr.item(i).getNodeValue());
+				bld.append("##");
+			}
+			FileCopyUtils.copy(bld.toString(), new FileWriter(outputPath + File.separator+ProfileName+".conf"));
 			// for each plugin in the copied plugin.xml
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
 				Node pluginNode = pluginNodeList.item(i);
@@ -166,7 +177,7 @@ public class ProfileCreator {
 				// if plugin is in the current profile
 				if (pluginNames.contains(pluginName)) {
 					// mark plugin as active
-					((Element) pluginNode).setAttribute("active", "true");
+					((Element) pluginNode).setAttribute("engaged", "true");
 
 					// throw new
 					// IllegalArgumentException("profile not defined in profile xml");
@@ -177,7 +188,7 @@ public class ProfileCreator {
 					saveOrUpdateProperties(pluginNode, profilePluginNode);
 
 				}else{
-					((Element) pluginNode).setAttribute("active", "false");
+					((Element) pluginNode).setAttribute("engaged", "false");
 				}
 			}
 			writeXMLToFile(outProfileXMLdocument, outputPath + File.separator

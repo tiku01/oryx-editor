@@ -4,7 +4,7 @@ if (!ORYX.Plugins)
 ORYX.Plugins.PluginLoader = Clazz.extend({
 	
     facade: undefined,
-	
+	mask: undefined,
 	processURI: undefined,
 	
     construct: function(facade){
@@ -13,7 +13,7 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 		this.facade.offer({
 			'name': ORYX.I18N.PluginLoad.AddPluginButtonName,
 			'functionality': this.showManageDialog.bind(this),
-			'group': "",
+			'group': "File",
 			'icon': ORYX.PATH + "images/labs/script_add.png",
 			'description': ORYX.I18N.PluginLoad.AddPluginButtonDesc,
 			'index': 8,
@@ -21,23 +21,38 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 			'maxShape': 0
 		});},
 	showManageDialog: function(){
-	/*var myMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.Oryx.pleaseWait});
-	myMask.show();*/
+			this.mask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.Oryx.pleaseWait});
+			this.mask.show();
 	var data=[];
-	var plugins=this.facade.getAvailablePlugins();
-		plugins.each(function(plugin){
-			data.push([plugin.name, plugin.active===true]);
+	//(var plugins=this.facade.getAvailablePlugins();
+	var plugins=[];
+	var loadedStencilSetsNamespaces = this.facade.getStencilSets().keys();
+	this.facade.getAvailablePlugins().each(function(match) {
+	if ((!match.requires 	|| !match.requires.namespaces 	
+			|| match.requires.namespaces.any(function(req){ return loadedStencilSetsNamespaces.indexOf(req) >= 0 }) )
+		&&(!match.notUsesIn 	|| !match.notUsesIn.namespaces 	
+				|| !match.notUsesIn.namespaces.any(function(req){ return loadedStencilSetsNamespaces.indexOf(req) >= 0 }))){
+		plugins.push( match );
+
+	}});
+	
+	plugins.each(function(plugin){
+			data.push([plugin.name, plugin.engaged===true]);
 			})
 		if(data.length==0){return};
 		var reader = new Ext.data.ArrayReader({}, [
         {name: 'name'},
-		{name: 'active'} ]);
+		{name: 'engaged'} ]);
 		
 		var sm = new Ext.grid.CheckboxSelectionModel({
 			listeners:{
 			beforerowselect: function(sm,nbr,exist,rec){
+			this.mask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.Oryx.pleaseWait});
+			this.mask.show();
 				this.facade.activatePluginByName(rec.data.name, 
 						function(sucess,err){
+						this.mask.hide();
+
 							if(!!sucess){
 								sm.suspendEvents();
 								sm.selectRow(nbr, true);
@@ -48,7 +63,7 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 									   msg: ORYX.I18N.PluginLoad.loadErrorDesc + ORYX.I18N.PluginLoad[err],
 									   buttons: Ext.MessageBox.OK
 									});
-							}});
+							}}.bind(this));
 				return false;
 				}.bind(this),
 			rowdeselect: function(sm,nbr,rec){
@@ -64,11 +79,11 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 		        	}),
 		        cm: new Ext.grid.ColumnModel([
 		            
-		            {id:'name',width:250, sortable: true, dataIndex: 'name'},
+		            {id:'name',width:390, sortable: true, dataIndex: 'name'},
 					sm]),
 			sm: sm,
-	        width:310,
-	        height:150,
+	        width:450,
+	        height:250,
 	        frame:true,
 			hideHeaders:true,
 	        iconCls:'icon-grid',
@@ -77,7 +92,7 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 					var recs=[];
 					this.grid.getStore().each(function(rec){
 
-						if(rec.data.active){
+						if(rec.data.engaged){
 							recs.push(rec);
 						}
 					}.bind(this));
@@ -93,11 +108,13 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 					//bodyStyle:	"background:white;padding:0px", 
 					width:		'auto', 
 					height:		'auto',
+					modal:		true
 					//html:"<div style='font-weight:bold;margin-bottom:10px'></div><span></span>",
 				});
 		newURLWin.add(grid2);
-		//myMask.hide();
 		newURLWin.show();
+		this.mask.hide();
+
 		}
 		})
 			
