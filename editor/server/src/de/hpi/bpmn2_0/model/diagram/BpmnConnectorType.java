@@ -60,7 +60,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "bendpoint"
 })
 @XmlSeeAlso({
-    SequenceFlowConnector.class,
+    SequenceFlowConnector.class//,
 //    AssociationConnectorType.class,
 //    MessageFlowConnector.class
 })

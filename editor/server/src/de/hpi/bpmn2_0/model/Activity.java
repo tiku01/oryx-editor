@@ -62,7 +62,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
 //    TSubProcess.class,
 //    TTransaction.class,
-    Task.class,
+    Task.class//,
 //    TCallActivity.class
 })
 public abstract class Activity

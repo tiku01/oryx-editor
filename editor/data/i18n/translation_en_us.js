@@ -689,3 +689,12 @@ ORYX.I18N.SyntaxChecker.MULT_ERRORS = "Multiple Errors";
 if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
 ORYX.I18N.PropertyWindow.oftenUsed = "Often used";
 ORYX.I18N.PropertyWindow.moreProps = "More Properties";
+
+/** New Language Properties: 17.09.2009*/
+if(!ORYX.I18N.Bpmn2_0Serialization) ORYX.I18N.Bpmn2_0Serialization = {};
+ORYX.I18N.Bpmn2_0Serialization.show = "Show BPMN 2.0 XML";
+ORYX.I18N.Bpmn2_0Serialization.showDesc = "Show BPMN 2.0 XML of the current BPMN 2.0 model";
+ORYX.I18N.Bpmn2_0Serialization.download = "Download BPMN 2.0 XML";
+ORYX.I18N.Bpmn2_0Serialization.downloadDesc = "Download BPMN 2.0 XML of the current BPMN 2.0 model";
+ORYX.I18N.Bpmn2_0Serialization.serialFailed = "BPMN 2.0 Serialization failed";
+ORYX.I18N.Bpmn2_0Serialization.group = "BPMN 2.0";
