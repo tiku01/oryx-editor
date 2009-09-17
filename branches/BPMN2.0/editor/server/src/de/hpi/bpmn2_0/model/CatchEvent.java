@@ -13,6 +13,7 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -20,21 +21,22 @@ import javax.xml.namespace.QName;
 
 
 /**
- * <p>Java class for tThrowEvent complex type.
+ * <p>Java class for tCatchEvent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tThrowEvent">
+ * &lt;complexType name="tCatchEvent">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.omg.org/bpmn20}tEvent">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.omg.org/bpmn20}dataInput" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{http://www.omg.org/bpmn20}dataInputAssociation" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{http://www.omg.org/bpmn20}inputSet" minOccurs="0"/>
+ *         &lt;element ref="{http://www.omg.org/bpmn20}dataOutput" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.omg.org/bpmn20}dataOutputAssociation" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.omg.org/bpmn20}outputSet" minOccurs="0"/>
  *         &lt;element ref="{http://www.omg.org/bpmn20}eventDefinition" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="eventDefinitionRef" type="{http://www.w3.org/2001/XMLSchema}QName" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
+ *       &lt;attribute name="parallelMultiple" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -43,109 +45,111 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tThrowEvent", propOrder = {
-//    "dataInput",
-//    "dataInputAssociation",
-//    "inputSet",
+@XmlType(name = "tCatchEvent", propOrder = {
+//    "dataOutput",
+//    "dataOutputAssociation",
+//    "outputSet",
 //    "eventDefinition",
-//    "eventDefinitionRef"
+    "eventDefinitionRef"
 })
 @XmlSeeAlso({
-//    TIntermediateThrowEvent.class,
-//    TImplicitThrowEvent.class,
-    TEndEvent.class
+    StartEvent.class,
+//    TIntermediateCatchEvent.class,
+//    TBoundaryEvent.class
 })
-public abstract class TThrowEvent
-    extends TEvent
+public abstract class CatchEvent
+    extends Event
 {
 
-//    protected List<TDataInput> dataInput;
-//    protected List<TDataInputAssociation> dataInputAssociation;
-//    protected TInputSet inputSet;
+//    protected List<TDataOutput> dataOutput;
+//    protected List<TDataOutputAssociation> dataOutputAssociation;
+//    protected TOutputSet outputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected List<JAXBElement<? extends TEventDefinition>> eventDefinition;
     protected List<QName> eventDefinitionRef;
+    @XmlAttribute
+    protected Boolean parallelMultiple;
 
     /**
-     * Gets the value of the dataInput property.
+     * Gets the value of the dataOutput property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dataInput property.
+     * This is why there is not a <CODE>set</CODE> method for the dataOutput property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getDataInput().add(newItem);
+     *    getDataOutput().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TDataInput }
+     * {@link TDataOutput }
      * 
      * 
      */
-//    public List<TDataInput> getDataInput() {
-//        if (dataInput == null) {
-//            dataInput = new ArrayList<TDataInput>();
+//    public List<TDataOutput> getDataOutput() {
+//        if (dataOutput == null) {
+//            dataOutput = new ArrayList<TDataOutput>();
 //        }
-//        return this.dataInput;
+//        return this.dataOutput;
 //    }
 
     /**
-     * Gets the value of the dataInputAssociation property.
+     * Gets the value of the dataOutputAssociation property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dataInputAssociation property.
+     * This is why there is not a <CODE>set</CODE> method for the dataOutputAssociation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getDataInputAssociation().add(newItem);
+     *    getDataOutputAssociation().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TDataInputAssociation }
+     * {@link TDataOutputAssociation }
      * 
      * 
      */
-//    public List<TDataInputAssociation> getDataInputAssociation() {
-//        if (dataInputAssociation == null) {
-//            dataInputAssociation = new ArrayList<TDataInputAssociation>();
+//    public List<TDataOutputAssociation> getDataOutputAssociation() {
+//        if (dataOutputAssociation == null) {
+//            dataOutputAssociation = new ArrayList<TDataOutputAssociation>();
 //        }
-//        return this.dataInputAssociation;
+//        return this.dataOutputAssociation;
 //    }
 
     /**
-     * Gets the value of the inputSet property.
+     * Gets the value of the outputSet property.
      * 
      * @return
      *     possible object is
-     *     {@link TInputSet }
+     *     {@link TOutputSet }
      *     
      */
-//    public TInputSet getInputSet() {
-//        return inputSet;
+//    public TOutputSet getOutputSet() {
+//        return outputSet;
 //    }
 
     /**
-     * Sets the value of the inputSet property.
+     * Sets the value of the outputSet property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TInputSet }
+     *     {@link TOutputSet }
      *     
      */
-//    public void setInputSet(TInputSet value) {
-//        this.inputSet = value;
+//    public void setOutputSet(TOutputSet value) {
+//        this.outputSet = value;
 //    }
 
     /**
@@ -214,6 +218,34 @@ public abstract class TThrowEvent
             eventDefinitionRef = new ArrayList<QName>();
         }
         return this.eventDefinitionRef;
+    }
+
+    /**
+     * Gets the value of the parallelMultiple property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public boolean isParallelMultiple() {
+        if (parallelMultiple == null) {
+            return false;
+        } else {
+            return parallelMultiple;
+        }
+    }
+
+    /**
+     * Sets the value of the parallelMultiple property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setParallelMultiple(Boolean value) {
+        this.parallelMultiple = value;
     }
 
 }

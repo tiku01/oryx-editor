@@ -66,8 +66,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tSequenceFlow", propOrder = {
 //    "conditionExpression"
 })
-public class TSequenceFlow
-    extends TFlowNode
+public class SequenceFlow
+    extends FlowNode
 {
 
 //    protected TExpression conditionExpression;

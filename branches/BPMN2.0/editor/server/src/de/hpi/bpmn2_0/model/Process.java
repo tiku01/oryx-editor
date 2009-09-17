@@ -64,7 +64,7 @@ import javax.xml.namespace.QName;
     "supports"
 })
 public class Process
-    extends TCallableElement
+    extends CallableElement
 {
 
 //    protected TAuditing auditing;
@@ -73,18 +73,18 @@ public class Process
 //    protected List<TLaneSet> laneSet;
 //    @XmlElementRef(name = "flowElement", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //	@XmlElements({
-//		@XmlElement(name = "startEvent", type = TStartEvent.class),
-//		@XmlElement(type = TTask.class),
-//		@XmlElement(type = TEndEvent.class),
-//		@XmlElement(type = TSequenceFlow.class)
+//		@XmlElement(name = "startEvent", type = StartEvent.class),
+//		@XmlElement(type = Task.class),
+//		@XmlElement(type = EndEvent.class),
+//		@XmlElement(type = SequenceFlow.class)
 //	})
 	@XmlElementRefs({
-		@XmlElementRef(type = TStartEvent.class),
-		@XmlElementRef(type = TTask.class),
-		@XmlElementRef(type = TEndEvent.class),
-		@XmlElementRef(type = TSequenceFlow.class)
+		@XmlElementRef(type = StartEvent.class),
+		@XmlElementRef(type = Task.class),
+		@XmlElementRef(type = EndEvent.class),
+		@XmlElementRef(type = SequenceFlow.class)
 	})
-    protected List<TFlowElement> flowElement;
+    protected List<FlowElement> flowElement;
 //    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected List<JAXBElement<? extends TArtifact>> artifact;
     protected List<QName> supports;
@@ -222,26 +222,26 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallChoreographyActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TTransaction }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEndEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link EndEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TIntermediateCatchEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TFlowElement }{@code >}
+     * {@link JAXBElement }{@code <}{@link FlowElement }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TComplexGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TBoundaryEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TStartEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TExclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TDataObject }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link Event }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link TSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TIntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TSequenceFlow }{@code >}
+     * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
      * {@link JAXBElement }{@code <}{@link TEventBasedGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TSendTask }{@code >}
@@ -249,13 +249,13 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TParallelGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link Task }{@code >}
      * 
      * 
      */
-    public List<TFlowElement> getFlowElement() {
+    public List<FlowElement> getFlowElement() {
         if (flowElement == null) {
-            flowElement = new ArrayList<TFlowElement>();
+            flowElement = new ArrayList<FlowElement>();
         }
         return this.flowElement;
     }

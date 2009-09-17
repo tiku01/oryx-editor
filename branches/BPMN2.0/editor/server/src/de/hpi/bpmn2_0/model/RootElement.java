@@ -48,11 +48,11 @@ import javax.xml.bind.annotation.XmlType;
 //    TInterface.class,
 //    TCorrelationProperty.class,
 //    TMessage.class,
-    TCallableElement.class,
+    CallableElement.class,
 //    TEscalation.class
 })
-public abstract class TRootElement
-    extends TBaseElement
+public abstract class RootElement
+    extends BaseElement
 {
 
 

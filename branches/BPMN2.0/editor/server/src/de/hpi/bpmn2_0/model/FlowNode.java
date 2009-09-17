@@ -43,17 +43,17 @@ import javax.xml.namespace.QName;
     "outgoing"
 })
 @XmlSeeAlso({
-    TEvent.class,
+    Event.class,
 //    TChoreographyActivity.class,
 //    TGateway.class,
-    TActivity.class
+    Activity.class
 })
-public abstract class TFlowNode
-    extends TFlowElement
+public abstract class FlowNode
+    extends FlowElement
 {
 
-    protected List<TFlowNode> incoming;
-    protected List<TFlowNode> outgoing;
+    protected List<FlowNode> incoming;
+    protected List<FlowNode> outgoing;
 
     /**
      * Gets the value of the incoming property.
@@ -77,9 +77,9 @@ public abstract class TFlowNode
      * 
      * 
      */
-    public List<TFlowNode> getIncoming() {
+    public List<FlowNode> getIncoming() {
         if (incoming == null) {
-            incoming = new ArrayList<TFlowNode>();
+            incoming = new ArrayList<FlowNode>();
         }
         return this.incoming;
     }
@@ -106,9 +106,9 @@ public abstract class TFlowNode
      * 
      * 
      */
-    public List<TFlowNode> getOutgoing() {
+    public List<FlowNode> getOutgoing() {
         if (outgoing == null) {
-            outgoing = new ArrayList<TFlowNode>();
+            outgoing = new ArrayList<FlowNode>();
         }
         return this.outgoing;
     }

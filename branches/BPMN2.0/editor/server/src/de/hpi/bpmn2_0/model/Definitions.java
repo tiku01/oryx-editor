@@ -30,6 +30,10 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
+import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
+import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
+
 
 /**
  * <p>Java class for tDefinitions complex type.
@@ -75,7 +79,7 @@ public class Definitions {
     @XmlElementRefs({
     	@XmlElementRef(type = Process.class)
     })
-    protected List<TRootElement> rootElement;
+    protected List<RootElement> rootElement;
     @XmlElementRefs({
     	@XmlElementRef(type = ProcessDiagram.class),
     	@XmlElementRef(type = CollaborationDiagram.class)
@@ -197,7 +201,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TResource }{@code >}
      * {@link JAXBElement }{@code <}{@link TSignalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEndPoint }{@code >}
-     * {@link JAXBElement }{@code <}{@link TRootElement }{@code >}
+     * {@link JAXBElement }{@code <}{@link RootElement }{@code >}
      * {@link JAXBElement }{@code <}{@link TPartnerEntity }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalScriptTask }{@code >}
@@ -213,9 +217,9 @@ public class Definitions {
      * 
      * 
      */
-    public List<TRootElement> getRootElement() {
+    public List<RootElement> getRootElement() {
         if (rootElement == null) {
-            rootElement = new ArrayList<TRootElement>();
+            rootElement = new ArrayList<RootElement>();
         }
         return this.rootElement;
     }

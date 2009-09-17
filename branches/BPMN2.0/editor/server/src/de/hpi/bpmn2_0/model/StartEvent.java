@@ -11,21 +11,20 @@ package de.hpi.bpmn2_0.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for tStartEvent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="tStartEvent">
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnConnectorType">
- *       &lt;attribute name="sequenceFlowRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
+ *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -33,39 +32,42 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-public class SequenceFlowConnector
-    extends BpmnConnectorType
+@XmlType(name = "tStartEvent")
+public class StartEvent
+    extends CatchEvent
 {
 
     @XmlAttribute
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object sequenceFlowRef;
+    protected Boolean isInterrupting;
 
     /**
-     * Gets the value of the sequenceFlowRef property.
+     * Gets the value of the isInterrupting property.
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link Boolean }
      *     
      */
-    public Object getSequenceFlowRef() {
-        return sequenceFlowRef;
+    public boolean isIsInterrupting() {
+        if (isInterrupting == null) {
+            return false;
+        } else {
+            return isInterrupting;
+        }
     }
 
     /**
-     * Sets the value of the sequenceFlowRef property.
+     * Sets the value of the isInterrupting property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link Boolean }
      *     
      */
-    public void setSequenceFlowRef(Object value) {
-        this.sequenceFlowRef = value;
+    public void setIsInterrupting(Boolean value) {
+        this.isInterrupting = value;
     }
 
 }

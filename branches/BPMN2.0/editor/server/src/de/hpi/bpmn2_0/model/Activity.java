@@ -62,11 +62,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
 //    TSubProcess.class,
 //    TTransaction.class,
-    TTask.class,
+    Task.class,
 //    TCallActivity.class
 })
-public abstract class TActivity
-    extends TFlowNode
+public abstract class Activity
+    extends FlowNode
 {
 
 //    protected TInputOutputSpecification ioSpecification;

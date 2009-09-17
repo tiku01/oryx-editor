@@ -86,13 +86,13 @@ import org.w3c.dom.Element;
 //    TCorrelationKey.class,
 //    TResourceParameterBinding.class,
 //    TRendering.class,
-//    TFlowElement.class,
-//    TRootElement.class,
+//    FlowElement.class,
+//    RootElement.class,
 //    TAuditing.class,
 //    TArtifact.class,
 //    TDataOutput.class
 })
-public abstract class TBaseElement {
+public abstract class BaseElement {
 
 //    protected List<TDocumentation> documentation;
     @XmlAnyElement(lax = true)
