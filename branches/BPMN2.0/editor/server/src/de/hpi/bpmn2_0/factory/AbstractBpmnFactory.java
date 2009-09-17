@@ -25,7 +25,7 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
-import de.hpi.bpmn2_0.model.TBaseElement;
+import de.hpi.bpmn2_0.model.BaseElement;
 
 /**
  * This is the abstract factory that offers methods to create a process 
@@ -41,7 +41,7 @@ public abstract class AbstractBpmnFactory {
 	 * @return
 	 * 		The constructed process element.
 	 */
-	protected abstract TBaseElement createProcessElement(Shape shape);
+	protected abstract BaseElement createProcessElement(Shape shape);
 	
 	/**
 	 * Creates a diagram element based on a {@link Shape}.
