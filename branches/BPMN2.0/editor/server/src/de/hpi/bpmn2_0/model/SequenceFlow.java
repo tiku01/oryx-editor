@@ -67,18 +67,10 @@ import javax.xml.bind.annotation.XmlType;
 //    "conditionExpression"
 })
 public class SequenceFlow
-    extends FlowNode
+    extends Edge
 {
 
-//    protected TExpression conditionExpression;
-    @XmlAttribute(required = true)
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object sourceRef;
-    @XmlAttribute(required = true)
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object targetRef;
+//    protected Expression conditionExpression;
     @XmlAttribute
     protected Boolean isImmediate;
 
@@ -87,10 +79,10 @@ public class SequenceFlow
      * 
      * @return
      *     possible object is
-     *     {@link TExpression }
+     *     {@link Expression }
      *     
      */
-//    public TExpression getConditionExpression() {
+//    public Expression getConditionExpression() {
 //        return conditionExpression;
 //    }
 
@@ -99,60 +91,13 @@ public class SequenceFlow
      * 
      * @param value
      *     allowed object is
-     *     {@link TExpression }
+     *     {@link Expression }
      *     
      */
-//    public void setConditionExpression(TExpression value) {
+//    public void setConditionExpression(Expression value) {
 //        this.conditionExpression = value;
 //    }
 
-    /**
-     * Gets the value of the sourceRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
-     */
-    public Object getSourceRef() {
-        return sourceRef;
-    }
-
-    /**
-     * Sets the value of the sourceRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
-     */
-    public void setSourceRef(Object value) {
-        this.sourceRef = value;
-    }
-
-    /**
-     * Gets the value of the targetRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
-     */
-    public Object getTargetRef() {
-        return targetRef;
-    }
-
-    /**
-     * Sets the value of the targetRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
-     */
-    public void setTargetRef(Object value) {
-        this.targetRef = value;
-    }
 
     /**
      * Gets the value of the isImmediate property.
