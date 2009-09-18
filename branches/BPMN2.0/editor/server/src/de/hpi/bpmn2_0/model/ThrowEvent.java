@@ -51,7 +51,7 @@ import javax.xml.namespace.QName;
 //    "eventDefinitionRef"
 })
 @XmlSeeAlso({
-//    TIntermediateThrowEvent.class,
+//    IntermediateThrowEvent.class,
 //    TImplicitThrowEvent.class,
     EndEvent.class
 })
@@ -63,7 +63,7 @@ public abstract class ThrowEvent
 //    protected List<TDataInputAssociation> dataInputAssociation;
 //    protected TInputSet inputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
-//    protected List<JAXBElement<? extends TEventDefinition>> eventDefinition;
+//    protected List<JAXBElement<? extends EventDefinition>> eventDefinition;
     protected List<QName> eventDefinitionRef;
 
     /**
@@ -170,7 +170,7 @@ public abstract class ThrowEvent
      * {@link JAXBElement }{@code <}{@link TMessageEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TErrorEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TTimerEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link EventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TConditionalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TLinkEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TCancelEventDefinition }{@code >}
@@ -180,9 +180,9 @@ public abstract class ThrowEvent
      * 
      * 
      */
-//    public List<JAXBElement<? extends TEventDefinition>> getEventDefinition() {
+//    public List<JAXBElement<? extends EventDefinition>> getEventDefinition() {
 //        if (eventDefinition == null) {
-//            eventDefinition = new ArrayList<JAXBElement<? extends TEventDefinition>>();
+//            eventDefinition = new ArrayList<JAXBElement<? extends EventDefinition>>();
 //        }
 //        return this.eventDefinition;
 //    }

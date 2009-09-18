@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tEvent")
 @XmlSeeAlso({
-//    ThrowEvent.class,
+    ThrowEvent.class,
     CatchEvent.class
 })
 public abstract class Event

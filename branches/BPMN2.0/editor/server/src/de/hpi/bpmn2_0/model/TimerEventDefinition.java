@@ -26,21 +26,22 @@ package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tStartEvent complex type.
+ * <p>Java class for tTimerEventDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tStartEvent">
+ * &lt;complexType name="tTimerEventDefinition">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tEventDefinition">
+ *       &lt;choice>
+ *         &lt;element name="timeDate" type="{http://www.omg.org/bpmn20}tExpression" minOccurs="0"/>
+ *         &lt;element name="timeCycle" type="{http://www.omg.org/bpmn20}tExpression" minOccurs="0"/>
+ *       &lt;/choice>
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -48,42 +49,64 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStartEvent")
-public class StartEvent
-    extends CatchEvent
+@XmlType(name = "tTimerEventDefinition", propOrder = {
+    "timeDate",
+    "timeCycle"
+})
+public class TimerEventDefinition
+    extends EventDefinition
 {
 
-    @XmlAttribute
-    protected Boolean isInterrupting;
+    protected Expression timeDate;
+    protected Expression timeCycle;
 
     /**
-     * Gets the value of the isInterrupting property.
+     * Gets the value of the timeDate property.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link Expression }
      *     
      */
-    public boolean isIsInterrupting() {
-        if (isInterrupting == null) {
-            return false;
-        } else {
-            return isInterrupting;
-        }
+    public Expression getTimeDate() {
+        return timeDate;
     }
 
     /**
-     * Sets the value of the isInterrupting property.
+     * Sets the value of the timeDate property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link Expression }
      *     
      */
-    public void setIsInterrupting(Boolean value) {
-        this.isInterrupting = value;
+    public void setTimeDate(Expression value) {
+        this.timeDate = value;
+    }
+
+    /**
+     * Gets the value of the timeCycle property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Expression }
+     *     
+     */
+    public Expression getTimeCycle() {
+        return timeCycle;
+    }
+
+    /**
+     * Sets the value of the timeCycle property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Expression }
+     *     
+     */
+    public void setTimeCycle(Expression value) {
+        this.timeCycle = value;
     }
 
 }

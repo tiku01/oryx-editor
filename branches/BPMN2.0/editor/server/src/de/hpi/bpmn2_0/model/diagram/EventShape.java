@@ -11,9 +11,12 @@ package de.hpi.bpmn2_0.model.diagram;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.Event;
 
 
 /**
@@ -40,9 +43,10 @@ public class EventShape
     extends BpmnNode
 {
 
-    @XmlAttribute
-    @XmlSchemaType(name = "anySimpleType")
-    protected String eventRef;
+	@XmlAttribute
+	@XmlIDREF
+	@XmlSchemaType(name = "IDREF")
+    protected Event eventRef;
 
     /**
      * Gets the value of the eventRef property.
@@ -52,7 +56,7 @@ public class EventShape
      *     {@link String }
      *     
      */
-    public String getEventRef() {
+    public Event getEventRef() {
         return eventRef;
     }
 
@@ -64,7 +68,7 @@ public class EventShape
      *     {@link String }
      *     
      */
-    public void setEventRef(String value) {
+    public void setEventRef(Event value) {
         this.eventRef = value;
     }
 

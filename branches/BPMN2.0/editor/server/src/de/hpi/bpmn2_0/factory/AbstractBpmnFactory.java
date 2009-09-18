@@ -23,43 +23,88 @@ package de.hpi.bpmn2_0.factory;
  * SOFTWARE.
  */
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
+import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 
 /**
- * This is the abstract factory that offers methods to create a process 
- * element and a related diagram element from a {@link Shape}.
+ * This is the abstract factory that offers methods to create a process element
+ * and a related diagram element from a {@link Shape}.
  */
 public abstract class AbstractBpmnFactory {
-	
+
 	/**
 	 * Creates a process element based on a {@link Shape}.
 	 * 
 	 * @param shape
-	 * 		The resource shape
-	 * @return
-	 * 		The constructed process element.
+	 *            The resource shape
+	 * @return The constructed process element.
 	 */
-	protected abstract BaseElement createProcessElement(Shape shape);
-	
+	protected abstract BaseElement createProcessElement(Shape shape)
+			throws BpmnConverterException;
+
 	/**
 	 * Creates a diagram element based on a {@link Shape}.
 	 * 
 	 * @param shape
-	 * 		The resource shape
-	 * @return
-	 * 		The constructed process element.
+	 *            The resource shape
+	 * @return The constructed diagram element.
 	 */
 	protected abstract Object createDiagramElement(Shape shape);
-	
+
 	/**
 	 * Creates BPMNElement that contains DiagramElement and ProcessElement
 	 * 
 	 * @param shape
-	 * 		The resource shape.
-	 * @return
-	 * 		The constructed BPMN element.
+	 *            The resource shape.
+	 * @return The constructed BPMN element.
 	 */
-	public abstract BPMNElement createBpmnElement(Shape shape);
+	public abstract BPMNElement createBpmnElement(Shape shape)
+			throws BpmnConverterException;
+
+	/**
+	 * Sets the fields for the visual representation e.g. x and y coordinates,
+	 * height and width
+	 * 
+	 * @param diaElement
+	 *            The BPMN 2.0 diagram element
+	 * @param shape
+	 *            The resource shape
+	 */
+	protected void setVisualAttributes(BpmnNode diaElement, Shape shape) {
+		diaElement.setId(shape.getResourceId());
+		diaElement.setName(shape.getProperty("name"));
+
+		/* Graphic fields */
+		diaElement.setX(shape.getUpperLeft().getX());
+		diaElement.setY(shape.getUpperLeft().getY());
+		diaElement.setHeight(shape.getHeight());
+		diaElement.setWidth(shape.getWidth());
+	}
+
+	protected BaseElement invokeCreatorMethod(Shape shape)
+			throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException, BpmnConverterException {
+
+		/* Retrieve the method to create the process element */
+		for (Method method : Arrays
+				.asList(this.getClass().getDeclaredMethods())) {
+			StencilId stencilIdA = method.getAnnotation(StencilId.class);
+			if (stencilIdA != null && Arrays.asList(stencilIdA.value())
+					.contains(shape.getStencilId())) {
+				/* Create element with appropriate method */
+				return (BaseElement) method.invoke(this, shape);
+			}
+		}
+
+		throw new BpmnConverterException("Creator method for shape with id "
+				+ shape.getStencilId() + "not found");
+	}
 }

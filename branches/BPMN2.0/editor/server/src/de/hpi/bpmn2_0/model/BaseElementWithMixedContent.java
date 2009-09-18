@@ -12,12 +12,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -28,16 +33,17 @@ import org.w3c.dom.Element;
 
 
 /**
- * <p>Java class for tBaseElement complex type.
+ * <p>Java class for tBaseElementWithMixedContent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tBaseElement">
+ * &lt;complexType name="tBaseElementWithMixedContent">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element ref="{http://www.omg.org/bpmn20}documentation" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.omg.org/bpmn20}category" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;any/>
  *       &lt;/sequence>
  *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" />
@@ -49,54 +55,22 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tBaseElement", propOrder = {
-//    "documentation",
-//    "any"
+@XmlType(name = "tBaseElementWithMixedContent", propOrder = {
+    "content"
 })
 @XmlSeeAlso({
-//    TOperation.class,
-//    TResourceAssignmentExpression.class,
-//    TMonitoring.class,
-//    TParticipant.class,
-//    TParticipantMultiplicity.class,
-//    TInputSet.class,
-//    TOutputSet.class,
-//    TRelationship.class,
-//    TAssignment.class,
-//    TMessageFlow.class,
-//    TInputOutputBinding.class,
-//    TResourceParameter.class,
-//    TProperty.class,
-//    TDataInput.class,
-//    TComplexBehaviorDefinition.class,
-//    TMessageFlowAssociation.class,
-//    TDataAssociation.class,
-//    TParticipantAssociation.class,
-//    CategoryValue.class,
-//    TLoopCharacteristics.class,
-//    TCorrelationPropertyBinding.class,
-//    TActivityResource.class,
-//    TLane.class,
-//    TCorrelationPropertyRetrievalExpression.class,
-//    TDataState.class,
-//    TLaneSet.class,
-//    TConversationAssociation.class,
-//    TInputOutputSpecification.class,
-//    TConversationNode.class,
-//    TCorrelationKey.class,
-//    TResourceParameterBinding.class,
-//    TRendering.class,
-//    FlowElement.class,
-//    RootElement.class,
-//    TAuditing.class,
-//    TArtifact.class,
-//    TDataOutput.class
+    Expression.class
 })
-public abstract class BaseElement {
+public abstract class BaseElementWithMixedContent {
 
-//    protected List<Documentation> documentation;
-    @XmlAnyElement(lax = true)
-    protected List<Object> any;
+//    @XmlElement
+//    @XmlMixed
+//    //@XmlAnyElement(lax = true)
+	@XmlElementRefs({
+		@XmlElementRef(type = Task.class),
+		@XmlElementRef(type = Task.class)
+	})
+    protected List<Object> content;
     @XmlAttribute
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlID
@@ -106,62 +80,36 @@ public abstract class BaseElement {
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
     /**
-     * Gets the value of the documentation property.
+     * Gets the value of the content property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the documentation property.
+     * This is why there is not a <CODE>set</CODE> method for the content property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getDocumentation().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Documentation }
-     * 
-     * 
-     */
-//    public List<Documentation> getDocumentation() {
-//        if (documentation == null) {
-//            documentation = new ArrayList<Documentation>();
-//        }
-//        return this.documentation;
-//    }
-
-    /**
-     * Gets the value of the any property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAny().add(newItem);
+     *    getContent().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
+     * {@link String }
+     * {@link JAXBElement }{@code <}{@link Category }{@code >}
+     * {@link JAXBElement }{@code <}{@link Documentation }{@code >}
      * {@link Element }
      * 
      * 
      */
-    public List<Object> getAny() {
-        if (any == null) {
-            any = new ArrayList<Object>();
+    public List<Object> getContent() {
+        if (content == null) {
+            content = new ArrayList<Object>();
         }
-        return this.any;
+        return this.content;
     }
 
     /**

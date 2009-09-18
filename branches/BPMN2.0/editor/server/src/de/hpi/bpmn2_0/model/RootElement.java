@@ -36,13 +36,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tRootElement")
 @XmlSeeAlso({
 //    TItemDefinition.class,
-//    TCategory.class,
+//    Category.class,
 //    TCollaboration.class,
 //    TEndPoint.class,
 //    TPartnerRole.class,
 //    TPartnerEntity.class,
 //    TSignal.class,
-//    TEventDefinition.class,
+//    EventDefinition.class,
 //    TError.class,
 //    TResource.class,
 //    TInterface.class,

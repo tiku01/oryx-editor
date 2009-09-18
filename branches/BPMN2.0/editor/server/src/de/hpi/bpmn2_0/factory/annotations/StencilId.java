@@ -34,8 +34,11 @@ import java.lang.annotation.Target;
  * @author Sven Wagner-Boysen
  */
 
-@Target(ElementType.TYPE)
+@Target({
+	ElementType.TYPE,
+	ElementType.METHOD
+})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StencilId {
-	String value();
+	String[] value();
 }
