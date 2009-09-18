@@ -28,6 +28,7 @@ import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Expression;
 import de.hpi.bpmn2_0.model.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
@@ -35,57 +36,73 @@ import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
 /**
  * @author Philipp Giese
  * @author Sven Wagner-Boysen
- *
+ * 
  */
 @StencilId("SequenceFlow")
 public class SequenceFlowFactory extends AbstractBpmnFactory {
 
-	/* (non-Javadoc)
-	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor.server.diagram.Shape)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor
+	 * .server.diagram.Shape)
 	 */
 	@Override
 	public BPMNElement createBpmnElement(Shape shape) {
-		SequenceFlowConnector seqConnector = (SequenceFlowConnector) this.createDiagramElement(shape);
+		SequenceFlowConnector seqConnector = (SequenceFlowConnector) this
+				.createDiagramElement(shape);
 		SequenceFlow seqFlow = (SequenceFlow) this.createProcessElement(shape);
-		
+
 		seqConnector.setSequenceFlowRef(seqFlow);
-		
+
 		return new BPMNElement(seqConnector, seqFlow, shape.getResourceId());
 	}
 
-	/* (non-Javadoc)
-	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seede.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.
+	 * oryxeditor.server.diagram.Shape)
 	 */
 	@Override
 	protected Object createDiagramElement(Shape shape) {
 		SequenceFlowConnector sequenceFlowConnector = new SequenceFlowConnector();
 		sequenceFlowConnector.setId(shape.getResourceId());
-		
+
 		// TODO: Gedanken machen zu Label-Positioning
 		sequenceFlowConnector.setLabel(shape.getProperty("name"));
-		
-		for(int i = 1; i < shape.getDockers().size() - 2; i++) {
+
+		for (int i = 1; i < shape.getDockers().size() - 2; i++) {
 			Point point = shape.getDockers().get(i);
-			
+
 			Bendpoint bp = new Bendpoint();
 			bp.setX(point.getX());
 			bp.setY(point.getY());
-			
+
 			sequenceFlowConnector.getBendpoint().add(bp);
 		}
-		
+
 		return sequenceFlowConnector;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seede.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.
+	 * oryxeditor.server.diagram.Shape)
 	 */
 	@Override
 	protected BaseElement createProcessElement(Shape shape) {
 		SequenceFlow seqFlow = new SequenceFlow();
 		seqFlow.setId(shape.getResourceId());
 		seqFlow.setName(shape.getProperty("name"));
-		
+
+		String conditionType = shape.getProperty("conditiontype");
+		if (conditionType == null || !conditionType.equals("Default")) {
+			seqFlow.setConditionExpression(new Expression());
+		}
+
 		return seqFlow;
 	}
 

@@ -1,5 +1,3 @@
-package de.hpi.bpmn2_0.factory;
-
 /**
  * Copyright (c) 2009
  * Philipp Giese, Sven Wagner-Boysen
@@ -23,36 +21,52 @@ package de.hpi.bpmn2_0.factory;
  * SOFTWARE.
  */
 
+package de.hpi.bpmn2_0.factory;
+
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.Task;
-import de.hpi.bpmn2_0.model.diagram.ActivityShape;
+import de.hpi.bpmn2_0.model.EndEvent;
+import de.hpi.bpmn2_0.model.diagram.EventShape;
 
 /**
- * Concrete class to create any kind of task objects from a {@link Shape} with 
- * the stencil id "http://b3mn.org/stencilset/bpmn2.0#Task"
+ * Factory to create end events
  * 
  * @author Sven Wagner-Boysen
  *
  */
-@StencilId("Task")
-public class TaskFactory extends AbstractBpmnFactory {
+@StencilId("EndNoneEvent")
+public class EndEventFactory extends AbstractBpmnFactory {
+
+	/* (non-Javadoc)
+	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor.server.diagram.Shape)
+	 */
+	@Override
+	public BPMNElement createBpmnElement(Shape shape) {
+		EventShape eventShape = (EventShape) this.createDiagramElement(shape);
+		EndEvent endEvent = (EndEvent) this.createProcessElement(shape);
+		
+		/* Set Reference from shape to process element */
+		eventShape.setEventRef(endEvent);
+		
+		return new BPMNElement(eventShape, endEvent, shape.getResourceId());
+	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
 	protected Object createDiagramElement(Shape shape) {
-		ActivityShape actShape = new ActivityShape();
-		actShape.setX(shape.getUpperLeft().getX());
-		actShape.setY(shape.getUpperLeft().getY());
-		actShape.setWidth(shape.getWidth());
-		actShape.setHeight(shape.getHeight());
-		actShape.setId(shape.getResourceId());
-		return actShape;
+		EventShape eventShape = new EventShape();
+		eventShape.setId(shape.getResourceId());
+		eventShape.setName(shape.getProperty("name"));
+		eventShape.setX(shape.getUpperLeft().getX());
+		eventShape.setY(shape.getUpperLeft().getY());
+		eventShape.setHeight(shape.getHeight());
+		eventShape.setWidth(shape.getWidth());
 		
+		return eventShape;
 	}
 
 	/* (non-Javadoc)
@@ -60,20 +74,11 @@ public class TaskFactory extends AbstractBpmnFactory {
 	 */
 	@Override
 	protected BaseElement createProcessElement(Shape shape) {
-		Task task = new Task();
-		task.setId(shape.getResourceId());
-		task.setName(shape.getProperty("name"));
-		return task;
-	}
-
-	@Override
-	public BPMNElement createBpmnElement(Shape shape) {
-		BaseElement task = this.createProcessElement(shape);
-		ActivityShape activity = (ActivityShape) this.createDiagramElement(shape);
+		EndEvent event = new EndEvent();
+		event.setId(shape.getResourceId());
+		event.setName(shape.getProperty("name"));
 		
-		activity.setActivityRef(task);
-		
-		return new BPMNElement(activity, task, shape.getResourceId());
+		return event;
 	}
 
 }

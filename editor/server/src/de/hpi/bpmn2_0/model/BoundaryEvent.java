@@ -21,26 +21,28 @@
  * SOFTWARE.
  */
 
-
 package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
 
 
 /**
- * <p>Java class for tStartEvent complex type.
+ * <p>Java class for tBoundaryEvent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tStartEvent">
+ * &lt;complexType name="tBoundaryEvent">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *       &lt;attribute name="cancelActivity" type="{http://www.w3.org/2001/XMLSchema}boolean" default="true" />
+ *       &lt;attribute name="attachedToRef" use="required" type="{http://www.w3.org/2001/XMLSchema}QName" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -48,42 +50,69 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStartEvent")
-public class StartEvent
-    extends CatchEvent
+@XmlType(name = "tBoundaryEvent")
+public class BoundaryEvent
+    extends IntermediateCatchEvent
 {
 
     @XmlAttribute
-    protected Boolean isInterrupting;
+    protected Boolean cancelActivity;
+    @XmlAttribute(required = true)
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
+    protected Activity attachedToRef;
 
     /**
-     * Gets the value of the isInterrupting property.
+     * Gets the value of the cancelActivity property.
      * 
      * @return
      *     possible object is
      *     {@link Boolean }
      *     
      */
-    public boolean isIsInterrupting() {
-        if (isInterrupting == null) {
-            return false;
+    public boolean isCancelActivity() {
+        if (cancelActivity == null) {
+            return true;
         } else {
-            return isInterrupting;
+            return cancelActivity;
         }
     }
 
     /**
-     * Sets the value of the isInterrupting property.
+     * Sets the value of the cancelActivity property.
      * 
      * @param value
      *     allowed object is
      *     {@link Boolean }
      *     
      */
-    public void setIsInterrupting(Boolean value) {
-        this.isInterrupting = value;
+    public void setCancelActivity(Boolean value) {
+        this.cancelActivity = value;
+    }
+
+    /**
+     * Gets the value of the attachedToRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Activity }
+     *     
+     */
+    public Activity getAttachedToRef() {
+        return attachedToRef;
+    }
+
+    /**
+     * Sets the value of the attachedToRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Activity }
+     *     
+     */
+    public void setAttachedToRef(Activity value) {
+        this.attachedToRef = value;
     }
 
 }

@@ -23,8 +23,8 @@
 
 package de.hpi.bpmn2_0.transformation;
 
-import java.lang.annotation.Annotation;
 import java.security.InvalidKeyException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,11 +36,12 @@ import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
 import de.hpi.bpmn2_0.factory.BPMNElement;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
-import de.hpi.bpmn2_0.model.Definitions;
-import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.model.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
+import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
@@ -61,16 +62,19 @@ public class Diagram2BpmnConverter {
 	private HashMap<String, AbstractBpmnFactory> factories;
 	private HashMap<String, BPMNElement> bpmnElements;
 	private Diagram diagram;
-	private final HashSet<String> edgeIds;
+	
+	/* Define edge ids */
+	private final static String[] edgeIdsArray = {
+		"SequenceFlow", 
+		"Association_Undirected"
+	};
+	
+	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays.asList(edgeIdsArray));
 
 	public Diagram2BpmnConverter(Diagram diagram) {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
 		this.bpmnElements = new HashMap<String, BPMNElement>();
 		this.diagram = diagram;
-
-		/* Define edge ids */
-		this.edgeIds = new HashSet<String>();
-		this.edgeIds.add("SequenceFlow");
 	}
 
 	/**
@@ -116,7 +120,11 @@ public class Diagram2BpmnConverter {
 		for (Class<? extends AbstractBpmnFactory> factoryClass : factoryClasses) {
 			StencilId stencilIdA = (StencilId) factoryClass
 					.getAnnotation(StencilId.class);
-			if (stencilIdA != null && stencilIdA.value().equals(stencilId)) {
+			if(stencilIdA == null) continue;
+			
+			/* Check if appropriate stencil id is contained */
+			List<String> stencilIds = Arrays.asList(stencilIdA.value());
+			if (stencilIds.contains(stencilId)) {
 				return (AbstractBpmnFactory) factoryClass.newInstance();
 			}
 		}
@@ -144,17 +152,22 @@ public class Diagram2BpmnConverter {
 	 */
 	private void detectConnectors() {
 		for (Shape shape : this.diagram.getShapes()) {
-			if (!this.edgeIds.contains(shape.getStencilId())) {
+			if (!edgeIds.contains(shape.getStencilId())) {
 				continue;
 			}
-
+			
+			/* Retrieve connector element */
 			BPMNElement bpmnConnector = this.bpmnElements.get(shape
 					.getResourceId());
 
 			BPMNElement source = null;
-
+			
+			/* 
+			 * Find source of connector. It is assumed that the first none edge
+			 * element is the source element.
+			 */
 			for (Shape incomingShape : shape.getIncomings()) {
-				if (this.edgeIds.contains(incomingShape.getStencilId())) {
+				if (edgeIds.contains(incomingShape.getStencilId())) {
 					continue;
 				}
 
@@ -192,6 +205,15 @@ public class Diagram2BpmnConverter {
 				BpmnConnectorType seqConnector = (BpmnConnectorType) bpmnConnector
 						.getShape();
 				seqConnector.setTargetRef(target.getShape());
+			}
+		}
+	}
+	
+	private void setDefaultSequenceFlowOfExclusiveGateway() {
+		for(BPMNElement element : this.bpmnElements.values()) {
+			BaseElement base = element.getNode();
+			if(base instanceof ExclusiveGateway) {
+				((ExclusiveGateway) base).findDefaultSequenceFlow();
 			}
 		}
 	}
@@ -248,8 +270,19 @@ public class Diagram2BpmnConverter {
 		}
 		
 		this.detectConnectors();
+		this.setDefaultSequenceFlowOfExclusiveGateway();
 
 		return definitions;
+	}
+
+	
+	/* Getter & Setter */
+	
+	/**
+	 * @return The list of BPMN 2.0 's stencil set edgeIds
+	 */
+	public static HashSet<String> getEdgeIds() {
+		return edgeIds;
 	}
 
 }

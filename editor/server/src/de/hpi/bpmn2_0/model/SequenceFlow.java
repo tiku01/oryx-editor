@@ -33,6 +33,7 @@ package de.hpi.bpmn2_0.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -69,8 +70,9 @@ import javax.xml.bind.annotation.XmlType;
 public class SequenceFlow
     extends Edge
 {
-
-//    protected Expression conditionExpression;
+	
+	@XmlElementRef
+    protected Expression conditionExpression;
     @XmlAttribute
     protected Boolean isImmediate;
 
@@ -82,9 +84,9 @@ public class SequenceFlow
      *     {@link Expression }
      *     
      */
-//    public Expression getConditionExpression() {
-//        return conditionExpression;
-//    }
+    public Expression getConditionExpression() {
+    	return conditionExpression;
+    }
 
     /**
      * Sets the value of the conditionExpression property.
@@ -94,9 +96,9 @@ public class SequenceFlow
      *     {@link Expression }
      *     
      */
-//    public void setConditionExpression(Expression value) {
-//        this.conditionExpression = value;
-//    }
+    public void setConditionExpression(Expression value) {
+        this.conditionExpression = value;
+    }
 
 
     /**

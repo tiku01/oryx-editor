@@ -25,20 +25,21 @@ package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tTask complex type.
+ * <p>Java class for tGateway complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tTask">
+ * &lt;complexType name="tGateway">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tFlowNode">
+ *       &lt;attribute name="gatewayDirection" type="{http://www.omg.org/bpmn20}tGatewayDirection" default="unspecified" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -46,21 +47,49 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "task", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTask")
+@XmlType(name = "tGateway")
 @XmlSeeAlso({
-//    TManualTask.class,
-//    TServiceTask.class,
-//    TScriptTask.class,
-//    TReceiveTask.class,
-//    TBusinessRuleTask.class,
-//    TSendTask.class,
-//    TUserTask.class
+//    TComplexGateway.class,
+//    TInclusiveGateway.class,
+//    TEventBasedGateway.class,
+//    TParallelGateway.class,
+    ExclusiveGateway.class
 })
-public class Task
-    extends Activity
+public class Gateway
+    extends FlowNode
 {
 
+    @XmlAttribute
+    protected GatewayDirection gatewayDirection;
+    
+    
+    /**
+     * Gets the value of the gatewayDirection property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link GatewayDirection }
+     *     
+     */
+    public GatewayDirection getGatewayDirection() {
+        if (gatewayDirection == null) {
+            return GatewayDirection.UNSPECIFIED;
+        } else {
+            return gatewayDirection;
+        }
+    }
+
+    /**
+     * Sets the value of the gatewayDirection property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link GatewayDirection }
+     *     
+     */
+    public void setGatewayDirection(GatewayDirection value) {
+        this.gatewayDirection = value;
+    }
 
 }

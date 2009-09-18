@@ -21,26 +21,28 @@
  * SOFTWARE.
  */
 
-
 package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
 
 
 /**
- * <p>Java class for tStartEvent complex type.
+ * <p>Java class for tMessageEventDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tStartEvent">
+ * &lt;complexType name="tMessageEventDefinition">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tEventDefinition">
+ *       &lt;sequence>
+ *         &lt;element name="operationRef" type="{http://www.w3.org/2001/XMLSchema}QName" minOccurs="0"/>
+ *       &lt;/sequence>
+ *       &lt;attribute name="messageRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -48,42 +50,64 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStartEvent")
-public class StartEvent
-    extends CatchEvent
+@XmlType(name = "tMessageEventDefinition", propOrder = {
+    "operationRef"
+})
+public class MessageEventDefinition
+    extends EventDefinition
 {
 
+    protected QName operationRef;
     @XmlAttribute
-    protected Boolean isInterrupting;
+    protected QName messageRef;
 
     /**
-     * Gets the value of the isInterrupting property.
+     * Gets the value of the operationRef property.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link QName }
      *     
      */
-    public boolean isIsInterrupting() {
-        if (isInterrupting == null) {
-            return false;
-        } else {
-            return isInterrupting;
-        }
+    public QName getOperationRef() {
+        return operationRef;
     }
 
     /**
-     * Sets the value of the isInterrupting property.
+     * Sets the value of the operationRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link QName }
      *     
      */
-    public void setIsInterrupting(Boolean value) {
-        this.isInterrupting = value;
+    public void setOperationRef(QName value) {
+        this.operationRef = value;
+    }
+
+    /**
+     * Gets the value of the messageRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QName }
+     *     
+     */
+    public QName getMessageRef() {
+        return messageRef;
+    }
+
+    /**
+     * Sets the value of the messageRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QName }
+     *     
+     */
+    public void setMessageRef(QName value) {
+        this.messageRef = value;
     }
 
 }

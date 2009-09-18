@@ -82,6 +82,7 @@ public class Process
 		@XmlElementRef(type = StartEvent.class),
 		@XmlElementRef(type = Task.class),
 		@XmlElementRef(type = EndEvent.class),
+		@XmlElementRef(type = ExclusiveGateway.class),
 		@XmlElementRef(type = SequenceFlow.class)
 	})
     protected List<FlowElement> flowElement;
@@ -223,13 +224,13 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TCallChoreographyActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TTransaction }{@code >}
      * {@link JAXBElement }{@code <}{@link EndEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TIntermediateCatchEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link IntermediateCatchEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link FlowElement }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TComplexGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TBoundaryEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link BoundaryEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TExclusiveGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link ExclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
@@ -239,7 +240,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link TSubProcess }{@code >}
-     * {@link JAXBElement }{@code <}{@link TIntermediateThrowEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
      * {@link JAXBElement }{@code <}{@link TEventBasedGateway }{@code >}

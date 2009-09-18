@@ -186,7 +186,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TConversation }{@code >}
      * {@link JAXBElement }{@code <}{@link TConditionalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Process }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCategory }{@code >}
+     * {@link JAXBElement }{@code <}{@link Category }{@code >}
      * {@link JAXBElement }{@code <}{@link TItemDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEscalationEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TMessage }{@code >}
@@ -205,7 +205,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TPartnerEntity }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalScriptTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link EventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TError }{@code >}
      * {@link JAXBElement }{@code <}{@link TLinkEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TCancelEventDefinition }{@code >}

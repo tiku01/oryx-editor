@@ -45,7 +45,7 @@ import javax.xml.namespace.QName;
 @XmlSeeAlso({
     Event.class,
 //    TChoreographyActivity.class,
-//    TGateway.class,
+    Gateway.class,
     Activity.class
 })
 public abstract class FlowNode
@@ -54,7 +54,49 @@ public abstract class FlowNode
 
     protected List<FlowNode> incoming;
     protected List<FlowNode> outgoing;
-
+    
+    /**
+     * Convenience method to retrieve all incoming {@link SequenceFlow}
+     * 
+     * Changes to that list have no influence to the result other callers get.
+     * 
+     * @return The list of {@link SequenceFlow}
+     */
+    public List<SequenceFlow> getIncomingSequenceFlows() {
+    	ArrayList<SequenceFlow> incomingSeq = new ArrayList<SequenceFlow>();
+    	
+    	for(FlowNode node : this.getIncoming()) {
+    		/* Determine if type of sequence flow */
+    		if(node instanceof SequenceFlow) {
+    			incomingSeq.add((SequenceFlow) node);
+    		}
+    	}
+    	
+    	return incomingSeq;
+    }
+    
+    /**
+     * Convenience method to retrieve all outgoing {@link SequenceFlow}
+     * 
+     * Changes to that list have no influence to the result other callers get.
+     * 
+     * @return The list of {@link SequenceFlow}
+     */
+    public List<SequenceFlow> getOutgoingSequenceFlows() {
+    	ArrayList<SequenceFlow> outgoingSeq = new ArrayList<SequenceFlow>();
+    	
+    	for(FlowNode node : this.getOutgoing()) {
+    		/* Determine if type of sequence flow */
+    		if(node instanceof SequenceFlow) {
+    			outgoingSeq.add((SequenceFlow) node);
+    		}
+    	}
+    	
+    	return outgoingSeq;
+    }
+    
+    /* Getters */
+    
     /**
      * Gets the value of the incoming property.
      * 

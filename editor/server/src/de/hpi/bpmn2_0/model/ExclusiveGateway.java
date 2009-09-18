@@ -21,26 +21,27 @@
  * SOFTWARE.
  */
 
-
 package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tStartEvent complex type.
+ * <p>Java class for tExclusiveGateway complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tStartEvent">
+ * &lt;complexType name="tExclusiveGateway">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tGateway">
+ *       &lt;attribute name="default" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -48,42 +49,60 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStartEvent")
-public class StartEvent
-    extends CatchEvent
+@XmlType(name = "tExclusiveGateway")
+public class ExclusiveGateway
+    extends Gateway
 {
 
-    @XmlAttribute
-    protected Boolean isInterrupting;
-
+    @XmlAttribute(name = "default")
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
+    protected SequenceFlow defaultSequenceFlow;
+    
     /**
-     * Gets the value of the isInterrupting property.
+     * Determines the default {@link SequenceFlow}
+     * 
+     * @return The default {@link SequenceFlow} or null
+     */
+    public SequenceFlow findDefaultSequenceFlow() {
+		for(SequenceFlow seqFlow : this.getOutgoingSequenceFlows()) {
+			/* A default sequence flow should not have an condition expression. */
+			if(seqFlow.getConditionExpression() == null) {
+				this.setDefault(seqFlow);
+				return seqFlow;
+			}
+		}
+		
+		return null;
+	}
+    
+    /* Getter & Setter */
+    
+    /**
+     * Gets the default {@link SequenceFlow} of the {@link ExclusiveGateway} or
+     * null if no default flow is set.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link SequenceFlow }
      *     
      */
-    public boolean isIsInterrupting() {
-        if (isInterrupting == null) {
-            return false;
-        } else {
-            return isInterrupting;
-        }
+    public SequenceFlow getDefault() {
+        return defaultSequenceFlow;
     }
 
     /**
-     * Sets the value of the isInterrupting property.
+     * Sets default {@link SequenceFlow}.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link SequenceFlow }
      *     
      */
-    public void setIsInterrupting(Boolean value) {
-        this.isInterrupting = value;
+    public void setDefault(SequenceFlow value) {
+        this.defaultSequenceFlow = value;
     }
 
 }
