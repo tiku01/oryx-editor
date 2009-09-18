@@ -241,10 +241,13 @@ public class Diagram2BpmnConverter {
 
 			} catch (Exception e) {
 				/* Pack exceptions in a BPMN converter exception */
+				e.printStackTrace();
 				throw new BpmnConverterException(
 						"Error while converting to BPMN model", e.getCause());
 			}
 		}
+		
+		this.detectConnectors();
 
 		return definitions;
 	}
