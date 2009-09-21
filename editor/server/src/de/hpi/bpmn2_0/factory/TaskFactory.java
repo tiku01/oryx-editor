@@ -27,7 +27,7 @@ import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.Task;
+import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.diagram.ActivityShape;
 
 /**
@@ -67,7 +67,7 @@ public class TaskFactory extends AbstractBpmnFactory {
 	}
 
 	@Override
-	public BPMNElement createBpmnElement(Shape shape) {
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) {
 		BaseElement task = this.createProcessElement(shape);
 		ActivityShape activity = (ActivityShape) this.createDiagramElement(shape);
 		

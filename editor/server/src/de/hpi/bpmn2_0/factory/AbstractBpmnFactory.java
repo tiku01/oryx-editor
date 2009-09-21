@@ -66,7 +66,7 @@ public abstract class AbstractBpmnFactory {
 	 *            The resource shape.
 	 * @return The constructed BPMN element.
 	 */
-	public abstract BPMNElement createBpmnElement(Shape shape)
+	public abstract BPMNElement createBpmnElement(Shape shape, BPMNElement parent)
 			throws BpmnConverterException;
 
 	/**

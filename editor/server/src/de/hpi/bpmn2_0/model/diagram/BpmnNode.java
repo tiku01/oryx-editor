@@ -78,6 +78,12 @@ public abstract class BpmnNode {
     @XmlSchemaType(name = "anySimpleType")
     protected double height;
 
+    public void addChild(BpmnNode childShape) {
+    	return;
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the id property.
      * 

@@ -81,7 +81,13 @@ public class LaneCompartment
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected Object laneRef;
-
+    
+    public void addChild(BpmnNode child) {
+    	this.getBpmnShape().add(child);
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the bpmnShape property.
      * 

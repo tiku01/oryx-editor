@@ -104,7 +104,18 @@ public class Process
     protected Boolean isClosed;
     @XmlAttribute
     protected QName definitionalCollaborationRef;
-
+    
+    /**
+     * Adds the child to the process's flow elements if possible.
+     */
+    public void addChild(BaseElement child) {
+    	if(child instanceof FlowElement) {
+    		this.getFlowElement().add((FlowElement) child);
+    	}
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the auditing property.
      * 

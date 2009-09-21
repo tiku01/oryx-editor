@@ -49,7 +49,7 @@ public class SequenceFlowFactory extends AbstractBpmnFactory {
 	 * .server.diagram.Shape)
 	 */
 	@Override
-	public BPMNElement createBpmnElement(Shape shape) {
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) {
 		SequenceFlowConnector seqConnector = (SequenceFlowConnector) this
 				.createDiagramElement(shape);
 		SequenceFlow seqFlow = (SequenceFlow) this.createProcessElement(shape);
