@@ -27,8 +27,8 @@ import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.EndEvent;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
+import de.hpi.bpmn2_0.model.event.EndEvent;
 
 /**
  * Factory to create end events
@@ -43,7 +43,7 @@ public class EndEventFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	public BPMNElement createBpmnElement(Shape shape) {
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) {
 		EventShape eventShape = (EventShape) this.createDiagramElement(shape);
 		EndEvent endEvent = (EndEvent) this.createProcessElement(shape);
 		

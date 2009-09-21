@@ -24,6 +24,7 @@ package de.hpi.bpmn2_0.factory;
  */
 
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 
 public class BPMNElement {
 	private Object shape;
@@ -35,6 +36,21 @@ public class BPMNElement {
 		this.node = node;
 		this.id = id;
 	}
+	
+	/**
+	 * Adds a {@link BPMNElement} as child to the current {@link BPMNElement}
+	 * 
+	 * @param child
+	 * 		The child element
+	 */
+	public void addChild(BPMNElement child) {
+		this.getNode().addChild(child.getNode());
+		if(this.getShape() instanceof BpmnNode && child.getShape() instanceof BpmnNode) {
+			((BpmnNode) this.getShape()).addChild((BpmnNode) child.getShape());
+		}
+	}
+	
+	/* Getter & Setter */
 	
 	/**
 	 * @return the id

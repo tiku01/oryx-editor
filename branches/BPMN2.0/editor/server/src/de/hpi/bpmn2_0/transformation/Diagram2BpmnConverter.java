@@ -32,13 +32,14 @@ import java.util.List;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
 import de.hpi.bpmn2_0.factory.BPMNElement;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Definitions;
-import de.hpi.bpmn2_0.model.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
@@ -48,6 +49,7 @@ import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
+import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.util.reflection.ClassFinder;
 
 /**
@@ -62,14 +64,14 @@ public class Diagram2BpmnConverter {
 	private HashMap<String, AbstractBpmnFactory> factories;
 	private HashMap<String, BPMNElement> bpmnElements;
 	private Diagram diagram;
-	
+	private ProcessDiagram processDia;
+
 	/* Define edge ids */
-	private final static String[] edgeIdsArray = {
-		"SequenceFlow", 
-		"Association_Undirected"
-	};
-	
-	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays.asList(edgeIdsArray));
+	private final static String[] edgeIdsArray = { "SequenceFlow",
+			"Association_Undirected" };
+
+	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays
+			.asList(edgeIdsArray));
 
 	public Diagram2BpmnConverter(Diagram diagram) {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
@@ -120,8 +122,9 @@ public class Diagram2BpmnConverter {
 		for (Class<? extends AbstractBpmnFactory> factoryClass : factoryClasses) {
 			StencilId stencilIdA = (StencilId) factoryClass
 					.getAnnotation(StencilId.class);
-			if(stencilIdA == null) continue;
-			
+			if (stencilIdA == null)
+				continue;
+
 			/* Check if appropriate stencil id is contained */
 			List<String> stencilIds = Arrays.asList(stencilIdA.value());
 			if (stencilIds.contains(stencilId)) {
@@ -129,7 +132,7 @@ public class Diagram2BpmnConverter {
 			}
 		}
 
-		throw new ClassNotFoundException("Factory for stencil id not found!");
+		throw new ClassNotFoundException("Factory for stencil id: '" + stencilId + "' not found!");
 	}
 
 	/**
@@ -146,6 +149,52 @@ public class Diagram2BpmnConverter {
 
 		this.bpmnElements.put(el.getId(), el);
 	}
+	
+	/**
+	 * Creates the BPMN 2.0 elements for the parent's child shapes recursively.
+	 * 
+	 * @param childShapes
+	 * 		The list of parent's child shapes
+	 * @param parent
+	 * 		The parent {@link BPMNElement}
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws BpmnConverterException
+	 * @throws InvalidKeyException
+	 */
+	private void createBpmnElementsRecursively(List<Shape> childShapes,
+			BPMNElement parent) throws ClassNotFoundException,
+			InstantiationException, IllegalAccessException,
+			BpmnConverterException, InvalidKeyException {
+		
+		/* Terminate recursion */
+		if(parent == null || childShapes == null) return;
+			
+		/* Create BPMN elements from shapes */
+		for(Shape childShape : childShapes) {
+			/* Get the appropriate factory and create the element */
+			AbstractBpmnFactory factory = this.getFactoryForStencilId(childShape
+					.getStencilId());
+			BPMNElement bpmnElement = factory.createBpmnElement(childShape, null);
+			
+			/* Add element to flat list of all elements of the diagram */
+			this.addBpmnElement(bpmnElement);
+			
+			/* Add child to parent BPMN element */
+			parent.addChild(bpmnElement);
+			
+			Object shapeToAdd = bpmnElement.getShape();
+			if (shapeToAdd instanceof SequenceFlowConnector) {
+				this.processDia.getSequenceFlowConnector().add(
+						(SequenceFlowConnector) shapeToAdd);
+			}
+			
+			/* Handle child shape */
+			this.createBpmnElementsRecursively(childShape.getChildShapes(), bpmnElement);
+		}
+	}
 
 	/**
 	 * Retrieves the edges and updates the source and target references.
@@ -155,14 +204,14 @@ public class Diagram2BpmnConverter {
 			if (!edgeIds.contains(shape.getStencilId())) {
 				continue;
 			}
-			
+
 			/* Retrieve connector element */
 			BPMNElement bpmnConnector = this.bpmnElements.get(shape
 					.getResourceId());
 
 			BPMNElement source = null;
-			
-			/* 
+
+			/*
 			 * Find source of connector. It is assumed that the first none edge
 			 * element is the source element.
 			 */
@@ -182,8 +231,8 @@ public class Diagram2BpmnConverter {
 			/* Update source references */
 			if (source != null) {
 				FlowNode sourceNode = (FlowNode) source.getNode();
-				sourceNode.getOutgoing().add(
-						(FlowNode) bpmnConnector.getNode());
+				sourceNode.getOutgoing()
+						.add((FlowNode) bpmnConnector.getNode());
 
 				SequenceFlow seqFlow = (SequenceFlow) bpmnConnector.getNode();
 				seqFlow.setSourceRef(sourceNode);
@@ -196,8 +245,8 @@ public class Diagram2BpmnConverter {
 			/* Update target references */
 			if (target != null) {
 				FlowNode targetNode = (FlowNode) target.getNode();
-				targetNode.getIncoming().add(
-						(FlowNode) bpmnConnector.getNode());
+				targetNode.getIncoming()
+						.add((FlowNode) bpmnConnector.getNode());
 
 				SequenceFlow seqFlow = (SequenceFlow) bpmnConnector.getNode();
 				seqFlow.setTargetRef(targetNode);
@@ -208,11 +257,15 @@ public class Diagram2BpmnConverter {
 			}
 		}
 	}
-	
+
+	/**
+	 * Identifies the default sequence flows after all sequence flows are set
+	 * correctly.
+	 */
 	private void setDefaultSequenceFlowOfExclusiveGateway() {
-		for(BPMNElement element : this.bpmnElements.values()) {
+		for (BPMNElement element : this.bpmnElements.values()) {
 			BaseElement base = element.getNode();
-			if(base instanceof ExclusiveGateway) {
+			if (base instanceof ExclusiveGateway) {
 				((ExclusiveGateway) base).findDefaultSequenceFlow();
 			}
 		}
@@ -232,7 +285,7 @@ public class Diagram2BpmnConverter {
 		Process process = new Process();
 		process.setId("testProzess");
 		LaneCompartment laneComp = new LaneCompartment();
-		ProcessDiagram processDia = new ProcessDiagram();
+		this.processDia = new ProcessDiagram();
 		processDia.getLaneCompartment().add(laneComp);
 		processDia.setProcessRef(process);
 
@@ -241,43 +294,53 @@ public class Diagram2BpmnConverter {
 		definitions.getRootElement().add(process);
 
 		/* Convert shapes to BPMN 2.0 elements */
-
-		for (Shape shape : this.diagram.getChildShapes()) {
-			try {
-				AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
-						.getStencilId());
-				BPMNElement bpmnElement = factory.createBpmnElement(shape);
-
-				this.addBpmnElement(bpmnElement);
-
-				process.getFlowElement().add(
-						(FlowElement) bpmnElement.getNode());
-
-				Object shapeToAdd = bpmnElement.getShape();
-				if (shapeToAdd instanceof BpmnNode) {
-					laneComp.getBpmnShape().add((BpmnNode) shapeToAdd);
-				} else if (shapeToAdd instanceof SequenceFlowConnector) {
-					processDia.getSequenceFlowConnector().add(
-							(SequenceFlowConnector) shapeToAdd);
-				}
-
-			} catch (Exception e) {
-				/* Pack exceptions in a BPMN converter exception */
-				e.printStackTrace();
-				throw new BpmnConverterException(
-						"Error while converting to BPMN model", e.getCause());
-			}
-		}
 		
+		BPMNElement rootElement = new BPMNElement(laneComp, process, diagram.getResourceId());
+		
+		try {
+			createBpmnElementsRecursively(diagram.getChildShapes(), rootElement);
+		} catch (Exception e) {
+			/* Pack exceptions in a BPMN converter exception */
+			throw new BpmnConverterException(
+					"Error while converting to BPMN model", e);
+		}
+
+//		for (Shape shape : this.diagram.getChildShapes()) {
+//			try {
+//				AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
+//						.getStencilId());
+//				BPMNElement bpmnElement = factory
+//						.createBpmnElement(shape, null);
+//
+//				this.addBpmnElement(bpmnElement);
+//
+//				process.getFlowElement().add(
+//						(FlowElement) bpmnElement.getNode());
+//
+//				Object shapeToAdd = bpmnElement.getShape();
+//				if (shapeToAdd instanceof BpmnNode) {
+//					laneComp.getBpmnShape().add((BpmnNode) shapeToAdd);
+//				} else if (shapeToAdd instanceof SequenceFlowConnector) {
+//					processDia.getSequenceFlowConnector().add(
+//							(SequenceFlowConnector) shapeToAdd);
+//				}
+//
+//			} catch (Exception e) {
+//				/* Pack exceptions in a BPMN converter exception */
+//				throw new BpmnConverterException(
+//						"Error while converting to BPMN model", e);
+//			}
+//		}
+		
+
 		this.detectConnectors();
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 
 		return definitions;
 	}
 
-	
 	/* Getter & Setter */
-	
+
 	/**
 	 * @return The list of BPMN 2.0 's stencil set edgeIds
 	 */

@@ -30,11 +30,11 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.ExclusiveGateway;
-import de.hpi.bpmn2_0.model.Gateway;
-import de.hpi.bpmn2_0.model.GatewayDirection;
 import de.hpi.bpmn2_0.model.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.GatewayShape;
+import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
+import de.hpi.bpmn2_0.model.gateway.Gateway;
+import de.hpi.bpmn2_0.model.gateway.GatewayDirection;
 
 /**
  * The factory to create {@link Gateway} BPMN 2.0 elements
@@ -53,7 +53,7 @@ public class GatewayFactory extends AbstractBpmnFactory {
 	 * .server.diagram.Shape)
 	 */
 	@Override
-	public BPMNElement createBpmnElement(Shape shape) throws BpmnConverterException {
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) throws BpmnConverterException {
 		GatewayShape gatewayShape = (GatewayShape) this.createDiagramElement(shape);
 		Gateway gateway = (Gateway) createProcessElement(shape);
 		return new BPMNElement(gatewayShape, gateway, shape.getResourceId());
