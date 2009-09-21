@@ -30,11 +30,12 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.SequenceFlow;
+import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.GatewayShape;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.bpmn2_0.model.gateway.GatewayDirection;
+import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 
 /**
  * The factory to create {@link Gateway} BPMN 2.0 elements
@@ -42,7 +43,7 @@ import de.hpi.bpmn2_0.model.gateway.GatewayDirection;
  * @author Sven Wagner-Boysen
  * 
  */
-@StencilId( { "Exclusive_Databased_Gateway" })
+@StencilId( { "Exclusive_Databased_Gateway",  "ParallelGateway" })
 public class GatewayFactory extends AbstractBpmnFactory {
 
 	/*
@@ -56,6 +57,7 @@ public class GatewayFactory extends AbstractBpmnFactory {
 	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) throws BpmnConverterException {
 		GatewayShape gatewayShape = (GatewayShape) this.createDiagramElement(shape);
 		Gateway gateway = (Gateway) createProcessElement(shape);
+		gatewayShape.setGatewayRef(gateway);
 		return new BPMNElement(gatewayShape, gateway, shape.getResourceId());
 	}
 
@@ -108,6 +110,14 @@ public class GatewayFactory extends AbstractBpmnFactory {
 		return gateway;
 	}
 
+	@StencilId("ParallelGateway")
+	protected ParallelGateway createParallelGateway(Shape shape) {
+		ParallelGateway gateway = new ParallelGateway();
+		gateway.setId(shape.getResourceId());
+		gateway.setName(shape.getProperty("name"));
+		return gateway;
+	}
+	
 	/**
 	 * Determines and sets the {@link GatewayDirection}
 	 */

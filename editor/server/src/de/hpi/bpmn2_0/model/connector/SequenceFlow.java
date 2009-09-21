@@ -5,7 +5,7 @@
 // Generated on: 2009.09.07 at 02:19:19 PM CEST 
 //
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.connector;
 
 /**
  * Copyright (c) 2009
@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.Expression;
 
 
 /**

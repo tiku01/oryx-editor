@@ -37,13 +37,14 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
 import de.hpi.bpmn2_0.factory.BPMNElement;
+import de.hpi.bpmn2_0.factory.IntermediateCatchEventFactory;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Definitions;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
-import de.hpi.bpmn2_0.model.SequenceFlow;
+import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
@@ -132,7 +133,8 @@ public class Diagram2BpmnConverter {
 			}
 		}
 
-		throw new ClassNotFoundException("Factory for stencil id: '" + stencilId + "' not found!");
+		throw new ClassNotFoundException("Factory for stencil id: '"
+				+ stencilId + "' not found!");
 	}
 
 	/**
@@ -149,14 +151,14 @@ public class Diagram2BpmnConverter {
 
 		this.bpmnElements.put(el.getId(), el);
 	}
-	
+
 	/**
 	 * Creates the BPMN 2.0 elements for the parent's child shapes recursively.
 	 * 
 	 * @param childShapes
-	 * 		The list of parent's child shapes
+	 *            The list of parent's child shapes
 	 * @param parent
-	 * 		The parent {@link BPMNElement}
+	 *            The parent {@link BPMNElement}
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws InstantiationException
@@ -168,31 +170,55 @@ public class Diagram2BpmnConverter {
 			BPMNElement parent) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			BpmnConverterException, InvalidKeyException {
-		
+
 		/* Terminate recursion */
-		if(parent == null || childShapes == null) return;
-			
+		if (parent == null || childShapes == null)
+			return;
+
 		/* Create BPMN elements from shapes */
-		for(Shape childShape : childShapes) {
+		for (Shape childShape : childShapes) {
 			/* Get the appropriate factory and create the element */
-			AbstractBpmnFactory factory = this.getFactoryForStencilId(childShape
-					.getStencilId());
-			BPMNElement bpmnElement = factory.createBpmnElement(childShape, null);
-			
+			AbstractBpmnFactory factory = this
+					.getFactoryForStencilId(childShape.getStencilId());
+			BPMNElement bpmnElement = factory.createBpmnElement(childShape,
+					null);
+
 			/* Add element to flat list of all elements of the diagram */
 			this.addBpmnElement(bpmnElement);
-			
+
 			/* Add child to parent BPMN element */
 			parent.addChild(bpmnElement);
-			
+
 			Object shapeToAdd = bpmnElement.getShape();
 			if (shapeToAdd instanceof SequenceFlowConnector) {
 				this.processDia.getSequenceFlowConnector().add(
 						(SequenceFlowConnector) shapeToAdd);
 			}
-			
+
 			/* Handle child shape */
-			this.createBpmnElementsRecursively(childShape.getChildShapes(), bpmnElement);
+			this.createBpmnElementsRecursively(childShape.getChildShapes(),
+					bpmnElement);
+		}
+	}
+
+	/**
+	 * Finds catching intermediate event that are attached to an activities
+	 * boundary.
+	 */
+	private void detectBoundaryEvents(Process process) {
+		for (Shape shape : this.diagram.getShapes()) {
+			if (edgeIds.contains(shape.getStencilId())) {
+				continue;
+			}
+
+			for (Shape outShape : shape.getOutgoings()) {
+				if (edgeIds.contains(outShape.getStencilId()))
+					continue;
+				IntermediateCatchEventFactory.changeToBoundaryEvent(
+						this.bpmnElements.get(shape.getResourceId()),
+						this.bpmnElements.get(outShape.getResourceId()),
+						process);
+			}
 		}
 	}
 
@@ -294,9 +320,10 @@ public class Diagram2BpmnConverter {
 		definitions.getRootElement().add(process);
 
 		/* Convert shapes to BPMN 2.0 elements */
-		
-		BPMNElement rootElement = new BPMNElement(laneComp, process, diagram.getResourceId());
-		
+
+		BPMNElement rootElement = new BPMNElement(laneComp, process, diagram
+				.getResourceId());
+
 		try {
 			createBpmnElementsRecursively(diagram.getChildShapes(), rootElement);
 		} catch (Exception e) {
@@ -305,34 +332,34 @@ public class Diagram2BpmnConverter {
 					"Error while converting to BPMN model", e);
 		}
 
-//		for (Shape shape : this.diagram.getChildShapes()) {
-//			try {
-//				AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
-//						.getStencilId());
-//				BPMNElement bpmnElement = factory
-//						.createBpmnElement(shape, null);
-//
-//				this.addBpmnElement(bpmnElement);
-//
-//				process.getFlowElement().add(
-//						(FlowElement) bpmnElement.getNode());
-//
-//				Object shapeToAdd = bpmnElement.getShape();
-//				if (shapeToAdd instanceof BpmnNode) {
-//					laneComp.getBpmnShape().add((BpmnNode) shapeToAdd);
-//				} else if (shapeToAdd instanceof SequenceFlowConnector) {
-//					processDia.getSequenceFlowConnector().add(
-//							(SequenceFlowConnector) shapeToAdd);
-//				}
-//
-//			} catch (Exception e) {
-//				/* Pack exceptions in a BPMN converter exception */
-//				throw new BpmnConverterException(
-//						"Error while converting to BPMN model", e);
-//			}
-//		}
-		
+		// for (Shape shape : this.diagram.getChildShapes()) {
+		// try {
+		// AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
+		// .getStencilId());
+		// BPMNElement bpmnElement = factory
+		// .createBpmnElement(shape, null);
+		//
+		// this.addBpmnElement(bpmnElement);
+		//
+		// process.getFlowElement().add(
+		// (FlowElement) bpmnElement.getNode());
+		//
+		// Object shapeToAdd = bpmnElement.getShape();
+		// if (shapeToAdd instanceof BpmnNode) {
+		// laneComp.getBpmnShape().add((BpmnNode) shapeToAdd);
+		// } else if (shapeToAdd instanceof SequenceFlowConnector) {
+		// processDia.getSequenceFlowConnector().add(
+		// (SequenceFlowConnector) shapeToAdd);
+		// }
+		//
+		// } catch (Exception e) {
+		// /* Pack exceptions in a BPMN converter exception */
+		// throw new BpmnConverterException(
+		// "Error while converting to BPMN model", e);
+		// }
+		// }
 
+		this.detectBoundaryEvents(process);
 		this.detectConnectors();
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 

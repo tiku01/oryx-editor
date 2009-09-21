@@ -29,7 +29,7 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Expression;
-import de.hpi.bpmn2_0.model.SequenceFlow;
+import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
 

@@ -65,13 +65,13 @@ import de.hpi.bpmn2_0.factory.BPMNElement;
 //    TOutputSet.class,
 //    TRelationship.class,
 //    TAssignment.class,
-//    TMessageFlow.class,
+//    MessageFlow.class,
 //    TInputOutputBinding.class,
 //    TResourceParameter.class,
 //    TProperty.class,
-//    TDataInput.class,
+//    DataInput.class,
 //    TComplexBehaviorDefinition.class,
-//    TMessageFlowAssociation.class,
+//    MessageFlowAssociation.class,
 //    TDataAssociation.class,
 //    TParticipantAssociation.class,
 //    CategoryValue.class,
@@ -91,8 +91,8 @@ import de.hpi.bpmn2_0.factory.BPMNElement;
 //    FlowElement.class,
 //    RootElement.class,
 //    TAuditing.class,
-//    TArtifact.class,
-//    TDataOutput.class
+//    Artifact.class,
+//    DataOutput.class
 })
 public abstract class BaseElement {
 
