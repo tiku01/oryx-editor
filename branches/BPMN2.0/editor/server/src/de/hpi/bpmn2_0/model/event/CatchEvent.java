@@ -74,7 +74,7 @@ public abstract class CatchEvent
     extends Event
 {
 
-//    protected List<TDataOutput> dataOutput;
+//    protected List<DataOutput> dataOutput;
 //    protected List<TDataOutputAssociation> dataOutputAssociation;
 //    protected TOutputSet outputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
@@ -101,13 +101,13 @@ public abstract class CatchEvent
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TDataOutput }
+     * {@link DataOutput }
      * 
      * 
      */
-//    public List<TDataOutput> getDataOutput() {
+//    public List<DataOutput> getDataOutput() {
 //        if (dataOutput == null) {
-//            dataOutput = new ArrayList<TDataOutput>();
+//            dataOutput = new ArrayList<DataOutput>();
 //        }
 //        return this.dataOutput;
 //    }

@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.activity.Task;
+import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.EndEvent;
 import de.hpi.bpmn2_0.model.event.Event;
@@ -31,6 +32,7 @@ import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
 import de.hpi.bpmn2_0.model.event.IntermediateThrowEvent;
 import de.hpi.bpmn2_0.model.event.StartEvent;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
+import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 
 
 /**
@@ -92,11 +94,12 @@ public class Process
 		@XmlElementRef(type = Task.class),
 		@XmlElementRef(type = EndEvent.class),
 		@XmlElementRef(type = ExclusiveGateway.class),
+		@XmlElementRef(type = ParallelGateway.class),
 		@XmlElementRef(type = SequenceFlow.class)
 	})
     protected List<FlowElement> flowElement;
 //    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
-//    protected List<JAXBElement<? extends TArtifact>> artifact;
+//    protected List<JAXBElement<? extends Artifact>> artifact;
     protected List<QName> supports;
 //    @XmlAttribute
 //    protected TProcessType processType;
@@ -254,11 +257,11 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TDataObject }{@code >}
+     * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link Event }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
+     * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
@@ -269,7 +272,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TParallelGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link Task }{@code >}
      * 
      * 
@@ -299,16 +302,16 @@ public class Process
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TArtifact }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAssociation }{@code >}
+     * {@link JAXBElement }{@code <}{@link Artifact }{@code >}
+     * {@link JAXBElement }{@code <}{@link Association }{@code >}
      * {@link JAXBElement }{@code <}{@link TGroup }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTextAnnotation }{@code >}
+     * {@link JAXBElement }{@code <}{@link TextAnnotation }{@code >}
      * 
      * 
      */
-//    public List<JAXBElement<? extends TArtifact>> getArtifact() {
+//    public List<JAXBElement<? extends Artifact>> getArtifact() {
 //        if (artifact == null) {
-//            artifact = new ArrayList<JAXBElement<? extends TArtifact>>();
+//            artifact = new ArrayList<JAXBElement<? extends Artifact>>();
 //        }
 //        return this.artifact;
 //    }

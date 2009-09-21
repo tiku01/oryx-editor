@@ -59,7 +59,7 @@ public abstract class ThrowEvent
     extends Event
 {
 
-//    protected List<TDataInput> dataInput;
+//    protected List<DataInput> dataInput;
 //    protected List<TDataInputAssociation> dataInputAssociation;
 //    protected TInputSet inputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
@@ -84,13 +84,13 @@ public abstract class ThrowEvent
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TDataInput }
+     * {@link DataInput }
      * 
      * 
      */
-//    public List<TDataInput> getDataInput() {
+//    public List<DataInput> getDataInput() {
 //        if (dataInput == null) {
-//            dataInput = new ArrayList<TDataInput>();
+//            dataInput = new ArrayList<DataInput>();
 //        }
 //        return this.dataInput;
 //    }

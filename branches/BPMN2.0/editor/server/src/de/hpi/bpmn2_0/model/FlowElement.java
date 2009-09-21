@@ -48,8 +48,8 @@ import javax.xml.namespace.QName;
 })
 @XmlSeeAlso({
 //    SequenceFlow.class,
-//    TDataObject.class,
-//    TDataStore.class,
+//    DataObject.class,
+//    DataStore.class,
     FlowNode.class
 })
 public abstract class FlowElement

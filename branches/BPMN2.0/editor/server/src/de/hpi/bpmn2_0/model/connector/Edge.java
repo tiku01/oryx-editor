@@ -21,11 +21,14 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.connector;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
+
+import de.hpi.bpmn2_0.model.FlowElement;
+import de.hpi.bpmn2_0.model.FlowNode;
 
 /**
  * Represents all types of edges in a BPMN 2.0 process.

@@ -71,7 +71,7 @@ public class SubProcess
 //    @XmlElementRef(name = "flowElement", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected List<JAXBElement<? extends TFlowElement>> flowElement;
 //    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
-//    protected List<JAXBElement<? extends TArtifact>> artifact;
+//    protected List<JAXBElement<? extends Artifact>> artifact;
     @XmlAttribute
     protected Boolean triggeredByEvent;
 
@@ -107,11 +107,11 @@ public class SubProcess
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TDataObject }{@code >}
+     * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link TEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
+     * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TIntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
@@ -122,7 +122,7 @@ public class SubProcess
      * {@link JAXBElement }{@code <}{@link TChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TParallelGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TTask }{@code >}
      * 
      * 
@@ -152,16 +152,16 @@ public class SubProcess
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TArtifact }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAssociation }{@code >}
+     * {@link JAXBElement }{@code <}{@link Artifact }{@code >}
+     * {@link JAXBElement }{@code <}{@link Association }{@code >}
      * {@link JAXBElement }{@code <}{@link TGroup }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTextAnnotation }{@code >}
+     * {@link JAXBElement }{@code <}{@link TextAnnotation }{@code >}
      * 
      * 
      */
-//    public List<JAXBElement<? extends TArtifact>> getArtifact() {
+//    public List<JAXBElement<? extends Artifact>> getArtifact() {
 //        if (artifact == null) {
-//            artifact = new ArrayList<JAXBElement<? extends TArtifact>>();
+//            artifact = new ArrayList<JAXBElement<? extends Artifact>>();
 //        }
 //        return this.artifact;
 //    }

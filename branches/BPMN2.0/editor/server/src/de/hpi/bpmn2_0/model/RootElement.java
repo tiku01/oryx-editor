@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlType;
 //    TResource.class,
 //    TInterface.class,
 //    TCorrelationProperty.class,
-//    TMessage.class,
+//    Message.class,
     CallableElement.class//,
 //    TEscalation.class
 })

@@ -190,7 +190,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link Category }{@code >}
      * {@link JAXBElement }{@code <}{@link TItemDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEscalationEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TMessage }{@code >}
+     * {@link JAXBElement }{@code <}{@link Message }{@code >}
      * {@link JAXBElement }{@code <}{@link TCompensateEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TCorrelationProperty }{@code >}
      * {@link JAXBElement }{@code <}{@link TEscalation }{@code >}
