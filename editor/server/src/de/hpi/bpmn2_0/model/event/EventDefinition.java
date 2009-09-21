@@ -21,22 +21,25 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.RootElement;
 
 
 /**
- * <p>Java class for tIntermediateCatchEvent complex type.
+ * <p>Java class for tEventDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tIntermediateCatchEvent">
+ * &lt;complexType name="tEventDefinition">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tRootElement">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -45,9 +48,21 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIntermediateCatchEvent")
-public class IntermediateCatchEvent
-    extends CatchEvent
+@XmlType(name = "tEventDefinition")
+@XmlSeeAlso({
+    TimerEventDefinition.class,
+//    TCancelEventDefinition.class,
+    MessageEventDefinition.class//,
+//    TErrorEventDefinition.class,
+//    TConditionalEventDefinition.class,
+//    TTerminateEventDefinition.class,
+//    TLinkEventDefinition.class,
+//    TEscalationEventDefinition.class,
+//    TCompensateEventDefinition.class,
+//    TSignalEventDefinition.class
+})
+public abstract class EventDefinition
+    extends RootElement
 {
 
 

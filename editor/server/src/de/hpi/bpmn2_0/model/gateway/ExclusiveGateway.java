@@ -21,28 +21,29 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.gateway;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.namespace.QName;
+
+import de.hpi.bpmn2_0.model.SequenceFlow;
 
 
 /**
- * <p>Java class for tBoundaryEvent complex type.
+ * <p>Java class for tExclusiveGateway complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tBoundaryEvent">
+ * &lt;complexType name="tExclusiveGateway">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="cancelActivity" type="{http://www.w3.org/2001/XMLSchema}boolean" default="true" />
- *       &lt;attribute name="attachedToRef" use="required" type="{http://www.w3.org/2001/XMLSchema}QName" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tGateway">
+ *       &lt;attribute name="default" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -50,69 +51,60 @@ import javax.xml.namespace.QName;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tBoundaryEvent")
-public class BoundaryEvent
-    extends IntermediateCatchEvent
+@XmlType(name = "tExclusiveGateway")
+public class ExclusiveGateway
+    extends Gateway
 {
 
-    @XmlAttribute
-    protected Boolean cancelActivity;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "default")
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected Activity attachedToRef;
-
+    protected SequenceFlow defaultSequenceFlow;
+    
     /**
-     * Gets the value of the cancelActivity property.
+     * Determines the default {@link SequenceFlow}
+     * 
+     * @return The default {@link SequenceFlow} or null
+     */
+    public SequenceFlow findDefaultSequenceFlow() {
+		for(SequenceFlow seqFlow : this.getOutgoingSequenceFlows()) {
+			/* A default sequence flow should not have an condition expression. */
+			if(seqFlow.getConditionExpression() == null) {
+				this.setDefault(seqFlow);
+				return seqFlow;
+			}
+		}
+		
+		return null;
+	}
+    
+    /* Getter & Setter */
+    
+    /**
+     * Gets the default {@link SequenceFlow} of the {@link ExclusiveGateway} or
+     * null if no default flow is set.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link SequenceFlow }
      *     
      */
-    public boolean isCancelActivity() {
-        if (cancelActivity == null) {
-            return true;
-        } else {
-            return cancelActivity;
-        }
+    public SequenceFlow getDefault() {
+        return defaultSequenceFlow;
     }
 
     /**
-     * Sets the value of the cancelActivity property.
+     * Sets default {@link SequenceFlow}.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link SequenceFlow }
      *     
      */
-    public void setCancelActivity(Boolean value) {
-        this.cancelActivity = value;
-    }
-
-    /**
-     * Gets the value of the attachedToRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Activity }
-     *     
-     */
-    public Activity getAttachedToRef() {
-        return attachedToRef;
-    }
-
-    /**
-     * Sets the value of the attachedToRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Activity }
-     *     
-     */
-    public void setAttachedToRef(Activity value) {
-        this.attachedToRef = value;
+    public void setDefault(SequenceFlow value) {
+        this.defaultSequenceFlow = value;
     }
 
 }

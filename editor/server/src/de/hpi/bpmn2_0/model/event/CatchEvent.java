@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +68,7 @@ import javax.xml.namespace.QName;
 })
 @XmlSeeAlso({
     StartEvent.class,
-    IntermediateCatchEvent.class,
-    BoundaryEvent.class
+    IntermediateCatchEvent.class
 })
 public abstract class CatchEvent
     extends Event

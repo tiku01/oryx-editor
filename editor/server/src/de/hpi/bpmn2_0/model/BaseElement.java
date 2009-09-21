@@ -26,6 +26,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
 
+import de.hpi.bpmn2_0.factory.BPMNElement;
+
 
 /**
  * <p>Java class for tBaseElement complex type.
@@ -104,7 +106,18 @@ public abstract class BaseElement {
     protected String id;
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
-
+    
+    /**
+     * Adds a child element to the current BPMN element if possible. This method
+     * should be implemented by the concrete sub class, if it can contain child
+     * elements.
+     * 
+     * @param child
+     * 		The child element to add
+     */
+    public void addChild(BaseElement child) {
+    }
+    
     /**
      * Gets the value of the documentation property.
      * 

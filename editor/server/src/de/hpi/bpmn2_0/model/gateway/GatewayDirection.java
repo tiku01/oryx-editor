@@ -21,47 +21,57 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.gateway;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for tEventDefinition complex type.
+ * <p>Java class for tGatewayDirection.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
- * &lt;complexType name="tEventDefinition">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tRootElement">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;simpleType name="tGatewayDirection">
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     &lt;enumeration value="unspecified"/>
+ *     &lt;enumeration value="converging"/>
+ *     &lt;enumeration value="diverging"/>
+ *     &lt;enumeration value="mixed"/>
+ *   &lt;/restriction>
+ * &lt;/simpleType>
  * </pre>
  * 
- * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tEventDefinition")
-@XmlSeeAlso({
-    TimerEventDefinition.class,
-//    TCancelEventDefinition.class,
-    MessageEventDefinition.class//,
-//    TErrorEventDefinition.class,
-//    TConditionalEventDefinition.class,
-//    TTerminateEventDefinition.class,
-//    TLinkEventDefinition.class,
-//    TEscalationEventDefinition.class,
-//    TCompensateEventDefinition.class,
-//    TSignalEventDefinition.class
-})
-public abstract class EventDefinition
-    extends RootElement
-{
+@XmlEnum
+public enum GatewayDirection {
 
+    @XmlEnumValue("unspecified")
+    UNSPECIFIED("unspecified"),
+    @XmlEnumValue("converging")
+    CONVERGING("converging"),
+    @XmlEnumValue("diverging")
+    DIVERGING("diverging"),
+    @XmlEnumValue("mixed")
+    MIXED("mixed");
+    private final String value;
+
+    GatewayDirection(String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    public static GatewayDirection fromValue(String v) {
+        for (GatewayDirection c: GatewayDirection.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
 
 }

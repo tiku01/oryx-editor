@@ -21,26 +21,22 @@
  * SOFTWARE.
  */
 
-
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tStartEvent complex type.
+ * <p>Java class for tIntermediateThrowEvent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tStartEvent">
+ * &lt;complexType name="tIntermediateThrowEvent">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tCatchEvent">
- *       &lt;attribute name="isInterrupting" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tThrowEvent">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -48,42 +44,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "startEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStartEvent")
-public class StartEvent
-    extends CatchEvent
+@XmlType(name = "tIntermediateThrowEvent")
+public class IntermediateThrowEvent
+    extends ThrowEvent
 {
 
-    @XmlAttribute
-    protected Boolean isInterrupting;
-
-    /**
-     * Gets the value of the isInterrupting property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public boolean isIsInterrupting() {
-        if (isInterrupting == null) {
-            return false;
-        } else {
-            return isInterrupting;
-        }
-    }
-
-    /**
-     * Sets the value of the isInterrupting property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setIsInterrupting(Boolean value) {
-        this.isInterrupting = value;
-    }
 
 }
