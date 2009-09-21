@@ -102,7 +102,7 @@ public class LaneCompartment
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link DataObjectShape }{@code >}
      * {@link JAXBElement }{@code <}{@link EventShape }{@code >}
-     * {@link JAXBElement }{@code <}{@link SubprocessShapeType }{@code >}
+     * {@link JAXBElement }{@code <}{@link SubprocessShape }{@code >}
      * {@link JAXBElement }{@code <}{@link ActivityShape }{@code >}
      * {@link JAXBElement }{@code <}{@link BpmnNode }{@code >}
      * {@link JAXBElement }{@code <}{@link CalledSubprocessShapeType }{@code >}

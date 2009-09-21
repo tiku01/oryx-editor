@@ -16,6 +16,10 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.event.Event;
+import de.hpi.bpmn2_0.model.gateway.Gateway;
+
 
 /**
  * <p>Java class for tFlowNode complex type.

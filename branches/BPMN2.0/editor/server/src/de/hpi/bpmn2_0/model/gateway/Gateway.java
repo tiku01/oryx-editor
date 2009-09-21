@@ -21,27 +21,27 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.gateway;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.FlowNode;
 
 
 /**
- * <p>Java class for tExclusiveGateway complex type.
+ * <p>Java class for tGateway complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tExclusiveGateway">
+ * &lt;complexType name="tGateway">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tGateway">
- *       &lt;attribute name="default" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tFlowNode">
+ *       &lt;attribute name="gatewayDirection" type="{http://www.omg.org/bpmn20}tGatewayDirection" default="unspecified" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -49,60 +49,49 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExclusiveGateway")
-public class ExclusiveGateway
-    extends Gateway
+@XmlType(name = "tGateway")
+@XmlSeeAlso({
+//    TComplexGateway.class,
+//    TInclusiveGateway.class,
+//    TEventBasedGateway.class,
+//    TParallelGateway.class,
+    ExclusiveGateway.class
+})
+public class Gateway
+    extends FlowNode
 {
 
-    @XmlAttribute(name = "default")
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected SequenceFlow defaultSequenceFlow;
+    @XmlAttribute
+    protected GatewayDirection gatewayDirection;
+    
     
     /**
-     * Determines the default {@link SequenceFlow}
-     * 
-     * @return The default {@link SequenceFlow} or null
-     */
-    public SequenceFlow findDefaultSequenceFlow() {
-		for(SequenceFlow seqFlow : this.getOutgoingSequenceFlows()) {
-			/* A default sequence flow should not have an condition expression. */
-			if(seqFlow.getConditionExpression() == null) {
-				this.setDefault(seqFlow);
-				return seqFlow;
-			}
-		}
-		
-		return null;
-	}
-    
-    /* Getter & Setter */
-    
-    /**
-     * Gets the default {@link SequenceFlow} of the {@link ExclusiveGateway} or
-     * null if no default flow is set.
+     * Gets the value of the gatewayDirection property.
      * 
      * @return
      *     possible object is
-     *     {@link SequenceFlow }
+     *     {@link GatewayDirection }
      *     
      */
-    public SequenceFlow getDefault() {
-        return defaultSequenceFlow;
+    public GatewayDirection getGatewayDirection() {
+        if (gatewayDirection == null) {
+            return GatewayDirection.UNSPECIFIED;
+        } else {
+            return gatewayDirection;
+        }
     }
 
     /**
-     * Sets default {@link SequenceFlow}.
+     * Sets the value of the gatewayDirection property.
      * 
      * @param value
      *     allowed object is
-     *     {@link SequenceFlow }
+     *     {@link GatewayDirection }
      *     
      */
-    public void setDefault(SequenceFlow value) {
-        this.defaultSequenceFlow = value;
+    public void setGatewayDirection(GatewayDirection value) {
+        this.gatewayDirection = value;
     }
 
 }

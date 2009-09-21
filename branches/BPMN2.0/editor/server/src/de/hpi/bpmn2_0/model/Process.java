@@ -23,6 +23,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.model.activity.Task;
+import de.hpi.bpmn2_0.model.event.BoundaryEvent;
+import de.hpi.bpmn2_0.model.event.EndEvent;
+import de.hpi.bpmn2_0.model.event.Event;
+import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
+import de.hpi.bpmn2_0.model.event.IntermediateThrowEvent;
+import de.hpi.bpmn2_0.model.event.StartEvent;
+import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
+
 
 /**
  * <p>Java class for tProcess complex type.
@@ -239,7 +248,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
-     * {@link JAXBElement }{@code <}{@link TSubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}

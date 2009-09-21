@@ -21,22 +21,24 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tIntermediateThrowEvent complex type.
+ * <p>Java class for tTask complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tIntermediateThrowEvent">
+ * &lt;complexType name="tTask">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tThrowEvent">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -44,10 +46,20 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@XmlRootElement(name = "task", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIntermediateThrowEvent")
-public class IntermediateThrowEvent
-    extends ThrowEvent
+@XmlType(name = "tTask")
+@XmlSeeAlso({
+//    TManualTask.class,
+//    TServiceTask.class,
+//    TScriptTask.class,
+//    TReceiveTask.class,
+//    TBusinessRuleTask.class,
+//    TSendTask.class,
+//    TUserTask.class
+})
+public class Task
+    extends Activity
 {
 
 

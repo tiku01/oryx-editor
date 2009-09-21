@@ -33,6 +33,7 @@ import javax.xml.namespace.QName;
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
+import de.hpi.bpmn2_0.model.event.EventDefinition;
 
 
 /**

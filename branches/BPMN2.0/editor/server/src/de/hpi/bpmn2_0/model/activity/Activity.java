@@ -6,7 +6,7 @@
 //
 
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.activity;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -15,11 +15,18 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.FlowNode;
+import de.hpi.bpmn2_0.model.event.BoundaryEvent;
+
+import sun.security.action.GetBooleanAction;
 
 
 /**
@@ -60,7 +67,7 @@ import javax.xml.bind.annotation.XmlType;
 //    "loopCharacteristics"
 })
 @XmlSeeAlso({
-//    TSubProcess.class,
+//    SubProcess.class,
 //    TTransaction.class,
     Task.class//,
 //    TCallActivity.class
@@ -77,18 +84,36 @@ public abstract class Activity
 //    protected List<JAXBElement<? extends TActivityResource>> activityResource;
 //    @XmlElementRef(name = "loopCharacteristics", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected JAXBElement<? extends TLoopCharacteristics> loopCharacteristics;
-    @XmlAttribute
+    
+	@XmlIDREF
+	@XmlElement(name = "boundaryEventRef", type = BoundaryEvent.class)
+	protected List<BoundaryEvent> boundaryEventRefs;
+	
+	@XmlAttribute
     protected Boolean isForCompensation;
-    @XmlAttribute
+    
+	@XmlAttribute
     protected BigInteger startQuantity;
-    @XmlAttribute
+    
+	@XmlAttribute
     protected BigInteger completionQuantity;
-    @XmlAttribute(name = "default")
+    
+	@XmlAttribute(name = "default")
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected Object _default;
-
-    /**
+	
+	/**
+	 * @return The list of boundary event references
+	 */
+    public List<BoundaryEvent> getBoundaryEventRefs() {
+    	if(this.boundaryEventRefs == null) {
+    		this.boundaryEventRefs = new ArrayList<BoundaryEvent>();
+    	}
+    	return this.boundaryEventRefs;
+    }
+	
+	/**
      * Gets the value of the ioSpecification property.
      * 
      * @return

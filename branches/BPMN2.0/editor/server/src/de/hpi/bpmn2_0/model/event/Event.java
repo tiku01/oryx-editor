@@ -6,12 +6,14 @@
 //
 
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.model.FlowNode;
 
 
 /**

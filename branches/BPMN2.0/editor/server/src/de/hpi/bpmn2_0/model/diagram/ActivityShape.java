@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "activityShapeType_1", namespace = "http://bpmndi.org")
 @XmlSeeAlso({
-//    SubprocessShapeType.class,
+//    SubprocessShape.class,
 //    CalledSubprocessShapeType.class
 })
 public class ActivityShape

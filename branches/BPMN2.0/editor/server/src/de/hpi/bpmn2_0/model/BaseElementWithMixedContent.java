@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
 
+import de.hpi.bpmn2_0.model.activity.Task;
+
 
 /**
  * <p>Java class for tBaseElementWithMixedContent complex type.

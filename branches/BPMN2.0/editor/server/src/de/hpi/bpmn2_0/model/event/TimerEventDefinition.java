@@ -21,28 +21,29 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.namespace.QName;
+
+import de.hpi.bpmn2_0.model.Expression;
 
 
 /**
- * <p>Java class for tMessageEventDefinition complex type.
+ * <p>Java class for tTimerEventDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tMessageEventDefinition">
+ * &lt;complexType name="tTimerEventDefinition">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.omg.org/bpmn20}tEventDefinition">
- *       &lt;sequence>
- *         &lt;element name="operationRef" type="{http://www.w3.org/2001/XMLSchema}QName" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="messageRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
+ *       &lt;choice>
+ *         &lt;element name="timeDate" type="{http://www.omg.org/bpmn20}tExpression" minOccurs="0"/>
+ *         &lt;element name="timeCycle" type="{http://www.omg.org/bpmn20}tExpression" minOccurs="0"/>
+ *       &lt;/choice>
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -51,63 +52,63 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tMessageEventDefinition", propOrder = {
-    "operationRef"
+@XmlType(name = "tTimerEventDefinition", propOrder = {
+    "timeDate",
+    "timeCycle"
 })
-public class MessageEventDefinition
+public class TimerEventDefinition
     extends EventDefinition
 {
 
-    protected QName operationRef;
-    @XmlAttribute
-    protected QName messageRef;
+    protected Expression timeDate;
+    protected Expression timeCycle;
 
     /**
-     * Gets the value of the operationRef property.
+     * Gets the value of the timeDate property.
      * 
      * @return
      *     possible object is
-     *     {@link QName }
+     *     {@link Expression }
      *     
      */
-    public QName getOperationRef() {
-        return operationRef;
+    public Expression getTimeDate() {
+        return timeDate;
     }
 
     /**
-     * Sets the value of the operationRef property.
+     * Sets the value of the timeDate property.
      * 
      * @param value
      *     allowed object is
-     *     {@link QName }
+     *     {@link Expression }
      *     
      */
-    public void setOperationRef(QName value) {
-        this.operationRef = value;
+    public void setTimeDate(Expression value) {
+        this.timeDate = value;
     }
 
     /**
-     * Gets the value of the messageRef property.
+     * Gets the value of the timeCycle property.
      * 
      * @return
      *     possible object is
-     *     {@link QName }
+     *     {@link Expression }
      *     
      */
-    public QName getMessageRef() {
-        return messageRef;
+    public Expression getTimeCycle() {
+        return timeCycle;
     }
 
     /**
-     * Sets the value of the messageRef property.
+     * Sets the value of the timeCycle property.
      * 
      * @param value
      *     allowed object is
-     *     {@link QName }
+     *     {@link Expression }
      *     
      */
-    public void setMessageRef(QName value) {
-        this.messageRef = value;
+    public void setTimeCycle(Expression value) {
+        this.timeCycle = value;
     }
 
 }
