@@ -21,29 +21,27 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.diagram;
+package de.hpi.bpmn2_0.model.connector;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for tDataInputAssociation complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="tDataInputAssociation">
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnNodeType">
- *       &lt;attribute name="annotationRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tDataAssociation">
+ *       &lt;sequence>
+ *         &lt;element name="sourceRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" maxOccurs="unbounded"/>
+ *         &lt;element name="targetRef" type="{http://www.w3.org/2001/XMLSchema}IDREF"/>
+ *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -53,38 +51,9 @@ import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-public class TextAnnotationShape
-    extends BpmnNode
+@XmlType(name = "tDataInputAssociation")
+public class DataInputAssociation
+    extends DataAssociation
 {
-
-    @XmlAttribute
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected TextAnnotation annotationRef;
-
-    /**
-     * Gets the value of the annotationRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TextAnnotation }
-     *     
-     */
-    public TextAnnotation getAnnotationRef() {
-        return annotationRef;
-    }
-
-    /**
-     * Sets the value of the annotationRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TextAnnotation }
-     *     
-     */
-    public void setAnnotationRef(TextAnnotation value) {
-        this.annotationRef = value;
-    }
 
 }

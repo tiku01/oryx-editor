@@ -75,7 +75,7 @@ public abstract class CatchEvent
 {
 
 //    protected List<DataOutput> dataOutput;
-//    protected List<TDataOutputAssociation> dataOutputAssociation;
+//    protected List<DataOutputAssociation> dataOutputAssociation;
 //    protected TOutputSet outputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected List<JAXBElement<? extends EventDefinition>> eventDefinition;
@@ -130,13 +130,13 @@ public abstract class CatchEvent
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TDataOutputAssociation }
+     * {@link DataOutputAssociation }
      * 
      * 
      */
-//    public List<TDataOutputAssociation> getDataOutputAssociation() {
+//    public List<DataOutputAssociation> getDataOutputAssociation() {
 //        if (dataOutputAssociation == null) {
-//            dataOutputAssociation = new ArrayList<TDataOutputAssociation>();
+//            dataOutputAssociation = new ArrayList<DataOutputAssociation>();
 //        }
 //        return this.dataOutputAssociation;
 //    }

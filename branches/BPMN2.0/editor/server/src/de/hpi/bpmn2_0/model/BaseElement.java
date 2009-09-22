@@ -72,7 +72,7 @@ import de.hpi.bpmn2_0.factory.BPMNElement;
 //    DataInput.class,
 //    TComplexBehaviorDefinition.class,
 //    MessageFlowAssociation.class,
-//    TDataAssociation.class,
+//    DataAssociation.class,
 //    TParticipantAssociation.class,
 //    CategoryValue.class,
 //    TLoopCharacteristics.class,

@@ -31,7 +31,7 @@ import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Expression;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
-import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
+import de.hpi.bpmn2_0.model.diagram.BpmnConnector.Bendpoint;
 
 /**
  * @author Philipp Giese
@@ -39,7 +39,7 @@ import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType.Bendpoint;
  * 
  */
 @StencilId("SequenceFlow")
-public class SequenceFlowFactory extends AbstractBpmnFactory {
+public class SequenceFlowFactory extends AbstractEdgesFactory {
 
 	/*
 	 * (non-Javadoc)
@@ -73,15 +73,17 @@ public class SequenceFlowFactory extends AbstractBpmnFactory {
 		// TODO: Gedanken machen zu Label-Positioning
 		sequenceFlowConnector.setLabel(shape.getProperty("name"));
 
-		for (int i = 1; i < shape.getDockers().size() - 2; i++) {
-			Point point = shape.getDockers().get(i);
-
-			Bendpoint bp = new Bendpoint();
-			bp.setX(point.getX());
-			bp.setY(point.getY());
-
-			sequenceFlowConnector.getBendpoint().add(bp);
-		}
+		this.setBendpoints(sequenceFlowConnector, shape);
+		
+//		for (int i = 1; i < shape.getDockers().size() - 2; i++) {
+//			Point point = shape.getDockers().get(i);
+//
+//			Bendpoint bp = new Bendpoint();
+//			bp.setX(point.getX());
+//			bp.setY(point.getY());
+//
+//			sequenceFlowConnector.getBendpoint().add(bp);
+//		}
 
 		return sequenceFlowConnector;
 	}

@@ -27,7 +27,9 @@ package de.hpi.bpmn2_0.model.connector;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.model.data_object.Message;
@@ -60,7 +62,9 @@ public class MessageFlow
     extends Edge
 {
 
-    @XmlAttribute
+    @XmlAttribute(name = "messageRef")
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
     protected Message messageRef;
 
     /**

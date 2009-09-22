@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.FlowElement;
+import de.hpi.bpmn2_0.model.FlowNode;
 
 
 /**
@@ -56,11 +57,11 @@ import de.hpi.bpmn2_0.model.FlowElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tDataObject", propOrder = {
-    "dataState"
-})
+//@XmlType(name = "tDataObject", propOrder = {
+//    "dataState"
+//})
 public class DataObject
-    extends FlowElement
+    extends FlowNode
 {
 
 //    protected TDataState dataState;

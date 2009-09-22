@@ -29,21 +29,22 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
+import de.hpi.bpmn2_0.model.connector.Association;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for associationConnectorType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="associationConnectorType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnNodeType">
- *       &lt;attribute name="annotationRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://bpmndi.org}bpmnConnectorType">
+ *       &lt;attribute name="isDirectional" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -53,38 +54,70 @@ import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-public class TextAnnotationShape
-    extends BpmnNode
+@XmlType(name = "associationConnectorType", namespace = "http://bpmndi.org")
+@XmlSeeAlso({
+    AssociationConnector.class,
+    DataAssociationConnector.class
+})
+public class AssociationConnector
+    extends BpmnConnector
 {
-
-    @XmlAttribute
+	
+	@XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected TextAnnotation annotationRef;
+    protected Association associationRef;
 
+	@XmlAttribute
+	protected Boolean isDirectional;
+	
     /**
-     * Gets the value of the annotationRef property.
+     * Gets the value of the associationRef property.
      * 
      * @return
      *     possible object is
-     *     {@link TextAnnotation }
+     *     {@link Association }
      *     
      */
-    public TextAnnotation getAnnotationRef() {
-        return annotationRef;
+    public Association getAssociationRef() {
+        return associationRef;
     }
 
     /**
-     * Sets the value of the annotationRef property.
+     * Sets the value of the associationRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TextAnnotation }
+     *     {@link Association }
      *     
      */
-    public void setAnnotationRef(TextAnnotation value) {
-        this.annotationRef = value;
+    public void setAssociationRef(Association value) {
+        this.associationRef = value;
+    }
+	
+
+    /**
+     * Gets the value of the isDirectional property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isIsDirectional() {
+        return isDirectional;
+    }
+
+    /**
+     * Sets the value of the isDirectional property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setIsDirectional(Boolean value) {
+        this.isDirectional = value;
     }
 
 }
