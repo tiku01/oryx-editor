@@ -32,8 +32,6 @@ import java.util.List;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
-
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
 import de.hpi.bpmn2_0.factory.BPMNElement;
@@ -41,12 +39,17 @@ import de.hpi.bpmn2_0.factory.IntermediateCatchEventFactory;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Definitions;
-import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
+import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.connector.DataAssociation;
+import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
+import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
+import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
-import de.hpi.bpmn2_0.model.diagram.BpmnConnectorType;
-import de.hpi.bpmn2_0.model.diagram.BpmnNode;
+import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
+import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
+import de.hpi.bpmn2_0.model.diagram.DataAssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
@@ -69,10 +72,18 @@ public class Diagram2BpmnConverter {
 
 	/* Define edge ids */
 	private final static String[] edgeIdsArray = { "SequenceFlow",
-			"Association_Undirected" };
+			"Association_Undirected", "Association_Unidirectional",
+			"Association_Bidirectional", "MessageFlow" };
 
 	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays
 			.asList(edgeIdsArray));
+
+	/* Define data related objects ids */
+	private final static String[] dataObjectIdsArray = { "DataObject",
+			"DataStore", "Message" };
+
+	public final static HashSet<String> dataObjectIds = new HashSet<String>(
+			Arrays.asList(dataObjectIdsArray));
 
 	public Diagram2BpmnConverter(Diagram diagram) {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
@@ -193,6 +204,13 @@ public class Diagram2BpmnConverter {
 			if (shapeToAdd instanceof SequenceFlowConnector) {
 				this.processDia.getSequenceFlowConnector().add(
 						(SequenceFlowConnector) shapeToAdd);
+			
+			} else if (shapeToAdd instanceof DataAssociationConnector) {
+				this.processDia.getDataAssociationConnector().add(
+						(DataAssociationConnector) shapeToAdd);
+			
+			} else if (shapeToAdd instanceof AssociationConnector) {
+				this.processDia.getAssociationConnector().add((AssociationConnector) shapeToAdd);
 			}
 
 			/* Handle child shape */
@@ -257,29 +275,71 @@ public class Diagram2BpmnConverter {
 			/* Update source references */
 			if (source != null) {
 				FlowNode sourceNode = (FlowNode) source.getNode();
-				sourceNode.getOutgoing()
-						.add((FlowNode) bpmnConnector.getNode());
+				sourceNode.getOutgoing().add((Edge) bpmnConnector.getNode());
 
-				SequenceFlow seqFlow = (SequenceFlow) bpmnConnector.getNode();
-				seqFlow.setSourceRef(sourceNode);
+				Edge edgeElement = (Edge) bpmnConnector.getNode();
+				edgeElement.setSourceRef(sourceNode);
 
-				BpmnConnectorType seqConnector = (BpmnConnectorType) bpmnConnector
+				BpmnConnector edgeShape = (BpmnConnector) bpmnConnector
 						.getShape();
-				seqConnector.setSourceRef(source.getShape());
+				edgeShape.setSourceRef(source.getShape());
 			}
 
 			/* Update target references */
 			if (target != null) {
 				FlowNode targetNode = (FlowNode) target.getNode();
-				targetNode.getIncoming()
-						.add((FlowNode) bpmnConnector.getNode());
+				targetNode.getIncoming().add((Edge) bpmnConnector.getNode());
 
-				SequenceFlow seqFlow = (SequenceFlow) bpmnConnector.getNode();
-				seqFlow.setTargetRef(targetNode);
+				Edge edgeElement = (Edge) bpmnConnector.getNode();
+				edgeElement.setTargetRef(targetNode);
 
-				BpmnConnectorType seqConnector = (BpmnConnectorType) bpmnConnector
+				BpmnConnector edgeShape = (BpmnConnector) bpmnConnector
 						.getShape();
-				seqConnector.setTargetRef(target.getShape());
+				edgeShape.setTargetRef(target.getShape());
+			}
+		}
+	}
+
+	/**
+	 * A {@link DataAssociation} is a child element of an {@link Activity}. This
+	 * method updates the references between activities and their data
+	 * associations.
+	 */
+	private void updateDataAssociationsRefs() {
+		/* Define edge ids */
+		String[] associationIdsArray = { "Association_Undirected",
+				"Association_Unidirectional", "Association_Bidirectional" };
+
+		HashSet<String> associationIds = new HashSet<String>(Arrays
+				.asList(associationIdsArray));
+
+		for (Shape shape : this.diagram.getShapes()) {
+			if (!associationIds.contains(shape.getStencilId())) {
+				continue;
+			}
+
+			/* Retrieve connector element */
+			BPMNElement bpmnConnector = this.bpmnElements.get(shape
+					.getResourceId());
+
+			/* Get related activity */
+			Edge dataAssociation = (Edge) bpmnConnector.getNode();
+			Activity relatedActivity = null;
+			if (dataAssociation instanceof DataInputAssociation) {
+				relatedActivity = (dataAssociation.getTargetRef() instanceof Activity ? (Activity) dataAssociation
+						.getTargetRef()
+						: null);
+				if (relatedActivity != null)
+					relatedActivity.getDataInputAssociation().add(
+							(DataInputAssociation) dataAssociation);
+
+			} else if (dataAssociation instanceof DataOutputAssociation) {
+				relatedActivity = (dataAssociation.getSourceRef() instanceof Activity ? (Activity) dataAssociation
+						.getSourceRef()
+						: null);
+				if (relatedActivity != null)
+					relatedActivity.getDataOutputAssociation().add(
+							(DataOutputAssociation) dataAssociation);
 			}
 		}
 	}
@@ -361,6 +421,7 @@ public class Diagram2BpmnConverter {
 
 		this.detectBoundaryEvents(process);
 		this.detectConnectors();
+		this.updateDataAssociationsRefs();
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 
 		return definitions;

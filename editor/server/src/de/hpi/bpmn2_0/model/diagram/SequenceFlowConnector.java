@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class SequenceFlowConnector
-    extends BpmnConnectorType
+    extends BpmnConnector
 {
 
     @XmlAttribute

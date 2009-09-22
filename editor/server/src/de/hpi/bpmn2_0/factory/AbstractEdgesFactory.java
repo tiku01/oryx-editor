@@ -21,42 +21,35 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.artifacts;
+package de.hpi.bpmn2_0.factory;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
+import org.oryxeditor.server.diagram.Point;
+import org.oryxeditor.server.diagram.Shape;
 
-import de.hpi.bpmn2_0.model.FlowNode;
-
+import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
+import de.hpi.bpmn2_0.model.diagram.BpmnConnector.Bendpoint;
 
 /**
- * <p>Java class for tArtifact complex type.
+ * Abstract factory that contains basic methods to create edges.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tArtifact">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElement">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Philipp Giese
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tArtifact")
-@XmlSeeAlso({
-//    Association.class,
-//    TGroup.class,
-    TextAnnotation.class
-})
-public abstract class Artifact
-    extends FlowNode
-{
+public abstract class AbstractEdgesFactory extends AbstractBpmnFactory {
 
+	protected BpmnConnector setBendpoints(BpmnConnector edge, Shape shape) {
+		for (int i = 1; i < shape.getDockers().size() - 1; i++) {
+			Point point = shape.getDockers().get(i);
+
+			Bendpoint bp = new Bendpoint();
+			bp.setX(point.getX());
+			bp.setY(point.getY());
+
+			edge.getBendpoint().add(bp);
+		}
+		
+		return edge;
+	}
 
 }

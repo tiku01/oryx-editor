@@ -72,7 +72,9 @@ public class LaneCompartment
     	@XmlElementRef(type = BpmnCompartment.class),
     	@XmlElementRef(type = EventShape.class),
     	@XmlElementRef(type = ActivityShape.class),
-    	@XmlElementRef(type = GatewayShape.class)
+    	@XmlElementRef(type = GatewayShape.class),
+    	@XmlElementRef(type = DataObjectShape.class),
+    	@XmlElementRef(type = TextAnnotationShape.class)
     })
     protected List<BpmnNode> bpmnShape;
     @XmlElement(namespace = "http://bpmndi.org")

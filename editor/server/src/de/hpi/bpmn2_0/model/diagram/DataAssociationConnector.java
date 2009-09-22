@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
+import de.hpi.bpmn2_0.model.connector.DataAssociation;
 
 
 /**
@@ -42,8 +42,8 @@ import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnNodeType">
- *       &lt;attribute name="annotationRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://bpmndi.org}associationConnectorType">
+ *       &lt;attribute name="dataAssociationRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -54,37 +54,37 @@ import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class TextAnnotationShape
-    extends BpmnNode
+public class DataAssociationConnector
+    extends AssociationConnector
 {
 
     @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected TextAnnotation annotationRef;
+    protected DataAssociation dataAssociationRef;
 
     /**
-     * Gets the value of the annotationRef property.
+     * Gets the value of the dataAssociationRef property.
      * 
      * @return
      *     possible object is
-     *     {@link TextAnnotation }
+     *     {@link DataAssociation }
      *     
      */
-    public TextAnnotation getAnnotationRef() {
-        return annotationRef;
+    public DataAssociation getDataAssociationRef() {
+        return dataAssociationRef;
     }
 
     /**
-     * Sets the value of the annotationRef property.
+     * Sets the value of the dataAssociationRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TextAnnotation }
+     *     {@link DataAssociation }
      *     
      */
-    public void setAnnotationRef(TextAnnotation value) {
-        this.annotationRef = value;
+    public void setDataAssociationRef(DataAssociation value) {
+        this.dataAssociationRef = value;
     }
 
 }
