@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
 //    TItemDefinition.class,
 //    Category.class,
-//    TCollaboration.class,
+//    Collaboration.class,
 //    TEndPoint.class,
 //    TPartnerRole.class,
 //    TPartnerEntity.class,

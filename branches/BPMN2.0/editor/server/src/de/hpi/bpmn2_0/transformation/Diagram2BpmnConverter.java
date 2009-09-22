@@ -51,6 +51,7 @@ import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
 import de.hpi.bpmn2_0.model.diagram.DataAssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
+import de.hpi.bpmn2_0.model.diagram.MessageFlowConnector;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
@@ -211,6 +212,9 @@ public class Diagram2BpmnConverter {
 			
 			} else if (shapeToAdd instanceof AssociationConnector) {
 				this.processDia.getAssociationConnector().add((AssociationConnector) shapeToAdd);
+			
+			} else if(shapeToAdd instanceof MessageFlowConnector) {
+				this.processDia.getMessageFlowConnector().add((MessageFlowConnector) shapeToAdd);
 			}
 
 			/* Handle child shape */

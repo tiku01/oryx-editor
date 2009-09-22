@@ -183,7 +183,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TMessageEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TErrorEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCollaboration }{@code >}
+     * {@link JAXBElement }{@code <}{@link Collaboration }{@code >}
      * {@link JAXBElement }{@code <}{@link TConversation }{@code >}
      * {@link JAXBElement }{@code <}{@link TConditionalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Process }{@code >}

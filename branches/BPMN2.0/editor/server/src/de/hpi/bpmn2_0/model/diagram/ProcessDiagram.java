@@ -66,7 +66,8 @@ import de.hpi.bpmn2_0.model.Process;
     "laneCompartment",
     "sequenceFlowConnector",
     "associationConnector",
-    "dataAssociationConnector"
+    "dataAssociationConnector",
+    "messageFlowConnector"
 })
 public class ProcessDiagram
     extends BpmnDiagram
@@ -81,13 +82,24 @@ public class ProcessDiagram
     @XmlElement
     protected List<AssociationConnector> associationConnector;
     
-    @XmlElement()
+    @XmlElement
     protected List<DataAssociationConnector> dataAssociationConnector;
+    
+    @XmlElement
+    protected List<MessageFlowConnector> messageFlowConnector;
     
     @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected Process processRef;
+    
+    /* Getter & Setter */
+    public List<MessageFlowConnector> getMessageFlowConnector() {
+      if (messageFlowConnector == null) {
+          messageFlowConnector = new ArrayList<MessageFlowConnector>();
+      }
+      return this.messageFlowConnector;
+  }
 
     /**
      * Gets the value of the laneCompartment property.

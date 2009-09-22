@@ -50,6 +50,7 @@ import de.hpi.bpmn2_0.model.event.IntermediateThrowEvent;
 import de.hpi.bpmn2_0.model.event.StartEvent;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
+import de.hpi.bpmn2_0.model.participant.Participant;
 
 
 /**
@@ -123,7 +124,10 @@ public class Process
 		
 		/* Artifacts / Data elements */
 		@XmlElementRef(type = DataObject.class),
-		@XmlElementRef(type = TextAnnotation.class)
+		@XmlElementRef(type = TextAnnotation.class),
+		
+		/* Partner */
+		@XmlElementRef(type = Participant.class)
 	})
     protected List<FlowElement> flowElement;
 //    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)

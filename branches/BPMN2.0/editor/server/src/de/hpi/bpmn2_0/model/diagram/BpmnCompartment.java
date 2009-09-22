@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "bpmnCompartmentType", namespace = "http://bpmndi.org")
 @XmlSeeAlso({
-//    PoolCompartmentType.class,
+//    PoolCompartment.class,
     LaneCompartment.class
 })
 public class BpmnCompartment

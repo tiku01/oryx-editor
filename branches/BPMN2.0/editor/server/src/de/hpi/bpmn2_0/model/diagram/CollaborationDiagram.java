@@ -52,7 +52,7 @@ public class CollaborationDiagram
 {
 
 //    @XmlElement(namespace = "http://bpmndi.org", required = true)
-//    protected List<PoolCompartmentType> pool;
+//    protected List<PoolCompartment> pool;
 //    @XmlElement(namespace = "http://bpmndi.org")
 //    protected List<MessageFlowConnector> messageFlowConnector;
 //    @XmlAttribute
@@ -78,13 +78,13 @@ public class CollaborationDiagram
 //     * 
 //     * <p>
 //     * Objects of the following type(s) are allowed in the list
-//     * {@link PoolCompartmentType }
+//     * {@link PoolCompartment }
 //     * 
 //     * 
 //     */
-//    public List<PoolCompartmentType> getPool() {
+//    public List<PoolCompartment> getPool() {
 //        if (pool == null) {
-//            pool = new ArrayList<PoolCompartmentType>();
+//            pool = new ArrayList<PoolCompartment>();
 //        }
 //        return this.pool;
 //    }
