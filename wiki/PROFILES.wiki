@@ -52,4 +52,4 @@ Properties of the profiles.xml will overwrite existing properties with the same 
 The structure of property-nodes will not be considered.
 Additional ALL plugins defined as CORE (core-Attribute is set to true) will be added to each profile.
 
-=CAUTION PROFILE DEFINITION IN STILL IN PROGRESS=
+=CAUTION PROFILE DEFINITION IS STILL IN PROGRESS=
