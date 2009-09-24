@@ -45,11 +45,21 @@ MOVI.namespace("stencilset");
 			MOVI.log("Stencilset contains no stencil definitions", "warning", "stencilset.js" );
 		}
 		
+		this.propertyPackages = {};
+		
+		// init property packages
+		if(jsonObj.propertyPackages) {
+			for(var i = 0; i < jsonObj.propertyPackages.length; i++) {
+				var pp = jsonObj.propertyPackages[i];
+				this.propertyPackages[pp.name] = pp.properties;
+			}
+		}
+		
 		for(key in jsonObj.stencils) {
 			if(!YAHOO.lang.hasOwnProperty(jsonObj.stencils, key)) continue;
 			
 			var stencil = jsonObj.stencils[key];
-			this.stencils[stencil.id] = new MOVI.stencilset.Stencil(stencil);
+			this.stencils[stencil.id] = new MOVI.stencilset.Stencil(stencil, this.propertyPackages);
 		}
 
 	};
@@ -72,6 +82,53 @@ MOVI.namespace("stencilset");
 	     */
 		getStencil: function(id) {
 			return this.stencils[id] || null;
+		},
+		
+		/**
+	     * Adds a stencil set extension to this stencil set.
+	     * @method addExtension
+	     * @param jsonObj The JSON representation of the stencil set extension
+	     */
+		addExtension: function(jsonObj) {
+		    
+		    // init additional property packages
+    		if(jsonObj.propertyPackages) {
+    			for(var i = 0; i < jsonObj.propertyPackages.length; i++) {
+    				var pp = jsonObj.propertyPackages[i];
+    				this.propertyPackages[pp.name] = pp.properties;
+    			}
+    		}
+    		
+		    // init additional stencils
+		    if(jsonObj.stencils) {
+		        for(var i=0; i<jsonObj.stencils.length; i++) {
+		            var stencil = jsonObj.stencils[i];
+		            this.stencils[stencil.id] = new MOVI.stencilset.Stencil(stencil, this.propertyPackages);
+		        }
+		    }
+		    
+		    // init additional properties
+		    if(jsonObj.properties) {
+		        for(var i=0; i<jsonObj.properties.length; i++) {
+		            var property = jsonObj.properties[i];
+		            for(key in this.stencils) {
+		                if(!YAHOO.lang.hasOwnProperty(this.stencils, key)) continue;
+		                var stencil = this.stencils[key];
+		                for(var j=0; j<property.roles.length; j++) {
+		                    for(var k=0; k<stencil.roles.length; k++) {
+		                        if(property.roles[j]==stencil.roles[k]) {
+		                            for(var l=0; l<property.properties.length; l++) {
+		                                stencil.properties.push(property.properties[l]);
+		                            }
+		                        }
+		                    }
+		                }
+		                
+		            }
+		        }
+		    }
+		    
+		    // note: removing of stencils and properties is not regarded here
 		}
 		
 	}
