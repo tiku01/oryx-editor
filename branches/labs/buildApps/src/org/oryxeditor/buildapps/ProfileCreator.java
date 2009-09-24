@@ -26,6 +26,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.EvaluatorException;
 import org.springframework.util.FileCopyUtils;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -34,6 +36,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+import com.yahoo.platform.yui.compressor.YUICompressor;
 
 /**
  * @author Philipp Berger
@@ -48,7 +53,7 @@ public class ProfileCreator {
 	 * @throws SAXException
 	 */
 	public static void main(String[] args) throws IOException,
-			ParserConfigurationException, SAXException {
+	ParserConfigurationException, SAXException {
 		if (args.length != 2) {
 			System.err.println("Wrong Number of Arguments!");
 			System.err.println(usage());
@@ -71,9 +76,9 @@ public class ProfileCreator {
 			ArrayList<String> pluginNames = profilName.get(key);
 			//add core plugins to each profile
 			pluginNames.addAll(coreNames);
-			
+
 			writeProfileJS(pluginDirPath, outputPath, nameSrc, key, pluginNames);
-			
+
 			writeProfileXML(pluginXMLPath, profilePath, outputPath, key,
 					pluginNames);
 		}
@@ -87,7 +92,7 @@ public class ProfileCreator {
 	 * @param outputPath
 	 * @param nameSrc
 	 *            plugin name to js source file
-	 * @param ProfileName
+	 * @param profileName
 	 *            name of the profile, serve as name for the js file
 	 * @param pluginNames
 	 *            all plugins for this profile
@@ -95,13 +100,13 @@ public class ProfileCreator {
 	 * @throws FileNotFoundException
 	 */
 	private static void writeProfileJS(String pluginDirPath, String outputPath,
-			HashMap<String, String> nameSrc, String ProfileName,
+			HashMap<String, String> nameSrc, String profileName,
 			ArrayList<String> pluginNames) throws IOException,
 			FileNotFoundException {
 		HashSet<String> pluginNameSet = new HashSet<String>();
 		pluginNameSet.addAll(pluginNames);
 
-		File profileFile = new File(outputPath + File.separator + ProfileName + ".js");
+		File profileFile = new File(outputPath + File.separator + profileName +"Uncompressed.js");
 		profileFile.createNewFile();
 		FileWriter writer = new FileWriter(profileFile);
 		for (String name : pluginNameSet) {
@@ -110,17 +115,20 @@ public class ProfileCreator {
 			writer.append(FileCopyUtils.copyToString(reader));
 		}
 		writer.close();
-//		System.err.println("compress");
-//		 ProcessBuilder pb = new ProcessBuilder("java","-jar",File.separator+".."+File.separator+".."+File.separator+".."+File.separator+"lib"+File.separator+"yuicompressor-2.4.2.jar",outputPath + File.separator + ProfileName + ".js",outputPath);
-//		 System.err.println(pb.command());
-//		 System.err.println(new File("..\\..\\.").getAbsolutePath());
-//		 Process process=pb.start();
-//         Scanner lesen = new Scanner(process.getErrorStream());
-//         String text;
-//          while(lesen.hasNextLine()) {//
-//                 text = lesen.nextLine();
-//                 System.out.println(text);
-//          }
+		File compressOut=new File(outputPath + File.separator + profileName +".js");
+		FileReader reader = new FileReader(profileFile);
+		FileWriter writer2 = new FileWriter(compressOut);
+		try{
+			com.yahoo.platform.yui.compressor.JavaScriptCompressor x= new JavaScriptCompressor(reader, null);
+			x.compress(writer2, 1, true, false, false, false);
+		}catch (Exception e) {
+			System.err.println("Profile Compression failed! profile: "+compressOut.getAbsolutePath()+ " uncompressed version is used, please ensure javascript correctness");
+			e.printStackTrace();
+			FileCopyUtils.copy(reader, writer2);
+
+		}finally{
+			writer2.close();
+		}
 	}
 
 	/**
@@ -152,14 +160,14 @@ public class ProfileCreator {
 			builder = factory.newDocumentBuilder();
 			Document profilesXMLdocument = builder.parse(reader);
 			NodeList pluginNodeList = outProfileXMLdocument
-					.getElementsByTagName("plugin");
+			.getElementsByTagName("plugin");
 			Node profileNode = getProfileNodeFromDocument(ProfileName,
 					profilesXMLdocument);
-			
+
 			if (profileNode == null)
 				throw new IllegalArgumentException(
 						"profile not defined in profile xml");
-			
+
 			NamedNodeMap attr = profileNode.getAttributes();
 			StringBuilder bld= new StringBuilder();
 			for(int i=0;i<attr.getLength();i++){
@@ -173,7 +181,7 @@ public class ProfileCreator {
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
 				Node pluginNode = pluginNodeList.item(i);
 				String pluginName = pluginNode.getAttributes().getNamedItem(
-						"name").getNodeValue();
+				"name").getNodeValue();
 				// if plugin is in the current profile
 				if (pluginNames.contains(pluginName)) {
 					// mark plugin as active
@@ -184,7 +192,7 @@ public class ProfileCreator {
 					// plugin defintion found copy or replace properties
 					Node profilePluginNode = getLastPluginNode(profileNode,
 							pluginName);
-
+					if(profilePluginNode==null){System.out.println("Plugin: "+pluginName+" assumed to be core");break;}
 					saveOrUpdateProperties(pluginNode, profilePluginNode);
 
 				}else{
@@ -209,18 +217,18 @@ public class ProfileCreator {
 		Node profilePluginNode = null;
 		// search plugin definition in profile xml
 		for (int profilePluginNodeIndex = 0; profilePluginNodeIndex < profileNode
-				.getChildNodes().getLength(); profilePluginNodeIndex++) {
+		.getChildNodes().getLength(); profilePluginNodeIndex++) {
 			Node tmpNode = profileNode.getChildNodes().item(
 					profilePluginNodeIndex);
 			if (tmpNode.getAttributes() != null
 					&& tmpNode.getAttributes().getNamedItem("name") != null
 					&& tmpNode.getAttributes().getNamedItem("name")
-							.getNodeValue().equals(pluginName))
+					.getNodeValue().equals(pluginName))
 				profilePluginNode = tmpNode;
 		}
 		if (profilePluginNode == null) {
 			String[] dependsOnProfiles = getDependencies(profileNode);
-			if (dependsOnProfiles.length == 0) {
+			if (dependsOnProfiles==null ||dependsOnProfiles.length == 0) {
 				return profilePluginNode;
 			}
 			for (String dependsProfile : dependsOnProfiles) {
@@ -247,7 +255,7 @@ public class ProfileCreator {
 		// ---- Use a XSLT transformer for writing the new XML file ----
 		try {
 			Transformer transformer = TransformerFactory.newInstance()
-					.newTransformer();
+			.newTransformer();
 			DOMSource source = new DOMSource(outProfileXMLdocument);
 			FileOutputStream os = new FileOutputStream(new File(xmlFileName));
 			StreamResult result = new StreamResult(os);
@@ -272,38 +280,38 @@ public class ProfileCreator {
 	 */
 	private static void saveOrUpdateProperties(Node pluginNode,
 			Node profilePluginNode) throws DOMException {
-//		for(String dependent:getDependencies(profilePluginNode.getParentNode())){
-//			saveOrUpdateProperties(pluginNode,getProfileNodeFromDocument(dependent, profilePluginNode.getOwnerDocument()));
-//		};
+		//		for(String dependent:getDependencies(profilePluginNode.getParentNode())){
+		//			saveOrUpdateProperties(pluginNode,getProfileNodeFromDocument(dependent, profilePluginNode.getOwnerDocument()));
+		//		};
 		// for each child node in the profile xml
 		for (int index = 0; index < profilePluginNode.getChildNodes()
-				.getLength(); index++) {
+		.getLength(); index++) {
 			Node profilePluginChildNode = profilePluginNode.getChildNodes()
-					.item(index);
+			.item(index);
 			// check if property
 			if (profilePluginChildNode.getNodeName() == "property") {
 				boolean found = false;
 				// search for old definitions
 				for (int childIndex = 0; childIndex < pluginNode
-						.getChildNodes().getLength(); childIndex++) {
+				.getChildNodes().getLength(); childIndex++) {
 					Node pluginChildNode = pluginNode.getChildNodes().item(
 							childIndex);
 					if (pluginChildNode.getNodeName() == "property") {
 						NamedNodeMap propertyAttributes = profilePluginChildNode
-								.getAttributes();
+						.getAttributes();
 						for (int attrIndex = 0; attrIndex < propertyAttributes
-								.getLength(); attrIndex++) {
+						.getLength(); attrIndex++) {
 							String newPropertyName = profilePluginChildNode
-									.getAttributes().item(attrIndex)
-									.getNodeName();
+							.getAttributes().item(attrIndex)
+							.getNodeName();
 							Node oldPropertyNode = pluginChildNode
-									.getAttributes().getNamedItem(
-											newPropertyName);
+							.getAttributes().getNamedItem(
+									newPropertyName);
 							if (oldPropertyNode != null) {
 								// old definition found replace value
 								found = true;
 								String newValue = profilePluginChildNode
-										.getAttributes().item(attrIndex).getNodeValue();
+								.getAttributes().item(attrIndex).getNodeValue();
 								oldPropertyNode.setNodeValue(newValue);
 							}
 						}
@@ -312,13 +320,13 @@ public class ProfileCreator {
 				if (!found) {
 					// no definition found add some
 					Node property = pluginNode.getOwnerDocument()
-							.createElement("property");
+					.createElement("property");
 					((Element) property).setAttribute("name",
 							profilePluginChildNode.getAttributes()
-									.getNamedItem("name").getNodeValue());
+							.getNamedItem("name").getNodeValue());
 					((Element) property).setAttribute("value",
 							profilePluginChildNode.getAttributes()
-									.getNamedItem("value").getNodeValue());
+							.getNamedItem("value").getNodeValue());
 					pluginNode.appendChild(property);
 				}
 			}
@@ -334,7 +342,7 @@ public class ProfileCreator {
 			Document profilesXMLdocument) throws DOMException {
 		Node profileNode = null;
 		NodeList profileNodes = profilesXMLdocument
-				.getElementsByTagName("profile");
+		.getElementsByTagName("profile");
 		for (int i = 0; i < profileNodes.getLength(); i++) {
 			if (profileNodes.item(i).getAttributes().getNamedItem("name")
 					.getNodeValue().equals(ProfileName)) {
@@ -356,8 +364,8 @@ public class ProfileCreator {
 	 */
 	private static void extractProfileData(String profilePath,
 			HashMap<String, ArrayList<String>> profilName)
-			throws FileNotFoundException, ParserConfigurationException,
-			SAXException, IOException, DOMException {
+	throws FileNotFoundException, ParserConfigurationException,
+	SAXException, IOException, DOMException {
 		InputStream reader = new FileInputStream(profilePath);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		Document document = factory.newDocumentBuilder().parse(reader);
@@ -365,14 +373,14 @@ public class ProfileCreator {
 		for (int i = 0; i < profiles.getLength(); i++) {
 			Node profile = profiles.item(i);
 			String name = profile.getAttributes().getNamedItem("name")
-					.getNodeValue();
+			.getNodeValue();
 			profilName.put(name, new ArrayList<String>());
 			for (int q = 0; q < profile.getChildNodes().getLength(); q++) {
 				if (profile.getChildNodes().item(q).getNodeName()
 						.equalsIgnoreCase("plugin")) {
 					profilName.get(name).add(
 							profile.getChildNodes().item(q).getAttributes()
-									.getNamedItem("name").getNodeValue());
+							.getNamedItem("name").getNodeValue());
 				}
 				;
 			}
@@ -387,13 +395,13 @@ public class ProfileCreator {
 	 */
 	private static void resolveDependencies(
 			HashMap<String, ArrayList<String>> profilName, NodeList profiles)
-			throws DOMException {
+	throws DOMException {
 		HashMap<String, String[]> profileDepends = new HashMap<String, String[]>();
 
 		for (int i = 0; i < profiles.getLength(); i++) {
 			Node profile = profiles.item(i);
 			String name = profile.getAttributes().getNamedItem("name")
-					.getNodeValue();
+			.getNodeValue();
 			profileDepends.put(name, getDependencies(profile));
 		}
 
@@ -437,7 +445,7 @@ public class ProfileCreator {
 		String[] dependencies = null;
 		if (profil.getAttributes().getNamedItem("depends") != null) {
 			dependencies = profil.getAttributes().getNamedItem("depends")
-					.getNodeValue().split(",");
+			.getNodeValue().split(",");
 		}
 		return dependencies;
 	}
@@ -456,8 +464,8 @@ public class ProfileCreator {
 	 */
 	private static void extractPluginData(String pluginXMLPath,
 			HashMap<String, String> nameSrc, ArrayList<String> coreNames)
-			throws FileNotFoundException, ParserConfigurationException,
-			SAXException, IOException, DOMException {
+	throws FileNotFoundException, ParserConfigurationException,
+	SAXException, IOException, DOMException {
 		InputStream reader = new FileInputStream(pluginXMLPath);
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -467,9 +475,9 @@ public class ProfileCreator {
 
 		for (int i = 0; i < plugins.getLength(); i++) {
 			String name = plugins.item(i).getAttributes().getNamedItem("name")
-					.getNodeValue();
+			.getNodeValue();
 			String src = plugins.item(i).getAttributes().getNamedItem("source")
-					.getNodeValue();
+			.getNodeValue();
 			nameSrc.put(name, src);
 			if (plugins.item(i).getAttributes().getNamedItem("core") != null) {
 				if (plugins.item(i).getAttributes().getNamedItem("core")
@@ -482,10 +490,10 @@ public class ProfileCreator {
 
 	public static String usage() {
 		String use = "Profiles Creator\n"
-				+ "Use to parse the profiles.xml and creates\n"
-				+ "for each profile an .js-source. Therefore additional\n"
-				+ "information from the plugins.xml is required.\n"
-				+ "usage:\n" + "java ProfileCreator pluginPath outputDir";
+			+ "Use to parse the profiles.xml and creates\n"
+			+ "for each profile an .js-source. Therefore additional\n"
+			+ "information from the plugins.xml is required.\n"
+			+ "usage:\n" + "java ProfileCreator pluginPath outputDir";
 		return use;
 	}
 
