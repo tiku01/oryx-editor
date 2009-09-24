@@ -65,11 +65,11 @@
 				<name><xsl:value-of select="$title" /></name>
 				<description><xsl:value-of select="./oryx:description" /></description>
 				<xsl:call-template name="node-position" />
-				<xsl:variable name="commonness" select="./oryx:commonness" />
+				<xsl:variable name="frequency" select="./oryx:frequency" />
 				
-				<xsl:if test="$commonness!=''">
+				<xsl:if test="$frequency!=''">
 					<attribute typeRef="AT_FRQ_DAY"><xsl:attribute name="value">
-						<xsl:value-of select="$commonness" />
+						<xsl:value-of select="$frequency" />
 					</xsl:attribute></attribute>
 				</xsl:if>
 			</event>
@@ -377,10 +377,10 @@
 			</xsl:for-each>
 	</xsl:template>
 
-	<!-- Returns the ID without leading #resource -->
+	<!-- Returns the ID without leading # -->
 	<xsl:template name="get-id-string">
 		<xsl:param name="id_" />
-		<xsl:value-of select="substring-after($id_, '#oryx')" />
+		<xsl:value-of select="substring-after($id_, '#')" />
 	</xsl:template>
 
 	<!-- Blocking Template -->

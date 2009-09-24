@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Oryx Editor">
+<project name="Oryx Editor" basedir="../">
     <!-- Load additional properties -->
     <property file="build.properties" />
-    
+	<property name="build-dir" value="build" />
+	<property name="target-dir" value="dist" />
+	
     <import file="../buildApps/build.xml" />
+	
+	
     
     <!-- Editor properties *************************************************** -->
     <property name="editor-src-root" value="editor" />
@@ -25,7 +29,7 @@
         <jsdoctoolkit jsdochome="jsdoc-toolkit/" template="jsdoc" outputdir="doc/editor/client" inputdir="editor/client/scripts" depth="2">
         </jsdoctoolkit>
     </target>
-    
+	
     <!-- Oryx JavaDoc -->
     <target name="javadoc-editor">
       <mkdir dir="doc/editor/server" />
@@ -76,6 +80,24 @@
     
     <target name="build-with-script-files-flag">
         <property name="build-with-script-files-flag" value="scripts/**" />
+    </target>
+	
+	
+    <target name="deploy-editor">
+        <copy file="${target-dir}/oryx.war" todir="${deploymentdir}"/>
+    </target>
+    
+    <target name="undeploy-editor">
+        <delete file="${deploymentdir}/oryx.war"/>
+    </target>
+    
+    <target name="deploy-stencilsets">
+        <copy todir='${deploymentdir}/oryx/stencilsets'>
+            <fileset dir="${editor-src-root}/data/stencilsets"/>
+        </copy>
+        <echo>
+            Copied stencilsets into deployment destination
+        </echo>
     </target>
     
     <target name="clean-editor">
@@ -147,7 +169,7 @@
 		 <echo>
             Created profile js-Files
         </echo>
-		<concat destfile='${editor-build-root}/tempProfiles/oryx.core.js'>
+		<concat destfile='${editor-build-root}/tempProfiles/oryx.core.uncompressed.js'>
             <filelist id="coresourcefiles" dir="${editor-src-client}">
                 <file name='scripts/utils.js'/>
                 <file name='scripts/kickstart.js'/>
@@ -188,9 +210,14 @@
             	<file name='scripts/Core/abstractLayouter.js'/>
             </filelist>
 			</concat>
+	        <java dir="${editor-build-root}/tempProfiles/" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
+	         failonerror="true" output='${editor-build-root}/tempProfiles/oryx.core.js' logError="true">
+	            <arg file='${editor-build-root}/tempProfiles/oryx.core.uncompressed.js'/>
+	        </java>
 			<move todir='${editor-build-root}/profiles'>
 				<fileset dir='${editor-build-root}/tempProfiles/'>
 	                    <include name="*.xml" />
+						<include name="*.conf" />
 	            </fileset>
 			</move>
 			<!--TODO shrink

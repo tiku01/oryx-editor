@@ -34,6 +34,22 @@ if(!ORYX.Core.SVG) {ORYX.Core.SVG = {};}
  */
 ORYX.Core.SVG.Label = Clazz.extend({
 	
+	_characterSets:[
+		"%W",
+		"@",
+		"m",
+		"wDGMOQÖ#+=<>~^",
+		"ABCHKNRSUVXZÜÄ&",
+		"bdghnopquxöüETY1234567890ß_§${}*´`µ€",
+		"aeksvyzäFLP?°²³",
+		"c-",
+		"rtJ\"/()[]:;!|\\",
+		"fjI., ",
+		"'",
+		"il"
+		],
+	_characterSetValues:[15,14,13,11,10,9,8,7,6,5,4,3],
+
 	/**
 	 * Constructor
 	 * @param options {Object} :
@@ -268,7 +284,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			var tspans = $A(this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan'));
 			
 			//only do this in firefox 3. all other browsers do not support word wrapping!!!!!
-			if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
+			//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
 				var newtspans = [];
 				
 				var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
@@ -277,10 +293,12 @@ ORYX.Core.SVG.Label = Clazz.extend({
 				
 					var refbb = refNode.getBBox();
 					
+					var fontSize = this.getFontSize();
+					
 					for (var j = 0; j < tspans.length; j++) {
 						var tspan = tspans[j];
 						
-						var textLength = tspan.getComputedTextLength();
+						var textLength = this._getRenderedTextLength(tspan, undefined, undefined, fontSize);
 						
 						if (textLength > refbb.width) {
 						
@@ -289,7 +307,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 							
 							var numOfChars = this.getTrimmedTextLength(tspan.textContent);
 							for (var i = 0; i < numOfChars; i++) {
-								var sslength = tspan.getSubStringLength(startIndex, i - startIndex);
+								var sslength = this._getRenderedTextLength(tspan, startIndex, i-startIndex, fontSize);
 								
 								if (sslength > refbb.width - 2) {
 									var newtspan = this.node.ownerDocument.createElementNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
@@ -338,7 +356,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 						this.node.appendChild(newtspans.shift());
 					}
 				}
-			}
+			//}
 		} catch (e) {
 			//console.log(e);
 		}
@@ -354,24 +372,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 		try {
 			var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
 			
-			//trying to get an inherited font-size attribute
-			//NO CSS CONSIDERED!
-			var fontSize = this.getInheritedFontSize(this.node); 
-			
-			if (!fontSize) {
-				//because this only works in firefox 3, all other browser use the default line height
-				if (tspans[0] && /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
-					fontSize = tspans[0].getExtentOfChar(0).height;
-				}
-				else {
-					fontSize = ORYX.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
-				}
-				
-				//handling of unsupported method in webkit
-				if (fontSize <= 0) {
-					fontSize = ORYX.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
-				}
-			}
+			var fontSize = this.getFontSize(this.node); 
 			
 			$A(tspans).each((function(tspan, index){
 				
@@ -399,6 +400,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			}).bind(this));
 			
 		} catch(e) {
+			//console.log(e);
 			this._isChanged = true;
 		}
 		
@@ -406,6 +408,76 @@ ORYX.Core.SVG.Label = Clazz.extend({
 		if(this.isVisible) {
 			this.node.setAttributeNS(null, 'visibility', 'inherit');
 		}				
+	},
+	
+	/**
+	 * Returns the text length of the text content of an SVG tspan element.
+	 * For all browsers but Firefox 3 the values are estimated.
+	 * @param {TSpanSVGElement} tspan
+	 * @param {int} startIndex Optional, for sub strings
+	 * @param {int} endIndex Optional, for sub strings
+	 */
+	_getRenderedTextLength: function(tspan, startIndex, endIndex, fontSize) {
+		if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
+			if(startIndex === undefined) {
+//test string: abcdefghijklmnopqrstuvwxyzöäü,.-#+ 1234567890ßABCDEFGHIJKLMNOPQRSTUVWXYZ;:_'*ÜÄÖ!"§$%&/()=?[]{}|<>'~´`\^°µ@€²³
+//				for(var i = 0; i < tspan.textContent.length; i++) {
+//					console.log(tspan.textContent.charAt(i), tspan.getSubStringLength(i,1), this._estimateCharacterWidth(tspan.textContent.charAt(i))*(fontSize/14.0));
+//				}
+				return tspan.getComputedTextLength();
+			} else {
+				return tspan.getSubStringLength(startIndex, endIndex);
+			}
+		} else {
+			if(startIndex === undefined) {
+				return this._estimateTextWidth(tspan.textContent, fontSize);
+			} else {
+				return this._estimateTextWidth(tspan.textContent.substr(startIndex, endIndex).trim(), fontSize);
+			}
+		}
+	},
+	
+	/**
+	 * Estimates the text width for a string.
+	 * Used for word wrapping in all browser but FF3.
+	 * @param {Object} text
+	 */
+	_estimateTextWidth: function(text, fontSize) {
+		var sum = 0.0;
+		for(var i = 0; i < text.length; i++) {
+			sum += this._estimateCharacterWidth(text.charAt(i));
+		}
+		
+		return sum*(fontSize/14.0);
+	},
+	
+	/**
+	 * Estimates the width of a single character for font size 14.
+	 * Used for word wrapping in all browser but FF3.
+	 * @param {Object} character
+	 */
+	_estimateCharacterWidth: function(character) {
+		for(var i = 0; i < this._characterSets.length; i++) {
+ 			if(this._characterSets[i].indexOf(character) >= 0) {
+				return this._characterSetValues[i];
+			}
+ 		}	
+		return 9;
+ 	},
+	
+	getReferencedElementWidth: function() {
+		var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
+				
+		if (refNode) {
+			var refbb = refNode.getBBox();
+			if(refbb) {
+				return refbb.width;
+			} else {
+				return undefined;
+			}
+		} else {
+			return undefined;
+		}
 	},
 	
 	/**
@@ -528,6 +600,34 @@ ORYX.Core.SVG.Label = Clazz.extend({
 		} else if(!ORYX.Editor.checkClassType(node, SVGSVGElement)) {
 			return this.getInheritedFontSize(node.parentNode);
 		}
+	},
+	
+	getFontSize: function(node) {
+		var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
+			
+		//trying to get an inherited font-size attribute
+		//NO CSS CONSIDERED!
+		var fontSize = this.getInheritedFontSize(this.node); 
+		
+		if (!fontSize) {
+			//because this only works in firefox 3, all other browser use the default line height
+			if (tspans[0] && /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
+				fontSize = tspans[0].getExtentOfChar(0).height;
+			}
+			else {
+				fontSize = ORYX.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
+			}
+			
+			//handling of unsupported method in webkit
+			if (fontSize <= 0) {
+				fontSize = ORYX.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
+			}
+		}
+		
+		if(fontSize)
+			this.node.setAttribute("oryx:fontSize", fontSize);
+		
+		return fontSize;
 	},
 	
 	/**

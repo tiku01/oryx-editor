@@ -4,14 +4,14 @@
 		
 		<!-- following plugins require Ext -->		
 		
-		<plugin source="toolbar.js" name="ORYX.Plugins.Toolbar" />
-		<plugin source="toolbar2.js" name="ORYX.Plugins.Toolbar2" />
+		<plugin source="toolbar.js" name="ORYX.Plugins.Toolbar" core="true" />
+		<!-- <plugin source="toolbar2.js" name="ORYX.Plugins.Toolbar2" />-->
 		
-		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" />
+		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" core="true" />
 		<plugin source="selectssperspective.js" name="ORYX.Plugins.SelectStencilSetPerspective"/>
 		<plugin source="shaperepository.js" name="ORYX.Plugins.ShapeRepository" />
 		<plugin source="propertywindow.js" name="ORYX.Plugins.PropertyWindow" />
-		<plugin source="loading.js" name="ORYX.Plugins.Loading" />
+		<plugin source="loading.js" name="ORYX.Plugins.Loading" core="true" />
 		<plugin source="canvasResize.js" name="ORYX.Plugins.CanvasResize">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
 		</plugin>
@@ -57,7 +57,6 @@
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
 		</plugin>
 		<plugin source="file.js" name="ORYX.Plugins.File" >
-			<property name="color" value="red"/>
 		</plugin>
 		<plugin source="file.js" name="ORYX.Plugins.Save"/>
 		
@@ -156,6 +155,35 @@
 		<!-- BPMN1.1 specific plugins -->
 		<plugin source="bpmn11.js" name="ORYX.Plugins.BPMN11">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+		</plugin>
+		
+		<plugin source="bpmnLayouter.js" name="ORYX.Plugins.BpmnLayouter">
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+		</plugin>
+		
+		<!-- BPMN2.0 specific plugins -->
+		<plugin source="bpmn2.0/bpmn2.0.js" name="ORYX.Plugins.BPMN2_0">
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
+		
+		<plugin source="bpmn2.0/bpmn2conversation.js" name="ORYX.Plugins.BPMN2CONVERSATION">
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
+		</plugin>
+		
+		<plugin source="bpmn2.0/bpmn2.0choreography.js" name="ORYX.Plugins.Bpmn2_0Choreography">
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
+		
+		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
+
+		<plugin source="epcLayouter.js" name="ORYX.Plugins.EPCLayouter">
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+		</plugin>
+		
+		<plugin source="transformationDownloadDialog.js" name="ORYX.Plugins.TransformationDownloadDialog">
+			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->

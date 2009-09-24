@@ -62,7 +62,7 @@ public class EditorHandler extends HttpServlet {
 		}
 		if(!availableProfiles.containsAll(profiles)){
 			//Some profiles not available
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "Profile not found!");
 			profiles.retainAll(availableProfiles);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;

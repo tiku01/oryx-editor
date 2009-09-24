@@ -123,7 +123,7 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 	 * @param {Oryx.Core.StencilSet.Stencil} rootStencil If rootStencil is defined, it only returns stencils
 	 * 			that could be (in)direct child of that stencil.
 	 */
-    stencils: function(rootStencil, rules){
+    stencils: function(rootStencil, rules, sortByGroup){
 		if(rootStencil && rules) {
 			var stencils = this._availableStencils.values();
 			var containers = [rootStencil];
@@ -148,14 +148,28 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 				}
 				result = result.concat(children).uniq();
 			}
+			
+			if(sortByGroup) {
+				result = result.sortBy(function(stencil) {
+					return stencil.groups().first();
+				});
+			}
+			
 			var edges = stencils.findAll(function(stencil) {
 				return stencil.type() == "edge";
 			});
 			result = result.concat(edges);
-
+			
 			return result;
+			
 		} else {
-        	return this._availableStencils.values();
+        	if(sortByGroup) {
+				return this._availableStencils.values().sortBy(function(stencil) {
+					return stencil.groups().first();
+				});
+			} else {
+				return this._availableStencils.values();
+			}
 		}
     },
     
@@ -407,19 +421,20 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
         // init and check consistency.
         this.__handleStencilset(response);
 		
-		//var pps = new Hash();
+		var pps = new Hash();
 		
 		// init property packages
-		/*$A(this._jsonObject.propertyPackages).each((function(pp) {
-			pps[pp.id] = pp.properties;
-		}).bind(this));*/
-        
+		if(this._jsonObject.propertyPackages) {
+			$A(this._jsonObject.propertyPackages).each((function(pp) {
+				pps[pp.name] = pp.properties;
+			}).bind(this));
+		}
+		
         // init each stencil
         $A(this._jsonObject.stencils).each((function(stencil){
         
             // instantiate normally.
-            //var oStencil = new ORYX.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, pps);
-            var oStencil = new ORYX.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this);            
+            var oStencil = new ORYX.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, pps);      
 			this._stencils[oStencil.id()] = oStencil;
 			this._availableStencils[oStencil.id()] = oStencil;
             

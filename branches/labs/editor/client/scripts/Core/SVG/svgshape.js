@@ -502,29 +502,41 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 		}
 	},
 
+	/**
+	 * Returns true if the element is visible
+	 * @param {SVGElement} elem
+	 * @return boolean
+	 */
 	isVisible: function(elem) {
 			
 		if (!elem) {
 			elem = this.element;
 		}
 
-		if (!elem) {
-			return true;
-		}
+		var hasOwnerSVG = false;
+		try { 
+			hasOwnerSVG = !!elem.ownerSVGElement;
+		} catch(e){}
 		
-		if ( elem.ownerSVGElement ) {
+		if ( hasOwnerSVG ) {
 			if (ORYX.Editor.checkClassType(elem, SVGGElement)) {
 				if (elem.className && elem.className.baseVal == "me") 
 					return true;
 			}
 
+			var fill = elem.getAttributeNS(null, "fill");
+			var stroke = elem.getAttributeNS(null, "stroke");
+			if (fill && fill == "none" && stroke && stroke == "none") {
+				return false;
+			}
 			var attr = elem.getAttributeNS(null, "display");
 			if(!attr)
 				return this.isVisible(elem.parentNode);
 			else if (attr == "none") 
 				return false;
-			else 
+			else {
 				return true;
+			}
 		}
 
 		return true;
