@@ -44,7 +44,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.connector.Edge;
-import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.Message;
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
@@ -279,7 +278,6 @@ public class Definitions {
     			
     			for(FlowElement flowElement : ((Process) rootElement).getFlowElement()) {
     				
-    				// TODO: Add Support for MessageFlows, etc.
     				if(flowElement instanceof Edge) {
     					edges.add((Edge) flowElement);
     				}
