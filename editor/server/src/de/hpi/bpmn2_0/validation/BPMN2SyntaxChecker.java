@@ -1,7 +1,6 @@
 package de.hpi.bpmn2_0.validation;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 import de.hpi.bpmn2_0.model.Definitions;
 import de.hpi.bpmn2_0.model.FlowElement;
@@ -9,7 +8,6 @@ import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.RootElement;
 import de.hpi.bpmn2_0.model.activity.Activity;
-import de.hpi.bpmn2_0.model.connector.DataAssociation;
 import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
 import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
@@ -68,15 +66,15 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 
 	private Definitions defs;
 		
-	public HashSet<String> allowedNodes;
-	public HashSet<String> forbiddenNodes;
+//	public HashSet<String> allowedNodes;
+//	public HashSet<String> forbiddenNodes;
 	
 	public BPMN2SyntaxChecker(Definitions defs) {
 		this.defs = defs;
 		this.errors = new HashMap<String, String>();
 		
-		this.allowedNodes = new HashSet<String>();
-		this.forbiddenNodes = new HashSet<String>();
+//		this.allowedNodes = new HashSet<String>();
+//		this.forbiddenNodes = new HashSet<String>();
 	}
 
 	@Override
@@ -98,7 +96,6 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 			else if(edge.getTargetRef() == null)
 				this.addError(edge, NO_TARGET);
 			else if(edge instanceof SequenceFlow)
-				System.out.println("sf");
 				if(edge.getSourceRef().getProcessRef() != edge.getTargetRef().getProcessRef()) 
 					this.addError(edge, DIFFERENT_PROCESS);		
 			else if(edge instanceof MessageFlow)
@@ -109,12 +106,16 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 			 * We do it here because its much easier than checking the node itself 
 			 * for incoming or outgoing edges.
 			 */
-			else if(edge instanceof DataOutputAssociation || edge instanceof DataInputAssociation) 
+			else if(edge instanceof DataOutputAssociation || edge instanceof DataInputAssociation)  {
+				System.out.println();
 				if(edge.getTargetRef() instanceof DataInput)
 					this.addError(edge.getTargetRef(), DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION);
 				else if(edge.getSourceRef() instanceof DataOutput)
 					this.addError(edge.getSourceRef(), DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION);
-					
+			}
+			// TODO: EventSubProcesses can be checked the same way
+			// 		 (They must not have any incoming or outgoing sequence flow)
+			
 		}
 	}
 	
@@ -128,7 +129,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	
 	private void checkNode(FlowElement node) {
 		
-		this.checkForAllowedAndForbiddenNodes(node);
+//		this.checkForAllowedAndForbiddenNodes(node);
 		
 		if((node instanceof Activity || node instanceof Event || node instanceof Gateway) && node.getProcessRef() == null) {			
 			this.addError(node, FLOWOBJECT_NOT_CONTAINED_IN_PROCESS);			
@@ -160,23 +161,23 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 		
 	}
 	
-	// TODO: Check if this Method and the invoked one are really neccessary
-	private void checkForAllowedAndForbiddenNodes(FlowElement node) {
-		// Check for allowed and permitted nodes
-		if(!checkForAllowedNode(node, allowedNodes, true) || !checkForAllowedNode(node, forbiddenNodes, false)){
-			System.out.println("error");
-			addError(node, NODE_NOT_ALLOWED);
-		}
-	}
-	
-	private boolean checkForAllowedNode(FlowElement node, HashSet<String> classes, boolean allowed) {
-		// If checking for allowed classes, empty classes means all are allowed
-		if(allowed && classes.size() == 0)
-			return true;
-		
-		boolean containedInClasses = false;
-		String nodeClassName = node.getClass().getSimpleName();
-	
+	// TODO: Check if this Method and the invoked one are really necessary
+//	private void checkForAllowedAndForbiddenNodes(FlowElement node) {
+//		// Check for allowed and permitted nodes
+//		if(!checkForAllowedNode(node, allowedNodes, true) || !checkForAllowedNode(node, forbiddenNodes, false)){
+//			System.out.println("error");
+//			addError(node, NODE_NOT_ALLOWED);
+//		}
+//	}
+//	
+//	private boolean checkForAllowedNode(FlowElement node, HashSet<String> classes, boolean allowed) {
+//		// If checking for allowed classes, empty classes means all are allowed
+//		if(allowed && classes.size() == 0)
+//			return true;
+//		
+//		boolean containedInClasses = false;
+//		String nodeClassName = node.getClass().getSimpleName();
+//	
 //		for(String clazz : classes){
 //			//TODO this doesn't checks for superclasses!!!
 //			// better would be "node instanceof Class.forName(clazz)" 
@@ -188,9 +189,9 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 //			
 //			if(containedInClasses) break;
 //		}
-		
-		return containedInClasses == allowed;
-	}
+//		
+//		return containedInClasses == allowed;
+//	}
 	
 	private void checkBoundaryEvent(BoundaryEvent node) {
 		

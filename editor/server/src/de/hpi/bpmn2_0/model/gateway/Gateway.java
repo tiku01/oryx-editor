@@ -55,7 +55,7 @@ import de.hpi.bpmn2_0.model.FlowNode;
 //    TComplexGateway.class,
 //    TInclusiveGateway.class,
 //    TEventBasedGateway.class,
-//    ParallelGateway.class,
+    ParallelGateway.class,
     ExclusiveGateway.class
 })
 public class Gateway
