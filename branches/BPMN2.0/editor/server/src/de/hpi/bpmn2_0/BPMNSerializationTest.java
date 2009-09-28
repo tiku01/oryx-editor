@@ -15,10 +15,11 @@ import org.oryxeditor.server.diagram.DiagramBuilder;
 
 import de.hpi.bpmn2_0.model.Definitions;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
+import de.hpi.diagram.verification.SyntaxChecker;
 
 public class BPMNSerializationTest {
 
-	final static String path = "C:\\Dokumente und Einstellungen\\Sven\\workspace\\oryx_bpmn2.0_2\\editor\\server\\src\\de\\hpi\\bpmn2_0\\";
+	final static String path = "/Users/Phil/Documents/Studium/signavio/oryx BPMN 2.0/editor/server/src/de/hpi/bpmn2_0/";
 	/**
 	 * @param args
 	 * @throws Exception 
@@ -46,10 +47,10 @@ public class BPMNSerializationTest {
 //		
 //		xmlStreamWriter.setPrefix("bpmndi","http://bpmndi.org");
 		
-		JAXBContext context = JAXBContext.newInstance(Definitions.class);
-		Marshaller m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		m.marshal(def, System.out);
+		SyntaxChecker checker = def.getSyntaxChecker();
+		checker.checkSyntax();
+		
+		System.out.println(checker.getErrorsAsJson().toString());
 	}
 
 }

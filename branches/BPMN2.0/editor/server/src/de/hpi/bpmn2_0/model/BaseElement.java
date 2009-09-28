@@ -107,7 +107,23 @@ public abstract class BaseElement {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
     
+    private Process processRef;
+    
     /**
+	 * @return the processRef
+	 */
+	public Process getProcessRef() {
+		return processRef;
+	}
+
+	/**
+	 * @param processRef the processRef to set
+	 */
+	public void setProcessRef(Process processRef) {
+		this.processRef = processRef;
+	}
+
+	/**
      * Adds a child element to the current BPMN element if possible. This method
      * should be implemented by the concrete sub class, if it can contain child
      * elements.

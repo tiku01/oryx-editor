@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.FlowNode;
 
 
 /**
@@ -61,7 +61,7 @@ import de.hpi.bpmn2_0.model.BaseElement;
     "dataState"
 })
 public class DataInput
-    extends BaseElement
+    extends FlowNode
 {
 
 //    protected TDataState dataState;

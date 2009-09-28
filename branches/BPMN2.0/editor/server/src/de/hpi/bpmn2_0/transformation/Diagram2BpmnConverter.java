@@ -179,7 +179,7 @@ public class Diagram2BpmnConverter {
 	 * @throws InvalidKeyException
 	 */
 	private void createBpmnElementsRecursively(List<Shape> childShapes,
-			BPMNElement parent) throws ClassNotFoundException,
+			BPMNElement parent, Process process) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			BpmnConverterException, InvalidKeyException {
 
@@ -194,10 +194,12 @@ public class Diagram2BpmnConverter {
 					.getFactoryForStencilId(childShape.getStencilId());
 			BPMNElement bpmnElement = factory.createBpmnElement(childShape,
 					null);
-
+			
+			bpmnElement.getNode().setProcessRef(process);
+			
 			/* Add element to flat list of all elements of the diagram */
 			this.addBpmnElement(bpmnElement);
-
+			
 			/* Add child to parent BPMN element */
 			parent.addChild(bpmnElement);
 
@@ -219,7 +221,7 @@ public class Diagram2BpmnConverter {
 
 			/* Handle child shape */
 			this.createBpmnElementsRecursively(childShape.getChildShapes(),
-					bpmnElement);
+					bpmnElement, process);
 		}
 	}
 
@@ -389,7 +391,7 @@ public class Diagram2BpmnConverter {
 				.getResourceId());
 
 		try {
-			createBpmnElementsRecursively(diagram.getChildShapes(), rootElement);
+			createBpmnElementsRecursively(diagram.getChildShapes(), rootElement, process);
 		} catch (Exception e) {
 			/* Pack exceptions in a BPMN converter exception */
 			throw new BpmnConverterException(

@@ -61,7 +61,7 @@ public abstract class FlowElement
     protected List<QName> categoryValue;
     @XmlAttribute
     protected String name;
-
+    
     /**
      * Gets the value of the auditing property.
      * 
@@ -162,5 +162,4 @@ public abstract class FlowElement
     public void setName(String value) {
         this.name = value;
     }
-
 }

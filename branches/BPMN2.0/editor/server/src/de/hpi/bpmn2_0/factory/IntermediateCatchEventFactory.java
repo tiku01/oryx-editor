@@ -88,6 +88,7 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 		
 		BoundaryEvent bEvent = new BoundaryEvent();
 		bEvent.setAttachedToRef((Activity) activity.getNode());
+		bEvent.setProcessRef(process);
 		bEvent.setId(event.getNode().getId());
 		bEvent.setName(((IntermediateCatchEvent) event.getNode()).getName());
 		bEvent.setParallelMultiple(((IntermediateCatchEvent) event.getNode()).isParallelMultiple());
@@ -103,5 +104,4 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 		((EventShape) event.getShape()).setEventRef(bEvent);
 		((Activity)activity.getNode()).getBoundaryEventRefs().add(bEvent);
 	}
-
 }

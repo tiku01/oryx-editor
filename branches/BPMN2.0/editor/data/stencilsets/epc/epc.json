@@ -98,6 +98,7 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
+					"popular": true,
 					"refToView":"text",
 					"wrapLines":true
 				},

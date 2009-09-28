@@ -25,6 +25,7 @@ package de.hpi.bpmn2_0.model.participant;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -32,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 
 
@@ -81,8 +81,6 @@ public class Participant
     protected QName partnerRoleRef;
     @XmlAttribute
     protected QName partnerEntityRef;
-    @XmlAttribute
-    protected QName processRef;
 
     /**
      * Gets the value of the interfaceRef property.
@@ -237,29 +235,4 @@ public class Participant
     public void setPartnerEntityRef(QName value) {
         this.partnerEntityRef = value;
     }
-
-    /**
-     * Gets the value of the processRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
-     */
-    public QName getProcessRef() {
-        return processRef;
-    }
-
-    /**
-     * Sets the value of the processRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
-     */
-    public void setProcessRef(QName value) {
-        this.processRef = value;
-    }
-
 }
