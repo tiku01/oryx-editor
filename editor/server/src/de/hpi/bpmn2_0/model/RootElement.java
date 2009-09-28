@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tRootElement")
-@XmlSeeAlso({
+@XmlSeeAlso(value = {
 //    TItemDefinition.class,
 //    Category.class,
 //    Collaboration.class,
@@ -48,7 +48,9 @@ import javax.xml.bind.annotation.XmlType;
 //    TInterface.class,
 //    TCorrelationProperty.class,
 //    Message.class,
+
     CallableElement.class//,
+
 //    TEscalation.class
 })
 public abstract class RootElement

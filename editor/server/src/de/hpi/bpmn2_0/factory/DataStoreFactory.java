@@ -25,6 +25,7 @@ package de.hpi.bpmn2_0.factory;
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
+import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.data_object.DataStore;
 import de.hpi.bpmn2_0.model.diagram.DataStoreShape;
@@ -36,6 +37,7 @@ import de.hpi.bpmn2_0.model.diagram.DataStoreShape;
  * @author Sven Wagner-Boysen
  *
  */
+@StencilId("DataStore")
 public class DataStoreFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
