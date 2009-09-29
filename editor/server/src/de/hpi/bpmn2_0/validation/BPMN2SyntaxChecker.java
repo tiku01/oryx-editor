@@ -1,6 +1,7 @@
 package de.hpi.bpmn2_0.validation;
 
 import java.util.HashMap;
+import java.util.List;
 
 import de.hpi.bpmn2_0.model.Definitions;
 import de.hpi.bpmn2_0.model.FlowElement;
@@ -18,7 +19,9 @@ import de.hpi.bpmn2_0.model.data_object.DataOutput;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.EndEvent;
 import de.hpi.bpmn2_0.model.event.Event;
+import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
 import de.hpi.bpmn2_0.model.event.StartEvent;
+import de.hpi.bpmn2_0.model.gateway.EventBasedGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.diagram.verification.AbstractSyntaxChecker;
 
@@ -63,6 +66,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	
 	protected static final String DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION";
 	protected static final String DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION";
+	protected static final String EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS";
 
 	private Definitions defs;
 		
@@ -89,25 +93,28 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	}
 	
 	private void checkEdges() {	
-		for(Edge edge : this.defs.getEdges()) {			
-
-			if(edge.getSourceRef() == null) 
+		for(Edge edge : this.defs.getEdges()) {	
+			
+			if(edge.getSourceRef() == null) {
 				this.addError(edge, NO_SOURCE);
-			else if(edge.getTargetRef() == null)
+				
+			} else if(edge.getTargetRef() == null) {
 				this.addError(edge, NO_TARGET);
-			else if(edge instanceof SequenceFlow)
+				
+			} else if(edge instanceof SequenceFlow) {
 				if(edge.getSourceRef().getProcessRef() != edge.getTargetRef().getProcessRef()) 
-					this.addError(edge, DIFFERENT_PROCESS);		
-			else if(edge instanceof MessageFlow)
+					this.addError(edge, DIFFERENT_PROCESS);						
+			}
+			else if(edge instanceof MessageFlow) {
 				//TODO: Add requirement for Messageflows between diferrent Pools
 				System.out.println("Message Flows currently not Supported");
+			
 			/*
 			 * In case this is not really checking the edge but the node.
 			 * We do it here because its much easier than checking the node itself 
 			 * for incoming or outgoing edges.
 			 */
-			else if(edge instanceof DataOutputAssociation || edge instanceof DataInputAssociation)  {
-				System.out.println();
+			} else if(edge instanceof DataOutputAssociation || edge instanceof DataInputAssociation)  {
 				if(edge.getTargetRef() instanceof DataInput)
 					this.addError(edge.getTargetRef(), DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION);
 				else if(edge.getSourceRef() instanceof DataOutput)
@@ -152,7 +159,8 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 			this.checkBoundaryEvent((BoundaryEvent) node);
 				
 		// Gateways
-		// TODO: Add EventBasedGateway
+		if(node instanceof EventBasedGateway)
+			this.checkEventBasedGateway((EventBasedGateway) node);
 		
 		/*
 		 * Looking for DataInputs and DataOutputs?
@@ -161,6 +169,18 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 		
 	}
 	
+	private void checkEventBasedGateway(EventBasedGateway node) {
+		List<SequenceFlow> outEdges = node.getOutgoingSequenceFlows();
+		
+		for(SequenceFlow edge : outEdges) {
+			// TODO: Add Support for Receive Task
+			if(!(edge.getTargetRef() instanceof IntermediateCatchEvent))
+				this.addError(node, EVENTBASEDGATEWAY_BADCONTINUATION);
+			else if(((IntermediateCatchEvent) edge.getTargetRef()).getIncomingSequenceFlows().size() > 1)
+				this.addError(edge.getTargetRef(), EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS);
+		}
+	}
+
 	// TODO: Check if this Method and the invoked one are really necessary
 //	private void checkForAllowedAndForbiddenNodes(FlowElement node) {
 //		// Check for allowed and permitted nodes

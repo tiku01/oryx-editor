@@ -282,13 +282,13 @@ public class Process
      * {@link JAXBElement }{@code <}{@link IntermediateCatchEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link FlowElement }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallActivity }{@code >}
-     * {@link JAXBElement }{@code <}{@link TComplexGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link ComplexGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link BoundaryEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link ExclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link InclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link Event }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
@@ -298,7 +298,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEventBasedGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link EventBasedGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TSendTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TChoreographySubProcess }{@code >}
