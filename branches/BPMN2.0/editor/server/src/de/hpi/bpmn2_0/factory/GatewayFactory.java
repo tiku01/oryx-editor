@@ -29,9 +29,12 @@ import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.GatewayShape;
+import de.hpi.bpmn2_0.model.gateway.ComplexGateway;
+import de.hpi.bpmn2_0.model.gateway.EventBasedGateway;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.bpmn2_0.model.gateway.GatewayDirection;
+import de.hpi.bpmn2_0.model.gateway.InclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 
 /**
@@ -40,7 +43,7 @@ import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
  * @author Sven Wagner-Boysen
  * 
  */
-@StencilId( { "Exclusive_Databased_Gateway",  "ParallelGateway" })
+@StencilId( { "Exclusive_Databased_Gateway",  "ParallelGateway", "EventbasedGateway", "InclusiveGateway", "ComplexGateway" })
 public class GatewayFactory extends AbstractBpmnFactory {
 
 	/*
@@ -112,6 +115,36 @@ public class GatewayFactory extends AbstractBpmnFactory {
 		ParallelGateway gateway = new ParallelGateway();
 		gateway.setId(shape.getResourceId());
 		gateway.setName(shape.getProperty("name"));
+		return gateway;
+	}
+	
+	@StencilId("EventbasedGateway")
+	protected EventBasedGateway createEventBasedGateway(Shape shape) {
+		EventBasedGateway gateway = new EventBasedGateway();
+		
+		gateway.setId(shape.getResourceId());
+		gateway.setName(shape.getProperty("name"));
+		
+		return gateway;
+	}
+	
+	@StencilId("InclusiveGateway")
+	protected InclusiveGateway createInclusiveGateway(Shape shape) {
+		InclusiveGateway gateway = new InclusiveGateway();
+		
+		gateway.setId(shape.getResourceId());
+		gateway.setName(shape.getProperty("name"));
+		
+		return gateway;
+	}
+	
+	@StencilId("ComplexGateway")
+	protected ComplexGateway createComplexGateway(Shape shape) {
+		ComplexGateway gateway = new ComplexGateway();
+		
+		gateway.setId(shape.getResourceId());
+		gateway.setName(shape.getProperty("name"));
+		
 		return gateway;
 	}
 	
