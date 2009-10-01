@@ -268,7 +268,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			var tspans = $A(this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan'));
 			
 			//only do this in firefox 3. all other browsers do not support word wrapping!!!!!
-			if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
+			//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
 				var newtspans = [];
 				
 				var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
@@ -338,7 +338,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 						this.node.appendChild(newtspans.shift());
 					}
 				}
-			}
+			//}
 		} catch (e) {
 			//console.log(e);
 		}
