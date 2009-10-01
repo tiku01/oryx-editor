@@ -21,36 +21,61 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tExpression complex type.
+ * Class to represent a choreography diagram.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElementWithMixedContent
-{
+@XmlType(propOrder = {
+		
+})
+public class ChoreographyDiagram extends BpmnDiagram {
+	
+	@XmlElement(type = ChoreographyCompartment.class)
+	private ChoreographyCompartment choreographyCompartment;
+	
+	@XmlElement(namespace = "http://bpmndi.org")
+    protected List<SequenceFlowConnector> sequenceFlowConnector;
 
+	/* Getter & Sette */
+	
+	/**
+	 * @return the list of {@link SequenceFlowConnector}
+	 */
+	public List<SequenceFlowConnector> getSequenceFlowConnector() {
+        if (this.sequenceFlowConnector == null) {
+            this.sequenceFlowConnector = new ArrayList<SequenceFlowConnector>();
+        }
+        return this.sequenceFlowConnector;
+    }
+	
+	/**
+	 * @return the choreographyCompartment
+	 */
+	public ChoreographyCompartment getChoreographyCompartment() {
+		return choreographyCompartment;
+	}
+
+	/**
+	 * @param choreographyCompartment the choreographyCompartment to set
+	 */
+	public void setChoreographyCompartment(
+			ChoreographyCompartment choreographyCompartment) {
+		this.choreographyCompartment = choreographyCompartment;
+	}
 
 }

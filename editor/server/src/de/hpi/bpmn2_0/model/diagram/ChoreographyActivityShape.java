@@ -20,37 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package de.hpi.bpmn2_0.model.diagram;
 
-package de.hpi.bpmn2_0.model;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tExpression complex type.
+ * Class to represent the visual appearance of a choreography activity.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElementWithMixedContent
-{
-
-
+@XmlType(propOrder = {
+		
+})
+public class ChoreographyActivityShape extends ActivityShape {
+	
+	@XmlElement(type = ChoreographyParticipantShape.class)
+	protected List<ChoreographyParticipantShape> participantShape;
+	
+	public void addChild(BpmnNode child) {
+		if(child instanceof ChoreographyParticipantShape)
+			this.getParticipantShapes().add((ChoreographyParticipantShape) child);
+	}
+	
+	
+	/* Getter & Setter */
+	
+	/**
+	 * @return the list of participant shapes of this choreography activity.
+	 */
+	public List<ChoreographyParticipantShape> getParticipantShapes() {
+		if(this.participantShape == null) {
+			this.participantShape = new ArrayList<ChoreographyParticipantShape>();
+		}
+		return this.participantShape;
+	}
+	
 }

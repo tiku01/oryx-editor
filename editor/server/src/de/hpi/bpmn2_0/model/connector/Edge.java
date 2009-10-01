@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 
+import de.hpi.bpmn.Node;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 
@@ -37,7 +38,7 @@ import de.hpi.bpmn2_0.model.FlowNode;
  * @author Sven Wagner-Boysen
  *
  */
-public class Edge extends FlowNode {
+public class Edge extends FlowElement {
 	
 	@XmlAttribute(required = true)
 	@XmlIDREF
@@ -48,6 +49,15 @@ public class Edge extends FlowNode {
 	@XmlIDREF
 	@XmlSchemaType(name = "IDREF")
 	private FlowElement targetRef;
+	
+	/**
+	 * Returns true if source and target node are of same pool
+	 */
+	public boolean sourceAndTargetContainedInSamePool(){
+	    return !(this.getSourceRef() instanceof FlowNode && 
+	    		this.getTargetRef() instanceof FlowNode && 
+	    		((FlowNode)this.getTargetRef()).getPool() != ((FlowNode)this.getSourceRef()).getPool());
+	}
 	
 	
 	/* Getters */

@@ -49,7 +49,7 @@ import javax.xml.namespace.QName;
 @XmlSeeAlso({
 //    TConversation.class,
     Process.class//,
-//    TChoreography.class,
+//    Choreography.class,
 //    TGlobalChoreographyTask.class,
 //    TGlobalCommunication.class,
 //    TGlobalTask.class

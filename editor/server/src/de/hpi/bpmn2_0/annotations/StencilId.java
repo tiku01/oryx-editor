@@ -1,3 +1,5 @@
+package de.hpi.bpmn2_0.annotations;
+
 /**
  * Copyright (c) 2009
  * Philipp Giese, Sven Wagner-Boysen
@@ -21,36 +23,22 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * <p>Java class for tExpression complex type.
+ * This Annotation defines the id of the stencil. E.g. used in factories.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Sven Wagner-Boysen
  */
-@XmlRootElement(name = "conditionExpression")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElementWithMixedContent
-{
 
-
+@Target({
+	ElementType.TYPE,
+	ElementType.METHOD
+})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface StencilId {
+	String[] value();
 }

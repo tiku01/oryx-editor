@@ -29,8 +29,8 @@ import java.util.Arrays;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 
@@ -79,7 +79,7 @@ public abstract class AbstractBpmnFactory {
 	 *            The resource shape
 	 */
 	protected void setVisualAttributes(BpmnNode diaElement, Shape shape) {
-		diaElement.setId(shape.getResourceId());
+		diaElement.setId(shape.getResourceId() + "_gui");
 		diaElement.setName(shape.getProperty("name"));
 
 		/* Graphic fields */

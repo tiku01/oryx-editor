@@ -23,16 +23,19 @@
 
 package de.hpi.bpmn2_0.factory;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
+import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
-import de.hpi.bpmn2_0.model.Process;
 
 /**
  * Factory to create intermediate catching Events
@@ -41,7 +44,20 @@ import de.hpi.bpmn2_0.model.Process;
  * @author Sven Wagner-Boysen
  *
  */
-@StencilId("IntermediateTimerEvent")
+@StencilId({
+	"IntermediateMessageEventCatching",
+	"IntermediateTimerEvent",
+	"IntermediateEscalationEvent",
+	"IntermediateConditionalEvent",
+	"IntermediateLinkEventCatching",
+	"IntermediateErrorEvent",
+	"IntermediateCancelEvent",
+	"IntermediateCompensationEventCatching",
+	"IntermediateSignalEventCatching",
+	"IntermediateMultipleEventCatching",
+	"IntermediateParallelMultipleEventCatching"
+})
+
 public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
@@ -74,12 +90,27 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 	@Override
 	protected BaseElement createProcessElement(Shape shape)
 			throws BpmnConverterException {
-		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
-		icEvent.setId(shape.getResourceId());
-		icEvent.setName(shape.getProperty("name"));
+		try {
+			IntermediateCatchEvent icEvent = (IntermediateCatchEvent) this.invokeCreatorMethod(shape);
+			icEvent.setId(shape.getResourceId());
+			icEvent.setName(shape.getProperty("name"));
+			
+			return icEvent;
+		} catch (Exception e) {
+			/* Wrap exceptions into specific BPMNConverterException */
+			throw new BpmnConverterException(
+					"Error while creating the process element of "
+							+ shape.getStencilId(), e);
+		}
 		
-		return icEvent;
 	}
+	
+//	@StencilId("IntermediateCompensationEventCatching")
+//	protected IntermediateCatchEvent createCompensateEvent(Shape shape) {
+//		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
+//		CompensateEventDefinition compEvDef = new CompensateEventDefinition();
+//		compEvDef.setActivityRef(value)
+//	}
 	
 	public static void changeToBoundaryEvent(BPMNElement activity, BPMNElement event, Process process) {
 		if(!(activity.getNode() instanceof Activity) || !(event.getNode() instanceof IntermediateCatchEvent)) {

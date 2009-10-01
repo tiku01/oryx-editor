@@ -25,7 +25,7 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
 import de.hpi.bpmn2_0.model.event.StartEvent;
@@ -59,12 +59,7 @@ public class StartEventFactory extends AbstractBpmnFactory {
 	@Override
 	protected Object createDiagramElement(Shape shape) {
 		EventShape eventShape = new EventShape();
-		eventShape.setId(shape.getResourceId());
-		eventShape.setName(shape.getProperty("name"));
-		eventShape.setX(shape.getUpperLeft().getX());
-		eventShape.setY(shape.getUpperLeft().getY());
-		eventShape.setHeight(shape.getHeight());
-		eventShape.setWidth(shape.getWidth());
+		this.setVisualAttributes(eventShape, shape);
 		return eventShape;
 	}
 

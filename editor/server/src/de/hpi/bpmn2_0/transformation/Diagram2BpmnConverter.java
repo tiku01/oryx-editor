@@ -24,6 +24,7 @@
 package de.hpi.bpmn2_0.transformation;
 
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,29 +33,40 @@ import java.util.List;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
 import de.hpi.bpmn2_0.factory.BPMNElement;
 import de.hpi.bpmn2_0.factory.IntermediateCatchEventFactory;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.choreography.Choreography;
+import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
+import de.hpi.bpmn2_0.model.connector.Association;
 import de.hpi.bpmn2_0.model.connector.DataAssociation;
 import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
 import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
-import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
-import de.hpi.bpmn2_0.model.diagram.DataAssociationConnector;
+import de.hpi.bpmn2_0.model.diagram.BpmnNode;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
-import de.hpi.bpmn2_0.model.diagram.MessageFlowConnector;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
+import de.hpi.bpmn2_0.model.event.BoundaryEvent;
+import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
+import de.hpi.bpmn2_0.model.event.Event;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
+import de.hpi.bpmn2_0.model.gateway.Gateway;
+import de.hpi.bpmn2_0.model.participant.Lane;
+import de.hpi.bpmn2_0.model.participant.Participant;
+import de.hpi.diagram.OryxUUID;
 import de.hpi.util.reflection.ClassFinder;
 
 /**
@@ -70,6 +82,9 @@ public class Diagram2BpmnConverter {
 	private HashMap<String, BPMNElement> bpmnElements;
 	private Diagram diagram;
 	private ProcessDiagram processDia;
+	private List<BPMNElement> diagramChilds;
+	private List<Process> processes;
+	private Definitions definitions;
 
 	/* Define edge ids */
 	private final static String[] edgeIdsArray = { "SequenceFlow",
@@ -89,6 +104,7 @@ public class Diagram2BpmnConverter {
 	public Diagram2BpmnConverter(Diagram diagram) {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
 		this.bpmnElements = new HashMap<String, BPMNElement>();
+		this.definitions = new Definitions();
 		this.diagram = diagram;
 	}
 
@@ -178,51 +194,65 @@ public class Diagram2BpmnConverter {
 	 * @throws BpmnConverterException
 	 * @throws InvalidKeyException
 	 */
-	private void createBpmnElementsRecursively(List<Shape> childShapes,
-			BPMNElement parent, Process process) throws ClassNotFoundException,
-			InstantiationException, IllegalAccessException,
-			BpmnConverterException, InvalidKeyException {
+	private BPMNElement createBpmnElementsRecursively(Shape shape)
+			throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, BpmnConverterException, InvalidKeyException {
 
-		/* Terminate recursion */
-		if (parent == null || childShapes == null)
-			return;
+		// /* Terminate recursion */
+		// if (/*parent == null || */childShapes == null)
+		// return;
+
+		/* Build up the Elements of the current shape childs */
+		ArrayList<BPMNElement> childElements = new ArrayList<BPMNElement>();
 
 		/* Create BPMN elements from shapes */
-		for (Shape childShape : childShapes) {
-			/* Get the appropriate factory and create the element */
-			AbstractBpmnFactory factory = this
-					.getFactoryForStencilId(childShape.getStencilId());
-			BPMNElement bpmnElement = factory.createBpmnElement(childShape,
-					null);
-			
-			bpmnElement.getNode().setProcessRef(process);
-			
-			/* Add element to flat list of all elements of the diagram */
-			this.addBpmnElement(bpmnElement);
-			
-			/* Add child to parent BPMN element */
-			parent.addChild(bpmnElement);
-
-			Object shapeToAdd = bpmnElement.getShape();
-			if (shapeToAdd instanceof SequenceFlowConnector) {
-				this.processDia.getSequenceFlowConnector().add(
-						(SequenceFlowConnector) shapeToAdd);
-			
-			} else if (shapeToAdd instanceof DataAssociationConnector) {
-				this.processDia.getDataAssociationConnector().add(
-						(DataAssociationConnector) shapeToAdd);
-			
-			} else if (shapeToAdd instanceof AssociationConnector) {
-				this.processDia.getAssociationConnector().add((AssociationConnector) shapeToAdd);
-			
-			} else if(shapeToAdd instanceof MessageFlowConnector) {
-				this.processDia.getMessageFlowConnector().add((MessageFlowConnector) shapeToAdd);
-			}
-
-			/* Handle child shape */
-			this.createBpmnElementsRecursively(childShape.getChildShapes(),
-					bpmnElement, process);
+		for (Shape childShape : shape.getChildShapes()) {
+			childElements.add(this.createBpmnElementsRecursively(childShape));
 		}
+
+		if (shape.equals(this.diagram)) {
+			this.diagramChilds = childElements;
+			return null;
+		}
+
+		/* Get the appropriate factory and create the element */
+		AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
+				.getStencilId());
+
+		BPMNElement bpmnElement = factory.createBpmnElement(shape, null);
+
+		/* Add element to flat list of all elements of the diagram */
+		this.addBpmnElement(bpmnElement);
+
+		/* Add childs to current BPMN element */
+		for (BPMNElement child : childElements) {
+			bpmnElement.addChild(child);
+		}
+
+		return bpmnElement;
+
+		// Object shapeToAdd = bpmnElement.getShape();
+		// if (shapeToAdd instanceof SequenceFlowConnector) {
+		// this.processDia.getSequenceFlowConnector().add(
+		// (SequenceFlowConnector) shapeToAdd);
+		//			
+		// } else if (shapeToAdd instanceof DataAssociationConnector) {
+		// this.processDia.getDataAssociationConnector().add(
+		// (DataAssociationConnector) shapeToAdd);
+		//			
+		// } else if (shapeToAdd instanceof AssociationConnector) {
+		// this.processDia.getAssociationConnector().add((AssociationConnector)
+		// shapeToAdd);
+		//			
+		// } else if(shapeToAdd instanceof MessageFlowConnector) {
+		// this.processDia.getMessageFlowConnector().add((MessageFlowConnector)
+		// shapeToAdd);
+		// }
+
+		// /* Handle child shape */
+		// this.createBpmnElementsRecursively(childShape.getChildShapes(),
+		// bpmnElement);
+		// }
 	}
 
 	/**
@@ -364,6 +394,220 @@ public class Diagram2BpmnConverter {
 	}
 
 	/**
+	 * Identifies sets of nodes, connected through SequenceFlows.
+	 */
+	private void identifyProcesses() {
+		this.processes = new ArrayList<Process>();
+
+		List<FlowNode> allNodes = new ArrayList<FlowNode>();
+		this.getAllNodesRecursively(this.diagramChilds, allNodes);
+
+		// TODO: handle subprocesses
+		// // handle subprocesses => trivial
+		// for (Iterator<Node> niter = allNodes.iterator(); niter.hasNext(); ) {
+		// Node node = niter.next();
+		// if (node instanceof SubProcess)
+		// handleSubProcess((SubProcess)node);
+		// }
+
+		/* Identify components within allNodes */
+		while (allNodes.size() > 0) {
+			Process currentProcess = new Process();
+			currentProcess.setId(OryxUUID.generate());
+			this.processes.add(currentProcess);
+
+			addNode(currentProcess,
+					this.getBpmnElementForNode(allNodes.get(0)), allNodes);
+		}
+	}
+
+	/**
+	 * Helper method to get the {@link BPMNElement} for the given
+	 * {@link FlowNode} from the list of BPMN elements.
+	 * 
+	 * @param node
+	 *            The concerning {@link FlowNode}
+	 * @return The related {@link BPMNElement}
+	 */
+	private BPMNElement getBpmnElementForNode(FlowNode node) {
+		return this.bpmnElements.get(node.getId());
+	}
+
+	/**
+	 * Adds the node to the connected set of nodes.
+	 * 
+	 * @param process
+	 * @param element
+	 * @param allNodes
+	 */
+	private void addNode(Process process, BPMNElement element,
+			List<FlowNode> allNodes) {
+		if (!(element.getNode() instanceof FlowNode)
+				&& !allNodes.contains(element.getNode())) {
+			return;
+		}
+		FlowNode node = (FlowNode) element.getNode();
+
+		allNodes.remove(node);
+		node.setProcess(process);
+
+		/* Handle sequence flows */
+		/* Attention: navigate into both directions! */
+		for (SequenceFlow seqFlow : node.getIncomingSequenceFlows()) {
+			if (seqFlow.sourceAndTargetContainedInSamePool()) {
+				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow
+						.getSourceRef()), allNodes);
+			}
+		}
+
+		for (SequenceFlow seqFlow : node.getOutgoingSequenceFlows()) {
+			if (seqFlow.sourceAndTargetContainedInSamePool()) {
+				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow
+						.getTargetRef()), allNodes);
+			}
+		}
+
+		/* Handle compensation flow */
+		/* Attention: navigate into both directions! */
+		for (Association compFlow : node.getIncomingCompensationFlows()) {
+			if (compFlow.sourceAndTargetContainedInSamePool()) {
+				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow
+						.getSourceRef()), allNodes);
+			}
+		}
+
+		for (Association compFlow : node.getOutgoingCompensationFlows()) {
+			if (compFlow.sourceAndTargetContainedInSamePool()) {
+				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow
+						.getSourceRef()), allNodes);
+			}
+		}
+
+		/* Handle boundary events */
+		/* Attention: navigate into both directions! */
+		if (node instanceof BoundaryEvent) {
+			if (((BoundaryEvent) node).getAttachedToRef() != null) {
+				addNode(process, this
+						.getBpmnElementForNode(((BoundaryEvent) node)
+								.getAttachedToRef()), allNodes);
+			}
+		} else if (node instanceof Activity) {
+			for (BoundaryEvent event : ((Activity) node).getBoundaryEventRefs()) {
+				addNode(process, this.getBpmnElementForNode(event), allNodes);
+			}
+		}
+	}
+
+	/**
+	 * Retrieves all nodes included into the diagram and stop recursion at
+	 * subprocesses.
+	 * 
+	 * @param elements
+	 *            The child elements of a parent BPMN element
+	 * @param allNodes
+	 *            The list to store every element
+	 */
+	private void getAllNodesRecursively(List<BPMNElement> elements,
+			List<FlowNode> allNodes) {
+		for (BPMNElement element : elements) {
+			if (element.getNode() instanceof Lane) {
+				getAllNodesRecursively(this.getChildElements(element), allNodes);
+				continue;
+			}
+			if (!(element.getNode() instanceof FlowNode)) {
+				continue;
+			}
+
+			FlowNode node = (FlowNode) element.getNode();
+
+			if (node instanceof Activity || node instanceof Event
+					|| node instanceof Gateway) {
+				allNodes.add(node);
+			}
+		}
+	}
+
+	/**
+	 * Retrieve the child elements of a BPMN element from within all BPMN
+	 * elements in the diagram.
+	 * 
+	 * @param element
+	 *            The parent BPMN Element
+	 * @return
+	 */
+	private List<BPMNElement> getChildElements(BPMNElement element) {
+		List<BPMNElement> childElements = new ArrayList<BPMNElement>();
+		for (Shape shape : this.diagram.getShapes()) {
+			if (!shape.getResourceId().equals(element.getId())) {
+				continue;
+			}
+			for (Shape child : shape.getChildShapes()) {
+				childElements.add(this.bpmnElements.get(child.getResourceId()));
+			}
+		}
+
+		return childElements;
+	}
+
+	/**
+	 * Creates a process diagram for each identified process.
+	 */
+	private void insertProcessesIntoDefinitions() {
+		for (Process process : this.processes) {
+			ProcessDiagram processDia = new ProcessDiagram();
+			processDia.setProcessRef(process);
+			processDia.setName(process.getName());
+			processDia.setId(process.getId() + "_gui");
+
+			/* Insert process into document */
+			this.definitions.getRootElement().add(process);
+			this.definitions.getDiagram().add(processDia);
+		}
+	}
+
+	/**
+	 * Set the reference to the activity related to the compensation.
+	 */
+	private void setCompensationEventActivityRef() {
+		for (BPMNElement element : this.bpmnElements.values()) {
+			/*
+			 * Processing only necessary for events with compensation event
+			 * definition
+			 */
+			if (!(element.getNode() instanceof Event))
+				return;
+			if (((Event) element.getNode())
+					.getEventDefinitionOfType(CompensateEventDefinition.class) == null)
+
+				if (element.getNode() instanceof BoundaryEvent
+						&& ((BoundaryEvent) element.getNode())
+								.getEventDefinitionOfType(CompensateEventDefinition.class) != null) {
+					BoundaryEvent bEvent = (BoundaryEvent) element.getNode();
+					((CompensateEventDefinition) bEvent
+							.getEventDefinitionOfType(CompensateEventDefinition.class))
+							.setActivityRef(bEvent.getAttachedToRef());
+				}
+		}
+	}
+	
+	/**
+	 * Set the initiating participant of a choreography activity.
+	 */
+	private void setInitiatingParticipant() {
+		for(BPMNElement element : this.bpmnElements.values()) {
+			if(element.getNode() instanceof ChoreographyActivity) {
+				ChoreographyActivity activity = (ChoreographyActivity) element.getNode();
+				for(Participant partici : activity.getParticipants()) {
+					if(partici.isInitiating()) {
+						activity.setInitiatingParticipantRef(partici);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Retrieves a BPMN 2.0 diagram and transforms it into the BPMN 2.0 model.
 	 * 
 	 * @param diagram
@@ -373,62 +617,71 @@ public class Diagram2BpmnConverter {
 	 */
 	public Definitions getDefinitionsFormDiagram()
 			throws BpmnConverterException {
-		/* Build-up standard definitions */
-		Process process = new Process();
-		process.setId("testProzess");
-		LaneCompartment laneComp = new LaneCompartment();
-		this.processDia = new ProcessDiagram();
-		processDia.getLaneCompartment().add(laneComp);
-		processDia.setProcessRef(process);
 
-		Definitions definitions = new Definitions();
-		definitions.getDiagram().add(processDia);
-		definitions.getRootElement().add(process);
+		/* Create main pool of canvas */
+		// Process process = new Process();
+		// process.setId("testProzess");
+		// LaneCompartment laneComp = new LaneCompartment();
+		// this.processDia = new ProcessDiagram();
+		// processDia.getLaneCompartment().add(laneComp);
+		// processDia.setProcessRef(process);
+		/* Choreography test */
+
+		Choreography choreo = new Choreography();
+		String choreoId = OryxUUID.generate();
+		choreo.setId(choreoId);
+		choreo.setName("Choreography Example");
+
+		ChoreographyDiagram choreoDiagram = new ChoreographyDiagram();
+		choreoDiagram.setId(choreoId + "_gui");
+
+		ChoreographyCompartment choreoComp = new ChoreographyCompartment();
+		choreoComp.setId(OryxUUID.generate());
+		choreoComp.setName("main compartment");
+		choreoDiagram.setChoreographyCompartment(choreoComp);
+
+		/* --------------------------------- */
+
+		/* Build-up the definitions as root element of the document */
+		this.definitions.setTargetNamespace(diagram
+				.getProperty("targetnamespace"));
 
 		/* Convert shapes to BPMN 2.0 elements */
 
-		BPMNElement rootElement = new BPMNElement(laneComp, process, diagram
-				.getResourceId());
-
+		// BPMNElement rootElement = new BPMNElement(laneComp, process, diagram
+		// .getResourceId());
 		try {
-			createBpmnElementsRecursively(diagram.getChildShapes(), rootElement, process);
+			createBpmnElementsRecursively(diagram);
 		} catch (Exception e) {
 			/* Pack exceptions in a BPMN converter exception */
 			throw new BpmnConverterException(
 					"Error while converting to BPMN model", e);
 		}
 
-		// for (Shape shape : this.diagram.getChildShapes()) {
-		// try {
-		// AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
-		// .getStencilId());
-		// BPMNElement bpmnElement = factory
-		// .createBpmnElement(shape, null);
-		//
-		// this.addBpmnElement(bpmnElement);
-		//
-		// process.getFlowElement().add(
-		// (FlowElement) bpmnElement.getNode());
-		//
-		// Object shapeToAdd = bpmnElement.getShape();
-		// if (shapeToAdd instanceof BpmnNode) {
-		// laneComp.getBpmnShape().add((BpmnNode) shapeToAdd);
-		// } else if (shapeToAdd instanceof SequenceFlowConnector) {
-		// processDia.getSequenceFlowConnector().add(
-		// (SequenceFlowConnector) shapeToAdd);
-		// }
-		//
-		// } catch (Exception e) {
-		// /* Pack exceptions in a BPMN converter exception */
-		// throw new BpmnConverterException(
-		// "Error while converting to BPMN model", e);
-		// }
-		// }
+		/* insert for choreography test */
+		for (BPMNElement element : this.diagramChilds) {
+			if (element.getNode() instanceof SequenceFlow) {
+				choreoDiagram.getSequenceFlowConnector().add(
+						(SequenceFlowConnector) element.getShape());
+			} else {
+				choreoComp.getBpmnShape().add((BpmnNode) element.getShape());
+			}
+			choreo.getFlowElement().add((FlowElement) element.getNode());
+		}
+		
+		this.definitions.getDiagram().add(choreoDiagram);
+		this.definitions.getRootElement().add(choreo);
 
-		this.detectBoundaryEvents(process);
+		/* choreo end */
+
+		// TODO: for multiple processes this.detectBoundaryEvents(process);
 		this.detectConnectors();
-		this.updateDataAssociationsRefs();
-		this.setDefaultSequenceFlowOfExclusiveGateway();
+		this.setInitiatingParticipant();
+		// this.updateDataAssociationsRefs();
+		// this.setDefaultSequenceFlowOfExclusiveGateway();
+
+		// this.identifyProcesses();
+		// this.insertProcessesIntoDefinitions();
 
 		return definitions;
 	}

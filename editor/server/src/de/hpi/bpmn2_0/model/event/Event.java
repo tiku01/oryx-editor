@@ -23,11 +23,28 @@
 
 package de.hpi.bpmn2_0.model.event;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import de.hpi.bpmn2_0.jaxb_generated.TCancelEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TConditionalEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TErrorEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TEscalationEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TLinkEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TMessageEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TSignalEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TTerminateEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TTimerEventDefinition;
 import de.hpi.bpmn2_0.model.FlowNode;
 
 
@@ -56,6 +73,85 @@ import de.hpi.bpmn2_0.model.FlowNode;
 public abstract class Event
     extends FlowNode
 {
+	@XmlElementRefs({
+		@XmlElementRef(type = TimerEventDefinition.class),
+		@XmlElementRef(type = CompensateEventDefinition.class)
+	})
+	List<EventDefinition> eventDefinition;
+	
+	@XmlElement
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	String eventDefinitionRef;
+	
+	/**
+	 * 
+	 * @param type
+	 * 		The {@link EventDefinition} type.
+	 * @return
+	 * 		The first occurrence of an {@link EventDefinition} where the type fits.
+	 */
+	public EventDefinition getEventDefinitionOfType(Class<? extends EventDefinition> type) {
+		for(EventDefinition evDef : this.getEventDefinition()) {
+			if(evDef.getClass().equals(type))
+				return evDef;
+		}
+		return null;
+	}
+	
+	
+	/* Getter & Setter */
+	
+	/**
+     * Gets the value of the eventDefinition property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the eventDefinition property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getEventDefinition().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link CompensateEventDefinition }
+     * {@link TMessageEventDefinition }
+     * {@link TErrorEventDefinition }
+     * {@link TTimerEventDefinition }
+     * {@link EventDefinition }
+     * {@link TConditionalEventDefinition }
+     * {@link TLinkEventDefinition }
+     * {@link TCancelEventDefinition }
+     * {@link TEscalationEventDefinition }
+     * {@link TSignalEventDefinition }
+     * {@link TTerminateEventDefinition }
+     * 
+	 * @return the eventDefinition
+	 */
+	public List<EventDefinition> getEventDefinition() {
+		if(this.eventDefinition == null) {
+			this.eventDefinition = new ArrayList<EventDefinition>();
+		}
+		return this.eventDefinition;
+	}
 
+	/**
+	 * @return the eventDefinitionRef
+	 */
+	public String getEventDefinitionRef() {
+		return eventDefinitionRef;
+	}
+
+	/**
+	 * @param eventDefinitionRef the eventDefinitionRef to set
+	 */
+	public void setEventDefinitionRef(String eventDefinitionRef) {
+		this.eventDefinitionRef = eventDefinitionRef;
+	}
 
 }

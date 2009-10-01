@@ -43,9 +43,41 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.jaxb_generated.TCancelEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TConditionalEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TConversation;
+import de.hpi.bpmn2_0.jaxb_generated.TCorrelationProperty;
+import de.hpi.bpmn2_0.jaxb_generated.TEndPoint;
+import de.hpi.bpmn2_0.jaxb_generated.TError;
+import de.hpi.bpmn2_0.jaxb_generated.TErrorEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TEscalation;
+import de.hpi.bpmn2_0.jaxb_generated.TEscalationEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalBusinessRuleTask;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalChoreographyTask;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalCommunication;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalManualTask;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalScriptTask;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalTask;
+import de.hpi.bpmn2_0.jaxb_generated.TGlobalUserTask;
+import de.hpi.bpmn2_0.jaxb_generated.TInterface;
+import de.hpi.bpmn2_0.jaxb_generated.TItemDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TLinkEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TMessageEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TPartnerEntity;
+import de.hpi.bpmn2_0.jaxb_generated.TPartnerRole;
+import de.hpi.bpmn2_0.jaxb_generated.TResource;
+import de.hpi.bpmn2_0.jaxb_generated.TSignal;
+import de.hpi.bpmn2_0.jaxb_generated.TSignalEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TTerminateEventDefinition;
+import de.hpi.bpmn2_0.jaxb_generated.TTimerEventDefinition;
+import de.hpi.bpmn2_0.model.choreography.Choreography;
+import de.hpi.bpmn2_0.model.data_object.Message;
+
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.data_object.Message;
+
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.event.EventDefinition;
@@ -89,17 +121,19 @@ import de.hpi.bpmn2_0.validation.BPMN2SyntaxChecker;
 //    "relationship"
 })
 public class Definitions {
-
+	
 //    @XmlElement(name = "import")
 //    protected List<TImport> _import;
 //    protected List<TExtension> extension;
     @XmlElementRefs({
-    	@XmlElementRef(type = Process.class)
+    	@XmlElementRef(type = Process.class),
+    	@XmlElementRef(type = Choreography.class)
     })
     protected List<RootElement> rootElement;
     @XmlElementRefs({
     	@XmlElementRef(type = ProcessDiagram.class),
-    	@XmlElementRef(type = CollaborationDiagram.class)
+    	@XmlElementRef(type = CollaborationDiagram.class),
+    	@XmlElementRef(type = ChoreographyDiagram.class)
     })
     protected List<BpmnDiagram> diagram;
 //    protected List<TRelationship> relationship;
@@ -108,9 +142,11 @@ public class Definitions {
     @XmlID
     @XmlSchemaType(name = "ID")
     protected String id;
+    
     @XmlAttribute(required = true)
     @XmlSchemaType(name = "anyURI")
     protected String targetNamespace;
+    
     @XmlAttribute
     @XmlSchemaType(name = "anyURI")
     protected String expressionLanguage;
@@ -121,7 +157,6 @@ public class Definitions {
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
     
     
-    private BaseElement processRef;
     /**
      * Gets the value of the import property.
      * 
@@ -180,21 +215,6 @@ public class Definitions {
 //        return this.extension;
 //    }
 
-    /**
-	 * @return the processRef
-	 */
-	public BaseElement getProcessRef() {
-		return processRef;
-	}
-
-
-	/**
-	 * @param processRef the processRef to set
-	 */
-	public void setProcessRef(BaseElement processRef) {
-		this.processRef = processRef;
-	}
-
 
 	/**
      * Gets the value of the rootElement property.
@@ -225,14 +245,14 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TItemDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEscalationEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Message }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCompensateEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link CompensateEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TCorrelationProperty }{@code >}
      * {@link JAXBElement }{@code <}{@link TEscalation }{@code >}
      * {@link JAXBElement }{@code <}{@link TInterface }{@code >}
      * {@link JAXBElement }{@code <}{@link TTimerEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalUserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalCommunication }{@code >}
-     * {@link JAXBElement }{@code <}{@link TChoreography }{@code >}
+     * {@link JAXBElement }{@code <}{@link Choreography }{@code >}
      * {@link JAXBElement }{@code <}{@link TResource }{@code >}
      * {@link JAXBElement }{@code <}{@link TSignalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEndPoint }{@code >}

@@ -20,37 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.participant.Participant;
 
 /**
- * <p>Java class for tExpression complex type.
+ * Class representing the visual appearance of participants of an choreography
+ * activity.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement(name = "participantShape")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElementWithMixedContent
-{
+@XmlType(propOrder = {
+		
+})
+public class ChoreographyParticipantShape extends BpmnNode {
+	@XmlAttribute
+	@XmlIDREF
+	@XmlSchemaType(name = "IDREF")
+	private Participant participant;
 
+	/* Getter & Setter */
+	
+	/**
+	 * @return the participant
+	 */
+	public Participant getParticipant() {
+		return participant;
+	}
 
+	/**
+	 * @param participant the participant to set
+	 */
+	public void setParticipant(Participant participant) {
+		this.participant = participant;
+	}
 }

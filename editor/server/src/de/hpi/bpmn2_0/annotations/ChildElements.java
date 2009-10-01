@@ -1,5 +1,3 @@
-package de.hpi.bpmn2_0.factory.annotations;
-
 /**
  * Copyright (c) 2009
  * Philipp Giese, Sven Wagner-Boysen
@@ -22,6 +20,7 @@ package de.hpi.bpmn2_0.factory.annotations;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package de.hpi.bpmn2_0.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,16 +28,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This Annotation defines the id of the stencil. E.g. used in factories.
+ * Annotation that identifies methods that returns child elements
  * 
+ * @author Philipp Giese
  * @author Sven Wagner-Boysen
+ *
  */
-
 @Target({
-	ElementType.TYPE,
 	ElementType.METHOD
 })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface StencilId {
-	String[] value();
+public @interface ChildElements {
+
 }

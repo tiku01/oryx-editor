@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
@@ -81,7 +82,12 @@ public class Participant
     protected QName partnerRoleRef;
     @XmlAttribute
     protected QName partnerEntityRef;
-
+    
+    @XmlTransient
+    protected boolean isInitiating;
+    
+    
+    /* Getter & Setter */
     /**
      * Gets the value of the interfaceRef property.
      * 
@@ -165,6 +171,20 @@ public class Participant
     }
 
     /**
+	 * @return the isInitiating
+	 */
+	public boolean isInitiating() {
+		return isInitiating;
+	}
+
+	/**
+	 * @param isInitiating the isInitiating to set
+	 */
+	public void setInitiating(boolean isInitiating) {
+		this.isInitiating = isInitiating;
+	}
+
+	/**
      * Gets the value of the name property.
      * 
      * @return

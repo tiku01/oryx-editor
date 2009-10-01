@@ -20,37 +20,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package de.hpi.bpmn2_0.model.diagram;
 
-package de.hpi.bpmn2_0.model;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
 
 /**
- * <p>Java class for tExpression complex type.
+ * A {@link ChoreographyCompartment} represents the displaying area that 
+ * contains choreography elements.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlRootElement(name = "conditionExpression")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElementWithMixedContent
-{
-
-
+public class ChoreographyCompartment extends BpmnCompartment {
+	
+	@XmlElementRefs({
+		@XmlElementRef(type = ChoreographyActivityShape.class),
+		@XmlElementRef(type = EventShape.class),
+		@XmlElementRef(type = GatewayShape.class),
+    	@XmlElementRef(type = TextAnnotationShape.class)
+	})
+	protected List<BpmnNode> bpmnShape;
+	
+	/**
+	 * Get the list of contained BPMN shape in the choreography.
+	 * 
+	 * Objects of the following type(s) are allowed in the list
+	 * 
+	 */
+	public List<BpmnNode> getBpmnShape() {
+        if (this.bpmnShape == null) {
+            this.bpmnShape = new ArrayList<BpmnNode>();
+        }
+        return this.bpmnShape;
+    }
 }

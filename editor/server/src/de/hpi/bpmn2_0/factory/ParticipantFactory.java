@@ -25,22 +25,19 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.diagram.PoolCompartment;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyParticipantShape;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 /**
  * Factory to create participants
  * 
- * @author Philipp Giese
  * @author Sven Wagner-Boysen
  *
  */
-@StencilId({
-	"CollapsedPool"
-})
+@StencilId("ChoreographyParticipant")
 public class ParticipantFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
@@ -49,23 +46,20 @@ public class ParticipantFactory extends AbstractBpmnFactory {
 	@Override
 	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent)
 			throws BpmnConverterException {
-		PoolCompartment poolShape = this.createDiagramElement(shape);
-		Participant pool = this.createProcessElement(shape);
-		poolShape.setParticipantRef(pool);
-		
-		return new BPMNElement(poolShape, pool, shape.getResourceId());
+		ChoreographyParticipantShape cps = this.createDiagramElement(shape);
+		Participant p = this.createProcessElement(shape);
+		cps.setParticipant(p);
+		return new BPMNElement(cps, p, shape.getResourceId());
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected PoolCompartment createDiagramElement(Shape shape) {
-		PoolCompartment pool = new PoolCompartment();
-		this.setVisualAttributes(pool, shape);
-		pool.setIsVisible(true);
-		
-		return pool;
+	protected ChoreographyParticipantShape createDiagramElement(Shape shape) {
+		ChoreographyParticipantShape cps = new ChoreographyParticipantShape();
+		this.setVisualAttributes(cps, shape);
+		return cps;
 	}
 
 	/* (non-Javadoc)
@@ -74,11 +68,11 @@ public class ParticipantFactory extends AbstractBpmnFactory {
 	@Override
 	protected Participant createProcessElement(Shape shape)
 			throws BpmnConverterException {
-		Participant participant = new Participant();
-		participant.setId(shape.getResourceId());
-		participant.setName(shape.getProperty("name"));
-		
-		return participant;
+		Participant p = new Participant();
+		p.setId(shape.getResourceId());
+		p.setName(shape.getProperty("name"));
+		p.setInitiating(shape.getProperty("initiating").equalsIgnoreCase("true"));
+		return p;
 	}
 
 }

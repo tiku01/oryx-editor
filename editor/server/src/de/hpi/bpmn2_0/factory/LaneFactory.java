@@ -27,18 +27,24 @@ import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
-import de.hpi.bpmn2_0.model.diagram.TextAnnotationShape;
+import de.hpi.bpmn2_0.model.diagram.BpmnCompartment;
+import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
+import de.hpi.bpmn2_0.model.diagram.PoolCompartment;
+import de.hpi.bpmn2_0.model.participant.Lane;
 
 /**
- * Factor to create {@link TextAnnotation}
+ * Factory to create lanes and pools
  * 
  * @author Philipp Giese
  * @author Sven Wagner-Boysen
  *
  */
-@StencilId("TextAnnotation")
-public class TextannotationFactory extends AbstractBpmnFactory {
+@StencilId({
+	"CollapsedPool",
+	"Pool",
+	"Lane"
+})
+public class LaneFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor.server.diagram.Shape, de.hpi.bpmn2_0.factory.BPMNElement)
@@ -46,35 +52,65 @@ public class TextannotationFactory extends AbstractBpmnFactory {
 	@Override
 	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent)
 			throws BpmnConverterException {
-		TextAnnotationShape textShape = this.createDiagramElement(shape);
-		TextAnnotation text = this.createProcessElement(shape);
-		textShape.setAnnotationRef(text);
+		BpmnCompartment poolLaneShape = this.createDiagramElement(shape);
+		Lane lane = this.createProcessElement(shape);
 		
-		return new BPMNElement(textShape, text, shape.getResourceId());
+		/* Set references */
+		if(poolLaneShape instanceof PoolCompartment) {
+			return new BPMNElement(poolLaneShape, null, shape.getResourceId());
+		}
+		
+		if(poolLaneShape instanceof LaneCompartment) {
+			((LaneCompartment) poolLaneShape).setLaneRef(lane);
+		}
+		
+		return new BPMNElement(poolLaneShape, lane, shape.getResourceId());
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected TextAnnotationShape createDiagramElement(Shape shape) {
-		TextAnnotationShape textShape = new TextAnnotationShape();
-		this.setVisualAttributes(textShape, shape);
+	protected BpmnCompartment createDiagramElement(Shape shape) {
+		/* Create a shape for a pool or Lane */
+		if(shape.getStencilId().equals("Lane")) {
+			LaneCompartment laneShape = new LaneCompartment();
+			this.setVisualAttributes(laneShape, shape);
+			laneShape.setIsVisible(true);
+			
+			return laneShape;
+		} 
 		
-		return textShape;
+		PoolCompartment pool = new PoolCompartment();
+		this.setVisualAttributes(pool, shape);
+		pool.setIsVisible(true);
+		
+		return pool;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected TextAnnotation createProcessElement(Shape shape)
+	protected Lane createProcessElement(Shape shape)
 			throws BpmnConverterException {
-		TextAnnotation text = new TextAnnotation();
-		text.setId(shape.getResourceId());
-		text.setText(shape.getProperty("text"));
+		if(!this.hasChildLanes(shape)) {
+			return null;
+		}
+		Lane lane = new Lane();
+		lane.setId(shape.getResourceId());
+		lane.setName(shape.getProperty("name"));
+		lane.setLane(lane);
 		
-		return text;
+		return lane;
 	}
-
+	
+	private boolean hasChildLanes(Shape shape) {
+		for(Shape childShape : shape.getChildShapes()) {
+			if(childShape.getStencilId().equals("Lane")) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
