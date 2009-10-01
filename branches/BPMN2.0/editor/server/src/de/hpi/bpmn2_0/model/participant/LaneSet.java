@@ -21,36 +21,34 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.diagram;
+package de.hpi.bpmn2_0.model.participant;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.model.participant.Participant;
+import de.hpi.bpmn2_0.annotations.ChildElements;
+import de.hpi.bpmn2_0.model.BaseElement;
 
 
 /**
- * <p>Java class for poolCompartmentType complex type.
+ * <p>Java class for tLaneSet complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="poolCompartmentType">
+ * &lt;complexType name="tLaneSet">
  *   &lt;complexContent>
- *     &lt;extension base="{http://bpmndi.org}bpmnCompartmentType">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElement">
  *       &lt;sequence>
- *         &lt;element name="lanes" type="{http://www.w3.org/2001/XMLSchema}IDREF" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.omg.org/bpmn20}lane" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="participantRef" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -58,83 +56,65 @@ import de.hpi.bpmn2_0.model.participant.Participant;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "poolCompartmentType", namespace = "http://bpmndi.org", propOrder = {
-    "lanes"
+@XmlType(name = "tLaneSet", propOrder = {
+    "lanes",
+    "parentLane"
 })
-public class PoolCompartment
-    extends BpmnCompartment
+public class LaneSet
+    extends BaseElement
 {
+	
+	@XmlElementRef(type = Lane.class)
+    protected List<Lane> lanes;
+	
 	@XmlIDREF
-    @XmlElement(name = "lanes", type = LaneCompartment.class)
-    protected List<LaneCompartment> lanes;
-    
-    @XmlAttribute
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Participant participantRef;
+	@XmlElement(type = Lane.class)
+	protected Lane parentLane;
 
-    public void addChild(BpmnNode childLane) {
-    	if(!(childLane instanceof LaneCompartment)) {
-    		return;
-    	}
-    	
-    	this.getLane().add((LaneCompartment) childLane);
-    }
-    
-    /* Getter & Setter */
-    
     /**
-     * Gets the value of the lanes property.
+     * Gets the value of the lane property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the lanes property.
+     * This is why there is not a <CODE>set</CODE> method for the lane property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getLaneCompRef().add(newItem);
+     *    getLane().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link LaneCompartment }{@code >}
+     * {@link Lane }
      * 
      * 
      */
-    public List<LaneCompartment> getLane() {
-        if (lanes == null) {
-            lanes = new ArrayList<LaneCompartment>();
+	@ChildElements
+    public List<Lane> getLanes() {
+        if (this.lanes == null) {
+            this.lanes = new ArrayList<Lane>();
         }
         return this.lanes;
     }
 
-    /**
-     * Gets the value of the participantRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Participant }
-     *     
-     */
-    public Participant getParticipantRef() {
-        return participantRef;
-    }
+	/**
+	 * @return the parentLane
+	 */
+	public Lane getParentLane() {
+		return parentLane;
+	}
 
-    /**
-     * Sets the value of the participantRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Participant }
-     *     
-     */
-    public void setParticipantRef(Participant value) {
-        this.participantRef = value;
-    }
+	/**
+	 * @param parentLane the parentLane to set
+	 */
+	public void setParentLane(Lane parentLane) {
+		this.parentLane = parentLane;
+	}
 
 }

@@ -44,7 +44,13 @@ public class BPMNElement {
 	 * 		The child element
 	 */
 	public void addChild(BPMNElement child) {
-		this.getNode().addChild(child.getNode());
+		if(this.getNode() != null) 
+			/* Set the lane reference */
+			if(child.getNode() != null) {
+				child.getNode().setLane(this.getNode().getLane());
+			}
+			this.getNode().addChild(child.getNode());
+		
 		if(this.getShape() instanceof BpmnNode && child.getShape() instanceof BpmnNode) {
 			((BpmnNode) this.getShape()).addChild((BpmnNode) child.getShape());
 		}

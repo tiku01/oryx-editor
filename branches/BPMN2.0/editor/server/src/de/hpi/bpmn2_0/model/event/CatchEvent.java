@@ -64,7 +64,7 @@ import javax.xml.namespace.QName;
 //    "dataOutputAssociation",
 //    "outputSet",
 //    "eventDefinition",
-    "eventDefinitionRef"
+//    "eventDefinitionRef"
 })
 @XmlSeeAlso({
     StartEvent.class,
@@ -77,9 +77,6 @@ public abstract class CatchEvent
 //    protected List<DataOutput> dataOutput;
 //    protected List<DataOutputAssociation> dataOutputAssociation;
 //    protected TOutputSet outputSet;
-//    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
-//    protected List<JAXBElement<? extends EventDefinition>> eventDefinition;
-    protected List<QName> eventDefinitionRef;
     @XmlAttribute
     protected Boolean parallelMultiple;
 
@@ -165,73 +162,6 @@ public abstract class CatchEvent
 //        this.outputSet = value;
 //    }
 
-    /**
-     * Gets the value of the eventDefinition property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the eventDefinition property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEventDefinition().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TCompensateEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TMessageEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TErrorEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTimerEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link EventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TConditionalEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TLinkEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCancelEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEscalationEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TSignalEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTerminateEventDefinition }{@code >}
-     * 
-     * 
-     */
-//    public List<JAXBElement<? extends EventDefinition>> getEventDefinition() {
-//        if (eventDefinition == null) {
-//            eventDefinition = new ArrayList<JAXBElement<? extends EventDefinition>>();
-//        }
-//        return this.eventDefinition;
-//    }
-
-    /**
-     * Gets the value of the eventDefinitionRef property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the eventDefinitionRef property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEventDefinitionRef().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link QName }
-     * 
-     * 
-     */
-    public List<QName> getEventDefinitionRef() {
-        if (eventDefinitionRef == null) {
-            eventDefinitionRef = new ArrayList<QName>();
-        }
-        return this.eventDefinitionRef;
-    }
 
     /**
      * Gets the value of the parallelMultiple property.

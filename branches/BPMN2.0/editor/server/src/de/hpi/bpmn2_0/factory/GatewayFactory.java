@@ -25,8 +25,8 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.GatewayShape;
 import de.hpi.bpmn2_0.model.gateway.ComplexGateway;
@@ -43,7 +43,12 @@ import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
  * @author Sven Wagner-Boysen
  * 
  */
-@StencilId( { "Exclusive_Databased_Gateway",  "ParallelGateway", "EventbasedGateway", "InclusiveGateway", "ComplexGateway" })
+@StencilId({ 
+	"Exclusive_Databased_Gateway",  
+	"ParallelGateway", 
+	"EventbasedGateway", 
+	"InclusiveGateway", 
+	"ComplexGateway" })
 public class GatewayFactory extends AbstractBpmnFactory {
 
 	/*

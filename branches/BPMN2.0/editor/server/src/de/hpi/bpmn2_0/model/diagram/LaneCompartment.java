@@ -25,6 +25,7 @@ package de.hpi.bpmn2_0.model.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,8 +35,12 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.bpmn2_0.jaxb_generated.CalledSubprocessShapeType;
+import de.hpi.bpmn2_0.jaxb_generated.GroupShape;
+import de.hpi.bpmn2_0.jaxb_generated.LaneCompartmentType1;
+import de.hpi.bpmn2_0.model.participant.Lane;
 
 
 /**
@@ -82,7 +87,7 @@ public class LaneCompartment
     @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected Object laneRef;
+    protected Lane laneRef;
     
     public void addChild(BpmnNode child) {
     	this.getBpmnShape().add(child);
@@ -166,10 +171,10 @@ public class LaneCompartment
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link Lane }
      *     
      */
-    public Object getLaneRef() {
+    public Lane getLaneRef() {
         return laneRef;
     }
 
@@ -178,10 +183,10 @@ public class LaneCompartment
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link Lane }
      *     
      */
-    public void setLaneRef(Object value) {
+    public void setLaneRef(Lane value) {
         this.laneRef = value;
     }
 

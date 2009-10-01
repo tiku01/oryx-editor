@@ -71,7 +71,7 @@ public class ExclusiveGateway
     public SequenceFlow findDefaultSequenceFlow() {
 		for(SequenceFlow seqFlow : this.getOutgoingSequenceFlows()) {
 			/* A default sequence flow should not have an condition expression. */
-			if(seqFlow.getConditionExpression() == null) {
+			if(seqFlow.isDefaultSequenceFlow()) {
 				this.setDefault(seqFlow);
 				return seqFlow;
 			}

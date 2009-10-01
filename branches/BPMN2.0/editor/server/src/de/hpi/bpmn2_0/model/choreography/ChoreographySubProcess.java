@@ -21,39 +21,35 @@
  * SOFTWARE.
  */
 
-
-package de.hpi.bpmn2_0.model.activity;
+package de.hpi.bpmn2_0.model.choreography;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.artifacts.Artifact;
 
 
 /**
- * <p>Java class for tSubProcess complex type.
+ * <p>Java class for tChoreographySubProcess complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tSubProcess">
+ * &lt;complexType name="tChoreographySubProcess">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tChoreographyActivity">
  *       &lt;sequence>
  *         &lt;element ref="{http://www.omg.org/bpmn20}flowElement" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.omg.org/bpmn20}artifact" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="triggeredByEvent" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -62,23 +58,21 @@ import de.hpi.bpmn2_0.model.artifacts.Artifact;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tSubProcess", propOrder = {
+@XmlType(name = "tChoreographySubProcess", propOrder = {
     "flowElement",
     "artifact"
 })
-@XmlSeeAlso({
-//    TAdHocSubProcess.class
-})
-public class SubProcess
-    extends Activity
+public class ChoreographySubProcess
+    extends ChoreographyActivity
 {
 
-    @XmlElementRef(name = "flowElement", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
+    @XmlElementRefs({
+    	@XmlElementRef(type = ChoreographyTask.class)
+    })
     protected List<FlowElement> flowElement;
-    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
+    
+    @XmlElement
     protected List<Artifact> artifact;
-    @XmlAttribute
-    protected Boolean triggeredByEvent;
 
     /**
      * Gets the value of the flowElement property.
@@ -112,12 +106,12 @@ public class SubProcess
      * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TInclusiveGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
+     * {@link JAXBElement }{@code <}{@link TDataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link TEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link ChoreographyTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
-     * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link TDataStore }{@code >}
+     * {@link JAXBElement }{@code <}{@link TSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TIntermediateThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TSequenceFlow }{@code >}
@@ -127,12 +121,11 @@ public class SubProcess
      * {@link JAXBElement }{@code <}{@link ChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link TParallelGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TTask }{@code >}
      * 
      * 
      */
-    @ChildElements
     public List<FlowElement> getFlowElement() {
         if (flowElement == null) {
             flowElement = new ArrayList<FlowElement>();
@@ -158,47 +151,18 @@ public class SubProcess
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link Artifact }{@code >}
-     * {@link JAXBElement }{@code <}{@link Association }{@code >}
+     * {@link JAXBElement }{@code <}{@link TArtifact }{@code >}
+     * {@link JAXBElement }{@code <}{@link TAssociation }{@code >}
      * {@link JAXBElement }{@code <}{@link TGroup }{@code >}
-     * {@link JAXBElement }{@code <}{@link TextAnnotation }{@code >}
+     * {@link JAXBElement }{@code <}{@link TTextAnnotation }{@code >}
      * 
      * 
      */
-    @ChildElements
     public List<Artifact> getArtifact() {
         if (artifact == null) {
             artifact = new ArrayList<Artifact>();
         }
         return this.artifact;
-    }
-
-    /**
-     * Gets the value of the triggeredByEvent property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public boolean isTriggeredByEvent() {
-        if (triggeredByEvent == null) {
-            return false;
-        } else {
-            return triggeredByEvent;
-        }
-    }
-
-    /**
-     * Sets the value of the triggeredByEvent property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setTriggeredByEvent(Boolean value) {
-        this.triggeredByEvent = value;
     }
 
 }

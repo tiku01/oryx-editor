@@ -58,7 +58,7 @@ import de.hpi.bpmn2_0.model.RootElement;
 //    TTerminateEventDefinition.class,
 //    TLinkEventDefinition.class,
 //    TEscalationEventDefinition.class,
-//    TCompensateEventDefinition.class,
+//    CompensateEventDefinition.class,
 //    TSignalEventDefinition.class
 })
 public abstract class EventDefinition

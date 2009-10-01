@@ -23,15 +23,13 @@ package de.hpi.bpmn2_0.factory;
  * SOFTWARE.
  */
 
-import org.oryxeditor.server.diagram.Point;
 import org.oryxeditor.server.diagram.Shape;
 
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.Expression;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
-import de.hpi.bpmn2_0.model.diagram.BpmnConnector.Bendpoint;
 
 /**
  * @author Philipp Giese
@@ -101,8 +99,12 @@ public class SequenceFlowFactory extends AbstractEdgesFactory {
 		seqFlow.setName(shape.getProperty("name"));
 
 		String conditionType = shape.getProperty("conditiontype");
-		if (conditionType == null || !conditionType.equals("Default")) {
-			seqFlow.setConditionExpression(new Expression());
+//		if (conditionType == null || !conditionType.equals("Default")) {
+//			seqFlow.setConditionExpression(new Expression());
+//		}
+		
+		if(conditionType.equals("Default")) {
+			seqFlow.setDefaultSequenceFlow(true);
 		}
 
 		return seqFlow;

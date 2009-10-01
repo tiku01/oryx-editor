@@ -79,7 +79,7 @@ public abstract class ThrowEvent
 //    protected TInputSet inputSet;
 //    @XmlElementRef(name = "eventDefinition", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
 //    protected List<JAXBElement<? extends EventDefinition>> eventDefinition;
-    protected List<QName> eventDefinitionRef;
+//    protected List<QName> eventDefinitionRef;
 
     /**
      * Gets the value of the dataInput property.
@@ -181,7 +181,7 @@ public abstract class ThrowEvent
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TCompensateEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link CompensateEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TMessageEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TErrorEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TTimerEventDefinition }{@code >}
@@ -224,11 +224,11 @@ public abstract class ThrowEvent
      * 
      * 
      */
-    public List<QName> getEventDefinitionRef() {
-        if (eventDefinitionRef == null) {
-            eventDefinitionRef = new ArrayList<QName>();
-        }
-        return this.eventDefinitionRef;
-    }
+//    public List<QName> getEventDefinitionRef() {
+//        if (eventDefinitionRef == null) {
+//            eventDefinitionRef = new ArrayList<QName>();
+//        }
+//        return this.eventDefinitionRef;
+//    }
 
 }

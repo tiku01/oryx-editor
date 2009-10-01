@@ -21,32 +21,29 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.gateway;
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.annotations.StencilId;
-import de.hpi.bpmn2_0.model.Expression;
+import de.hpi.bpmn2_0.model.activity.Activity;
 
 
 /**
- * <p>Java class for tComplexGateway complex type.
+ * <p>Java class for tCompensateEventDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tComplexGateway">
+ * &lt;complexType name="tCompensateEventDefinition">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tGateway">
- *       &lt;sequence>
- *         &lt;element name="activationCondition" type="{http://www.omg.org/bpmn20}tExpression" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="default" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tEventDefinition">
+ *       &lt;attribute name="waitForCompletion" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+ *       &lt;attribute name="activityRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -54,67 +51,66 @@ import de.hpi.bpmn2_0.model.Expression;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tComplexGateway", propOrder = {
-    "activationCondition"
-})
-@StencilId("ComplexGateway")
-public class ComplexGateway
-    extends Gateway
+@XmlType(name = "tCompensateEventDefinition")
+public class CompensateEventDefinition
+    extends EventDefinition
 {
 
-    protected Expression activationCondition;
-    @XmlAttribute(name = "default")
+    @XmlAttribute
+    protected Boolean waitForCompletion;
+    
+    @XmlAttribute
     @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object _default;
+    protected Activity activityRef;
 
     /**
-     * Gets the value of the activationCondition property.
+     * Gets the value of the waitForCompletion property.
      * 
      * @return
      *     possible object is
-     *     {@link TExpression }
+     *     {@link Boolean }
      *     
      */
-    public Expression getActivationCondition() {
-        return activationCondition;
+    public Boolean isWaitForCompletion() {
+        return waitForCompletion;
     }
 
     /**
-     * Sets the value of the activationCondition property.
+     * Sets the value of the waitForCompletion property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TExpression }
+     *     {@link Boolean }
      *     
      */
-    public void setActivationCondition(Expression value) {
-        this.activationCondition = value;
+    public void setWaitForCompletion(Boolean value) {
+        this.waitForCompletion = value;
     }
 
     /**
-     * Gets the value of the default property.
+     * Gets the value of the activityRef property.
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link Activity }
      *     
      */
-    public Object getDefault() {
-        return _default;
+    public Activity getActivityRef() {
+        return activityRef;
     }
 
     /**
-     * Sets the value of the default property.
+     * Sets the value of the activityRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link Activity }
      *     
      */
-    public void setDefault(Object value) {
-        this._default = value;
+    public void setActivityRef(Activity value) {
+        this.activityRef = value;
     }
 
 }

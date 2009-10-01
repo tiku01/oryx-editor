@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
@@ -50,6 +51,7 @@ import de.hpi.bpmn2_0.model.event.IntermediateThrowEvent;
 import de.hpi.bpmn2_0.model.event.StartEvent;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
+import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 
@@ -87,7 +89,7 @@ import de.hpi.bpmn2_0.model.participant.Participant;
 //    "auditing",
 //    "monitoring",
 //    "property",
-//    "laneSet",
+    "laneSet",
     "flowElement",
 //    "artifact",
     "supports"
@@ -99,14 +101,6 @@ public class Process
 //    protected TAuditing auditing;
 //    protected TMonitoring monitoring;
 //    protected List<TProperty> property;
-//    protected List<TLaneSet> laneSet;
-//    @XmlElementRef(name = "flowElement", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
-//	@XmlElements({
-//		@XmlElement(name = "startEvent", type = StartEvent.class),
-//		@XmlElement(type = Task.class),
-//		@XmlElement(type = EndEvent.class),
-//		@XmlElement(type = SequenceFlow.class)
-//	})
 	@XmlElementRefs({
 		/* Events */
 		@XmlElementRef(type = StartEvent.class),
@@ -140,6 +134,9 @@ public class Process
     @XmlAttribute
     protected QName definitionalCollaborationRef;
     
+    @XmlElement(type = LaneSet.class)
+    protected List<LaneSet> laneSet;
+    
     /**
      * Adds the child to the process's flow elements if possible.
      */
@@ -150,6 +147,13 @@ public class Process
     }
     
     /* Getter & Setter */
+    
+    public List<LaneSet> getLaneSet() {
+    	if(this.laneSet == null) {
+    		this.laneSet = new ArrayList<LaneSet>();
+    	}
+    	return this.laneSet;
+    }
     
     /**
      * Gets the value of the auditing property.
@@ -246,13 +250,13 @@ public class Process
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TLaneSet }
+     * {@link LaneSet }
      * 
      * 
      */
-//    public List<TLaneSet> getLaneSet() {
+//    public List<LaneSet> getLaneSet() {
 //        if (laneSet == null) {
-//            laneSet = new ArrayList<TLaneSet>();
+//            laneSet = new ArrayList<LaneSet>();
 //        }
 //        return this.laneSet;
 //    }
@@ -292,7 +296,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link Event }{@code >}
      * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TChoreographyTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ChoreographyTask }{@code >}
      * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
@@ -301,7 +305,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link EventBasedGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TSendTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TChoreographySubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link ChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
@@ -309,6 +313,7 @@ public class Process
      * 
      * 
      */
+    @ChildElements
     public List<FlowElement> getFlowElement() {
         if (flowElement == null) {
             flowElement = new ArrayList<FlowElement>();

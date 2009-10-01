@@ -27,9 +27,8 @@ import java.util.ArrayList;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.factory.annotations.StencilId;
-import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.connector.Association;
 import de.hpi.bpmn2_0.model.connector.AssociationDirection;
 import de.hpi.bpmn2_0.model.connector.DataAssociation;
