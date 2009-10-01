@@ -231,6 +231,40 @@
  			]
  		},
  		{
+ 			"name" : "compensationThrowing",
+ 			"properties" : [
+ 				{
+ 					"id":"waitforcompletion",
+					"type":"Boolean",
+					"title":"Wait for completion",
+					"title_de":"Auf Fertigstellung warten",
+					"value":true,
+					"popular":true,
+					"description":"Determine whether a throw compensation is performed synchronously or asynchronously.",
+					"description_de":"Gibt an, ob die erzeugt Kompensierung synchron oder asynchron aufgerufen wird.",
+					"readonly":false,
+					"optional":true
+ 				}
+ 			]
+ 		},
+ 		{
+ 			"name" : "compensation",
+ 			"properties" : [
+ 				{
+ 					"id":"activityref",
+					"type":"String",
+					"title":"Activity reference",
+					"title_de":"Aktivitätsreferenz",
+					"value":"",
+					"popular":true,
+					"description":"The activity related to the compensation event",
+					"description_de":"Die Kompensierung betreffende Aktivität",
+					"readonly":false,
+					"optional":true
+ 				}
+ 			]
+ 		},
+ 		{
  			"name":"interrupting",
  			"properties":[
  				{
@@ -295,7 +329,7 @@
 					"type":"String",
 					"title":"TargetNamespace",
 					"title_de":"Zielnamesraum",
-					"value":"",
+					"value":"http://www.omg.org/bpmn20",
 					"description":"Defines the namespace of the elements inside the document.",
 					"description_de":"Definiert den Namensraum, der für die Elemente im Dokument verwendet wird.",
 					"readonly":false,
@@ -3093,7 +3127,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"bgColor"
+				"bgColor",
+				"compensation"
 			],
 			"roles": [
 				"all",
@@ -3556,7 +3591,8 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"catchEventAttributes",
-				"bgColor"
+				"bgColor",
+				"compensation"
 			],
 			"roles":[
 				"all",
@@ -3893,7 +3929,9 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"throwEventAttributes",
-				"bgColor"
+				"bgColor",
+				"compensationThrowing",
+				"compensation"
 			],
 			"roles":[
 				"all",
@@ -4200,7 +4238,9 @@
 			"propertyPackages":[
 				"baseAttributes",
 				"throwingEventAttributes",
-				"bgColor"
+				"bgColor",
+				"compensationThrowing",
+				"compensation"
 			],
 			"roles": [
 				"all",
@@ -4675,7 +4715,8 @@
 				"contains" : [
 					"Lane",
 					"sequence_start",
-					"sequence_end"
+					"sequence_end",
+					"DataObjectMorph"
 				]
 			},
 			{
