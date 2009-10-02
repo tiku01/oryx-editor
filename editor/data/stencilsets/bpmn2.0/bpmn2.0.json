@@ -2404,7 +2404,7 @@
 				"fromtoall",
 				"canContainArtifacts"				
 			],
-			"layout" : [{"type" : "layout.bpmn2_0.pool"}],
+			"layout" : [{"type" : "layout.bpmn2_0.pool"}]
 		},
 		{
 			"type" : 			"node",
@@ -2515,7 +2515,7 @@
 								]
 							}
 						}
-			],
+			]
 		},
 		
 		// Artifacts
@@ -2925,7 +2925,7 @@
 					"value":"None",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -2965,7 +2965,7 @@
 					"value":"Message",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3005,7 +3005,7 @@
 					"value":"Timer",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3044,7 +3044,7 @@
 					"value":"Escalation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3084,7 +3084,7 @@
 					"value":"Conditional",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3122,7 +3122,7 @@
 					"value":"Error",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3161,7 +3161,7 @@
 					"value":"Compensation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3201,7 +3201,7 @@
 					"value":"Signal",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3242,7 +3242,7 @@
 					"value":"Multiple",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3283,7 +3283,7 @@
 					"value":"Parallel Multiple",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3848,7 +3848,7 @@
 					"value":"Message",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3886,7 +3886,7 @@
 					"value":"Escalation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3924,7 +3924,7 @@
 					"value":"Link",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -3964,7 +3964,7 @@
 					"value":"Compensation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4002,7 +4002,7 @@
 					"value":"Signal",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4041,7 +4041,7 @@
 					"value":"Multiple",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4083,7 +4083,7 @@
 					"value":"None",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4122,7 +4122,7 @@
 					"value":"Message",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4157,7 +4157,7 @@
 					"value":"Escalation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4195,7 +4195,7 @@
 					"value":"Error",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4233,7 +4233,7 @@
 					"value":"Cancel",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4273,7 +4273,7 @@
 					"value":"Compensation",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4311,7 +4311,7 @@
 					"value":"Signal",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4350,7 +4350,7 @@
 					"value":"Multiple",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4388,7 +4388,7 @@
 					"value":"Terminate",
 					"description":"",
 					"readonly":true,
-					"optional":false,
+					"optional":false
 				}
 			]
 		},
@@ -4469,7 +4469,7 @@
 					"optional":false,
 					"refToView":"conditional"
 				}
-			],
+			]
 		},
 		{
 			"type": "edge",
