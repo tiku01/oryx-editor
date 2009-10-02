@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "balbal")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tIntermediateCatchEvent")
 @XmlSeeAlso(BoundaryEvent.class)

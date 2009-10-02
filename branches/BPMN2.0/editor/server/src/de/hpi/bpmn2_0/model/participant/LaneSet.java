@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.FlowElement;
+import de.hpi.bpmn2_0.model.Process;
 
 
 /**
@@ -70,9 +72,59 @@ public class LaneSet
     protected List<Lane> lanes;
 	
 	@XmlIDREF
-	@XmlElement(type = Lane.class)
+	@XmlAttribute
 	protected Lane parentLane;
-
+	
+	@XmlIDREF
+	@XmlAttribute
+	protected Process process;
+	
+	public void addChild(BaseElement child) {
+		if(child instanceof Lane) {
+			Lane lane = (Lane) child;
+			this.getLanes().add(lane);
+			lane.setLaneSet(this);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return All {@link FlowElement} that are contained in the {@link LaneSet}
+	 */
+	public List<FlowElement> getChildFlowElements() {
+		ArrayList<FlowElement> deepestFlowElements = new ArrayList<FlowElement>();
+		List<Lane> lanes = this.getDeepestLanes(this.getLanes()); 
+		
+		for(Lane lane : lanes) {
+			deepestFlowElements.addAll(lane.getFlowElementRef());
+		}
+		
+		return deepestFlowElements;
+	}
+	
+	/**
+	 * Retrieve the deepest child lanes in a lane set
+	 * @param lanes
+	 * @return
+	 */
+	private List<Lane> getDeepestLanes(List<Lane> lanes) {
+		ArrayList<Lane> laneList = new ArrayList<Lane>();
+		if(lanes == null)
+			return laneList;
+		for(Lane lane : lanes) {
+			if(lane.getChildLaneSet() == null) 
+				continue;
+			if(lane.getChildLaneSet().getLanes() != null && lane.getChildLaneSet().getLanes().size() > 0) {
+				laneList.addAll(this.getDeepestLanes(lane.getChildLaneSet().getLanes()));
+			} else {
+				laneList.add(lane);
+			}
+		}
+		return laneList;
+	}
+	
+	/* Getter & Setter */
+	
     /**
      * Gets the value of the lane property.
      * 
@@ -115,6 +167,20 @@ public class LaneSet
 	 */
 	public void setParentLane(Lane parentLane) {
 		this.parentLane = parentLane;
+	}
+
+	/**
+	 * @return the process
+	 */
+	public Process getProcess() {
+		return process;
+	}
+
+	/**
+	 * @param process the process to set
+	 */
+	public void setProcess(Process process) {
+		this.process = process;
 	}
 
 }

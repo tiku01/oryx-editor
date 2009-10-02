@@ -96,6 +96,9 @@ public abstract class FlowElement
     protected List<Edge> outgoing;
 	
 	/* The process the element belongs to */
+	@XmlIDREF
+	@XmlAttribute
+	@XmlSchemaType(name = "IDREF")
 	protected Process process;
 
     

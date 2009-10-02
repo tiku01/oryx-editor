@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.Collaboration;
+
 
 /**
  * <p>Java class for collaborationDiagramType complex type.
@@ -69,13 +71,13 @@ public class CollaborationDiagram
     @XmlElement(namespace = "http://bpmndi.org", required = true)
     protected List<PoolCompartment> pool;
 
-//    @XmlElement(namespace = "http://bpmndi.org")
-//    protected List<MessageFlowConnector> messageFlowConnector;
-//    @XmlAttribute
-//    @XmlIDREF
-//    @XmlSchemaType(name = "IDREF")
-//    protected Object collaborationRef;
-//
+    @XmlElement
+    protected List<MessageFlowConnector> messageFlowConnector;
+    @XmlAttribute
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
+    protected Collaboration collaborationRef;
+
     
     
     /* Getter & Setter */
@@ -108,58 +110,58 @@ public class CollaborationDiagram
         }
         return this.pool;
     }
-//
-//    /**
-//     * Gets the value of the messageFlowConnector property.
-//     * 
-//     * <p>
-//     * This accessor method returns a reference to the live list,
-//     * not a snapshot. Therefore any modification you make to the
-//     * returned list will be present inside the JAXB object.
-//     * This is why there is not a <CODE>set</CODE> method for the messageFlowConnector property.
-//     * 
-//     * <p>
-//     * For example, to add a new item, do as follows:
-//     * <pre>
-//     *    getMessageFlowConnector().add(newItem);
-//     * </pre>
-//     * 
-//     * 
-//     * <p>
-//     * Objects of the following type(s) are allowed in the list
-//     * {@link MessageFlowConnector }
-//     * 
-//     * 
-//     */
-//    public List<MessageFlowConnector> getMessageFlowConnector() {
-//        if (messageFlowConnector == null) {
-//            messageFlowConnector = new ArrayList<MessageFlowConnector>();
-//        }
-//        return this.messageFlowConnector;
-//    }
-//
-//    /**
-//     * Gets the value of the collaborationRef property.
-//     * 
-//     * @return
-//     *     possible object is
-//     *     {@link Object }
-//     *     
-//     */
-//    public Object getCollaborationRef() {
-//        return collaborationRef;
-//    }
-//
-//    /**
-//     * Sets the value of the collaborationRef property.
-//     * 
-//     * @param value
-//     *     allowed object is
-//     *     {@link Object }
-//     *     
-//     */
-//    public void setCollaborationRef(Object value) {
-//        this.collaborationRef = value;
-//    }
+
+    /**
+     * Gets the value of the messageFlowConnector property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the messageFlowConnector property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getMessageFlowConnector().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link MessageFlowConnector }
+     * 
+     * 
+     */
+    public List<MessageFlowConnector> getMessageFlowConnector() {
+        if (messageFlowConnector == null) {
+            messageFlowConnector = new ArrayList<MessageFlowConnector>();
+        }
+        return this.messageFlowConnector;
+    }
+
+    /**
+     * Gets the value of the collaborationRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Object }
+     *     
+     */
+    public Collaboration getCollaborationRef() {
+        return collaborationRef;
+    }
+
+    /**
+     * Sets the value of the collaborationRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Object }
+     *     
+     */
+    public void setCollaborationRef(Collaboration value) {
+        this.collaborationRef = value;
+    }
 
 }

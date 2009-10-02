@@ -24,13 +24,19 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.data_object.Message;
+import de.hpi.bpmn2_0.model.diagram.MessageShape;
 
 /**
+ * Factory to create {@link Mes}
+ * 
  * @author Sven
  *
  */
+@StencilId("Message")
 public class MessageFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
@@ -39,27 +45,34 @@ public class MessageFactory extends AbstractBpmnFactory {
 	@Override
 	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent)
 			throws BpmnConverterException {
-		// TODO Auto-generated method stub
-		return null;
+		Message msg = this.createProcessElement(shape);
+		MessageShape msgShape = this.createDiagramElement(shape);
+		msgShape.setMessageRef(msg);
+		
+		return new BPMNElement(msgShape, msg, shape.getResourceId());
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected Object createDiagramElement(Shape shape) {
-		// TODO Auto-generated method stub
-		return null;
+	protected MessageShape createDiagramElement(Shape shape) {
+		MessageShape msgShape = new MessageShape();
+		this.setVisualAttributes(msgShape, shape);
+		return msgShape;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected BaseElement createProcessElement(Shape shape)
+	protected Message createProcessElement(Shape shape)
 			throws BpmnConverterException {
-		// TODO Auto-generated method stub
-		return null;
+		Message msg = new Message();
+		msg.setId(shape.getResourceId());
+		msg.setName(shape.getProperty("name"));
+		msg.setInitiating(shape.getProperty("initiating").equalsIgnoreCase("true"));
+		return msg;
 	}
 
 }

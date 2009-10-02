@@ -66,7 +66,7 @@ import de.hpi.bpmn2_0.model.participant.Participant;
     "participant"
 })
 @XmlSeeAlso({
-    ChoreographyTask.class
+    ChoreographyTask.class//,
 //    TCallChoreographyActivity.class,
 //    ChoreographySubProcess.class
 })

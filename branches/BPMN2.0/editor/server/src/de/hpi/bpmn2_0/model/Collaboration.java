@@ -23,11 +23,13 @@
 
 package de.hpi.bpmn2_0.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
@@ -63,15 +65,16 @@ import de.hpi.bpmn2_0.model.participant.Participant;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCollaboration", propOrder = {
     "participant",
-    "messageFlow",
-    "artifact",
-    "conversation",
-    "conversationAssociation",
-    "participantAssociation",
-    "messageFlowAssociation"
+    "messageFlow"//,
+//    "artifact",
+//    "conversation",
+//    "conversationAssociation",
+//    "participantAssociation",
+//    "messageFlowAssociation"
 })
 public class Collaboration
     extends RootElement
@@ -114,12 +117,12 @@ public class Collaboration
      * 
      * 
      */
-//    public List<TParticipant> getParticipant() {
-//        if (participant == null) {
-//            participant = new ArrayList<TParticipant>();
-//        }
-//        return this.participant;
-//    }
+    public List<Participant> getParticipant() {
+        if (participant == null) {
+            participant = new ArrayList<Participant>();
+        }
+        return this.participant;
+    }
 
     /**
      * Gets the value of the messageFlow property.
@@ -143,12 +146,12 @@ public class Collaboration
      * 
      * 
      */
-//    public List<TMessageFlow> getMessageFlow() {
-//        if (messageFlow == null) {
-//            messageFlow = new ArrayList<TMessageFlow>();
-//        }
-//        return this.messageFlow;
-//    }
+    public List<MessageFlow> getMessageFlow() {
+        if (messageFlow == null) {
+            messageFlow = new ArrayList<MessageFlow>();
+        }
+        return this.messageFlow;
+    }
 
     /**
      * Gets the value of the artifact property.

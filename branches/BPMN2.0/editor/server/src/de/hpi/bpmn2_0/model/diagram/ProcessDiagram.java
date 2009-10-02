@@ -60,9 +60,9 @@ import de.hpi.bpmn2_0.model.Process;
  * 
  * 
  */
-@XmlRootElement(namespace = "http://bpmndi.org", name = "processDiagramType")
+@XmlRootElement(name = "processDiagram")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "processDiagramType", namespace = "http://bpmndi.org", propOrder = {
+@XmlType(name = "processDiagram", namespace = "http://bpmndi.org", propOrder = {
     "laneCompartment",
     "sequenceFlowConnector",
     "associationConnector",

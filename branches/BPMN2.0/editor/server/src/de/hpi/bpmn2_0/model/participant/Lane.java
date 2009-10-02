@@ -41,8 +41,10 @@ import javax.xml.bind.annotation.XmlType;
 import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
+import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
+import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.DataObject;
 import de.hpi.bpmn2_0.model.event.EndEvent;
@@ -79,6 +81,7 @@ import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 @XmlType(name = "tLane", propOrder = {
     "partitionElement",
     "flowElementRef",
+    "laneSet",
     "childLaneSet"
 })
 public class Lane
@@ -88,32 +91,39 @@ public class Lane
 	protected BaseElement partitionElement;
     
 	@XmlIDREF
-	@XmlElements({
-		/* Events */
-		@XmlElement(type = StartEvent.class),
-		@XmlElement(type = EndEvent.class),
-		
-		/* Activities */
-		@XmlElement(type = Task.class),
-		
-		/* Gateways */
-		@XmlElement(type = ExclusiveGateway.class),
-		@XmlElement(type = ParallelGateway.class),
-		
-		/* Edges */
-		@XmlElement(type = SequenceFlow.class),
-		
-		/* Artifacts / Data elements */
-		@XmlElement(type = DataObject.class),
-		@XmlElement(type = TextAnnotation.class),
-		
-		/* Partner */
-		@XmlElement(type = Participant.class)
-	})
+//	@XmlElements({
+//		/* Events */
+//		@XmlElement(type = StartEvent.class),
+//		@XmlElement(type = EndEvent.class),
+//		
+//		/* Activities */
+//		@XmlElement(type = Task.class),
+//		
+//		/* Gateways */
+//		@XmlElement(type = ExclusiveGateway.class),
+//		@XmlElement(type = ParallelGateway.class),
+//		
+//		/* Edges */
+//		@XmlElement(type = SequenceFlow.class),
+//		
+//		/* Artifacts / Data elements */
+//		@XmlElement(type = DataObject.class),
+//		@XmlElement(type = TextAnnotation.class),
+//		
+//		/* Partner */
+//		@XmlElement(type = Participant.class)
+//	})
+	@XmlElement(type = FlowNode.class)
     protected List<FlowElement> flowElementRef;
     
 	@XmlElementRef(type = LaneSet.class)
 	protected LaneSet childLaneSet;
+	
+	@XmlIDREF
+	@XmlSchemaType(name = "IDREF")
+//	@XmlElementRef(type = LaneSet.class)
+	@XmlAttribute
+	protected LaneSet laneSet;
     
     @XmlAttribute
     protected String name;
@@ -130,7 +140,8 @@ public class Lane
     public void addChild(BaseElement child) {
     	if(child instanceof Lane) {
     		this.getChildLaneSet().getLanes().add((Lane) child);
-    	} else if (child instanceof FlowElement) {
+    		((Lane) child).setLaneSet(this.getChildLaneSet());
+    	} else if (!(child instanceof Edge)) {
     		this.getFlowElementRef().add((FlowElement) child);
     	}
     }
@@ -162,6 +173,20 @@ public class Lane
     }
 
     /**
+	 * @return the laneSet
+	 */
+	public LaneSet getLaneSet() {
+		return laneSet;
+	}
+
+	/**
+	 * @param laneSet the laneSet to set
+	 */
+	public void setLaneSet(LaneSet laneSet) {
+		this.laneSet = laneSet;
+	}
+
+	/**
      * Gets the value of the flowElementRef property.
      * 
      * <p>

@@ -98,7 +98,8 @@ public class Definitions {
 //    protected List<TExtension> extension;
     @XmlElementRefs({
     	@XmlElementRef(type = Process.class),
-    	@XmlElementRef(type = Choreography.class)
+    	@XmlElementRef(type = Choreography.class),
+    	@XmlElementRef(type = Collaboration.class)
     })
     protected List<RootElement> rootElement;
     @XmlElementRefs({
