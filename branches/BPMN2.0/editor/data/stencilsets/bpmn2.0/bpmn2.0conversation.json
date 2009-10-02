@@ -405,7 +405,7 @@
 				"all",
 				"ConnectingObjectsMorph"
 			]
-		},
+		}
 	],
 	"rules": {
 		"containmentRules": [
