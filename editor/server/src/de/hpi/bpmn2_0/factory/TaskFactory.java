@@ -25,16 +25,26 @@ package de.hpi.bpmn2_0.factory;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.Property;
 import de.hpi.bpmn2_0.annotations.StencilId;
+import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.activity.BusinessRuleTask;
+import de.hpi.bpmn2_0.model.activity.ManualTask;
+import de.hpi.bpmn2_0.model.activity.ReceiveTask;
+import de.hpi.bpmn2_0.model.activity.ScriptTask;
+import de.hpi.bpmn2_0.model.activity.SendTask;
+import de.hpi.bpmn2_0.model.activity.ServiceTask;
 import de.hpi.bpmn2_0.model.activity.Task;
+import de.hpi.bpmn2_0.model.activity.UserTask;
 import de.hpi.bpmn2_0.model.diagram.ActivityShape;
 
 /**
  * Concrete class to create any kind of task objects from a {@link Shape} with 
  * the stencil id "http://b3mn.org/stencilset/bpmn2.0#Task"
  * 
+ * @author Philipp Giese
  * @author Sven Wagner-Boysen
  *
  */
@@ -47,28 +57,28 @@ public class TaskFactory extends AbstractBpmnFactory {
 	@Override
 	protected Object createDiagramElement(Shape shape) {
 		ActivityShape actShape = new ActivityShape();
-		actShape.setX(shape.getUpperLeft().getX());
-		actShape.setY(shape.getUpperLeft().getY());
-		actShape.setWidth(shape.getWidth());
-		actShape.setHeight(shape.getHeight());
-		actShape.setId(shape.getResourceId());
-		return actShape;
+		this.setVisualAttributes(actShape, shape);
 		
+		return actShape;		
 	}
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected BaseElement createProcessElement(Shape shape) {
-		Task task = new Task();
-		task.setId(shape.getResourceId());
-		task.setName(shape.getProperty("name"));
-		return task;
+	protected BaseElement createProcessElement(Shape shape) throws BpmnConverterException {
+		try {
+			Task task = (Task) this.invokeCreatorMethodAfterProperty(shape);
+			return task;
+		} catch (Exception e) {
+			throw new BpmnConverterException(
+					"Error while creating the process element of " 
+					+ shape.getStencilId(), e);
+		}
 	}
 
 	@Override
-	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) {
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) throws BpmnConverterException {
 		BaseElement task = this.createProcessElement(shape);
 		ActivityShape activity = (ActivityShape) this.createDiagramElement(shape);
 		
@@ -77,4 +87,83 @@ public class TaskFactory extends AbstractBpmnFactory {
 		return new BPMNElement(activity, task, shape.getResourceId());
 	}
 
+	@Property(name = "tasktype", value = "None") 
+	protected Task createTask(Shape shape) {
+		Task task = new Task();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "User")
+	protected UserTask createUserTask(Shape shape) {
+		UserTask task = new UserTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Receive")
+	protected ReceiveTask createReceiveTask(Shape shape) {
+		ReceiveTask task = new ReceiveTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Send")
+	protected SendTask createSendTask(Shape shape) {
+		SendTask task = new SendTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Script")
+	protected ScriptTask createScriptTask(Shape shape) {
+		ScriptTask task = new ScriptTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Business Rule")
+	protected BusinessRuleTask createBusinessRuleTask(Shape shape) {
+		BusinessRuleTask task = new BusinessRuleTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Service")
+	protected ServiceTask createServiceTask(Shape shape) {
+		ServiceTask task = new ServiceTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
+	
+	@Property(name = "tasktype", value = "Manual")
+	protected ManualTask createManualTask(Shape shape) {
+		ManualTask task = new ManualTask();
+		
+		task.setId(shape.getResourceId());
+		task.setName(shape.getProperty("name"));
+		
+		return task;
+	}
 }

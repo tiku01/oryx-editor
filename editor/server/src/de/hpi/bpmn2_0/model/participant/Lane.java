@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
-import de.hpi.bpmn2_0.jaxb_generated.TBaseElement;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.activity.Task;

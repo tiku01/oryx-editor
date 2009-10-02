@@ -698,3 +698,10 @@ ORYX.I18N.Bpmn2_0Serialization.download = "Download BPMN 2.0 XML";
 ORYX.I18N.Bpmn2_0Serialization.downloadDesc = "Download BPMN 2.0 XML of the current BPMN 2.0 model";
 ORYX.I18N.Bpmn2_0Serialization.serialFailed = "BPMN 2.0 Serialization failed";
 ORYX.I18N.Bpmn2_0Serialization.group = "BPMN 2.0";
+
+/** New Language Properties 01.10.2009 */
+if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
+
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "A Data Input must not have any incoming Data Associations.";
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "A Data Output must not have any outgoing Data Associations.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Targets of Eventbased Gateways may only have one incoming Sequence Flow.";

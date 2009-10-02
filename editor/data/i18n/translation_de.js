@@ -652,5 +652,12 @@ ORYX.I18N.SyntaxChecker.MULT_ERRORS = "Mehrere Fehler";
 
 /** New Language Properties: 08.09.2009*/
 if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
-ORYX.I18N.PropertyWindow.oftenUsed = "Häufig genutzt";
+ORYX.I18N.PropertyWindow.oftenUsed = "Hauptattribute";
 ORYX.I18N.PropertyWindow.moreProps = "Mehr Attribute";
+
+/** New Language Properties 01.10.2009 */
+if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
+
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "Ein Dateneingang darf keine ausgehenden Datenassoziationen haben.";
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "Ein Datenausgang darf keine eingehenden Datenassoziationen haben.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Ziele von Ereignisbasierten Gateways dürfen nicht mehr als einen eingehenden Sequenzfluss haben.";

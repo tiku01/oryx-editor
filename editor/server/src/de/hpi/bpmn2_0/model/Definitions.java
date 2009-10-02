@@ -43,43 +43,14 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-import de.hpi.bpmn2_0.jaxb_generated.TCancelEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TConditionalEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TConversation;
-import de.hpi.bpmn2_0.jaxb_generated.TCorrelationProperty;
-import de.hpi.bpmn2_0.jaxb_generated.TEndPoint;
-import de.hpi.bpmn2_0.jaxb_generated.TError;
-import de.hpi.bpmn2_0.jaxb_generated.TErrorEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TEscalation;
-import de.hpi.bpmn2_0.jaxb_generated.TEscalationEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalBusinessRuleTask;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalChoreographyTask;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalCommunication;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalManualTask;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalScriptTask;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalTask;
-import de.hpi.bpmn2_0.jaxb_generated.TGlobalUserTask;
-import de.hpi.bpmn2_0.jaxb_generated.TInterface;
-import de.hpi.bpmn2_0.jaxb_generated.TItemDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TLinkEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TMessageEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TPartnerEntity;
-import de.hpi.bpmn2_0.jaxb_generated.TPartnerRole;
-import de.hpi.bpmn2_0.jaxb_generated.TResource;
-import de.hpi.bpmn2_0.jaxb_generated.TSignal;
-import de.hpi.bpmn2_0.jaxb_generated.TSignalEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TTerminateEventDefinition;
-import de.hpi.bpmn2_0.jaxb_generated.TTimerEventDefinition;
 import de.hpi.bpmn2_0.model.choreography.Choreography;
-import de.hpi.bpmn2_0.model.data_object.Message;
-
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.data_object.Message;
-
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
+import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.EventDefinition;
 import de.hpi.bpmn2_0.validation.BPMN2SyntaxChecker;
 
@@ -236,10 +207,10 @@ public class Definitions {
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link TMessageEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalBusinessRuleTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TErrorEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link ErrorEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Collaboration }{@code >}
      * {@link JAXBElement }{@code <}{@link TConversation }{@code >}
-     * {@link JAXBElement }{@code <}{@link TConditionalEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link ConditionalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Process }{@code >}
      * {@link JAXBElement }{@code <}{@link Category }{@code >}
      * {@link JAXBElement }{@code <}{@link TItemDefinition }{@code >}
@@ -254,7 +225,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TGlobalCommunication }{@code >}
      * {@link JAXBElement }{@code <}{@link Choreography }{@code >}
      * {@link JAXBElement }{@code <}{@link TResource }{@code >}
-     * {@link JAXBElement }{@code <}{@link TSignalEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link SignalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TEndPoint }{@code >}
      * {@link JAXBElement }{@code <}{@link RootElement }{@code >}
      * {@link JAXBElement }{@code <}{@link TPartnerEntity }{@code >}
@@ -262,8 +233,8 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TGlobalScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link EventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TError }{@code >}
-     * {@link JAXBElement }{@code <}{@link TLinkEventDefinition }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCancelEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link LinkEventDefinition }{@code >}
+     * {@link JAXBElement }{@code <}{@link CancelEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TPartnerRole }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TSignal }{@code >}
