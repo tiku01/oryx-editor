@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.RootElement;
 
 
@@ -55,13 +56,19 @@ import de.hpi.bpmn2_0.model.RootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tMessage")
 public class Message
-    extends RootElement
+    extends FlowNode
 {
 
     @XmlAttribute
     protected String name;
+    
     @XmlAttribute
     protected QName structureRef;
+    
+    @XmlAttribute
+    private boolean isInitiating;
+    
+    /* Getter & Setter */
 
     /**
      * Gets the value of the name property.
@@ -110,5 +117,19 @@ public class Message
     public void setStructureRef(QName value) {
         this.structureRef = value;
     }
+
+	/**
+	 * @return the isInitiating
+	 */
+	public boolean isInitiating() {
+		return isInitiating;
+	}
+
+	/**
+	 * @param isInitiating the isInitiating to set
+	 */
+	public void setInitiating(boolean isInitiating) {
+		this.isInitiating = isInitiating;
+	}
 
 }

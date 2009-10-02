@@ -23,11 +23,15 @@
 
 package de.hpi.bpmn2_0.factory;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
+import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
+import de.hpi.bpmn2_0.model.event.MessageEventDefinition;
 import de.hpi.bpmn2_0.model.event.StartEvent;
 
 /**
@@ -36,16 +40,19 @@ import de.hpi.bpmn2_0.model.event.StartEvent;
  * @author Sven Wagner-Boysen
  *
  */
-@StencilId("StartNoneEvent")
+@StencilId({
+	"StartNoneEvent",
+	"StartMessageEvent"
+})
 public class StartEventFactory extends AbstractBpmnFactory {
 
 	/* (non-Javadoc)
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createBpmnElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) {
-		EventShape eventShape = (EventShape) this.createDiagramElement(shape);
-		StartEvent startEvent = (StartEvent) this.createProcessElement(shape);
+	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) throws BpmnConverterException {
+		EventShape eventShape = this.createDiagramElement(shape);
+		StartEvent startEvent = this.createProcessElement(shape);
 		
 		/* Set Reference from shape to process element */
 		eventShape.setEventRef(startEvent);
@@ -57,7 +64,7 @@ public class StartEventFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected Object createDiagramElement(Shape shape) {
+	protected EventShape createDiagramElement(Shape shape) {
 		EventShape eventShape = new EventShape();
 		this.setVisualAttributes(eventShape, shape);
 		return eventShape;
@@ -67,10 +74,33 @@ public class StartEventFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected BaseElement createProcessElement(Shape shape) {
-		StartEvent event = new StartEvent();
+	protected StartEvent createProcessElement(Shape shape) throws BpmnConverterException {
+		StartEvent event;
+		try {
+			event = (StartEvent) this.invokeCreatorMethod(shape);
+		} catch (Exception e) {
+			/* Wrap exceptions into specific BPMNConverterException */
+			throw new BpmnConverterException(
+					"Error while creating the process element of "
+							+ shape.getStencilId(), e);
+		}
 		event.setId(shape.getResourceId());
 		event.setName(shape.getProperty("name"));
+		return event;
+	}
+	
+	@StencilId("StartMessageEvent")
+	protected StartEvent createStartMessageEvent(Shape shape) {
+		StartEvent event = new StartEvent();
+		MessageEventDefinition msgEvDef = new MessageEventDefinition();
+		event.getEventDefinition().add(msgEvDef);
+		
+		return event;
+	}
+	
+	@StencilId("StartNoneEvent")
+	protected StartEvent createStartNoneEvent(Shape shape) {
+		StartEvent event = new StartEvent();
 		
 		return event;
 	}

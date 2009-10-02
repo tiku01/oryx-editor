@@ -41,7 +41,8 @@ public class ChoreographyCompartment extends BpmnCompartment {
 		@XmlElementRef(type = ChoreographyActivityShape.class),
 		@XmlElementRef(type = EventShape.class),
 		@XmlElementRef(type = GatewayShape.class),
-    	@XmlElementRef(type = TextAnnotationShape.class)
+    	@XmlElementRef(type = TextAnnotationShape.class),
+    	@XmlElementRef(type = MessageShape.class)
 	})
 	protected List<BpmnNode> bpmnShape;
 	

@@ -102,7 +102,7 @@ public class AssociationFactory extends AbstractBpmnFactory {
 		/* Set common properties */
 		connectorShape.setId(shape.getResourceId());
 		connectorShape.setLabel(shape.getProperty("name"));
-		connectorShape.setIsDirectional(!shape.getResourceId().equals(
+		connectorShape.setIsDirectional(!shape.getStencilId().equals(
 				"Association_Undirected"));
 
 		return connectorShape;

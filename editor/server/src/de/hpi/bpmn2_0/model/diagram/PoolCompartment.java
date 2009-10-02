@@ -66,7 +66,7 @@ public class PoolCompartment
     extends BpmnCompartment
 {
 	@XmlIDREF
-    @XmlElement(name = "lanes", type = LaneCompartment.class)
+    @XmlElement(name = "laneCompRef", type = LaneCompartment.class)
     protected List<LaneCompartment> lanes;
     
     @XmlAttribute

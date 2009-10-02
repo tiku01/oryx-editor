@@ -50,8 +50,22 @@ public class ChoreographyDiagram extends BpmnDiagram {
 	
 	@XmlElement(namespace = "http://bpmndi.org")
     protected List<SequenceFlowConnector> sequenceFlowConnector;
+	
+	@XmlElement
+	protected List<AssociationConnector> associationConnector;
+		
 
-	/* Getter & Sette */
+	/* Getter & Setter */
+	
+	/**
+	 * @return the list of {@link AssociationConnector}
+	 */
+	public List<AssociationConnector> getAssociationConnector() {
+        if (this.associationConnector == null) {
+            this.associationConnector = new ArrayList<AssociationConnector>();
+        }
+        return this.associationConnector;
+    }
 	
 	/**
 	 * @return the list of {@link SequenceFlowConnector}

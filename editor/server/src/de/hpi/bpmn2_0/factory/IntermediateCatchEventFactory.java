@@ -33,6 +33,7 @@ import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
+import de.hpi.bpmn2_0.model.event.Event;
 import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
 import de.hpi.bpmn2_0.model.event.MessageEventDefinition;
 import de.hpi.bpmn2_0.model.event.TimerEventDefinition;
@@ -108,15 +109,8 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 	@StencilId("IntermediateCompensationEventCatching")
 	protected IntermediateCatchEvent createCompensateEvent(Shape shape) {
 		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
-		
-		icEvent.setId(shape.getResourceId());
-		icEvent.setName(shape.getProperty("name"));
-		
 		CompensateEventDefinition compEvDef = new CompensateEventDefinition();
-//		compEvDef.setActivityRef(shape.get)
-		
 		icEvent.getEventDefinition().add(compEvDef);
-		
 		return icEvent;
 	}
 	
@@ -148,25 +142,26 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 		return icEvent;
 	}
 	
-	public static void changeToBoundaryEvent(BPMNElement activity, BPMNElement event, Process process) {
+	public static void changeToBoundaryEvent(BPMNElement activity, BPMNElement event) {
 		if(!(activity.getNode() instanceof Activity) || !(event.getNode() instanceof IntermediateCatchEvent)) {
 			return;
 		}
 		
 		BoundaryEvent bEvent = new BoundaryEvent();
+		bEvent.getEventDefinition().addAll(((Event) event.getNode()).getEventDefinition());
 		bEvent.setAttachedToRef((Activity) activity.getNode());
-		bEvent.setProcessRef(process);
+//		bEvent.setProcessRef(event.get);
 		bEvent.setId(event.getNode().getId());
 		bEvent.setName(((IntermediateCatchEvent) event.getNode()).getName());
 		bEvent.setParallelMultiple(((IntermediateCatchEvent) event.getNode()).isParallelMultiple());
 		// TODO: bEvent.setCancelActivity()
 		
-		/* Refresh references */
-		int index = process.getFlowElement().indexOf(event.getNode());
-		if(index != -1) {
-			process.getFlowElement().remove(index);
-			process.getFlowElement().add(index, bEvent);
-		}
+//		/* Refresh references */
+//		int index = process.getFlowElement().indexOf(event.getNode());
+//		if(index != -1) {
+//			process.getFlowElement().remove(index);
+//			process.getFlowElement().add(index, bEvent);
+//		}
 		event.setNode(bEvent);
 		((EventShape) event.getShape()).setEventRef(bEvent);
 		((Activity)activity.getNode()).getBoundaryEventRefs().add(bEvent);
