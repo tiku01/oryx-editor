@@ -29,6 +29,7 @@ import java.util.Arrays;
 
 import org.oryxeditor.server.diagram.Shape;
 
+import de.hpi.bpmn2_0.annotations.Property;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.BaseElement;
@@ -105,6 +106,22 @@ public abstract class AbstractBpmnFactory {
 		}
 
 		throw new BpmnConverterException("Creator method for shape with id "
-				+ shape.getStencilId() + "not found");
+				+ shape.getStencilId() + " not found");
+	}
+	
+	protected BaseElement invokeCreatorMethodAfterProperty(Shape shape) 
+			throws BpmnConverterException, IllegalArgumentException, 
+			IllegalAccessException, InvocationTargetException {
+		
+		for(Method method : Arrays.asList(this.getClass().getDeclaredMethods())) {
+			Property property = method.getAnnotation(Property.class);
+					
+			if(property != null && shape.getProperty(property.name()).equals(property.value())) {
+				return (BaseElement) method.invoke(this, shape);
+			}
+		}
+		
+		throw new BpmnConverterException("Creator method for shape with id "
+				+ shape.getStencilId() + " not found");
 	}
 }

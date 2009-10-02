@@ -9,6 +9,7 @@ import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.RootElement;
 import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.activity.ReceiveTask;
 import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
 import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
@@ -17,10 +18,15 @@ import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.DataInput;
 import de.hpi.bpmn2_0.model.data_object.DataOutput;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
+import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
+import de.hpi.bpmn2_0.model.event.ConditionalEventDefinition;
 import de.hpi.bpmn2_0.model.event.EndEvent;
 import de.hpi.bpmn2_0.model.event.Event;
 import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
+import de.hpi.bpmn2_0.model.event.MessageEventDefinition;
+import de.hpi.bpmn2_0.model.event.SignalEventDefinition;
 import de.hpi.bpmn2_0.model.event.StartEvent;
+import de.hpi.bpmn2_0.model.event.TimerEventDefinition;
 import de.hpi.bpmn2_0.model.gateway.EventBasedGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.diagram.verification.AbstractSyntaxChecker;
@@ -64,9 +70,11 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	protected static final String EVENTBASEDGATEWAY_BADCONTINUATION = "BPMN_EVENTBASEDGATEWAY_BADCONTINUATION";
 	protected static final String NODE_NOT_ALLOWED = "BPMN_NODE_NOT_ALLOWED";
 	
-	protected static final String DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION";
-	protected static final String DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION";
-	protected static final String EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS";
+	protected static final String DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION";
+	protected static final String DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION";
+	protected static final String EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS";
+	protected static final String EVENT_BASED_EVENT_TARGET_CONTRADICTION = "BPMN2_EVENT_BASED_EVENT_TARGET_CONTRADICTION";
+	protected static final String EVENT_BASED_WRONG_TRIGGER = "BPMN2_EVENT_BASED_WRONG_TRIGGER";
 
 	private Definitions defs;
 		
@@ -107,34 +115,30 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 			}
 			else if(edge instanceof MessageFlow) {
 				//TODO: Add requirement for Messageflows between diferrent Pools
-				System.out.println("Message Flows currently not Supported");
-			
-			/*
-			 * In case this is not really checking the edge but the node.
-			 * We do it here because its much easier than checking the node itself 
-			 * for incoming or outgoing edges.
-			 */
-			} else if(edge instanceof DataOutputAssociation || edge instanceof DataInputAssociation)  {
-				if(edge.getTargetRef() instanceof DataInput)
-					this.addError(edge.getTargetRef(), DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION);
-				else if(edge.getSourceRef() instanceof DataOutput)
-					this.addError(edge.getSourceRef(), DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION);
+				System.out.println("Message Flows currently not Supported");			
 			}
-			// TODO: EventSubProcesses can be checked the same way
-			// 		 (They must not have any incoming or outgoing sequence flow)
-			
 		}
 	}
 	
 	private void checkNodes() {		
-		for(RootElement rootElement : this.defs.getRootElement()) 			
-			if(rootElement instanceof Process) 		
-				for(FlowElement flowElement : ((Process) rootElement).getFlowElement()) 				
-					if(!this.isEdge(flowElement))
-						this.checkNode(flowElement);		
+	
+		for(RootElement rootElement : this.defs.getRootElement()) {
+			
+			if(rootElement instanceof Process) {
+				
+				for(FlowElement flowElement : ((Process) rootElement).getFlowElement()) {			
+					
+					if(!(flowElement instanceof Edge)) {
+					
+						this.checkNode(flowElement);	
+					}
+				}
+			}
+		}
 	}
 	
 	private void checkNode(FlowElement node) {
+		
 		
 //		this.checkForAllowedAndForbiddenNodes(node);
 		
@@ -162,23 +166,58 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 		if(node instanceof EventBasedGateway)
 			this.checkEventBasedGateway((EventBasedGateway) node);
 		
-		/*
-		 * Looking for DataInputs and DataOutputs?
-		 * Go to checkEdges :)
-		 */
+		//Data Objects
+		if(node instanceof DataInput)
+			for(Edge edge : ((DataInput) node).getIncoming()) 
+				if(edge instanceof DataInputAssociation || edge instanceof DataOutputAssociation)
+					this.addError(node, DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION);
+		
+		if(node instanceof DataOutput)
+			for(Edge edge : ((DataOutput) node).getOutgoing())
+				if(edge instanceof DataInputAssociation || edge instanceof DataOutputAssociation)
+					this.addError(node, DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION);
+		
+		// TODO: EventSubProcesses can be checked the same way
+		// 		 (They must not have any incoming or outgoing sequence flow)
 		
 	}
 	
 	private void checkEventBasedGateway(EventBasedGateway node) {
 		List<SequenceFlow> outEdges = node.getOutgoingSequenceFlows();
 		
+		boolean receiveTaskFlag = false;
+		boolean messageEventFlag = false;
+		
 		for(SequenceFlow edge : outEdges) {
-			// TODO: Add Support for Receive Task
-			if(!(edge.getTargetRef() instanceof IntermediateCatchEvent))
+			
+			if(!(edge.getTargetRef() instanceof IntermediateCatchEvent || edge.getTargetRef() instanceof ReceiveTask)) {
+				
 				this.addError(node, EVENTBASEDGATEWAY_BADCONTINUATION);
-			else if(((IntermediateCatchEvent) edge.getTargetRef()).getIncomingSequenceFlows().size() > 1)
-				this.addError(edge.getTargetRef(), EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS);
+			
+			} else if(edge.getTargetRef() instanceof IntermediateCatchEvent) {				
+				
+				if(((IntermediateCatchEvent) edge.getTargetRef()).getEventDefinitionOfType(MessageEventDefinition.class) != null)
+					messageEventFlag = true;
+				
+				/* Check for correct Events triggers */
+				if(!checkTrigger((IntermediateCatchEvent) edge.getTargetRef()))
+					this.addError(edge.getTargetRef(), EVENT_BASED_WRONG_TRIGGER);
+				
+				if(((IntermediateCatchEvent) edge.getTargetRef()).getIncomingSequenceFlows().size() > 1)
+					this.addError(edge.getTargetRef(), EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS);
+				
+			} else if(edge.getTargetRef() instanceof ReceiveTask) {
+				
+				receiveTaskFlag = true;
+				
+				if(((ReceiveTask) edge.getTargetRef()).getIncomingSequenceFlows().size() > 1)
+					this.addError(edge.getTargetRef(), EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS);
+				
+			}
 		}
+		
+		if(receiveTaskFlag && messageEventFlag)
+			this.addError(node, EVENT_BASED_EVENT_TARGET_CONTRADICTION);
 	}
 
 	// TODO: Check if this Method and the invoked one are really necessary
@@ -213,13 +252,26 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 //		return containedInClasses == allowed;
 //	}
 	
+	private boolean checkTrigger(IntermediateCatchEvent event) {
+		// TODO: Add support multiple
+		if(event.getEventDefinitionOfType(MessageEventDefinition.class) != null
+				|| event.getEventDefinitionOfType(TimerEventDefinition.class) != null
+				|| event.getEventDefinitionOfType(SignalEventDefinition.class) != null
+				|| event.getEventDefinitionOfType(ConditionalEventDefinition.class) != null) {
+			return true;
+		}
+		
+		return false;
+	}
+
 	private void checkBoundaryEvent(BoundaryEvent node) {
 		
 		if(this.hasIncomingControlFlow(node))
 			this.addError(node, ATTACHEDINTERMEDIATEEVENT_WITH_INCOMING_CONTROL_FLOW);
 		
 		// TODO: Add Support for CompensationEvents
-		if(node.getOutgoingSequenceFlows().size() != 1/* && !node.getEventDefinitionRef() instanceof CompensationEventDefinition*/)
+		
+		if(node.getOutgoingSequenceFlows().size() != 1 && node.getEventDefinitionOfType(CompensateEventDefinition.class) == null)
 			this.addError(node, ATTACHEDINTERMEDIATEEVENT_WITHOUT_OUTGOING_CONTROL_FLOW);
 	}
 
@@ -231,12 +283,12 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 		return node.getOutgoingSequenceFlows().size() > 0;
 	}
 	
-	private boolean isEdge(FlowElement node) {
-		if(node instanceof SequenceFlow || node instanceof MessageFlow)
-			return true;
-		
-		return false;
-	}
+//	private boolean isEdge(FlowElement node) {
+//		if(node instanceof SequenceFlow || node instanceof MessageFlow)
+//			return true;
+//		
+//		return false;
+//	}
 	
 	protected void addError(FlowElement elem, String errorText) {
 		this.errors.put(elem.getId(), errorText);

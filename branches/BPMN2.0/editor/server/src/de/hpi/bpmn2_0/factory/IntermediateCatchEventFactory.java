@@ -23,8 +23,6 @@
 
 package de.hpi.bpmn2_0.factory;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
@@ -36,6 +34,8 @@ import de.hpi.bpmn2_0.model.diagram.EventShape;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
+import de.hpi.bpmn2_0.model.event.MessageEventDefinition;
+import de.hpi.bpmn2_0.model.event.TimerEventDefinition;
 
 /**
  * Factory to create intermediate catching Events
@@ -105,12 +105,48 @@ public class IntermediateCatchEventFactory extends AbstractBpmnFactory {
 		
 	}
 	
-//	@StencilId("IntermediateCompensationEventCatching")
-//	protected IntermediateCatchEvent createCompensateEvent(Shape shape) {
-//		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
-//		CompensateEventDefinition compEvDef = new CompensateEventDefinition();
-//		compEvDef.setActivityRef(value)
-//	}
+	@StencilId("IntermediateCompensationEventCatching")
+	protected IntermediateCatchEvent createCompensateEvent(Shape shape) {
+		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
+		
+		icEvent.setId(shape.getResourceId());
+		icEvent.setName(shape.getProperty("name"));
+		
+		CompensateEventDefinition compEvDef = new CompensateEventDefinition();
+//		compEvDef.setActivityRef(shape.get)
+		
+		icEvent.getEventDefinition().add(compEvDef);
+		
+		return icEvent;
+	}
+	
+	@StencilId("IntermediateTimerEvent")
+	protected IntermediateCatchEvent createTimerEvent(Shape shape) {
+		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
+		
+		icEvent.setId(shape.getResourceId());
+		icEvent.setName(shape.getProperty("name"));
+		
+		TimerEventDefinition timerEvDef = new TimerEventDefinition();
+		
+		icEvent.getEventDefinition().add(timerEvDef);
+		
+		return icEvent;
+	}
+	
+	@StencilId("IntermediateMessageEventCatching")
+	protected IntermediateCatchEvent createMessageEvent(Shape shape) {
+		IntermediateCatchEvent icEvent = new IntermediateCatchEvent();
+		
+		icEvent.setId(shape.getResourceId());
+		icEvent.setName(shape.getProperty("name"));
+		
+		MessageEventDefinition messageEvDef = new MessageEventDefinition();
+		
+		icEvent.getEventDefinition().add(messageEvDef);
+		
+		return icEvent;
+	}
 	
 	public static void changeToBoundaryEvent(BPMNElement activity, BPMNElement event, Process process) {
 		if(!(activity.getNode() instanceof Activity) || !(event.getNode() instanceof IntermediateCatchEvent)) {

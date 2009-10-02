@@ -279,7 +279,7 @@ public class Process
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TManualTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallChoreographyActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TTransaction }{@code >}
      * {@link JAXBElement }{@code <}{@link EndEvent }{@code >}
@@ -290,23 +290,23 @@ public class Process
      * {@link JAXBElement }{@code <}{@link BoundaryEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link ExclusiveGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TBusinessRuleTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TScriptTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link BusinessRuleTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ScriptTask }{@code >}
      * {@link JAXBElement }{@code <}{@link InclusiveGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
      * {@link JAXBElement }{@code <}{@link Event }{@code >}
-     * {@link JAXBElement }{@code <}{@link TServiceTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ServiceTask }{@code >}
      * {@link JAXBElement }{@code <}{@link ChoreographyTask }{@code >}
      * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
      * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link IntermediateThrowEvent }{@code >}
-     * {@link JAXBElement }{@code <}{@link TUserTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link UserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
      * {@link JAXBElement }{@code <}{@link EventBasedGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
-     * {@link JAXBElement }{@code <}{@link TSendTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link SendTask }{@code >}
      * {@link JAXBElement }{@code <}{@link ChoreographySubProcess }{@code >}
-     * {@link JAXBElement }{@code <}{@link TReceiveTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ReceiveTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link Task }{@code >}

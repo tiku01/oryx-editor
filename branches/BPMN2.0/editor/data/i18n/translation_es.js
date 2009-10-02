@@ -441,3 +441,10 @@ Ext.MessageBox.buttonText.ok = "Ok";
 //if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
 //ORYX.I18N.PropertyWindow.oftenUsed = "Often used";
 //ORYX.I18N.PropertyWindow.moreProps = "More Properties";
+
+/** New Language Properties 01.10.2009 */
+//if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
+//
+//ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "A Data Input must not have any incoming Data Associations.";
+//ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "A Data Output must not have any outgoing Data Associations.";
+//ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Targets of Eventbased Gateways may only have one incoming Sequence Flow.";

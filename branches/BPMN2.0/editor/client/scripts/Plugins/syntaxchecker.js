@@ -226,6 +226,7 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
     			msg = msg.replace(singleCode, replacement);
     		}
     	}
+		
 		return msg;
 	},
 	

@@ -37,9 +37,6 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.jaxb_generated.CalledSubprocessShapeType;
-import de.hpi.bpmn2_0.jaxb_generated.GroupShape;
-import de.hpi.bpmn2_0.jaxb_generated.LaneCompartmentType1;
 import de.hpi.bpmn2_0.model.participant.Lane;
 
 
