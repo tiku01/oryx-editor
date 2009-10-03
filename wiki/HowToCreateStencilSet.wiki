@@ -94,7 +94,9 @@ The description of the head node is added just by insertion of a new node elemen
 }
 }}}
 
-Finally you have to edit the editor.xhtml. There it is necessary to tell oryx to use the Let’s Dance stencil set.
+It is recommended to create a static XHTML site in `/editor/test/examples` that loads the Oryx Editor with your desired stencil set, to test it. In `/editor/test/examples` you can many other example files for various stencil sets. 
+
+In the case of Let's Dance it is the `editor_letsdance.xhtml`. All of the example files have the same structure. To customize one for your own stencil set, only two adjustments are necessary: 
 
 First add a reference to the folder, which contains your JSON File, icons and view elements . For example:
 
@@ -104,7 +106,31 @@ First add a reference to the folder, which contains your JSON File, icons and vi
 
 You also have to add the id of the root diagram (canvas) at the end: _foldername#canavasID_.
 
-When open the editor.xhtml in Firefox, you should see a blank diagram background.
+Second insert a JavaScript tag to the body of the page, to specify which stencil set and stencil set extensions are supposed to load.
+
+{{{
+<body style="display: block; overflow: hidden;">
+  <script type='text/javascript'>
+    function onOryxResourcesLoaded(){
+      new ORYX.Editor({
+        id: 'oryx-canvas123',
+        stencilset: {
+          url: ORYX.CONFIG.ROOT_PATH + 'stencilsets/letsdance/letsdance.json'
+        },
+        ssextensions:[]
+      });
+    }
+  </script>  
+</body>
+}}}
+
+When deploying the Oryx editor during the development, the build target _build-with-xhtml-test-files-flag_ could be useful to have the test XHTML files available in the web archive.
+
+So to deploy the Oryx editor you may be want run the targets _undeploy-editor, clean-editor, build-with-xhtml-test-files-flag, build-with-script-files-flag, build-editor, deploy-editor_
+
+After a successful deployment, the example Let's Dance stencil set is available under `http://`_host_`:`_port_`/oryx/editor_letsdance.xhtml`
+
+When opening it in Firefox, you should see a blank diagram background.
 
 http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/001_firstdiagram.PNG
 
