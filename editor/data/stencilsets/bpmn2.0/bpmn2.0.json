@@ -2162,9 +2162,10 @@
 					"items":[
 						{
 							"id":"c1",
-							"title":"Default",
-							"title_de" : "Standard",
-							"value":"default",
+							"title":"Exclsuive",
+							"title_de" : "Exklusiv",
+							"value":"exclusive",
+							"icon" : "gateway/list/eventbased.exclusive.png",
 							"refToView":"default"
 						},
 						{
@@ -2172,6 +2173,7 @@
 							"title":"Parallel",
 							"title_de" : "Parallel",
 							"value":"instantiate_parallel",
+							"icon" : "gateway/list/eventbased.parallel.png",
 							"refToView":"parallel"
 						}
 					]

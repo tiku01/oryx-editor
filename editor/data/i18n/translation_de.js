@@ -661,3 +661,18 @@ if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
 ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "Ein Dateneingang darf keine ausgehenden Datenassoziationen haben.";
 ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "Ein Datenausgang darf keine eingehenden Datenassoziationen haben.";
 ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Ziele von Ereignisbasierten Gateways dürfen nicht mehr als einen eingehenden Sequenzfluss haben.";
+
+/** New Language Properties 02.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WITH_TOO_LESS_OUTGOING_SEQUENCE_FLOWS = "Ein Ereignis-basiertes Gateway muss 2 oder mehr ausgehende Steuerflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_EVENT_TARGET_CONTRADICTION = "Wenn Zwischen-Nachrichten-Ereignisse in der Konfiguration benutzt werden, dann dürfen Receive Tasks das nicht und vice versa.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_TRIGGER = "Nur die folgenden Zwischen-Ereignis-Auslöser sind zulässig: Nachticht, Signal, Stoppuhr, Bedingung und Vielzahl.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_CONDITION_EXPRESSION = "Die ausgehende Steuerflüsse eines Ereignis-Gateways dürfen keinen Bedinungsausdruck besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_NOT_INSTANTIATING = "Das Gateway erfüllt nicht die Voraussetzungen, um den Prozess zu instantiieren.";
+
+/** New Language Properties 05.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_MIXED_FAILURE = "Das Gateway muss mehrfache eingehende und ausgehende Steuerflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_CONVERGING_FAILURE = "Das Gateway muss mehrfachen eingehenden aber darf keine mehrfache ausgehende Steuerflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_DIVERGING_FAILURE = "Das Gateway darf keine mehrfachen eingehenden aber muss mehrfache ausgehende Steuerflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "Ein Gateway muss mindestens einen ausgehenden Steuerlfuss besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT = "Empfänger-Tasks, die in Eregnis-Gateway-Konfigurationen benutzt werden, dürfen keine angehängten Zwischen-Ereignisse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "Ein Ereignis Sub-Prozess darf keinen eingehenden oder ausgehenden Steuerfluss besitzen.";

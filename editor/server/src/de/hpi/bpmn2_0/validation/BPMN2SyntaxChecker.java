@@ -10,6 +10,7 @@ import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.RootElement;
 import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.activity.ReceiveTask;
+import de.hpi.bpmn2_0.model.activity.SubProcess;
 import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
 import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
@@ -80,11 +81,15 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	protected static final String EVENT_BASED_WRONG_TRIGGER = "BPMN2_EVENT_BASED_WRONG_TRIGGER";
 	protected static final String EVENT_BASED_WRONG_CONDITION_EXPRESSION = "BPMN2_EVENT_BASED_WRONG_CONDITION_EXPRESSION";
 	protected static final String EVENT_BASED_NOT_INSTANTIATING = "BPMN2_EVENT_BASED_NOT_INSTANTIATING";
+	protected static final String RECEIVE_TASK_WITH_ATTACHED_EVENT = "BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT";
 	
 	protected static final String GATEWAYDIRECTION_MIXED_FAILURE = "BPMN2_GATEWAYDIRECTION_MIXED_FAILURE";
 	protected static final String GATEWAYDIRECTION_CONVERGING_FAILURE = "BPMN2_GATEWAYDIRECTION_CONVERGING_FAILURE";
 	protected static final String GATEWAYDIRECTION_DIVERGING_FAILURE = "BPMN2_GATEWAYDIRECTION_DIVERGING_FAILURE";
-
+	protected static final String GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW";
+	
+	protected static final String EVENT_SUBPROCESS_BAD_CONNECTION = "BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION";
+	
 	private Definitions defs;
 		
 //	public HashSet<String> allowedNodes;
@@ -186,11 +191,27 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 				if(edge instanceof DataInputAssociation || edge instanceof DataOutputAssociation)
 					this.addError(node, DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION);
 		
-		// TODO: EventSubProcesses can be checked the same way
-		// 		 (They must not have any incoming or outgoing sequence flow)
+		// Subprocesses
+		if(node instanceof SubProcess) 
+			checkSubProcess((SubProcess) node);
 		
 	}
 	
+	private void checkSubProcess(SubProcess node) {
+		
+		/*
+		 * this node is an event subprocess
+		 */
+		if(node.isTriggeredByEvent())
+			if(node.getIncomingSequenceFlows().size() > 0
+					|| node.getOutgoingSequenceFlows().size() > 0) {
+				
+				// SPEC: P. 188
+				this.addError(node, EVENT_SUBPROCESS_BAD_CONNECTION);
+				
+			}
+	}
+
 	private void checkGateway(Gateway node) {
 		/* 
 		 * Eventbased Gateways can instantiate processes, thus 
@@ -206,7 +227,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 
 	private void checkCommomGateway(Gateway node) {
 		GatewayDirection direction = node.getGatewayDirection();
-		
+				
 		/*
 		 * must have both multiple incoming and 
 		 * outgoing sequence flows
@@ -242,8 +263,15 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 				
 				this.addError(node, GATEWAYDIRECTION_DIVERGING_FAILURE);
 			}
+		
+		/*
+		 * gateways must have a minimum of one outgoing sequence flow
+		 */
+		} else if(node.getOutgoingSequenceFlows().size() == 0) {
 			
-		}		
+			this.addError(node, GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW);
+			
+		}
 	}
 
 	private void checkEventBasedGateway(EventBasedGateway node) {
@@ -268,6 +296,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 			 */
 			if(edge.getConditionExpression() != null)
 				// SPEC: P. 308
+				// TODO: Look out for the correct implementation
 				this.addError(edge, EVENT_BASED_WRONG_CONDITION_EXPRESSION);
 			
 			if(!(edge.getTargetRef() instanceof IntermediateCatchEvent || edge.getTargetRef() instanceof ReceiveTask)) {
@@ -296,6 +325,9 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 					// SPEC: P. 308
 					this.addError(edge.getTargetRef(), EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS);
 				
+				if(((ReceiveTask) edge.getTargetRef()).getBoundaryEventRefs().size() != 0)
+					// SPEC: P. 308
+					this.addError(edge.getTargetRef(), RECEIVE_TASK_WITH_ATTACHED_EVENT);
 			}
 		}
 		
@@ -339,7 +371,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	private boolean checkInstatiateCondition(Gateway node) {
 		boolean hasStartEvent = false;
 		
-		for(FlowElement flowElement : node.getProcess().getFlowElement()) {
+		for(FlowElement flowElement : node.getProcessRef().getFlowElement()) {
 			if(flowElement instanceof StartEvent)
 				hasStartEvent = true;
 		}
