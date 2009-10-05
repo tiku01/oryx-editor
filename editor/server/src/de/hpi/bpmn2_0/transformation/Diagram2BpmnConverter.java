@@ -45,7 +45,6 @@ import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
-import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
 import de.hpi.bpmn2_0.model.connector.Association;
 import de.hpi.bpmn2_0.model.connector.DataAssociation;
@@ -54,11 +53,8 @@ import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
-import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
-import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
-import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.MessageFlowConnector;
@@ -73,7 +69,6 @@ import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.bpmn2_0.model.participant.Lane;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
-import de.hpi.bpt.process.epc.util.EPMLParser;
 import de.hpi.diagram.OryxUUID;
 import de.hpi.util.reflection.ClassFinder;
 
@@ -430,20 +425,21 @@ public class Diagram2BpmnConverter {
 		// if (node instanceof SubProcess)
 		// handleSubProcess((SubProcess)node);
 		// }
-		
+
 		/* Handle pools, current solution: only one process per pool */
-		for(BPMNElement element : this.diagramChilds) {
-			if(element.getNode() instanceof LaneSet) {
+		for (BPMNElement element : this.diagramChilds) {
+			if (element.getNode() instanceof LaneSet) {
 				Process process = new Process();
 				process.setId(OryxUUID.generate());
 				process.getLaneSet().add((LaneSet) element.getNode());
 				((LaneSet) element.getNode()).setProcess(process);
-				
-				process.getFlowElement().addAll(((LaneSet)element.getNode()).getChildFlowElements());
-				
+
+				process.getFlowElement().addAll(
+						((LaneSet) element.getNode()).getChildFlowElements());
+
 				this.processes.add(process);
 			}
-			
+
 		}
 
 		/* Identify components within allNodes */
@@ -619,37 +615,55 @@ public class Diagram2BpmnConverter {
 			processDia.setProcessRef(process);
 			processDia.setName(process.getName());
 			processDia.setId(process.getId() + "_gui");
-			
+
+			/* Insert lane compartments */
+			for (LaneSet laneSet : process.getLaneSet()) {
+				PoolCompartment poolComp = (PoolCompartment) this.bpmnElements
+						.get(laneSet.getId()).getShape();
+				for(LaneCompartment laneComp : poolComp.getLane()) {
+					processDia.getLaneCompartment().add(laneComp);
+				}
+			}
+
 			/* Insert default lane set with one lane */
-			if(process.getLaneSet().size() == 0) {
-				
+			if (process.getLaneSet().size() == 0) {
+
 				LaneSet defaultLaneSet = new LaneSet();
 				defaultLaneSet.setProcess(process);
 				defaultLaneSet.setId(OryxUUID.generate());
-				
+
 				Lane defaultLane = new Lane();
 				defaultLaneSet.getLanes().add(defaultLane);
 				defaultLane.setId(OryxUUID.generate());
 				defaultLane.setName("DefaultLane");
 				defaultLane.setLaneSet(defaultLaneSet);
+
+				LaneCompartment defaultLaneComp = new LaneCompartment();
+				defaultLaneComp.setId(defaultLane.getId() + "_gui");
+				defaultLaneComp.setIsVisible(false);
+				defaultLaneComp.setName(defaultLane.getName());
 				
-				for(FlowElement node : process.getFlowElement()) {
-					if(node instanceof FlowNode) {
+				processDia.getLaneCompartment().add(defaultLaneComp);
+
+				for (FlowElement node : process.getFlowElement()) {
+					if (node instanceof FlowNode) {
 						defaultLane.getFlowElementRef().add(node);
+						defaultLaneComp.getBpmnShape().add(
+								(BpmnNode) this.bpmnElements.get(node.getId())
+										.getShape());
 					}
 				}
-				
+
 				process.getLaneSet().add(defaultLaneSet);
 			}
 
+			/* Insert Sequence Flow */
 			for (FlowElement flowEle : process.getFlowElement()) {
 				if (flowEle instanceof SequenceFlow) {
 					processDia.getSequenceFlowConnector().add(
 							(SequenceFlowConnector) this.bpmnElements.get(
 									flowEle.getId()).getShape());
 				}
-//				processDia.get
-				
 			}
 
 			/* Insert process into document */
@@ -800,16 +814,15 @@ public class Diagram2BpmnConverter {
 
 		/* choreo end */
 
-		// TODO: for multiple processes this.detectBoundaryEvents(process);
 		this.detectBoundaryEvents();
 		this.detectConnectors();
 		this.setInitiatingParticipant();
 		this.updateDataAssociationsRefs();
-		// this.setDefaultSequenceFlowOfExclusiveGateway();
+		this.setDefaultSequenceFlowOfExclusiveGateway();
+		this.setCompensationEventActivityRef();
 
 		this.identifyProcesses();
 		this.insertProcessesIntoDefinitions();
-		// this.setCompensationEventActivityRef();
 
 		this.insertCollaborationElements();
 
@@ -828,7 +841,7 @@ public class Diagram2BpmnConverter {
 	/**
 	 * @return the collaborationDiagram
 	 */
-	public CollaborationDiagram getCollaborationDiagram() {
+	private CollaborationDiagram getCollaborationDiagram() {
 		if (this.collaborationDiagram == null) {
 			this.collaborationDiagram = new CollaborationDiagram();
 			this.collaborationDiagram.setId(this.getCollaboration().getId()
@@ -842,7 +855,7 @@ public class Diagram2BpmnConverter {
 	/**
 	 * @return the collaboration
 	 */
-	public Collaboration getCollaboration() {
+	private Collaboration getCollaboration() {
 		if (this.collaboration == null) {
 			this.collaboration = new Collaboration();
 			this.collaboration.setId(OryxUUID.generate());

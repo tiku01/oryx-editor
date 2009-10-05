@@ -116,7 +116,7 @@ public class Lane
 	@XmlElement(type = FlowNode.class)
     protected List<FlowElement> flowElementRef;
     
-	@XmlElementRef(type = LaneSet.class)
+	@XmlElement(type = LaneSet.class)
 	protected LaneSet childLaneSet;
 	
 	@XmlIDREF

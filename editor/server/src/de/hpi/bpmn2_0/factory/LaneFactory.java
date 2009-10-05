@@ -33,6 +33,7 @@ import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.PoolCompartment;
 import de.hpi.bpmn2_0.model.participant.Lane;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
+import de.hpi.bpmn2_0.model.participant.Participant;
 
 /**
  * Factory to create lanes and pools
@@ -58,8 +59,14 @@ public class LaneFactory extends AbstractBpmnFactory {
 
 		/* Set references */
 		if (poolLaneShape instanceof PoolCompartment) {
-			LaneSet poolLaneSet = (LaneSet) this.createProcessElement(shape);
-			return new BPMNElement(poolLaneShape, poolLaneSet, shape.getResourceId());
+			BaseElement poolElement = this.createProcessElement(shape);
+
+			if (poolElement instanceof Participant)
+				((PoolCompartment) poolLaneShape)
+						.setParticipantRef((Participant) poolElement);
+
+			return new BPMNElement(poolLaneShape, poolElement, shape
+					.getResourceId());
 		}
 
 		if (poolLaneShape instanceof LaneCompartment) {
@@ -105,6 +112,14 @@ public class LaneFactory extends AbstractBpmnFactory {
 	@Override
 	protected BaseElement createProcessElement(Shape shape)
 			throws BpmnConverterException {
+
+		if (shape.getStencilId().equals("CollapsedPool")) {
+			Participant participant = new Participant();
+			participant.setName(shape.getProperty("name"));
+			participant.setId(shape.getResourceId());
+			return participant;
+		}
+
 		if (shape.getStencilId().equals("Pool")) {
 			LaneSet poolLaneSet = new LaneSet();
 			poolLaneSet.setId(shape.getResourceId());
