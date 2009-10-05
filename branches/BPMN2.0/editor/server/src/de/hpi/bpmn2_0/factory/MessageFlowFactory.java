@@ -60,7 +60,7 @@ public class MessageFlowFactory extends AbstractEdgesFactory {
 	protected MessageFlowConnector createDiagramElement(Shape shape) {
 		MessageFlowConnector msgFlowShape = new MessageFlowConnector();
 		this.setBendpoints(msgFlowShape, shape);
-		msgFlowShape.setId(shape.getResourceId());
+		msgFlowShape.setId(shape.getResourceId() + "_gui");
 		msgFlowShape.setLabel(shape.getProperty("name"));
 		 
 		return msgFlowShape;

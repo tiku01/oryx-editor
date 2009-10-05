@@ -55,7 +55,7 @@ public class TaskFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createDiagramElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected Object createDiagramElement(Shape shape) {
+	protected ActivityShape createDiagramElement(Shape shape) {
 		ActivityShape actShape = new ActivityShape();
 		this.setVisualAttributes(actShape, shape);
 		
@@ -66,7 +66,7 @@ public class TaskFactory extends AbstractBpmnFactory {
 	 * @see de.hpi.bpmn2_0.factory.AbstractBpmnFactory#createProcessElement(org.oryxeditor.server.diagram.Shape)
 	 */
 	@Override
-	protected BaseElement createProcessElement(Shape shape) throws BpmnConverterException {
+	protected Task createProcessElement(Shape shape) throws BpmnConverterException {
 		try {
 			Task task = (Task) this.invokeCreatorMethodAfterProperty(shape);
 			return task;
@@ -79,10 +79,10 @@ public class TaskFactory extends AbstractBpmnFactory {
 
 	@Override
 	public BPMNElement createBpmnElement(Shape shape, BPMNElement parent) throws BpmnConverterException {
-		BaseElement task = this.createProcessElement(shape);
-		ActivityShape activity = (ActivityShape) this.createDiagramElement(shape);
+		Task task = this.createProcessElement(shape);
+		ActivityShape activity = this.createDiagramElement(shape);
 		
-		activity.setActivityRef((Activity) task);
+		activity.setActivityRef(task);
 		
 		return new BPMNElement(activity, task, shape.getResourceId());
 	}

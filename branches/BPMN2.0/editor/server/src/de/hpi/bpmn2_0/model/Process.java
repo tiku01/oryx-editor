@@ -39,7 +39,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
+import de.hpi.bpmn2_0.model.activity.ManualTask;
+import de.hpi.bpmn2_0.model.activity.ReceiveTask;
+import de.hpi.bpmn2_0.model.activity.ScriptTask;
+import de.hpi.bpmn2_0.model.activity.SendTask;
+import de.hpi.bpmn2_0.model.activity.ServiceTask;
 import de.hpi.bpmn2_0.model.activity.Task;
+import de.hpi.bpmn2_0.model.activity.UserTask;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.DataObject;
@@ -108,6 +114,12 @@ public class Process
 		
 		/* Activities */
 		@XmlElementRef(type = Task.class),
+		@XmlElementRef(type = ReceiveTask.class),
+		@XmlElementRef(type = ManualTask.class),
+		@XmlElementRef(type = ScriptTask.class),
+		@XmlElementRef(type = SendTask.class),
+		@XmlElementRef(type = ServiceTask.class),
+		@XmlElementRef(type = UserTask.class),
 		
 		/* Gateways */
 		@XmlElementRef(type = ExclusiveGateway.class),
