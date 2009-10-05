@@ -38,7 +38,10 @@ import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.DiagramBuilder;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
 import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.transformation.BPMNPrefixMapper;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 
 /**
@@ -99,6 +102,10 @@ public class Bpmn2_0Servlet extends HttpServlet {
 		JAXBContext context = JAXBContext.newInstance(Definitions.class);
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		
+		NamespacePrefixMapper nsp = new BPMNPrefixMapper();
+		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", nsp);
+		
 		marshaller.marshal(bpmnDefinitions, writer);
 		
 	}
