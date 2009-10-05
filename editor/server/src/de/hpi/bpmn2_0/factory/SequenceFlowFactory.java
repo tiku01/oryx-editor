@@ -66,23 +66,13 @@ public class SequenceFlowFactory extends AbstractEdgesFactory {
 	@Override
 	protected Object createDiagramElement(Shape shape) {
 		SequenceFlowConnector sequenceFlowConnector = new SequenceFlowConnector();
-		sequenceFlowConnector.setId(shape.getResourceId());
+		sequenceFlowConnector.setId(shape.getResourceId() + "_gui");
 
 		// TODO: Gedanken machen zu Label-Positioning
 		sequenceFlowConnector.setLabel(shape.getProperty("name"));
 
 		this.setBendpoints(sequenceFlowConnector, shape);
 		
-//		for (int i = 1; i < shape.getDockers().size() - 2; i++) {
-//			Point point = shape.getDockers().get(i);
-//
-//			Bendpoint bp = new Bendpoint();
-//			bp.setX(point.getX());
-//			bp.setY(point.getY());
-//
-//			sequenceFlowConnector.getBendpoint().add(bp);
-//		}
-
 		return sequenceFlowConnector;
 	}
 

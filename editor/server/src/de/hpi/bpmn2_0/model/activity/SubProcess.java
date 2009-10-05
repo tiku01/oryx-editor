@@ -73,10 +73,12 @@ public class SubProcess
     extends Activity
 {
 
-    @XmlElementRef(name = "flowElement", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
+    @XmlElementRef(type = FlowElement.class)
     protected List<FlowElement> flowElement;
-    @XmlElementRef(name = "artifact", namespace = "http://www.omg.org/bpmn20", type = JAXBElement.class)
+    
+    @XmlElementRef(type = Artifact.class)
     protected List<Artifact> artifact;
+    
     @XmlAttribute
     protected Boolean triggeredByEvent;
 

@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "task", namespace = "http://www.omg.org/bpmn20")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tTask")
 @XmlSeeAlso({
