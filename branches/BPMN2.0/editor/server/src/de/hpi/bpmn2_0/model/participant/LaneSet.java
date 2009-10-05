@@ -37,6 +37,7 @@ import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.Process;
+import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 
 
 /**
@@ -87,6 +88,15 @@ public class LaneSet
 		}
 	}
 	
+//	/**
+//	 * Creates the lane compartment including all sub lane compartment for this
+//	 * lane set.
+//	 */
+//	public LaneCompartment createLaneCompartment() {
+//		LaneCompartment laneComp = new LaneCompartment();
+//		laneComp.setId(Lane)
+//	}
+//	
 	/**
 	 * 
 	 * @return All {@link FlowElement} that are contained in the {@link LaneSet}
@@ -112,12 +122,13 @@ public class LaneSet
 		if(lanes == null)
 			return laneList;
 		for(Lane lane : lanes) {
-			if(lane.getChildLaneSet() == null) 
-				continue;
-			if(lane.getChildLaneSet().getLanes() != null && lane.getChildLaneSet().getLanes().size() > 0) {
+			if(lane.childLaneSet == null) 
+				/* Deepest lane in lane tree */
+				laneList.add(lane);
+			else if(lane.getChildLaneSet().lanes != null && lane.getChildLaneSet().getLanes().size() > 0) {
 				laneList.addAll(this.getDeepestLanes(lane.getChildLaneSet().getLanes()));
 			} else {
-				laneList.add(lane);
+//				laneList.add(lane);
 			}
 		}
 		return laneList;
