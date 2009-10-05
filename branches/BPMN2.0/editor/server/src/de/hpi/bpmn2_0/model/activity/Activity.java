@@ -82,7 +82,7 @@ import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 //    "loopCharacteristics"
 })
 @XmlSeeAlso({
-//    SubProcess.class,
+    SubProcess.class,
 //    TTransaction.class,
     Task.class//,
 //    TCallActivity.class

@@ -102,7 +102,7 @@ public class SequenceFlowFactory extends AbstractEdgesFactory {
 //		if (conditionType == null || !conditionType.equals("Default")) {
 //			seqFlow.setConditionExpression(new Expression());
 //		}
-		
+				
 		if(conditionType.equals("Default")) {
 			seqFlow.setDefaultSequenceFlow(true);
 		}

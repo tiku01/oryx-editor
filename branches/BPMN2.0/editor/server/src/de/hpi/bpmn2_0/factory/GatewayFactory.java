@@ -130,6 +130,13 @@ public class GatewayFactory extends AbstractBpmnFactory {
 		gateway.setId(shape.getResourceId());
 		gateway.setName(shape.getProperty("name"));
 		
+		String instantiate = shape.getProperty("instantiate");
+		
+		if(instantiate != null && instantiate.equals("true"))
+			gateway.setInstantiate(true);
+		else
+			gateway.setInstantiate(false);
+		
 		return gateway;
 	}
 	
