@@ -4467,8 +4467,9 @@
 					"title_de":"Zeige-Diamanten",
 					"value":false,
 					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
-					"readonly":false,
+					"readonly":true,
 					"optional":false,
+					"visible":false,
 					"refToView":"conditional"
 				}
 			]
