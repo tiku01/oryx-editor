@@ -47,7 +47,7 @@ import javax.xml.namespace.QName;
 //    "ioBinding"
 })
 @XmlSeeAlso({
-//    TConversation.class,
+//    Conversation.class,
     Process.class//,
 //    Choreography.class,
 //    TGlobalChoreographyTask.class,
