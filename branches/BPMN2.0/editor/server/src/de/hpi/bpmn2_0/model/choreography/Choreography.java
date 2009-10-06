@@ -97,7 +97,7 @@ public class Choreography
     protected List<Artifact> artifact;
     protected List<MessageFlow> messageFlow;
 //    protected List<TParticipant> participant;
-//    protected List<TConversation> conversation;
+//    protected List<Conversation> conversation;
 //    protected List<TConversationAssociation> conversationAssociation;
 //    protected List<TMessageFlowAssociation> messageFlowAssociation;
 //    protected List<TParticipantAssociation> participantAssociation;
@@ -271,13 +271,13 @@ public class Choreography
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TConversation }
+     * {@link Conversation }
      * 
      * 
      */
-//    public List<TConversation> getConversation() {
+//    public List<Conversation> getConversation() {
 //        if (conversation == null) {
-//            conversation = new ArrayList<TConversation>();
+//            conversation = new ArrayList<Conversation>();
 //        }
 //        return this.conversation;
 //    }

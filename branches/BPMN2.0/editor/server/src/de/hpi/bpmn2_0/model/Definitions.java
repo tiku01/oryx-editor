@@ -210,7 +210,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TGlobalBusinessRuleTask }{@code >}
      * {@link JAXBElement }{@code <}{@link ErrorEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Collaboration }{@code >}
-     * {@link JAXBElement }{@code <}{@link TConversation }{@code >}
+     * {@link JAXBElement }{@code <}{@link Conversation }{@code >}
      * {@link JAXBElement }{@code <}{@link ConditionalEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link Process }{@code >}
      * {@link JAXBElement }{@code <}{@link Category }{@code >}

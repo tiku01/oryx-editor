@@ -203,13 +203,13 @@ public class Collaboration
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TConversation }
+     * {@link Conversation }
      * 
      * 
      */
-//    public List<TConversation> getConversation() {
+//    public List<Conversation> getConversation() {
 //        if (conversation == null) {
-//            conversation = new ArrayList<TConversation>();
+//            conversation = new ArrayList<Conversation>();
 //        }
 //        return this.conversation;
 //    }
