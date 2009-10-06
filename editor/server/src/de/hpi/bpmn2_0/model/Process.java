@@ -47,8 +47,11 @@ import de.hpi.bpmn2_0.model.activity.ServiceTask;
 import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.activity.UserTask;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
+import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
+import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.DataObject;
+import de.hpi.bpmn2_0.model.data_object.Message;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.EndEvent;
 import de.hpi.bpmn2_0.model.event.Event;
@@ -157,6 +160,47 @@ public class Process
     		this.getFlowElement().add((FlowElement) child);
     	}
     }
+    
+    /**
+     * Determines whether the process contains choreograhy elements.
+     * @return 
+     * 		{@code true} if a {@link ChoreographyActivity} is contained 
+     * 		<br />
+     * 		{@code false} otherwise.
+     */
+    public boolean isChoreographyProcess() {
+    	for(FlowElement flowEle : this.getFlowElement()) {
+    		if(flowEle instanceof ChoreographyActivity) 
+    			return true;
+    	}
+    	
+    	return false;
+    }
+    
+    public List<FlowElement> getFlowElementsForChoreography() {
+    	ArrayList<FlowElement> elements = new ArrayList<FlowElement>();
+    	for(FlowElement flowEle : this.getFlowElement()) {
+    		elements.add(flowEle);
+    		
+    		/* Retrieve by associations connected messages */
+    		for(Edge e : flowEle.getOutgoing()) {
+    			if(e.getTargetRef() instanceof Message) {
+    				elements.add(e);
+    				elements.add(e.getTargetRef());
+    			}
+    		}
+    		
+    		for(Edge e : flowEle.getIncoming()) {
+    			if(e.getSourceRef() instanceof Message) {
+    				elements.add(e);
+    				elements.add(e.getSourceRef());
+    			}
+    		}
+    	}
+    	
+    	return elements;
+    }
+    
     
     /* Getter & Setter */
     

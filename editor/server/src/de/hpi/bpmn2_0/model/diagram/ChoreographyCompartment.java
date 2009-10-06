@@ -25,8 +25,12 @@ package de.hpi.bpmn2_0.model.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlIDREF;
+
+import de.hpi.bpmn2_0.model.choreography.Choreography;
 
 /**
  * A {@link ChoreographyCompartment} represents the displaying area that 
@@ -46,6 +50,12 @@ public class ChoreographyCompartment extends BpmnCompartment {
 	})
 	protected List<BpmnNode> bpmnShape;
 	
+	@XmlIDREF
+	@XmlAttribute
+	protected Choreography choreographyRef;
+	
+	/* Getter & Setter */
+	
 	/**
 	 * Get the list of contained BPMN shape in the choreography.
 	 * 
@@ -58,4 +68,18 @@ public class ChoreographyCompartment extends BpmnCompartment {
         }
         return this.bpmnShape;
     }
+
+	/**
+	 * @return the choreographyRef
+	 */
+	public Choreography getChoreographyRef() {
+		return choreographyRef;
+	}
+
+	/**
+	 * @param choreographyRef the choreographyRef to set
+	 */
+	public void setChoreographyRef(Choreography choreographyRef) {
+		this.choreographyRef = choreographyRef;
+	}
 }

@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ChoreographyDiagram extends BpmnDiagram {
 	
 	@XmlElement(type = ChoreographyCompartment.class)
-	private ChoreographyCompartment choreographyCompartment;
+	private List<ChoreographyCompartment> choreographyCompartment;
 	
 	@XmlElement(namespace = "http://bpmndi.org")
     protected List<SequenceFlowConnector> sequenceFlowConnector;
@@ -80,16 +80,10 @@ public class ChoreographyDiagram extends BpmnDiagram {
 	/**
 	 * @return the choreographyCompartment
 	 */
-	public ChoreographyCompartment getChoreographyCompartment() {
-		return choreographyCompartment;
+	public List<ChoreographyCompartment> getChoreographyCompartment() {
+		if(this.choreographyCompartment == null) {
+			this.choreographyCompartment = new ArrayList<ChoreographyCompartment>();
+		}
+		return this.choreographyCompartment;
 	}
-
-	/**
-	 * @param choreographyCompartment the choreographyCompartment to set
-	 */
-	public void setChoreographyCompartment(
-			ChoreographyCompartment choreographyCompartment) {
-		this.choreographyCompartment = choreographyCompartment;
-	}
-
 }

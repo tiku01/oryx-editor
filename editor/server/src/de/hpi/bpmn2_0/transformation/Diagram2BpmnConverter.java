@@ -45,6 +45,7 @@ import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
 import de.hpi.bpmn2_0.model.connector.Association;
 import de.hpi.bpmn2_0.model.connector.DataAssociation;
@@ -53,8 +54,11 @@ import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
+import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
+import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.MessageFlowConnector;
@@ -87,8 +91,12 @@ public class Diagram2BpmnConverter {
 	private List<BPMNElement> diagramChilds;
 	private List<Process> processes;
 	private Definitions definitions;
+
 	private Collaboration collaboration;
 	private CollaborationDiagram collaborationDiagram;
+
+	private List<Choreography> choreography;
+	private ChoreographyDiagram choreographyDiagram;
 
 	/* Define edge ids */
 	private final static String[] edgeIdsArray = { "SequenceFlow",
@@ -611,6 +619,9 @@ public class Diagram2BpmnConverter {
 	 */
 	private void insertProcessesIntoDefinitions() {
 		for (Process process : this.processes) {
+			if(process.isChoreographyProcess()) 
+				continue;
+			
 			ProcessDiagram processDia = new ProcessDiagram();
 			processDia.setProcessRef(process);
 			processDia.setName(process.getName());
@@ -620,7 +631,7 @@ public class Diagram2BpmnConverter {
 			for (LaneSet laneSet : process.getLaneSet()) {
 				PoolCompartment poolComp = (PoolCompartment) this.bpmnElements
 						.get(laneSet.getId()).getShape();
-				for(LaneCompartment laneComp : poolComp.getLane()) {
+				for (LaneCompartment laneComp : poolComp.getLane()) {
 					processDia.getLaneCompartment().add(laneComp);
 				}
 			}
@@ -642,7 +653,7 @@ public class Diagram2BpmnConverter {
 				defaultLaneComp.setId(defaultLane.getId() + "_gui");
 				defaultLaneComp.setIsVisible(false);
 				defaultLaneComp.setName(defaultLane.getName());
-				
+
 				processDia.getLaneCompartment().add(defaultLaneComp);
 
 				for (FlowElement node : process.getFlowElement()) {
@@ -746,6 +757,47 @@ public class Diagram2BpmnConverter {
 	}
 
 	/**
+	 * If a process contains choreography elements the process will be inserted
+	 * into a choreography element.
+	 */
+	private void insertChoreographyProcessesIntoDefinitions() {
+		for (Process p : this.processes) {
+			if (!p.isChoreographyProcess())
+				continue;
+
+			Choreography choreo = new Choreography();
+			choreo.setId(OryxUUID.generate());
+			
+			ChoreographyCompartment choreoComp = new ChoreographyCompartment();
+			choreoComp.setIsVisible(false);
+			choreoComp.setId(choreo.getId() + "_gui");
+			choreoComp.setChoreographyRef(choreo);
+
+			for (FlowElement flowEle : p.getFlowElementsForChoreography()) {
+				choreo.getFlowElement().add(flowEle);
+				Object shape = this.bpmnElements.get(flowEle.getId())
+						.getShape();
+				if (shape instanceof BpmnNode)
+					choreoComp.getBpmnShape().add((BpmnNode) shape);
+				else if(shape instanceof SequenceFlowConnector)
+					this.getChoreographyDiagram().getSequenceFlowConnector().add((SequenceFlowConnector) shape);
+				else if(shape instanceof AssociationConnector) 
+					this.getChoreographyDiagram().getAssociationConnector().add((AssociationConnector) shape);
+			}
+			
+			/* Insert into choreography diagram */
+			this.getChoreographyDiagram().getChoreographyCompartment().add(
+					choreoComp);
+			this.getChoreography().add(choreo);
+			
+		}
+		
+		/* Insert into definitions */
+		this.definitions.getRootElement().addAll(this.choreography);
+		this.definitions.getDiagram().add(this.choreographyDiagram);
+	}
+
+	/**
 	 * Retrieves a BPMN 2.0 diagram and transforms it into the BPMN 2.0 model.
 	 * 
 	 * @param diagram
@@ -822,8 +874,10 @@ public class Diagram2BpmnConverter {
 		this.setCompensationEventActivityRef();
 
 		this.identifyProcesses();
-		this.insertProcessesIntoDefinitions();
 
+		this.insertChoreographyProcessesIntoDefinitions();
+		
+		this.insertProcessesIntoDefinitions();
 		this.insertCollaborationElements();
 
 		return definitions;
@@ -861,5 +915,26 @@ public class Diagram2BpmnConverter {
 			this.collaboration.setId(OryxUUID.generate());
 		}
 		return this.collaboration;
+	}
+
+	/**
+	 * @return the choreography
+	 */
+	private List<Choreography> getChoreography() {
+		if (this.choreography == null) {
+			this.choreography = new ArrayList<Choreography>();
+		}
+		return this.choreography;
+	}
+
+	/**
+	 * @return the choreographyDiagram
+	 */
+	private ChoreographyDiagram getChoreographyDiagram() {
+		if (this.choreographyDiagram == null) {
+			this.choreographyDiagram = new ChoreographyDiagram();
+			this.choreographyDiagram.setId(OryxUUID.generate() + "_gui");
+		}
+		return this.choreographyDiagram;
 	}
 }
