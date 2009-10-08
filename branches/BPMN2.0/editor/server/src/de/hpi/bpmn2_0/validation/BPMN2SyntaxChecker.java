@@ -193,7 +193,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 		
 		// Subprocesses
 		if(node instanceof SubProcess) 
-			checkSubProcess((SubProcess) node);
+			this.checkSubProcess((SubProcess) node);
 		
 	}
 	
