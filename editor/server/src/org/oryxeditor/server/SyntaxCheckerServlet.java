@@ -148,10 +148,8 @@ public class SyntaxCheckerServlet extends HttpServlet {
 		String type = diagram.getStencilset().getNamespace();
 		SyntaxChecker checker = null;
 		
-		if(type != null) {
-			if(type.equals("http://b3mn.org/stencilset/bpmn2.0#")) {
-				checker = getCheckerBPMN2(diagram);
-			}
+		if(type != null && type.equals("http://b3mn.org/stencilset/bpmn2.0#")) {
+			checker = getCheckerBPMN2(diagram);
 		}
 		
 		if (checker == null) {
