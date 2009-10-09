@@ -26,10 +26,10 @@ MOVI.namespace("widget");
 
 (function() {
 	
-	var _SLIDER_CLASS_NAME					= "movi-zoomslider",
+	var _SLIDER_CLASS_NAME_PREFIX			= "movi-zoomslider",
 		_SLIDER_THUMB_CLASS_NAME			= "movi-zoomslider-thumb",
-		_SLIDER_WIDTH						= 100,
-		_SLIDER_STEP						= 1,
+		_SLIDER_DEFAULT_LENGTH				= 100,
+		_SLIDER_DEFAULT_STEP				= 1,
 		_FULLSCREEN_LIGHTBOX_CLASS_NAME		= "movi-fullscreen-lightbox",
 		_FULLSCREEN_CONTAINER_CLASS_NAME	= "movi-fullscreen-modelcontainer";
 	
@@ -42,7 +42,7 @@ MOVI.namespace("widget");
      */
 	var _setUpHostElementZoomSlider = function() {
 		this.set("innerHTML",
-				"<div id=\"" + _SLIDER_CLASS_NAME + this.modelviewer.getIndex() + "\" class=\"" + _SLIDER_CLASS_NAME + "\" title=\"Zoom Slider\">" +
+				"<div id=\"" + _SLIDER_CLASS_NAME_PREFIX + this.modelviewer.getIndex() + "\" class=\"" + _SLIDER_CLASS_NAME_PREFIX  + "-" + this.orientation + "\" title=\"Zoom Slider\">" +
 					"<div id=\"" + _SLIDER_THUMB_CLASS_NAME + this.modelviewer.getIndex() + "\" class=\"" + _SLIDER_THUMB_CLASS_NAME + "\"></div>" +
 				"</div>");
 	};
@@ -52,9 +52,10 @@ MOVI.namespace("widget");
 	 * @method _getMinZoomLevel
 	 * @private
 	 */
-	var _getMinZoomLevel = function(modelviewer) {
-		var scaleHorizontal = (parseInt(modelviewer.getScrollboxEl().getStyle("width"), 10)) / modelviewer.getImgWidth();
-		var scaleVertical = (parseInt(modelviewer.getScrollboxEl().getStyle("height"), 10)) / modelviewer.getImgHeight();
+
+	var _getMinZoomLevel = function(modelviewer) {		
+		var scaleHorizontal = (modelviewer.getScrollboxEl().get("offsetWidth")-5) / modelviewer.getImgWidth();
+		var scaleVertical = (modelviewer.getScrollboxEl().get("offsetHeight")-5) / modelviewer.getImgHeight();
 		var scale = (scaleHorizontal < scaleVertical) ? scaleHorizontal : scaleVertical;
 		if(scale>1)	scale = 1;
 		return scale*100;
@@ -70,8 +71,28 @@ MOVI.namespace("widget");
 	 * wrap the ZoomSlider, or a reference to a DIV element. The DIV element must
 	 * exist in the document.
 	 * @param {ModelViewer} modelviewer The ModelViewer for that zooming is enabled
+	 * @param {Object} opt (optional) Options: 
+     * <dl>
+     * <dt>orientation</dt>
+     * <dd>
+     * expected values: "horizontal" (default), "vertical"
+     * </dd>
+     * <dt>trackLength</dt>
+     * <dd>
+     * The length of the slider track in pixels (default: 100)
+     * </dd>
+     * <dt>step</dt>
+     * <dd>
+     * The slider thumb should move this many pixels at a time (default: 1)
+     * </dd>
+     * <dt>reverse</dt>
+     * <dd>
+     * Set to true to invert to default direction of the slider which is left-to right, or
+     * alternatively top-to-bottom (default: false)
+     * </dd>
+	 * </dl>
      */
-    MOVI.widget.ZoomSlider = function(el, modelviewer) {
+    MOVI.widget.ZoomSlider = function(el, modelviewer, opt) {
 	
 		if(!modelviewer) {
 			throw new Error("No model viewer specified for zoom slider", "zoom.js");
@@ -81,16 +102,31 @@ MOVI.namespace("widget");
 		this.modelviewer = modelviewer;
 		
     	MOVI.widget.ZoomSlider.superclass.constructor.call(this, el);
+    	
+    	if(!opt) opt = {};
+		
+		this.orientation = opt.orientation || "horizontal";
+		this.trackLength = opt.trackLength || _SLIDER_DEFAULT_LENGTH;
+		this.step = opt.step || _SLIDER_DEFAULT_STEP;
+		this.reverse = opt.reverse || false;
 	
 		_setUpHostElementZoomSlider.call(this);
 		
 		// instantiate the slider
-		this.slider = YAHOO.widget.Slider.getHorizSlider(
-			_SLIDER_CLASS_NAME + this.modelviewer.getIndex(), 
-			_SLIDER_THUMB_CLASS_NAME + this.modelviewer.getIndex(), 
-			0, _SLIDER_WIDTH, _SLIDER_STEP
-		); 
-		 
+		if(this.orientation=="vertical") {
+		    this.slider = YAHOO.widget.Slider.getVertSlider(
+    			_SLIDER_CLASS_NAME_PREFIX + this.modelviewer.getIndex(), 
+    			_SLIDER_THUMB_CLASS_NAME + this.modelviewer.getIndex(), 
+    			0, this.trackLength, this.step
+    		);
+		} else {
+		    this.slider = YAHOO.widget.Slider.getHorizSlider(
+    			_SLIDER_CLASS_NAME_PREFIX + this.modelviewer.getIndex(), 
+    			_SLIDER_THUMB_CLASS_NAME + this.modelviewer.getIndex(), 
+    			0, this.trackLength, this.step
+    		);
+		}
+		
 		this.update();
 		
 		this.slider.subscribe('change', this.onChange, this, true);
@@ -133,9 +169,11 @@ MOVI.namespace("widget");
 		onChange: function() {
 			var minZoomLevel = _getMinZoomLevel(this.modelviewer);
 			var maxZoomLevel = 100;
-			
-			var zoomStep = (maxZoomLevel-minZoomLevel) / _SLIDER_WIDTH;
-			this.modelviewer.setZoomLevel(minZoomLevel + this.slider.getValue() * zoomStep, false);
+			var zoomStep = (maxZoomLevel-minZoomLevel) / this.trackLength;
+			if(this.reverse)
+			    this.modelviewer.setZoomLevel(minZoomLevel + (this.trackLength - this.slider.getValue()) * zoomStep, false);
+			else
+			    this.modelviewer.setZoomLevel(minZoomLevel + this.slider.getValue() * zoomStep, false);
 		},
 		
 		/**
@@ -146,9 +184,11 @@ MOVI.namespace("widget");
 		update: function() {
 			var minZoomLevel = _getMinZoomLevel(this.modelviewer);
 			var maxZoomLevel = 100;
-			
-			var zoomStep = (maxZoomLevel-minZoomLevel) / _SLIDER_WIDTH;
-			this.slider.setValue((this.modelviewer.getZoomLevel() - minZoomLevel) * zoomStep);
+			var zoomStep = (maxZoomLevel-minZoomLevel) / this.trackLength;
+			if(this.reverse) 
+			    this.slider.setValue(this.trackLength - (this.modelviewer.getZoomLevel() - minZoomLevel) / zoomStep, false, true, true);
+			else
+			    this.slider.setValue((this.modelviewer.getZoomLevel() - minZoomLevel) / zoomStep, false, true, true);
 		}
 		
 	});

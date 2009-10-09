@@ -156,7 +156,7 @@ ORYX.I18N.BPEL4ChorSupport.impFailed = "An error while importing occurs! <br/>Pl
 
 if(!ORYX.I18N.Bpel4ChorTransformation) ORYX.I18N.Bpel4ChorTransformation = {};
 
-ORYX.I18N.Bpel4ChorTransformation.group = "BPEL4Chor";
+ORYX.I18N.Bpel4ChorTransformation.group = "Export";
 ORYX.I18N.Bpel4ChorTransformation.exportBPEL = "Export BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.exportBPELDesc = "Export diagram to BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.exportXPDL = "Export XPDL4Chor";
@@ -677,6 +677,18 @@ ORYX.I18N.RESIZE.N = "Top";
 ORYX.I18N.RESIZE.W = "Left";
 ORYX.I18N.RESIZE.S ="Down";
 ORYX.I18N.RESIZE.E ="Right";
+/** New Language Properties: 14.08.2009*/
+if(!ORYX.I18N.PluginLoad) ORYX.I18N.PluginLoad = {};
+ORYX.I18N.PluginLoad.AddPluginButtonName = "Add Plugins";
+ORYX.I18N.PluginLoad.AddPluginButtonDesc = "Add additional Plugins dynamically";
+ORYX.I18N.PluginLoad.loadErrorTitle="Loading Error";
+ORYX.I18N.PluginLoad.loadErrorDesc = "Unable to load Plugin. \n Error:\n";
+ORYX.I18N.PluginLoad.WindowTitle ="Add additional Plugins";
+
+ORYX.I18N.PluginLoad.NOTUSEINSTENCILSET = "Not allowed in this Stencilset!";
+ORYX.I18N.PluginLoad.REQUIRESTENCILSET = "Require another Stencilset!";
+ORYX.I18N.PluginLoad.NOTFOUND = "Pluginname not found!"
+ORYX.I18N.PluginLoad.YETACTIVATED = "Plugin is yet activated!"
 
 /** New Language Properties: 15.07.2009*/
 if(!ORYX.I18N.Layouting) ORYX.I18N.Layouting ={};
