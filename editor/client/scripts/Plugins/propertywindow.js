@@ -225,6 +225,7 @@ ORYX.Plugins.PropertyWindow = {
 
 			option.grid.getColumnModel().setEditor(1, editorGrid);
 			
+			editorGrid.field.row = option.row;
 			// Render the editor to the grid, therefore the editor is also available 
 			// for the first and last row
 			editorGrid.render(this.grid);
@@ -340,14 +341,15 @@ ORYX.Plugins.PropertyWindow = {
 
 	// extended by Kerstin (start)	
 	dialogClosed: function(data) {
+		var row = this.field ? this.field.row : this.row 
 		this.scope.afterEdit({
 			grid:this.scope.grid, 
-			record:this.scope.grid.getStore().getAt(this.row), 
+			record:this.scope.grid.getStore().getAt(row), 
 			//value:this.scope.grid.getStore().getAt(this.row).get("value")
 			value: data
 		})
 		// reopen the text field of the complex list field again
-		this.scope.grid.startEditing(this.row, this.col);
+		this.scope.grid.startEditing(row, this.col);
 	},
 	// extended by Kerstin (end)
 	
@@ -557,11 +559,13 @@ ORYX.Plugins.PropertyWindow = {
 								this.editDirectly(key, input.getValue());
 							}.bind(this));
 							
-							editorGrid = new Ext.Editor();
+							editorGrid = new Ext.Editor(numberField);
+
 							break;
 						case ORYX.CONFIG.TYPE_COLOR:
 							// Set as a ColorPicker
 							// Ext1.0 editorGrid = new gEdit(new form.ColorField({ allowBlank: pair.optional(),  msgTarget:'title' }));
+
 							var editorPicker = new Ext.ux.ColorField({ allowBlank: pair.optional(),  msgTarget:'title', facade: this.facade });
 							
 							this.facade.registerOnEvent(ORYX.CONFIG.EVENT_COLOR_CHANGE, function(option) {
@@ -569,6 +573,7 @@ ORYX.Plugins.PropertyWindow = {
 							}.bind(this));
 							
 							editorGrid = new Ext.Editor(editorPicker);
+
 							break;
 						case ORYX.CONFIG.TYPE_CHOICE:
 							var items = pair.items();
@@ -597,6 +602,7 @@ ORYX.Plugins.PropertyWindow = {
 						    });
 							
 							// Set the grid Editor
+
 						    var editorCombo = new Ext.form.ComboBox({
 								tpl: '<tpl for="."><div class="x-combo-list-item">{[(values.icon) ? "<img src=\'" + values.icon + "\' />" : ""]} {title}</div></tpl>',
 						        store: store,
@@ -613,6 +619,7 @@ ORYX.Plugins.PropertyWindow = {
 							}.bind(this))
 							
 							editorGrid = new Ext.Editor(editorCombo);
+
 							break;
 						case ORYX.CONFIG.TYPE_DATE:
 							var currFormat = ORYX.I18N.PropertyWindow.dateFormat
@@ -630,7 +637,7 @@ ORYX.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
 							editorGrid = new Ext.Editor(cf);
 							break;
 							
@@ -638,7 +645,7 @@ ORYX.Plugins.PropertyWindow = {
 						case ORYX.CONFIG.TYPE_COMPLEX:
 							
 							var cf = new Ext.form.ComplexListField({ allowBlank: pair.optional()}, pair.complexItems(), key, this.facade);
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
 							editorGrid = new Ext.Editor(cf);
 							break;
 						// extended by Kerstin (end)
@@ -689,6 +696,7 @@ ORYX.Plugins.PropertyWindow = {
 						}]);
 					}
 				}
+
 			}).bind(this));
 		}
 
@@ -696,6 +704,9 @@ ORYX.Plugins.PropertyWindow = {
 	},
 	
 	hideMoreAttrs: function(panel) {
+		// TODO: Implement the case that the canvas has no attributes
+		if (this.properties.length <= 0){ return }
+		
 		// collapse the "more attr" group
 		this.grid.view.toggleGroup(this.grid.view.getGroupId(this.properties[0][0]), false);
 		
@@ -909,7 +920,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			var editor;
 			
 			if (type == ORYX.CONFIG.TYPE_STRING) {
-				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional()});
+				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
 			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
 				var items = this.items[i].items();
 				var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
@@ -919,9 +930,9 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 				});				
 				
 				editor = new Ext.form.ComboBox(
-					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title'});			
+					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
 			} else if (type == ORYX.CONFIG.TYPE_BOOLEAN) {
-				editor = new Ext.form.Checkbox();
+				editor = new Ext.form.Checkbox( { width : width } );
 			}
 					
 			cols.push({
@@ -929,7 +940,8 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 				header: 	header,
 				dataIndex: 	id,
 				resizable: 	true,
-				editor: 	editor
+				editor: 	editor,
+				width:		width
 	        });
 			
 		}

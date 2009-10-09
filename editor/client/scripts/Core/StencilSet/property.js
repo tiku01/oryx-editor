@@ -364,6 +364,10 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     
     complexItem: function(id){
         return this._complexItems[id];
-    }
+    },
     // extended by Kerstin (end)
+    
+    complexAttributeToView: function(){
+        return this._jsonProp.complexAttributeToView || "";
+    }
 });

@@ -154,7 +154,7 @@ ORYX.I18N.BPEL4ChorSupport.impFailed = "Während des Importierens ist ein Fehler
 
 if(!ORYX.I18N.Bpel4ChorTransformation) ORYX.I18N.Bpel4ChorTransformation = {};
 
-ORYX.I18N.Bpel4ChorTransformation.group = "BPEL4Chor";
+ORYX.I18N.Bpel4ChorTransformation.group = "Export";
 ORYX.I18N.Bpel4ChorTransformation.exportBPEL = "BPEL4Chor Export";
 ORYX.I18N.Bpel4ChorTransformation.exportBPELDesc = "Exportieren nach BPEL4Chor";
 ORYX.I18N.Bpel4ChorTransformation.exportXPDL = "XPDL4Chor Export";
@@ -676,3 +676,4 @@ ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_DIVERGING_FAILURE = "Das Gateway 
 ORYX.I18N.SyntaxChecker.BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "Ein Gateway muss mindestens einen ausgehenden Steuerlfuss besitzen.";
 ORYX.I18N.SyntaxChecker.BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT = "Empfänger-Tasks, die in Eregnis-Gateway-Konfigurationen benutzt werden, dürfen keine angehängten Zwischen-Ereignisse besitzen.";
 ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "Ein Ereignis Sub-Prozess darf keinen eingehenden oder ausgehenden Steuerfluss besitzen.";
+

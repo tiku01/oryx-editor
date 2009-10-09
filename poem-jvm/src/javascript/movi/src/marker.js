@@ -35,7 +35,6 @@ MOVI.namespace("util");
 	 * by overlaying rectangles
      * @namespace MOVI.util
      * @class MOVI.util.Marker
-     * @extends YAHOO.util.Element
      * @constructor
 	 * @param {Shape|Shapes[]} shapes The shapes to mark
 	 * @param {Object} style (optional) A key map of CSS style properties to be attached
@@ -188,11 +187,16 @@ MOVI.namespace("util");
 				/* adjust position */
 				
 				// get border widths
-				var bTWidth = parseInt(rect.getStyle("border-top-width")),
-					bRWidth = parseInt(rect.getStyle("border-right-width")),
-					bBWidth = parseInt(rect.getStyle("border-bottom-width")),
-					bLWidth = parseInt(rect.getStyle("border-left-width"));
+				var bTWidth = parseInt(rect.getStyle("border-top-width") || 0),
+					bRWidth = parseInt(rect.getStyle("border-right-width") || 0),
+					bBWidth = parseInt(rect.getStyle("border-bottom-width") || 0),
+					bLWidth = parseInt(rect.getStyle("border-left-width") || 0);
 							
+				bTWidth	= isNaN(bTWidth) ? 0 : bTWidth;
+				bRWidth	= isNaN(bRWidth) ? 0 : bRWidth;
+				bBWidth	= isNaN(bBWidth) ? 0 : bBWidth;
+				bLWidth	= isNaN(bLWidth) ? 0 : bLWidth;
+				
 				var left = - MOVI.util.Marker.PADDING;
 				var top = - MOVI.util.Marker.PADDING;
 				var width = Math.round((shape.bounds.lowerRight.x
@@ -246,11 +250,16 @@ MOVI.namespace("util");
 				}
 				
 				// get border widths
-				var bTWidth = parseInt(this.markerRect.getStyle("border-top-width")),
-					bRWidth = parseInt(this.markerRect.getStyle("border-right-width")),
-					bBWidth = parseInt(this.markerRect.getStyle("border-bottom-width")),
-					bLWidth = parseInt(this.markerRect.getStyle("border-left-width"));
-
+				var bTWidth = parseInt(this.markerRect.getStyle("border-top-width")||0),
+					bRWidth = parseInt(this.markerRect.getStyle("border-right-width")||0),
+					bBWidth = parseInt(this.markerRect.getStyle("border-bottom-width")||0),
+					bLWidth = parseInt(this.markerRect.getStyle("border-left-width")||0);
+				
+				bTWidth	= isNaN(bTWidth) ? 0 : bTWidth;
+				bRWidth	= isNaN(bRWidth) ? 0 : bRWidth;
+				bBWidth	= isNaN(bBWidth) ? 0 : bBWidth;
+				bLWidth	= isNaN(bLWidth) ? 0 : bLWidth;
+				
 				var left = Math.round(this.getAbsBounds().upperLeft.x)*zoomFactor - MOVI.util.Marker.PADDING;
 				var top = Math.round(this.getAbsBounds().upperLeft.y)*zoomFactor - MOVI.util.Marker.PADDING;
 				var width = Math.round((this.getAbsBounds().lowerRight.x
@@ -295,9 +304,9 @@ MOVI.namespace("util");
 
 					if(orientation=="north") {
 						left = Math.round(bounds.upperLeft.x*zoomFactor + ((bounds.lowerRight.x-bounds.upperLeft.x)*zoomFactor - width)/2);
-						top = bounds.upperLeft.y*zoomFactor - height;
+						top = Math.round(bounds.upperLeft.y*zoomFactor - height);
 						margin = -_ICON_MARGIN + "px 0 0 0";
-					} else if(orientation=="west") {
+					} else if(orientation=="east") {
 						left = bounds.lowerRight.x*zoomFactor;
 						top = Math.round(bounds.upperLeft.y*zoomFactor + ((bounds.lowerRight.y-bounds.upperLeft.y)*zoomFactor - height)/2);
 						margin = "0 0 0 " + _ICON_MARGIN + "px";
@@ -305,28 +314,27 @@ MOVI.namespace("util");
 						left = Math.round(bounds.upperLeft.x*zoomFactor + ((bounds.lowerRight.x-bounds.upperLeft.x)*zoomFactor - width)/2);
 						top = bounds.lowerRight.y*zoomFactor;
 						margin = _ICON_MARGIN + "px 0 0 0";
-					} else if(orientation=="east") {
+					} else if(orientation=="west") {
 						left = bounds.upperLeft.x*zoomFactor - width;
 						top = Math.round(bounds.upperLeft.y*zoomFactor + ((bounds.lowerRight.y-bounds.upperLeft.y)*zoomFactor - height)/2);
 						margin = "0 0 0 " + -_ICON_MARGIN + "px";
-					} else if(orientation=="northwest") {
+					} else if(orientation=="northeast") {
 						left = bounds.lowerRight.x*zoomFactor;
 						top = bounds.upperLeft.y*zoomFactor - height;
 						margin = -_ICON_MARGIN + "px 0 0 " + _ICON_MARGIN + "px";
-					} else if(orientation=="southwest") {
+					} else if(orientation=="southeast") {
 						left = bounds.lowerRight.x*zoomFactor;
 						top = bounds.lowerRight.y*zoomFactor;
 						margin = _ICON_MARGIN + "px 0 0 " + _ICON_MARGIN + "px";
-					} else if(orientation=="northeast") {
+					} else if(orientation=="northwest") {
 						left = bounds.upperLeft.x*zoomFactor - width;
 						top = bounds.upperLeft.y*zoomFactor - height;
 						margin = -_ICON_MARGIN + "px 0 0 " + -_ICON_MARGIN + "px";
-					} else if(orientation=="southeast") {
+					} else if(orientation=="southwest") {
 						left = bounds.upperLeft.x*zoomFactor - width;
 						top = bounds.lowerRight.y*zoomFactor;
 						margin = _ICON_MARGIN + "px 0 0 " + -_ICON_MARGIN + "px";
 					}
-					
 					icon.setStyle("left", left + "px");
 					icon.setStyle("top", top + "px");
 					icon.setStyle("margin", margin);
@@ -491,6 +499,47 @@ MOVI.namespace("util");
 				if(!YAHOO.lang.hasOwnProperty(this._icons, orientation)) continue;
 				if(this._icons[orientation]) 
 					this._icons[orientation].setStyle("display", "none");
+			}
+		},
+		
+		/**
+		 * Fade in the rec
+		 */		
+		fadeIn: function(){
+			
+			if(YAHOO.env.ua.ie){ return }
+			
+			for( key in this.shapeRects ){
+				if (typeof key != "string") {return}
+				this.shapeRects[key].setStyle("opacity", 0);	
+				var anim = new YAHOO.util.ColorAnim(this.shapeRects[key], { opacity: { to: 1 } }, 0.4, YAHOO.util.Easing.easeOut);
+				anim.animate();	
+			}
+		
+		},
+		
+		
+		/**
+		 * Fade out the rectangle, call fn when complete
+		 * @param {Object} fn
+		 */
+		fadeOut: function(fn){
+			
+			if(YAHOO.env.ua.ie){ 
+				if (fn instanceof Function) { fn() }
+				return 
+			}
+			
+			var anim;
+			for( key in this.shapeRects ){
+				if (typeof key != "string") {return}
+				anim = new YAHOO.util.ColorAnim(this.shapeRects[key], { opacity: { to: 0 } }, 0.4, YAHOO.util.Easing.easeOut);
+				anim.animate();	
+			}
+			
+			
+			if (anim && fn instanceof Function){
+				anim.onComplete.subscribe(fn) 
 			}
 		},
 		

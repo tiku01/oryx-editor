@@ -71,10 +71,14 @@ MOVI.namespace("widget");
 		
 		this._scrollbox.set("id", _SCROLLBOX_CLASS_NAME + this._index);
 		this._scrollbox.set("innerHTML", "<img id=\"" + _MODELIMG_CLASS_NAME + this._index + 
-							"\" alt=\"oryx model\" class=\"" + _MODELIMG_CLASS_NAME + "\" />");
+							"\" class=\"" + _MODELIMG_CLASS_NAME + "\" />");
 		
 		this._image = new YAHOO.util.Element(_MODELIMG_CLASS_NAME + this._index);
 		
+		// callbacks for model dragging
+		this._scrollbox.addListener("mousedown", this._onMouseDown, this, this, true);
+		YAHOO.util.Event.addListener(document, "mouseup", this._onMouseUp, this, this, true);
+
 		this._loadOptions = {};
     };
 
@@ -269,14 +273,45 @@ MOVI.namespace("widget");
 		_syncLoadingReady: function(resource) {
 			// get index of resource in array
 			for(var i=0; i<this._syncResources.length; i++) {
-				if(this._syncResources[i]==resource) break;
+				if( this._syncResources[i]==resource ||
+				    (this._syncResources[i].indexOf("_")>0 && 
+				    this._syncResources[i].substring(0, this._syncResources[i].indexOf("_"))==resource) ) 
+				        break;
 			}
 			if(i>=0) {
 				this._syncResources.splice(i, 1);
 			}
 			
-			if(this._syncResources.length==0)
-				this._onSuccess();
+			if(this._syncResources.length==0) {
+			    if(this._initCanvas()) this._onSuccess();
+			}
+				
+		},
+		
+		/**
+		 * Initialize the Canvas object when all model, stencil set, and stencil
+		 * set extension data are available.
+		 * @method _initCanvas
+		 * @private
+		 */
+		_initCanvas: function() {
+		    
+		    // first process all stencil set extensions
+		    for(var i=0; i<this._ssextensions.length; i++) {
+		        this.canvas.stencilset.addExtension(this._ssextensions[i]);
+		    }
+		    // then initialize the Canvas object
+		    var prefix = "movi_" + this._index + "-";
+		    try {
+				this.canvas = new MOVI.model.Canvas(this, this.canvas, prefix);
+			} catch(e) {
+				MOVI.log("A " + e.name + " occured while trying to initialize the model: " + 
+							e.message, "error", "modelviewer.js");
+				this._onLoadFailure();
+				return false;
+			}
+			this._scrollbox.appendChild(this.canvas);
+			return true;
 		},
 		
 		/**
@@ -318,6 +353,15 @@ MOVI.namespace("widget");
 		 * of the model and executing the onFailure callback.
 		 * The default value is 15000 (15 seconds).
          * </dd>
+         * <dt>urlModificationFunction</dt>
+         * <dd>
+         * Function that takes the URL of the model PNG and JSON representation 
+         * and of the model's stencil set as parameter and returns a modificated 
+         * URL string for the request.
+         * The function is called in the specified scope with an additional
+         * parameter that indicates the type of the requested resource 
+         * ("png", "json", "stencilset")
+         * </dd>
 		 * </dl>
 		 * @throws Exception, if passed URI is not valid
 	     */
@@ -343,6 +387,9 @@ MOVI.namespace("widget");
 				this._index + ").loadModelCallback");
 			var url = uri + "/json?jsonp=" + jsonp;
 			
+			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
+			    url = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, url, this, "json");
+			
 			var transactionObj = YAHOO.util.Get.script(url, {
 				onFailure: this._onLoadFailure, 
 				onTimeout: this._onLoadTimeout,
@@ -365,17 +412,19 @@ MOVI.namespace("widget");
 			
 			// append timestamp to allow reloads of the image
 			var imgUrl = uri + "/png?" + (new Date()).getTime();
-			this._image.set("src", imgUrl);
 			
-			// get image size when available
-			var img = new Image();
+			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
+			    imgUrl = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, imgUrl, this, "png");
+			
 			var self = this;
-			img.onload = function() {
-				self._imageWidth = parseInt(self._image.getStyle("width"), 10);
-				self._imageHeight = parseInt(self._image.getStyle("height"), 10);
+			this._image.get("element").onload = function() {
+				self._imageWidth = parseInt(self._image.getStyle("width"), 10) || self._image.get("element").offsetWidth;
+				self._imageHeight = parseInt(self._image.getStyle("height"), 10) || self._image.get("element").offsetHeight;
 				self._syncLoadingReady("image"); // notify successful loading of image
 			};
-			img.src = imgUrl;
+			
+			this._image.set("src", imgUrl);
+			
 		},
 		
 		/**
@@ -391,9 +440,19 @@ MOVI.namespace("widget");
 			this.canvas = jsonObj;
 
 			if(!this.canvas.stencilset) {
-				MOVI.log("Could not find stencilset definition for model.", "error", "canvas.js");
+				MOVI.log("Could not find stencil set definition for model.", "error", "canvas.js");
 				this._onFailure();
 			}
+			
+			// check if some stencil set extensions need to be loaded
+			
+			if(this.canvas.ssextensions) {
+			    for(var i=0; i<this.canvas.ssextensions.length; i++) {
+			        this._syncResources.push("ssextension_" + i); // add to resource loading sync
+			    }
+			}
+			
+			// load stencil set
 			
 			if(this.canvas.stencilset.url.substring(0, 7)!="http://") {
 				// relative stencilset url, make absolute
@@ -405,11 +464,14 @@ MOVI.namespace("widget");
 			var jsonp = encodeURIComponent(
 				"MOVI.widget.ModelViewer.getInstance(" + 
 				this._index + ").loadStencilSetCallback");
-			var i = this.canvas.stencilset.url.indexOf("/stencilsets/");
+			var pathStringIndex = this.canvas.stencilset.url.indexOf("/stencilsets/");
 			
-			var url = this.canvas.stencilset.url.substring(0, i) +
-				"/jsonp?resource=" + encodeURIComponent(this.canvas.stencilset.url.substring(i+13)) + 
-				"&jsonp=" + jsonp;
+			var url = this.canvas.stencilset.url.substring(0, pathStringIndex) +
+				"/jsonp?resource=" + encodeURIComponent(this.canvas.stencilset.url.substring(pathStringIndex+13)) + 
+				"&type=stencilset&jsonp=" + jsonp;
+				
+			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
+    		    url = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, url, this, "stencilset");
 
 			var transactionObj = YAHOO.util.Get.script(url, {
 				onFailure: this._onStencilSetLoadFailure, 
@@ -418,7 +480,31 @@ MOVI.namespace("widget");
 				timeout  : this._loadOptions.timeout,
 				scope    : this 
 			});
-
+			
+			// load all stencil set extensions
+			
+			this._ssextensions = new Array();
+            if(this.canvas.ssextensions) {
+			    for(var i=0; i<this.canvas.ssextensions.length; i++) {
+			        var ssext_jsonp = encodeURIComponent(
+        				"MOVI.widget.ModelViewer.getInstance(" + 
+        				this._index + ").loadStencilSetExtensionCallback");
+			        var ssext_url = this.canvas.stencilset.url.substring(0, pathStringIndex) +
+        				"/jsonp?resource=" + encodeURIComponent(this.canvas.ssextensions[i]) + 
+        				"&type=ssextension&jsonp=" + ssext_jsonp;
+        				
+        			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
+                	    ssext_url = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, ssext_url, this, "ssextension");
+			        
+			        var ssext_transactionObj = YAHOO.util.Get.script(ssext_url, {
+            			onFailure: this._onStencilSetLoadFailure, 
+            			onTimeout: this._onStencilSetLoadTimeout,
+            			data	 : this._loadOptions, 
+            			timeout  : this._loadOptions.timeout,
+            			scope    : this 
+            		});
+			    }
+			}
 		},
 		
 		/**
@@ -427,19 +513,18 @@ MOVI.namespace("widget");
 	     * @param jsonObj The delivered JSON Object
 	     */
 		loadStencilSetCallback: function(jsonObj) {
-			var prefix = "movi_" + this._index + "-";
-			try {
-				this.canvas.stencilset = new MOVI.stencilset.Stencilset(jsonObj);
-				this.canvas = new MOVI.model.Canvas(this, this.canvas, prefix);
-			} catch(e) {
-				MOVI.log("A " + e.name + " occured while trying to load model: " + 
-							e.message, "error", "modelviewer.js");
-				this._onLoadFailure();
-				return;
-			}
-			this._scrollbox.appendChild(this.canvas);
-			
+			this.canvas.stencilset = new MOVI.stencilset.Stencilset(jsonObj);
 			this._syncLoadingReady("data"); // notify successful loading of data
+		},
+		
+		/**
+	     * JSONP callback to load stencilset extension data from the JSON web service
+	     * @method loadStencilSetExtensionCallback
+	     * @param jsonObj The delivered JSON Object
+	     */
+		loadStencilSetExtensionCallback: function(jsonObj) {
+			this._ssextensions.push(jsonObj); 
+			this._syncLoadingReady("ssextension"); // notify successful loading
 		},
 		
 		/**
@@ -448,7 +533,7 @@ MOVI.namespace("widget");
 		 * @return {Integer} The image width
 		 */
 		getImgWidth: function() {
-			return this._imageWidth;
+			return this._imageWidth || this.getScrollboxEl().get("element").offsetWidth;
 		},
 		
 		/**
@@ -457,7 +542,7 @@ MOVI.namespace("widget");
 		 * @return {Integer} The image height
 		 */
 		getImgHeight: function() {
-			return this._imageHeight;
+			return this._imageHeight || this.getScrollboxEl().get("element").offsetHeight;
 		},
 		
 		/**
@@ -553,11 +638,8 @@ MOVI.namespace("widget");
 				throw new TypeError("The parameter passed to have to setZoomLevel has to be of type Number.", 
 									"modelviewer.js");
 			}
-			if(percent<=0) {
-				throw new RangeError("The zoom level must be greater than 0.", "modelviewer.js");
-			} else if(percent>100) {
-				throw new RangeError("The zoom level must not be greater than 100.", "modelviewer.js");
-			}
+			if(percent<=0) percent=0;
+			else if(percent>100) percent=100;
 			
 			this._zoomLevel = percent;
 			
@@ -584,15 +666,51 @@ MOVI.namespace("widget");
 		 * @method fitModelToViewer
 		 */
 		fitModelToViewer: function() {
-			var scaleHorizontal = (parseInt(this.getScrollboxEl().getStyle("width"), 10)-5) / this.getImgWidth();
-			var scaleVertical = (parseInt(this.getScrollboxEl().getStyle("height"), 10)-5) / this.getImgHeight();
+			var scaleHorizontal = (this.getScrollboxEl().get("offsetWidth")-5) / this.getImgWidth();
+			var scaleVertical = (this.getScrollboxEl().get("offsetHeight")-5) / this.getImgHeight();
 			var scale = (scaleHorizontal < scaleVertical) ? scaleHorizontal : scaleVertical;
 			if(scale>1)	scale = 1;
 			this.setZoomLevel(scale*100);
+		},
+		
+		/**
+		 * @method _onMouseDown
+		 * @private
+		 */
+		_onMouseDown: function(ev) {
+			YAHOO.util.Event.preventDefault(ev);
+			YAHOO.util.Event.stopPropagation(ev);
+			this._scrollbox.removeListener("mousemove", this._onModelDrag);
+			var mouseAbsXY = YAHOO.util.Event.getXY(ev);
+			this._mouseCoords = { x: mouseAbsXY[0], y: mouseAbsXY[1] };
+			this._scrollbox.addListener("mousemove", this._onModelDrag, this, this, true);
+		},
+		
+		/**
+		 * @method _onMouseUp
+		 * @private
+		 */
+		_onMouseUp: function(ev) {
+			YAHOO.util.Event.preventDefault(ev);
+			this._scrollbox.removeListener("mousemove", this._onModelDrag);
+		},
+		
+		/**
+		 * Callback method that is executed when the model is dragged
+		 * @method _onModelDrag
+		 * @private
+		 */
+		_onModelDrag: function(ev) {
+			YAHOO.util.Event.preventDefault(ev);
+			var mouseAbsXY = YAHOO.util.Event.getXY(ev);
+			var sl = this._scrollbox.get("scrollLeft"); 
+			var st = this._scrollbox.get("scrollTop");
+			this._scrollbox.set("scrollLeft", sl - (mouseAbsXY[0] - this._mouseCoords.x));
+			this._scrollbox.set("scrollTop", st - (mouseAbsXY[1] - this._mouseCoords.y));
+			this._mouseCoords.x = mouseAbsXY[0]; this._mouseCoords.y = mouseAbsXY[1];
 		}
 		
 		
 	});
 	
-
 })();
