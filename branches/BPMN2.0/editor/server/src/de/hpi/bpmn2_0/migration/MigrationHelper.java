@@ -45,8 +45,6 @@ import de.hpi.bpmn2_0.exceptions.MigrationHelperException;
 
 public class MigrationHelper {
 	
-	private static final String path = "/Users/Phil/Documents/Studium/signavio/oryx BPMN 2.0/editor/data/stencilsets/bpmn2.0/";
-
 	/* List of BPMN 1.1 Acitivities
 	 * <-- */
 	private static final String[] activitiesArray = {
@@ -189,7 +187,7 @@ public class MigrationHelper {
 	private HashMap<String, String> defaultsForProperty;
 	
 	
-	public MigrationHelper() throws MigrationHelperException {
+	public MigrationHelper(String path) throws MigrationHelperException {
 	
 		this.packagesForStencil 	= new HashMap<String, HashSet<String>>();
 		this.propertiesForPackage 	= new HashMap<String, HashSet<String>>();
@@ -198,7 +196,7 @@ public class MigrationHelper {
 	
 		try {
 		
-			File json = new File(path + "bpmn2.0.json");
+			File json = new File(path + "/bpmn2.0.json");
 			BufferedReader br = new BufferedReader(new FileReader(json));
 			StringBuffer bpmnJson = new StringBuffer();
 			String line;

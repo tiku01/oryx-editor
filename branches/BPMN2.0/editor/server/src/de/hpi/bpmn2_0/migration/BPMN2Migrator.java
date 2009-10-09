@@ -44,6 +44,7 @@ import de.hpi.bpmn2_0.exceptions.MigrationHelperException;
 public class BPMN2Migrator {
 
 	private Diagram diagram;
+	private String path;
 	
 	private HashSet<Shape> activityShapes 					= new HashSet<Shape>();
 	private HashSet<Shape> gatewayShapes  					= new HashSet<Shape>();
@@ -192,10 +193,12 @@ public class BPMN2Migrator {
 	 * @return 
 	 * @throws BpmnMigrationException
 	 */
-	public String migrate() throws BpmnMigrationException {
+	public String migrate(String stencilsetPath) throws BpmnMigrationException {
 
 		try {
 		
+			path = stencilsetPath;
+			
 			if(diagram.getStencilset().equals("http://b3mn.org/stencilset/bpmn2.0#"))
 				return JSONBuilder.parseModeltoString(diagram);
 			
@@ -446,7 +449,7 @@ public class BPMN2Migrator {
 	 * @throws MigrationHelperException 
 	 */
 	private void updateProperties(Shape shape) throws MigrationHelperException {
-		MigrationHelper helper = new MigrationHelper();
+		MigrationHelper helper = new MigrationHelper(path);
 		
 		HashMap<String, String> properties = helper.getProperties(shape.getStencilId());
 		
