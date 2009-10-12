@@ -54,12 +54,19 @@ import de.hpi.bpmn2_0.model.connector.DataOutputAssociation;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
+import de.hpi.bpmn2_0.model.conversation.Conversation;
+import de.hpi.bpmn2_0.model.conversation.ConversationLink;
+import de.hpi.bpmn2_0.model.conversation.ConversationNode;
 import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
+import de.hpi.bpmn2_0.model.diagram.CommunicationShape;
+import de.hpi.bpmn2_0.model.diagram.ConversationDiagram;
+import de.hpi.bpmn2_0.model.diagram.ConversationLinkConnector;
+import de.hpi.bpmn2_0.model.diagram.ConversationParticipantShape;
 import de.hpi.bpmn2_0.model.diagram.LaneCompartment;
 import de.hpi.bpmn2_0.model.diagram.MessageFlowConnector;
 import de.hpi.bpmn2_0.model.diagram.PoolCompartment;
@@ -95,13 +102,16 @@ public class Diagram2BpmnConverter {
 	private Collaboration collaboration;
 	private CollaborationDiagram collaborationDiagram;
 
+	private Conversation conversation;
+	private ConversationDiagram conversationDiagram;
+
 	private List<Choreography> choreography;
 	private ChoreographyDiagram choreographyDiagram;
 
 	/* Define edge ids */
 	private final static String[] edgeIdsArray = { "SequenceFlow",
 			"Association_Undirected", "Association_Unidirectional",
-			"Association_Bidirectional", "MessageFlow" };
+			"Association_Bidirectional", "MessageFlow", "ConversationLink" };
 
 	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays
 			.asList(edgeIdsArray));
@@ -210,10 +220,6 @@ public class Diagram2BpmnConverter {
 			throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, BpmnConverterException, InvalidKeyException {
 
-		// /* Terminate recursion */
-		// if (/*parent == null || */childShapes == null)
-		// return;
-
 		/* Build up the Elements of the current shape childs */
 		ArrayList<BPMNElement> childElements = new ArrayList<BPMNElement>();
 
@@ -243,28 +249,22 @@ public class Diagram2BpmnConverter {
 
 		return bpmnElement;
 
-		// Object shapeToAdd = bpmnElement.getShape();
-		// if (shapeToAdd instanceof SequenceFlowConnector) {
-		// this.processDia.getSequenceFlowConnector().add(
-		// (SequenceFlowConnector) shapeToAdd);
-		//			
-		// } else if (shapeToAdd instanceof DataAssociationConnector) {
-		// this.processDia.getDataAssociationConnector().add(
-		// (DataAssociationConnector) shapeToAdd);
-		//			
-		// } else if (shapeToAdd instanceof AssociationConnector) {
-		// this.processDia.getAssociationConnector().add((AssociationConnector)
-		// shapeToAdd);
-		//			
-		// } else if(shapeToAdd instanceof MessageFlowConnector) {
-		// this.processDia.getMessageFlowConnector().add((MessageFlowConnector)
-		// shapeToAdd);
-		// }
+	}
 
-		// /* Handle child shape */
-		// this.createBpmnElementsRecursively(childShape.getChildShapes(),
-		// bpmnElement);
-		// }
+	/**
+	 * Set the {@link Participant} references of each {@link ConversationNode}
+	 */
+	private void setConversationParticipants() {
+		for (BPMNElement element : this.bpmnElements.values()) {
+			if (!(element.getNode() instanceof ConversationNode))
+				continue;
+			ConversationNode conNode = (ConversationNode) element.getNode();
+
+			for (String id : conNode.participantsIds) {
+				conNode.getParticipantRef().add(
+						(Participant) this.bpmnElements.get(id).getNode());
+			}
+		}
 	}
 
 	/**
@@ -415,6 +415,34 @@ public class Diagram2BpmnConverter {
 				((ExclusiveGateway) base).findDefaultSequenceFlow();
 			}
 		}
+	}
+
+	/**
+	 * Retrieves all elements related to a conversation and creates a diagram
+	 * element to wrap them.
+	 */
+	private void identifyConversation() {
+		
+		for(BPMNElement element : this.diagramChilds) {
+			/* Identify conversation elements */
+			if(element.getNode() instanceof ConversationLink) {
+				this.getConversation().getConversationLink().add((ConversationLink) element.getNode());
+				this.getConversationDiagram().getConnector().add((ConversationLinkConnector) element.getShape());
+			} 
+			
+			else if(element.getNode() instanceof ConversationNode) {
+				this.getConversation().getConversationNode().add((ConversationNode) element.getNode());
+				this.getConversationDiagram().getShape().add((BpmnNode) element.getShape());
+			}
+			
+			else if(element.getNode() instanceof Participant) {
+				this.getConversation().getParticipant().add((Participant) element.getNode());
+				this.getConversationDiagram().getParticipant().add((ConversationParticipantShape) element.getShape());
+			}
+		}
+		
+		if(this.conversationDiagram != null) 
+			this.getConversationDiagram().setConversation(this.getConversation());
 	}
 
 	/**
@@ -619,9 +647,9 @@ public class Diagram2BpmnConverter {
 	 */
 	private void insertProcessesIntoDefinitions() {
 		for (Process process : this.processes) {
-			if(process.isChoreographyProcess()) 
+			if (process.isChoreographyProcess())
 				continue;
-			
+
 			ProcessDiagram processDia = new ProcessDiagram();
 			processDia.setProcessRef(process);
 			processDia.setName(process.getName());
@@ -755,6 +783,20 @@ public class Diagram2BpmnConverter {
 			this.definitions.getRootElement().add(this.getCollaboration());
 		}
 	}
+	
+	/**
+	 * If the diagram contains conversation elements, this method appends them to
+	 * in definitions element
+	 */
+	private void insertConversationIntoDefinitions() {
+		this.identifyConversation();
+		
+		if(this.conversation != null && this.conversationDiagram != null) {
+			this.definitions.getRootElement().add(this.conversation);
+			this.definitions.getDiagram().add(this.conversationDiagram);
+		}
+		
+	}
 
 	/**
 	 * If a process contains choreography elements the process will be inserted
@@ -767,7 +809,7 @@ public class Diagram2BpmnConverter {
 
 			Choreography choreo = new Choreography();
 			choreo.setId(OryxUUID.generate());
-			
+
 			ChoreographyCompartment choreoComp = new ChoreographyCompartment();
 			choreoComp.setIsVisible(false);
 			choreoComp.setId(choreo.getId() + "_gui");
@@ -779,20 +821,25 @@ public class Diagram2BpmnConverter {
 						.getShape();
 				if (shape instanceof BpmnNode)
 					choreoComp.getBpmnShape().add((BpmnNode) shape);
-				else if(shape instanceof SequenceFlowConnector)
-					this.getChoreographyDiagram().getSequenceFlowConnector().add((SequenceFlowConnector) shape);
-				else if(shape instanceof AssociationConnector) 
-					this.getChoreographyDiagram().getAssociationConnector().add((AssociationConnector) shape);
+				else if (shape instanceof SequenceFlowConnector)
+					this.getChoreographyDiagram().getSequenceFlowConnector()
+							.add((SequenceFlowConnector) shape);
+				else if (shape instanceof AssociationConnector)
+					this.getChoreographyDiagram().getAssociationConnector()
+							.add((AssociationConnector) shape);
 			}
-			
+
 			/* Insert into choreography diagram */
 			this.getChoreographyDiagram().getChoreographyCompartment().add(
 					choreoComp);
 			this.getChoreography().add(choreo);
-			
+
 		}
-		
+
 		/* Insert into definitions */
+		if (this.choreography == null || this.choreographyDiagram == null)
+			return;
+
 		this.definitions.getRootElement().addAll(this.choreography);
 		this.definitions.getDiagram().add(this.choreographyDiagram);
 	}
@@ -805,40 +852,15 @@ public class Diagram2BpmnConverter {
 	 * @return The definitions root element of the BPMN 2.0 model.
 	 * @throws BpmnConverterException
 	 */
-	public Definitions getDefinitionsFormDiagram()
+	public Definitions getDefinitionsFromDiagram()
 			throws BpmnConverterException {
 
-		/* Create main pool of canvas */
-		// Process process = new Process();
-		// process.setId("testProzess");
-		// LaneCompartment laneComp = new LaneCompartment();
-		// this.processDia = new ProcessDiagram();
-		// processDia.getLaneCompartment().add(laneComp);
-		// processDia.setProcessRef(process);
-		// /* Choreography test */
-		//
-		// Choreography choreo = new Choreography();
-		// String choreoId = OryxUUID.generate();
-		// choreo.setId(choreoId);
-		// choreo.setName("Choreography Example");
-		//
-		// ChoreographyDiagram choreoDiagram = new ChoreographyDiagram();
-		// choreoDiagram.setId(choreoId + "_gui");
-		//
-		// ChoreographyCompartment choreoComp = new ChoreographyCompartment();
-		// choreoComp.setId(OryxUUID.generate());
-		// choreoComp.setName("main compartment");
-		// choreoDiagram.setChoreographyCompartment(choreoComp);
-		//
-		// /* --------------------------------- */
 		/* Build-up the definitions as root element of the document */
 		this.definitions.setTargetNamespace(diagram
 				.getProperty("targetnamespace"));
 
 		/* Convert shapes to BPMN 2.0 elements */
 
-		// BPMNElement rootElement = new BPMNElement(laneComp, process, diagram
-		// .getResourceId());
 		try {
 			createBpmnElementsRecursively(diagram);
 		} catch (Exception e) {
@@ -847,36 +869,19 @@ public class Diagram2BpmnConverter {
 					"Error while converting to BPMN model", e);
 		}
 
-		// /* insert for choreography test */
-		// for (BPMNElement element : this.diagramChilds) {
-		// if (element.getNode() instanceof SequenceFlow) {
-		// choreoDiagram.getSequenceFlowConnector().add(
-		// (SequenceFlowConnector) element.getShape());
-		// } else if (element.getNode() instanceof Association) {
-		// choreoDiagram.getAssociationConnector().add(
-		// (AssociationConnector) element.getShape());
-		// } else {
-		// choreoComp.getBpmnShape().add((BpmnNode) element.getShape());
-		// }
-		// choreo.getFlowElement().add((FlowElement) element.getNode());
-		// }
-
-		// this.definitions.getDiagram().add(choreoDiagram);
-		// this.definitions.getRootElement().add(choreo);
-
-		/* choreo end */
-
 		this.detectBoundaryEvents();
 		this.detectConnectors();
 		this.setInitiatingParticipant();
 		this.updateDataAssociationsRefs();
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 		this.setCompensationEventActivityRef();
-
+		this.setConversationParticipants();
+		
 		this.identifyProcesses();
 
 		this.insertChoreographyProcessesIntoDefinitions();
-		
+		this.insertConversationIntoDefinitions();
+
 		this.insertProcessesIntoDefinitions();
 		this.insertCollaborationElements();
 
@@ -936,5 +941,27 @@ public class Diagram2BpmnConverter {
 			this.choreographyDiagram.setId(OryxUUID.generate() + "_gui");
 		}
 		return this.choreographyDiagram;
+	}
+
+	/**
+	 * @return the conversation
+	 */
+	private Conversation getConversation() {
+		if (this.conversation == null) {
+			this.conversation = new Conversation();
+			this.conversation.setId(OryxUUID.generate());
+		}
+		return this.conversation;
+	}
+
+	/**
+	 * @return the conversationDiagram
+	 */
+	private ConversationDiagram getConversationDiagram() {
+		if (this.conversationDiagram == null) {
+			this.conversationDiagram = new ConversationDiagram();
+			this.conversationDiagram.setId(this.getConversation().getId() + "_gui");
+		}
+		return this.conversationDiagram;
 	}
 }

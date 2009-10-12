@@ -21,20 +21,43 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.annotations;
+package de.hpi.bpmn2_0.model.diagram;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import de.hpi.bpmn2_0.model.conversation.SubConversation;
 
 /**
- * @author Philipp Giese
+ * Class representing the visualization of a sub conversation
+ * 
+ * @author Sven Wagner-Boysen
  *
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Property {
-	String name();
-	String[] value();
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class SubConversationShape extends BpmnNode {
+	
+	@XmlIDREF
+	@XmlAttribute
+	protected SubConversation subConversation;
+
+	
+	/* Getter & Setter */
+	/**
+	 * @return the subConversation
+	 */
+	public SubConversation getSubConversation() {
+		return subConversation;
+	}
+
+	/**
+	 * @param subConversation the subConversation to set
+	 */
+	public void setSubConversation(SubConversation subConversation) {
+		this.subConversation = subConversation;
+	}
 }

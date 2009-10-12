@@ -30,9 +30,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 
@@ -66,7 +68,7 @@ import de.hpi.bpmn2_0.model.participant.Participant;
     Communication.class
 })
 public abstract class ConversationNode
-    extends BaseElement
+    extends FlowNode implements ConversationElement
 {
 	
 	@XmlIDREF
@@ -74,6 +76,9 @@ public abstract class ConversationNode
     protected List<Participant> participantRef;
     @XmlAttribute
     protected String name;
+    
+    @XmlTransient
+    public List<String> participantsIds;
 
     /**
      * Gets the value of the participantRef property.

@@ -116,7 +116,7 @@ public abstract class AbstractBpmnFactory {
 		for(Method method : Arrays.asList(this.getClass().getDeclaredMethods())) {
 			Property property = method.getAnnotation(Property.class);
 					
-			if(property != null && shape.getProperty(property.name()).equals(property.value())) {
+			if(property != null && Arrays.asList(property.value()).contains(shape.getProperty(property.name()))) {
 				return (BaseElement) method.invoke(this, shape);
 			}
 		}

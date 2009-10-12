@@ -21,20 +21,43 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.annotations;
+package de.hpi.bpmn2_0.model.diagram;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import de.hpi.bpmn2_0.model.conversation.Communication;
 
 /**
- * @author Philipp Giese
+ * Class representing communication shape.
+ * 
+ * @author Sven Wagner-Boysen
  *
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Property {
-	String name();
-	String[] value();
+@XmlRootElement(name = "communicationShape")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class CommunicationShape extends BpmnNode {
+	@XmlIDREF
+	@XmlAttribute
+	protected Communication communication;
+	
+	
+	/* Getter & Setter */
+	
+	/**
+	 * @return the communication
+	 */
+	public Communication getCommunication() {
+		return communication;
+	}
+
+	/**
+	 * @param communication the communication to set
+	 */
+	public void setCommunication(Communication communication) {
+		this.communication = communication;
+	}
 }

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.model.artifacts.Artifact;
@@ -57,10 +58,12 @@ import de.hpi.bpmn2_0.model.artifacts.Artifact;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tSubConversation", propOrder = {
     "conversationNode",
-    "artifact"
+    "artifact",
+    "correlationKeyRef"
 })
 public class SubConversation
     extends ConversationNode
@@ -77,7 +80,7 @@ public class SubConversation
     @XmlElementRef()
     protected List<Artifact> artifact;
     
-    @XmlAttribute
+//    @XmlAttribute
     protected CorrelationKey correlationKeyRef;
 
     /**

@@ -21,20 +21,43 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.annotations;
+package de.hpi.bpmn2_0.model.diagram;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import de.hpi.bpmn2_0.model.conversation.ConversationElement;
+import de.hpi.bpmn2_0.model.participant.Participant;
 
 /**
- * @author Philipp Giese
+ * Class representing the visualization of the participant in a conversation.
+ * 
+ * @author Sven Wagner-Boysen
  *
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Property {
-	String name();
-	String[] value();
+@XmlRootElement(name = "participantShape")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ConversationParticipantShape extends BpmnNode implements
+		ConversationElement {
+	@XmlIDREF
+	@XmlAttribute
+	protected Participant participant;
+
+	/* Getter & Setter */
+	/**
+	 * @return the participant
+	 */
+	public Participant getParticipant() {
+		return participant;
+	}
+
+	/**
+	 * @param participant the participant to set
+	 */
+	public void setParticipant(Participant participant) {
+		this.participant = participant;
+	}
 }
