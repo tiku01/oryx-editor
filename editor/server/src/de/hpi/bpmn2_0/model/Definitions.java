@@ -45,10 +45,12 @@ import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.connector.Edge;
+import de.hpi.bpmn2_0.model.conversation.Conversation;
 import de.hpi.bpmn2_0.model.data_object.Message;
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
+import de.hpi.bpmn2_0.model.diagram.ConversationDiagram;
 import de.hpi.bpmn2_0.model.diagram.ProcessDiagram;
 import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.EventDefinition;
@@ -99,13 +101,15 @@ public class Definitions {
     @XmlElementRefs({
     	@XmlElementRef(type = Process.class),
     	@XmlElementRef(type = Choreography.class),
-    	@XmlElementRef(type = Collaboration.class)
+    	@XmlElementRef(type = Collaboration.class),
+    	@XmlElementRef(type = Conversation.class)
     })
     protected List<RootElement> rootElement;
     @XmlElementRefs({
     	@XmlElementRef(type = ProcessDiagram.class),
     	@XmlElementRef(type = CollaborationDiagram.class),
-    	@XmlElementRef(type = ChoreographyDiagram.class)
+    	@XmlElementRef(type = ChoreographyDiagram.class),
+    	@XmlElementRef(type = ConversationDiagram.class)
     })
     protected List<BpmnDiagram> diagram;
 //    protected List<TRelationship> relationship;
@@ -223,7 +227,7 @@ public class Definitions {
      * {@link JAXBElement }{@code <}{@link TInterface }{@code >}
      * {@link JAXBElement }{@code <}{@link TTimerEventDefinition }{@code >}
      * {@link JAXBElement }{@code <}{@link TGlobalUserTask }{@code >}
-     * {@link JAXBElement }{@code <}{@link TGlobalCommunication }{@code >}
+     * {@link JAXBElement }{@code <}{@link GlobalCommunication }{@code >}
      * {@link JAXBElement }{@code <}{@link Choreography }{@code >}
      * {@link JAXBElement }{@code <}{@link TResource }{@code >}
      * {@link JAXBElement }{@code <}{@link SignalEventDefinition }{@code >}

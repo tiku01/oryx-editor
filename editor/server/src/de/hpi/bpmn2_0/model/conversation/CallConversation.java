@@ -28,8 +28,12 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
+
+import de.hpi.bpmn2_0.model.CallableElement;
 
 
 /**
@@ -52,17 +56,19 @@ import javax.xml.namespace.QName;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCallConversation", propOrder = {
-    "participantAssociation"
+//    "participantAssociation"
 })
 public class CallConversation
     extends ConversationNode
 {
 
 //    protected List<TParticipantAssociation> participantAssociation;
-    @XmlAttribute
-    protected QName calledElementRef;
+    @XmlIDREF
+	@XmlAttribute
+    protected CallableElement calledElementRef;
 
     /**
      * Gets the value of the participantAssociation property.
@@ -98,10 +104,10 @@ public class CallConversation
      * 
      * @return
      *     possible object is
-     *     {@link QName }
+     *     {@link CallableElement }
      *     
      */
-    public QName getCalledElementRef() {
+    public CallableElement getCalledElementRef() {
         return calledElementRef;
     }
 
@@ -110,10 +116,10 @@ public class CallConversation
      * 
      * @param value
      *     allowed object is
-     *     {@link QName }
+     *     {@link CallableElement }
      *     
      */
-    public void setCalledElementRef(QName value) {
+    public void setCalledElementRef(CallableElement value) {
         this.calledElementRef = value;
     }
 

@@ -21,20 +21,43 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.annotations;
+package de.hpi.bpmn2_0.model.diagram;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 
 /**
- * @author Philipp Giese
+ * Class representing the visualization of a conversation link.
+ * 
+ * @author Sven Wagner-Boysen
  *
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Property {
-	String name();
-	String[] value();
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ConversationLinkConnector extends BpmnConnector {
+	
+	@XmlIDREF
+	@XmlAttribute
+	protected ConversationLink conversationLinkRef;
+	
+	/* Getter & Setter */
+	
+	/**
+	 * @return the conversationLinkRef
+	 */
+	public ConversationLink getConversationLinkRef() {
+		return conversationLinkRef;
+	}
+
+	/**
+	 * @param conversationLinkRef the conversationLinkRef to set
+	 */
+	public void setConversationLinkRef(ConversationLink conversationLinkRef) {
+		this.conversationLinkRef = conversationLinkRef;
+	}
 }

@@ -51,7 +51,7 @@ import javax.xml.namespace.QName;
     Process.class//,
 //    Choreography.class,
 //    TGlobalChoreographyTask.class,
-//    TGlobalCommunication.class,
+//    GlobalCommunication.class,
 //    TGlobalTask.class
 })
 public class CallableElement

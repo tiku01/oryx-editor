@@ -21,20 +21,14 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.annotations;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package de.hpi.bpmn2_0.model.conversation;
 
 /**
- * @author Philipp Giese
+ * This interface is used to identify conversation elements.
+ * 
+ * @author Sven Wagner-Boysen
  *
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Property {
-	String name();
-	String[] value();
+public interface ConversationElement {
+
 }

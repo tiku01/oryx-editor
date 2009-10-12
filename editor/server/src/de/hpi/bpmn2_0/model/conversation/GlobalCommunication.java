@@ -21,40 +21,32 @@
  * SOFTWARE.
  */
 
+
 package de.hpi.bpmn2_0.model.conversation;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.CallableElement;
-import de.hpi.bpmn2_0.model.artifacts.Artifact;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 
 /**
- * <p>Java class for tConversation complex type.
+ * <p>Java class for tGlobalCommunication complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tConversation">
+ * &lt;complexType name="tGlobalCommunication">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.omg.org/bpmn20}tCallableElement">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.omg.org/bpmn20}conversationNode" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.omg.org/bpmn20}participant" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{http://www.omg.org/bpmn20}artifact" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.omg.org/bpmn20}messageFlow" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="messageFlowRef" type="{http://www.w3.org/2001/XMLSchema}QName" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.omg.org/bpmn20}correlationKey" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
@@ -64,84 +56,21 @@ import de.hpi.bpmn2_0.model.participant.Participant;
  * 
  * 
  */
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tConversation", propOrder = {
-    "conversationNode",
+@XmlType(name = "tGlobalCommunication", propOrder = {
     "participant",
-    "conversationLink",
-    "artifact",
     "messageFlow",
-    "messageFlowRef",
     "correlationKey"
 })
-public class Conversation
+public class GlobalCommunication
     extends CallableElement
 {
 
-    @XmlElementRefs({
-    	@XmlElementRef(type = CallConversation.class),
-//    	@XmlElementRef(type = Conversation.class),
-    	@XmlElementRef(type = SubConversation.class),
-    	@XmlElementRef(type = Communication.class)
-    })
-    protected List<ConversationNode> conversationNode;
-    
-    @XmlElementRef(type = ConversationLink.class)
-    protected List<ConversationLink> conversationLink;
-    
-    @XmlElementRef(type = Participant.class)
     protected List<Participant> participant;
-    
-    @XmlElementRef()
-    protected List<Artifact> artifact;
     protected List<MessageFlow> messageFlow;
-    protected List<QName> messageFlowRef;
     protected List<CorrelationKey> correlationKey;
 
     /**
-     * Gets the value of the conversationNode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the conversationNode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getConversationNode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link SubConversation }{@code >}
-     * {@link JAXBElement }{@code <}{@link CallConversation }{@code >}
-     * {@link JAXBElement }{@code <}{@link Communication }{@code >}
-     * {@link JAXBElement }{@code <}{@link ConversationNode }{@code >}
-     * 
-     * 
-     */
-    public List<ConversationNode> getConversationNode() {
-        if (conversationNode == null) {
-            conversationNode = new ArrayList<ConversationNode>();
-        }
-        return this.conversationNode;
-    }
-
-    /**
-	 * @return the conversationLink
-	 */
-	public List<ConversationLink> getConversationLink() {
-		if(this.conversationLink == null) {
-			this.conversationLink = new ArrayList<ConversationLink>();
-		}
-		return this.conversationLink;
-	}
-
-	/**
      * Gets the value of the participant property.
      * 
      * <p>
@@ -171,38 +100,6 @@ public class Conversation
     }
 
     /**
-     * Gets the value of the artifact property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the artifact property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getArtifact().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TArtifact }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAssociation }{@code >}
-     * {@link JAXBElement }{@code <}{@link TGroup }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTextAnnotation }{@code >}
-     * 
-     * 
-     */
-    public List<Artifact> getArtifact() {
-        if (artifact == null) {
-            artifact = new ArrayList<Artifact>();
-        }
-        return this.artifact;
-    }
-
-    /**
      * Gets the value of the messageFlow property.
      * 
      * <p>
@@ -220,7 +117,7 @@ public class Conversation
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TMessageFlow }
+     * {@link MessageFlow }
      * 
      * 
      */
@@ -229,35 +126,6 @@ public class Conversation
             messageFlow = new ArrayList<MessageFlow>();
         }
         return this.messageFlow;
-    }
-
-    /**
-     * Gets the value of the messageFlowRef property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the messageFlowRef property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMessageFlowRef().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link QName }
-     * 
-     * 
-     */
-    public List<QName> getMessageFlowRef() {
-        if (messageFlowRef == null) {
-            messageFlowRef = new ArrayList<QName>();
-        }
-        return this.messageFlowRef;
     }
 
     /**
@@ -278,7 +146,7 @@ public class Conversation
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link CorrelationKey }
+     * {@link TCorrelationKey }
      * 
      * 
      */
