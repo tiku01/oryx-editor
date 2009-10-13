@@ -179,7 +179,7 @@ public class SyntaxCheckerServlet extends HttpServlet {
 	protected SyntaxChecker getCheckerBPMN2(Diagram diagram) throws BpmnConverterException {
 		Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
 		
-		Definitions defs = converter.getDefinitionsFormDiagram();
+		Definitions defs = converter.getDefinitionsFromDiagram();
 		return defs.getSyntaxChecker();
 	}
 
