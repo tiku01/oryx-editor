@@ -56,12 +56,15 @@ public class BPMN2Migrator {
 	private HashSet<Shape> endEventShapes 				   	= new HashSet<Shape>();
 	private HashSet<Shape> connectorShapes					= new HashSet<Shape>();
 	
+	private ArrayList<String> stencilSetExtensions;
+	
 	public BPMN2Migrator(String json) throws BpmnMigrationException {
 		try {
 			
 			diagram = DiagramBuilder.parseJson(json);
-					
-			initialize(diagram.getChildShapes());
+			stencilSetExtensions = diagram.getSsextensions();
+			
+			initializeShapes(diagram.getChildShapes());
 			
 		} catch (JSONException e) {
 			throw new BpmnMigrationException("Error while Transforming the Diagram to JSON!");
@@ -74,11 +77,11 @@ public class BPMN2Migrator {
 	 * 
 	 * @param shapes
 	 */
-	private void initialize(ArrayList<Shape> shapes) {
+	private void initializeShapes(ArrayList<Shape> shapes) {
 		for(Shape shape : shapes) {
 		
 			if(shape.getChildShapes().size() > 0)
-				this.initialize(shape.getChildShapes());
+				this.initializeShapes(shape.getChildShapes());
 			
 			String stencilId = shape.getStencilId();
 			
@@ -183,6 +186,7 @@ public class BPMN2Migrator {
 			 */
 			if(MigrationHelper.connectorIds.contains(stencilId))
 				connectorShapes.add(shape);
+			
 		}
 	}
 
@@ -216,11 +220,33 @@ public class BPMN2Migrator {
 			migrateEndEvents();
 			migrateConnectors();		
 			
+			activateStencilSetExtensions();
+			
 			return JSONBuilder.parseModeltoString(diagram);		
 			
 		} catch(JSONException e) {
 			throw new BpmnMigrationException("Error while converting the Diagram to JSON!");
 		}
+	}
+
+	/**
+	 * Adds the correct Stencilset Extensions
+	 */
+	private void activateStencilSetExtensions() {
+		
+		ArrayList<String> extensions = new ArrayList<String>();
+		
+		for(String ssextension : stencilSetExtensions) {			
+			
+			if(ssextension.equals("http://oryx-editor.org/stencilsets/extensions/bpmn1.1basicsubset#")) {
+				extensions.add("http://oryx-editor.org/stencilsets/perspectives/beginnerbpmn2#");
+			} 
+			
+			// TODO: What happens with extensions that are currently not present in BPMN 2.0?
+		}
+		
+		diagram.setSsextensions(extensions);
+		
 	}
 
 	/**

@@ -40,9 +40,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
-import de.hpi.bpmn2_0.jaxb_generated.TCallChoreographyActivity;
-import de.hpi.bpmn2_0.jaxb_generated.TImplicitThrowEvent;
-import de.hpi.bpmn2_0.jaxb_generated.TTransaction;
 import de.hpi.bpmn2_0.model.activity.AdHocSubProcess;
 import de.hpi.bpmn2_0.model.activity.BusinessRuleTask;
 import de.hpi.bpmn2_0.model.activity.CallActivity;

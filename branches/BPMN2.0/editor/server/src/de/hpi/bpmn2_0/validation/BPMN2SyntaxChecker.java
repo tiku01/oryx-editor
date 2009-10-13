@@ -59,6 +59,7 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 
 	protected static final String NO_SOURCE = "BPMN_NO_SOURCE";
 	protected static final String NO_TARGET = "BPMN_NO_TARGET";
+	protected static final String MESSAGE_FLOW_NOT_CONNECTED = "BPMN_MESSAGE_FLOW_NOT_CONNECTED";
 	protected static final String DIFFERENT_PROCESS = "BPMN_DIFFERENT_PROCESS";
 	protected static final String SAME_PROCESS = "BPMN_SAME_PROCESS";
 	protected static final String FLOWOBJECT_NOT_CONTAINED_IN_PROCESS = "BPMN_FLOWOBJECT_NOT_CONTAINED_IN_PROCESS";
@@ -117,19 +118,26 @@ public class BPMN2SyntaxChecker extends AbstractSyntaxChecker {
 	private void checkEdges() {	
 		for(Edge edge : this.defs.getEdges()) {	
 			
-			if(edge.getSourceRef() == null) {
-				this.addError(edge, NO_SOURCE);
+			if(edge instanceof MessageFlow) {
 				
-			} else if(edge.getTargetRef() == null) {
-				this.addError(edge, NO_TARGET);
-				
-			} else if(edge instanceof SequenceFlow) {
-				if(edge.getSourceRef().getProcessRef() != edge.getTargetRef().getProcessRef()) 
-					this.addError(edge, DIFFERENT_PROCESS);						
-			}
-			else if(edge instanceof MessageFlow) {
+				if(!(edge.getSourceRef() == null || edge.getTargetRef() == null)) 
+					this.addError(edge, MESSAGE_FLOW_NOT_CONNECTED);
+								
 				if(edge.getSourceRef().getPool() == edge.getTargetRef().getPool())	
 					this.addError(edge, SAME_PROCESS);
+				
+			} else {
+				
+				if(edge.getSourceRef() == null) {
+					this.addError(edge, NO_SOURCE);
+					
+				} else if(edge.getTargetRef() == null) {
+					this.addError(edge, NO_TARGET);
+					
+				} else if(edge instanceof SequenceFlow) {
+					if(edge.getSourceRef().getProcessRef() != edge.getTargetRef().getProcessRef()) 
+						this.addError(edge, DIFFERENT_PROCESS);						
+				}
 			}
 		}
 	}

@@ -677,3 +677,5 @@ ORYX.I18N.SyntaxChecker.BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "Ein Gate
 ORYX.I18N.SyntaxChecker.BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT = "Empfänger-Tasks, die in Eregnis-Gateway-Konfigurationen benutzt werden, dürfen keine angehängten Zwischen-Ereignisse besitzen.";
 ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "Ein Ereignis Sub-Prozess darf keinen eingehenden oder ausgehenden Steuerfluss besitzen.";
 
+/** New Language Properties 13.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "Mindestens ein Ende des Nachrichtenflusses muss mit einem Objekt verbunden sein.";
