@@ -45,6 +45,7 @@ import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.activity.SubProcess;
 import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
 import de.hpi.bpmn2_0.model.connector.Association;
@@ -63,7 +64,6 @@ import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
 import de.hpi.bpmn2_0.model.diagram.CollaborationDiagram;
-import de.hpi.bpmn2_0.model.diagram.CommunicationShape;
 import de.hpi.bpmn2_0.model.diagram.ConversationDiagram;
 import de.hpi.bpmn2_0.model.diagram.ConversationLinkConnector;
 import de.hpi.bpmn2_0.model.diagram.ConversationParticipantShape;
@@ -422,27 +422,55 @@ public class Diagram2BpmnConverter {
 	 * element to wrap them.
 	 */
 	private void identifyConversation() {
-		
-		for(BPMNElement element : this.diagramChilds) {
+
+		for (BPMNElement element : this.diagramChilds) {
 			/* Identify conversation elements */
-			if(element.getNode() instanceof ConversationLink) {
-				this.getConversation().getConversationLink().add((ConversationLink) element.getNode());
-				this.getConversationDiagram().getConnector().add((ConversationLinkConnector) element.getShape());
-			} 
-			
-			else if(element.getNode() instanceof ConversationNode) {
-				this.getConversation().getConversationNode().add((ConversationNode) element.getNode());
-				this.getConversationDiagram().getShape().add((BpmnNode) element.getShape());
+			if (element.getNode() instanceof ConversationLink) {
+				this.getConversation().getConversationLink().add(
+						(ConversationLink) element.getNode());
+				this.getConversationDiagram().getConnector().add(
+						(ConversationLinkConnector) element.getShape());
 			}
-			
-			else if(element.getNode() instanceof Participant) {
-				this.getConversation().getParticipant().add((Participant) element.getNode());
-				this.getConversationDiagram().getParticipant().add((ConversationParticipantShape) element.getShape());
+
+			else if (element.getNode() instanceof ConversationNode) {
+				this.getConversation().getConversationNode().add(
+						(ConversationNode) element.getNode());
+				this.getConversationDiagram().getShape().add(
+						(BpmnNode) element.getShape());
+			}
+
+			else if (element.getNode() instanceof Participant) {
+				this.getConversation().getParticipant().add(
+						(Participant) element.getNode());
+				this.getConversationDiagram().getParticipant().add(
+						(ConversationParticipantShape) element.getShape());
 			}
 		}
+
+		if (this.conversationDiagram != null)
+			this.getConversationDiagram().setConversation(
+					this.getConversation());
+	}
+
+	/**
+	 * Method to handle sub processes
+	 * 
+	 * @param subProcess
+	 */
+	private void handleSubProcess(SubProcess subProcess) {
+		Process process = new Process();
+		process.setId(OryxUUID.generate());
+		process.setSubprocessRef(subProcess);
 		
-		if(this.conversationDiagram != null) 
-			this.getConversationDiagram().setConversation(this.getConversation());
+		List<BPMNElement> childs = this.getChildElements(this.bpmnElements.get(subProcess.getId()));
+		for(BPMNElement ele : childs) {
+//			process.getFlowElement().add((FlowElement) ele.getNode());
+			subProcess.getFlowElement().add((FlowElement) ele.getNode());
+			if(ele.getNode() instanceof SubProcess) 
+				this.handleSubProcess((SubProcess) ele.getNode());
+		}
+		
+		this.processes.add(process);
 	}
 
 	/**
@@ -454,13 +482,11 @@ public class Diagram2BpmnConverter {
 		List<FlowNode> allNodes = new ArrayList<FlowNode>();
 		this.getAllNodesRecursively(this.diagramChilds, allNodes);
 
-		// TODO: handle subprocesses
-		// // handle subprocesses => trivial
-		// for (Iterator<Node> niter = allNodes.iterator(); niter.hasNext(); ) {
-		// Node node = niter.next();
-		// if (node instanceof SubProcess)
-		// handleSubProcess((SubProcess)node);
-		// }
+		// handle subprocesses => trivial
+		for (FlowNode flowNode : allNodes) {
+			if (flowNode instanceof SubProcess)
+				handleSubProcess((SubProcess) flowNode);
+		}
 
 		/* Handle pools, current solution: only one process per pool */
 		for (BPMNElement element : this.diagramChilds) {
@@ -502,10 +528,16 @@ public class Diagram2BpmnConverter {
 			Edge edge = (Edge) element.getNode();
 			/* Find process for edge */
 			for (Process process : this.processes) {
-				if (process.getFlowElement().contains(edge.getSourceRef())
-						|| process.getFlowElement().contains(
+				List<FlowElement> flowElements;
+				if(process.isSubprocess()) 
+					flowElements = process.getSubprocessRef().getFlowElement();
+				else
+					flowElements = process.getFlowElement();
+				
+				if (flowElements.contains(edge.getSourceRef())
+						|| flowElements.contains(
 								edge.getTargetRef())) {
-					process.getFlowElement().add(edge);
+					flowElements.add(edge);
 					break;
 				}
 			}
@@ -641,6 +673,34 @@ public class Diagram2BpmnConverter {
 
 		return childElements;
 	}
+	
+	private void insertSubprocessIntoDefinitions(ProcessDiagram processDia, Process process) {
+		LaneCompartment lane = new LaneCompartment();
+		lane.setId(OryxUUID.generate() + "_gui");
+		lane.setIsVisible(false);
+		
+		
+		
+		/* Insert elements */
+		for (FlowElement flowEle : process.getSubprocessRef().getFlowElement()) {
+			if(flowEle instanceof FlowNode) {
+				lane.getBpmnShape().add(
+						(BpmnNode) this.bpmnElements.get(flowEle.getId())
+								.getShape());
+			}
+			/* Insert sequence flows */
+			else if (flowEle instanceof SequenceFlow) {
+				processDia.getSequenceFlowConnector().add(
+						(SequenceFlowConnector) this.bpmnElements.get(
+								flowEle.getId()).getShape());
+			}
+		}
+		
+		processDia.getLaneCompartment().add(lane);
+
+		/* Insert process into document */
+		this.definitions.getDiagram().add(processDia);
+	}
 
 	/**
 	 * Creates a process diagram for each identified process.
@@ -654,11 +714,17 @@ public class Diagram2BpmnConverter {
 			processDia.setProcessRef(process);
 			processDia.setName(process.getName());
 			processDia.setId(process.getId() + "_gui");
-
+			
+			/* Handle subprocesses */
+			if(process.isSubprocess()) {
+				this.insertSubprocessIntoDefinitions(processDia, process);
+				continue;
+			}
+			
 			/* Insert lane compartments */
 			for (LaneSet laneSet : process.getLaneSet()) {
 				PoolCompartment poolComp = (PoolCompartment) this.bpmnElements
-						.get(laneSet.getId()).getShape();
+				.get(laneSet.getId()).getShape();
 				for (LaneCompartment laneComp : poolComp.getLane()) {
 					processDia.getLaneCompartment().add(laneComp);
 				}
@@ -783,19 +849,19 @@ public class Diagram2BpmnConverter {
 			this.definitions.getRootElement().add(this.getCollaboration());
 		}
 	}
-	
+
 	/**
-	 * If the diagram contains conversation elements, this method appends them to
-	 * in definitions element
+	 * If the diagram contains conversation elements, this method appends them
+	 * to in definitions element
 	 */
 	private void insertConversationIntoDefinitions() {
 		this.identifyConversation();
-		
-		if(this.conversation != null && this.conversationDiagram != null) {
+
+		if (this.conversation != null && this.conversationDiagram != null) {
 			this.definitions.getRootElement().add(this.conversation);
 			this.definitions.getDiagram().add(this.conversationDiagram);
 		}
-		
+
 	}
 
 	/**
@@ -876,7 +942,7 @@ public class Diagram2BpmnConverter {
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 		this.setCompensationEventActivityRef();
 		this.setConversationParticipants();
-		
+
 		this.identifyProcesses();
 
 		this.insertChoreographyProcessesIntoDefinitions();
@@ -960,7 +1026,8 @@ public class Diagram2BpmnConverter {
 	private ConversationDiagram getConversationDiagram() {
 		if (this.conversationDiagram == null) {
 			this.conversationDiagram = new ConversationDiagram();
-			this.conversationDiagram.setId(this.getConversation().getId() + "_gui");
+			this.conversationDiagram.setId(this.getConversation().getId()
+					+ "_gui");
 		}
 		return this.conversationDiagram;
 	}

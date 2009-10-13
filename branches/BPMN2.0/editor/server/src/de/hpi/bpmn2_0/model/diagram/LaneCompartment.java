@@ -37,6 +37,10 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.diagram.activity.ActivityShape;
+import de.hpi.bpmn2_0.model.diagram.activity.CalledSubprocessShape;
+import de.hpi.bpmn2_0.model.diagram.activity.EmbeddedSubprocessShape;
+import de.hpi.bpmn2_0.model.diagram.activity.SubprocessShape;
 import de.hpi.bpmn2_0.model.participant.Lane;
 
 
@@ -73,7 +77,11 @@ public class LaneCompartment
     @XmlElementRefs({
     	@XmlElementRef(type = BpmnCompartment.class),
     	@XmlElementRef(type = EventShape.class),
+    	
     	@XmlElementRef(type = ActivityShape.class),
+    	@XmlElementRef(type = EmbeddedSubprocessShape.class),
+    	@XmlElementRef(type = CalledSubprocessShape.class),
+    	
     	@XmlElementRef(type = GatewayShape.class),
     	@XmlElementRef(type = DataObjectShape.class),
     	@XmlElementRef(type = TextAnnotationShape.class)

@@ -23,14 +23,10 @@
 
 package de.hpi.bpmn2_0.factory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.model.diagram.ConversationLinkConnector;
 

@@ -21,25 +21,31 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram.activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.diagram.OryxUUID;
+import de.hpi.bpmn2_0.model.activity.Activity;
+import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for activityShapeType_1 complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tExpression">
+ * &lt;complexType name="activityShapeType_1">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
+ *     &lt;extension base="{http://bpmndi.org}bpmnNodeType">
+ *       &lt;attribute name="activityRef" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -47,22 +53,44 @@ import de.hpi.diagram.OryxUUID;
  * 
  * 
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlType(name = "activityShapeType_1", namespace = "http://bpmndi.org")
+@XmlSeeAlso({
+//    SubprocessShape.class,
+//    CalledSubprocessShapeType.class
+})
+public class ActivityShape
+    extends BpmnNode
+{
+
+	@XmlAttribute
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
+    protected Activity activityRef;
+
+    /**
+     * Gets the value of the activityRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Activity }
+     *     
+     */
+    public Activity getActivityRef() {
+        return activityRef;
+    }
+
+    /**
+     * Sets the value of the activityRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Activity }
+     *     
+     */
+    public void setActivityRef(Activity value) {
+        this.activityRef = value;
+    }
 
 }

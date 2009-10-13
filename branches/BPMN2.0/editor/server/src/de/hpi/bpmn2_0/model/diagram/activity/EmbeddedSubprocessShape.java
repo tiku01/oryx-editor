@@ -21,48 +21,17 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram.activity;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.diagram.OryxUUID;
-
 
 /**
- * <p>Java class for tExpression complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * Visualization element representing an expanded subprocess.
+ *  
+ * @author Sven Wagner-Boysen
+ *
  */
-@XmlRootElement(name = "conditionExpression")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
+@XmlRootElement
+public class EmbeddedSubprocessShape extends SubprocessShape {
 	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
-
 }

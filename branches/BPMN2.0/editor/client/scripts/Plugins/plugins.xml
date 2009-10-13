@@ -178,6 +178,7 @@
 		
 		<plugin source="bpmn2.0/bpmn2.0serialization.js" name="ORYX.Plugins.BPMN2_0Serialization">
 			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0#" />
+			<requires namepsace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 		</plugin>
 		
 		<!-- End: BPMN2.0 specific plugins -->

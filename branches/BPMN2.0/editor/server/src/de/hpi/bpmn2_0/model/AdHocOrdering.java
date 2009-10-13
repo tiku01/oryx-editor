@@ -23,46 +23,51 @@
 
 package de.hpi.bpmn2_0.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.diagram.OryxUUID;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for tAdHocOrdering.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;simpleType name="tAdHocOrdering">
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     &lt;enumeration value="parallel"/>
+ *     &lt;enumeration value="sequential"/>
+ *   &lt;/restriction>
+ * &lt;/simpleType>
  * </pre>
  * 
- * 
  */
-@XmlRootElement(name = "conditionExpression")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlEnum
+public enum AdHocOrdering {
+
+    @XmlEnumValue("parallel")
+    PARALLEL("parallel"),
+    @XmlEnumValue("sequential")
+    SEQUENTIAL("sequential");
+    private final String value;
+
+    AdHocOrdering(String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    public static AdHocOrdering fromValue(String v) {
+        for (AdHocOrdering c: AdHocOrdering.values()) {
+            if (c.value.equalsIgnoreCase(v)) {
+                return c;
+            }
+        }
+        
+        /* Return default value otherwise */
+        return AdHocOrdering.PARALLEL;
+    }
 
 }

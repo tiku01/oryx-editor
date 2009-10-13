@@ -20,49 +20,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package de.hpi.bpmn2_0.factory;
 
-package de.hpi.bpmn2_0.model;
+import java.math.BigInteger;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import org.oryxeditor.server.diagram.Shape;
 
-import de.hpi.diagram.OryxUUID;
-
+import de.hpi.bpmn2_0.model.activity.Activity;
 
 /**
- * <p>Java class for tExpression complex type.
+ * Common factory for BPMN 2.0 activities
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
+ * @author Sven Wagner-Boysen
  * 
  */
-@XmlRootElement(name = "conditionExpression")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
+public abstract class AbstractActivityFactory extends AbstractBpmnFactory {
+
+	protected void setStandardAttributes(Activity activity, Shape shape) {
+		try {
+			activity.setStartQuantity(new BigInteger(shape
+					.getProperty("startquantity")));
+		} catch (NumberFormatException nfe) {
+			activity.setStartQuantity(new BigInteger("1"));
+		}
+
+		try {
+			activity.setCompletionQuantity(new BigInteger(shape
+					.getProperty("completionquantity")));
+		} catch (NumberFormatException nfe) {
+			activity.setCompletionQuantity(new BigInteger("1"));
+		}
+		activity
+				.setIsForCompensation((shape.getProperty("isforcompensation") != null ? shape
+						.getProperty("isforcompensation").equalsIgnoreCase(
+								"true")
+						: false));
 	}
 
 }

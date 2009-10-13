@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -118,7 +117,7 @@ import de.hpi.bpmn2_0.model.participant.Lane;
 })
 public abstract class BaseElement {
 
-	// protected List<Documentation> documentation;
+	protected List<Documentation> documentation;
 	@XmlAnyElement(lax = true)
 	protected List<Object> any;
 	@XmlAttribute
@@ -200,12 +199,12 @@ public abstract class BaseElement {
 	 * 
 	 * 
 	 */
-	// public List<Documentation> getDocumentation() {
-	// if (documentation == null) {
-	// documentation = new ArrayList<Documentation>();
-	// }
-	// return this.documentation;
-	// }
+	 public List<Documentation> getDocumentation() {
+	 if (documentation == null) {
+	 documentation = new ArrayList<Documentation>();
+	 }
+	 return this.documentation;
+	 }
 	/**
 	 * Gets the value of the any property.
 	 * 

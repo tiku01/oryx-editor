@@ -21,25 +21,29 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+
+package de.hpi.bpmn2_0.model.activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.diagram.OryxUUID;
+import de.hpi.bpmn2_0.model.CallableElement;
 
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for tCallActivity complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tExpression">
+ * &lt;complexType name="tCallActivity">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
+ *       &lt;attribute name="calledElement" type="{http://www.w3.org/2001/XMLSchema}QName" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -47,22 +51,39 @@ import de.hpi.diagram.OryxUUID;
  * 
  * 
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlType(name = "tCallActivity")
+public class CallActivity
+    extends Activity
+{
+
+    @XmlAttribute
+    @XmlIDREF
+    protected CallableElement calledElement;
+
+    /**
+     * Gets the value of the calledElement property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CallableElement }
+     *     
+     */
+    public CallableElement getCalledElement() {
+        return calledElement;
+    }
+
+    /**
+     * Sets the value of the calledElement property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CallableElement }
+     *     
+     */
+    public void setCalledElement(CallableElement value) {
+        this.calledElement = value;
+    }
 
 }

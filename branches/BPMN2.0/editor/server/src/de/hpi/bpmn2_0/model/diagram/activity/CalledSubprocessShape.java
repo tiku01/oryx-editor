@@ -21,25 +21,25 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.diagram.activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.diagram.OryxUUID;
-
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for calledSubprocessShapeType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tExpression">
+ * &lt;complexType name="calledSubprocessShapeType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
+ *     &lt;extension base="{http://bpmndi.org}activityShapeType_1">
+ *       &lt;attribute name="isExpanded" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+ *       &lt;attribute name="diagramLink" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -47,22 +47,11 @@ import de.hpi.diagram.OryxUUID;
  * 
  * 
  */
-@XmlRootElement(name = "conditionExpression")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlType(name = "calledSubprocessShapeType")
+public class CalledSubprocessShape
+    extends SubprocessShape
+{
 
 }

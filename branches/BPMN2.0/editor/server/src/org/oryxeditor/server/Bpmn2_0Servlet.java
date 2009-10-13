@@ -24,8 +24,7 @@ package org.oryxeditor.server;
  * SOFTWARE.
  */
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.DiagramBuilder;
 
@@ -58,17 +56,20 @@ public class Bpmn2_0Servlet extends HttpServlet {
 	 * The post request
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
-		res.setContentType("application/xhtml");
 		String json = req.getParameter("data");
 		
 		/* Transform and return from DI */
 		try {
-			this.performTransformationToDi(json, res.getWriter());
+			StringWriter output = this.performTransformationToDi(json);
+			res.setContentType("application/xml");
+			res.setStatus(200);
+			res.getWriter().print(output.toString());
 		} catch (Exception e) {
 			try {
-				res.sendError(500, e.getMessage());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				res.setStatus(500);
+				res.setContentType("text/plain");
+				res.getWriter().write(e.getCause().getMessage());
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -89,7 +90,9 @@ public class Bpmn2_0Servlet extends HttpServlet {
 	 * @throws Exception
 	 * 		Exception occurred while processing
 	 */
-	protected void performTransformationToDi(String json, PrintWriter writer) throws Exception {
+	protected StringWriter performTransformationToDi(String json) throws Exception {
+		StringWriter writer = new StringWriter();
+		
 		/* Retrieve diagram model from JSON */
 	
 		Diagram diagram = DiagramBuilder.parseJson(json);
@@ -107,7 +110,8 @@ public class Bpmn2_0Servlet extends HttpServlet {
 		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", nsp);
 		
 		marshaller.marshal(bpmnDefinitions, writer);
-		
+
+		return writer;		
 	}
 
 }
