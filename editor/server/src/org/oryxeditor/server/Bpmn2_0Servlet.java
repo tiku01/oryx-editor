@@ -96,7 +96,7 @@ public class Bpmn2_0Servlet extends HttpServlet {
 			
 		/* Build up BPMN 2.0 model */
 		Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
-		Definitions bpmnDefinitions = converter.getDefinitionsFormDiagram();
+		Definitions bpmnDefinitions = converter.getDefinitionsFromDiagram();
 		
 		/* Perform XML creation */
 		JAXBContext context = JAXBContext.newInstance(Definitions.class);

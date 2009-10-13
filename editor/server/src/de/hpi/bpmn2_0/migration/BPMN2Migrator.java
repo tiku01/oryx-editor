@@ -417,7 +417,7 @@ public class BPMN2Migrator {
 				String id = activity.getStencilId();			
 				
 				/* Map MI-Ordering to LoopType */			
-				if(activity.getProperty("looptype").equals("MultiInstance")) {
+				if(props.containsKey("looptype")) {
 					/* replace old value with new one */
 					props.remove("looptype");
 					props.put("looptype", activity.getProperty("mi_ordering"));
@@ -433,6 +433,8 @@ public class BPMN2Migrator {
 					
 				}
 				
+				// TODO: remove obsolete Properties
+				
 				/* Remove depreciated Attrs */
 				props.remove("mi_ordering");
 			}
@@ -446,6 +448,7 @@ public class BPMN2Migrator {
 	 * Adds all properties that are new in BPMN 2.0
 	 * 
 	 * @param shape
+	 * @return 
 	 * @throws MigrationHelperException 
 	 */
 	private void updateProperties(Shape shape) throws MigrationHelperException {
@@ -458,20 +461,6 @@ public class BPMN2Migrator {
 			if(shape.getProperty(property.toLowerCase()) == null) {
 				shape.getProperties().put(property.toLowerCase(), properties.get(property));
 			}
-		}
-		
-		HashSet<String> obsoleteProperties = new HashSet<String>();
-
-		/* find obsolete properties */
-		for(String property : shape.getProperties().keySet()) {
-			if(!properties.containsKey(property)) {
-				obsoleteProperties.add(property);
-			}
-		}
-	
-		/* delete obsolete properties */
-		for(String property : obsoleteProperties) {
-			shape.getProperties().remove(property);
 		}
 	}
 }
