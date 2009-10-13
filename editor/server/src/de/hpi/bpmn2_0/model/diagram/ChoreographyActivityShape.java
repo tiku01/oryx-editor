@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.diagram.activity.ActivityShape;
+
 /**
  * Class to represent the visual appearance of a choreography activity.
  * 

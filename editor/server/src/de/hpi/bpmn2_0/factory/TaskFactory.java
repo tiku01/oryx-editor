@@ -28,8 +28,6 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.bpmn2_0.annotations.Property;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.model.BaseElement;
-import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.activity.BusinessRuleTask;
 import de.hpi.bpmn2_0.model.activity.ManualTask;
 import de.hpi.bpmn2_0.model.activity.ReceiveTask;
@@ -38,7 +36,7 @@ import de.hpi.bpmn2_0.model.activity.SendTask;
 import de.hpi.bpmn2_0.model.activity.ServiceTask;
 import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.activity.UserTask;
-import de.hpi.bpmn2_0.model.diagram.ActivityShape;
+import de.hpi.bpmn2_0.model.diagram.activity.ActivityShape;
 
 /**
  * Concrete class to create any kind of task objects from a {@link Shape} with 

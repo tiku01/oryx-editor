@@ -21,25 +21,24 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.diagram.OryxUUID;
 
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for tTransaction complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tExpression">
+ * &lt;complexType name="tTransaction">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
+ *       &lt;attribute name="method" type="{http://www.omg.org/bpmn20}tTransactionMethod" default="compensate" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -47,22 +46,41 @@ import de.hpi.diagram.OryxUUID;
  * 
  * 
  */
-@XmlRootElement(name = "conditionExpression")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlType(name = "tTransaction")
+public class Transaction
+    extends SubProcess
+{
+
+    @XmlAttribute
+    protected TransactionMethod method;
+
+    /**
+     * Gets the value of the method property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TransactionMethod }
+     *     
+     */
+    public TransactionMethod getMethod() {
+        if (method == null) {
+            return TransactionMethod.COMPENSATE;
+        } else {
+            return method;
+        }
+    }
+
+    /**
+     * Sets the value of the method property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TransactionMethod }
+     *     
+     */
+    public void setMethod(TransactionMethod value) {
+        this.method = value;
+    }
 
 }

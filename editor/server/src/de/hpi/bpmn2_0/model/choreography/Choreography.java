@@ -124,11 +124,11 @@ public class Choreography
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link ManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallChoreographyActivity }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTransaction }{@code >}
+     * {@link JAXBElement }{@code <}{@link Transaction }{@code >}
      * {@link JAXBElement }{@code <}{@link TEndEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TIntermediateCatchEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TFlowElement }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCallActivity }{@code >}
+     * {@link JAXBElement }{@code <}{@link CallActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link TComplexGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link TBoundaryEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link TStartEvent }{@code >}
@@ -146,7 +146,7 @@ public class Choreography
      * {@link JAXBElement }{@code <}{@link UserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TSequenceFlow }{@code >}
      * {@link JAXBElement }{@code <}{@link TEventBasedGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdHocSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link SendTask }{@code >}
      * {@link JAXBElement }{@code <}{@link ChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link ReceiveTask }{@code >}

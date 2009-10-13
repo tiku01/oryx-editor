@@ -25,6 +25,7 @@ package de.hpi.bpmn2_0.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,25 +33,35 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlMixed;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
+import de.hpi.bpmn2_0.jaxb_generated.TCallChoreographyActivity;
+import de.hpi.bpmn2_0.jaxb_generated.TImplicitThrowEvent;
+import de.hpi.bpmn2_0.jaxb_generated.TTransaction;
+import de.hpi.bpmn2_0.model.activity.AdHocSubProcess;
+import de.hpi.bpmn2_0.model.activity.BusinessRuleTask;
+import de.hpi.bpmn2_0.model.activity.CallActivity;
 import de.hpi.bpmn2_0.model.activity.ManualTask;
 import de.hpi.bpmn2_0.model.activity.ReceiveTask;
 import de.hpi.bpmn2_0.model.activity.ScriptTask;
 import de.hpi.bpmn2_0.model.activity.SendTask;
 import de.hpi.bpmn2_0.model.activity.ServiceTask;
+import de.hpi.bpmn2_0.model.activity.SubProcess;
 import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.activity.UserTask;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
+import de.hpi.bpmn2_0.model.choreography.ChoreographySubProcess;
+import de.hpi.bpmn2_0.model.choreography.ChoreographyTask;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.data_object.DataObject;
+import de.hpi.bpmn2_0.model.data_object.DataStore;
 import de.hpi.bpmn2_0.model.data_object.Message;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.EndEvent;
@@ -58,7 +69,10 @@ import de.hpi.bpmn2_0.model.event.Event;
 import de.hpi.bpmn2_0.model.event.IntermediateCatchEvent;
 import de.hpi.bpmn2_0.model.event.IntermediateThrowEvent;
 import de.hpi.bpmn2_0.model.event.StartEvent;
+import de.hpi.bpmn2_0.model.gateway.ComplexGateway;
+import de.hpi.bpmn2_0.model.gateway.EventBasedGateway;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
+import de.hpi.bpmn2_0.model.gateway.InclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
@@ -123,6 +137,7 @@ public class Process
 		@XmlElementRef(type = SendTask.class),
 		@XmlElementRef(type = ServiceTask.class),
 		@XmlElementRef(type = UserTask.class),
+		@XmlElementRef(type = SubProcess.class),
 		
 		/* Gateways */
 		@XmlElementRef(type = ExclusiveGateway.class),
@@ -151,6 +166,14 @@ public class Process
     
     @XmlElement(type = LaneSet.class)
     protected List<LaneSet> laneSet;
+    
+    @XmlTransient
+    private SubProcess subprocessRef; 
+    
+    
+    public boolean isSubprocess() {
+    	return this.subprocessRef != null;
+    }
     
     /**
      * Adds the child to the process's flow elements if possible.
@@ -203,6 +226,20 @@ public class Process
     
     
     /* Getter & Setter */
+    public String getName() {
+    	if(this.isSubprocess()) {
+    		return this.getSubprocessRef().getName();
+    	}
+    	return super.getName();
+    }
+    
+//    @XmlID
+    public String getId() {
+    	if(this.isSubprocess()) {
+    		return this.getSubprocessRef().getId();
+    	}
+    	return super.getId();
+    }
     
     public List<LaneSet> getLaneSet() {
     	if(this.laneSet == null) {
@@ -337,11 +374,11 @@ public class Process
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link ManualTask }{@code >}
      * {@link JAXBElement }{@code <}{@link TCallChoreographyActivity }{@code >}
-     * {@link JAXBElement }{@code <}{@link TTransaction }{@code >}
+     * {@link JAXBElement }{@code <}{@link Transaction }{@code >}
      * {@link JAXBElement }{@code <}{@link EndEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link IntermediateCatchEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link FlowElement }{@code >}
-     * {@link JAXBElement }{@code <}{@link TCallActivity }{@code >}
+     * {@link JAXBElement }{@code <}{@link CallActivity }{@code >}
      * {@link JAXBElement }{@code <}{@link ComplexGateway }{@code >}
      * {@link JAXBElement }{@code <}{@link BoundaryEvent }{@code >}
      * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
@@ -359,7 +396,7 @@ public class Process
      * {@link JAXBElement }{@code <}{@link UserTask }{@code >}
      * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
      * {@link JAXBElement }{@code <}{@link EventBasedGateway }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAdHocSubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdHocSubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link SendTask }{@code >}
      * {@link JAXBElement }{@code <}{@link ChoreographySubProcess }{@code >}
      * {@link JAXBElement }{@code <}{@link ReceiveTask }{@code >}
@@ -517,5 +554,19 @@ public class Process
     public void setDefinitionalCollaborationRef(QName value) {
         this.definitionalCollaborationRef = value;
     }
+
+	/**
+	 * @param subprocessRef the subprocessRef to set
+	 */
+	public void setSubprocessRef(SubProcess subprocessRef) {
+		this.subprocessRef = subprocessRef;
+	}
+
+	/**
+	 * @return the subprocessRef
+	 */
+	public SubProcess getSubprocessRef() {
+		return subprocessRef;
+	}
 
 }

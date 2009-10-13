@@ -23,13 +23,10 @@
 
 package de.hpi.bpmn2_0.factory;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.EventShape;
 import de.hpi.bpmn2_0.model.event.MessageEventDefinition;
 import de.hpi.bpmn2_0.model.event.StartEvent;

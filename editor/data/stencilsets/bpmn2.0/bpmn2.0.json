@@ -726,14 +726,15 @@
 					]
 				},
 				{
-					"id":"iscompensation",
+					"id":"isforcompensation",
 					"type":"Boolean",
-					"title":"is Compensation",
-					"title_de":"ist Kompensation",
+					"title":"Is for Compensation",
+					"title_de":"Ist für Kompensation",
 					"value":false,
-					"description":"",
+					"description":"A flag that identifies whether this activity is intended for the purposes of compensation.",
+					"description_de":"Ein Flag, das angibt, ob diese Aktivität für Kompensierungszwecke vorgesehen ist.",
 					"readonly":false,
-					"optional":false,
+					"optional":true,
 					"refToView":"compensation"
 				},
 				{
@@ -1177,6 +1178,33 @@
 					"length":"50"
 				},
 				{
+					"id":"transactionmethod",
+					"type":"Choice",
+					"title":"TransactionMethod",
+					"title_de":"Transaction Methode",
+					"value":"compensate",
+					"description":"The technique that will be used to undo a transaction that has been cancelled.",
+					"readonly":false,
+					"optional":true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"Compensate",
+							"value":"compensate"
+						},
+						{
+							"id":"c2",
+							"title":"Store",
+							"value":"store"
+						},
+						{
+							"id":"c3",
+							"title":"Image",
+							"value":"image"
+						}
+					]
+				},
+				{
 					"id":"isadhoc",
 					"type":"Boolean",
 					"title":"isAdHoc",
@@ -1201,12 +1229,12 @@
 						{
 							"id":"c1",
 							"title":"Sequential",
-							"value":"Sequential"
+							"value":"sequential"
 						},
 						{
 							"id":"c2",
 							"title":"Parallel",
-							"value":"Parallel"
+							"value":"parallel"
 						}
 					]
 				},
@@ -1218,9 +1246,18 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
+					"optional":true,
+					"refToView":""
+				},
+				{
+					"id":"adhoccancelremaininginstances",
+					"type":"Boolean",
+					"title":"AdhocCancelRemainingInstances",
+					"title_de":"Ad-hoc Abbruch laufender Instanzen",
+					"value":true,
+					"description":"This attribute is used only if ordering is parallel. It determines whether running instances are cancelled when the completionCondition becomes true.",
+					"readonly":false,
+					"optional":true
 				},
 				{
 					"id":"entry",
