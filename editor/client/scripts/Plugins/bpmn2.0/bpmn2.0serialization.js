@@ -37,7 +37,7 @@ if(!ORYX.Plugins)
  * 		The facade of the Editor
  */
 ORYX.Plugins.BPMN2_0Serialization = {
-	bpmnSerializationHandlerUrl: "/oryx/bpmn2_0serialization",
+	bpmnSerializationHandlerUrl: ORYX.CONFIG.ROOT_PATH + "bpmn2_0serialization",
 	
 	construct: function(facade) {
 	
