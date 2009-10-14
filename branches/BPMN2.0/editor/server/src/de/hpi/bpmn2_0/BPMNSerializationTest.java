@@ -13,13 +13,16 @@ import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.DiagramBuilder;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
 import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.transformation.BPMNPrefixMapper;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import de.hpi.diagram.verification.SyntaxChecker;
 
 public class BPMNSerializationTest {
 
-	final static String path = "/Users/Phil/Documents/Studium/signavio/oryx BPMN 2.0/editor/server/src/de/hpi/bpmn2_0/";
+	final static String path = "C:\\Dokumente und Einstellungen\\Sven\\workspace\\oryx_bpmn2.0_2\\editor\\server\\src\\de\\hpi\\bpmn2_0\\";
 	/**
 	 * @param args
 	 * @throws Exception 
@@ -40,17 +43,24 @@ public class BPMNSerializationTest {
 		Diagram diagram = DiagramBuilder.parseJson(bpmnJson);
 		
 		Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
-		Definitions def = converter.getDefinitionsFormDiagram();
+		Definitions def = converter.getDefinitionsFromDiagram();
 		
 //		final XMLStreamWriter xmlStreamWriter = XMLOutputFactory
 //		.newInstance().createXMLStreamWriter(System.out);
 //		
 //		xmlStreamWriter.setPrefix("bpmndi","http://bpmndi.org");
 		
-		SyntaxChecker checker = def.getSyntaxChecker();
-		checker.checkSyntax();
+		JAXBContext context = JAXBContext.newInstance(Definitions.class);
+		Marshaller m = context.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		NamespacePrefixMapper nsp = new BPMNPrefixMapper();
+		m.setProperty("com.sun.xml.bind.namespacePrefixMapper", nsp);
+		m.marshal(def, System.out);
 		
-		System.out.println(checker.getErrorsAsJson().toString());
+//		SyntaxChecker checker = def.getSyntaxChecker();
+//		checker.checkSyntax();
+//		
+//		System.out.println(checker.getErrorsAsJson().toString());
 	}
 
 }
