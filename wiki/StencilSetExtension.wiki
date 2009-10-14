@@ -72,10 +72,13 @@ Because canContain and canConnect have a major impact on the performance, we dec
 
 === Questions ===
 
-1. Which methods exist to manipulate a stencil set through an extension?
-2. How does morphing work? How to add it to an extension of a stencil set that does not use it?
-3. How does layouting work? 
-4. Scenarios
-4.a) How do I add/remove properties of a specific stencil?
-4.b) How do I change the svg/png representation of a specific stencil WITHOUT redefining it in the first place?
-4. c) How do I register/implement event-handlng on stencils in extensions? E.g. I have a stencil set and for 5 stencils I want to add event handlers that perform some work, when they are clicked/dragged/Connected to other elements.
+  # Which methods exist to manipulate a stencil set through an extension?
+  # How does morphing work? 
+    # How to add it to an extension of a stencil set that does not use it?
+    # How do I decide, which shapes occur in the shapemenu and where?
+  # How does layouting work? 
+  # Scenarios
+    # How do I add/remove properties of a specific stencil?
+    # How do I change the svg/png representation of a specific stencil WITHOUT redefining it in the first place?
+    # How do I register/implement event-handling on stencils in extensions? E.g. I have a stencil set and for 5 stencils I want to add event handlers that perform some work, when they are clicked/dragged/Connected to other elements.
+   # How do I add new functionality to a highlighted element, such as the shapemenu, the morphmenu etc?
