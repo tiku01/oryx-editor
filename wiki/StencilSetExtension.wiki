@@ -69,3 +69,13 @@ New Callback:
 === Remarks ===
 
 Because canContain and canConnect have a major impact on the performance, we decided in the team meeting on 4th June 08 to exclude them from the specification.
+
+=== Questions ===
+
+1. Which methods exist to manipulate a stencil set through an extension?
+2. How does morphing work? How to add it to an extension of a stencil set that does not use it?
+3. How does layouting work? 
+4. Scenarios
+4.a) How do I add/remove properties of a specific stencil?
+4.b) How do I change the svg/png representation of a specific stencil WITHOUT redefining it in the first place?
+4. c) How do I register/implement event-handlng on stencils in extensions? E.g. I have a stencil set and for 5 stencils I want to add event handlers that perform some work, when they are clicked/dragged/Connected to other elements.
