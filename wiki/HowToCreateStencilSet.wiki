@@ -553,7 +553,7 @@ The complete implementation of the Let's Dance modeling language is available ov
 
 = Morphing =
 
-In Oryx, it is possible to extend stencil sets with morphing capabilities. This means, that one can specify a collection of semantically related shapes of the same type, i.e., node or edge, which will represented by a single icon in the shape menu. After one element---the representative element of that collection---is drawn on the canvas a new menu appears under the highlighted elment: the morph menu. This menu allows to select another element of that group and transform, or _morph_, the current element into another.
+In Oryx, it is possible to extend stencil sets with morphing capabilities. This means, that one can specify a collection of semantically related shapes of the same type, i.e., node or edge, which will represented by a single icon in the shape menu. After one element---the representative element of that collection---is drawn on the canvas a new menu appears under the highlighted element: the morph menu. This menu allows to select another element of that group and transform, or _morph_, the current element into another.
 
 Morphing is realized through specifying the groups: Which elements belong together? 
 
@@ -562,9 +562,59 @@ Morphing is realized through specifying the groups: Which elements belong togeth
   # Add the "morphingRules" section to the "rules" section in your stencil set, follow the example below:
 
 {{{
-  // example shape
+  // example shapes from petrinets.json
+  {
+    "type": "node",
+    "id":"VerticalEmptyTransition",
+    "title":"Empty Transition",
+    "groups":[],
+    "description":"An empty transition",
+    "view":"node.transition.emptyV.svg",
+    "icon":"new_transition_emptyV.png",
+    "roles": [
+      "transition",
+      "fromtoall",
+      "TransitionMorph"
+    ],
+  // ...
+
+  {
+    "type": "node",
+    "id":"Transition",
+    "title":"Transition",
+    "groups":[],
+    "description":"Atransition",
+    "view":"node.transition.svg",
+    "icon":"new_transition.png",
+    "roles": [
+      "transition",
+      "fromtoall",
+      "TransitionMorph"
+    ],
+  // ...
+
+  // morphing rules from petrinets.json
+
+  "morphingRules": [
+    {
+      "role": "TransitionMorph",
+      "baseMorphs": ["Transition"]
+    },
+    {
+      "role": "FlowMorph",
+      "baseMorphs": ["Arc"]
+    },
+    {
+      "role": "PlaceMorph",
+      "baseMorphs": ["Place"]
+    },
+  ]
 
 }}}
+
+Please note: The baseMorphs array contains the ids of all shapes, that are supposed to show up in the shape menu. In the example above this is only a single one. However, it's up to you to select which elements should be directly at the hand of the modeler and which are second class, i.e. reachable through the morphing.
+
+Morphing does not affect the shape repository, i.e., the container on the left of the UI providing all shapes.
 
 = Stencil Set Callbacks =
 
