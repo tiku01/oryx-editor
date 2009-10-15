@@ -551,6 +551,21 @@ http://oryx-editor.googlecode.com/svn/wiki/pictures_letsdance/009_hover_buttons.
 
 The complete implementation of the Let's Dance modeling language is available over the oryx-editor svn. It contains all shapes and descriptions. 
 
+= Morphing =
+
+In Oryx, it is possible to extend stencil sets with morphing capabilities. This means, that one can specify a collection of semantically related shapes of the same type, i.e., node or edge, which will represented by a single icon in the shape menu. After one element---the representative element of that collection---is drawn on the canvas a new menu appears under the highlighted elment: the morph menu. This menu allows to select another element of that group and transform, or _morph_, the current element into another.
+
+Morphing is realized through specifying the groups: Which elements belong together? 
+
+  # Define a role for each group. We recommend to use a naming scheme like "GroupNameMorph", where GroupName is the name of your group. However, this name will not appear in the UI.
+  # Add a role to the "roles" section of each element, that contains its group. If you have elements that do not belong to a group, i.e., stand on their own, you have to create a separate group for it anyways, e.g. "ElementNameGroup". _Groups that contain only one element will not have any effect on the UI, the morph menu won't be shown._
+  # Add the "morphingRules" section to the "rules" section in your stencil set, follow the example below:
+
+{{{
+  // example shape
+
+}}}
+
 = Stencil Set Callbacks =
 
 There are three more optional attributes. They offer some capabilities to implement requirements, that are not practical with the default stencil set specification. Each of those attributes take an event type and additional user defined attributes respectively an event list. An editor plug-in can handle the appropriate event. See: [HowToDevelopAnEditorPlugin] for implementation details. Do not forget to record the new plug-in into the _plugins.xml_.
