@@ -239,7 +239,7 @@ public class BPMN2Migrator {
 		for(String ssextension : stencilSetExtensions) {			
 			
 			if(ssextension.equals("http://oryx-editor.org/stencilsets/extensions/bpmn1.1basicsubset#")) {
-				extensions.add("http://oryx-editor.org/stencilsets/perspectives/beginnerbpmn2#");
+				extensions.add("http://oryx-editor.org/stencilsets/extensions/bpmn2.0basicsubset#");
 			} 
 			
 			// TODO: What happens with extensions that are currently not present in BPMN 2.0?
@@ -445,8 +445,10 @@ public class BPMN2Migrator {
 				/* Map MI-Ordering to LoopType */			
 				if(props.containsKey("looptype")) {
 					/* replace old value with new one */
-					props.remove("looptype");
-					props.put("looptype", activity.getProperty("mi_ordering"));
+					if(activity.getProperty("looptype").equals("MultiInstance")) {
+						props.remove("looptype");
+						props.put("looptype", activity.getProperty("mi_ordering"));
+					}
 				}
 				
 				if(id.equals("Task")) {
