@@ -53,6 +53,10 @@ public class Diagram extends Shape {
 	 * @return the ssextensions
 	 */
 	public ArrayList<String> getSsextensions() {
+		if(ssextensions == null) {
+			ssextensions = new ArrayList<String>();
+		}
+		
 		return ssextensions;
 	}
 	/** set a new StencilSet-Extension ArrayList<String>
