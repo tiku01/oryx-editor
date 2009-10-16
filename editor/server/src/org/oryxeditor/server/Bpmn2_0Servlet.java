@@ -24,6 +24,7 @@ package org.oryxeditor.server;
  * SOFTWARE.
  */
 
+import java.io.IOException;
 import java.io.StringWriter;
 
 import javax.servlet.ServletException;
@@ -66,6 +67,7 @@ public class Bpmn2_0Servlet extends HttpServlet {
 			res.getWriter().print(output.toString());
 		} catch (Exception e) {
 			try {
+				e.printStackTrace();
 				res.setStatus(500);
 				res.setContentType("text/plain");
 				res.getWriter().write(e.getCause().getMessage());
