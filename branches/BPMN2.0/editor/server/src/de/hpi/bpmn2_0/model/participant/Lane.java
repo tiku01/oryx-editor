@@ -40,7 +40,6 @@ import org.oryxeditor.server.diagram.Shape;
 import org.oryxeditor.server.diagram.StencilType;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
-import de.hpi.bpmn2_0.jaxb_generated.TBaseElement;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
