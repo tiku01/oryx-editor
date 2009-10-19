@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 
-import de.hpi.bpmn.Node;
+import org.oryxeditor.server.diagram.Shape;
+
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 
@@ -90,4 +91,10 @@ public class Edge extends FlowElement {
 	public void setTargetRef(FlowElement targetRef) {
 		this.targetRef = targetRef;
 	}
+	
+	public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	shape.setTarget(new Shape(this.getTargetRef().getId()));
+    	shape.getOutgoings().add(new Shape(this.getTargetRef().getId()));
+    }
 }

@@ -25,6 +25,7 @@ package de.hpi.bpmn2_0.model.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -36,6 +37,10 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.oryxeditor.server.diagram.Bounds;
+import org.oryxeditor.server.diagram.Point;
+import org.oryxeditor.server.diagram.Shape;
 
 
 /**
@@ -79,7 +84,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     AssociationConnector.class,
     MessageFlowConnector.class
 })
-public class BpmnConnector {
+public class BpmnConnector implements BpmnShape {
 
     @XmlElement(namespace = "http://bpmndi.org")
     protected List<BpmnConnector.Bendpoint> bendpoint;
@@ -98,7 +103,56 @@ public class BpmnConnector {
     protected Object targetRef;
     @XmlAttribute
     protected String label;
-
+    
+    public Shape toShape() {
+    	Shape shape = new Shape(this.getId());
+    	
+    	/* Variables to determine the bounds of a connector */
+    	double ulx = 0;
+    	double uly = 0;
+    	double lrx = 0;
+    	double lry = 0;
+    	
+    	/* Set Dockers */
+    	if(this.getSourceRef() instanceof BpmnNode) {
+    		Bendpoint bPoint = ((BpmnNode) this.getSourceRef()).getCenterBendpoint();
+    		Point point = ((BpmnNode) this.getSourceRef()).getAbsoluteCenterPoint();
+    		ulx = point.getX();
+    		lrx = point.getX();
+    		uly = point.getY();
+    		lry = point.getY();
+    		shape.getDockers().add(new Point(bPoint.getX(), bPoint.getY()));
+    	}
+    	
+    	for(Bendpoint bPoint : this.getBendpoint()) {
+    		ulx = (bPoint.getX() < ulx ? bPoint.getX() : ulx);
+    		lrx = (bPoint.getX() > lrx ? bPoint.getX() : lrx);
+    		uly = (bPoint.getY() < uly ? bPoint.getY() : uly);
+    		lry = (bPoint.getY() > lry ? bPoint.getY() : lry);
+    		shape.getDockers().add(new Point(bPoint.getX(), bPoint.getY()));
+    	}
+    	
+    	if(this.getTargetRef() instanceof BpmnNode) {
+    		Bendpoint bPoint = ((BpmnNode) this.getTargetRef()).getCenterBendpoint();
+    		
+    		Point point = ((BpmnNode) this.getSourceRef()).getAbsoluteCenterPoint();
+    		ulx = (point.getX() < ulx ? point.getX() : ulx);
+    		lrx = (point.getX() > lrx ? point.getX() : lrx);
+    		uly = (point.getY() < uly ? point.getY() : uly);
+    		lry = (point.getY() > lry ? point.getY() : lry);
+    		
+    		shape.getDockers().add(new Point(bPoint.getX(), bPoint.getY()));
+    	}
+    	
+    	/* Set bounds */
+    	Bounds bounds = new Bounds(new Point(lrx, lry), new Point(ulx, uly));
+    	shape.setBounds(bounds);
+    	
+    	return shape;
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the bendpoint property.
      * 
@@ -169,10 +223,10 @@ public class BpmnConnector {
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link BpmnShape }
      *     
      */
-    public void setSourceRef(Object value) {
+    public void setSourceRef(BpmnShape value) {
         this.sourceRef = value;
     }
 
@@ -181,11 +235,11 @@ public class BpmnConnector {
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link BpmnShape }
      *     
      */
-    public Object getTargetRef() {
-        return targetRef;
+    public BpmnShape getTargetRef() {
+        return (BpmnShape) targetRef;
     }
 
     /**
@@ -193,10 +247,10 @@ public class BpmnConnector {
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link BpmnShape }
      *     
      */
-    public void setTargetRef(Object value) {
+    public void setTargetRef(BpmnShape value) {
         this.targetRef = value;
     }
 

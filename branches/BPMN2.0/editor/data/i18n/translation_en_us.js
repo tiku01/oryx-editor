@@ -735,3 +735,14 @@ ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "An Event Sub-Pr
 
 /** New Language Properties 13.10.2009 */
 ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "At least on side of the Message Flow has to be connected.";
+
+/** New Language Properties 19.10.2009 */
+ORYX.I18N.Bpmn2_0Serialization['import'] = "Import from BPMN 2.0 XML";
+ORYX.I18N.Bpmn2_0Serialization.importDesc = "Import a BPMN 2.0 model from a file or XML String";
+ORYX.I18N.Bpmn2_0Serialization.selectFile = "Select a (*.bpmn) file or type in BPMN 2.0 XML to import it!";
+ORYX.I18N.Bpmn2_0Serialization.file = "File:";
+ORYX.I18N.Bpmn2_0Serialization.name = "Import from BPMN 2.0 XML";
+ORYX.I18N.Bpmn2_0Serialization.btnImp = "Import";
+ORYX.I18N.Bpmn2_0Serialization.progress = "Importing BPMN 2.0 XML ...";
+ORYX.I18N.Bpmn2_0Serialization.btnClose = "Close";
+ORYX.I18N.Bpmn2_0Serialization.error = "An error occurred while importing BPMN 2.0 XML";

@@ -132,6 +132,52 @@ public class Definitions {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
     
+    /**
+     * 
+     * @return
+     */
+    public ConversationDiagram getConversationDiagram() {
+    	for(BpmnDiagram dia : this.getDiagram()) {
+    		if(dia instanceof ConversationDiagram) {
+    			return (ConversationDiagram) dia;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    public ChoreographyDiagram getChoreographyDiagram() {
+    	for(BpmnDiagram dia : this.getDiagram()) {
+    		if(dia instanceof ChoreographyDiagram) {
+    			return (ChoreographyDiagram) dia;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    public CollaborationDiagram getCollaborationDiagram() {
+    	for(BpmnDiagram dia : this.getDiagram()) {
+    		if(dia instanceof CollaborationDiagram) {
+    			return (CollaborationDiagram) dia;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    public ProcessDiagram getProcessDiagram() {
+    	for(BpmnDiagram dia : this.getDiagram()) {
+    		if(dia instanceof ProcessDiagram) {
+    			return (ProcessDiagram) dia;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    
+    /* Getter & Setter */
     
     /**
      * Gets the value of the import property.

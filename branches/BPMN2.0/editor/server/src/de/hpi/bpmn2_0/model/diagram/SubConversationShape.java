@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.conversation.SubConversation;
 
 /**
@@ -59,5 +60,10 @@ public class SubConversationShape extends BpmnNode {
 	 */
 	public void setSubConversation(SubConversation subConversation) {
 		this.subConversation = subConversation;
+	}
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getSubConversation();
 	}
 }

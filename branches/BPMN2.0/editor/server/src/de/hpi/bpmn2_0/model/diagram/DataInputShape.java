@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.data_object.DataInput;
 
 
@@ -86,5 +87,10 @@ public class DataInputShape
     public void setDataInputRef(DataInput value) {
         this.dataInputRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getDataInputRef();
+	}
 
 }

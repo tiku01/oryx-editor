@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.diagram.activity.ActivityShape;
+
 
 /**
  * <p>Java class for subprocessShapeType complex type.

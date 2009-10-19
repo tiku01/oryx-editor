@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 
 
@@ -62,6 +64,15 @@ public class MessageFlowConnector
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected MessageFlow messageFlowRef;
+    
+    /**
+     * Adds message flow specific attributes to the JSON representation.
+     */
+    public Shape toShape() {
+    	Shape shape = super.toShape();
+    	this.getMessageFlowRef().toShape(shape);
+    	return shape;
+    }
 
     /**
      * Gets the value of the messageFlowRef property.

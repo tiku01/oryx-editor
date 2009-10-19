@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 
@@ -92,5 +93,10 @@ public class ActivityShape
     public void setActivityRef(Activity value) {
         this.activityRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getActivityRef();
+	}
 
 }

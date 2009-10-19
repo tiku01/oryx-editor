@@ -34,6 +34,7 @@ import de.hpi.bpmn2_0.model.diagram.PoolCompartment;
 import de.hpi.bpmn2_0.model.participant.Lane;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
+import de.hpi.diagram.OryxUUID;
 
 /**
  * Factory to create lanes and pools
@@ -64,6 +65,12 @@ public class LaneFactory extends AbstractBpmnFactory {
 			if (poolElement instanceof Participant)
 				((PoolCompartment) poolLaneShape)
 						.setParticipantRef((Participant) poolElement);
+			else {
+				Participant participant = new Participant();
+				participant.setId(OryxUUID.generate());
+				participant.setName(poolLaneShape.getName());
+				((PoolCompartment) poolLaneShape).setParticipantRef(participant);
+			}
 
 			return new BPMNElement(poolLaneShape, poolElement, shape
 					.getResourceId());

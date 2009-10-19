@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlIDREF;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.choreography.Choreography;
 
 /**
@@ -81,5 +82,10 @@ public class ChoreographyCompartment extends BpmnCompartment {
 	 */
 	public void setChoreographyRef(Choreography choreographyRef) {
 		this.choreographyRef = choreographyRef;
+	}
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return null;
 	}
 }

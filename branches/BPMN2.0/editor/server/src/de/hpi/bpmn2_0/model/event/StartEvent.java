@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
 
 /**
  * <p>Java class for tStartEvent complex type.
@@ -58,6 +61,19 @@ public class StartEvent
     @XmlAttribute
     protected Boolean isInterrupting;
 
+    
+    /**
+     * Set general properties of a start event while generating its json 
+     * representation
+     */
+    public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	
+    	shape.setStencil(new StencilType("StartNoneEvent"));
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the isInterrupting property.
      * 

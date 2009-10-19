@@ -3,22 +3,24 @@ package de.hpi.bpmn2_0;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
+import javax.xml.bind.Unmarshaller;
 
 import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.DiagramBuilder;
+import org.oryxeditor.server.diagram.JSONBuilder;
 
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.transformation.BPMN2DiagramConverter;
 import de.hpi.bpmn2_0.transformation.BPMNPrefixMapper;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
-import de.hpi.diagram.verification.SyntaxChecker;
 
 public class BPMNSerializationTest {
 
@@ -28,7 +30,8 @@ public class BPMNSerializationTest {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		toBpmn2_0();
+//		toBpmn2_0();
+		fromXml();
 
 	}
 	
@@ -62,5 +65,16 @@ public class BPMNSerializationTest {
 //		
 //		System.out.println(checker.getErrorsAsJson().toString());
 	}
-
+	
+	public static void fromXml() throws JAXBException, JSONException {
+		File xml = new File(path + "bpmntest.xml");
+		JAXBContext context = JAXBContext.newInstance(Definitions.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Definitions def = (Definitions) unmarshaller.unmarshal(xml);
+		
+		BPMN2DiagramConverter converter = new BPMN2DiagramConverter("/oryx/");
+		List<Diagram> dia = converter.getDiagramFromBpmn20(def);
+		
+		System.out.println(JSONBuilder.parseModeltoString(dia.get(0)));
+	}
 }

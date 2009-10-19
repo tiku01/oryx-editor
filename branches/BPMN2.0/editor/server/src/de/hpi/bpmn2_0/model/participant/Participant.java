@@ -29,12 +29,14 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.FlowNode;
+import de.hpi.bpmn2_0.model.Process;
 
 
 /**
@@ -76,8 +78,11 @@ public class Participant
     protected List<QName> interfaceRef;
     protected List<QName> endPointRef;
     protected ParticipantMultiplicity participantMultiplicity;
+    
     @XmlAttribute
-    protected String name;
+    @XmlIDREF
+    protected Process processRef;
+    
     @XmlAttribute
     protected QName partnerRoleRef;
     @XmlAttribute
@@ -118,6 +123,20 @@ public class Participant
     }
 
     /**
+	 * @return the processRef
+	 */
+	public Process getProcessRef() {
+		return this.processRef;
+	}
+
+	/**
+	 * @param processRef the processRef to set
+	 */
+	public void setProcessRef(Process processRef) {
+		this.processRef = processRef;
+	}
+
+	/**
      * Gets the value of the endPointRef property.
      * 
      * <p>
@@ -183,30 +202,6 @@ public class Participant
 	public void setInitiating(boolean isInitiating) {
 		this.isInitiating = isInitiating;
 	}
-
-	/**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
 
     /**
      * Gets the value of the partnerRoleRef property.

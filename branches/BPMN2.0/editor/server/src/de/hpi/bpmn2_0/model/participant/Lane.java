@@ -31,26 +31,20 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
 import de.hpi.bpmn2_0.annotations.ChildElements;
+import de.hpi.bpmn2_0.jaxb_generated.TBaseElement;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
-import de.hpi.bpmn2_0.model.activity.Task;
-import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.connector.Edge;
-import de.hpi.bpmn2_0.model.connector.SequenceFlow;
-import de.hpi.bpmn2_0.model.data_object.DataObject;
-import de.hpi.bpmn2_0.model.event.EndEvent;
-import de.hpi.bpmn2_0.model.event.StartEvent;
-import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
-import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
 
 
 /**
@@ -85,7 +79,7 @@ import de.hpi.bpmn2_0.model.gateway.ParallelGateway;
     "childLaneSet"
 })
 public class Lane
-    extends BaseElement
+    extends FlowElement
 {
 
 	protected BaseElement partitionElement;
@@ -120,13 +114,10 @@ public class Lane
 	protected LaneSet childLaneSet;
 	
 	@XmlIDREF
+	@XmlAttribute
 	@XmlSchemaType(name = "IDREF")
 //	@XmlElementRef(type = LaneSet.class)
-	@XmlAttribute
 	protected LaneSet laneSet;
-    
-    @XmlAttribute
-    protected String name;
     
     @XmlAttribute
     @XmlIDREF
@@ -145,6 +136,16 @@ public class Lane
     		this.getFlowElementRef().add((FlowElement) child);
     	}
     }
+    
+    /**
+     * Set general properties of a lane while generating its json 
+     * representation
+     */
+    public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	
+    	shape.setStencil(new StencilType("Lane"));
+    } 
     
     /* Getter & Setter */
     
@@ -243,30 +244,6 @@ public class Lane
      */
     public void setChildLaneSet(LaneSet value) {
         this.childLaneSet = value;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
     }
 
     /**

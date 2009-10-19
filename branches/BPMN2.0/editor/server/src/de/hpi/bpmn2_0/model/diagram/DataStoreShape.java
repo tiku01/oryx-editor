@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.data_object.DataStore;
 
 
@@ -86,5 +87,10 @@ public class DataStoreShape
     public void setDataStoreRef(DataStore value) {
         this.dataStoreRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getDataStoreRef();
+	}
 
 }

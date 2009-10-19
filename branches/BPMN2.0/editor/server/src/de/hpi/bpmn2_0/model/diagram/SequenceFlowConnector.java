@@ -15,6 +15,10 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+
+import de.hpi.bpmn2_0.model.connector.SequenceFlow;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -42,17 +46,28 @@ public class SequenceFlowConnector
     @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
-    protected Object sequenceFlowRef;
-
+    protected SequenceFlow sequenceFlowRef;
+    
+    /**
+     * Adds sequence flow specific attributes to the JSON representation.
+     */
+    public Shape toShape() {
+    	Shape shape = super.toShape();
+    	this.getSequenceFlowRef().toShape(shape);
+    	return shape;
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the sequenceFlowRef property.
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link SequenceFlow }
      *     
      */
-    public Object getSequenceFlowRef() {
+    public SequenceFlow getSequenceFlowRef() {
         return sequenceFlowRef;
     }
 
@@ -61,10 +76,10 @@ public class SequenceFlowConnector
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link SequenceFlow }
      *     
      */
-    public void setSequenceFlowRef(Object value) {
+    public void setSequenceFlowRef(SequenceFlow value) {
         this.sequenceFlowRef = value;
     }
 

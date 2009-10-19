@@ -33,13 +33,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
-import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.annotations.ChildElements;
+import de.hpi.bpmn2_0.jaxb_generated.TCallChoreographyActivity;
+import de.hpi.bpmn2_0.jaxb_generated.TImplicitThrowEvent;
 import de.hpi.bpmn2_0.model.activity.AdHocSubProcess;
 import de.hpi.bpmn2_0.model.activity.BusinessRuleTask;
 import de.hpi.bpmn2_0.model.activity.CallActivity;
@@ -50,6 +51,7 @@ import de.hpi.bpmn2_0.model.activity.SendTask;
 import de.hpi.bpmn2_0.model.activity.ServiceTask;
 import de.hpi.bpmn2_0.model.activity.SubProcess;
 import de.hpi.bpmn2_0.model.activity.Task;
+import de.hpi.bpmn2_0.model.activity.Transaction;
 import de.hpi.bpmn2_0.model.activity.UserTask;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
@@ -139,6 +141,9 @@ public class Process
 		/* Gateways */
 		@XmlElementRef(type = ExclusiveGateway.class),
 		@XmlElementRef(type = ParallelGateway.class),
+		@XmlElementRef(type = ComplexGateway.class),
+		@XmlElementRef(type = EventBasedGateway.class),
+		@XmlElementRef(type = InclusiveGateway.class),
 		
 		/* Edges */
 		@XmlElementRef(type = SequenceFlow.class),

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 
 
@@ -86,5 +87,10 @@ public class TextAnnotationShape
     public void setAnnotationRef(TextAnnotation value) {
         this.annotationRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getAnnotationRef();
+	}
 
 }

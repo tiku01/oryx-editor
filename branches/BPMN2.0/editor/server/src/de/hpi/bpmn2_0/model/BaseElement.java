@@ -33,11 +33,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -99,7 +98,7 @@ import de.hpi.bpmn2_0.model.participant.Lane;
 // TLoopCharacteristics.class,
 // TCorrelationPropertyBinding.class,
 // TActivityResource.class,
-// Lane.class,
+//	Lane.class,
 // TCorrelationPropertyRetrievalExpression.class,
 // TDataState.class,
 // LaneSet.class,
@@ -128,10 +127,10 @@ public abstract class BaseElement {
 	@XmlAnyAttribute
 	private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 	
-	@XmlIDREF
-	@XmlElement(type = Lane.class)
+	@XmlTransient
 	private Lane lane;
     
+	@XmlTransient
     private Process processRef;
     
 	/**
