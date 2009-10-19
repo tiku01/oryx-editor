@@ -34,10 +34,6 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.jaxb_generated.TArtifact;
-import de.hpi.bpmn2_0.jaxb_generated.TAssociation;
-import de.hpi.bpmn2_0.jaxb_generated.TGroup;
-import de.hpi.bpmn2_0.jaxb_generated.TTextAnnotation;
 import de.hpi.bpmn2_0.model.artifacts.Artifact;
 
 
