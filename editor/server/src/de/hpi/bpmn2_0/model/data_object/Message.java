@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.FlowNode;
-import de.hpi.bpmn2_0.model.RootElement;
 
 
 /**

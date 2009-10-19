@@ -358,10 +358,18 @@
 	
 	
 	<servlet>
-		<display-name>BPMN 2 Importer/Exporter</display-name>
+		<display-name>BPMN 2 Exporter</display-name>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<servlet-class>
 			org.oryxeditor.server.Bpmn2_0Servlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>BPMN 2 Importer</display-name>
+		<servlet-name>Bpmn2_0Importer</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.BPMN2_0Importer
 		</servlet-class>
 	</servlet>
 
@@ -585,6 +593,11 @@
 	<servlet-mapping>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<url-pattern>/bpmn2_0serialization</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Bpmn2_0Importer</servlet-name>
+		<url-pattern>/bpmn2_0deserialization</url-pattern>
 	</servlet-mapping>
 
 	

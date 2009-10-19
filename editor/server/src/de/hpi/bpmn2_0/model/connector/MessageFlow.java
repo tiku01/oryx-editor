@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
 import de.hpi.bpmn2_0.model.data_object.Message;
 
 
@@ -66,7 +69,15 @@ public class MessageFlow
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected Message messageRef;
-
+    
+    public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	
+    	shape.setStencil(new StencilType("MessageFlow"));
+    }
+    
+    /* Getter & Setter */
+    
     /**
      * Gets the value of the messageRef property.
      * 

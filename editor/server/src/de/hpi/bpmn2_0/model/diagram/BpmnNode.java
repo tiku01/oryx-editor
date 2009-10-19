@@ -23,6 +23,9 @@
 
 package de.hpi.bpmn2_0.model.diagram;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -33,214 +36,245 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.oryxeditor.server.diagram.Bounds;
+import org.oryxeditor.server.diagram.Point;
+import org.oryxeditor.server.diagram.Shape;
+
+import de.hpi.bpmn2_0.model.FlowElement;
+import de.hpi.bpmn2_0.model.diagram.BpmnConnector.Bendpoint;
 
 /**
- * <p>Java class for bpmnNodeType complex type.
+ * <p>
+ * Java class for bpmnNodeType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="bpmnNodeType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}ID" />
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="x" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *       &lt;attribute name="y" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *       &lt;attribute name="width" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *       &lt;attribute name="height" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;bpmnNodeType&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;attribute name=&quot;id&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}ID&quot; /&gt;
+ *       &lt;attribute name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *       &lt;attribute name=&quot;x&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *       &lt;attribute name=&quot;y&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *       &lt;attribute name=&quot;width&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *       &lt;attribute name=&quot;height&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "bpmnNodeType", namespace = "http://bpmndi.org")
-@XmlSeeAlso({
-//    GroupShape.class,
-//    TextAnnotationShape.class,
-//    ActivityShape .class,
-//    GatewayShape.class,
-//    MessageShape.class,
-//    DataObjectShape.class,
-//    DataInputShape.class,
-//    DataStoreShape.class,
-//    DataOutputShape.class,
-    EventShape.class,
-    BpmnCompartment.class
-})
-public abstract class BpmnNode {
+@XmlSeeAlso( {
+// GroupShape.class,
+		// TextAnnotationShape.class,
+		// ActivityShape .class,
+		// GatewayShape.class,
+		// MessageShape.class,
+		// DataObjectShape.class,
+		// DataInputShape.class,
+		// DataStoreShape.class,
+		// DataOutputShape.class,
+		EventShape.class, BpmnCompartment.class })
+public abstract class BpmnNode implements BpmnShape {
 
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlID
-    @XmlSchemaType(name = "ID")
-    protected String id;
-    @XmlAttribute
-    protected String name;
-    @XmlAttribute
-    @XmlSchemaType(name = "anySimpleType")
-    protected double x;
-    @XmlAttribute
-    @XmlSchemaType(name = "anySimpleType")
-    protected double y;
-    @XmlAttribute
-    @XmlSchemaType(name = "anySimpleType")
-    protected double width;
-    @XmlAttribute
-    @XmlSchemaType(name = "anySimpleType")
-    protected double height;
+	@XmlAttribute(required = true)
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	@XmlID
+	@XmlSchemaType(name = "ID")
+	protected String id;
+	@XmlAttribute
+	protected String name;
+	@XmlAttribute
+	@XmlSchemaType(name = "anySimpleType")
+	protected double x;
+	@XmlAttribute
+	@XmlSchemaType(name = "anySimpleType")
+	protected double y;
+	@XmlAttribute
+	@XmlSchemaType(name = "anySimpleType")
+	protected double width;
+	@XmlAttribute
+	@XmlSchemaType(name = "anySimpleType")
+	protected double height;
 
-    public void addChild(BpmnNode childShape) {
-    	return;
-    }
-    
-    /* Getter & Setter */
-    
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getId() {
-        return id;
-    }
+	public void addChild(BpmnNode childShape) {
+		return;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+	public List<Shape> toShape() {
+		Shape shape = new Shape("");
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+		/* Create bounds */
+		Point lr = new Point(this.getX() + this.getWidth(), this.getY()
+				+ this.getHeight());
+		Point ul = new Point(this.getX(), this.getY());
+		Bounds bounds = new Bounds(lr, ul);
+		shape.setBounds(bounds);
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+		/* Handle properties */
+		if(this.getFlowElement() != null)
+			this.getFlowElement().toShape(shape);
 
-    /**
-     * Gets the value of the x property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link double }
-     *     
-     */
-    public double getX() {
-        return x;
-    }
+		List<Shape> shapes = new ArrayList<Shape>();
+		shapes.add(shape);
+		return shapes;
+	}
 
-    /**
-     * Sets the value of the x property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link double }
-     *     
-     */
-    public void setX(double value) {
-        this.x = value;
-    }
+	/**
+	 * Retrieves the center point of the BPMN shape.
+	 * 
+	 * @return A bendpoint describing the center point of the shape.
+	 */
+	public Bendpoint getCenterBendpoint() {
+		Bendpoint bPoint = new Bendpoint();
+		bPoint.setX(this.getWidth() / 2);
+		bPoint.setY(this.getHeight() / 2);
+		return bPoint;
+	}
 
-    /**
-     * Gets the value of the y property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link double }
-     *     
-     */
-    public double getY() {
-        return y;
-    }
+	public Point getAbsoluteCenterPoint() {
+		Point point = new Point(this.getX() + this.getWidth() / 2, this.getY()
+				+ this.getHeight() / 2);
+		return point;
+	}
 
-    /**
-     * Sets the value of the y property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link double }
-     *     
-     */
-    public void setY(double value) {
-        this.y = value;
-    }
+	/* Getter & Setter */
 
-    /**
-     * Gets the value of the width property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link double }
-     *     
-     */
-    public double getWidth() {
-        return width;
-    }
+	/**
+	 * Retrieves the {@link FlowElement} related to the shape representation.
+	 */
+	protected abstract FlowElement getFlowElement();
 
-    /**
-     * Sets the value of the width property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link double }
-     *     
-     */
-    public void setWidth(double value) {
-        this.width = value;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * Gets the value of the height property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link double }
-     *     
-     */
-    public double getHeight() {
-        return height;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setId(String value) {
+		this.id = value;
+	}
 
-    /**
-     * Sets the value of the height property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link double }
-     *     
-     */
-    public void setHeight(double value) {
-        this.height = value;
-    }
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	/**
+	 * Gets the value of the x property.
+	 * 
+	 * @return possible object is {@link double }
+	 * 
+	 */
+	public double getX() {
+		return x;
+	}
+
+	/**
+	 * Sets the value of the x property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link double }
+	 * 
+	 */
+	public void setX(double value) {
+		this.x = value;
+	}
+
+	/**
+	 * Gets the value of the y property.
+	 * 
+	 * @return possible object is {@link double }
+	 * 
+	 */
+	public double getY() {
+		return y;
+	}
+
+	/**
+	 * Sets the value of the y property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link double }
+	 * 
+	 */
+	public void setY(double value) {
+		this.y = value;
+	}
+
+	/**
+	 * Gets the value of the width property.
+	 * 
+	 * @return possible object is {@link double }
+	 * 
+	 */
+	public double getWidth() {
+		return width;
+	}
+
+	/**
+	 * Sets the value of the width property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link double }
+	 * 
+	 */
+	public void setWidth(double value) {
+		this.width = value;
+	}
+
+	/**
+	 * Gets the value of the height property.
+	 * 
+	 * @return possible object is {@link double }
+	 * 
+	 */
+	public double getHeight() {
+		return height;
+	}
+
+	/**
+	 * Sets the value of the height property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link double }
+	 * 
+	 */
+	public void setHeight(double value) {
+		this.height = value;
+	}
 
 }

@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 
@@ -80,6 +84,27 @@ public class PoolCompartment
     	}
     	
     	this.getLane().add((LaneCompartment) childLane);
+    }
+    
+    public List<Shape> toShape() {
+    	List<Shape> shapes = super.toShape();
+    	/* It is expected that only one shape is created for a pool element */
+    	if(shapes.size() != 1)
+    		return new ArrayList<Shape>();
+    	
+    	Shape poolShape = shapes.get(0);
+    	this.getParticipantRef().toShape(poolShape);
+    	
+    	if(this.getLane().size() == 0) {
+    		/* Collapsed pool */
+    		poolShape.setStencil(new StencilType("CollapsedPool"));
+    	} else if(this.getLane().size() > 0) {
+    		poolShape.setStencil(new StencilType("Pool"));
+    		for(LaneCompartment laneComp : this.getLane()) {
+        		poolShape.getChildShapes().addAll(laneComp.toShape());
+        	}
+    	}
+    	return shapes;
     }
     
     /* Getter & Setter */
@@ -136,5 +161,10 @@ public class PoolCompartment
     public void setParticipantRef(Participant value) {
         this.participantRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getParticipantRef();
+	}
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2009.09.07 at 02:19:19 PM CEST 
 //
 
-
 package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,19 +12,24 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
 
 /**
- * <p>Java class for tEndEvent complex type.
+ * <p>
+ * Java class for tEndEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tEndEvent">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tThrowEvent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tEndEvent&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base=&quot;{http://www.omg.org/bpmn20}tThrowEvent&quot;&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -33,9 +37,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "endEvent", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tEndEvent")
-public class EndEvent
-    extends ThrowEvent
-{
+public class EndEvent extends ThrowEvent {
+	/**
+	 * Transforming an end event to its JSON-based shape representation.
+	 */
+	public void toShape(Shape shape) {
+		super.toShape(shape);
 
+		shape.setStencil(new StencilType("EndNoneEvent"));
+	}
 
 }

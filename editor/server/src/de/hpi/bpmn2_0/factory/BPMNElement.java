@@ -25,13 +25,14 @@ package de.hpi.bpmn2_0.factory;
 
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
+import de.hpi.bpmn2_0.model.diagram.BpmnShape;
 
 public class BPMNElement {
-	private Object shape;
+	private BpmnShape shape;
 	private BaseElement node;
 	private String id;
 
-	public BPMNElement(Object shape, BaseElement node, String id) {
+	public BPMNElement(BpmnShape shape, BaseElement node, String id) {
 		this.shape = shape;
 		this.node = node;
 		this.id = id;
@@ -72,10 +73,10 @@ public class BPMNElement {
 		this.id = id;
 	}
 	
-	public Object getShape() {
+	public BpmnShape getShape() {
 		return shape;
 	}
-	public void setShape(Object shape) {
+	public void setShape(BpmnShape shape) {
 		this.shape = shape;
 	}
 	public BaseElement getNode() {

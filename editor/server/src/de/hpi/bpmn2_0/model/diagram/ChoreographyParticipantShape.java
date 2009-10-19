@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.participant.Participant;
 
 /**
@@ -64,5 +65,10 @@ public class ChoreographyParticipantShape extends BpmnNode {
 	 */
 	public void setParticipant(Participant participant) {
 		this.participant = participant;
+	}
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getParticipant();
 	}
 }

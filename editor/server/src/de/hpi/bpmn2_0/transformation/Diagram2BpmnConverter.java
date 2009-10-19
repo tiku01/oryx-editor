@@ -60,6 +60,7 @@ import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.model.conversation.ConversationNode;
 import de.hpi.bpmn2_0.model.diagram.AssociationConnector;
 import de.hpi.bpmn2_0.model.diagram.BpmnConnector;
+import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.BpmnNode;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyCompartment;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
@@ -98,6 +99,7 @@ public class Diagram2BpmnConverter {
 	private List<BPMNElement> diagramChilds;
 	private List<Process> processes;
 	private Definitions definitions;
+	private LaneCompartment defaultLaneCompartment;
 
 	private Collaboration collaboration;
 	private CollaborationDiagram collaborationDiagram;
@@ -127,6 +129,7 @@ public class Diagram2BpmnConverter {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
 		this.bpmnElements = new HashMap<String, BPMNElement>();
 		this.definitions = new Definitions();
+		this.definitions.setId(OryxUUID.generate());
 		this.diagram = diagram;
 	}
 
@@ -439,7 +442,8 @@ public class Diagram2BpmnConverter {
 						(BpmnNode) element.getShape());
 			}
 
-			else if (element.getNode() instanceof Participant) {
+			else if (element.getNode() instanceof Participant
+					&& element.getShape() instanceof ConversationParticipantShape) {
 				this.getConversation().getParticipant().add(
 						(Participant) element.getNode());
 				this.getConversationDiagram().getParticipant().add(
@@ -461,15 +465,16 @@ public class Diagram2BpmnConverter {
 		Process process = new Process();
 		process.setId(OryxUUID.generate());
 		process.setSubprocessRef(subProcess);
-		
-		List<BPMNElement> childs = this.getChildElements(this.bpmnElements.get(subProcess.getId()));
-		for(BPMNElement ele : childs) {
-//			process.getFlowElement().add((FlowElement) ele.getNode());
+
+		List<BPMNElement> childs = this.getChildElements(this.bpmnElements
+				.get(subProcess.getId()));
+		for (BPMNElement ele : childs) {
+			// process.getFlowElement().add((FlowElement) ele.getNode());
 			subProcess.getFlowElement().add((FlowElement) ele.getNode());
-			if(ele.getNode() instanceof SubProcess) 
+			if (ele.getNode() instanceof SubProcess)
 				this.handleSubProcess((SubProcess) ele.getNode());
 		}
-		
+
 		this.processes.add(process);
 	}
 
@@ -529,14 +534,13 @@ public class Diagram2BpmnConverter {
 			/* Find process for edge */
 			for (Process process : this.processes) {
 				List<FlowElement> flowElements;
-				if(process.isSubprocess()) 
+				if (process.isSubprocess())
 					flowElements = process.getSubprocessRef().getFlowElement();
 				else
 					flowElements = process.getFlowElement();
-				
+
 				if (flowElements.contains(edge.getSourceRef())
-						|| flowElements.contains(
-								edge.getTargetRef())) {
+						|| flowElements.contains(edge.getTargetRef())) {
 					flowElements.add(edge);
 					break;
 				}
@@ -673,17 +677,16 @@ public class Diagram2BpmnConverter {
 
 		return childElements;
 	}
-	
-	private void insertSubprocessIntoDefinitions(ProcessDiagram processDia, Process process) {
+
+	private void insertSubprocessIntoDefinitions(ProcessDiagram processDia,
+			Process process) {
 		LaneCompartment lane = new LaneCompartment();
 		lane.setId(OryxUUID.generate() + "_gui");
 		lane.setIsVisible(false);
-		
-		
-		
+
 		/* Insert elements */
 		for (FlowElement flowEle : process.getSubprocessRef().getFlowElement()) {
-			if(flowEle instanceof FlowNode) {
+			if (flowEle instanceof FlowNode) {
 				lane.getBpmnShape().add(
 						(BpmnNode) this.bpmnElements.get(flowEle.getId())
 								.getShape());
@@ -695,7 +698,7 @@ public class Diagram2BpmnConverter {
 								flowEle.getId()).getShape());
 			}
 		}
-		
+
 		processDia.getLaneCompartment().add(lane);
 
 		/* Insert process into document */
@@ -714,17 +717,17 @@ public class Diagram2BpmnConverter {
 			processDia.setProcessRef(process);
 			processDia.setName(process.getName());
 			processDia.setId(process.getId() + "_gui");
-			
+
 			/* Handle subprocesses */
-			if(process.isSubprocess()) {
+			if (process.isSubprocess()) {
 				this.insertSubprocessIntoDefinitions(processDia, process);
 				continue;
 			}
-			
+
 			/* Insert lane compartments */
 			for (LaneSet laneSet : process.getLaneSet()) {
 				PoolCompartment poolComp = (PoolCompartment) this.bpmnElements
-				.get(laneSet.getId()).getShape();
+						.get(laneSet.getId()).getShape();
 				for (LaneCompartment laneComp : poolComp.getLane()) {
 					processDia.getLaneCompartment().add(laneComp);
 				}
@@ -760,6 +763,7 @@ public class Diagram2BpmnConverter {
 				}
 
 				process.getLaneSet().add(defaultLaneSet);
+				this.defaultLaneCompartment = defaultLaneComp;
 			}
 
 			/* Insert Sequence Flow */
@@ -829,9 +833,12 @@ public class Diagram2BpmnConverter {
 		for (BPMNElement element : this.diagramChilds) {
 			if (element.getShape() instanceof PoolCompartment) {
 				PoolCompartment pool = (PoolCompartment) element.getShape();
+				this.setProcessForPool(pool);
 				this.getCollaborationDiagram().getPool().add(pool);
 				this.getCollaboration().getParticipant().add(
 						pool.getParticipantRef());
+				
+				
 
 				collaborationIncluded = true;
 			}
@@ -844,9 +851,46 @@ public class Diagram2BpmnConverter {
 				collaborationIncluded = true;
 			}
 		}
+		
+		if(collaborationIncluded && this.defaultLaneCompartment != null) {
+			PoolCompartment poolComp = new PoolCompartment();
+			poolComp.setIsVisible(false);
+			poolComp.setId(OryxUUID.generate() + "_gui");
+			poolComp.getLane().add(this.defaultLaneCompartment);
+			
+			
+			Participant participant = new Participant();
+			participant.setId(OryxUUID.generate());
+			poolComp.setParticipantRef(participant);
+			this.getCollaborationDiagram().getPool().add(poolComp);
+			this.getCollaboration().getParticipant().add(participant);
+		}
+		
 		if (collaborationIncluded) {
 			this.definitions.getDiagram().add(this.getCollaborationDiagram());
 			this.definitions.getRootElement().add(this.getCollaboration());
+		}
+	}
+	
+	/**
+	 * Based on the passed pool, it searches for the appropriate process 
+	 * diagram, to retrieve the related process object.
+	 * 
+	 * @param pool
+	 * 		Resource pool
+	 */
+	private void setProcessForPool(PoolCompartment pool) {
+		for(BpmnDiagram dia : this.definitions.getDiagram()) {
+			if(!(dia instanceof ProcessDiagram))
+				continue;
+			for(LaneCompartment lane : ((ProcessDiagram) dia).getLaneCompartment()) {
+				for(LaneCompartment poolLane : pool.getLane()) {
+					if(lane.equals(poolLane)) {
+						pool.getParticipantRef().setProcessRef(((ProcessDiagram) dia).getProcessRef());
+						return;
+					}
+				}
+			}
 		}
 	}
 

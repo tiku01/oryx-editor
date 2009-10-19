@@ -35,7 +35,10 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import org.oryxeditor.server.diagram.Shape;
+
 import de.hpi.bpmn2_0.model.connector.Edge;
+import de.hpi.bpmn2_0.model.participant.Lane;
 
 
 /**
@@ -73,6 +76,7 @@ import de.hpi.bpmn2_0.model.connector.Edge;
 //    SequenceFlow.class,
 //    DataObject.class,
 //    DataStore.class,
+	Lane.class,
     FlowNode.class
 })
 public abstract class FlowElement
@@ -82,6 +86,7 @@ public abstract class FlowElement
 //    protected TAuditing auditing;
 //    protected TMonitoring monitoring;
     protected List<QName> categoryValue;
+    
     @XmlAttribute
     protected String name;
     
@@ -100,7 +105,23 @@ public abstract class FlowElement
 	@XmlAttribute
 	@XmlSchemaType(name = "IDREF")
 	protected Process process;
-
+	
+	/**
+	 * Basic method to set properties on the shape object. In common these 
+	 * properties are related to the process logic.
+	 * 
+	 * @param shape
+	 * 		The resource shape object containing graphical information only.
+	 */
+    public void toShape(Shape shape) {
+    	shape.setResourceId(this.getId());
+    	shape.putProperty("name", (this.getName()!= null ? this.getName() : ""));
+    	
+    	for(Edge edge : this.getOutgoing()) {
+    		shape.getOutgoings().add(new Shape(edge.getId()));
+    	}
+    }
+    
     
 	/* Getter & Setter */
 	

@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.conversation.Communication;
 
 /**
@@ -59,5 +60,10 @@ public class CommunicationShape extends BpmnNode {
 	 */
 	public void setCommunication(Communication communication) {
 		this.communication = communication;
+	}
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getCommunication();
 	}
 }

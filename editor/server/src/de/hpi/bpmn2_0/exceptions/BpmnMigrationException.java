@@ -29,6 +29,11 @@ package de.hpi.bpmn2_0.exceptions;
  */
 public class BpmnMigrationException extends Exception {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5618184315047036425L;
+
 	public BpmnMigrationException() {
 		
 	}

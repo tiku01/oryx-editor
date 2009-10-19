@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
+import de.hpi.bpmn2_0.jaxb_generated.TMessageFlow;
+import de.hpi.bpmn2_0.jaxb_generated.TParticipant;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.participant.Participant;
 

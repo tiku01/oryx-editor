@@ -23,49 +23,12 @@
 
 package de.hpi.bpmn2_0.model.diagram;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import de.hpi.bpmn2_0.model.FlowElement;
-import de.hpi.bpmn2_0.model.conversation.CallConversation;
-
 /**
- * Class representing the visualization of a call conversation.
- * A called element can be either a global communication or a conversation
+ * Interface to identify diagram interchange objects
  * 
  * @author Sven Wagner-Boysen
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class CallConversationShape extends BpmnNode {
-	
-	@XmlIDREF
-	@XmlAttribute
-	protected CallConversation callConversation;
-	
-	/* Getter & Setter */
-
-	/**
-	 * @return the callConversation
-	 */
-	public CallConversation getCallConversation() {
-		return callConversation;
-	}
-
-	/**
-	 * @param callConversation the callConversation to set
-	 */
-	public void setCallConversation(CallConversation callConversation) {
-		this.callConversation = callConversation;
-	}
-
-	@Override
-	protected FlowElement getFlowElement() {
-		return this.getCallConversation();
-	}
-	
+public interface BpmnShape {
+	public String getId();
 }

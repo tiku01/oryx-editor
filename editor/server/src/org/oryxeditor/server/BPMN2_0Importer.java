@@ -1,5 +1,3 @@
-package org.oryxeditor.server;
-
 /**
  * Copyright (c) 2009 
  * 
@@ -24,44 +22,49 @@ package org.oryxeditor.server;
  * SOFTWARE.
  */
 
+package org.oryxeditor.server;
+
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
+import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
-import org.oryxeditor.server.diagram.DiagramBuilder;
-
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import org.oryxeditor.server.diagram.JSONBuilder;
 
 import de.hpi.bpmn2_0.model.Definitions;
-import de.hpi.bpmn2_0.transformation.BPMNPrefixMapper;
-import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
+import de.hpi.bpmn2_0.transformation.BPMN2DiagramConverter;
 
 /**
- * This servlet provides the access point to the interchange format of BPMN 2.0
+ * Servlet to generate JSON from BPMN 2.0 XML
  * 
  * @author Sven Wagner-Boysen
- *
+ * 
  */
-public class Bpmn2_0Servlet extends HttpServlet {
+public class BPMN2_0Importer extends HttpServlet {
 
-	private static final long serialVersionUID = -4308758083419724953L;
-	
+	private static final long serialVersionUID = -8687832449710203280L;
+
 	/**
 	 * The post request
 	 */
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
-		String json = req.getParameter("data");
-		
+	protected void doPost(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException {
+		String bpmn20Xml = req.getParameter("data");
+
 		/* Transform and return from DI */
 		try {
-			StringWriter output = this.performTransformationToDi(json);
-			res.setContentType("application/xml");
+			StringWriter output = this.getJsonFromBpmn20Xml(bpmn20Xml);
+			res.setContentType("application/json");
 			res.setStatus(200);
 			res.getWriter().print(output.toString());
 		} catch (Exception e) {
@@ -74,45 +77,25 @@ public class Bpmn2_0Servlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
-		
-		
-		
-		
-	}
-	
-	/**
-	 * Triggers the transformation from Diagram to BPMN model and writes the 
-	 * resulting BPMN XML on success.
-	 * 
-	 * @param json
-	 * 		The diagram in JSON format
-	 * @param writer
-	 * 		The HTTP-response writer
-	 * @throws Exception
-	 * 		Exception occurred while processing
-	 */
-	protected StringWriter performTransformationToDi(String json) throws Exception {
-		StringWriter writer = new StringWriter();
-		
-		/* Retrieve diagram model from JSON */
-	
-		Diagram diagram = DiagramBuilder.parseJson(json);
-			
-		/* Build up BPMN 2.0 model */
-		Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
-		Definitions bpmnDefinitions = converter.getDefinitionsFromDiagram();
-		
-		/* Perform XML creation */
-		JAXBContext context = JAXBContext.newInstance(Definitions.class);
-		Marshaller marshaller = context.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		
-		NamespacePrefixMapper nsp = new BPMNPrefixMapper();
-		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", nsp);
-		
-		marshaller.marshal(bpmnDefinitions, writer);
 
-		return writer;		
+	}
+
+	private StringWriter getJsonFromBpmn20Xml(String bpmn20Xml) throws JAXBException, JSONException {
+		StringWriter writer = new StringWriter();
+		PrintWriter out = new PrintWriter(writer);
+		
+		StringReader reader = new StringReader(bpmn20Xml);
+
+		JAXBContext context = JAXBContext.newInstance(Definitions.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Definitions def = (Definitions) unmarshaller.unmarshal(reader);
+		
+		BPMN2DiagramConverter converter = new BPMN2DiagramConverter("/" + this.getServletContext().getServletContextName() + "/");
+		List<Diagram> dia = converter.getDiagramFromBpmn20(def);
+		
+		out.print(JSONBuilder.parseModeltoString(dia.get(0)));
+
+		return writer;
 	}
 
 }

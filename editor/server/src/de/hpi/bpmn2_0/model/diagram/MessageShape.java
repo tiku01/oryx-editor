@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.data_object.Message;
 
 
@@ -86,5 +87,10 @@ public class MessageShape
     public void setMessageRef(Message value) {
         this.messageRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getMessageRef();
+	}
 
 }

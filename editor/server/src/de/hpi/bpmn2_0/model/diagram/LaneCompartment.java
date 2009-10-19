@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+
+import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.diagram.activity.ActivityShape;
 import de.hpi.bpmn2_0.model.diagram.activity.CalledSubprocessShape;
 import de.hpi.bpmn2_0.model.diagram.activity.EmbeddedSubprocessShape;
@@ -89,6 +92,7 @@ public class LaneCompartment
     protected List<BpmnNode> bpmnShape;
     @XmlElement(namespace = "http://bpmndi.org")
     protected List<LaneCompartment> subLane;
+    
     @XmlAttribute
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
@@ -96,6 +100,36 @@ public class LaneCompartment
     
     public void addChild(BpmnNode child) {
     	this.getBpmnShape().add(child);
+    }
+    
+    public List<Shape> toShape() {
+    	List<Shape> shapes = new ArrayList<Shape>();
+    	if (this.isIsVisible()) {
+    		shapes = super.toShape();
+    		ArrayList<Shape> childShapes = new ArrayList<Shape>();
+    		
+    		/* Add BPMN elements */
+    		for(BpmnNode node : this.getBpmnShape()) {
+        		childShapes.addAll(node.toShape());
+        	}
+    		    		
+    		/* Add sub-lanes */
+    		for(LaneCompartment subLane : this.getSubLane()) {
+        		childShapes.addAll(subLane.toShape());
+        	}
+    		
+    		shapes.get(0).getChildShapes().addAll(childShapes);
+    		return shapes;
+    	}
+    	
+    	for(LaneCompartment subLane : this.getSubLane()) {
+    		shapes.addAll(subLane.toShape());
+    	}
+    	for(BpmnNode node : this.getBpmnShape()) {
+    		shapes.addAll(node.toShape());
+    	}
+    	
+    	return shapes;
     }
     
     /* Getter & Setter */
@@ -194,5 +228,10 @@ public class LaneCompartment
     public void setLaneRef(Lane value) {
         this.laneRef = value;
     }
+
+	@Override
+	protected FlowElement getFlowElement() {
+		return this.getLaneRef();
+	}
 
 }

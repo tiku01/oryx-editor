@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+
 import de.hpi.bpmn2_0.model.Process;
 
 /**
@@ -73,10 +75,10 @@ public class ProcessDiagram
     extends BpmnDiagram
 {
 
-    @XmlElement(namespace = "http://bpmndi.org", required = true)
+    @XmlElement(required = true)
     protected List<LaneCompartment> laneCompartment;
     
-    @XmlElement(namespace = "http://bpmndi.org")
+    @XmlElement
     protected List<SequenceFlowConnector> sequenceFlowConnector;
     
     @XmlElement
@@ -93,7 +95,23 @@ public class ProcessDiagram
     @XmlSchemaType(name = "IDREF")
     protected Process processRef;
     
+    public List<Shape> getShapes() {
+    	ArrayList<Shape> shapes = new ArrayList<Shape>();
+    	
+    	/* Add sequence flows */
+    	for(SequenceFlowConnector seqCon : this.getSequenceFlowConnector()) {
+    		shapes.add(seqCon.toShape());
+    	}
+    	
+    	for(LaneCompartment laneComp : this.getLaneCompartment()) {
+    		shapes.addAll(laneComp.toShape());
+    	}
+    	
+    	return shapes;
+    }
+    
     /* Getter & Setter */
+    
     public List<MessageFlowConnector> getMessageFlowConnector() {
       if (messageFlowConnector == null) {
           messageFlowConnector = new ArrayList<MessageFlowConnector>();

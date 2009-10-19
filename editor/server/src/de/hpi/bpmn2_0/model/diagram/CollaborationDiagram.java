@@ -34,7 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+
 import de.hpi.bpmn2_0.model.Collaboration;
+import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.model.Process;
+import de.hpi.bpmn2_0.model.participant.Participant;
 
 
 /**
@@ -77,8 +82,59 @@ public class CollaborationDiagram
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
     protected Collaboration collaborationRef;
-
     
+    /**
+     * Setting up the shapes that are included in the collaboration diagram.
+     * 
+     * @return
+     * 	List of {@link Shape}
+     */
+    public List<Shape> getShapes(Definitions definitions) {
+    	ArrayList<Shape> shapes = new ArrayList<Shape>();
+    	
+    	/* Handle pool comparments */
+    	for(PoolCompartment poolCom : this.getPool()) {
+    		shapes.addAll(poolCom.toShape());
+    	}
+    	
+    	/* Add message flows to shape list */
+    	for(MessageFlowConnector msgCon : this.getMessageFlowConnector()) {
+    		shapes.add(msgCon.toShape());
+    	}
+    	
+    	/* Include sequence flow form related process diagrams */
+    	for(Participant part : this.getCollaborationRef().getParticipant()) {
+    		ProcessDiagram processDia = this.getProcessDiagram(part.getProcessRef(), definitions);
+    		if(processDia == null)
+    			continue;
+    		for(SequenceFlowConnector seqCon : processDia.getSequenceFlowConnector()) {
+    			shapes.add(seqCon.toShape());
+    		}
+    		definitions.getDiagram().remove(processDia);
+    	}
+    	
+    	return shapes;
+    }
+    
+    /**
+     * Retrieves the process diagram for the given process.
+     * 
+     * @param process
+     * @param definitions
+     * @return
+     */
+    private ProcessDiagram getProcessDiagram(Process process, Definitions definitions) {
+    	if(process == null || definitions == null) 
+    		return null;
+    	for(BpmnDiagram dia : definitions.getDiagram()) {
+    		if(dia instanceof ProcessDiagram) {
+    			((ProcessDiagram) dia).getProcessRef().equals(process);
+    			return (ProcessDiagram) dia;
+    		}
+    	}
+    	
+    	return null;
+    }
     
     /* Getter & Setter */
     
