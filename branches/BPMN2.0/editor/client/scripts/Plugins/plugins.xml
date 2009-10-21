@@ -285,7 +285,7 @@
 		<plugin source="bpmnClearSodBodHighlights.js" name="ORYX.Plugins.ClearSodBodHighlights">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
-		
+				
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
 		
 		<plugin source="epc2bpmn.js" name="ORYX.Plugins.EPC2BPMN">
