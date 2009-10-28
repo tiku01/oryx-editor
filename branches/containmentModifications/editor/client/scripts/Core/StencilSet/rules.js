@@ -43,6 +43,7 @@ ORYX.Core.StencilSet.Rules = {
 
 		this._stencilSets = [];
 		this._stencils = [];
+		this._containerStencils = [];
 		
 		this._cachedConnectSET = new Hash();
 		this._cachedConnectSE = new Hash();
@@ -79,6 +80,7 @@ ORYX.Core.StencilSet.Rules = {
 			
 			this._stencilSets = [];
 			this._stencils = [];
+			this._containerStencils = [];
 			
 			this._cachedConnectSET = new Hash();
 			this._cachedConnectSE = new Hash();
@@ -228,6 +230,7 @@ ORYX.Core.StencilSet.Rules = {
 						conrKey = rules.role;
 					}
 					else {
+						this._containerStencils.push(namespace + rules.role);
 						conrKey = namespace + rules.role;
 					}
 					if (!conr[conrKey]) {
@@ -821,6 +824,10 @@ ORYX.Core.StencilSet.Rules = {
 
 
 	/** Begin containment rules' methods */
+
+	isContainer: function(shape) {
+		return this._containerStencils.member(shape.getStencil().id());
+	},
 
 	/**
 	 * 
