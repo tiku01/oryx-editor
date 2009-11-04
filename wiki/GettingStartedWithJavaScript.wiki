@@ -1,7 +1,8 @@
 #summary Gives tips and lists lots of resources to get started with JavaScript, especially in the contest of Oryx.
 #labels javascript,guidelines,objectorientation,documentation,jsdoc
 
-=Introduction=
+
+=!JavaScript=
 
 From [http://en.wikipedia.org/wiki/Javascript Wikipedia]:
   !JavaScript is an object-oriented scripting language used to enable programmatic 
@@ -9,7 +10,7 @@ From [http://en.wikipedia.org/wiki/Javascript Wikipedia]:
 
 A good introduction into !JavaScript is given by [http://www.w3schools.com/JS/default.asp w3schools].
 
-=Object Orientation=
+==Object Orientation==
 
 The !JavaScript Magazine [http://www.jsmag.com <jsmag>] offers many articles towards object orientation in !JavaScript and how to use object literals properly, as well as design patterns for an elegant and effective use of the features of this language:
 
@@ -23,7 +24,7 @@ There are also many free resources discussing the correct object oriented use of
   * [http://www.dustindiaz.com/json-for-the-masses/ JSON for the Masses] by Dustin Diaz
   * [http://www.dustindiaz.com/javascript-private-public-privileged/ JavaScript Private Public Privileged] discussing visibility of properties by Dustin Diaz
 
-=Class-similar constructs=
+==Class-similar constructs==
 
 Classes provide a nice way to create blueprints for objects that all share the same interface. However, !JavaScript does not support classes, but rather prototypes which can do much more and even more flexible. Some frameworks provide aditional means that make these prototypes behave a little bit more like classes or, at least, support the creation of class-like blueprint prototypes in a way more common to, e.g., Java.
 
@@ -34,7 +35,7 @@ Among these frameworks is [http://prototypejs.org prototype.js] that provides ma
   * An article about [http://www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
 
 
-=JSON=
+==JSON==
 
 From [http://json.org JSON.org]:
   JSON (!JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the !JavaScript Programming Language ... JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages ... These properties make JSON an ideal data-interchange language.
@@ -51,8 +52,8 @@ We'd like to see nice, clean, and exciting code. Thus, we kindly ask to comply w
 [http://javascript.crockford.com/code.html Code Conventions, a guide to beautiful and manageable code] by Douglas Crockford. We really encourage you to stick to these rules; proper use of whitespace, explicit declaration of variables and such really help to increase understandability and manageability of your code.
 
 ==Documentation==
-Again, !JavaScript magazien provides a nice article on documentation: [http://www.jsmag.com/main.issues.description/id=24/ Our Very Own JavaScript Documentation]
+Again, !JavaScript magazine provides a nice article on documentation: [http://www.jsmag.com/main.issues.description/id=24/ Our Very Own JavaScript Documentation]
 
-Use inline comments to to comment snippets of your code. Use block comments to document your code, e.g. attributes, methods, modules, etc. Think about your comments and documentation: Do they explain what a piece of code does (rather than how, e.g. "// add 2 to i" is not an appropriate comment) and can anybody who did not write your code undertand it?
+Use inline comments to to comment snippets of your code. Use block comments to document your code, e.g. attributes, methods, modules, etc. Think about your comments and documentation: Do they explain what a piece of code does (rather than how, e.g. "// add 2 to i" is not an appropriate comment) and can anybody who did not write your code understand it?
 
 [http://code.google.com/p/jsdoc-toolkit jsdoc-toolkit] provides a specification how to document parts of you code. Have a look at the [http://code.google.com/p/jsdoc-toolkit/wiki/TagReference tag reference]. We also encourage you to use this type of documentation, since it allows every contributor to create a documentation deck of the code.
