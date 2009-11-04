@@ -1,4 +1,4 @@
-#summary Gives tips and lists lots of resources to get started with JavaScript, especially in the contest of Oryx.
+#summary Gives tips and lists lots of resources to get started with JavaScript, especially in the context of Oryx.
 #labels javascript,guidelines,objectorientation,documentation,jsdoc
 
 
@@ -26,7 +26,7 @@ There are also many free resources discussing the correct object oriented use of
 
 ==Class-similar constructs==
 
-Classes provide a nice way to create blueprints for objects that all share the same interface. However, !JavaScript does not support classes, but rather prototypes which can do much more and even more flexible. Some frameworks provide aditional means that make these prototypes behave a little bit more like classes or, at least, support the creation of class-like blueprint prototypes in a way more common to, e.g., Java.
+Classes provide a nice way to create blueprints for objects that all share the same interface. However, !JavaScript does not support classes, but rather prototypes which can do much more and even more flexible. Some frameworks provide additional means that make these prototypes behave a little bit more like classes or, at least, support the creation of class-like blueprint prototypes in a way more common to, e.g., Java.
 
 Among these frameworks is [http://prototypejs.org prototype.js] that provides many extensions to native !JavaScript (a lot of nice enumeration features, scope binding, Ajax encapsulation, etc.). *Note that Oryx uses prototype.js V1.5.1*
 
