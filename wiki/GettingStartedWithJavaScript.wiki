@@ -11,7 +11,7 @@ A good introduction into !JavaScript is given by [http://www.w3schools.com/JS/de
 
 =Object Orientation=
 
-The JavaScript Magazin [http://www.jsmag.com <jsmag>] offers many articles towards object orientation in !JavaScript and how to use object literals properly, as well as design patterns for an elegant and effective use of the features of this language:
+The !JavaScript Magazine [http://www.jsmag.com <jsmag>] offers many articles towards object orientation in !JavaScript and how to use object literals properly, as well as design patterns for an elegant and effective use of the features of this language:
 
   * [http://www.jsmag.com/main.issues.description/id=21/ JavaScript Patterns, Part 1: Literals and JSON]
   * [http://www.jsmag.com/main.issues.description/id=22/ JavaScript Patterns, Part 2: Functions]
@@ -34,11 +34,25 @@ Among these frameworks is [http://prototypejs.org prototype.js] that provides ma
   * An article about [www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
 
 
-
-
 =JSON=
 
 From [http://json.org JSON.org]:
   JSON (!JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the !JavaScript Programming Language ... JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages ... These properties make JSON an ideal data-interchange language.
 
 A good [http://json.org/fatfree.html introduction] is given by Douglas Crockford. http://json.org also provides a nice specification of this notation.
+
+=Code Conventions=
+
+We'd like to see nice, clean, and exciting code. Thus, we kindly ask to comply with the following coding conventions and guidelines.
+
+==Code Correctness and Layout==
+[http://jslint.com JS Lint] will hurt your feelings an introduction into good code style: http://www.jslint.com/lint.html
+
+[http://javascript.crockford.com/code.html Code Conventions, a guide to beautiful and manageable code] by Douglas Crockford. We really encourage you to stick to these rules; proper use of whitespace, explicit declaration of variables and such really help to increase understandability and manageability of your code.
+
+==Documentation==
+Again, !JavaScript magazien provides a nice article on documentation: [http://www.jsmag.com/main.issues.description/id=24/ Our Very Own JavaScript Documentation]
+
+   * [http://code.google.com/p/jsdoc-toolkit jsdoc-toolkit] provides a specification how to document parts of you code. Have a look at the [http://code.google.com/p/jsdoc-toolkit/wiki/TagReference tag reference]. We also encourage you to use this type of documentation, since it allows every contributor to create a documentation deck of the code.
+  jsdoc-toolkit(have a look for the tag reference)
+    http://code.google.com/p/jsdoc-toolkit/
