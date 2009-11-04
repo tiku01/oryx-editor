@@ -1,0 +1,8 @@
+#summary Gives tips and lists lots of resources to get started with JavaScript, especially in the contest of Oryx.
+#labels javascript,guidelines,objectorientation,documentation,jsdoc
+
+=JavaScript=
+
+From [http://en.wikipedia.org/wiki/Javascript Wikipedia]:
+  JavaScript is an object-oriented[2] scripting language used to enable programmatic access 
+  to objects within both the client application and other applications. 
