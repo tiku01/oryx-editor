@@ -13,25 +13,25 @@ A good introduction into !JavaScript is given by [http://www.w3schools.com/JS/de
 
 The JavaScript Magazin [http://www.jsmag.com <jsmag>] offers many articles towards object orientation in !JavaScript and how to use object literals properly, as well as design patterns for an elegant and effective use of the features of this language:
 
-* JavaScript Patterns, Part 1: Literals and JSON (http://www.jsmag.com/main.issues.description/id=21/)
-* JavaScript Patterns, Part 2: Functions (http://www.jsmag.com/main.issues.description/id=22/)
-  JavaScript Patterns, Part 3: More Functions (http://www.jsmag.com/main.issues.description/id=24/)
-  JavaScript Patterns, Part 4: Constructors (http://www.jsmag.com/main.issues.description/id=25/)
+  * [http://www.jsmag.com/main.issues.description/id=21/ JavaScript Patterns, Part 1: Literals and JSON]
+  * [http://www.jsmag.com/main.issues.description/id=22/ JavaScript Patterns, Part 2: Functions]
+  * [http://www.jsmag.com/main.issues.description/id=24/ JavaScript Patterns, Part 3: More Functions]
+  * [http://www.jsmag.com/main.issues.description/id=25/ JavaScript Patterns, Part 4: Constructors]
 
 There are also many free resources discussing the correct object oriented use of !JavaScript:
-* [http://www.wait-till-i.com/2006/02/16/show-love-to-the-object-literal/ Show Love to the Object Literal] by Chris Heilmann
-* [http://www.dustindiaz.com/json-for-the-masses/ JSON for the Masses] by Dustin Diaz
-* [http://www.dustindiaz.com/javascript-private-public-privileged/ JavaScript Private Public Privileged] discussing visibility of properties by Dustin Diaz
+  * [http://www.wait-till-i.com/2006/02/16/show-love-to-the-object-literal/ Show Love to the Object Literal] by Chris Heilmann
+  * [http://www.dustindiaz.com/json-for-the-masses/ JSON for the Masses] by Dustin Diaz
+  * [http://www.dustindiaz.com/javascript-private-public-privileged/ JavaScript Private Public Privileged] discussing visibility of properties by Dustin Diaz
 
 =Class-similar constructs=
 
 Classes provide a nice way to create blueprints for objects that all share the same interface. However, !JavaScript does not support classes, but rather prototypes which can do much more and even more flexible. Some frameworks provide aditional means that make these prototypes behave a little bit more like classes or, at least, support the creation of class-like blueprint prototypes in a way more common to, e.g., Java.
 
-Among these frameworks is [http://prototypejs.org prototype.js] that provides many extensions to native JavaScript (a lot of nice enumeration features, scope binding, Ajax encapsulation, etc.). *Note that Oryx uses prototype.js V1.5.1*
+Among these frameworks is [http://prototypejs.org prototype.js] that provides many extensions to native !JavaScript (a lot of nice enumeration features, scope binding, Ajax encapsulation, etc.). *Note that Oryx uses prototype.js V1.5.1*
 
-* [http://www.oreillynet.com/xml/blog/2006/06/the_power_of_prototypejs_1.html O'Reilly's The Power of Prototype.js]
-* [http://www.sergiopereira.com/articles/prototype.js.html Developer Notes for prototype.js] (version 1.5.0)
-* An article about [www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
+  * [http://www.oreillynet.com/xml/blog/2006/06/the_power_of_prototypejs_1.html O'Reilly's The Power of Prototype.js]
+  * [http://www.sergiopereira.com/articles/prototype.js.html Developer Notes for prototype.js] (version 1.5.0)
+  * An article about [www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
 
 
 
@@ -39,6 +39,6 @@ Among these frameworks is [http://prototypejs.org prototype.js] that provides ma
 =JSON=
 
 From [http://json.org JSON.org]:
-  JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript Programming Language [...]. JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages [...]. These properties make JSON an ideal data-interchange language.
+  JSON (!JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the !JavaScript Programming Language ... JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages ... These properties make JSON an ideal data-interchange language.
 
 A good [http://json.org/fatfree.html introduction] is given by Douglas Crockford. http://json.org also provides a nice specification of this notation.
