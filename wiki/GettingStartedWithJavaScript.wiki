@@ -31,7 +31,7 @@ Among these frameworks is [http://prototypejs.org prototype.js] that provides ma
 
   * [http://www.oreillynet.com/xml/blog/2006/06/the_power_of_prototypejs_1.html O'Reilly's The Power of Prototype.js]
   * [http://www.sergiopereira.com/articles/prototype.js.html Developer Notes for prototype.js] (version 1.5.0)
-  * An article about [www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
+  * An article about [http://www.prototypejs.org/learn/class-inheritance class-inheritance] by the creators of prototype.js
 
 
 =JSON=
@@ -53,6 +53,6 @@ We'd like to see nice, clean, and exciting code. Thus, we kindly ask to comply w
 ==Documentation==
 Again, !JavaScript magazien provides a nice article on documentation: [http://www.jsmag.com/main.issues.description/id=24/ Our Very Own JavaScript Documentation]
 
-   * [http://code.google.com/p/jsdoc-toolkit jsdoc-toolkit] provides a specification how to document parts of you code. Have a look at the [http://code.google.com/p/jsdoc-toolkit/wiki/TagReference tag reference]. We also encourage you to use this type of documentation, since it allows every contributor to create a documentation deck of the code.
-  jsdoc-toolkit(have a look for the tag reference)
-    http://code.google.com/p/jsdoc-toolkit/
+Use inline comments to to comment snippets of your code. Use block comments to document your code, e.g. attributes, methods, modules, etc. Think about your comments and documentation: Do they explain what a piece of code does (rather than how, e.g. "// add 2 to i" is not an appropriate comment) and can anybody who did not write your code undertand it?
+
+[http://code.google.com/p/jsdoc-toolkit jsdoc-toolkit] provides a specification how to document parts of you code. Have a look at the [http://code.google.com/p/jsdoc-toolkit/wiki/TagReference tag reference]. We also encourage you to use this type of documentation, since it allows every contributor to create a documentation deck of the code.
