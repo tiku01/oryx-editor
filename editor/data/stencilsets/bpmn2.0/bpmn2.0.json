@@ -2797,6 +2797,26 @@
 		},
 		{
 			"type" : 			"node",
+			"id" :				"ITSystem",
+			"title" :			"IT-System",
+			"groups" :			["Data Objects"],
+			"description" : 	"",
+			"view" :			"dataobject/it.system.svg",
+			"icon" : 			"dataobject/it.system.png",
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement"				
+			],
+			"roles" :			[
+			    "all",
+			    "from_task_event",
+			    "to_task_event",
+			    "fromtoall",
+			    "DataObjectMorph"
+			]
+		},
+		{
+			"type" : 			"node",
 			"id" :				"DataStore",
 			"title" :			"Data Store",
 			"title_de" :		"Datenlager",
