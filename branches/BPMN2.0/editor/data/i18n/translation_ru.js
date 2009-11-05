@@ -508,3 +508,11 @@ Ext.MessageBox.buttonText.ok = "Ок";
 
 /** New Language Properties 13.10.2009 */
 //ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "At least on side of the Message Flow has to be connected.";
+
+/** New Language Properties 05.11.2009 */
+//if(!ORYX.I18N.RESIZE) ORYX.I18N.RESIZE = {};
+//ORYX.I18N.RESIZE.tip = "Increase canvas size:";
+//ORYX.I18N.RESIZE.N = "Top";
+//ORYX.I18N.RESIZE.W = "Left";
+//ORYX.I18N.RESIZE.S ="Down";
+//ORYX.I18N.RESIZE.E ="Right";

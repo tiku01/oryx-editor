@@ -679,3 +679,11 @@ ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "Ein Ereignis Su
 
 /** New Language Properties 13.10.2009 */
 ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "Mindestens ein Ende des Nachrichtenflusses muss mit einem Objekt verbunden sein.";
+
+/** New Language Properties 05.11.2009 */
+if(!ORYX.I18N.RESIZE) ORYX.I18N.RESIZE = {};
+ORYX.I18N.RESIZE.tip = "Zeichenfläche vergrößern:";
+ORYX.I18N.RESIZE.N = "Oben";
+ORYX.I18N.RESIZE.W = "Links";
+ORYX.I18N.RESIZE.S ="Unten";
+ORYX.I18N.RESIZE.E ="Rechts";
