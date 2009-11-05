@@ -270,8 +270,8 @@
  				{
 					"id":"isinterrupting",
 					"type":"Boolean",
-					"title":"IsInterrupting",
-					"title_de":"Blockierend",
+					"title":"Is Interrupting",
+					"title_de":"Ist unterbrechend",
 					"value":true,
 					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
 					"description_de":"Dieses Attribut gibt an, ob der umfassende Subprozess abgebrochen werden soll.",
