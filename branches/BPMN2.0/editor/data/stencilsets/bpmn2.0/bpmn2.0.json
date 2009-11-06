@@ -2383,6 +2383,17 @@
 					"length":""
 				},
 				{
+					"id":"activationcondition",
+					"type":"String",
+					"title":"ActivationCondition",
+					"title_de":"Aktivierungbedingung",
+					"value":"",
+					"popular":true,
+					"description":"Determines which combination of incoming tokens will be synchronized for activation of the Gateway.",
+					"readonly":false,
+					"optional":true
+				},
+				{
 					"id":"incomingcondition",
 					"type":"String",
 					"title":"IncomingCondition",
@@ -3373,6 +3384,7 @@
 				"to_task_event",
 				"from_task_event",
 				"fromtoall",
+				"FromEventbasedGateway",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"EventOnChoreographyActivityBoundary",
@@ -3418,6 +3430,7 @@
 				"fromtoall",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
+				"FromEventbasedGateway",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"EventOnChoreographyActivityBoundary",
@@ -3506,6 +3519,7 @@
 				"to_task_event",
 				"from_task_event",
 				"fromtoall",
+				"FromEventbasedGateway",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"EventOnChoreographyActivityBoundary",
@@ -3716,6 +3730,7 @@
 				"fromtoall",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
+				"FromEventbasedGateway",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
@@ -3762,6 +3777,7 @@
 				"messageflow_end",
 				"choreography_sequence_start",
 				"choreography_sequence_end",
+				"FromEventbasedGateway",
 				"IntermediateEventOnSubprocessBoundary",
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventsMorph"
