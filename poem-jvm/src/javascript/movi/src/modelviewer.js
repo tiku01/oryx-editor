@@ -57,6 +57,9 @@ MOVI.namespace("widget");
 		this.onZoomLevelChange = new YAHOO.util.CustomEvent("movi-zoomLevelChange", this); 
 		this.onZoomLevelChangeStart = new YAHOO.util.CustomEvent("movi-zoomLevelChangeStart", this); 
 		this.onZoomLevelChangeEnd = new YAHOO.util.CustomEvent("movi-zoomLevelChangeEnd", this); 
+		
+		this.onModelLoadStart = new YAHOO.util.CustomEvent("movi-modelLoadStart", this); 
+		this.onModelLoadEnd = new YAHOO.util.CustomEvent("movi-modelLoadEnd", this); 
 
 		var existingScrollboxArr = this.getElementsByClassName(_SCROLLBOX_CLASS_NAME);
 		if(existingScrollboxArr.length==1) {
@@ -72,13 +75,20 @@ MOVI.namespace("widget");
 		this._scrollbox.set("id", _SCROLLBOX_CLASS_NAME + this._index);
 		this._scrollbox.set("innerHTML", "<img id=\"" + _MODELIMG_CLASS_NAME + this._index + 
 							"\" class=\"" + _MODELIMG_CLASS_NAME + "\" />");
+							
+		// prevent marking
+		this.setStyle("-moz-user-select", "-moz-none");    // Gecko-based, Mozilla
+		this.setStyle("-webkit-user-select", "none"); // Safari 3.0
+		this.setStyle("-khtml-user-select", "none");  // Safari 2.0
+		if (YAHOO.env.ua.ie > 0)
+			this.set("unselectable", "on");           // IE
 		
 		this._image = new YAHOO.util.Element(_MODELIMG_CLASS_NAME + this._index);
 		
 		// callbacks for model dragging
-		this._scrollbox.addListener("mousedown", this._onMouseDown, this, this, true);
+		this.addListener("mousedown", this._onMouseDown, this, this, true);
 		YAHOO.util.Event.addListener(document, "mouseup", this._onMouseUp, this, this, true);
-
+			
 		this._loadOptions = {};
     };
 
@@ -198,6 +208,20 @@ MOVI.namespace("widget");
 		onZoomLevelChangeEnd: null,
 		
 		/**
+		 * The event that is triggered when the model loading starts
+		 * @property onModelLoadStart
+		 * @type YAHOO.util.CustomEvent
+		 */
+		onModelLoadStart: null,
+		
+		/**
+		 * The event that is triggered when the model loading is finished
+		 * @property onModelLoadEnd
+		 * @type YAHOO.util.CustomEvent
+		 */
+		onModelLoadEnd: null,
+		
+		/**
 	     * Callback that is executed when the model is finished
 		 * loading.
 	     * @method _onSuccess
@@ -208,6 +232,8 @@ MOVI.namespace("widget");
 			var scope = this._loadOptions.scope || window;
 			if(this._loadOptions.onSuccess)
 				this._loadOptions.onSuccess.call(scope, this);
+			this.onModelLoadEnd.fire(this._modelUri);
+			this.onZoomLevelChangeEnd.fire(this.getZoomLevel());
 		},
 		
 		/**
@@ -382,6 +408,9 @@ MOVI.namespace("widget");
 			this._syncResources = new Array();
 			this._syncResources.push("data"); // include model data in synchronization
 			
+			this.onModelLoadStart.fire(this._modelUri);
+			this.onZoomLevelChangeStart.fire(this.getZoomLevel());
+			
 			var jsonp = encodeURIComponent(
 				"MOVI.widget.ModelViewer.getInstance(" + 
 				this._index + ").loadModelCallback");
@@ -416,6 +445,9 @@ MOVI.namespace("widget");
 			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
 			    imgUrl = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, imgUrl, this, "png");
 			
+			this._image.setStyle("width", "");
+			this._image.setStyle("height", "");
+			
 			var self = this;
 			this._image.get("element").onload = function() {
 				self._imageWidth = parseInt(self._image.getStyle("width"), 10) || self._image.get("element").offsetWidth;
@@ -424,7 +456,6 @@ MOVI.namespace("widget");
 			};
 			
 			this._image.set("src", imgUrl);
-			
 		},
 		
 		/**
@@ -678,12 +709,38 @@ MOVI.namespace("widget");
 		 * @private
 		 */
 		_onMouseDown: function(ev) {
-			YAHOO.util.Event.preventDefault(ev);
-			YAHOO.util.Event.stopPropagation(ev);
-			this._scrollbox.removeListener("mousemove", this._onModelDrag);
+			// don't start drag scrolling when the mouse down event occurs on a scrollbar
+			var SCROLLBAR_WIDTH = 20;
 			var mouseAbsXY = YAHOO.util.Event.getXY(ev);
+			var ul = YAHOO.util.Dom.getXY(this._scrollbox);
+			var lrX = ul[0]+this.getScrollboxEl().get("offsetWidth"),
+				lrY = ul[1]+this.getScrollboxEl().get("offsetHeight");
+			if(this.getScrollboxEl().get("offsetWidth")/this.getImgWidth()<1) {
+				// horizontal scrollbar shown
+				if( (mouseAbsXY[1]>=lrY-20) && (mouseAbsXY[1]<=lrY) ) {
+					// mouse down on scrollbar
+					return;
+				}
+			}
+			if(this.getScrollboxEl().get("offsetHeight")/this.getImgHeight()<1) {
+				// vertical scrollbar shown
+				if( (mouseAbsXY[0]>=lrX-20) && (mouseAbsXY[0]<=lrX) ) {
+					// mouse down on scrollbar
+					return;
+				}
+			}
+			
+		
+			if(ev.target==this._scrollbox.get("element") || ev.target==this._image.get("element")
+					|| ev.target==this.canvas.get("element")) {
+				YAHOO.util.Event.preventDefault(ev);
+				YAHOO.util.Event.stopPropagation(ev);
+			}
+			this._scrollbox.removeListener("mousemove", this._onModelDrag);
+
 			this._mouseCoords = { x: mouseAbsXY[0], y: mouseAbsXY[1] };
 			this._scrollbox.addListener("mousemove", this._onModelDrag, this, this, true);
+			this._isDragging = true;
 		},
 		
 		/**
@@ -693,6 +750,7 @@ MOVI.namespace("widget");
 		_onMouseUp: function(ev) {
 			YAHOO.util.Event.preventDefault(ev);
 			this._scrollbox.removeListener("mousemove", this._onModelDrag);
+			this._isDragging = false;
 		},
 		
 		/**
