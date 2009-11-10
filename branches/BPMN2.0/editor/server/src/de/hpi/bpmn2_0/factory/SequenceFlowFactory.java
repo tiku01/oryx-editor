@@ -27,6 +27,7 @@ import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Expression;
 import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
 
@@ -71,7 +72,7 @@ public class SequenceFlowFactory extends AbstractEdgesFactory {
 		sequenceFlowConnector.setLabel(shape.getProperty("name"));
 
 		this.setBendpoints(sequenceFlowConnector, shape);
-		
+
 		return sequenceFlowConnector;
 	}
 
@@ -88,11 +89,15 @@ public class SequenceFlowFactory extends AbstractEdgesFactory {
 		seqFlow.setName(shape.getProperty("name"));
 
 		String conditionType = shape.getProperty("conditiontype");
-//		if (conditionType == null || !conditionType.equals("Default")) {
-//			seqFlow.setConditionExpression(new Expression());
-//		}
-				
-		if(conditionType.equals("Default")) {
+		String conditionExpression = shape.getProperty("conditionexpression");
+		
+		if (!(conditionType == null || conditionType.equals("Default"))
+				&& !(conditionExpression == null || conditionExpression
+						.equals(""))) {
+			seqFlow.setConditionExpression(new Expression(conditionExpression));
+		}
+
+		if (conditionType != null && conditionType.equals("Default")) {
 			seqFlow.setDefaultSequenceFlow(true);
 		}
 

@@ -25,9 +25,9 @@ package de.hpi.bpmn2_0.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 import de.hpi.diagram.OryxUUID;
 
@@ -75,7 +75,7 @@ public class Documentation extends BaseElement {
 		this.setId(OryxUUID.generate());
 	}
 	
-	@XmlValue
+	@XmlElement
     protected String text;
     
     /* Getter & Setter */

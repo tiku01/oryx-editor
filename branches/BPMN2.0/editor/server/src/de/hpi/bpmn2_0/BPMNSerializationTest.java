@@ -30,8 +30,8 @@ public class BPMNSerializationTest {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-//		toBpmn2_0();
-		fromXml();
+		toBpmn2_0();
+//		fromXml();
 
 	}
 	

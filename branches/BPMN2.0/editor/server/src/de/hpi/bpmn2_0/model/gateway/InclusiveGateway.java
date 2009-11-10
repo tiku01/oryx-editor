@@ -25,10 +25,7 @@ package de.hpi.bpmn2_0.model.gateway;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
@@ -56,36 +53,7 @@ import de.hpi.bpmn2_0.annotations.StencilId;
 @XmlType(name = "tInclusiveGateway")
 @StencilId("InclusiveGateway")
 public class InclusiveGateway
-    extends Gateway
+    extends GatewayWithDefaultFlow
 {
-
-    @XmlAttribute(name = "default")
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object _default;
-
-    /**
-     * Gets the value of the default property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
-     */
-    public Object getDefault() {
-        return _default;
-    }
-
-    /**
-     * Sets the value of the default property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
-     */
-    public void setDefault(Object value) {
-        this._default = value;
-    }
 
 }

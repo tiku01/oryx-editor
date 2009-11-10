@@ -141,6 +141,7 @@ public class LaneFactory extends AbstractBpmnFactory {
 		if (this.hasChildLanes(shape)) {
 			LaneSet laneSet = new LaneSet();
 			laneSet.setParentLane(lane);
+			laneSet.setId(OryxUUID.generate());
 			lane.setChildLaneSet(laneSet);
 		}
 

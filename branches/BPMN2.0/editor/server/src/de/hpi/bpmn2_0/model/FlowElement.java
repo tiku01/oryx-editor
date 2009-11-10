@@ -25,13 +25,14 @@ package de.hpi.bpmn2_0.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
@@ -68,8 +69,8 @@ import de.hpi.bpmn2_0.model.participant.Lane;
 //    "auditing",
 //    "monitoring",
 	"categoryValue",
-	"incoming",
-	"outgoing",
+//	"incoming",
+//	"outgoing",
 	"process"
 })
 @XmlSeeAlso({
@@ -90,14 +91,16 @@ public abstract class FlowElement
     @XmlAttribute
     protected String name;
     
-    @XmlIDREF
-	@XmlSchemaType(name = "IDREF")
-	@XmlElement(name = "incoming", type = Edge.class)
+//    @XmlIDREF
+//	@XmlSchemaType(name = "IDREF")
+//	@XmlElement(name = "incoming", type = Edge.class)
+    @XmlTransient
     protected List<Edge> incoming;
 	
-	@XmlIDREF
-	@XmlSchemaType(name = "IDREF")
-	@XmlElement(name = "outgoing", type = Edge.class)
+//	@XmlIDREF
+//	@XmlSchemaType(name = "IDREF")
+//	@XmlElement(name = "outgoing", type = Edge.class)
+    @XmlTransient
     protected List<Edge> outgoing;
 	
 	/* The process the element belongs to */

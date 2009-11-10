@@ -25,13 +25,8 @@ package de.hpi.bpmn2_0.model.gateway;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 
 
 /**
@@ -55,56 +50,7 @@ import de.hpi.bpmn2_0.model.connector.SequenceFlow;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tExclusiveGateway")
 public class ExclusiveGateway
-    extends Gateway
+    extends GatewayWithDefaultFlow
 {
-
-    @XmlAttribute(name = "default")
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected SequenceFlow defaultSequenceFlow;
-    
-    /**
-     * Determines the default {@link SequenceFlow}
-     * 
-     * @return The default {@link SequenceFlow} or null
-     */
-    public SequenceFlow findDefaultSequenceFlow() {
-		for(SequenceFlow seqFlow : this.getOutgoingSequenceFlows()) {
-			/* A default sequence flow should not have an condition expression. */
-			if(seqFlow.isDefaultSequenceFlow()) {
-				this.setDefault(seqFlow);
-				return seqFlow;
-			}
-		}
-		
-		return null;
-	}
-    
-    /* Getter & Setter */
-    
-    /**
-     * Gets the default {@link SequenceFlow} of the {@link ExclusiveGateway} or
-     * null if no default flow is set.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SequenceFlow }
-     *     
-     */
-    public SequenceFlow getDefault() {
-        return defaultSequenceFlow;
-    }
-
-    /**
-     * Sets default {@link SequenceFlow}.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SequenceFlow }
-     *     
-     */
-    public void setDefault(SequenceFlow value) {
-        this.defaultSequenceFlow = value;
-    }
 
 }

@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -115,7 +116,8 @@ import de.hpi.bpmn2_0.model.participant.Lane;
 // DataOutput.class
 })
 public abstract class BaseElement {
-
+	
+	@XmlElement
 	protected List<Documentation> documentation;
 	@XmlAnyElement(lax = true)
 	protected List<Object> any;
