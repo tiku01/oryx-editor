@@ -286,6 +286,8 @@
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 
+		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
+
 	</plugins>
 	
 	<properties>
