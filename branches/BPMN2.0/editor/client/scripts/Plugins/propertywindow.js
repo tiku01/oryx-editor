@@ -568,9 +568,9 @@ ORYX.Plugins.PropertyWindow = {
 
 							var editorPicker = new Ext.ux.ColorField({ allowBlank: pair.optional(),  msgTarget:'title', facade: this.facade });
 							
-							this.facade.registerOnEvent(ORYX.CONFIG.EVENT_COLOR_CHANGE, function(option) {
+							/*this.facade.registerOnEvent(ORYX.CONFIG.EVENT_COLOR_CHANGE, function(option) {
 								this.editDirectly(key, option.value);
-							}.bind(this));
+							}.bind(this));*/
 							
 							editorGrid = new Ext.Editor(editorPicker);
 
