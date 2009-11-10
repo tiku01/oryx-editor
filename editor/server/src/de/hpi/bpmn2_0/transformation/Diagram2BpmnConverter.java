@@ -76,8 +76,8 @@ import de.hpi.bpmn2_0.model.diagram.SequenceFlowConnector;
 import de.hpi.bpmn2_0.model.event.BoundaryEvent;
 import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.Event;
-import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
+import de.hpi.bpmn2_0.model.gateway.GatewayWithDefaultFlow;
 import de.hpi.bpmn2_0.model.participant.Lane;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
@@ -414,8 +414,8 @@ public class Diagram2BpmnConverter {
 	private void setDefaultSequenceFlowOfExclusiveGateway() {
 		for (BPMNElement element : this.bpmnElements.values()) {
 			BaseElement base = element.getNode();
-			if (base instanceof ExclusiveGateway) {
-				((ExclusiveGateway) base).findDefaultSequenceFlow();
+			if (base instanceof GatewayWithDefaultFlow) {
+				((GatewayWithDefaultFlow) base).findDefaultSequenceFlow();
 			}
 		}
 	}
@@ -837,8 +837,6 @@ public class Diagram2BpmnConverter {
 				this.getCollaborationDiagram().getPool().add(pool);
 				this.getCollaboration().getParticipant().add(
 						pool.getParticipantRef());
-				
-				
 
 				collaborationIncluded = true;
 			}
@@ -851,42 +849,48 @@ public class Diagram2BpmnConverter {
 				collaborationIncluded = true;
 			}
 		}
-		
-		if(collaborationIncluded && this.defaultLaneCompartment != null) {
+
+		if (collaborationIncluded && this.defaultLaneCompartment != null) {
 			PoolCompartment poolComp = new PoolCompartment();
 			poolComp.setIsVisible(false);
 			poolComp.setId(OryxUUID.generate() + "_gui");
 			poolComp.getLane().add(this.defaultLaneCompartment);
-			
-			
+
 			Participant participant = new Participant();
 			participant.setId(OryxUUID.generate());
 			poolComp.setParticipantRef(participant);
 			this.getCollaborationDiagram().getPool().add(poolComp);
 			this.getCollaboration().getParticipant().add(participant);
 		}
-		
-		if (collaborationIncluded) {
+
+		/*
+		 * Assure that the constrained of at least two pools in a collaboration
+		 * diagram is fulfilled
+		 */
+		if (collaborationIncluded
+				&& this.getCollaborationDiagram().getPool().size() >= 2) {
 			this.definitions.getDiagram().add(this.getCollaborationDiagram());
 			this.definitions.getRootElement().add(this.getCollaboration());
 		}
 	}
-	
+
 	/**
-	 * Based on the passed pool, it searches for the appropriate process 
+	 * Based on the passed pool, it searches for the appropriate process
 	 * diagram, to retrieve the related process object.
 	 * 
 	 * @param pool
-	 * 		Resource pool
+	 *            Resource pool
 	 */
 	private void setProcessForPool(PoolCompartment pool) {
-		for(BpmnDiagram dia : this.definitions.getDiagram()) {
-			if(!(dia instanceof ProcessDiagram))
+		for (BpmnDiagram dia : this.definitions.getDiagram()) {
+			if (!(dia instanceof ProcessDiagram))
 				continue;
-			for(LaneCompartment lane : ((ProcessDiagram) dia).getLaneCompartment()) {
-				for(LaneCompartment poolLane : pool.getLane()) {
-					if(lane.equals(poolLane)) {
-						pool.getParticipantRef().setProcessRef(((ProcessDiagram) dia).getProcessRef());
+			for (LaneCompartment lane : ((ProcessDiagram) dia)
+					.getLaneCompartment()) {
+				for (LaneCompartment poolLane : pool.getLane()) {
+					if (lane.equals(poolLane)) {
+						pool.getParticipantRef().setProcessRef(
+								((ProcessDiagram) dia).getProcessRef());
 						return;
 					}
 				}

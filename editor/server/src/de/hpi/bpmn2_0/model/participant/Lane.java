@@ -44,6 +44,7 @@ import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.connector.Edge;
+import de.hpi.diagram.OryxUUID;
 
 
 /**
@@ -228,6 +229,7 @@ public class Lane
     public LaneSet getChildLaneSet() {
     	if(childLaneSet == null) {
     		childLaneSet = new LaneSet();
+    		childLaneSet.setId(OryxUUID.generate());
     		childLaneSet.setParentLane(this);
     	}
         return childLaneSet;

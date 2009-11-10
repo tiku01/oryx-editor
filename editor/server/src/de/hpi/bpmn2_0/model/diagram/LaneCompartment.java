@@ -90,7 +90,8 @@ public class LaneCompartment
     	@XmlElementRef(type = TextAnnotationShape.class)
     })
     protected List<BpmnNode> bpmnShape;
-    @XmlElement(namespace = "http://bpmndi.org")
+    
+    @XmlElement
     protected List<LaneCompartment> subLane;
     
     @XmlAttribute
@@ -99,6 +100,10 @@ public class LaneCompartment
     protected Lane laneRef;
     
     public void addChild(BpmnNode child) {
+    	if(child instanceof LaneCompartment) {
+    		this.getSubLane().add((LaneCompartment) child);
+    		return;
+    	}
     	this.getBpmnShape().add(child);
     }
     

@@ -28,9 +28,11 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.BaseElement;
+import de.hpi.bpmn2_0.model.Expression;
 import de.hpi.bpmn2_0.model.diagram.GatewayShape;
 import de.hpi.bpmn2_0.model.gateway.ComplexGateway;
 import de.hpi.bpmn2_0.model.gateway.EventBasedGateway;
+import de.hpi.bpmn2_0.model.gateway.EventBasedGatewayType;
 import de.hpi.bpmn2_0.model.gateway.ExclusiveGateway;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.bpmn2_0.model.gateway.GatewayDirection;
@@ -137,6 +139,13 @@ public class GatewayFactory extends AbstractBpmnFactory {
 		else
 			gateway.setInstantiate(false);
 		
+		/* Set gateway type */
+		String type = shape.getProperty("eventtype");
+		if(type != null && type.equalsIgnoreCase("instantiate_parallel")) 
+			gateway.setEventGatewayType(EventBasedGatewayType.PARALLEL);
+		else 
+			gateway.setEventGatewayType(EventBasedGatewayType.EXCLUSIVE);
+		
 		return gateway;
 	}
 	
@@ -153,9 +162,13 @@ public class GatewayFactory extends AbstractBpmnFactory {
 	@StencilId("ComplexGateway")
 	protected ComplexGateway createComplexGateway(Shape shape) {
 		ComplexGateway gateway = new ComplexGateway();
-		
 		gateway.setId(shape.getResourceId());
 		gateway.setName(shape.getProperty("name"));
+		
+		String activationCondition = shape.getProperty("activationcondition");
+		if(activationCondition != null && !activationCondition.equals("")) {
+			gateway.setActivationCondition(new Expression(activationCondition));
+		}
 		
 		return gateway;
 	}
