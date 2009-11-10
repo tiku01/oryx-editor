@@ -1117,7 +1117,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"bg_frame",
+					"refToView":"fill_el",
 					"fill":true,
 					"stroke":false
 				}		
@@ -1806,7 +1806,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"bg_frame",
+					"refToView":"fill_el",
 					"fill":true,
 					"stroke":false
 				}	
@@ -1850,8 +1850,7 @@
 				"baseAttributes",
 				"flowElement",
 				"activity",
-				"subprocess",
-				"bgColor"
+				"subprocess"
 			],
 			"properties" :		[
 				{
@@ -1866,7 +1865,20 @@
 					"readonly":true,
 					"optional":false,
 					"length":""
-				}
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}	
 			],
 			"roles"	:			[
 				"all",
@@ -1897,7 +1909,6 @@
 				"flowElement",
 				"activity",
 				"subprocess",
-				"bgColor",
 				"interrupting"
 			],
 			"properties" :		[
@@ -1997,7 +2008,20 @@
 							"refToView":"multipleParallel"
 						}
 					]
-				}
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}	
 			],
 			"roles": 			[
 				"all",
@@ -2022,8 +2046,7 @@
 				"baseAttributes",
 				"flowElement",
 				"activity",
-				"subprocess",
-				"bgColor"
+				"subprocess"
 			],
 			"properties" :		[
 				{
@@ -2039,6 +2062,19 @@
 					"optional":false,
 					"length":""
 				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"title_de":"Hintergrundfarbe",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				},	
 				{
 					"id":"isatransaction",
 					"type":"Boolean",
