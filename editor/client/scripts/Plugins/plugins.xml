@@ -294,6 +294,8 @@
 		<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
+		
+		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 
 	</plugins>
 	
