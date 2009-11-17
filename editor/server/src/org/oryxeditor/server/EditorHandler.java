@@ -98,7 +98,7 @@ public class EditorHandler extends HttpServlet {
 	        extString+
 	        ";"+
 
-	        "function onOryxResourcesLoaded(){" +
+	        "if (!onOryxResourcesLoaded) function onOryxResourcesLoaded(){" +
                 "if (location.hash.slice(1).length == 0 || location.hash.slice(1).indexOf('new')!=-1){" +
                 "var stencilset=ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):'"+sset+"';"+
                 "new ORYX.Editor({"+
