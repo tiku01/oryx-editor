@@ -1,4 +1,4 @@
-#A description of the Stencil Set Perspective feature
+#summary A description of the Stencil Set Perspective feature
 
 = Stencil Set Perspectives =
 
