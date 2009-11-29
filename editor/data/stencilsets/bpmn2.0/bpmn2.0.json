@@ -12,7 +12,7 @@
 					"title":"Id",
 					"value":"",
 					"description":"This attribute is used to uniquely identify BPMN elements.",
-					"description_de":"Definiert eine eindeutige ID, um einzelne BPMN-Elemente technisch unterscheiden zu können.",
+					"description_de":"Definiert eine eindeutig Nummer, um einzelne BPMN-Elemente unterscheiden zu können.",
 					"readonly":false,
 					"optional":false,
 					"length":"50"
@@ -84,7 +84,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView": "fill_el",
+					"refToView": "bg_frame",
 					"fill":true,
 					"stroke":false
 				}
@@ -97,7 +97,7 @@
 					"id":"eventdefinitionref",
 					"type":"String",
 					"title":"EventDefinitionRef",
-					"title_de":"Ereignis-Definitions Referenz",
+					"title_de":"EreignisDefinitionsRef",
 					"value":"",
 					"description":"EventDefinitionRefs (EventDefinition) is an attribute that defines the type of reusable triggers expected for a catch Event.",
 					"description_de":"Das Attribut EreignisDefinitionsRef (EreignisDefinition) definiert einen wiederverwendbaren Auslösertyp für ein eintretendes Ereignis.",
@@ -123,7 +123,7 @@
 					"id":"dataoutputassociations",
 					"type":"String",
 					"title":"DataOutputAssociations",
-					"title_de":"Daten Ausgangs-Assoziation",
+					"title_de":"DatenAusgangAssoziation",
 					"value":"",
 					"description":"The Data Associations of the catch Event.",
 					"description_de":"Die Daten-Assoziation für ein eintretendes Ereignis.",
@@ -136,7 +136,7 @@
 					"id":"dataoutput",
 					"type":"String",
 					"title":"DataOutput",
-					"title_de":"Daten-Ausgang",
+					"title_de":"DatenAusgang",
 					"value":"",
 					"description":"The Data Associations of the catch Event.",
 					"description_de":"Die Daten-Assoziation für ein eintretendes Ereignis.",
@@ -149,7 +149,7 @@
 					"id":"outputset",
 					"type":"String",
 					"title":"OutputSet",
-					"title_de":"Ausgabe-Menge",
+					"title_de":"AusgabeSätze",
 					"value":"",
 					"description":"The OutputSet for the catch Event.",
 					"description_de":"Die Ausgabe-Sätze für ein eintretendes Ereignis.",
@@ -167,7 +167,7 @@
 					"id":"eventdefinitionref",
 					"type":"String",
 					"title":"EventDefinitionRef",
-					"title_de":"Ereignis Definitions-Referenz",
+					"title_de":"EreignisDefinitionsRef",
 					"value":"",
 					"description":"EventDefinitionRefs (EventDefinition) is an attribute that defines the type of reusable triggers expected for a catch Event.",
 					"description_de":"Das Attribut EreignisDefinitionsRef (EreignisDefinition) definiert einen wiederverwendbaren Auslösertyp für ein eintretendes Ereignis.",
@@ -193,10 +193,10 @@
 					"id":"datainputassociations",
 					"type":"String",
 					"title":"DataInputAssociations",
-					"title_de":"Daten Ausgangs-Assoziationen",
+					"title_de":"DatenAusgangAssoziation",
 					"value":"",
 					"description":"The Data Associations of the throw Event.",
-					"description_de":"Die Daten-Assoziationen für ein auslösendes Ereignis.",
+					"description_de":"Die Daten-Assoziation für ein auslösendes Ereignis.",
 					"readonly":false,
 					"optional":true,
 					"length":"",
@@ -206,7 +206,7 @@
 					"id":"datainput",
 					"type":"String",
 					"title":"Data Input",
-					"title_de":"Daten-Eingang",
+					"title_de":"Daten Eingang",
 					"value":"",
 					"description":"The Data Associations of the throw Event.",
 					"description_de":"Die Daten-Assoziation für ein auslösendes Ereignis.",
@@ -219,7 +219,7 @@
 					"id":"inputset",
 					"type":"String",
 					"title":"InputSet",
-					"title_de":"Ausgabe-Menge",
+					"title_de":"AusgabeSätze",
 					"value":"",
 					"description":"The InputSet for the throw Event.",
 					"description_de":"Die Ausgabe-Sätze für ein auslösendes Ereignis.",
@@ -271,7 +271,7 @@
 					"id":"isinterrupting",
 					"type":"Boolean",
 					"title":"Is Interrupting",
-					"title_de":"ist unterbrechend",
+					"title_de":"Ist unterbrechend",
 					"value":true,
 					"description":"This attribute denotes whether the Sub-Process encompassing the Event Sub-Process should be cancelled or not.",
 					"description_de":"Dieses Attribut gibt an, ob der umfassende Subprozess abgebrochen werden soll.",
@@ -327,11 +327,11 @@
 				{
 					"id":"targetnamespace",
 					"type":"String",
-					"title":"Target Namespace",
-					"title_de":"Ziel-Namensraum",
+					"title":"TargetNamespace",
+					"title_de":"Zielnamesraum",
 					"value":"http://www.omg.org/bpmn20",
-					"description":"Defines the XML namespace of the elements inside the document.",
-					"description_de":"Definiert den XML-Namensraum, der für die Elemente im Dokument verwendet wird.",
+					"description":"Defines the namespace of the elements inside the document.",
+					"description_de":"Definiert den Namensraum, der für die Elemente im Dokument verwendet wird.",
 					"readonly":false,
 					"optional":true,
 					"length":"50"
@@ -340,7 +340,7 @@
 					"id":"expressionlanguage",
 					"type":"String",
 					"title":"ExpressionLanguage",
-					"title_de":"Ausdruckssprache",
+					"title_de":"AusdrucksSprache",
 					"value":"",
 					"description":"A Language may be provided so that the syntax of expressions used in the Diagram can be understood.",
 					"description_de":"Sprache, mit welcher im Diagramm verwendete Ausdrücke beschrieben sind.",
@@ -352,7 +352,7 @@
 					"id":"querylanguage",
 					"type":"String",
 					"title":"QueryLanguage",
-					"title_de":"Abfrage-Sprache",
+					"title_de":"AbfrageSprache",
 					"value":"",
 					"description":"A Language may be provided so that the syntax of queries used in the Diagram can be understood.",
 					"description_de":"Sprache, mit welcher im Diagramm verwendete Abfragen beschrieben sind.",
@@ -434,7 +434,7 @@
 					"id" : "dataState",
 					"type" : "String",
 					"title" : "DataState",
-					"title_de" : "Daten-Zustand",
+					"title_de" : "DatenZustand",
 					"description" : "A reference to the DataState, which defines certain states for the data contained in the item.",
 					"description_de" : "",
 					"readonly" : false,
@@ -532,7 +532,7 @@
 					"title_de":"Ausführende",
 					"value":"",
 					"description":"The Performer attribute defines the resource that will perform or will be responsible for the activity.",
-					"description_de":"Das Ausführende Attribut bestimmt die Ressource, welche die Aktivität ausführen wird oder für sie verantwortlich ist.",
+					"description_de":"Das Ausführende Attribut setzt die Ressource, welche die Aktivität ausführen wird oder für sie verantwortlich ist.",
 					"readonly": 	false,
 					"optional": 	true,
 					"length":"",
@@ -590,7 +590,7 @@
 					"id":"inputsets",
 					"type":"String",
 					"title":"InputSets",
-					"title_de":"Eingabe-Mengen",
+					"title_de":"Eingabesätze",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -616,7 +616,7 @@
 					"id":"outputsets",
 					"type":"String",
 					"title":"OutputSets",
-					"title_de":"Ausgabe-Mengen",
+					"title_de":"Ausgabesätze",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -655,7 +655,7 @@
 					"id":"testtime",
 					"type":"Choice",
 					"title":"TestTime",
-					"title_de":"Testzeitpunkt",
+					"title_de":"Testzeit",
 					"value":"After",
 					"description":"",
 					"readonly":false,
@@ -665,14 +665,12 @@
 						{
 							"id":"c1",
 							"title":"Before",
-							"title_de":"Vorher",
 							"value":"Before",
 							"refToView":""
 						},
 						{
 							"id":"c2",
 							"title":"After",
-							"title_de":"Hinterher",
 							"value":"After",
 							"refToView":""
 						}
@@ -681,8 +679,8 @@
 				{
 					"id":"mi_condition",
 					"type":"String",
-					"title":"MI Condition",
-					"title_de":"Mehrfachinstanz-Bedingung",
+					"title":"MI_Condition",
+					"title_de":"MI_Bedingung",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -693,8 +691,8 @@
 				{
 					"id":"mi_flowcondition",
 					"type":"Choice",
-					"title":"MI Flowcondition",
-					"title_de":"Mehrfachinstanz-Flussbedingung",
+					"title":"MI_FlowCondition",
+					"title_de":"MI_Flussbedingung",
 					"value":"All",
 					"description":"",
 					"readonly":false,
@@ -704,28 +702,24 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"title_de":"Keine",
 							"value":"None",
 							"refToView":""
 						},
 						{
 							"id":"c2",
 							"title":"One",
-							"title_de":"Eine",
 							"value":"One",
 							"refToView":""
 						},
 						{
 							"id":"c2",
 							"title":"All",
-							"title_de":"Alle",
 							"value":"All",
 							"refToView":""
 						},
 						{
 							"id":"c2",
 							"title":"Complex",
-							"title_de":"Komplexe Bedingung",
 							"value":"Complex",
 							"refToView":""
 						}
@@ -735,10 +729,10 @@
 					"id":"isforcompensation",
 					"type":"Boolean",
 					"title":"Is for Compensation",
-					"title_de":"ist für Kompensation",
+					"title_de":"Ist für Kompensation",
 					"value":false,
 					"description":"A flag that identifies whether this activity is intended for the purposes of compensation.",
-					"description_de":"Ein Flag, das angibt ob diese Aktivität für Kompensierungszwecke vorgesehen ist.",
+					"description_de":"Ein Flag, das angibt, ob diese Aktivität für Kompensierungszwecke vorgesehen ist.",
 					"readonly":false,
 					"optional":true,
 					"refToView":"compensation"
@@ -789,7 +783,6 @@
 								{
 									"id":"c2",
 									"title":"End",
-									"title_de":"Ende",
 									"value":"End",
 									"refToView":""
 								}
@@ -831,14 +824,12 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"title_de":"Keine Schleife",
 							"value":"None",
 							"refToView":"none"
 						},
 						{
 							"id":"c2",
 							"title":"Standard",
-							"title_de":"Standard",
 							"value":"Standard",
 							"icon" : "activity/list/looptype.standard.png",
 							"refToView":"loop"
@@ -846,7 +837,6 @@
 						{
 							"id":"c3",
 							"title":"MI Parallel",
-							"title_de":"MI parallel",
 							"value":"Parallel",
 							"icon" : "activity/list/mi.parallel.png",
 							"refToView":"parallel"
@@ -854,7 +844,6 @@
 						{
 							"id":"c4",
 							"title":"MI Sequential",
-							"title_de":"MI sequentialisiert",
 							"value":"Sequential",
 							"icon" : "activity/list/mi.sequential.png",
 							"refToView":"sequential"
@@ -939,14 +928,12 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"title_de":"Kein Typ",
 							"value":"None",
 							"refToView":"none"
 						},
 						{
 							"id":"c2",
 							"title":"Send",
-							"title_de":"Sendend",
 							"value":"Send",
 							"icon" : "activity/list/type.send.png",
 							"refToView":"sendTask"
@@ -954,7 +941,6 @@
 						{
 							"id":"c3",
 							"title":"Receive",
-							"title_de":"Empfangend",
 							"value":"Receive",
 							"icon" : "activity/list/type.receive.png",
 							"refToView":"receiveTask"
@@ -962,7 +948,6 @@
 						{
 							"id":"c4",
 							"title":"User",
-							"title_de":"Benutzer",
 							"value":"User",
 							"icon" : "activity/list/type.user.png",
 							"refToView":"userTask"
@@ -970,7 +955,6 @@
 						{
 							"id":"c5",
 							"title":"Manual",
-							"title_de":"Manuell",
 							"value":"Manual",
 							"icon" : "activity/list/type.manual.png",
 							"refToView":"manualTask"	
@@ -978,7 +962,6 @@
 						{
 							"id":"c6",
 							"title":"Service",
-							"title_de":"Service",
 							"value":"Service",
 							"icon" : "activity/list/type.service.png",
 							"refToView":"serviceTask"
@@ -986,7 +969,6 @@
 						{
 							"id":"c7",
 							"title":"Business Rule",
-							"title_de":"Geschäftsregel",
 							"value":"Business Rule",
 							"icon" : "activity/list/type.business.rule.png",
 							"refToView":"businessRuleTask"
@@ -994,7 +976,6 @@
 						{
 							"id":"c8",
 							"title":"Script",
-							"title_de":"Skript",
 							"value":"Script",
 							"icon" : "activity/list/type.script.png",
 							"refToView":"scriptTask"
@@ -1059,8 +1040,8 @@
 				{				
 					"id":"complexmi_condition",
 					"type":"String",
-					"title":"Complex MI condition",
-					"title_de":"Komplexe MI-Bedingung",
+					"title":"ComplexMI_Condition",
+					"title_de":"KomplexeMI Bedingung",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1072,7 +1053,7 @@
 					"id":"messageref",
 					"type":"String",
 					"title":"MessageRef",
-					"title_de":"Nachrichten-Referenz",
+					"title_de":"NachrichtRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1084,7 +1065,7 @@
 					"id":"operationref",
 					"type":"String",
 					"title":"OperationRef",
-					"title_de":"Operations-Referenz",
+					"title_de":"OperationsRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1136,7 +1117,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"fill_el",
+					"refToView":"bg_frame",
 					"fill":true,
 					"stroke":false
 				}		
@@ -1188,7 +1169,7 @@
 					"id":"transaction",
 					"type":"String",
 					"title":"TransactionRef",
-					"title_de":"Transaktions-Referenz",
+					"title_de":"TransaktionsRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1200,7 +1181,7 @@
 					"id":"transactionmethod",
 					"type":"Choice",
 					"title":"TransactionMethod",
-					"title_de":"Transaktions-Methode",
+					"title_de":"Transaction Methode",
 					"value":"compensate",
 					"description":"The technique that will be used to undo a transaction that has been cancelled.",
 					"readonly":false,
@@ -1248,13 +1229,11 @@
 						{
 							"id":"c1",
 							"title":"Sequential",
-							"title_de":"sequentiell",
 							"value":"sequential"
 						},
 						{
 							"id":"c2",
 							"title":"Parallel",
-							"title_de":"parallel",
 							"value":"parallel"
 						}
 					]
@@ -1284,7 +1263,7 @@
 					"id":"entry",
 					"type":"DiagramLink",
 					"title":"SubProcessRef",
-					"title_de":"Subprozess-Referenz",
+					"title_de":"SubprozessRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1295,7 +1274,7 @@
 					"id":"diagramref",
 					"type":"String",
 					"title":"DiagramRef",
-					"title_de":"Diagramm-Referenz",
+					"title_de":"DiagrammRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1306,7 +1285,7 @@
 					"id":"processref",
 					"type":"String",
 					"title":"ProcessRef",
-					"title_de":"Prozess-Referenz",
+					"title_de":"ProzessRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1317,7 +1296,7 @@
 					"id":"inputmaps",
 					"type":"String",
 					"title":"InputMaps",
-					"title_de":"Eingabe-Mengen",
+					"title_de":"Eingabeabbildung",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1328,7 +1307,7 @@
 					"id":"outputmaps",
 					"type":"String",
 					"title":"OutputMaps",
-					"title_de":"Ausgabe-Mengen",
+					"title_de":"Ausgabeabbildung",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1380,15 +1359,14 @@
 								{
 									"id":"c1",
 									"title":"Start",
-									"title_de":"Start",
 									"value":"Start",
 									"refToView":""
 								},
 								{
 									"id":"c2",
 									"title":"End",
-									"title_de":"Ende",
 									"value":"End",
+									"value_de":"Ende",
 									"refToView":""
 								}
 							]
@@ -1486,11 +1464,10 @@
 				{
 					"id" : "multiinstance",
 					"type" : "Boolean",
-					"title" : "is Multi Instance Participant",
-					"title_de" : "ist Mehrfach-Beteiligung",
+					"title" : "Multi Instance Participant",
+					"title_de" : "Multi Instance Teilnehmer",
 					"value" : false,
 					"description" : "",
-					"description_de" : "Legt fest, ob der Teilnehmer mehrfach beteiligt ist (Multi Instance).",
 					"readonly" : false,
 					"optional" : true,
 					"refToView" : "multiInstance"
@@ -1499,7 +1476,7 @@
 					"id":"participantref",
 					"type":"String",
 					"title":"ParticipantRef",
-					"title_de":"Teilnehmer-Referenz",
+					"title_de":"TeilnehmerRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1528,14 +1505,13 @@
 					"description_de":"Gibt an, ob die rechteckige Umrandung des Pools sichtbar ist.",
 					"readonly":false,
 					"optional":false,
-					"refToView": ["border", "c", "caption", "captionDisableAntialiasing"],
-					"visible":false
+					"refToView": ["border", "c", "caption", "captionDisableAntialiasing"]
 				},
 				{
 					"id":"mainpool",
 					"type":"Boolean",
-					"title":"is main pool",
-					"title_de":"ist Hauptpool",
+					"title":"MainPool",
+					"title_de":"Hauptpool",
 					"value":false,
 					"description":"Defines if the current Pool is the main Pool of the diagram.",
 					"description_de":"Gibt an, ob der Pool Hauptpool des Diagramms ist.",
@@ -1546,7 +1522,7 @@
 					"id":"processref",
 					"type":"String",
 					"title":"ProcessRef",
-					"title_de":"Prozess-Referenz",
+					"title_de":"ProzessRef",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1579,25 +1555,21 @@
 						{
 							"id":"c1",
 							"title":"None",
-							"title_de":"Keiner",
 							"value":"None"
 						},
 						{
 							"id":"c2",
 							"title":"Private",
-							"title_de":"Privat",
 							"value":"Private"
 						},
 						{
 							"id":"c3",
 							"title":"Abstract",
-							"title_de":"Abstrakt",
 							"value":"Abstract"
 						},
 						{
 							"id":"c4",
 							"title":"Collaboration",
-							"title_de":"Kollaboration",
 							"value":"Collaboration"
 						}
 					]
@@ -1733,8 +1705,7 @@
 				{
 					"id":"processdocumentation",
 					"type":"String",
-					"title":"Process Documentation",
-					"title_de":"Prozess-Dokumentation",
+					"title":"ProcessDocumentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -1771,8 +1742,8 @@
 			"title_de" : 		"Task",
 			"groups" : 			["Activities"],
 			"groups_de" :		["Aktivitäten"],
-			"description" : 	"A task is a unit of work - the job to be performed.",
-			"description_de" : 	"Eine Task ist eine Arbeitseinheit. Sie repräsentiert die Aufgabe, die zu tun ist.",
+			"description" : 	"",
+			"description_de" : 	"",
 			"view" : 			"activity/task.svg",
 			"icon" : 			"activity/task.png",
 			"propertyPackages" :[
@@ -1801,8 +1772,8 @@
 			"title_de" :		"Zugeklappter Unterprozess",
 			"groups" :			["Activities"],
 			"groups_de" :		["Aktivitäten"],
-			"description" :		"A subprocess is a decomposable activity. It can be linked to another process diagram.",
-			"description_de" :	"Ein Unterprozess ist eine verfeinerbare Aktivität. Er kann mit einem anderen Prozessdiagramm verlinkt werden.",
+			"description" :		"A Subprocess is a decomposable activity. It can be collapsed to hide the details.",
+			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Er kann zugeklappt sein, um Details zu verbergen.",
 			"view" :			"activity/subprocess.collapsed.svg",
 			"icon" :			"activity/subprocess.png",
 			"propertyPackages" :[
@@ -1821,7 +1792,7 @@
 					"value":"Sub-Process",
 					"value_de":"Unterprozess",
 					"description":"The Type of Activity.",
-					"description_de":"Typ der Aktivität",
+					"description":"Typ der Aktivität",
 					"readonly":true,
 					"optional":false,
 					"length":""
@@ -1835,7 +1806,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"fill_el",
+					"refToView":"bg_frame",
 					"fill":true,
 					"stroke":false
 				}	
@@ -1858,12 +1829,11 @@
 			"title_de" :		"Aufgeklappter Unterprozess",
 			"groups" :			["Activities"],
 			"groups_de" :		["Aktivitäten"],
-			"description" :		"A subprocess is a decomposable activity. An expanded subprocess contains a valid BPMN diagram.",
-			"description_de" :	"Ein Unterprozess ist eine verfeinerte Aktivität. Ein aufgeklappter Unterprozess enthält in sich ein eigenes BPMN Diagramm, welches direkt innerhalb modelliert wird.",
+			"description" :		"A Subprocess is a decomposable activity. An Expanded Subprocess contains a valid BPMN diagram.",
+			"description_de" :	"Ein Unterprozess ist eine zerlegbare Aktivität. Ein Aufgeklappter Unterprozess enthält ein BPMN Diagramm.",
 			"view" :			"activity/subprocess.expanded.svg",
 			"icon" :			"activity/expanded.subprocess.png",
  			"layout" : 			[
- 									{"type" : "layout.bpmn2_0.subprocess"},
  									{"type" : "layout.container.dockers"},
  									{
  										"type" : "layout.container.minBounds",
@@ -1880,7 +1850,8 @@
 				"baseAttributes",
 				"flowElement",
 				"activity",
-				"subprocess"
+				"subprocess",
+				"bgColor"
 			],
 			"properties" :		[
 				{
@@ -1891,24 +1862,11 @@
 					"value":"Sub-Process",
 					"value_de":"Unterprozess",
 					"description":"The Type of Activity.",
-					"description_de":"Typ der Aktivität",
+					"description":"Typ der Aktivität",
 					"readonly":true,
 					"optional":false,
 					"length":""
-				},
-				{
-					"id":"bgcolor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"fill_el",
-					"fill":true,
-					"stroke":false
-				}	
+				}
 			],
 			"roles"	:			[
 				"all",
@@ -1930,8 +1888,8 @@
 			"title_de" :		"Zugeklappter Ereignis-Unterprozess",
 			"groups" :			["Activities"],
 			"groups_de" :		["Aktivitäten"],
-			"description" :		"An Event-Subprocess is placed within another subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting). It can be linked to another diagram.",
-			"description_de" :	"Ein Ereignis-Unterprozess wird innnerhalb eines anderen Unterprozesses platziert. Er wird dann aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrechen oder parallel laufen (nicht-unterbrechend). Dieser Unterprozess kann mit einem anderen Diagramm verknüpft werden.",
+			"description" :		"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
+			"description_de" :	"Ein Ereignis-Unterprozess wird in einem anderen Unterprozess platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrehcen oder parallel laufen (nicht-unterbrechend).",
 			"view" :			"activity/event.subprocess.collapsed.svg",
 			"icon" :			"activity/event.subprocess.collapsed.png",
 			"propertyPackages" :[
@@ -1939,6 +1897,7 @@
 				"flowElement",
 				"activity",
 				"subprocess",
+				"bgColor",
 				"interrupting"
 			],
 			"properties" :		[
@@ -1950,7 +1909,7 @@
 					"value":"Event-Sub-Process",
 					"value_de":"Ereignis-Unterprozess",
 					"description":"The Type of Activity.",
-					"description_de":"Typ der Aktivität",
+					"description":"Typ der Aktivität",
 					"readonly":true,
 					"optional":false,
 					"length":""
@@ -1976,7 +1935,7 @@
 						{
 							"id":"c2",
 							"title":"Timer",
-							"title_de" : "Timer",
+							"title_de" : "Stoppuhr",
 							"value":"Timer",
 							"icon" : "activity/list/event.timer.png",
 							"refToView":"timer"
@@ -2024,7 +1983,7 @@
 						{
 							"id":"c8",
 							"title":"Multiple",
-							"title_de" : "Mehrere",
+							"title_de" : "Vielzahl",
 							"value":"Multiple",
 							"icon" : "activity/list/event.multiple.png",
 							"refToView":"multiple"
@@ -2032,26 +1991,13 @@
 						{
 							"id":"c9",
 							"title":"Multiple (Parallel)",
-							"title_de" : "Mehrere (Parallel)",
+							"title_de" : "Vielzahl (Parallel)",
 							"value":"MultipleParallel",
 							"icon" : "activity/list/event.multiple.parallel.png",
 							"refToView":"multipleParallel"
 						}
 					]
-				},
-				{
-					"id":"bgcolor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"fill_el",
-					"fill":true,
-					"stroke":false
-				}	
+				}
 			],
 			"roles": 			[
 				"all",
@@ -2067,8 +2013,8 @@
 			"title_de" :		"Ereignis-Unterprozess",
 			"groups" :			["Activities"],
 			"groups_de" :		["Aktivitäten"],
-			"description" :		"An Event-Subprocess is placed within another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
-			"description_de" :	"Ein Ereignis-Unterprozess wird innerhalb eines anderen Unterprozesses platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrechen oder parallel laufen (nicht-unterbrechend).",
+			"description" :		"An Event-Subprocess is placed into another Subprocess. It becomes active when its start event gets triggered and can interrupt the Subprocess context or run in parallel (non-interrupting).",
+			"description_de" :	"Ein Ereignis-Unterprozess wird in einem anderen Unterprozess platziert. Er wird aktiv, wenn sein Startereignis ausgelöst wird und kann den Unterprozesskontext unterbrehcen oder parallel laufen (nicht-unterbrechend).",
 			"view" :			"activity/event.subprocess.svg",
 			"icon" :			"activity/event.subprocess.png",
  			"layout" : 			[{"type" : "layout.bpmn2_0.subprocess"}],
@@ -2076,7 +2022,8 @@
 				"baseAttributes",
 				"flowElement",
 				"activity",
-				"subprocess"
+				"subprocess",
+				"bgColor"
 			],
 			"properties" :		[
 				{
@@ -2087,24 +2034,11 @@
 					"value":"Event-Sub-Process",
 					"value_de":"Ereignis-Unterprozess",
 					"description":"The Type of Activity.",
-					"description_de":"Typ der Aktivität",
+					"description":"Typ der Aktivität",
 					"readonly":true,
 					"optional":false,
 					"length":""
 				},
-				{
-					"id":"bgcolor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"fill_el",
-					"fill":true,
-					"stroke":false
-				},	
 				{
 					"id":"isatransaction",
 					"type":"Boolean",
@@ -2142,7 +2076,7 @@
 			"title" :			"Data-based Exclusive (XOR) Gateway",
 			"title_de" : 		"Daten-basiertes exklusives Gateway",
 			"description" :		"When splitting, it routes the sequence flow to exactly one of the outgoing branches based on conditions. When merging, it awaits one incoming branch to complete before triggering the outgoing flow.",
-			"description_de" :	"Bei einer Verzweigung wird der Sequenzfluss abhängig von Verzweigungsbedingungen zu genau einer ausgehenden Kante geleitet. Bei einer Zusammenführung wird auf eine der eingehenden Kante gewartet, um den ausgehenden Sequenzfluss zu aktivieren.",
+			"description_de" :	"Bei einer Verzweigung wird der Steuerfluss abhÃ¤ngig von Verzweigungsbedingungen zu genau einer ausgehenden Kante geleitet. Bei einer Zusammenführung wird auf eine der eingehenden Kante gewartet, um den ausgehenden Steuerfluss zu aktivieren.",
 			"groups" : 			["Gateways"],
 			"view" : 			"gateway/exclusive.databased.svg",
 			"icon" : 			"gateway/exclusive.databased.png",
@@ -2156,8 +2090,8 @@
 				{
 					"id":"gatewaytype",
 					"type":"String",
-					"title":"Gateway type",
-					"title":"Gateway-Typ",
+					"title":"GatewayType",
+					"title":"GatewayTyp",
 					"value":"XOR",
 					"description":"",
 					"readonly":true,
@@ -2167,8 +2101,8 @@
 				{
 					"id":"xortype",
 					"type":"String",
-					"title":"XOR type",
-					"title_de":"XOR-Typ",
+					"title":"XORType",
+					"title_de":"XORTyp",
 					"value":"Data",
 					"description":"",
 					"readonly":true,
@@ -2178,8 +2112,8 @@
 				{
 					"id":"markervisible",
 					"type":"Boolean",
-					"title":"X-Marker visible",
-					"title_de":"X-Marker sichtbar",
+					"title":"MarkerVisible",
+					"title_de":"Markierung sichtbar",
 					"value":"true",
 					"description":"",
 					"readonly":false,
@@ -2189,7 +2123,7 @@
 				{
 					"id":"defaultgate",
 					"type":"String",
-					"title":"Default gate",
+					"title":"DefaultGate",
 					"title_de":"Standardgate",
 					"value":"",
 					"description":"",
@@ -2241,8 +2175,8 @@
 			"title" :			"Event-based Gateway",
 			"title_de" :		"Ereignis-basiertes Gateway",
 			"groups" :			["Gateways"],
-			"description" :		"Is always followed by catching events or receive tasks. Sequence flow is routed to the subsequent event/task which happens first.",
-			"description_de" :	"Wenn der Sequenzfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Sequenzfluss aktiviert wird.",
+			"description" :		"Each event results in the creation of a new process instance.",
+			"description_de" :	"Jedes Ereignis endet mit der Erzeugung einer neuen Prozessinstanz.",
 			"view" :			"gateway/eventbased.svg",
 			"icon" :			"gateway/eventbased.png",
 			"propertyPackages" :[
@@ -2257,7 +2191,7 @@
 					"type":"Choice",
 					"title":"Type",
 					"title_de":"Typ",
-					"value":"exclusive",
+					"value":"default",
 					"description":"",
 					"readonly":false,
 					"optional":true,
@@ -2265,29 +2199,33 @@
 					"items":[
 						{
 							"id":"c1",
-							"title":"Exclusive (standard)",
-							"title_de" : "Exklusiv (Standard)",
+							"title":"Exclsuive",
+							"title_de" : "Exklusiv",
 							"value":"exclusive",
 							"icon" : "gateway/list/eventbased.exclusive.png",
 							"refToView":"default"
 						},
 						{
 							"id":"c2",
-							"title":"Exclusive Instantiation",
-							"title_de" : "Exklusive Instantiierung",
-							"value":"instantiate_exclusive",
-							"icon" : "gateway/list/eventbased.exclusive.png",
-							"refToView":["default","instantiate"]
-						},
-						{
-							"id":"c3",
-							"title":"Parallel Instantiation",
-							"title_de" : "Parallele Instantiierung",
+							"title":"Parallel",
+							"title_de" : "Parallel",
 							"value":"instantiate_parallel",
 							"icon" : "gateway/list/eventbased.parallel.png",
-							"refToView":["parallel","instantiate"]
+							"refToView":"parallel"
 						}
 					]
+				},
+				{
+					"id":"instantiate",
+					"type":"Boolean",
+					"title":"Instantiate",
+					"title_de":"Instanzieren",
+					"value": false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"refToView" : "instantiate"
 				}
 			],
 			"roles":			[
@@ -2307,7 +2245,7 @@
 			"title_de" :		"Paralleles Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"When used to split the sequence flow, all outgoing branches are activated simultaneously. When merging parallel branches it waits for all incoming branches to complete before triggering the outgoing flow.",
-			"description_de" :	"Wenn der Sequenzfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Sequenzfluss aktiviert wird.",
+			"description_de" :	"Wenn der Steuerfluss verzweigt wird, werden alle ausgehenden Kanten simultan aktiviert. Bei der Zusammenführung wird auf alle eingehenden Kanten gewartet, bevor der ausgehende Steuerfluss aktiviert wird.",
 			"view" :			"gateway/parallel.svg",
 			"icon" :			"gateway/parallel.png",
 			"propertyPackages" :[
@@ -2346,7 +2284,7 @@
 			"title_de" :		"Inklusives Gateway",
 			"groups" :			["Gateways"],
 			"description" :		"When splitting, one or more branches are activated based on branching conditions. When merging, it awaits all active incoming branches to complete.",
-			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhängig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
+			"description_de" :	"Bei einer Verzweigung werden eine oder mehrere Kanten abhÃ¤ngig von Verzweigungsbedingungen aktiviert. Bei einer Vereinigung wird auf alle eingehenden aktiven Kanten gewartet.",
 			"view" :			"gateway/inclusive.svg",
 			"icon" :			"gateway/inclusive.png",
 			"propertyPackages" :[
@@ -2423,7 +2361,7 @@
 			"title_de":"Komplexes Gateway",
 			"groups":["Gateways"],
 			"description":"It triggers one or more branches based on complex conditions or verbal descriptions. Use it sparingly as the semantics might not be clear.",
-			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
+			"description_de":"Eine oder mehrere Kanten werden abhängig von komplexen Bedingungen oder verbalen Beschreibungen aktiviert. Es sollte nur benutzt werden, wenn sich das Verhalten nicht durch andere Gateways ausdrücken lässt.",
 			"view":"gateway/complex.svg",
 			"icon":"gateway/complex.png",
 			"propertyPackages" : [
@@ -2448,7 +2386,7 @@
 					"id":"activationcondition",
 					"type":"String",
 					"title":"ActivationCondition",
-					"title_de":"Aktivierungsbedingung",
+					"title_de":"Aktivierungbedingung",
 					"value":"",
 					"popular":true,
 					"description":"Determines which combination of incoming tokens will be synchronized for activation of the Gateway.",
@@ -2471,7 +2409,7 @@
 					"id":"outgoingcondition",
 					"type":"String",
 					"title":"OutgoingCondition",
-					"title_de":"Ausgangsbedingung",
+					"title_de":"Ausgehendebedingung",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -2500,13 +2438,12 @@
 			"groups" :			["Swimlanes"],
 			"groups_de" :		["Rollen"],
 			"description" :		"Pools and Lanes represent responsibilities for activities in a process. A pool or a lane can be an organization, a role, or a system.",
-			"description_de" :	"Pools repräsentieren Organisationseinheiten und können durch Lanes weiter aufgefächert bzw. unterstrukturiert werden.",
+			"description_de" :	"Pools und Lanes repräsentieren Rollen. Ein Pool repräsentiert eine Organisation.",
 			"view" :			"swimlane/pool.svg",
 			"icon" :			"swimlane/pool.png",
 			"propertyPackages": [
 				"baseAttributes",
-				"pool",
-				"bgColor"
+				"pool"
 			],
 			"roles" : 			[
 				"all",
@@ -2527,7 +2464,7 @@
 			"groups" :			["Swimlanes"],
 			"groups_de" :		["Rollen"],
 			"description" :		"Collapsed Pools hide all internals of the contained processes.",
-			"description_de" :	"Ein zugeklappter Pool (anonym) kommt zum Einsatz, wenn der innere Ablauf eines Kommunikationspartners keine unmittelbare Rolle spielt.",
+			"description_de" :	"Zugeklappte Pools verbergen alle Details der enthaltenen Prozesse.",
 			"view" :			"swimlane/collapsed.pool.svg",
 			"icon" :			"swimlane/lane.png",
 			"propertyPackages": [
@@ -2545,7 +2482,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"fill_el",
+					"refToView":"c",
 					"fill":true,
 					"stroke":false
 				}
@@ -2566,12 +2503,11 @@
 			"groups" :			["Swimlanes"],
 			"groups_de" :		["Rollen"],
 			"description" :		"Pools and Lanes represent responsibilities for activities in a process. A pool or a lane can be an organization, a role, or a system. Lanes sub-divide pools or other lanes hierarchically.",
-			"description_de" :	"Pools und Lanes repräsentieren Rollen. Lanes repräsentieren Verantwortlichkeiten, wie etwa Organisationseinheiten, Stellen oder IT-Systeme. Lanes können hierarchisch in weitere Unter-Lanes untergliedert sein.",
+			"description_de" :	"Pools und Lanes repräsentieren Rollen. Lanes repräsentieren Verantwortlichkeiten, wie etwa Organisationseinheiten, Stellen oder ITSysteme. Lanes können hierarchisch untergliedert sein.",
 			"view" :			"swimlane/lane.svg",
 			"icon" :			"swimlane/lane.png",
 			"propertyPackages": [
-				"baseAttributes",
-				"bgColor"
+				"baseAttributes"
 			],
 			"properties" : 		[
 				{
@@ -2609,11 +2545,12 @@
 					"optional":false,
 					"refToView": ["caption", "captionDisableAntialiasing", "text_v"],
 					"fill":true,
-					"stroke":false,
-					"hidden":true
+					"stroke":false
 				}
 			],
 			"roles": 			[
+				"messageflow_start",
+				"messageflow_end",
 				"PoolChild",
 				"fromtoall",
 				"canContainArtifacts"				
@@ -2728,7 +2665,7 @@
 			"description" :		"A Data Object represents information flowing through the process, such as business documents, e-mails or letters.",
 			"description_de" :	"Ein Datenobjekt repräsentiert Informationen, die durch den Prozess fließen, wie z.B. Dokumente, Emails oder Briefe.",
 			"groups" :			["Data Objects"],
-			"groups_de":		["Datenobjekte"],
+			"groups_de" :		["Daten Objekte"],
 			"view" :			"dataobject/data.object.svg",
 			"icon" :			"dataobject/data.object.png",
 			"defaultAlign" :	"southeast",
@@ -2842,8 +2779,8 @@
 				{
 					"id":"producedatcompletion",
 					"type":"Boolean",
-					"title":"is produced at completion",
-					"title_de":"wird produziert bei Fertigstellung",
+					"title":"Produced at completion",
+					"title_de":"Produziert bei Fertigstellung",
 					"value":true,
 					"description":"",
 					"readonly":false,
@@ -2853,10 +2790,9 @@
 					"id" : "isCollection",
 					"type" : "Boolean",
 					"title" : "is Collection",
-					"title_de" : "ist Listen-Datenobjekt",
+					"title_de" : "ist Collection",
 					"value" : false,
-					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items.",
-					"description_de" : "Ein Listen-Datenobjekt repräsentiert eine Liste von Informationen, z.B. eine Liste mit Bestellpositionen.",
+					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items",
 					"readonly" : false,
 					"optional" : true,
 					"refToView" : "collection"
@@ -2873,32 +2809,14 @@
 		{
 			"type" : 			"node",
 			"id" :				"ITSystem",
-			"title" :			"IT System",
-			"title_de" :		"IT-System",
+			"title" :			"IT-System",
 			"groups" :			["Data Objects"],
-			"groups_de":		["Datenobjekte"],
-			"description" : 	"An IT System can be associated with an activity. It is a system or application used while fulfilling the activity.",
-			"description_de" : 	"Ein IT-System kann mittels Assoziation mit einer Aktivität verbunden werden. Es handelt sich um ein System oder eine Software-Applikation die im Laufe der Aktivität verwendet wird.",
+			"description" : 	"",
 			"view" :			"dataobject/it.system.svg",
 			"icon" : 			"dataobject/it.system.png",
 			"propertyPackages" : [
 				"baseAttributes",
 				"flowElement"				
-			],
-			"properties" : [
-				{
-					"id":"bgcolor",
-					"type":"Color",
-					"title":"BackgroundColor",
-					"title_de":"Hintergrundfarbe",
-					"value":"#e1e1e1",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"fill_el",
-					"fill":true,
-					"stroke":false
-				}
 			],
 			"roles" :			[
 			    "all",
@@ -2912,11 +2830,11 @@
 			"type" : 			"node",
 			"id" :				"DataStore",
 			"title" :			"Data Store",
-			"title_de" :		"Datenspeicher",
+			"title_de" :		"Datenlager",
 			"groups" : 			["Data Objects"],
-			"groups_de" :		["Datenobjekte"],
+			"groups_de" :		["Daten Objekte"],
 			"description" :		"A Data Store is a place where the process can read or wirte date, e.g. a database or a filling cabinet. It persists beyond the lifetime of the process instance.",
-			"description_de" :	"Ein Datenspeicher ist ein Ort wo der Prozess Daten lesen oder schreiben kann, z.B. eine Datenbank oder ein Aktenschrank. Er existiert unabhängig von der Lebensdauer der Prozessinstanz.",
+			"description_de" :	"Ein Datenlager ist ein Platz an dem ein Prozess Daten lesen oder schreiben kann, zum Beispiel eine Datenbank. Es existiert auch über die Lebenszeit der Prozessinstanz hinweg.",
 			"view" :			"dataobject/data.store.svg",
 			"icon" :			"dataobject/data.store.png",
 			"propertyPackages": [
@@ -2962,11 +2880,11 @@
 					"type":"Color",
 					"title":"BackgroundColor",
 					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
+					"value":"white",
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"fill_el",
+					"refToView":["bg_frame","bg_frame2"],
 					"fill":true,
 					"stroke":false
 				}
@@ -2985,9 +2903,9 @@
 			"title" :			"Message",
 			"title_de" : 		"Nachricht",
 			"groups" :			["Data Objects"],
-			"groups_de":		["Datenobjekte"],
+			"groups_de" :		["Daten Objekte"],
 			"description" :		"A Message is used to depict the contents of a communication between two Participants.",
-			"description_de" :	"Eine Nachricht weist auf den Inhalt einer Kommunikation zwischen zwei Teilnehmern hin.",
+			"description_de" :	"Eine Nachricht schildert die Kommunikation zwischen zwei Teilnehmern.",
 			"view" :			"dataobject/message.svg",
 			"icon" :			"dataobject/message.png",
 			"propertyPackages":	[
@@ -3000,7 +2918,7 @@
 					"id" : "structureref",
 					"type" : "String",
 					"title" : "StructureRef",
-					"title_de" : "Struktur-Referenz",
+					"title_de" : "StrukturRef",
 					"description" : "",
 					"readonly" : false,
 					"optional" : true,
@@ -3010,8 +2928,8 @@
 				{
 					"id" : "initiating",
 					"type" : "Boolean",
-					"title" : "is initiating",
-					"title_de" : "ist initiierend",
+					"title" : "Initiating",
+					"title_de" : "Initiierend",
 					"description" : "",
 					"value" : true,
 					"inverseBoolean":true,
@@ -3024,14 +2942,13 @@
 					"type":"Color",
 					"title":"BackgroundColor",
 					"title_de":"Hintergrundfarbe",
-					"value":"#ffffff",
+					"value":"white",
 					"description":"",
 					"readonly":true,
 					"optional":false,
 					"refToView":["bg_frame","bg_frame2"],
 					"fill":true,
-					"stroke":false,
-					"hidden":true
+					"stroke":false
 				}
 			],
 			"roles" :			[
@@ -3050,8 +2967,8 @@
 			"title_de" : 		"Start-Ereignis",
 			"groups" : 			["Start Events"],
 			"groups_de" : 		["Start-Ereignisse"],
-			"description" : 	"Untyped start event.",
-			"description_de" : 	"Ein nicht weiter typisiertes Start-Ereignis.",
+			"description" : 	"Untyped events, typically starts or ends.",
+			"description_de" : 	"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view" : 			"startevent/none.svg",
 			"icon" : 			"startevent/none.png",
 			"propertyPackages":	[
@@ -3086,11 +3003,11 @@
 			"type" :		 	"node",
 			"id" :				"StartMessageEvent",
 			"title" : 			"Start Message Event",
-			"title_de" :		"Nachrichten-Startereignis",
+			"title_de" :		"Start-Nachricht-Ereignis",
 			"groups" :			["Start Events"],
 			"groups_de" : 		["Start-Ereignisse"],
-			"description" :		"A process instance is started on receive of a message.",
-			"description_de" :	"Eine Prozess-Instanz wird genau dann gestartet, wenn eine Nachricht eintrifft.",
+			"description" :		"Receiving messages.",
+			"description_de" :	"Empfang von Nachrichten.",
 			"view" :			"startevent/message.svg",
 			"icon" :			"startevent/message.png",
 			"propertyPackages":[
@@ -3126,11 +3043,11 @@
 			"type" :			"node",
 			"id" :				"StartTimerEvent",
 			"title" :			"Start Timer Event",
-			"title_de" :		"Zeit-Startereignis",
+			"title_de" :		"Start-Zeit-Ereignis",
 			"groups" :			["Start Events"],
 			"groups_de" : 		["Start-Ereignisse"],
-			"description" :		"A process instance is started on cyclic timer events, points in time, after time spans or timeouts.",
-			"description_de" :	"Eine Prozess-Instanz wird gestartet, wenn periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen eintreten.",
+			"description" :		"Cyclic timer events, points in time, time spans or timeouts.",
+			"description_de" :	"Periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen.",
 			"view" :			"startevent/timer.svg",
 			"icon" :			"startevent/timer.png",
 			"propertyPackages":[
@@ -3166,11 +3083,11 @@
 			"type": "node",
 			"id":"StartEscalationEvent",
 			"title":"Start Escalation Event",
-			"title_de":"Eskalations-Startereignis",
+			"title_de":"Start-Eskalation-Ereignis",
 			"groups":["Start Events"],
 			"groups_de":["Start-Ereignisse"],
-			"description":"Reacts on an escalation to another role in the organization. This event is only used inside of a event subprocess.",
-			"description_de":"Dieses Ereignis wird ausgelöst, wenn eine Eskalation zu einer anderen Rolle in der Organisation (z.B. Vorgesetzter) eintritt. Die Verwendung ist ausschließlich innerhalb eines Ereignis-Unterprozesses vorgesehen.",
+			"description":"",
+			"description_de":"",
 			"view":"startevent/escalation.svg",
 			"icon":"startevent/escalation.png",
 			"propertyPackages":[
@@ -3205,11 +3122,11 @@
 			"type" : 			"node",
 			"id" :				"StartConditionalEvent",
 			"title" :			"Start Conditional Event",
-			"title_de" :		"Bedingungs-Startereignis",
+			"title_de" :		"Start-Bedingungs-Ereignis",
 			"groups" :			["Start Events"],
 			"groups_de" :		["Start-Ereignisse"],
-			"description" :		"A process instance is started based on changed business conditions or matching business rules.",
-			"description_de" :	"Eine Prozess-Instanz wird als Reaktion auf veränderte Bedingungen oder Geschäftsregeln gestartet.",
+			"description" :		"Reacting to changed business conditions or integrating business rules.",
+			"description_de" :	"Reaktion auf veränderte Bedingungen oder Regeln.",
 			"view" :			"startevent/conditional.svg",
 			"icon" 	:			"startevent/conditional.png",
 			"propertyPackages": [
@@ -3245,11 +3162,11 @@
 			"type": "node",
 			"id":"StartErrorEvent",
 			"title":"Start Error Event",
-			"title_de":"Fehler-Startereignis",
+			"title_de":"Start-Fehler-Ereignis",
 			"groups":["Start Events"],
 			"groups_de":["Start-Ereignisse"],
-			"description":"Catches named errors. This event is only used inside of a event subprocess.",
-			"description_de":"Dieses Ereignis wird ausgelöst um auf benannte Fehler zu reagieren. Die Verwendung ist ausschließlich innerhalb eines Ereignis-Unterprozesses vorgesehen.",
+			"description":"Catching named errors.",
+			"description_de":"Behandeln von benannten Fehlern.",
 			"view":"startevent/error.svg",
 			"icon":"startevent/error.png",
 			"propertyPackages":[
@@ -3283,11 +3200,11 @@
 			"type": "node",
 			"id":"StartCompensationEvent",
 			"title":"Start Compensation Event",
-			"title_de":"Kompensations-Startereignis",
+			"title_de":"Start-Kompensierung-Ereignis",
 			"groups":["Start Events"],
 			"groups_de":["Start-Ereignisse"],
-			"description":"Compensation handling. This event is only used inside of a event subprocess.",
-			"description_de":"Behandeln von Kompensierung. Die Verwendung ist ausschließlich innerhalb eines Ereignis-Unterprozesses vorgesehen.",
+			"description":"Compensation handling.",
+			"description_de":"Behandeln von Kompensierung.",
 			"view":"startevent/compensation.svg",
 			"icon":"startevent/compensation.png",
 			"propertyPackages":[
@@ -3322,11 +3239,11 @@
 			"type" : 			"node",
 			"id" :				"StartSignalEvent",
 			"title" :			"Start Signal Event",
-			"title_de" :		"Signal-Startereignis",
+			"title_de" :		"Start-Signal-Ereignis",
 			"groups" :			["Start Events"],
 			"groups_de" :		["Start-Ereignisse"],
-			"description" :		"A process instance is started based on signalling across different processes. (One signal thrown can be caught multiple times)",
-			"description_de" :	"Eine Prozess-Instanz wird auf Basis von Signalen über mehrere Prozesse hinweg gestartet. (Auf dasselbe Signal kann an mehreren Stellen reagiert werden)",
+			"description" :		"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de" :	"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view" :			"startevent/signal.svg",
 			"icon" :			"startevent/signal.png",
 			"propertyPackages": [
@@ -3362,11 +3279,11 @@
 			"type" :		 	"node",
 			"id" :				"StartMultipleEvent",
 			"title" :			"Start Multiple Event",
-			"title_de" :		"Mehrfach-Startereignis",
+			"title_de" :		"Start-Mehrfach-Ereignis",
 			"groups" :			["Start Events"],
 			"groups_de" :		["Start-Ereignisse"],
-			"description" :		"A process instance is started upon occurence of one out of a set of possible events.",
-			"description_de" :	"Eine Prozess-Instanz wird beim Eintreten eines von mehreren möglichen Ereignissen gestartet.",
+			"description" :		"Catching one out of a set of events.",
+			"description_de" :	"Eintreten eines von mehreren Ereignissen.",
 			"view" :			"startevent/multiple.svg",
 			"icon" :			"startevent/multiple.png",
 			"propertyPackages":[
@@ -3403,11 +3320,11 @@
 			"type": "node",
 			"id":"StartParallelMultipleEvent",
 			"title":"Start Parallel Multiple Event",
-			"title_de":"Mehrfach/Parallel-Startereignis",
+			"title_de":"Start-Parallel-Mehrfach-Ereignis",
 			"groups":["Start Events"],
 			"groups_de":["Start-Ereignisse"],
-			"description":"A process instance is started upon occurence of all possible events.",
-			"description_de":"Eine Prozess-Instanz wird nach dem Eintreten von allen möglichen Ereignissen gestartet.",
+			"description":"Multiple triggers are required before Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
 			"view":"startevent/multiple.parallel.svg",
 			"icon":"startevent/multiple.parallel.png",
 			"propertyPackages":[
@@ -3447,11 +3364,11 @@
 			"type": "node",
 			"id":"IntermediateMessageEventCatching",
 			"title":"Intermediate Message Event",
-			"title_de":"Nachrichten-Zwischenereignis",
+			"title_de":"Zwischen-Nachrichten-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"This event reacts on the arrival of a message.",
-			"description_de":"Das Nachrichten-Zwischenereignis wartet bis auf den Empfang einer Nachricht und setzt daraufhin die Prozessausführung fort.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Receiving messages.",
+			"description_de":"Empfang von Nachrichten.",
 			"view":"intermediateevent/message.catching.svg",
 			"icon":"catching/message.png",
 			"propertyPackages":[
@@ -3492,11 +3409,11 @@
 			"type": "node",
 			"id":"IntermediateTimerEvent",
 			"title":"Intermediate Timer Event",
-			"title_de":"Zeit-Zwischenereignis",
+			"title_de":"Zwischen-Zeit-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Process execution is delayed until a certain point in time is reached or a particular duration is over.",
-			"description_de":"Im Laufe der Prozessausführung muss für eine bestimmte zeitlich festgelegte Dauer bzw. auf das Eintreten eines Zeitpunktes gewartet werden bis die Ausführung fortgesetzt wird.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Cyclic timer events, points in time, time spans or timeouts.",
+			"description_de":"Periodische zeitliche Ereignisse, Zeitpunkte, Zeitspannen oder Zeitüberschreitungen",
 			"view":"intermediateevent/timer.svg",
 			"icon":"catching/timer.png",
 			"propertyPackages":[
@@ -3538,11 +3455,11 @@
 			"type": "node",
 			"id":"IntermediateEscalationEvent",
 			"title":"Intermediate Escalation Event",
-			"title_de":"Eskalations-Zwischenereignis",
+			"title_de":"Zwischen-Eskalations-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"This event reacts on the escalation of a case. It needs to be attached to the boundary of an activity.",
-			"description_de":"Reagiert auf die Eskalation des Vorgangs. Dieses Ereignis muss zwingend an den Rand einer Aktivität angeheftet werden.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
 			"view":"intermediateevent/escalation.catching.svg",
 			"icon":"catching/escalation.png",
 			"propertyPackages":[
@@ -3580,11 +3497,11 @@
 			"type": "node",
 			"id":"IntermediateConditionalEvent",
 			"title":"Intermediate Conditional Event",
-			"title_de":"Bedingungs-Zwischenereignis",
+			"title_de":"Zwischen-Bedingung-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Process execution is delayed until a changed business condition or business rule matches.",
-			"description_de":"Im Laufe der Prozessausführung muss auf eine veränderte Bedingung oder eintretende Geschäftsregeln gewartet werden bis die Ausführung fortgesetzt wird.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Reacting to changed business conditions or integrating business rules.",
+			"description_de":"Reaktion auf veränderte Bedingungen oder Regeln.",
 			"view":"intermediateevent/conditional.svg",
 			"icon":"catching/conditional.png",
 			"propertyPackages":[
@@ -3627,11 +3544,11 @@
 			"type": "node",
 			"id":"IntermediateLinkEventCatching",
 			"title":"Intermediate Link Event",
-			"title_de":"Link-Zwischenereignis",
+			"title_de":"Zwischen-Link-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Off-page connectors. Two corresponding link events correspond to a sequence flow.",
-			"description_de":"Ein auslösendes und ein eintretendes Link-Ereignis mit dem selben Namen entspricht einer gedachten Sequenzfluss-Kante.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Off-page connectors. Two corresponding link events equal a sequence flow.",
+			"description_de":"Auslösendes und eintretendes Link-Ereignis mit gleichem Namen entspricht Steuerfluss.",
 			"view":"intermediateevent/link.catching.svg",
 			"icon":"catching/link.png",
 			"propertyPackages":[
@@ -3668,11 +3585,11 @@
 			"type": "node",
 			"id":"IntermediateErrorEvent",
 			"title":"Intermediate Error Event",
-			"title_de":"Fehler-Zwischenereignis",
+			"title_de":"Zwischen-Fehler-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Catches a named error, which was thrown be an inner scope (e.g. subprocess). This event needs to be attached to the boundary of an activity.",
-			"description_de":"Behandelt einen in einem inneren Scope geworfenen Fehler (z.B. aus einem Unterprozess). Dieses Ereignis muss zwingend an den Rand einer Aktivität angeheftet werden.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Catching named errors.",
+			"description_de":"Behandeln von benannten Fehlern.",
 			"view":"intermediateevent/error.svg",
 			"icon":"catching/error.png",
 			"propertyPackages":[
@@ -3709,11 +3626,11 @@
 			"type": "node",
 			"id":"IntermediateCancelEvent",
 			"title":"Intermediate Cancel Event",
-			"title_de":"Abbruch-Zwischenereignis",
+			"title_de":"Zwischen-Abbruch-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Reacts on a transaction, which was cancelled inside an inner scope (e.g. subprocess). This event needs to be attached to the boundary of an activity.",
-			"description_de":"Behandelt eine in einem inneren Scope abgebrochene Transaktion (z.B. aus einem Unterprozess). Dieses Ereignis muss zwingend an den Rand einer Aktivität angeheftet werden.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Reacting to cancelled transactions.",
+			"description_de":"Reaktion auf abgebrochene Transaktionen.",
 			"view":"intermediateevent/cancel.svg",
 			"icon":"catching/cancel.png",
 			"propertyPackages":[
@@ -3750,11 +3667,11 @@
 			"type": "node",
 			"id":"IntermediateCompensationEventCatching",
 			"title":"Intermediate Compensation Event",
-			"title_de":"Kompensations-Zwischenereignis",
+			"title_de":"Zwischen-Kompensierung-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Compensation handling in case of partially failed operations. This event needs to be attached to the boundary of an activity.",
-			"description_de":"Eine gezielte Kompensation aufgrund von teilweise fehlgeschlagenen Operationen. Dieses Ereignis muss zwingend an den Rand einer Aktivität angeheftet werden.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Compensation handling.",
+			"description_de":"Behandeln von Kompensierung.",
 			"view":"intermediateevent/compensation.catching.svg",
 			"icon":"catching/compensation.png",
 			"propertyPackages":[
@@ -3791,11 +3708,11 @@
 			"type": "node",
 			"id":"IntermediateSignalEventCatching",
 			"title":"Intermediate Signal Event",
-			"title_de":"Signal-Zwischenereignis",
+			"title_de":"Zwischen-Signal-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Process execution is delayed until a particular signal is catched. Signalling can happen across different processes.",
-			"description_de":"Im Laufe der Prozessausführung wird auf das Auffangen eines Signals gewartet bis die Ausführung fortgesetzt wird. Die Signalgebung kann über verschiedene Prozesse hinweg stattfinden.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view":"intermediateevent/signal.catching.svg",
 			"icon":"catching/signal.png",
 			"propertyPackages":[
@@ -3837,11 +3754,11 @@
 			"type": "node",
 			"id":"IntermediateMultipleEventCatching",
 			"title":"Intermediate Multiple Event",
-			"title_de":"Mehrfach-Zwischenereignis",
+			"title_de":"Zwischen-Mehrfach-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Process execution is delayed until one out of a set of possible events is triggered.",
-			"description_de":"Im Laufe der Prozessausführung wird auf eines von mehreren möglichen Ereignissen gewartet bis die Ausführung fortgesetzt wird.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"Catching one out of a set of events.",
+			"description_de":"Eintreten eines von mehreren Ereignissen.",
 			"view":"intermediateevent/multiple.catching.svg",
 			"icon":"catching/multiple.png",
 			"propertyPackages":[
@@ -3884,11 +3801,11 @@
 			"type": "node",
 			"id":"IntermediateParallelMultipleEventCatching",
 			"title":"Intermediate Parallel Multiple Event",
-			"title_de":"Mehrfach/Parallel-Zwischenereignis",
+			"title_de":"Zwischen-Parallel-Mehrfach-Ereignis",
 			"groups":["Catching Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (eintretend)"],
-			"description":"Process execution is delayed until all possible events have been triggered.",
-			"description_de":"Im Laufe der Prozessausführung wird auf das Eintreten von allen Ereignissen gewartet bis die Ausführung fortgesetzt wird.",
+			"groups_de":["Eintretende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
 			"view":"intermediateevent/multiple.parallel.svg",
 			"icon":"catching/multiple.parallel.png",
 			"propertyPackages":[
@@ -3935,9 +3852,9 @@
 			"title":"Intermediate Event",
 			"title_de":"Zwischen-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"This event marks the occurrence of a particular business event. Process execution is not delayed.",
-			"description_de":"Dieses Ereignis markiert das Erreichen eines definierten Zustandes im Prozess. Die Prozessausführung wird durch das Ereignis nicht verzögert.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Untyped events, typically showing where the process starts or ends.",
+			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view":"intermediateevent/none.svg",
 			"icon":"throwing/none.png",
 			"propertyPackages":[
@@ -3975,11 +3892,11 @@
 			"type": "node",
 			"id":"IntermediateMessageEventThrowing",
 			"title":"Intermediate Message Event",
-			"title_de":"Nachrichten-Zwischenereignis",
+			"title_de":"Zwischen-Nachrichten-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"The throwing message event sends a message to a communication partner and afterwards continues process execution.",
-			"description_de":"Das auslösende Nachrichten-Zwischenereignis versendet eine Nachricht und setzt daraufhin die Prozessausführung unmittelbar fort.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Sending Messages",
+			"description_de":"Senden von Nachrichten.",
 			"view":"intermediateevent/message.throwing.svg",
 			"icon":"throwing/message.png",
 			"propertyPackages":[
@@ -4014,11 +3931,11 @@
 			"type": "node",
 			"id":"IntermediateEscalationEventThrowing",
 			"title":"Intermediate Escalation Event",
-			"title_de":"Eskalations-Zwischenereignis",
+			"title_de":"Zwischen-Eskalation-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"This event triggers the escalation of the case to another role in the organisation. After this, process execution is resumed.",
-			"description_de":"Symbolisiert die Eskalation des Vorgangs zu einer anderen Rolle in der Organisation (z.B. Vorgesetzter). Die Prozessausführung wird unmittelbar fortgesetzt.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"",
+			"description_de":"",
 			"view":"intermediateevent/escalation.throwing.svg",
 			"icon":"throwing/escalation.png",
 			"propertyPackages":[
@@ -4052,11 +3969,11 @@
 			"type": "node",
 			"id":"IntermediateLinkEventThrowing",
 			"title":"Intermediate Link Event",
-			"title_de":"Link-Zwischenereignis",
+			"title_de":"Zwischen-Link-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"Off-page connectors. Two corresponding link events correspond to a sequence flow.",
-			"description_de":"Ein auslösendes und ein eintretendes Link-Ereignis mit dem selben Namen entspricht einer gedachten Sequenzfluss-Kante.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Off-page connectors. Two corresponding link events equal a sequence flow.",
+			"description_de":"Auslösendes und eintretendes Link-Ereignis mit gleichem Namen entspricht Steuerfluss.",
 			"view":"intermediateevent/link.throwing.svg",
 			"icon":"throwing/link.png",
 			"propertyPackages":[
@@ -4090,11 +4007,11 @@
 			"type": "node",
 			"id":"IntermediateCompensationEventThrowing",
 			"title":"Intermediate Compensation Event",
-			"title_de":"Kompensations-Zwischenereignis",
+			"title_de":"Zwischen-Kompensierung-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"Triggers a compensation.",
-			"description_de":"Auslösen einer Kompensation.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Triggering compensation.",
+			"description_de":"Auslösen von Kompensierung.",
 			"view":"intermediateevent/compensation.throwing.svg",
 			"icon":"throwing/compensation.png",
 			"propertyPackages":[
@@ -4130,11 +4047,11 @@
 			"type": "node",
 			"id":"IntermediateSignalEventThrowing",
 			"title":"Intermediate Signal Event",
-			"title_de":"Signal-Zwischenereignis",
+			"title_de":"Zwischen-Signal-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"The throwing signal event fires up a signal. Afterwards it continues process execution. One signal thrown can be caught multiple times by different catching signal events.",
-			"description_de":"Das auslösende Signal-Zwischenereignis erzeugt ein Signal und setzt daraufhin die Prozessausführung unmittelbar fort. Ein Signal kann von mehreren eintretenden Signal-Ereignissen aufgefangen werden.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view":"intermediateevent/signal.throwing.svg",
 			"icon":"throwing/signal.png",
 			"propertyPackages":[
@@ -4168,11 +4085,11 @@
 			"type": "node",
 			"id":"IntermediateMultipleEventThrowing",
 			"title":"Intermediate Multiple Event",
-			"title_de":"Mehrfach-Zwischenereignis",
+			"title_de":"Zwischen-Mehrfach-Ereignis",
 			"groups":["Throwing Intermediate Events"],
-			"groups_de":["Zwischen-Ereignisse (auslösend)"],
-			"description":"The throwing multiple event throws one out of a set of possible events. Afterwards it continues process execution.",
-			"description_de":"Das auslösende Mehrfach-Zwischenereignis löst eines von mehreren möglichen Ereignissen aus und setzt daraufhin die Prozessausführung unmittelbar fort.",
+			"groups_de":["Auslösende-Zwischen-Ereignisse"],
+			"description":"Throwing one out of a set of events.",
+			"description_de":"Auslösen eines von mehreren Ereignissen.",
 			"view":"intermediateevent/multiple.throwing.svg",
 			"icon":"throwing/multiple.png",
 			"propertyPackages":[
@@ -4210,11 +4127,11 @@
 			"type" : "node",
 			"id": "EndNoneEvent",
 			"title": "End Event",
-			"title_de" : "End-Ereignis",
+			"title_de" : "Ende-Ereignis",
 			"groups" : ["End Events"],
-			"groups_de" : ["End-Ereignisse"],
-			"description" : "The untyped end event typically marks the standard end of a process.",
-			"description_de" : "Untypisiertes End-Ereignis, welches ein normales Ende eines Prozesses markiert.",
+			"groups_de" : ["Ende-Ereignisse"],
+			"description" : "Untyped events, typically starts or ends.",
+			"description_de" : "Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view" : "endevent/none.svg",
 			"icon" : "endevent/none.png",
 			"propertyPackages":[
@@ -4249,11 +4166,11 @@
 			"type": "node",
 			"id":"EndMessageEvent",
 			"title":"End Message Event",
-			"title_de":"Nachrichten-Endereignis",
+			"title_de":"Ende-Nachricht-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"At the end of the process, a message is sent.",
-			"description_de":"Zum Abschluss des Prozesses wird noch eine Nachricht versendet.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Sending messages.",
+			"description_de":"Senden von Nachrichten.",
 			"view":"endevent/message.svg",
 			"icon":"endevent/message.png",
 			"propertyPackages":[
@@ -4288,11 +4205,11 @@
 			"type": "node",
 			"id":"EndEscalationEvent",
 			"title":"End Escalation Event",
-			"title_de":"Eskalations-Endereignis",
+			"title_de":"Ende-Eskalation-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"The case is escalated with the end of the process.",
-			"description_de":"Zum Ende des Prozesses findet eine Eskalation statt.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"",
+			"description_de":"",
 			"view":"endevent/escalation.svg",
 			"icon":"endevent/escalation.png",
 			"propertyPackages":[
@@ -4323,11 +4240,11 @@
 			"type": "node",
 			"id":"EndErrorEvent",
 			"title":"End Error Event",
-			"title_de":"Fehler-Endereignis",
+			"title_de":"Ende-Fehler-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"The process ends in an error state. As result a named error is thrown.",
-			"description_de":"Der Prozess endet in einem Fehlerzustand. Es wird abschließend ein benannter Fehler geworfen.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Throwing named errors.",
+			"description_de":"Auslösen von benannten Fehlern.",
 			"view":"endevent/error.svg",
 			"icon":"endevent/error.png",
 			"propertyPackages":[
@@ -4361,11 +4278,11 @@
 			"type": "node",
 			"id":"EndCancelEvent",
 			"title":"Cancel End Event",
-			"title_de":"Abbruch-Endereignis",
+			"title_de":"Abbruch-Ende-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"Triggering cancellation of a transaction.",
-			"description_de":"Auslösen eines Abbruchs einer Transaktion.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Triggering cancellation.",
+			"description_de":"Auslösen von Abbrüchen.",
 			"view":"endevent/cancel.svg",
 			"icon":"endevent/cancel.png",
 			"propertyPackages":[
@@ -4399,11 +4316,11 @@
 			"type": "node",
 			"id":"EndCompensationEvent",
 			"title":"End Compensation Event",
-			"title_de":"Kompensations-Endereignis",
+			"title_de":"Ende-Kompensierung-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"Triggering compensation as final process step.",
-			"description_de":"Als Abschluss des Prozesses wird eine Kompensationsanforderung geworfen.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Compensation handling.",
+			"description_de":"Auslösen von Kompensierung.",
 			"view":"endevent/compensation.svg",
 			"icon":"endevent/compensation.png",
 			"propertyPackages":[
@@ -4439,11 +4356,11 @@
 			"type": "node",
 			"id":"EndSignalEvent",
 			"title":"End Signal Event",
-			"title_de":"Signal-Endereignis",
+			"title_de":"Ende-Signal-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"At the end of the process, a signal is thrown. (One signal thrown can be caught multiple times)",
-			"description_de":"Zum Ende des Prozesses wird abschließend ein Signal hochgeworfen. (Auf dasselbe Signal kann an mehreren Stellen reagiert werden)",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Signalling across different processes. One signal thrown can be caught multiple times.",
+			"description_de":"Signalgebung über mehrere Prozesse. Auf ein Signal kann mehrfach reagiert werden.",
 			"view":"endevent/signal.svg",
 			"icon":"endevent/signal.png",
 			"propertyPackages":[
@@ -4477,11 +4394,11 @@
 			"type": "node",
 			"id":"EndMultipleEvent",
 			"title":"End Multiple Event",
-			"title_de":"Mehrfach-Endereignis",
+			"title_de":"Ende-Mehrfach-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"At the end of the process, one out of a set of possible events is triggered.",
-			"description_de":"Zum Ende des Prozesses wird abschließend eines von mehreren möglichen Ereignissen ausgelöst.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Throwing one out of a set of events.",
+			"description_de":"Auslösen eines von mehreren Ereignissen.",
 			"view":"endevent/multiple.svg",
 			"icon":"endevent/multiple.png",
 			"propertyPackages":[
@@ -4516,11 +4433,11 @@
 			"type": "node",
 			"id":"EndTerminateEvent",
 			"title":"Terminate End Event",
-			"title_de":"Terminierungs-Endereignis",
+			"title_de":"Terminierung-Ende-Ereignis",
 			"groups":["End Events"],
-			"groups_de":["End-Ereignisse"],
-			"description":"Triggering the immediate termination of a process instance. All steps still in execution in parallel branches are terminated.",
-			"description_de":"Löst die sofortige Beendigung einer Prozess-Instanz und aller seiner noch in Ausführung befindlichen (parallelen) Arbeitsschritte.",
+			"groups_de":["Ende-Ereignisse"],
+			"description":"Triggering the immediate termination of a process.",
+			"description_de":"Löst die sofortige Beendigung eines Prozesses aus.",
 			"view":"endevent/terminate.svg",
 			"icon":"endevent/terminate.png",
 			"propertyPackages":[
@@ -4557,9 +4474,9 @@
 			"type": "edge",
 			"id":"SequenceFlow",
 			"title":"Sequence Flow",
-			"title_de":"Sequenzfluss",
+			"title_de":"Steuerfluss",
 			"description":"Sequence Flow defines the execution order of activities.",
-			"description_de":"Ein Sequenzfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
+			"description_de":"Ein Steuerfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
 			"groups":["Connecting Objects"],
 			"groups_de":["Konnektoren"],
 			"view":"connector/sequenceflow.svg",
@@ -4585,22 +4502,19 @@
 					"items": [
 						{
 							"id":"none",
-							"title":"Standard",
-							"title_de":"Standard",
+							"title":"None",
 							"value":"None"
 						},
 						{
 							"id":"expression",
-							"title":"Conditional Flow",
-							"title_de":"Bedingter Fluss",
+							"title":"Expression",
 							"value":"Expression",
 							"icon" : "connector/list/type.expression.png",
 							"refToView":""
 						},
 						{
 							"id":"default",
-							"title":"Default Flow",
-							"title_de":"Standardfluss",
+							"title":"Default",
 							"value":"Default",
 							"icon" : "connector/list/type.default.png",
 							"refToView":"default"
@@ -4610,21 +4524,20 @@
 				{
 					"id":"conditionexpression",
 					"type":"String",
-					"title":"Condition Expression",
+					"title":"ConditionExpression",
 					"title_de":"Bedingungsausdruck",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"condition",
-					"wrapLines":true
+					"refToView":"condition"
 				},
 				{
 					"id":"showdiamondmarker",
 					"type":"Boolean",
-					"title":"is conditional flow",
-					"title_de":"ist bedingter Fluss",
+					"title":"ShowDiamontMarker",
+					"title_de":"Zeige-Diamanten",
 					"value":false,
 					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
 					"readonly":true,
@@ -4640,7 +4553,7 @@
 			"title":"Message Flow",
 			"title_de":"Nachrichtenfluss",
 			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
-			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Sequenzfluss kombiniert werden.",
+			"description_de":"Nachrichtenflüsse symbolisieren Informationen, die über organisatorische Grenzen hinweg fließen. Nachrichtenflüsse können an Pools, Aktivitäten oder Nachrichten-Ereignissen angeheftet sein. Die Abfolge von Nachrichtenaustauschen kann spezifiziert werden, indem Nachrichtenfluss und Steuerfluss kombiniert werden.",
 			"groups":["Connecting Objects"],
 			"groups_de":["Konnektoren"],
 			"view":"connector/messageflow.svg",
@@ -4656,10 +4569,10 @@
 		{
 			"type": "edge",
 			"id":"Association_Undirected",
-			"title":"Association (undirected)",
+			"title":"Association Undirected",
 			"title_de":"Ungerichtete Assoziation",
 			"description":"Attaching a data object with an Undirected Association to a sequence flow indicates hand-over of information between the activities involved.",
-			"description_de":"Die Zuordnung eines Datenobjekts zu einem Sequenzfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
+			"description_de":"Die Zuordnung eines Datenobjekts zu einem Steuerfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
 			"groups":["Connecting Objects"],
 			"groups_de":["Konnektoren"],
 			"view":"connector/association.undirected.svg",
@@ -4672,7 +4585,7 @@
 		{
 			"type": "edge",
 			"id":"Association_Unidirectional",
-			"title":"Association (unidirectional)",
+			"title":"Association Unidirectional",
 			"title_de":"Gerichtete Assoziation",
 			"description":"A Directed Association indicates information flow. A data object can be read at the start of an activity or written upon completion.",
 			"description_de":"Eine gerichtete Assoziation zeigt den Informationsfluss. Ausgehende Kanten zeigen Schreiben, eingehende zeigen Lesen an.",
@@ -4688,7 +4601,7 @@
 		{
 			"type": "edge",
 			"id":"Association_Bidirectional",
-			"title":"Association (bidirectional)",
+			"title":"Association Bidirectional",
 			"title_de":"Beidseitige Assoziation",
 			"description":"A Bidirected Association indicates that the data object is modified, i.e. read and written during the execution of an actvity.",
 			"description_de":"Eine beidseitig gericEhtete Assoziation zeigt, dass das Datenobjekt während der Ausführung einer Aktivität verändert, d.h. gelesen und geschrieben wird.",
@@ -4819,19 +4732,11 @@
 						"to" : ["DataStore"]
 					},
 					{
-						"from" : "from_task_event",
-						"to" : ["ITSystem"]
-					},
-					{
 						"from" : "DataObject",
 						"to" : ["to_task_event"]
 					},
 					{
 						"from" : "DataStore",
-						"to" : ["to_task_event"]
-					},
-					{
-						"from" : "ITSystem",
 						"to" : ["to_task_event"]
 					},
 					{
@@ -4874,14 +4779,6 @@
 					{
 						"from" : "ChoreographyElement",
 						"to" : ["Message"]
-					},
-					{
-						"from" : "ChoreographyElement",
-						"to" : ["TextAnnotation"]
-					},
-					{
-						"from" : "TextAnnotation",
-						"to" : "ChoreographyElement"
 					}
 				]
 			}

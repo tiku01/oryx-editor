@@ -46,7 +46,7 @@ import de.hpi.bpmn2_0.model.diagram.SubConversationShape;
  * @author Sven Wagner-Boysen
  * 
  */
-@StencilId( { "Communication", "SubConversation" })
+@StencilId( { "Communication", "Sub-Conversation" })
 public class ConversationFactory extends AbstractBpmnFactory {
 
 	/*
@@ -102,7 +102,7 @@ public class ConversationFactory extends AbstractBpmnFactory {
 			return comShape;
 		}
 
-		/* SubConversation */
+		/* Sub-Conversation */
 		SubConversationShape subConShape = new SubConversationShape();
 		this.setVisualAttributes(subConShape, shape);
 		return subConShape;
@@ -149,7 +149,7 @@ public class ConversationFactory extends AbstractBpmnFactory {
 		ConversationNode con = null;
 		if (shape.getStencilId().equals("Communication")) {
 			con = new Communication();
-		} else if (shape.getStencilId().equals("SubConversation")) {
+		} else if (shape.getStencilId().equals("Sub-Conversation")) {
 			con = new SubConversation();
 		}
 

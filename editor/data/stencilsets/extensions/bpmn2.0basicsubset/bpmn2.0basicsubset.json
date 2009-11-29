@@ -1,6 +1,5 @@
 {
-	"title" : "Core Elements",
-	"title_de":"Kernelemente",
+	"title":"BPMN 2.0 Basic Subset",
 	"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn2.0basicsubset#",
 	"description":"A basic subset of BPMN 2.0 containing only task, sequence flow, start event, end event, parallel gateway and data-based XOR.",
 	"extends":"http://b3mn.org/stencilset/bpmn2.0#",
@@ -12,9 +11,8 @@
 		"containmentRules": []
 	},
 	"removestencils": [
-		"ITSystem",
-		"EventSubprocess",
 		"CollapsedEventSubprocess",
+		"EventSubprocess",
 		"CollapsedSubprocess",
 		"Subprocess",
 		"DataStore",
@@ -30,10 +28,14 @@
 		"EventbasedGateway",
 		"InclusiveGateway",
 		"ComplexGateway",
+		"Pool",
 		"CollapsedPool",
+		"Lane",
 		"Group",
 		"TextAnnotation",
 		"DataObject",
+		"StartMessageEvent",
+		"StartTimerEvent",
 		"StartConditionalEvent",
 		"StartSignalEvent",
 		"StartMultipleEvent",
@@ -59,6 +61,7 @@
 		"EndSignalEvent",
 		"EndMultipleEvent",
 		"EndTerminateEvent",
+		"MessageFlow",
 		"Association_Undirected",
 		"Association_Unidirectional",
 		"Association_Bidirectional"

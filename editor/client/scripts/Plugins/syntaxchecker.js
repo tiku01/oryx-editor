@@ -131,8 +131,7 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
 		var data = null;
 		var includesJson = false;
 		
-		if(ss.keys().include("http://b3mn.org/stencilset/bpmn2.0#") ||
-				ss.keys().include("http://b3mn.org/stencilset/bpmn2.0conversation#")) {
+		if(ss.keys().include("http://b3mn.org/stencilset/bpmn2.0#")) {
 			data = this.facade.getSerializedJSON();
 			includesJson = true;
 		} else {
@@ -150,7 +149,7 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
 				isJson: includesJson
             },
             onSuccess: function(request){
-                var resp = (request&&request.responseText?request.responseText:"{}").evalJSON();
+                var resp = request.responseText.evalJSON();
                 
                 Ext.Msg.hide();
                 

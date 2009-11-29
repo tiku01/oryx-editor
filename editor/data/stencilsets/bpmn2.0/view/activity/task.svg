@@ -29,16 +29,8 @@
   	<oryx:magnet oryx:cx="50" oryx:cy="40" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="50 40">
-  	<defs>
-		<radialGradient id="background" cx="10%" cy="10%" r="100%" fx="10%" fy="10%">
-			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-			<stop id="fill_el" offset="100%" stop-color="#ffffcc" stop-opacity="1"/>
-		</radialGradient>
-	</defs>
-	
-	
     <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
-	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="1" fill="white" />
 		<text 
 			font-size="12" 
 			id="text_name" 

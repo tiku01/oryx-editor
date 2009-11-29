@@ -61,7 +61,7 @@ public class BPMN2Migrator {
 	public BPMN2Migrator(String json) throws BpmnMigrationException {
 		try {
 			
-			diagram = DiagramBuilder.parseJson(json, true);
+			diagram = DiagramBuilder.parseJson(json);
 			stencilSetExtensions = diagram.getSsextensions();
 			
 			initializeShapes(diagram.getChildShapes());
@@ -450,14 +450,6 @@ public class BPMN2Migrator {
 						props.put("looptype", activity.getProperty("mi_ordering"));
 					}
 				}
-				
-				/* Map isCompensation to isforcompensation */			
-				if(props.containsKey("iscompensation")) {
-					/* replace */
-					props.put("isforcompensation", activity.getProperty("iscompensation"));
-					props.remove("iscompensation");
-				}
-				
 				
 				if(id.equals("Task")) {
 					String taskType = activity.getProperty("tasktype");

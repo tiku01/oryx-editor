@@ -62,6 +62,11 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
         }
 		this.setColor(value);
 		
+		this.facade.raiseEvent({
+			type: ORYX.CONFIG.EVENT_COLOR_CHANGE,
+			value: this.getValue()
+		});
+		
         return true;
     },
 

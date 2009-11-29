@@ -107,11 +107,9 @@ public class ChoreographyActivityFactory extends AbstractBpmnFactory {
 	 * @return
 	 * 		the {@link ChoreographySubprocess}
 	 */
-	@StencilId({
-		"ChoreographySubprocessCollapsed",
-		"ChoreographySubprocessExpanded"
-	})
+	@StencilId("ChoreographySubprocessCollapsed")
 	protected ChoreographySubProcess createChoreographySubprocessCollapsed(Shape shape) {
 		return new ChoreographySubProcess();
 	}
+
 }

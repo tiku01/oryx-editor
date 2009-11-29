@@ -103,7 +103,7 @@ import de.hpi.bpmn2_0.model.participant.Participant;
  * 
  * 
  */
-@XmlRootElement(name = "process")
+@XmlRootElement(name = "process", namespace = "http://www.omg.org/bpmn20")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tProcess", propOrder = {
 //    "auditing",
@@ -125,8 +125,6 @@ public class Process
 		/* Events */
 		@XmlElementRef(type = StartEvent.class),
 		@XmlElementRef(type = EndEvent.class),
-		@XmlElementRef(type = IntermediateThrowEvent.class),
-		@XmlElementRef(type = IntermediateCatchEvent.class),
 		
 		/* Activities */
 		@XmlElementRef(type = Task.class),

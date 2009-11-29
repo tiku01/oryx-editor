@@ -45,9 +45,7 @@ import javax.xml.namespace.QName;
 
 import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.connector.Edge;
-import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.conversation.Conversation;
-import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.model.data_object.Message;
 import de.hpi.bpmn2_0.model.diagram.BpmnDiagram;
 import de.hpi.bpmn2_0.model.diagram.ChoreographyDiagram;
@@ -87,7 +85,7 @@ import de.hpi.bpmn2_0.validation.BPMN2SyntaxChecker;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "definitions")
+@XmlRootElement(namespace="http://www.omg.org/bpmn20", name = "definitions")
 @XmlType(name = "tDefinitions", propOrder = {
 //    "_import",
 //    "extension",
@@ -326,26 +324,6 @@ public class Definitions {
     					edges.add((Edge) flowElement);
     				}
     			}
-    		} else if(rootElement instanceof Collaboration) {
-    			
-    			for(MessageFlow messageFlow : ((Collaboration) rootElement).getMessageFlow())
-    				edges.add(messageFlow);
-    		
-    		} else if(rootElement instanceof Choreography) {
-    			
-    			for(FlowElement flowElement : ((Choreography) rootElement).getFlowElement()) {
-    				
-    				if(flowElement instanceof Edge)
-    					edges.add((Edge) flowElement);
-    			}
-    	
-    		} else if(rootElement instanceof Conversation) {
-    			
-    			for(ConversationLink cl : ((Conversation) rootElement).getConversationLink())
-    				edges.add(cl);
-    			
-    			for(MessageFlow mf : ((Conversation) rootElement).getMessageFlow())
-    				edges.add(mf);
     		}
     	}
     	    	

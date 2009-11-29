@@ -108,7 +108,6 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
-			<requires namespace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>
@@ -295,6 +294,8 @@
 		<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />
 		<plugin source="overlayexample.js" name="ORYX.Plugins.OverlayExample" />
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
+		
+		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 
 	</plugins>
 	

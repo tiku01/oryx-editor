@@ -120,7 +120,7 @@ public class Diagram2BpmnConverter {
 
 	/* Define data related objects ids */
 	private final static String[] dataObjectIdsArray = { "DataObject",
-			"DataStore", "Message", "ITSystem" };
+			"DataStore", "Message" };
 
 	public final static HashSet<String> dataObjectIds = new HashSet<String>(
 			Arrays.asList(dataObjectIdsArray));
@@ -337,45 +337,28 @@ public class Diagram2BpmnConverter {
 
 			/* Update source references */
 			if (source != null) {
+				FlowNode sourceNode = (FlowNode) source.getNode();
+				sourceNode.getOutgoing().add((Edge) bpmnConnector.getNode());
+
 				Edge edgeElement = (Edge) bpmnConnector.getNode();
+				edgeElement.setSourceRef(sourceNode);
+
 				BpmnConnector edgeShape = (BpmnConnector) bpmnConnector
-					.getShape();
-				
-				/* Correct the source reference if it is an expanded pool */
-				if (source.getNode() instanceof LaneSet) {
-					PoolCompartment poolShape = (PoolCompartment) source.getShape();
-					edgeElement.setSourceRef(poolShape.getParticipantRef());
-					edgeShape.setSourceRef(poolShape);
-				} else {
-					FlowElement sourceNode = (FlowElement) source.getNode();
-					sourceNode.getOutgoing()
-							.add((Edge) bpmnConnector.getNode());
-
-					edgeElement.setSourceRef(sourceNode);
-
-					edgeShape.setSourceRef(source.getShape());
-				}
+						.getShape();
+				edgeShape.setSourceRef(source.getShape());
 			}
 
 			/* Update target references */
 			if (target != null) {
+				FlowNode targetNode = (FlowNode) target.getNode();
+				targetNode.getIncoming().add((Edge) bpmnConnector.getNode());
+
 				Edge edgeElement = (Edge) bpmnConnector.getNode();
+				edgeElement.setTargetRef(targetNode);
+
 				BpmnConnector edgeShape = (BpmnConnector) bpmnConnector
 						.getShape();
-				/* Correct the target reference if it is an expanded pool. */
-				if (target.getNode() instanceof LaneSet) {
-					PoolCompartment poolShape = (PoolCompartment) target.getShape();
-					edgeElement.setTargetRef(poolShape.getParticipantRef());
-					edgeShape.setTargetRef(poolShape);
-				} else {
-					FlowElement targetNode = (FlowElement) target.getNode();
-					targetNode.getIncoming()
-							.add((Edge) bpmnConnector.getNode());
-
-					edgeElement.setTargetRef(targetNode);
-
-					edgeShape.setTargetRef(target.getShape());
-				}
+				edgeShape.setTargetRef(target.getShape());
 			}
 		}
 	}
@@ -468,17 +451,6 @@ public class Diagram2BpmnConverter {
 			}
 		}
 
-		if (this.conversation != null && this.conversationDiagram != null) {
-			for (BPMNElement element : this.diagramChilds) {
-				if (element.getNode() instanceof MessageFlow) {
-					this.getConversation().getMessageFlow().add(
-							(MessageFlow) element.getNode());
-					this.getConversationDiagram().getConnector().add(
-							(BpmnConnector) element.getShape());
-				}
-			}
-		}
-
 		if (this.conversationDiagram != null)
 			this.getConversationDiagram().setConversation(
 					this.getConversation());
@@ -548,13 +520,6 @@ public class Diagram2BpmnConverter {
 		}
 
 		this.addSequenceFlowsToProcess();
-		
-		/* Set processRefs */
-		for(Process p : this.processes) {
-			for(FlowElement el : p.getFlowElement()) {
-				el.setProcess(p);
-			}
-		}
 	}
 
 	/**
@@ -908,7 +873,7 @@ public class Diagram2BpmnConverter {
 			this.definitions.getRootElement().add(this.getCollaboration());
 		}
 	}
-	
+
 	/**
 	 * Based on the passed pool, it searches for the appropriate process
 	 * diagram, to retrieve the related process object.

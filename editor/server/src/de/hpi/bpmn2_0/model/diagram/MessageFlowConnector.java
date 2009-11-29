@@ -55,7 +55,7 @@ import de.hpi.bpmn2_0.model.connector.MessageFlow;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-@XmlRootElement(name = "messageFlowConnector")
+@XmlRootElement(name = "messageFlowConnector", namespace = "http://bpmndi.org")
 public class MessageFlowConnector
     extends BpmnConnector
 {

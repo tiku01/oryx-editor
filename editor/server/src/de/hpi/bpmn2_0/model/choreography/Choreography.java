@@ -88,7 +88,6 @@ public class Choreography
     	
     	/* Activities */
     	@XmlElementRef(type = ChoreographyTask.class),
-    	@XmlElementRef(type = ChoreographySubProcess.class),
     	
     	/* Edges */
     	@XmlElementRef(type = SequenceFlow.class)

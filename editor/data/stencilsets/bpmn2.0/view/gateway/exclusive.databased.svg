@@ -15,18 +15,10 @@
        oryx:cx="16" />
   </oryx:magnets>					
   <g>
-  
-    <defs>
-		<radialGradient id="background" cx="10%" cy="10%" r="100%" fx="10%" fy="10%">
-			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-			<stop id="fill_el" offset="100%" stop-color="#ffffff" stop-opacity="1"/>
-		</radialGradient>
-	</defs>
-	
     <path
        d="M -4.5,16 L 16,-4.5 L 35.5,16 L 16,35.5z"
        id="bg_frame"
-       fill="url(#background) white"
+       fill="#ffffff"
        style="stroke:#000000;stroke-width:1" />
     <g
        id="cross">
@@ -38,7 +30,7 @@
          style="fill:#000000;stroke:#000000;stroke-width:1" />
     </g>
 	
-	<text id="text_name" x="26" y="26" oryx:align="left top"/>
+	<text id="text_name" x="16" y="50" oryx:align="center bottom"/>
 	
   </g>
 </svg>

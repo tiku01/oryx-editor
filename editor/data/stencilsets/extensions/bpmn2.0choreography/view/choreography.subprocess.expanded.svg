@@ -5,36 +5,30 @@
    xmlns:oryx="http://www.b3mn.org/oryx"
    xmlns:xlink="http://www.w3.org/1999/xlink"
 
-   width="252"
-   height="202"
+   width="102"
+   height="82"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="1" oryx:cy="70" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="1" oryx:cy="100" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="1" oryx:cy="130" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="45" oryx:cy="100" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="40" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="60" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="1" oryx:cy="80" oryx:anchors="left" />
   	
-  	<oryx:magnet oryx:cx="125" oryx:cy="100" oryx:default="yes" />
+  	<oryx:magnet oryx:cx="45" oryx:cy="60" oryx:anchors="left" />
   	
-  	<oryx:magnet oryx:cx="249" oryx:cy="70" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="249" oryx:cy="100" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="249" oryx:cy="130" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="205" oryx:cy="100" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="125" oryx:cy="60" oryx:default="yes" />
+  	
+  	<oryx:magnet oryx:cx="249" oryx:cy="40" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="249" oryx:cy="60" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="249" oryx:cy="80" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="205" oryx:cy="60" oryx:anchors="right" />
   	
   	<oryx:magnet oryx:cx="125" oryx:cy="1" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="125" oryx:cy="199" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="125" oryx:cy="120" oryx:anchors="bottom" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="50 40">
-    <defs>
-		<radialGradient id="background" cx="10%" cy="10%" r="100%" fx="10%" fy="10%">
-			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-			<stop id="fill_el" offset="100%" stop-color="#ffffff" stop-opacity="1"/>
-		</radialGradient>
-	</defs>
-	
-    <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="250" height="200" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
-	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="250" height="200" rx="10" ry="10" stroke="black" stroke-width="1" fill="url(#background) white" />
+    <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="250" height="120" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
+	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="250" height="120" rx="10" ry="10" stroke="black" stroke-width="1" fill="white" />
 	<text 
 			font-size="12" 
 			id="text_name" 

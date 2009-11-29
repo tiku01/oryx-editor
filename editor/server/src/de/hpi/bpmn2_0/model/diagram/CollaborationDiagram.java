@@ -73,7 +73,7 @@ public class CollaborationDiagram
     extends BpmnDiagram
 {
 
-    @XmlElement(required = true)
+    @XmlElement(namespace = "http://bpmndi.org", required = true)
     protected List<PoolCompartment> pool;
 
     @XmlElement
