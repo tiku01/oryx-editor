@@ -8,11 +8,20 @@ import de.hpi.bpmn.serialization.BPMNSerialization;
 public class Lane extends Node implements Container {
 	
 	protected List<Node> childNodes;
+	protected String resourcingType = "";
 	
 	public List<Node> getChildNodes() {
 		if (childNodes == null)
 			childNodes = new ArrayList<Node>();
 		return childNodes;
+	}
+
+	public String getResourcingType() {
+		return resourcingType;
+	}
+
+	public void setResourcingType(String resourcingType) {
+		this.resourcingType = resourcingType;
 	}
 
 	@Override

@@ -229,6 +229,14 @@
         </servlet-class>
     </servlet>
 	
+	<servlet>
+        <display-name>BPMN to YAWL Converter</display-name>
+        <servlet-name>BPMN2YAWLServlet</servlet-name>
+        <servlet-class>
+            org.oryxeditor.server.BPMN2YAWLServlet
+        </servlet-class>
+    </servlet>
+	
 <!--<servlet>
 		<display-name>Worklist</display-name>
 		<servlet-name>Worklist</servlet-name>
