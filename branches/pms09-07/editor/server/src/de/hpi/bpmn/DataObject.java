@@ -5,6 +5,8 @@ import de.hpi.bpmn.serialization.BPMNSerialization;
 public class DataObject extends Node {
 	
 	protected String state;
+	protected String dataType = "";
+	protected String value = "";
 	protected String targetOfCopy;
 	
 	/**
@@ -31,6 +33,22 @@ public class DataObject extends Node {
 		this.state = state;
 	}
 
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 	public String getTargetOfCopy() {
 		return targetOfCopy;
 	}
