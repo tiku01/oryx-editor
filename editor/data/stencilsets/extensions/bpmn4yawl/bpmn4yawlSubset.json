@@ -7,7 +7,6 @@
 	"properties": [
 	 	{
 			"roles": [
-				"CollapsedSubprocess",
 				"Subprocess"
 			],
 			"properties": [
@@ -21,6 +20,82 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"adhoc"
+				}
+			]
+		},
+		{
+			"roles": [
+				"Lane"
+			],
+			"properties": [
+				{
+					"id":"type",
+					"type":"Choice",
+					"title":"Type",
+					"title_de":"Typ",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"items": [
+								{
+									"id":"c1",
+									"title":"Role",
+									"value":"Role",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"Participant",
+									"value":"Participant",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"Position",
+									"value":"Position",
+									"refToView":""
+								}
+							]
+				}
+			]
+		},
+		{
+			"roles": [
+				"DataObject"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Text description.",
+					"description_de":"Textbeschreibung",
+					"readonly":false,
+					"optional":false,
+					"refToView":"text_name",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"datatype",
+					"type":"String",
+					"title":"DataType",
+					"title_de":"Definiert den Datentyp des Datenobjekts",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"value",
+					"type":"String",
+					"title":"Value",
+					"title_de":"Setzt den Wert des Datenobjekts",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true
 				}
 			]
 		},
@@ -77,12 +152,10 @@
 	"removestencils": [
 		"Complex_Gateway",
 		"Group",
-		"DataObject",
 		"MessageFlow",
-		"Association_Undirected",
-		"Association_Unidirectional",
-		"Association_Bidirectional",
 		"TextAnnotation",
+		"Association_Undirected",
+		"CollapsedSubprocess",
 		"StartMessageEvent",
 		"StartConditionalEvent",
 		"StartSignalEvent",
@@ -110,10 +183,9 @@
 			]
 		},
 		{
-			"stencil": "CollapsedSubprocess",
+			"stencil": "DataObject",
 			"properties": [
-				"adhocordering",
-				"adhoccompletioncondition"
+				"properties"
 			]
 		}
 	]
