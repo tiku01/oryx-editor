@@ -126,6 +126,18 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
         });
             
         Ext.Msg.wait(ORYX.I18N.SyntaxChecker.checkingMessage);
+
+		var ss = this.facade.getStencilSets();
+		var data = null;
+		var includesJson = false;
+		
+		if(ss.keys().include("http://b3mn.org/stencilset/bpmn2.0#") ||
+				ss.keys().include("http://b3mn.org/stencilset/bpmn2.0conversation#")) {
+			data = this.facade.getSerializedJSON();
+			includesJson = true;
+		} else {
+			data = this.getRDFFromDOM();
+		}
         
         // Send the request to the server.
         new Ajax.Request(ORYX.CONFIG.SYNTAXCHECKER_URL, {
@@ -133,11 +145,12 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
             asynchronous: false,
             parameters: {
                 resource: location.href,
-                data: this.getRDFFromDOM(),
-                context: options.context
+                data: data,
+                context: options.context,
+				isJson: includesJson
             },
             onSuccess: function(request){
-                var resp = request.responseText.evalJSON();
+                var resp = (request&&request.responseText?request.responseText:"{}").evalJSON();
                 
                 Ext.Msg.hide();
                 
@@ -214,6 +227,7 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
     			msg = msg.replace(singleCode, replacement);
     		}
     	}
+		
 		return msg;
 	},
 	

@@ -29,8 +29,16 @@
   	<oryx:magnet oryx:cx="50" oryx:cy="40" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="50 40">
+  	<defs>
+		<radialGradient id="background" cx="10%" cy="10%" r="100%" fx="10%" fy="10%">
+			<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+			<stop id="fill_el" offset="100%" stop-color="#ffffcc" stop-opacity="1"/>
+		</radialGradient>
+	</defs>
+	
+	
     <rect id="callActivity" oryx:resize="vertical horizontal" oryx:anchors="bottom top right left" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="4" fill="none" />
-	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="1" fill="white" />
+	<rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
 		<text 
 			font-size="12" 
 			id="text_name" 
@@ -115,14 +123,14 @@
          />
     </g>
 	
-	<g id="mi">
-		<g id="parallel">
-			<path oryx:anchors="bottom" fill="none" stroke="black" d="M46 70 v8 M50 70 v8 M54 70 v8" stroke-width="2" />
-		</g>
-		<g id="sequential">
-			<path oryx:anchors="bottom" fill="none" stroke="#000000" stroke-width="2" d="M46,78h8 M46,74h8 M46,70h8"/>
-		</g>
+	
+	<g id="parallel">
+		<path oryx:anchors="bottom" fill="none" stroke="black" d="M46 70 v8 M50 70 v8 M54 70 v8" stroke-width="2" />
 	</g>
+	<g id="sequential">
+		<path oryx:anchors="bottom" fill="none" stroke="#000000" stroke-width="2" d="M46,76h10M46,72h10 M46,68h10"/>
+	</g>
+	
 
 	<g id="compensation">
 		<path oryx:anchors="bottom" fill="none" stroke="black" d="M 62 74 L 66 70 L 66 78 L 62 74 L 62 70 L 58 74 L 62 78 L 62 74" stroke-width="1" />
