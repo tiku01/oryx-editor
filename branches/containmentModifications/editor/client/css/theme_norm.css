@@ -284,8 +284,9 @@ table-layout:fixed;
 	border: 1px solid #000;
 }
 
-.Oryx_hover {
+.Oryx_hover, .Oryx_button:hover {
 	background: url(../images/shapemenu_highlight.png) no-repeat 1px 1px;
+	opacity: 1 !important;
 }
 
 .Oryx_down {
@@ -329,6 +330,36 @@ table-layout:fixed;
 	margin-left:2px;
 	padding-top:0px;
 	padding-bottom:0px;
+}
+
+.Oryx_Right .Oryx_button,
+.Oryx_Left .Oryx_button,
+.Oryx_Top .Oryx_button,
+.Oryx_Bottom .Oryx_button {
+	opacity: 0.5;
+}
+
+.Oryx_button.x-opacity-0 {
+	opacity: 0;
+}
+
+.Oryx_button.x-opacity-10 {
+	opacity: 0.1;
+}
+
+.Oryx_button.x-opacity-20 {
+	opacity: 0.2;
+}
+
+.Oryx_button.x-opacity-50 {
+	opacity: 0.5;
+}
+
+.Oryx_Right:hover .Oryx_button,
+.Oryx_Left:hover .Oryx_button,
+.Oryx_Top:hover .Oryx_button,
+.Oryx_Bottom:hover .Oryx_button {
+	opacity: 0.7;
 }
 
 
