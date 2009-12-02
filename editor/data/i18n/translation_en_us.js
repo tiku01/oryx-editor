@@ -660,6 +660,8 @@ ORYX.I18N.Validator.bpmnDeadlockTitle = "Deadlock";
 ORYX.I18N.Validator.bpmnDeadlock = "This node results in a deadlock. There are situations where not all incoming branches are activated.";
 ORYX.I18N.Validator.bpmnUnsafeTitle = "Lack of synchronization";
 ORYX.I18N.Validator.bpmnUnsafe = "This model suffers from lack of synchronization. The marked element is activated from multiple incoming branches.";
+ORYX.I18N.Validator.bpmnLeadsToNoEndTitle = "Validation Result";
+ORYX.I18N.Validator.bpmnLeadsToNoEnd = "The process will never reach a final state.";
 
 ORYX.I18N.Validator.syntaxErrorsTitle = "Syntax Error";
 ORYX.I18N.Validator.syntaxErrorsMsg = "The process cannot be validated because it contains syntax errors.";
@@ -701,3 +703,62 @@ ORYX.I18N.SyntaxChecker.MULT_ERRORS = "Multiple Errors";
 if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
 ORYX.I18N.PropertyWindow.oftenUsed = "Often used";
 ORYX.I18N.PropertyWindow.moreProps = "More Properties";
+
+/** New Language Properties: 17.09.2009*/
+if(!ORYX.I18N.Bpmn2_0Serialization) ORYX.I18N.Bpmn2_0Serialization = {};
+ORYX.I18N.Bpmn2_0Serialization.show = "Show BPMN 2.0 DI XML";
+ORYX.I18N.Bpmn2_0Serialization.showDesc = "Show BPMN 2.0 DI XML of the current BPMN 2.0 model";
+ORYX.I18N.Bpmn2_0Serialization.download = "Download BPMN 2.0 DI XML";
+ORYX.I18N.Bpmn2_0Serialization.downloadDesc = "Download BPMN 2.0 DI XML of the current BPMN 2.0 model";
+ORYX.I18N.Bpmn2_0Serialization.serialFailed = "An error occurred while generating the BPMN 2.0 DI XML Serialization.";
+ORYX.I18N.Bpmn2_0Serialization.group = "BPMN 2.0";
+
+/** New Language Properties 01.10.2009 */
+if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
+
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "A Data Input must not have any incoming Data Associations.";
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "A Data Output must not have any outgoing Data Associations.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Targets of Event-based Gateways may only have one incoming Sequence Flow.";
+
+/** New Language Properties 02.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WITH_TOO_LESS_OUTGOING_SEQUENCE_FLOWS = "An Event-based Gateway must have two or more outgoing Sequence Flows.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_EVENT_TARGET_CONTRADICTION = "If Message Intermediate Events are used in the configuration, then Receive Tasks must not be used and vice versa.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_TRIGGER = "Only the following Intermediate Event triggers are valid: Message, Signal, Timer, Conditional and Multiple.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_CONDITION_EXPRESSION = "The outgoing Sequence Flows of the Event Gateway must not have a condition expression.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_NOT_INSTANTIATING = "The Gateway does not meet the conditions to instantiate the process. Please use a start event or an instantiating attribute for the gateway.";
+
+/** New Language Properties 05.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_MIXED_FAILURE = "The Gateway must have both multiple incoming and outgoing Sequence Flows.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_CONVERGING_FAILURE = "The Gateway must have multiple incoming but most NOT have multiple outgoing Sequence Flows.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_DIVERGING_FAILURE = "The Gateway must NOT have multiple incoming but must have multiple outgoing Sequence Flows.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "A Gateway must have a minimum of one outgoing Sequence Flow.";
+ORYX.I18N.SyntaxChecker.BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT = "Receive Tasks used in Event Gateway configurations must not have any attached Intermediate Events.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "An Event Subprocess must not have any incoming or outgoing Sequence Flow.";
+
+/** New Language Properties 13.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "At least one side of the Message Flow has to be connected.";
+
+/** New Language Properties 19.10.2009 */
+ORYX.I18N.Bpmn2_0Serialization['import'] = "Import from BPMN 2.0 DI XML";
+ORYX.I18N.Bpmn2_0Serialization.importDesc = "Import a BPMN 2.0 model from a file or XML String";
+ORYX.I18N.Bpmn2_0Serialization.selectFile = "Select a (*.bpmn) file or type in BPMN 2.0 DI XML to import it!";
+ORYX.I18N.Bpmn2_0Serialization.file = "File:";
+ORYX.I18N.Bpmn2_0Serialization.name = "Import from BPMN 2.0 DI XML";
+ORYX.I18N.Bpmn2_0Serialization.btnImp = "Import";
+ORYX.I18N.Bpmn2_0Serialization.progress = "Importing BPMN 2.0 DI XML ...";
+ORYX.I18N.Bpmn2_0Serialization.btnClose = "Close";
+ORYX.I18N.Bpmn2_0Serialization.error = "An error occurred while importing BPMN 2.0 DI XML";
+
+/** New Language Properties 24.11.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_MANY_INITIATING_MESSAGES = "A Choreography Activity may only have one initiating message.";
+ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_ALLOWED = "A Message Flow is not allowed here.";
+
+/** New Language Properties 27.11.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WITH_TOO_LESS_INCOMING_SEQUENCE_FLOWS = "An Event-based Gateway that is not instantiating must have a minimum of one incoming Sequence Flow.";
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_FEW_INITIATING_PARTICIPANTS = "A Choreography Activity must have one initiating Participant (white).";
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_MANY_INITIATING_PARTICIPANTS = "A Choreography Acitivity must not have more than one initiating Participant (white)."
+
+ORYX.I18N.SyntaxChecker.COMMUNICATION_AT_LEAST_TWO_PARTICIPANTS = "The communication must be connected to at least two participants.";
+ORYX.I18N.SyntaxChecker.MESSAGEFLOW_START_MUST_BE_PARTICIPANT = "The message flow's source must be a participant.";
+ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "The message flow's target must be a participant.";
+ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "The conversation link must connect a communication or sub conversation node with a participant.";

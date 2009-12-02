@@ -2,8 +2,8 @@
 
 .movi-scrollbox {
 	overflow: auto;
-	height: 100%;
-	width: 100%;
+	height: inherit;
+	width: inherit;
 	position: relative;
 	cursor: move;
 }
@@ -110,6 +110,7 @@
 	background-color: #FFFFFF; 
 	min-height: 100px;
 	min-width: 100px;
+	cursor: default;
 }
 
 .movi-bubble-closebutton {

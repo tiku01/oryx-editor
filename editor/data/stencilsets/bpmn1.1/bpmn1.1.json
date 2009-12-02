@@ -52,6 +52,7 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -221,6 +222,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -968,6 +970,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -1685,6 +1688,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -2394,6 +2398,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -2657,6 +2662,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -2883,6 +2889,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -3087,6 +3094,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -3329,6 +3337,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -3667,6 +3676,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular" : true,
 					"wrapLines":true
 				},
 				{
@@ -3918,12 +3928,14 @@
 					"id":"processDocumentation",
 					"type":"String",
 					"title":"ProcessDocumentation",
+					"title_de":"Prozessdokumentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular" : true,
 					"wrapLines":true
 				}
 			]
@@ -3994,6 +4006,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular" : true,
 					"wrapLines":true
 				},
 				{
@@ -4247,13 +4260,14 @@
 					"id":"processDocumentation",
 					"type":"String",
 					"title":"ProcessDocumentation",
-					"title_de":"Prozessdocumentation",
+					"title_de":"Prozessdokumentation",
 					"value":"",
 					"description":"",
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular" : true,
 					"wrapLines":true
 				},				
 				{
@@ -4374,6 +4388,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -4478,6 +4493,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -4578,6 +4594,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -4680,6 +4697,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -4871,6 +4889,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -5053,6 +5072,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -5277,6 +5297,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -5481,6 +5502,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -5674,6 +5696,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -5878,6 +5901,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -6075,6 +6099,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -6272,6 +6297,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -6509,6 +6535,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -6748,6 +6775,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -6965,6 +6993,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -7170,6 +7199,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -7362,6 +7392,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -7567,6 +7598,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -7775,6 +7807,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -7983,6 +8016,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -8201,6 +8235,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -8421,6 +8456,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -8628,6 +8664,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -8833,6 +8870,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -9048,6 +9086,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -9264,6 +9303,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -9444,6 +9484,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -9666,6 +9707,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -9855,6 +9897,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10034,6 +10077,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10225,6 +10269,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10415,6 +10460,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10594,6 +10640,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10766,6 +10813,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10831,7 +10879,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"condition"
+					"refToView":"condition",
+					"wrapLines":true
 				},
 				{
 					"id":"quantity",
@@ -10893,7 +10942,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"name"
+					"refToView":"name",
+					"wrapLines":true
 				},
 				{
 					"id":"categories",
@@ -10919,6 +10969,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -10993,7 +11044,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"name"
+					"refToView":"name",
+					"wrapLines":true
 				},
 				{
 					"id":"categories",
@@ -11019,6 +11071,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -11091,7 +11144,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"name"
+					"refToView":"name",
+					"wrapLines":true
 				},
 				{
 					"id":"categories",
@@ -11117,6 +11171,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{
@@ -11189,7 +11244,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"refToView":"name"
+					"refToView":"name",
+					"wrapLines":true
 				},
 				{
 					"id":"categories",
@@ -11215,6 +11271,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"",
+					"popular": true,
 					"wrapLines":true
 				},
 				{

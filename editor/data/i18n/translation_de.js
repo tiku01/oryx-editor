@@ -633,6 +633,9 @@ ORYX.I18N.Validator.bpmnDeadlockTitle = "Deadlock";
 ORYX.I18N.Validator.bpmnDeadlock = "Dieses Element verursacht einen Deadlock, d.h. in manchen Situationen können nicht alle eingehenden Kanten und Nachrichtenflüsse aktiviert werden.";
 ORYX.I18N.Validator.bpmnUnsafeTitle = "Fehlende Synchronisation";
 ORYX.I18N.Validator.bpmnUnsafe = "Es findet eine mehrfache Aktivierung statt. Dadurch ist Synchronisierung nicht gewährleistet.";
+ORYX.I18N.Validator.bpmnLeadsToNoEndTitle = "Validierungsergebnis";
+ORYX.I18N.Validator.bpmnLeadsToNoEnd = "Dieser Prozess wird niemals einen Endzustand erreichen.";
+
 
 ORYX.I18N.Validator.syntaxErrorsTitle = "Syntaxfehler";
 ORYX.I18N.Validator.syntaxErrorsMsg = "Das Modell kann nicht validiert werden, weil es Syntaxfehler enthält.";
@@ -652,5 +655,52 @@ ORYX.I18N.SyntaxChecker.MULT_ERRORS = "Mehrere Fehler";
 
 /** New Language Properties: 08.09.2009*/
 if(!ORYX.I18N.PropertyWindow) ORYX.I18N.PropertyWindow = {};
-ORYX.I18N.PropertyWindow.oftenUsed = "Häufig genutzt";
+ORYX.I18N.PropertyWindow.oftenUsed = "Hauptattribute";
 ORYX.I18N.PropertyWindow.moreProps = "Mehr Attribute";
+
+/** New Language Properties 01.10.2009 */
+if(!ORYX.I18N.SyntaxChecker.BPMN2) ORYX.I18N.SyntaxChecker.BPMN2 = {};
+
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_INPUT_WITH_INCOMING_DATA_ASSOCIATION = "Ein Dateninput darf keine ausgehenden Datenassoziationen haben.";
+ORYX.I18N.SyntaxChecker.BPMN2_DATA_OUTPUT_WITH_OUTGOING_DATA_ASSOCIATION = "Ein Datenoutput darf keine eingehenden Datenassoziationen haben.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_TARGET_WITH_TOO_MANY_INCOMING_SEQUENCE_FLOWS = "Ziele von Ereignis-basierten Gateways dürfen nicht mehr als einen eingehenden Sequenzfluss haben.";
+
+/** New Language Properties 02.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WITH_TOO_LESS_OUTGOING_SEQUENCE_FLOWS = "Ein Ereignis-basiertes Gateway muss 2 oder mehr ausgehende Sequenzflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_EVENT_TARGET_CONTRADICTION = "Wenn Nachrichten-Zwischenereignisse im Diagramm verwendet werden, dann dürfen Receive Tasks nicht verwendet werden und umgekehrt.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_TRIGGER = "Nur die folgenden Zwischen-Ereignis-Auslöser sind hier zulässig: Nachricht, Signal, Timer, Bedingungs und Mehrfach.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WRONG_CONDITION_EXPRESSION = "Die ausgehenden Sequenzflüsse eines Ereignis-Gateways dürfen keinen Bedingungsausdruck besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_NOT_INSTANTIATING = "Das Gateway erfüllt nicht die Voraussetzungen um den Prozess zu instantiieren. Bitte verwenden Sie ein Start-Ereignis oder setzen Sie die Instanziierungs-Attribute korrekt.";
+
+/** New Language Properties 05.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_MIXED_FAILURE = "Das Gateway muss mehrere eingehende und ausgehende Sequenzflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_CONVERGING_FAILURE = "Das Gateway muss mehrere eingehende aber darf keine mehrfache ausgehende Sequenzflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAYDIRECTION_DIVERGING_FAILURE = "Das Gateway darf keine mehrfachen eingehenden aber muss mehrfache ausgehende Sequenzflüsse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_GATEWAY_WITH_NO_OUTGOING_SEQUENCE_FLOW = "Ein Gateway muss mindestens einen ausgehenden Sequenzfluss besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_RECEIVE_TASK_WITH_ATTACHED_EVENT = "Empfangende Tasks, die in Ereignis-Gateway-Konfigurationen benutzt werden, dürfen keine angehefteten Zwischen-Ereignisse besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_SUBPROCESS_BAD_CONNECTION = "Ein Ereignis-Unterprozess darf keinen eingehenden oder ausgehenden Sequenzfluss besitzen.";
+
+/** New Language Properties 13.10.2009 */
+ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_CONNECTED = "Mindestens ein Ende des Nachrichtenflusses muss mit einem anderen Objekt verbunden sein.";
+
+/** New Language Properties 05.11.2009 */
+if(!ORYX.I18N.RESIZE) ORYX.I18N.RESIZE = {};
+ORYX.I18N.RESIZE.tip = "Zeichenfläche vergrößern:";
+ORYX.I18N.RESIZE.N = "Nach oben";
+ORYX.I18N.RESIZE.W = "Nach links";
+ORYX.I18N.RESIZE.S ="Nach unten";
+ORYX.I18N.RESIZE.E ="Nach rechts";
+
+/** New Language Properties 24.11.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_MANY_INITIATING_MESSAGES = "Eine Choreographie-Aktivität darf nur eine initiierende Nachricht besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN_MESSAGE_FLOW_NOT_ALLOWED = "Ein Nachrichtenfluss ist an dieser Stelle nicht erlaubt.";
+
+/** New Language Properties 27.11.2009 */
+ORYX.I18N.SyntaxChecker.BPMN2_EVENT_BASED_WITH_TOO_LESS_INCOMING_SEQUENCE_FLOWS = "Ein Ereignis-basiertes Gateway, dass nicht instanziierend ist, muss mindestens einen eingehenden Kontrollfluss besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_FEW_INITIATING_PARTICIPANTS = "Eine Choreographie-Aktivität musst genau einen initiierenden Teilnehmer (weiß) besitzen.";
+ORYX.I18N.SyntaxChecker.BPMN2_TOO_MANY_INITIATING_PARTICIPANTS = "Eine Choreographie-Aktivität darf nicht mehr als einen initiierenden Teilnehmer (weiß) besitzen."
+
+ORYX.I18N.SyntaxChecker.COMMUNICATION_AT_LEAST_TWO_PARTICIPANTS = "Die Kommunikation oder Sub-Konversation muss mit mindestens zwei Teilnehmern verbunden sein.";
+ORYX.I18N.SyntaxChecker.MESSAGEFLOW_START_MUST_BE_PARTICIPANT = "Die Nachrichtenflussquelle muss ein Teilnehmer sein.";
+ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "Das Nachrichtenflussziel muss ein Teilnehmer sein.";
+ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "Der Konversationslink muss eine Kommunikation oder Sub-Konversation mit einem Teilnehmer verbinden.";
