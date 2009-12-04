@@ -87,15 +87,15 @@ ORYX.Plugins.BPMN2_0 = {
 		var sh = option.shape;
 		
 		if (!this.hashedSubProcesses[sh.resourceId]) {
-			this.hashedSubProcesses[sh.resourceId] = sh.bounds.clone();
+			this.hashedSubProcesses[sh.resourceId] = sh.absoluteXY();
 			return;
 		}
 		
-		var offset = sh.bounds.upperLeft();
-		offset.x -= this.hashedSubProcesses[sh.resourceId].upperLeft().x;
-		offset.y -= this.hashedSubProcesses[sh.resourceId].upperLeft().y;
+		var offset = sh.absoluteXY();
+		offset.x -= this.hashedSubProcesses[sh.resourceId].x;
+		offset.y -= this.hashedSubProcesses[sh.resourceId].y;
 		
-		this.hashedSubProcesses[sh.resourceId] = sh.bounds.clone();
+		this.hashedSubProcesses[sh.resourceId] = sh.absoluteXY();
 		
 		this.moveChildDockers(sh, offset);
 		
