@@ -98,5 +98,13 @@
             "uri":"/bpmnq/bpmnq.json",
             "icon_url":"/bpmnq/bpmn1.1.png",
             "visible":true
+        },
+        {
+        	"title":"Colored Petri Nets",
+            "namespace":"http://b3mn.org/stencilset/coloredpetrinet#",
+            "description":"Colored Petri Nets specification.",
+            "uri":"/coloredpetrinet/coloredpetrinet.json",
+            "icon_url":"/coloredpetrinet/coloredpetrinet.png",
+            "visible":true
         }
 ]
