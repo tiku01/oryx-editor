@@ -1,0 +1,13 @@
+{
+	"title":"Colored Petri Nets",
+	"namesspace":"http://b3mn.org/stencilset/coloredpetrinet#",
+	"description":"This is the specification of Colored Petri Nets.",
+	"description_de":"Hierbei handelt es sich um die Spezifikation von gefärbten Petrinetzen.",
+	"stencils":
+	[
+		{
+		
+		}
+	]
+	
+}
