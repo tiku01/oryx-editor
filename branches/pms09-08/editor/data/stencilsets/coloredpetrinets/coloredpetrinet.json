@@ -6,7 +6,33 @@
 	"stencils":
 	[
 		{
-		
+			"type":"",
+			"id":"",
+			"title":"",
+			"title_de":"",
+			"groups":[],
+			"description":"",
+			"description_de":"",
+			"view":"",
+			"icon":"",
+			"roles":[],
+			"properties":
+			[
+				{
+					"id":"title",
+					"type":"String",
+					"title":"",
+					"value":"",
+					"description":"",
+					"description_de":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				}
+			]		
 		}
 	]
 	
