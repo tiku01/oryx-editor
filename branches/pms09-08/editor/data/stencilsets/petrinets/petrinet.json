@@ -1,5 +1,5 @@
 {
-	"title":"Petrinets",
+	"title":"qwssPetrinets",
 	"namespace":"http://b3mn.org/stencilset/petrinet#",
 	"description":"This is the Petri net specification.",
  	"stencils" : [
