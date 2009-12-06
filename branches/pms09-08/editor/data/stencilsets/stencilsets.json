@@ -101,10 +101,10 @@
         },
         {
         	"title":"Colored Petri Nets",
-            "namespace":"http://b3mn.org/stencilset/coloredpetrinet#",
+            "namespace":"http://b3mn.org/stencilset/coloredpetrinets#",
             "description":"Colored Petri Nets specification.",
-            "uri":"/coloredpetrinet/coloredpetrinet.json",
-            "icon_url":"/coloredpetrinet/coloredpetrinet.png",
+            "uri":"/coloredpetrinets/coloredpetrinet.json",
+            "icon_url":"/coloredpetrinets/coloredpetrinet.png",
             "visible":true
         }
 ]
