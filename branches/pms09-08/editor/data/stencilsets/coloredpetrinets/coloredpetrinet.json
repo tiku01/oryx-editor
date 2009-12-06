@@ -1,11 +1,9 @@
 {
-	"title":"Colored Petri Nets",
-	"namesspace":"http://b3mn.org/stencilset/coloredpetrinets#",
-	"description":"This is the specification of Colored Petri Nets.",
-	"description_de":"Hierbei handelt es sich um die Spezifikation von gefärbten Petrinetzen.",
-	"stencils":
-	[
-		{
+	"title":"Colored Petrinets",
+	"namespace":"http://b3mn.org/stencilset/coloredpetrinet#",
+	"description":"This is the Petri net specification.",
+ 	"stencils" : [
+  		{
 			"type": "node",
 			"id":"Diagram",
 			"title":"Diagram",
@@ -14,9 +12,9 @@
 			"view":"node.diagram.svg",
 			"icon":"new_diagram.png",
 			"mayBeRoot": true,
-			"roles": [],
-			"properties": 
-			[
+			"roles": [
+			],
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -100,7 +98,21 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
-				},				
+				},
+				{
+					"id":"colorset",
+					"type":"String",
+					"title":"Color Set",
+					"title_de":"Stellendefinition",
+					"value":"",
+					"description":"",
+					"description_de":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"colorset",
+					"length":"",
+					"wrapLines":true
+				}				
 			]
 		},
  		{
@@ -111,14 +123,12 @@
 			"description":"A transition",
 			"view":"node.transition.svg",
 			"icon":"new_transition.png",
-			"roles": 
-			[
+			"roles": [
 				"transition",
 				"fromtoall",
 				"TransitionMorph"
 			],
-			"properties": 
-			[
+			"properties": [
 				{
 					"id":"id",
 					"type":"String",
@@ -325,14 +335,12 @@
 			"icon":"new_place.png",
 			"intersectionType":"ellipse",	
 			"fixedAspectRatio":true,		
-			"roles": 
-			[
+			"roles": [
 				"place",
 				"fromtoall",
 				"PlaceMorph"
 			],
-			"properties": 
-			[
+			"properties": [
 				{
 					"id":"id",
 					"type":"String",
@@ -365,8 +373,7 @@
                     "readonly":false,
                     "optional":false,
                     "refToView":"",
-                    "items": 
-                    [
+                    "items": [
                         {
                             "id":"0",
                             "title":"0",
@@ -412,8 +419,7 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"",
-					"items": 
-					[
+					"items": [
 						{
 							"id":"push",
 							"title":"c1",
@@ -480,13 +486,11 @@
 			"groups":[],
 			"view":"connection.flow.svg",
 			"icon":"new_flow_normal.png",
-			"roles":
-			[
+			"roles": [
 				"fromtoall",
 				"FlowMorph"
 			],
-			"properties":
-			[
+			"properties": [
 				{
 					"id":"id",
 					"type":"String",
@@ -521,16 +525,29 @@
 					"length":""
 				}								
 			]
+		},
+		{
+			"type":"node",
+			"id":"token",
+			"title":"Token",
+			"title_de":"Markierung",
+			"groups":[],
+			"description":"Token",
+			"description_de":"",
+			"view":"node.token.svg",
+			"icon":"new_token.png",
+			"roles":
+			[
+				"token"
+			],
+			"properties":[]		
 		}
 	],	
-	"rules": 
-	{
-		"connectionRules": 
-		[
+	"rules": {
+		"connectionRules": [
 			{
 				"role":"Arc",
-				"connects": 
-				[
+				"connects": [
 					{
 						"from":"transition",
 						"to":["place"]
@@ -538,7 +555,7 @@
 					{
 						"from":"place",
 						"to":["transition"]
-					}
+					},
 				]
 			}	
 		],
@@ -549,6 +566,13 @@
 				"contains": 
 				[
 					"fromtoall"
+				]
+			},
+			{
+				"role": "place",
+				"contains":
+				[
+					"token"
 				]
 			}
 		],
@@ -565,7 +589,7 @@
 			{
 				"role": "PlaceMorph",
 				"baseMorphs": ["Place"]
-			}
+			},
 		]
-	}	
+	}
 }
