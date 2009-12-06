@@ -296,7 +296,12 @@
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
-
+		
+		<!-- Colored Petri Nets -->
+		<plugin source="cpntokenpositioning.js" name="ORYX.Plugins.cpntokenpositioning"> 
+			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#"></requires>
+		</plugin>
+		
 	</plugins>
 	
 	<properties>
