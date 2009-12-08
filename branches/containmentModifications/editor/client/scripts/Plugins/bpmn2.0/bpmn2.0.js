@@ -97,7 +97,9 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		this.hashedSubProcesses[sh.resourceId] = sh.absoluteXY();
 		
-		this.moveChildDockers(sh, offset);
+		if (this.facade.isExecutingCommands()) {
+			this.moveChildDockers(sh, offset);
+		}
 		
 	},
 	
@@ -107,8 +109,10 @@ ORYX.Plugins.BPMN2_0 = {
 			return;
 		} 
 		
+		var children = shape.getChildNodes(true);
+		
 		// Get all nodes
-		shape.getChildNodes(true)
+		var dockers = children
 			// Get all incoming and outgoing edges
 			.map(function(node){
 				return [].concat(node.getIncomingShapes())
@@ -125,11 +129,50 @@ ORYX.Plugins.BPMN2_0 = {
 						[];
 			})
 			// Flatten the dockers lists
-			.flatten()
-			.each(function(docker){
-				if (docker.isChanged){ return }
-				docker.bounds.moveBy(offset);
-			})
+			.flatten();
+
+		var abs = shape.absoluteBounds();
+		abs.moveBy(-offset.x, -offset.y)
+		var obj = {};
+		dockers.each(function(docker){
+			
+			var off = Object.clone(offset);
+			
+			if (!abs.isIncluded(docker.bounds.center())){
+				var index 	= docker.parent.dockers.indexOf(docker);
+				var size	= docker.parent.dockers.length;
+				var from 	= docker.parent.getSource();
+				var to 		= docker.parent.getTarget();
+				
+				var bothAreIncluded = children.include(from) && children.include(to);
+				
+				if (!bothAreIncluded){
+					var previousIsOver = index !== 0 ? abs.isIncluded(docker.parent.dockers[index-1].bounds.center()) : false;
+					var nextIsOver = index !== size-1 ? abs.isIncluded(docker.parent.dockers[index+1].bounds.center()) : false;
+					
+					if (!previousIsOver && !nextIsOver){ return; }
+					
+					var ref = docker.parent.dockers[previousIsOver ? index-1 : index+1];
+					if (Math.abs(-Math.abs(ref.bounds.center().x-docker.bounds.center().x)) < 2){
+						off.y = 0;
+					} else if(Math.abs(-Math.abs(ref.bounds.center().y-docker.bounds.center().y)) < 2){
+						off.x = 0;
+					} else {
+						return;
+					}
+				}
+				
+			}
+			
+			obj[docker.getId()] = {
+				docker:docker,
+				offset:off
+			}
+		})
+		
+		// Set dockers
+		this.facade.executeCommands([new ORYX.Core.MoveDockersCommand(obj)]);
+			
 	},
 	
 	/**
@@ -323,9 +366,10 @@ ORYX.Plugins.BPMN2_0 = {
 		this.setDimensions(pool, width, height);
 		
 		
-		
-		// Update all dockers
-		this.updateDockers(allLanes, pool);
+		if (this.facade.isExecutingCommands()){ 
+			// Update all dockers
+			this.updateDockers(allLanes, pool);
+		}
 		
 		this.hashedBounds[pool.resourceId] = {};
 		
@@ -632,11 +676,8 @@ ORYX.Plugins.BPMN2_0 = {
 		}
 		
 		// Set dockers
-		i=-1;
-		var keys = $H(dockers).keys();
-		while (++i < keys.length) {
-			dockers[keys[i]].docker.bounds.moveBy(dockers[keys[i]].offset);
-		}
+		this.facade.executeCommands([new ORYX.Core.MoveDockersCommand(dockers)]);
+
 	},
 	
 	moveBy: function(pos, offset){

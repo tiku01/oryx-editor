@@ -291,6 +291,14 @@ ORYX.Core.AbstractShape = ORYX.Core.UIObject.extend(
 			//}.bind(this), 10)
 		}
 	},
+	
+	/**
+	 * Returns TRUE if one of the properties is flagged as dirty
+	 * @return {boolean}
+	 */
+	isPropertyChanged: function(){
+		return this.propertiesChanged.any(function(property){ return property.value });
+	},
 
 	/**
 	 * 
