@@ -261,6 +261,7 @@ ORYX.Plugins.BPMN2_0 = {
 	 */
 	handleLayoutPool: function(event){
 		
+		
 		var pool = event.shape;
 		var selection = this.facade.getSelection(); 
 		var currentShape = selection.first();
@@ -328,7 +329,7 @@ ORYX.Plugins.BPMN2_0 = {
 				selection = selection.without(function(r){ return r.resourceId == resourceIds[i] });
 			}
 		}		
-				
+		
 		var height, width;
 		
 		if (deletedLanes.length > 0 || addedLanes.length > 0) {
@@ -362,7 +363,6 @@ ORYX.Plugins.BPMN2_0 = {
 			width = this.adjustWidth(lanes, currentShape.bounds.width()+(this.getDepth(currentShape,pool)*30));
 		}
 		
-
 		this.setDimensions(pool, width, height);
 		
 		
@@ -426,15 +426,17 @@ ORYX.Plugins.BPMN2_0 = {
 		var isLane = shape.getStencil().id().endsWith("Lane");
 		// Set the bounds
 		shape.bounds.set(
-				isLane ? 30 : shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				width	? shape.bounds.a.x + width - (isLane?30:0) : shape.bounds.b.x, 
-				height 	? shape.bounds.a.y + height : shape.bounds.b.y
-			);
+			isLane ? 30 : shape.bounds.a.x, 
+			shape.bounds.a.y, 
+			width	? shape.bounds.a.x + width - (isLane?30:0) : shape.bounds.b.x, 
+			height 	? shape.bounds.a.y + height : shape.bounds.b.y
+		);
 	},
 
 	setLanePosition: function(shape, y){
+		
 		shape.bounds.moveTo(30, y);
+	
 	},
 		
 	adjustWidth: function(lanes, width) {
@@ -603,7 +605,7 @@ ORYX.Plugins.BPMN2_0 = {
 			
 			while (++j < children.length) {
 				
-				if (xOffsetDepth) {
+				if (xOffsetDepth && !children[j].getStencil().id().endsWith("Lane")) {
 					children[j].bounds.moveBy(xOffsetDepth, 0);
 				}
 				

@@ -46,8 +46,8 @@ ORYX.Plugins.ContainerLayouter = {
 	 */
 	construct: function(facade){
 		this.facade = facade;
-		this.facade.registerOnEvent('layout.container.minBounds', 
-									this.handleLayoutContainerMinBounds.bind(this));
+		//this.facade.registerOnEvent('layout.container.minBounds', 
+		//							this.handleLayoutContainerMinBounds.bind(this));
 		//this.facade.registerOnEvent('layout.container.dockers', 
 		//							this.handleLayoutContainerDockers.bind(this));
 		
