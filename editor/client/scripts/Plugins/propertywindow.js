@@ -450,9 +450,21 @@ ORYX.Plugins.PropertyWindow = {
 		}
 	},
 	
+	isEqual: function(a,b){
+		return a === b || (a.length === b.length && a.all(function(r){ return b.include(r) }))
+	},
+	
+	isDirty: function(a){
+		return a.any(function(shape){ return shape.isPropertyChanged() })
+	},
+	
 	onSelectionChanged: function(event) {
+		
+		if (this.shapeSelection&&this.isEqual(this.shapeSelection.shapes,event.elements)&&event.force){ return }
+		
 		/* Event to call afterEdit method */
 		this.grid.stopEditing();
+		window.clearTimeout(this.timer);
 		
 		/* Selected shapes */
 		this.shapeSelection.shapes = event.elements;
@@ -467,13 +479,18 @@ ORYX.Plugins.PropertyWindow = {
 			this.shapeSelection.shapes = [event.subSelection];
 		}
 		
-		this.setPropertyWindowTitle();
-		this.identifyCommonProperties();
-		this.setCommonPropertiesValues();
+		/* define common properties (async)*/
 		
-		// Create the Properties
+		this.timer = window.setTimeout(function(){
+			
+			this.setPropertyWindowTitle();
+			this.identifyCommonProperties();
+			this.setCommonPropertiesValues();
 		
-		this.createProperties();
+			// Create the Properties
+			this.createProperties();
+			
+		}.bind(this), 1);
 	},
 	
 	/**

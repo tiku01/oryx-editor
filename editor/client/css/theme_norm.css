@@ -350,6 +350,7 @@ table-layout:fixed;
 
 .Oryx_button.x-opacity-0 {
 	opacity: 0;
+	display:none;
 }
 
 .Oryx_button.x-opacity-10 {
@@ -369,6 +370,7 @@ table-layout:fixed;
 .Oryx_Top:hover .Oryx_button,
 .Oryx_Bottom:hover .Oryx_button {
 	opacity: 0.7;
+	display:block;
 }
 
 

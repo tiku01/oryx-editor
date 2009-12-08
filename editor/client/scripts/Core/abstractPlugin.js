@@ -368,52 +368,121 @@ ORYX.Plugins.AbstractPlugin = Clazz.extend({
 	 * @param {Array} edges
 	 */
 	layoutEdges : function(node, allEdges, offset){		
+
+		if (!this.facade.isExecutingCommands()){ return }		
+
+		var Command = ORYX.Core.Command.extend({
+			construct: function(edges, node, offset, plugin){
+				this.edges = edges;
+				this.node = node;
+				this.plugin = plugin;
+				this.offset = offset;
+				
+				// Get the new absolute center
+				var center = node.absoluteXY();
+				this.ulo = {x: center.x - offset.x, y:center.y - offset.y};
+				
+				
+			},
+			execute: function(){
+				
+				if (this.changes){
+					this.executeAgain();
+					return;
+				} else {
+					this.changes = [];
+					this.edges.each(function(edge){
+						this.changes.push({
+							edge: edge,
+							oldDockerPositions: edge.dockers.map(function(r){ return r.bounds.center() })
+						})
+					}.bind(this));
+				}
+				
+				// Find all edges, which are related to the node and
+				// have more than two dockers
+				this.edges
+					// Find all edges with more than two dockers
+					.findAll(function(r){ return r.dockers.length > 2 }.bind(this))
+					// For every edge, check second and one before last docker
+					// if there are horizontal/vertical on the same level
+					// and if so, align the the bounds 
+					.each(function(edge){
+						if (edge.dockers.first().getDockedShape() === this.node){
+							var second = edge.dockers[1];
+							if (this.align(second.bounds, edge.dockers.first())){ second.update(); }
+						} else if (edge.dockers.last().getDockedShape() === this.node) {
+							var beforeLast = edge.dockers[edge.dockers.length-2];
+							if (this.align(beforeLast.bounds, edge.dockers.last())){ beforeLast.update(); }									
+						}
+						edge._update(true);
+						edge.removeUnusedDockers();
+						if (this.isBendPointIncluded(edge)){
+							this.plugin.doLayout(edge);
+							return;
+						}
+					}.bind(this));
+				
+				
+				// Find all edges, which have only to dockers 
+				// and is located horizontal/vertical.
+				// Do layout with those edges
+				this.edges
+					// Find all edges with exactly two dockers
+					.each(function(edge){
+						if (edge.dockers.length == 2){
+							var p1 = edge.dockers.first().getAbsoluteReferencePoint() || edge.dockers.first().bounds.center();
+							var p2 = edge.dockers.last().getAbsoluteReferencePoint() || edge.dockers.first().bounds.center();
+							// Find all horizontal/vertical edges
+							if (Math.abs(-Math.abs(p1.x - p2.x) + Math.abs(this.offset.x)) < 2 || Math.abs(-Math.abs(p1.y - p2.y) + Math.abs(this.offset.y)) < 2){
+								this.plugin.doLayout(edge);
+							}
+						}
+					}.bind(this));
 		
-		// Find all edges, which are related to the node and
-		// have more than two dockers
-		var edges = allEdges
-			// Find all edges with more than two dockers
-			.findAll(function(r){ return r.dockers.length > 2 }.bind(this))
-			
-		if (edges.length > 0) {
-										
-			// Get the new absolute center
-			var center = node.absoluteXY();
-			
-			var ulo = {x: center.x - offset.x, y:center.y - offset.y}			
-			
-			center.x += node.bounds.width()/2;
-			center.y += node.bounds.height()/2;
-			
-			// Get the old absolute center
-			oldCenter = Object.clone(center);
-			oldCenter.x -= offset ? offset.x : 0;
-			oldCenter.y -= offset ? offset.y : 0;
-			
-			var ul = {x: center.x - (node.bounds.width() / 2), y: center.y - (node.bounds.height() / 2)}
-			var lr = {x: center.x + (node.bounds.width() / 2), y: center.y + (node.bounds.height() / 2)}
-			
-			
+				this.edges.each(function(edge, i){
+					this.changes[i].dockerPositions = edge.dockers.map(function(r){ return r.bounds.center() });
+				}.bind(this));
+				
+			},
 			/**
 			 * Align the bounds if the center is 
 			 * the same than the old center
 			 * @params {Object} bounds
 			 * @params {Object} bounds2
 			 */
-			var align = function(bounds, bounds2){
-				var xdif = bounds.center().x-bounds2.center().x;
-				var ydif = bounds.center().y-bounds2.center().y;
-				if (Math.abs(xdif) < 3){
-					bounds.moveBy({x:(offset.xs?(((offset.xs*(bounds.center().x-ulo.x))+offset.x+ulo.x)-bounds.center().x):offset.x)-xdif, y:0});		
-				} else if (Math.abs(ydif) < 3){
-					bounds.moveBy({x:0, y:(offset.ys?(((offset.ys*(bounds.center().y-ulo.y))+offset.y+ulo.y)-bounds.center().y):offset.y)-ydif});		
+			align: function(bounds, refDocker){
+				
+				var abRef = refDocker.getAbsoluteReferencePoint() || refDocker.bounds.center();
+				
+				var xdif = bounds.center().x-abRef.x;
+				var ydif = bounds.center().y-abRef.y;
+				if (Math.abs(-Math.abs(xdif) + Math.abs(this.offset.x)) < 3 && this.offset.xs === undefined){
+					bounds.moveBy({x:-xdif, y:0})
 				}
-			};
-									
+				if (Math.abs(-Math.abs(ydif) + Math.abs(this.offset.y)) < 3 && this.offset.ys === undefined){
+					bounds.moveBy({y:-ydif, x:0})
+				}
+				
+				if (this.offset.xs !== undefined || this.offset.ys !== undefined){
+					var absPXY = refDocker.getDockedShape().absoluteXY();
+					xdif = bounds.center().x-(absPXY.x+((abRef.x-absPXY.x)/this.offset.xs));
+					ydif = bounds.center().y-(absPXY.y+((abRef.y-absPXY.y)/this.offset.ys));
+					
+					if (Math.abs(-Math.abs(xdif) + Math.abs(this.offset.x)) < 3){
+						bounds.moveBy({x:-(bounds.center().x-abRef.x), y:0})
+					}
+					
+					if (Math.abs(-Math.abs(ydif) + Math.abs(this.offset.y)) < 3){
+						bounds.moveBy({y:-(bounds.center().y-abRef.y), x:0})
+					}
+				}
+			},
+			
 			/**						
 			 * Returns a TRUE if there are bend point which overlay the shape
 			 */
-			var isBendPointIncluded = function(edge){
+			isBendPointIncluded: function(edge){
 				// Get absolute bounds
 				var ab = edge.dockers.first().getDockedShape();
 				var bb = edge.dockers.last().getDockedShape();
@@ -436,42 +505,42 @@ ORYX.Plugins.AbstractPlugin = Clazz.extend({
 									// Check if the point is included to the absolute bounds
 									((ab && ab.isIncluded(c)) || (bb && bb.isIncluded(c)))
 						})
+			},
+			
+			removeAllDocker: function(edge){
+				edge.dockers.slice(1, edge.dockers.length-1).each(function(docker){
+					edge.removeDocker(docker);
+				})
+			},
+			executeAgain: function(){
+				this.changes.each(function(change){
+					// Reset the dockers
+					this.removeAllDocker(change.edge);
+					change.dockerPositions.each(function(pos, i){	
+						if (i==0||i==change.dockerPositions.length-1){ return }					
+						var docker = change.edge.createDocker(undefined, pos);
+						docker.bounds.centerMoveTo(pos);
+						docker.update();
+					}.bind(this));
+					change.edge._update(true);
+				}.bind(this));
+			},
+			rollback: function(){					
+				this.changes.each(function(change){
+					// Reset the dockers
+					this.removeAllDocker(change.edge);
+					change.oldDockerPositions.each(function(pos, i){	
+						if (i==0||i==change.oldDockerPositions.length-1){ return }					
+						var docker = change.edge.createDocker(undefined, pos);
+						docker.bounds.centerMoveTo(pos);
+						docker.update();
+					}.bind(this));
+					change.edge._update(true);
+				}.bind(this));
 			}
-			// For every edge, check second and one before last docker
-			// if there are horizontal/vertical on the same level
-			// and if so, align the the bounds 
-			edges.each(function(edge){
-				if (edge.dockers.first().getDockedShape() === node){
-					var second = edge.dockers[1];
-					if (align(second.bounds, edge.dockers.first().bounds)){ second.update(); }
-				} else if (edge.dockers.last().getDockedShape() === node) {
-					var beforeLast = edge.dockers[edge.dockers.length-2];
-					if (align(beforeLast.bounds, edge.dockers.last().bounds)){ beforeLast.update(); }									
-				}
-				edge._update(true);
-				edge.removeUnusedDockers();
-				if (isBendPointIncluded(edge)){
-					this.doLayout(edge);
-					return;
-				}
-			}.bind(this))
-		}	
+		});
+		
+		this.facade.executeCommands([new Command(allEdges, node, offset, this)]);
 
-		// Find all edges, which have only to dockers 
-		// and is located horizontal/vertical.
-		// Do layout with those edges
-		allEdges.each(function(edge){
-				// Find all edges with two dockers
-				if (edge.dockers.length == 2){
-					var p1 = edge.dockers.first().bounds.center();
-					var p2 = edge.dockers.last().bounds.center();
-					// Find all horizontal/vertical edges
-					if (Math.abs(p1.x - p2.x) < 2 || Math.abs(p1.y - p2.y) < 2){
-						edge.dockers.first().update();
-						edge.dockers.last().update();
-						this.doLayout(edge);
-					}
-				}
-			}.bind(this));
 	}
 });
