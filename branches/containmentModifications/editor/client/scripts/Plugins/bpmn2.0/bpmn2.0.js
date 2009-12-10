@@ -75,6 +75,7 @@ ORYX.Plugins.BPMN2_0 = {
 					};
 					this.facade.createShape(option);
 					this.facade.getCanvas().update();
+					this.facade.setSelection([shape]);
 				}
 			}
 		}
@@ -82,20 +83,31 @@ ORYX.Plugins.BPMN2_0 = {
 	
 	hashedSubProcesses: {},
 	
+	hashChildShapes: function(shape){
+		var children = shape.getChildNodes();
+		children.each(function(child){
+			if (this.hashedSubProcesses[child.id]){
+				this.hashedSubProcesses[child.id] = child.absoluteXY();
+				this.hashChildShapes(child);
+			}
+		}.bind(this));
+	},
+	
 	handleSubProcess : function(option) {
 		
 		var sh = option.shape;
 		
-		if (!this.hashedSubProcesses[sh.resourceId]) {
-			this.hashedSubProcesses[sh.resourceId] = sh.absoluteXY();
+		if (!this.hashedSubProcesses[sh.id]) {
+			this.hashedSubProcesses[sh.id] = sh.absoluteXY();
 			return;
 		}
 		
 		var offset = sh.absoluteXY();
-		offset.x -= this.hashedSubProcesses[sh.resourceId].x;
-		offset.y -= this.hashedSubProcesses[sh.resourceId].y;
+		offset.x -= this.hashedSubProcesses[sh.id].x;
+		offset.y -= this.hashedSubProcesses[sh.id].y;
 		
-		this.hashedSubProcesses[sh.resourceId] = sh.absoluteXY();
+		this.hashedSubProcesses[sh.id] = sh.absoluteXY();
+		this.hashChildShapes(sh);
 		
 		if (this.facade.isExecutingCommands()) {
 			this.moveChildDockers(sh, offset);
@@ -135,6 +147,10 @@ ORYX.Plugins.BPMN2_0 = {
 		abs.moveBy(-offset.x, -offset.y)
 		var obj = {};
 		dockers.each(function(docker){
+			
+			if (docker.isChanged){
+				return;
+			}
 			
 			var off = Object.clone(offset);
 			
@@ -264,7 +280,7 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		var pool = event.shape;
 		var selection = this.facade.getSelection(); 
-		var currentShape = selection.first();
+		var currentShape = selection.include(pool) ? pool : selection.first();
 		
 		currentShape = currentShape || pool;
 		
@@ -275,8 +291,8 @@ ORYX.Plugins.BPMN2_0 = {
 			return;
 		}
 		
-		if (!this.hashedBounds[pool.resourceId]) {
-			this.hashedBounds[pool.resourceId] = {};
+		if (!this.hashedBounds[pool.id]) {
+			this.hashedBounds[pool.id] = {};
 		}
 		
 		// Find all child lanes
@@ -310,7 +326,7 @@ ORYX.Plugins.BPMN2_0 = {
 		// Get all new lanes
 		var i=-1;
 		while (++i<allLanes.length) {
-			if (!this.hashedBounds[pool.resourceId][allLanes[i].resourceId]){
+			if (!this.hashedBounds[pool.id][allLanes[i].id]){
 				addedLanes.push(allLanes[i])
 			}
 		}
@@ -321,12 +337,12 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		
 		// Get all deleted lanes
-		var resourceIds = $H(this.hashedBounds[pool.resourceId]).keys();
+		var resourceIds = $H(this.hashedBounds[pool.id]).keys();
 		var i=-1;
 		while (++i<resourceIds.length) {
-			if (!allLanes.any(function(lane){ return lane.resourceId == resourceIds[i]})){
-				deletedLanes.push(this.hashedBounds[pool.resourceId][resourceIds[i]]);
-				selection = selection.without(function(r){ return r.resourceId == resourceIds[i] });
+			if (!allLanes.any(function(lane){ return lane.id == resourceIds[i]})){
+				deletedLanes.push(this.hashedBounds[pool.id][resourceIds[i]]);
+				selection = selection.without(function(r){ return r.id == resourceIds[i] });
 			}
 		}		
 		
@@ -371,19 +387,19 @@ ORYX.Plugins.BPMN2_0 = {
 			this.updateDockers(allLanes, pool);
 		}
 		
-		this.hashedBounds[pool.resourceId] = {};
+		this.hashedBounds[pool.id] = {};
 		
 		var i=-1;
 		while (++i < allLanes.length) {
 			// Cache positions
-			this.hashedBounds[pool.resourceId][allLanes[i].resourceId] = allLanes[i].absoluteBounds();
+			this.hashedBounds[pool.id][allLanes[i].id] = allLanes[i].absoluteBounds();
 			
-			this.hashedLaneDepth[allLanes[i].resourceId] = this.getDepth(allLanes[i], pool);
+			this.hashedLaneDepth[allLanes[i].id] = this.getDepth(allLanes[i], pool);
 			
 			this.forceToUpdateLane(allLanes[i]);
 		}
 		
-		this.hashedPoolPositions[pool.resourceId] = pool.bounds.clone();
+		this.hashedPoolPositions[pool.id] = pool.bounds.clone();
 		
 		
 		// Update selection
@@ -528,7 +544,7 @@ ORYX.Plugins.BPMN2_0 = {
 		 while(parent) {
 		 				
 			
-			var offParent = this.hashedBounds[pool.resourceId][parent.resourceId] ||(includePool === true ? this.hashedPoolPositions[parent.resourceId] : undefined);
+			var offParent = this.hashedBounds[pool.id][parent.id] ||(includePool === true ? this.hashedPoolPositions[parent.id] : undefined);
 			if (offParent){
 				var ul = parent.bounds.upperLeft();
 				var ulo = offParent.upperLeft();
@@ -545,7 +561,7 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		var offset = lane.absoluteXY();
 		
-		var hashed = this.hashedBounds[pool.resourceId][lane.resourceId] ||(includePool === true ? this.hashedPoolPositions[lane.resourceId] : undefined);
+		var hashed = this.hashedBounds[pool.id][lane.id] ||(includePool === true ? this.hashedPoolPositions[lane.id] : undefined);
 		if (hashed) {
 			offset.x -= hashed.upperLeft().x; 	
 			offset.y -= hashed.upperLeft().y;		
@@ -577,27 +593,27 @@ ORYX.Plugins.BPMN2_0 = {
 	updateDockers: function(lanes, pool){
 		
 		var absPool = pool.absoluteBounds();
-		var oldPool = (this.hashedPoolPositions[pool.resourceId]||absPool).clone();
+		var oldPool = (this.hashedPoolPositions[pool.id]||absPool).clone();
 		
 		var i=-1, j=-1, k=-1, l=-1, docker;
 		var dockers = {};
 		
 		while (++i < lanes.length) {
 			
-			if (!this.hashedBounds[pool.resourceId][lanes[i].resourceId]) {
+			if (!this.hashedBounds[pool.id][lanes[i].id]) {
 				continue;
 			}
 			
 			var children = lanes[i].getChildNodes();
 			var absBounds = lanes[i].absoluteBounds();
-			var oldBounds = (this.hashedBounds[pool.resourceId][lanes[i].resourceId]||absBounds);
+			var oldBounds = (this.hashedBounds[pool.id][lanes[i].id]||absBounds);
 			//oldBounds.moveBy((absBounds.upperLeft().x-lanes[i].bounds.upperLeft().x), (absBounds.upperLeft().y-lanes[i].bounds.upperLeft().y));
 			var offset = this.getOffset(lanes[i], true, pool);
 			var xOffsetDepth = 0;
 
 			var depth = this.getDepth(lanes[i], pool);
-			if ( this.hashedLaneDepth[lanes[i].resourceId] !== undefined &&  this.hashedLaneDepth[lanes[i].resourceId] !== depth) {
-				xOffsetDepth = (this.hashedLaneDepth[lanes[i].resourceId] - depth) * 30;
+			if ( this.hashedLaneDepth[lanes[i].id] !== undefined &&  this.hashedLaneDepth[lanes[i].id] !== depth) {
+				xOffsetDepth = (this.hashedLaneDepth[lanes[i].id] - depth) * 30;
 				offset.x += xOffsetDepth;
 			}
 			
@@ -689,7 +705,7 @@ ORYX.Plugins.BPMN2_0 = {
 	},
 	
 	getHashedBounds: function(shape){
-		return this.currentPool && this.hashedBounds[this.currentPool.resourceId][shape.resourceId] ? this.hashedBounds[this.currentPool.resourceId][shape.resourceId] : shape.bounds.clone();
+		return this.currentPool && this.hashedBounds[this.currentPool.id][shape.id] ? this.hashedBounds[this.currentPool.id][shape.id] : shape.bounds.clone();
 	},
 	
 	/**
