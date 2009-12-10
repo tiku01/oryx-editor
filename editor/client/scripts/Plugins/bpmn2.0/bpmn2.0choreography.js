@@ -217,7 +217,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event.
 	 */
 	handleLayoutChoreographySubprocessExpanded : function(event) {
-		if(!this._isLayoutEnabled) {return;}
+		if(!this._isLayoutEnabled||!event.shape.initialParticipantsAdded) {return;}
 		
 		var choreographyTask = event.shape;
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
@@ -248,7 +248,7 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event.
 	 */
 	handleLayoutChoreographySubprocessCollapsed : function(event) {
-		if(!this._isLayoutEnabled) {return;}
+		if(!this._isLayoutEnabled||!event.shape.initialParticipantsAdded) {return;}
 		
 		var choreographyTask = event.shape;
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
@@ -280,17 +280,29 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 */
 	addParticipantsOnCreation: function(event) {
 		if(!this._isLayoutEnabled) {return;}
-		var shape = event.elements[0];
-		if(shape&&event.elements.length===1&&shape._stencil&&
-			!shape.initialParticipantsAdded && 
-			(shape.getStencil().id() === 
-				"http://b3mn.org/stencilset/bpmn2.0#ChoreographyTask" ||
-			shape.getStencil().id() === 
-				"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessCollapsed" ||
-			shape.getStencil().id() === 
-				"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessExpanded")	){
 		
-			var hasParticipants = shape.getChildNodes().find(function(node) {
+		var choreographyTask = event.elements.findAll(function(shape){
+				return 	shape._stencil&&
+						!shape.initialParticipantsAdded && 
+						(shape.getStencil().id() === 
+							"http://b3mn.org/stencilset/bpmn2.0#ChoreographyTask" ||
+						 shape.getStencil().id() === 
+							"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessCollapsed" ||
+						 shape.getStencil().id() === 
+							"http://b3mn.org/stencilset/bpmn2.0#ChoreographySubprocessExpanded")
+			})
+		
+		if (choreographyTask.length === 0){
+			return;
+		}
+		
+		// Begin Transaction
+		this._isLayoutEnabled = false;
+		
+		choreographyTask.each(function(shape){
+			shape.initialParticipantsAdded = true;
+			
+			var hasParticipants = shape.getChildNodes().any(function(node) {
 				return (node.getStencil().id() === 
 							"http://b3mn.org/stencilset/bpmn2.0#ChoreographyParticipant");
 			});
@@ -320,10 +332,14 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 				parent:shape
 			};
 			this.facade.createShape(participant2);
-			this.facade.getCanvas().update();
-			this.facade.setSelection([shape]);
-			shape.initialParticipantsAdded = true;
-		}
+			
+		}.bind(this));
+		
+		// End Transaction
+		this._isLayoutEnabled = true;
+		
+		this.facade.getCanvas().update();
+		this.facade.setSelection(choreographyTask);
 	},
 	
 	/**
@@ -414,10 +430,11 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 	 * 		The layout event
 	 */
 	handleLayoutChoreographyTask: function(event) {
-		if(!this._isLayoutEnabled) {return;}
+		if(!this._isLayoutEnabled||!event.shape.initialParticipantsAdded) {return;}
 		
 		var choreographyTask = event.shape;
 		var isNew = !this.choreographyTasksMeta[choreographyTask.getId()];
+		console.log("isNew", isNew)
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		
 		var isResized = this.handleResizingOfChoreographyTask(choreographyTask, choreographyTaskMeta);
