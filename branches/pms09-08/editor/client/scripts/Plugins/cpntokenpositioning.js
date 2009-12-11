@@ -58,6 +58,8 @@ ORYX.Plugins.cpntokenpositioning = Clazz.extend({
     	var cpn = "Hallo CPN";
     	console.log(cpn);
     }
+    
+    // mit einer Funktion, die dann den Parameter explizit setzt
 });
     	
 	
