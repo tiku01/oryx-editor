@@ -1,26 +1,3 @@
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
-
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
@@ -36,7 +13,7 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 		this.facade.offer
 		({
 			'name':ORYX.I18N.AddDocker.add,
-			'functionality': this.hallo.bind(this),
+			'functionality': this.showWindow.bind(this),
 			'group': "CPN",
 			'icon': ORYX.PATH + "images/cpn/cpn_button.png",
 			'description': ORYX.I18N.AddDocker.addDesc,
@@ -57,111 +34,72 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 			'minShape': 0,
 			'maxShape': 0});*/
 		
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_RESIZE_START, this.hallo.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_RESIZE_END, this.resetTokenPosition.bind(this));
 	},
 	
 	hallo: function()
 	{
-		alert("asdaddddsd");
+		alert("a1");
 	},
-		
-	enableAddDocker: function(button, pressed) {
-        //FIXME This should be done while construct, but this isn't possible right now!
-        this.addDockerButton = button;
-        
-        alert("as");
-        
-        // Unpress deleteDockerButton
-        if(pressed && this.deleteDockerButton)
-            this.deleteDockerButton.toggle(false);
-	},
-    enableDeleteDocker: function(button, pressed) {
-        //FIXME This should be done while construct, but this isn't possible right now!
-        this.deleteDockerButton = button;
-        
-        // Unpress addDockerButton
-        if(pressed && this.addDockerButton)
-            this.addDockerButton.toggle(false);
-    },
-    
-    enabledAdd: function(){
-        return this.addDockerButton ? this.addDockerButton.pressed : false;
-    },
-    enabledDelete: function(){
-        return this.deleteDockerButton ? this.deleteDockerButton.pressed : false;
-    },
 	
-	/**
-	 * MouseDown Handler
-	 *
-	 */	
-	handleMouseDown: function(event, uiObj) {
-		if (this.enabledAdd() && uiObj instanceof ORYX.Core.Edge) {
-            this.newDockerCommand({
-                edge: uiObj,
-                position: this.facade.eventCoordinates(event)
-            });
-		} else if (this.enabledDelete() &&
-				   uiObj instanceof ORYX.Core.Controls.Docker &&
-				   uiObj.parent instanceof ORYX.Core.Edge) {
-            this.newDockerCommand({
-                edge: uiObj.parent,
-                docker: uiObj
-            });
-		} else if ( this.enabledAdd() ){
-            this.addDockerButton.toggle(false);
-        } else if ( this.enabledDelete() ) {
-            this.deleteDockerButton.toggle(false);
-        }
+	resetTokenPosition: function()
+	{
+		var selection = this.facade.getSelection();
+		
+		
+		var test1 = selection.first();
+		var test2 = selection.first().properties;
+		var test3 = selection.first().properties["oryx-title"];
+		var canvas = this.facade.getCanvas();			
+		
+		test1.bounds.moveTo({
+			x: 32,
+			y: 40
+		});
+		
+		var test0 = selection[0];
+		
+		var children = selection.child;
+		
+		console.log();
 	},
+	
+	showWindow: function()
+	{
+        var window = new Ext.Window({
+            title: "Colorset",
+            height: 300
+            width: 450,
+            layout: fit,
+            closable: true,
+            tbar: [{
+            	xtype: 
+            	
+            }]
+        });
+        
+        window.show();
+    },
     
-    // Options: edge (required), position (required if add), docker (required if delete)
-    newDockerCommand: function(options){
-        if(!options.edge)
-            return;
-
-        var commandClass = ORYX.Core.Command.extend({
-            construct: function(addEnabled, deleteEnabled, edge, docker, pos, facade){
-                this.addEnabled = addEnabled;
-                this.deleteEnabled = deleteEnabled;
-                this.edge = edge;
-                this.docker = docker;
-                this.pos = pos;
-                this.facade = facade;
-				//this.index = docker.parent.dockers.indexOf(docker);
-            },
-            execute: function(){
-                if (this.addEnabled) {
-                        this.docker = this.edge.addDocker(this.pos, this.docker);
-						this.index = this.edge.dockers.indexOf(this.docker);
-                }
-                else if (this.deleteEnabled) {
-					this.index = this.edge.dockers.indexOf(this.docker);
-                    this.pos = this.docker.bounds.center();
-                    this.edge.removeDocker(this.docker);
-                }
-                
-                this.facade.getCanvas().update();
-                this.facade.updateSelection();
-            },
-            rollback: function(){
-                if (this.addEnabled) {
-                    if (this.docker instanceof ORYX.Core.Controls.Docker) {
-                        this.edge.removeDocker(this.docker);
-                    }
-                }
-                else if (this.deleteEnabled) {
-                    this.edge.add(this.docker, this.index);
-                }
-                
-                this.facade.getCanvas().update();
-                this.facade.updateSelection();
+    getEnv: function(){
+        var env = "";
+        
+        env += "Browser: " + navigator.userAgent;
+        
+        env += "\n\nBrowser Plugins: ";
+        if (navigator.plugins) {
+            for (var i = 0; i < navigator.plugins.length; i++) {
+                var plugin = navigator.plugins[i];
+                env += plugin.name + ", ";
             }
-        })
+        }
         
-        var command = new commandClass(this.enabledAdd(), this.enabledDelete(), options.edge, options.docker, options.position, this.facade);
+        if ((typeof(screen.width) != "undefined") && (screen.width && screen.height)) 
+            env += "\n\nScreen Resolution: " + screen.width + 'x' + screen.height;
         
-        this.facade.executeCommands([command]);
+        return env;
     }
+	
+	
 });
 
