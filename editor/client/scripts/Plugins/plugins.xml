@@ -4,6 +4,13 @@
 		
 		<!-- following plugins require Ext -->		
 		
+		
+		
+		<!-- Colored Petri Nets -->		
+		<plugin source="cpnsupport.js" name="ORYX.Plugins.CpnSupport" >
+			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
+		</plugin> 
+		
 		<plugin source="toolbar.js" name="ORYX.Plugins.Toolbar" core="true" />
 		<!-- <plugin source="toolbar2.js" name="ORYX.Plugins.Toolbar2" />-->
 		
@@ -297,13 +304,7 @@
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 		
-		<!-- Colored Petri Nets -->
-		<plugin source="cpntokenpositioning.js" name="ORYX.Plugins.cpntokenpositioning" >
-			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
-		</plugin>
-		<plugin source="cpnsupport.js" name="ORYX.Plugins.CpnSupport" >
-			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
-		</plugin> 
+		
 		
 	</plugins>
 	
