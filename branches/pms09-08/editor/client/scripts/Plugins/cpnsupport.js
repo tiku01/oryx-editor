@@ -66,40 +66,207 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	
 	showWindow: function()
 	{
-        var window = new Ext.Window({
-            title: "Colorset",
-            height: 300
-            width: 450,
-            layout: fit,
-            closable: true,
-            tbar: [{
-            	xtype: 
-            	
+		// Default definition types for variables and colors
+		var defaultDefinitionTypes = ['Integer','Boolean','Char','String'];
+		
+		var currentDefinitionTypes = []; // for the current Set
+		
+		// Test es klappt
+		var data = [
+		            ['Name', 'String'],
+		            ['Alter', 'Integer']
+		           ];
+		// Test Data
+		
+		
+		
+		var colorDeclarationStore = new Ext.data.SimpleStore({
+			fields: ['ColorName', 'Definition']
+		});
+		
+		var colorDeclarationCM = new Ext.grid.ColumnModel
+		([
+			{
+				header: "ColorName",
+				sortable: true,
+				dataIndex: 'ColorName'
+			},
+			{
+				header: "Definition",
+				sortable: true,
+				dataIndex: 'Definition'
+		    }
+		]);
+        
+		var colorGrid = new Ext.grid.GridPanel({
+			id: 'colors-declaration',
+			deferRowRender: false,
+			height: 300,
+			width: 300,
+			frame: true,
+		    store: colorDeclarationStore,
+		    cm: colorDeclarationCM,
+            listeners:
+            {
+                "render": function()
+                {
+                    this.getStore().loadData(data);
+                    // store abfragen
+                }
+            }
+		});
+		
+		// Create a new Panel for the Color definition        
+        var colortab = new Ext.Panel({
+        	title: 'Colors',
+            items: [{
+                xtype: 'label',
+                text: ORYX.I18N.SSExtensionLoader.panelText,
+                style: 'margin:10px;display:block'
+            }, colorGrid,
+            ],
+            frame: true,
+            buttonAlign: "left",
+            buttons: 
+            [{
+	            id: "Add_Button",
+//	            icon: "images/cpn/add.png",
+//	            iconAlign: "left",
+	            text: "+",
+	            handler: function(){alert("hallo");}.bind(this)
+            },
+            {
+	            id: "Delete_Button",
+//	            icon: "images/cpn/delete.png",
+//	            iconAlign: "left",
+	            text: "-",
+	            handler: function(){alert("hallo");}.bind(this)
             }]
+        });        
+       
+//        var variableGrid = colorGrid.cloneConfig({
+//        	id: "variable-declaration",
+//        	store: new Ext.data.SimpleStore({
+//    			fields: ['VariableName', 'Definition']
+//    		}),
+//        	cm: new Ext.grid.ColumnModel
+//    		([
+//  			{
+//  				header: "Variable",
+//  				sortable: true,
+//  				dataIndex: 'VariableName'
+//  			},
+//  			{
+//  				header: "Definition",
+//  				sortable: true,
+//  				dataIndex: 'Definition'
+//  		    }
+//  			]) 
+//        });
+        
+        
+        
+     // Test es klappt
+		var vardata = [
+		            ['asd', 'String'],
+		            ['Aasder', 'Integer']
+		           ];
+		// Test Data
+		
+		
+		
+		var variableDeclarationStore = new Ext.data.SimpleStore({
+			fields: ['VariableName', 'Definition']
+		});
+		
+		var variableDeclarationCM = new Ext.grid.ColumnModel
+		([
+			{
+				header: "VariableName",
+				sortable: true,
+				dataIndex: 'VariableName'
+			},
+			{
+				header: "Definition",
+				sortable: true,
+				dataIndex: 'Definition'
+		    }
+		]);
+        
+		var variableGrid = new Ext.grid.GridPanel({
+			id: 'varibale-declaration',
+			deferRowRender: false,
+			height: 300,
+			width: 300,
+			frame: true,
+		    store: variableDeclarationStore,
+		    cm: variableDeclarationCM,
+            listeners:
+            {
+                "render": function()
+                {
+                    this.getStore().loadData(vardata);
+                    // store abfragen
+                }
+            }
+		});
+		
+		
+        
+        var variabletab = new Ext.Panel({
+            items: 
+                [{
+                    xtype: 'label',
+                    text: "BlaBlaBla",
+                    style: 'margin:10px;display:block'
+                },
+                	variableGrid
+                ],
+                title: 'Variables',
+                buttonAlign: "left",
+                buttons: 
+                [{
+    	            id: "Add_Button_Var",
+//    	            icon: "images/cpn/add.png",
+//    	            iconAlign: "left",
+    	            text: "+",
+    	            handler: function(){alert("hallo");}.bind(this)
+                },
+                {
+    	            id: "Delete_Button_Var",
+//    	            icon: "images/cpn/delete.png",
+//    	            iconAlign: "left",
+    	            text: "-",
+    	            handler: function(){alert("hallo");}.bind(this)
+                }]
+            });
+ 
+        
+        // create the Tabspanel
+        var tabs = new Ext.TabPanel({
+        	activeTab: 0,
+        	height: 300,
+        	width: 400,
+            items: 
+            [
+             	colortab,
+             	variabletab,             	
+            ]
         });
         
+        // Create a Window for the ColorSet Declaration
+        var window = new Ext.Window({
+            id: 'oryx_new_stencilset_extention_window',
+            width: 400,
+            title: "Declaration",
+            floating: true,
+            shim: true,
+            modal: true,
+            resizable: false,
+            items: [tabs]           
+        });		
+		
         window.show();
-    },
-    
-    getEnv: function(){
-        var env = "";
-        
-        env += "Browser: " + navigator.userAgent;
-        
-        env += "\n\nBrowser Plugins: ";
-        if (navigator.plugins) {
-            for (var i = 0; i < navigator.plugins.length; i++) {
-                var plugin = navigator.plugins[i];
-                env += plugin.name + ", ";
-            }
-        }
-        
-        if ((typeof(screen.width) != "undefined") && (screen.width && screen.height)) 
-            env += "\n\nScreen Resolution: " + screen.width + 'x' + screen.height;
-        
-        return env;
-    }
-	
-	
+    }	
 });
 
