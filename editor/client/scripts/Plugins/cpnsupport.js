@@ -54,100 +54,114 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	
 	showWindow: function()
 	{
+		// shortcut
+		var fm = Ext.form;
+		
 		// Default definition types for variables and colors
 		var defaultDefinitionTypes = ['Integer','Boolean','Char','String'];
 		
 		var currentDefinitionTypes = []; // for the current Set
 		
-		// Test es klappt
-		var data = [
-		            ['Name', 'String', true],
-		            ['Alter', 'Integer', false]
-		           ];
-		// Test Data
+		var declarationTypeData = 
+			[
+			 ['CS', 'ColorSet'],
+			 ['VA', 'Variable']
+			];
 		
-		
-		
-		var DeclarationStore = new Ext.data.SimpleStore({
-			fields: ['Name', 'Declaration', 'VariableOrNot']
+		var sampleData = 
+		[
+			[ 'Bob', 'Interger', 'ColorSet'],
+			[ 'Bill', '40', 'ColorSet'],
+			[ 'Mike', '45', 'Variable']
+		];
+
+		// 2. Create the Store
+		var store = new Ext.data.SimpleStore({ 
+		fields : 
+			[
+			 	{ name: 'name', type: 'string' },
+			 	{ name: 'type', type: 'string' },
+		 		{ name: 'declarationtype', type: 'string' }
+			],
+			data: sampleData
 		});
 		
-		var DeclarationCM = new Ext.grid.ColumnModel
-		([
-			{
-				header: "Name",
-				sortable: true,
-				dataIndex: 'Name'
-			},
-			{
-				header: "Declaration",
-				sortable: true,
-				dataIndex: 'Declaration'
-		    }
-		]);
-		
-		
-		        
-		var colorGrid = new Ext.grid.GridPanel({
-			id: 'declaration',
-			deferRowRender: false,
-			height: 300,
-			width: 300,
-			frame: true,
-		    store: DeclarationStore,
-		    cm: DeclarationCM,
-            listeners:
-            {
-                "render": function()
-                {
-                    this.getStore().loadData(data);
-                    // store abfragen für currentdeclarations
-                }
-            }
+		var combo = new Ext.form.ComboBox({
+		    typeAhead: true,
+		    triggerAction: 'all',
+		    lazyRender:true,
+		    mode: 'local',
+		    readOnly: true,
+		    store: new Ext.data.SimpleStore({
+		        id: 0,
+		        fields: [
+		            'declarationTypeId',
+		            'displaydeclarationType'
+		        ],
+		        data: declarationTypeData
+		    }),
+		    valueField: 'declarationTypeId',
+		    displayField: 'displaydeclarationType'
 		});
 		
-		// Create a new Panel for the Color definition        
-        var panel = new Ext.Panel({
-        	title: 'Colors',
-            items: [{
-                xtype: 'label',
-                text: ORYX.I18N.SSExtensionLoader.panelText,
-                style: 'margin:10px;display:block'
-            }, colorGrid,
-            ],
-            frame: true,
-            buttonAlign: "left",
-            buttons: 
-            [{
-	            id: "Add_Button",
-//	            icon: "images/cpn/add.png",
-//	            iconAlign: "left",
-	            text: "+",
-	            handler: function(){alert("hallo");}.bind(this)
-            },
-            {
-	            id: "Delete_Button",
-//	            icon: "images/cpn/delete.png",
-//	            iconAlign: "left",
-	            text: "-",
-	            handler: function(){alert("hallo");}.bind(this)
-            }]
-        });        
-      
+		var simpleGrid = new Ext.grid.EditorGridPanel({
+			  store: store,
+			        columns: [{
+			        	header: 'Name', // 4. Field cannot be edited.
+			            width: 160, 
+			            sortable: false, 
+			            dataIndex: 'name',
+			            editor: new Ext.form.TextField({
+			            	allowBlank: false
+			            })
+			        },
+			        {
+			            header: 'Type', // 5. Field can be edited
+			            width: 75, 
+			            sortable: false, 
+			            dataIndex: 'type', 
+			            editor: new Ext.form.TextField({ 
+			            	allowBlank: false
+			            })
+			        },
+			        {
+			            header: 'DaclarationType', // 5. Field can be edited
+			            width: 75, 
+			            sortable: false, 
+			            dataIndex: 'declarationtype', 
+			            editor: combo
+			        }],			        
+			        clicksToEdit: 1,
+			        stripeRows: true,
+			        autoHeight:true,
+			        width:500,
+			        title:'Editor Grid'
+			 });
+		
+		var label = new Ext.form.Label({
+			text: "huhu"			
+		}); 
         
-        // Create a Window for the ColorSet Declaration
-        var window = new Ext.Window({
-            id: 'oryx_new_stencilset_extention_window',
-            width: 400,
-            title: "Declaration",
-            floating: true,
-            shim: true,
-            modal: true,
-            resizable: false,
-            items: [panel]           
-        });		
-		
-        window.show();
+		var win = new Ext.Window({
+			width:400,
+	        id:'autoload-win',
+	        height:300,
+	        autoScroll:true,
+	        title:"hallo",
+	        tbar:[
+	            {
+	             	text:'+',
+//	             	handler:function() {
+//	                	win.load(win.autoLoad.url + '?' + (new Date).getTime());
+//	            	}
+	            },
+	            {
+	            	text: '-'
+	            }
+	        ],
+	        items: [label, simpleGrid]
+	    });
+	    win.show();
     }	
 });
 
