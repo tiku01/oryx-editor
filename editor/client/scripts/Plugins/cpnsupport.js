@@ -21,18 +21,6 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
             'toggle': true,
 			'minShape': 0,
 			'maxShape': 0});
-
-
-		/*this.facade.offer({
-			'name':ORYX.I18N.AddDocker.del,
-			'functionality': this.enableDeleteDocker.bind(this),
-			'group': ORYX.I18N.AddDocker.group,
-			'icon': ORYX.PATH + "images/vector_delete.png",
-			'description': ORYX.I18N.AddDocker.delDesc,
-			'index': 2,
-            'toggle': true,
-			'minShape': 0,
-			'maxShape': 0});*/
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_RESIZE_END, this.resetTokenPosition.bind(this));
 	},
@@ -73,51 +61,53 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 		
 		// Test es klappt
 		var data = [
-		            ['Name', 'String'],
-		            ['Alter', 'Integer']
+		            ['Name', 'String', true],
+		            ['Alter', 'Integer', false]
 		           ];
 		// Test Data
 		
 		
 		
-		var colorDeclarationStore = new Ext.data.SimpleStore({
-			fields: ['ColorName', 'Definition']
+		var DeclarationStore = new Ext.data.SimpleStore({
+			fields: ['Name', 'Declaration', 'VariableOrNot']
 		});
 		
-		var colorDeclarationCM = new Ext.grid.ColumnModel
+		var DeclarationCM = new Ext.grid.ColumnModel
 		([
 			{
-				header: "ColorName",
+				header: "Name",
 				sortable: true,
-				dataIndex: 'ColorName'
+				dataIndex: 'Name'
 			},
 			{
-				header: "Definition",
+				header: "Declaration",
 				sortable: true,
-				dataIndex: 'Definition'
+				dataIndex: 'Declaration'
 		    }
 		]);
-        
+		
+		
+		        
 		var colorGrid = new Ext.grid.GridPanel({
-			id: 'colors-declaration',
+			id: 'declaration',
 			deferRowRender: false,
 			height: 300,
 			width: 300,
 			frame: true,
-		    store: colorDeclarationStore,
-		    cm: colorDeclarationCM,
+		    store: DeclarationStore,
+		    cm: DeclarationCM,
             listeners:
             {
                 "render": function()
                 {
                     this.getStore().loadData(data);
-                    // store abfragen
+                    // store abfragen für currentdeclarations
                 }
             }
 		});
 		
 		// Create a new Panel for the Color definition        
-        var colortab = new Ext.Panel({
+        var panel = new Ext.Panel({
         	title: 'Colors',
             items: [{
                 xtype: 'label',
@@ -143,116 +133,7 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	            handler: function(){alert("hallo");}.bind(this)
             }]
         });        
-       
-//        var variableGrid = colorGrid.cloneConfig({
-//        	id: "variable-declaration",
-//        	store: new Ext.data.SimpleStore({
-//    			fields: ['VariableName', 'Definition']
-//    		}),
-//        	cm: new Ext.grid.ColumnModel
-//    		([
-//  			{
-//  				header: "Variable",
-//  				sortable: true,
-//  				dataIndex: 'VariableName'
-//  			},
-//  			{
-//  				header: "Definition",
-//  				sortable: true,
-//  				dataIndex: 'Definition'
-//  		    }
-//  			]) 
-//        });
-        
-        
-        
-     // Test es klappt
-		var vardata = [
-		            ['asd', 'String'],
-		            ['Aasder', 'Integer']
-		           ];
-		// Test Data
-		
-		
-		
-		var variableDeclarationStore = new Ext.data.SimpleStore({
-			fields: ['VariableName', 'Definition']
-		});
-		
-		var variableDeclarationCM = new Ext.grid.ColumnModel
-		([
-			{
-				header: "VariableName",
-				sortable: true,
-				dataIndex: 'VariableName'
-			},
-			{
-				header: "Definition",
-				sortable: true,
-				dataIndex: 'Definition'
-		    }
-		]);
-        
-		var variableGrid = new Ext.grid.GridPanel({
-			id: 'varibale-declaration',
-			deferRowRender: false,
-			height: 300,
-			width: 300,
-			frame: true,
-		    store: variableDeclarationStore,
-		    cm: variableDeclarationCM,
-            listeners:
-            {
-                "render": function()
-                {
-                    this.getStore().loadData(vardata);
-                    // store abfragen
-                }
-            }
-		});
-		
-		
-        
-        var variabletab = new Ext.Panel({
-            items: 
-                [{
-                    xtype: 'label',
-                    text: "BlaBlaBla",
-                    style: 'margin:10px;display:block'
-                },
-                	variableGrid
-                ],
-                title: 'Variables',
-                buttonAlign: "left",
-                buttons: 
-                [{
-    	            id: "Add_Button_Var",
-//    	            icon: "images/cpn/add.png",
-//    	            iconAlign: "left",
-    	            text: "+",
-    	            handler: function(){alert("hallo");}.bind(this)
-                },
-                {
-    	            id: "Delete_Button_Var",
-//    	            icon: "images/cpn/delete.png",
-//    	            iconAlign: "left",
-    	            text: "-",
-    	            handler: function(){alert("hallo");}.bind(this)
-                }]
-            });
- 
-        
-        // create the Tabspanel
-        var tabs = new Ext.TabPanel({
-        	activeTab: 0,
-        	height: 300,
-        	width: 400,
-            items: 
-            [
-             	colortab,
-             	variabletab,             	
-            ]
-        });
+      
         
         // Create a Window for the ColorSet Declaration
         var window = new Ext.Window({
@@ -263,7 +144,7 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
             shim: true,
             modal: true,
             resizable: false,
-            items: [tabs]           
+            items: [panel]           
         });		
 		
         window.show();
