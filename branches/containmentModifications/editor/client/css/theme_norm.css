@@ -400,20 +400,25 @@ table-layout:fixed;
 
 /*** Resizer ***/
 
-.resizer_southeast {
+.resizer_southeast,
+.resizer_northwest {
+	width:12px; 
+	height:12px; 
 	position:relative;
-	background:url(../lib/ext-2.0.2/resources/images/default/sizer/se-handle-dark.gif);
-	width:10px; 
-	height:10px; 
+	background-color: transparent;
+	background-repeat:no-repeat;
+}
+
+.resizer_southeast {
+	background-image:url(../lib/ext-2.0.2/resources/images/default/sizer/se-handle-dark.gif);
 	cursor: se-resize;
+	background-position: 4px 4px;
 }
 
 .resizer_northwest {
-	position:relative;
-	background:url(../lib/ext-2.0.2/resources/images/default/sizer/nw-handle-dark.gif);
-	width:10px; 
-	height:10px; 
+	background-image:url(../lib/ext-2.0.2/resources/images/default/sizer/nw-handle-dark.gif);
 	cursor: nw-resize;
+	background-position: -2px -2px;
 }
 
 /*** Selection Frame ***/
