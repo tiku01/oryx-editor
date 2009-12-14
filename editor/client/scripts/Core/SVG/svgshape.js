@@ -443,6 +443,10 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			this.oldWidth = this.width;
 			this.oldHeight = this.height;
 		}
+		
+		// Remove cached variables
+		delete this.visible;
+		delete this.handler;
 	},
 	
 	isPointIncluded: function(pointX, pointY) {
@@ -489,12 +493,16 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 				}
 				break;
 			case "Path":
-				var parser = new PathParser();
-				var handler = new ORYX.Core.SVG.PointsPathHandler();
-				parser.setHandler(handler);
-				parser.parsePath(this.element);
-	
-				return ORYX.Core.Math.isPointInPolygone(pointX, pointY, handler.points);
+				
+				// Cache Path handler
+				if (!this.handler) {
+					var parser = new PathParser();
+					this.handler = new ORYX.Core.SVG.PointsPathHandler();
+					parser.setHandler(this.handler);
+					parser.parsePath(this.element);
+				}
+				
+				return ORYX.Core.Math.isPointInPolygone(pointX, pointY, this.handler.points);
 
 				break;
 			default:
@@ -508,6 +516,10 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 	 * @return boolean
 	 */
 	isVisible: function(elem) {
+		
+		if (this.visible !== undefined){
+			return this.visible;
+		}
 			
 		if (!elem) {
 			elem = this.element;
@@ -518,28 +530,36 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 			hasOwnerSVG = !!elem.ownerSVGElement;
 		} catch(e){}
 		
+		// Is SVG context
 		if ( hasOwnerSVG ) {
+			// IF G-Element
 			if (ORYX.Editor.checkClassType(elem, SVGGElement)) {
-				if (elem.className && elem.className.baseVal == "me") 
-					return true;
+				if (elem.className && elem.className.baseVal == "me") {
+					this.visible = true;
+					return this.visible;
+				}
 			}
 
+			// Check if fill or stroke is set
 			var fill = elem.getAttributeNS(null, "fill");
 			var stroke = elem.getAttributeNS(null, "stroke");
 			if (fill && fill == "none" && stroke && stroke == "none") {
-				return false;
+				this.visible = false;
+			} else {
+				// Check if displayed
+				var attr = elem.getAttributeNS(null, "display");
+				if(!attr)
+					this.visible = this.isVisible(elem.parentNode);
+				else if (attr == "none") 
+					this.visible = false;
+				else
+					this.visible = true;
 			}
-			var attr = elem.getAttributeNS(null, "display");
-			if(!attr)
-				return this.isVisible(elem.parentNode);
-			else if (attr == "none") 
-				return false;
-			else {
-				return true;
-			}
+		} else {
+			this.visible = true;
 		}
-
-		return true;
+		
+		return this.visible;
 	},
 
 	toString: function() { return (this.element) ? "SVGShape " + this.element.id : "SVGShape " + this.element;}

@@ -88,17 +88,26 @@ ORYX.Plugins.BPMN2_0 = {
 		children.each(function(child){
 			if (this.hashedSubProcesses[child.id]){
 				this.hashedSubProcesses[child.id] = child.absoluteXY();
+				this.hashedSubProcesses[child.id].width 	= child.bounds.width();
+				this.hashedSubProcesses[child.id].height 	= child.bounds.height();
 				this.hashChildShapes(child);
 			}
 		}.bind(this));
 	},
-	
+
+	/**
+	 * Handle the layouting of a sub process.
+	 * Mainly to adjust the child dockers of a sub process. 
+	 *
+	 */
 	handleSubProcess : function(option) {
 		
 		var sh = option.shape;
 		
 		if (!this.hashedSubProcesses[sh.id]) {
 			this.hashedSubProcesses[sh.id] = sh.absoluteXY();
+			this.hashedSubProcesses[sh.id].width 	= sh.bounds.width();
+			this.hashedSubProcesses[sh.id].height 	= sh.bounds.height();
 			return;
 		}
 		
@@ -106,13 +115,18 @@ ORYX.Plugins.BPMN2_0 = {
 		offset.x -= this.hashedSubProcesses[sh.id].x;
 		offset.y -= this.hashedSubProcesses[sh.id].y;
 		
+		var resized = this.hashedSubProcesses[sh.id].width !== sh.bounds.width() || this.hashedSubProcesses[sh.id].height !== sh.bounds.height();
+		
 		this.hashedSubProcesses[sh.id] = sh.absoluteXY();
+		this.hashedSubProcesses[sh.id].width 	= sh.bounds.width();
+		this.hashedSubProcesses[sh.id].height 	= sh.bounds.height();
 		this.hashChildShapes(sh);
 		
-		if (this.facade.isExecutingCommands()) {
+		
+		// Move dockers only if currently is not resizing
+		if (this.facade.isExecutingCommands()&&!resized) {
 			this.moveChildDockers(sh, offset);
 		}
-		
 	},
 	
 	moveChildDockers: function(shape, offset){
@@ -319,6 +333,7 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		
 		var allLanes = this.getLanes(pool, true);
+		var considerForDockers = allLanes.clone();
 		
 		var deletedLanes = [];
 		var addedLanes = [];
@@ -346,7 +361,7 @@ ORYX.Plugins.BPMN2_0 = {
 			}
 		}		
 		
-		var height, width;
+		var height, width, x, y;
 		
 		if (deletedLanes.length > 0 || addedLanes.length > 0) {
 			
@@ -363,6 +378,18 @@ ORYX.Plugins.BPMN2_0 = {
 		 */
 		else if (pool == currentShape) {
 			
+			if (selection.length === 1 && this.isResized(pool, this.hashedPoolPositions[pool.id])) {
+				var oldXY = this.hashedPoolPositions[pool.id].upperLeft();
+				var xy = pool.bounds.upperLeft();
+				var scale = 0;
+				if (this.shouldScale(pool)){
+					var old = this.hashedPoolPositions[pool.id];
+					scale = old.height()/pool.bounds.height();
+				}
+			
+				this.adjustLanes(pool, allLanes, oldXY.x - xy.x, oldXY.y - xy.y, scale);
+			}
+			
 			// Set height from the pool
 			height = this.adjustHeight(lanes, undefined, pool.bounds.height());
 			// Set width from the pool
@@ -373,18 +400,41 @@ ORYX.Plugins.BPMN2_0 = {
 		 * Set width/height depending on containing lanes
 		 */		
 		else {
+			
+			// Reposition the pool if one shape is selected and the upperleft has changed
+			if (selection.length === 1 && this.isResized(currentShape, this.hashedBounds[pool.id][currentShape.id])){
+				var oldXY = this.hashedBounds[pool.id][currentShape.id].upperLeft();
+				var xy = currentShape.absoluteXY();
+				x = oldXY.x - xy.x;
+				y = oldXY.y - xy.y;
+				
+				// Adjust all other lanes beneath this lane
+				if (x||y){
+					considerForDockers = considerForDockers.without(currentShape);
+					this.adjustLanes(pool, this.getAllExcludedLanes(pool, currentShape), x, 0);
+				}
+				
+				// Adjust all child lanes
+				var childLanes = this.getLanes(currentShape, true);
+				if (childLanes.length > 0 && this.shouldScale(currentShape)){
+					var old = this.hashedBounds[pool.id][currentShape.id];
+					var scale = old.height()/currentShape.bounds.height();
+					this.adjustLanes(pool, childLanes, x, y, scale);
+				}
+			}
+			
 			// Get height and adjust child heights
 			height = this.adjustHeight(lanes, currentShape);
 			// Set width from the current shape
 			width = this.adjustWidth(lanes, currentShape.bounds.width()+(this.getDepth(currentShape,pool)*30));
 		}
 		
-		this.setDimensions(pool, width, height);
+		this.setDimensions(pool, width, height, x, y);
 		
 		
 		if (this.facade.isExecutingCommands()){ 
 			// Update all dockers
-			this.updateDockers(allLanes, pool);
+			this.updateDockers(considerForDockers, pool);
 		}
 		
 		this.hashedBounds[pool.id] = {};
@@ -405,6 +455,56 @@ ORYX.Plugins.BPMN2_0 = {
 		// Update selection
 		//this.facade.setSelection(selection);		
 	},
+	
+	shouldScale: function(element){
+		var childLanes = element.getChildNodes().findAll(function(shape){ return shape.getStencil().id().endsWith("Lane") })
+		return childLanes.length > 1 || childLanes.any(function(lane){ return this.shouldScale(lane) }.bind(this)) 
+	},
+	
+	isResized: function(shape, bounds){
+		
+		var oldB = bounds;
+		//var oldXY = oldB.upperLeft();
+		//var xy = shape.absoluteXY();
+		
+		return Math.round(oldB.width() - shape.bounds.width()) !== 0 || Math.round(oldB.height() - shape.bounds.height()) !== 0
+		
+	},
+	
+	adjustLanes: function(pool, lanes, x, y, scale){
+		
+		scale = scale || 0;
+
+		// For every lane, adjust the child nodes with the offset
+		lanes.each(function(l){
+			
+			l.getChildNodes().each(function(child){
+				if (!child.getStencil().id().endsWith("Lane")){
+					var cy = scale ? child.bounds.center().y - (child.bounds.center().y/scale) : -y;
+					child.bounds.moveBy((x||0), -cy);
+				}
+			});
+			
+			this.hashedBounds[pool.id][l.id].moveBy(-(x||0), 0);
+			if (scale) {
+				l.isScaled = true;
+			}
+		}.bind(this))
+		
+	},
+	
+	getAllExcludedLanes: function(parent, lane){
+		var lanes = [];
+		parent.getChildNodes().each(function(shape){
+			if ((!lane || shape !== lane) && shape.getStencil().id().endsWith("Lane")){
+				lanes.push(shape);
+				lanes = lanes.concat(this.getAllExcludedLanes(shape, lane));
+			}
+		}.bind(this));
+		return lanes;
+	},
+	
+	
 	forceToUpdateLane: function(lane){
 		
 		if (lane.bounds.height() !== lane._svgShapes[0].height) {	
@@ -438,15 +538,15 @@ ORYX.Plugins.BPMN2_0 = {
 		
 	},
 	
-	setDimensions: function(shape, width, height){
+	setDimensions: function(shape, width, height, x, y){
 		var isLane = shape.getStencil().id().endsWith("Lane");
 		// Set the bounds
 		shape.bounds.set(
-			isLane ? 30 : shape.bounds.a.x, 
-			shape.bounds.a.y, 
-			width	? shape.bounds.a.x + width - (isLane?30:0) : shape.bounds.b.x, 
-			height 	? shape.bounds.a.y + height : shape.bounds.b.y
-		);
+				isLane 	? 30 : (shape.bounds.a.x - (x || 0)), 
+				isLane 	? shape.bounds.a.y : (shape.bounds.a.y - (y || 0)), 
+				width	? shape.bounds.a.x + width - (isLane?30:(x||0)) : shape.bounds.b.x, 
+				height 	? shape.bounds.a.y + height - (isLane?0:(y||0)) : shape.bounds.b.y
+			);
 	},
 
 	setLanePosition: function(shape, y){
@@ -590,6 +690,7 @@ ORYX.Plugins.BPMN2_0 = {
 		}
 		return shape;
 	},
+	
 	updateDockers: function(lanes, pool){
 		
 		var absPool = pool.absoluteBounds();
@@ -604,6 +705,8 @@ ORYX.Plugins.BPMN2_0 = {
 				continue;
 			}
 			
+			var isScaled = lanes[i].isScaled;
+			delete lanes[i].isScaled;
 			var children = lanes[i].getChildNodes();
 			var absBounds = lanes[i].absoluteBounds();
 			var oldBounds = (this.hashedBounds[pool.id][lanes[i].id]||absBounds);
@@ -660,13 +763,19 @@ ORYX.Plugins.BPMN2_0 = {
 						var isOutSidePool = !oldPool.isIncluded(pos);
 						var previousIsOverLane = l == 0 ? isOverLane : oldBounds.isIncluded(edges[k].dockers[l-1].bounds.center());
 						var nextIsOverLane = l == edges[k].dockers.length-1 ? isOverLane : oldBounds.isIncluded(edges[k].dockers[l+1].bounds.center());
+						var off = Object.clone(offset);
 						
+						// If the 
+						if (isScaled && isOverLane && this.isResized(lanes[i], this.hashedBounds[pool.id][lanes[i].id])){
+							var relY = (pos.y - absBounds.upperLeft().y + off.y);
+							off.y -= (relY - (relY * (absBounds.height()/oldBounds.height()))); 
+						}
 						
 						// Check if the previous dockers docked shape is from this lane
 						// Otherwise, check if the docker is over the lane OR is outside the lane 
 						// but the previous/next was over this lane
 						if (isOverLane){
-							dockers[docker.id] = {docker: docker, offset:offset};
+							dockers[docker.id] = {docker: docker, offset:off};
 						} 
 						/*else if (l == 1 && edges[k].dockers.length>2 && edges[k].dockers[l-1].isDocked()){
 							var dockedLane = this.getNextLane(edges[k].dockers[l-1].getDockedShape());
@@ -715,19 +824,45 @@ ORYX.Plugins.BPMN2_0 = {
 	 * @param {boolean} recursive
 	 */
 	getLanes: function(shape, recursive){
+		
+		// Get all the child lanes
 		var lanes = shape.getChildNodes(recursive||false).findAll(function(node) { return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#Lane"); });
+		
+		// Sort all lanes by there y coordinate
 		lanes = lanes.sort(function(a, b){
-					// Get y coordinate
-					var ay = Math.round(a.bounds.upperLeft().y);
-					var by = Math.round(b.bounds.upperLeft().y);
+			
+					// Get y coordinates for upper left and lower right
+					var auy = Math.round(a.bounds.upperLeft().y);
+					var buy = Math.round(b.bounds.upperLeft().y);
+					var aly = Math.round(a.bounds.lowerRight().y);
+					var bly = Math.round(b.bounds.lowerRight().y);
+					
+					// Get the old y coordinates
+					var oauy = Math.round(this.getHashedBounds(a).upperLeft().y);
+					var obuy = Math.round(this.getHashedBounds(b).upperLeft().y);
+					var oaly = Math.round(this.getHashedBounds(a).lowerRight().y);
+					var obly = Math.round(this.getHashedBounds(b).lowerRight().y);
 					
 					// If equal, than use the old one
-					if (ay == by) {
-						ay = Math.round(this.getHashedBounds(a).upperLeft().y);
-						by = Math.round(this.getHashedBounds(b).upperLeft().y);
+					if (auy == buy && aly == bly) {
+						auy = oauy; buy = obuy; aly = oaly; bly = obly;
 					}
-					return  ay < by ? -1 : (ay > by ? 1 : 0)
-				}.bind(this))
+					
+					// Check if upper left and lower right is completely above/below
+					var above = auy < buy && aly < bly;
+					var below = auy > buy && aly > bly;
+					// Check if a is above b including the old values
+					var slightlyAboveBottom = auy < buy && aly >= bly && oaly < obly;
+					var slightlyAboveTop = auy >= buy && aly < bly && oauy < obuy;
+					// Check if a is below b including the old values
+					var slightlyBelowBottom = auy > buy && aly <= bly && oaly > obly;
+					var slightlyBelowTop = auy <= buy && aly > bly && oauy > obuy;
+					
+					// Return -1 if a is above b, 1 if b is above a, or 0 otherwise
+					return  (above || slightlyAboveBottom || slightlyAboveTop ? -1 : (below || slightlyBelowBottom || slightlyBelowTop ? 1 : 0))
+				}.bind(this));
+				
+		// Return lanes
 		return lanes;
 	}
 	

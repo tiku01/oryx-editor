@@ -434,7 +434,6 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		
 		var choreographyTask = event.shape;
 		var isNew = !this.choreographyTasksMeta[choreographyTask.getId()];
-		console.log("isNew", isNew)
 		var choreographyTaskMeta = this.addOrGetChoreographyTaskMeta(choreographyTask);
 		
 		var isResized = this.handleResizingOfChoreographyTask(choreographyTask, choreographyTaskMeta);
@@ -604,6 +603,8 @@ ORYX.Plugins.Bpmn2_0Choreography = {
 		
 		choreographyTaskMeta.oldHeight = bounds.height();
 		choreographyTaskMeta.oldBounds = bounds.clone();
+		
+		choreographyTask.minimumSize = {width: 50, height: 40 + ((choreographyTaskMeta.numOfParticipantsOnBottom+choreographyTaskMeta.numOfParticipantsOnTop)*this.participantSize) + ((choreographyTaskMeta.numOfParticipantsExtendedOnBottom+choreographyTaskMeta.numOfParticipantsExtendedOnTop) * this.extensionSizeForMarker)}
 	},
 	
 	/**
