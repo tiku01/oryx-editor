@@ -37,6 +37,7 @@ ORYX.Plugins.BPMN2_0 = {
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
 		this.facade.registerOnEvent('layout.bpmn2_0.pool', this.handleLayoutPool.bind(this));
 		this.facade.registerOnEvent('layout.bpmn2_0.subprocess', this.handleSubProcess.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPEREMOVED, this.handleShapeRemove.bind(this));
 		
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.afterLoad.bind(this));
@@ -79,6 +80,34 @@ ORYX.Plugins.BPMN2_0 = {
 				}
 			}
 		}
+	},
+	
+	handleShapeRemove: function(option) {
+		
+		var sh 				= option.shape;
+		var parent 			= option.parent;
+					
+		if (sh.getStencil().idWithoutNs() === "Lane") {
+		
+			var command = new ORYX.Core.ResizeLanesCommand(sh, parent, this);
+			this.facade.executeCommands([command]);
+			
+	
+			/*
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
+			
+		}
+		
 	},
 	
 	hashedSubProcesses: {},
@@ -867,5 +896,217 @@ ORYX.Plugins.BPMN2_0 = {
 	}
 	
 };
+
+ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
+
+	construct: function(shape, parent, plugin) {
+	
+		this.facade  = plugin.facade;
+		this.plugin  = plugin;
+		this.shape	 = shape;
+		this.changes;
+		
+		this.parent	= parent;
+		this.lanes 	= plugin.getLanes(parent);
+		this.lane 	= this.lanes.find(function(l,i){ return l.bounds.upperLeft().y >= this.shape.bounds.upperLeft().y || i == this.lanes.length-1 }.bind(this));
+
+		this.shapeChildren = [];
+		
+		/*
+		 * The Bounds have to be stored 
+		 * separate because they would
+		 * otherwise also be influenced 
+		 */
+		this.shape.getChildShapes().each(function(childShape) {
+			this.shapeChildren.push({
+				shape: childShape,
+				bounds: {
+				a: {
+				x: childShape.bounds.a.x,
+				y: childShape.bounds.a.y
+			},
+			b: {
+				x: childShape.bounds.b.x,
+				y: childShape.bounds.b.y
+			}
+			}
+			});
+		}.bind(this));
+
+		if(this.lane) {
+		
+			this.shapeUpperLeft = this.shape.bounds.upperLeft().y;
+			this.laneUppperLeft = this.lane.bounds.upperLeft().y;	
+			this.parentHeight 	= this.parent.bounds.height(); 
+		
+		}
+	},
+	
+	execute: function() {
+		
+		if(this.changes) {
+			this.executeAgain();
+			return;
+		}
+
+		/* 
+		 * Rescue all ChildShapes of the deleted
+		 * Shape into the lane that takes its 
+		 * place 
+		 */
+		
+		if(this.lane) {			
+			
+			var laUpL = this.laneUppperLeft;
+			var shUpL = this.shapeUpperLeft;
+						
+			this.changes = $H({});
+			
+			if(laUpL > shUpL) {				
+				this.lane.getChildShapes().each(function(childShape) {
+					
+					/*
+					 * Cache the changes for rollback
+					 */
+					if(!this.changes[childShape.getId()]) {
+						this.changes[childShape.getId()] = this.computeChanges(childShape, this.lane, this.lane, this.shape.bounds.height());
+					}
+					
+					childShape.bounds.moveBy(0, this.shape.bounds.height());
+					
+				}.bind(this));
+				
+				this.shapeChildren.each(function(shapeChild) {
+					shapeChild.shape.bounds.set(shapeChild.bounds);
+
+					/*
+					 * Cache the changes for rollback
+					 */
+					if(!this.changes[shapeChild.shape.getId()]) {
+						this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, 0);
+					}
+					
+					this.lane.add(shapeChild.shape);
+					
+				}.bind(this));
+				
+			} else if(shUpL > laUpL){
+				
+				this.shapeChildren.each(function(shapeChild) {
+					shapeChild.shape.bounds.set(shapeChild.bounds);					
+					
+					/*
+					 * Cache the changes for rollback
+					 */
+					if(!this.changes[shapeChild.shape.getId()]) {
+						this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, this.lane.bounds.height());
+					}
+					
+					shapeChild.shape.bounds.moveBy(0, this.lane.bounds.height());
+					this.lane.add(shapeChild.shape);
+					
+				}.bind(this));
+			}
+		}
+				
+		if(this.lanes.length === 1) {
+			/*
+			 * There were only two lanes, so the 
+			 * remaining lane will be resized and 
+			 * the job is done
+			 */
+			var oldHeight 	= this.lane.bounds.height(); 	
+			var newHeight 	= this.plugin.adjustHeight([this.lane], undefined, this.parentHeight);
+			
+			this.changes[this.lane.getId()] = this.computeChanges(this.lane, this.parent, this.parent, 0, oldHeight, newHeight);
+						
+			this.plugin.setDimensions(this.parent, this.parent.bounds.width(), newHeight);
+							
+		} else if(this.lanes.length > 1) {
+			/*
+			 * There was more than one lane
+			 */
+			var oldHeight	   = this.lane.bounds.height();				
+			var adjustedHeight = this.lane.bounds.height() + this.shape.bounds.height();				
+			var height 		   = this.plugin.adjustHeight([this.lane], undefined, adjustedHeight);
+			
+			this.changes[this.lane.getId()] = this.computeChanges(this.lane, this.parent, this.parent, 0, oldHeight, height);
+			
+			this.plugin.setDimensions(this.lane, this.lane.bounds.width(), height);
+		}
+		
+		this.facade.getCanvas().update();
+	},
+	
+	rollback: function() {
+		
+		this.changes.each(function(pair) {
+			
+			var parent 	  		= pair.value.oldParent;
+			var shape  	  		= pair.value.shape;
+			var parentHeight 	= pair.value.parentHeight;
+			var oldHeight 		= pair.value.oldHeight;
+			var newHeight 		= pair.value.newHeight;
+			
+			if(oldHeight) {
+				var height = this.plugin.adjustHeight([shape], undefined, oldHeight);
+				this.plugin.setDimensions(shape, shape.bounds.width(), height);
+				this.plugin.setDimensions(parent, parent.bounds.width(), newHeight - oldHeight);
+			}
+			
+			parent.add(shape);
+			shape.bounds.moveTo(pair.value.oldPosition);	
+			
+		}.bind(this));
+		
+		this.facade.getCanvas().update();
+		
+	},
+	
+	executeAgain: function() {
+		
+		this.changes.each(function(pair) {
+			var parent 	  = pair.value.newParent;
+			var shape  	  = pair.value.shape;
+			var newHeight = pair.value.newHeight;
+			
+			parent.add(shape);
+			shape.bounds.moveTo(pair.value.newPosition);
+			
+			if(newHeight) {
+				this.plugin.setDimensions(shape, shape.bounds.width(), newHeight);
+			}
+			
+		}.bind(this));
+		
+		this.facade.getCanvas().update();
+		
+	},
+	
+	computeChanges: function(shape, oldParent, parent, yOffset, oldHeight, newHeight) {
+		
+		oldParent = this.changes[shape.getId()] ? this.changes[shape.getId()].oldParent : oldParent;
+		var oldPosition = this.changes[shape.getId()] ? this.changes[shape.getId()].oldPosition : shape.bounds.upperLeft();
+		
+		var sUl = shape.bounds.upperLeft();
+		
+		var pos = {x: sUl.x, y: sUl.y + yOffset};
+		
+		var changes = {
+			shape		: shape,
+			parentHeight: oldParent.bounds.height(),
+			oldParent	: oldParent,
+			oldPosition	: oldPosition,
+			oldHeight	: oldHeight,
+			newParent	: parent,
+			newPosition : pos,
+			newHeight	: newHeight
+		};
+			
+		return changes;
+	}
+	
+});
+
 	
 ORYX.Plugins.BPMN2_0 = ORYX.Plugins.AbstractPlugin.extend(ORYX.Plugins.BPMN2_0);
