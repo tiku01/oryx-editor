@@ -1,0 +1,16 @@
+html, body {
+	overflow:hidden;
+}
+
+.movi-scollbox {
+	overflow: scroll;
+	width: inherit !important;
+	width: 200px;
+	height: inherit !important;
+	height: 200px;
+}
+
+.movi-node {
+	background: white;
+	filter:alpha(opacity:0);
+}
