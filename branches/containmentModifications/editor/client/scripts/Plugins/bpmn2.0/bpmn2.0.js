@@ -63,8 +63,11 @@ ORYX.Plugins.BPMN2_0 = {
 	 * a lane is created automagically
 	 */
 	onSelectionChanged: function(event) {
-		if(event.elements && event.elements.length === 1) {
-			var shape = event.elements[0];
+		
+		var selection = event.elements;
+		
+		if(selection && selection.length === 1) {
+			var shape = selection[0];
 			if(shape.getStencil().idWithoutNs() === "Pool") {
 				if(shape.getChildNodes().length === 0) {
 					// create a lane inside the selected pool
@@ -80,6 +83,38 @@ ORYX.Plugins.BPMN2_0 = {
 				}
 			}
 		}
+		
+		// Preventing selection of all lanes but not the pool
+		if(selection.any(function(s){ return s instanceof ORYX.Core.Node && s.getStencil().id().endsWith("Lane")})){
+			var lanes = selection.findAll(function(s){
+				return s instanceof ORYX.Core.Node && s.getStencil().id().endsWith("Lane")
+			});
+			
+			var pools = [];
+			var unselectLanes = [];
+			lanes.each(function(lane){
+				pools.push(this.getParentPool(lane))
+			}.bind(this));
+			
+			pools = pools.uniq().findAll(function(pool){
+				var childLanes = this.getLanes(pool, true);
+				if (childLanes.all(function(lane){ return lanes.include(lane)})){
+					unselectLanes = unselectLanes.concat(childLanes);
+					return true;
+				} else if (selection.include(pool) && childLanes.any(function(lane){ return lanes.include(lane)})) {
+					unselectLanes = unselectLanes.concat(childLanes);
+					return true;
+				} else {
+					return false;
+				}
+			}.bind(this))
+			
+			if (unselectLanes.length > 0 && pools.length > 0){
+				selection = selection.without.apply(selection, unselectLanes);
+				selection = selection.concat(pools);
+				this.facade.setSelection(selection);
+			}
+		}
 	},
 	
 	handleShapeRemove: function(option) {
@@ -87,25 +122,53 @@ ORYX.Plugins.BPMN2_0 = {
 		var sh 				= option.shape;
 		var parent 			= option.parent;
 					
-		if (sh.getStencil().idWithoutNs() === "Lane") {
+		if (sh instanceof ORYX.Core.Node && sh.getStencil().idWithoutNs() === "Lane" && this.facade.isExecutingCommands()) {
 		
-			var command = new ORYX.Core.ResizeLanesCommand(sh, parent, this);
-			this.facade.executeCommands([command]);
+			var pool = this.getParentPool(parent);
+			if (pool&&pool.parent){		
 			
-	
-			/*
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 */
-			
+				var isLeafFn = function(leaf){
+					return !leaf.getChildNodes().any(function(r){ return r.getStencil().idWithoutNs() === "Lane"});
+				}
+				
+				var isLeaf = isLeafFn(sh);
+				var parentHasMoreLanes = parent.getChildNodes().any(function(r){ return r.getStencil().idWithoutNs() === "Lane"});
+				
+				if (isLeaf && parentHasMoreLanes){
+					
+					var command = new ORYX.Core.ResizeLanesCommand(sh, parent, pool, this);
+					this.facade.executeCommands([command]);
+					
+				} else if(	!isLeaf &&
+							!this.facade.getSelection().any(function(select){ // Find one of the selection, which is a lane and child of "sh" and is a leaf lane
+									return 	select instanceof ORYX.Core.Node && select.getStencil().idWithoutNs() === "Lane" &&
+											select.isParent(sh) && isLeafFn(select);})) {
+												
+					var Command = ORYX.Core.Command.extend({
+						construct: function(shape, facade) {
+							this.children = shape.getChildNodes(true);
+							this.facade = facade;
+						},
+						execute: function() {
+							this.children.each(function(child){
+								child.bounds.moveBy(30,0)
+							});
+							this.facade.getCanvas().update();
+						},
+						rollback: function() {
+							this.children.each(function(child){
+								child.bounds.moveBy(-30,0)
+							})
+							this.facade.getCanvas().update();
+						}
+					});
+					this.facade.executeCommands([new Command(sh, this.facade)]);
+					
+				} else if (isLeaf&&!parentHasMoreLanes&&parent == pool){
+					parent.add(sh);
+				}
+			}
+		
 		}
 		
 	},
@@ -345,6 +408,10 @@ ORYX.Plugins.BPMN2_0 = {
 			return
 		}
 		
+		
+		var allLanes = this.getLanes(pool, true);
+		var considerForDockers = allLanes.clone();
+		
 		// Show/hide caption regarding the number of lanes
 		if (lanes.length === 1 && this.getLanes(lanes.first()).length <= 0) {
 			// TRUE if there is a caption
@@ -352,17 +419,12 @@ ORYX.Plugins.BPMN2_0 = {
 			var rect = lanes.first().node.getElementsByTagName("rect");
 			rect[0].setAttributeNS(null, "display", "none");
 		} else {
-			lanes.invoke("setProperty", "oryx-showcaption", true);
-			lanes.each(function(lane){
+			allLanes.invoke("setProperty", "oryx-showcaption", true);
+			allLanes.each(function(lane){
 				var rect = lane.node.getElementsByTagName("rect");
 				rect[0].removeAttributeNS(null, "display");
 			})
 		}
-		
-		
-		
-		var allLanes = this.getLanes(pool, true);
-		var considerForDockers = allLanes.clone();
 		
 		var deletedLanes = [];
 		var addedLanes = [];
@@ -394,8 +456,13 @@ ORYX.Plugins.BPMN2_0 = {
 		
 		if (deletedLanes.length > 0 || addedLanes.length > 0) {
 			
-			// Set height from the pool
-			height = this.updateHeight(pool);
+			if (addedLanes.length === 1 && this.getLanes(addedLanes[0].parent).length === 1){
+				// Set height from the pool
+				height = this.adjustHeight(lanes, addedLanes[0].parent);
+			} else {
+				// Set height from the pool
+				height = this.updateHeight(pool);
+			}
 			// Set width from the pool
 			width = this.adjustWidth(lanes, pool.bounds.width());	
 			
@@ -445,10 +512,14 @@ ORYX.Plugins.BPMN2_0 = {
 				
 				// Adjust all child lanes
 				var childLanes = this.getLanes(currentShape, true);
-				if (childLanes.length > 0 && this.shouldScale(currentShape)){
-					var old = this.hashedBounds[pool.id][currentShape.id];
-					var scale = old.height()/currentShape.bounds.height();
-					this.adjustLanes(pool, childLanes, x, y, scale);
+				if (childLanes.length > 0){
+					if (this.shouldScale(currentShape)){
+						var old = this.hashedBounds[pool.id][currentShape.id];
+						var scale = old.height()/currentShape.bounds.height();
+						this.adjustLanes(pool, childLanes, x, y, scale);
+					} else {
+						this.adjustLanes(pool, childLanes, x, y, 0);
+					}
 				}
 			}
 			
@@ -461,7 +532,7 @@ ORYX.Plugins.BPMN2_0 = {
 		this.setDimensions(pool, width, height, x, y);
 		
 		
-		if (this.facade.isExecutingCommands()){ 
+		if (this.facade.isExecutingCommands() && (deletedLanes.length === 0 || addedLanes.length !== 0)){ 
 			// Update all dockers
 			this.updateDockers(considerForDockers, pool);
 		}
@@ -473,6 +544,9 @@ ORYX.Plugins.BPMN2_0 = {
 			// Cache positions
 			this.hashedBounds[pool.id][allLanes[i].id] = allLanes[i].absoluteBounds();
 			
+			// Cache also the bounds of child shapes, mainly for child subprocesses
+			this.hashChildShapes(allLanes[i]);
+		
 			this.hashedLaneDepth[allLanes[i].id] = this.getDepth(allLanes[i], pool);
 			
 			this.forceToUpdateLane(allLanes[i]);
@@ -506,15 +580,18 @@ ORYX.Plugins.BPMN2_0 = {
 
 		// For every lane, adjust the child nodes with the offset
 		lanes.each(function(l){
-			
 			l.getChildNodes().each(function(child){
 				if (!child.getStencil().id().endsWith("Lane")){
 					var cy = scale ? child.bounds.center().y - (child.bounds.center().y/scale) : -y;
 					child.bounds.moveBy((x||0), -cy);
+					
+					if (scale&&child.getStencil().id().endsWith("Subprocess")) {
+						this.moveChildDockers(child, {x:(0), y:-cy});
+					}
+				
 				}
-			});
-			
-			this.hashedBounds[pool.id][l.id].moveBy(-(x||0), 0);
+			}.bind(this));
+			this.hashedBounds[pool.id][l.id].moveBy(-(x||0), !scale?-y:0);
 			if (scale) {
 				l.isScaled = true;
 			}
@@ -866,15 +943,22 @@ ORYX.Plugins.BPMN2_0 = {
 					var aly = Math.round(a.bounds.lowerRight().y);
 					var bly = Math.round(b.bounds.lowerRight().y);
 					
+					var ha	= this.getHashedBounds(a);
+					var hb	= this.getHashedBounds(b);
+					
 					// Get the old y coordinates
-					var oauy = Math.round(this.getHashedBounds(a).upperLeft().y);
-					var obuy = Math.round(this.getHashedBounds(b).upperLeft().y);
-					var oaly = Math.round(this.getHashedBounds(a).lowerRight().y);
-					var obly = Math.round(this.getHashedBounds(b).lowerRight().y);
+					var oauy = Math.round(ha.upperLeft().y);
+					var obuy = Math.round(hb.upperLeft().y);
+					var oaly = Math.round(ha.lowerRight().y);
+					var obly = Math.round(hb.lowerRight().y);
 					
 					// If equal, than use the old one
 					if (auy == buy && aly == bly) {
 						auy = oauy; buy = obuy; aly = oaly; bly = obly;
+					}
+					
+					if (Math.round(a.bounds.height()-ha.height()) === 0 && Math.round(b.bounds.height()-hb.height()) === 0){
+						return auy < buy ? -1 : (auy > buy ? 1: 0);
 					}
 					
 					// Check if upper left and lower right is completely above/below
@@ -899,17 +983,18 @@ ORYX.Plugins.BPMN2_0 = {
 
 ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 
-	construct: function(shape, parent, plugin) {
+	construct: function(shape, parent, pool, plugin) {
 	
 		this.facade  = plugin.facade;
 		this.plugin  = plugin;
 		this.shape	 = shape;
 		this.changes;
 		
+		this.pool	= pool;
+		
 		this.parent	= parent;
-		this.lanes 	= plugin.getLanes(parent);
-		this.lane 	= this.lanes.find(function(l,i){ return l.bounds.upperLeft().y >= this.shape.bounds.upperLeft().y || i == this.lanes.length-1 }.bind(this));
-
+		
+		
 		this.shapeChildren = [];
 		
 		/*
@@ -921,25 +1006,43 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 			this.shapeChildren.push({
 				shape: childShape,
 				bounds: {
-				a: {
-				x: childShape.bounds.a.x,
-				y: childShape.bounds.a.y
-			},
-			b: {
-				x: childShape.bounds.b.x,
-				y: childShape.bounds.b.y
-			}
-			}
+					a: {
+						x: childShape.bounds.a.x,
+						y: childShape.bounds.a.y
+					},
+					b: {
+						x: childShape.bounds.b.x,
+						y: childShape.bounds.b.y
+					}
+				}
 			});
 		}.bind(this));
 
-		if(this.lane) {
+		this.shapeUpperLeft = this.shape.absoluteXY();
+		this.parentHeight 	= this.parent.bounds.height(); 
+
+	},
+	
+	getLeafLanes: function(lane){
+		var childLanes = this.plugin.getLanes(lane).map(function(child){
+			return this.getLeafLanes(child);
+		}.bind(this)).flatten();
+		return childLanes.length > 0 ? childLanes : [lane];
+	},
+	
+	findNewLane: function(){
 		
-			this.shapeUpperLeft = this.shape.bounds.upperLeft().y;
-			this.laneUppperLeft = this.lane.bounds.upperLeft().y;	
-			this.parentHeight 	= this.parent.bounds.height(); 
+		var lanes = this.plugin.getLanes(this.parent);
+
+		var leafLanes = this.getLeafLanes(this.parent);
+		leafLanes = leafLanes.sort(function(a,b){
+			var aupl = a.absoluteXY().y;
+			var bupl = b.absoluteXY().y;
+			return aupl < bupl ? -1 : (aupl > bupl ? 1 : 0)
+		})
+		this.lane 	= leafLanes.find(function(l,i){ return i == leafLanes.length-1 || l.absoluteXY().y >= this.shapeUpperLeft.y }.bind(this));
 		
-		}
+		this.laneUppperLeft = this.lane.absoluteXY();	
 	},
 	
 	execute: function() {
@@ -955,14 +1058,21 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 		 * place 
 		 */
 		
+		if (!this.lane){
+			this.findNewLane();
+		}
+		
 		if(this.lane) {			
 			
 			var laUpL = this.laneUppperLeft;
 			var shUpL = this.shapeUpperLeft;
+			
+			var depthChange = this.plugin.getDepth(this.lane, this.parent)-1;
 						
 			this.changes = $H({});
 			
-			if(laUpL > shUpL) {				
+			// Selected lane is BELOW the removed lane
+			if(laUpL.y > shUpL.y) {				
 				this.lane.getChildShapes().each(function(childShape) {
 					
 					/*
@@ -973,12 +1083,34 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 					}
 					
 					childShape.bounds.moveBy(0, this.shape.bounds.height());
-					
 				}.bind(this));
+				
+				this.plugin.hashChildShapes(this.lane);
 				
 				this.shapeChildren.each(function(shapeChild) {
 					shapeChild.shape.bounds.set(shapeChild.bounds);
-
+					shapeChild.shape.bounds.moveBy((shUpL.x-30)-(depthChange*30), 0);
+					
+					/*
+					 * Cache the changes for rollback
+					 */
+					if(!this.changes[shapeChild.shape.getId()]) {
+						this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, 0);
+					}
+					
+					this.lane.add(shapeChild.shape);
+					
+				}.bind(this));		
+			
+				this.lane.bounds.moveBy(0, shUpL.y-laUpL.y);
+			
+			// Selected lane is ABOVE the removed lane	
+			} else if(shUpL.y > laUpL.y){
+				
+				this.shapeChildren.each(function(shapeChild) {
+					shapeChild.shape.bounds.set(shapeChild.bounds);		
+					shapeChild.shape.bounds.moveBy((shUpL.x-30)-(depthChange*30), this.lane.bounds.height());			
+					
 					/*
 					 * Cache the changes for rollback
 					 */
@@ -989,57 +1121,58 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 					this.lane.add(shapeChild.shape);
 					
 				}.bind(this));
-				
-			} else if(shUpL > laUpL){
-				
-				this.shapeChildren.each(function(shapeChild) {
-					shapeChild.shape.bounds.set(shapeChild.bounds);					
-					
-					/*
-					 * Cache the changes for rollback
-					 */
-					if(!this.changes[shapeChild.shape.getId()]) {
-						this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, this.lane.bounds.height());
-					}
-					
-					shapeChild.shape.bounds.moveBy(0, this.lane.bounds.height());
-					this.lane.add(shapeChild.shape);
-					
-				}.bind(this));
 			}
 		}
 				
-		if(this.lanes.length === 1) {
-			/*
-			 * There were only two lanes, so the 
-			 * remaining lane will be resized and 
-			 * the job is done
-			 */
-			var oldHeight 	= this.lane.bounds.height(); 	
-			var newHeight 	= this.plugin.adjustHeight([this.lane], undefined, this.parentHeight);
-			
-			this.changes[this.lane.getId()] = this.computeChanges(this.lane, this.parent, this.parent, 0, oldHeight, newHeight);
-						
-			this.plugin.setDimensions(this.parent, this.parent.bounds.width(), newHeight);
-							
-		} else if(this.lanes.length > 1) {
-			/*
-			 * There was more than one lane
-			 */
-			var oldHeight	   = this.lane.bounds.height();				
-			var adjustedHeight = this.lane.bounds.height() + this.shape.bounds.height();				
-			var height 		   = this.plugin.adjustHeight([this.lane], undefined, adjustedHeight);
-			
-			this.changes[this.lane.getId()] = this.computeChanges(this.lane, this.parent, this.parent, 0, oldHeight, height);
-			
-			this.plugin.setDimensions(this.lane, this.lane.bounds.width(), height);
+		/*
+		 * Adjust the height of the lanes
+		 */
+		// Get the height values
+		var oldHeight	= this.lane.bounds.height();				
+		var newHeight	= this.lane.length === 1 ? this.parentHeight : this.lane.bounds.height() + this.shape.bounds.height();
+
+		// Set height
+		this.setHeight(newHeight, oldHeight, this.parent, this.parentHeight, true);
+		
+		// Update
+		this.update();
+	},
+	
+	setHeight: function(newHeight, oldHeight, parent, parentHeight, store){
+		
+		// Set heigh of the lane
+		this.plugin.setDimensions(this.lane, this.lane.bounds.width(), newHeight);
+		this.plugin.hashedBounds[this.pool.id][this.lane.id] = this.lane.absoluteBounds();
+		
+		// Adjust child lanes
+		this.plugin.adjustHeight(this.plugin.getLanes(parent), this.lane);
+		
+		if (store === true){
+			// Store changes
+			this.changes[this.shape.getId()] = this.computeChanges(this.shape, parent, parent, 0, oldHeight, newHeight);	
 		}
 		
+		// Set parents height
+		this.plugin.setDimensions(parent, parent.bounds.width(), parentHeight);
+		
+		if (parent !== this.pool){
+			this.plugin.setDimensions(this.pool, this.pool.bounds.width(), this.pool.bounds.height() + (newHeight-oldHeight));
+		}
+	},
+	
+	update: function(){
+		
+		// Hack to prevent the updating of the dockers
+		this.plugin.hashedBounds[this.pool.id]["REMOVED"] = true;
+		// Update
 		this.facade.getCanvas().update();
 	},
 	
 	rollback: function() {
 		
+		var laUpL = this.laneUppperLeft;
+		var shUpL = this.shapeUpperLeft;
+			
 		this.changes.each(function(pair) {
 			
 			var parent 	  		= pair.value.oldParent;
@@ -1048,18 +1181,22 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 			var oldHeight 		= pair.value.oldHeight;
 			var newHeight 		= pair.value.newHeight;
 			
+			// If lane
 			if(oldHeight) {
-				var height = this.plugin.adjustHeight([shape], undefined, oldHeight);
-				this.plugin.setDimensions(shape, shape.bounds.width(), height);
-				this.plugin.setDimensions(parent, parent.bounds.width(), newHeight - oldHeight);
+				this.setHeight(oldHeight, newHeight, parent, parent.bounds.height() + (oldHeight - newHeight));
+				if (laUpL.y > shUpL.y) {
+					this.lane.bounds.moveBy(0, this.shape.bounds.height());
+				}
+			} else {
+				parent.add(shape);
+				shape.bounds.moveTo(pair.value.oldPosition);	
 			}
 			
-			parent.add(shape);
-			shape.bounds.moveTo(pair.value.oldPosition);	
 			
 		}.bind(this));
 		
-		this.facade.getCanvas().update();
+		// Update
+		//this.update();
 		
 	},
 	
@@ -1069,18 +1206,26 @@ ORYX.Core.ResizeLanesCommand = ORYX.Core.Command.extend({
 			var parent 	  = pair.value.newParent;
 			var shape  	  = pair.value.shape;
 			var newHeight = pair.value.newHeight;
+			var oldHeight = pair.value.oldHeight;
 			
-			parent.add(shape);
-			shape.bounds.moveTo(pair.value.newPosition);
-			
+			// If lane
 			if(newHeight) {
-				this.plugin.setDimensions(shape, shape.bounds.width(), newHeight);
+				var laUpL = this.laneUppperLeft.y;
+				var shUpL = this.shapeUpperLeft.y;
+			
+				if (laUpL > shUpL) {
+					this.lane.bounds.moveBy(0, shUpL - laUpL);
+				}
+				this.setHeight(newHeight, oldHeight, parent, parent.bounds.height() + (newHeight-oldHeight));
+			} else {
+				parent.add(shape);
+				shape.bounds.moveTo(pair.value.newPosition);
 			}
 			
 		}.bind(this));
 		
-		this.facade.getCanvas().update();
-		
+		// Update
+		this.update();
 	},
 	
 	computeChanges: function(shape, oldParent, parent, yOffset, oldHeight, newHeight) {
