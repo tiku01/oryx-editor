@@ -974,7 +974,11 @@ ORYX.Core.StencilSet.Rules = {
 			})
 		}.bind(this));
 
-		return _morphStencils.uniq();
+
+		var baseMorphs = this.baseMorphs();
+		// BaseMorphs should be in the front of the array
+		_morphStencils = _morphStencils.uniq().sort(function(a,b){ return baseMorphs.include(a)&&!baseMorphs.include(b) ? -1 : (baseMorphs.include(b)&&!baseMorphs.include(a) ? 1 : 0)})
+		return _morphStencils;
 	},
 	
 	/**

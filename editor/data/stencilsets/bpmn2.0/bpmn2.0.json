@@ -4911,7 +4911,8 @@
 					"Lane",
 					"sequence_start",
 					"sequence_end",
-					"DataObjectMorph"
+					"DataObjectMorph",
+					"TextAnnotation"
 				]
 			},
 			{
@@ -4922,7 +4923,8 @@
 					"from_task_event",
 					"to_task_event",
 					"EventSubprocess",
-					"CollapsedEventSubprocess"			
+					"CollapsedEventSubprocess",
+					"TextAnnotation"
 				]
 			},
 			{
@@ -4939,7 +4941,8 @@
 								"ChoreographyElement",
 								"choreography_sequence_start",
 								"choreography_sequence_end",
-								"Message"
+								"Message",
+								"TextAnnotation"
 																
 							]
 			}
