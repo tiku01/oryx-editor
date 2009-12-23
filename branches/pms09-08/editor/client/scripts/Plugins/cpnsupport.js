@@ -13,7 +13,7 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 		this.facade.offer
 		({
 			'name':ORYX.I18N.AddDocker.add,
-			'functionality': this.showWindow.bind(this),
+			'functionality': this.hallo.bind(this),
 			'group': "CPN",
 			'icon': ORYX.PATH + "images/cpn/cpn_button.png",
 			'description': ORYX.I18N.AddDocker.addDesc,
@@ -27,35 +27,86 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	
 	hallo: function()
 	{
-		alert("a1");
+		var selection = this.facade.getSelection();
+		var place = selection.first();
+		var token = place.getChildNodes(false).first();
+
+		var tokencenter = token.absoluteBounds().center();
+		token.bounds.centerMoveTo(1,2);
+		var tokencenter = token.absoluteBounds().center();
+		
+		this.facade.getCanvas().update();
+		
 	},
 	
 	resetTokenPosition: function()
 	{
-		var selection = this.facade.getSelection();
-		
-		
-		var test1 = selection.first();
-		var test2 = selection.first().properties;
-		var test3 = selection.first().properties["oryx-title"];
-		var canvas = this.facade.getCanvas();			
-		
-		test1.bounds.moveTo({
-			x: 32,
-			y: 40
+		// Get selected places		
+		var allplaces = this.facade.getSelection().findAll(function(selectedItem) {
+			return (selectedItem.getStencil().id() === "http://b3mn.org/stencilset/coloredpetrinet#Place");
 		});
 		
-		var test0 = selection[0];
-		
-		var children = selection.child;
-		
-		console.log();
+		if (allplaces.length > 0)
+		{
+			allplaces.each(function(place) {
+				
+				var placeBounds = place.absoluteBounds();
+				var placeCenter = placeBounds.center();
+				
+				// Calculate radius in order to check if a token is in the place
+				var radiusY = placeCenter.y - placeBounds.upperLeft().y;
+				var radiusX = placeCenter.x - placeBounds.upperLeft().x;
+				var radius = Math.min(radiusY,radiusX);
+				var c = radius / 2;
+				
+				// Get all tokens inside the place 
+				var alltokens = place.getChildNodes(false).findAll(function(child) {
+					return (child.getStencil().id() === "http://b3mn.org/stencilset/coloredpetrinet#Token");
+				});
+				
+				if (alltokens.length > 0)
+				{
+					var i = 0;
+					var x = 0;
+					var y = 0;
+					
+					alltokens.each(function(token) {
+						var tokenBounds = token.absoluteBounds();
+						var tokenCenter = tokenBounds.center();
+						
+						// Calculate the distance between token and center of the place
+						var diffX = placeCenter.x - tokenCenter.x;
+						var diffY = placeCenter.y - tokenCenter.y;
+						var distanceToPlaceCenter= diffX*diffX + diffY*diffY; // take care it's squared
+						
+						// Check if the token is in the place
+						if (radius*radius <= distanceToPlaceCenter)
+						{	// if the token is out of the place, calculate the position for the token
+							// the token are positioned in circle which is in the place
+							y = Math.round(Math.sin((Math.PI / 6) * i) * c);
+							x = Math.round(Math.cos((Math.PI / 6) * i) * c);
+							// take care centerMoveTo is referred to the position in the selected place (not absolute) 
+							token.bounds.centerMoveTo(place.bounds.width() / 2  + x, place.bounds.height() / 2 + y);
+							token.update();
+							i = i + 1;
+						}
+					});					
+				}
+			});
+
+		}			
+		this.facade.getCanvas().update();
 	},
 	
 	showWindow: function()
 	{
-		// shortcut
-		var fm = Ext.form;
+		var selection = this.facade.getStencilSets();
+		
+		
+		
+		var declarationsfromDiagram = this.facade.getCanvas();
+		
+		var test = declarationsfromDiagram[0][2];
 		
 		// Default definition types for variables and colors
 		var defaultDefinitionTypes = ['Integer','Boolean','Char','String'];
@@ -67,13 +118,6 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 			 ['CS', 'ColorSet'],
 			 ['VA', 'Variable']
 			];
-		
-		var sampleData = 
-		[
-			[ 'Bob', 'Interger', 'ColorSet'],
-			[ 'Bill', '40', 'ColorSet'],
-			[ 'Mike', '45', 'Variable']
-		];
 
 		// 2. Create the Store
 		var store = new Ext.data.SimpleStore({ 
@@ -83,15 +127,23 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 			 	{ name: 'type', type: 'string' },
 		 		{ name: 'declarationtype', type: 'string' }
 			],
-			data: sampleData
+			data: declarationsfromDiagram
 		});
 		
-		var combo = new Ext.form.ComboBox({
+		
+//		var defaultData = {
+//			    fullname: 'Full Name',
+//			    first: 'First Name'
+//			};
+//			var recId = 100; // provide unique id for the record
+//			var r = new myStore.recordType(defaultData, ++recId);
+		
+		var declarationTypeCombo = new Ext.form.ComboBox({
 		    typeAhead: true,
 		    triggerAction: 'all',
+		    editable: false,
 		    lazyRender:true,
 		    mode: 'local',
-		    readOnly: true,
 		    store: new Ext.data.SimpleStore({
 		        id: 0,
 		        fields: [
@@ -125,11 +177,11 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 			            })
 			        },
 			        {
-			            header: 'DaclarationType', // 5. Field can be edited
-			            width: 75, 
+			            header: 'DeclarationType', // 5. Field can be edited
+			            width: 100, 
 			            sortable: false, 
 			            dataIndex: 'declarationtype', 
-			            editor: combo
+			            editor: declarationTypeCombo
 			        }],			        
 			        clicksToEdit: 1,
 			        stripeRows: true,
@@ -137,11 +189,7 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 			        width:500,
 			        title:'Editor Grid'
 			 });
-		
-		var label = new Ext.form.Label({
-			text: "huhu"			
-		}); 
-        
+		        
 		var win = new Ext.Window({
 			width:400,
 	        id:'autoload-win',
@@ -150,16 +198,21 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	        title:"hallo",
 	        tbar:[
 	            {
-	             	text:'+',
+	             	text:'-'
 //	             	handler:function() {
 //	                	win.load(win.autoLoad.url + '?' + (new Date).getTime());
 //	            	}
 	            },
 	            {
-	            	text: '-'
+	            	text: '+',
+	            	handler: function(){	            		
+	            		declarations.push(['Name','Integer','Variable']);
+	            		store.loadData(declarations);
+	            	}
 	            }
 	        ],
-	        items: [label, simpleGrid]
+	        items: [simpleGrid]
+	        
 	    });
 	    win.show();
     }	
