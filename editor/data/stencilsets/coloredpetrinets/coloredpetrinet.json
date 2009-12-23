@@ -50,7 +50,7 @@
 				},
 				{
 					"id":"author",
-					"type":"String",
+					"type":"CPNString",
 					"title":"Author",
 					"value":"",
 					"description":"This holds the name of the author of the Diagram.",
@@ -99,19 +99,85 @@
 					"length":"",
 					"wrapLines":true
 				},
-				{
-					"id":"colorset",
-					"type":"String",
-					"title":"Color Set",
-					"title_de":"Stellendefinition",
+				{					
+					"id":"declarations",
+					"type":"Complex",
+					"title":"Declarations",
+					"title_de":"Deklarationen",
 					"value":"",
-					"description":"",
-					"description_de":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"colorset",
-					"length":"",
-					"wrapLines":true
+					"description":"Local Properties may be added to the activity. These Properties only apply within the processing of the activity.",
+					"description_de":"Lokale Eigenschaften können der Aktivität hinzugefügt werden. Diese werden ausschließlich während der Abarbeitung der Aktivität angewendet.",
+					"readonly": 	false,
+					"optional": 	true,
+					"complexItems": 
+					[
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"type",
+							"name":"Type",
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":false,
+							"items":
+							[
+								{
+									"id":"integer",
+									"title":"Integer",
+									"value":"Integer",
+									"refToView":"Integerl"
+								},
+								{
+									"id":"char",
+									"title":"Char",
+									"value":"Char",
+									"refToView":"Charl"
+								},
+								{
+									"id":"boolean",
+									"title":"Boolean",
+									"value":"Boolean",
+									"refToView":"Booleanl"
+								},
+								{
+									"id":"string",
+									"title":"String",
+									"value":"String",
+									"refToView":"Stringl"
+								}
+							]
+						},
+						{
+							"id":"declarationtype",
+							"name":"Declarationstyp",
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":false,
+							"items":
+							[
+								{
+									"id":"colorset",
+									"title":"Colorset",
+									"value":"Colorset",
+									"refToView":"None"
+								},
+								{
+									"id":"variable",
+									"title":"Variable",
+									"value":"Variable",
+									"refToView":"None"
+								}								
+							]
+						}
+					]				
 				}				
 			]
 		},
@@ -473,9 +539,18 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				},					
-							
-
+				},
+				{
+					"id":"colordefinition",
+					"type":"String",
+					"title":"Color Set",
+					"value":"",
+					"description":"Defines the Color Set definition of the place.",
+					"description_de":"Definiert die Belegung der Stelle.",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				}
 			]
 		},
 		{
@@ -528,7 +603,7 @@
 		},
 		{
 			"type":"node",
-			"id":"token",
+			"id":"Token",
 			"title":"Token",
 			"title_de":"Markierung",
 			"groups":[],
@@ -540,7 +615,20 @@
 			[
 				"token"
 			],
-			"properties":[]		
+			"properties":
+			[
+				{
+					"id":"initialmarking",
+					"type":"String",
+					"title":"Initial Marking",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]		
 		}
 	],	
 	"rules": {
@@ -555,7 +643,7 @@
 					{
 						"from":"place",
 						"to":["transition"]
-					},
+					}
 				]
 			}	
 		],
@@ -589,7 +677,7 @@
 			{
 				"role": "PlaceMorph",
 				"baseMorphs": ["Place"]
-			},
+			}
 		]
 	}
 }
