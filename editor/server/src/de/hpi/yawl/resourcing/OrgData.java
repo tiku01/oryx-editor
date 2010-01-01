@@ -2,6 +2,8 @@ package de.hpi.yawl.resourcing;
 
 import java.util.ArrayList;
 
+import de.hpi.yawl.FileWritingForYAWL;
+
 public class OrgData implements FileWritingForYAWL {
 
 	ArrayList<Participant> participants = new ArrayList<Participant>();

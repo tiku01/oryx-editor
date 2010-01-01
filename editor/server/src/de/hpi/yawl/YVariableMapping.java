@@ -1,9 +1,9 @@
 package de.hpi.yawl;
 
-public class YVariableMapping {
+public class YVariableMapping implements FileWritingForYAWL {
 
 	private String query = "";
-	private YVariable mapsTo;
+	private YVariable mapsTo = null;
 	
 	public YVariableMapping(String newQuery, YVariable newMapsTo){
 		setQuery(newQuery);
@@ -30,8 +30,8 @@ public class YVariableMapping {
 		String s = "";
 		
 		s += "\t\t\t\t\t<mapping>\n";
-		s += "\t\t\t\t\t\t<expression query=\"" + getQuery() + "\" />\n";
-		s += "\t\t\t\t\t\t<mapsTo>" + getMapsTo().getName() + "</mapsTo>\n";
+		s += String.format("\t\t\t\t\t\t<expression query=\"%s\" />\n", getQuery());
+		s += String.format("\t\t\t\t\t\t<mapsTo>%s</mapsTo>\n", getMapsTo().getName());
 		s += "\t\t\t\t\t</mapping>\n";
 		
 		return s;

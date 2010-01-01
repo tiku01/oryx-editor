@@ -53,6 +53,28 @@ public class YEdge extends YFlowRelationship {
 	}
 	
 	/**
+	 * @param splitType
+	 * @param s
+	 * @return
+	 */
+	private String writePredicateToYAWL(YTask.SplitJoinType splitType, String s) {
+        if (splitType == YTask.SplitJoinType.AND)
+        	return s;
+        
+        s += "\t\t\t\t\t\t<predicate ";
+        if (splitType == YTask.SplitJoinType.XOR) {
+            s += String.format(" ordering=\"%s\">", ordering);
+        } else if (splitType == YTask.SplitJoinType.OR) {
+            s += ">"; //closing tag bracket
+        }
+        
+        // Predicate might contain special characters. Have them replaced.
+        s += predicate.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        s += "</predicate>\n";
+		return s;
+	}
+	
+	/**
      * Export to YAWL file.
      * @param splitType int The split type of the originating YAWL node.
      * @return String The string to export for this YAWLDecompositon.
@@ -63,24 +85,12 @@ public class YEdge extends YFlowRelationship {
         s += "\t\t\t\t\t<flowsInto>\n";
         s += String.format("\t\t\t\t\t\t<nextElementRef id=\"%s\"/>\n", getTarget().getID());
         
-        if (predicate != null && predicate.length() > 0) {
-        	boolean hasPredicate = false;
-            if (splitType == YTask.SplitJoinType.XOR) {
-            	s += String.format("\t\t\t\t\t\t<predicate ordering=\"%s\">", ordering);
-                hasPredicate = true;
-            } else if (splitType == YTask.SplitJoinType.OR) {
-            	s += "\t\t\t\t\t\t<predicate>";
-                hasPredicate = true;
-            }
-            if (hasPredicate) {
-            	// Predicate might contain special characters. Have them replaced.
-                s += predicate.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-                s += "</predicate>\n";
-            }
-        }
-        if (isDefault()) {
+        if (predicate != null && predicate.length() > 0)
+        	s = writePredicateToYAWL(splitType, s);
+        
+        if (isDefault())
         	s += "\t\t\t\t\t\t<isDefaultFlow/>\n";
-        }
+        
         s += "\t\t\t\t\t</flowsInto>\n";
         return s;
     }

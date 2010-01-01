@@ -3,10 +3,10 @@ package de.hpi.yawl;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class YNode {
+public abstract class YNode implements FileWritingForYAWL {
 	
-	protected String id = "";
-	protected String name = "";
+	protected String id = ""; //the internal ID of a node
+	protected String name = ""; //the name of a node that is shown in the editor
 	protected List<YFlowRelationship> incomingEdges;
 	protected List<YFlowRelationship> outgoingEdges;
 	
@@ -20,8 +20,6 @@ public abstract class YNode {
 	}
 	
 	public void setID(String anID) {
-		//int tab = anID.indexOf('\t'); //determine the position of a tab
-		//String name = tab < 0 ? anID : anID.substring(0, tab); //if no tab assign id, else take id without tab
 		this.id = anID;
 	}
 	
@@ -43,5 +41,11 @@ public abstract class YNode {
 		if (outgoingEdges == null)
 			outgoingEdges = new ArrayList<YFlowRelationship>();
 		return outgoingEdges;
+	}
+	
+	public String writeToYAWL()
+	{
+		//implementation of the FileWritingForYAWL interface
+		return "";
 	}
 }

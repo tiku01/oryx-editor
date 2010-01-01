@@ -1,6 +1,6 @@
 package de.hpi.yawl;
 
-public class YMIDataOutput {
+public class YMIDataOutput implements FileWritingForYAWL {
 
 	private String formalOutputExpression = "";
 	private String outputJoiningExpression = "";

@@ -3,7 +3,7 @@ package de.hpi.yawl;
 import java.util.*;
 
 
-public class YModel {
+public class YModel implements FileWritingForYAWL {
 	private String uri; // The uri of the YAWL model
 	private String description = "No description has been given.";
 	private String dataTypeDefinition = "";
@@ -16,8 +16,6 @@ public class YModel {
 	 * @param uri The given uri.
 	 */
 	public YModel(String uri) {
-		//super("YAWL model");
-		
 		this.uri = uri.replaceAll(" ","."); // spaces are not allowed in uri's
 	}
 
@@ -60,32 +58,26 @@ public class YModel {
 	}
 
 	/**
-	 * Export to YAWL file.
-	 * @param bw Writer
-	 * @return String The string to export for this YAWLDecompositon.
+	 * Export to YAWL XML file.
+	 * @return String Returns the YAWL XML string.
 	 */
 	public String writeToYAWL() {
-
 		String s = "";
 		s += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		s += "<specificationSet ";
-		s += "xmlns=\"http://www.yawlfoundation.org/yawlschema\" ";
-		s += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ";
-		s += "version=\"2.0\" ";
-		s +="xsi:schemaLocation=\"http://www.yawlfoundation.org/yawlschema http://www.yawlfoundation.org/yawlschema/YAWL_Schema2.0.xsd\" >\n";
-		s += "\t<specification uri=\"" + uri + "\">\n";
+		s += "<specificationSet xmlns=\"http://www.yawlfoundation.org/yawlschema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ";
+		s += "version=\"2.0\" xsi:schemaLocation=\"http://www.yawlfoundation.org/yawlschema http://www.yawlfoundation.org/yawlschema/YAWL_Schema2.0.xsd\" >\n";
+		s += String.format("\t<specification uri=\"%s\">\n", uri);
 		s += "\t\t<metaData>\n";
-		s += "\t\t\t<description>" + description + "</description>\n";
+		s += String.format("\t\t\t<description>%s</description>\n", description);
 		s += "\t\t</metaData>\n";
 		if(dataTypeDefinition == null || dataTypeDefinition.isEmpty())
 			s += "\t\t<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" />\n";
 		else
 			s += "\t\t" + dataTypeDefinition + "\n";
 		
-		
-		for (YDecomposition decomposition: decompositions.values()) {
+		for (YDecomposition decomposition: decompositions.values())
 			s += decomposition.writeToYAWL();
-		}
+		
 		s += "\t</specification>\n";
 		s += "</specificationSet>\n";
 

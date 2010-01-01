@@ -2,7 +2,7 @@ package de.hpi.yawl;
 
 import java.util.Locale;
 
-public class YMultiInstanceParam {
+public class YMultiInstanceParam implements FileWritingForYAWL {
 	
 	public enum CreationMode {
 		DYNAMIC, STATIC

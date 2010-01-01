@@ -1,6 +1,6 @@
 package de.hpi.yawl;
 
-public class YMIDataInput {
+public class YMIDataInput implements FileWritingForYAWL {
 
 	private String expression = "";
 	private String splittingExpression = "";

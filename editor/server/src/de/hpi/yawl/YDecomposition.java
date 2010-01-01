@@ -2,7 +2,7 @@ package de.hpi.yawl;
 
 import java.util.*;
 
-public class YDecomposition {
+public class YDecomposition implements FileWritingForYAWL {
 	
 	public enum ExternalInteraction {
 		MANUAL, AUTOMATED
@@ -10,6 +10,9 @@ public class YDecomposition {
 	
 	private ArrayList<YNode> nodes = new ArrayList<YNode>();
 	private ArrayList<YEdge> edges = new ArrayList<YEdge>();
+	
+	private YInputCondition inputCondition;
+	private YOutputCondition outputCondition;
 	
     private String id; // The id of the decomposition
     private boolean isRootNet; // Whether this decomposition is the root
@@ -87,7 +90,23 @@ public class YDecomposition {
 		return nodes;
     }
     
-    /**
+    public YInputCondition getInputCondition() {
+		return inputCondition;
+	}
+
+	public void setInputCondition(YInputCondition inputCondition) {
+		this.inputCondition = inputCondition;
+	}
+
+	public YOutputCondition getOutputCondition() {
+		return outputCondition;
+	}
+
+	public void setOutputCondition(YOutputCondition outputCondition) {
+		this.outputCondition = outputCondition;
+	}
+
+	/**
 	 * Gets the set of edges from the first node to the second node.
 	 * @param v1 the first node
 	 * @param v2 the second node
@@ -104,46 +123,58 @@ public class YDecomposition {
 				}
 			}
 		}
-		
 		return result;
 	}
     
+	/**
+     * Adds the given node to the decomposition node collection.
+     * @param node The given node
+     */
     public void addNode(YNode node){
-    	nodes.add(node);
+    	if (!((node instanceof YInputCondition) || (node instanceof YOutputCondition)))
+    		//prevent that an input or output condition gets part of the nodes set
+    		//there has to be only one input and one output condition in a decomposition
+    		nodes.add(node);
     }
 
     /**
-     * Adds an input condition with given name.
-     * @param name The given name
+     * Creates an input condition with given id and name and adds it to the decomposition.
+     * @param id The given id for the node (technical)
+     * @param name The given name for the node (representative)
+     * @return created input condition node
      */
-    public YCondition addInputCondition(String id, String name) {
-        YCondition condition = new YCondition(id, name, YCondition.ConditionType.IN);
+    public YCondition createInputCondition(String id, String name) {
+        YInputCondition condition = new YInputCondition(id, name);
+        setInputCondition(condition);
+        return condition;
+    }
+
+    /**
+     * Creates an output condition with given id and name and adds it to the decomposition.
+     * @param id The given id for the node (technical)
+     * @param name The given name for the node (representative)
+     * @return created output condition node
+     */
+    public YCondition createOutputCondition(String id, String name) {
+        YOutputCondition condition = new YOutputCondition(id, name);
+        setOutputCondition(condition);
+        return condition;
+    }
+
+    /**
+     * Creates a (normal) condition with given id and name and adds it to the decomposition nodes collection.
+     * @param id The given id for the node (technical)
+     * @param name The given name for the node (representative)
+     * @return created condition node
+     */
+    public YCondition createCondition(String id, String name) {
+        YCondition condition = new YCondition(id, name);
         addNode(condition);
         return condition;
     }
 
     /**
-     * Adds an output condition with given name.
-     * @param name The given name
-     */
-    public YCondition addOutputCondition(String id, String name) {
-        YCondition condition = new YCondition(id, name, YCondition.ConditionType.OUT);
-        addNode(condition);
-        return condition;
-    }
-
-    /**
-     * Adds a (normal) condition with given name.
-     * @param name The given name
-     */
-    public YCondition addCondition(String id, String name) {
-        YCondition condition = new YCondition(id, name, YCondition.ConditionType.NONE);
-        addNode(condition);
-        return condition;
-    }
-
-    /**
-     * Adds a task with given name, join type, split type, and subdecomposition name.
+     * Creates a task with given name, join type, split type, and subdecomposition name and adds it the decomposition nodes collection.
      * @param id The given identifier
      * @param name The given name
      * @param join The given join type (and, xor, or)
@@ -151,7 +182,7 @@ public class YDecomposition {
      * @param decomposesTo The given subdecomposition name.
      * @return the task created.
      */
-    public YTask addTask(String id, String name, String join, String split,
+    public YTask createTask(String id, String name, String join, String split,
                             YDecomposition decomposesTo) {
     	YTask.SplitJoinType joinType = YTask.SplitJoinType.XOR;
     	YTask.SplitJoinType splitType = YTask.SplitJoinType.AND;
@@ -189,7 +220,6 @@ public class YDecomposition {
      * Adds an edge to the edges list of the decomposition.
      * @param edge The edge object
      */
-    
     public void addEdge(YEdge edge) {
         edges.add(edge);
     }
@@ -203,9 +233,7 @@ public class YDecomposition {
      * @param ordering The given predicate ordering
      */
 
-    public YEdge addEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate,
-           int ordering) {
-    	
+    public YEdge createEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate, int ordering) {
         YEdge newEdge = new YEdge(fromNode, toNode, isDefaultFlow, predicate, ordering);
         addEdge(newEdge);
         return newEdge;
@@ -217,12 +245,11 @@ public class YDecomposition {
      * @param toNode The name of the destination node
      */
     
-    public YEdge addEdge(YNode fromNode, YNode toNode) {
-     	
-         YEdge newEdge = new YEdge(fromNode, toNode);
+    public YEdge createEdge(YNode fromNode, YNode toNode) {
+     	 YEdge newEdge = new YEdge(fromNode, toNode);
          addEdge(newEdge);
          return newEdge;
-     }
+    }
     
     public ArrayList<YVariable> getInputParams(){
     	if (inputParameters == null)
@@ -241,6 +268,82 @@ public class YDecomposition {
     		localVariables = new ArrayList<YVariable>();
 		return localVariables;
     }
+    
+    private String writeInputParamsToYAWL(String s){
+    	if(getInputParams().size() > 0){
+        	for(YVariable var : getInputParams()){
+        		s += "\t\t\t\t\t<inputParam>\n";
+        		s += var.writeAsParameterToYAWL();
+        		s += "\t\t\t\t\t</inputParam>\n";
+        	}
+        }
+    	return s;
+    }
+    
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeOutputParamsToYAWL(String s) {
+		if(getOutputParams().size() > 0){
+        	for(YVariable var : getOutputParams()){
+        		s += "\t\t\t\t\t<outputParam>\n";
+        		s += var.writeAsParameterToYAWL();
+        		s += "\t\t\t\t\t</outputParam>\n";
+        	}
+        }
+		return s;
+	}
+	
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeLocalVariablesToYAWL(String s) {
+		if(getLocalVariables().size() > 0){
+        	for(YVariable var : getLocalVariables()){
+        		s += "\t\t\t\t\t<localVariable>\n";
+        		s += var.writeAsParameterToYAWL();
+        		s += "\t\t\t\t\t</localVariable>\n";
+        	}
+        }
+		return s;
+	}
+	
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeProcessControlElementsToYAWL(String s) {
+		Iterator<YNode> it = getNodes().iterator();
+        if (it.hasNext()) {
+            s += "\t\t\t<processControlElements>\n";
+            s += inputCondition.writeToYAWL();
+            while(it.hasNext()){
+            	Object object = it.next();
+            	if (object instanceof YTask) 
+                    s += ((YTask) object).writeToYAWL();
+                else if (object instanceof YCondition) 
+                    s += ((YCondition) object).writeToYAWL(); 
+            }
+            s += outputCondition.writeToYAWL();
+            
+            s += "\t\t\t</processControlElements>\n";
+        }
+		return s;
+	}
+	
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeWebServiceGatewayFactsTypeToYAWL(String s) {
+        if(!codelet.isEmpty())
+        	s += String.format("\t\t\t<codelet>%s</codelet>\n", codelet);
+        s += String.format("\t\t\t<externalInteraction>%s</externalInteraction>\n", externalInteraction.toString().toLowerCase(Locale.ENGLISH));
+		
+        return s;
+	}
 
     /**
      * Export to YAWL file.
@@ -248,68 +351,26 @@ public class YDecomposition {
      */
     public String writeToYAWL() {
         String s = "";
-        s += "\t\t<decomposition ";
-        s += "id=\"" + id + "\" ";
+        
+        s += String.format("\t\t<decomposition id=\"%s\" ", id);
         if (isRootNet) {
             s += "isRootNet=\"true\" ";
         }
-        s += "xsi:type=\"" + xsiType + "\" >\n";
+        s += String.format("xsi:type=\"%s\" >\n", xsiType);
         
-        if(getInputParams().size() > 0){
-        	Boolean isParam = true;
-        	
-        	for(YVariable var : getInputParams()){
-        		s += "\t\t\t\t\t<inputParam>\n";
-        		s += var.writeToYAWL(isParam);
-        		s += "\t\t\t\t\t</inputParam>\n";
-        	}
-        }
+        s = writeInputParamsToYAWL(s);
         
-        if(getOutputParams().size() > 0){
-        	Boolean isParam = true;
-        	
-        	for(YVariable var : getOutputParams()){
-        		s += "\t\t\t\t\t<outputParam>\n";
-        		s += var.writeToYAWL(isParam);
-        		s += "\t\t\t\t\t</outputParam>\n";
-        	}
-        }
+        s = writeOutputParamsToYAWL(s);
         
-        if(getLocalVariables().size() > 0){
-        	Boolean isParam = true;
-        	
-        	for(YVariable var : getLocalVariables()){
-        		s += "\t\t\t\t\t<localVariable>\n";
-        		s += var.writeToYAWL(isParam);
-        		s += "\t\t\t\t\t</localVariable>\n";
-        	}
-        }
+        s = writeLocalVariablesToYAWL(s);
 
-        Iterator<YNode> it = getNodes().iterator();
-        if (it.hasNext()) {
-            s += "\t\t\t<processControlElements>\n";
-            for (int i = 0; i < 3; i++) {
-                while (it.hasNext()) {
-                    Object object = it.next();
-                    if (object instanceof YTask) {
-                        s += ((YTask) object).writeToYAWL(i);
-                    } else if (object instanceof YCondition) {
-                        s += ((YCondition) object).writeToYAWL(i);
-                    }
-                }
-                it = getNodes().iterator();
-            }
-            s += "\t\t\t</processControlElements>\n";
-        }
+        s = writeProcessControlElementsToYAWL(s);
         
-        if(xsiType.equals("WebServiceGatewayFactsType")){
-        	if(!codelet.isEmpty())
-        		s += String.format("\t\t\t<codelet>%s</codelet>\n", codelet);
-        	
-        	s += String.format("\t\t\t<externalInteraction>%s</externalInteraction>\n", externalInteraction.toString().toLowerCase(Locale.ENGLISH));
-        }
-
+        if(xsiType.equals("WebServiceGatewayFactsType"))
+        	s = writeWebServiceGatewayFactsTypeToYAWL(s);
+        
         s += "\t\t</decomposition>\n";
+        
         return s;
     }
 }

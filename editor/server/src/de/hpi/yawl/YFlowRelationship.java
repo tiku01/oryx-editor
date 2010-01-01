@@ -25,7 +25,6 @@ public abstract class YFlowRelationship {
 	
 	protected YNode source;
 	protected YNode target;
-	protected String id;
 	
 	public YNode getSource() {
 		return source;
@@ -49,23 +48,6 @@ public abstract class YFlowRelationship {
 		target = value;
 		if (target != null)
 			target.getIncomingEdges().add(this);
-	}
-	
-	//perhaps removable method
-	public String getId() {
-		if(id != null){
-			return id;
-		} else if(id == null && 
-				this.getSource().getID() != null && 
-				this.getTarget().getID() != null){
-			return this.getSource().getID() + this.getTarget().getID();
-		} else {
-			return null;
-		}
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 }
