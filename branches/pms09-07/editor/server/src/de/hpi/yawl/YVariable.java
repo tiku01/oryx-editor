@@ -60,19 +60,31 @@ public class YVariable {
 		this.readOnly = readOnly;
 	}
 	
-	public String writeToYAWL(Boolean param){
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeVariableSettingsToYAWL(String s) {
+		s += String.format("\t\t\t\t\t\t<name>%s</name>\n", getName());
+		s += String.format("\t\t\t\t\t\t<type>%s</type>\n", getType());
+		s += String.format("\t\t\t\t\t\t<namespace>%s</namespace>\n", getNamespace());
+		return s;
+	}
+	
+	public String writeAsParameterToYAWL(){
 		String s = "";
+		s = writeVariableSettingsToYAWL(s);
 		
-		s += "\t\t\t\t\t\t<name>" + getName() + "</name>\n";
-		s += "\t\t\t\t\t\t<type>" + getType() + "</type>\n";
-		s += "\t\t\t\t\t\t<namespace>" + getNamespace() + "</namespace>\n";
-		
-		if(!param){
-			if(getInitialValue().length() > 0){
-				s += "\t\t\t\t\t\t<initialValue>" + getInitialValue() + "</initialValue>\n";
-			}
+		if(getInitialValue().length() > 0){
+			s += String.format("\t\t\t\t\t\t<initialValue>%s</initialValue>\n", getInitialValue());
 		}
-		
+		return s;
+	}
+	
+	//TODO: may be removable
+	public String writeToYAWL(){
+		String s = "";
+		s = writeVariableSettingsToYAWL(s);
 		return s;
 	}
 }

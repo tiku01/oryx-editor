@@ -1,4 +1,4 @@
-package de.hpi.yawl.resourcing;
+package de.hpi.yawl;
 
 public interface FileWritingForYAWL {
 

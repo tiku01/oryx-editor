@@ -102,9 +102,9 @@ public class BPMN2YAWLConverter {
 			if (ynode == null)
 				controlElements.add(node);
 			else {
-				if (ynode instanceof YCondition && ((YCondition)ynode).isInputCondition())
+				if (ynode instanceof YInputCondition)
 					start = ynode;
-				if (ynode instanceof YCondition && ((YCondition)ynode).isOutputCondition())
+				if (ynode instanceof YOutputCondition)
 					exit = ynode;
 			}
 		}		
@@ -114,12 +114,12 @@ public class BPMN2YAWLConverter {
 			mapControlElement(model, dec, node, nodeMap);
 		
 		if (exit == null)
-			exit = dec.addOutputCondition(generateId("Output"), "Output Condition");
+			exit = dec.createOutputCondition(generateId("Output"), "Output Condition");
 		
 		if (start == null){
-			start = dec.addInputCondition(generateId("Input"), "Input Condition");
+			start = dec.createInputCondition(generateId("Input"), "Input Condition");
 			if(nodeMap.isEmpty())
-				dec.addEdge(start, exit, false, "", 0);	
+				dec.createEdge(start, exit, false, "", 0);	
 		}
 		
 		for (DataObject dataObject : diagram.getDataObjects()) {
@@ -156,33 +156,33 @@ public class BPMN2YAWLConverter {
 				
 				if (task.getSplitType() == YTask.SplitJoinType.AND) {
 					// Factor out the split decorator to allow a self loop
-					YTask split = d.addTask(generateId(), "SplitTask", "XOR", "AND", null);
+					YTask split = d.createTask(generateId(), "SplitTask", "XOR", "AND", null);
 
 					for (YFlowRelationship flow : task.getOutgoingEdges()){
 						if (flow instanceof YEdge){
 							YEdge edge = (YEdge)flow;
-							d.addEdge(split, edge.getTarget(), false, "", 0);
+							d.createEdge(split, edge.getTarget(), false, "", 0);
 						}
 					}
 					task.getOutgoingEdges().clear();
 					
-					d.addEdge(task, split, false, "", 0);					
+					d.createEdge(task, split, false, "", 0);					
 				}
 
 				if (task.getJoinType() == YTask.SplitJoinType.AND) {
 					// Factor out the split decorator to allow a self loop
-					YTask join = d.addTask(generateId(), "JoinTask", "AND", "AND", null);
+					YTask join = d.createTask(generateId(), "JoinTask", "AND", "AND", null);
 
 					for (YFlowRelationship flow : task.getIncomingEdges()){
 						if(flow instanceof YEdge){
 							YEdge e = (YEdge)flow;
-							d.addEdge(e.getSource(), join, false, "", 0);
+							d.createEdge(e.getSource(), join, false, "", 0);
 						}
 					}
 						
 					task.getIncomingEdges().clear();
 					
-					d.addEdge(join, task, false, "", 0);					
+					d.createEdge(join, task, false, "", 0);					
 				}
 				Activity activity = (Activity)act;
 				String predicate = "";
@@ -193,7 +193,7 @@ public class BPMN2YAWLConverter {
 					predicate = getExpressionForLoopingActivityBySequenceFlow(act);
 				}
 				// Self loop edge
-				d.addEdge(task, task, false, predicate, 1);
+				d.createEdge(task, task, false, predicate, 1);
 				task.setSplitType(YTask.SplitJoinType.XOR);
 				task.setJoinType(YTask.SplitJoinType.XOR);
 			}
@@ -224,17 +224,17 @@ public class BPMN2YAWLConverter {
 			if (compTask.getOutgoingEdges().size() > 1) {
 				// There is a split attached to the composite task
 				// so, factor it out !
-				YTask newSplit = dec.addTask(generateId(), "newSplitTask", "XOR", "AND", null);
+				YTask newSplit = dec.createTask(generateId(), "newSplitTask", "XOR", "AND", null);
 				
 				for (YFlowRelationship flow : compTask.getOutgoingEdges()){
 					if (flow instanceof YEdge){
 						YEdge edge = (YEdge)flow;
-						dec.addEdge(newSplit, edge.getTarget(), false, "", 0);
+						dec.createEdge(newSplit, edge.getTarget(), false, "", 0);
 					}
 				}
 				compTask.getOutgoingEdges().clear();
 				
-				dec.addEdge(compTask, newSplit, false, "", 0);
+				dec.createEdge(compTask, newSplit, false, "", 0);
 				sourceTask = newSplit;
 				newSplit.setSplitType(compTask.getSplitType());
 			}
@@ -258,13 +258,13 @@ public class BPMN2YAWLConverter {
 			IntermediateTimerEvent eventHandler, LinkedList<IntermediateTimerEvent> timers) {
 		YTask timerEventTask = (YTask)mapTimerEvent(model, dec, eventHandler, nodeMap, true);
 		YNode targetTask = nodeMap.get(eventHandler.getOutgoingSequenceFlows().get(0).getTarget());
-		dec.addEdge(timerEventTask, targetTask, false, "", 1);
+		dec.createEdge(timerEventTask, targetTask, false, "", 1);
 		
 		if (timers.size() > 0) {
 			YNode predecesor = null;
 			boolean needsLinking = false;
 			if (compTask.getIncomingEdges().size() > 1) {
-				predecesor = dec.addTask(generateId(), "Task", "XOR", "AND", null);
+				predecesor = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 				Task predecesorTask = new Task();
 				nodeMap.put(predecesorTask, predecesor);
 				needsLinking = true;
@@ -272,12 +272,12 @@ public class BPMN2YAWLConverter {
 				predecesor = (YNode)compTask.getIncomingEdges().get(0).getSource();
 				
 				if (predecesor instanceof YCondition) {
-					YNode gw = dec.addTask(generateId(), "Task", "XOR", "AND", null);
+					YNode gw = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 					
 					YEdge edge = (YEdge) predecesor.getOutgoingEdges().get(0);
 					dec.removeEdge(edge);
 					
-					dec.addEdge(predecesor, gw, false, "", 1);
+					dec.createEdge(predecesor, gw, false, "", 1);
 					predecesor = gw;
 					Task predecesorTask = new Task();
 					nodeMap.put(predecesorTask, predecesor);
@@ -296,11 +296,11 @@ public class BPMN2YAWLConverter {
 						timerTask.getCancellationSet().add((YTask)nodeMap.get(another));
 				}
 				
-				dec.addEdge(predecesor, timerTask, false, "", 1);
+				dec.createEdge(predecesor, timerTask, false, "", 1);
 			}
 
 			if (needsLinking) {
-				dec.addEdge(predecesor, compTask, false, "", 1);
+				dec.createEdge(predecesor, compTask, false, "", 1);
 			}
 		}
 	}
@@ -340,7 +340,7 @@ public class BPMN2YAWLConverter {
 				}
 			}
 		}
-		dec.addEdge(sourceTask, targetTask, false, predicate, 1);
+		dec.createEdge(sourceTask, targetTask, false, predicate, 1);
 
 		YVariable local = new YVariable();
 		local.setName(tag);
@@ -413,7 +413,7 @@ public class BPMN2YAWLConverter {
 		boolean split = false, join = false;
 		if (node.getOutgoingSequenceFlows().size() > 1 && node.getIncomingSequenceFlows().size() > 1) {
 			// Both roles
-			task = dec.addTask(generateId(), "Task", "XOR", "AND", null);
+			task = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 
 			split = true; join = true;
 		} else if (node.getOutgoingSequenceFlows().size() > 1) {
@@ -423,7 +423,7 @@ public class BPMN2YAWLConverter {
 			
 			if (predTask == null || (predNode.getOutgoingSequenceFlows() != null && predNode.getOutgoingSequenceFlows().size() > 1) ||
 					predTask instanceof YCondition)
-				task = dec.addTask(generateId(), "Task", "XOR", "AND", null);
+				task = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 			else
 				task = (YTask)predTask;
 			split = true;
@@ -432,10 +432,9 @@ public class BPMN2YAWLConverter {
 			Node succNode = (Node) node.getOutgoingSequenceFlows().get(0).getTarget();
 			YNode succTask = nodeMap.get(succNode);
 			
-			//succTask.getIncidentEdges()
 			if (succTask == null || (succNode.getIncomingSequenceFlows() != null && succNode.getIncomingSequenceFlows().size() > 1) ||
 					succTask instanceof YCondition)
-				task = dec.addTask(generateId(), "Task", "XOR", "AND", null);
+				task = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 			else
 				task = (YTask)succTask;
 			join = true;
@@ -539,12 +538,12 @@ public class BPMN2YAWLConverter {
 		else if (node instanceof IntermediateEvent && node.getIncomingSequenceFlows().get(0).getSource() instanceof Gateway)
 			ynode = mapIntermediateEvent(model, dec, node, nodeMap);
 		else if (node instanceof IntermediatePlainEvent && node.getOutgoingSequenceFlows().get(0).getTarget() instanceof Gateway) {
-			ynode = dec.addCondition(generateId("plain"), "ConditionMappedFromIntermediatePlainEvent");
+			ynode = dec.createCondition(generateId("plain"), "ConditionMappedFromIntermediatePlainEvent");
 			nodeMap.put(node, ynode);
 		} else if (node instanceof EndErrorEvent)
 			ynode = mapException(model, dec, node, nodeMap);
 		else if (node instanceof EndTerminateEvent){
-			ynode = dec.addTask(generateId("endTerminate"), "CancellationTask", "XOR", "AND", null);
+			ynode = dec.createTask(generateId("endTerminate"), "CancellationTask", "XOR", "AND", null);
 			nodeMap.put(node, ynode);
 		}
 			
@@ -598,7 +597,7 @@ public class BPMN2YAWLConverter {
 
 	private YNode mapTimerEvent(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap, Boolean attached) {
-		YTask timerTask = dec.addTask(generateId("timer"), "TimerTask", "XOR", "AND", null);
+		YTask timerTask = dec.createTask(generateId("timer"), "TimerTask", "XOR", "AND", null);
 		IntermediateTimerEvent timerEvent = (IntermediateTimerEvent)node;
 		
 		
@@ -659,12 +658,12 @@ public class BPMN2YAWLConverter {
 			
 			if (node instanceof EndErrorEvent) {
 				YNode sourceTask = nodeMap.get(node);				
-				dec.addEdge(sourceTask, exitTask, false, "", 1);
+				dec.createEdge(sourceTask, exitTask, false, "", 1);
 				continue;
 			}
 			if (node instanceof EndTerminateEvent){
 				YNode sourceTask = nodeMap.get(node);
-				dec.addEdge(sourceTask, exitTask, false, "", 1);
+				dec.createEdge(sourceTask, exitTask, false, "", 1);
 				//postponed to the end because during mapping not all elements are mapped
 				//mapEndTerminateToCancellationSet(sourceTask, nodeMap);
 				terminateEvents.add((EndTerminateEvent) node);
@@ -699,7 +698,7 @@ public class BPMN2YAWLConverter {
 						continue;
 					}
 					
-					dec.addEdge(sourceTask, targetTask, false, predicate, order);
+					dec.createEdge(sourceTask, targetTask, false, predicate, order);
 				}
 			}
 			if(defaultEdge != null){
@@ -719,10 +718,11 @@ public class BPMN2YAWLConverter {
 		ArrayList<YNode> cancellationSet = new ArrayList<YNode>();
 		
 		for(YNode ynode : nodeMap.values()){
-			if(ynode instanceof YCondition){
-				if(((YCondition) ynode).isInputCondition() || ((YCondition) ynode).isOutputCondition()){
+			if((ynode instanceof YInputCondition) || (ynode instanceof YOutputCondition)){
+				continue;
+				/*if(((YCondition) ynode).isInputCondition() || ((YCondition) ynode).isOutputCondition()){
 					continue;
-				}
+				}*/
 			}
 			if(ynode.equals(terminateNode))
 				continue;
@@ -742,7 +742,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapInputCondition(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YNode ynode = dec.addInputCondition(generateId("input"), "inputCondition");
+		YNode ynode = dec.createInputCondition(generateId("input"), "inputCondition");
 		nodeMap.put(node, ynode);
 		
 		return ynode;
@@ -757,7 +757,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapOutputCondition(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YNode ynode = dec.addOutputCondition(generateId("output"), "outputCondition");
+		YNode ynode = dec.createOutputCondition(generateId("output"), "outputCondition");
 		nodeMap.put(node, ynode);
 		
 		return ynode;
@@ -779,7 +779,7 @@ public class BPMN2YAWLConverter {
 		if(preYNode instanceof YCondition){
 			cond = (YCondition)preYNode;
 		}else{
-			cond = dec.addCondition(generateId("EXorGW"), "Condition");
+			cond = dec.createCondition(generateId("EXorGW"), "Condition");
 		}
 		
 		nodeMap.put(node, cond);
@@ -795,7 +795,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapException(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YNode task = dec.addTask(generateId("ErrorEvent"), "TaskMappedFromErrorEvent", "XOR", "AND", null);
+		YNode task = dec.createTask(generateId("ErrorEvent"), "TaskMappedFromErrorEvent", "XOR", "AND", null);
 		nodeMap.put(node, task);
 		
 		return task;
@@ -810,7 +810,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapIntermediateEvent(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YTask task = dec.addTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent", "XOR", "AND", null);
+		YTask task = dec.createTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent", "XOR", "AND", null);
 		
 		YDecomposition decomp = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
 		model.addDecomposition(decomp.getID(), decomp);
@@ -830,7 +830,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapIntermediateMessageEvent(YModel model, YDecomposition dec, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YTask task = dec.addTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", null);
+		YTask task = dec.createTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", null);
 		
 		YDecomposition decomp = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
 		model.addDecomposition(decomp.getID(), decomp);
@@ -986,7 +986,7 @@ public class BPMN2YAWLConverter {
 		ArrayList<YVariable> taskVariablesOutput = new ArrayList<YVariable>();
 		Boolean addTaskDecomposition = true;
 		
-		YTask task = dec.addTask(generateId("task"), activity.getLabel(), "XOR", "AND", null);
+		YTask task = dec.createTask(generateId("task"), activity.getLabel(), "XOR", "AND", null);
 		if(isComposite)
 			addTaskDecomposition = false;
 		

@@ -2,6 +2,8 @@ package de.hpi.yawl.resourcing;
 
 import java.util.UUID;
 
+import de.hpi.yawl.FileWritingForYAWL;
+
 public abstract class ResourcingType implements FileWritingForYAWL {
 
 	String id = "";

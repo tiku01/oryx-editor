@@ -113,98 +113,140 @@ public class YTask extends YNode{
 		return completedMappings;
 	}
 
-/*	private void createCompletedNullMapping() {
-		YVariable nullVariable = new YVariable("null", "", "", "", false);
-		YVariableMapping completedVarMap = new YVariableMapping("", nullVariable);
-		
-		completedMappings.add(completedVarMap);
-		
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeOutgoingEdgesToYAWL(String s) {
+		for(YFlowRelationship flow: this.getOutgoingEdges()){
+			if (flow instanceof YEdge){
+				YEdge edge = (YEdge)flow;
+				s += edge.writeToYAWL(this.splitType);
+			}
+		}
+		return s;
 	}
 
-	private void createStartingNullMapping() {
-		YVariable nullVariable = new YVariable("null", "", "", "", false);
-		YVariableMapping startingVarMap = new YVariableMapping("", nullVariable);
-		
-		startingMappings.add(startingVarMap);
-		
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeCompletedMappingsToYAWL(String s) {
+		if (getCompletedMappings().size() > 0){
+			s += "\t\t\t\t\t<completedMappings>\n";
+			for(YVariableMapping mapping : getCompletedMappings()){
+				s += mapping.writeToYAWL();
+			}
+			s += "\t\t\t\t\t</completedMappings>\n";
+		}
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeStartingMappingsToYAWL(String s) {
+		if (getStartingMappings().size() > 0){
+			s += "\t\t\t\t\t<startingMappings>\n";
+			for(YVariableMapping mapping : getStartingMappings()){
+				s += mapping.writeToYAWL();
+			}
+			s += "\t\t\t\t\t</startingMappings>\n";
+		}
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeCancellationSetToYAWL(String s) {
+		if (getCancellationSet().size() > 0){
+			for(YNode removeNode: getCancellationSet()){
+				s += "\t\t\t\t\t<removesTokens id=\"" + removeNode.getID() + "\"/>\n";
+			}
+		}
+		return s;
 	}
 	
-	private void createVariableForTimerMapping(YDecomposition dec) {
-		YVariable timerVariable = new YVariable("timer", "String", "http://www.w3.org/2001/XMLSchema", "", false);
-		dec.getLocalVariables().add(timerVariable);
-		
-		String startQuery = "&lt;" + timerVariable.getName() + "&gt;{/" + dec.getID() + "/" + timerVariable.getName() + "/text()}&lt;/" + timerVariable.getName() +"&gt;";	
-		
-		YVariableMapping startingVarMap = new YVariableMapping(startQuery, timerVariable);
-		
-		startingMappings.add(startingVarMap);
-	}*/
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeMiParamToYAWL(String s) {
+		if (isMultipleTask()) {
+            s += getMiParam().writeToYAWL();
+        }
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeDecomposesToToYAWL(String s) {
+		if (decomposesTo != null) {
+            s += String.format("\t\t\t\t\t<decomposesTo id=\"%s\"/>\n", getDecomposesTo().getID());
+        }
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeTimerToYAWL(String s) {
+		if (timer != null){
+			s += timer.writeToYAWL();
+		}
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeSplitJoinTypeToYAWL(String s) {
+		s += String.format("\t\t\t\t\t<join code=\"%s\"/>\n", getJoinType().toString().toLowerCase(Locale.ENGLISH));
+		s += String.format("\t\t\t\t\t<split code=\"%s\"/>\n", getSplitType().toString().toLowerCase(Locale.ENGLISH));
+		return s;
+	}
 	
 	/**
 	 * Export to YAWL file.
 	 * @param phase Writing phase: 0 = inputCondition, 2 = outputCondition, 1 = rest.
 	 * @return String The string to export for this YTask.
 	 */
-	public String writeToYAWL(int phase) {
+	public String writeToYAWL() {
 		String s = "";
-		if (phase == 1) {
 			
-			if(!getXsiType().isEmpty()){
-				s += String.format("\t\t\t\t<task id=\"%s\" xsi:type=\"%s\">\n", getID(), getXsiType());
-			}else{
-				s += String.format("\t\t\t\t<task id=\"%s\">\n", getID());
-			}
+		if(!getXsiType().isEmpty())
+			s += String.format("\t\t\t\t<task id=\"%s\" xsi:type=\"%s\">\n", getID(), getXsiType());
+		else
+			s += String.format("\t\t\t\t<task id=\"%s\">\n", getID());
 
-			s += String.format("\t\t\t\t\t<name>%s</name>\n", getName());
+		s += String.format("\t\t\t\t\t<name>%s</name>\n", getName());
 
-			// First, normal edges
-			for(YFlowRelationship flow: this.getOutgoingEdges()){
-				if (flow instanceof YEdge){
-					YEdge edge = (YEdge)flow;
-					s += edge.writeToYAWL(this.splitType);
-				}
-			}
+		// First, normal edges
+		s = writeOutgoingEdgesToYAWL(s);
 
-			// Second, join and split type
-			s += String.format("\t\t\t\t\t<join code=\"%s\"/>\n", getJoinType().toString().toLowerCase(Locale.ENGLISH));
-			s += String.format("\t\t\t\t\t<split code=\"%s\"/>\n", getSplitType().toString().toLowerCase(Locale.ENGLISH));
+		// Second, join and split type
+		s = writeSplitJoinTypeToYAWL(s);
 
-			// Third, reset set
-			if (getCancellationSet().size() > 0){
-				for(YNode removeNode: getCancellationSet()){
-					s += "\t\t\t\t\t<removesTokens id=\"" + removeNode.getID() + "\"/>\n";
-				}
-			}
+		// Third, reset set
+		s = writeCancellationSetToYAWL(s);
 			
-			if (getStartingMappings().size() > 0){
-				s += "\t\t\t\t\t<startingMappings>\n";
-				for(YVariableMapping mapping : getStartingMappings()){
-					s += mapping.writeToYAWL();
-				}
-				s += "\t\t\t\t\t</startingMappings>\n";
-			}
+		s = writeStartingMappingsToYAWL(s);
 			
-			if (getCompletedMappings().size() > 0){
-				s += "\t\t\t\t\t<completedMappings>\n";
-				for(YVariableMapping mapping : getCompletedMappings()){
-					s += mapping.writeToYAWL();
-				}
-				s += "\t\t\t\t\t</completedMappings>\n";
-			}
+		s = writeCompletedMappingsToYAWL(s);
 			
-			if (timer != null){
-				s += timer.writeToYAWL();
-			}
+		s = writeTimerToYAWL(s);
 			
-            if (decomposesTo != null) {
-                s += String.format("\t\t\t\t\t<decomposesTo id=\"%s\"/>\n", getDecomposesTo().getID());
-            }
-            if (isMultipleTask()) {
-                s += getMiParam().writeToYAWL();
-            }
+        s = writeDecomposesToToYAWL(s);
+        s = writeMiParamToYAWL(s);
             
-			s +="\t\t\t\t</task>\n";
-		}
+		s +="\t\t\t\t</task>\n";
 		return s;
 	}
 }
