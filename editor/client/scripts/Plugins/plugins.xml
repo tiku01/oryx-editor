@@ -296,6 +296,10 @@
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
+		<plugin source="dockerCreation.js" name="ORYX.Plugins.DockerCreation" />
+		
+		
+		
 
 	</plugins>
 	
