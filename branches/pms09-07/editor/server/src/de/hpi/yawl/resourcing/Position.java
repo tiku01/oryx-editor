@@ -39,19 +39,47 @@ public class Position extends ResourcingType {
 		String s = "";
 		s += "\t\t<position id=\"" + id + "\">\n";
 		s += "\t\t\t<title>" + name + "</title>\n";
-		s += positionId.isEmpty() ? "\t\t\t<positionid />\n" : 
-			"\t\t\t<positionid>" + positionId + "</positionid>\n";
-		s += description.isEmpty() ? "\t\t\t<description />\n" : 
-			"\t\t\t<description>" + description + "</description>\n";
-		s += notes.isEmpty() ? "\t\t\t<notes />\n" : 
-			"\t\t\t<notes>" + notes + "</notes>\n";
-		if(orgGroupBelongingTo != null){
-			s += "\t\t\t<orggroupid>" + orgGroupBelongingTo.getId() + "</orggroupid>\n";
-		}
-		if(reportsTo != null){
-			s += "\t\t\t<reportstoid>" + reportsTo.getId() + "</reportstoid>\n";
-		}
+		s = writePositionIdToYAWL(s);
+		s = writeDescriptionToYAWL(s);
+		s = writeNotesToYAWL(s);
+		s = writeOrgGroupBelongingToToYAWL(s);
+		s = writeReportsToToYAWL(s);
 		s += "\t\t</position>\n";
+		
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writePositionIdToYAWL(String s) {
+		if (positionId.isEmpty())
+			s += "\t\t\t<positionid />\n";
+		else
+			s += String.format("\t\t\t<positionid>%s</positionid>\n", positionId);
+
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeReportsToToYAWL(String s) {
+		if(reportsTo != null)
+			s += "\t\t\t<reportstoid>" + reportsTo.getId() + "</reportstoid>\n";
+		
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeOrgGroupBelongingToToYAWL(String s) {
+		if(orgGroupBelongingTo != null)
+			s += "\t\t\t<orggroupid>" + orgGroupBelongingTo.getId() + "</orggroupid>\n";
 		
 		return s;
 	}

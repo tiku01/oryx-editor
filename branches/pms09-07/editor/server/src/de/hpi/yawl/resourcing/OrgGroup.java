@@ -26,23 +26,30 @@ public class OrgGroup extends ResourcingType {
 		this.belongsToID = belongsToID;
 	}
 
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeBelongsToIdToYAWL(String s) {
+		if(belongsToID != null)
+			s += String.format("\t\t\t<belongsToID>%s</belongsToID>\n", belongsToID.getId());
+		return s;
+	}
+	
 	public String writeToYAWL(){
 		String s = "";
 		s += "\t\t<orgGroup id=\"" + id + "\">\n";
 		s += "\t\t\t<groupName>" + name + "</groupName>\n";
 		s += "\t\t\t<groupType>" + groupType + "</groupType>\n";
-		s += description.isEmpty() ? "\t\t\t<description />\n" : 
-			"\t\t\t<description>" + description + "</description>\n";
-		s += notes.isEmpty() ? "\t\t\t<notes />\n" : 
-			"\t\t\t<notes>" + notes + "</notes>\n";
-		
-		if(belongsToID != null)
-			s += "\t\t\t<belongsToID>" + belongsToID.getId() + "</belongsToID>\n";
-		
+		s = writeDescriptionToYAWL(s);
+		s = writeNotesToYAWL(s);
+		s = writeBelongsToIdToYAWL(s);
 		s += "\t\t</orgGroup>\n";
 		
 		return s;
 	}
+
+
 	
 	
 }
