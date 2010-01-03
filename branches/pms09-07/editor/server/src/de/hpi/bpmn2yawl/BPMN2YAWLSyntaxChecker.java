@@ -54,79 +54,160 @@ public class BPMN2YAWLSyntaxChecker extends BPMNSyntaxChecker{
 	protected boolean checkNode(Node node) {
 		boolean isOk = super.checkNode(node);
 		
-		if (node instanceof ComplexGateway){
-			isOk = false;
-			addError(node, COMPLEXGATEWAY_NOT_SUPPORTED);
-		} else if(node instanceof SubProcess){
-			SubProcess subprocess = (SubProcess)node;
-			if(subprocess.isAdhoc())
-				isOk = false;
-				addError(node, ADHOCSUBPROCESS_NOT_SUPPORTED);
-		}
-		
-		if((node instanceof ORGateway) || (node instanceof XORDataBasedGateway)){
-			if(node.getOutgoingSequenceFlows().size() > 1){
-				int numberOfOutgoingDefaultFlows = 0;
-				for(SequenceFlow sequenceFlow : node.getOutgoingSequenceFlows()){
-					if(sequenceFlow.getConditionType() == ConditionType.DEFAULT)
-						numberOfOutgoingDefaultFlows++;
-					else if(sequenceFlow.getConditionType() == ConditionType.NONE){
-						if(sequenceFlow.getConditionExpression().isEmpty()){
-							isOk = false;
-							addError(sequenceFlow, NOEXPRESSION_NOT_SUPPORTED);
-						}else
-							sequenceFlow.setConditionType(ConditionType.EXPRESSION);
-					}else{
-						if(sequenceFlow.getConditionExpression().isEmpty()){
-							isOk = false;
-							addError(sequenceFlow, EXPRESSION_MISSING);
-						}
-					}
-				}
-				if(numberOfOutgoingDefaultFlows == 0){
-					isOk = false;
-					addError(node, GATEWAY_WITHOUT_DEFAULTFLOW);
-				}else if(numberOfOutgoingDefaultFlows > 1){
-					isOk = false;
-					addError(node, MORE_THAN_TWO_DEFAULTFLOWS_PER_GATEWAY_NOT_SUPPORTED);
-				}
-			}
-		}
-		if (node instanceof Lane)
-			checkLane((Lane)node);
-			System.out.println("Lanes are mapped too.");
+		if (node instanceof ComplexGateway)
+			isOk &= handleComplexGateway(node);
+		else if(node instanceof SubProcess)
+			isOk &= handleSubProcess(node);
+		else if((node instanceof ORGateway) || (node instanceof XORDataBasedGateway))
+			isOk &= handleGateway(node);
+		else if (node instanceof Lane)
+			isOk &= handleLane((Lane)node);
 		
 		return isOk;
+	}
+
+	/**
+	 * @param node
+	 * @param isOk
+	 * @return
+	 */
+	private boolean handleGateway(Node node) {
+		boolean isOk = true;
+		if(node.getOutgoingSequenceFlows().size() > 1){
+			int numberOfOutgoingDefaultFlows = 0;
+			for(SequenceFlow sequenceFlow : node.getOutgoingSequenceFlows()){
+				if(sequenceFlow.getConditionType() == ConditionType.DEFAULT)
+					numberOfOutgoingDefaultFlows++;
+				else if(sequenceFlow.getConditionType() == ConditionType.NONE)
+					isOk &= handleSequenceFlowConditionTypeNone(sequenceFlow);
+				else
+					isOk &= handleSequenceFlowConditionTypeExpression(sequenceFlow);
+			}
+			
+			if(numberOfOutgoingDefaultFlows == 0){
+				isOk = false;
+				addError(node, GATEWAY_WITHOUT_DEFAULTFLOW);
+			}else if(numberOfOutgoingDefaultFlows > 1){
+				isOk = false;
+				addError(node, MORE_THAN_TWO_DEFAULTFLOWS_PER_GATEWAY_NOT_SUPPORTED);
+			}
+		}
+		return isOk;
+	}
+
+	/**
+	 * @param isOk
+	 * @param sequenceFlow
+	 * @return
+	 */
+	private boolean handleSequenceFlowConditionTypeExpression(SequenceFlow sequenceFlow) {
+		boolean isOk = true;
+		if(sequenceFlow.getConditionExpression().isEmpty()){
+			isOk = false;
+			addError(sequenceFlow, EXPRESSION_MISSING);
+		}
+		return isOk;
+	}
+
+	/**
+	 * @param isOk
+	 * @param sequenceFlow
+	 * @return
+	 */
+	private boolean handleSequenceFlowConditionTypeNone(SequenceFlow sequenceFlow) {
+		boolean isOk = true;
+		if(sequenceFlow.getConditionExpression().isEmpty()){
+			isOk = false;
+			addError(sequenceFlow, NOEXPRESSION_NOT_SUPPORTED);
+		}else
+			sequenceFlow.setConditionType(ConditionType.EXPRESSION);
+		
+		return isOk;
+	}
+
+	/**
+	 * @param node
+	 * @param isOk
+	 * @return
+	 */
+	private boolean handleSubProcess(Node node) {
+		boolean isOk = true;
+		SubProcess subprocess = (SubProcess)node;
+		if(subprocess.isAdhoc())
+		{
+			isOk = false;
+			addError(node, ADHOCSUBPROCESS_NOT_SUPPORTED);
+		}
+		return isOk;
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private boolean handleComplexGateway(Node node) {
+		addError(node, COMPLEXGATEWAY_NOT_SUPPORTED);
+		return false;
 	}
 	
 	public boolean checkForNonEmptyTasks(BPMNDiagram diagram){
 		boolean isOk = true;
 		Vector<StartEvent> startEvents = new Vector<StartEvent>();
 		
-		//REFACTORING: Extract Method: getStartEventFromDiagram
+		getStartEventsFromDiagram(diagram, startEvents);
+		isOk &= checkStartEvents(startEvents);
+		
+		return isOk;
+	}
+
+	/**
+	 * @param isOk
+	 * @param startEvents
+	 * @return
+	 */
+	private boolean checkStartEvents(Vector<StartEvent> startEvents) {
+		boolean isOk = true;
+		for(StartEvent start : startEvents){
+			if(start.getOutgoingSequenceFlows().size() > 1){
+				for (SequenceFlow flow : start.getOutgoingSequenceFlows()){
+					Node node = (Node)flow.getTarget();
+					isOk &= checkNodeFollowingStartEvent(node);
+				}
+			}
+		}
+		return isOk;
+	}
+
+	/**
+	 * @param isOk
+	 * @param node
+	 * @return
+	 */
+	private boolean checkNodeFollowingStartEvent(Node node) {
+		boolean isOk = true;
+		if(!((node instanceof Activity) | (node instanceof IntermediateMessageEvent) | (node instanceof IntermediateTimerEvent))){
+			isOk = false;
+			addError(node, "Nodes that follow start events have to be instances of Activities, Intermediate Message Events or Intermediate Timer Events only");
+		}
+		return isOk;
+	}
+
+	/**
+	 * @param diagram
+	 * @param startEvents
+	 */
+	private void getStartEventsFromDiagram(BPMNDiagram diagram, Vector<StartEvent> startEvents) {
 		for (Container process : diagram.getProcesses()) {
 			for (Node node : process.getChildNodes()) {
 				if (node instanceof StartEvent)
 					startEvents.add((StartEvent) node);
 			}
 		}
-		for(StartEvent start : startEvents){
-			if(start.getOutgoingSequenceFlows().size() > 1){
-				for (SequenceFlow flow : start.getOutgoingSequenceFlows()){
-					Node node = (Node)flow.getTarget();
-					if(!((node instanceof Activity) || (node instanceof IntermediateMessageEvent) || (node instanceof IntermediateTimerEvent))){
-						isOk = false;
-						addError(node, "Nodes that follow start events have to be instances of Activities, Intermediate Message Events or Intermediate Timer Events only");
-					}
-				}
-			}
-		}
-		return isOk;
 	}
 	
-	public boolean checkLane(Lane lane){
+	public boolean handleLane(Lane lane){
 		boolean isOk = true;
-		if (lane.getResourcingType() == null || lane.getResourcingType().isEmpty()){
+		if (lane.getResourcingType() == null | lane.getResourcingType().isEmpty()){
 			isOk = false;
 			addError(lane, "Please load the YAWL stencilset extension and choose a resourcing type for this lane.");
 		}
