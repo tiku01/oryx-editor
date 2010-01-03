@@ -102,32 +102,54 @@ public class Participant extends ResourcingType {
 	
 	public String writeToYAWL(){
 		String s = "";
-		String isAdministratorValue = "";
-		if (isAdministrator)
-			isAdministratorValue = "true";
-		else
-			isAdministratorValue = "false";
-				
-		String isAvailableValue = "";
-		if (isAvailable)
-			isAvailableValue = "true";
-		else
-			isAvailableValue = "false";
 		
-		s += "\t\t<participant id=\"" + id + "\">\n";
-		s += "\t\t\t<userid>" + userid + "</userid>\n";
-	    s += "\t\t\t<password>" + password + "</password>\n";
-	    s += "\t\t\t<firstname>" + firstname + "</firstname>\n";
-	    s += "\t\t\t<lastname>" + lastname + "</lastname>\n";
-	    s += description.isEmpty() ? "\t\t\t<description />\n" : 
-			"\t\t\t<description>" + description + "</description>\n";
-	    s += notes.isEmpty() ? "\t\t\t<notes />\n" : 
-			"\t\t\t<notes>" + notes + "</notes>\n";
+		s += String.format("\t\t<participant id=\"%s\">\n", id);
+		s += String.format("\t\t\t<userid>%s</userid>\n", userid);
+	    s += String.format("\t\t\t<password>%s</password>\n", password);
+	    s += String.format("\t\t\t<firstname>%s</firstname>\n", firstname);
+	    s += String.format("\t\t\t<lastname>%s</lastname>\n", lastname);
+	    s = writeDescriptionToYAWL(s);
+	    s = writeNotesToYAWL(s);
 	    
-	    s += "\t\t\t<isAdministrator>" + isAdministratorValue + "</isAdministrator>\n";
-	    s += "\t\t\t<isAvailable>" + isAvailableValue + "</isAvailable>\n";
+	    s += String.format("\t\t\t<isAdministrator>%s</isAdministrator>\n", writeIsAdministratorToYAWL());
+	    s += String.format("\t\t\t<isAvailable>%s</isAvailable>\n", writeIsAvailableToYAWL());
 	    
-	    if(roles.isEmpty())
+	    s = writeRolesToYAWL(s);
+	    s = writePositionsToYAWL(s);
+	    s = writeCapabilitiesToYAWL(s);
+	    
+	    s += String.format("\t\t\t<privileges>%s</privileges>\n", privileges);
+	    s += "\t\t</participant>\n";
+		
+		return s;
+	}
+
+	/**
+	 * @return
+	 */
+	private String writeIsAvailableToYAWL() {
+		if (isAvailable)
+			return "true";
+		
+		return "false";
+	}
+
+	/**
+	 * @return
+	 */
+	private String writeIsAdministratorToYAWL() {
+		if (isAdministrator)
+			return "true";
+		
+		return "false";
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeRolesToYAWL(String s) {
+		if(roles.isEmpty())
 	    	s += "\t\t\t<roles />\n";
 	    else{
 	    	s += "\t\t\t<roles>\n";
@@ -136,8 +158,15 @@ public class Participant extends ResourcingType {
 	    	}
 	    	s += "\t\t\t</roles>\n";
 	    }
-	    
-	    if(positions.isEmpty())
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writePositionsToYAWL(String s) {
+		if(positions.isEmpty())
 	    	s += "\t\t\t<positions />\n";
 	    else{
 	    	s += "\t\t\t<positions>\n";
@@ -146,20 +175,23 @@ public class Participant extends ResourcingType {
 	    	}
 	    	s += "\t\t\t</positions>\n";
 	    }
-	    
-	    if(capabilities.isEmpty())
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeCapabilitiesToYAWL(String s) {
+		if(capabilities.isEmpty())
 	    	s += "\t\t\t<capabilities />\n";
 	    else{
 	    	s += "\t\t\t<capabilities>\n";
-	    	for (Capability capability : capabilities){
+	    	for (ResourcingType capability : capabilities){
 	    		s += "\t\t\t\t<capability>" + capability.getId() + "</capability>\n";
 	    	}
 	    	s += "\t\t\t</capabilities>\n";
 	    }
-	    
-	    s += "\t\t\t<privileges>" + privileges + "</privileges>\n";
-	    s += "\t\t</participant>\n";
-		
 		return s;
 	}
 	

@@ -49,4 +49,39 @@ public abstract class ResourcingType implements FileWritingForYAWL {
 		return "";
 	}
 
+	/**
+	 * @param s
+	 * @return
+	 */
+	protected String writeNotesToYAWL(String s) {
+		if (notes.isEmpty())
+			s+= "\t<notes />\n";
+		else
+			s += String.format("\t\t\t<notes>%s</notes>\n", notes);
+
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	protected String writeDescriptionToYAWL(String s) {
+		if (description.isEmpty())
+			s+= "\t<description />\n";
+		else
+			s += String.format("\t\t\t<description>%s</description>\n", description);
+
+		return s;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	protected String writeNameToYAWL(String s) {
+		s += String.format("\t\t\t<name>%s</name>\n", name);
+		return s;
+	}
+
 }
