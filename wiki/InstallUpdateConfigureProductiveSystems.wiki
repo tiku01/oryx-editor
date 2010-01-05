@@ -9,7 +9,7 @@ see SetupDevelopmentEnvironment
 Some features of the system need configuration to run properly.
 
 === Feedback Plugin ===
-In order to use the feedback plugin, you need to set up SMTP credentials in the web.xml filesof the projects that use the feedback plugin, i.e. http://code.google.com/p/oryx-editor/source/browse/trunk/editor/etc/web.xml
+In order to use the [http://code.google.com/p/oryx-editor/source/browse/trunk/editor/client/scripts/Plugins/feedback.js feedback] [http://code.google.com/p/oryx-editor/source/browse/trunk/editor/# plugin], you need to set up SMTP credentials in the web.xml filesof the projects that use the feedback plugin, i.e. http://code.google.com/p/oryx-editor/source/browse/trunk/editor/etc/web.xml
 
 {{{
 
