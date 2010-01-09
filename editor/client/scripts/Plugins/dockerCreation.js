@@ -40,11 +40,30 @@ handleMouseOut: function(event, uiObj) {
 handleMouseOver: function(event, uiObj) {
 
 	var evPos = this.facade.eventCoordinates(event);
+	var x= evPos.x;
+	var y= evPos.y;
+	var myXPosition =x.toString();
+	var myYPosition =y.toString();
+	//console.log(x);
+	//console.log(y);
+	//console.log("x als String "+ myXPosition);
+	//console.log("y als String "+ myYPosition);
+	var positionStr = "p_"+myXPosition+"_"+myYPosition;
+	console.log(positionStr);
+	var positionPart = positionStr.split("_")
+	//console.log(positionPart[0]);
+	//console.log(positionPart[1]);
+	//console.log(positionPart[2]);
+	console.log(evPos);
 	
-	console.log("mouseoverstart");
+	if(positionPart[0]=="p"){
+		console.log(":)");}
+	else {
+		console.log(":(");}
+	
 	if( uiObj instanceof ORYX.Core.Edge){
 		
-		this.showOverlay( uiObj, evPos )
+		this.showOverlay( uiObj, positionStr )
 	}
 	this.active=true;
 },
@@ -62,11 +81,17 @@ handleMouseDown: function(event, uiObj) {
 	}		
 },
 
-//refresh the ghostpoint when moving the mouse ober an edge
+//refresh the ghostpoint when moving the mouse over an edge
 handleMouseMove: function(event, uiObj) {		
 	
 	if (uiObj instanceof ORYX.Core.Edge){
 		var evPos = this.facade.eventCoordinates(event);
+		var x= evPos.x;
+		var y= evPos.y;
+		var myXPosition =x.toString();
+		var myYPosition =y.toString();
+		var positionStr = "p_"+myXPosition+"_"+myYPosition;
+		
 		console.log("MouseMove");
 		if (this.active) {
 			
@@ -74,10 +99,10 @@ handleMouseMove: function(event, uiObj) {
 				type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
 				id: "ghostpoint"
 			});			
-			this.showOverlay( uiObj, evPos );
+			this.showOverlay( uiObj, positionStr );
 		}
 		else{
-			this.showOverlay( uiObj, evPos );	
+			this.showOverlay( uiObj, positionStr );	
 		}		
 	}		
 },
@@ -129,9 +154,8 @@ showOverlay: function(edge, position){
 			type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
 			id: 			"ghostpoint",
 			shapes: 		[edge],
-			//attributes: 	{fill: "red", stroke:"green", "stroke-width":4},
 			node:			circle,
-			nodePosition:	"northeast",
+			nodePosition:	position,
 			dontCloneNode:	true
 		});
 	console.log("event fertig");				
