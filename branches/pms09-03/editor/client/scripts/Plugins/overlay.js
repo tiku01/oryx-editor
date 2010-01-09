@@ -141,6 +141,14 @@ ORYX.Plugins.Overlay = Clazz.extend({
 					var b = el.bounds;
 					var p = options.nodePosition.toUpperCase();
 					
+					console.log("MEINE KOORDINATEN: "+p)
+					var positionPart = p.split("_");
+					myP=positionPart[0];
+					myX=positionPart[1];
+					myY=positionPart[2];
+					console.log(myX);
+					console.log(myY);
+					
 					// Check the values of START and END
 					if( el instanceof ORYX.Core.Node && p == "START"){
 						p = "NW";
@@ -160,6 +168,11 @@ ORYX.Plugins.Overlay = Clazz.extend({
 						
 						if( p == "NW" ){
 							// Do Nothing
+						/*	console.log("Breite "+ b.width());
+							console.log("Höhe " + b.height());
+							console.log("b " + b);
+							console.log("b.x" + b.upperLeft().x);
+							console.log("b.y"+ b.upperLeft().y);*/
 						} else if( p == "N" ) {
 							x = b.width() / 2;
 						} else if( p == "NE" ) {
@@ -176,12 +189,24 @@ ORYX.Plugins.Overlay = Clazz.extend({
 							y = b.height() / 2;
 						} else if( p == "START" || p == "END") {
 							x = b.width() / 2; y = b.height() / 2;
-						} else {
+						} else if(p.split("_")[0]=="P"){
+							//x=b.upperLeft().x; y=b.upperLeft().y;
+							//console.log("Breite: "+ b.width());
+							//console.log("Höhe: " + b.height());
+							//console.log("b: " + b);
+							//console.log("b.x: " + b.upperLeft().x);
+							//console.log("b.y: "+ b.upperLeft().y);
+							console.log("X: "+ p.split("_")[1]);
+							console.log("Y: "+p.split("_")[2]);
+							x=parseInt(p.split("_")[1])-5;
+							y=parseInt(p.split("_")[2])-5;
+						}						
+						else {
 							return
 						}
 						
 						if( el instanceof ORYX.Core.Edge){
-							x  += b.upperLeft().x ; y  += b.upperLeft().y ;
+							//x  += b.upperLeft().x ; y  += b.upperLeft().y ;
 						}
 						
 						_temp.svg.setAttributeNS(null, "transform", "translate(" + x + ", " + y + ")")
