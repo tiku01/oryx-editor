@@ -14,6 +14,10 @@ ORYX.Plugins.DockerCreation = Clazz.extend({
 	construct: function( facade ){
 		this.facade = facade;		
 		this.active = false;
+		this.point = {x:0, y:0}; 
+		this.circle = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['g', {"pointer-events":"none"},
+					['circle', {cx: "8", cy: "8", r: "3", fill:"yellow"}]]);
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
@@ -40,34 +44,14 @@ handleMouseOut: function(event, uiObj) {
 handleMouseOver: function(event, uiObj) {
 
 	var evPos = this.facade.eventCoordinates(event);
-	var x= evPos.x;
-	var y= evPos.y;
-	var myXPosition =x.toString();
-	var myYPosition =y.toString();
-	//console.log(x);
-	//console.log(y);
-	//console.log("x als String "+ myXPosition);
-	//console.log("y als String "+ myYPosition);
-	var positionStr = "p_"+myXPosition+"_"+myYPosition;
-	console.log(positionStr);
-	var positionPart = positionStr.split("_")
-	//console.log(positionPart[0]);
-	//console.log(positionPart[1]);
-	//console.log(positionPart[2]);
-	console.log(evPos);
+	this.point.x = evPos.x;
+	this.point.y = evPos.y;
 	
-	if(positionPart[0]=="p"){
-		console.log(":)");}
-	else {
-		console.log(":(");}
-	
-	if( uiObj instanceof ORYX.Core.Edge){
-		
-		this.showOverlay( uiObj, positionStr )
+	if( uiObj instanceof ORYX.Core.Edge){		
+		this.showOverlay( uiObj, this.point )
 	}
 	this.active=true;
 },
-
 
 //create a Docker
 handleMouseDown: function(event, uiObj) {	
@@ -86,23 +70,15 @@ handleMouseMove: function(event, uiObj) {
 	
 	if (uiObj instanceof ORYX.Core.Edge){
 		var evPos = this.facade.eventCoordinates(event);
-		var x= evPos.x;
-		var y= evPos.y;
-		var myXPosition =x.toString();
-		var myYPosition =y.toString();
-		var positionStr = "p_"+myXPosition+"_"+myYPosition;
-		
-		console.log("MouseMove");
-		if (this.active) {
-			
-			this.facade.raiseEvent({
-				type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
-				id: "ghostpoint"
-			});			
-			this.showOverlay( uiObj, positionStr );
+		this.point.x = evPos.x;
+		this.point.y = evPos.y;
+
+		if (this.active) {			
+			this.hideOverlay();			
+			this.showOverlay( uiObj, this.point);
 		}
 		else{
-			this.showOverlay( uiObj, positionStr );	
+			this.showOverlay( uiObj, this.point);	
 		}		
 	}		
 },
@@ -113,13 +89,11 @@ addDockerCommand: function(options){
         return;
 
     var commandClass = ORYX.Core.Command.extend({
-        construct: function(edge, docker, pos, facade){
-            
+        construct: function(edge, docker, pos, facade){            
             this.edge = edge;
             this.docker = docker;
             this.pos = pos;
             this.facade = facade;
-			//this.index = docker.parent.dockers.indexOf(docker);
         },
         execute: function(){
            
@@ -142,23 +116,16 @@ addDockerCommand: function(options){
 },
 
 //show the ghostpoint
-showOverlay: function(edge, position){
+showOverlay: function(edge, point){
 
-	var circle = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
-				['g', {"pointer-events":"none"},
-					['circle', {cx: "8", cy: "8", r: "3", fill:"yellow"}]]);
-						
-	console.log(position);
-	
 	this.facade.raiseEvent({
 			type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
 			id: 			"ghostpoint",
 			shapes: 		[edge],
-			node:			circle,
-			nodePosition:	position,
+			node:			this.circle,
+			ghostPoint:		point,
 			dontCloneNode:	true
-		});
-	console.log("event fertig");				
+		});			
 },
 
 //hide the ghostpoint
