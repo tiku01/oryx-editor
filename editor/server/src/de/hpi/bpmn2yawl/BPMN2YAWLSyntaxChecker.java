@@ -71,6 +71,7 @@ public class BPMN2YAWLSyntaxChecker extends BPMNSyntaxChecker{
 	 * @param isOk
 	 * @return
 	 */
+	//TODO:REFACTOR????
 	private boolean handleGateway(Node node) {
 		boolean isOk = true;
 		if(node.getOutgoingSequenceFlows().size() > 1){

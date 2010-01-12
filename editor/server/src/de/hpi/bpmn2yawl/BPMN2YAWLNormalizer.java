@@ -31,6 +31,7 @@ public class BPMN2YAWLNormalizer extends BPMNNormalizer{
 	protected void normalizeMultipleStartEvents(Container process,
 			Vector<StartEvent> startEvents){
 		if (startEvents.size() < 2)
+			//nothing has to be normalized
 			return;
 		
 		int counter = 0;
@@ -43,49 +44,94 @@ public class BPMN2YAWLNormalizer extends BPMNNormalizer{
 				Node node = (Node)e.getTarget();
 				connectNodes(start, node);
 				
-				if(nodeLabels.contains(node.getLabel()))
-					node.setLabel(node.getLabel() + counter);
-				else
-					nodeLabels.add(node.getLabel());
+				checkNodeLabel(nodeLabels, node, counter);
 				counter++;
-			}
-			
+			}	
 			removeNode(s);
 		}
 	}
+
+	/**
+	 * @param nodeLabels
+	 * @param node
+	 * @param counter
+	 */
+	private void checkNodeLabel(Vector<String> nodeLabels, Node node,
+			int counter) {
+		if(nodeLabels.contains(node.getLabel()))
+			node.setLabel(node.getLabel() + counter);
+		else
+			nodeLabels.add(node.getLabel());
+	}
 	
 	@Override
-	protected void normalizeMultipleEndEvents(Container process,
-			Vector<EndEvent> endEvents) {
-		for(EndEvent event : endEvents){
-			if(event instanceof EndErrorEvent){
-				return;
-			}
-		}
-		EndPlainEvent end = new EndPlainEvent();
-		addNode(end, process);
+	protected void normalizeMultipleEndEvents(Container process, Vector<EndEvent> endEvents) {
+		
+		if (checkIfEndErrorEventsExist(endEvents))
+			return;
+		
+		EndPlainEvent end = addEndPlainEvent(process);
 
-		ORGateway gateway = new ORGateway();
-		addNode(gateway, process);
+		ORGateway gateway = addOrGateway(process);
 
 		connectNodes(gateway, end);
 
+		convertEndEventsToIntermediateEvents(process, endEvents, gateway);
+	}
+
+	/**
+	 * @param process
+	 * @param endEvents
+	 * @param gateway
+	 */
+	private void convertEndEventsToIntermediateEvents(Container process,
+			Vector<EndEvent> endEvents, ORGateway gateway) {
 		int index = 0;
 		for (EndEvent e : endEvents) {
 			removeNode(e);
 
 			IntermediateEvent iEvent = convertToIntermediateEvent(e);
-
 			addNode(iEvent, process);
 
 			e.getIncomingEdges().get(0).setTarget(iEvent);
 
 			// Id is needed because incoming edges of or-join needs ids to find
 			// all combinations
-			connectNodes(iEvent, gateway).setId(
-					"seq" + String.valueOf(index) + e.getId());
+			connectNodes(iEvent, gateway).setId("seq" + index + e.getId());
 			index++;
 		}
+	}
+
+	/**
+	 * @param process
+	 * @return
+	 */
+	private ORGateway addOrGateway(Container process) {
+		ORGateway gateway = new ORGateway();
+		addNode(gateway, process);
+		return gateway;
+	}
+
+	/**
+	 * @param process
+	 * @return
+	 */
+	private EndPlainEvent addEndPlainEvent(Container process) {
+		EndPlainEvent end = new EndPlainEvent();
+		addNode(end, process);
+		return end;
+	}
+
+	/**
+	 * @param endEvents
+	 * @return boolean
+	 */
+	private boolean checkIfEndErrorEventsExist(Vector<EndEvent> endEvents) {
+		for(EndEvent event : endEvents){
+			if(event instanceof EndErrorEvent)
+				return true;
+		}
+		return false;
 	}
 	
 	protected void addNode(Node node, Container process) {

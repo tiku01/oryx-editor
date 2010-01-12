@@ -98,20 +98,11 @@ public class BPMN2YAWLResourceMapper {
 		nodeMap.put(lane, role);
 	}
 	
-	private void handleLane(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap){
-		boolean shouldCheckForResourceType = true;
-		//find nested Lanes
-		//has to be REFACTORED!!!!
-		for (Node laneNode : lane.getChildNodes()){
-			if (laneNode instanceof Lane){
-				if (shouldCheckForResourceType){
-					mapToOrgGroup(orgData, lane, nodeMap);
-					shouldCheckForResourceType = false;
-				}
-				handleLane(orgData, (Lane)laneNode, nodeMap);
-			}
-		}
-		if (shouldCheckForResourceType){
+	private void handleLane(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap)
+	{
+		boolean shouldCheckResourceType = checkForNestedLane(orgData, lane, nodeMap);
+
+		if (shouldCheckResourceType){
 			if(lane.getResourcingType().equalsIgnoreCase("participant"))
 				mapLaneToParticipant(orgData, lane, nodeMap);
 			else if(lane.getResourcingType().equalsIgnoreCase("role"))
@@ -119,6 +110,28 @@ public class BPMN2YAWLResourceMapper {
 			else if(lane.getResourcingType().equalsIgnoreCase("position"))
 				mapLaneToPosition(orgData, lane, nodeMap);
 		}
+	}
+
+	/**
+	 * @param orgData
+	 * @param lane
+	 * @param nodeMap
+	 * @return
+	 */
+	private boolean checkForNestedLane(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap)
+	{
+		boolean isNotNested = true;
+		
+		for (Node laneNode : lane.getChildNodes()){
+			if (laneNode instanceof Lane){
+				if (isNotNested){
+					mapToOrgGroup(orgData, lane, nodeMap);
+					isNotNested = false;
+				}
+				handleLane(orgData, (Lane)laneNode, nodeMap);
+			}
+		}
+		return isNotNested;
 	}
 
 }
