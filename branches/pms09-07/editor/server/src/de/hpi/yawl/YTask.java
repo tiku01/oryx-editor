@@ -20,6 +20,7 @@ public class YTask extends YNode{
 	private ArrayList<YVariableMapping> startingMappings = new ArrayList<YVariableMapping>();
 	private ArrayList<YVariableMapping> completedMappings = new ArrayList<YVariableMapping>();
 	private YTimer timer = null;
+	private YResourcing resourcing = null;
 	
 	public YTimer getTimer() {
 		return timer;
@@ -113,6 +114,14 @@ public class YTask extends YNode{
 		return completedMappings;
 	}
 
+	public void setResourcing(YResourcing resourcing) {
+		this.resourcing = resourcing;
+	}
+
+	public YResourcing getResourcing() {
+		return resourcing;
+	}
+
 	/**
 	 * @param s
 	 * @return
@@ -202,6 +211,17 @@ public class YTask extends YNode{
 		}
 		return s;
 	}
+	
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String writeResourcingToYAWL(String s) {
+		if (resourcing != null){
+			s += resourcing.writeToYAWL();
+		}
+		return s;
+	}
 
 	/**
 	 * @param s
@@ -242,6 +262,7 @@ public class YTask extends YNode{
 		s = writeCompletedMappingsToYAWL(s);
 			
 		s = writeTimerToYAWL(s);
+		s = writeResourcingToYAWL(s);
 			
         s = writeDecomposesToToYAWL(s);
         s = writeMiParamToYAWL(s);
