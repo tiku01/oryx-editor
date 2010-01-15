@@ -12,20 +12,27 @@ ORYX.I18N.Language = "en_us"; //Pattern <ISO language code>_<ISO country code> i
 
 if(!ORYX.I18N.Oryx) ORYX.I18N.Oryx = {};
 
-/** new property tbGroup for each plugin shown in toolbar, 27.12.09 */
-ORYX.I18N.tbGroup0 = "00firstofall"
-ORYX.I18N.tbGroupMain = "01main";
-ORYX.I18N.tbGroupIE = "02importExport";
-ORYX.I18N.tbGroupSyntax = "03syntax";
-ORYX.I18N.tbGroupEdit = "04edit";
-ORYX.I18N.tbGroupArrange = "05arrange";
-ORYX.I18N.tbGroupOther = "06other";
-ORYX.I18N.tbGroupNone = null; //these items are not grouped to a dropdown menu
-
 ORYX.I18N.Oryx.title	= "Oryx";
 ORYX.I18N.Oryx.pleaseWait = "Please wait while loading...";
 ORYX.I18N.Oryx.notLoggedOn = "Not logged on";
 ORYX.I18N.Oryx.editorOpenTimeout = "The editor does not seem to be started yet. Please check, whether you have a popup blocker enabled and disable it or allow popups for this site. We will never display any commercials on this site.";
+
+
+/** new property tbGroup for each plugin shown in toolbar, 27.12.09 */
+
+// Attention: the dropdown icons for each tbGroup have the pattern: <prefix> + <tbGroupName> + ".png"
+//	(e.g "tb_main.png" - no numbers in front!!! these are only for the sort algorithm in toolbar.js)
+ORYX.I18N.tbGroupIconPrefix = "tb_";
+
+ORYX.I18N.tbGroup0 = "00firstofall"
+ORYX.I18N.tbGroupMain = "10main";
+ORYX.I18N.tbGroupEdit = "20edit";
+ORYX.I18N.tbGroupIE = "30importExport";
+ORYX.I18N.tbGroupSyntax = "40syntax";
+ORYX.I18N.tbGroupArrange = "50arrange";
+ORYX.I18N.tbGroupOther = "60other";
+ORYX.I18N.tbGroupNone = null; //these items are not grouped to a dropdown menu
+
 
 if(!ORYX.I18N.AddDocker) ORYX.I18N.AddDocker = {};
 
