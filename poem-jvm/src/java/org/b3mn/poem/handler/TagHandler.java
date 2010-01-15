@@ -24,6 +24,7 @@
 package org.b3mn.poem.handler;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import org.b3mn.poem.business.Model;
 import org.b3mn.poem.business.User;
 import org.b3mn.poem.util.FilterMethod;
 import org.b3mn.poem.util.HandlerWithModelContext;
+import org.hibernate.util.CollectionHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,8 +48,8 @@ public class TagHandler extends HandlerBase {
 		Model model = new Model(object.getId());
 		Collection<String> tags = null;
 		User user = new User(subject.getId());
-		JSONArray jsonPublicTags = new JSONArray(model.getPublicTags(user));
-		JSONArray jsonUserTags = new JSONArray(model.getUserTags(user));
+		JSONArray jsonPublicTags = new JSONArray(new HashSet<String>(model.getPublicTags(user)));
+		JSONArray jsonUserTags = new JSONArray(new HashSet<String>(model.getUserTags(user)));
 		JSONObject jsonAllTags = new JSONObject();
 		jsonAllTags.put("publicTags", jsonPublicTags);
 		jsonAllTags.put("userTags", jsonUserTags);	

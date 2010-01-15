@@ -299,6 +299,8 @@
 		<plugin source="bpmn.js" name="ORYX.Plugins.BPMN" />
 		
 		
+		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
+		
 		<plugin source="feedback.js" name="ORYX.Plugins.Feedback">
 			<property name="cssfile" value="/oryx/css/feedback.css" />
 			<!-- configure subjects and info in localization: /editor/data/I18N#ORYX.I18N.Feedback.subjects  -->
