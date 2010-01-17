@@ -215,6 +215,24 @@ ORYX.Plugins.Overlay = Clazz.extend({
 					b.registerCallback( _temp.callback );
 				}
 				
+				if(options.rotationPoint){
+					var point={x:0, y:0};
+					point=options.rotationPoint;
+					_temp.callback = function(){
+						
+						var x = 0; var y = 0;
+						x = point.x;
+						y = point.y;
+						_temp.svg.setAttributeNS(null, "transform", "translate(" + x + ", " + y + ")")
+						
+					}.bind(this)
+					
+					_temp.element = el;
+					_temp.callback();
+					
+					b.registerCallback( _temp.callback );
+				}
+				
 				
 				options._temps.push( _temp )	
 				
