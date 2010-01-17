@@ -25,6 +25,10 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		this.labelLength=undefined;
 		this.rotationPointCoordinates = {x:0, y:0};
 		this.rotPointParent = undefined;
+		this.rotate=false;
+		this.firstRotate=false;
+		this.State=0;
+		this.prevState=0;
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOUT, this.handleMouseOut.bind(this));
@@ -168,7 +172,8 @@ handleMouseDown: function(event, uiObj) {
 	}
 	
 	
-	if(this.labelSelected==false && MouseX>=this.LabelX-20  && MouseX<=this.LabelXArea && MouseY<=this.LabelY+20 && MouseY >=this.LabelYArea){
+	if(this.labelSelected==false && MouseX>=this.LabelX-20  && MouseX<=this.LabelXArea && MouseY<=this.LabelY+20 && MouseY >=this.LabelYArea)
+	{
 		console.log("Label selected");
 		
 		this.labelSelected=true;		
@@ -179,6 +184,31 @@ handleMouseDown: function(event, uiObj) {
 	else {
 		this.labelSelected=false;	
 		console.log("label unselected");
+	}
+	
+	//Rotation
+	var rotationAreaX=this.rotationPointCoordinates.x+10;
+	var rotationAreaY=this.rotationPointCoordinates.y+10;
+	console.log("MouseX:"+MouseX);
+	console.log("MouseY:"+MouseY);
+	console.log("RPX:"+this.rotationPointCoordinates.x);
+	console.log("RPY:"+this.rotationPointCoordinates.y);
+	console.log("RPXArea:"+rotationAreaX);
+	console.log("RPYArea:"+rotationAreaY);
+	console.log(MouseX >= this.rotationPointCoordinates.x);
+	
+	if(this.rotate==false && MouseX >= this.rotationPointCoordinates.x && MouseX <= rotationAreaX && MouseY >= this.rotationPointCoordinates.y && MouseY <= rotationAreaY)
+	{	
+		//Rotation
+		this.rotate=true;
+		console.log("Rotation active");
+		this.State=0;
+
+	}
+	else
+	{
+		this.rotate=false;
+		console.log("Rotation not active");
 	}
 	
 	}
@@ -205,7 +235,124 @@ handleMouseMove: function(event, uiObj) {
 	}
 		//console.log("MouseX"+MouseX);
 		//console.log("MouseY"+MouseY);
-	*/	
+	*/
+	
+	if(this.labelSelected==true)
+	{
+		//console.log("label bewegt");
+		//LabelPosition setzen
+		
+		var MouseX=this.facade.eventCoordinates(event).x;
+		var MouseY=this.facade.eventCoordinates(event).y;
+		
+		this.myLabel.x=MouseX+5;
+		this.myLabel.y=MouseY-5;
+		this.myLabel.update();
+		
+		this.LabelX=this.myLabel.x;
+		this.LabelY=this.myLabel.y;
+		this.LabelXArea=this.labelLength+10;
+		this.LabelYArea=this.LabelY-20;
+		this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/2;
+		this.rotationPointCoordinates.y=this.LabelY-30;
+		
+		this.showOverlay( this.rotPointParent, this.rotationPointCoordinates );		
+		
+	}
+	
+	if(this.rotate==true) {
+		var MouseX=this.facade.eventCoordinates(event).x;
+		var MouseY=this.facade.eventCoordinates(event).y;
+		this.LabelX=this.myLabel.x;
+		this.LabelY=this.myLabel.y;
+		this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/2;
+		this.rotationPointCoordinates.y=this.LabelY-30;
+		
+
+		//console.log("rotate in move active");
+		/*
+		if(this.firstRotate==false && MouseX <= this.rotationPointCoordinates.x){
+			this.firstRotate=true;
+			this.rotate_left();
+			console.log("rotateleft");
+			
+		}
+		
+		if(this.firstRotate==false && MouseX >= this.rotationPointCoordinates.x ){
+			this.rotate_right();
+			console.log("rotateright");
+			this.firstRotate=true;
+		}
+		
+		if(this.firstRotate==true && MouseX < this.rotationPointCoordinates.x-20 && MouseX > this.rotationPointCoordinates.x-40)
+		{
+			this.firstRotate=false;
+		}
+		
+		if(this.firstRotate==true && MouseX < this.rotationPointCoordinates.x-40 && MouseX > this.rotationPointCoordinates.x-60 )
+		{
+			this.firstRotate=false;
+		}
+		
+		if(this.firstRotate==true && MouseX > this.rotationPointCoordinates.x+20 && MouseX < this.rotationPointCoordinates.x+40 )
+		{
+			this.firstRotate=false;
+		}
+		
+		if(this.firstRotate==true && MouseX > this.rotationPointCoordinates.x+40 && MouseX < this.rotationPointCoordinates.x+60 )
+		{
+			this.firstRotate=false;
+		}*/
+		if(MouseX<this.rotationPointCoordinates.x-70)
+		{
+			this.State=-4;
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-50 && MouseX >= this.rotationPointCoordinates.x-70)
+		{
+			this.State=-3;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-30 && MouseX >= this.rotationPointCoordinates.x-50)
+		{
+			this.State=-2;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-10 && MouseX >= this.rotationPointCoordinates.x-30)
+		{
+			this.State=-1;
+		}
+		else if (MouseX < this.rotationPointCoordinates.x+10 && MouseX >= this.rotationPointCoordinates.x-10)
+		{
+			this.State=0;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x+30 && MouseX >= this.rotationPointCoordinates.x+10)
+		{
+			this.State=1;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x+50 && MouseX >= this.rotationPointCoordinates.x+30)
+		{
+			this.State=2;
+		}
+		else if (MouseX < this.rotationPointCoordinates.x+70 && MouseX >= this.rotationPointCoordinates.x+50)
+		{
+			this.State=3;
+		}
+		else if ( MouseX >= this.rotationPointCoordinates.x+70)
+		{
+			this.State=4;	
+		}
+		
+		if(this.State>this.prevState)
+		{
+			this.rotate_right();
+			this.prevState=this.State;
+		}
+		else if(this.State<this.prevState)
+		{
+			this.rotate_left();
+			this.prevState=this.State;
+		}
+		
+	}
+	
 },
 
 handleMouseUp: function(event, uiObj) {
@@ -219,9 +366,9 @@ labeling: function () {
 },
 
 rotate_right:function() {
-	console.log("rotate right");
+	//console.log("rotate right");
 	var myRotation= this.myLabel._rotate;
-	console.log("mycurrentRotation: "+myRotation);
+//	console.log("mycurrentRotation: "+myRotation);
 	
 	if(myRotation==0 || myRotation < 45 && myRotation > 0 || myRotation == 360)
 	{
@@ -244,7 +391,7 @@ rotate_right:function() {
 },
 
 rotate_left:function() {
-	console.log("rotate left");
+	//console.log("rotate left");
 	var myRotation= this.myLabel._rotate;
 	
 	if(myRotation==0 || myRotation < 360 && myRotation > 315 || myRotation == 360)
@@ -279,6 +426,7 @@ showOverlay: function(edge, point){
 			dontCloneNode:	true
 		});			
 },
+
 hideOverlay: function() {
 	
 	this.facade.raiseEvent({
