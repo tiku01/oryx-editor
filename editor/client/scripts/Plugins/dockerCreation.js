@@ -9,12 +9,12 @@ if(!ORYX.Plugins)
 
 ORYX.Plugins.DockerCreation = Clazz.extend({
 	
-	//facade: null,
-	
 	construct: function( facade ){
 		this.facade = facade;		
-		this.active = false;
-		this.point = {x:0, y:0}; 
+		this.active = false; //true-> a ghostdocker is shown; false->ghostdocker is hidden
+		this.point = {x:0, y:0}; //Ghostdocker
+		
+		//visual representation of the Ghostdocker
 		this.circle = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
 				['g', {"pointer-events":"none"},
 					['circle', {cx: "8", cy: "8", r: "3", fill:"yellow"}]]);
@@ -33,35 +33,34 @@ ORYX.Plugins.DockerCreation = Clazz.extend({
 //hide the Ghostpoint when Leaving the mouse from an edge
 handleMouseOut: function(event, uiObj) {
 	
-	if (this.active) {
-		
+	if (this.active) {		
 		this.hideOverlay();
 		this.active=false;
 	}	
 },
 
-//show the ghostpoint
+//show the Ghostpoint
 handleMouseOver: function(event, uiObj) {
 
-	var evPos = this.facade.eventCoordinates(event);
-	this.point.x = evPos.x;
-	this.point.y = evPos.y;
+	this.point.x = this.facade.eventCoordinates(event).x;
+	this.point.y = this.facade.eventCoordinates(event).y;
 	
+	//show the Ghostdocker on the edge
 	if( uiObj instanceof ORYX.Core.Edge){		
 		this.showOverlay( uiObj, this.point )
 	}
+	//ghostdocker is active
 	this.active=true;
 },
 
-//create a Docker
+//create a Docker when clicking on the edge
 handleMouseDown: function(event, uiObj) {	
 	
 	if (uiObj instanceof ORYX.Core.Edge){
 		this.addDockerCommand({
             edge: uiObj,
             position: this.facade.eventCoordinates(event)
-        });		
-		console.log("Docker added");		
+        });				
 	}		
 },
 
@@ -69,9 +68,8 @@ handleMouseDown: function(event, uiObj) {
 handleMouseMove: function(event, uiObj) {		
 	
 	if (uiObj instanceof ORYX.Core.Edge){
-		var evPos = this.facade.eventCoordinates(event);
-		this.point.x = evPos.x;
-		this.point.y = evPos.y;
+		this.point.x = this.facade.eventCoordinates(event).x;
+		this.point.y = this.facade.eventCoordinates(event).y;
 
 		if (this.active) {			
 			this.hideOverlay();			
