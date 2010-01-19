@@ -1,6 +1,6 @@
 #summary This guide shows how to set up and configure a development environment in order to build the Oryx application from source.
 
-= Scratch =
+= In a Nutshell =
 
 == Installation on Ubuntu 8.10 ==
 
@@ -23,8 +23,9 @@
   * `tomcat4oryx/bin/startup.sh`
   * `tomcat4oryx/bin/shutdown.sh`
 
-------------------------------------------------------------------------------------------- 
-=Installation on Windows=
+==Installation on Windows==
+
+_Unfortunately, we experienced severe problems running PostgreSQL with PL/Python on Windows7. _
 
 ===Browser===
   * Get and Install Firefox http://www.mozilla-europe.org/de/firefox/
@@ -88,7 +89,6 @@
 ===Test===
   * Start the server and navigate with firefox to loacalhost:8080/backend/poem/repository
   * Now everything done. Congratulation!
-
 
 Other Guides:
   * http://ddweerasiri.blogspot.com/2009/04/how-to-build-oryx-editor-in-ubuntu.html
