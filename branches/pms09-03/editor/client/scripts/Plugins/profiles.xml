@@ -39,6 +39,8 @@
 
 	<profile name="pms" depends="default">
 		<plugin name="ORYX.Plugins.FileRepositorySave" />
-		<plugin name="ORYX.Plugins.DockerCreation"/>
+	 	<plugin name="ORYX.Plugins.DockerCreation"/>
+		<plugin name="ORYX.Plugins.OverlayExample"/>
+		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
 </profiles>
