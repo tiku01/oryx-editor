@@ -1,0 +1,426 @@
+{
+    "resourceId": "oryx-canvas123",
+    "properties": {
+        "id": "",
+        "name": "",
+        "documentation": "",
+        "version": "",
+        "author": "",
+        "language": "English",
+        "expressionlanguage": "",
+        "querylanguage": "",
+        "creationdate": "",
+        "modificationdate": "",
+        "pools": ""
+    },
+    "stencil": {
+        "id": "BPMNDiagram"
+    },
+    "childShapes": [
+        {
+            "resourceId": "oryx_99696050-BAFE-402A-9B17-7BC4A18CBC5E",
+            "properties": {
+                "poolid": "",
+                "name": "",
+                "poolcategories": "",
+                "pooldocumentation": "",
+                "participantref": "yxcv",
+                "lanes": "",
+                "boundaryvisible": true,
+                "mainpool": "",
+                "processref": "",
+                "processname": "",
+                "processtype": "None",
+                "status": "None",
+                "adhoc": "",
+                "adhocordering": "Sequential",
+                "adhoccompletioncondition": "",
+                "suppressjoinfailure": true,
+                "enableinstancecompensation": "",
+                "processcategories": "",
+                "processdocumentation": "",
+                "bgcolor": "#ffffff"
+            },
+            "stencil": {
+                "id": "CollapsedPool"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_40DF4F3C-09B8-44A2-AA4F-6336DABCF3A4"
+                },
+                {
+                    "resourceId": "oryx_2B058468-9818-4536-B08C-FBD3CAFB310C"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 635,
+                    "y": 435
+                },
+                "upperLeft": {
+                    "x": 135,
+                    "y": 375
+                }
+            },
+            "dockers": []
+        },
+        {
+            "resourceId": "oryx_05CD362E-AA4B-45CD-8B2D-D206137304EE",
+            "properties": {
+                "poolid": "",
+                "name": "",
+                "poolcategories": "",
+                "pooldocumentation": "",
+                "participantref": "",
+                "lanes": "",
+                "boundaryvisible": true,
+                "mainpool": "",
+                "processref": "",
+                "processname": "",
+                "processtype": "None",
+                "status": "None",
+                "adhoc": "",
+                "adhocordering": "Parallel",
+                "adhoccompletioncondition": "",
+                "suppressjoinfailure": "",
+                "enableinstancecompensation": "",
+                "processcategories": "",
+                "processdocumentation": ""
+            },
+            "stencil": {
+                "id": "Pool"
+            },
+            "childShapes": [
+                {
+                    "resourceId": "oryx_0C56E1E2-D9D8-485B-93DA-7040B08D9637",
+                    "properties": {
+                        "id": "",
+                        "name": "",
+                        "categories": "",
+                        "documentation": "",
+                        "parentpool": "",
+                        "parentlane": "",
+                        "showcaption": "true"
+                    },
+                    "stencil": {
+                        "id": "Lane"
+                    },
+                    "childShapes": [],
+                    "outgoing": [],
+                    "bounds": {
+                        "lowerRight": {
+                            "x": 600,
+                            "y": 323
+                        },
+                        "upperLeft": {
+                            "x": 0,
+                            "y": 73
+                        }
+                    },
+                    "dockers": []
+                }
+            ],
+            "outgoing": [],
+            "bounds": {
+                "lowerRight": {
+                    "x": 810,
+                    "y": 280
+                },
+                "upperLeft": {
+                    "x": 210,
+                    "y": 30
+                }
+            },
+            "dockers": []
+        },
+        {
+            "resourceId": "oryx_23B4B278-F27D-49D7-8120-F45F77864D19",
+            "properties": {
+                "id": "xcxcvyxcv",
+                "name": "cvbcvb",
+                "categories": "xc",
+                "documentation": "adsfadsfasdf",
+                "artifacttype": "Group",
+                "pool": "asd",
+                "lanes": "dfs"
+            },
+            "stencil": {
+                "id": "Group"
+            },
+            "childShapes": [],
+            "outgoing": [],
+            "bounds": {
+                "lowerRight": {
+                    "x": 143,
+                    "y": 164
+                },
+                "upperLeft": {
+                    "x": 23,
+                    "y": 74
+                }
+            },
+            "dockers": []
+        },
+        {
+            "resourceId": "oryx_D1D274B2-7C3E-431B-8813-84953C57E92A",
+            "properties": {
+                "id": "",
+                "name": "",
+                "categories": "",
+                "documentation": "",
+                "artifacttype": "DataObject",
+                "pool": "",
+                "lanes": "",
+                "state": "",
+                "properties": "",
+                "requiredforstart": false,
+                "producedatcompletion": true,
+                "bgcolor": "#FFCC00"
+            },
+            "stencil": {
+                "id": "DataObject"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_66F3DCF3-672F-4025-A1B0-928E4100FBA4"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 131,
+                    "y": 312.5
+                },
+                "upperLeft": {
+                    "x": 43,
+                    "y": 215.5
+                }
+            },
+            "dockers": []
+        },
+        {
+            "resourceId": "oryx_B3837F2F-595D-4A15-87CA-058903FB861B",
+            "properties": {
+                "id": "",
+                "text": "",
+                "categories": "",
+                "documentation": "",
+                "artifacttype": "Annotation",
+                "pool": "",
+                "lanes": ""
+            },
+            "stencil": {
+                "id": "TextAnnotation"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_BFBBBB0F-3B55-4D89-942C-98D88A27B788"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 175,
+                    "y": 505
+                },
+                "upperLeft": {
+                    "x": 75,
+                    "y": 455
+                }
+            },
+            "dockers": []
+        },
+        {
+            "resourceId": "oryx_40DF4F3C-09B8-44A2-AA4F-6336DABCF3A4",
+            "properties": {
+                "id": "",
+                "name": "",
+                "categories": "",
+                "documentation": "",
+                "source": "",
+                "target": "",
+                "message": ""
+            },
+            "stencil": {
+                "id": "MessageFlow"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_0C56E1E2-D9D8-485B-93DA-7040B08D9637"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 420.331950599681,
+                    "y": 374.311891313841
+                },
+                "upperLeft": {
+                    "x": 405.253986900319,
+                    "y": 353.250608686159
+                }
+            },
+            "dockers": [
+                {
+                    "x": 249,
+                    "y": 29
+                },
+                {
+                    "x": 300,
+                    "y": 125
+                }
+            ],
+            "target": {
+                "resourceId": "oryx_0C56E1E2-D9D8-485B-93DA-7040B08D9637"
+            }
+        },
+        {
+            "resourceId": "oryx_BFBBBB0F-3B55-4D89-942C-98D88A27B788",
+            "properties": {
+                "id": "",
+                "name": "",
+                "categories": "",
+                "documentation": "",
+                "source": "",
+                "target": "",
+                "direction": "None"
+            },
+            "stencil": {
+                "id": "Association_Undirected"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_99696050-BAFE-402A-9B17-7BC4A18CBC5E"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 135,
+                    "y": 455.948420435663
+                },
+                "upperLeft": {
+                    "x": 94.1339092572783,
+                    "y": 404
+                }
+            },
+            "dockers": [
+                {
+                    "x": 1,
+                    "y": 24
+                },
+                {
+                    "x": 0,
+                    "y": 29
+                }
+            ],
+            "target": {
+                "resourceId": "oryx_99696050-BAFE-402A-9B17-7BC4A18CBC5E"
+            }
+        },
+        {
+            "resourceId": "oryx_2B058468-9818-4536-B08C-FBD3CAFB310C",
+            "properties": {
+                "id": "",
+                "name": "",
+                "categories": "",
+                "documentation": "",
+                "source": "",
+                "target": "",
+                "direction": "To"
+            },
+            "stencil": {
+                "id": "Association_Unidirectional"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_D1D274B2-7C3E-431B-8813-84953C57E92A"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 295.707083505421,
+                    "y": 374.672743857397
+                },
+                "upperLeft": {
+                    "x": 131.830025869579,
+                    "y": 264.557724892603
+                }
+            },
+            "dockers": [
+                {
+                    "x": 249,
+                    "y": 59
+                },
+                {
+                    "x": 88,
+                    "y": 48.5
+                }
+            ],
+            "target": {
+                "resourceId": "oryx_D1D274B2-7C3E-431B-8813-84953C57E92A"
+            }
+        },
+        {
+            "resourceId": "oryx_66F3DCF3-672F-4025-A1B0-928E4100FBA4",
+            "properties": {
+                "id": "",
+                "name": "",
+                "categories": "",
+                "documentation": "",
+                "source": "",
+                "target": "",
+                "direction": "Both"
+            },
+            "stencil": {
+                "id": "Association_Bidirectional"
+            },
+            "childShapes": [],
+            "outgoing": [
+                {
+                    "resourceId": "oryx_99696050-BAFE-402A-9B17-7BC4A18CBC5E"
+                }
+            ],
+            "bounds": {
+                "lowerRight": {
+                    "x": 384,
+                    "y": 375
+                },
+                "upperLeft": {
+                    "x": 131.442576819205,
+                    "y": 280.609851942531
+                }
+            },
+            "dockers": [
+                {
+                    "x": 44,
+                    "y": 48.5
+                },
+                {
+                    "x": 249,
+                    "y": 0
+                }
+            ],
+            "target": {
+                "resourceId": "oryx_99696050-BAFE-402A-9B17-7BC4A18CBC5E"
+            }
+        }
+    ],
+    "bounds": {
+        "lowerRight": {
+            "x": 1485,
+            "y": 1050
+        },
+        "upperLeft": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "stencilset": {
+        "url": "/oryx//stencilsets/bpmn1.1/bpmn1.1.json",
+        "namespace": "http://b3mn.org/stencilset/bpmn1.1#"
+    },
+    "ssextensions": []
+}

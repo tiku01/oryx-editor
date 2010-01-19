@@ -28,7 +28,8 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 		xstream.aliasField("Source", XPDLAssociation.class, "source");
 		xstream.useAttributeFor(XPDLAssociation.class, "target");
 		xstream.aliasField("Target", XPDLAssociation.class, "target");
-		xstream.aliasField("xpdl2:Direction", XPDLAssociation.class, "direction");
+		xstream.useAttributeFor(XPDLAssociation.class, "direction");
+		xstream.aliasField("AssociationDirection", XPDLAssociation.class, "direction");
 	}
 	
 	public String getDirection() {

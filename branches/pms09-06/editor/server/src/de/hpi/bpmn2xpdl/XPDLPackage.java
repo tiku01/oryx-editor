@@ -11,13 +11,7 @@ import com.thoughtworks.xstream.XStream;
 public class XPDLPackage extends XPDLThing {
 	
 	/* TODO:
-	 * External Packages
-	 * Type Declarations
-	 * Participants
 	 * Applications
-	 * DataFields
-	 * PartnerLinkTypes
-	 * Pages
 	 */
 	
 	protected String language;
@@ -25,7 +19,12 @@ public class XPDLPackage extends XPDLThing {
 	protected XPDLPackageHeader packageHeader;
 	protected XPDLRedefinableHeader redefinableHeader;
 	protected XPDLConformanceClass conformanceClass;
-	protected XPDLScriptType scriptType;
+	protected XPDLScript script;
+	
+	protected ArrayList<XPDLExternalPackage> externalPackages;
+	protected ArrayList<XPDLTypeDeclaration> typeDeclarations;
+	
+	protected XPDLPool mainPool;
 	
 	protected ArrayList<XPDLArtifact> artifacts;
 	protected ArrayList<XPDLAssociation> associations;
@@ -44,13 +43,18 @@ public class XPDLPackage extends XPDLThing {
 		xstream.aliasField("xpdl2:PackageHeader", XPDLPackage.class, "packageHeader");
 		xstream.aliasField("xpdl2:RedefinableHeader", XPDLPackage.class, "redefinableHeader");
 		xstream.aliasField("xpdl2:ConformanceClass", XPDLPackage.class, "conformanceClass");
-		xstream.aliasField("xpdl2:ScriptType", XPDLPackage.class, "scriptType");
+		xstream.aliasField("xpdl2:Script", XPDLPackage.class, "script");
+		
+		xstream.aliasField("xpdl2:ExternalPackages", XPDLPackage.class, "externalPackages");
+		xstream.aliasField("xpdl2:TypeDeclarations", XPDLPackage.class, "typeDeclarations");
 		
 		xstream.aliasField("xpdl2:Pools", XPDLPackage.class, "pools");
 		xstream.aliasField("xpdl2:Artifacts", XPDLPackage.class, "artifacts");
 		xstream.aliasField("xpdl2:Associations", XPDLPackage.class, "associations");
 		xstream.aliasField("xpdl2:MessageFlows", XPDLPackage.class, "messageFlows");
 		xstream.aliasField("xpdl2:WorkflowProcesses", XPDLPackage.class, "workflowProcesses");
+		
+		xstream.omitField(XPDLPackage.class, "mainPool");
 	}
 	
 	public XPDLPackage() {
@@ -67,6 +71,10 @@ public class XPDLPackage extends XPDLThing {
 	
 	public XPDLConformanceClass getConformanceClass() {
 		return conformanceClass;
+	}
+	
+	public ArrayList<XPDLExternalPackage> getExternalPackages() {
+		return externalPackages;
 	}
 	
 	public String getLanguage() {
@@ -93,8 +101,12 @@ public class XPDLPackage extends XPDLThing {
 		return redefinableHeader;
 	}
 	
-	public XPDLScriptType getScriptType() {
-		return scriptType;
+	public XPDLScript getScript() {
+		return script;
+	}
+	
+	public ArrayList<XPDLTypeDeclaration> getTypeDeclarations() {
+		return typeDeclarations;
 	}
 	
 	public ArrayList<XPDLWorkflowProcess> getWorkflowProcesses() {
@@ -117,7 +129,9 @@ public class XPDLPackage extends XPDLThing {
 				JSONObject childShape = childShapes.getJSONObject(i);
 				String stencil = childShape.getJSONObject("stencil").getString("id");
 				
-				if (XPDLArtifact.handlesStencil(stencil)) {
+				if  (XPDLActivity.handlesStencil(stencil)) {
+					createProcessChild(childShape);
+				} else if (XPDLArtifact.handlesStencil(stencil)) {
 					createArtifact(childShape);
 				} else if (XPDLAssociation.handlesStencil(stencil)) {
 					createAssociation(childShape);
@@ -125,6 +139,8 @@ public class XPDLPackage extends XPDLThing {
 					createMessageFlow(childShape);
 				} else if (XPDLPool.handlesStencil(stencil)) {
 					createPool(childShape);
+				} else if (XPDLTransition.handlesStencil(stencil)) {
+					createProcessChild(childShape);
 				}
 				readJSONchildShapes(childShape);
 			}
@@ -152,7 +168,7 @@ public class XPDLPackage extends XPDLThing {
 		
 		JSONObject expressionlanguage = new JSONObject();
 		expressionlanguage.put("expressionlanguage", modelElement.optString("expressionlanguage"));
-		getScriptType().parse(expressionlanguage);
+		getScript().parse(expressionlanguage);
 	}
 	
 	public void readJSONlanguage(JSONObject modelElement) {
@@ -191,6 +207,10 @@ public class XPDLPackage extends XPDLThing {
 		conformanceClass = conformance;
 	}
 	
+	public void setExternalPackages(ArrayList<XPDLExternalPackage> packages) {
+		externalPackages = packages;
+	}
+	
 	public void setLanguage(String languageValue) {
 		language = languageValue;
 	}
@@ -215,8 +235,12 @@ public class XPDLPackage extends XPDLThing {
 		redefinableHeader = header;
 	}
 	
-	public void setScriptType(XPDLScriptType script) {
-		scriptType = script;
+	public void setScript(XPDLScript scriptValue) {
+		script = scriptValue;
+	}
+	
+	public void setTypeDeclarations(ArrayList<XPDLTypeDeclaration> declarations) {
+		typeDeclarations = declarations;
 	}
 	
 	public void setWorklfowProcesses(ArrayList<XPDLWorkflowProcess> processes) {
@@ -247,12 +271,37 @@ public class XPDLPackage extends XPDLThing {
 		getMessageFlows().add(nextFlow);
 	}
 	
-	protected void createPool(JSONObject modelElement) {
+	protected XPDLPool createPool(JSONObject modelElement) {
 		initializePools();
+		initializeWorkflowProcesses();
 		
 		XPDLPool nextPool = new XPDLPool();
 		nextPool.parse(modelElement);
 		getPools().add(nextPool);
+		
+		XPDLWorkflowProcess accordingProcess = new XPDLWorkflowProcess();
+		accordingProcess.parse(modelElement);
+		getWorkflowProcesses().add(accordingProcess);
+		
+		nextPool.setAccordingProcess(accordingProcess);
+		return nextPool;
+	}
+	
+	protected void createProcessChild(JSONObject modelElement) throws JSONException {
+		initializeMainPool();
+		
+		JSONArray childShapesArray = new JSONArray();
+		childShapesArray.put(modelElement);
+		
+		JSONObject childShapes = new JSONObject();
+		childShapes.put("childShapes", childShapesArray);
+		
+		XPDLWorkflowProcess mainProcess = getMainPool().getAccordingProcess();
+		mainProcess.parse(childShapes);
+	}
+	
+	protected XPDLPool getMainPool() {
+		return mainPool;
 	}
 	
 	protected void initializeArtifacts() {
@@ -264,6 +313,15 @@ public class XPDLPackage extends XPDLThing {
 	protected void initializeAssociations() {
 		if (getAssociations() == null) {
 			setAssociations(new ArrayList<XPDLAssociation>());
+		}
+	}
+	
+	protected void initializeMainPool() throws JSONException {
+		if (getMainPool() == null) {
+			JSONObject modelElement = new JSONObject(XPDL.implicitPool);
+			XPDLPool newMainPool = createPool(modelElement);
+			
+			setMainPool(newMainPool);
 		}
 	}
 	
@@ -292,8 +350,8 @@ public class XPDLPackage extends XPDLThing {
 	}
 	
 	protected void initializeScriptType() {
-		if (getScriptType() == null) {
-			setScriptType(new XPDLScriptType());
+		if (getScript() == null) {
+			setScript(new XPDLScript());
 		}
 	}
 	
@@ -301,5 +359,9 @@ public class XPDLPackage extends XPDLThing {
 		if (getWorkflowProcesses() == null) {
 			setWorklfowProcesses(new ArrayList<XPDLWorkflowProcess>());
 		}
+	}
+	
+	protected void setMainPool(XPDLPool poolValue) {
+		mainPool = poolValue;
 	}
 }

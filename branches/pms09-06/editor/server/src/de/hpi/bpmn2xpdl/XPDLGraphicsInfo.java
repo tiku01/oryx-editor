@@ -12,6 +12,8 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	protected ArrayList<XPDLCoordinates> coordinates;
 	protected String fillColor;
 	protected boolean isVisible = true;
+	protected String page;
+	protected String pageId;
 	protected String toolId = "Oryx";
 	
 	public static void registerMapping(XStream xstream) {
@@ -21,7 +23,10 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 		xstream.aliasField("BorderColor", XPDLGraphicsInfo.class, "borderColor");
 		xstream.useAttributeFor(XPDLGraphicsInfo.class, "fillColor");
 		xstream.aliasField("FillColor", XPDLGraphicsInfo.class, "fillColor");
-
+		xstream.useAttributeFor(XPDLGraphicsInfo.class, "page");
+		xstream.aliasField("Page", XPDLGraphicsInfo.class, "page");
+		xstream.useAttributeFor(XPDLGraphicsInfo.class, "pageId");
+		xstream.aliasField("PageId", XPDLGraphicsInfo.class, "pageId");
 		xstream.useAttributeFor(XPDLGraphicsInfo.class, "toolId");
 		xstream.aliasField("ToolId", XPDLGraphicsInfo.class, "toolId");
 		xstream.useAttributeFor(XPDLGraphicsInfo.class, "isVisible");
@@ -50,6 +55,14 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 		return isVisible;
 	}
 	
+	public String getPage() {
+		return page;
+	}
+
+	public String getPageId() {
+		return pageId;
+	}
+	
 	public String getToolId() {
 		return toolId;
 	}
@@ -75,6 +88,14 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	
 	public void setIsVisible(boolean visibility) {
 		isVisible = visibility;
+	}
+	
+	public void setPage(String pageValue) {
+		page = pageValue;
+	}
+	
+	public void setPageId(String pageIdValue) {
+		pageId = pageIdValue;
 	}
 	
 	public void setToolId(String tool) {

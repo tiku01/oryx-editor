@@ -8,17 +8,16 @@ import com.thoughtworks.xstream.XStream;
 
 public class XPDLPackageHeader extends XMLConvertable {
 
-	/* TODO:
-	 * Cost Unit
-	 * Priority Unit
-	 * Description
-	 */
-
 	protected String created;
+	protected String costUnit;
+	protected String description;
 	protected String documentation;
 	protected String modificationDate;
+	protected String priorityUnit;
 	protected String vendor = "Hasso Plattner Institute";
 	protected String xpdlVersion = "2.1";
+	
+	protected XPDLLayoutInfo layoutInfo;
 	
 
 	public static void registerMapping(XStream xstream) {
@@ -29,10 +28,22 @@ public class XPDLPackageHeader extends XMLConvertable {
 		xstream.aliasField("xpdl2:Documentation", XPDLPackageHeader.class, "documentation");
 		xstream.aliasField("xpdl2:Created", XPDLPackageHeader.class, "created");
 		xstream.aliasField("xpdl2:ModificationDate", XPDLPackageHeader.class, "modificationDate");
+		xstream.aliasField("xpdl2:Description", XPDLPackageHeader.class, "description");
+		xstream.aliasField("xpdl2:CostUnit", XPDLPackageHeader.class, "costUnit");
+		xstream.aliasField("xpdl2:PriorityUnit", XPDLPackageHeader.class, "priorityUnit");
+		xstream.aliasField("xpdl2:LayoutInfo", XPDLPackageHeader.class, "layoutInfo");
+	}
+	
+	public String getCostUnit() {
+		return costUnit;
 	}
 	
 	public String getCreated() {
 		return created;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	public String getDocumentation() {
@@ -41,6 +52,10 @@ public class XPDLPackageHeader extends XMLConvertable {
 	
 	public String getModificationDate() {
 		return modificationDate;
+	}
+	
+	public String getPriorityUnit() {
+		return priorityUnit;
 	}
 	
 	public String getVendor() {
@@ -63,8 +78,16 @@ public class XPDLPackageHeader extends XMLConvertable {
 		setModificationDate(formatDate(modelElement.optString("modificationdate")));
 	}
 	
+	public void setCostUnit(String unit) {
+		costUnit = unit;
+	}
+	
 	public void setCreated(String date) {
 		created = date;
+	}
+	
+	public void setDescription(String descriptionValue) {
+		description = descriptionValue;
 	}
 	
 	public void setDocumentation(String documentationValue) {
@@ -73,6 +96,10 @@ public class XPDLPackageHeader extends XMLConvertable {
 	
 	public void setModificationDate(String date) {
 		modificationDate = date;
+	}
+	
+	public void setPriorityUnit(String unit) {
+		priorityUnit = unit;
 	}
 
 	public void setVendor(String vendorValue) {

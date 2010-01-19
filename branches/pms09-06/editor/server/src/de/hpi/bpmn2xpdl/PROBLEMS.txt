@@ -1,0 +1,17 @@
+XPDL-Problems:
+
+- Package Documentation ist ein extra tag, sonst in Object
+- Condition Type ist anders als der von Oryx(/BPMN?)
+
+Oryx-Problems:
+
+- Groups haben keine Containment-Rules
+- Flows setzen source nicht korrekt
+- Pools, Lanes Attribute werden nicht gesetzt
+- Elemente die sich net abbilden lassen:
+	* Script Grammar
+	* Application
+	* DataFields
+	* TypeDeclaration
+	* ExternalPackage
+	* ExternalReference
