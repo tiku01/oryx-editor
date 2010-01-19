@@ -1,10 +1,5 @@
 #summary This guide shows how to set up and configure a development environment in order to build the Oryx application from source.
 
-= WORK IN PROGRESS. = 
-
-== We are currently updating and reviewing the complete Oryx documentation. The new guides will be available as soon as we finished this process. If you have urgent problems, please contact us using the official [http://groups.google.com/group/b3mn mailing list]. ==
-
-
 = Scratch =
 
 == Installation on Ubuntu 8.10 ==
@@ -41,7 +36,7 @@
 
 ===Eclipse===
   * Get and install Eclipse IDE for Java EE Developers http://www.eclipse.org/downloads/ 
-  * Get subclipse http://subclipse.tigris.org/
+  * Get subclipse http://subclipse.tigris.org/ or use any other Suversion client
 
 ===Check out trunk===
   * Import Eclipse project from svn
