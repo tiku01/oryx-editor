@@ -14,7 +14,7 @@ public class Tester2xpdl {
 	protected static String path = "C:/Users/Markus Goetz/workspace/Oryx/editor/server/src/de/hpi/bpmn2xpdl/";
 	
 	public static void main(String[] args) {
-		String jsonString = readFile(path + "jsonbig");
+		String jsonString = readFile(path + "test001.txt");
 		long start = System.currentTimeMillis();
 		Converter converter = new Converter();
 		try {
@@ -22,6 +22,7 @@ public class Tester2xpdl {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		//converter.importXPDL(jsonString);
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}

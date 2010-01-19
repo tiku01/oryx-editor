@@ -10,9 +10,11 @@ import org.json.JSONObject;
 import com.thoughtworks.xstream.XStream;
 
 public class XPDLPool extends XPDLThingNodeGraphics {
-
+	
+	protected XPDLWorkflowProcess accordingProcess;
 	protected boolean boundaryVisible = true;
 	protected boolean mainPool = false;
+	protected String participant;
 	protected String process;
 	protected String orientation = "HORIZONTAL";
 	
@@ -34,10 +36,18 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		xstream.aliasField("Orientation", XPDLPool.class, "orientation");
 		xstream.useAttributeFor(XPDLPool.class, "mainPool");
 		xstream.aliasField("MainPool", XPDLPool.class, "mainPool");
+		xstream.useAttributeFor(XPDLPool.class, "participant");
+		xstream.aliasField("Participant", XPDLPool.class, "participant");
 		xstream.useAttributeFor(XPDLPool.class, "process");
 		xstream.aliasField("Process", XPDLPool.class, "process");
 		
 		xstream.aliasField("xpdl2:Lanes", XPDLPool.class, "lanes");
+		
+		xstream.omitField(XPDLPool.class, "accordingProcess");
+	}
+	
+	public XPDLWorkflowProcess getAccordingProcess() {
+		return accordingProcess;
 	}
 	
 	public boolean getBoundaryVisible() {
@@ -50,6 +60,10 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	
 	public boolean getMainPool() {
 		return mainPool;
+	}
+	
+	public String getParticipant() {
+		return participant;
 	}
 	
 	public String getProcess() {
@@ -87,8 +101,9 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		setMainPool(modelElement.optBoolean("mainpool"));
 	}
 	
-	public void readJSONprocessref(JSONObject modelElement) {
-		setProcess(modelElement.optString("processref"));
+	public void setAccordingProcess(XPDLWorkflowProcess processValue) {
+		accordingProcess = processValue;
+		setProcess(processValue.getId());
 	}
 	
 	public void setBoundaryVisible(boolean visibility) {
@@ -103,12 +118,12 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		mainPool = isMainPool;
 	}
 	
-	public void setProcess(String processId) {
-		process = processId;
-	}
-	
 	public void setOrientation(String orientationValue) {
 		orientation = orientationValue;
+	}
+	
+	public void setParticipant(String participantValue) {
+		participant = participantValue;
 	}
 	
 	protected void createLane(JSONObject modelElement) {
@@ -123,5 +138,9 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		if(getLanes() == null) {
 			setLanes(new ArrayList<XPDLLane>());
 		}
+	}
+		
+	protected void setProcess(String processId) {
+		process = processId;
 	}
 }

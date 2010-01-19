@@ -7,23 +7,37 @@ import com.thoughtworks.xstream.XStream;
 public class XPDLRedefinableHeader extends XMLConvertable {
 
 	protected String author;
+	protected String codepage;
+	protected String countrykey;
+	protected String publicationStatus;
 	protected String version;
-	
-	/* TODO:
-	 * Codepage ?
-	 * Countrykey
-	 * PublicationStatus
-	 */
 	
 	public static void registerMapping(XStream xstream) {
 		xstream.alias("xpdl2:RedefinableHeader", XPDLRedefinableHeader.class);
 		
+		xstream.useAttributeFor(XPDLRedefinableHeader.class, "publicationStatus");
+		xstream.aliasField("PublicationStatus", XPDLRedefinableHeader.class, "publicationStatus");
+		
 		xstream.aliasField("xpdl2:Author", XPDLRedefinableHeader.class, "author");
+		xstream.aliasField("xpdl2:Codepage", XPDLRedefinableHeader.class, "codepage");
+		xstream.aliasField("xpdl2:Countrykey", XPDLRedefinableHeader.class, "countrykey");
 		xstream.aliasField("xpdl2:Version", XPDLRedefinableHeader.class, "version");
 	}
 	
 	public String getAuthor() {
 		return author;
+	}
+	
+	public String getCodepage() {
+		return codepage;
+	}
+	
+	public String getCountrykey() {
+		return countrykey;
+	}
+	
+	public String getPublicationStatus() {
+		return publicationStatus;
 	}
 	
 	public String getVersion() {
@@ -42,6 +56,18 @@ public class XPDLRedefinableHeader extends XMLConvertable {
 		author = authorValue;
 	}
 	
+	public void setCodepage(String page) {
+		codepage = page;
+	}
+	
+	public void setCountrykey(String key) {
+		countrykey = key;
+	}
+	
+	public void setPublicationStatus(String status) {
+		publicationStatus = status;
+	}
+	 
 	public void setVersion(String versionValue) {
 		version = versionValue;
 	}

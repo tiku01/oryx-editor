@@ -10,7 +10,9 @@ import com.thoughtworks.xstream.XStream;
 public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
 	protected String artifactType;
+	protected String groupDeprecated;
 	protected String textAnnotation;
+	
 	protected XPDLDataObject dataObject;
 	
 	public static boolean handlesStencil(String stencil) {
@@ -26,6 +28,8 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		
 		xstream.useAttributeFor(XPDLArtifact.class, "artifactType");
 		xstream.aliasField("ArtifactType", XPDLArtifact.class, "artifactType");
+		xstream.useAttributeFor(XPDLArtifact.class, "groupDeprecated");
+		xstream.aliasField("Group", XPDLArtifact.class, "groupDeprecated");
 		xstream.useAttributeFor(XPDLArtifact.class, "textAnnotation");
 		xstream.aliasField("TextAnnotation", XPDLArtifact.class, "textAnnotation");
 		xstream.aliasField("xpdl2:DataObject", XPDLArtifact.class, "dataObject");
@@ -37,6 +41,10 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
 	public XPDLDataObject getDataObject() {
 		return dataObject;
+	}
+	
+	public String getGroupDeprecated() {
+		return groupDeprecated;
 	}
 	
 	public String getTextAnnotation() {
@@ -84,6 +92,10 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
 	public void setDataObject(XPDLDataObject dataObjectValue) {
 		dataObject = dataObjectValue;
+	}
+	
+	public void setGroupDeprecated(String groupValue) {
+		groupDeprecated = groupValue;
 	}
 	
 	public void setTextAnnotation(String annotation) {

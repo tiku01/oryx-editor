@@ -6,8 +6,6 @@ import com.thoughtworks.xstream.XStream;
 
 public class XPDLDataObject extends XPDLThing {
 
-	protected String id;
-	protected String name;
 	protected boolean producedAtCompletion;
 	protected boolean requiredForStart;
 	protected String state;

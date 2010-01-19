@@ -1,0 +1,57 @@
+<xpdl2:Package Id="oryx-canvas123" Language="English">
+  <xpdl2:ConformanceClass GraphConformance="NON-BLOCKED" BPMNModelPortabilityConformance="STANDARD"/>
+  <xpdl2:Pools>
+    <xpdl2:Pool Id="oryx_00000000-0000-0000-0000-000000000000" Name="Main Pool" BoundaryVisible="false" MainPool="true" Process="oryx_00000000-0000-0000-0000-000000000000-process" Orientation="HORIZONTAL">
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="255,255,255" IsVisible="true" ToolId="Oryx" Height="0.0" Width="0.0">
+          <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="0.0"/>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+    </xpdl2:Pool>
+    <xpdl2:Pool Id="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5" BoundaryVisible="true" MainPool="false" Process="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5-process" Orientation="HORIZONTAL">
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="250.0" Width="600.0">
+          <xpdl2:Coordinates XCoordinate="30.0" YCoordinate="113.0"/>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+      <xpdl2:Lanes>
+        <xpdl2:Lane Id="oryx_F7E4E0B7-292A-43EB-9D69-4C943EFD1832" ParentPool="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5">
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="250.0" Width="600.0">
+              <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="33.0"/>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+        </xpdl2:Lane>
+      </xpdl2:Lanes>
+    </xpdl2:Pool>
+  </xpdl2:Pools>
+  <xpdl2:WorkflowProcesses>
+    <xpdl2:WorkflowProcess Id="oryx_00000000-0000-0000-0000-000000000000-process" Name="MainProcess" AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true">
+      <xpdl2:Transitions>
+        <xpdl2:Transition Id="oryx_1A2B36F3-E20A-437B-914D-68B1E090B0BF" Quantity="1">
+          <xpdl2:ConnectorGraphicsInfos>
+            <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+              <xpdl2:Coordinates XCoordinate="249.0" YCoordinate="297.0"/>
+              <xpdl2:Coordinates XCoordinate="249.0" YCoordinate="297.0"/>
+              <xpdl2:Coordinates XCoordinate="449.0" YCoordinate="297.0"/>
+              <xpdl2:Coordinates XCoordinate="449.0" YCoordinate="299.0"/>
+            </xpdl2:ConnectorGraphicsInfo>
+          </xpdl2:ConnectorGraphicsInfos>
+        </xpdl2:Transition>
+        <xpdl2:Transition Id="oryx_3FBCD099-4EE5-40D5-8CA0-EDF014746361" Quantity="1" To="oryx_60B92B23-BD05-4755-B946-24CB1AB02A11">
+          <xpdl2:ConnectorGraphicsInfos>
+            <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+              <xpdl2:Coordinates XCoordinate="213.3203125" YCoordinate="198.0"/>
+              <xpdl2:Coordinates XCoordinate="50.0" YCoordinate="40.0"/>
+              <xpdl2:Coordinates XCoordinate="270.0" YCoordinate="210.0"/>
+              <xpdl2:Coordinates XCoordinate="270.0" YCoordinate="198.0"/>
+              <xpdl2:Coordinates XCoordinate="50.0" YCoordinate="40.0"/>
+              <xpdl2:Coordinates XCoordinate="326.6796875" YCoordinate="210.0"/>
+            </xpdl2:ConnectorGraphicsInfo>
+          </xpdl2:ConnectorGraphicsInfos>
+        </xpdl2:Transition>
+      </xpdl2:Transitions>
+    </xpdl2:WorkflowProcess>
+    <xpdl2:WorkflowProcess Id="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5-process" AdhocOrdering="Parallel" ProcessType="None" Status="None"/>
+  </xpdl2:WorkflowProcesses>
+</xpdl2:Package>

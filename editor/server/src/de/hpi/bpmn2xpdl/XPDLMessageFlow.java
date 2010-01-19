@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
-public class XPDLMessageFlow extends XPDLThingConnectorGraphics{
+public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 
 	protected String source;
 	protected String target;
-	protected XPDLMessageType message;
+	protected XPDLMessage message;
 	
 	public static boolean handlesStencil(String stencil) {
 		String[] types = {
@@ -26,10 +26,10 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics{
 		xstream.aliasField("Source", XPDLMessageFlow.class, "source");
 		xstream.useAttributeFor(XPDLMessageFlow.class, "target");
 		xstream.aliasField("Target", XPDLMessageFlow.class, "target");
-		xstream.aliasField("xpdl2:MessageType", XPDLMessageFlow.class, "message");
+		xstream.aliasField("xpdl2:Message", XPDLMessageFlow.class, "message");
 	}
 	
-	public XPDLMessageType getMessage() {
+	public XPDLMessage getMessage() {
 		return message;
 	}
 	
@@ -42,13 +42,12 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics{
 	}
 	
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
+		initializeMessage();
+		
 		JSONObject messageType = new JSONObject();
-		messageType.put("resourceId", getProperId(modelElement));
+		messageType.put("id", modelElement.optString("message"));
 		
-		XPDLMessageType newMessage = new XPDLMessageType();
-		newMessage.parse(messageType);
-		
-		setMessage(newMessage);
+		getMessage().parse(messageType);
 	}
 	
 	public void readJSONsource(JSONObject modelElement) {
@@ -60,7 +59,7 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics{
 		setTarget(target.optString("resourceId"));
 	}
 	
-	public void setMessage(XPDLMessageType messageValue) {
+	public void setMessage(XPDLMessage messageValue) {
 		message = messageValue;
 	}
 	
@@ -70,5 +69,11 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics{
 	
 	public void setTarget(String targetValue) {
 		target = targetValue;
+	}
+	
+	protected void initializeMessage() {
+		if (getMessage() == null) {
+			setMessage(new XPDLMessage());
+		}
 	}
 }

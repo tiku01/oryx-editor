@@ -9,12 +9,10 @@ import com.thoughtworks.xstream.XStream;
 
 public abstract class XPDLThing extends XMLConvertable {
 
-	/*
-	 * TODO: Object
-	 */
-
+	protected String description;
 	protected String id;
 	protected String name;
+	protected XPDLObject object;
 	protected ArrayList<XPDLExtendedAttribute> extendedAttributes;
 
 	public static void registerMapping(XStream xstream) {
@@ -24,11 +22,17 @@ public abstract class XPDLThing extends XMLConvertable {
 		xstream.aliasField("Id", XPDLThing.class, "id");
 		xstream.useAttributeFor(XPDLThing.class, "name");
 		xstream.aliasField("Name", XPDLThing.class, "name");
+		
 		xstream.aliasField("xpdl2:ExtendedAttributes", XPDLThing.class, "extendedAttributes");
+		xstream.aliasField("xpdl2:Description", XPDLThing.class, "description");
 	}
 
 	public ArrayList<XPDLExtendedAttribute> getExtendedAttributes() {
 		return extendedAttributes;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	public String getId() {
@@ -37,6 +41,30 @@ public abstract class XPDLThing extends XMLConvertable {
 
 	public String getName() {
 		return name;
+	}
+	
+	public XPDLObject getObject() {
+		return object;
+	}
+	
+	public void readJSONcategories(JSONObject modelElement) throws JSONException {
+		initializeObject();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("id", getProperId(modelElement));
+		passObject.put("categories", modelElement.optString("categories"));
+		
+		getObject().parse(passObject);
+	}
+	
+	public void readJSONdocumentation(JSONObject modelElement) throws JSONException {
+		initializeObject();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("id", getProperId(modelElement));
+		passObject.put("documentation", modelElement.optString("documentation"));
+		
+		getObject().parse(passObject);
 	}
 	
 	public void readJSONid(JSONObject modelElement) {
@@ -57,6 +85,10 @@ public abstract class XPDLThing extends XMLConvertable {
 		setId(getProperId(modelElement));
 	}
 
+	public void setDescription(String descriptionValue) {
+		description = descriptionValue;
+	}
+	
 	public void setExtendedAttributes(ArrayList<XPDLExtendedAttribute> attributes) {
 		extendedAttributes = attributes;
 	}
@@ -69,12 +101,22 @@ public abstract class XPDLThing extends XMLConvertable {
 		name = nameValue;
 	}
 	
+	public void setObject(XPDLObject objectValue) {
+		object = objectValue;
+	}
+	
 	protected String getProperId(JSONObject modelElement) {
-		String idValue = modelElement.optString("id");
+		String idValue = modelElement.optString("id");;
 		
-		if (!idValue.equals("") || (idValue != null)) {
+		if (!idValue.equals("")) {
 			return modelElement.optString("id");
 		}
 		return modelElement.optString("resourceId");
+	}
+	
+	protected void initializeObject() {
+		if (getObject() == null) {
+			setObject(new XPDLObject());
+		}
 	}
 }
