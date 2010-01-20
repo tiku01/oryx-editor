@@ -68,7 +68,7 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	}
 	
 	public void readJSONbgcolor(JSONObject modelElement) {
-		setFillColor(rgbToNumber(modelElement.optString("bgcolor")));
+		setFillColor(modelElement.optString("bgcolor"));
 	}
 	
 	public void readJSONbounds(JSONObject modelElement) {		
@@ -112,26 +112,5 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 		if (getCoordinates() == null) {
 			setCoordinates(new ArrayList<XPDLCoordinates>());
 		}
-	}
-	
-	protected String numberToRGB(String numberString) {
-		String[] numberValues = numberString.split(",");
-		String resultString = "#";
-		for (int i = 0; i < numberValues.length; i++) {
-			Integer parsedNumber = Integer.parseInt(numberValues[i]);
-			if (parsedNumber < 16) {
-				resultString += "0" + Integer.toHexString(parsedNumber);
-			} else {
-				resultString += Integer.toHexString(parsedNumber);
-			}
-		}
-		return resultString;
-	}
-
-	protected String rgbToNumber(String rgbString) {
-		String resultString = Integer.parseInt(rgbString.substring(1, 3), 16) + ",";
-		resultString += Integer.parseInt(rgbString.substring(3, 5), 16) + ",";
-		resultString += Integer.parseInt(rgbString.substring(5, 7), 16);
-		return resultString;
 	}
 }

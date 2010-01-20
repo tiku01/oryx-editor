@@ -37,14 +37,6 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		getFirstGraphicsInfo().parse(bounds);
 	}
 	
-	public void readJSONdockers(JSONObject modelElement) throws JSONException {
-		initializeGraphics();
-		
-		JSONObject dockers = new JSONObject();
-		dockers.put("dockers", modelElement.optJSONArray("dockers"));
-		getFirstGraphicsInfo().parse(dockers);
-	}
-	
 	public void setConnectorGraphicsInfos(ArrayList<XPDLConnectorGraphicsInfo> graphics) {
 		connectorGraphics = graphics;
 	}

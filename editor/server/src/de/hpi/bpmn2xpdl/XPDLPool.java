@@ -74,6 +74,15 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		return orientation;
 	}
 	
+	public void readJSONadhoc(JSONObject modelElement) {
+	}
+	
+	public void readJSONadhocordering(JSONObject modelElement) {
+	}
+	
+	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
+	}
+	
 	public void readJSONboundaryvisible(JSONObject modelElement) {
 		setBoundaryVisible(modelElement.optBoolean("boundaryvisible"));
 	}
@@ -96,9 +105,57 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 			}
 		}
 	}
+
+	public void readJSONenableinstancecompensation(JSONObject modelElement) {
+	}
 	
 	public void readJSONmainpool(JSONObject modelElement) {
 		setMainPool(modelElement.optBoolean("mainpool"));
+	}
+	
+	public void readJSONparticipantref(JSONObject modelElement) {
+	}
+	
+	public void readJSONpoolcategories(JSONObject modelElement) throws JSONException {
+		JSONObject categorieObject = new JSONObject();
+		categorieObject.put("categories", modelElement.optString("poolcategories"));
+		categorieObject.put("id", getProperId(modelElement));
+		
+		parse(categorieObject);
+	}
+	
+	public void readJSONpooldocumentation(JSONObject modelElement) throws JSONException {
+		JSONObject documentationObject = new JSONObject();
+		documentationObject.put("documentation", modelElement.optString("pooldocumentation"));
+		documentationObject.put("id", getProperId(modelElement));
+		
+		parse(documentationObject);
+	}
+	
+	
+	public void readJSONpoolid(JSONObject modelElement) {
+		setId(getProperId(modelElement));
+	}
+	
+	public void readJSONprocesscategories(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocessdocumentation(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocessname(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocessref(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocesstype(JSONObject modelElement) {
+	}
+	
+	public void readJSONstatus(JSONObject modelElement) {
+	}
+	
+	public void readJSONsuppressjoinfailure(JSONObject modelElement) {
 	}
 	
 	public void setAccordingProcess(XPDLWorkflowProcess processValue) {
@@ -132,6 +189,14 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		XPDLLane nextLane = new XPDLLane();
 		nextLane.parse(modelElement);
 		getLanes().add(nextLane);
+	}
+	
+	protected String getProperId(JSONObject modelElement) {
+		String idValue = modelElement.optString("poolid");
+		if (!idValue.equals("")) {
+			return idValue;
+		}
+		return modelElement.optString("resourceId");
 	}
 	
 	protected void initializeLanes() {

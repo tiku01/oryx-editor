@@ -5,13 +5,19 @@ XPDL-Problems:
 
 Oryx-Problems:
 
+- der letter case von keys ist nicht konsistent (z.B. totalCount in assignments aber processdocumentation)
+- Oryx stürzt ab wenn man die Farbe ändert
 - Groups haben keine Containment-Rules
 - Flows setzen source nicht korrekt
 - Pools, Lanes Attribute werden nicht gesetzt
-- Elemente die sich net abbilden lassen:
-	* Script Grammar
-	* Application
-	* DataFields
-	* TypeDeclaration
-	* ExternalPackage
-	* ExternalReference
+- In Artifacts werden assignments im JSON ohne oberkey assignments serialisiert
+- In Artifacts sind laut XPDL keine Assignments vorgesehen
+- In task kann man mi_condi und normale loops setzen , darf nicht gehen
+- Die ganzen ref attribute sind überflüssig, da man da beliebige werte reinschreiben kann
+
+Code:
+
+outgoing key
+Pools <-> NestedLane
+categories converter
+condition converter

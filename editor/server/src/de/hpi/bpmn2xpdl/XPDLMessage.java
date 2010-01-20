@@ -1,7 +1,5 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
@@ -13,8 +11,6 @@ public class XPDLMessage extends XMLConvertable {
 	protected String id;
 	protected String name;
 	protected String to;
-	
-	protected ArrayList<XPDLActualParameter> actualParameters;
 	
 	public static void registerMapping(XStream xstream) {
 		xstream.alias("xpdl2:Message", XPDLMessage.class);
@@ -29,12 +25,6 @@ public class XPDLMessage extends XMLConvertable {
 		xstream.aliasField("Name", XPDLMessage.class, "name");
 		xstream.useAttributeFor(XPDLMessage.class, "to");
 		xstream.aliasField("To", XPDLMessage.class, "to");
-		
-		xstream.aliasField("xpdl2:ActualParameters", XPDLMessage.class, "actualParameters");
-	}
-	
-	public ArrayList<XPDLActualParameter> getActualParameters() {
-		return actualParameters;
 	}
 	
 	public String getFaultName() {
@@ -59,10 +49,6 @@ public class XPDLMessage extends XMLConvertable {
 	
 	public void readJSONid(JSONObject modelElement) {
 		setId(modelElement.optString("id")+"-message");
-	}
-	
-	public void setActualParameters(ArrayList<XPDLActualParameter> parameterList) {
-		actualParameters = parameterList;
 	}
 	
 	public void setFaultName(String fault) {

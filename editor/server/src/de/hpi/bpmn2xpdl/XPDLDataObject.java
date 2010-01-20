@@ -33,6 +33,12 @@ public class XPDLDataObject extends XPDLThing {
 		return state;
 	}
 
+	public void readJSONartifacttype(JSONObject modelElement) {
+	}
+	
+	public void readJSONitems(JSONObject modelElement) {
+	}
+	
 	public void readJSONproducedatcompletion(JSONObject modelElement) {
 		setProducedAtCompletion(modelElement.optBoolean("producedatcompletion"));
 	}
@@ -43,6 +49,9 @@ public class XPDLDataObject extends XPDLThing {
 
 	public void readJSONstate(JSONObject modelElement) {
 		setState(modelElement.optString("state"));
+	}
+	
+	public void readJSONtotalCount(JSONObject modelElement) {
 	}
 
 	public void setProducedAtCompletion(boolean isProduced) {
