@@ -12,8 +12,10 @@
 					<xsd:annotation>
 						<xsd:documentation>BPMN: corresponds to a flow object, which could be a BPMN activity, gateway, or event</xsd:documentation>
 					</xsd:annotation>
-				</xsd:element>
-			</xsd:sequence>
+				</xsd:element>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Activity">
@@ -208,8 +210,10 @@
 	<xsd:element name="ActualParameters">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="ActualParameter" type="xpdl:ExpressionType" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element name="ActualParameter" type="xpdl:ExpressionType" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Application">
@@ -221,10 +225,12 @@
 					<xsd:element ref="xpdl:FormalParameters"/>
 					<xsd:element ref="xpdl:ExternalReference" minOccurs="0"/>
 				</xsd:choice>
-				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:complexType name="ApplicationType">
@@ -398,8 +404,10 @@
 	<xsd:element name="Applications">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Application" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Application" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ArrayType">
@@ -419,7 +427,8 @@
 				<xsd:element ref="xpdl:Object" minOccurs="0"/>
 				<xsd:element ref="xpdl:Group" minOccurs="0"/>
 				<xsd:element ref="xpdl:DataObject" minOccurs="0"/>
-				<xsd:element ref="xpdl:NodeGraphicsInfos" minOccurs="0"/>
+				<xsd:element ref="xpdl:NodeGraphicsInfos" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
@@ -433,7 +442,8 @@
 				</xsd:simpleType>
 			</xsd:attribute>
 			<xsd:attribute name="TextAnnotation" type="xsd:string" use="optional"/>
-			<xsd:attribute name="Group" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Group" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Artifacts">
@@ -442,8 +452,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence maxOccurs="unbounded">
-				<xsd:element ref="xpdl:Artifact"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Artifact"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ArtifactInput">
@@ -504,7 +516,8 @@
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0">
 				<xsd:element ref="xpdl:Object"/>
-				<xsd:element ref="xpdl:ConnectorGraphicsInfos" minOccurs="0"/>
+				<xsd:element ref="xpdl:ConnectorGraphicsInfos" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Source" type="xsd:NMTOKEN" use="required"/>
@@ -519,7 +532,8 @@
 						<xsd:enumeration value="Both"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Associations">
@@ -528,8 +542,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence maxOccurs="unbounded">
-				<xsd:element ref="xpdl:Association"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Association"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Author">
@@ -596,16 +612,22 @@
 		<xsd:annotation>
 			<xsd:documentation> BPMN (and XPDL??Allows arbitrary grouping of various types of elements, for reporting.)</xsd:documentation>
 		</xsd:annotation>
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Categories">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Category" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Category" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Codepage">
@@ -637,7 +659,10 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ConformanceClass">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="GraphConformance" use="optional" default="NON_BLOCKED">
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:NMTOKEN">
@@ -656,7 +681,8 @@
 						<xsd:enumeration value="COMPLETE"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ConnectorGraphicsInfo">
@@ -665,7 +691,8 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0">
-				<xsd:element ref="xpdl:Coordinates" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="xpdl:Coordinates" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="ToolId" type="xsd:NMTOKEN" use="optional"/>
 			<xsd:attribute name="IsVisible" type="xsd:boolean" use="optional" default="true"/>
@@ -677,23 +704,30 @@
 			<xsd:attribute name="PageId" type="xpdl:IdRef" use="optional"/>
 			<xsd:attribute name="Style" type="xsd:string" use="optional"/>
 			<xsd:attribute name="BorderColor" type="xsd:string" use="optional"/>
-			<xsd:attribute name="FillColor" type="xsd:string" use="optional"/>
+			<xsd:attribute name="FillColor" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ConnectorGraphicsInfos">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:ConnectorGraphicsInfo" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:ConnectorGraphicsInfo" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Coordinates">
 		<xsd:annotation>
 			<xsd:documentation>BPMN and XPDL</xsd:documentation>
 		</xsd:annotation>
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="XCoordinate" type="xsd:double" use="optional"/>
-			<xsd:attribute name="YCoordinate" type="xsd:double" use="optional"/>
+			<xsd:attribute name="YCoordinate" type="xsd:double" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Cost">
@@ -759,7 +793,8 @@
 				<xsd:element name="InitialValue" type="xpdl:ExpressionType" minOccurs="0"/>
 				<xsd:element ref="xpdl:Length" minOccurs="0"/>
 				<xsd:element ref="xpdl:Description" minOccurs="0"/>
-				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
@@ -769,14 +804,17 @@
 				<xsd:annotation>
 					<xsd:documentation>Used in BPMN to support mapping to BPEL</xsd:documentation>
 				</xsd:annotation>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DataFields">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:DataField" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:DataField" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DataMappings">
@@ -785,8 +823,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:DataMapping" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:DataMapping" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DataMapping">
@@ -796,7 +836,8 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="Actual" type="xpdl:ExpressionType"/>
-				<xsd:element name="TestValue" type="xpdl:ExpressionType" minOccurs="0"/>
+				<xsd:element name="TestValue" type="xpdl:ExpressionType" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Formal" type="xsd:string" use="required"/>
 			<xsd:attribute name="Direction" default="IN">
@@ -807,7 +848,8 @@
 						<xsd:enumeration value="INOUT"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DataObject">
@@ -820,7 +862,8 @@
 					<xsd:complexType>
 						<xsd:attribute name="Id" type="xpdl:Id" use="required"/>
 					</xsd:complexType>
-				</xsd:element>
+				</xsd:element>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
@@ -834,7 +877,8 @@
 				<xsd:annotation>
 					<xsd:documentation>Deprecated in BPMN1.1</xsd:documentation>
 				</xsd:annotation>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DataType">
@@ -1014,10 +1058,14 @@
 			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
-	<xsd:complexType name="ExpressionType" mixed="true">
+	<xsd:complexType name="ExpressionType" mixed="true">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:choice>
 		<xsd:attribute name="ScriptType" type="xsd:string" use="optional"/>
 		<xsd:attribute name="ScriptVersion" type="xsd:string" use="optional"/>
-		<xsd:attribute name="ScriptGrammar" type="xsd:anyURI" use="optional"/>
+		<xsd:attribute name="ScriptGrammar" type="xsd:anyURI" use="optional"/>
+		<xsd:anyAttribute namespace="##other" processContents="lax"/>
 	</xsd:complexType>
 	<xsd:element name="ExtendedAttribute">
 		<xsd:complexType mixed="true">
@@ -1038,25 +1086,33 @@
 	<xsd:element name="ExternalPackage">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="href" type="xsd:string"/>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ExternalPackages">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:ExternalPackage" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:ExternalPackage" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ExternalReference">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="xref" type="xsd:NMTOKEN" use="optional"/>
 			<xsd:attribute name="location" type="xsd:anyURI" use="required"/>
-			<xsd:attribute name="namespace" type="xsd:anyURI" use="optional"/>
+			<xsd:attribute name="namespace" type="xsd:anyURI" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="FormalParameter">
@@ -1110,10 +1166,12 @@
 					<xsd:complexType>
 						<xsd:attribute name="Id" type="xpdl:Id" use="required"/>
 					</xsd:complexType>
-				</xsd:element>
+				</xsd:element>
+				<xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Icon">
@@ -1335,7 +1393,8 @@
 					<xsd:complexType>
 						<xsd:attribute name="LaneId" type="xsd:NMTOKEN" use="required"/>
 					</xsd:complexType>
-				</xsd:element>
+				</xsd:element>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
@@ -1348,7 +1407,8 @@
 				<xsd:annotation>
 					<xsd:documentation>Deprecated from BPMN1.0. </xsd:documentation>
 				</xsd:annotation>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Lanes">
@@ -1357,8 +1417,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Lane" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Lane" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="LayoutInfo">
@@ -1367,7 +1429,8 @@
 				<xsd:annotation>
 					<xsd:documentation>Co-ordinates / Sizes are in pixels - this attribute specifies the number of pixels per  millimeter used by application.</xsd:documentation>
 				</xsd:annotation>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Length">
@@ -1493,7 +1556,8 @@
 			<xsd:choice minOccurs="0">
 				<xsd:element ref="xpdl:ActualParameters"/>
 				<xsd:element ref="xpdl:DataMappings"/>
-			</xsd:choice>
+			</xsd:choice>
+			<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 		<xsd:attribute name="Name" type="xsd:string" use="optional"/>
@@ -1507,7 +1571,8 @@
 				<xsd:documentation>This must be the name of a participant</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="FaultName" type="xsd:NMTOKEN" use="optional"/>
+		<xsd:attribute name="FaultName" type="xsd:NMTOKEN" use="optional"/>
+		<xsd:anyAttribute namespace="##other" processContents="lax"/>
 	</xsd:complexType>
 	<xsd:element name="MessageFlow">
 		<xsd:annotation>
@@ -1517,12 +1582,14 @@
 			<xsd:sequence minOccurs="0">
 				<xsd:element name="Message" type="xpdl:MessageType" minOccurs="0"/>
 				<xsd:element ref="xpdl:Object" minOccurs="0"/>
-				<xsd:element ref="xpdl:ConnectorGraphicsInfos" minOccurs="0"/>
+				<xsd:element ref="xpdl:ConnectorGraphicsInfos" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
 			<xsd:attribute name="Source" type="xpdl:IdRef" use="required"/>
-			<xsd:attribute name="Target" type="xpdl:IdRef" use="required"/>
+			<xsd:attribute name="Target" type="xpdl:IdRef" use="required"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="MessageFlows">
@@ -1531,8 +1598,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-				<xsd:element ref="xpdl:MessageFlow"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:MessageFlow"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ModificationDate">
@@ -1555,7 +1624,8 @@
 	<xsd:element name="NodeGraphicsInfo">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Coordinates" minOccurs="0"/>
+				<xsd:element ref="xpdl:Coordinates" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="ToolId" type="xsd:string" use="optional"/>
 			<xsd:attribute name="IsVisible" type="xsd:boolean" use="optional" default="true"/>
@@ -1570,14 +1640,17 @@
 			<xsd:attribute name="Width" type="xsd:double" use="optional"/>
 			<xsd:attribute name="BorderColor" type="xsd:string" use="optional"/>
 			<xsd:attribute name="FillColor" type="xsd:string" use="optional"/>
-			<xsd:attribute name="Shape" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Shape" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="NodeGraphicsInfos">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:NodeGraphicsInfo" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:NodeGraphicsInfo" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Object">
@@ -1587,14 +1660,16 @@
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0">
 				<xsd:element ref="xpdl:Categories" minOccurs="0"/>
-				<xsd:element ref="xpdl:Documentation" minOccurs="0"/>
+				<xsd:element ref="xpdl:Documentation" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required">
 				<xsd:annotation>
 					<xsd:documentation>This identifies any Object in the BPMN diagram.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Output">
@@ -1725,7 +1800,8 @@
 			<xsd:element ref="xpdl:Associations" minOccurs="0"/>
 			<xsd:element ref="xpdl:Artifacts" minOccurs="0"/>
 			<xsd:element ref="xpdl:WorkflowProcesses" minOccurs="0"/>
-			<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+			<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+			<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Id" type="xpdl:Id" use="required">
 			<xsd:annotation>
@@ -1734,7 +1810,8 @@
 		</xsd:attribute>
 		<xsd:attribute name="Name" type="xsd:string" use="optional"/>
 		<xsd:attribute name="Language" type="xsd:string" use="optional"/>
-		<xsd:attribute name="QueryLanguage" type="xsd:string" use="optional"/>
+		<xsd:attribute name="QueryLanguage" type="xsd:string" use="optional"/>
+		<xsd:anyAttribute namespace="##other" processContents="lax"/>
 	</xsd:complexType>
 	<xsd:element name="PackageHeader">
 		<xsd:complexType>
@@ -1748,23 +1825,31 @@
 				<xsd:element ref="xpdl:PriorityUnit" minOccurs="0"/>
 				<xsd:element ref="xpdl:CostUnit" minOccurs="0"/>
 				<xsd:element ref="xpdl:VendorExtensions" minOccurs="0"/>
-				<xsd:element ref="xpdl:LayoutInfo" minOccurs="0"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:LayoutInfo" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Page">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
 			<xsd:attribute name="Id" type="xpdl:Id" use="required"/>
 			<xsd:attribute name="Height" type="xsd:double" use="optional"/>
-			<xsd:attribute name="Width" type="xsd:double" use="optional"/>
+			<xsd:attribute name="Width" type="xsd:double" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Pages">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Page" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Page" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Participant">
@@ -1773,14 +1858,19 @@
 				<xsd:element ref="xpdl:ParticipantType"/>
 				<xsd:element ref="xpdl:Description" minOccurs="0"/>
 				<xsd:element ref="xpdl:ExternalReference" minOccurs="0"/>
-				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:NMTOKEN" use="required"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="ParticipantType">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="Type" use="required">
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:NMTOKEN">
@@ -1792,14 +1882,17 @@
 						<xsd:enumeration value="SYSTEM"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Participants">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Participant" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Participant" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="PartnerLink">
@@ -1866,8 +1959,10 @@
 	<xsd:element name="PartnerLinkTypes">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:PartnerLinkType" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:PartnerLinkType" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Performer">
@@ -1888,8 +1983,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Performer" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Performer" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Pool">
@@ -1900,7 +1997,8 @@
 			<xsd:sequence>
 				<xsd:element ref="xpdl:Lanes" minOccurs="0"/>
 				<xsd:element ref="xpdl:Object" minOccurs="0"/>
-				<xsd:element ref="xpdl:NodeGraphicsInfos" minOccurs="0"/>
+				<xsd:element ref="xpdl:NodeGraphicsInfos" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xpdl:Id" use="required">
 				<xsd:annotation>
@@ -1927,7 +2025,8 @@
 			</xsd:attribute>
 			<xsd:attribute name="Participant" type="xsd:NMTOKEN" use="optional"/>
 			<xsd:attribute name="BoundaryVisible" type="xsd:boolean" use="required"/>
-			<xsd:attribute name="MainPool" type="xsd:boolean" use="optional" default="false"/>
+			<xsd:attribute name="MainPool" type="xsd:boolean" use="optional" default="false"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Pools">
@@ -1936,8 +2035,10 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Pool" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Pool" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Precision">
@@ -1976,7 +2077,8 @@
 				<xsd:element ref="xpdl:Limit" minOccurs="0"/>
 				<xsd:element ref="xpdl:ValidFrom" minOccurs="0"/>
 				<xsd:element ref="xpdl:ValidTo" minOccurs="0"/>
-				<xsd:element ref="xpdl:TimeEstimation" minOccurs="0"/>
+				<xsd:element ref="xpdl:TimeEstimation" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="DurationUnit">
 				<xsd:simpleType>
@@ -1989,7 +2091,8 @@
 						<xsd:enumeration value="s"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:complexType name="ProcessType">
@@ -1999,12 +2102,21 @@
 			<xsd:element ref="xpdl:FormalParameters" minOccurs="0"/>
 			<xsd:element ref="xpdl:InputSets" minOccurs="0"/>
 			<xsd:element ref="xpdl:OutputSets" minOccurs="0"/>
-			
-			<xsd:sequence minOccurs="0">
-				<xsd:element ref="xpdl:Participants" minOccurs="0"/>
-				<xsd:element ref="xpdl:Applications" minOccurs="0"/>
-				<xsd:element ref="xpdl:DataFields" minOccurs="0"/>
-			</xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>changes xpdl 1.0 order</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="xpdl:Participants" minOccurs="0"/>
+					<xsd:element ref="xpdl:Applications" minOccurs="0"/>
+					<xsd:element ref="xpdl:DataFields" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="deprecated:DataFields" minOccurs="0"/>
+					<xsd:element ref="deprecated:Participants" minOccurs="0"/>
+					<xsd:element ref="deprecated:Applications" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:choice>
 			<xsd:element ref="xpdl:ActivitySets" minOccurs="0"/>
 			<xsd:element ref="xpdl:Activities" minOccurs="0"/>
 			<xsd:element ref="xpdl:Transitions" minOccurs="0"/>
@@ -2014,7 +2126,8 @@
 			<xsd:element ref="xpdl:Object" minOccurs="0"/>
 			<xsd:choice minOccurs="0">
 				<xsd:sequence>
-					<xsd:element name="Extensions"/>
+					<xsd:element name="Extensions"/>
+					<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
 			</xsd:choice>
 		</xsd:sequence>
@@ -2083,7 +2196,8 @@
 		</xsd:attribute>
 		<xsd:attribute name="AdHocCompletionCondition" type="xsd:string" use="optional"/>
 		<xsd:attribute name="DefaultStartActivitySetId" type="xpdl:IdRef" use="optional"/>
-		<xsd:attribute name="DefaultStartActivityId" type="xpdl:IdRef" use="optional"/>
+		<xsd:attribute name="DefaultStartActivityId" type="xpdl:IdRef" use="optional"/>
+		<xsd:anyAttribute namespace="##other" processContents="lax"/>
 	</xsd:complexType>
 	<xsd:element name="PropertyInput">
 		<xsd:complexType>
@@ -2110,7 +2224,8 @@
 				<xsd:element ref="xpdl:Version" minOccurs="0"/>
 				<xsd:element ref="xpdl:Codepage" minOccurs="0"/>
 				<xsd:element ref="xpdl:Countrykey" minOccurs="0"/>
-				<xsd:element ref="xpdl:Responsibles" minOccurs="0"/>
+				<xsd:element ref="xpdl:Responsibles" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="PublicationStatus">
 				<xsd:simpleType>
@@ -2120,7 +2235,8 @@
 						<xsd:enumeration value="UNDER_TEST"/>
 					</xsd:restriction>
 				</xsd:simpleType>
-			</xsd:attribute>
+			</xsd:attribute>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Reference">
@@ -2235,7 +2351,10 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Route">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="GatewayType" use="optional" default="Exclusive">
 				<xsd:annotation>
 					<xsd:documentation> Used when needed for BPMN Gateways. Gate and sequence information is associated with the Transition Element.</xsd:documentation>
@@ -2286,7 +2405,8 @@
 				</xsd:annotation>
 			</xsd:attribute>
 			<xsd:attribute name="IncomingCondition" type="xsd:string" use="optional"/>
-			<xsd:attribute name="OutgoingCondition" type="xsd:string" use="optional"/>
+			<xsd:attribute name="OutgoingCondition" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Rule">
@@ -2318,10 +2438,14 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Script">
-		<xsd:complexType>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
 			<xsd:attribute name="Type" type="xsd:string" use="required"/>
 			<xsd:attribute name="Version" type="xsd:string" use="optional"/>
-			<xsd:attribute name="Grammar" type="xsd:anyURI" use="optional"/>
+			<xsd:attribute name="Grammar" type="xsd:anyURI" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="SimulationInformation">
@@ -2694,8 +2818,10 @@
 			<xsd:sequence>
 				<xsd:element ref="xpdl:WaitingTime" minOccurs="0"/>
 				<xsd:element ref="xpdl:WorkingTime" minOccurs="0"/>
-				<xsd:element ref="xpdl:Duration" minOccurs="0"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Duration" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="TaskApplication">
@@ -2800,8 +2926,10 @@
 	<xsd:element name="Transitions">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:Transition" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:Transition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="TriggerConditional">
@@ -2967,17 +3095,21 @@
 			<xsd:sequence>
 				<xsd:group ref="xpdl:DataTypes"/>
 				<xsd:element ref="xpdl:Description" minOccurs="0"/>
-				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:element ref="xpdl:ExtendedAttributes" minOccurs="0"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attribute name="Id" type="xsd:ID" use="required"/>
-			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="TypeDeclarations">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:TypeDeclaration" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:TypeDeclaration" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="UnionType">
@@ -3167,8 +3299,10 @@
 	<xsd:element name="WorkflowProcesses">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="xpdl:WorkflowProcess" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
+				<xsd:element ref="xpdl:WorkflowProcess" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="WorkingTime">

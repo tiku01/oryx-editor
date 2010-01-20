@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class Converter {
+public class BPMN2XPDLConverter {
 	protected XMLConvertable convertObject;
 
 	public XMLConvertable getConvertObject() {
@@ -40,39 +40,30 @@ public class Converter {
 		XPDLThingNodeGraphics.registerMapping(xstream);
 		
 		XPDLActivity.registerMapping(xstream);
-		XPDLActualParameter.registerMapping(xstream);
-		XPDLArtifact.registerMapping(xstream);
-		XPDLApplication.registerMapping(xstream);
+		XPDLArtifact.registerMapping(xstream);;
 		XPDLAssociation.registerMapping(xstream);
 		XPDLCategory.registerMapping(xstream);
 		XPDLConformanceClass.registerMapping(xstream);
 		XPDLConnectorGraphicsInfo.registerMapping(xstream);
 		XPDLCoordinates.registerMapping(xstream);
-		XPDLDataField.registerMapping(xstream);
-		XPDLDataMapping.registerMapping(xstream);
 		XPDLDataObject.registerMapping(xstream);
-		XPDLExpression.registerMapping(xstream);
 		XPDLExtendedAttribute.registerMapping(xstream);
-		XPDLExternalPackage.registerMapping(xstream);
-		XPDLExternalReference.registerMapping(xstream);
 		XPDLGraphicsInfo.registerMapping(xstream);
 		XPDLLane.registerMapping(xstream);
-		XPDLLayoutInfo.registerMapping(xstream);
+		XPDLLoop.registerMapping(xstream);
+		XPDLLoopStandard.registerMapping(xstream);
 		XPDLMessageFlow.registerMapping(xstream);
 		XPDLMessage.registerMapping(xstream);
+		XPDLMultiInstance.registerMapping(xstream);
 		XPDLNodeGraphicsInfo.registerMapping(xstream);
 		XPDLObject.registerMapping(xstream);
 		XPDLPackage.registerMapping(xstream);
 		XPDLPackageHeader.registerMapping(xstream);
-		XPDLPage.registerMapping(xstream);
-		XPDLParticipant.registerMapping(xstream);
-		XPDLParticipantType.registerMapping(xstream);
 		XPDLPool.registerMapping(xstream);
 		XPDLRedefinableHeader.registerMapping(xstream);
 		XPDLRoute.registerMapping(xstream);
 		XPDLScript.registerMapping(xstream);
 		XPDLTransition.registerMapping(xstream);
-		XPDLTypeDeclaration.registerMapping(xstream);
 		XPDLWorkflowProcess.registerMapping(xstream);
 	}
 }

@@ -10,19 +10,12 @@ import com.thoughtworks.xstream.XStream;
 
 public class XPDLPackage extends XPDLThing {
 	
-	/* TODO:
-	 * Applications
-	 */
-	
 	protected String language;
 	protected String queryLanguage;
 	protected XPDLPackageHeader packageHeader;
 	protected XPDLRedefinableHeader redefinableHeader;
 	protected XPDLConformanceClass conformanceClass;
 	protected XPDLScript script;
-	
-	protected ArrayList<XPDLExternalPackage> externalPackages;
-	protected ArrayList<XPDLTypeDeclaration> typeDeclarations;
 	
 	protected XPDLPool mainPool;
 	
@@ -44,9 +37,6 @@ public class XPDLPackage extends XPDLThing {
 		xstream.aliasField("xpdl2:RedefinableHeader", XPDLPackage.class, "redefinableHeader");
 		xstream.aliasField("xpdl2:ConformanceClass", XPDLPackage.class, "conformanceClass");
 		xstream.aliasField("xpdl2:Script", XPDLPackage.class, "script");
-		
-		xstream.aliasField("xpdl2:ExternalPackages", XPDLPackage.class, "externalPackages");
-		xstream.aliasField("xpdl2:TypeDeclarations", XPDLPackage.class, "typeDeclarations");
 		
 		xstream.aliasField("xpdl2:Pools", XPDLPackage.class, "pools");
 		xstream.aliasField("xpdl2:Artifacts", XPDLPackage.class, "artifacts");
@@ -72,11 +62,7 @@ public class XPDLPackage extends XPDLThing {
 	public XPDLConformanceClass getConformanceClass() {
 		return conformanceClass;
 	}
-	
-	public ArrayList<XPDLExternalPackage> getExternalPackages() {
-		return externalPackages;
-	}
-	
+
 	public String getLanguage() {
 		return language;
 	}
@@ -105,10 +91,6 @@ public class XPDLPackage extends XPDLThing {
 		return script;
 	}
 	
-	public ArrayList<XPDLTypeDeclaration> getTypeDeclarations() {
-		return typeDeclarations;
-	}
-	
 	public ArrayList<XPDLWorkflowProcess> getWorkflowProcesses() {
 		return workflowProcesses;
 	}
@@ -119,6 +101,13 @@ public class XPDLPackage extends XPDLThing {
 		JSONObject author = new JSONObject();
 		author.put("author", modelElement.optString("author"));
 		getRedefinableHeader().parse(author);
+	}
+	
+	public void readJSONbounds(JSONObject modelElement) {
+		JSONObject lowerRight = modelElement.optJSONObject("bounds").optJSONObject("lowerRight");
+		
+		createExtendedAttribute("boundsX", lowerRight.optString("x"));
+		createExtendedAttribute("boundsY", lowerRight.optString("y"));
 	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
@@ -183,8 +172,22 @@ public class XPDLPackage extends XPDLThing {
 		getPackageHeader().parse(date);
 	}
 	
+	public void readJSONpools(JSONObject modelElement) {
+	}
+	
 	public void readJSONquerylanguage(JSONObject modelElement) {
 		setQueryLanguage(modelElement.optString("querylanguage"));
+	}
+	
+	public void readJSONssextensions(JSONObject modelElement) {
+		createExtendedAttribute("ssextension", modelElement.optJSONArray("ssextenion").toString());
+	}
+	
+	public void readJSONstencilset(JSONObject modelElement) {
+		JSONObject stencilset = modelElement.optJSONObject("stencilset");
+		
+		createExtendedAttribute("stencilsetUrl", stencilset.optString("url"));
+		createExtendedAttribute("stencilsetNamespace", stencilset.optString("namespace"));
 	}
 	
 	public void readJSONversion(JSONObject modelElement) throws JSONException {
@@ -205,10 +208,6 @@ public class XPDLPackage extends XPDLThing {
 	
 	public void setConformanceClass(XPDLConformanceClass conformance) {
 		conformanceClass = conformance;
-	}
-	
-	public void setExternalPackages(ArrayList<XPDLExternalPackage> packages) {
-		externalPackages = packages;
 	}
 	
 	public void setLanguage(String languageValue) {
@@ -237,10 +236,6 @@ public class XPDLPackage extends XPDLThing {
 	
 	public void setScript(XPDLScript scriptValue) {
 		script = scriptValue;
-	}
-	
-	public void setTypeDeclarations(ArrayList<XPDLTypeDeclaration> declarations) {
-		typeDeclarations = declarations;
 	}
 	
 	public void setWorklfowProcesses(ArrayList<XPDLWorkflowProcess> processes) {

@@ -15,17 +15,11 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	protected String accessLevel;
 	protected String adhoc;
 	protected String adhocOrdering;
-	protected String adhocOrderingCondition;
-	protected String defaultStartActvitiyId;
-	protected String defaultStartActivitySetId;
+	protected String adhocCompletionCondition;
 	protected String enableInstanceCompensation;
 	protected String processType;
 	protected String status;
 	protected String suppressJoinFailure;
-	
-	protected XPDLProcessHeader processHeader;
-	protected XPDLRedefinableHeader redefinableHeader;
-	protected ArrayList<XPDLParticipant> participants;
 	
 	protected ArrayList<XPDLActivity>  activities;
 	protected ArrayList<XPDLTransition> transitions;
@@ -39,12 +33,8 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		xstream.aliasField("Adhoc", XPDLWorkflowProcess.class, "adhoc");
 		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhocOrdering");
 		xstream.aliasField("AdhocOrdering", XPDLWorkflowProcess.class, "adhocOrdering");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhocOrderingCondition");
-		xstream.aliasField("AdhocOrderingCondition", XPDLWorkflowProcess.class, "adhocOrderingCondition");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "defaultStartActivityId");
-		xstream.aliasField("DefaultStartActivityId", XPDLWorkflowProcess.class, "defaultStartActivityId");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "defaultStartActivitySetId");
-		xstream.aliasField("DefaultStartActivitySetId", XPDLWorkflowProcess.class, "defaultStartActivitySetId");
+		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhocCompletionCondition");
+		xstream.aliasField("AdhocCompletionCondition", XPDLWorkflowProcess.class, "adhocCompletionCondition");
 		xstream.useAttributeFor(XPDLWorkflowProcess.class, "enableInstanceCompensation");
 		xstream.aliasField("EnableInstanceCompensation", XPDLWorkflowProcess.class, "enableInstanceCompensation");
 		xstream.useAttributeFor(XPDLWorkflowProcess.class, "processType");
@@ -53,9 +43,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		xstream.aliasField("Status", XPDLWorkflowProcess.class, "status");
 		xstream.useAttributeFor(XPDLWorkflowProcess.class, "suppressJoinFailure");
 		xstream.aliasField("SuppressJoinFailure", XPDLWorkflowProcess.class, "suppressJoinFailure");
-		
-		xstream.aliasField("xpdl2:ProcessHeader", XPDLWorkflowProcess.class, "processHeader");
-		xstream.aliasField("xpdl2:RedefinableHeader", XPDLWorkflowProcess.class, "redefinableHeader");
+
 		xstream.aliasField("xpdl2:Transitions", XPDLWorkflowProcess.class, "transitions");
 		xstream.aliasField("xpdl2:Activities", XPDLWorkflowProcess.class, "activities");
 	}
@@ -77,31 +65,15 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public String getAdhocOrderingCondition() {
-		return adhocOrderingCondition;
-	}
-	
-	public String getDefaultStartActivityId() {
-		return defaultStartActvitiyId;
-	}
-	
-	public String getDefaultStartActivitySetId() {
-		return defaultStartActivitySetId;
+		return adhocCompletionCondition;
 	}
 	
 	public String getEnableInstanceCompensation() {
 		return enableInstanceCompensation;
 	}
-	
-	public XPDLProcessHeader getProcessHeader() {
-		return processHeader;
-	}
-	
+
 	public String getProcessType() {
 		return processType;
-	}
-	
-	public XPDLRedefinableHeader getRedefinableHeader() {
-		return redefinableHeader;
 	}
 	
 	public String getStatus() {
@@ -124,8 +96,14 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		setAdhocOrdering(modelElement.optString("adhocordering"));
 	}
 	
-	public void readJSONadhocorderingcondition(JSONObject modelElement) {
-		setAdhocOrdering(modelElement.optString("adhocorderingcondition"));
+	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
+		setAdhocOrdering(modelElement.optString("adhocCompletionCondition"));
+	}
+	
+	public void readJSONbounds(JSONObject modelElement) {
+	}
+	
+	public void readJSONboundaryvisible(JSONObject modelElement) {
 	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
@@ -154,11 +132,47 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		setId(getProperId(modelElement) + XPDLWorkflowProcess.ID_SUFFIX);
 	}
 	
+	public void readJSONmainpool(JSONObject modelElement) {
+	}
+	
 	public void readJSONname(JSONObject modelElement) {
+	}
+	
+	public void readJSONparticipantref(JSONObject modelElement) {
+		createExtendedAttribute("participantref", modelElement.optString("participantref"));
+	}
+	
+	public void readJSONpoolcategories(JSONObject modelElement) {
+	}
+	
+	public void readJSONpooldocumentation(JSONObject modelElement) {
+	}
+	
+	public void readJSONpoolid(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocesscategories(JSONObject modelElement) throws JSONException {
+		JSONObject categorieObject = new JSONObject();
+		categorieObject.put("categories", modelElement.optString("processcategories"));
+		categorieObject.put("id", getProperId(modelElement));
+		
+		parse(categorieObject);
+	}
+	
+	public void readJSONprocessdocumentation(JSONObject modelElement) throws JSONException {
+		JSONObject documentationObject = new JSONObject();
+		documentationObject.put("documentation", modelElement.optString("processdocumentation"));
+		documentationObject.put("id", getProperId(modelElement));
+		
+		parse(documentationObject);
 	}
 	
 	public void readJSONprocessname(JSONObject modelElement) {
 		setName(modelElement.optString("processname"));
+	}
+	
+	public void readJSONprocessref(JSONObject modelElement) {
+		createExtendedAttribute("processref", modelElement.optString("processref"));
 	}
 	
 	public void readJSONprocesstype(JSONObject modelElement) {
@@ -166,6 +180,8 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public void readJSONresourceId(JSONObject modelElement) {
+		setResourceId(modelElement.optString("resourceId"));
+		
 		setId(getProperId(modelElement) + XPDLWorkflowProcess.ID_SUFFIX);
 	}
 	
@@ -194,31 +210,15 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public void setAdhocOrderingCondition(String conditionValue) {
-		adhocOrderingCondition = conditionValue;
-	}
-	
-	public void setDefaultStartActivityId(String activityId) {
-		defaultStartActvitiyId = activityId;
-	}
-	
-	public void setDefaultStartActivitySetId(String activityId) {
-		defaultStartActivitySetId = activityId;
+		adhocCompletionCondition = conditionValue;
 	}
 	
 	public void setEnableInstanceCompensation(String compensation) {
 		enableInstanceCompensation = compensation;
 	}
 	
-	public void setProcessHeader(XPDLProcessHeader header) {
-		processHeader = header;
-	}
-	
 	public void setProcessType(String typeValue) {
 		processType = typeValue;
-	}
-	
-	public void setRedefinableHeader(XPDLRedefinableHeader header) {
-		redefinableHeader = header;
 	}
 	
 	public void setStatus(String statusValue) {

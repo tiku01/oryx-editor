@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONArray;
@@ -11,6 +12,8 @@ import com.thoughtworks.xstream.XStream;
 
 public abstract class XMLConvertable {
 
+	public ArrayList<String> unkowns = new ArrayList<String>();
+	
 	public static void registerMapping(XStream xstream) {
 	}
 
@@ -35,6 +38,7 @@ public abstract class XMLConvertable {
 	}
 
 	public void readJSONunknown(JSONObject modelElement, String key) {
+		unkowns.add(key);
 	}
 
 	protected boolean hasJSONMethod(String methodName) {

@@ -2,7 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import com.thoughtworks.xstream.XStream;
 
-public class XPDLExtendedAttribute extends XMLConvertable {
+public class XPDLExtendedAttribute {
 
 	protected String name;
 	protected String value;
@@ -23,8 +23,6 @@ public class XPDLExtendedAttribute extends XMLConvertable {
 	public String getValue() {
 		return value;
 	}
-	
-	/* TODO: parse Functions */
 	
 	public void setName(String nameParameter) {
 		name = nameParameter;

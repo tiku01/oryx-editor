@@ -2,7 +2,6 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
@@ -32,6 +31,7 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		xstream.aliasField("Group", XPDLArtifact.class, "groupDeprecated");
 		xstream.useAttributeFor(XPDLArtifact.class, "textAnnotation");
 		xstream.aliasField("TextAnnotation", XPDLArtifact.class, "textAnnotation");
+		
 		xstream.aliasField("xpdl2:DataObject", XPDLArtifact.class, "dataObject");
 	}
 	
@@ -55,6 +55,9 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		setArtifactType(modelElement.optString("artifacttype"));
 	}
 	
+	public void readJSONitems(JSONObject modelElement) {
+	}
+	
 	public void readJSONname(JSONObject modelElement) {
 		if (modelElement.optString("artifacttype").equals("DataObject")) {
 			initializeDataObject();
@@ -68,12 +71,6 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		handleDataObject(modelElement);
 	}
 	
-	public void readJSONproperties(JSONObject modelElement) throws JSONException {
-		JSONObject properties = modelElement.optJSONObject("properties");
-		properties.put("resourceId", getProperId(modelElement));
-		parse(properties);
-	}
-	
 	public void readJSONrequiredforstart(JSONObject modelElement) {
 		handleDataObject(modelElement);
 	}
@@ -84,6 +81,9 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
 	public void readJSONtext(JSONObject modelElement) {
 		setTextAnnotation(modelElement.optString("text"));
+	}
+	
+	public void readJSONtotalCount(JSONObject modelElement) {
 	}
 	
 	public void setArtifactType(String type) {

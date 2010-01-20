@@ -47,7 +47,7 @@ public class XPDLObject extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put("id", modelElement.optString("id"));
-		passObject.put("categories", modelElement.optString("categories"));
+		passObject.put("name", modelElement.optString("categories"));
 		
 		XPDLCategory nextCategory = new XPDLCategory();
 		nextCategory.parse(passObject);

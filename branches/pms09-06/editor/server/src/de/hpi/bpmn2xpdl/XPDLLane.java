@@ -69,6 +69,10 @@ public class XPDLLane extends XPDLThingNodeGraphics {
 	public void readJSONparentpool(JSONObject modelElement) {
 		setParentPool(modelElement.optString("parentpool"));
 	}
+	
+	public void readJSONshowcaption(JSONObject modelElement) {
+		createExtendedAttribute("showcaption", modelElement.optString("showcaption"));
+	}
 
 	public void setNestedLanes(ArrayList<XPDLLane> lanes) {
 		nestedLanes = lanes;
