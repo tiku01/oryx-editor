@@ -17,7 +17,7 @@ public class BPMN2XPDLConverter {
 		setConvertObject(new XPDLPackage());
 		convertObject.parse(new JSONObject(json));
 
-		XStream xstream = new XStream();
+		XStream xstream = new XStream(new DomDriver());
 		registerXPDLMapping(xstream);
 		return xstream.toXML(getConvertObject());
 	}
@@ -41,14 +41,18 @@ public class BPMN2XPDLConverter {
 		
 		XPDLActivity.registerMapping(xstream);
 		XPDLArtifact.registerMapping(xstream);;
+		XPDLAssignment.registerMapping(xstream);
 		XPDLAssociation.registerMapping(xstream);
 		XPDLCategory.registerMapping(xstream);
 		XPDLConformanceClass.registerMapping(xstream);
 		XPDLConnectorGraphicsInfo.registerMapping(xstream);
 		XPDLCoordinates.registerMapping(xstream);
 		XPDLDataObject.registerMapping(xstream);
+		XPDLEndEvent.registerMapping(xstream);
+		XPDLEvent.registerMapping(xstream);
 		XPDLExtendedAttribute.registerMapping(xstream);
 		XPDLGraphicsInfo.registerMapping(xstream);
+		XPDLIntermediateEvent.registerMapping(xstream);
 		XPDLLane.registerMapping(xstream);
 		XPDLLoop.registerMapping(xstream);
 		XPDLLoopStandard.registerMapping(xstream);
@@ -62,6 +66,7 @@ public class BPMN2XPDLConverter {
 		XPDLPool.registerMapping(xstream);
 		XPDLRedefinableHeader.registerMapping(xstream);
 		XPDLRoute.registerMapping(xstream);
+		XPDLStartEvent.registerMapping(xstream);
 		XPDLScript.registerMapping(xstream);
 		XPDLTransition.registerMapping(xstream);
 		XPDLWorkflowProcess.registerMapping(xstream);
