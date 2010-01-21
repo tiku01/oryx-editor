@@ -1,57 +1,1184 @@
-<xpdl2:Package Id="oryx-canvas123" Language="English">
-  <xpdl2:ConformanceClass GraphConformance="NON-BLOCKED" BPMNModelPortabilityConformance="STANDARD"/>
-  <xpdl2:Pools>
-    <xpdl2:Pool Id="oryx_00000000-0000-0000-0000-000000000000" Name="Main Pool" BoundaryVisible="false" MainPool="true" Process="oryx_00000000-0000-0000-0000-000000000000-process" Orientation="HORIZONTAL">
+<xpdl2:Package Id="dfg" Name="dfg" Language="English" QueryLanguage="dfg">
+  <unkowns/>
+  <xpdl2:lulz>hdf alda </xpdl2:lulz>
+  <xpdl2:ExtendedAttributes>
+    <xpdl2:ExtendedAttribute Name="boundsX" Value="1485"/>
+    <xpdl2:ExtendedAttribute Name="boundsY" Value="1050"/>
+    <xpdl2:ExtendedAttribute Name="stencilsetUrl" Value="/oryx//stencilsets/bpmn1.1/bpmn1.1.json"/>
+    <xpdl2:ExtendedAttribute Name="stencilsetNamespace" Value="http://b3mn.org/stencilset/bpmn1.1#"/>
+  </xpdl2:ExtendedAttributes>
+  <xpdl2:PackageHeader>
+    <unkowns/>
+    <xpdl2:Documentation>dfg</xpdl2:Documentation>
+    <xpdl2:Vendor>Hasso Plattner Institute</xpdl2:Vendor>
+    <xpdl2:XPDLVersion>2.1</xpdl2:XPDLVersion>
+  </xpdl2:PackageHeader>
+  <xpdl2:RedefinableHeader>
+    <unkowns/>
+    <xpdl2:Author>dfg</xpdl2:Author>
+    <xpdl2:Version>dfg</xpdl2:Version>
+  </xpdl2:RedefinableHeader>
+  <xpdl2:ConformanceClass GraphConformance="NON-BLOCKED" BPMNModelPortabilityConformance="STANDARD">
+    <unkowns/>
+  </xpdl2:ConformanceClass>
+  <xpdl2:Script Type="dfg">
+    <unkowns/>
+  </xpdl2:Script>
+  <xpdl2:Artifacts>
+    <xpdl2:Artifact Id="oryx_AC84ECD2-1A50-448A-9203-4C22A6D8C4F0" ArtifactType="Group">
+      <unkowns/>
       <xpdl2:NodeGraphicsInfos>
-        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="255,255,255" IsVisible="true" ToolId="Oryx" Height="0.0" Width="0.0">
-          <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="0.0"/>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="90.0" Width="120.0">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="14.0" YCoordinate="407.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+    </xpdl2:Artifact>
+    <xpdl2:Artifact Id="oryx_3714CF1B-55B0-489D-98A4-195B760F7271" ArtifactType="Annotation">
+      <unkowns/>
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="50.0" Width="100.0">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="514.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+    </xpdl2:Artifact>
+    <xpdl2:Artifact Id="oryx_C78A8E36-03CE-4B20-AFC0-0627997317B8" ArtifactType="DataObject">
+      <unkowns/>
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="97.0" Width="88.0">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="158.0" YCoordinate="379.5">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+      <xpdl2:DataObject Id="oryx_C78A8E36-03CE-4B20-AFC0-0627997317B8" ProducedAtCompletion="true" RequiredForStart="true">
+        <unkowns/>
+      </xpdl2:DataObject>
+    </xpdl2:Artifact>
+  </xpdl2:Artifacts>
+  <xpdl2:Associations>
+    <xpdl2:Association Id="oryx_ED524DF5-4833-4C3F-B0C3-23A780E6DC93" AssociationDirection="None">
+      <unkowns/>
+      <xpdl2:ExtendedAttributes>
+        <xpdl2:ExtendedAttribute Name="docker0X" Value="80"/>
+        <xpdl2:ExtendedAttribute Name="docker0Y" Value="919"/>
+        <xpdl2:ExtendedAttribute Name="docker1X" Value="280"/>
+        <xpdl2:ExtendedAttribute Name="docker1Y" Value="919"/>
+      </xpdl2:ExtendedAttributes>
+      <xpdl2:ConnectorGraphicsInfos>
+        <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="80.0" YCoordinate="919.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+          <xpdl2:Coordinates XCoordinate="280.0" YCoordinate="921.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:ConnectorGraphicsInfo>
+      </xpdl2:ConnectorGraphicsInfos>
+    </xpdl2:Association>
+    <xpdl2:Association Id="oryx_0578255A-0874-43F2-BF29-04BE05CBBEBF" AssociationDirection="To">
+      <unkowns/>
+      <xpdl2:ExtendedAttributes>
+        <xpdl2:ExtendedAttribute Name="docker0X" Value="27"/>
+        <xpdl2:ExtendedAttribute Name="docker0Y" Value="1012"/>
+        <xpdl2:ExtendedAttribute Name="docker1X" Value="227"/>
+        <xpdl2:ExtendedAttribute Name="docker1Y" Value="1012"/>
+      </xpdl2:ExtendedAttributes>
+      <xpdl2:ConnectorGraphicsInfos>
+        <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="27.0" YCoordinate="1012.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+          <xpdl2:Coordinates XCoordinate="227.0" YCoordinate="1014.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:ConnectorGraphicsInfo>
+      </xpdl2:ConnectorGraphicsInfos>
+    </xpdl2:Association>
+    <xpdl2:Association Id="oryx_31C7343F-6B47-488B-9627-93D4A427703F" AssociationDirection="Both">
+      <unkowns/>
+      <xpdl2:ExtendedAttributes>
+        <xpdl2:ExtendedAttribute Name="docker0X" Value="98"/>
+        <xpdl2:ExtendedAttribute Name="docker0Y" Value="888"/>
+        <xpdl2:ExtendedAttribute Name="docker1X" Value="298"/>
+        <xpdl2:ExtendedAttribute Name="docker1Y" Value="888"/>
+      </xpdl2:ExtendedAttributes>
+      <xpdl2:ConnectorGraphicsInfos>
+        <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="98.0" YCoordinate="888.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+          <xpdl2:Coordinates XCoordinate="298.0" YCoordinate="888.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:ConnectorGraphicsInfo>
+      </xpdl2:ConnectorGraphicsInfos>
+    </xpdl2:Association>
+  </xpdl2:Associations>
+  <xpdl2:MessageFlows>
+    <xpdl2:MessageFlow Id="oryx_99CBD166-0B90-4715-BFFB-3DA738096E02">
+      <unkowns/>
+      <xpdl2:ExtendedAttributes>
+        <xpdl2:ExtendedAttribute Name="docker0X" Value="76"/>
+        <xpdl2:ExtendedAttribute Name="docker0Y" Value="979"/>
+        <xpdl2:ExtendedAttribute Name="docker1X" Value="276"/>
+        <xpdl2:ExtendedAttribute Name="docker1Y" Value="979"/>
+      </xpdl2:ExtendedAttributes>
+      <xpdl2:ConnectorGraphicsInfos>
+        <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="76.0" YCoordinate="979.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+          <xpdl2:Coordinates XCoordinate="276.0" YCoordinate="981.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:ConnectorGraphicsInfo>
+      </xpdl2:ConnectorGraphicsInfos>
+    </xpdl2:MessageFlow>
+  </xpdl2:MessageFlows>
+  <xpdl2:Pools>
+    <xpdl2:Pool Id="MainPool" Name="Main Pool" BoundaryVisible="false" MainPool="true" Process="oryx_00000000-0000-0000-0000-000000000000-process" Orientation="HORIZONTAL">
+      <unkowns/>
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="0.0" Width="0.0">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="0.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
         </xpdl2:NodeGraphicsInfo>
       </xpdl2:NodeGraphicsInfos>
     </xpdl2:Pool>
-    <xpdl2:Pool Id="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5" BoundaryVisible="true" MainPool="false" Process="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5-process" Orientation="HORIZONTAL">
+    <xpdl2:Pool Id="" Name="asdf" BoundaryVisible="true" MainPool="false" Process="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-process" Orientation="HORIZONTAL">
+      <unkowns/>
+      <xpdl2:Object>
+        <unkowns/>
+        <xpdl2:Categories>
+          <xpdl2:Category Name="asdf">
+            <unkowns/>
+          </xpdl2:Category>
+        </xpdl2:Categories>
+        <xpdl2:Documentation>asdf</xpdl2:Documentation>
+      </xpdl2:Object>
       <xpdl2:NodeGraphicsInfos>
         <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="250.0" Width="600.0">
-          <xpdl2:Coordinates XCoordinate="30.0" YCoordinate="113.0"/>
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="345.0" YCoordinate="16.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
         </xpdl2:NodeGraphicsInfo>
       </xpdl2:NodeGraphicsInfos>
       <xpdl2:Lanes>
-        <xpdl2:Lane Id="oryx_F7E4E0B7-292A-43EB-9D69-4C943EFD1832" ParentPool="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5">
+        <xpdl2:Lane Id="sdfg" Name="dsfg" ParentLane="sdfg" ParentPool="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A">
+          <unkowns/>
+          <xpdl2:Object Id="sdfg-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="sdfg-category" Name="sdfg">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>sfdg</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="showcaption" Value="true"/>
+          </xpdl2:ExtendedAttributes>
           <xpdl2:NodeGraphicsInfos>
             <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx" Height="250.0" Width="600.0">
-              <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="33.0"/>
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="47.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
             </xpdl2:NodeGraphicsInfo>
           </xpdl2:NodeGraphicsInfos>
         </xpdl2:Lane>
       </xpdl2:Lanes>
     </xpdl2:Pool>
+    <xpdl2:Pool Id="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163" BoundaryVisible="true" MainPool="false" Process="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163-process" Orientation="HORIZONTAL">
+      <unkowns/>
+      <xpdl2:NodeGraphicsInfos>
+        <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="60.0" Width="500.0">
+          <unkowns/>
+          <xpdl2:Coordinates XCoordinate="330.0" YCoordinate="286.0">
+            <unkowns/>
+          </xpdl2:Coordinates>
+        </xpdl2:NodeGraphicsInfo>
+      </xpdl2:NodeGraphicsInfos>
+    </xpdl2:Pool>
   </xpdl2:Pools>
   <xpdl2:WorkflowProcesses>
     <xpdl2:WorkflowProcess Id="oryx_00000000-0000-0000-0000-000000000000-process" Name="MainProcess" AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true">
+      <unkowns/>
+      <xpdl2:Activities>
+        <xpdl2:Actitivity Id="a" Name="asd" CompletionQuantity="1" StartQuantity="1">
+          <unkowns>
+            <string>tasktype</string>
+            <string>performers</string>
+            <string>activitytype</string>
+            <string>outputs</string>
+            <string>status</string>
+            <string>items</string>
+            <string>totalCount</string>
+            <string>script</string>
+            <string>inputs</string>
+            <string>outmessage</string>
+            <string>inmessage</string>
+          </unkowns>
+          <xpdl2:Object Id="a-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="a-category" Name="a">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>asd</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="taskref" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="inputsets" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="outputsets" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="messageref" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="assignmentTo" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="assignmentFrom" Value="asd"/>
+            <xpdl2:ExtendedAttribute Name="iorules" Value="asd"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffcc" IsVisible="true" ToolId="Oryx" Height="80.0" Width="100.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="46.0" YCoordinate="19.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+          </xpdl2:Event>
+          <xpdl2:Loop LoopType="MultiInstance">
+            <unkowns>
+              <string>loopmaxmimum</string>
+              <string>complex_micondition</string>
+            </unkowns>
+            <xpdl2:LoopStandard LoopCondition="sadf" TestTime="Before">
+              <unkowns/>
+            </xpdl2:LoopStandard>
+            <xpdl2:MultiInstance MI__Condition="asd" LoopCounter="1" MI__Ordering="Sequential" MI__FlowCondition="All">
+              <unkowns/>
+            </xpdl2:MultiInstance>
+          </xpdl2:Loop>
+          <xpdl2:Route Instantiate="true">
+            <unkowns>
+              <string>iscompensation</string>
+            </unkowns>
+          </xpdl2:Route>
+          <xpdl2:Assignments>
+            <xpdl2:Assignment AssignTime="End">
+              <unkowns/>
+            </xpdl2:Assignment>
+          </xpdl2:Assignments>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3" CompletionQuantity="1" StartQuantity="1">
+          <unkowns>
+            <string>subprocesstype</string>
+            <string>transaction</string>
+            <string>performers</string>
+            <string>isatransaction</string>
+            <string>activitytype</string>
+            <string>adhoccompletioncondition</string>
+            <string>outputs</string>
+            <string>adhocordering</string>
+            <string>outputmaps</string>
+            <string>status</string>
+            <string>isadhoc</string>
+            <string>inputs</string>
+            <string>inputmaps</string>
+            <string>entry</string>
+          </unkowns>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffcc" IsVisible="true" ToolId="Oryx" Height="83.0" Width="103.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="43.5" YCoordinate="99.5">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8" Name="asf" CompletionQuantity="1" StartQuantity="1">
+          <unkowns>
+            <string>subprocesstype</string>
+            <string>transaction</string>
+            <string>performers</string>
+            <string>isatransaction</string>
+            <string>activitytype</string>
+            <string>adhoccompletioncondition</string>
+            <string>outputs</string>
+            <string>adhocordering</string>
+            <string>outputmaps</string>
+            <string>status</string>
+            <string>isadhoc</string>
+            <string>inputs</string>
+            <string>inputmaps</string>
+            <string>entry</string>
+          </unkowns>
+          <xpdl2:Object Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8-object">
+            <unkowns/>
+            <xpdl2:Documentation>asd</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="white" IsVisible="true" ToolId="Oryx" Height="163.0" Width="203.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="0.0" YCoordinate="210.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route>
+            <unkowns>
+              <string>iscompensation</string>
+            </unkowns>
+          </xpdl2:Route>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="dfgh" Name="dfgh">
+          <unkowns>
+            <string>defaultgate</string>
+            <string>gates</string>
+            <string>gate_assignments</string>
+            <string>gates_assignments</string>
+            <string>gate_outgoingsequenceflow</string>
+            <string>gates_outgoingsequenceflow</string>
+          </unkowns>
+          <xpdl2:Object Id="dfgh-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="dfgh-category" Name="dfgh">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>dfgh</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="40.0" Width="40.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="249.0" YCoordinate="33.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route ExclusiveType="Data" GatewayType="XOR" markerVisible="false">
+            <unkowns/>
+          </xpdl2:Route>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="dfgh" Name="dfgh">
+          <unkowns>
+            <string>gates</string>
+            <string>gates_assignments</string>
+            <string>gates_outgoingsequenceflow</string>
+          </unkowns>
+          <xpdl2:Object Id="dfgh-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="dfgh-category" Name="dfgh">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>dgfh</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="assignmentTo" Value="dfgh"/>
+            <xpdl2:ExtendedAttribute Name="assignmentFrom" Value="dfgh"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="40.0" Width="40.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="251.0" YCoordinate="165.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route GatewayType="AND">
+            <unkowns/>
+          </xpdl2:Route>
+          <xpdl2:Assignments>
+            <xpdl2:Assignment AssignTime="Start">
+              <unkowns/>
+            </xpdl2:Assignment>
+          </xpdl2:Assignments>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="dfgh" Name="dfgh">
+          <unkowns>
+            <string>defaultgate</string>
+            <string>gates</string>
+            <string>gate_assignments</string>
+            <string>gates_assignments</string>
+            <string>gate_outgoingsequenceflow</string>
+            <string>gates_outgoingsequenceflow</string>
+          </unkowns>
+          <xpdl2:Object Id="dfgh-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="dfgh-category" Name="dfgh">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>dfgh</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="assignmentTo" Value="fgh"/>
+            <xpdl2:ExtendedAttribute Name="assignmentFrom" Value=""/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="40.0" Width="40.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="256.0" YCoordinate="232.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route GatewayType="OR">
+            <unkowns/>
+          </xpdl2:Route>
+          <xpdl2:Assignments>
+            <xpdl2:Assignment AssignTime="Start">
+              <unkowns/>
+            </xpdl2:Assignment>
+          </xpdl2:Assignments>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_436385B8-690C-41DA-A92E-F1277C06E33E">
+          <unkowns>
+            <string>gates</string>
+            <string>gates_assignments</string>
+            <string>gates_outgoingsequenceflow</string>
+          </unkowns>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="40.0" Width="40.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="252.0" YCoordinate="296.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route GatewayType="Complex">
+            <unkowns/>
+          </xpdl2:Route>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="fgh" Name="dfgh">
+          <unkowns>
+            <string>gates</string>
+            <string>gates_assignments</string>
+            <string>gates_outgoingsequenceflow</string>
+          </unkowns>
+          <xpdl2:Object Id="fgh-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="fgh-category" Name="fgh">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+            <xpdl2:Documentation>fgh</xpdl2:Documentation>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="40.0" Width="40.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="241.0" YCoordinate="96.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Route ExclusiveType="Event" GatewayType="XOR" Instantiate="true">
+            <unkowns/>
+          </xpdl2:Route>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_38D4E1F6-95F8-4906-B075-94DEDF4EDB8A">
+          <unkowns/>
+          <xpdl2:Object Id="oryx_38D4E1F6-95F8-4906-B075-94DEDF4EDB8A-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="oryx_38D4E1F6-95F8-4906-B075-94DEDF4EDB8A-category" Name="sdf">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="405.0" YCoordinate="437.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="None">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_88AD6F72-7973-4FD4-878E-AEC02A027553">
+          <unkowns>
+            <string>message</string>
+          </unkowns>
+          <xpdl2:Object Id="oryx_88AD6F72-7973-4FD4-878E-AEC02A027553-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="oryx_88AD6F72-7973-4FD4-878E-AEC02A027553-category" Name="adf">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="357.0" YCoordinate="429.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="Message">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_9F5F1480-8B37-4C6C-9A54-EB00E91070F2">
+          <unkowns>
+            <string>timedate</string>
+            <string>timecycle</string>
+          </unkowns>
+          <xpdl2:Object Id="oryx_9F5F1480-8B37-4C6C-9A54-EB00E91070F2-object">
+            <unkowns/>
+            <xpdl2:Categories>
+              <xpdl2:Category Id="oryx_9F5F1480-8B37-4C6C-9A54-EB00E91070F2-category" Name="asdf">
+                <unkowns/>
+              </xpdl2:Category>
+            </xpdl2:Categories>
+          </xpdl2:Object>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="319.0" YCoordinate="470.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="Timer">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_6D5AFED9-73AF-4E5D-85AB-1A9A37A5854C">
+          <unkowns/>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="conditionref" Value="asdf"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="295.0" YCoordinate="415.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="Rule">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_0325B806-EA4D-4D1C-B4AE-807292734EF2">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="signalref" Value="asdf"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="277.0" YCoordinate="473.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="Multiple">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_41868F3C-2869-45B5-8C7B-BBC3EDC035D0">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="241.0" YCoordinate="523.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:StartEvent Trigger="Multiple">
+              <unkowns/>
+            </xpdl2:StartEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_8053C890-BCE7-4D82-9789-C7AC72EC75E7">
+          <unkowns/>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="610"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="444"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="595.0" YCoordinate="429.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="None">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_F7755179-1BE1-4533-94F4-ADFC1BBFF910">
+          <unkowns>
+            <string>message</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="574"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="485"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="559.0" YCoordinate="470.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Message">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_C009E603-8780-413B-A197-CB00D5568A88">
+          <unkowns>
+            <string>timedate</string>
+            <string>timecycle</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="552"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="420"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="537.0" YCoordinate="405.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Timer">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_E08DA364-4F0E-41FE-97A5-00F22BB44A87">
+          <unkowns>
+            <string>errorcode</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="611"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="373"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="596.0" YCoordinate="358.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Error">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_1A28E3D7-5E88-4A1F-A8A4-D984CA74E4C1">
+          <unkowns/>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="504"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="381"/>
+            <xpdl2:ExtendedAttribute Name="target" Value="asdf"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="489.0" YCoordinate="366.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Cancel">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_37E2092C-D461-46FE-B351-FEF207214AF8">
+          <unkowns>
+            <string>activity</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="648"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="395"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="633.0" YCoordinate="380.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Compensation">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_5362F0C4-24FE-47B8-B8F0-DEFA7FDE6F7B">
+          <unkowns>
+            <string>condition</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="528"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="461"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="513.0" YCoordinate="446.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Rule">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_EF0471F4-55E4-4660-8860-E1C14A24C05E">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="511"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="510"/>
+            <xpdl2:ExtendedAttribute Name="signalref" Value="asdf"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="496.0" YCoordinate="495.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Signal">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_B25FF868-E4CB-4DF1-B65E-5649D379CAAC">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="616"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="505"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="601.0" YCoordinate="490.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Multiple">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_840E0D12-B2B4-4A01-8FBB-5F3686C45561">
+          <unkowns>
+            <string>linkid</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="709"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="443"/>
+            <xpdl2:ExtendedAttribute Name="processref" Value="f"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="694.0" YCoordinate="428.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Link">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_7FDFE9A7-B4B5-4AC2-8927-66A6C125B5AF">
+          <unkowns>
+            <string>message</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="100"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="823"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="85.0" YCoordinate="808.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Message">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_E8C920D0-9339-4284-8AEF-EAB25AB043DB">
+          <unkowns>
+            <string>activity</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="49"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="763"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="34.0" YCoordinate="748.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Compensation">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_CA6978AD-A5B6-4D3F-98F5-69B80E7BDE40">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="163"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="756"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="148.0" YCoordinate="741.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Signal">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_52880450-90E2-481A-9319-E7A8BD443DC0">
+          <unkowns>
+            <string>triggers</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="54"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="804"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="39.0" YCoordinate="789.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Multiple">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_322D7F14-5271-42BB-939D-3E9530B97F70">
+          <unkowns>
+            <string>linkid</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="145"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="835"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="30.0" Width="30.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="130.0" YCoordinate="820.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:IntermediateEvent Trigger="Link">
+              <unkowns/>
+            </xpdl2:IntermediateEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_E018672A-AE59-419F-B3D4-45BAC5714E50">
+          <unkowns/>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="482.0" YCoordinate="779.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="None">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_B2562EA5-33B7-4CD3-96AB-E9622CD92260">
+          <unkowns>
+            <string>message</string>
+          </unkowns>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="551.0" YCoordinate="816.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Message">
+              <unkowns>
+                <string>trigger</string>
+              </unkowns>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_1C52C80B-1CDE-46DE-81C0-109C021A84C5">
+          <unkowns>
+            <string>errorcode</string>
+          </unkowns>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="498"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="829"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="484.0" YCoordinate="815.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Error">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_552FFA08-C964-4181-8954-72E153C2AC68">
+          <unkowns/>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="451.0" YCoordinate="777.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Cancel">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_8B2029E9-DC45-4C5D-B60B-B9FD3F8D1729">
+          <unkowns/>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="463.0" YCoordinate="708.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Compensation">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_9BDDAC25-E21A-4EBE-8CC3-AA53694EFCF5">
+          <unkowns/>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="561"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="743"/>
+          </xpdl2:ExtendedAttributes>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="547.0" YCoordinate="729.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Signal">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_2B5C845E-365C-456C-BA01-C7B2501D4914">
+          <unkowns/>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="658.0" YCoordinate="749.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Multiple">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+        <xpdl2:Actitivity Id="oryx_40352512-5AE5-4DD2-9221-1B7526C24411">
+          <unkowns/>
+          <xpdl2:NodeGraphicsInfos>
+            <xpdl2:NodeGraphicsInfo BorderColor="#0,0,0" FillColor="#ffffff" IsVisible="true" ToolId="Oryx" Height="28.0" Width="28.0">
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="426.0" YCoordinate="690.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+            </xpdl2:NodeGraphicsInfo>
+          </xpdl2:NodeGraphicsInfos>
+          <xpdl2:Event>
+            <unkowns/>
+            <xpdl2:EndEvent Result="Terminate">
+              <unkowns/>
+            </xpdl2:EndEvent>
+          </xpdl2:Event>
+        </xpdl2:Actitivity>
+      </xpdl2:Activities>
       <xpdl2:Transitions>
-        <xpdl2:Transition Id="oryx_1A2B36F3-E20A-437B-914D-68B1E090B0BF" Quantity="1">
+        <xpdl2:Transition Id="oryx_7944CB3E-E158-495F-A553-7424476B3EC0" Quantity="1">
+          <unkowns/>
+          <xpdl2:ExtendedAttributes>
+            <xpdl2:ExtendedAttribute Name="docker0X" Value="76"/>
+            <xpdl2:ExtendedAttribute Name="docker0Y" Value="948"/>
+            <xpdl2:ExtendedAttribute Name="docker1X" Value="276"/>
+            <xpdl2:ExtendedAttribute Name="docker1Y" Value="948"/>
+            <xpdl2:ExtendedAttribute Name="showdiamondmarker" Value="false"/>
+          </xpdl2:ExtendedAttributes>
           <xpdl2:ConnectorGraphicsInfos>
             <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
-              <xpdl2:Coordinates XCoordinate="249.0" YCoordinate="297.0"/>
-              <xpdl2:Coordinates XCoordinate="249.0" YCoordinate="297.0"/>
-              <xpdl2:Coordinates XCoordinate="449.0" YCoordinate="297.0"/>
-              <xpdl2:Coordinates XCoordinate="449.0" YCoordinate="299.0"/>
+              <unkowns/>
+              <xpdl2:Coordinates XCoordinate="76.0" YCoordinate="948.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
+              <xpdl2:Coordinates XCoordinate="276.0" YCoordinate="950.0">
+                <unkowns/>
+              </xpdl2:Coordinates>
             </xpdl2:ConnectorGraphicsInfo>
           </xpdl2:ConnectorGraphicsInfos>
-        </xpdl2:Transition>
-        <xpdl2:Transition Id="oryx_3FBCD099-4EE5-40D5-8CA0-EDF014746361" Quantity="1" To="oryx_60B92B23-BD05-4755-B946-24CB1AB02A11">
-          <xpdl2:ConnectorGraphicsInfos>
-            <xpdl2:ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
-              <xpdl2:Coordinates XCoordinate="213.3203125" YCoordinate="198.0"/>
-              <xpdl2:Coordinates XCoordinate="50.0" YCoordinate="40.0"/>
-              <xpdl2:Coordinates XCoordinate="270.0" YCoordinate="210.0"/>
-              <xpdl2:Coordinates XCoordinate="270.0" YCoordinate="198.0"/>
-              <xpdl2:Coordinates XCoordinate="50.0" YCoordinate="40.0"/>
-              <xpdl2:Coordinates XCoordinate="326.6796875" YCoordinate="210.0"/>
-            </xpdl2:ConnectorGraphicsInfo>
-          </xpdl2:ConnectorGraphicsInfos>
+          <condition>
+            <unkowns/>
+            <conditionType>None</conditionType>
+          </condition>
         </xpdl2:Transition>
       </xpdl2:Transitions>
     </xpdl2:WorkflowProcess>
-    <xpdl2:WorkflowProcess Id="oryx_6798C748-AC7F-416C-B47C-4A917CDBDDF5-process" AdhocOrdering="Parallel" ProcessType="None" Status="None"/>
+    <xpdl2:WorkflowProcess Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-process" Name="asdf" Adhoc="true" AdhocOrdering="Sequential" EnableInstanceCompensation="false" ProcessType="Abstract" Status="Cancelled" SuppressJoinFailure="true">
+      <unkowns/>
+      <xpdl2:Object Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-object">
+        <unkowns/>
+        <xpdl2:Categories>
+          <xpdl2:Category Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-category" Name="asdf">
+            <unkowns/>
+          </xpdl2:Category>
+        </xpdl2:Categories>
+        <xpdl2:Documentation>asdf</xpdl2:Documentation>
+      </xpdl2:Object>
+      <xpdl2:ExtendedAttributes>
+        <xpdl2:ExtendedAttribute Name="processref" Value="asfd"/>
+        <xpdl2:ExtendedAttribute Name="participantref" Value="asdf"/>
+      </xpdl2:ExtendedAttributes>
+    </xpdl2:WorkflowProcess>
+    <xpdl2:WorkflowProcess Id="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163-process" AdhocOrdering="Parallel" ProcessType="None" Status="None">
+      <unkowns/>
+    </xpdl2:WorkflowProcess>
   </xpdl2:WorkflowProcesses>
 </xpdl2:Package>

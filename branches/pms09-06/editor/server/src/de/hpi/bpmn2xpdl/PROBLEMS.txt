@@ -14,6 +14,7 @@ Oryx-Problems:
 - In Artifacts sind laut XPDL keine Assignments vorgesehen
 - In task kann man mi_condi und normale loops setzen , darf nicht gehen
 - Die ganzen ref attribute sind überflüssig, da man da beliebige werte reinschreiben kann
+- in Activities können Input/Output/IoRules beliebig definiert werden
 
 Code:
 

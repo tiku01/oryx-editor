@@ -95,20 +95,24 @@ public class XPDLLoop extends XMLConvertable {
 	}
 	
 	protected void passInformationToMI(JSONObject modelElement, String key) throws JSONException {
-		initializeMultiInstance();
+		if (!modelElement.optString("looptype").equals("None")) {
+			initializeMultiInstance();
 		
-		JSONObject passObject = new JSONObject();
-		passObject.put(key, modelElement.optString(key));
+			JSONObject passObject = new JSONObject();
+			passObject.put(key, modelElement.optString(key));
 		
-		getMultiInstance().parse(passObject);
+			getMultiInstance().parse(passObject);
+		}
 	}
 	
 	protected void passInformationToStandard(JSONObject modelElement, String key) throws JSONException {
-		initializeLoopStandard();
+		if (!modelElement.optString("looptype").equals("None")) {
+			initializeLoopStandard();
 		
-		JSONObject passObject = new JSONObject();
-		passObject.put(key, modelElement.optString(key));
+			JSONObject passObject = new JSONObject();
+			passObject.put(key, modelElement.optString(key));
 		
-		getLoopStandard().parse(passObject);
+			getLoopStandard().parse(passObject);
+		}
 	}	
 }

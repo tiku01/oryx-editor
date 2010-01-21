@@ -19,10 +19,11 @@ public class Tester2xpdl {
 		BPMN2XPDLConverter converter = new BPMN2XPDLConverter();
 		try {
 			System.out.println(converter.exportXPDL(jsonString));
+			writeFile("test.xml", converter.exportXPDL(jsonString));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		//converter.importXPDL(jsonString);
+//		converter.importXPDL(readFile("test.xml"));
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}
