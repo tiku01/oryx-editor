@@ -1,26 +1,29 @@
 package de.hpi.bpmn2xpdl;
 
-import com.thoughtworks.xstream.XStream;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
+@RootElement("ConformanceClass")
 public class XPDLConformanceClass extends XMLConvertable {
 	
+	@Attribute("GraphConformance")
 	protected String graphConformance = "NON-BLOCKED";
+	@Attribute("BPMNModelPortabilityConformance")
 	protected String bpmnConformance = "STANDARD";
 	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:ConformanceClass", XPDLConformanceClass.class);
-
-		xstream.useAttributeFor(XPDLConformanceClass.class, "graphConformance");
-		xstream.aliasField("GraphConformance", XPDLConformanceClass.class, "graphConformance");
-		xstream.useAttributeFor(XPDLConformanceClass.class, "bpmnConformance");
-		xstream.aliasField("BPMNModelPortabilityConformance", XPDLConformanceClass.class, "bpmnConformance");
-	}
-	
-	public String getBPMNConformance() {
+	public String getBpmnConformance() {
 		return bpmnConformance;
 	}
 	
 	public String getGraphConformance() {
 		return graphConformance;
+	}
+	
+	public void setBpmnConformance(String conformance) {
+		bpmnConformance = conformance;
+	}
+	
+	public void setGraphConformance(String conformance) {
+		graphConformance = conformance;
 	}
 }

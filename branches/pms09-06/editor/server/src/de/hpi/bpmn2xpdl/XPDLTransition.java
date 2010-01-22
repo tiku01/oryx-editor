@@ -4,32 +4,27 @@ import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Transition")
 public class XPDLTransition extends XPDLThingConnectorGraphics {
 
+	@Attribute("From")
 	protected String from;
+	@Attribute("Quantity")
 	protected String quantity;
+	@Attribute("To")
 	protected String to;
 	
+	@Element("Condition")
 	protected XPDLCondition condition;
 	
 	public static boolean handlesStencil(String stencil) {
 		String[] types = {
 				"SequenceFlow"};
 		return Arrays.asList(types).contains(stencil);
-	}
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Transition", XPDLTransition.class);
-		
-		xstream.useAttributeFor(XPDLTransition.class, "from");
-		xstream.aliasField("From", XPDLTransition.class, "from");
-		xstream.useAttributeFor(XPDLTransition.class, "quantity");
-		xstream.aliasField("Quantity", XPDLTransition.class, "quantity");
-		xstream.useAttributeFor(XPDLTransition.class, "to");
-		xstream.aliasField("To", XPDLTransition.class, "to");
 	}
 	
 	public XPDLCondition getCondition() {
@@ -58,12 +53,16 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 	}
 	
 	public void readJSONconditiontype(JSONObject modelElement) throws JSONException {
-		initializeCondition();
+		String type = modelElement.optString("conditiontype");
 		
-		JSONObject passCondition = new JSONObject();
-		passCondition.put("conditiontype", modelElement.optString("conditiontype"));
+		if (!type.equals("None")) {
+			initializeCondition();
 		
-		getCondition().parse(passCondition);
+			JSONObject passCondition = new JSONObject();
+			passCondition.put("conditiontype", modelElement.optString("conditiontype"));
+		
+			getCondition().parse(passCondition);
+		}
 	}
 	
 	public void readJSONquantity(JSONObject modelElement) {

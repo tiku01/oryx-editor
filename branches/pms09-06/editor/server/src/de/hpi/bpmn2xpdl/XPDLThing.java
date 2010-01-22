@@ -1,39 +1,29 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Thing")
 public abstract class XPDLThing extends XMLConvertable {
 
+	@Element("Description")
 	protected String description;
+	@Attribute("Id")
 	protected String id;
+	@Attribute("Name")
 	protected String name;
 	protected String resourceId;
 	
+	@Element("Object")
 	protected XPDLObject object;
-	protected ArrayList<XPDLExtendedAttribute> extendedAttributes;
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("Thing", XPDLThing.class);
-
-		xstream.useAttributeFor(XPDLThing.class, "id");
-		xstream.aliasField("Id", XPDLThing.class, "id");
-		xstream.useAttributeFor(XPDLThing.class, "name");
-		xstream.aliasField("Name", XPDLThing.class, "name");
-		
-		xstream.aliasField("xpdl2:Object", XPDLThing.class, "object");
-		xstream.aliasField("xpdl2:ExtendedAttributes", XPDLThing.class, "extendedAttributes");
-		xstream.aliasField("xpdl2:Description", XPDLThing.class, "description");
-		
-		xstream.omitField(XPDLThing.class, "resourceId");
-	}
-
-	public ArrayList<XPDLExtendedAttribute> getExtendedAttributes() {
+	@Element("ExtendedAttributes")
+	protected XPDLExtendedAttributes extendedAttributes;
+	
+	public XPDLExtendedAttributes getExtendedAttributes() {
 		return extendedAttributes;
 	}
 	
@@ -132,7 +122,7 @@ public abstract class XPDLThing extends XMLConvertable {
 		description = descriptionValue;
 	}
 	
-	public void setExtendedAttributes(ArrayList<XPDLExtendedAttribute> attributes) {
+	public void setExtendedAttributes(XPDLExtendedAttributes attributes) {
 		extendedAttributes = attributes;
 	}
 	
@@ -173,7 +163,7 @@ public abstract class XPDLThing extends XMLConvertable {
 	
 	protected void initializeExtendedAttributes() {
 		if (getExtendedAttributes() == null) {
-			setExtendedAttributes(new ArrayList<XPDLExtendedAttribute>());
+			setExtendedAttributes(new XPDLExtendedAttributes());
 		}
 	}
 	

@@ -7,16 +7,19 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.thoughtworks.xstream.XStream;
+import org.xmappr.Element;
 
 public abstract class XMLConvertable {
 
-	public ArrayList<String> unknowns = new ArrayList<String>();
+	@SuppressWarnings("unchecked")
+	@Element("*")
+	protected ArrayList unknowns;
 	
-	public static void registerMapping(XStream xstream) {
+	@SuppressWarnings("unchecked")
+	public ArrayList getUnknowns() {
+		return unknowns;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void parse(JSONObject modelElement) {
 		Iterator jsonKeys = modelElement.keys();
@@ -38,7 +41,11 @@ public abstract class XMLConvertable {
 	}
 
 	public void readJSONunknown(JSONObject modelElement, String key) {
-		unknowns.add(key);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setUnknowns(ArrayList unknownElements) {
+		unknowns = unknownElements;
 	}
 
 	protected boolean hasJSONMethod(String methodName) {

@@ -1,37 +1,24 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Route")
 public class XPDLRoute extends XMLConvertable {
 
+	@Attribute("ExclusiveType")
 	protected String exclusiveType;
+	@Attribute("GatewayType")
 	protected String gatewayType;
+	@Attribute("IncomingCondition")
 	protected String incomingCondition;
+	@Attribute("Instantiate")
 	protected String instantiate;
+	@Attribute("MarkerVisible")
 	protected String markerVisible;
+	@Attribute("OutgoingCondition")
 	protected String outgoingCondition;
-	protected String xorType;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Route", XPDLRoute.class);
-		
-		xstream.useAttributeFor(XPDLRoute.class, "exclusiveType");
-		xstream.aliasField("ExclusiveType", XPDLRoute.class, "exclusiveType");
-		xstream.useAttributeFor(XPDLRoute.class, "gatewayType");
-		xstream.aliasField("GatewayType", XPDLRoute.class, "gatewayType");
-		xstream.useAttributeFor(XPDLRoute.class, "incomingCondition");
-		xstream.aliasField("IncomingCondition", XPDLRoute.class, "incomingCondition");
-		xstream.useAttributeFor(XPDLRoute.class, "instantiate");
-		xstream.aliasField("Instantiate", XPDLRoute.class, "instantiate");
-		xstream.useAttributeFor(XPDLRoute.class, "markerVisible");
-		xstream.aliasField("MarkerVisible", XPDLRoute.class, "markervisible");
-		xstream.useAttributeFor(XPDLRoute.class, "outgoingCondition");
-		xstream.aliasField("OutgoingCondition", XPDLRoute.class, "outgoingCondition");
-		xstream.useAttributeFor(XPDLRoute.class, "xorType");
-		xstream.aliasField("XORType", XPDLRoute.class, "xorType");
-	}
 	
 	public String getExclusiveType() {
 		return exclusiveType;
@@ -55,10 +42,6 @@ public class XPDLRoute extends XMLConvertable {
 	
 	public String getOutgoingCondition() {
 		return outgoingCondition;
-	}
-	
-	public String getXORType() {
-		return xorType;
 	}
 	
 	public void readJSONgatewaytype(JSONObject modelElement) {
@@ -107,9 +90,5 @@ public class XPDLRoute extends XMLConvertable {
 	
 	public void setOutgoingCondition(String condition) {
 		outgoingCondition = condition;
-	}
-	
-	public void setXORType(String type) {
-		xorType = type;
 	}
 }

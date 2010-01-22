@@ -4,13 +4,18 @@ import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("MessageFlow")
 public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 
+	@Attribute("Source")
 	protected String source;
+	@Attribute("Target")
 	protected String target;
+	@Element("Message")
 	protected XPDLMessage message;
 	
 	public static boolean handlesStencil(String stencil) {
@@ -18,17 +23,6 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 				"MessageFlow"};
 		return Arrays.asList(types).contains(stencil);
 	}
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:MessageFlow", XPDLMessageFlow.class);
-		
-		xstream.useAttributeFor(XPDLMessageFlow.class, "source");
-		xstream.aliasField("Source", XPDLMessageFlow.class, "source");
-		xstream.useAttributeFor(XPDLMessageFlow.class, "target");
-		xstream.aliasField("Target", XPDLMessageFlow.class, "target");
-		xstream.aliasField("xpdl2:Message", XPDLMessageFlow.class, "message");
-	}
-	
 	public XPDLMessage getMessage() {
 		return message;
 	}

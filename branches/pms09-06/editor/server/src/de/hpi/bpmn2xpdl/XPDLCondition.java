@@ -1,17 +1,17 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
+import org.xmappr.Text;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Condition")
 public class XPDLCondition extends XMLConvertable {
 	
+	@Attribute("Type")
 	protected String conditionType;
+	@Text
 	protected String conditionExpression;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Condition", XPDLCondition.class);
-	}
 	
 	public String getConditionType() {
 		return conditionType;
@@ -25,7 +25,12 @@ public class XPDLCondition extends XMLConvertable {
 	}
 	
 	public void readJSONconditiontype(JSONObject modelElement) {
-		setConditionType(modelElement.optString("conditiontype"));
+		String conditionTypeValue = modelElement.optString("conditiontype");
+		if (conditionTypeValue.equals("None")) {
+			setConditionType(null);
+		} else {
+			setConditionType(conditionTypeValue);
+		}
 	}
 	
 	public void setConditionType(String conditionType) {

@@ -23,7 +23,7 @@ public class Tester2xpdl {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-//		converter.importXPDL(readFile("test.xml"));
+		//converter.importXPDL(jsonString);
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}

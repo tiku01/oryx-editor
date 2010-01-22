@@ -3,15 +3,19 @@ package de.hpi.bpmn2xpdl;
 import java.util.Arrays;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Artifact")
 public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
+	@Attribute("ArtifactType")
 	protected String artifactType;
-	protected String groupDeprecated;
+	@Attribute("TextAnnotation")
 	protected String textAnnotation;
 	
+	@Element("DataObject")
 	protected XPDLDataObject dataObject;
 	
 	public static boolean handlesStencil(String stencil) {
@@ -22,29 +26,12 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		return Arrays.asList(types).contains(stencil);
 	}
 	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Artifact", XPDLArtifact.class);
-		
-		xstream.useAttributeFor(XPDLArtifact.class, "artifactType");
-		xstream.aliasField("ArtifactType", XPDLArtifact.class, "artifactType");
-		xstream.useAttributeFor(XPDLArtifact.class, "groupDeprecated");
-		xstream.aliasField("Group", XPDLArtifact.class, "groupDeprecated");
-		xstream.useAttributeFor(XPDLArtifact.class, "textAnnotation");
-		xstream.aliasField("TextAnnotation", XPDLArtifact.class, "textAnnotation");
-		
-		xstream.aliasField("xpdl2:DataObject", XPDLArtifact.class, "dataObject");
-	}
-	
 	public String getArtifactType() {
 		return artifactType;
 	}
 	
 	public XPDLDataObject getDataObject() {
 		return dataObject;
-	}
-	
-	public String getGroupDeprecated() {
-		return groupDeprecated;
 	}
 	
 	public String getTextAnnotation() {
@@ -92,10 +79,6 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 	
 	public void setDataObject(XPDLDataObject dataObjectValue) {
 		dataObject = dataObjectValue;
-	}
-	
-	public void setGroupDeprecated(String groupValue) {
-		groupDeprecated = groupValue;
 	}
 	
 	public void setTextAnnotation(String annotation) {

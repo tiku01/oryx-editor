@@ -1,61 +1,52 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.thoughtworks.xstream.XStream;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
+@RootElement("Package")
 public class XPDLPackage extends XPDLThing {
 	
+	@Attribute("Language")
 	protected String language;
+	@Attribute("QueryLanguage")
 	protected String queryLanguage;
+	
+	@Element("PackageHeader")
 	protected XPDLPackageHeader packageHeader;
+	@Element("RedefinableHeader")
 	protected XPDLRedefinableHeader redefinableHeader;
+	@Element("ConformanceClass")
 	protected XPDLConformanceClass conformanceClass;
+	@Element("Script")
 	protected XPDLScript script;
 	
 	protected XPDLPool mainPool;
 	
-	protected ArrayList<XPDLArtifact> artifacts;
-	protected ArrayList<XPDLAssociation> associations;
-	protected ArrayList<XPDLMessageFlow> messageFlows;
-	protected ArrayList<XPDLPool> pools;
-	protected ArrayList<XPDLWorkflowProcess> workflowProcesses;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Package", XPDLPackage.class);
-
-		xstream.useAttributeFor(XPDLPackage.class, "queryLanguage");
-		xstream.aliasField("QueryLanguage", XPDLPackage.class, "queryLanguage");
-		xstream.useAttributeFor(XPDLPackage.class, "language");
-		xstream.aliasField("Language", XPDLPackage.class, "language");
-		
-		xstream.aliasField("xpdl2:PackageHeader", XPDLPackage.class, "packageHeader");
-		xstream.aliasField("xpdl2:RedefinableHeader", XPDLPackage.class, "redefinableHeader");
-		xstream.aliasField("xpdl2:ConformanceClass", XPDLPackage.class, "conformanceClass");
-		xstream.aliasField("xpdl2:Script", XPDLPackage.class, "script");
-		
-		xstream.aliasField("xpdl2:Pools", XPDLPackage.class, "pools");
-		xstream.aliasField("xpdl2:Artifacts", XPDLPackage.class, "artifacts");
-		xstream.aliasField("xpdl2:Associations", XPDLPackage.class, "associations");
-		xstream.aliasField("xpdl2:MessageFlows", XPDLPackage.class, "messageFlows");
-		xstream.aliasField("xpdl2:WorkflowProcesses", XPDLPackage.class, "workflowProcesses");
-		
-		xstream.omitField(XPDLPackage.class, "mainPool");
-	}
+	@Element("Artifacts")
+	protected XPDLArtifacts artifacts;
+	@Element("Associations")
+	protected XPDLAssociations associations;
+	@Element("MessageFlows")
+	protected XPDLMessageFlows messageFlows;
+	@Element("Pools")
+	protected XPDLPools pools;
+	@Element("WorkflowProcesses")
+	protected XPDLWorkflowProcesses workflowProcesses;
 	
 	public XPDLPackage() {
 		setConformanceClass(new XPDLConformanceClass());
 	}
 	
-	public ArrayList<XPDLArtifact> getArtifacts() {
+	public XPDLArtifacts getArtifacts() {
 		return artifacts;
 	}
 	
-	public ArrayList<XPDLAssociation> getAssociations() {
+	public XPDLAssociations getAssociations() {
 		return associations;
 	}
 	
@@ -67,7 +58,7 @@ public class XPDLPackage extends XPDLThing {
 		return language;
 	}
 	
-	public ArrayList<XPDLMessageFlow> getMessageFlows() {
+	public XPDLMessageFlows getMessageFlows() {
 		return messageFlows;
 	}
 	
@@ -75,7 +66,7 @@ public class XPDLPackage extends XPDLThing {
 		return packageHeader;
 	}
 	
-	public ArrayList<XPDLPool> getPools() {
+	public XPDLPools getPools() {
 		return pools;
 	}
 	
@@ -91,7 +82,7 @@ public class XPDLPackage extends XPDLThing {
 		return script;
 	}
 	
-	public ArrayList<XPDLWorkflowProcess> getWorkflowProcesses() {
+	public XPDLWorkflowProcesses getWorkflowProcesses() {
 		return workflowProcesses;
 	}
 	
@@ -198,11 +189,11 @@ public class XPDLPackage extends XPDLThing {
 		getRedefinableHeader().parse(version);
 	}
 	
-	public void setArtifacts(ArrayList<XPDLArtifact> artifactsValue) {
+	public void setArtifacts(XPDLArtifacts artifactsValue) {
 		artifacts = artifactsValue;
 	}
 	
-	public void setAssociations(ArrayList<XPDLAssociation> associationsValue) {
+	public void setAssociations(XPDLAssociations associationsValue) {
 		associations = associationsValue;
 	}
 	
@@ -214,7 +205,7 @@ public class XPDLPackage extends XPDLThing {
 		language = languageValue;
 	}
 	
-	public void setMessageFlows(ArrayList<XPDLMessageFlow> flows) {
+	public void setMessageFlows(XPDLMessageFlows flows) {
 		messageFlows = flows;
 	}
 	
@@ -222,7 +213,7 @@ public class XPDLPackage extends XPDLThing {
 		packageHeader = header;
 	}
 	
-	public void setPools(ArrayList<XPDLPool> poolsValue) {
+	public void setPools(XPDLPools poolsValue) {
 		pools = poolsValue;
 	}
 	
@@ -234,11 +225,15 @@ public class XPDLPackage extends XPDLThing {
 		redefinableHeader = header;
 	}
 	
+	public void setWorkflowProcesses(XPDLWorkflowProcesses processes) {
+		workflowProcesses = processes;
+	}
+	
 	public void setScript(XPDLScript scriptValue) {
 		script = scriptValue;
 	}
 	
-	public void setWorklfowProcesses(ArrayList<XPDLWorkflowProcess> processes) {
+	public void setWorklfowProcesses(XPDLWorkflowProcesses processes) {
 		workflowProcesses = processes;
 	}
 	
@@ -301,13 +296,13 @@ public class XPDLPackage extends XPDLThing {
 	
 	protected void initializeArtifacts() {
 		if (getArtifacts() == null) {
-			setArtifacts(new ArrayList<XPDLArtifact>());
+			setArtifacts(new XPDLArtifacts());
 		}
 	}
 	
 	protected void initializeAssociations() {
 		if (getAssociations() == null) {
-			setAssociations(new ArrayList<XPDLAssociation>());
+			setAssociations(new XPDLAssociations());
 		}
 	}
 	
@@ -322,7 +317,7 @@ public class XPDLPackage extends XPDLThing {
 	
 	protected void initializeMessageFlows() {
 		if (getMessageFlows() == null) {
-			setMessageFlows(new ArrayList<XPDLMessageFlow>());
+			setMessageFlows(new XPDLMessageFlows());
 		}
 	}
 	
@@ -334,7 +329,7 @@ public class XPDLPackage extends XPDLThing {
 	
 	protected void initializePools() {
 		if (getPools() == null) {
-			setPools(new ArrayList<XPDLPool>());
+			setPools(new XPDLPools());
 		}
 	}
 	
@@ -352,7 +347,7 @@ public class XPDLPackage extends XPDLThing {
 	
 	protected void initializeWorkflowProcesses() {
 		if (getWorkflowProcesses() == null) {
-			setWorklfowProcesses(new ArrayList<XPDLWorkflowProcess>());
+			setWorklfowProcesses(new XPDLWorkflowProcesses());
 		}
 	}
 	

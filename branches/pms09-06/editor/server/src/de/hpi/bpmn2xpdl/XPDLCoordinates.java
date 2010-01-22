@@ -1,43 +1,38 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Coordinates")
 public class XPDLCoordinates extends XMLConvertable {
+	
+	@Attribute("XCoordinate")
 	protected double xCoordinate;
+	@Attribute("YCoordinate")
 	protected double yCoordinate;
 
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Coordinates", XPDLCoordinates.class);
-
-		xstream.useAttributeFor(XPDLCoordinates.class, "xCoordinate");
-		xstream.aliasField("XCoordinate", XPDLCoordinates.class, "xCoordinate");
-		xstream.useAttributeFor(XPDLCoordinates.class, "yCoordinate");
-		xstream.aliasField("YCoordinate", XPDLCoordinates.class, "yCoordinate");
-	}
-
-	public double getX() {
+	public double getXCoordinate() {
 		return xCoordinate;
 	}
 
-	public double getY() {
+	public double getYCoordinate() {
 		return yCoordinate;
 	}
 
 	public void readJSONx(JSONObject modelElement) {
-		setX(modelElement.optDouble("x", 0.0));
+		setXCoordinate(modelElement.optDouble("x", 0.0));
 	}
 
 	public void readJSONy(JSONObject modelElement) {
-		setY(modelElement.optDouble("y", 0.0));
+		setYCoordinate(modelElement.optDouble("y", 0.0));
 	}
 
-	public void setX(double xValue) {
+	public void setXCoordinate(double xValue) {
 		xCoordinate = xValue;
 	}
 
-	public void setY(double yValue) {
+	public void setYCoordinate(double yValue) {
 		yCoordinate = yValue;
 	}
 }

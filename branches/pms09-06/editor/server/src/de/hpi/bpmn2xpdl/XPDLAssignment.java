@@ -1,22 +1,17 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Assignment")
 public class XPDLAssignment extends XMLConvertable {
 	
-	protected String assigntime;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Assignment", XPDLAssignment.class);
-		
-		xstream.useAttributeFor(XPDLAssignment.class, "assigntime");
-		xstream.aliasField("AssignTime", XPDLAssignment.class, "assigntime");
-	}
+	@Attribute("AssignTime")
+	protected String assignTime;
 	
 	public String getAssignTime() {
-		return assigntime;
+		return assignTime;
 	}
 	
 	public void readJSONassigntime(JSONObject modelElement) {
@@ -24,6 +19,6 @@ public class XPDLAssignment extends XMLConvertable {
 	}
 	
 	public void setAssignTime(String time) {
-		assigntime = time;
+		assignTime = time;
 	}
 }

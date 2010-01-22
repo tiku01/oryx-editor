@@ -1,25 +1,18 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("DataObject")
 public class XPDLDataObject extends XPDLThing {
 
+	@Attribute("ProducedAtCompletion")
 	protected boolean producedAtCompletion;
+	@Attribute("RequiredForStart")
 	protected boolean requiredForStart;
+	@Attribute("State")
 	protected String state;
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:DataObject", XPDLDataObject.class);
-
-		xstream.useAttributeFor(XPDLDataObject.class, "producedAtCompletion");
-		xstream.aliasField("ProducedAtCompletion", XPDLDataObject.class, "producedAtCompletion");
-		xstream.useAttributeFor(XPDLDataObject.class, "requiredForStart");
-		xstream.aliasField("RequiredForStart", XPDLDataObject.class, "requiredForStart");
-		xstream.useAttributeFor(XPDLDataObject.class, "state");
-		xstream.aliasField("State", XPDLDataObject.class, "state");
-	}
 
 	public boolean getProducedAtCompletion() {
 		return producedAtCompletion;

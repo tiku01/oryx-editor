@@ -2,22 +2,18 @@ package de.hpi.bpmn2xpdl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Event")
 public class XPDLEvent extends XMLConvertable {
 	
+	@Element("EndEvent")
 	protected XPDLEndEvent endEvent;
+	@Element("IntermediateEvent")
 	protected XPDLIntermediateEvent intermediateEvent;
+	@Element("StartEvent")
 	protected XPDLStartEvent startEvent;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Event", XPDLEvent.class);
-		
-		xstream.aliasField("xpdl2:EndEvent", XPDLEvent.class, "endEvent");
-		xstream.aliasField("xpdl2:IntermediateEvent", XPDLEvent.class, "intermediateEvent");
-		xstream.aliasField("xpdl2:StartEvent", XPDLEvent.class, "startEvent");
-	}
 
 	public XPDLEndEvent getEndEvent() {
 		return endEvent;

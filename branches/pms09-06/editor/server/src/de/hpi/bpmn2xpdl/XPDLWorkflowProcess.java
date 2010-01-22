@@ -1,63 +1,47 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("WorkflowProcess")
 public class XPDLWorkflowProcess extends XPDLThing {
 	
 	protected static String ID_SUFFIX = "-process";
 	
-	protected String accessLevel;
+	@Attribute("Adhoc")
 	protected String adhoc;
+	@Attribute("AdhocOrdering")
 	protected String adhocOrdering;
+	@Attribute("AdhocCompletionCondition")
 	protected String adhocCompletionCondition;
+	@Attribute("EnableInstanceCompensation")
 	protected String enableInstanceCompensation;
+	@Attribute("ProcessType")
 	protected String processType;
+	@Attribute("Status")
 	protected String status;
+	@Attribute("SuppressJoinFailure")
 	protected String suppressJoinFailure;
 	
-	protected ArrayList<XPDLActivity>  activities;
-	protected ArrayList<XPDLTransition> transitions;
+	@Element("Activities")
+	protected XPDLActivities  activities;
+	@Element("Transitions")
+	protected XPDLTransitions transitions;
 	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:WorkflowProcess", XPDLWorkflowProcess.class);
-		
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "accessLevel");
-		xstream.aliasField("AccessLevel", XPDLWorkflowProcess.class, "accessLevel");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhoc");
-		xstream.aliasField("Adhoc", XPDLWorkflowProcess.class, "adhoc");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhocOrdering");
-		xstream.aliasField("AdhocOrdering", XPDLWorkflowProcess.class, "adhocOrdering");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "adhocCompletionCondition");
-		xstream.aliasField("AdhocCompletionCondition", XPDLWorkflowProcess.class, "adhocCompletionCondition");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "enableInstanceCompensation");
-		xstream.aliasField("EnableInstanceCompensation", XPDLWorkflowProcess.class, "enableInstanceCompensation");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "processType");
-		xstream.aliasField("ProcessType", XPDLWorkflowProcess.class, "processType");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "status");
-		xstream.aliasField("Status", XPDLWorkflowProcess.class, "status");
-		xstream.useAttributeFor(XPDLWorkflowProcess.class, "suppressJoinFailure");
-		xstream.aliasField("SuppressJoinFailure", XPDLWorkflowProcess.class, "suppressJoinFailure");
-
-		xstream.aliasField("xpdl2:Transitions", XPDLWorkflowProcess.class, "transitions");
-		xstream.aliasField("xpdl2:Activities", XPDLWorkflowProcess.class, "activities");
-	}
-	
-	public String getAccessLevel() {
-		return accessLevel;
-	}
-	
-	public ArrayList<XPDLActivity> getActivities() {
+	public XPDLActivities getActivities() {
 		return activities;
 	}
 	
 	public String getAdhoc() {
 		return adhoc;
+	}
+	
+	public String getAdhocCompletionCondition() {
+		return adhocCompletionCondition;
 	}
 	
 	public String getAdhocOrdering() {
@@ -84,7 +68,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		return suppressJoinFailure;
 	}
 	
-	public ArrayList<XPDLTransition> getTransition() {
+	public XPDLTransitions getTransitions() {
 		return transitions;
 	}
 	
@@ -97,7 +81,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
-		setAdhocOrdering(modelElement.optString("adhocCompletionCondition"));
+		setAdhocCompletionCondition(modelElement.optString("adhocCompletionCondition"));
 	}
 	
 	public void readJSONbounds(JSONObject modelElement) {
@@ -193,16 +177,16 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		setSuppressJoinFailure(modelElement.optString("suppressjoinfailure"));
 	}
 	
-	public void setAccessLevel(String level) {
-		accessLevel = level;
-	}
-	
-	public void setActivities(ArrayList<XPDLActivity> activitiesList) {
+	public void setActivities(XPDLActivities activitiesList) {
 		activities = activitiesList;
 	}
 	
 	public void setAdhoc(String adhocValue) {
 		adhoc = adhocValue;
+	}
+	
+	public void setAdhocCompletionCondition(String condition) {
+		adhocCompletionCondition = condition;
 	}
 	
 	public void setAdhocOrdering(String orderingValue) {
@@ -229,7 +213,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		suppressJoinFailure = joinFailure;
 	}
 	
-	public void setTransitions(ArrayList<XPDLTransition> transitionsValue) {
+	public void setTransitions(XPDLTransitions transitionsValue) {
 		transitions = transitionsValue;
 	}
 	
@@ -246,18 +230,18 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		
 		XPDLTransition nextTranistion = new XPDLTransition();
 		nextTranistion.parse(modelElement);
-		getTransition().add(nextTranistion);
+		getTransitions().add(nextTranistion);
 	}
 	
 	protected void initializeActivities() {
 		if (getActivities() == null) {
-			setActivities(new ArrayList<XPDLActivity>());
+			setActivities(new XPDLActivities());
 		}
 	}
 	
 	protected void initializeTransitions() {
-		if (getTransition() == null) {
-			setTransitions(new ArrayList<XPDLTransition>());
+		if (getTransitions() == null) {
+			setTransitions(new XPDLTransitions());
 		}
 	}
 }

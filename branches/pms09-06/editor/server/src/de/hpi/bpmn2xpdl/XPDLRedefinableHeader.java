@@ -1,42 +1,44 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("RedefinableHeader")
 public class XPDLRedefinableHeader extends XMLConvertable {
 
-	protected String author;
-	protected String version;
+	@Element("Author")
+	protected XPDLAuthor author;
+	@Element("Version")
+	protected XPDLVersion version;
 	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:RedefinableHeader", XPDLRedefinableHeader.class);
-		
-		xstream.aliasField("xpdl2:Author", XPDLRedefinableHeader.class, "author");
-		xstream.aliasField("xpdl2:Version", XPDLRedefinableHeader.class, "version");
-	}
-	
-	public String getAuthor() {
+	public XPDLAuthor getAuthor() {
 		return author;
 	}
 	
-	public String getVersion() {
+	public XPDLVersion getVersion() {
 		return version;
 	}
 	
 	public void readJSONauthor(JSONObject modelElement) {
-		setAuthor(modelElement.optString("author"));
+		XPDLAuthor authorObject = new XPDLAuthor();
+		authorObject.setContent(modelElement.optString("author"));
+		
+		setAuthor(authorObject);
 	}
 	
 	public void readJSONversion(JSONObject modelElement) {
-		setVersion(modelElement.optString("version"));
+		XPDLVersion versionObject = new XPDLVersion();
+		versionObject.setContent(modelElement.optString("version"));
+		
+		setVersion(versionObject);
 	}
 	
-	public void setAuthor(String authorValue) {
+	public void setAuthor(XPDLAuthor authorValue) {
 		author = authorValue;
 	}
 	 
-	public void setVersion(String versionValue) {
+	public void setVersion(XPDLVersion versionValue) {
 		version = versionValue;
 	}
 }

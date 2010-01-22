@@ -7,20 +7,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.thoughtworks.xstream.XStream;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
 
 public class XPDLActivity extends XPDLThingNodeGraphics {
 
+	@Attribute("CompletionQuantity")
 	protected String completionQuantity;
+	@Attribute("IsATransaction")
 	protected String isATransaction;
+	@Attribute("IsForCompensation")
 	protected String isForCompensation;
+	@Attribute("StartActivity")
 	protected String startActivity;
+	@Attribute("StartQuantity")
 	protected String startQuantity;
 	
+	@Element("Event")
 	protected XPDLEvent event;
+	@Element("Loop")
 	protected XPDLLoop loop;
+	@Element("Route")
 	protected XPDLRoute route;
-	
+	@Element("Assignments")
 	protected ArrayList<XPDLAssignment> assignments;
 	
 	public static boolean handlesStencil(String stencil) {
@@ -71,26 +80,6 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 				"Subprocess",
 				"Task"};
 		return Arrays.asList(types).contains(stencil);
-	}
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Actitivity", XPDLActivity.class);
-		
-		xstream.useAttributeFor(XPDLActivity.class, "completionQuantity");
-		xstream.aliasField("CompletionQuantity", XPDLActivity.class, "completionQuantity");
-		xstream.useAttributeFor(XPDLActivity.class, "isATransaction");
-		xstream.aliasField("IsATransaction", XPDLActivity.class, "isATransaction");
-		xstream.useAttributeFor(XPDLActivity.class, "isForCompensation");
-		xstream.aliasField("IsForCompensation", XPDLActivity.class, "isForCompensation");
-		xstream.useAttributeFor(XPDLActivity.class, "startActivity");
-		xstream.aliasField("StartActivity", XPDLActivity.class, "startActivity");
-		xstream.useAttributeFor(XPDLActivity.class, "startQuantity");
-		xstream.aliasField("StartQuantity", XPDLActivity.class, "startQuantity");
-		
-		xstream.aliasField("xpdl2:Route", XPDLActivity.class, "route");
-		xstream.aliasField("xpdl2:Loop", XPDLActivity.class, "loop");
-		xstream.aliasField("xpdl2:Event", XPDLActivity.class, "event");
-		xstream.aliasField("xpdl2:Assignments", XPDLActivity.class, "assignments");
 	}
 	
 	public ArrayList<XPDLAssignment> getAssignments() {

@@ -1,31 +1,22 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("MultiInstance")
 public class XPDLMultiInstance extends XMLConvertable {
 	
+	@Attribute("MI_Condition")
 	protected String mi_condition;
+	@Attribute("LoopCounter")
 	protected String loopCounter;
+	@Attribute("MI_Ordering")
 	protected String mi_ordering;
+	@Attribute("MI_FlowCondition")
 	protected String mi_flowCondition;
+	@Attribute("ComplexMI_FlowCondition")
 	protected String complexMi_flowCondition;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:MultiInstance", XPDLMultiInstance.class);
-		
-		xstream.useAttributeFor(XPDLMultiInstance.class, "mi_condition");
-		xstream.aliasField("MI_Condition", XPDLMultiInstance.class, "mi_condition");
-		xstream.useAttributeFor(XPDLMultiInstance.class, "loopCounter");
-		xstream.aliasField("LoopCounter", XPDLMultiInstance.class, "loopCounter");
-		xstream.useAttributeFor(XPDLMultiInstance.class, "mi_ordering");
-		xstream.aliasField("MI_Ordering", XPDLMultiInstance.class, "mi_ordering");
-		xstream.useAttributeFor(XPDLMultiInstance.class, "mi_flowCondition");
-		xstream.aliasField("MI_FlowCondition", XPDLMultiInstance.class, "mi_flowCondition");
-		xstream.useAttributeFor(XPDLMultiInstance.class, "complexMi_flowCondition");
-		xstream.aliasField("ComplexMI_FlowCondition", XPDLMultiInstance.class, "complexMi_flowCondition");
-	}
 	
 	public String getMi_condition() {
 		return mi_condition;
