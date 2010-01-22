@@ -164,7 +164,9 @@
             <MultiInstance MI_Condition="asd" LoopCounter="1" MI_Ordering="Sequential" MI_FlowCondition="All" />
           </Loop>
           <Route Instantiate="true" />
-          <Assignments AssignTime="End" />
+          <Assignments>
+            <Assignment AssignTime="End" />
+          </Assignments>
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffcc" Height="80.0" Width="100.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
               <Coordinates XCoordinate="46.0" YCoordinate="19.0" />
@@ -226,7 +228,9 @@
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
           <Route GatewayType="AND" />
-          <Assignments AssignTime="Start" />
+          <Assignments>
+            <Assignment AssignTime="Start" />
+          </Assignments>
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
               <Coordinates XCoordinate="251.0" YCoordinate="165.0" />
@@ -247,7 +251,9 @@
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
           <Route GatewayType="OR" />
-          <Assignments AssignTime="Start" />
+          <Assignments>
+            <Assignment AssignTime="Start" />
+          </Assignments>
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
               <Coordinates XCoordinate="256.0" YCoordinate="232.0" />
