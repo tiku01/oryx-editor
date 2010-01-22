@@ -1,29 +1,24 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Script")
 public class XPDLScript extends XMLConvertable {
 
+	@Attribute("Type")
 	protected String scriptType;
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Script", XPDLScript.class);
-
-		xstream.useAttributeFor(XPDLScript.class, "scriptType");
-		xstream.aliasField("Type", XPDLScript.class, "scriptType");
-	}
 	
-	public String getType() {
+	public String getScriptType() {
 		return scriptType;
 	}
 
 	public void readJSONexpressionlanguage(JSONObject modelElement) {
-		setType(modelElement.optString("expressionlanguage"));
+		setScriptType(modelElement.optString("expressionlanguage"));
 	}
 
-	public void setType(String typeValue) {
+	public void setScriptType(String typeValue) {
 		scriptType = typeValue;
 	}
 }

@@ -1,24 +1,14 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("ConnectorGraphicsInfo")
 public class XPDLConnectorGraphicsInfo extends XPDLGraphicsInfo {
 
+	@Attribute("FillColor")
 	protected String fillColor = "#0,0,0";
-	protected String style;
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:ConnectorGraphicsInfo", XPDLConnectorGraphicsInfo.class);
-
-		xstream.useAttributeFor(XPDLConnectorGraphicsInfo.class, "style");
-		xstream.aliasField("Style", XPDLConnectorGraphicsInfo.class, "style");
-	}
-
-	public String getStyle() {
-		return style;
-	}
 	
 	public void readJSONbounds(JSONObject modelElement) {
 		initializeCoordinates();
@@ -29,9 +19,5 @@ public class XPDLConnectorGraphicsInfo extends XPDLGraphicsInfo {
 		
 		getCoordinates().add(0,firstAnchor);
 		getCoordinates().add(secondAnchor);
-	}
-
-	public void setStyle(String styleValue) {
-		style = styleValue;
 	}
 }

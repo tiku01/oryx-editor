@@ -3,87 +3,81 @@ package de.hpi.bpmn2xpdl;
 import java.util.HashMap;
 
 import org.json.JSONObject;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("PackageHeader")
 public class XPDLPackageHeader extends XMLConvertable {
 
-	protected String created;
-	protected String description;
-	protected String documentation;
-	protected String modificationDate;
-	protected String vendor = "Hasso Plattner Institute";
-	protected String xpdlVersion = "2.1";
+	@Element("Created")
+	protected XPDLCreated created;
+	@Element("Documentation")
+	protected XPDLDocumentation documentation;
+	@Element("ModificationDate")
+	protected XPDLModificationDate modificationDate;
+	@Element("Vendor")
+	protected XPDLVendor vendor = new XPDLVendor();
+	@Element("XPDLVersion")
+	protected XPDLXPDLVersion xpdlVersion = new XPDLXPDLVersion();
 	
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:PackageHeader", XPDLPackageHeader.class);
-		
-		xstream.aliasField("xpdl2:XPDLVersion", XPDLPackageHeader.class, "xpdlVersion");
-		xstream.aliasField("xpdl2:Vendor", XPDLPackageHeader.class, "vendor");
-		xstream.aliasField("xpdl2:Documentation", XPDLPackageHeader.class, "documentation");
-		xstream.aliasField("xpdl2:Created", XPDLPackageHeader.class, "created");
-		xstream.aliasField("xpdl2:ModificationDate", XPDLPackageHeader.class, "modificationDate");
-		xstream.aliasField("xpdl2:Description", XPDLPackageHeader.class, "description");
-	}
-	
-	public String getCreated() {
+	public XPDLCreated getCreated() {
 		return created;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-	
-	public String getDocumentation() {
+	public XPDLDocumentation getDocumentation() {
 		return documentation;
 	}
 	
-	public String getModificationDate() {
+	public XPDLModificationDate getModificationDate() {
 		return modificationDate;
 	}
 	
-	public String getVendor() {
+	public XPDLVendor getVendor() {
 		return vendor;
 	}
 	
-	public String getXPDLVersion() {
+	public XPDLXPDLVersion getXpdlVersion() {
 		return xpdlVersion;
 	}
 	
 	public void readJSONcreationdate(JSONObject modelElement) {
-		setCreated(formatDate(modelElement.optString("creationdate")));
+		XPDLCreated newCreated = new XPDLCreated();
+		newCreated.setContent(formatDate(modelElement.optString("creationdate")));
+		
+		setCreated(newCreated);
 	}
 	
 	public void readJSONdocumentation(JSONObject modelElement) {
-		setDocumentation(modelElement.optString("documentation"));
+		XPDLDocumentation newDocumentation = new XPDLDocumentation();
+		newDocumentation.setContent(modelElement.optString("documentation"));
+		
+		setDocumentation(newDocumentation);
 	}
 	
 	public void readJSONmodificationdate(JSONObject modelElement) {
-		setModificationDate(formatDate(modelElement.optString("modificationdate")));
+		XPDLModificationDate date = new XPDLModificationDate();
+		date.setContent(formatDate(modelElement.optString("modificationdate")));
+		
+		setModificationDate(date);
 	}
 	
-	public void setCreated(String date) {
+	public void setCreated(XPDLCreated date) {
 		created = date;
 	}
 	
-	public void setDescription(String descriptionValue) {
-		description = descriptionValue;
-	}
-	
-	public void setDocumentation(String documentationValue) {
+	public void setDocumentation(XPDLDocumentation documentationValue) {
 		documentation = documentationValue;
 	}
 	
-	public void setModificationDate(String date) {
+	public void setModificationDate(XPDLModificationDate date) {
 		modificationDate = date;
 	}
 
-	public void setVendor(String vendorValue) {
+	public void setVendor(XPDLVendor vendorValue) {
 		vendor = vendorValue;
 	}
 	
-	public void setXPDLVersion(String version) {
+	public void setXpdlVersion(XPDLXPDLVersion version) {
 		xpdlVersion = version;
 	}
 	

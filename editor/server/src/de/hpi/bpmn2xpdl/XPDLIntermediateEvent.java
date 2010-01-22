@@ -1,22 +1,16 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("IntermediateEvent")
 public class XPDLIntermediateEvent extends XMLConvertable {
 	
+	@Attribute("Trigger")
 	protected String trigger;
+	@Attribute("Implementation")
 	protected String implementation;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:IntermediateEvent", XPDLIntermediateEvent.class);
-		
-		xstream.useAttributeFor(XPDLIntermediateEvent.class, "trigger");
-		xstream.aliasField("Trigger", XPDLIntermediateEvent.class, "trigger");
-		xstream.useAttributeFor(XPDLIntermediateEvent.class, "implementation");
-		xstream.aliasField("Implementation", XPDLIntermediateEvent.class, "implementation");
-	}
 
 	public String getImplementation() {
 		return implementation;

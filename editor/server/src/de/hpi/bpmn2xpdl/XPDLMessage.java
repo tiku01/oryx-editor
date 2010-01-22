@@ -1,31 +1,22 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Message")
 public class XPDLMessage extends XMLConvertable {
 	
+	@Attribute("FaultName")
 	protected String faultName;
+	@Attribute("From")
 	protected String from;
+	@Attribute("Id")
 	protected String id;
+	@Attribute("Name")
 	protected String name;
+	@Attribute("To")
 	protected String to;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Message", XPDLMessage.class);
-		
-		xstream.useAttributeFor(XPDLMessage.class, "faultName");
-		xstream.aliasField("FaultName", XPDLMessage.class, "faultName");
-		xstream.useAttributeFor(XPDLMessage.class, "from");
-		xstream.aliasField("From", XPDLMessage.class, "from");
-		xstream.useAttributeFor(XPDLMessage.class, "id");
-		xstream.aliasField("Id", XPDLMessage.class, "id");
-		xstream.useAttributeFor(XPDLMessage.class, "name");
-		xstream.aliasField("Name", XPDLMessage.class, "name");
-		xstream.useAttributeFor(XPDLMessage.class, "to");
-		xstream.aliasField("To", XPDLMessage.class, "to");
-	}
 	
 	public String getFaultName() {
 		return faultName;

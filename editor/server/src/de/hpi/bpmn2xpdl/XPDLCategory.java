@@ -1,44 +1,39 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
+import org.xmappr.Text;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Category")
 public class XPDLCategory extends XMLConvertable {
 	
+	@Attribute("Id")
 	protected String id;
-	protected String name;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Category", XPDLCategory.class);
-		
-		xstream.useAttributeFor(XPDLCategory.class, "id");
-		xstream.aliasField("Id", XPDLCategory.class, "id");
-		xstream.useAttributeFor(XPDLCategory.class, "name");
-		xstream.aliasField("Name", XPDLCategory.class, "name");
-	}
+	@Text
+	protected String content;
 	
 	public String getId() {
 		return id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getContent() {
+		return content;
 	}
 	
 	public void readJSONid(JSONObject modelElement) {
 		setId(modelElement.optString("id")+"-category");
 	}
 	
-	public void readJSONname(JSONObject modelElement) {
-		setName(modelElement.optString("name"));
+	public void readJSONcontent(JSONObject modelElement) {
+		setContent(modelElement.optString("content"));
 	}
 	
 	public void setId(String idValue) {
 		id = idValue;
 	}
 	
-	public void setName(String nameValue) {
-		name = nameValue;
+	public void setContent(String contentValue) {
+		content = contentValue;
 	}
 }

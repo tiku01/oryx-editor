@@ -6,29 +6,24 @@ import java.util.Arrays;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Lane")
 public class XPDLLane extends XPDLThingNodeGraphics {
 
+	@Attribute("ParentLane")
 	protected String parentLane;
+	@Attribute("ParentPool")
 	protected String parentPool;
 
+	@Element("NestedLanes")
 	protected ArrayList<XPDLLane> nestedLanes;
 
 	public static boolean handlesStencil(String stencil) {
 		String[] types = { "Lane" };
 		return Arrays.asList(types).contains(stencil);
-	}
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Lane", XPDLLane.class);
-
-		xstream.useAttributeFor(XPDLLane.class, "parentLane");
-		xstream.aliasField("ParentLane", XPDLLane.class, "parentLane");
-		xstream.useAttributeFor(XPDLLane.class, "parentPool");
-		xstream.aliasField("ParentPool", XPDLLane.class, "parentPool");
-		xstream.aliasField("xpdl2:NestedLanes", XPDLLane.class, "nestedLanes");
 	}
 
 	public ArrayList<XPDLLane> getNestedLanes() {

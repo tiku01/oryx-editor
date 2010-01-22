@@ -3,37 +3,23 @@ package de.hpi.bpmn2xpdl;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("GraphicsInfo")
 public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	
+	@Attribute("BorderColor")
 	protected String borderColor = "#0,0,0";
+	@Element("Coordinates")
 	protected ArrayList<XPDLCoordinates> coordinates;
+	@Attribute("FillColor")
 	protected String fillColor;
+	@Attribute("IsVisible")
 	protected boolean isVisible = true;
-	protected String page;
-	protected String pageId;
+	@Attribute("ToolId")
 	protected String toolId = "Oryx";
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("GraphicsInfo", XPDLGraphicsInfo.class);
-
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "borderColor");
-		xstream.aliasField("BorderColor", XPDLGraphicsInfo.class, "borderColor");
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "fillColor");
-		xstream.aliasField("FillColor", XPDLGraphicsInfo.class, "fillColor");
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "page");
-		xstream.aliasField("Page", XPDLGraphicsInfo.class, "page");
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "pageId");
-		xstream.aliasField("PageId", XPDLGraphicsInfo.class, "pageId");
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "toolId");
-		xstream.aliasField("ToolId", XPDLGraphicsInfo.class, "toolId");
-		xstream.useAttributeFor(XPDLGraphicsInfo.class, "isVisible");
-		xstream.aliasField("IsVisible", XPDLGraphicsInfo.class, "isVisible");
-		
-		xstream.addImplicitCollection(XPDLGraphicsInfo.class, "coordinates");
-	}
 	
 	public XPDLGraphicsInfo() {
 		setCoordinates(new ArrayList<XPDLCoordinates>());
@@ -53,14 +39,6 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	
 	public boolean getIsVisible() {
 		return isVisible;
-	}
-	
-	public String getPage() {
-		return page;
-	}
-
-	public String getPageId() {
-		return pageId;
 	}
 	
 	public String getToolId() {
@@ -88,14 +66,6 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	
 	public void setIsVisible(boolean visibility) {
 		isVisible = visibility;
-	}
-	
-	public void setPage(String pageValue) {
-		page = pageValue;
-	}
-	
-	public void setPageId(String pageIdValue) {
-		pageId = pageIdValue;
 	}
 	
 	public void setToolId(String tool) {

@@ -1,23 +1,17 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("NodeThing")
 public abstract class XPDLThingNodeGraphics extends XPDLThing {
 
-	protected ArrayList<XPDLNodeGraphicsInfo> nodeGraphics;
+	@Element("NodeGraphicsInfos")
+	protected XPDLNodeGraphicsInfos nodeGraphics;
 
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("Thing", XPDLThingNodeGraphics.class);
-		
-		xstream.aliasField("xpdl2:NodeGraphicsInfos", XPDLThingNodeGraphics.class, "nodeGraphics");
-	}
-
-	public ArrayList<XPDLNodeGraphicsInfo> getNodeGraphicsInfos() {
+	public XPDLNodeGraphicsInfos getNodeGraphics() {
 		return nodeGraphics;
 	}
 
@@ -37,18 +31,18 @@ public abstract class XPDLThingNodeGraphics extends XPDLThing {
 		getFirstGraphicsInfo().parse(bounds);
 	}
 
-	public void setNodeGraphicsInfos(ArrayList<XPDLNodeGraphicsInfo> graphics) {
+	public void setNodeGraphics(XPDLNodeGraphicsInfos graphics) {
 		nodeGraphics = graphics;
 	}
 	
 	protected XPDLNodeGraphicsInfo getFirstGraphicsInfo() {
-		return getNodeGraphicsInfos().get(0);
+		return getNodeGraphics().get(0);
 	}
 
 	protected void initializeGraphics() {
-		if (getNodeGraphicsInfos() == null) {
-			setNodeGraphicsInfos(new ArrayList<XPDLNodeGraphicsInfo>());
-			getNodeGraphicsInfos().add(new XPDLNodeGraphicsInfo());
+		if (getNodeGraphics() == null) {
+			setNodeGraphics(new XPDLNodeGraphicsInfos());
+			getNodeGraphics().add(new XPDLNodeGraphicsInfo());
 		}
 	}
 }

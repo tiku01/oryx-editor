@@ -1,20 +1,15 @@
 package de.hpi.bpmn2xpdl;
 
-import com.thoughtworks.xstream.XStream;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
+@RootElement("ExtendedAttribute")
 public class XPDLExtendedAttribute {
 
+	@Attribute("Name")
 	protected String name;
+	@Attribute("Value")
 	protected String value;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:ExtendedAttribute", XPDLExtendedAttribute.class);
-		
-		xstream.useAttributeFor(XPDLExtendedAttribute.class, "name");
-		xstream.aliasField("Name", XPDLExtendedAttribute.class, "name");
-		xstream.useAttributeFor(XPDLExtendedAttribute.class, "value");
-		xstream.aliasField("Value", XPDLExtendedAttribute.class, "value");
-	}
 	
 	public String getName() {
 		return name;

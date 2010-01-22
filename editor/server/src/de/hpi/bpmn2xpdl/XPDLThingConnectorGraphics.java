@@ -1,23 +1,17 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("ConnectorThing")
 public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 
-	protected ArrayList<XPDLConnectorGraphicsInfo> connectorGraphics;
+	@Element("ConnectorGraphicsInfos")
+	protected XPDLConnectorGraphicsInfos connectorGraphics;
 	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("Thing", XPDLThingConnectorGraphics.class);
-		
-		xstream.aliasField("xpdl2:ConnectorGraphicsInfos", XPDLThingConnectorGraphics.class, "connectorGraphics");
-	}
-	
-	public ArrayList<XPDLConnectorGraphicsInfo> getConnectorGraphicsInfos() {
+	public XPDLConnectorGraphicsInfos getConnectorGraphics() {
 		return connectorGraphics;
 	}
 	
@@ -37,18 +31,18 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		getFirstGraphicsInfo().parse(bounds);
 	}
 	
-	public void setConnectorGraphicsInfos(ArrayList<XPDLConnectorGraphicsInfo> graphics) {
+	public void setConnectorGraphics(XPDLConnectorGraphicsInfos graphics) {
 		connectorGraphics = graphics;
 	}
 	
 	protected XPDLConnectorGraphicsInfo getFirstGraphicsInfo() {
-		return getConnectorGraphicsInfos().get(0);
+		return getConnectorGraphics().get(0);
 	}
 	
 	protected void initializeGraphics() {
-		if (getConnectorGraphicsInfos() == null) {
-			setConnectorGraphicsInfos(new ArrayList<XPDLConnectorGraphicsInfo>());
-			getConnectorGraphicsInfos().add(new XPDLConnectorGraphicsInfo());
+		if (getConnectorGraphics() == null) {
+			setConnectorGraphics(new XPDLConnectorGraphicsInfos());
+			getConnectorGraphics().add(new XPDLConnectorGraphicsInfo());
 		}
 	}
 }

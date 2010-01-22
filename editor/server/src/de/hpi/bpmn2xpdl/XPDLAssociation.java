@@ -4,13 +4,17 @@ import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Association")
 public class XPDLAssociation extends XPDLThingConnectorGraphics {
 
+	@Attribute("Direction")
 	protected String direction;
+	@Attribute("Source")
 	protected String source;
+	@Attribute("Target")
 	protected String target;
 	
 	public static boolean handlesStencil(String stencil) {
@@ -19,17 +23,6 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 			"Association_Unidirectional",
 			"Association_Bidirectional"};
 		return Arrays.asList(types).contains(stencil);
-	}
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Association", XPDLAssociation.class);
-		
-		xstream.useAttributeFor(XPDLAssociation.class, "source");
-		xstream.aliasField("Source", XPDLAssociation.class, "source");
-		xstream.useAttributeFor(XPDLAssociation.class, "target");
-		xstream.aliasField("Target", XPDLAssociation.class, "target");
-		xstream.useAttributeFor(XPDLAssociation.class, "direction");
-		xstream.aliasField("AssociationDirection", XPDLAssociation.class, "direction");
 	}
 	
 	public String getDirection() {

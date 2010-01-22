@@ -1,29 +1,20 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("NodeGraphicsInfo")
 public class XPDLNodeGraphicsInfo extends XPDLGraphicsInfo {
 
+	@Attribute("FillColor")
 	protected String fillColor = "#255,255,255";
+	@Attribute("Height")
 	protected double height;
+	@Attribute("LaneId")
 	protected String laneId;
-	protected String shape;
+	@Attribute("Width")
 	protected double width;
-
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:NodeGraphicsInfo", XPDLNodeGraphicsInfo.class);
-
-		xstream.useAttributeFor(XPDLNodeGraphicsInfo.class, "height");
-		xstream.aliasField("Height", XPDLNodeGraphicsInfo.class, "height");
-		xstream.useAttributeFor(XPDLNodeGraphicsInfo.class, "width");
-		xstream.aliasField("Width", XPDLNodeGraphicsInfo.class, "width");
-		xstream.useAttributeFor(XPDLNodeGraphicsInfo.class, "shape");
-		xstream.aliasField("Shape", XPDLNodeGraphicsInfo.class, "shape");
-		xstream.useAttributeFor(XPDLNodeGraphicsInfo.class, "laneId");
-		xstream.aliasField("LaneId", XPDLNodeGraphicsInfo.class, "laneId");
-	}
 
 	public double getHeight() {
 		return height;
@@ -31,10 +22,6 @@ public class XPDLNodeGraphicsInfo extends XPDLGraphicsInfo {
 
 	public String getLaneId() {
 		return laneId;
-	}
-
-	public String getShape() {
-		return shape;
 	}
 	
 	public double getWidth() {
@@ -58,10 +45,6 @@ public class XPDLNodeGraphicsInfo extends XPDLGraphicsInfo {
 
 	public void setLaneId(String lane) {
 		laneId = lane;
-	}
-	
-	public void setShape(String shapeValue) {
-		shape = shapeValue;
 	}
 
 	public void setWidth(double widthValue) {

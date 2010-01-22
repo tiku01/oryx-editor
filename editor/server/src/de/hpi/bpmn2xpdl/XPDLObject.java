@@ -4,42 +4,30 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Object")
 public class XPDLObject extends XMLConvertable {
 	
+	@Element("Categories")
 	protected ArrayList<XPDLCategory> categories;
-	protected String documentation;
+	@Element("Documentation")
+	protected XPDLDocumentation documentation;
+	@Attribute("Id")
 	protected String id;
-	protected String name;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Object", XPDLObject.class);
-		
-		xstream.useAttributeFor(XPDLObject.class, "id");
-		xstream.aliasField("Id", XPDLObject.class, "id");
-		xstream.useAttributeFor(XPDLObject.class, "name");
-		xstream.aliasField("Name", XPDLObject.class, "name");
-		
-		xstream.aliasField("xpdl2:Categories", XPDLObject.class, "categories");
-		xstream.aliasField("xpdl2:Documentation", XPDLObject.class, "documentation");
-	}
 	
 	public ArrayList<XPDLCategory> getCategories() {
 		return categories;
 	}
 	
-	public String getDocumentation() {
+	public XPDLDocumentation getDocumentation() {
 		return documentation;
 	}
 	
 	public String getId() {
 		return id;
-	}
-	
-	public String getName() {
-		return name;
 	}
 
 	public void readJSONcategories(JSONObject modelElement) throws JSONException {
@@ -47,7 +35,7 @@ public class XPDLObject extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put("id", modelElement.optString("id"));
-		passObject.put("name", modelElement.optString("categories"));
+		passObject.put("content", modelElement.optString("categories"));
 		
 		XPDLCategory nextCategory = new XPDLCategory();
 		nextCategory.parse(passObject);
@@ -55,7 +43,10 @@ public class XPDLObject extends XMLConvertable {
 	}
 	
 	public void readJSONdocumentation(JSONObject modelElement) {
-		setDocumentation(modelElement.optString("documentation"));
+		XPDLDocumentation newDocumentation = new XPDLDocumentation();
+		newDocumentation.setContent(modelElement.optString("documentation"));
+		
+		setDocumentation(newDocumentation);
 	}
 	
 	public void readJSONid(JSONObject modelElement) {
@@ -66,16 +57,12 @@ public class XPDLObject extends XMLConvertable {
 		categories = categoriesList;
 	}
 	
-	public void setDocumentation(String documentationValue) {
+	public void setDocumentation(XPDLDocumentation documentationValue) {
 		documentation = documentationValue;
 	}
 	
 	public void setId(String idValue) {
 		id = idValue;
-	}
-	
-	public void setName(String nameValue) {
-		name = nameValue;
 	}
 	
 	protected void initializeCategories() {

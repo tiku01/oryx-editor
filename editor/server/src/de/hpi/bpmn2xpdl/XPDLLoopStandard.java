@@ -1,28 +1,20 @@
 package de.hpi.bpmn2xpdl;
 
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("LoopStandard")
 public class XPDLLoopStandard extends XMLConvertable {
 
+	@Attribute("LoopCondition")
 	protected String loopCondition;
+	@Attribute("LoopCounter")
 	protected String loopCounter;
+	@Attribute("LoopMaximum")
 	protected String loopMaximum;
+	@Attribute("TestTime")
 	protected String testTime;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:LoopStandard", XPDLLoopStandard.class);
-		
-		xstream.useAttributeFor(XPDLLoopStandard.class, "loopCondition");
-		xstream.aliasField("LoopCondition", XPDLLoopStandard.class, "loopCondition");
-		xstream.useAttributeFor(XPDLLoopStandard.class, "loopCounter");
-		xstream.aliasField("LoopCounter", XPDLLoopStandard.class, "loopCounter");
-		xstream.useAttributeFor(XPDLLoopStandard.class, "loopMaximum");
-		xstream.aliasField("LoopMaximum", XPDLLoopStandard.class, "loopMaximum");
-		xstream.useAttributeFor(XPDLLoopStandard.class, "testTime");
-		xstream.aliasField("TestTime", XPDLLoopStandard.class, "testTime");
-	}
 	
 	public String getLoopCondition() {
 		return loopCondition;

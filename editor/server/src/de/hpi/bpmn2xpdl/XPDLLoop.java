@@ -2,25 +2,20 @@ package de.hpi.bpmn2xpdl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
+import org.xmappr.Element;
+import org.xmappr.RootElement;
 
-import com.thoughtworks.xstream.XStream;
-
+@RootElement("Loop")
 public class XPDLLoop extends XMLConvertable {
 	
+	@Attribute("Type")
 	protected String loopType;
 	
+	@Element("LoopStandard")
 	protected XPDLLoopStandard loopStandard;
+	@Element("MultiInstance")
 	protected XPDLMultiInstance multiInstance;
-	
-	public static void registerMapping(XStream xstream) {
-		xstream.alias("xpdl2:Loop", XPDLLoop.class);
-		
-		xstream.useAttributeFor(XPDLLoop.class, "loopType");
-		xstream.aliasField("LoopType", XPDLLoop.class, "loopType");
-		
-		xstream.aliasField("xpdl2:LoopStandard", XPDLLoop.class, "loopStandard");
-		xstream.aliasField("xpdl2:MultiInstance", XPDLLoop.class, "multiInstance");
-	}
 	
 	public XPDLLoopStandard getLoopStandard() {
 		return loopStandard;
