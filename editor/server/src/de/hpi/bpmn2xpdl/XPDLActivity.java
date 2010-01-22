@@ -30,7 +30,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	@Element("Route")
 	protected XPDLRoute route;
 	@Element("Assignments")
-	protected ArrayList<XPDLAssignment> assignments;
+	protected XPDLAssignments assignments;
 	
 	public static boolean handlesStencil(String stencil) {
 		String[] types = {
@@ -82,7 +82,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		return Arrays.asList(types).contains(stencil);
 	}
 	
-	public ArrayList<XPDLAssignment> getAssignments() {
+	public XPDLAssignments getAssignments() {
 		return assignments;
 	}
 	
@@ -272,7 +272,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToRoute(modelElement, "xortype");
 	}
 	
-	public void setAssignments(ArrayList<XPDLAssignment> assignmentsValue) {
+	public void setAssignments(XPDLAssignments assignmentsValue) {
 		assignments = assignmentsValue;
 	}
 	
@@ -322,7 +322,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	protected void initializeAssignments() {
 		if (getAssignments() == null) {
-			setAssignments(new ArrayList<XPDLAssignment>());
+			setAssignments(new XPDLAssignments());
 		}
 	}
 	
