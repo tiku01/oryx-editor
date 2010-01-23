@@ -66,56 +66,53 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 	// Exports CPN - File
 	//
 	exportCPN: function(){
-		// TODO: save?
-		var loc = location.href;
-		var jpdlLoc ;
-		if ( loc.length > 4 && loc.substring(loc.length - 5) == "/self" ) {
-			jpdlLoc = loc.substring(0, loc.length - 5) + this.jPDLExporterUrlSuffix;
-		} else {
-			alert("TODO: Integrate existing export with new models.. ");
-			return ;
-		}
-//		this._doExport( jpdlLoc );
+				
+		// Get the JSON representation which is needed for the mapping 
+		var cpnJson = this.facade.getSerializedJSON();
 		
+		alert("JSON ist extrahiert");
+		
+		// aufpassen Unterstrich bedeutet private Methoden 
+		this._doExportToCPNTools( cpnJson );
 	},
 	
+// ---------------------------------------- Ajax Request --------------------------------
 	
-	// Sends request to a given URL.
-	//
-//	_sendRequest: function( url, method, params, successcallback, failedcallback ){
 
-//		var suc = false;
-//
-//		new Ajax.Request(url, {
-//           method			: method,
-//           asynchronous	: false,
-//           parameters		: params,
-//		   onSuccess		: function(transport) {
-//				
-//				suc = true;
-//				
-//				if(successcallback){
-//					successcallback( transport.responseText )	
-//				}
-//				
-//			}.bind(this),
-//			
-//			onFailure		: function(transport) {
-//
-//				if(failedcallback){
-//					
-//					failedcallback();
-//					
-//				} else {
-//					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedReq);
-//					ORYX.log.warn("Import jPDL failed: " + transport.responseText);	
-//				}
-//				
-//			}.bind(this)		
-//		});
-//		
-//		return suc;		
-//	},
+	_sendRequest: function( url, method, params, successcallback, failedcallback ){
+
+		var suc = false;
+
+		new Ajax.Request(url, {
+           method			: method,
+           asynchronous	: false,
+           parameters		: params,
+		   onSuccess		: function(transport) {
+				
+				suc = true;
+				
+				if(successcallback){
+					successcallback( transport.responseText )	
+				}
+				
+			}.bind(this),
+			
+			onFailure		: function(transport) {
+
+				if(failedcallback){
+					
+					failedcallback();
+					
+				} else {
+					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedReq);
+					ORYX.log.warn("Import jPDL failed: " + transport.responseText);	
+				}
+				
+			}.bind(this)		
+		});
+		
+		return suc;		
+	},
 	
 	
 	// Loads JSON into the editor
@@ -175,30 +172,30 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 //	},
 	
 
+// -------------------------------------------- Export Functions ----------------------------
 	
-	// Opens an export window / tab.
-	//
-//	_doExport: function( url ){
+	_doExportToCPNTools: function( cpnJSON ){
 		
-//		this._sendRequest(
-//			url,
-//			'GET',
-//			{ },
-//			function( result ) { 
-//				var parser = new DOMParser();
-//				var parsedResult = parser.parseFromString(result, "text/xml");
-//				if (parsedResult.firstChild.localName == "error") {
-//					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.expFailedXml + parsedResult.firstChild.firstChild.data);
-//				} else {
-//					this.openXMLWindow(result);
-//				}
-//			}.bind(this),
-//			function() { 
-//				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.expFailedReq);
-//		 	}.bind(this)
-//		)
-//	}, 
-	
+//		this.openDownloadWindow( window.document.title + ".txt", text3 ); // das muss in die onSuccessFunction des Requestes
+		
+		this._sendRequest(
+			ORYX.CONFIG.CPNTOOLSEXPORTER,
+			'POST',
+			{ 
+				data: cpnJSON
+			},
+			function( result ) { 
+				
+//				alert(result);
+				this.openDownloadWindow( window.document.title + ".cpn", result );
+			}.bind(this),
+			function() { 
+				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.expFailedReq);
+		 	}.bind(this)
+		)
+	}, 
+
+// -------------------------------------------- Import Functions ------------------------
 	
 	 // Opens a upload dialog.
 	 //
