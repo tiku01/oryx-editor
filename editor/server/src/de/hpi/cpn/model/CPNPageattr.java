@@ -1,0 +1,37 @@
+package de.hpi.cpn.model;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CPNPageattr
+{
+	
+//	e.g.
+//	<page id="ID6">
+//    	<pageattr name="Tutorial"/>
+//    ...
+    
+	
+	private String name;
+	
+	
+	// ---------------------------------------- Mapping ----------------------------------------
+	
+	public static void registerMapping(XStream xstream)
+	{
+		xstream.alias("pageattr", CPNPageattr.class);
+		
+		xstream.useAttributeFor(CPNPageattr.class, "name");
+	}
+	
+	// ---------------------------------------- Accessory ----------------------------------------
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+
+}
