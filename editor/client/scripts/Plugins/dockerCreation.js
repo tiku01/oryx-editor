@@ -23,6 +23,7 @@ ORYX.Plugins.DockerCreation = Clazz.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOUT, this.handleMouseOut.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEMOVE, this.handleMouseMove.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_DBLCLICK,function(){window.clearTimeout(this.timer)}.bind(this));
 },
 
 /**
@@ -57,10 +58,13 @@ handleMouseOver: function(event, uiObj) {
 handleMouseDown: function(event, uiObj) {	
 	
 	if (uiObj instanceof ORYX.Core.Edge){
-		this.addDockerCommand({
-            edge: uiObj,
-            position: this.facade.eventCoordinates(event)
-        });				
+		window.clearTimeout(this.timer);
+		this.timer=window.setTimeout(function () {
+				this.addDockerCommand({
+		            edge: uiObj,
+		            position: this.facade.eventCoordinates(event)
+		        });			
+			}.bind(this),500);	
 	}		
 },
 
