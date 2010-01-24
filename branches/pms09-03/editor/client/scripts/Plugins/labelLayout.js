@@ -23,6 +23,8 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		this.rotate=false; //true ->Rotation of label is active; False -> Rotation of Label is not active
 		this.State=0; 		//current States for Rotation
 		this.prevState=0;	//previous State for Rotation
+		this.canvasLabel = undefined; //Reference to Canvas
+		this.canvas=false; //true if Reference to Canvas was saved
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
@@ -37,13 +39,18 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		//Visual representation of the Rotationpoint if rotation is active
 		this.rotationPointActive = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
 				['g', {"pointer-events":"none"},
-					['circle', {cx: "8", cy: "8", r: "5", fill:"yellow"}]]);		
+					['circle', {cx: "8", cy: "8", r: "5", fill:"yellow"}]]);
+		
+		this.line = ORYX.Editor.graft("http://www.w3.org/2000/svg", null,
+				['path', {
+					'stroke-width': 1, stroke: 'silver', fill: 'none',
+					'pointer-events': 'none'}]);
 		 
 		 this.facade.offer({
 	            'name': "Label rotate left",
 	            'functionality': this.rotate_left.bind(this),
 	            'group': "Overlay",
-	            'icon': ORYX.PATH + "images/arrow_undo.png",
+	            'icon': ORYX.PATH + "images/rotate_left.png",
 	            'description': "rotate a label left",
 	            'index': 1,
 	            'minShape': 0,
@@ -54,12 +61,13 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 	            'name': "Label rotate right",
 	            'functionality': this.rotate_right.bind(this),
 	            'group': "Overlay",
-	            'icon': ORYX.PATH + "images/arrow_redo.png",
+	            'icon': ORYX.PATH + "images/rotate_right.png",
 	            'description': "rotate a label right",
 	            'index': 1,
 	            'minShape': 0,
 	            'maxShape': 0
 	        });
+		 
 },
 
 /**
@@ -73,6 +81,7 @@ handleMouseOut: function(event, uiObj) {
 	if( uiObj instanceof ORYX.Core.Edge){
 		if(this.myLabel){
 			this.hideRotationPointOverlay();
+			this.hideLine();
 		}
 	 }
 },
@@ -87,17 +96,31 @@ handleMouseOver: function(event, uiObj) {
 		//save the edge for adding rotationpoint	
 		this.rotPointParent=uiObj;
 		
-		//Show the RotationPoint of the label of the current Edge
+		//Show the RotationPoint and line of the label of the current Edge
 		if(this.myLabel && this.myLabel._text!=""){
+			//this.calculateLabelCoordinates();
 			this.calculateRotationPointCoordinates();
-			this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );		
+			this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );	
+			this.showLine();
 		}
+	}
+	//Save Canvas for Reference(used for showing Line between edge and label)
+	if(this.canvas==false){
+		if( uiObj instanceof ORYX.Core.Canvas){
+			this.canvasLabel=uiObj;
+			canvas=true;
+	}
 	}
 },
 
 handleMouseDown: function(event, uiObj) {
 
 	if(this.myLabel){
+		if(uiObj instanceof ORYX.Core.Canvas )
+		{
+			console.log("canvas geklickt");
+		}
+		
 	
 		//save MousePosition
 		var MouseX=this.facade.eventCoordinates(event).x;
@@ -119,11 +142,16 @@ handleMouseDown: function(event, uiObj) {
 			this.calculateRotationPointCoordinates();		
 			
 			//Show RotationPoint
-			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );		
+			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+			
+			//show the Association line
+			this.showLine();
 		}
 		else {
 			//hide RotationPoint
 			this.hideRotationPointOverlay();
+			//hide Association Line
+			this.hideLine();
 		}
 	
 		//Check if Mouse is in the ClickArea of the Label
@@ -186,7 +214,11 @@ handleMouseMove: function(event, uiObj) {
 		this.calculateRotationPointCoordinates();
 		
 		//show RotationPoint
-		this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );		
+		this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+		
+		//Refresh the Line
+		this.hideLine();
+		this.showLine();
 	}
 	
 	//perform the Statevalidation for Rotation
@@ -201,8 +233,20 @@ handleMouseMove: function(event, uiObj) {
 		this.calculateRotationPointCoordinates();
 		
 		//defines the States for Rotation(every 20px there is a new State)
-		if(MouseX<this.rotationPointCoordinates.x-70){
-			this.State=-4;
+		if(MouseX < this.rotationPointCoordinates.x-150 ){
+			this.State=-8;
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-130 && MouseX >= this.rotationPointCoordinates.x-150){
+			this.State=-7;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-110 && MouseX >= this.rotationPointCoordinates.x-130){
+			this.State=-6;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-90 && MouseX >= this.rotationPointCoordinates.x-110){
+			this.State=-5;	
+		}
+		else if (MouseX < this.rotationPointCoordinates.x-70 && MouseX >= this.rotationPointCoordinates.x-90){
+			this.State=-4;	
 		}
 		else if (MouseX < this.rotationPointCoordinates.x-50 && MouseX >= this.rotationPointCoordinates.x-70){
 			this.State=-3;	
@@ -225,8 +269,20 @@ handleMouseMove: function(event, uiObj) {
 		else if (MouseX < this.rotationPointCoordinates.x+70 && MouseX >= this.rotationPointCoordinates.x+50){
 			this.State=3;
 		}
-		else if ( MouseX >= this.rotationPointCoordinates.x+70){
+		else if ( MouseX < this.rotationPointCoordinates.x+90 && MouseX >= this.rotationPointCoordinates.x+70){
 			this.State=4;	
+		}
+		else if ( MouseX < this.rotationPointCoordinates.x+110 && MouseX >= this.rotationPointCoordinates.x+90){
+			this.State=5;	
+		}
+		else if ( MouseX < this.rotationPointCoordinates.x+130 && MouseX >= this.rotationPointCoordinates.x+110){
+			this.State=6;	
+		}
+		else if ( MouseX < this.rotationPointCoordinates.x+150 && MouseX >= this.rotationPointCoordinates.x+130){
+			this.State7;	
+		}
+		else if(MouseX >= this.rotationPointCoordinates.x+150){
+			this.State=8;
 		}
 		
 		//checks the way of moving the Mouse through the states and rotate
@@ -258,7 +314,19 @@ rotate_right:function() {
 	}
 	else if(myRotation == 270||myRotation >270 && myRotation <315){
 		this.myLabel.rotate(315);
-	}	
+	}
+	else if(myRotation == 90||myRotation <135 && myRotation >90){
+		this.myLabel.rotate(135);
+	}
+	else if(myRotation == 135||myRotation <180 && myRotation >135){
+		this.myLabel.rotate(180);
+	}
+	else if(myRotation == 180||myRotation <225 && myRotation >180){
+		this.myLabel.rotate(225);		
+	}
+	else if(myRotation == 225||myRotation <270 && myRotation >225){
+		this.myLabel.rotate(270);
+	}
 	this.myLabel.update();
 },
 
@@ -278,7 +346,19 @@ rotate_left:function() {
 	}
 	else if(myRotation == 90||myRotation <90 && myRotation >45){
 		this.myLabel.rotate(45);
-	}	
+	}
+	else if(myRotation == 135||myRotation <135 && myRotation >90){
+		this.myLabel.rotate(90);
+	}
+	else if(myRotation == 180||myRotation <180 && myRotation >135){
+		this.myLabel.rotate(135);
+	}
+	else if(myRotation == 225||myRotation <225 && myRotation >180){
+		this.myLabel.rotate(180);
+	}
+	else if(myRotation == 270||myRotation <270 && myRotation >225){
+		this.myLabel.rotate(225);
+	}
 	this.myLabel.update();	
 },
 
@@ -325,8 +405,8 @@ hideOverlayActive: function() {
 //set the Coordinates of the RotationPoint
 calculateRotationPointCoordinates: function(){
 	this.labelLength=this.myLabel._estimateTextWidth(this.myLabel._text,14);
-	this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/2;
-	this.rotationPointCoordinates.y=this.LabelY-30;	
+	this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/3;
+	this.rotationPointCoordinates.y=this.LabelY-35;	
 },
 
 //set the Coordinates of the Label
@@ -335,6 +415,34 @@ calculateLabelCoordinates: function(){
 	this.LabelY=this.myLabel.y;
 	this.LabelXArea=this.LabelX+this.labelLength+10;
 	this.LabelYArea=this.LabelY-20;	
+},
+
+//show the Association Line between Edge and Label
+showLine: function() {
+
+	var x= this.rotPointParent.dockers[0].bounds.b.x-8;
+	var y= this.rotPointParent.dockers[0].bounds.b.y-8;
+	
+	//Set the Position of the Line
+	this.line.setAttributeNS(null, 'd', 'M'+x+' '+y+' L '+this.LabelX+' '+this.LabelY);
+
+
+	this.facade.raiseEvent({
+		type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
+		id: 			"line",
+		shapes: 		[this.canvasLabel],
+		node:			this.line,
+		position:		"northeast",
+		dontCloneNode:	true
+	});
+	
+},
+
+hideLine: function() {
+	this.facade.raiseEvent({
+		type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
+		id: "line"
+	});
 }
 
 });
