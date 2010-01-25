@@ -76,15 +76,16 @@ public abstract class XPDLThing extends XMLConvertable {
 	public void readJSONbgcolor(JSONObject modelElement) throws JSONException {
 	}
 	
-	public void readJSONdockers(JSONObject modelElement) {
+	public void readJSONdockers(JSONObject modelElement) throws JSONException {
 		JSONArray dockers = modelElement.optJSONArray("dockers");
 		
 		if (dockers != null) {
-			for (int i = 0; i < dockers.length(); i++) {
-				JSONObject docker = dockers.optJSONObject(i);
+			if (dockers.length() >= 2) {
+				JSONObject firstDocker = dockers.optJSONObject(0);
+				createExtendedAttribute("docker" + 0 + "X", firstDocker.optString("x"));
 				
-				createExtendedAttribute("docker" + i + "X", docker.optString("x"));
-				createExtendedAttribute("docker" + i + "Y", docker.optString("y"));
+				JSONObject lastDocker = dockers.optJSONObject(dockers.length()-1);
+				createExtendedAttribute("docker" + String.valueOf(dockers.length()-1) + "Y", lastDocker.optString("y"));
 			}
 		}
 	}

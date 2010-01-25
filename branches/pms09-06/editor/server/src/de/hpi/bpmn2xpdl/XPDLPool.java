@@ -1,6 +1,5 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -25,7 +24,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	protected String orientation = "HORIZONTAL";
 	
 	@Element("Lanes")
-	protected ArrayList<XPDLLane> lanes;
+	protected XPDLLanes lanes;
 	
 	public static boolean handlesStencil(String stencil) {
 		String[] types = {
@@ -42,7 +41,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		return boundaryVisible;
 	}
 	
-	public ArrayList<XPDLLane> getLanes() {
+	public XPDLLanes getLanes() {
 		return lanes;
 	}
 	
@@ -72,22 +71,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
-		JSONArray childShapes = modelElement.optJSONArray("childShapes");
-		
-		if(childShapes != null) {
-			for(int i = 0; i < childShapes.length(); i++) {
-				JSONObject childShape = childShapes.getJSONObject(i);
-				String stencil = childShape.getJSONObject("stencil").getString("id");
-				
-				if(XPDLLane.handlesStencil(stencil)) {
-					readJSONresourceId(modelElement);
-					childShape.put("parentpool", getProperId(modelElement));
-					createLane(childShape);
-				} else {
-					readJSONchildShapes(modelElement);
-				}
-			}
-		}
+		addLanes(modelElement, getProperId(modelElement), "pool");
 	}
 
 	public void readJSONenableinstancecompensation(JSONObject modelElement) {
@@ -151,7 +135,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		boundaryVisible = visibility;
 	}
 	
-	public void setLanes(ArrayList<XPDLLane> lanesValue) {
+	public void setLanes(XPDLLanes lanesValue) {
 		lanes = lanesValue;
 	}
 	
@@ -167,12 +151,41 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		process = processValue;
 	}
 	
-	protected void createLane(JSONObject modelElement) {
+	protected void addLanes(JSONObject modelElement, String parentId, String parentType) throws JSONException {
+		JSONArray childShapes = modelElement.optJSONArray("childShapes");
+		
+		if(childShapes != null) {
+			for(int i = 0; i < childShapes.length(); i++) {
+				JSONObject childShape = childShapes.optJSONObject(i);
+				String stencil = childShape.optJSONObject("stencil").optString("id");
+				
+				if(XPDLLane.handlesStencil(stencil)) {
+					childShape.put("parent" + parentType, parentId);
+					XPDLLane nextLane = createLane(childShape);
+					
+					addLanes(childShape, nextLane.getId(), "lane");
+				} else if (XPDLTransition.handlesStencil(stencil)) {
+					passToAccodingProcess(childShape);
+					addLanes(childShape, parentId, parentType);
+				} else if (XPDLActivity.handlesStencil(stencil)) {
+					passToAccodingProcess(childShape);
+					addLanes(childShape, parentId, parentType);
+				} else {
+					addLanes(childShape, parentId, parentType);
+				}
+			}
+		}
+		
+	}
+	
+	protected XPDLLane createLane(JSONObject modelElement) {
 		initializeLanes();
 		
 		XPDLLane nextLane = new XPDLLane();
 		nextLane.parse(modelElement);
 		getLanes().add(nextLane);
+		
+		return nextLane;
 	}
 	
 	protected String getProperId(JSONObject modelElement) {
@@ -185,7 +198,17 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	
 	protected void initializeLanes() {
 		if(getLanes() == null) {
-			setLanes(new ArrayList<XPDLLane>());
+			setLanes(new XPDLLanes());
 		}
+	}
+	
+	protected void passToAccodingProcess(JSONObject modelElement) throws JSONException {
+		JSONArray childShapes = new JSONArray();
+		childShapes.put(modelElement);
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("childShapes", childShapes);
+		
+		getAccordingProcess().parse(passObject);
 	}
 }

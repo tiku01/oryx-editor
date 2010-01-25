@@ -38,8 +38,8 @@ public class XPDLMultiInstance extends XMLConvertable {
 		return complexMi_flowCondition;
 	}
 	
-	public void readJSONcomplex_micondition(JSONObject modelElement) {
-		setComplexMi_flowCondition(modelElement.optString("complex_micondition"));
+	public void readJSONcomplexmi_condition(JSONObject modelElement) {
+		setComplexMi_flowCondition(modelElement.optString("complexmi_condition"));
 	}
 	
 	public void readJSONloopcounter(JSONObject modelElement) {

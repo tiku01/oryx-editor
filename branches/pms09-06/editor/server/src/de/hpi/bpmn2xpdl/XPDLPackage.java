@@ -110,7 +110,7 @@ public class XPDLPackage extends XPDLThing {
 				String stencil = childShape.getJSONObject("stencil").getString("id");
 				
 				if  (XPDLActivity.handlesStencil(stencil)) {
-					createProcessChild(childShape);
+					createMainProcessChild(childShape);
 				} else if (XPDLArtifact.handlesStencil(stencil)) {
 					createArtifact(childShape);
 				} else if (XPDLAssociation.handlesStencil(stencil)) {
@@ -120,7 +120,7 @@ public class XPDLPackage extends XPDLThing {
 				} else if (XPDLPool.handlesStencil(stencil)) {
 					createPool(childShape);
 				} else if (XPDLTransition.handlesStencil(stencil)) {
-					createProcessChild(childShape);
+					createMainProcessChild(childShape);
 				}
 				readJSONchildShapes(childShape);
 			}
@@ -266,18 +266,19 @@ public class XPDLPackage extends XPDLThing {
 		initializeWorkflowProcesses();
 		
 		XPDLPool nextPool = new XPDLPool();
+		XPDLWorkflowProcess accordingProcess = new XPDLWorkflowProcess();
+		nextPool.setAccordingProcess(accordingProcess);
+		
 		nextPool.parse(modelElement);
 		getPools().add(nextPool);
 		
-		XPDLWorkflowProcess accordingProcess = new XPDLWorkflowProcess();
 		accordingProcess.parse(modelElement);
 		getWorkflowProcesses().add(accordingProcess);
 		
-		nextPool.setAccordingProcess(accordingProcess);
 		return nextPool;
 	}
 	
-	protected void createProcessChild(JSONObject modelElement) throws JSONException {
+	protected void createMainProcessChild(JSONObject modelElement) throws JSONException {
 		initializeMainPool();
 		
 		JSONArray childShapesArray = new JSONArray();

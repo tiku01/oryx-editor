@@ -1,12 +1,10 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 
@@ -22,6 +20,8 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	protected String startActivity;
 	@Attribute("StartQuantity")
 	protected String startQuantity;
+	@Attribute("Status")
+	protected String status;
 	
 	@Element("Event")
 	protected XPDLEvent event;
@@ -29,6 +29,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	protected XPDLLoop loop;
 	@Element("Route")
 	protected XPDLRoute route;
+	@Element("BlockActivity")
+	protected XPDLBlockActivity blockActivity;
+	@Element("Documentation")
+	protected XPDLDocumentation documentation;
 	@Element("Assignments")
 	protected XPDLAssignments assignments;
 	
@@ -75,10 +79,12 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 				"EndSignalEvent",
 				"EndTerminateEvent",
 				
-				//Activities
+				//Task
+				"Task",
+				
+				//Subprocesses
 				"CollapsedSubprocess",
-				"Subprocess",
-				"Task"};
+				"Subprocess"};
 		return Arrays.asList(types).contains(stencil);
 	}
 	
@@ -86,8 +92,16 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		return assignments;
 	}
 	
+	public XPDLBlockActivity getBlockActivity() {
+		return blockActivity;
+	}
+
 	public String getCompletionQuantity() {
 		return completionQuantity;
+	}
+	
+	public XPDLDocumentation getDocumentation() {
+		return documentation;
 	}
 	
 	public XPDLEvent getEvent() {
@@ -118,6 +132,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		return startQuantity;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	
 	public void readJSONassignments(JSONObject modelElement) throws JSONException {
 		JSONArray items = modelElement.optJSONObject("assignments").optJSONArray("items");
 		
@@ -131,8 +149,22 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		}
 	}
 	
+	public void readJSONactivity(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "activity");
+	}
+	
+	public void readJSONactivitytype(JSONObject modelElement) {
+		createExtendedAttribute("activitytype", modelElement.optString("activitytype"));
+	}
+	
 	public void readJSONactivityref(JSONObject modelElement) {
 		createExtendedAttribute("activityref", modelElement.optString("activityref"));
+	}
+	
+	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
+	}
+	
+	public void readJSONadhocordering(JSONObject modelElement) {
 	}
 	
 	public void readJSONcompletionquantity(JSONObject modelElement) {
@@ -140,19 +172,61 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONcomplexmi_condition(JSONObject modelElement) throws JSONException {
-		passInformationToLoop(modelElement, "complex_micondition");
+		passInformationToLoop(modelElement, "complexmi_condition");
 	}
 	
-	public void readJSONconditionref(JSONObject modelElement) {
-		createExtendedAttribute("conditionref", modelElement.optString("conditionref"));
+	public void readJSONcondition(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "conditionref");
+	}
+	
+	public void readJSONconditionref(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "conditionref");
+	}
+	
+	public void readJSONdocumentation(JSONObject modelElement) {
+		XPDLDocumentation doc = new XPDLDocumentation();
+		doc.setContent(modelElement.optString("documentation"));
+		
+		setDocumentation(doc);
+	}
+	
+	public void readJSONdefaultgate(JSONObject modelElement) {
+		createExtendedAttribute("defaultgate", modelElement.optString("defaultgate"));
 	}
 	
 	public void readJSONdiagramref(JSONObject modelElement) {
 		createExtendedAttribute("diagramref", modelElement.optString("diagramref"));
 	}
 	
+	public void readJSONentry(JSONObject modelElement) {
+	}
+	
+	public void readJSONerrorcode(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "errorcode");
+	}
+	
 	public void readJSONeventtype(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "eventtype");
+	}
+	
+	public void readJSONgates(JSONObject modelElement) {
+		createExtendedAttribute("gates", modelElement.optString("gates"));
+	}
+	
+	public void readJSONgate_assignments(JSONObject modelElement) {
+		createExtendedAttribute("gate_assignments", modelElement.optString("gate_assignments"));
+	}
+	
+	public void readJSONgates_assignments(JSONObject modelElement) {
+		createExtendedAttribute("gates_assignments", modelElement.optString("gates_assignments"));
+	}
+	
+	public void readJSONgate_outgoingsequenceflow(JSONObject modelElement) {
+		createExtendedAttribute("gate_outgoingsequenceflow", modelElement.optString("gate_outgoingsequenceflow"));
+	}
+	
+	public void readJSONgates_outgoingsequenceflow(JSONObject modelElement) {
+		createExtendedAttribute("gates_outgoingsequenceflow", modelElement.optString("gates_outgoingsequenceflow"));
 	}
 	
 	public void readJSONgatewaytype(JSONObject modelElement) throws JSONException {
@@ -160,11 +234,24 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONimplementation(JSONObject modelElement) throws JSONException {
-		passInformationToEvent(modelElement, "implementation");
+		if (!modelElement.optString("eventtype").equals("")) {
+			passInformationToEvent(modelElement, "implementation");
+		}
 	}
 		
 	public void readJSONincomingcondition(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "incomingcondition");
+	}
+	
+	public void readJSONinmessage(JSONObject modelElement) {
+		createExtendedAttribute("inmessage", modelElement.optString("inmessage"));
+	}
+	
+	public void readJSONinputmaps(JSONObject modelElement) {
+	}
+	
+	public void readJSONinputs(JSONObject modelElement) {
+		createExtendedAttribute("inputs", modelElement.optString("inputs"));
 	}
 	
 	public void readJSONinputsets(JSONObject modelElement) {
@@ -179,9 +266,19 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	public void readJSONiorules(JSONObject modelElement) {
 		createExtendedAttribute("iorules", modelElement.optString("iorules"));
 	}
+	
+	public void readJSONisadhoc(JSONObject modelElement) {
+	}
+	
+	public void readJSONisatransaction(JSONObject modelElement) {
+	}
 		
 	public void readJSONiscompensation(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "iscompensation");
+	}
+	
+	public void readJSONlinkid(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "linkid");
 	}
 	
 	public void readJSONloopcondition(JSONObject modelElement) throws JSONException {
@@ -201,15 +298,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONloopmaximum(JSONObject modelElement) throws JSONException {
-		passInformationToLoop(modelElement, "loopmaxmimum");
-	}
-	
-	public void readJSONmessageref(JSONObject modelElement) {
-		createExtendedAttribute("messageref", modelElement.optString("messageref"));
-	}
-	
-	public void readJSONmi_ordering(JSONObject modelElement) throws JSONException {
-		passInformationToLoop(modelElement, "mi_ordering");
+		passInformationToLoop(modelElement, "loopmaximum");
 	}
 	
 	public void readJSONlooptype(JSONObject modelElement) throws JSONException {
@@ -228,28 +317,84 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToLoop(modelElement, "mi_flowcondition");
 	}
 	
+	public void readJSONmessage(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "message");
+	}
+	
+	public void readJSONmessageref(JSONObject modelElement) {
+		createExtendedAttribute("messageref", modelElement.optString("messageref"));
+	}
+	
+	public void readJSONmi_ordering(JSONObject modelElement) throws JSONException {
+		passInformationToLoop(modelElement, "mi_ordering");
+	}
+	
 	public void readJSONoutgoingcondition(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "outgoingcondition");
+	}
+	
+	public void readJSONoutmessage(JSONObject modelElement) {
+		createExtendedAttribute("outmessage", modelElement.optString("outmessage"));
+	}
+	
+	public void readJSONoutputs(JSONObject modelElement) {
+		createExtendedAttribute("outputs", modelElement.optString("outputs"));
+	}
+	
+	public void readJSONoutputmaps(JSONObject modelElement) {
 	}
 	
 	public void readJSONoutputsets(JSONObject modelElement) {
 		createExtendedAttribute("outputsets", modelElement.optString("outputsets"));
 	}
 	
+	public void readJSONperformers(JSONObject modelElement) {
+		createExtendedAttribute("performers", modelElement.optString("performers"));
+	}
+	
 	public void readJSONprocessref(JSONObject modelElement) {
 		createExtendedAttribute("processref", modelElement.optString("processref"));
+	}
+	
+	public void readJSONproperties(JSONObject modelElement) throws JSONException {
+		try{
+			JSONObject properties = modelElement.optJSONObject("properties");
+			properties.put("resourceId", getProperId(modelElement));
+			properties.put("stencil", modelElement.optJSONObject("stencil").optString("id"));
+			parse(properties);
+		} catch (Exception e) {
+			//dirty hack: Event could be MultiInstance and may have a different subkey properties
+		}
 	}
 	
 	public void readJSONresult(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "result");
 	}
 	
+	public void readJSONscript(JSONObject modelElement) {
+		createExtendedAttribute("script", modelElement.optString("script"));
+	}
+	
+	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "signalref");
+	}
+	
 	public void readJSONstartquantity(JSONObject modelElement) {
 		setStartQuantity(modelElement.optString("startquantity"));
 	}
 	
-	public void readJSONsignalref(JSONObject modelElement) {
-		createExtendedAttribute("signalref", modelElement.optString("signalref"));
+	public void readJSONstatus(JSONObject modelElement) {
+		setStatus(modelElement.optString("status"));
+	}
+	
+	public void readJSONsubprocesstype(JSONObject modelElement) throws JSONException {
+		setBlockActivity(new XPDLBlockActivity());
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("id", getProperId(modelElement));
+		passObject.put("subprocesstype", modelElement.optString("subprocesstype"));
+		
+		getBlockActivity().parse(passObject);
 	}
 
 	public void readJSONtarget(JSONObject modelElement) {
@@ -260,12 +405,31 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		createExtendedAttribute("taskref", modelElement.optString("taskref"));
 	}
 	
+	public void readJSONtasktype(JSONObject modelElement) {
+	}
+	
 	public void readJSONtesttime(JSONObject modelElement) throws JSONException {
 		passInformationToLoop(modelElement, "testtime");
 	}
 	
+	public void readJSONtimecycle(JSONObject modelElement) throws JSONException {
+		System.out.println();
+		passInformationToEvent(modelElement, "timecycle");
+	}
+	
+	public void readJSONtimedate(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "timedate");
+	}
+	
+	public void readJSONtransaction(JSONObject modelElement) {
+	}
+	
 	public void readJSONtrigger(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "trigger");
+	}
+	
+	public void readJSONtriggers(JSONObject modelElement) {
+		createExtendedAttribute("triggers", modelElement.optString("triggers"));
 	}
 	
 	public void readJSONxortype(JSONObject modelElement) throws JSONException {
@@ -276,8 +440,16 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		assignments = assignmentsValue;
 	}
 	
+	public void setBlockActivity(XPDLBlockActivity blockActivity) {
+		this.blockActivity = blockActivity;
+	}
+
 	public void setCompletionQuantity(String quantity) {
 		completionQuantity = quantity;
+	}
+	
+	public void setDocumentation(XPDLDocumentation documentationValue) {
+		documentation = documentationValue;
 	}
 	
 	public void setEvent(XPDLEvent eventValue) {
@@ -306,6 +478,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void setStartQuantity(String quantity) {
 		startQuantity = quantity;
+	}
+	
+	public void setStatus(String statusValue) {
+		status = statusValue;
 	}
 	
 	protected void createAssignment(JSONObject modelElement) throws JSONException {
@@ -345,32 +521,40 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	protected void passInformationToEvent(JSONObject modelElement, String key) throws JSONException {
-		initializeEvent();
+		if (modelElement.optString("stencil").contains("Event")) {
+			initializeEvent();
 		
-		JSONObject eventPassObject = new JSONObject();
-		eventPassObject.put(key, modelElement.optString(key));
-		eventPassObject.put("eventtype", modelElement.optString("eventtype"));
+			JSONObject eventPassObject = new JSONObject();
+			eventPassObject.put(key, modelElement.optString(key));
+			eventPassObject.put("eventtype", modelElement.optString("eventtype"));
+			eventPassObject.put("stencil", modelElement.optString("stencil"));
 		
-		getEvent().parse(eventPassObject);
+			getEvent().parse(eventPassObject);
+		}
 	}
 	
 	protected void passInformationToLoop(JSONObject modelElement, String key) throws JSONException {
-		if (!modelElement.optString("looptype").equals("None")) {
-			initializeLoop();
+		if (modelElement.optString("stencil").contains("Task")) {
+			if (!modelElement.optString("looptype").equals("None")) {
+				initializeLoop();
 		
-			JSONObject loopPassObject = new JSONObject();
-			loopPassObject.put(key, modelElement.optString(key));
+				JSONObject loopPassObject = new JSONObject();
+				loopPassObject.put(key, modelElement.optString(key));
+				loopPassObject.put("looptype", modelElement.optString("looptype"));
 		
-			getLoop().parse(loopPassObject);
+				getLoop().parse(loopPassObject);
+			}
 		}
 	}
 	
 	protected void passInformationToRoute(JSONObject modelElement, String key) throws JSONException {
-		initializeRoute();
+		if (modelElement.optString("stencil").contains("Gateway")) {
+			initializeRoute();
 		
-		JSONObject routePassObject = new JSONObject();
-		routePassObject.put(key, modelElement.optString(key));
+			JSONObject routePassObject = new JSONObject();
+			routePassObject.put(key, modelElement.optString(key));
 
-		getRoute().parse(routePassObject);
+			getRoute().parse(routePassObject);
+		}
 	}
 }

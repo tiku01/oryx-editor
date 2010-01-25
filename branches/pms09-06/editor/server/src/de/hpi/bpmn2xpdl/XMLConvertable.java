@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.xmappr.Element;
 
 public abstract class XMLConvertable {
-
+	
 	@SuppressWarnings("unchecked")
 	@Element("*")
 	protected ArrayList unknowns;

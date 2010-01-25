@@ -1360,7 +1360,7 @@
                 "eventtype": "Intermediate",
                 "trigger": "Link",
                 "target": "",
-                "linkid": "",
+                "linkid": "asd",
                 "processref": "",
                 "bgcolor": "#ffffff"
             },
@@ -1462,7 +1462,7 @@
                 "lanes": "",
                 "eventtype": "End",
                 "result": "Error",
-                "errorcode": "",
+                "errorcode": "asd",
                 "bgcolor": "#ffffff"
             },
             "stencil": {
@@ -1683,6 +1683,14 @@
                     "x": 76,
                     "y": 948
                 },
+				{
+                    "x": 1,
+                    "y": 1
+                },
+				{
+                    "x": 2,
+                    "y": 2
+                },
                 {
                     "x": 276,
                     "y": 948
@@ -1698,7 +1706,7 @@
                 "documentation": "",
                 "source": "",
                 "target": "",
-                "message": ""
+                "message": "abc"
             },
             "stencil": {
                 "id": "MessageFlow"

@@ -1,7 +1,5 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -12,13 +10,13 @@ import org.xmappr.RootElement;
 public class XPDLObject extends XMLConvertable {
 	
 	@Element("Categories")
-	protected ArrayList<XPDLCategory> categories;
+	protected XPDLCategories categories;
 	@Element("Documentation")
 	protected XPDLDocumentation documentation;
 	@Attribute("Id")
 	protected String id;
 	
-	public ArrayList<XPDLCategory> getCategories() {
+	public XPDLCategories getCategories() {
 		return categories;
 	}
 	
@@ -53,7 +51,7 @@ public class XPDLObject extends XMLConvertable {
 		setId(modelElement.optString("id")+"-object");
 	}
 	
-	public void setCategories(ArrayList<XPDLCategory> categoriesList) {
+	public void setCategories(XPDLCategories categoriesList) {
 		categories = categoriesList;
 	}
 	
@@ -67,7 +65,7 @@ public class XPDLObject extends XMLConvertable {
 	
 	protected void initializeCategories() {
 		if (getCategories() == null) {
-			setCategories(new ArrayList<XPDLCategory>());
+			setCategories(new XPDLCategories());
 		}
 	}
 }

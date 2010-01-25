@@ -7,13 +7,13 @@ import org.xmappr.Text;
 public class XPDLDocumentation extends XMLConvertable {
 
 	@Text
-		protected String content;
+	protected String content;
 
-		public String getContent() {
-			return content;
-		}
+	public String getContent() {
+		return content;
+	}
 
-		public void setContent(String content) {
-			this.content = content;
-		}
+	public void setContent(String content) {
+		this.content = content;
+	}
 }

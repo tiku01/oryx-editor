@@ -26,7 +26,31 @@ public class XPDLEvent extends XMLConvertable {
 	public XPDLStartEvent getStartEvent() {
 		return startEvent;
 	}
+	
+	public void readJSONactivity(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "activity");
+		}
+	}
 
+	public void readJSONcondition(JSONObject modelElement) throws JSONException {
+		passInformationToIntermediateEvent(modelElement, "condition");
+	}
+	
+	public void readJSONconditionref(JSONObject modelElement) throws JSONException {
+		passInformationToStartEvent(modelElement, "conditionref");
+	}
+	
+	public void readJSONerrorcode(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("End")) {
+			passInformationToEndEvent(modelElement, "errorcode");
+		} else if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "errorcode");
+		}
+	}
+	
 	public void readJSONeventtype(JSONObject modelElement) {
 		String typeOfEvent = modelElement.optString("eventtype");
 		if (typeOfEvent.equals("End")) {
@@ -41,16 +65,61 @@ public class XPDLEvent extends XMLConvertable {
 	public void readJSONimplementation(JSONObject modelElement) throws JSONException {
 		String typeOfEvent = modelElement.optString("eventtype");
 		if (typeOfEvent.equals("End")) {
-			passInformationToEndEvent(modelElement, "trigger");
+			passInformationToEndEvent(modelElement, "implementation");
 		} else if (typeOfEvent.equals("Intermediate")) {
-			passInformationToIntermediateEvent(modelElement, "trigger");
+			passInformationToIntermediateEvent(modelElement, "implementation");
 		} else if (typeOfEvent.equals("Start")) {
-			passInformationToStartEvent(modelElement, "trigger");
+			passInformationToStartEvent(modelElement, "implementation");
+		}
+	}
+	
+	public void readJSONlinkid(JSONObject modelElement) throws JSONException {
+		passInformationToIntermediateEvent(modelElement, "linkid");
+	}
+	
+	public void readJSONmessage(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "message");
+		} else if (typeOfEvent.equals("Start")) {
+			passInformationToStartEvent(modelElement, "message");
 		}
 	}
 	
 	public void readJSONresult(JSONObject modelElement) throws JSONException {
 		passInformationToEndEvent(modelElement, "result");
+	}
+	
+	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("Start")) {
+			passInformationToStartEvent(modelElement, "signalref");
+		} else if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "signalref");
+		} else if (typeOfEvent.equals("End")) {
+			passInformationToEndEvent(modelElement, "signalref");
+		}
+	}
+	
+	public void readJSONstencil(JSONObject modelElement) {
+	}
+	
+	public void readJSONtimecycle(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "timecycle");
+		} else if (typeOfEvent.equals("Start")) {
+			passInformationToStartEvent(modelElement, "timecycle");
+		}
+	}
+	
+	public void readJSONtimedate(JSONObject modelElement) throws JSONException {
+		String typeOfEvent = modelElement.optString("eventtype");
+		if (typeOfEvent.equals("Intermediate")) {
+			passInformationToIntermediateEvent(modelElement, "timedate");
+		} else if (typeOfEvent.equals("Start")) {
+			passInformationToStartEvent(modelElement, "timedate");
+		}
 	}
 	
 	public void readJSONtrigger(JSONObject modelElement) throws JSONException {
@@ -106,6 +175,7 @@ public class XPDLEvent extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
+		passObject.put("stencil", modelElement.optString("stencil"));
 		
 		getIntermediateEvent().parse(passObject);
 	}
@@ -115,6 +185,7 @@ public class XPDLEvent extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
+		passObject.put("stencil", modelElement.optString("stencil"));
 		
 		getStartEvent().parse(passObject);
 	}

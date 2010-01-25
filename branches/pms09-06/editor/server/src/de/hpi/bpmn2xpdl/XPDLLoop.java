@@ -29,6 +29,10 @@ public class XPDLLoop extends XMLConvertable {
 		return multiInstance;
 	}
 	
+	public void readJSONcomplexmi_condition(JSONObject modelElement) throws JSONException {
+		passInformationToMI(modelElement, "complexmi_condition");
+	}
+	
 	public void readJSONloopcondition(JSONObject modelElement) throws JSONException {
 		passInformationToStandard(modelElement, "loopcondition");
 	}
@@ -90,7 +94,8 @@ public class XPDLLoop extends XMLConvertable {
 	}
 	
 	protected void passInformationToMI(JSONObject modelElement, String key) throws JSONException {
-		if (!modelElement.optString("looptype").equals("None")) {
+		String loopType = modelElement.optString("looptype");
+		if (loopType.equals("MultiInstance")) {
 			initializeMultiInstance();
 		
 			JSONObject passObject = new JSONObject();
@@ -101,7 +106,8 @@ public class XPDLLoop extends XMLConvertable {
 	}
 	
 	protected void passInformationToStandard(JSONObject modelElement, String key) throws JSONException {
-		if (!modelElement.optString("looptype").equals("None")) {
+		String loopType = modelElement.optString("looptype");
+		if (loopType.equals("Standard")) {
 			initializeLoopStandard();
 		
 			JSONObject passObject = new JSONObject();
