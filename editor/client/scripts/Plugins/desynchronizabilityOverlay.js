@@ -39,7 +39,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.DesynchronizabilityOverlay.name,
             'functionality': this.showOverlay.bind(this),
             'group': ORYX.I18N.DesynchronizabilityOverlay.group,
-            'icon': ORYX.PATH + "images/bpmn2pn.png",
+            'icon': ORYX.PATH + "images/bpmn2pn_deploy.png",
             'description': ORYX.I18N.DesynchronizabilityOverlay.desc,
             'index': 3,
             'minShape': 0,
@@ -62,7 +62,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 			
 
 		try {
-			var serialized_rdf =this.getRDFFromDom();
+			var serialized_rdf =this.getRDFFromDOM();
 //			serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
 			
 			// Send the request to the server.

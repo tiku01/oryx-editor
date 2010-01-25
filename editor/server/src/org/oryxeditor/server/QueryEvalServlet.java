@@ -55,7 +55,7 @@ import com.bpmnq.compliancechecker.TemporalQueryGraph;
 
 public class QueryEvalServlet extends HttpServlet {
     private static final long serialVersionUID = -7946509291423453168L;
-    private static final boolean useDataBaseConnection = true;
+    private static final boolean useDataBaseConnection = false;
     private Logger log = Logger.getLogger(this.getClass());
     private Map<QueryGraph,String> queryMatches = new HashMap<QueryGraph,String>(); 
     /* (non-Javadoc)

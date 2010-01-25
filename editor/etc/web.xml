@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
@@ -129,7 +129,15 @@
 			org.oryxeditor.server.DesynchronizabilityServlet
 		</servlet-class>
 	</servlet>
-	
+	<servlet>
+		<display-name>
+			Oryx Enforceability Checker
+		</display-name>
+		<servlet-name>EnforceabilityServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.EnforceabilityServlet
+		</servlet-class>
+	</servlet>
 	<servlet>
 		<display-name>
 			BPEL 2 BPMN Transformation
@@ -448,7 +456,10 @@
 		<servlet-name>DesynchronizabilityServlet</servlet-name>
 		<url-pattern>/desynchronizability</url-pattern>
 	</servlet-mapping>
-    
+    <servlet-mapping>
+		<servlet-name>EnforceabilityServlet</servlet-name>
+		<url-pattern>/enforceability</url-pattern>
+	</servlet-mapping>
     <servlet-mapping>
         <servlet-name>RDF2JSONServlet</servlet-name>
         <url-pattern>/rdf2json</url-pattern>
