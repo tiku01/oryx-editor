@@ -22,9 +22,10 @@ public class BPMN2XPDLConverter {
 		
 		Xmappr xmappr = new Xmappr(XPDLPackage.class);
 		xmappr.setPrettyPrint(true);
+		xmappr.addNamespace("http://www.wfmc.org/2008/XPDL2.1");
 		xmappr.toXML(newPackage, writer);
 		
-		return writer.toString();
+		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + writer.toString();
 	}
 	
 	public String importXPDL(String xml) {

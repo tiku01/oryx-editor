@@ -39,7 +39,8 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 		initializeMessage();
 		
 		JSONObject messageType = new JSONObject();
-		messageType.put("id", modelElement.optString("message"));
+		messageType.put("id", getProperId(modelElement));
+		messageType.put("message", modelElement.optString("message"));
 		
 		getMessage().parse(messageType);
 	}

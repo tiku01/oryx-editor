@@ -27,6 +27,8 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	@Attribute("SuppressJoinFailure")
 	protected String suppressJoinFailure;
 	
+	@Element("ActivitySets")
+	protected XPDLActivitySets activitySets;
 	@Element("Activities")
 	protected XPDLActivities  activities;
 	@Element("Transitions")
@@ -34,6 +36,10 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	
 	public XPDLActivities getActivities() {
 		return activities;
+	}
+	
+	public XPDLActivitySets getActivitySets() {
+		return activitySets;
 	}
 	
 	public String getAdhoc() {
@@ -98,12 +104,13 @@ public class XPDLWorkflowProcess extends XPDLThing {
 				JSONObject childShape = childShapes.getJSONObject(i);
 				String stencil = childShape.getJSONObject("stencil").getString("id");
 				
-				if (XPDLTransition.handlesStencil(stencil)) {
+				if (XPDLActivitySet.handlesStencil(stencil)) {
+					createActivitySet(childShape);
+				} else if (XPDLTransition.handlesStencil(stencil)) {
 					createTransition(childShape);
 				} else if (XPDLActivity.handlesStencil(stencil)) {
 					createActivity(childShape);
 				}
-				readJSONchildShapes(childShape);
 			}
 		}
 	}
@@ -181,6 +188,10 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		activities = activitiesList;
 	}
 	
+	public void setActivitySets(XPDLActivitySets sets) {
+		activitySets = sets;
+	}
+	
 	public void setAdhoc(String adhocValue) {
 		adhoc = adhocValue;
 	}
@@ -225,6 +236,24 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		getActivities().add(nextActivity);
 	}
 	
+	protected void createActivitySet(JSONObject modelElement) throws JSONException {
+		initializeActivitySets();
+		
+		XPDLActivitySet nextSet = new XPDLActivitySet();
+		JSONObject passObject = new JSONObject();
+		
+		passObject.put("childShapes", modelElement.optJSONArray("childShapes"));
+		passObject.put("adhoccompletioncondition", modelElement.optString("adhoccompletioncondition"));
+		passObject.put("adhocordering", modelElement.optString("adhocordering"));
+		passObject.put("isadhoc", modelElement.optString("isadhoc"));
+		passObject.put("id", getProperId(modelElement));
+		
+		nextSet.parse(passObject);
+		getActivitySets().add(nextSet);
+		
+		createActivity(modelElement);
+	}
+	
 	protected void createTransition(JSONObject modelElement) {
 		initializeTransitions();
 		
@@ -236,6 +265,12 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	protected void initializeActivities() {
 		if (getActivities() == null) {
 			setActivities(new XPDLActivities());
+		}
+	}
+	
+	protected void initializeActivitySets() {
+		if (getActivitySets() == null) {
+			setActivitySets(new XPDLActivitySets());
 		}
 	}
 	
