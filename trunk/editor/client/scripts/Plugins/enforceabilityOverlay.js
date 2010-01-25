@@ -23,7 +23,7 @@
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
-ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
+ORYX.Plugins.EnforceabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 
     facade: undefined,
     
@@ -36,11 +36,11 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 		this.callback = undefined;
 		
         this.facade.offer({
-            'name': ORYX.I18N.DesynchronizabilityOverlay.name,
+            'name': "Enforceability",
             'functionality': this.showOverlay.bind(this),
-            'group': ORYX.I18N.DesynchronizabilityOverlay.group,
-            'icon': ORYX.PATH + "images/bpmn2pn_deploy.png",
-            'description': ORYX.I18N.DesynchronizabilityOverlay.desc,
+            'group': "Enforceability",
+            'icon': ORYX.PATH + "images/checker_validation.png",
+            'description': "enforce?",
             'index': 3,
             'minShape': 0,
             'maxShape': 0
@@ -54,7 +54,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 			
 			this.facade.raiseEvent({
 				type: 	ORYX.CONFIG.EVENT_OVERLAY_HIDE,
-				id: 	"desynchronizability"
+				id: 	"enforceability"
 			});
 			this.active = !this.active;				
 
@@ -66,7 +66,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 //			serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
 			
 			// Send the request to the server.
-			new Ajax.Request(ORYX.CONFIG.DESYNCHRONIZABILITY_URL, {
+			new Ajax.Request(ORYX.CONFIG.ENFORCEABILITY_URL, {
 				method: 'POST',
 				asynchronous: false,
 				parameters: {
@@ -87,7 +87,7 @@ ORYX.Plugins.DesynchronizabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
 	
 						this.facade.raiseEvent({
 							type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
-							id: 			"desynchronizability",
+							id: 			"enforceability",
 							shapes: 		transitionshapes,
 							attributes: 	{fill: "red", stroke: "black"}
 						});
