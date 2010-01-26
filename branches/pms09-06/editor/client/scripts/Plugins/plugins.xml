@@ -296,8 +296,12 @@
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
-
+		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+		</plugin>
+			
 	</plugins>
+	
 	
 	<properties>
 		<property group="File" index="1" />
