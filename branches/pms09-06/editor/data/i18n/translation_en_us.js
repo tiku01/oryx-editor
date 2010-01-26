@@ -490,6 +490,8 @@ Ext.MessageBox.buttonText.ok = "OK";
 if(!ORYX.I18N.BPMN2XPDL) ORYX.I18N.BPMN2XPDL = {};
 ORYX.I18N.BPMN2XPDL.group = "Export";
 ORYX.I18N.BPMN2XPDL.xpdlExport = "Export to XPDL";
+ORYX.I18N.BPMN2XPDL.xpdlImport = "Import from XPDL";
+ORYX.I18N.BPMN2XPDL.importGroup = "Import";
 
 /** Resource Perspective Additions: 24 March 2009 */
 if(!ORYX.I18N.ResourcesSoDAdd) ORYX.I18N.ResourcesSoDAdd = {};
