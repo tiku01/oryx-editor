@@ -120,6 +120,11 @@ handleMouseDown: function(event, uiObj) {
 		{
 			console.log("canvas geklickt");
 		}
+		if(uiObj instanceof ORYX.Core.SVG.Label)
+		{
+			console.log("Label geklickt");
+		}
+
 		
 	
 		//save MousePosition
@@ -135,7 +140,17 @@ handleMouseDown: function(event, uiObj) {
 			//Set LabelPosition to MousePosition
 			this.myLabel.x=MouseX;
 			this.myLabel.y=MouseY;
+			if(this.myLabel._rotationPoint){
+				//console.log(this.myLabel._rotationPoint);
+				this.myLabel._rotationPoint.x=MouseX;
+				this.myLabel._rotationPoint.y=MouseY;
+			}
 			this.myLabel.update();
+			console.log(this.myLabel);
+			console.log(this.myLabel._rotate);
+
+			
+			//this.myLabel._rotate
 		
 			//Refresh Coordinates
 			this.calculateLabelCoordinates();
@@ -203,22 +218,25 @@ handleMouseMove: function(event, uiObj) {
 
 	//if label is selected label Posision is set to MousePosition
 	if(this.labelSelected==true){
+		if(this.myLabel){
+			//Set Label positon
+			this.myLabel.x=this.facade.eventCoordinates(event).x+5;
+			this.myLabel.y=this.facade.eventCoordinates(event).y-5;
+			this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
+			this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
+			this.myLabel.update();
 		
-		//Set Label positon
-		this.myLabel.x=this.facade.eventCoordinates(event).x+5;
-		this.myLabel.y=this.facade.eventCoordinates(event).y-5;
-		this.myLabel.update();
+			//refresh Coordinates
+			this.calculateLabelCoordinates();
+			this.calculateRotationPointCoordinates();
 		
-		//refresh Coordinates
-		this.calculateLabelCoordinates();
-		this.calculateRotationPointCoordinates();
+			//show RotationPoint
+			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
 		
-		//show RotationPoint
-		this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
-		
-		//Refresh the Line
-		this.hideLine();
-		this.showLine();
+			//Refresh the Line
+			this.hideLine();
+			this.showLine();
+		}
 	}
 	
 	//perform the Statevalidation for Rotation
@@ -288,12 +306,17 @@ handleMouseMove: function(event, uiObj) {
 		//checks the way of moving the Mouse through the states and rotate
 		if(this.State>this.prevState){
 			this.rotate_right();
+			//console.log(this.myLabel._rotationPoint);
 			this.prevState=this.State;
 		}
 		else if(this.State<this.prevState){
 			this.rotate_left();
+			//console.log(this.myLabel._rotationPoint);
 			this.prevState=this.State;
-		}		
+		}
+		//this.myLabel._rotationPoint.x=this.LabelX;
+		//this.myLabel._rotationPoint.y=this.LabelY;
+		//console.log(this.myLabel._rotationPoint);
 	}
 },
 
@@ -301,31 +324,32 @@ handleMouseMove: function(event, uiObj) {
 //rotate the label to the right with 45° (clockwise)
 rotate_right:function() {
 
+	var myRotPoint= {x:this.LabelX, y:this.LabelY};
 	var myRotation= this.myLabel._rotate;
 	
 	if(myRotation==0 || myRotation < 45 && myRotation > 0 || myRotation == 360){
-		this.myLabel.rotate(45);
+		this.myLabel.rotate(45, myRotPoint);
 	}
 	else if(myRotation==45 || myRotation <90 && myRotation > 45){
-		this.myLabel.rotate(90);
+		this.myLabel.rotate(90, myRotPoint);
 	}
 	else if(myRotation == 315||myRotation >315 && myRotation <360){
-		this.myLabel.rotate(360);
+		this.myLabel.rotate(360,myRotPoint);
 	}
 	else if(myRotation == 270||myRotation >270 && myRotation <315){
-		this.myLabel.rotate(315);
+		this.myLabel.rotate(315,myRotPoint);
 	}
 	else if(myRotation == 90||myRotation <135 && myRotation >90){
-		this.myLabel.rotate(135);
+		this.myLabel.rotate(135,myRotPoint);
 	}
 	else if(myRotation == 135||myRotation <180 && myRotation >135){
-		this.myLabel.rotate(180);
+		this.myLabel.rotate(180,myRotPoint);
 	}
 	else if(myRotation == 180||myRotation <225 && myRotation >180){
-		this.myLabel.rotate(225);		
+		this.myLabel.rotate(225,myRotPoint);		
 	}
 	else if(myRotation == 225||myRotation <270 && myRotation >225){
-		this.myLabel.rotate(270);
+		this.myLabel.rotate(270,myRotPoint);
 	}
 	this.myLabel.update();
 },
@@ -333,31 +357,32 @@ rotate_right:function() {
 //rotate the label to the left with 45° (anticlockwise)
 rotate_left:function() {
 
+	var myRotPoint= {x:this.LabelX, y:this.LabelY};
 	var myRotation= this.myLabel._rotate;
 	
 	if(myRotation==0 || myRotation < 360 && myRotation > 315 || myRotation == 360){
-		this.myLabel.rotate(315);
+		this.myLabel.rotate(315,myRotPoint);
 	}
 	else if(myRotation==315 || myRotation <315 && myRotation > 270){
-		this.myLabel.rotate(270);
+		this.myLabel.rotate(270,myRotPoint);
 	}
 	else if(myRotation == 45||myRotation <45 && myRotation >0){
-		this.myLabel.rotate(360);
+		this.myLabel.rotate(360,myRotPoint);
 	}
 	else if(myRotation == 90||myRotation <90 && myRotation >45){
-		this.myLabel.rotate(45);
+		this.myLabel.rotate(45,myRotPoint);
 	}
 	else if(myRotation == 135||myRotation <135 && myRotation >90){
-		this.myLabel.rotate(90);
+		this.myLabel.rotate(90,myRotPoint);
 	}
 	else if(myRotation == 180||myRotation <180 && myRotation >135){
-		this.myLabel.rotate(135);
+		this.myLabel.rotate(135,myRotPoint);
 	}
 	else if(myRotation == 225||myRotation <225 && myRotation >180){
-		this.myLabel.rotate(180);
+		this.myLabel.rotate(180,myRotPoint);
 	}
 	else if(myRotation == 270||myRotation <270 && myRotation >225){
-		this.myLabel.rotate(225);
+		this.myLabel.rotate(225,myRotPoint);
 	}
 	this.myLabel.update();	
 },
