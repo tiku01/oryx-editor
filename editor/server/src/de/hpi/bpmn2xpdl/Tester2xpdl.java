@@ -17,13 +17,13 @@ public class Tester2xpdl {
 		String jsonString = readFile(path + "import000.xml");
 		long start = System.currentTimeMillis();
 		BPMN2XPDLConverter converter = new BPMN2XPDLConverter();
-		try {
-			System.out.println(converter.exportXPDL(jsonString));
-			writeFile("test.xml", converter.exportXPDL(jsonString));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-//		converter.importXPDL(jsonString);
+//		try {
+//			System.out.println(converter.exportXPDL(jsonString));
+//			writeFile("test.xml", converter.exportXPDL(jsonString));
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+		converter.importXPDL(jsonString);
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}
