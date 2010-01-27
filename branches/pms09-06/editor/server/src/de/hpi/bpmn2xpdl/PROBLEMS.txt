@@ -4,10 +4,9 @@ XPDL-Problems:
 	* Gateway, Event, Activity ist eine Entität
 	* Subprocesses heißen Activity Sets
 	* Transitions
-	* Pools, Processes und Subprocesses haben Kinder, Lanes nicht auch keine Referenzen
-	* Subprocesses sind auch Processes vielleicht auch in WorkflowProcesses eingliedern (sehr unsicher ob das möglich ist)?!
+	* Pools, Processes und Subprocesses haben Kinder, Lanes nicht auch keine Referenzen // implizit durch nodegraphic und bei flows durch verbundene objekte
 - Package/activity Documentation ist ein extra tag, sonst in Object
-- Condition Type ist anders als der von Oryx(/BPMN?)
+- Condition Type ist anders als der von Oryx(/BPMN?) //nochmal nach anschauen
 
 Oryx-Problems:
 
@@ -26,7 +25,7 @@ Oryx-Problems:
 - Multiples in Events lassen sich nicht abbilden, da die Triggers beliebig beschrieben können und somit nicht auf die kinder des tags schließen kann
 - Activities MÜSSEN bei mehreren outgoings eigentlich ein splittag haben (TransitionRestrictions) mit einer Reihenfolge der Pfade, wie sie ausgewertet werden -> wie von Oryx übersetzen?
 - entry im Subprocess/Collapsed Sub
-- Transaction lässt sich auch nicht abbilden -> erwartet strukturierte Information in einer Activity
+- Transaction lässt sich auch nicht abbilden -> erwartet strukturierte Information in einer Activity //awesome
 - Input und Output Maps im Subprocess... what for?
 
 Code-Probleme:

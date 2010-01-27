@@ -2,22 +2,33 @@ package de.hpi.bpmn2xpdl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Attribute;
 import org.xmappr.Element;
 
 public abstract class XMLConvertable {
 	
 	@SuppressWarnings("unchecked")
-	@Element("*")
-	protected ArrayList unknowns;
+	@Attribute("*")
+	protected HashMap unknownAttributes = new HashMap();
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList getUnknowns() {
-		return unknowns;
+	@Element("*")
+	protected ArrayList unknownChildren;
+	
+	@SuppressWarnings("unchecked")
+	public HashMap getUnknownAttributes() {
+		return unknownAttributes;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList getUnknownChildren() {
+		return unknownChildren;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -44,8 +55,13 @@ public abstract class XMLConvertable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setUnknowns(ArrayList unknownElements) {
-		unknowns = unknownElements;
+	public void setUnknownAttributes(HashMap unknowns) {
+		unknownAttributes = unknowns;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setUnknownChildren(ArrayList unknownElements) {
+		unknownChildren = unknownElements;
 	}
 
 	protected boolean hasJSONMethod(String methodName) {
