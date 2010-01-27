@@ -195,6 +195,10 @@ public class JSONBuilder {
 					Integer value = Integer.parseInt(propertyValue);
 					propertiesObject.put(key, value);
 				
+				} else if (propertyValue.startsWith("{") && propertyValue.endsWith("}"))
+				{
+					propertiesObject.put(key, new JSONObject(propertyValue));
+					
 				} else {
 					propertiesObject.put(key, propertyValue.toString());
 				}
