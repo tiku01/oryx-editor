@@ -1,5 +1,6 @@
 package de.hpi.cpn.model;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -13,6 +14,72 @@ public class CPNArcRelations
 	private Hashtable<String, String> sourceTable = new Hashtable<String, String>();
 	private Hashtable<String, String> targetTable = new Hashtable<String, String>();
 	
+	// Name �ndern
+	public void fillPlace(CPNPage tempPage)
+	{
+		ArrayList<CPNArc> arcs = tempPage.getArcs();
+		
+		for (int i = 0; i < arcs.size(); i++)
+		{
+			if (i == 23)
+			{
+				int j = 0;
+			}
+			CPNArc tempArc = arcs.get(i);
+			if (tempArc != null)
+			{
+				String source = "", target = "";
+				String orientation = tempArc.getOrientation();
+				if (orientation.equals("PtoT"))
+				{
+					source = tempArc.getPlaceend().getIdref();
+					target = tempArc.getTransend().getIdref();					
+				}
+				else if (orientation.equals("TtoP"))
+				{
+					source = tempArc.getTransend().getIdref();
+					target = tempArc.getPlaceend().getIdref();
+				}
+				else if (orientation.equals("BOTHDIR"))
+				{
+					CPNArc arcTtoP = CPNArc.newCPNArc(tempArc);
+					arcTtoP.setOrientation("TtoP");
+					
+					CPNArc arcPtoT = CPNArc.newCPNArc(tempArc);
+					arcPtoT.setId(tempArc.getId() + i + i); // ich mache 2 um die wahrscheinlichkeit das es eindeutig ist zu erh�hen;
+					arcPtoT.setOrientation("PtoT");
+					
+					arcs.add(arcPtoT);
+					arcs.add(arcTtoP);
+					arcs.remove(i);
+					i--;
+					continue;
+				}
+				
+				getSourceTable().put(tempArc.getId(), source);
+				getTargetTable().put(tempArc.getId(), target);
+			}			
+		}
+		
+		tempPage.setArcs(arcs);
+	}
+	
+	public ArrayList<String> getSourcesFor(String valueToSearchFor)
+	{
+		Enumeration<String> tempEnumeration = getSourceTable().keys();
+		ArrayList<String> result = new ArrayList<String>();	
+		
+		while (tempEnumeration.hasMoreElements())
+		{
+			String key = tempEnumeration.nextElement();
+			String value = (String) getSourceTable().get(key);
+			
+			if (value.equals(valueToSearchFor))
+				result.add(key);			
+		}
+		
+		return result;
+	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
 		JSONArray childShapes = modelElement.optJSONArray("childShapes");

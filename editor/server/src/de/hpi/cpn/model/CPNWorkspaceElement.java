@@ -13,8 +13,6 @@ public class CPNWorkspaceElement extends XMLConvertable
    private CPNGenerator generator = new CPNGenerator();
    private CPNCpnet cpnet = new CPNCpnet();
    
-   
-
    // ---------------------------------------- Mapping ----------------------------------------
 	
    public static void registerMapping(XStream xstream)
@@ -31,7 +29,6 @@ public class CPNWorkspaceElement extends XMLConvertable
    {
 	   getCpnet().parse(modelElement);
    }
-   
    
    
    // ---------------------------------------- Accessory -----------------------------------------

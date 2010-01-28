@@ -2,7 +2,6 @@ package de.hpi.cpn.model;
 
 import java.util.ArrayList;
 
-
 import com.thoughtworks.xstream.XStream;
 
 public class CPNOptions

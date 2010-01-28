@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
+
 public class CPNPage extends XMLConvertable
 {
 	
@@ -21,6 +22,8 @@ public class CPNPage extends XMLConvertable
 //			...
 //	</page>
 		
+	private transient String auxtag, grouptag;
+	
 	private CPNArcRelations arcRelation = new CPNArcRelations();
 	// not needed for mapping; only helper Variable
 	
@@ -40,13 +43,16 @@ public class CPNPage extends XMLConvertable
 		xstream.useAttributeFor(CPNPage.class, "idattri");
 		xstream.aliasAttribute(CPNPage.class, "idattri", "id");
 		
-		xstream.addImplicitCollection(CPNPage.class, "places");
-		xstream.addImplicitCollection(CPNPage.class, "transitions");
-		xstream.addImplicitCollection(CPNPage.class, "arcs");
+		xstream.addImplicitCollection(CPNPage.class, "places", CPNPlace.class);
+		xstream.addImplicitCollection(CPNPage.class, "transitions", CPNTransition.class);
+		xstream.addImplicitCollection(CPNPage.class, "arcs", CPNArc.class);
 		
 		xstream.registerConverter(new CPNTextConverter());
 		
 		xstream.omitField(CPNPage.class, "arcRelation");
+		
+		xstream.aliasField("Aux", CPNPage.class, "auxtag");
+		xstream.aliasField("group", CPNPage.class, "grouptag");
 		
 		CPNPageattr.registerMapping(xstream);
 		CPNModellingThing.registerMapping(xstream);

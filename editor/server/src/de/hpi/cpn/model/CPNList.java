@@ -7,19 +7,14 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
-public class CPNProduct
+public class CPNList
 {
-	
-	private ArrayList<String> ids;
+	private String id;
 	
 	// ------------------------------------------ Mapping ------------------------------------------
 	public static void registerMapping(XStream xstream)
 	{
-	   xstream.alias("product", CPNProduct.class);
-	   
-	   xstream.alias("id", String.class);
-	   
-	   xstream.addImplicitCollection(CPNProduct.class, "ids", String.class);
+	   xstream.alias("list", CPNList.class);
 	}
 	
 	// -------------------------------------------- Helper ----------------------------------------
@@ -36,20 +31,13 @@ public class CPNProduct
 	}
 
 	// ------------------------------------------ Accessory --------------------------------------
-	public void setIds(ArrayList<String> ids)
+	public void setIds(String id)
 	{
-		this.ids = ids;
+		this.id = id;
 	}
-	public ArrayList<String> getIds()
+	public String getIds()
 	{
-		return ids;
+		return this.id;
 	}
-	public void addId(String id)
-	{
-		getIds().add(id);
-	}
-	public String getId(int index)
-	{
-		return getIds().get(index);
-	}
+
 }
