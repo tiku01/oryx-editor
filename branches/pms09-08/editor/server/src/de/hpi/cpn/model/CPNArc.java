@@ -8,6 +8,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNArc extends CPNModellingThing
 {
+	private transient String bendpointtag;
 	
 	private String orientation;
 	private String order = "1";
@@ -22,10 +23,13 @@ public class CPNArc extends CPNModellingThing
 	public static void registerMapping(XStream xstream)
 	{
 		xstream.alias("arc", CPNArc.class);
-				
+		
+		xstream.aliasField("bendpoint", CPNArc.class, "bendpointtag");
+	
 		xstream.useAttributeFor(CPNArc.class, "orientation");
 		xstream.useAttributeFor(CPNArc.class, "order");
 	}
+	
 	
 	// ------------------------------------------- JSON Reader --------------------------------
 	
@@ -68,6 +72,25 @@ public class CPNArc extends CPNModellingThing
 	public static boolean handlesStencil(String stencil)
 	{		
 		return stencil.equals("Arc");
+	}
+	
+	public static CPNArc newCPNArc(CPNArc arc)
+	{
+		CPNArc tempArc = new CPNArc();
+		
+		tempArc.setAnnot(arc.getAnnot());
+		tempArc.setArrowattr(arc.getArrowattr());
+		tempArc.setFillattr(arc.getFillattr());
+		tempArc.setId(arc.getId());
+		tempArc.setLineattr(arc.getLineattr());
+		tempArc.setOrder(arc.getOrder());
+		tempArc.setOrientation(arc.getOrientation());
+		tempArc.setPlaceend(arc.getPlaceend());
+		tempArc.setPosattr(arc.getPosattr());
+		tempArc.setTextattr(arc.getTextattr());
+		tempArc.setTransend(arc.getTransend());
+		
+		return tempArc;
 	}
 	
 	// ---------------------------------------- Accessory ------------------------------

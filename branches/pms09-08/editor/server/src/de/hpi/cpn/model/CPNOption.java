@@ -1,7 +1,6 @@
 package de.hpi.cpn.model;
 
 
-
 public class CPNOption
 {
    private String name;

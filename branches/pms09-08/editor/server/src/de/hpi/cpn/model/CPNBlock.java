@@ -41,8 +41,8 @@ public class CPNBlock extends XMLConvertable
 		
 		xstream.useAttributeFor(CPNBlock.class, "idattri");
 		
-		xstream.addImplicitCollection(CPNBlock.class, "vars");
-		xstream.addImplicitCollection(CPNBlock.class, "colors");
+		xstream.addImplicitCollection(CPNBlock.class, "vars", CPNVariable.class);
+		xstream.addImplicitCollection(CPNBlock.class, "colors", CPNColor.class);
 		
 		CPNColor.registerMapping(xstream);
 		CPNVariable.registerMapping(xstream);

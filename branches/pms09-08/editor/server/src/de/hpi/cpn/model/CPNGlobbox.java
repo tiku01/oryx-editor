@@ -32,6 +32,8 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNGlobbox extends XMLConvertable
 {	
+	private transient String mltag;
+	
 	private ArrayList<CPNColor> colors = new ArrayList<CPNColor>();
 	private ArrayList<CPNVariable> vars = new ArrayList<CPNVariable>();
 	private ArrayList<CPNBlock> blocks = new ArrayList<CPNBlock>();
@@ -72,9 +74,11 @@ public class CPNGlobbox extends XMLConvertable
 	{
 	   xstream.alias("globbox", CPNGlobbox.class);
 	   
-	   xstream.addImplicitCollection(CPNGlobbox.class, "colors");
-	   xstream.addImplicitCollection(CPNGlobbox.class, "vars");
-	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks");
+	   xstream.aliasField("ml", CPNGlobbox.class, "mltag");
+	   
+	   xstream.addImplicitCollection(CPNGlobbox.class, "colors", CPNColor.class);
+	   xstream.addImplicitCollection(CPNGlobbox.class, "vars", CPNVariable.class);
+	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks", CPNBlock.class);
 	   
 	   // this instance variables are not needed for the mapping
 	   // that's why they are excluded

@@ -9,6 +9,8 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNCpnet extends XMLConvertable 
 { 
+	private transient String instancestag, optionstag, binderstag, monitorblocktag, indexnodetag;
+	
 	private CPNGlobbox globbox = new CPNGlobbox(); // Variabes Colors
 	// Pages for all the nets
 	private ArrayList<CPNPage> pages = new ArrayList<CPNPage>(); 
@@ -25,7 +27,15 @@ public class CPNCpnet extends XMLConvertable
 	{
 		xstream.alias("cpnet", CPNCpnet.class);
 		
-		xstream.addImplicitCollection(CPNCpnet.class, "pages");
+		xstream.addImplicitCollection(CPNCpnet.class, "pages", CPNPage.class);
+		
+
+		xstream.aliasField("instances", CPNCpnet.class, "instancestag");
+		xstream.aliasField("options", CPNCpnet.class, "optionstag");
+		xstream.aliasField("binders", CPNCpnet.class, "binderstag");
+		xstream.aliasField("monitorblock", CPNCpnet.class, "monitorblocktag");
+		xstream.aliasField("IndexNode", CPNCpnet.class, "indexnodetag");
+		
 		
 		
 		CPNGlobbox.registerMapping(xstream);

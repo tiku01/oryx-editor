@@ -72,10 +72,10 @@ public class CPNVariable extends XMLConvertable
 		return idtag;
 	}
 
-	private void setType(CPNVarType type) {
+	public void setType(CPNVarType type) {
 		this.type = type;
 	}
-	private CPNVarType getType() {
+	public CPNVarType getType() {
 		return type;
 	}
 
@@ -85,13 +85,10 @@ public class CPNVariable extends XMLConvertable
 	public String getIdattri() {
 		return idattri;
 	}
-
-
+	
 	public void setLayout(String layout) {
 		this.layout = layout;
 	}
-
-
 	public String getLayout() {
 		return layout;
 	}

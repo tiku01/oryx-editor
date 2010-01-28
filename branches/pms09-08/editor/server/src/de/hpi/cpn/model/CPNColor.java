@@ -19,6 +19,9 @@ public class CPNColor extends XMLConvertable
 //    <layout>colset NameAlter = product Name * Alter;</layout>
 //  </color>
 	
+	// things I cannot support
+	private transient String mltag, alias;
+	
 	private String idattri;
 	private String idtag;
 
@@ -26,6 +29,8 @@ public class CPNColor extends XMLConvertable
 	private CPNProduct producttag;
 	private CPNInteger integertag;
 	private CPNBoolean booleantag;
+	private CPNList listtag;
+	private CPNUnit unittag;
 	
 	private String layout;
 	
@@ -37,16 +42,18 @@ public class CPNColor extends XMLConvertable
 	   
 	   xstream.aliasField("id", CPNColor.class, "idattri");
 	   xstream.aliasField("id", CPNColor.class, "idtag");
-	   xstream.aliasField("boolean", CPNColor.class, "booleantag");
+	   xstream.aliasField("bool", CPNColor.class, "booleantag");
 	   xstream.aliasField("string", CPNColor.class, "stringtag");
 	   xstream.aliasField("int", CPNColor.class, "integertag");
 	   xstream.aliasField("product", CPNColor.class, "producttag");
+	   xstream.aliasField("list", CPNColor.class, "listtag");
+	   xstream.aliasField("unit", CPNColor.class, "unittag");
 	   
 	   xstream.useAttributeFor(CPNColor.class, "idattri");
 	   
-	   xstream.addImplicitCollection(CPNGlobbox.class, "colors");
-	   xstream.addImplicitCollection(CPNGlobbox.class, "vars");
-	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks");
+//	   xstream.addImplicitCollection(CPNGlobbox.class, "colors");
+//	   xstream.addImplicitCollection(CPNGlobbox.class, "vars");
+//	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks");
 	   
 	   
 	   CPNString.registerMapping(xstream);
@@ -133,6 +140,12 @@ public class CPNColor extends XMLConvertable
 		setLayout(layoutText);
 	}
 	
+	// must be implmented
+	private void addList(JSONObject modelElement) throws JSONException
+	{
+		CPNList tempList = new CPNList();
+	}
+	
 	// ---------------------------------------- Accessory ----------------------------------------
 
 	public void setIdattri(String idattri) {
@@ -149,10 +162,10 @@ public class CPNColor extends XMLConvertable
 		return idtag;
 	}
 
-	private void setLayout(String layout) {
+	public void setLayout(String layout) {
 		this.layout = layout;
 	}
-	private String getLayout() {
+	public String getLayout() {
 		return layout;
 	}
 
@@ -186,6 +199,22 @@ public class CPNColor extends XMLConvertable
 
 	public CPNBoolean getBooleantag() {
 		return booleantag;
+	}
+
+	public void setListtag(CPNList listtag) {
+		this.listtag = listtag;
+	}
+
+	public CPNList getListtag() {
+		return listtag;
+	}
+
+	public void setUnittag(CPNUnit unittag) {
+		this.unittag = unittag;
+	}
+
+	public CPNUnit getUnittag() {
+		return unittag;
 	}
 
 	

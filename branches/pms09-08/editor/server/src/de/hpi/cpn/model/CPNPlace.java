@@ -17,7 +17,7 @@ public class CPNPlace extends CPNModellingThing
 	private CPNLittleProperty token = CPNLittleProperty.token();	
 	private CPNLittleProperty marking = CPNLittleProperty.marking();
 	private CPNProperty type = new CPNProperty();
-	private CPNProperty initmark = new CPNProperty();	
+	private CPNProperty initmark = new CPNProperty();	// aufpassen beim Export k�nnen es auch merh sein
 	
 	
 	
