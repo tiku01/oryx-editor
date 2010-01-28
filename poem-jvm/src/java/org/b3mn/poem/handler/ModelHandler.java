@@ -39,8 +39,31 @@ public class ModelHandler extends  HandlerBase {
 
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
-		response.sendRedirect("/oryx/editor#"+object.getUri());
+		String profileName=null;
+		try {
+			Representation representation = object.read();
+			String stencilSet=representation.getType();
+			Pattern p = Pattern.compile("/([^/]+)#");
+			Matcher matcher = p.matcher(stencilSet);
+			if(matcher.find()){
+				profileName=props.getProperty("org.b3mn.poem.handler.ModelHandler.profileFor."+matcher.group(1));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
+		if(profileName==null)
+			profileName="default";
+		
+	    String queryString = request.getQueryString();   // d=789
+	    if (queryString != null) {
+			response.sendRedirect("/oryx/editor;"+profileName+"?"+queryString+"#"+object.getUri());
 
+	        }
+	    else{
+			response.sendRedirect("/oryx/editor;"+profileName+"#"+object.getUri());
+
+	    }
+	        
 //		Representation representation = object.read();
 //		
 //		String content = 
