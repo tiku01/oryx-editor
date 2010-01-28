@@ -23,7 +23,11 @@
 
 package org.b3mn.poem.handler;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +40,22 @@ import org.b3mn.poem.util.RestrictAccess;
 
 @HandlerWithModelContext(uri="/self", filterBrowser=true)
 public class ModelHandler extends  HandlerBase {
-
+	Properties props=null;
+	@Override
+	public void init() {
+		//Load properties
+		FileInputStream in;
+		
+		//initialize properties from backend.properties
+		try {
+			
+			in = new FileInputStream(this.getBackendRootDirectory() + "/WEB-INF/backend.properties");
+			props = new Properties();
+			props.load(in);
+			in.close();
+		}catch (Exception e) {
+		}
+	}
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
 		String profileName=null;
@@ -63,23 +82,6 @@ public class ModelHandler extends  HandlerBase {
 			response.sendRedirect("/oryx/editor;"+profileName+"#"+object.getUri());
 
 	    }
-	        
-//		Representation representation = object.read();
-//		
-//		String content = 
-//	        "<script type='text/javascript'>" +
-//              "function onOryxResourcesLoaded(){" +
-//                "ORYX.Editor.createByUrl('" + getRelativeServerPath(request) + object.getUri() + "/json', {"+
-//                  "id: 'oryx-canvas123'" +
-//          		"});" +
-//          	  "}" +
-//          	"</script>";
-//		response.setContentType("application/xhtml+xml");
-//		
-//		response.getWriter().println(this.getOryxModel(representation.getTitle(), 
-//				content, this.getLanguageCode(request), 
-//				this.getCountryCode(request)));
-//		response.setStatus(200);
 	}
 	
 	@Override
