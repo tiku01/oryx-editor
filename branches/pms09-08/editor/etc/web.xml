@@ -388,6 +388,12 @@
 		<servlet-class>org.oryxeditor.server.CPNToolsExporter</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<display-name>CPN Tools to Colored Petri Net</display-name>
+		<servlet-name>CPNToolsImporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.CPNToolsImporter</servlet-class>
+	</servlet>
+	
 	<!-- Gerardo's Posts finished -->
 
     <!-- Servlet Mappings -->
@@ -625,6 +631,11 @@
 	<servlet-mapping>
 		<servlet-name>CPNToolsExporter</servlet-name>
 		<url-pattern>/cpntoolsexporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>CPNToolsImporter</servlet-name>
+		<url-pattern>/cpntoolsimporter</url-pattern>
 	</servlet-mapping>
 	<!-- Gerardo's Mapping finished -->
 	
