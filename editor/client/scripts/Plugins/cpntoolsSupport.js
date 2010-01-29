@@ -45,6 +45,17 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'minShape': 		0,
 			'maxShape': 		0
 		});
+		
+		this.facade.offer({
+			'name':				"Pages",
+			'functionality': 	this.testWindowOpen.bind(this),
+			'group': 			"CPNTools",
+			'icon': 			ORYX.PATH + "images/cpn/cpn_button.png",
+			'description': 		"CPNTools",
+			'index': 			1,
+			'minShape': 		0,
+			'maxShape': 		0
+		});
 
 	},
 	
@@ -55,6 +66,23 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 //		return this.isStencilSetExtensionLoaded(this.stencilSetExtensionNamespace);
 //	},
 
+	
+	// Test
+	
+	testWindowOpen: function()
+	{
+		var allJSON = "aaaaaaa;;;bbbbbbb;;;ccccccc";
+		
+		var allJSONParts = allJSON.split(";;;");
+		
+		allJSON = "aaaaaaa";
+		
+		allJSONParts = allJSON.split(";;;");
+		
+		var win = window.open();
+		
+		var i = 9;
+	},
 	
 	// Imports CPN - File
 	//	 
@@ -69,8 +97,6 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 				
 		// Get the JSON representation which is needed for the mapping 
 		var cpnJson = this.facade.getSerializedJSON();
-		
-		alert("JSON ist extrahiert");
 		
 		// aufpassen Unterstrich bedeutet private Methoden 
 		this._doExportToCPNTools( cpnJson );
@@ -117,41 +143,49 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 	
 	// Loads JSON into the editor
 	//
-//	_loadJSON: function( jsonString ){
-		
-//		if (jsonString) {
-//			var jsonObj = jsonString.evalJSON();
-//			if( jsonObj && this._hasStencilset(jsonObj) ) {
-//				if ( this._isJpdlStencilSetExtensionLoaded() ) {
-//					this.facade.importJSON(jsonString);
-//				} else {
-//					Ext.MessageBox.confirm(
-//						ORYX.I18N.jPDLSupport.loadSseQuestionTitle,
-//						ORYX.I18N.jPDLSupport.loadSseQuestionBody,
-//						function(btn){
-//							if (btn == 'yes') {
-//								
-//								if (this.loadStencilSetExtension(this.stencilSetNamespace, this.stencilSetExtensionDefinition)){
-//									this.facade.importJSON(jsonString);
-//								} else {
-//									this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-//								}
-//								
-//							} else {
-//								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJsonAbort);
-//							}
-//						},
-//						this
-//					);
-//				}
-//				
-//			} else {
-//				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-//			}
-//		} else {
-//			this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-//		}
-//	},
+	_loadJSON: function( jsonString )
+	{		
+		if (jsonString)
+		{
+			var jsonObj = jsonString.evalJSON();
+			if( jsonObj && this._hasStencilset(jsonObj) ) 
+			{
+				if ( this._isJpdlStencilSetExtensionLoaded() ) 
+				{
+					this.facade.importJSON(jsonString);
+				}
+				else
+				{
+					Ext.MessageBox.confirm(
+						ORYX.I18N.jPDLSupport.loadSseQuestionTitle,
+						ORYX.I18N.jPDLSupport.loadSseQuestionBody,
+						function(btn){
+							if (btn == 'yes') {
+								
+								if (this.loadStencilSetExtension(this.stencilSetNamespace, this.stencilSetExtensionDefinition)){
+									this.facade.importJSON(jsonString);
+								} else {
+									this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
+								}
+								
+							} else {
+								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJsonAbort);
+							}
+						},
+						this
+					);
+				}				
+			}
+			else 
+			{
+				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
+			}
+		}
+		else 
+		{
+			this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
+		}
+	},
 	
 //	loadStencilSetExtension: function(stencilSetNamespace, stencilSetExtensionDefinition) {
 //		var stencilset = this.facade.getStencilSets()[stencilSetNamespace];
@@ -184,9 +218,8 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			{ 
 				data: cpnJSON
 			},
-			function( result ) { 
-				
-//				alert(result);
+			function( result )
+			{ 			
 				this.openDownloadWindow( window.document.title + ".cpn", result );
 			}.bind(this),
 			function() { 
@@ -244,23 +277,19 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 					text: "Import",
 					handler:function(){
 						
-//						var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.jPDLSupport.impProgress});
-//						loadMask.show();
-//						
-//						window.setTimeout(function(){
-//					
-//							var jpdlString =  form.items.items[2].getValue();
-//							
-//							this._sendRequest(
-//									this.jPDLImporterUrl,
-//									'POST',
-//									{ 'data' : jpdlString },
-//									function( arg ) { this._loadJSON( arg );  loadMask.hide();  dialog.hide(); }.bind(this),
-//									function() { loadMask.hide();  dialog.hide(); }.bind(this)
-//								);
-//
-//						}.bind(this), 100);
-					alert("Hallo");
+						var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.jPDLSupport.impProgress});
+						loadMask.show();
+						
+						window.setTimeout(function(){
+					
+							var cpnToImport =  form.items.items[2].getValue();
+							
+							this._getAllPages(cpnToImport, loadMask);
+
+						}.bind(this), 100);
+
+						dialog.hide();
+						
 					}.bind(this)
 					
 				},{
@@ -293,13 +322,152 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 
 	},
 	
-	_showErrorMessageBox: function(title, msg){
+	_getAllPages: function(cpnXML, loadMask)
+	{
+		var parser = new DOMParser();
+		var xmlDoc = parser.parseFromString(cpnXML,"text/xml");
+		var allPages = xmlDoc.getElementsByTagName("page");
+		
+		if (allPages.length == 0) // so ist es wahrscheinlich dass es sich nicht um ein CPN netz handelt
+		{
+			loadMask.hide();
+			this._showErrorMessageBox("CPN Oryx","No correct CPN!");
+			
+			return;
+		}
+		
+		
+		if (allPages.length == 1)
+		{
+			// mache dann einen Call zum Server, der dir dann das JSON für Oryx erstellt
+			pageAttr = allPages[0].children[0];
+			pageName = pageAttr.attributes[0].nodeValue;
+			alert("Eine Seite nur im Netz. Jetzt wird es an den Server geschickt.");
+			this._sendRequest(
+					ORYX.CONFIG.CPNTOOLSIMPORTER,
+					'POST',
+					{ 'pagesToImport': pageName,
+						'data' : cpnXML },
+					function( arg ) { this.facade.importJSON(arg);  loadMask.hide(); }.bind(this),
+					function() { loadMask.hide();  }.bind(this)
+				);
+			
+//			loadMask.hide();
+			return;
+		}
+		
+		var i, pageName, data = [];
+		for (i = 0; i < allPages.length; i++)
+		{
+			pageAttr = allPages[i].children[0];
+			pageName = pageAttr.attributes[0].nodeValue;
+			data.push([pageName, true]);
+		}
+		
+		loadMask.hide();
+		this.showPageDialog(data, cpnXML);		
+	},
+	
+	_showErrorMessageBox: function(title, msg)
+	{
         Ext.MessageBox.show({
            title: title,
            msg: msg,
            buttons: Ext.MessageBox.OK,
            icon: Ext.MessageBox.ERROR
        });
-	}
+	},
+	
+	
+	showPageDialog: function(data, cpnXML)
+	{
+		var reader = new Ext.data.ArrayReader(
+				{}, 
+				[ {name: 'name'}, {name: 'engaged'} ]);
+		
+		var sm = new Ext.grid.CheckboxSelectionModel();
+		
+	    var grid2 = new Ext.grid.GridPanel({
+	    		store: new Ext.data.Store({
+		            reader: reader,
+		            data: data
+		        	}),
+		        cm: new Ext.grid.ColumnModel([
+		            
+		            {id:'name',width:200, sortable: true, dataIndex: 'name'},
+					sm]),
+			sm: sm,
+	        frame:true,
+			hideHeaders:true,
+	        iconCls:'icon-grid',
+			listeners : {
+				render: function() {
+					var recs=[];
+					this.grid.getStore().each(function(rec)
+					{
+						if(rec.data.engaged){
+							recs.push(rec);
+						}
+					}.bind(this));
+					this.suspendEvents();
+					this.selectRecords(recs);
+					this.resumeEvents();
+				}.bind(sm)
+			}
+	    });
+	    
+	 // Create a new Panel
+        var panel = new Ext.Panel({
+            items: [{
+                xtype: 'label',
+                text: 'CPNTools Page',
+                style: 'margin:10px;display:block'
+            }, grid2],
+            frame: true
+        })
+        
+        // Create a new Window
+        var window = new Ext.Window({
+            id: 'oryx_new_stencilset_extention_window',
+            autoWidth: true,
+            title: 'CPN Page Oryx',
+            floating: true,
+            shim: true,
+            modal: true,
+            resizable: true,
+            autoHeight: true,
+            items: [panel],
+            buttons: [{
+                text: 'Import',
+                handler: function(){
+            		var chosenRecs = "";
+
+            		sm.getSelections().each(function(rec){
+						chosenRecs += rec.data.name + ";;";						
+					}.bind(this));
+            		
+            		var strLen = chosenRecs.length; 
+            		
+            		if (chosenRecs.length == 0)
+            		{
+            			alert("Es wurden keine Netze ausgewählt!!");
+            			return;
+            		}
+            		
+            		chosenRecs = chosenRecs.substring(0, strLen - 2);
+				
+            		alert(chosenRecs);
+                }.bind(this)
+            }, {
+                text: 'Close',
+                handler: function(){
+                    window.hide();
+                }.bind(this)
+            }]
+        })
+        
+        // Show the window
+        window.show();
+	}		
 	
 });
