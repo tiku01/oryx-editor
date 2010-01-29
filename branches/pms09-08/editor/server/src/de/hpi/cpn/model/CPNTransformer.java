@@ -98,7 +98,7 @@ public class CPNTransformer
 //	}
 	
 	public void fromXML(String xml)
-	{
+	{ // Test !!!!!!!!!!!
 		try
 		{
 
@@ -109,8 +109,6 @@ public class CPNTransformer
 			CPNWorkspaceElement workElement = (CPNWorkspaceElement) xstream.fromXML(xml);
 			
 			CPNToolsTranslator translator = new CPNToolsTranslator(workElement);
-			
-			String oryxJson = translator.transfromCPNFile();
 			
 			translator = new CPNToolsTranslator(workElement);
 			String[] pagesToImport = { workElement.getCpnet().getPage(0).getPageattr().getName(), workElement.getCpnet().getPage(1).getPageattr().getName() };
@@ -129,11 +127,10 @@ public class CPNTransformer
 		}
 	}
 	
-	public void fromXML(String xml, String[] definedPages)
+	public String fromXML(String xml, String[] pagesToImport)
 	{
 		try
 		{
-
 			XStream xstream = new XStream(new DomDriver());
 			
 			CPNWorkspaceElement.registerMapping(xstream);
@@ -142,21 +139,15 @@ public class CPNTransformer
 			
 			CPNToolsTranslator translator = new CPNToolsTranslator(workElement);
 			
-			String oryxJson = translator.transfromCPNFile();
-			
-//			oryxJson = oryxJson.replaceAll("\"", "'");
-//			oryxJson = oryxJson.replaceAll("",	"");
-			
-			System.out.println(oryxJson);
-			
-			
-			int i = 0;
-			i = 2;
+			String oryxJson = translator.transformCPNFile(pagesToImport);
+	
+			return oryxJson;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		return "problems";
 	}
 	
 	
