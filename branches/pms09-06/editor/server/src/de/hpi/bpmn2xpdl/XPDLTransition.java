@@ -65,6 +65,19 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 		}
 	}
 	
+	public void readJSONconditionunknowns(JSONObject modelElement) throws JSONException {
+		String type = modelElement.optString("conditiontype");
+		
+		if (!type.equals("None")) {
+			initializeCondition();
+		
+			JSONObject passCondition = new JSONObject();
+			passCondition.put("conditionunknowns", modelElement.optString("conditionunknowns"));
+		
+			getCondition().parse(passCondition);
+		}
+	}
+	
 	public void readJSONquantity(JSONObject modelElement) {
 		setQuantity(modelElement.optString("quantity"));
 	}
@@ -104,6 +117,22 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 	
 	public void setTo(String target) {
 		to = target;
+	}
+	
+	public void writeJSONcondition(JSONObject modelElement) throws JSONException {
+		XPDLCondition conditionObject = getCondition();
+		if (conditionObject != null) {
+			initializeProperties(modelElement);
+			conditionObject.write(getProperties(modelElement));
+		}
+	}
+	
+	public void writeJSONquantity(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "quantity", getQuantity());
+	}
+	
+	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
+		writeStencil(modelElement, "SequenceFlow");
 	}
 	
 	protected void initializeCondition() {

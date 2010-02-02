@@ -1,5 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,47 @@ import org.xmappr.RootElement;
 @RootElement("WorkflowProcess")
 public class XPDLWorkflowProcess extends XPDLThing {
 	
+	public static String implicitPool = "{" + 
+		"\"resourceId\": \"oryx_00000000-0000-0000-0000-000000000000\"," +
+		"\"properties\": {" +
+			"\"poolid\": \"MainPool\"," +
+			"\"name\": \"Main Pool\"," +
+			"\"poolcategories\": \"\"," +
+			"\"pooldocumentation\": \"\"," +
+			"\"participantref\": \"\"," +
+			"\"lanes\": \"\"," +
+			"\"boundaryvisible\": false," +
+			"\"mainpool\": true," +
+			"\"processref\": \"\"," +
+			"\"processname\": \"MainProcess\"," +
+			"\"processtype\": \"None\"," +
+			"\"status\": \"None\"," +
+			"\"adhoc\": \"\"," +
+			"\"adhocordering\": \"Sequential\"," +
+			"\"adhoccompletioncondition\": \"\"," +
+			"\"suppressjoinfailure\": true," +
+			"\"enableinstancecompensation\": \"\"," +
+			"\"processcategories\": \"\"," +
+			"\"processdocumentation\": \"\"," +
+			"\"bgcolor\": \"#ffffff\"," +
+		"}," +
+		"\"stencil\": {" +
+			"\"id\": \"Pool\"" +
+		"}," +
+		"\"childShapes\": []," +
+		"\"outgoing\": []," +
+		"\"bounds\": {" +
+			"\"lowerRight\": {" +
+				"\"x\": 0," +
+				"\"y\": 0," +
+			"}," +
+			"\"upperLeft\": {" +
+				"\"x\": 0," +
+				"\"y\": 0," +
+			"}" +
+		"}," +
+		"\"dockers\": []" +
+	"}";
 	protected static String ID_SUFFIX = "-process";
 	
 	@Attribute("Adhoc")
@@ -78,6 +121,22 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		return transitions;
 	}
 	
+	public void readJSONactivitiesunknowns(JSONObject modelElement) throws JSONException {
+		initializeActivities();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("activitiesunknowns", modelElement.optString("activitiesunknowns"));
+		getActivities().parse(passObject);
+	}
+	
+	public void readJSONactivitysetsunknowns(JSONObject modelElement) throws JSONException {
+		initializeActivitySets();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("activitysetsunknowns", modelElement.optString("activitysetsunknowns"));
+		getActivitySets().parse(passObject);
+	}
+	
 	public void readJSONadhoc(JSONObject modelElement) {
 		setAdhoc(modelElement.optString("adhoc"));
 	}
@@ -119,8 +178,17 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		setEnableInstanceCompensation(modelElemet.optString("enableinstancecompensation"));
 	}
 	
+	public void readJSONgraphicsinfounknowns(JSONObject modelElement) {
+	}
+	
+	public void readJSONgraphicsinfosunknowns(JSONObject modelElement) {
+	}
+	
 	public void readJSONid(JSONObject modelElement) {
 		setId(getProperId(modelElement) + XPDLWorkflowProcess.ID_SUFFIX);
+	}
+	
+	public void readJSONlanesunknowns(JSONObject modelElement) {
 	}
 	
 	public void readJSONmainpool(JSONObject modelElement) {
@@ -170,6 +238,10 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		setProcessType(modelElement.optString("processtype"));
 	}
 	
+	public void readJSONprocessunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "processunknowns");
+	}
+	
 	public void readJSONresourceId(JSONObject modelElement) {
 		setResourceId(modelElement.optString("resourceId"));
 		
@@ -182,6 +254,16 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	
 	public void readJSONsuppressjoinfailure(JSONObject modelElement) {
 		setSuppressJoinFailure(modelElement.optString("suppressjoinfailure"));
+	}
+	
+	public void readJSONtransitionsunknowns(JSONObject modelElement) throws JSONException {
+		initializeTransitions();
+		JSONObject passObject = new JSONObject();
+		passObject.put("transitionsunknowns", modelElement.optString("transitionsunknowns"));
+		getTransitions().parse(passObject);
+	}
+	
+	public void readJSONunknowns(JSONObject modelElement) {
 	}
 	
 	public void setActivities(XPDLActivities activitiesList) {
@@ -228,6 +310,119 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		transitions = transitionsValue;
 	}
 	
+	public void writeActivitySets(JSONObject modelElement) throws JSONException {
+		if (getActivitySets() != null) {
+			ArrayList<XPDLActivitySet> activitySetsList = getActivitySets().getActvitySets();
+			if (activitySetsList != null) {
+				initializeChildShapes(modelElement);
+				JSONArray childShapes = modelElement.getJSONArray("childShapes");
+				
+				for (int i = 0; i < activitySetsList.size(); i++) {
+					JSONObject newActivitySet = new JSONObject();
+					XPDLActivitySet activitySet = activitySetsList.get(i);
+					activitySet.write(newActivitySet);
+					childShapes.put(newActivitySet);
+				}
+			}
+		}
+	}
+	
+	public void writeActivities(JSONObject modelElement) throws JSONException {
+		if (getActivities() != null) {
+			ArrayList<XPDLActivity> activitiesList = getActivities().getActivities();
+			if (activitiesList != null) {
+				initializeChildShapes(modelElement);
+				JSONArray childShapes = modelElement.getJSONArray("childShapes");
+				
+				for (int i = 0; i < activitiesList.size(); i++) {
+					JSONObject newActivity = new JSONObject();
+					XPDLActivity activity = activitiesList.get(i);
+					activity.write(newActivity);
+					childShapes.put(newActivity);
+				}
+			}
+		}		
+	}
+	
+	public void writeChildrenOnly(JSONObject modelElement) throws JSONException {
+//		writeActivitySets(modelElement);
+		writeActivities(modelElement);
+		writeTransitions(modelElement);
+	}
+	
+	public void writeTransitions(JSONObject modelElement) throws JSONException {
+		if (getTransitions() != null) {
+			ArrayList<XPDLTransition> transitionsList = getTransitions().getTransitions();
+			if (transitionsList != null) {
+				initializeChildShapes(modelElement);
+				JSONArray childShapes = modelElement.getJSONArray("childShapes");
+				
+				for (int i = 0; i < transitionsList.size(); i++) {
+					JSONObject newTransition = new JSONObject();
+					XPDLTransition transition = transitionsList.get(i);
+					transition.write(newTransition);
+					childShapes.put(newTransition);
+				}
+			}
+		}	
+	}
+	
+	public void writeJSONactivities(JSONObject modelElement) {
+		XPDLActivities activitiesList = getActivities();
+		if (activitiesList != null) {
+			activitiesList.write(modelElement);
+		}
+	}
+	
+	public void writeJSONactivitysetsunknowns(JSONObject modelElement) {
+		XPDLActivitySets activitySetsList = getActivitySets();
+		if (activitySetsList != null) {
+			activitySetsList.write(modelElement);
+		}
+	}
+	
+	public void writeJSONadhoc(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "adhoc", getAdhoc());
+	}
+	
+	public void writeJSONadhocordering(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "adhocordering", getAdhocOrdering());
+	}
+	
+	public void writeJSONadhoccompletioncondition(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "adhoccompletioncondition", getAdhocCompletionCondition());
+	}
+	
+	public void writeJSONenableinstancecompensation(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "enableinstancecompensation", getEnableInstanceCompensation());
+	}
+	
+	public void writeJSONprocesstype(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "processtype", getProcessType());
+	}
+	
+	public void writeJSONprocessunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "processunknowns");
+	}
+	
+	public void writeJSONstatus(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "status", getStatus());
+	}
+	
+	public void writeJSONsuppressjoinfailure(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "suppressjoinfailure", getSuppressJoinFailure());
+	}
+	
+	public void writeJSONtransitions(JSONObject modelElement) {
+		XPDLTransitions transitionsList = getTransitions();
+		if (transitionsList != null) {
+			transitionsList.write(modelElement);
+		}
+	}
+	
+	public void writeJSONunknowns(JSONObject modelElement) {
+	}
+	
 	protected void createActivity(JSONObject modelElement) {
 		initializeActivities();
 		
@@ -241,7 +436,6 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		
 		XPDLActivitySet nextSet = new XPDLActivitySet();
 		JSONObject passObject = new JSONObject();
-		
 		passObject.put("childShapes", modelElement.optJSONArray("childShapes"));
 		passObject.put("adhoccompletioncondition", modelElement.optString("adhoccompletioncondition"));
 		passObject.put("adhocordering", modelElement.optString("adhocordering"));
@@ -262,6 +456,14 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		getTransitions().add(nextTranistion);
 	}
 	
+	protected String getProperId(JSONObject modelElement) {
+		String idValue = modelElement.optString("poolid");
+		if (!idValue.equals("")) {
+			return idValue;
+		}
+		return modelElement.optString("resourceId");
+	}
+	
 	protected void initializeActivities() {
 		if (getActivities() == null) {
 			setActivities(new XPDLActivities());
@@ -271,6 +473,12 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	protected void initializeActivitySets() {
 		if (getActivitySets() == null) {
 			setActivitySets(new XPDLActivitySets());
+		}
+	}
+	
+	protected void initializeChildShapes(JSONObject modelElement) throws JSONException {
+		if (modelElement.optJSONArray("childShapes") == null) {
+			modelElement.put("childShapes", new JSONArray());
 		}
 	}
 	

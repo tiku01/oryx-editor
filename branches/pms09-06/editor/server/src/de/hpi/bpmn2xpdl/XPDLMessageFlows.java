@@ -2,6 +2,9 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
@@ -20,9 +23,38 @@ public class XPDLMessageFlows extends XMLConvertable {
 	public ArrayList<XPDLMessageFlow> getMessageFlows() {
 		return messageFlows;
 	}
+	
+	public void readJSONmessageflowsunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "messageflowsunknowns");
+	}
 
 	public void setMessageFlows(ArrayList<XPDLMessageFlow> flow) {
 		this.messageFlows = flow;
+	}
+	
+	public void writeJSONchildShapes(JSONObject modelElement) throws JSONException {
+		ArrayList<XPDLMessageFlow> flows = getMessageFlows();
+		if (flows != null) {
+			initializeChildShapes(modelElement);
+			
+			JSONArray childShapes = modelElement.getJSONArray("childShapes");
+			for (int i = 0; i < flows.size(); i++) {
+				JSONObject newFlow = new JSONObject();
+				flows.get(i).write(newFlow);
+				
+				childShapes.put(newFlow);
+			}
+		}
+	}
+	
+	public void writeJSONmessageflowsunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "messageflowsunknowns");
+	}
+	
+	protected void initializeChildShapes(JSONObject modelElement) throws JSONException {
+		if (modelElement.optJSONArray("childShapes") == null) {
+			modelElement.put("childShapes", new JSONArray());
+		}
 	}
 	
 	protected void initializeMessageFlows() {

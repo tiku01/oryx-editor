@@ -36,17 +36,15 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 	}
 	
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
-		initializeMessage();
-		
-		JSONObject messageType = new JSONObject();
-		messageType.put("id", getProperId(modelElement));
-		messageType.put("message", modelElement.optString("message"));
-		
-		getMessage().parse(messageType);
+		passInformationToMessage(modelElement, "message");
+	}
+	
+	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToMessage(modelElement, "messageunknowns");
 	}
 	
 	public void readJSONsource(JSONObject modelElement) {
-		setSource(modelElement.optString("source"));
+		createExtendedAttribute("source", modelElement.optString("source"));
 	}
 	
 	public void readJSONtarget(JSONObject modelElement) throws JSONException {
@@ -66,9 +64,47 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 		target = targetValue;
 	}
 	
+	public void writeJSONmessage(JSONObject modelElement) throws JSONException {
+		XPDLMessage messageObject = getMessage();
+		if (messageObject != null) {
+			initializeProperties(modelElement);
+			messageObject.write(getProperties(modelElement));
+		}
+	}
+	
+	public void writeJSONsource(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "source", "");
+	}
+	
+	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
+		JSONObject stencil = new JSONObject();
+		stencil.put("id", "MessageFlow");
+		
+		modelElement.put("stencil", stencil);
+	}
+	
+	public void writeJSONtarget(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "target", "");
+		
+		String targetValue = getTarget();
+		if (targetValue != null) {
+			
+		}
+	}
+	
 	protected void initializeMessage() {
 		if (getMessage() == null) {
 			setMessage(new XPDLMessage());
 		}
+	}
+	
+	protected void passInformationToMessage(JSONObject modelElement, String key) throws JSONException {
+		initializeMessage();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("id", getProperId(modelElement));
+		passObject.put(key, modelElement.optString(key));
+		
+		getMessage().parse(passObject);
 	}
 }

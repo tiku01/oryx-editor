@@ -2,6 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
@@ -16,8 +17,6 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	protected ArrayList<XPDLCoordinates> coordinates;
 	@Attribute("FillColor")
 	protected String fillColor;
-	@Attribute("IsVisible")
-	protected boolean isVisible = true;
 	@Attribute("ToolId")
 	protected String toolId = "Oryx";
 	
@@ -35,10 +34,6 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 	
 	public String getFillColor() {
 		return fillColor;
-	}
-	
-	public boolean getIsVisible() {
-		return isVisible;
 	}
 	
 	public String getToolId() {
@@ -64,12 +59,12 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 		fillColor = color;
 	}
 	
-	public void setIsVisible(boolean visibility) {
-		isVisible = visibility;
-	}
-	
 	public void setToolId(String tool) {
 		toolId = tool;
+	}
+	
+	public void writeJSONbgcolor(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "bgcolor", getFillColor());
 	}
 	
 	protected XPDLCoordinates createCoordinates(JSONObject modelElement) {
@@ -78,9 +73,44 @@ public abstract class XPDLGraphicsInfo extends XMLConvertable {
 		return createdCoordinates;
 	}
 	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
 	protected void initializeCoordinates() {
 		if (getCoordinates() == null) {
 			setCoordinates(new ArrayList<XPDLCoordinates>());
 		}
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
+		}
+	}
+	
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
+	}
+	
+	protected void writeEmptyBounds(JSONObject modelElement) throws JSONException {
+		JSONObject upperLeft = new JSONObject();
+		upperLeft.put("x", 0);
+		upperLeft.put("y", 0);
+		
+		JSONObject lowerRight = new JSONObject();
+		lowerRight.put("x", 0);
+		lowerRight.put("y", 0);
+		
+		JSONObject bounds = new JSONObject();
+		bounds.put("upperLeft", upperLeft);
+		bounds.put("lowerRight", lowerRight);
+		
+		modelElement.put("bounds", bounds);
 	}
 }

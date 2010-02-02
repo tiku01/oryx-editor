@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -29,11 +30,23 @@ public class XPDLMessage extends XMLConvertable {
 		setMessage(modelElement.optString("message"));
 	}
 	
+	public void readJSONmessageunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "messageunknowns");
+	}
+	
 	public void setId(String idValue) {
 		id = idValue;
 	}
 	
 	public void setMessage(String messageValue) {
 		message = messageValue;
+	}
+	
+	public void writeJSONmessage(JSONObject modelElement) throws JSONException {
+		modelElement.put("message", getMessage());
+	}
+	
+	public void writeJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "messageunknowns");
 	}
 }

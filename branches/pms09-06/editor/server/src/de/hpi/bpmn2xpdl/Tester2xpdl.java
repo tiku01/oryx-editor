@@ -13,17 +13,23 @@ public class Tester2xpdl {
 	
 	protected static String path = "C:/Users/Markus Goetz/workspace/Oryx/editor/server/src/de/hpi/bpmn2xpdl/";
 	
-	public static void main(String[] args) {
-		String jsonString = readFile(path + "import000.xml");
-		long start = System.currentTimeMillis();
+	public static void main(String[] args) throws JSONException {
 		BPMN2XPDLConverter converter = new BPMN2XPDLConverter();
-//		try {
-//			System.out.println(converter.exportXPDL(jsonString));
-//			writeFile("test.xml", converter.exportXPDL(jsonString));
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-		converter.importXPDL(jsonString);
+//		String fileContent = readFile(path + "all.json");
+//		System.out.println(converter.exportXPDL(fileContent));
+		String fileContent = readFile(path + "import001.xml");
+		
+		long start = System.currentTimeMillis();
+		String result = converter.importXPDL(fileContent);
+		System.out.println(result);
+		writeFile(path + "export000.json", result);
+		try {
+			fileContent = readFile(path + "export000.json");
+			result = converter.exportXPDL(fileContent);
+			System.out.println(result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}

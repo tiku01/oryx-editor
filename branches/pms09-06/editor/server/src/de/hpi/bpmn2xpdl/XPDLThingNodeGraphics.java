@@ -16,11 +16,7 @@ public abstract class XPDLThingNodeGraphics extends XPDLThing {
 	}
 
 	public void readJSONbgcolor(JSONObject modelElement) throws JSONException {
-		initializeGraphics();
-		
-		JSONObject color = new JSONObject();
-		color.put("bgcolor", modelElement.optString("bgcolor"));
-		getFirstGraphicsInfo().parse(color);
+		passInformationToFirstGraphics(modelElement, "bgcolor");
 	}
 
 	public void readJSONbounds(JSONObject modelElement) throws JSONException {
@@ -30,9 +26,28 @@ public abstract class XPDLThingNodeGraphics extends XPDLThing {
 		bounds.put("bounds", modelElement.optJSONObject("bounds"));
 		getFirstGraphicsInfo().parse(bounds);
 	}
+	
+	public void readJSONgraphicsinfounknowns(JSONObject modelElement) throws JSONException {
+		passInformationToFirstGraphics(modelElement, "graphicsinfounknowns");
+	}
+	
+	public void readJSONgraphicsinfosunknowns(JSONObject modelElement) throws JSONException {
+		initializeGraphics();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("graphicsinfosunknowns", modelElement.optString("graphicsinfosunknowns"));
+		getNodeGraphics().parse(passObject);
+	}
 
 	public void setNodeGraphics(XPDLNodeGraphicsInfos graphics) {
 		nodeGraphics = graphics;
+	}
+	
+	public void writeJSONgraphicsinfos(JSONObject modelElement) {
+		XPDLNodeGraphicsInfos infos = getNodeGraphics();
+		if (infos != null) {
+			infos.write(modelElement);
+		}
 	}
 	
 	protected XPDLNodeGraphicsInfo getFirstGraphicsInfo() {
@@ -44,5 +59,13 @@ public abstract class XPDLThingNodeGraphics extends XPDLThing {
 			setNodeGraphics(new XPDLNodeGraphicsInfos());
 			getNodeGraphics().add(new XPDLNodeGraphicsInfo());
 		}
+	}
+	
+	protected void passInformationToFirstGraphics(JSONObject modelElement, String key) throws JSONException {
+		initializeGraphics();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getFirstGraphicsInfo().parse(passObject);
 	}
 }

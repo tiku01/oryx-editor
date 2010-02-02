@@ -13,6 +13,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	protected String trigger;
 	@Attribute("Implementation")
 	protected String implementation;
+	
 	@Element("ResultError")
 	protected XPDLResultError resultError;
 	@Element("TriggerResultCompensation")
@@ -121,6 +122,9 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 		} else if (stencil.equals("IntermediateLinkEventCatching") || stencil.equals("IntermediateLinkEventThrowing")) {
 			initializeTriggerResultLink();
 			getTriggerResultLink().setCatchThrow(catchThrow);
+		} else if (stencil.equals("IntermediateCompensationEventCatching") || stencil.equals("IntermediateCompensationEventThrowing")) {
+			initializeTriggerResultCompensation();
+			getTriggerResultCompensation().setCatchThrow(catchThrow);
 		}
 	}
 	
@@ -165,8 +169,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 		this.triggerConditional = triggerConditional;
 	}
 	
-	public void setTriggerResultCompensation(
-			XPDLTriggerResultCompensation triggerResultCompensation) {
+	public void setTriggerResultCompensation(XPDLTriggerResultCompensation triggerResultCompensation) {
 		this.triggerResultCompensation = triggerResultCompensation;
 	}
 
@@ -184,6 +187,81 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	
 	public void setTriggerTimer(XPDLTriggerTimer timer) {
 		triggerTimer = timer;
+	}
+	
+	public void writeJSONeventtype(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "eventtype", "Intermediate");
+	}
+	
+	public void writeJSONimplementation(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "implementation", getImplementation());
+	}
+	
+	public void writeJSONtrigger(JSONObject modelElement) throws JSONException {
+		String triggerValue = getTrigger();
+		
+		if (triggerValue != null) {
+			if (triggerValue.equalsIgnoreCase("Message")) {
+				writeMessageProperties(modelElement);
+			} else if (triggerValue.equalsIgnoreCase("Timer")) {
+				putProperty(modelElement, "trigger", "Timer");
+				appendStencil(modelElement, "TimerEvent");
+			} else if (triggerValue.equalsIgnoreCase("Error")) {
+				putProperty(modelElement, "trigger", "Error");
+				appendStencil(modelElement, "ErrorEvent");
+			} else if (triggerValue.equalsIgnoreCase("Cancel")) {
+				putProperty(modelElement, "trigger", "Cancel");
+				appendStencil(modelElement, "CancelEvent");
+			} else if (triggerValue.equalsIgnoreCase("Compensation")) {
+				writeCompensationProperties(modelElement);
+			} else if (triggerValue.equalsIgnoreCase("Conditional")) {
+				putProperty(modelElement, "trigger", "Rule");
+				appendStencil(modelElement, "ConditionalEvent");				
+			} else if (triggerValue.equalsIgnoreCase("Signal")) {
+				writeSignalProperties(modelElement);
+			} else if (triggerValue.equalsIgnoreCase("Multiple")) {
+				writeMultipleProperties(modelElement);
+			} else if(triggerValue.equalsIgnoreCase("Link")) {
+				writeLinkProperties(modelElement);
+			} else {
+				putProperty(modelElement, "trigger", "None");
+				appendStencil(modelElement, "Event");
+			}
+		} else {
+			putProperty(modelElement, "trigger", "None");
+			appendStencil(modelElement, "Event");
+		}
+	}
+	
+	public void writeJSONtriggerObjects(JSONObject modelElement) throws JSONException {
+		if (getResultError() != null) {
+			getResultError().write(modelElement);
+		} else if (getTriggerConditional() != null) {
+			getTriggerConditional().write(modelElement);
+		} else if (getTriggerResultCompensation() != null) {
+			getTriggerResultCompensation().write(modelElement);
+		}
+	}
+	
+	protected void appendStencil(JSONObject modelElement, String appendix) throws JSONException {
+		String newStencil = modelElement.optJSONObject("stencil").optString("id") + appendix;
+		
+		JSONObject stencil = new JSONObject();
+		stencil.put("id", newStencil);
+		modelElement.put("stencil", stencil);
+	}
+	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
+		}
 	}
 	
 	protected String determineCatchThrow(String stencil) {
@@ -241,6 +319,94 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	protected void initializeTriggerTimer() {
 		if (getTriggerTimer() == null) {
 			setTriggerTimer(new XPDLTriggerTimer());
+		}
+	}
+	
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
+	}
+	
+	protected void writeCompensationProperties(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "trigger", "Compensation");
+		
+		XPDLTriggerResultCompensation compensationObject = getTriggerResultCompensation();
+		if (compensationObject != null) {
+			if (compensationObject.getCatchThrow() != null) {
+				if (compensationObject.getCatchThrow().equalsIgnoreCase("CATCH")) {
+					appendStencil(modelElement, "CompensationEventCatching");
+				} else {
+					appendStencil(modelElement, "CompensationEventThrowing");
+				}
+			} else {
+				appendStencil(modelElement, "CompensationEventThrowing");
+			}
+		} else {
+			appendStencil(modelElement, "CompensationEventThrowing");
+		}
+	}
+	
+	protected void writeLinkProperties(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "trigger", "Link");
+		
+		XPDLTriggerResultLink linkObject = getTriggerResultLink();
+		if (linkObject != null) {
+			if (linkObject.getCatchThrow() != null) {
+				if (linkObject.getCatchThrow().equalsIgnoreCase("CATCH")) {
+					appendStencil(modelElement, "LinkEventCatching");
+				} else {
+					appendStencil(modelElement, "LinkEventThrowing");
+				}
+			} else {
+				appendStencil(modelElement, "LinkEventThrowing");
+			}
+		} else {
+			appendStencil(modelElement, "LinkEventThrowing");
+		}
+	}
+	
+	protected void writeMessageProperties(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "trigger", "Message");
+		
+		XPDLTriggerResultMessage messageObject = getTriggerResultMessage();
+		if (messageObject != null) {
+			if (messageObject.getCatchThrow() != null) {
+				if (messageObject.getCatchThrow().equalsIgnoreCase("CATCH")) {
+					appendStencil(modelElement, "MessageEventCatching");
+				} else {
+					appendStencil(modelElement, "MessageEventThrowing");
+				}
+			} else {
+				appendStencil(modelElement, "MessageEventThrowing");
+			}
+		} else {
+			appendStencil(modelElement, "MessageEventThrowing");
+		}
+	}
+	
+	protected void writeMultipleProperties(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "trigger", "Multiple");
+		//Better stuff around here needed
+		appendStencil(modelElement, "MultipleEventThrowing");
+	}
+	
+	protected void writeSignalProperties(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "trigger", "Signal");
+		
+		XPDLTriggerResultSignal signalObject = getTriggerResultSignal();
+		if (signalObject != null) {
+			if (signalObject.getCatchThrow() != null) {
+				if (signalObject.getCatchThrow().equalsIgnoreCase("CATCH")) {
+					appendStencil(modelElement, "SignalEventCatching");
+				} else {
+					appendStencil(modelElement, "SignalEventThrowing");
+				}
+			} else {
+				appendStencil(modelElement, "SignalEventThrowing");
+			}
+		} else {
+			appendStencil(modelElement, "SignalEventThrowing");
 		}
 	}
 }

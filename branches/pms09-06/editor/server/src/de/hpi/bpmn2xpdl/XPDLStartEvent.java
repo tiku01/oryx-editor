@@ -13,6 +13,7 @@ public class XPDLStartEvent extends XMLConvertable {
 	protected String trigger;
 	@Attribute("Implementation")
 	protected String implementation;
+	
 	@Element("TriggerConditional")
 	protected XPDLTriggerConditional triggerConditional;
 	@Element("TriggerResultMessage")
@@ -61,13 +62,11 @@ public class XPDLStartEvent extends XMLConvertable {
 	}
 	
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
-		JSONObject passObject = new JSONObject();
-		passObject.put("message", modelElement.optString("message"));
-		
-		XPDLTriggerResultMessage message = new XPDLTriggerResultMessage();
-		message.parse(passObject);
-		
-		setTriggerResultMessage(message);
+		passInformationToTriggerResultMessage(modelElement, "message");
+	}
+	
+	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToTriggerResultMessage(modelElement, "messageunknowns");
 	}
 	
 	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
@@ -125,6 +124,98 @@ public class XPDLStartEvent extends XMLConvertable {
 	public void setTriggerResultSignal(XPDLTriggerResultSignal triggerResultSignal) {
 		this.triggerResultSignal = triggerResultSignal;
 	}
+	
+	public void writeJSONeventtype(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "eventtype", "Start");
+	}
+	
+	public void writeJSONimplementation(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "implementation", getImplementation());
+	}
+	
+	public void writeJSONtrigger(JSONObject modelElement) throws JSONException {
+		String triggerValue = getTrigger();
+		
+		if (triggerValue != null) {
+			if (triggerValue.equalsIgnoreCase("Conditional")) {
+				putProperty(modelElement, "trigger", "Rule");
+				appendStencil(modelElement, "ConditionalEvent");
+			} else if (triggerValue.equalsIgnoreCase("Message")) {
+				putProperty(modelElement, "trigger", "Message");
+				appendStencil(modelElement, "MessageEvent");
+			} else if (triggerValue.equalsIgnoreCase("Timer")) {
+				putProperty(modelElement, "trigger", "Timer");
+				appendStencil(modelElement, "TimerEvent");
+			} else if (triggerValue.equalsIgnoreCase("Signal")) {
+				//Yeah strange but true
+				putProperty(modelElement, "trigger", "Multiple");
+				appendStencil(modelElement, "SignalEvent");
+			} else if (triggerValue.equalsIgnoreCase("Multiple")) {
+				putProperty(modelElement, "trigger", "Multiple");
+				appendStencil(modelElement, "MultipleEvent");
+			} else {
+				putProperty(modelElement, "trigger", "None");
+				appendStencil(modelElement, "Event");
+			}
+		} else {
+			putProperty(modelElement, "trigger", "None");
+			appendStencil(modelElement, "Event");
+		}
+	}
+	
+	public void writeJSONtriggerObjects(JSONObject modelElement) throws JSONException {
+		if (getTriggerConditional() != null) {
+			getTriggerConditional().write(modelElement);
+		} else if (getTriggerResultMessage() != null) {
+			getTriggerResultMessage().write(modelElement);
+		} else if (getTriggerResultSignal() != null) {
+			getTriggerResultSignal().write(modelElement);
+		} else if (getTriggerTimer() != null) {
+			getTriggerTimer().write(modelElement);
+		}
+	}
+	
+	protected void appendStencil(JSONObject modelElement, String appendix) throws JSONException {
+		String newStencil = modelElement.optJSONObject("stencil").optString("id") + appendix;
+		
+		JSONObject stencil = new JSONObject();
+		stencil.put("id", newStencil);
+		modelElement.put("stencil", stencil);
+	}
+	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
+		}
+	}
+	
+	protected void initializeTriggerResultMessage() {
+		if (getTriggerResultMessage() == null) {
+			setTriggerResultMessage(new XPDLTriggerResultMessage());
+		}
+	}
+	
+	protected void initializeTriggerTimer() {
+		if (getTriggerTimer() == null) {
+			setTriggerTimer(new XPDLTriggerTimer());
+		}
+	}
+	
+	protected void passInformationToTriggerResultMessage(JSONObject modelElement, String key) throws JSONException {
+		initializeTriggerResultMessage();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		
+		getTriggerResultMessage().parse(passObject);
+	}
 
 	protected void passInformationToTriggerTimer(JSONObject modelElement, String key) throws JSONException {
 		JSONObject passObject = new JSONObject();
@@ -134,9 +225,9 @@ public class XPDLStartEvent extends XMLConvertable {
 		getTriggerTimer().parse(passObject);
 	}
 	
-	protected void initializeTriggerTimer() {
-		if (getTriggerTimer() == null) {
-			setTriggerTimer(new XPDLTriggerTimer());
-		}
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
 	}
 }

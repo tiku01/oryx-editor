@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -25,11 +26,9 @@ public class XPDLDataObject extends XPDLThing {
 	public String getState() {
 		return state;
 	}
-
-	public void readJSONartifacttype(JSONObject modelElement) {
-	}
 	
-	public void readJSONitems(JSONObject modelElement) {
+	public void readJSONdataobjectunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "dataobjectunknowns");
 	}
 	
 	public void readJSONproducedatcompletion(JSONObject modelElement) {
@@ -43,9 +42,6 @@ public class XPDLDataObject extends XPDLThing {
 	public void readJSONstate(JSONObject modelElement) {
 		setState(modelElement.optString("state"));
 	}
-	
-	public void readJSONtotalCount(JSONObject modelElement) {
-	}
 
 	public void setProducedAtCompletion(boolean isProduced) {
 		producedAtCompletion = isProduced;
@@ -57,5 +53,21 @@ public class XPDLDataObject extends XPDLThing {
 
 	public void setState(String stateValue) {
 		state = stateValue;
+	}
+	
+	public void writeJSONproducedatcompletion(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "producedatcompletion", getProducedAtCompletion());
+	}
+	
+	public void writeJSONrequiredforstart(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "requiredforstart", getRequiredForStart());
+	}
+	
+	public void writeJSONstate(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "state", getState());
+	}
+	
+	public void writeJSONdataobjectunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "dataobjectunknowns");
 	}
 }

@@ -1,0 +1,179 @@
+<Package Language="English" Id="oryx-canvas123" rofl="lol">
+  <ConformanceClass GraphConformance="NON-BLOCKED" BPMNModelPortabilityConformance="STANDARD" />
+  <Pools>
+    <Pool BoundaryVisible="false" MainPool="true" Orientation="HORIZONTAL" Id="MainPool" Name="Main Pool">
+      <NodeGraphicsInfos>
+        <NodeGraphicsInfo FillColor="#ffffff" Height="0.0" Width="0.0" BorderColor="#0,0,0"  ToolId="Oryx">
+          <Coordinates XCoordinate="0.0" YCoordinate="0.0" />
+        </NodeGraphicsInfo>
+      </NodeGraphicsInfos>
+    </Pool>
+    <Pool BoundaryVisible="true" MainPool="false" Orientation="HORIZONTAL" Id="oryx_912DC79C-BFED-4A44-A68D-730C0360B436" Name="seminar">
+      <NodeGraphicsInfos>
+        <NodeGraphicsInfo Height="352.0" Width="752.0" BorderColor="#0,0,0"  ToolId="Oryx">
+          <Coordinates XCoordinate="0.0" YCoordinate="0.0" />
+        </NodeGraphicsInfo>
+      </NodeGraphicsInfos>
+    </Pool>
+  </Pools>
+  <WorkflowProcesses>
+    <WorkflowProcess AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true" Id="oryx_00000000-0000-0000-0000-000000000000-process" Name="MainProcess">
+      <Activities>
+        <Activity CompletionQuantity="1" StartQuantity="1" Status="None" Id="oryx_0CB617F0-B620-42DE-AFF6-709FD9E43859" Name="Talk halten">
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffcc" Height="80.0" Width="100.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="210.0" YCoordinate="75.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="activitytype" Value="Task" />
+          </ExtendedAttributes>
+        </Activity>
+        <Activity CompletionQuantity="1" StartQuantity="1" Status="None" Id="oryx_93C9EEA1-3B39-4FB8-90A0-F48B169802F0" Name="Diskussion">
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffcc" Height="80.0" Width="100.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="357.0" YCoordinate="80.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="activitytype" Value="Task" />
+          </ExtendedAttributes>
+        </Activity>
+        <Activity Id="oryx_1EC5148F-913D-46B7-B982-11154A867694">
+          <Event>
+            <EndEvent Result="Error" />
+          </Event>
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="600.0" YCoordinate="240.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+        </Activity>
+        <Activity Id="oryx_EF7C750B-E2EB-451D-BB16-CC91E72B8D89">
+          <Event>
+            <EndEvent Result="None" />
+          </Event>
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="675.0" YCoordinate="116.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+        </Activity>
+        <Activity Id="oryx_0797AA40-6A84-4EE9-A349-E55452C2175B">
+          <Event>
+            <StartEvent Trigger="None" />
+          </Event>
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="120.0" YCoordinate="105.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+        </Activity>
+        <Activity Id="oryx_69113833-1AD0-44F1-93CE-D5AD21555B7E">
+          <Route ExclusiveType="Data" GatewayType="XOR" MarkerVisible="true" />
+          <NodeGraphicsInfos>
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="505.0" YCoordinate="110.0" />
+            </NodeGraphicsInfo>
+          </NodeGraphicsInfos>
+        </Activity>
+      </Activities>
+      <Transitions>
+        <Transition Quantity="1" To="oryx_93C9EEA1-3B39-4FB8-90A0-F48B169802F0" Id="oryx_BE7132CE-0F9E-405E-9B9C-4D696BB27FC0">
+          <ConnectorGraphicsInfos>
+            <ConnectorGraphicsInfo BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="310.765625" YCoordinate="115.0" />
+              <Coordinates XCoordinate="333.5" YCoordinate="115.0" />
+              <Coordinates XCoordinate="333.5" YCoordinate="120.0" />
+              <Coordinates XCoordinate="357.0" YCoordinate="120.0" />
+            </ConnectorGraphicsInfo>
+          </ConnectorGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="docker0X" Value="99" />
+            <ExtendedAttribute Name="docker0Y" Value="40" />
+            <ExtendedAttribute Name="docker3X" Value="1" />
+            <ExtendedAttribute Name="docker3Y" Value="40" />
+            <ExtendedAttribute Name="showdiamondmarker" Value="false" />
+          </ExtendedAttributes>
+        </Transition>
+        <Transition Quantity="1" To="oryx_0CB617F0-B620-42DE-AFF6-709FD9E43859" Id="oryx_90F3629F-C812-49AC-BCD4-E93474ED5A5E">
+          <ConnectorGraphicsInfos>
+            <ConnectorGraphicsInfo BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="150.0625" YCoordinate="115.0" />
+              <Coordinates XCoordinate="180.0" YCoordinate="120.0" />
+              <Coordinates XCoordinate="180.0" YCoordinate="115.0" />
+              <Coordinates XCoordinate="209.625" YCoordinate="120.0" />
+            </ConnectorGraphicsInfo>
+          </ConnectorGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="docker0X" Value="15" />
+            <ExtendedAttribute Name="docker0Y" Value="15" />
+            <ExtendedAttribute Name="docker3X" Value="50" />
+            <ExtendedAttribute Name="docker3Y" Value="40" />
+            <ExtendedAttribute Name="showdiamondmarker" Value="false" />
+          </ExtendedAttributes>
+        </Transition>
+        <Transition Quantity="1" To="oryx_EF7C750B-E2EB-451D-BB16-CC91E72B8D89" Id="oryx_E0BD7C36-01EA-4162-9C26-C075AC3975AF">
+          <Condition>
+            nicht moegen
+          </Condition>
+          <ConnectorGraphicsInfos>
+            <ConnectorGraphicsInfo BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="545.6601515740329" YCoordinate="130.04407371467593" />
+              <Coordinates XCoordinate="674.5878953009671" YCoordinate="130.43834816032407" />
+            </ConnectorGraphicsInfo>
+          </ConnectorGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="docker0X" Value="20.5" />
+            <ExtendedAttribute Name="docker0Y" Value="20.5" />
+            <ExtendedAttribute Name="docker1X" Value="14" />
+            <ExtendedAttribute Name="docker1Y" Value="14" />
+            <ExtendedAttribute Name="showdiamondmarker" Value="false" />
+          </ExtendedAttributes>
+        </Transition>
+        <Transition Quantity="1" To="oryx_1EC5148F-913D-46B7-B982-11154A867694" Id="oryx_49C081E6-2700-4748-A196-50D43C5773D2">
+          <Condition>
+            moegen
+          </Condition>
+          <ConnectorGraphicsInfos>
+            <ConnectorGraphicsInfo BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="533.6879514545187" YCoordinate="141.92612434613633" />
+              <Coordinates XCoordinate="605.8120485454813" YCoordinate="242.57387565386367" />
+            </ConnectorGraphicsInfo>
+          </ConnectorGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="docker0X" Value="20.5" />
+            <ExtendedAttribute Name="docker0Y" Value="20.5" />
+            <ExtendedAttribute Name="docker1X" Value="14" />
+            <ExtendedAttribute Name="docker1Y" Value="14" />
+            <ExtendedAttribute Name="showdiamondmarker" Value="false" />
+          </ExtendedAttributes>
+        </Transition>
+        <Transition Quantity="1" To="oryx_69113833-1AD0-44F1-93CE-D5AD21555B7E" Id="oryx_B6240332-3691-435B-9EF0-505381989F19">
+          <ConnectorGraphicsInfos>
+            <ConnectorGraphicsInfo BorderColor="#0,0,0"  ToolId="Oryx">
+              <Coordinates XCoordinate="457.71875" YCoordinate="120.0" />
+              <Coordinates XCoordinate="481.0" YCoordinate="120.0" />
+              <Coordinates XCoordinate="481.0" YCoordinate="130.0" />
+              <Coordinates XCoordinate="504.75" YCoordinate="130.0" />
+            </ConnectorGraphicsInfo>
+          </ConnectorGraphicsInfos>
+          <ExtendedAttributes>
+            <ExtendedAttribute Name="docker0X" Value="50" />
+            <ExtendedAttribute Name="docker0Y" Value="40" />
+            <ExtendedAttribute Name="docker3X" Value="20" />
+            <ExtendedAttribute Name="docker3Y" Value="20" />
+            <ExtendedAttribute Name="showdiamondmarker" Value="false" />
+          </ExtendedAttributes>
+        </Transition>
+      </Transitions>
+    </WorkflowProcess>
+    <WorkflowProcess AdhocOrdering="Parallel" ProcessType="None" Status="None" Id="oryx_912DC79C-BFED-4A44-A68D-730C0360B436-process" />
+  </WorkflowProcesses>
+  <ExtendedAttributes>
+    <ExtendedAttribute Name="boundsX" Value="1485" />
+    <ExtendedAttribute Name="boundsY" Value="1050" />
+    <ExtendedAttribute Name="stencilsetUrl" Value="/oryx//stencilsets/bpmn1.1/bpmn1.1.json" />
+    <ExtendedAttribute Name="stencilsetNamespace" Value="http://b3mn.org/stencilset/bpmn1.1#" />
+  </ExtendedAttributes>
+</Package>

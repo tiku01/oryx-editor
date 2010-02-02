@@ -2,6 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
@@ -42,6 +43,10 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		setArtifactType(modelElement.optString("artifacttype"));
 	}
 	
+	public void readJSONdataobjectunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToDataObject(modelElement, "dataobjectunknowns");
+	}
+	
 	public void readJSONitems(JSONObject modelElement) {
 	}
 	
@@ -54,16 +59,16 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		}
 	}
 	
-	public void readJSONproducedatcompletion(JSONObject modelElement) {
-		handleDataObject(modelElement);
+	public void readJSONproducedatcompletion(JSONObject modelElement) throws JSONException {
+		passInformationToDataObject(modelElement, "producedatcompletion");
 	}
 	
-	public void readJSONrequiredforstart(JSONObject modelElement) {
-		handleDataObject(modelElement);
+	public void readJSONrequiredforstart(JSONObject modelElement) throws JSONException {
+		passInformationToDataObject(modelElement, "requiredforstart");
 	}
 	
-	public void readJSONstate(JSONObject modelElement) {
-		handleDataObject(modelElement);
+	public void readJSONstate(JSONObject modelElement) throws JSONException {
+		passInformationToDataObject(modelElement, "state");
 	}
 	
 	public void readJSONtext(JSONObject modelElement) {
@@ -85,14 +90,46 @@ public class XPDLArtifact extends XPDLThingNodeGraphics {
 		textAnnotation = annotation;
 	}
 	
+	public void writeJSONartifacttype(JSONObject modelElement) throws JSONException {
+		String type = getArtifactType();
+		
+		if (type != null) {
+			if (type.equals("Group")) {
+				putProperty(modelElement, "artifacttype", "Group");
+				writeStencil(modelElement, "Group");				
+			} else if (type.equals("Annotation")) {
+				putProperty(modelElement, "artifacttype", "Annotation");
+				putProperty(modelElement, "text", getTextAnnotation());
+				writeStencil(modelElement, "TextAnnotation");
+			} else {
+				writeDataObject(modelElement);
+			}
+		} else {
+			writeDataObject(modelElement);
+		}
+	}
+	
 	protected void initializeDataObject() {
 		if (getDataObject() == null) {
 			setDataObject(new XPDLDataObject());
 		}
 	}
 	
-	protected void handleDataObject(JSONObject modelElement) {
+	protected void passInformationToDataObject(JSONObject modelElement, String key) throws JSONException {
 		initializeDataObject();
-		getDataObject().parse(modelElement);
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getDataObject().parse(passObject);
 	}
+	
+	protected void writeDataObject(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "artifacttype", "DataObject");
+		
+		writeStencil(modelElement, "DataObject");
+		XPDLDataObject object = getDataObject();
+		if (object != null) {
+			object.write(modelElement);
+		}
+	}	
 }

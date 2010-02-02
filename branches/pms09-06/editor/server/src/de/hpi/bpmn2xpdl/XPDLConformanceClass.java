@@ -1,5 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
@@ -19,11 +21,19 @@ public class XPDLConformanceClass extends XMLConvertable {
 		return graphConformance;
 	}
 	
+	public void readJSONconformanceclassunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "conformanceclassunknowns");
+	}
+	
 	public void setBpmnConformance(String conformance) {
 		bpmnConformance = conformance;
 	}
 	
 	public void setGraphConformance(String conformance) {
 		graphConformance = conformance;
+	}
+	
+	public void writeJSONconformanceclassunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "conformanceclassunknowns");
 	}
 }

@@ -21,13 +21,11 @@ public class XPDLTriggerResultMessage  extends XMLConvertable {
 	}
 	
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
-		JSONObject messageObject = new JSONObject();
-		messageObject.put("message", modelElement.optString("message"));
-		
-		XPDLMessage passMessage = new XPDLMessage();
-		passMessage.parse(messageObject);
-		
-		setMessage(passMessage);		
+		passInformationToMessage(modelElement, "message");		
+	}
+	
+	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToMessage(modelElement, "messageunknowns");
 	}
 	
 	public void setCatchThrow(String catchThrow) {
@@ -36,5 +34,46 @@ public class XPDLTriggerResultMessage  extends XMLConvertable {
 	
 	public void setMessage(XPDLMessage message) {
 		this.message = message;
+	}
+	
+	public void writeJSONmessage(JSONObject modelElement) {
+		XPDLMessage messageObject = getMessage();
+		if (messageObject != null) {
+			messageObject.write(getProperties(modelElement));
+		}
+	}
+	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
+	protected void initializeMessage(JSONObject modelElement) {
+		if (getMessage() == null) {
+			setMessage(new XPDLMessage());
+		}
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
+		}
+	}
+	
+	protected void passInformationToMessage(JSONObject modelElement, String key) throws JSONException {
+		initializeMessage(modelElement);
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		
+		getMessage().parse(passObject);
+	}
+	
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
 	}
 }
