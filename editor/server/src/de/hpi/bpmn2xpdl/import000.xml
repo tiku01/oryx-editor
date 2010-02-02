@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Package Language="English" QueryLanguage="dfg" Id="dfg" Name="dfg">
-  <Schmu />
   <PackageHeader>
+    <Created>
+      21-21-2100
+    </Created>
     <Documentation>
       dfg
     </Documentation>
+    <ModificationDate>
+      2222
+    </ModificationDate>
     <Vendor>
       Hasso Plattner Institute
     </Vendor>
@@ -25,22 +29,22 @@
   <Artifacts>
     <Artifact ArtifactType="Group" Id="oryx_AC84ECD2-1A50-448A-9203-4C22A6D8C4F0">
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo Height="90.0" Width="120.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo Height="90.0" Width="120.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="14.0" YCoordinate="407.0" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
     </Artifact>
     <Artifact ArtifactType="Annotation" Id="oryx_3714CF1B-55B0-489D-98A4-195B760F7271">
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo Height="50.0" Width="100.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo Height="50.0" Width="100.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="0.0" YCoordinate="514.0" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
     </Artifact>
     <Artifact ArtifactType="DataObject" Id="oryx_C78A8E36-03CE-4B20-AFC0-0627997317B8">
-      <DataObject ProducedAtCompletion="true" RequiredForStart="true" Id="oryx_C78A8E36-03CE-4B20-AFC0-0627997317B8" />
+      <DataObject ProducedAtCompletion="true" RequiredForStart="true" />
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo FillColor="#ffffff" Height="97.0" Width="88.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo FillColor="#ffffff" Height="97.0" Width="88.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="158.0" YCoordinate="379.5" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
@@ -49,45 +53,27 @@
   <Associations>
     <Association Direction="None" Id="oryx_ED524DF5-4833-4C3F-B0C3-23A780E6DC93">
       <ConnectorGraphicsInfos>
-        <ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <ConnectorGraphicsInfo BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="80.0" YCoordinate="919.0" />
           <Coordinates XCoordinate="280.0" YCoordinate="921.0" />
         </ConnectorGraphicsInfo>
       </ConnectorGraphicsInfos>
-      <ExtendedAttributes>
-        <ExtendedAttribute Name="docker0X" Value="80" />
-        <ExtendedAttribute Name="docker0Y" Value="919" />
-        <ExtendedAttribute Name="docker1X" Value="280" />
-        <ExtendedAttribute Name="docker1Y" Value="919" />
-      </ExtendedAttributes>
     </Association>
     <Association Direction="To" Id="oryx_0578255A-0874-43F2-BF29-04BE05CBBEBF">
       <ConnectorGraphicsInfos>
-        <ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <ConnectorGraphicsInfo BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="27.0" YCoordinate="1012.0" />
           <Coordinates XCoordinate="227.0" YCoordinate="1014.0" />
         </ConnectorGraphicsInfo>
       </ConnectorGraphicsInfos>
-      <ExtendedAttributes>
-        <ExtendedAttribute Name="docker0X" Value="27" />
-        <ExtendedAttribute Name="docker0Y" Value="1012" />
-        <ExtendedAttribute Name="docker1X" Value="227" />
-        <ExtendedAttribute Name="docker1Y" Value="1012" />
-      </ExtendedAttributes>
     </Association>
     <Association Direction="Both" Id="oryx_31C7343F-6B47-488B-9627-93D4A427703F">
       <ConnectorGraphicsInfos>
-        <ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <ConnectorGraphicsInfo BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="98.0" YCoordinate="888.0" />
           <Coordinates XCoordinate="298.0" YCoordinate="888.0" />
         </ConnectorGraphicsInfo>
       </ConnectorGraphicsInfos>
-      <ExtendedAttributes>
-        <ExtendedAttribute Name="docker0X" Value="98" />
-        <ExtendedAttribute Name="docker0Y" Value="888" />
-        <ExtendedAttribute Name="docker1X" Value="298" />
-        <ExtendedAttribute Name="docker1Y" Value="888" />
-      </ExtendedAttributes>
     </Association>
   </Associations>
   <MessageFlows>
@@ -96,32 +82,26 @@
         abc
       </Message>
       <ConnectorGraphicsInfos>
-        <ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <ConnectorGraphicsInfo BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="76.0" YCoordinate="979.0" />
           <Coordinates XCoordinate="276.0" YCoordinate="981.0" />
         </ConnectorGraphicsInfo>
       </ConnectorGraphicsInfos>
-      <ExtendedAttributes>
-        <ExtendedAttribute Name="docker0X" Value="76" />
-        <ExtendedAttribute Name="docker0Y" Value="979" />
-        <ExtendedAttribute Name="docker1X" Value="276" />
-        <ExtendedAttribute Name="docker1Y" Value="979" />
-      </ExtendedAttributes>
     </MessageFlow>
   </MessageFlows>
   <Pools>
-    <Pool BoundaryVisible="false" MainPool="true" Orientation="HORIZONTAL" Id="MainPool" Name="Main Pool">
+    <Pool BoundaryVisible="false" MainPool="true" Process="MainPool-process" Orientation="HORIZONTAL" Id="MainPool" Name="Main Pool">
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo FillColor="#ffffff" Height="0.0" Width="0.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo FillColor="#ffffff" Height="0.0" Width="0.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="0.0" YCoordinate="0.0" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
     </Pool>
-    <Pool BoundaryVisible="true" MainPool="false" Orientation="HORIZONTAL" Id="" Name="asdf">
+    <Pool BoundaryVisible="true" MainPool="false" Process="asdf-process" Orientation="HORIZONTAL" Id="" Name="asdf">
       <Lanes>
-        <Lane ParentLane="sdfg" ParentPool="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A" Id="sdfg" Name="dsfg">
+        <Lane ParentLane="sdfg" ParentPool="asdf" Id="sdfg" Name="dsfg">
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo Height="250.0" Width="600.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo Height="250.0" Width="600.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="0.0" YCoordinate="47.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -141,7 +121,7 @@
         </Lane>
       </Lanes>
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo Height="250.0" Width="600.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo Height="250.0" Width="600.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="345.0" YCoordinate="16.0" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
@@ -156,16 +136,16 @@
         </Documentation>
       </Object>
     </Pool>
-    <Pool BoundaryVisible="true" MainPool="false" Orientation="HORIZONTAL" Id="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163">
+    <Pool BoundaryVisible="true" MainPool="false" Process="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163-process" Orientation="HORIZONTAL" Id="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163">
       <NodeGraphicsInfos>
-        <NodeGraphicsInfo FillColor="#ffffff" Height="60.0" Width="500.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+        <NodeGraphicsInfo FillColor="#ffffff" Height="60.0" Width="500.0" BorderColor="#0,0,0" ToolId="Oryx">
           <Coordinates XCoordinate="330.0" YCoordinate="286.0" />
         </NodeGraphicsInfo>
       </NodeGraphicsInfos>
     </Pool>
   </Pools>
   <WorkflowProcesses>
-    <WorkflowProcess AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true" Id="oryx_00000000-0000-0000-0000-000000000000-process" Name="MainProcess">
+    <WorkflowProcess AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true" Id="MainPool-process" Name="MainProcess">
       <ActivitySets>
         <ActivitySet Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" />
         <ActivitySet Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8-activitySet" />
@@ -182,7 +162,7 @@
             <Assignment AssignTime="End" />
           </Assignments>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffcc" Height="80.0" Width="100.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffcc" Height="80.0" Width="100.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="46.0" YCoordinate="19.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -213,7 +193,7 @@
         <Activity CompletionQuantity="1" StartQuantity="1" Status="None" Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3">
           <BlockActivity ActivitySetId="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" View="EXTENDED" />
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffcc" Height="83.0" Width="103.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffcc" Height="83.0" Width="103.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="43.5" YCoordinate="99.5" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -227,7 +207,7 @@
             asd
           </Documentation>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="white" Height="163.0" Width="203.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="white" Height="163.0" Width="203.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="0.0" YCoordinate="210.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -236,12 +216,12 @@
           </ExtendedAttributes>
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
-          <Route ExclusiveType="Data" GatewayType="XOR" MarkerVisible="false" />
+          <Route ExclusiveType="Data" GatewayType="Exclusive" MarkerVisible="false" />
           <Documentation>
             dfgh
           </Documentation>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="249.0" YCoordinate="33.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -262,7 +242,7 @@
           </ExtendedAttributes>
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
-          <Route GatewayType="AND" />
+          <Route GatewayType="Parallel" />
           <Documentation>
             dgfh
           </Documentation>
@@ -270,7 +250,7 @@
             <Assignment AssignTime="Start" />
           </Assignments>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="251.0" YCoordinate="165.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -290,7 +270,7 @@
           </ExtendedAttributes>
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
-          <Route GatewayType="OR" />
+          <Route GatewayType="Inclusive" />
           <Documentation>
             dfgh
           </Documentation>
@@ -298,7 +278,7 @@
             <Assignment AssignTime="Start" />
           </Assignments>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="256.0" YCoordinate="232.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -323,18 +303,18 @@
         <Activity Id="oryx_436385B8-690C-41DA-A92E-F1277C06E33E">
           <Route GatewayType="Complex" />
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="252.0" YCoordinate="296.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
         </Activity>
         <Activity Id="fgh" Name="dfgh">
-          <Route ExclusiveType="Event" GatewayType="XOR" Instantiate="true" />
+          <Route ExclusiveType="Event" GatewayType="Exclusive" Instantiate="true" />
           <Documentation>
             fgh
           </Documentation>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="40.0" Width="40.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="241.0" YCoordinate="96.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -356,7 +336,7 @@
             <StartEvent Trigger="None" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="405.0" YCoordinate="437.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -379,7 +359,7 @@
             </StartEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="357.0" YCoordinate="429.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -398,7 +378,7 @@
             </StartEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="319.0" YCoordinate="470.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -417,7 +397,7 @@
             </StartEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="295.0" YCoordinate="415.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -431,7 +411,7 @@
             </StartEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="277.0" YCoordinate="473.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -444,7 +424,7 @@
             <StartEvent Trigger="Multiple" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="241.0" YCoordinate="523.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -454,7 +434,7 @@
             <IntermediateEvent Trigger="None" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="595.0" YCoordinate="429.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -466,7 +446,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="559.0" YCoordinate="470.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -478,7 +458,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="537.0" YCoordinate="405.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -490,7 +470,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="596.0" YCoordinate="358.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -500,7 +480,7 @@
             <IntermediateEvent Trigger="Cancel" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="489.0" YCoordinate="366.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -511,11 +491,11 @@
         <Activity Id="oryx_37E2092C-D461-46FE-B351-FEF207214AF8">
           <Event>
             <IntermediateEvent Trigger="Compensation">
-              <TriggerResultCompensation AttributeId="asdf" />
+              <TriggerResultCompensation AttributeId="asdf" CatchThrow="CATCH" />
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="633.0" YCoordinate="380.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -525,7 +505,7 @@
             <IntermediateEvent Trigger="Conditional" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="513.0" YCoordinate="446.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -539,7 +519,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="496.0" YCoordinate="495.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -549,7 +529,7 @@
             <IntermediateEvent Trigger="Multiple" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="601.0" YCoordinate="490.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -561,7 +541,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="694.0" YCoordinate="428.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -576,17 +556,19 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="85.0" YCoordinate="808.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
         </Activity>
         <Activity Id="oryx_E8C920D0-9339-4284-8AEF-EAB25AB043DB">
           <Event>
-            <IntermediateEvent Trigger="Compensation" />
+            <IntermediateEvent Trigger="Compensation">
+              <TriggerResultCompensation CatchThrow="THROW" />
+            </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="34.0" YCoordinate="748.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -598,7 +580,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="148.0" YCoordinate="741.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -608,7 +590,7 @@
             <IntermediateEvent Trigger="Multiple" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="39.0" YCoordinate="789.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -622,7 +604,7 @@
             </IntermediateEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="130.0" YCoordinate="820.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -632,7 +614,7 @@
             <EndEvent Result="None" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="482.0" YCoordinate="779.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -642,7 +624,7 @@
             <EndEvent Result="Message" Implementation="Web Service" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="551.0" YCoordinate="816.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -654,7 +636,7 @@
             </EndEvent>
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="484.0" YCoordinate="815.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -664,7 +646,7 @@
             <EndEvent Result="Cancel" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="451.0" YCoordinate="777.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -674,7 +656,7 @@
             <EndEvent Result="Compensation" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="463.0" YCoordinate="708.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -684,7 +666,7 @@
             <EndEvent Result="Signal" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="547.0" YCoordinate="729.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -694,7 +676,7 @@
             <EndEvent Result="Multiple" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="658.0" YCoordinate="749.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -704,7 +686,7 @@
             <EndEvent Result="Terminate" />
           </Event>
           <NodeGraphicsInfos>
-            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="426.0" YCoordinate="690.0" />
             </NodeGraphicsInfo>
           </NodeGraphicsInfos>
@@ -713,27 +695,21 @@
       <Transitions>
         <Transition Quantity="1" Id="oryx_7944CB3E-E158-495F-A553-7424476B3EC0">
           <ConnectorGraphicsInfos>
-            <ConnectorGraphicsInfo BorderColor="#0,0,0" IsVisible="true" ToolId="Oryx">
+            <ConnectorGraphicsInfo BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="76.0" YCoordinate="948.0" />
-              <Coordinates XCoordinate="1.0" YCoordinate="1.0" />
-              <Coordinates XCoordinate="2.0" YCoordinate="2.0" />
               <Coordinates XCoordinate="276.0" YCoordinate="950.0" />
             </ConnectorGraphicsInfo>
           </ConnectorGraphicsInfos>
           <ExtendedAttributes>
-            <ExtendedAttribute Name="docker0X" Value="76" />
-            <ExtendedAttribute Name="docker0Y" Value="948" />
-            <ExtendedAttribute Name="docker3X" Value="276" />
-            <ExtendedAttribute Name="docker3Y" Value="948" />
             <ExtendedAttribute Name="showdiamondmarker" Value="false" />
           </ExtendedAttributes>
         </Transition>
       </Transitions>
     </WorkflowProcess>
-    <WorkflowProcess Adhoc="true" AdhocOrdering="Sequential" AdhocCompletionCondition="" EnableInstanceCompensation="false" ProcessType="Abstract" Status="Cancelled" SuppressJoinFailure="true" Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-process" Name="asdf">
-      <Object Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-object">
+    <WorkflowProcess Adhoc="true" AdhocOrdering="Sequential" AdhocCompletionCondition="" EnableInstanceCompensation="false" ProcessType="Abstract" Status="Cancelled" SuppressJoinFailure="true" Id="asdf-process" Name="asdf">
+      <Object>
         <Categories>
-          <Category Id="oryx_4F9D1B1E-7FF1-47C4-ACCF-F87825A4AE5A-category">
+          <Category>
             asdf
           </Category>
         </Categories>
@@ -749,9 +725,6 @@
     <WorkflowProcess AdhocOrdering="Parallel" ProcessType="None" Status="None" Id="oryx_4658E7AF-1964-4FC5-8AFD-04F397E26163-process" />
   </WorkflowProcesses>
   <ExtendedAttributes>
-    <ExtendedAttribute Name="boundsX" Value="1485" />
-    <ExtendedAttribute Name="boundsY" Value="1050" />
-    <ExtendedAttribute Name="stencilsetUrl" Value="/oryx//stencilsets/bpmn1.1/bpmn1.1.json" />
-    <ExtendedAttribute Name="stencilsetNamespace" Value="http://b3mn.org/stencilset/bpmn1.1#" />
+    <ExtendedAttribute Name="pools" Value="sdfg" />
   </ExtendedAttributes>
 </Package>

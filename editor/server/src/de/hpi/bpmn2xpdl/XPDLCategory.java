@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -25,8 +26,12 @@ public class XPDLCategory extends XMLConvertable {
 		setId(modelElement.optString("id")+"-category");
 	}
 	
-	public void readJSONcontent(JSONObject modelElement) {
-		setContent(modelElement.optString("content"));
+	public void readJSONcategories(JSONObject modelElement) {
+		setContent(modelElement.optString("categories"));
+	}
+	
+	public void readJSONcategoryunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "categoryunknowns");
 	}
 	
 	public void setId(String idValue) {
@@ -35,5 +40,13 @@ public class XPDLCategory extends XMLConvertable {
 	
 	public void setContent(String contentValue) {
 		content = contentValue;
+	}
+	
+	public void writeJSONcategory(JSONObject modelElement) throws JSONException {
+		modelElement.put("categories", getContent());
+	}
+	
+	public void writeJSONcategoryunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "categoryunknowns");
 	}
 }

@@ -71,10 +71,24 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
-		addLanes(modelElement, getProperId(modelElement), "pool");
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties != null) {
+			properties.put("resourceId", modelElement.optString("resourceId"));
+			addLanes(modelElement, getProperId(properties), "pool");
+		} else {
+			addLanes(modelElement, getProperId(modelElement), "pool");
+		}		
 	}
 
 	public void readJSONenableinstancecompensation(JSONObject modelElement) {
+	}
+	
+	public void readJSONlanesunknowns(JSONObject modelElement) throws JSONException {
+		initializeLanes();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("lanesunknowns", modelElement.optString("lanesunknowns"));
+		getLanes().parse(passObject);
 	}
 	
 	public void readJSONmainpool(JSONObject modelElement) {
@@ -102,7 +116,8 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	
 	
 	public void readJSONpoolid(JSONObject modelElement) {
-		setId(getProperId(modelElement));
+		String test = getProperId(modelElement);
+		setId(test);
 	}
 	
 	public void readJSONprocesscategories(JSONObject modelElement) {
@@ -118,6 +133,9 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONprocesstype(JSONObject modelElement) {
+	}
+	
+	public void readJSONprocessunknowns(JSONObject modelElement) {
 	}
 	
 	public void readJSONstatus(JSONObject modelElement) {
@@ -151,6 +169,42 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		process = processValue;
 	}
 	
+	public void writeJSONaccordingprocess(JSONObject modelElement) {
+		XPDLWorkflowProcess process = getAccordingProcess();
+		if (process != null) {
+			process.write(modelElement);
+		}
+	}
+	
+	public void writeJSONboundaryvisible(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "boundaryvisible", getBoundaryVisible());
+	}
+	
+	public void writeJSONmainpool(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "mainpool", getMainPool());
+	}
+	
+	public void writeJSONprocessunknowns(JSONObject modelElement) {
+	}
+	
+	public void writeJSONlanes(JSONObject modelElement) {
+		XPDLLanes lanesList = getLanes();
+		if (lanesList != null) {
+			lanesList.write(modelElement);
+		}
+	}
+	
+	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
+		writeStencil(modelElement, "Pool");
+	}
+	
+	public void writeMainPool(JSONObject modelElement) throws JSONException {
+		XPDLWorkflowProcess processOfPool = getAccordingProcess();
+		if (processOfPool != null) {
+			processOfPool.writeChildrenOnly(modelElement);
+		}
+	}
+	
 	protected void addLanes(JSONObject modelElement, String parentId, String parentType) throws JSONException {
 		JSONArray childShapes = modelElement.optJSONArray("childShapes");
 		
@@ -174,8 +228,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 					addLanes(childShape, parentId, parentType);
 				}
 			}
-		}
-		
+		}		
 	}
 	
 	protected XPDLLane createLane(JSONObject modelElement) {

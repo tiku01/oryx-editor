@@ -13,6 +13,11 @@ public class XPDLEndEvent extends XMLConvertable {
 	protected String result;
 	@Attribute("Implementation")
 	protected String implementation;
+	
+	@Element("TriggerResultMessage")
+	protected XPDLTriggerResultMessage triggerResultMessage;
+	@Element ("TriggerResultCompensation")
+	protected XPDLTriggerResultCompensation triggerResultCompensation;
 	@Element("ResultError")
 	protected XPDLResultError resultError;
 	@Element("TriggerResultSignal")
@@ -30,8 +35,24 @@ public class XPDLEndEvent extends XMLConvertable {
 		return resultError;
 	}
 	
+	public XPDLTriggerResultCompensation getTriggerResultCompensation() {
+		return triggerResultCompensation;
+	}
+	
+	public XPDLTriggerResultMessage getTriggerResultMessage() {
+		return triggerResultMessage;
+	}
+	
 	public XPDLTriggerResultSignal getTriggerResultSignal() {
 		return triggerResultSignal;
+	}
+	
+	public void readJSONactivityref(JSONObject modelElement) throws JSONException {
+		setTriggerResultCompensation(new XPDLTriggerResultCompensation());
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("activity", modelElement.optString("activityref"));
+		getTriggerResultCompensation().parse(passObject);
 	}
 	
 	public void readJSONerrorcode(JSONObject modelElement) throws JSONException {
@@ -46,6 +67,14 @@ public class XPDLEndEvent extends XMLConvertable {
 	
 	public void readJSONimplementation(JSONObject modelElement) {
 		setImplementation(modelElement.optString("implementation"));
+	}
+	
+	public void readJSONmessage(JSONObject modelElement) throws JSONException {
+		passInformationToTriggerResultMessage(modelElement, "message");
+	}
+	
+	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToTriggerResultMessage(modelElement, "messageunknowns");
 	}
 	
 	public void readJSONresult(JSONObject modelElement) {
@@ -74,7 +103,112 @@ public class XPDLEndEvent extends XMLConvertable {
 		resultError = error;
 	}
 	
+	public void setTriggerResultCompensation(XPDLTriggerResultCompensation trigger) {
+		this.triggerResultCompensation = trigger;
+	}
+	
+	public void setTriggerResultMessage(XPDLTriggerResultMessage triggerResultMessage) {
+		this.triggerResultMessage = triggerResultMessage;
+	}
+	
 	public void setTriggerResultSignal(XPDLTriggerResultSignal triggerResultSignal) {
 		this.triggerResultSignal = triggerResultSignal;
+	}
+	
+	public void writeJSONeventtype(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "eventtype", "End");
+	}
+	
+	public void writeJSONimplementation(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "implementation", getImplementation());
+	}
+	
+	public void writeJSONresult(JSONObject modelElement) throws JSONException {
+		String resultValue = getResult();
+		
+		if (resultValue != null) {
+			if (resultValue.equalsIgnoreCase("Message")) {
+				putProperty(modelElement, "result", "Message");
+				appendStencil(modelElement, "MessageEvent");
+			} else if (resultValue.equalsIgnoreCase("Error")) {
+				putProperty(modelElement, "result", "Error");
+				appendStencil(modelElement, "ErrorEvent");
+			} else if (resultValue.equalsIgnoreCase("Cancel")) {
+				putProperty(modelElement, "result", "Cancel");
+				appendStencil(modelElement, "CancelEvent");
+			} else if (resultValue.equalsIgnoreCase("Compensation")) {
+				putProperty(modelElement, "result", "Compensation");
+				appendStencil(modelElement, "CompensationEvent");
+			} else if (resultValue.equalsIgnoreCase("Signal")) {
+				putProperty(modelElement, "result", "Signal");
+				appendStencil(modelElement, "SignalEvent");
+			} else if (resultValue.equalsIgnoreCase("Multiple")) {
+				putProperty(modelElement, "result", "Multiple");
+				appendStencil(modelElement, "MultipleEvent");
+			} else if (resultValue.equalsIgnoreCase("Terminate")) {
+				putProperty(modelElement, "result", "Terminate");
+				appendStencil(modelElement, "TerminateEvent");
+			} else {
+				putProperty(modelElement, "trigger", "None");
+				appendStencil(modelElement, "Event");
+			}
+		} else {
+			putProperty(modelElement, "trigger", "None");
+			appendStencil(modelElement, "Event");
+		}
+	}
+	
+	public void writeJSONtriggerObjects(JSONObject modelElement) throws JSONException {
+		if (getTriggerResultCompensation() != null) {
+			getTriggerResultCompensation().write(modelElement);
+		} else if (getTriggerResultMessage() != null) {
+			getTriggerResultMessage().write(modelElement);
+		} else if (getTriggerResultSignal() != null) {
+			getTriggerResultSignal().write(modelElement);
+		} else if (getResultError() != null) {
+			getResultError().write(modelElement);
+		}
+	}
+	
+	protected void appendStencil(JSONObject modelElement, String appendix) throws JSONException {
+		String newStencil = modelElement.optJSONObject("stencil").optString("id") + appendix;
+		
+		JSONObject stencil = new JSONObject();
+		stencil.put("id", newStencil);
+		modelElement.put("stencil", stencil);
+	}
+	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
+		}
+	}
+	
+	protected void initializeTriggerResultMessage() {
+		if (getTriggerResultMessage() == null) {
+			setTriggerResultMessage(new XPDLTriggerResultMessage());
+		}
+	}
+	
+	protected void passInformationToTriggerResultMessage(JSONObject modelElement, String key) throws JSONException {
+		initializeTriggerResultMessage();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		
+		getTriggerResultMessage().parse(passObject);
+	}
+	
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
 	}
 }

@@ -1,8 +1,8 @@
 package de.hpi.bpmn2xpdl;
 
-import java.util.HashMap;
-
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
@@ -40,25 +40,40 @@ public class XPDLPackageHeader extends XMLConvertable {
 		return xpdlVersion;
 	}
 	
-	public void readJSONcreationdate(JSONObject modelElement) {
-		XPDLCreated newCreated = new XPDLCreated();
-		newCreated.setContent(formatDate(modelElement.optString("creationdate")));
-		
-		setCreated(newCreated);
+	public void readJSONcreationdate(JSONObject modelElement) throws JSONException {
+		passInformationToCreated(modelElement, "creationdate");
 	}
 	
-	public void readJSONdocumentation(JSONObject modelElement) {
-		XPDLDocumentation newDocumentation = new XPDLDocumentation();
-		newDocumentation.setContent(modelElement.optString("documentation"));
-		
-		setDocumentation(newDocumentation);
+	public void readJSONcreationdateunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToCreated(modelElement, "creationdateunknowns");
 	}
 	
-	public void readJSONmodificationdate(JSONObject modelElement) {
-		XPDLModificationDate date = new XPDLModificationDate();
-		date.setContent(formatDate(modelElement.optString("modificationdate")));
-		
-		setModificationDate(date);
+	public void readJSONdocumentation(JSONObject modelElement) throws JSONException {
+		passInformationToDocumentation(modelElement, "documentation");
+	}
+	
+	public void readJSONdocumentationunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToDocumentation(modelElement, "documentationunknowns");
+	}
+	
+	public void readJSONmodificationdate(JSONObject modelElement) throws JSONException {
+		passInformationToModificationDate(modelElement, "modificationdate");
+	}
+	
+	public void readJSONmodificationdateunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToModificationDate(modelElement, "modificationdateunknowns");
+	}
+	
+	public void readJSONpackageheaderunknowns(JSONObject modelElement) throws JSONException {
+		readUnknowns(modelElement, "packageheaderunknowns");
+	}
+	
+	public void readJSONvendorunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToVendor(modelElement, "vendorunknowns");
+	}
+	
+	public void readJSONxpdlversionunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToXPDLVersion(modelElement, "xpdlversionunknowns");
 	}
 	
 	public void setCreated(XPDLCreated date) {
@@ -81,25 +96,96 @@ public class XPDLPackageHeader extends XMLConvertable {
 		xpdlVersion = version;
 	}
 	
-	protected String formatDate(String date) {
-		if (date != null) {
-			HashMap<String, String> months = new HashMap<String, String>();
-				months.put("Jan", "01");
-				months.put("Feb", "02");
-				months.put("Mar", "03");
-				months.put("Apr", "04");
-				months.put("May", "05");
-				months.put("Jun", "06");
-				months.put("Jul", "07");
-				months.put("Aug", "08");
-				months.put("Sep", "09");
-				months.put("Oct", "10");
-				months.put("Nov", "11");
-				months.put("Dec", "12");
-			String[] dateElements = date.split(" ");
-			return dateElements[3]+"-"+months.get(dateElements[1])+"-"+dateElements[2];
-		} else {
-			return null;
+	public void writeJSONcreated(JSONObject modelElement) {
+		XPDLCreated creation = getCreated();
+		if (creation != null) {
+			creation.write(modelElement);
 		}
+	}
+	
+	public void writeJSONdocumentation(JSONObject modelElement) {
+		XPDLDocumentation doc = getDocumentation();
+		if (doc != null) {
+			doc.write(modelElement);
+		}
+	}
+	
+	public void writeJSONmodificationdate(JSONObject modelElement) {
+		XPDLModificationDate date = getModificationDate();
+		if (date != null) {
+			date.write(modelElement);
+		}
+	}
+	
+	public void writeJSONpackageheaderunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "packageheaderunknowns");
+	}
+	
+	public void writeJSONvendor(JSONObject modelElement) {
+		XPDLVendor vendorObject = getVendor();
+		if (vendorObject != null) {
+			vendorObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONxpdlversion(JSONObject modelElement) {
+		XPDLXPDLVersion version = getXpdlVersion();
+		if (version != null) {
+			version.write(modelElement);
+		}
+	}
+	
+	protected void initializeCreated() {
+		if (getCreated() == null) {
+			setCreated(new XPDLCreated());
+		}
+	}
+	
+	protected void initializeDocumentation() {
+		if (getDocumentation() == null) {
+			setDocumentation(new XPDLDocumentation());
+		}
+	}
+	
+	protected void initializeModificationDate() {
+		if (getModificationDate() == null) {
+			setModificationDate(new XPDLModificationDate());
+		}
+	}
+	
+	protected void passInformationToCreated(JSONObject modelElement, String key) throws JSONException {
+		initializeCreated();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getCreated().parse(passObject);
+	}
+	
+	protected void passInformationToDocumentation(JSONObject modelElement, String key) throws JSONException {
+		initializeDocumentation();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getDocumentation().parse(passObject);
+	}
+	
+	protected void passInformationToModificationDate(JSONObject modelElement, String key) throws JSONException {
+		initializeModificationDate();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getModificationDate().parse(passObject);
+	}
+	
+	protected void passInformationToVendor(JSONObject modelElement, String key) throws JSONException {
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getVendor().parse(passObject);
+	}
+	
+	protected void passInformationToXPDLVersion(JSONObject modelElement, String key) throws JSONException {
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getXpdlVersion().parse(passObject);
 	}
 }

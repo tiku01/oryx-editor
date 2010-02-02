@@ -16,8 +16,6 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	protected String isATransaction;
 	@Attribute("IsForCompensation")
 	protected String isForCompensation;
-	@Attribute("StartActivity")
-	protected String startActivity;
 	@Attribute("StartQuantity")
 	protected String startQuantity;
 	@Attribute("Status")
@@ -124,16 +122,30 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		return route;
 	}
 	
-	public String getStartActivity() {
-		return startActivity;
-	}
-	
 	public String getStartQuantity() {
 		return startQuantity;
 	}
 	
 	public String getStatus() {
 		return status;
+	}
+	
+	public void readJSONactivity(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "activity");
+	}
+	
+	public void readJSONactivitytype(JSONObject modelElement) {
+		createExtendedAttribute("activitytype", modelElement.optString("activitytype"));
+	}
+	
+	public void readJSONactivityref(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "activityref");
+	}
+	
+	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
+	}
+	
+	public void readJSONadhocordering(JSONObject modelElement) {
 	}
 	
 	public void readJSONassignments(JSONObject modelElement) throws JSONException {
@@ -149,22 +161,16 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		}
 	}
 	
-	public void readJSONactivity(JSONObject modelElement) throws JSONException {
-		passInformationToEvent(modelElement, "activity");
+	public void readJSONassignmentsunknowns(JSONObject modelElement) throws JSONException {
+		initializeAssignments();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("assignmentsunknowns", modelElement.optString("assignmentsunknowns"));
+		getAssignments().parse(passObject);
 	}
 	
-	public void readJSONactivitytype(JSONObject modelElement) {
-		createExtendedAttribute("activitytype", modelElement.optString("activitytype"));
-	}
-	
-	public void readJSONactivityref(JSONObject modelElement) {
-		createExtendedAttribute("activityref", modelElement.optString("activityref"));
-	}
-	
-	public void readJSONadhoccompletioncondition(JSONObject modelElement) {
-	}
-	
-	public void readJSONadhocordering(JSONObject modelElement) {
+	public void readJSONblockunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToBlockActivity(modelElement, "blockunknowns");
 	}
 	
 	public void readJSONcompletionquantity(JSONObject modelElement) {
@@ -183,11 +189,12 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToEvent(modelElement, "conditionref");
 	}
 	
-	public void readJSONdocumentation(JSONObject modelElement) {
-		XPDLDocumentation doc = new XPDLDocumentation();
-		doc.setContent(modelElement.optString("documentation"));
-		
-		setDocumentation(doc);
+	public void readJSONdocumentation(JSONObject modelElement) throws JSONException {
+		passInformationToDocumentation(modelElement, "documentation");
+	}
+	
+	public void readJSONdocumentationunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToDocumentation(modelElement, "documentationunknowns");
 	}
 	
 	public void readJSONdefaultgate(JSONObject modelElement) {
@@ -196,6 +203,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void readJSONdiagramref(JSONObject modelElement) {
 		createExtendedAttribute("diagramref", modelElement.optString("diagramref"));
+	}
+	
+	public void readJSONendeventunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "endeventunknowns");
 	}
 	
 	public void readJSONentry(JSONObject modelElement) {
@@ -207,6 +218,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void readJSONeventtype(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "eventtype");
+	}
+	
+	public void readJSONeventunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "eventunknowns");
 	}
 	
 	public void readJSONgates(JSONObject modelElement) {
@@ -263,6 +278,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToRoute(modelElement, "instantiate");
 	}
 	
+	public void readJSONintermediateeventunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "intermediateeventunknowns");
+	}
+	
 	public void readJSONiorules(JSONObject modelElement) {
 		createExtendedAttribute("iorules", modelElement.optString("iorules"));
 	}
@@ -305,6 +324,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToLoop(modelElement, "looptype");
 	}
 	
+	public void readJSONloopunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToLoop(modelElement, "loopunknowns");
+	}
+	
 	public void readJSONmarkervisible(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "markervisible");
 	}
@@ -323,6 +346,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void readJSONmessageref(JSONObject modelElement) {
 		createExtendedAttribute("messageref", modelElement.optString("messageref"));
+	}
+	
+	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "messageunknowns");
 	}
 	
 	public void readJSONmi_ordering(JSONObject modelElement) throws JSONException {
@@ -371,12 +398,20 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToEvent(modelElement, "result");
 	}
 	
+	public void readJSONrouteunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToRoute(modelElement, "routeunknowns");
+	}
+	
 	public void readJSONscript(JSONObject modelElement) {
 		createExtendedAttribute("script", modelElement.optString("script"));
 	}
 	
 	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "signalref");
+	}
+	
+	public void readJSONstarteventunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "starteventunknowns");
 	}
 	
 	public void readJSONstartquantity(JSONObject modelElement) {
@@ -388,13 +423,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONsubprocesstype(JSONObject modelElement) throws JSONException {
-		setBlockActivity(new XPDLBlockActivity());
-		
-		JSONObject passObject = new JSONObject();
-		passObject.put("id", getProperId(modelElement));
-		passObject.put("subprocesstype", modelElement.optString("subprocesstype"));
-		
-		getBlockActivity().parse(passObject);
+		passInformationToBlockActivity(modelElement, "subprocesstype");
 	}
 
 	public void readJSONtarget(JSONObject modelElement) {
@@ -413,7 +442,6 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONtimecycle(JSONObject modelElement) throws JSONException {
-		System.out.println();
 		passInformationToEvent(modelElement, "timecycle");
 	}
 	
@@ -472,10 +500,6 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		route = routeValue;
 	}
 	
-	public void setStartActivity(String isStart) {
-		startActivity = isStart;
-	}
-	
 	public void setStartQuantity(String quantity) {
 		startQuantity = quantity;
 	}
@@ -484,11 +508,81 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		status = statusValue;
 	}
 	
+	public void writeJSONassignments(JSONObject modelElement) {
+		XPDLAssignments assignmentsObject = getAssignments();
+		if (assignmentsObject != null) {
+			assignmentsObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONblockactivity(JSONObject modelElement) {
+		XPDLBlockActivity block = getBlockActivity();
+		if (block != null) {
+			block.write(modelElement);
+		}
+	}
+	
+	public void writeJSONcompletionquantity(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "completionquantity", getCompletionQuantity());
+	}
+	
+	public void writeJSONdefaultstencil(JSONObject modelElement) throws JSONException {
+		if (!modelElement.has("stencil")) {
+			writeStencil(modelElement, "Task");
+		}
+	}
+	
+	public void writeJSONdocumentation(JSONObject modelElement) throws JSONException {
+		XPDLDocumentation doc = getDocumentation();
+		if (doc != null) {
+			initializeProperties(modelElement);
+			doc.write(getProperties(modelElement));
+		}
+	}
+	
+	public void writeJSONevent(JSONObject modelElement) {
+		XPDLEvent eventObject = getEvent();
+		if (eventObject != null) {
+			eventObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONisatransaction(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "isatransaction", getIsATransaction());
+	}
+	
+	public void writeJSONiscompensation(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "iscompensation", getIsForCompensation());
+	}
+	
+	public void writeJSONloop(JSONObject modelElement) {
+		XPDLLoop loopObject = getLoop();
+		if (loopObject != null) {
+			loopObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONroute(JSONObject modelElement) throws JSONException {
+		XPDLRoute routeObject = getRoute();
+		if (routeObject != null) {
+			routeObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONstartquantity(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "startquantity", getStartQuantity());
+	}
+	
+	public void writeJSONstatus(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "status", getStatus());
+	}
+	
 	protected void createAssignment(JSONObject modelElement) throws JSONException {
 		initializeAssignments();
 		
 		JSONObject assignmentObject = new JSONObject();
 		assignmentObject.put("assigntime", modelElement.optString("assigntime"));
+		assignmentObject.put("assignmentunknowns", modelElement.optString("assignmentunknowns"));
 		
 		XPDLAssignment newAssignment = new XPDLAssignment();
 		newAssignment.parse(assignmentObject);
@@ -499,6 +593,18 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	protected void initializeAssignments() {
 		if (getAssignments() == null) {
 			setAssignments(new XPDLAssignments());
+		}
+	}
+	
+	protected void initializeBlockActivity() {
+		if (getBlockActivity() == null) {
+			setBlockActivity(new XPDLBlockActivity());
+		}
+	}
+	
+	protected void initializeDocumentation() {
+		if (getDocumentation() == null) {
+			setDocumentation(new XPDLDocumentation());
 		}
 	}
 	
@@ -518,6 +624,23 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		if (getRoute() == null) {
 			setRoute(new XPDLRoute());
 		}
+	}
+	
+	protected void passInformationToBlockActivity(JSONObject modelElement, String key) throws JSONException {
+		initializeBlockActivity();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		passObject.put("id", getProperId(modelElement));
+		getBlockActivity().parse(passObject);
+	}
+	
+	protected void passInformationToDocumentation(JSONObject modelElement, String key) throws JSONException {
+		initializeDocumentation();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getDocumentation().parse(passObject);
 	}
 	
 	protected void passInformationToEvent(JSONObject modelElement, String key) throws JSONException {

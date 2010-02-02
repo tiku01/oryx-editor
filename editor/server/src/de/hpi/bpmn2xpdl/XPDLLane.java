@@ -2,6 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -45,5 +46,9 @@ public class XPDLLane extends XPDLThingNodeGraphics {
 
 	public void setParentPool(String poolId) {
 		parentPool = poolId;
+	}
+	
+	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
+		writeStencil(modelElement, "Lane");
 	}
 }

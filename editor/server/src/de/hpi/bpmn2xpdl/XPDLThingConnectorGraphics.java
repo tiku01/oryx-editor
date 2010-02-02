@@ -17,11 +17,7 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 	}
 	
 	public void readJSONbgcolor(JSONObject modelElement) throws JSONException {
-			initializeGraphics();
-			
-			JSONObject color = new JSONObject();
-			color.put("bgcolor", modelElement.optString("bgcolor"));
-			getFirstGraphicsInfo().parse(color);
+		passInformationToFirstGraphics(modelElement, "bgcolor");
 	}
 	
 	public void readJSONbounds(JSONObject modelElement) throws JSONException {
@@ -35,17 +31,7 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 	public void readJSONdockers(JSONObject modelElement) throws JSONException {
 		JSONArray dockers = modelElement.optJSONArray("dockers");
 		
-		if (dockers != null) {
-			if (dockers.length() >= 2) {
-				JSONObject firstDocker = dockers.optJSONObject(0);
-				createExtendedAttribute("docker" + 0 + "X", firstDocker.optString("x"));
-				createExtendedAttribute("docker" + 0 + "Y", firstDocker.optString("y"));
-				
-				JSONObject lastDocker = dockers.optJSONObject(dockers.length()-1);
-				createExtendedAttribute("docker" + String.valueOf(dockers.length()-1) + "X", lastDocker.optString("x"));
-				createExtendedAttribute("docker" + String.valueOf(dockers.length()-1) + "Y", lastDocker.optString("y"));
-			}
-			
+		if (dockers != null) {			
 			JSONArray parseDockers = new JSONArray();
 			for (int i = 1; i < dockers.length()-1; i++) {
 				parseDockers.put(dockers.optJSONObject(i));				
@@ -60,8 +46,27 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		}
 	}
 	
+	public void readJSONgraphicsinfounknowns(JSONObject modelElement) throws JSONException {
+		passInformationToFirstGraphics(modelElement, "graphicsinfounknowns");
+	}
+	
+	public void readJSONgraphicsinfosunknowns(JSONObject modelElement) throws JSONException {
+		initializeGraphics();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put("graphicsinfosunknowns", modelElement.optString("graphicsinfosunknowns"));
+		getConnectorGraphics().parse(passObject);
+	}
+	
 	public void setConnectorGraphics(XPDLConnectorGraphicsInfos graphics) {
 		connectorGraphics = graphics;
+	}
+	
+	public void writeJSONgraphicsinfos(JSONObject modelElement) {
+		XPDLConnectorGraphicsInfos infos = getConnectorGraphics();
+		if (infos != null) {
+			infos.write(modelElement);
+		}
 	}
 	
 	protected XPDLConnectorGraphicsInfo getFirstGraphicsInfo() {
@@ -73,5 +78,13 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 			setConnectorGraphics(new XPDLConnectorGraphicsInfos());
 			getConnectorGraphics().add(new XPDLConnectorGraphicsInfo());
 		}
+	}
+	
+	protected void passInformationToFirstGraphics(JSONObject modelElement, String key) throws JSONException {
+		initializeGraphics();
+		
+		JSONObject passObject = new JSONObject();
+		passObject.put(key, modelElement.optString(key));
+		getFirstGraphicsInfo().parse(passObject);
 	}
 }

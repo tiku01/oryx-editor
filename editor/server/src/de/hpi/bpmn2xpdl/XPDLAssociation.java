@@ -61,4 +61,28 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 	public void setTarget(String targetValue) {
 		target = targetValue;
 	}
+	
+	public void writeJSONsource(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "target", "");
+	}
+	
+	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
+		
+		String directionValue = getDirection();
+		if (directionValue.equals("To")) {
+			putProperty(modelElement, "direction", directionValue);
+			writeStencil(modelElement, "Association_Unidirectional");
+		} else if (directionValue.equals("Both")) {
+			putProperty(modelElement, "direction", directionValue);
+			writeStencil(modelElement, "Association_Bidirectional");
+		} else {
+			putProperty(modelElement, "direction", "None");
+			writeStencil(modelElement, "Association_Undirected");
+		}
+		
+	}
+	
+	public void writeJSONtarget(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "source", "");
+	}
 }

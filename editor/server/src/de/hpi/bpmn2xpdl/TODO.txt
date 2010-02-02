@@ -1,0 +1,17 @@
+﻿- outgoing-key (Source Target)
+- tasktypes
+- i18n strings fürs plugin
+
+=========================================================
+========                  IMPORT                 ========
+=========================================================
+
+- strip xml tag
+- strip xml namespaces
+- intermediate multiples
+- Generell in flows target/sources
+- Coordinatesunknowns?!
+- andere node/connector infos storen?
+- object im workflowprocess/pool
+- assignments in der activity
+- extended attributes

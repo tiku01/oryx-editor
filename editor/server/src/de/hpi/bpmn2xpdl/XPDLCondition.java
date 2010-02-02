@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -33,10 +34,26 @@ public class XPDLCondition extends XMLConvertable {
 		}
 	}
 	
+	public void readJSONconditionunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "conditionsunknowns");
+	}
+	
 	public void setConditionType(String conditionType) {
 		this.conditionType = conditionType;
 	}
 	public void setConditionExpression(String conditionExpression) {
 		this.conditionExpression = conditionExpression;
-	}	
+	}
+	
+	public void writeJSONconditionexpression(JSONObject modelElement) throws JSONException {
+		modelElement.put("conditionexpression", getConditionExpression());
+	}
+	
+	public void writeJSONconditiontype(JSONObject modelElement) throws JSONException {
+		modelElement.put("conditiontype", getConditionType());
+	}
+	
+	public void writeJSONconditionunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "conditionunknowns");
+	}
 }
