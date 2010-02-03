@@ -43,7 +43,11 @@ public class CPNArc extends CPNModellingThing
 	{
 		String annot = modelElement.getString("label");
 		
-		getAnnot().getText().setText(annot);
+		JSONObject tempJSON = new JSONObject();
+		tempJSON.put("label", annot);
+		tempJSON.put("id", getId() + "1");
+		
+		getAnnot().parse(tempJSON);
 	}
 	
 	public void readJSONtransend(JSONObject modelElement) throws JSONException

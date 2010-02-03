@@ -56,9 +56,9 @@ public class CPNPlace extends CPNModellingThing
 		setText(text);
 	}
 	
-	public void readJSONcolordefinition(JSONObject modelElement) throws JSONException
+	public void readJSONcolorsettype(JSONObject modelElement) throws JSONException
 	{
-		String colorsettype = modelElement.getString("colordefinition");
+		String colorsettype = modelElement.getString("colorsettype");
 		
 		JSONObject tempJSON = new JSONObject();
 		tempJSON.put("colordefinition", colorsettype);
@@ -124,11 +124,11 @@ public class CPNPlace extends CPNModellingThing
 		
 		JSONObject initmarkingPositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
+		int x = (int) Double.parseDouble(modelElement.getString("x")) + defaultShiftX;
+		int y = (int) Double.parseDouble(modelElement.getString("y")) + defaultShiftY;
 		
-		initmarkingPositionJSON.put("postattrX", "" + x + ".000000");
-		initmarkingPositionJSON.put("postattrY", "" + y + ".000000");
+		initmarkingPositionJSON.put("initpostattrX", "" + x + ".000000");
+		initmarkingPositionJSON.put("initpostattrY", "" + y + ".000000");
 		
 		getInitmark().parse(initmarkingPositionJSON);
 	}
@@ -140,11 +140,11 @@ public class CPNPlace extends CPNModellingThing
 		
 		JSONObject typePositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
+		int x = (int) Double.parseDouble(modelElement.getString("x")) + defaultShiftX;
+		int y = (int) Double.parseDouble(modelElement.getString("y")) + defaultShiftY;
 		
-		typePositionJSON.put("postattrX", "" + x + ".000000");
-		typePositionJSON.put("postattrY", "" + y + ".000000");
+		typePositionJSON.put("typepostattrX", "" + x + ".000000");
+		typePositionJSON.put("typepostattrY", "" + y + ".000000");
 		
 		getType().parse(typePositionJSON);
 	}

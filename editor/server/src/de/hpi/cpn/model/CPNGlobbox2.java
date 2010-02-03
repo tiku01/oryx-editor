@@ -29,27 +29,25 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
+//import exportCPN.Globbox;
 
-public class CPNGlobbox extends XMLConvertable
+
+public class CPNGlobbox2 extends XMLConvertable
 {	
-	private transient String mltag;
-	
 	private ArrayList<CPNColor> colors = new ArrayList<CPNColor>();
 	private ArrayList<CPNVariable> vars = new ArrayList<CPNVariable>();
 	private ArrayList<CPNBlock> blocks = new ArrayList<CPNBlock>();
-	private CPNBlock colorSetBlock;
-	private CPNBlock variableBlock;
 	
 	// ------------------------------------- Initialization ------------------------------
-	public CPNGlobbox()
+	public CPNGlobbox2()
 	{
 		initializeList();
 	}
 	
 	private void initializeList()
 	{		
-		setColorSetBlock(initializeColorBlock("ID1001"));
-		setVaraibleBlock(initializeVariableBlock("ID1002"));
+//		setColorSetBlock(initializeColorBlock("ID1001"));
+//		setVaraibleBlock(initializeVariableBlock("ID1002"));
 	}
 	
 	private static CPNBlock initializeColorBlock( String idattr)
@@ -72,22 +70,16 @@ public class CPNGlobbox extends XMLConvertable
 	
 	public static void registerMapping(XStream xstream)
 	{
-	   xstream.alias("globbox", CPNGlobbox.class);
+	   xstream.alias("globbox", CPNGlobbox2.class);
 	   
-	   xstream.aliasField("ml", CPNGlobbox.class, "mltag");
+	   xstream.addImplicitCollection(CPNGlobbox2.class, "colors");
+	   xstream.addImplicitCollection(CPNGlobbox2.class, "vars");
+	   xstream.addImplicitCollection(CPNGlobbox2.class, "blocks");
 	   
-	   xstream.addImplicitCollection(CPNGlobbox.class, "colors", CPNColor.class);
-	   xstream.addImplicitCollection(CPNGlobbox.class, "vars", CPNVariable.class);
-	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks", CPNBlock.class);
 	   
-	   // this instance variables are not needed for the mapping
-	   // that's why they are excluded
-	   xstream.omitField(CPNGlobbox.class, "colorSetBlock");
-	   xstream.omitField(CPNGlobbox.class, "variableBlock");	   
-	   xstream.omitField(CPNGlobbox.class, "declarationIds");
+	   xstream.omitField(CPNGlobbox2.class, "declarationIds");
 	   
-	   CPNBlock.registerMapping(xstream);
-	   
+	   CPNBlock.registerMapping(xstream);	   
 	}
 	
 	
@@ -123,15 +115,12 @@ public class CPNGlobbox extends XMLConvertable
 				if (correctDeclaration(declaration))
 					addDeclaration(declaration, i);
 			}
-			
-			getBlocks().add(getColorSetBlock());
-			getBlocks().add(getVaraibleBlock());
 		}
 	}
 	
 	
 	
-	// ------------------------------ Helper Export ---------------------------------------------
+	// ------------------------------ Helper ---------------------------------------------
 	
 	private ArrayList<String> declarationIds;	
 	
@@ -143,7 +132,7 @@ public class CPNGlobbox extends XMLConvertable
 		for (int i = 0; i < jsonlen; i++)
 		{
 			String tempDeclaration = jsonDeclarations.getJSONObject(i).getString("name");
-			tempDeclarationIds.add(tempDeclaration.trim());
+			tempDeclarationIds.add(tempDeclaration);
 		}
 		
 		System.out.println(tempDeclarationIds);
@@ -157,16 +146,16 @@ public class CPNGlobbox extends XMLConvertable
 		int IdStart = 20000;
 		String declarationType = declarationJSON.getString("declarationtype");
 		
-		 
-		declarationJSON.put("id", "ID" + (IdStart + id));
-				
-		// Choose correct block depending on the declarationType
-		if	(declarationType.equalsIgnoreCase("Colorset"))
-			getColorSetBlock().parse(declarationJSON);
-				
-		else
-			getVaraibleBlock().parse(declarationJSON);
-		
+//		 
+//		declarationJSON.put("id", "ID" + (IdStart + id));
+//				
+//		// Choose correct block depending on the declarationType
+//		if	(declarationType.equalsIgnoreCase("Colorset"))
+////			getColorSetBlock().parse(declarationJSON);
+//		
+//		else
+////			getVaraibleBlock().parse(declarationJSON);
+			
 	}	
 	 	
 	private boolean correctDeclaration(JSONObject declaration) throws JSONException
@@ -187,7 +176,7 @@ public class CPNGlobbox extends XMLConvertable
 		CharSequence productChar = " * "; // for product definition
 		
 		// Checking of the declaration is a product (a Complex Declaration)
-		if (declarationDataType.indexOf(" * ") != -1) // as long it's not a product or List
+		if (declarationDataType.contains(productChar)) // as long it's not a product or List
 			return testProductDataType(declarationDataType.split(" "));
 		
 		// if it's not a complex declarationDataType, you only have to look if it is a normal datatype 
@@ -229,7 +218,7 @@ public class CPNGlobbox extends XMLConvertable
 	   {
 	      return this.colors;
 	   }
-	   public void setColors(ArrayList<CPNColor> _colors)
+	   public void setColors(ArrayList _colors)
 	   {
 	      this.colors = _colors;
 	   }
@@ -271,7 +260,7 @@ public class CPNGlobbox extends XMLConvertable
 	   {
 	      return this.blocks;
 	   }
-	   public void setBlocks(ArrayList<CPNBlock> _blocks)
+	   public void setBlocks(ArrayList _blocks)
 	   {
 	      this.blocks = _blocks;
 	   }
@@ -297,17 +286,4 @@ public class CPNGlobbox extends XMLConvertable
 		   return declarationIds;
 	   }
 	   
-	   private void setVaraibleBlock(CPNBlock _varaibleBlock) {
-		   this.variableBlock = _varaibleBlock;
-	   }
-	   private CPNBlock getVaraibleBlock() {
-		   return variableBlock;
-	   }
-	   
-	   private void setColorSetBlock(CPNBlock _colorSetBlock) {
-		   this.colorSetBlock = _colorSetBlock;
-	   }
-	   private CPNBlock getColorSetBlock() {
-		   return colorSetBlock;
-	   }
 }

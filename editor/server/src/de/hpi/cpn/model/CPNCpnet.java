@@ -54,7 +54,7 @@ public class CPNCpnet extends XMLConvertable
 	 private void createPage(JSONObject modelElement) throws JSONException
 	 {
 		CPNPage page = new CPNPage();
-		page.setId("ID30001"); // nur Provisorisch
+		page.setId("ID3940001"); // nur Provisorisch
 			
 		page.prepareResourceIDictionary(modelElement);
 		

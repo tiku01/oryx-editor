@@ -71,6 +71,24 @@ public class CPNProperty extends CPNModellingThing
 		getText().setText(colorsettype);
 	}
 		
+	public void readJSONinitpostattrX(JSONObject modelElement) throws JSONException
+	{
+		String initpostattrX = modelElement.getString("initpostattrX");
+		String initpostattrY = modelElement.getString("initpostattrY");
+		
+		getPosattr().setX(initpostattrX);
+		getPosattr().setY(initpostattrY);
+	}
+	
+	public void readJSONtypepostattrX(JSONObject modelElement) throws JSONException
+	{
+		String typepostattrX = modelElement.getString("typepostattrX");
+		String typepostattrY = modelElement.getString("typepostattrY");
+		
+		getPosattr().setX(typepostattrX);
+		getPosattr().setY(typepostattrY);
+	}
+	
 	
 	// ------------ Transition
 	
@@ -81,6 +99,14 @@ public class CPNProperty extends CPNModellingThing
 		getText().setText(guard);
 	}
 	
+	// ------------ Arc
+	
+	public void readJSONlabel(JSONObject modelElement) throws JSONException
+	{
+		String annot = modelElement.getString("label");
+		
+		getText().setText(annot);
+	}
 	
 	// ---------------------------------------- Accessory -----------------------------------
 	
