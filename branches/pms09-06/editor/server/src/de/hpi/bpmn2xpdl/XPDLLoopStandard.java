@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -44,6 +45,10 @@ public class XPDLLoopStandard extends XMLConvertable {
 		setLoopMaximum(modelElement.optString("loopmaximum"));
 	}
 	
+	public void readJSONstandardloopunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "standardloopunknowns");
+	}
+	
 	public void readJSONtesttime(JSONObject modelElement) {
 		setTestTime(modelElement.optString("testtime"));
 	}
@@ -62,5 +67,25 @@ public class XPDLLoopStandard extends XMLConvertable {
 	
 	public void setTestTime(String testTime) {
 		this.testTime = testTime;
-	}	
+	}
+	
+	public void writeJSONloopcondition(JSONObject modelElement) throws JSONException {
+		modelElement.put("loopcondition", getLoopCondition());
+	}
+	
+	public void writeJSONloopcounter(JSONObject modelElement) throws JSONException {
+		modelElement.put("loopcounter", getLoopCounter());
+	}
+	
+	public void writeJSONloopmaximum(JSONObject modelElement) throws JSONException {
+		modelElement.put("loopmaximum", getLoopMaximum());
+	}
+	
+	public void writeJSONstandardloopunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "standardloopunknowns");
+	}
+	
+	public void writeJSONtesttimes(JSONObject modelElement) throws JSONException {
+		modelElement.put("testtime", getTestTime());
+	}
 }

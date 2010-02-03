@@ -311,18 +311,16 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public void writeActivitySets(JSONObject modelElement) throws JSONException {
-		if (getActivitySets() != null) {
-			ArrayList<XPDLActivitySet> activitySetsList = getActivitySets().getActvitySets();
-			if (activitySetsList != null) {
-				initializeChildShapes(modelElement);
-				JSONArray childShapes = modelElement.getJSONArray("childShapes");
-				
-				for (int i = 0; i < activitySetsList.size(); i++) {
-					JSONObject newActivitySet = new JSONObject();
-					XPDLActivitySet activitySet = activitySetsList.get(i);
-					activitySet.write(newActivitySet);
-					childShapes.put(newActivitySet);
+		XPDLActivitySets sets = getActivitySets();
+		if (sets != null) {
+			if (getActivities() != null) {
+				if (getActivities().getActivities() != null) {
+					sets.write(modelElement, getActivities().getActivities());
+				} else {
+					sets.write(modelElement, new ArrayList<XPDLActivity>());
 				}
+			} else {
+				sets.write(modelElement, new ArrayList<XPDLActivity>());
 			}
 		}
 	}
@@ -345,7 +343,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	}
 	
 	public void writeChildrenOnly(JSONObject modelElement) throws JSONException {
-//		writeActivitySets(modelElement);
+		writeActivitySets(modelElement);
 		writeActivities(modelElement);
 		writeTransitions(modelElement);
 	}
@@ -372,6 +370,10 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		if (activitiesList != null) {
 			activitiesList.write(modelElement);
 		}
+	}
+	
+	public void writeJSONactivitysets(JSONObject modelElement) throws JSONException {
+		writeActivitySets(modelElement);
 	}
 	
 	public void writeJSONactivitysetsunknowns(JSONObject modelElement) {
@@ -433,14 +435,17 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	
 	protected void createActivitySet(JSONObject modelElement) throws JSONException {
 		initializeActivitySets();
-		
 		XPDLActivitySet nextSet = new XPDLActivitySet();
+		
+		JSONObject properties = modelElement.optJSONObject("properties");
+		properties.put("resourceId", modelElement.optString("resourceId"));
+		
 		JSONObject passObject = new JSONObject();
 		passObject.put("childShapes", modelElement.optJSONArray("childShapes"));
-		passObject.put("adhoccompletioncondition", modelElement.optString("adhoccompletioncondition"));
-		passObject.put("adhocordering", modelElement.optString("adhocordering"));
-		passObject.put("isadhoc", modelElement.optString("isadhoc"));
-		passObject.put("id", getProperId(modelElement));
+		passObject.put("adhoccompletioncondition", properties.optString("adhoccompletioncondition"));
+		passObject.put("adhocordering", properties.optString("adhocordering"));
+		passObject.put("isadhoc", properties.optString("isadhoc"));
+		passObject.put("id", getProperId(properties));
 		
 		nextSet.parse(passObject);
 		getActivitySets().add(nextSet);

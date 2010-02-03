@@ -28,10 +28,9 @@ public class BPMN2XPDLConverter {
 	}
 	
 	public String importXPDL(String xml) {
-		String firstFiltering = xml.replace("<xpdl2:", "<");
-		String secondFiltering = firstFiltering.replace("<xpdl:", "<");
+		String parseXML = filterXMLString(xml);
 		
-		StringReader reader = new StringReader(secondFiltering);
+		StringReader reader = new StringReader(parseXML);
 		
 		Xmappr xmappr = new Xmappr(XPDLPackage.class);
 		XPDLPackage newPackage = (XPDLPackage) xmappr.fromXML(reader);
@@ -44,5 +43,25 @@ public class BPMN2XPDLConverter {
 
 	public void setConvertObject(XMLConvertable toConvert) {
 		convertObject = toConvert;
+	}
+	
+	private String filterXMLString(String xml) {
+		//Remove xpdl2: from tags
+		String firstTagFiltered = xml.replace("<xpdl2:", "<");
+		firstTagFiltered = firstTagFiltered.replace("</xpdl2:", "</");
+		
+		//Remove xpdl: from tags
+		String secondTagFiltered = firstTagFiltered.replace("<xpdl:", "<");
+		secondTagFiltered = secondTagFiltered.replace("</xpdl:", "</");
+		
+		//Remove namespaces
+		String nameSpaceFiltered = secondTagFiltered.replaceAll(" xmlns=\"[^\"]*\"", "");
+		//Remove xml namespace lookalikes
+		nameSpaceFiltered = nameSpaceFiltered.replaceAll(" \\w+:\\w+=\"[^\"]*\"", "");
+		//Remove schemas
+		String schemaFiltered = nameSpaceFiltered.replaceAll(" xsi=\"[^\"]*\"", "");
+		//Remove starting xml tag
+		String xmlTagFiltered = schemaFiltered.replaceAll("<\\?xml[^\\?]*\\?>\n?", "");
+		return xmlTagFiltered;
 	}
 }

@@ -98,7 +98,6 @@ public abstract class XMLConvertable {
 	public void writeUnknowns(JSONObject modelElement, String key) throws JSONException {
 		HashMap<String,String> unknownAttributes = getUnknownAttributes();
 		ArrayList<DomElement> unknownElements = getUnknownChildren();
-		
 		if (!unknownAttributes.isEmpty() || unknownElements != null) {
 			XMLUnknownsContainer unknownsContainer = new XMLUnknownsContainer();
 			unknownsContainer.setUnknownAttributes(getUnknownAttributes());

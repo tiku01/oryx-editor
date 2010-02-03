@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
@@ -46,6 +47,10 @@ public class XPDLMultiInstance extends XMLConvertable {
 		setLoopCounter(modelElement.optString("loopcounter"));
 	}
 	
+	public void readJSONmiloopunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "miloopunknowns");
+	}
+	
 	public void readJSONmi_condition(JSONObject modelElement) {
 		setMi_condition(modelElement.optString("mi_condition"));
 	}
@@ -76,5 +81,29 @@ public class XPDLMultiInstance extends XMLConvertable {
 	
 	public void setComplexMi_flowCondition(String complexMiFlowCondition) {
 		complexMi_flowCondition = complexMiFlowCondition;
+	}
+	
+	public void writeJSONcomplexmi_condition(JSONObject modelElement) throws JSONException {
+		modelElement.put("complexmi_condition", getComplexMi_flowCondition());
+	}
+	
+	public void writeJSONloopcounter(JSONObject modelElement) throws JSONException {
+		modelElement.put("loopcounter", getLoopCounter());
+	}
+	
+	public void writeJSONmiloopunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "miloopunknowns");
+	}
+	
+	public void writeJSONmi_condition(JSONObject modelElement) throws JSONException {
+		modelElement.put("mi_condition", getMi_condition());
+	}
+	
+	public void writeJSONmi_flowcondition(JSONObject modelElement) throws JSONException {
+		modelElement.put("mi_flowcondition", getMi_flowCondition());
+	}
+	
+	public void writeJSONmi_ordering(JSONObject modelElement) throws JSONException {
+		modelElement.put("mi_ordering", getMi_ordering());
 	}
 }
