@@ -17,7 +17,7 @@ public class Tester2xpdl {
 		BPMN2XPDLConverter converter = new BPMN2XPDLConverter();
 //		String fileContent = readFile(path + "all.json");
 //		System.out.println(converter.exportXPDL(fileContent));
-		String fileContent = readFile(path + "import001.xml");
+		String fileContent = readFile(path + "import000.xml");
 		
 		long start = System.currentTimeMillis();
 		String result = converter.importXPDL(fileContent);

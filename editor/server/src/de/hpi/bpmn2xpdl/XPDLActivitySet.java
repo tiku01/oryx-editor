@@ -1,5 +1,6 @@
 package de.hpi.bpmn2xpdl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -108,6 +109,37 @@ public class XPDLActivitySet extends XPDLThing {
 		this.transitions = transitions;
 	}
 	
+	public void writeJSONactivities(JSONObject modelElement) {
+		XPDLActivities activitiesList = getActivities();
+		if (activitiesList != null) {
+			activitiesList.write(modelElement);
+		}
+	}
+	
+	public void writeJSONadhoc(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "isadhoc", Boolean.parseBoolean(getAdHoc()));
+	}
+	
+	public void writeJSONadhoccompletioncondition(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "adhoccompletioncondition", getAdHocCompletionCondition());
+	}
+	
+	public void writeJSONadhocordering(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "adhocordering", getAdHocOrdering());
+	}
+	
+	public void writeJSONtransitions(JSONObject modelElement) {
+		XPDLTransitions transitionsList = getTransitions();
+		if (transitionsList != null) {
+			transitionsList.write(modelElement);
+		}
+	}
+	
+	public void writeUnmapped(JSONObject modelElement) throws JSONException {
+		writeActivities(modelElement);
+		writeTransitions(modelElement);
+	}	
+	
 	protected void createActivity(JSONObject modelElement) {
 		initializeActivities();
 		
@@ -129,10 +161,50 @@ public class XPDLActivitySet extends XPDLThing {
 			setActivities(new XPDLActivities());
 		}
 	}
+
+	protected void initializeChildShapes(JSONObject modelElement) throws JSONException {
+		if (modelElement.optJSONArray("childShapes") == null) {
+			modelElement.put("childShapes", new JSONArray());
+		}
+	}
 	
 	protected void initializeTransitions() {
 		if (getTransitions() == null) {
 			setTransitions(new XPDLTransitions());
+		}
+	}
+	
+	protected void writeActivities(JSONObject modelElement) throws JSONException {
+		if (getActivities() != null) {
+			ArrayList<XPDLActivity> activitiesList = getActivities().getActivities();
+			if (activitiesList != null) {
+				initializeChildShapes(modelElement);
+				JSONArray childShapes = modelElement.getJSONArray("childShapes");
+				
+				for (int i = 0; i < activitiesList.size(); i++) {
+					JSONObject newActivity = new JSONObject();
+					XPDLActivity activity = activitiesList.get(i);
+					activity.write(newActivity);
+					childShapes.put(newActivity);
+				}
+			}
+		}
+	}
+	
+	protected void writeTransitions(JSONObject modelElement) throws JSONException {
+		if (getTransitions() != null) {
+			ArrayList<XPDLTransition> transitionsList = getTransitions().getTransitions();
+			if (transitionsList != null) {
+				initializeChildShapes(modelElement);
+				JSONArray childShapes = modelElement.getJSONArray("childShapes");
+				
+				for (int i = 0; i < transitionsList.size(); i++) {
+					JSONObject newTransition = new JSONObject();
+					XPDLTransition transition = transitionsList.get(i);
+					transition.write(newTransition);
+					childShapes.put(newTransition);
+				}
+			}
 		}
 	}
 }

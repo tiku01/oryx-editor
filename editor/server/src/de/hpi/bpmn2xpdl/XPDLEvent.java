@@ -172,6 +172,9 @@ public class XPDLEvent extends XMLConvertable {
 		}
 	}
 	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+	}
+	
 	public void setEndEvent(XPDLEndEvent endEvent) {
 		this.endEvent = endEvent;
 	}
@@ -235,6 +238,7 @@ public class XPDLEvent extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		getEndEvent().parse(passObject);
 	}
@@ -245,16 +249,17 @@ public class XPDLEvent extends XMLConvertable {
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
 		passObject.put("stencil", modelElement.optString("stencil"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		getIntermediateEvent().parse(passObject);
 	}
 	
 	protected void passInformationToStartEvent(JSONObject modelElement, String key) throws JSONException {
 		initializeStartEvent();
-		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
 		passObject.put("stencil", modelElement.optString("stencil"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		getStartEvent().parse(passObject);
 	}

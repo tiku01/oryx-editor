@@ -24,6 +24,10 @@ public class XPDLTriggerResultSignal  extends XMLConvertable {
 		setSignal(modelElement.optString("signalref"));
 	}
 	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "triggerresultunknowns");
+	}
+	
 	public void setCatchThrow(String catchThrow) {
 		this.catchThrow = catchThrow;
 	}
@@ -34,6 +38,10 @@ public class XPDLTriggerResultSignal  extends XMLConvertable {
 	
 	public void writeJSONsignalref(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "signalref", getSignal());
+	}
+	
+	public void writeJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "triggerresultunknowns");
 	}
 	
 	protected JSONObject getProperties(JSONObject modelElement) {

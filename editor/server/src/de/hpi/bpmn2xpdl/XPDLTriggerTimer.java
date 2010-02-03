@@ -27,6 +27,10 @@ public class XPDLTriggerTimer extends XMLConvertable {
 		setTimerDate(modelElement.optString("timedate"));
 	}
 	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "triggerresultunknowns");
+	}
+	
 	public void setTimerCycle(String timerCycle) {
 		this.timerCycle = timerCycle;
 	}
@@ -41,6 +45,10 @@ public class XPDLTriggerTimer extends XMLConvertable {
 	
 	public void writeJSONtimedate(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "timedate", getTimerDate());
+	}
+	
+	public void writeJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "triggerresultunknowns");
 	}
 	
 	protected JSONObject getProperties(JSONObject modelElement) {

@@ -32,6 +32,25 @@ public class XPDLActivitySets extends XMLConvertable {
 		this.actvitySets = actvitySets;
 	}
 	
+	public void write(JSONObject modelElement, ArrayList<XPDLActivity> activities) throws JSONException {
+		ArrayList<XPDLActivitySet> unmapped = getActvitySets();
+		if (getActvitySets() != null) {
+			for (int i = 0; i < getActvitySets().size(); i++) {
+				for (int j = 0; j < activities.size(); j++) {
+					XPDLActivity searchActivity = activities.get(j);
+					if (searchActivity.getBlockActivity() != null) {
+						XPDLBlockActivity block = searchActivity.getBlockActivity();
+						if (block.getActivitySetId().equals(getActvitySets().get(i).getId())) {
+							block.setActivitySet(getActvitySets().get(i));
+							unmapped.remove(getActvitySets().get(i));
+						}
+					}
+				}
+			}
+		}
+		writeUnmappedActivitySets(modelElement, unmapped);
+	}
+	
 	public void writeJSONactivitysetsunknowns(JSONObject modelElement) throws JSONException {
 		writeUnknowns(modelElement, "activitysetsunknowns");
 	}
@@ -59,6 +78,14 @@ public class XPDLActivitySets extends XMLConvertable {
 	protected void initializeChildShapes(JSONObject modelElement) throws JSONException {
 		if (modelElement.optJSONArray("childShapes") == null) {
 			modelElement.put("childShapes", new JSONArray());
+		}
+	}
+	
+	protected void writeUnmappedActivitySets(JSONObject modelElement, ArrayList<XPDLActivitySet> sets) throws JSONException {
+		if (sets != null) {
+			for (int i = 0; i < sets.size(); i++) {
+				sets.get(i).writeUnmapped(modelElement);
+			}
 		}
 	}
 }

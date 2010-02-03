@@ -28,6 +28,10 @@ public class XPDLTriggerResultMessage  extends XMLConvertable {
 		passInformationToMessage(modelElement, "messageunknowns");
 	}
 	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "triggerresultunknowns");
+	}
+	
 	public void setCatchThrow(String catchThrow) {
 		this.catchThrow = catchThrow;
 	}
@@ -41,6 +45,10 @@ public class XPDLTriggerResultMessage  extends XMLConvertable {
 		if (messageObject != null) {
 			messageObject.write(getProperties(modelElement));
 		}
+	}
+	
+	public void writeJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "triggerresultunknowns");
 	}
 	
 	protected JSONObject getProperties(JSONObject modelElement) {

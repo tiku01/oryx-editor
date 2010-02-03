@@ -14,11 +14,11 @@ public class XPDLNodeGraphicsInfo extends XPDLGraphicsInfo {
 	@Attribute("FillColor")
 	protected String fillColor = "#255,255,255";
 	@Attribute("Height")
-	protected double height;
+	protected double height = 60;
 	@Attribute("LaneId")
 	protected String laneId;
 	@Attribute("Width")
-	protected double width;
+	protected double width = 60;
 
 	public double getHeight() {
 		return height;

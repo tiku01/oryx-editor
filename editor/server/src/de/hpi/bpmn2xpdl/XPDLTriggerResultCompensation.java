@@ -22,6 +22,10 @@ public class XPDLTriggerResultCompensation  extends XMLConvertable {
 	public void readJSONactivity(JSONObject modelElement) {
 		setAttributeId(modelElement.optString("activity"));
 	}
+	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "triggerresultunknowns");
+	}
 
 	public void setAttributeId(String attributeId) {
 		this.attributeId = attributeId;
@@ -33,6 +37,10 @@ public class XPDLTriggerResultCompensation  extends XMLConvertable {
 	
 	public void writeJSONattributeId(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "activityref", getAttributeId());
+	}
+	
+	public void writeJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "triggerresultunknowns");
 	}
 	
 	protected JSONObject getProperties(JSONObject modelElement) {

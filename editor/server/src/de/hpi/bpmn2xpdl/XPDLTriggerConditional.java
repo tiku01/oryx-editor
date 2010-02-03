@@ -16,6 +16,10 @@ public class XPDLTriggerConditional  extends XMLConvertable {
 	public void readJSONcondition(JSONObject modelElement) {
 		setCondition(modelElement.optString("condition"));
 	}
+	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "triggerresultunknowns");
+	}
 
 	public void setCondition(String condition) {
 		this.condition = condition;
@@ -23,6 +27,10 @@ public class XPDLTriggerConditional  extends XMLConvertable {
 	
 	public void writeJSONconditionref(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "conditionref", getCondition());
+	}
+	
+	public void writeJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "triggerresultunknowns");
 	}
 	
 	protected JSONObject getProperties(JSONObject modelElement) {

@@ -290,10 +290,11 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONisatransaction(JSONObject modelElement) {
+		setIsATransaction(modelElement.optString("isatransaction"));
 	}
 		
 	public void readJSONiscompensation(JSONObject modelElement) throws JSONException {
-		passInformationToRoute(modelElement, "iscompensation");
+		setIsForCompensation(modelElement.optString("iscompensation"));
 	}
 	
 	public void readJSONlinkid(JSONObject modelElement) throws JSONException {
@@ -356,6 +357,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToLoop(modelElement, "mi_ordering");
 	}
 	
+	public void readJSONmiloopunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToLoop(modelElement, "miloopunknowns");
+	}
+	
 	public void readJSONoutgoingcondition(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "outgoingcondition");
 	}
@@ -388,6 +393,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 			JSONObject properties = modelElement.optJSONObject("properties");
 			properties.put("resourceId", getProperId(modelElement));
 			properties.put("stencil", modelElement.optJSONObject("stencil").optString("id"));
+			properties.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 			parse(properties);
 		} catch (Exception e) {
 			//dirty hack: Event could be MultiInstance and may have a different subkey properties
@@ -408,6 +414,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
 		passInformationToEvent(modelElement, "signalref");
+	}
+	
+	public void readJSONstandardloopunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToLoop(modelElement, "standardloopunknowns");
 	}
 	
 	public void readJSONstarteventunknowns(JSONObject modelElement) throws JSONException {
@@ -458,6 +468,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void readJSONtriggers(JSONObject modelElement) {
 		createExtendedAttribute("triggers", modelElement.optString("triggers"));
+	}
+	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToEvent(modelElement, "triggerresultunknowns");
 	}
 	
 	public void readJSONxortype(JSONObject modelElement) throws JSONException {
@@ -628,10 +642,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	protected void passInformationToBlockActivity(JSONObject modelElement, String key) throws JSONException {
 		initializeBlockActivity();
-		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
-		passObject.put("id", getProperId(modelElement));
+		passObject.put("stencil", modelElement.optString("stencil"));
+		passObject.put("id", modelElement.optString("resourceId"));
 		getBlockActivity().parse(passObject);
 	}
 	
@@ -651,7 +665,8 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 			eventPassObject.put(key, modelElement.optString(key));
 			eventPassObject.put("eventtype", modelElement.optString("eventtype"));
 			eventPassObject.put("stencil", modelElement.optString("stencil"));
-		
+			eventPassObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
+			
 			getEvent().parse(eventPassObject);
 		}
 	}

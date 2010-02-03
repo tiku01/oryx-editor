@@ -49,8 +49,16 @@ public class XPDLLoop extends XMLConvertable {
 		passInformationToStandard(modelElement, "loopmaximum");
 	}
 	
+	public void readJSONloopunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "loopunknowns");
+	}
+	
 	public void readJSONlooptype(JSONObject modelElement) {
 		setLoopType(modelElement.optString("looptype"));
+	}
+	
+	public void readJSONmiloopunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToMI(modelElement, "miloopunknowns");
 	}
 	
 	public void readJSONmi_condition(JSONObject modelElement) throws JSONException {
@@ -63,6 +71,10 @@ public class XPDLLoop extends XMLConvertable {
 	
 	public void readJSONmi_ordering(JSONObject modelElement) throws JSONException {
 		passInformationToMI(modelElement, "mi_ordering");
+	}
+	
+	public void readJSONstandardloopunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToStandard(modelElement, "standardloopunknowns");
 	}
 	
 	public void readJSONtesttime(JSONObject modelElement) throws JSONException {
@@ -81,6 +93,26 @@ public class XPDLLoop extends XMLConvertable {
 		multiInstance = loop;
 	}
 	
+	public void writeJSONloopinstance(JSONObject modelElement) {
+		if (getLoopStandard() != null) {
+			getLoopStandard().write(getProperties(modelElement));
+		} else if (getMultiInstance() != null) {
+			getMultiInstance().write(getProperties(modelElement));
+		}
+	}
+	
+	public void writeJSONloopunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "loopunknowns");
+	}
+	
+	public void writeJSONlooptype(JSONObject modelElement) throws JSONException {
+		putProperty(modelElement, "looptype", getLoopType());
+	}
+	
+	protected JSONObject getProperties(JSONObject modelElement) {
+		return modelElement.optJSONObject("properties");
+	}
+	
 	protected void initializeLoopStandard() {
 		if (getLoopStandard() == null) {
 			setLoopStandard(new XPDLLoopStandard());
@@ -90,6 +122,15 @@ public class XPDLLoop extends XMLConvertable {
 	protected void initializeMultiInstance() {
 		if (getMultiInstance() == null) {
 			setMultiInstance(new XPDLMultiInstance());
+		}
+	}
+	
+	protected void initializeProperties(JSONObject modelElement) throws JSONException {
+		JSONObject properties = modelElement.optJSONObject("properties");
+		if (properties == null) {
+			JSONObject newProperties = new JSONObject();
+			modelElement.put("properties", newProperties);
+			properties = newProperties;
 		}
 	}
 	
@@ -115,5 +156,11 @@ public class XPDLLoop extends XMLConvertable {
 		
 			getLoopStandard().parse(passObject);
 		}
-	}	
+	}
+	
+	protected void putProperty(JSONObject modelElement, String key, String value) throws JSONException {
+		initializeProperties(modelElement);
+		
+		getProperties(modelElement).put(key, value);
+	}
 }

@@ -52,12 +52,18 @@ public class XPDLEndEvent extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put("activity", modelElement.optString("activityref"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		getTriggerResultCompensation().parse(passObject);
+	}
+	
+	public void readJSONendeventunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "endeventunknowns");
 	}
 	
 	public void readJSONerrorcode(JSONObject modelElement) throws JSONException {
 		JSONObject errorObject = new JSONObject();
 		errorObject.put("errorcode", modelElement.optString("errorcode"));
+		errorObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		XPDLResultError error = new XPDLResultError();
 		error.parse(errorObject);
@@ -84,11 +90,15 @@ public class XPDLEndEvent extends XMLConvertable {
 	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put("signalref", modelElement.optString("signalref"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		XPDLTriggerResultSignal signal = new XPDLTriggerResultSignal();
 		signal.parse(passObject);
 		
 		setTriggerResultSignal(signal);
+	}
+	
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
 	}
 	
 	public void setImplementation(String implementation) {
@@ -113,6 +123,10 @@ public class XPDLEndEvent extends XMLConvertable {
 	
 	public void setTriggerResultSignal(XPDLTriggerResultSignal triggerResultSignal) {
 		this.triggerResultSignal = triggerResultSignal;
+	}
+	
+	public void writeJSONendeventunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "endeventunknowns");
 	}
 	
 	public void writeJSONeventtype(JSONObject modelElement) throws JSONException {
@@ -202,6 +216,7 @@ public class XPDLEndEvent extends XMLConvertable {
 		
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		getTriggerResultMessage().parse(passObject);
 	}

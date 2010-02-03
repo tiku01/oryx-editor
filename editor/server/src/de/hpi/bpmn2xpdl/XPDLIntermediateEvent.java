@@ -68,6 +68,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	public void readJSONactivity(JSONObject modelElement) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put("activity", modelElement.optString("activity"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerResultCompensation();
 		getTriggerResultCompensation().parse(passObject);
@@ -76,6 +77,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	public void readJSONcondition(JSONObject modelElement) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put("condition", modelElement.optString("condition"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerConditional();
 		getTriggerConditional().parse(passObject);
@@ -84,6 +86,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	public void readJSONerrorcode(JSONObject modelElement) throws JSONException {
 		JSONObject errorObject = new JSONObject();
 		errorObject.put("errorcode", modelElement.optString("errorcode"));
+		errorObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeResultError();
 		getResultError().parse(errorObject);
@@ -93,9 +96,14 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 		setImplementation(modelElement.optString("implementation"));
 	}
 	
+	public void readJSONintermediateeventunknowns(JSONObject modelElement) {
+		readUnknowns(modelElement, "intermediateeventunknowns");
+	}
+	
 	public void readJSONlinkid(JSONObject modelElement) throws JSONException {
 		JSONObject linkObject = new JSONObject();
 		linkObject.put("linkid", modelElement.optString("linkid"));
+		linkObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerResultLink();
 		getTriggerResultLink().parse(linkObject);
@@ -104,6 +112,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put("message", modelElement.optString("message"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerResultMessage();
 		getTriggerResultMessage().parse(passObject);
@@ -131,10 +140,19 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	public void readJSONsignalref(JSONObject modelElement) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put("signalref", modelElement.optString("signalref"));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerResultSignal();
 		getTriggerResultSignal().parse(passObject);
 	}	
+	
+	public void readJSONtimecycle(JSONObject modelElement) throws JSONException {
+		passInformationToTriggerTimer(modelElement, "timecycle");
+	}
+	
+	public void readJSONtimedate(JSONObject modelElement) throws JSONException {
+		passInformationToTriggerTimer(modelElement, "timedate");
+	}
 	
 	public void readJSONtrigger(JSONObject modelElement) {
 		String trigger = modelElement.optString("trigger");
@@ -145,12 +163,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 		}
 	}
 	
-	public void readJSONtimecycle(JSONObject modelElement) throws JSONException {
-		passInformationToTriggerTimer(modelElement, "timecycle");
-	}
-	
-	public void readJSONtimedate(JSONObject modelElement) throws JSONException {
-		passInformationToTriggerTimer(modelElement, "timedate");
+	public void readJSONtriggerresultunknowns(JSONObject modelElement) {
 	}
 	
 	public void setResultError(XPDLResultError error) {
@@ -197,6 +210,10 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 		putProperty(modelElement, "implementation", getImplementation());
 	}
 	
+	public void writeJSONintermediateeventunknowns(JSONObject modelElement) throws JSONException {
+		writeUnknowns(modelElement, "intermediateeventunknowns");
+	}
+	
 	public void writeJSONtrigger(JSONObject modelElement) throws JSONException {
 		String triggerValue = getTrigger();
 		
@@ -240,6 +257,14 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 			getTriggerConditional().write(modelElement);
 		} else if (getTriggerResultCompensation() != null) {
 			getTriggerResultCompensation().write(modelElement);
+		} else if (getTriggerResultLink() != null) {
+			getTriggerResultLink().write(modelElement);
+		} else if (getTriggerResultMessage() != null) {
+			getTriggerResultMessage().write(modelElement);
+		} else if (getTriggerResultSignal() != null) {
+			getTriggerResultSignal().write(modelElement);
+		} else if (getTriggerTimer() != null) {
+			getTriggerTimer().write(modelElement);
 		}
 	}
 	
@@ -275,6 +300,7 @@ public class XPDLIntermediateEvent extends XMLConvertable {
 	protected void passInformationToTriggerTimer(JSONObject modelElement, String key) throws JSONException {
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
+		passObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 		
 		initializeTriggerTimer();
 		getTriggerTimer().parse(passObject);

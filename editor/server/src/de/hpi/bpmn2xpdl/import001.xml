@@ -1,4 +1,5 @@
-<Package Language="English" Id="oryx-canvas123" rofl="lol">
+<?xml version="1.0" encoding="UTF-8"?>
+<Package Language="English" Id="oryx-canvas123" rofl="lol" xmlns="asd">
   <ConformanceClass GraphConformance="NON-BLOCKED" BPMNModelPortabilityConformance="STANDARD" />
   <Pools>
     <Pool BoundaryVisible="false" MainPool="true" Orientation="HORIZONTAL" Id="MainPool" Name="Main Pool">

@@ -2,6 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Element;
@@ -35,9 +36,29 @@ public class XPDLActivities extends XMLConvertable {
 		writeUnknowns(modelElement, "activitiesunknowns");
 	}
 	
+	public void writeJSONchildShapes(JSONObject modelElement) throws JSONException {
+		ArrayList<XPDLActivity> activitiesList = getActivities();
+		if (activitiesList != null) {
+			initializeChildShapes(modelElement);
+			
+			JSONArray childShapes = modelElement.getJSONArray("childShapes");
+			for (int i = 0; i < activitiesList.size(); i++) {
+				JSONObject newActivity = new JSONObject();
+				activitiesList.get(i).write(newActivity);
+				childShapes.put(newActivity);
+			}
+		}
+	}
+	
 	protected void initializeActivities() {
 		if (getActivities() == null) {
 			setActivities(new ArrayList<XPDLActivity>());
+		}
+	}
+	
+	protected void initializeChildShapes(JSONObject modelElement) throws JSONException {
+		if (modelElement.optJSONArray("childShapes") == null) {
+			modelElement.put("childShapes", new JSONArray());
 		}
 	}
 }

@@ -1,4 +1,5 @@
-<Package Language="English" QueryLanguage="dfg" Id="dfg" Name="dfg">
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://www.wfmc.org/2008/XPDL2.1" Language="English" QueryLanguage="dfg" Id="dfg" Name="dfg">
   <PackageHeader>
     <Created>
       21-21-2100
@@ -147,11 +148,11 @@
   <WorkflowProcesses>
     <WorkflowProcess AdhocOrdering="Sequential" ProcessType="None" Status="None" SuppressJoinFailure="true" Id="MainPool-process" Name="MainProcess">
       <ActivitySets>
-        <ActivitySet Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" />
-        <ActivitySet Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8-activitySet" />
+        <ActivitySet AdHocOrdering="Sequential" Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" />
+        <ActivitySet AdHoc="true" AdHocOrdering="Sequential" Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8-activitySet" />
       </ActivitySets>
       <Activities>
-        <Activity CompletionQuantity="1" StartQuantity="1" Status="Aborted" Id="a" Name="asd">
+        <Activity CompletionQuantity="1" IsForCompensation="true" StartQuantity="1" Status="Aborted" Id="a" Name="asd">
           <Loop Type="MultiInstance">
             <MultiInstance MI_Condition="asd" LoopCounter="1" MI_Ordering="Sequential" MI_FlowCondition="All" ComplexMI_FlowCondition="asd" />
           </Loop>
@@ -191,7 +192,7 @@
           </ExtendedAttributes>
         </Activity>
         <Activity CompletionQuantity="1" StartQuantity="1" Status="None" Id="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3">
-          <BlockActivity ActivitySetId="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" View="EXTENDED" />
+          <BlockActivity ActivitySetId="oryx_B6B34A95-933A-4956-9559-F68ED3B5FAD3-activitySet" View="COLLAPSED" />
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffcc" Height="83.0" Width="103.0" BorderColor="#0,0,0" ToolId="Oryx">
               <Coordinates XCoordinate="43.5" YCoordinate="99.5" />
@@ -201,8 +202,8 @@
             <ExtendedAttribute Name="activitytype" Value="Sub-Process" />
           </ExtendedAttributes>
         </Activity>
-        <Activity CompletionQuantity="1" StartQuantity="1" Status="None" Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8" Name="asf">
-          <BlockActivity ActivitySetId="oryx_14C1BE63-348A-40E2-842F-8721308718C8-activitySet" View="EXTENDED" />
+        <Activity CompletionQuantity="1" IsATransaction="true" IsForCompensation="false" StartQuantity="1" Status="None" Id="oryx_14C1BE63-348A-40E2-842F-8721308718C8" Name="asf">
+          <BlockActivity lambo="123" ActivitySetId="oryx_14C1BE63-348A-40E2-842F-8721308718C8-activitySet" View="EXTENDED" />
           <Documentation>
             asd
           </Documentation>
@@ -216,7 +217,7 @@
           </ExtendedAttributes>
         </Activity>
         <Activity Id="dfgh" Name="dfgh">
-          <Route ExclusiveType="Data" GatewayType="Exclusive" MarkerVisible="false" />
+          <Route ExclusiveType="Data" GatewayType="Exclusive" MarkerVisible="false" ferrari="13"/>
           <Documentation>
             dfgh
           </Documentation>
@@ -350,8 +351,9 @@
         </Activity>
         <Activity Id="oryx_88AD6F72-7973-4FD4-878E-AEC02A027553">
           <Event>
-            <StartEvent Trigger="Message" Implementation="Unspecified">
+            <StartEvent Trigger="Message" Implementation="Unspecified" muh="123">
               <TriggerResultMessage>
+              <kame>123</kame>
                 <Message>
                   asdf
                 </Message>
@@ -374,7 +376,7 @@
         <Activity Id="oryx_9F5F1480-8B37-4C6C-9A54-EB00E91070F2">
           <Event>
             <StartEvent Trigger="Timer">
-              <TriggerTimer TimerCycle="asdf" TimerDate="2010-08-24T00:00:00" />
+              <TriggerTimer TimerCycle="asdf" TimerDate="2010-08-24T00:00:00" abs="asdAsd"/>
             </StartEvent>
           </Event>
           <NodeGraphicsInfos>
@@ -431,7 +433,7 @@
         </Activity>
         <Activity Id="oryx_8053C890-BCE7-4D82-9789-C7AC72EC75E7">
           <Event>
-            <IntermediateEvent Trigger="None" />
+            <IntermediateEvent Trigger="None" abc="24"/>
           </Event>
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffff" Height="30.0" Width="30.0" BorderColor="#0,0,0" ToolId="Oryx">
@@ -610,8 +612,8 @@
           </NodeGraphicsInfos>
         </Activity>
         <Activity Id="oryx_E018672A-AE59-419F-B3D4-45BAC5714E50">
-          <Event>
-            <EndEvent Result="None" />
+          <Event sofoo="123">
+            <EndEvent Result="None" foobar="123"/>
           </Event>
           <NodeGraphicsInfos>
             <NodeGraphicsInfo FillColor="#ffffff" Height="28.0" Width="28.0" BorderColor="#0,0,0" ToolId="Oryx">
