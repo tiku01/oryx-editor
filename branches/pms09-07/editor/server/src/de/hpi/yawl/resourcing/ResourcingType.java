@@ -45,6 +45,10 @@ public abstract class ResourcingType implements FileWritingForYAWL {
 		this.notes = notes;
 	}
 	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		return "";
+	}
+	
 	public String writeToYAWL(){		
 		return "";
 	}

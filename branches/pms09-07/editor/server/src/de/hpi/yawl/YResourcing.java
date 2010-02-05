@@ -1,14 +1,15 @@
 package de.hpi.yawl;
 
+import de.hpi.yawl.resourcing.InitiatorType;
+import de.hpi.yawl.resourcing.DistributionSet;
+
 public class YResourcing implements FileWritingForYAWL {
 
-	public enum InitiatorType { 
-		USER, SYSTEM
-	}
-	
 	private InitiatorType start;
 	private InitiatorType allocate;
+	private DistributionSet allocateDistributionSet;
 	private InitiatorType offer;
+	private DistributionSet offerDistributionSet;
 	
 	public YResourcing() {
 	
@@ -30,6 +31,14 @@ public class YResourcing implements FileWritingForYAWL {
 		return allocate;
 	}
 
+	public void setAllocateDistributionSet(DistributionSet allocateDistributionSet) {
+		this.allocateDistributionSet = allocateDistributionSet;
+	}
+
+	public DistributionSet getAllocateDistributionSet() {
+		return allocateDistributionSet;
+	}
+
 	public void setOffer(InitiatorType offer) {
 		this.offer = offer;
 	}
@@ -38,13 +47,36 @@ public class YResourcing implements FileWritingForYAWL {
 		return offer;
 	}
 	
+	public void setOfferDistributionSet(DistributionSet offerDistributionSet) {
+		this.offerDistributionSet = offerDistributionSet;
+	}
+
+	public DistributionSet getOfferDistributionSet() {
+		return offerDistributionSet;
+	}
+
 	private String writeOfferToYAWL(String s) {
-		s += String.format("\t<offer initiator=\"%s\" />\n", offer.toString().toLowerCase());
+		s += String.format("\t<offer initiator=\"%s\" ", offer.toString().toLowerCase());
+		if((offer == InitiatorType.SYSTEM) && (offerDistributionSet != null) 
+				&& (offerDistributionSet.getInitialSetList().size() > 0)){
+			s += ">\n";
+			s += offerDistributionSet.writeToYAWL();
+			s += "\t</offer>\n";
+		}else
+			s += "/>\n";
+		
 		return s;
 	}
 	
 	private String writeAllocateToYAWL(String s) {
-		s += String.format("\t<allocate initiator=\"%s\" />\n", allocate.toString().toLowerCase());
+		s += String.format("\t<allocate initiator=\"%s\" ", allocate.toString().toLowerCase());
+		if((allocate == InitiatorType.SYSTEM) && (allocateDistributionSet != null) 
+				&& (allocateDistributionSet.getInitialSetList().size() > 0)){
+			s += ">\n";
+			s += allocateDistributionSet.writeToYAWL();
+			s += "\t</allocate>\n";
+		}else
+			s += "/>\n";
 		return s;
 	}
 	

@@ -7,6 +7,11 @@ public class Capability  extends ResourcingType {
 		id = "CA-" + id;
 	}
 	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		String s = "";
+		s += String.format("\t\t<capability>%s</capability>\n", id);
+		return s;
+	}
 	public String writeToYAWL(){
 		String s = "";
 		s += String.format("\t\t<capability id=\"%s\">\n", id);

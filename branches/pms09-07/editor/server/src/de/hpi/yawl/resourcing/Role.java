@@ -7,6 +7,12 @@ public class Role extends ResourcingType {
 		id = "RO-" + id;
 	}
 	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		String s = "";
+		s += String.format("\t\t<role>%s</role>\n", id);
+		return s;
+	}
+	
 	public String writeToYAWL(){
 		String s = "";
 		s += String.format("\t\t<role id=\"%s\">\n", id);

@@ -519,21 +519,22 @@ public class BPMN11RDFImporter {
 							String[] propertyComponents = seperateProperty.split(", ");
 						
 							for(String propertyComponent : propertyComponents){
-								if(propertyComponent.startsWith("name")){
-									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
-									name = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								String propertyLine = propertyComponent.replace("\"", "");
+								if(propertyLine.startsWith("name")){
+									String rawValue = propertyLine.split(":")[1];
+									name = rawValue.trim();
 								}
-								else if(propertyComponent.startsWith("type")){
-									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
-									type = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								else if(propertyLine.startsWith("type")){
+									String rawValue = propertyLine.split(":")[1];
+									type = rawValue.trim();
 								}
-								else if(propertyComponent.startsWith("value")){
-									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
-									value = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								else if(propertyLine.startsWith("value")){
+									String rawValue = propertyLine.split(":")[1];
+									value = rawValue.trim();
 								}
-								else if(propertyComponent.startsWith("correlation")){
-									int valueStartIndex = propertyComponent.indexOf("\"") + 1;
-									String correlationValue = propertyComponent.substring(valueStartIndex, propertyComponent.indexOf("\"", valueStartIndex));
+								else if(propertyLine.startsWith("correlation")){
+									String rawValue = propertyLine.split(":")[1];
+									String correlationValue = rawValue.trim();
 								
 									if(correlationValue.equalsIgnoreCase("true")){
 										correlation = true;
@@ -626,6 +627,19 @@ public class BPMN11RDFImporter {
 					task.setPortType(getContent(n));
 
 				}
+				
+				/* Set yawl_offeredBy attribute */
+				else if (attribute.equals("yawl_offeredby"))
+					task.setYawl_offeredBy(getContent(n));
+				
+				/* Set yawl_allocatedBy attribute */
+				else if (attribute.equals("yawl_allocatedby"))
+					task.setYawl_allocatedBy(getContent(n));
+				
+				/* Set yawl_startedBy attribute */
+				else if (attribute.equals("yawl_startedby"))
+					task.setYawl_startedBy(getContent(n));
+				
 				else {
 					handleStandardAttributes(attribute, n, task, c, "name");
 				}
@@ -1271,17 +1285,18 @@ public class BPMN11RDFImporter {
 				String[] assignmentComponents = seperateAssignment.split(", ");
 				
 				for(String assignmentComponent : assignmentComponents){
-					if(assignmentComponent.startsWith("to")){
-						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
-						to = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+					String assignmentLine = assignmentComponent.replace("\"", "");
+					if(assignmentLine.startsWith("to")){
+						String rawValue = assignmentLine.split(":")[1];
+						to = rawValue.trim();
 					}
-					else if(assignmentComponent.startsWith("from")){
-						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
-						from = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+					else if(assignmentLine.startsWith("from")){
+						String rawValue = assignmentLine.split(":")[1];
+						from = rawValue.trim();
 					}
-					else if(assignmentComponent.startsWith("assigntime")){
-						int valueStartIndex = assignmentComponent.indexOf("\"") + 1;
-						String assignTimeValue = assignmentComponent.substring(valueStartIndex, assignmentComponent.indexOf("\"", valueStartIndex));
+					else if(assignmentLine.startsWith("assigntime")){
+						String rawValue = assignmentLine.split(":")[1];
+						String assignTimeValue = rawValue.trim();
 						
 						if(assignTimeValue.equalsIgnoreCase("Start"))
 							assignTime = Assignment.AssignTime.Start;

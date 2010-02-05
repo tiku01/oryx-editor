@@ -25,6 +25,8 @@ import de.hpi.bpmn2yawl.BPMN2YAWLResourceMapper;
 import de.hpi.bpmn2yawl.BPMN2YAWLSyntaxChecker;
 import de.hpi.bpmn2yawl.BPMN2YAWLNormalizer;
 
+import de.hpi.yawl.validation.*;
+
 /**
  * Copyright (c) 2009 Armin Zamani
  * 
@@ -52,6 +54,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		try {
+			System.out.println("BPMN2YAWLServlet is called");
 			//TODO correct mime type??
 			res.setContentType("application/xhtml");
 
@@ -61,7 +64,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes()));
-			
+			System.out.println("processDocument will now be called");
 			processDocument(document, res.getWriter());
 			
 		} catch (ParserConfigurationException e) {
@@ -110,7 +113,10 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		int numberOfPools = diagram.getProcesses().size();
 		for(int i = 0; i < numberOfPools; i++){
 			BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
-			yawlXML = converter.translate(diagram, i);
+			yawlXML = converter.translate(diagram, i, resourcing.getNodeMap());
+			
+			YawlXmlValidator validator = new YawlXmlValidator();
+			validator.validate(yawlXML);
 			
 			try{
 				fileWriter = new FileWriter("OryxBPMNToYAWL_" + i + ".yawl");

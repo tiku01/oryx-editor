@@ -35,6 +35,12 @@ public class Position extends ResourcingType {
 		this.reportsTo = reportsTo;
 	}
 	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		String s = "";
+		s += String.format("\t\t<position>%s</position>\n", id);
+		return s;
+	}
+	
 	public String writeToYAWL(){
 		String s = "";
 		s += "\t\t<position id=\"" + id + "\">\n";
