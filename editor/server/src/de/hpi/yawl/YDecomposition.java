@@ -40,14 +40,14 @@ public class YDecomposition implements FileWritingForYAWL {
      * @param xsiType The xsi:type
      */
         
-    public YDecomposition(String id, String isRootNet, String xsiType) {
+    public YDecomposition(String id, Boolean isRootNet, String xsiType) {
         setID(id);
         setRootNet(isRootNet);
         setXSIType(xsiType);
     }
     
-    public void setRootNet(String rootNet){
-    	this.isRootNet = rootNet.equals("true");
+    public void setRootNet(Boolean isRootNet){
+    	this.isRootNet = isRootNet;
     }
     
     public void setXSIType(String xsiType){
@@ -143,7 +143,7 @@ public class YDecomposition implements FileWritingForYAWL {
      * @param name The given name for the node (representative)
      * @return created input condition node
      */
-    public YCondition createInputCondition(String id, String name) {
+    public YInputCondition createInputCondition(String id, String name) {
         YInputCondition condition = new YInputCondition(id, name);
         setInputCondition(condition);
         return condition;
@@ -155,7 +155,7 @@ public class YDecomposition implements FileWritingForYAWL {
      * @param name The given name for the node (representative)
      * @return created output condition node
      */
-    public YCondition createOutputCondition(String id, String name) {
+    public YOutputCondition createOutputCondition(String id, String name) {
         YOutputCondition condition = new YOutputCondition(id, name);
         setOutputCondition(condition);
         return condition;

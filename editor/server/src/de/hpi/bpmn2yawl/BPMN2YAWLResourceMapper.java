@@ -10,14 +10,23 @@ import de.hpi.yawl.resourcing.*;
 
 public class BPMN2YAWLResourceMapper {
 
+	private HashMap<Node, ResourcingType> nodeMap;
 	
 	public BPMN2YAWLResourceMapper() {
 
 	}
 	
+	public HashMap<Node, ResourcingType> getNodeMap() {
+		return nodeMap;
+	}
+
+	public void setNodeMap(HashMap<Node, ResourcingType> nodeMap) {
+		this.nodeMap = nodeMap;
+	}
+
 	public String translate(BPMNDiagram diagram) {
 		
-		HashMap<Node, ResourcingType> nodeMap = new HashMap<Node, ResourcingType>();
+		setNodeMap(new HashMap<Node, ResourcingType>());
 		OrgData orgData = new OrgData();
 
 		for (Node node : diagram.getChildNodes()){

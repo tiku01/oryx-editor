@@ -100,6 +100,12 @@ public class Participant extends ResourcingType {
 		this.privileges = privileges;
 	}
 	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		String s = "";
+		s += String.format("\t\t<participant>%s</participant>\n", id);
+		return s;
+	}
+	
 	public String writeToYAWL(){
 		String s = "";
 		

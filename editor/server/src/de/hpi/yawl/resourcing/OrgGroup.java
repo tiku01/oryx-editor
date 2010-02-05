@@ -25,6 +25,12 @@ public class OrgGroup extends ResourcingType {
 	public void setBelongsToID(OrgGroup belongsToID) {
 		this.belongsToID = belongsToID;
 	}
+	
+	public String writeAsMemberOfDistributionSetToYAWL(){
+		String s = "";
+		s += String.format("\t\t<orgGroup>%s</orgGroup>\n", id);
+		return s;
+	}
 
 	/**
 	 * @param s

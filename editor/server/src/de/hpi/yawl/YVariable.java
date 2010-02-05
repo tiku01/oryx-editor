@@ -74,10 +74,6 @@ public class YVariable {
 	public String writeAsParameterToYAWL(){
 		String s = "";
 		s = writeVariableSettingsToYAWL(s);
-		
-		if(getInitialValue().length() > 0){
-			s += String.format("\t\t\t\t\t\t<initialValue>%s</initialValue>\n", getInitialValue());
-		}
 		return s;
 	}
 	
@@ -85,6 +81,10 @@ public class YVariable {
 	public String writeToYAWL(){
 		String s = "";
 		s = writeVariableSettingsToYAWL(s);
+		
+		if((getInitialValue() != null) && (getInitialValue().length() > 0)){
+			s += String.format("\t\t\t\t\t\t<initialValue>%s</initialValue>\n", getInitialValue());
+		}
 		return s;
 	}
 }

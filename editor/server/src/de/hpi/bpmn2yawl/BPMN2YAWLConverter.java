@@ -2,6 +2,9 @@ package de.hpi.bpmn2yawl;
 
 import de.hpi.yawl.*;
 import de.hpi.yawl.YMultiInstanceParam.CreationMode;
+import de.hpi.yawl.resourcing.DistributionSet;
+import de.hpi.yawl.resourcing.ResourcingType;
+import de.hpi.yawl.resourcing.InitiatorType;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,6 +30,7 @@ import de.hpi.bpmn.IntermediateEvent;
 import de.hpi.bpmn.IntermediateMessageEvent;
 import de.hpi.bpmn.IntermediatePlainEvent;
 import de.hpi.bpmn.IntermediateTimerEvent;
+import de.hpi.bpmn.Lane;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.ORGateway;
 import de.hpi.bpmn.Property;
@@ -44,19 +48,21 @@ public class BPMN2YAWLConverter {
 	private int nodeCount = 0;
 	
 	private HashMap<YDecomposition, LinkedList<Node>> loopingActivities = new HashMap<YDecomposition, LinkedList<Node>>();
+	private HashMap<Node, ResourcingType> resourcingNodeMap;
 	
 	/**
 	 * @param
 	 */
 	public BPMN2YAWLConverter() {
 	}
-	
+
 	/**
 	 */
-	public String translate(BPMNDiagram diagram, int poolIndex) {
+	public String translate(BPMNDiagram diagram, int poolIndex, HashMap<Node, ResourcingType> resourcingNodeMap) {
 		Container pool = diagram.getProcesses().get(poolIndex);
 		YModel model = new YModel("mymodel" + poolIndex);
 		model.setDataTypeDefinition(diagram.getDataTypeDefinition());
+		this.resourcingNodeMap = resourcingNodeMap;
 			
 		// YAWL
 		mapDecomposition(diagram, model, pool);
@@ -70,15 +76,15 @@ public class BPMN2YAWLConverter {
 	 * @return
 	 */
 	private YDecomposition mapDecomposition(BPMNDiagram diagram, YModel model, Container graph) {
-		YNode start = null;
-		YNode exit = null;
-		
+		YInputCondition inputCondition = null;
+		YOutputCondition outputCondition = null;
 		YDecomposition dec = null;
 		
 		if (graph instanceof SubProcess) {
-			dec = new YDecomposition(generateId(((SubProcess)graph).getLabel().replace(" ", "")), "false", "NetFactsType");
+			String subProcessLabel = ((SubProcess)graph).getLabel().replace(" ", "");
+			dec = new YDecomposition(generateId(subProcessLabel), false, "NetFactsType");
 		} else
-			dec = new YDecomposition("OryxBPMNtoYAWL_Net", "true", "NetFactsType");
+			dec = new YDecomposition("OryxBPMNtoYAWL_Net", true, "NetFactsType");
 		
 		model.addDecomposition(dec.getID(), dec);
 
@@ -103,9 +109,9 @@ public class BPMN2YAWLConverter {
 				controlElements.add(node);
 			else {
 				if (ynode instanceof YInputCondition)
-					start = ynode;
+					inputCondition = (YInputCondition)ynode;
 				if (ynode instanceof YOutputCondition)
-					exit = ynode;
+					outputCondition = (YOutputCondition)ynode;
 			}
 		}		
 		
@@ -113,13 +119,13 @@ public class BPMN2YAWLConverter {
 		for (Node node : controlElements)
 			mapControlElement(model, dec, node, nodeMap);
 		
-		if (exit == null)
-			exit = dec.createOutputCondition(generateId("Output"), "Output Condition");
+		if (outputCondition == null)
+			outputCondition = dec.createOutputCondition(generateId("Output"), "Output Condition");
 		
-		if (start == null){
-			start = dec.createInputCondition(generateId("Input"), "Input Condition");
+		if (inputCondition == null){
+			inputCondition = dec.createInputCondition(generateId("Input"), "Input Condition");
 			if(nodeMap.isEmpty())
-				dec.createEdge(start, exit, false, "", 0);	
+				dec.createEdge(inputCondition, outputCondition, false, "", 0);	
 		}
 		
 		for (DataObject dataObject : diagram.getDataObjects()) {
@@ -127,7 +133,7 @@ public class BPMN2YAWLConverter {
 		}
 		
 		// Map links
-		linkYawlElements(exit, nodeMap, dec, terminateEvents);
+		linkYawlElements(outputCondition, nodeMap, dec, terminateEvents);
 
 		// Event handlers
 		for (Activity act : withEventHandlers)
@@ -224,6 +230,7 @@ public class BPMN2YAWLConverter {
 			if (compTask.getOutgoingEdges().size() > 1) {
 				// There is a split attached to the composite task
 				// so, factor it out !
+				//TODO: Resourcing?
 				YTask newSplit = dec.createTask(generateId(), "newSplitTask", "XOR", "AND", null);
 				
 				for (YFlowRelationship flow : compTask.getOutgoingEdges()){
@@ -272,6 +279,7 @@ public class BPMN2YAWLConverter {
 				predecesor = (YNode)compTask.getIncomingEdges().get(0).getSource();
 				
 				if (predecesor instanceof YCondition) {
+					//TODO: Resourcing?
 					YNode gw = dec.createTask(generateId(), "Task", "XOR", "AND", null);
 					
 					YEdge edge = (YEdge) predecesor.getOutgoingEdges().get(0);
@@ -377,7 +385,7 @@ public class BPMN2YAWLConverter {
 					exceptionTask.getCompletedMappings().add(anotherMapping);
 					
 					// Decomposition
-					YDecomposition exceptionDec = new YDecomposition(exceptionTask.getID(), "", "WebServiceGatewayFactsType");
+					YDecomposition exceptionDec = new YDecomposition(exceptionTask.getID(), false, "WebServiceGatewayFactsType");
 
 					exceptionTask.setDecomposesTo(exceptionDec);
 					model.addDecomposition(exceptionDec.getID(), exceptionDec);
@@ -632,7 +640,7 @@ public class BPMN2YAWLConverter {
 		YVariableMapping timerStartVarMap = new YVariableMapping(timerQuery, timerVariable);			
 		timerTask.getStartingMappings().add(timerStartVarMap);
 		
-		YDecomposition taskDecomposition = new YDecomposition(timerTask.getID(), "", "WebServiceGatewayFactsType");
+		YDecomposition taskDecomposition = new YDecomposition(timerTask.getID(), false, "WebServiceGatewayFactsType");
 		
 		taskDecomposition.getInputParams().add(timerVariable);
 		timerTask.setDecomposesTo(taskDecomposition);
@@ -812,7 +820,7 @@ public class BPMN2YAWLConverter {
 		
 		YTask task = dec.createTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent", "XOR", "AND", null);
 		
-		YDecomposition decomp = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
+		YDecomposition decomp = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
 		model.addDecomposition(decomp.getID(), decomp);
 		task.setDecomposesTo(decomp);
 		
@@ -832,7 +840,7 @@ public class BPMN2YAWLConverter {
 		
 		YTask task = dec.createTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", null);
 		
-		YDecomposition decomp = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
+		YDecomposition decomp = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
 		model.addDecomposition(decomp.getID(), decomp);
 		task.setDecomposesTo(decomp);
 		
@@ -873,108 +881,7 @@ public class BPMN2YAWLConverter {
 		
 		return task;
 	}
-//
-//	/**
-//	 * @param model
-//	 * @param graph
-//	 * @return
-//	 */
-//	private Decomposition mapSpecialDecomposition(Model model, Graph graph) {
-//		Decomposition dec = factory.createDecomposition();
-//		dec.setId(graph.getName() == null ? EcoreUtil.generateUUID() : graph.getName().replaceAll(" ", "_"));
-//		//dec.setId(EcoreUtil.generateUUID());
-//		dec.setIsRootNet(graph instanceof Pool);
-//		dec.setXsiType("NetFactsType");
-//		model.getDecompositions().add(dec);
-//
-//		Task inputCondition = factory.createTask();
-//		inputCondition.setTaskType(TaskType.INPUT_CONDITION);
-//		//inputCondition.setId("Node" + nodeCount++);
-//		inputCondition.setId(EcoreUtil.generateUUID());
-//		dec.getProcessControlElements().add(inputCondition);
-//		
-//		Task outputCondition = factory.createTask();
-//		outputCondition.setTaskType(TaskType.OUTPUT_CONDITION);
-//		//outputCondition.setId("Node" + nodeCount++);
-//		outputCondition.setId(EcoreUtil.generateUUID());
-//		dec.getProcessControlElements().add(outputCondition);
-//
-//		Task condition = factory.createTask();
-//		condition.setTaskType(TaskType.CONDITION);
-//		//condition.setId("Node" + nodeCount++);
-//		condition.setId(EcoreUtil.generateUUID());
-//		dec.getProcessControlElements().add(condition);
-//
-//		Task entry = factory.createTask();
-//		//entry.setId("Node" + nodeCount++);
-//		entry.setId(EcoreUtil.generateUUID());
-//		entry.setSplitType(SplitType.AND_SPLIT);
-//		dec.getProcessControlElements().add(entry);
-//
-//		Task exit = factory.createTask();
-//		//exit.setId("Node" + nodeCount++);
-//		exit.setId(EcoreUtil.generateUUID());
-//		exit.setJoinType(JoinType.AND_JOIN);
-//		dec.getProcessControlElements().add(exit);
-//
-//		Edge edge = factory.createEdge();
-//		edge.setSource(inputCondition); edge.setTarget(entry);
-//		inputCondition.getOutgoingSequenceFlows().add(edge); entry.getIncomingSequenceFlows().add(edge);
-//		dec.getEdges().add(edge);
-//		
-//		edge = factory.createEdge();
-//		edge.setSource(exit); edge.setTarget(outputCondition);
-//		exit.getOutgoingSequenceFlows().add(edge); outputCondition.getIncomingSequenceFlows().add(edge);
-//		dec.getEdges().add(edge);
-//
-//		edge = factory.createEdge();
-//		edge.setSource(entry); edge.setTarget(condition);
-//		entry.getOutgoingSequenceFlows().add(edge); condition.getIncomingSequenceFlows().add(edge);
-//		dec.getEdges().add(edge);
-//
-//		edge = factory.createEdge();
-//		edge.setSource(condition); edge.setTarget(exit);
-//		condition.getOutgoingSequenceFlows().add(edge); exit.getIncomingSequenceFlows().add(edge);
-//		dec.getEdges().add(edge);
-//		
-//		// Map process elements
-//		for (Vertex vertex : graph.getVertices()) {
-//			Activity act = (Activity)vertex;
-//			
-//			if (vertex.getOutgoingSequenceFlows().size() > 0 || vertex.getIncomingSequenceFlows().size() > 0)
-//				return null;
-//			
-//			Task task = factory.createTask();
-//			task.setName(act.getName());
-//			//task.setId(act.getName() == null ? "Node" + (nodeCount++) : act.getName().replaceAll(" ", "_"));
-//			task.setId(EcoreUtil.generateUUID());
-//			task.setJoinType(JoinType.AND_JOIN); task.setSplitType(SplitType.AND_SPLIT);
-//			dec.getProcessControlElements().add(task);
-//			
-//			// entry -> task
-//			edge = factory.createEdge();
-//			edge.setSource(entry); edge.setTarget(task);
-//			entry.getOutgoingSequenceFlows().add(edge); task.getIncomingSequenceFlows().add(edge);
-//			dec.getEdges().add(edge);
-//			// condition -> task
-//			edge = factory.createEdge();
-//			edge.setSource(condition); edge.setTarget(task);
-//			condition.getOutgoingSequenceFlows().add(edge); task.getIncomingSequenceFlows().add(edge);
-//			dec.getEdges().add(edge);
-//			// task -> exit
-//			edge = factory.createEdge();
-//			edge.setSource(task); edge.setTarget(exit);
-//			task.getOutgoingSequenceFlows().add(edge); exit.getIncomingSequenceFlows().add(edge);
-//			dec.getEdges().add(edge);
-//			// task -> condition
-//			edge = factory.createEdge();
-//			edge.setSource(task); edge.setTarget(condition);
-//			task.getOutgoingSequenceFlows().add(edge); condition.getIncomingSequenceFlows().add(edge);
-//			dec.getEdges().add(edge);
-//		}
-//		return dec;
-//	}
-//	
+
 	/**
 	 * @param node
 	 * @param isComposite
@@ -1124,7 +1031,7 @@ public class BPMN2YAWLConverter {
 			if(subDec != null){
 				taskDecomposition = subDec;
 			}else{
-				taskDecomposition = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
+				taskDecomposition = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
 			}
 			
 			for(YVariable mappedVariable: taskVariablesLocal){
@@ -1181,7 +1088,7 @@ public class BPMN2YAWLConverter {
 			// Decomposition
 			if(subDec == null)
 			{
-				subDec = new YDecomposition(task.getID(), "", "WebServiceGatewayFactsType");
+				subDec = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
 				task.setDecomposesTo(subDec);
 				model.addDecomposition(subDec.getID(), subDec);
 			}
@@ -1218,6 +1125,43 @@ public class BPMN2YAWLConverter {
 				loopingActivities.put(dec, new LinkedList<Node>());
 			loopingActivities.get(dec).add(activity);
 		}
+		if(activity instanceof Task){
+			Task bpmnTask = (Task)activity;
+			YResourcing resourcingParam = new YResourcing();
+
+			if((bpmnTask.getYawl_offeredBy() != null) && bpmnTask.getYawl_offeredBy().toLowerCase().equals("system"))
+				resourcingParam.setOffer(InitiatorType.SYSTEM);
+			else
+				// by default set it to user
+				resourcingParam.setOffer(InitiatorType.USER);
+			
+			if((bpmnTask.getYawl_allocatedBy() != null) && bpmnTask.getYawl_allocatedBy().toLowerCase().equals("system"))
+				resourcingParam.setAllocate(InitiatorType.SYSTEM);
+			else
+				// by default set it to user
+				resourcingParam.setAllocate(InitiatorType.USER);
+
+			if((bpmnTask.getYawl_startedBy() != null) && bpmnTask.getYawl_startedBy().toLowerCase().equals("system"))
+				resourcingParam.setStart(InitiatorType.SYSTEM);
+			else
+				// by default set it to user
+				resourcingParam.setStart(InitiatorType.USER);
+			
+			task.setResourcing(resourcingParam);
+			
+			if (bpmnTask.getParent() instanceof Lane){
+				ResourcingType resource = resourcingNodeMap.get(bpmnTask.getParent());
+				DistributionSet distributionSet = new DistributionSet();
+				distributionSet.getInitialSetList().add(resource);
+				
+				if(resourcingParam.getOffer().equals(InitiatorType.SYSTEM))
+					resourcingParam.setOfferDistributionSet(distributionSet);
+				
+				if(resourcingParam.getAllocate().equals(InitiatorType.SYSTEM))
+					resourcingParam.setAllocateDistributionSet(distributionSet);
+			}
+		}
+		
 		return task;
 	}	
 }
