@@ -100,7 +100,7 @@ handleMouseOver: function(event, uiObj) {
 		if(this.myLabel && this.myLabel._text!=""){
 			//this.calculateLabelCoordinates();
 			this.calculateRotationPointCoordinates();
-			this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );	
+			//this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );	
 			this.showLine();
 		}
 	}
@@ -109,24 +109,14 @@ handleMouseOver: function(event, uiObj) {
 		if( uiObj instanceof ORYX.Core.Canvas){
 			this.canvasLabel=uiObj;
 			canvas=true;
-	}
+		}
 	}
 },
 
 handleMouseDown: function(event, uiObj) {
 
 	if(this.myLabel){
-		if(uiObj instanceof ORYX.Core.Canvas )
-		{
-			console.log("canvas geklickt");
-		}
-		if(uiObj instanceof ORYX.Core.SVG.Label)
-		{
-			console.log("Label geklickt");
-		}
 
-		
-	
 		//save MousePosition
 		var MouseX=this.facade.eventCoordinates(event).x;
 		var MouseY=this.facade.eventCoordinates(event).y;
@@ -138,25 +128,42 @@ handleMouseDown: function(event, uiObj) {
 		if(this.labelSelected==true){
 
 			//Set LabelPosition to MousePosition
-			this.myLabel.x=MouseX;
-			this.myLabel.y=MouseY;
+			if(this.myLabel._rotate==360){
+				this.myLabel.x=MouseX+5;
+				this.myLabel.y=MouseY-5;
+			}
+			else if(this.myLabel._rotate==90) {
+				this.myLabel.x=MouseX+10;
+				this.myLabel.y=MouseY-10;
+			}
+			else if(this.myLabel._rotate==180) {
+				this.myLabel.x=MouseX-10;
+				this.myLabel.y=MouseY-10;
+			}
+			else if(this.myLabel._rotate==270) {
+				this.myLabel.x=MouseX-10;
+				this.myLabel.y=MouseY-10;
+			}
+			else {
+				//Default
+				this.myLabel.x=MouseX+5;
+				this.myLabel.y=MouseY-5;
+			}
+			
+			//refresh real Rotationpoint
 			if(this.myLabel._rotationPoint){
-				//console.log(this.myLabel._rotationPoint);
 				this.myLabel._rotationPoint.x=MouseX;
 				this.myLabel._rotationPoint.y=MouseY;
 			}
-			this.myLabel.update();
-			console.log(this.myLabel);
-			console.log(this.myLabel._rotate);
-
 			
-			//this.myLabel._rotate
+			this.myLabel.update();
+			
 		
 			//Refresh Coordinates
 			this.calculateLabelCoordinates();
 			this.calculateRotationPointCoordinates();		
 			
-			//Show RotationPoint
+			//Show visaul RotationPoint
 			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
 			
 			//show the Association line
@@ -169,8 +176,36 @@ handleMouseDown: function(event, uiObj) {
 			this.hideLine();
 		}
 	
-		//Check if Mouse is in the ClickArea of the Label
+		//Check if Mouse is in the ClickArea of the Label (for different degrees)
 		if(	this.labelSelected==false && 
+			MouseX >= this.LabelX-20 && 
+			MouseX <= this.LabelXArea && 
+			MouseY <= this.LabelY+20 && 
+			MouseY >= this.LabelYArea &&
+			this.myLabel._rotate == 360 ||
+			
+			this.labelSelected==false &&
+			MouseX >= this.LabelX-5 && 
+			MouseX <= this.LabelXArea  &&
+			MouseY >= this.LabelY-20 &&
+			MouseY <= this.LabelYArea &&
+			this.myLabel._rotate ==90 ||
+			
+			this.labelSelected==false &&
+			MouseX >= this.LabelXArea && 
+			MouseX <= this.LabelX+5  &&
+			MouseY >= this.LabelY-20 &&
+			MouseY <= this.LabelYArea &&
+			this.myLabel._rotate ==180 ||
+			
+			this.labelSelected==false &&
+			MouseX >= this.LabelXArea && 
+			MouseX <= this.LabelX+5  &&
+			MouseY >= this.LabelYArea &&
+			MouseY <= this.LabelY &&
+			this.myLabel._rotate==270 ||
+			
+			this.labelSelected==false && 
 			MouseX >= this.LabelX-20 && 
 			MouseX <= this.LabelXArea && 
 			MouseY <= this.LabelY+20 && 
@@ -216,14 +251,44 @@ handleMouseDown: function(event, uiObj) {
 
 handleMouseMove: function(event, uiObj) {
 
-	//if label is selected label Posision is set to MousePosition
+	//if label is selected Posision is set to MousePosition
 	if(this.labelSelected==true){
 		if(this.myLabel){
-			//Set Label positon
-			this.myLabel.x=this.facade.eventCoordinates(event).x+5;
-			this.myLabel.y=this.facade.eventCoordinates(event).y-5;
-			this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
-			this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
+			
+			//Set Label positon for different Rotations
+			
+			if(this.myLabel._rotate==360){
+				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
+			}
+			else if(this.myLabel._rotate==90) {
+				this.myLabel.x=this.facade.eventCoordinates(event).x+10;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+10;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
+			}
+			else if(this.myLabel._rotate==180) {
+				this.myLabel.x=this.facade.eventCoordinates(event).x-10;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
+			}
+			else if(this.myLabel._rotate==270) {
+				this.myLabel.x=this.facade.eventCoordinates(event).x-10;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
+			}
+			else {
+				//Default
+				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
+			}
+
 			this.myLabel.update();
 		
 			//refresh Coordinates
@@ -231,7 +296,8 @@ handleMouseMove: function(event, uiObj) {
 			this.calculateRotationPointCoordinates();
 		
 			//show RotationPoint
-			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+			//this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+			this.hideRotationPointOverlay();
 		
 			//Refresh the Line
 			this.hideLine();
@@ -306,12 +372,10 @@ handleMouseMove: function(event, uiObj) {
 		//checks the way of moving the Mouse through the states and rotate
 		if(this.State>this.prevState){
 			this.rotate_right();
-			//console.log(this.myLabel._rotationPoint);
 			this.prevState=this.State;
 		}
 		else if(this.State<this.prevState){
 			this.rotate_left();
-			//console.log(this.myLabel._rotationPoint);
 			this.prevState=this.State;
 		}
 		//this.myLabel._rotationPoint.x=this.LabelX;
@@ -427,19 +491,63 @@ hideOverlayActive: function() {
 	});	
 },
 
-//set the Coordinates of the RotationPoint
+//set the Coordinates of the RotationPoint for different degree values
 calculateRotationPointCoordinates: function(){
-	this.labelLength=this.myLabel._estimateTextWidth(this.myLabel._text,14);
-	this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/3;
-	this.rotationPointCoordinates.y=this.LabelY-35;	
+	
+	if(this.rotate==false) {
+		this.labelLength=this.myLabel._estimateTextWidth(this.myLabel._text,14);
+	
+		if(this.myLabel._rotate==360){
+			this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/3;
+			this.rotationPointCoordinates.y=this.LabelY-35;	
+		}
+		else if(this.myLabel._rotate==90) {
+			this.rotationPointCoordinates.x=this.LabelX+35;
+			this.rotationPointCoordinates.y=this.LabelY-8+this.labelLength/3;	
+		
+		}
+		else if(this.myLabel._rotate==180) {
+			this.rotationPointCoordinates.x=this.LabelX-this.labelLength/2;
+			this.rotationPointCoordinates.y=this.LabelY+35;
+		}
+		else if(this.myLabel._rotate==270) {
+			this.rotationPointCoordinates.x=this.LabelX-35;
+			this.rotationPointCoordinates.y=this.LabelY+8-this.labelLength/2;	
+		}
+		else {
+			this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/3;
+			this.rotationPointCoordinates.y=this.LabelY-35;	
+		}
+	}
 },
 
 //set the Coordinates of the Label
-calculateLabelCoordinates: function(){
-	this.LabelX=this.myLabel.x;
-	this.LabelY=this.myLabel.y;
-	this.LabelXArea=this.LabelX+this.labelLength+10;
-	this.LabelYArea=this.LabelY-20;	
+calculateLabelCoordinates: function(){		
+		
+		this.LabelX=this.myLabel.x;
+		this.LabelY=this.myLabel.y;		
+	
+		if(this.myLabel._rotate==360){		
+			this.LabelXArea=this.LabelX+this.labelLength+10;
+			this.LabelYArea=this.LabelY-20;	
+		}
+		else if(this.myLabel._rotate==90) {
+			this.LabelXArea=this.LabelX+20;
+			this.LabelYArea=this.LabelY+this.labelLength+10;
+		}
+		else if(this.myLabel._rotate==180) {
+			this.LabelXArea=this.LabelX-this.labelLength-10;
+			this.LabelYArea=this.LabelY+20;
+		}
+		else if(this.myLabel._rotate==270) {
+			this.LabelXArea=this.LabelX-20;
+			this.LabelYArea=this.LabelY-this.labelLength-10;
+		}
+		else {
+			//Default
+			this.LabelXArea=this.LabelX+this.labelLength+10;
+			this.LabelYArea=this.LabelY-20;
+		}	
 },
 
 //show the Association Line between Edge and Label
