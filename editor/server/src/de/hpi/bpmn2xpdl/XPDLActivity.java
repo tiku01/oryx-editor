@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
+import org.xmappr.RootElement;
 
+@RootElement("Activity")
 public class XPDLActivity extends XPDLThingNodeGraphics {
 
 	@Attribute("CompletionQuantity")
@@ -21,6 +23,8 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	@Attribute("Status")
 	protected String status;
 	
+	@Element("Implementation")
+	protected XPDLImplementation implementation;
 	@Element("Event")
 	protected XPDLEvent event;
 	@Element("Loop")
@@ -104,6 +108,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public XPDLEvent getEvent() {
 		return event;
+	}
+	
+	public XPDLImplementation getImplementation() {
+		return implementation;
 	}
 	
 	public String getIsATransaction() {
@@ -249,9 +257,15 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	}
 	
 	public void readJSONimplementation(JSONObject modelElement) throws JSONException {
-		if (!modelElement.optString("eventtype").equals("")) {
+		if (modelElement.optString("stencil").contains("Event")) {
 			passInformationToEvent(modelElement, "implementation");
+		} else if (modelElement.optString("stencil").contains("Task")) {
+			passInformationToImplementation(modelElement, "implementation");
 		}
+	}
+	
+	public void readJSONimplementationunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToImplementation(modelElement, "implementationunknowns");
 	}
 		
 	public void readJSONincomingcondition(JSONObject modelElement) throws JSONException {
@@ -275,7 +289,11 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	
 	public void readJSONinstantiate(JSONObject modelElement) throws JSONException {
-		passInformationToRoute(modelElement, "instantiate");
+		if (modelElement.optString("stencil").contains("Gateway")) {
+			passInformationToRoute(modelElement, "instantiate");
+		} else if (modelElement.optString("stencil").contains("Task")) {
+			passInformationToImplementation(modelElement, "instantiate");
+		}
 	}
 	
 	public void readJSONintermediateeventunknowns(JSONObject modelElement) throws JSONException {
@@ -361,6 +379,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		passInformationToLoop(modelElement, "miloopunknowns");
 	}
 	
+	public void readJSONnounknowns(JSONObject modelElement) throws JSONException {
+		passInformationToImplementation(modelElement, "nounknowns");
+	}
+	
 	public void readJSONoutgoingcondition(JSONObject modelElement) throws JSONException {
 		passInformationToRoute(modelElement, "outgoingcondition");
 	}
@@ -396,7 +418,7 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 			properties.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 			parse(properties);
 		} catch (Exception e) {
-			//dirty hack: Event could be MultiInstance and may have a different subkey properties
+			//dirty hack: Event could be MultiInstance and may have a unwanted subkey properties
 		}
 	}
 	
@@ -440,11 +462,26 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		createExtendedAttribute("target", modelElement.optString("target"));
 	}
 	
-	public void readJSONtaskref(JSONObject modelElement) {
-		createExtendedAttribute("taskref", modelElement.optString("taskref"));
+	public void readJSONtaskref(JSONObject modelElement) throws JSONException {
+		if (modelElement.optString("stencil").contains("Task")) {
+			passInformationToImplementation(modelElement, "taskref");
+		}
 	}
 	
-	public void readJSONtasktype(JSONObject modelElement) {
+	public void readJSONtasktype(JSONObject modelElement) throws JSONException {
+		if (modelElement.optString("stencil").contains("Task")) {
+			passInformationToImplementation(modelElement, "tasktype");
+		}
+	}
+	
+	public void readJSONtasktypeunknowns(JSONObject modelElement) throws JSONException {
+		if (modelElement.optString("stencil").contains("Task")) {
+			passInformationToImplementation(modelElement, "tasktypeunknowns");
+		}
+	}
+	
+	public void readJSONtaskunknowns(JSONObject modelElement) throws JSONException {
+		passInformationToImplementation(modelElement, "taskunknowns");
 	}
 	
 	public void readJSONtesttime(JSONObject modelElement) throws JSONException {
@@ -496,6 +533,10 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 	
 	public void setEvent(XPDLEvent eventValue) {
 		event = eventValue;
+	}
+	
+	public void setImplementation(XPDLImplementation implementationValue) {
+		implementation = implementationValue;
 	}
 	
 	public void setIsATransaction(String status) {
@@ -558,6 +599,14 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		XPDLEvent eventObject = getEvent();
 		if (eventObject != null) {
 			eventObject.write(modelElement);
+		}
+	}
+	
+	public void writeJSONimplementation(JSONObject modelElement) throws JSONException {
+		XPDLImplementation implementationObject = getImplementation();
+		if (implementationObject != null) {
+			initializeProperties(modelElement);
+			implementationObject.write(getProperties(modelElement));
 		}
 	}
 	
@@ -628,6 +677,12 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 		}
 	}
 	
+	protected void initializeImplementation() {
+		if (getImplementation() == null) {
+			setImplementation(new XPDLImplementation());
+		}
+	}
+	
 	protected void initializeLoop() {
 		if (getLoop() == null) {
 			setLoop(new XPDLLoop());
@@ -668,6 +723,21 @@ public class XPDLActivity extends XPDLThingNodeGraphics {
 			eventPassObject.put("triggerresultunknowns", modelElement.optString("triggerresultunknowns"));
 			
 			getEvent().parse(eventPassObject);
+		}
+	}
+	
+	protected void passInformationToImplementation(JSONObject modelElement, String key) throws JSONException {
+		if (modelElement.optString("stencil").contains("Task")) {
+			initializeImplementation();
+			
+			JSONObject passObject = new JSONObject();
+			passObject.put(key, modelElement.optString(key));
+			passObject.put("taskref", modelElement.optString("taskref"));
+			passObject.put("tasktype", modelElement.optString("tasktype"));
+			passObject.put("implementation", modelElement.optString("implementation"));
+			passObject.put("instantiate", modelElement.optString("instantiate"));
+			
+			getImplementation().parse(passObject);
 		}
 	}
 	

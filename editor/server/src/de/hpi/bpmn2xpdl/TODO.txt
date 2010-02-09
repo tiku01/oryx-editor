@@ -1,13 +1,11 @@
-﻿- outgoing-key (Source Target)
-- tasktypes
+﻿-- Further stuff --
 
-=========================================================
-========                  IMPORT                 ========
-=========================================================
-
-- Generell in flows: target/sources
+- outgoing-key (Source/Target)
 - Coordinatesunknowns?!
 - andere node/connector infos storen?
+- extended attributes
+
+-- Needs to be done --
+
 - object im workflowprocess/pool
 - assignments in der activity
-- extended attributes
