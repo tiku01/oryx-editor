@@ -1,19 +1,17 @@
-package org.b3mn.poem.handler;
+package org.oryxeditor.server;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.b3mn.ViewGenerator.ViewGenerator;
-import org.b3mn.poem.util.HandlerWithoutModelContext;
+import de.hpi.ViewGenerator.ViewGenerator;
 
 
-@HandlerWithoutModelContext(uri="/viewgenerator")
-public class ViewGeneratorHandler extends HandlerBase {
+public class ViewGeneratorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2308798783469734955L;
 	private String baseURL = "viewgenerator/";

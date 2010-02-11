@@ -1,4 +1,4 @@
-package org.b3mn.ViewGenerator;
+package de.hpi.ViewGenerator;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -8,7 +8,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class ExtractedDataMapping extends ExtractedData {
 	private String connection_uni;

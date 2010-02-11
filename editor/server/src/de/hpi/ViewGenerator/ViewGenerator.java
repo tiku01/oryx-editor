@@ -1,8 +1,18 @@
-package org.b3mn.ViewGenerator;
+package de.hpi.ViewGenerator;
 
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
+
+//import java.io.BufferedReader;
+//import java.io.FileReader;
+//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.json.JSONObject;
 
 
 public class ViewGenerator {
@@ -13,7 +23,7 @@ public class ViewGenerator {
 
 
 	public ViewGenerator(String oryxRootDirectory, String basePath) {
-		savePath = "C:\\Dokumente und Einstellungen\\stewe.STEWE-FORCEONE\\Desktop\\port\\PMS\\signavio-dateien\\";
+		savePath = "C:\\Dokumente und Einstellungen\\stewe\\Desktop\\PMS\\signavio-dateien\\";
 		overviewHTMLName = "Overview";
 		toSavePath = oryxRootDirectory + basePath;
 	}
@@ -27,26 +37,26 @@ public class ViewGenerator {
 		return toSavePath;
 	}
 	
-	public static void main(String[] args) {
-		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
-		String baseURL = "viewgenerator/";
-		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
-		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
-//		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
-//							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
-//							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
-//							"Subprocess Alternativvorschlag an Kunden.oryx.xml", "Zahlung organisieren.oryx.xml", 
-//							"Zahlung.oryx.xml", "Hersteller Rueckzahlung.oryx.xml", "Fami Kataloganfrage_oeffentlich.oryx.xml", "Fami lebt_Aufg4.oryx.xml"};
-
-//		String[] files = {"Kundenanforderungen ermitteln.oryx.xml", "LaserTec2.oryx.xml"};
-		
-		
-		ArrayList<String> ids = new ArrayList<String>();
-		for (String id: files) {
-			ids.add(id);
-		}
-		a.generate(ids);
-	}
+//	public static void main(String[] args) {
+//		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
+//		String baseURL = "viewgenerator/";
+//		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
+//		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
+////		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
+////							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
+////							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
+////							"Subprocess Alternativvorschlag an Kunden.oryx.xml", "Zahlung organisieren.oryx.xml", 
+////							"Zahlung.oryx.xml", "Hersteller Rueckzahlung.oryx.xml", "Fami Kataloganfrage_oeffentlich.oryx.xml", "Fami lebt_Aufg4.oryx.xml"};
+//
+////		String[] files = {"Kundenanforderungen ermitteln.oryx.xml", "LaserTec2.oryx.xml"};
+//		
+//		
+//		ArrayList<String> ids = new ArrayList<String>();
+//		for (String id: files) {
+//			ids.add(id);
+//		}
+//		a.generate(ids);
+//	}
 	
 	public void generate(ArrayList<String> diagram_Ids) {
 		diagramIds = diagram_Ids;
