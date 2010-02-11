@@ -1,4 +1,4 @@
- encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
@@ -129,15 +129,7 @@
 			org.oryxeditor.server.DesynchronizabilityServlet
 		</servlet-class>
 	</servlet>
-	<servlet>
-		<display-name>
-			Oryx Enforceability Checker
-		</display-name>
-		<servlet-name>EnforceabilityServlet</servlet-name>
-		<servlet-class>
-			org.oryxeditor.server.EnforceabilityServlet
-		</servlet-class>
-	</servlet>
+	
 	<servlet>
 		<display-name>
 			BPEL 2 BPMN Transformation
@@ -157,7 +149,7 @@
 			org.oryxeditor.server.IBPMN2BPMNServlet
 		</servlet-class>
 	</servlet>
-	
+    
 	<servlet>
 		<display-name>
 			Oryx Editor Handler
@@ -355,6 +347,14 @@
 			org.oryxeditor.server.BPMNLayouterServlet
 		</servlet-class>
 	</servlet>
+    
+    <servlet>
+		<display-name>ViewGenerator</display-name>
+		<servlet-name>ViewGeneratorServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.ViewGeneratorServlet
+		</servlet-class>
+	</servlet>
 	
 	<servlet>
 		<display-name>EPC Layouter</display-name>
@@ -370,14 +370,6 @@
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<servlet-class>
 			org.oryxeditor.server.Bpmn2_0Servlet
-		</servlet-class>
-	</servlet>
-	
-	<servlet>
-		<display-name>BPMN 2 XPDL Exporter</display-name>
-		<servlet-name>Bpmn2_0ToXpdlServlet</servlet-name>
-		<servlet-class>
-			org.oryxeditor.server.Bpmn2_0ToXpdlServlet
 		</servlet-class>
 	</servlet>
 	
@@ -431,7 +423,7 @@
 		<servlet-name>BPELExporter</servlet-name>
 		<url-pattern>/bpelexporter</url-pattern>
 	</servlet-mapping>
-	
+    
 	<servlet-mapping>
 		<servlet-name>BPEL4ChorImporter</servlet-name>
 		<url-pattern>/bpel4chorimporter</url-pattern>
@@ -456,10 +448,7 @@
 		<servlet-name>DesynchronizabilityServlet</servlet-name>
 		<url-pattern>/desynchronizability</url-pattern>
 	</servlet-mapping>
-    <servlet-mapping>
-		<servlet-name>EnforceabilityServlet</servlet-name>
-		<url-pattern>/enforceability</url-pattern>
-	</servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>RDF2JSONServlet</servlet-name>
         <url-pattern>/rdf2json</url-pattern>
@@ -609,6 +598,11 @@
 		<servlet-name>BPMNLayouterServlet</servlet-name>
 		<url-pattern>/bpmnlayouter</url-pattern>
 	</servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>ViewGeneratorServlet</servlet-name>
+		<url-pattern>/viewgenerator</url-pattern>
+	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>EPCLayouterServlet</servlet-name>
@@ -619,11 +613,6 @@
 	<servlet-mapping>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<url-pattern>/bpmn2_0serialization</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Bpmn2_0ToXpdlServlet</servlet-name>
-		<url-pattern>/bpmn2xpdlserialization</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
@@ -757,13 +746,4 @@
         <description>Recipient for feedback servlet</description>
         <param-name>FEEDBACK_RECIPIENT_EMAIL</param-name><param-value>mymail@googlemail.com</param-value>
     </context-param>
-   <!--  
-    <context-param>
-    	<description>Analytics Snippet</description>
-    	<param-name>ANALYTICS_SNIPPET</param-name>
-    	<param-value><![CDATA[
-		  ... 	
-    	]]></param-value>
-    </context-param>
-    -->
 </web-app>

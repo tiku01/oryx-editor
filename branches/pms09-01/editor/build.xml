@@ -308,6 +308,15 @@
 
         <!-- directory for user interfaces aggregated by the BPMN2XFormsServlet -->
         <mkdir dir="${editor-build-root}/generated-uis"/>
+        
+        <!-- directory for generated files from ViewGeneratorServlet -->
+        <mkdir dir="${editor-build-root}/viewgenerator"/>
+    	
+        <!-- directory for static files for ViewGeneratorServlet -->
+        <mkdir dir="${editor-build-root}/viewgenerator/static"/>
+        <copy todir='${editor-build-root}/viewgenerator/static'>
+            <fileset dir="${editor-src-root}/data/viewgenerator_static"/>
+        </copy>
 
     </target>
 
