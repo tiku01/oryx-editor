@@ -1,5 +1,4 @@
-package org.b3mn.ViewGenerator;
-
+package de.hpi.ViewGenerator;
 
 public class Translator {
 	

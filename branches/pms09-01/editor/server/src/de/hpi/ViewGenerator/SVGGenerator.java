@@ -1,8 +1,8 @@
-package org.b3mn.ViewGenerator;
+package de.hpi.ViewGenerator;
 
 import java.io.File;
 import java.io.FileWriter;
-
+import java.util.ArrayList;
 
 class SVGGenerator {
 

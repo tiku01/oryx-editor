@@ -1,6 +1,5 @@
-package org.b3mn.ViewGenerator;
+package de.hpi.ViewGenerator;
 import java.util.ArrayList;
-
 
 public class TranslatorInput {
 	

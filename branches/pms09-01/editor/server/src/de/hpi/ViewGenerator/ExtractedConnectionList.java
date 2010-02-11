@@ -1,7 +1,9 @@
-package org.b3mn.ViewGenerator;
-import java.util.ArrayList;
+package de.hpi.ViewGenerator;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Set;
+
+import de.hpi.ViewGenerator.ConnectionList;
 
 
 class ExtractedConnectionList {

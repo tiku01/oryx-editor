@@ -1,6 +1,8 @@
-package org.b3mn.ViewGenerator;
+package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import de.hpi.ViewGenerator.Connector;
 
 class ConnectorList {
 	private ArrayList<String> stencilList;
