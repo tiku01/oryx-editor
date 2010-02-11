@@ -1,0 +1,16 @@
+.bubbleInfo {
+    position: relative;
+}
+
+.popup {
+    position:absolute;
+	z-index:1000;
+    display: none; /* keeps the popup hidden if no JS available */
+    background-color: 	#A9A9A9;
+    color:  #FFFFFF;
+    border-style: solid;
+    border-color: #696969;
+    border-width: 2px;
+    -moz-border-radius:5px;
+	-khtml-border-radius:5px;
+}
