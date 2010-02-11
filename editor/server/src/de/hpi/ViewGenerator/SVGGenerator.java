@@ -74,12 +74,19 @@ class SVGGenerator {
 		
 		try {
 			Process p = runtime.exec(command);
-			if (!layoutAlg.equals("neato")) {
-//				neato is able to handle up to 16000+ nodes, however the returning value (exit status of the call) is buggy when node number exceeds a certain value
-//				therefore cannot rely on the command to give the proper exit status - neato is the algorithm for structured graphs (not directed)
-//				additional handling should be added if neato is not updated because dot wont exit although it has nothing to do anymore
-		        p.waitFor();
+			synchronized(p) {
+				
+				if (layoutAlg.equals("dot")) {
+			        p.waitFor();
+				}
+				if (layoutAlg.equals("neato")){
+//					neato is able to handle up to 16000+ nodes, however when node number exceeds a certain value it is buggy in the way that the svg is generated but the process does not exit
+//					therefore one cannot rely on the process to exit on its own - neato is the algorithm for structured graphs (not directed)
+//					additional handling should be added if neato is not updated, set 5 seconds as maximum waittime
+					p.wait(5000);
+				}
 			}
+
 		}
 		catch (java.io.IOException e) {
 			e.printStackTrace();
