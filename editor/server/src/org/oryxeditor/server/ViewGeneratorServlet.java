@@ -50,64 +50,25 @@ public class ViewGeneratorServlet extends HttpServlet {
 		}
 		else {
 			ArrayList<String> diagramIds = new ArrayList<String>();
-			diagramIds.add(value);
+			diagramIds.add(value.replace(" ", "%20"));
 			count +=1;
 			
 			while (this.isCorrectlySet(req, baseParamName+count)) {
-				value = req.getParameter(baseParamName + count);
+				value = req.getParameter(baseParamName + count).replace(" ", "%20");
 				diagramIds.add(value);
 				count +=1;
 			}
 			
+//			out.println(diagramIds);
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
 			viewGenerator.generate(diagramIds);
 			
-//			set for local testing, should be changed
 			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName());
 
-//			BufferedReader br = new BufferedReader(new FileReader(overviewHTMLFile));
-//			String line;
-//			  
-//			while((line = br.readLine()) != null) {
-//				out.println(line);
-//			}
 			out.close(); 			 
 		}
-	}
-
-	
-
-//	public void doGet(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
-//		String title = "Sehr einfaches Servlet";
-//		String text = "Hello World!";         
-//		PrintWriter out = response.getWriter();
-//		out.println(  "<html>"  );
-//		out.println(  "<head>"  );
-//		out.println(  "<title>" + title + "</title>"  );
-//		out.println(  "</head>"  );
-//		out.println(  "<body bgcolor=\"white\">  ");
-//		out.println(  text  );
-//		out.println(  "<table width=\"100%\">  ");
-//		
-//		for (int i=0;i<3;i++) {
-//			               
-//			out.println("<tr>");
-//			        
-//			for(int j=1;j<10;j++) {
-//				out.println( "<td>" );
-//			    out.println(  i+j  );
-//			    out.println(  "</td>"  );
-//			}
-//			       
-//			out.println("  </tr>  ");
-//			        
-//		}        
-//		out.println(  "</table>"  );
-//		out.println(  "</body>"  );
-//		out.println(  "</html>"  );
-//	}
-	
-	}
+	}	
+}
 
 
 

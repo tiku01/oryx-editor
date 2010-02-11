@@ -15,8 +15,11 @@ import de.hpi.ViewGenerator.ExtractedConnectionList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -230,7 +233,11 @@ class ExtractedData {
 	
 	protected String getJSON(String diagramPath) {
 		try {
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(diagramPath));
+			System.out.println(diagramPath);
+			URI uri = new URI(diagramPath);
+			System.out.println("URI " + uri);
+			InputStream st = uri.toURL().openStream();
+			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
 			Element xmlDoc = xml.getDocumentElement();
 		  	NodeList nodeList = xmlDoc.getChildNodes();
@@ -238,6 +245,10 @@ class ExtractedData {
 			String json = jsonNode.getTextContent();
 				
 			return json;
+		}
+		catch (URISyntaxException e) {
+//			invalid parameter
+			e.printStackTrace();
 		}
 		catch (ParserConfigurationException e) {
 		}
@@ -252,7 +263,9 @@ class ExtractedData {
 	
 	protected String getSVG(String diagramPath) {
 		try {
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(diagramPath));
+			URI uri = new URI(diagramPath);
+			InputStream st = uri.toURL().openStream();
+			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
 			Element xmlDoc = xml.getDocumentElement();
 		  	NodeList nodeList = xmlDoc.getChildNodes();
@@ -260,6 +273,11 @@ class ExtractedData {
 			String svg = svgNode.getTextContent();
 			
 			return svg;
+		}
+		catch (URISyntaxException e) {
+//			invalid parameter
+			e.printStackTrace();
+
 		}
 		catch (ParserConfigurationException e) {
 		}
@@ -274,7 +292,10 @@ class ExtractedData {
 	
 	protected String getDescription(String diagramPath) {
 		try {
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(diagramPath));
+			URI uri = new URI(diagramPath);
+			InputStream st = uri.toURL().openStream();
+			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
+			
 			
 			Element xmlDoc = xml.getDocumentElement();
 		  	NodeList nodeList = xmlDoc.getChildNodes();
@@ -282,6 +303,11 @@ class ExtractedData {
 			String description = descriptionNode.getTextContent();
 			
 			return description;
+		}
+		catch (URISyntaxException e) {
+//			invalid parameter
+			e.printStackTrace();
+
 		}
 		catch (ParserConfigurationException e) {
 		}

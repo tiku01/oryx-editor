@@ -23,7 +23,7 @@ public class ViewGenerator {
 
 
 	public ViewGenerator(String oryxRootDirectory, String basePath) {
-		savePath = "C:\\Dokumente und Einstellungen\\stewe\\Desktop\\PMS\\signavio-dateien\\";
+		savePath = "file:/C:/Dokumente%20und%20Einstellungen/stewe.STEWE-FORCEONE/Desktop/port/PMS/signavio-dateien/";
 		overviewHTMLName = "Overview";
 		toSavePath = oryxRootDirectory + basePath;
 	}
@@ -41,7 +41,7 @@ public class ViewGenerator {
 //		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
 //		String baseURL = "viewgenerator/";
 //		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
-//		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
+////		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
 ////		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
 ////							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
 ////							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
@@ -62,19 +62,19 @@ public class ViewGenerator {
 		diagramIds = diagram_Ids;
 		int processes_count = diagram_Ids.size();
 		
-		ArrayList<String> diagramPaths = new ArrayList<String>();
-		
-		for (String diagramId: diagramIds) {
-			diagramPaths.add(savePath+diagramId);
-		}
+//		ArrayList<String> diagramPaths = new ArrayList<String>();
+//		
+//		for (String diagramId: diagramIds) {
+//			diagramPaths.add(savePath+diagramId);
+//		}
 		
 //		String[] files = {path+"B.oryx.xml", path+"A.oryx.xml", path+"A2.oryx.xml", path+"D.oryx.xml", path+"La1.oryx.xml", path+"La2.oryx.xml", path+"La3.oryx.xml", path+"reference.oryx.xml", path+"Blip.oryx.xml", path+"Data.oryx.xml", path+"un1.oryx.xml", path+"un2.oryx.xml"};
 //		String[] files = {path+"Blip.oryx.xml", path+"reference.oryx.xml"};
 //		String[] files = {path+"un1.oryx.xml"};
 
-		ExtractedLanePassing lanePassings = new ExtractedLanePassing(savePath, diagramPaths, toSavePath);
-		ExtractedDataMapping dataMapping = new ExtractedDataMapping(savePath, diagramPaths, toSavePath);
-		ExtractedCommunications communications = new ExtractedCommunications(savePath, diagramPaths, toSavePath);
+		ExtractedLanePassing lanePassings = new ExtractedLanePassing(savePath, diagramIds, toSavePath);
+		ExtractedDataMapping dataMapping = new ExtractedDataMapping(savePath, diagramIds, toSavePath);
+		ExtractedCommunications communications = new ExtractedCommunications(savePath, diagramIds, toSavePath);
 		
 		String communicationsSVGName = communications.getSVGName();
 		communications.generateSVG();
