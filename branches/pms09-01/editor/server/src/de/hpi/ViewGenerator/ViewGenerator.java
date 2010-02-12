@@ -16,14 +16,12 @@ import java.io.FileWriter;
 
 
 public class ViewGenerator {
-	private String savePath;
 	private ArrayList<String> diagramIds;
 	private String overviewHTMLName;
 	private String toSavePath;
 
 
 	public ViewGenerator(String oryxRootDirectory, String basePath) {
-		savePath = "file:/C:/Dokumente%20und%20Einstellungen/stewe.STEWE-FORCEONE/Desktop/port/PMS/signavio-dateien/";
 		overviewHTMLName = "Overview";
 		toSavePath = oryxRootDirectory + basePath;
 	}
@@ -72,9 +70,9 @@ public class ViewGenerator {
 //		String[] files = {path+"Blip.oryx.xml", path+"reference.oryx.xml"};
 //		String[] files = {path+"un1.oryx.xml"};
 
-		ExtractedLanePassing lanePassings = new ExtractedLanePassing(savePath, diagramIds, toSavePath);
-		ExtractedDataMapping dataMapping = new ExtractedDataMapping(savePath, diagramIds, toSavePath);
-		ExtractedCommunications communications = new ExtractedCommunications(savePath, diagramIds, toSavePath);
+		ExtractedLanePassing lanePassings = new ExtractedLanePassing(diagramIds, toSavePath);
+		ExtractedDataMapping dataMapping = new ExtractedDataMapping(diagramIds, toSavePath);
+		ExtractedCommunications communications = new ExtractedCommunications(diagramIds, toSavePath);
 		
 		String communicationsSVGName = communications.getSVGName();
 		communications.generateSVG();

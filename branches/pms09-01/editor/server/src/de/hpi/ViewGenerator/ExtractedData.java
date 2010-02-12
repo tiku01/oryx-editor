@@ -33,16 +33,13 @@ class ExtractedData {
 	private int descriptionChildNr;
 	protected String serverBaseUrl;
 	protected String toSavePath;
-	protected String savePath;
 
-
-	public ExtractedData(String savPath, String toSaveDirectory) {
+	public ExtractedData(String toSaveDirectory) {
 		extractedConnectionList = new ExtractedConnectionList();
 		jsonChildNr = 5;
 		svgChildNr = 7;
 		descriptionChildNr = 1;
 		toSavePath = toSaveDirectory;
-		savePath = savPath;
 	}
 	
 	
@@ -396,6 +393,7 @@ class ExtractedData {
 		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
 		  		String origin = origins.get(i);
 		  		String suffix = ".oryx.xml";
+		  		String savePath = origin.substring(0,origin.indexOf("/"));
 		  		origin = origin.substring(savePath.length(), origin.length() - suffix.length());
 		  		fout.write("<div class=\"bubbleInfo\">");
 			    fout.write("<div class=\"trigger\">");
