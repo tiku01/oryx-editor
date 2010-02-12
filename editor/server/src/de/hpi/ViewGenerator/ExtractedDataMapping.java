@@ -25,8 +25,8 @@ public class ExtractedDataMapping extends ExtractedData {
 	private int dataObjectsCount;
 
 	
-	public ExtractedDataMapping(String saveURI, ArrayList<String> diagramPaths, String toSavePath) {
-		super(saveURI, toSavePath);
+	public ExtractedDataMapping(ArrayList<String> diagramPaths, String toSavePath) {
+		super(toSavePath);
 		dataObjectsCount = 0;
 		connection_uni = "Association_Unidirectional";
 		connection_bi = "Association_Bidirectional";

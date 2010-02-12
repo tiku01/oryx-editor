@@ -20,8 +20,8 @@ public class ExtractedLanePassing extends ExtractedData {
 	private int handoversCount;
 
 
-	public ExtractedLanePassing(String savePath, ArrayList<String> diagramPaths, String toSavePath) {
-		super(savePath, toSavePath);
+	public ExtractedLanePassing(ArrayList<String> diagramPaths, String toSavePath) {
+		super(toSavePath);
 		handoversCount = 0;
 		rolesCount = 0;
 		connection = "SequenceFlow";

@@ -20,8 +20,8 @@ public class ExtractedCommunications extends ExtractedData {
 	private SVGGenerator generator;
 	private int interactionsCount;
 	
-	public ExtractedCommunications(String savePath, ArrayList<String> diagramPaths, String toSavePath) {
-		super(savePath, toSavePath);
+	public ExtractedCommunications(ArrayList<String> diagramPaths, String toSavePath) {
+		super(toSavePath);
 		interactionsCount = 0;
 		connection = "MessageFlow";
 		graphLabel = "Conversation_View";
