@@ -393,7 +393,7 @@ class ExtractedData {
 		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
 		  		String origin = origins.get(i);
 		  		String suffix = ".oryx.xml";
-		  		String savePath = origin.substring(0,origin.indexOf("/"));
+		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
 		  		origin = origin.substring(savePath.length(), origin.length() - suffix.length());
 		  		fout.write("<div class=\"bubbleInfo\">");
 			    fout.write("<div class=\"trigger\">");
