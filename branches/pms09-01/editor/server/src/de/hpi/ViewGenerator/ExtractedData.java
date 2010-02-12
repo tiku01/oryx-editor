@@ -403,8 +403,8 @@ class ExtractedData {
 		    
 		    fout.write("<html><head>");
 		    fout.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
-		    fout.write("<script type=\"text/javascript\" src=\"static/popup.js\"></script>");
-		    fout.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/popup.css\" />");
+		    fout.write("<script type=\"text/javascript\" src=\"static/infoBox.js\"></script>");
+		    fout.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/infoBox.css\" />");
 		    fout.write("</head>");
 		    fout.write("<body><h3><center>Origins for "+attributePair+"</center></h3><hr>");
 
@@ -414,11 +414,11 @@ class ExtractedData {
 		  		String suffix = ".oryx.xml";
 		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
 		  		origin = origin.substring(savePath.length(), origin.length() - suffix.length());
-		  		fout.write("<div class=\"bubbleInfo\">");
-			    fout.write("<div class=\"trigger\">");
+		  		fout.write("<div class=\"origin\">");
+			    fout.write("<div class=\"originName\">");
 		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(origin)+"</font></A></td>");
 			    fout.write("</div>");
-			    fout.write("<div class=\"popup\">");
+			    fout.write("<div class=\"infoBox\">");
 			    String description = replaceSpecialChars(getDescription(origins.get(i)));
 			    if (description.equals("")) {
 				    fout.write("<font>No Description given.</font>");

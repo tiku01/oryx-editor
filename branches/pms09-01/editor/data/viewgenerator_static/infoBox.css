@@ -1,11 +1,12 @@
-.bubbleInfo {
+.origin {
     position: relative;
 }
 
-.popup {
+.infoBox {
     position:absolute;
 	z-index:1000;
-    display: none; /* keeps the popup hidden if no JS available */
+    display: none;
+    font-size: 12px;
     background-color: 	#A9A9A9;
     color:  #FFFFFF;
     border-style: solid;
