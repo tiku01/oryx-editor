@@ -51,7 +51,7 @@ public class ExtractedCommunications extends ExtractedData {
 		graphLabel = "Conversation_View";
 		svgName = "Conversation View";
 		layoutAlgorithm = "neato";
-		correlationKeyAttribute = "id";
+		correlationKeyAttribute = "correlation_key";
 		initializeConnectorList();
 		correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
 		extractCommunications(diagramPaths);

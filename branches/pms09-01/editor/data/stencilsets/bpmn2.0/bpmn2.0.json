@@ -4841,6 +4841,17 @@
 			"roles": [
 				"ConnectingObjectsMorph",
 				"MessageContainer"
+			],
+			"properties": [
+				{
+					"id":"correlation_key",
+					"type":"String",
+					"title":"Correlation Key",
+					"value":"",
+					"description":"A Correlation Key defines multiple MessageFlows to be part of the same Communication (Conversation Diagram).",
+					"readonly":false,
+					"optional":true
+				}
 			]
 		}
 	],
