@@ -47,23 +47,56 @@ public class ViewGeneratorServlet extends HttpServlet {
 		doGetOrPost(req, resp); 
 	} 
 	
-	private boolean isCorrectlySet(HttpServletRequest req, String paramName) {
-		String value = req.getParameter(paramName); 
-		if ((value == null) || ("".equals(value))) {
-			return false;
-		}
-		return true;
-	}
+//	private boolean isCorrectlySet(HttpServletRequest req, String paramName) {
+//		String value = req.getParameter(paramName); 
+//		if ((value == null) || ("".equals(value))) {
+//			return false;
+//		}
+//		return true;
+//	}
+	
+//	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//		String baseParamName = "d";
+//		int count = 0;
+//		String value = req.getParameter(baseParamName + count); 
+//		PrintWriter out = resp.getWriter(); 
+//		resp.setContentType("text/plain"); 
+//		if (value == null) { 
+//			out.println("There was no input diagrams parameter d0 given.");
+//		} 
+//		else if ("".equals(value)) {
+//			// The request parameter 'param' was present in the query string but has no value 
+//			// e.g. http://hostname.com?param=&a=b  
+//			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
+//		}
+//		else {
+//			ArrayList<String> diagramIds = new ArrayList<String>();
+//			diagramIds.add(value.replace(" ", "%20"));
+//			count +=1;
+//			
+//			while (this.isCorrectlySet(req, baseParamName+count)) {
+//				value = req.getParameter(baseParamName + count).replace(" ", "%20");
+//				diagramIds.add(value);
+//				count +=1;
+//			}
+//			
+////			out.println(diagramIds);
+//			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
+//			viewGenerator.generate(diagramIds);
+//			
+//			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName());
+//
+//			out.close(); 			 
+//		}
+//	}
 	
 	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-		String baseParamName = "d";
-		int count = 0;
-		String value = req.getParameter(baseParamName + count); 
+		String paramName = "modeluris";
+		String[] value = req.getParameterValues(paramName); 
 		PrintWriter out = resp.getWriter(); 
 		resp.setContentType("text/plain"); 
 		if (value == null) { 
-			out.println("There was no input diagrams parameter d0 given.");
+			out.println("There was no input diagrams parameter " + paramName + " given.");
 		} 
 		else if ("".equals(value)) {
 			// The request parameter 'param' was present in the query string but has no value 
@@ -72,24 +105,17 @@ public class ViewGeneratorServlet extends HttpServlet {
 		}
 		else {
 			ArrayList<String> diagramIds = new ArrayList<String>();
-			diagramIds.add(value.replace(" ", "%20"));
-			count +=1;
-			
-			while (this.isCorrectlySet(req, baseParamName+count)) {
-				value = req.getParameter(baseParamName + count).replace(" ", "%20");
-				diagramIds.add(value);
-				count +=1;
+			for (int i=0;i<value.length;i++) {
+				diagramIds.add(value[i].replace(" ", "%20"));
 			}
-			
-//			out.println(diagramIds);
+			out.write(diagramIds.toString());
+			out.write(diagramIds.get(0));
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
 			viewGenerator.generate(diagramIds);
-			
 			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName());
-
 			out.close(); 			 
 		}
-	}	
+	}
 }
 
 
