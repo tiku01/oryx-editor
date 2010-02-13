@@ -47,17 +47,11 @@ import org.xml.sax.SAXException;
 class ExtractedData {
 	
 	protected ExtractedConnectionList extractedConnectionList;
-	private int jsonChildNr;
-	private int svgChildNr;
-	private int descriptionChildNr;
 	protected String serverBaseUrl;
 	protected String toSavePath;
 
 	public ExtractedData(String toSaveDirectory) {
 		extractedConnectionList = new ExtractedConnectionList();
-		jsonChildNr = 5;
-		svgChildNr = 7;
-		descriptionChildNr = 1;
 		toSavePath = toSaveDirectory;
 	}
 	
@@ -253,9 +247,8 @@ class ExtractedData {
 			InputStream st = uri.toURL().openStream();
 			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
-			Element xmlDoc = xml.getDocumentElement();
-		  	NodeList nodeList = xmlDoc.getChildNodes();
-		  	Node jsonNode = nodeList.item(jsonChildNr);	
+		  	NodeList nodeList = xml.getElementsByTagName("json-representation");
+		  	Node jsonNode = nodeList.item(0);	
 			String json = jsonNode.getTextContent();
 				
 			return json;
@@ -281,9 +274,8 @@ class ExtractedData {
 			InputStream st = uri.toURL().openStream();
 			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
-			Element xmlDoc = xml.getDocumentElement();
-		  	NodeList nodeList = xmlDoc.getChildNodes();
-		  	Node svgNode = nodeList.item(svgChildNr);	
+		  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
+		  	Node svgNode = nodeList.item(0);	
 			String svg = svgNode.getTextContent();
 			
 			return svg;
@@ -310,10 +302,8 @@ class ExtractedData {
 			InputStream st = uri.toURL().openStream();
 			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
-			
-			Element xmlDoc = xml.getDocumentElement();
-		  	NodeList nodeList = xmlDoc.getChildNodes();
-		  	Node descriptionNode = nodeList.item(descriptionChildNr);	
+		  	NodeList nodeList = xml.getElementsByTagName("description");
+		  	Node descriptionNode = nodeList.item(0);	
 			String description = descriptionNode.getTextContent();
 			
 			return description;
@@ -409,9 +399,8 @@ class ExtractedData {
 		  	for (int i=0; i<origins.size(); i++) {
 		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
 		  		String origin = origins.get(i);
-		  		String suffix = ".xml";
 		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
-		  		origin = origin.substring(savePath.length(), origin.length() - suffix.length());
+		  		origin = origin.substring(savePath.length(), origin.length());
 		  		fout.write("<div class=\"origin\">");
 			    fout.write("<div class=\"originName\">");
 		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(origin)+"</font></A></td>");
