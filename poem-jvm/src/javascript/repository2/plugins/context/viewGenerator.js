@@ -65,7 +65,9 @@ Repository.Plugins.ViewGenerator = {
 				//success handling
 				var url = "http://" + location.host + "/oryx/" + response.responseText;
 				//console.log(url);
-				window.location.href=url;
+				viewGenWinRef = window.open(url, "viewGenWin");
+				viewGenWinRef.focus();
+				//window.location.href=url;
 			}.bind(this),
 
 			onFailure: function(response){
