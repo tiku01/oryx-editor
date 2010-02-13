@@ -147,7 +147,8 @@ public class ExtractedCommunications extends ExtractedData {
 			}
 		}
 		catch (JSONException e) {
-			e.printStackTrace();
+//			correlationKeyAttribute no attribute of MessageFlow in the stencilset
+//			treat as if correlation_key was empty string - no entry in the correlationKeyDictionary
 		}
 		return correlationKeyDic_part;		
 	}
