@@ -411,7 +411,7 @@ class ExtractedData {
 		  	for (int i=0; i<origins.size(); i++) {
 		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
 		  		String origin = origins.get(i);
-		  		String suffix = ".oryx.xml";
+		  		String suffix = ".xml";
 		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
 		  		origin = origin.substring(savePath.length(), origin.length() - suffix.length());
 		  		fout.write("<div class=\"origin\">");
