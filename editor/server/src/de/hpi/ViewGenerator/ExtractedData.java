@@ -249,9 +249,7 @@ class ExtractedData {
 	
 	protected String getJSON(String diagramPath) {
 		try {
-			System.out.println(diagramPath);
 			URI uri = new URI(diagramPath);
-			System.out.println("URI " + uri);
 			InputStream st = uri.toURL().openStream();
 			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 			
