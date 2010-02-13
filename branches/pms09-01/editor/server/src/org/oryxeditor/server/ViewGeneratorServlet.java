@@ -93,14 +93,16 @@ public class ViewGeneratorServlet extends HttpServlet {
 	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String paramName = "modeluris";
 		String[] value = req.getParameterValues(paramName); 
-		PrintWriter out = resp.getWriter(); 
+		PrintWriter out = resp.getWriter();
 		resp.setContentType("text/plain"); 
-		if (value == null) { 
+		if (value == null) {
+			resp.sendError(400);
 			out.println("There was no input diagrams parameter " + paramName + " given.");
 		} 
 		else if ("".equals(value)) {
 			// The request parameter 'param' was present in the query string but has no value 
-			// e.g. http://hostname.com?param=&a=b  
+			// e.g. http://hostname.com?param=&a=b 
+			resp.sendError(400);
 			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
 		}
 		else {
@@ -108,13 +110,12 @@ public class ViewGeneratorServlet extends HttpServlet {
 			for (int i=0;i<value.length;i++) {
 				diagramIds.add(value[i].replace(" ", "%20"));
 			}
-			out.write(diagramIds.toString());
-			out.write(diagramIds.get(0));
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
 			viewGenerator.generate(diagramIds);
-			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName());
-			out.close(); 			 
+			resp.setStatus(200);
+			out.write(baseURL + viewGenerator.getOverviewHTMLName());
 		}
+		out.close(); 			 
 	}
 }
 
