@@ -26,14 +26,13 @@ if(!Repository) var Repository = {};
 if(!Repository.Plugins) Repository.Plugins = {};
 
 Repository.Plugins.ViewGenerator = {
-	RATING_URL : "/rating",
+
 	modelUris:null,
 	button:null,
 
 	construct: function( facade ) {
 		// set the name
 		this.name = "ViewGenerator";
-		this.dataUris = [this.RATING_URL];
 
 		// call plugin super class
 		arguments.callee.$.construct.apply(this, arguments);
@@ -43,7 +42,7 @@ Repository.Plugins.ViewGenerator = {
 	render: function( modelData ){
 		this.modelUris=new Array();
 		modelData.keys().each(function(uri) {
-			this.modelUris.push(location.host+"/backend"+uri+"/xml")
+			this.modelUris.push("http://" + location.host+"/backend/poem"+uri+"/xml")
 		}.bind(this));
 
 		if(!this.button) {
@@ -53,17 +52,20 @@ Repository.Plugins.ViewGenerator = {
 
 	_sendRequest: function(){
 		// Send the request to the server.
-		console.log(this.modelUris);
+		//console.log(this.modelUris);
 
 		new Ajax.Request("/oryx/viewgenerator", {
-			method: 'POST',
+			method: 'post',
 			asynchronous: true,
 			parameters: {
-				modeluris : this.modelUris,
+			modeluris : this.modelUris,
 			},
 
 			onSuccess: function(response){
 				//success handling
+				var url = "http://" + location.host + "/oryx/" + response.responseText;
+				//console.log(url);
+				window.location.href=url;
 			}.bind(this),
 
 			onFailure: function(response){
