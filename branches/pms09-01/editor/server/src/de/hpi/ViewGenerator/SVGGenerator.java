@@ -61,7 +61,7 @@ class SVGGenerator {
 		File dotInputFile;
 	      try {
 	    	  dotInputFile = new File(toSavePath + name);
-	    	  
+	    	  System.out.println(toSavePath + name);
 	          FileWriter fout = new FileWriter(dotInputFile);
 	          fout.write(dotInput);
 	          fout.close();

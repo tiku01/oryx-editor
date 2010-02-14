@@ -391,8 +391,8 @@ class ExtractedData {
 		    
 		    fout.write("<html><head>");
 		    fout.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
-		    fout.write("<script type=\"text/javascript\" src=\"static/infoBox.js\"></script>");
-		    fout.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/infoBox.css\" />");
+		    fout.write("<script type=\"text/javascript\" src=\"../static/infoBox.js\"></script>");
+		    fout.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"../static/infoBox.css\" />");
 		    fout.write("</head>");
 		    fout.write("<body><h3><center>Origins for "+attributePair+"</center></h3><hr>");
 
@@ -428,9 +428,7 @@ class ExtractedData {
 	
 	
 	private File createOriginsHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
-		
 		createOriginsIndexHTML(attributePair, origins);
-
 		File htmlFile;
 		try {
 			String fileName = replaceBadChars(attributePair.toString());

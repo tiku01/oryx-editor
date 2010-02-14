@@ -22,6 +22,7 @@
 ****************************************/
 package org.oryxeditor.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -110,10 +111,13 @@ public class ViewGeneratorServlet extends HttpServlet {
 			for (int i=0;i<value.length;i++) {
 				diagramIds.add(value[i].replace(" ", "%20"));
 			}
-			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\"));
+			long current = System.currentTimeMillis();
+			File f = new File(oryxRootDirectory +  baseURL.replace("/", "\\")+current+"\\");
+			f.mkdirs();
+			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\")+current+"\\");
 			viewGenerator.generate(diagramIds);
 			resp.setStatus(200);
-			out.write(baseURL + viewGenerator.getOverviewHTMLName());
+			out.write(baseURL + current + "/" + viewGenerator.getOverviewHTMLName());
 		}
 		out.close(); 			 
 	}
