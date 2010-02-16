@@ -31,8 +31,10 @@ class SVGGenerator {
 
 
 	String pathToDot = "C:\\Programme\\Graphviz2.26\\bin\\";
-	String pathToStaticResources = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\viewgenerator\\";
-	String scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
+//	String pathToStaticResources = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\viewgenerator\\";
+//	String scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
+	String pathToStaticResources;
+	String scriptCommand;
 	
 	String dotInput;
 	File dotInputFile;
@@ -42,6 +44,11 @@ class SVGGenerator {
 	
 	public SVGGenerator(String path, String translatorSettings, TranslatorInput translatorInput, String layoutAlgorithm, String svgName) {
 		toSavePath = path;
+		pathToStaticResources = path;
+		pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\"));
+		pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\") + 1);
+
+		scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
 		name = svgName;
 		dotInput = getTranslation(translatorSettings, translatorInput, layoutAlgorithm);
 		dotInputFile = createTranslationFile(dotInput);
