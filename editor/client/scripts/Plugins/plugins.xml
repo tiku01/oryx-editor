@@ -238,7 +238,7 @@
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         
-         <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
+        <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         
