@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,15 @@ public class ViewGeneratorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2308798783469734955L;
 	private String baseURL = "viewgenerator/";
-	private String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
+//	private String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
+	private String oryxRootDirectory;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		oryxRootDirectory = this.getServletContext().getRealPath("") + "\\";
+	}
+	
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException { 
 		doGetOrPost(req, resp); 	
@@ -112,12 +121,14 @@ public class ViewGeneratorServlet extends HttpServlet {
 				diagramIds.add(value[i].replace(" ", "%20"));
 			}
 			long current = System.currentTimeMillis();
+//			File.separator
 			File f = new File(oryxRootDirectory +  baseURL.replace("/", "\\")+current+"\\");
 			f.mkdirs();
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\")+current+"\\");
 			viewGenerator.generate(diagramIds);
 			resp.setStatus(200);
-			out.write(baseURL + current + "/" + viewGenerator.getOverviewHTMLName());
+//			req.getLocalAddr()
+			out.write(baseURL + "/" + current + "/" + viewGenerator.getOverviewHTMLName());
 		}
 		out.close(); 			 
 	}
