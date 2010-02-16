@@ -47,30 +47,30 @@ public class ViewGenerator {
 		return toSavePath;
 	}
 	
-//	public static void main(String[] args) {
-//		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
-//		String baseURL = "viewgenerator/";
-//		long current = System.currentTimeMillis();
-//		File f = new File(oryxRootDirectory +  baseURL.replace("/", "\\")+current+"\\");
-//		f.mkdirs();
-//		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\") + current + "\\");
-////		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
-////		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
-////							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
-////							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
-////							"Subprocess Alternativvorschlag an Kunden.oryx.xml", "Zahlung organisieren.oryx.xml", 
-////							"Zahlung.oryx.xml", "Hersteller Rueckzahlung.oryx.xml", "Fami Kataloganfrage_oeffentlich.oryx.xml", "Fami lebt_Aufg4.oryx.xml"};
-//
-////		String[] files = {"Kundenanforderungen%20ermitteln.oryx.xml", "LaserTec2.oryx.xml"};
+	public static void main(String[] args) {
+		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
+		String baseURL = "viewgenerator/";
+		long current = System.currentTimeMillis();
+		File f = new File(oryxRootDirectory +  baseURL.replace("/", "\\")+current+"\\");
+		f.mkdirs();
+		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\") + current + "\\");
+//		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
+//		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
+//							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
+//							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
+//							"Subprocess Alternativvorschlag an Kunden.oryx.xml", "Zahlung organisieren.oryx.xml", 
+//							"Zahlung.oryx.xml", "Hersteller Rueckzahlung.oryx.xml", "Fami Kataloganfrage_oeffentlich.oryx.xml", "Fami lebt_Aufg4.oryx.xml"};
+
+		String[] files = {"Kundenanforderungen%20ermitteln.oryx.xml", "LaserTec2.oryx.xml"};
 //		String[] files = {"A.xml"};
-//		String savePath = "file:/C:/Dokumente%20und%20Einstellungen/stewe.STEWE-FORCEONE/Desktop/port/PMS/signavio-dateien/";
-//
-//		ArrayList<String> ids = new ArrayList<String>();
-//		for (String id: files) {
-//			ids.add(savePath+id);
-//		}
-//		a.generate(ids);
-//	}
+		String savePath = "file:/C:/Dokumente%20und%20Einstellungen/stewe.STEWE-FORCEONE/Desktop/port/PMS/signavio-dateien/";
+
+		ArrayList<String> ids = new ArrayList<String>();
+		for (String id: files) {
+			ids.add(savePath+id);
+		}
+		a.generate(ids);
+	}
 	
 	public void generate(ArrayList<String> diagram_Ids) {
 		int processes_count = diagram_Ids.size();
