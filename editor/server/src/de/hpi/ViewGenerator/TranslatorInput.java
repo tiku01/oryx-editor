@@ -26,19 +26,19 @@ import java.util.ArrayList;
 
 public class TranslatorInput {
 	
-	private String layoutAlg;
+	private String layoutAlgorithm;
 	private ArrayList<TranslatorInputNode> nodes;
 	private ArrayList<TranslatorInputEdge> edges;
 
 	
 	public TranslatorInput(String layoutAlgorithm) {
-		layoutAlg = layoutAlgorithm;
-		nodes = new ArrayList<TranslatorInputNode>();
-		edges = new ArrayList<TranslatorInputEdge>();
+		this.layoutAlgorithm = layoutAlgorithm;
+		this.nodes = new ArrayList<TranslatorInputNode>();
+		this.edges = new ArrayList<TranslatorInputEdge>();
 	}
 	
 	public String getLayoutAlgorithm() {
-		return layoutAlg;
+		return layoutAlgorithm;
 	}
 	
 	public void addEdge(TranslatorInputEdge edge) {

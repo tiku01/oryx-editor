@@ -50,9 +50,9 @@ class ExtractedData {
 	protected String serverBaseUrl;
 	protected String toSavePath;
 
-	public ExtractedData(String toSaveDirectory) {
-		extractedConnectionList = new ExtractedConnectionList();
-		toSavePath = toSaveDirectory;
+	public ExtractedData(String toSavePath) {
+		this.extractedConnectionList = new ExtractedConnectionList();
+		this.toSavePath = toSavePath;
 	}
 	
 	

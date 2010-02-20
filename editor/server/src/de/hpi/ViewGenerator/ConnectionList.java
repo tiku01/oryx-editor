@@ -35,9 +35,9 @@ class ConnectionList {
 
 		
 		public ConnectionList(String diagramPath) {
-			origin = diagramPath;
-			connectionList = new HashMap<String,ConnectionAttributes>();
-			targetMatchlist = new Matchlist();
+			this.origin = diagramPath;
+			this.connectionList = new HashMap<String,ConnectionAttributes>();
+			this.targetMatchlist = new Matchlist();
 		}
 		
 		public String getOrigin() {

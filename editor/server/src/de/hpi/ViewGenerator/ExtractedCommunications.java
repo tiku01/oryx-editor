@@ -46,18 +46,18 @@ public class ExtractedCommunications extends ExtractedData {
 	
 	public ExtractedCommunications(ArrayList<String> diagramPaths, String toSavePath) {
 		super(toSavePath);
-		interactionsCount = 0;
-		connection = "MessageFlow";
-		graphLabel = "Conversation_View";
-		svgName = "Conversation View";
-		layoutAlgorithm = "neato";
-		correlationKeyAttribute = "correlation_key";
+		this.interactionsCount = 0;
+		this.connection = "MessageFlow";
+		this.graphLabel = "Conversation_View";
+		this.svgName = "Conversation View";
+		this.layoutAlgorithm = "neato";
+		this.correlationKeyAttribute = "correlation_key";
 		initializeConnectorList();
-		correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
+		this.correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
 		extractCommunications(diagramPaths);
 		fusionCommunicationsOnCorrelationKey();
-		translatorInput = createTranslatorInput(extractedConnectionList);
-		generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
+		this.translatorInput = createTranslatorInput(extractedConnectionList);
+		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	public String getSVGName() {

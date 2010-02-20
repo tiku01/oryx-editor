@@ -49,18 +49,18 @@ public class ExtractedDataMapping extends ExtractedData {
 	
 	public ExtractedDataMapping(ArrayList<String> diagramPaths, String toSavePath) {
 		super(toSavePath);
-		dataObjectsCount = 0;
-		connection_uni = "Association_Unidirectional";
-		connection_bi = "Association_Bidirectional";
-		connection_un = "Association_Undirected";
-		connection_help = "SequenceFlow";
-		layoutAlgorithm = "dot";
-		graphLabel = "Information_Access";
-		svgName = "Information Access";
+		this.dataObjectsCount = 0;
+		this.connection_uni = "Association_Unidirectional";
+		this.connection_bi = "Association_Bidirectional";
+		this.connection_un = "Association_Undirected";
+		this.connection_help = "SequenceFlow";
+		this.layoutAlgorithm = "dot";
+		this.graphLabel = "Information_Access";
+		this.svgName = "Information Access";
 		initializeConnectorLists();
 		extractDataMappings(diagramPaths);
-		translatorInput = createTranslatorInput(extractedConnectionList);
-		generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
+		this.translatorInput = createTranslatorInput(extractedConnectionList);
+		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	public String getSVGName() {
@@ -338,20 +338,20 @@ public class ExtractedDataMapping extends ExtractedData {
 				if (sourceId.contains("DataObject\\n")) {
 					sourceNode.setAttribute("labelloc", "c");
 					sourceNode.setAttribute("margin", "0.81,0.155");
-					sourceNode.setAttribute("image", "\"static/data_object.png\"");
+					sourceNode.setAttribute("image", "\"../static/data_object.png\"");
 					dataObjectsCount +=1;
 
 				}
 				else if (sourceId.contains("DataStore\\n")) {
 					sourceNode.setAttribute("labelloc", "b");
 					sourceNode.setAttribute("margin", "0.81,0.155");
-					sourceNode.setAttribute("image", "\"static/data_store.png\"");
+					sourceNode.setAttribute("image", "\"../static/data_store.png\"");
 					dataObjectsCount +=1;
 				}
 				else {
 					sourceNode.setAttribute("labelloc", "b");
 					sourceNode.setAttribute("margin", "1.11,0.01");
-					sourceNode.setAttribute("image", "\"static/human_agent.png\"");
+					sourceNode.setAttribute("image", "\"../static/human_agent.png\"");
 				}
 				
 				sourceNode.setAttribute("label", sourceNodeId);
@@ -370,19 +370,19 @@ public class ExtractedDataMapping extends ExtractedData {
 				if (targetId.contains("DataObject\\n")) {
 					targetNode.setAttribute("labelloc", "c");
 					targetNode.setAttribute("margin", "0.81,0.155");
-					targetNode.setAttribute("image", "\"static/data_object.png\"");
+					targetNode.setAttribute("image", "\"../static/data_object.png\"");
 					dataObjectsCount +=1;
 
 				}
 				else if (targetId.contains("DataStore\\n")) {
 					targetNode.setAttribute("labelloc", "b");
 					targetNode.setAttribute("margin", "0.81,0.155");
-					targetNode.setAttribute("image", "\"static/data_store.png\"");
+					targetNode.setAttribute("image", "\"../static/data_store.png\"");
 					dataObjectsCount +=1;
 				}
 				else {
 					targetNode.setAttribute("labelloc", "b");
-					targetNode.setAttribute("image", "\"static/human_agent.png\"");
+					targetNode.setAttribute("image", "\"../static/human_agent.png\"");
 					targetNode.setAttribute("margin", "1.11,0.01");
 				}
 				

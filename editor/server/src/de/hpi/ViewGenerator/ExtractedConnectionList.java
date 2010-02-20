@@ -33,8 +33,8 @@ class ExtractedConnectionList {
 	private HashMap<String,String> origins; 
 	
 	public ExtractedConnectionList() {
-		extractedConnectionList = new HashMap<ArrayList<String>, ArrayList<String>>();
-		origins = new HashMap<String,String>();
+		this.extractedConnectionList = new HashMap<ArrayList<String>, ArrayList<String>>();
+		this.origins = new HashMap<String,String>();
 	}
 
 	private void mergeConnectionWithId(String connectionId, ConnectionList connectionList, boolean symmetric, boolean storeRecursive){

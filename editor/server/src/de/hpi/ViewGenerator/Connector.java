@@ -25,26 +25,26 @@ package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 
 class Connector {
-	private String stencil;
-	private DataToSave datToSave;
-	private ArrayList<String> parentStencils;
+	private String stencilId;
+	private DataToSave dataToSave;
+	private ArrayList<String> possibleParentStencils;
 	
 	public Connector(String stencilId, DataToSave dataToSave, ArrayList<String> possibleParentStencils) {
-		stencil = stencilId;
-		datToSave = dataToSave;
-		parentStencils = possibleParentStencils;
+		this.stencilId = stencilId;
+		this.dataToSave = dataToSave;
+		this.possibleParentStencils = possibleParentStencils;
 	}
 	
 	public DataToSave getDataToSave() {
-		return datToSave;
+		return dataToSave;
 	}
 	
-	public String getStencil() {
-		return stencil;
+	public String getStencilId() {
+		return stencilId;
 	}
 			
-	public ArrayList<String> getParentStencils() {
-		return parentStencils;
+	public ArrayList<String> getPossibleParentStencils() {
+		return possibleParentStencils;
 	}
 
 }

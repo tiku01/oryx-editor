@@ -24,35 +24,35 @@
 package de.hpi.ViewGenerator;
 
 class ConnectionAttributes {
-	private String targetAttr;
-	private String sourceAttr;
+	private String targetAttribute;
+	private String sourceAttribute;
 	
 	public ConnectionAttributes() {
 
 	}
 
 	public void setTargetAttribute(String targetAttribute) {
-		targetAttr = targetAttribute;
+		this.targetAttribute = targetAttribute;
 	}
 	
 	public void setSourceAttribute(String sourceAttribute) {
-		sourceAttr = sourceAttribute;
+		this.sourceAttribute = sourceAttribute;
 	}
 	
 	public String getTargetAttribute() {
-		return targetAttr;
+		return targetAttribute;
 	}
 	
 	public String getSourceAttribute() {
-		return sourceAttr;
+		return sourceAttribute;
 	}
 	
 	public boolean hasTargetAttribute() {
-		return (targetAttr != null);
+		return (targetAttribute != null);
 	}
 	
 	public boolean hasSourceAttribute() {
-		return (sourceAttr != null);
+		return (sourceAttribute != null);
 	}
 	
 }

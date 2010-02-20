@@ -34,8 +34,8 @@ public class TranslatorInputNode {
 
 	
 	public TranslatorInputNode(String NodeId) {
-		id = NodeId;
-		attributes = new HashMap<String,String>();
+		this.id = NodeId;
+		this.attributes = new HashMap<String,String>();
 	}
 
 	public String getAttribute(String attribute) {

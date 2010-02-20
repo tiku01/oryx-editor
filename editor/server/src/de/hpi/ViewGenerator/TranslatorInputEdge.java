@@ -27,14 +27,14 @@ import java.util.Set;
 
 public class TranslatorInputEdge {
 
-	private String sourceId;
-	private String targetId;
+	private String sourceNodeId;
+	private String targetNodeId;
 	private HashMap<String,String> attributes;
 
 	public TranslatorInputEdge(String sourceNodeId, String targetNodeId) {
-		sourceId = sourceNodeId;
-		targetId = targetNodeId;
-		attributes = new HashMap<String,String>();
+		this.sourceNodeId = sourceNodeId;
+		this.targetNodeId = targetNodeId;
+		this.attributes = new HashMap<String,String>();
 	}
 	
 	public String getAttribute(String attribute) {
@@ -54,10 +54,10 @@ public class TranslatorInputEdge {
 	}
 	
 	public String getSourceNodeId() {
-		return sourceId;
+		return sourceNodeId;
 	}
 	
 	public String getTargetNodeId() {
-		return targetId;
+		return targetNodeId;
 	}
 }
