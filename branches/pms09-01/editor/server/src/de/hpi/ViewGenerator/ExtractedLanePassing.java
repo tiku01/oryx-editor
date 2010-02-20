@@ -45,16 +45,16 @@ public class ExtractedLanePassing extends ExtractedData {
 
 	public ExtractedLanePassing(ArrayList<String> diagramPaths, String toSavePath) {
 		super(toSavePath);
-		handoversCount = 0;
-		rolesCount = 0;
-		connection = "SequenceFlow";
-		graphLabel = "Handovers";
-		svgName = "Handovers";
-		layoutAlgorithm = "dot";
+		this.handoversCount = 0;
+		this.rolesCount = 0;
+		this.connection = "SequenceFlow";
+		this.graphLabel = "Handovers";
+		this.svgName = "Handovers";
+		this.layoutAlgorithm = "dot";
 		initializeConnectorList();
 		extractLanePassings(diagramPaths);
-		translatorInput = createTranslatorInput(extractedConnectionList);
-		generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
+		this.translatorInput = createTranslatorInput(extractedConnectionList);
+		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
 
 	}
 	
@@ -210,7 +210,7 @@ public class ExtractedLanePassing extends ExtractedData {
 
 
 				sourceNode.setAttribute("label", sourceNodeId);	
-				sourceNode.setAttribute("image", "\"static/human_agent.png\"");
+				sourceNode.setAttribute("image", "\"../static/human_agent.png\"");
 				input.addNode(sourceNode);
 				done_Ids.add(sourceId);
 			}
@@ -228,7 +228,7 @@ public class ExtractedLanePassing extends ExtractedData {
 				targetNode.setAttribute("margin", "1.11,0.01");
 
 				targetNode.setAttribute("label", targetNodeId);
-				targetNode.setAttribute("image", "\"static/human_agent.png\"");
+				targetNode.setAttribute("image", "\"../static/human_agent.png\"");
 				input.addNode(targetNode);
 				done_Ids.add(targetId);
 			}

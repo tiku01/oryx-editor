@@ -308,9 +308,12 @@
 
         <!-- directory for user interfaces aggregated by the BPMN2XFormsServlet -->
         <mkdir dir="${editor-build-root}/generated-uis"/>
-        
-        <!-- directory for generated files from ViewGeneratorServlet -->
+    	
+      <!-- directory for generated files from ViewGeneratorServlet -->
         <mkdir dir="${editor-build-root}/viewgenerator"/>
+    	
+      <!-- directory from which graphviz(viewgenerator) will be called important for its searchpath -->
+      <mkdir dir="${editor-build-root}/viewgenerator/graphvizrun"/>
     	
         <!-- directory for static files for ViewGeneratorServlet -->
         <mkdir dir="${editor-build-root}/viewgenerator/static"/>

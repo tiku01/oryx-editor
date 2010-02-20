@@ -31,15 +31,15 @@ class ConnectorList {
 	private HashSet<String> parentStencils;
 
 	public ConnectorList() {
-		stencilList = new ArrayList<String>();
-		dataToSaveList = new ArrayList<DataToSave>();
-		parentStencils = new HashSet<String>();
+		this.stencilList = new ArrayList<String>();
+		this.dataToSaveList = new ArrayList<DataToSave>();
+		this.parentStencils = new HashSet<String>();
 	}
 	
 	public void addConnector(Connector connector) {
-		stencilList.add(connector.getStencil());
+		stencilList.add(connector.getStencilId());
 		dataToSaveList.add(connector.getDataToSave());
-		parentStencils.addAll(connector.getParentStencils());
+		parentStencils.addAll(connector.getPossibleParentStencils());
 	}
 
 	private int findIndexOfConnectorWithStencil(String stencil) {

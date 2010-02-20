@@ -34,8 +34,8 @@ public class ViewGenerator {
 
 
 	public ViewGenerator(String oryxRootDirectory, String basePath) {
-		overviewHTMLName = "Overview";
-		toSavePath = oryxRootDirectory + basePath;
+		this.overviewHTMLName = "Overview";
+		this.toSavePath = oryxRootDirectory + basePath;
 	}
 	
 	public String getOverviewHTMLName() {

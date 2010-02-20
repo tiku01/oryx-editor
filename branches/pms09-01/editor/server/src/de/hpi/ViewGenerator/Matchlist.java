@@ -29,8 +29,8 @@ class Matchlist {
 		private ArrayList<String> connectorIds;
 		
 		public Matchlist() {
-			connectionIds = new ArrayList<String>();
-			connectorIds = new ArrayList<String>();
+			this.connectionIds = new ArrayList<String>();
+			this.connectorIds = new ArrayList<String>();
 		}
 		
 		public void add(String connectionId, String connectorId) {

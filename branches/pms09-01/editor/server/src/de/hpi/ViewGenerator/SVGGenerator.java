@@ -38,21 +38,22 @@ class SVGGenerator {
 	
 	String dotInput;
 	File dotInputFile;
-	String layoutAlg;
+	String layoutAlgorithm;
 	String toSavePath;
 	String name;
 	
-	public SVGGenerator(String path, String translatorSettings, TranslatorInput translatorInput, String layoutAlgorithm, String svgName) {
-		toSavePath = path;
-		pathToStaticResources = path;
-		pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\"));
-		pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\") + 1);
+	public SVGGenerator(String toSavepath, String translatorSettings, TranslatorInput translatorInput, String layoutAlgorithm, String name) {
+		this.toSavePath = toSavepath;
+		this.pathToStaticResources = toSavePath;
+		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\"));
+		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\") + 1);
 
-		scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
-		name = svgName;
-		dotInput = getTranslation(translatorSettings, translatorInput, layoutAlgorithm);
-		dotInputFile = createTranslationFile(dotInput);
-		layoutAlg = layoutAlgorithm;
+//		command to switch current directory to the graphvizrun-directory
+		this.scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
+		this.name = name;
+		this.dotInput = getTranslation(translatorSettings, translatorInput, layoutAlgorithm);
+		this.dotInputFile = createTranslationFile(dotInput);
+		this.layoutAlgorithm = layoutAlgorithm;
 	}
 	
 	public String getDotPath() {
@@ -68,7 +69,6 @@ class SVGGenerator {
 		File dotInputFile;
 	      try {
 	    	  dotInputFile = new File(toSavePath + name);
-	    	  System.out.println(toSavePath + name);
 	          FileWriter fout = new FileWriter(dotInputFile);
 	          fout.write(dotInput);
 	          fout.close();
@@ -97,7 +97,7 @@ class SVGGenerator {
 		command = scriptCommand + "  && ";
 		
 //			running graphviz
-		command = command + pathToDot + "dot" + " -K" + layoutAlg + " -Tsvg -O " + "\"" + destination + "\"";
+		command = command + pathToDot + "dot" + " -K" + layoutAlgorithm + " -Tsvg -O " + "\"" + destination + "\"";
 
 		Runtime runtime = Runtime.getRuntime();
 		
@@ -105,10 +105,10 @@ class SVGGenerator {
 			Process p = runtime.exec(command);
 			synchronized(p) {
 				
-				if (layoutAlg.equals("dot")) {
+				if (layoutAlgorithm.equals("dot")) {
 			        p.waitFor();
 				}
-				if (layoutAlg.equals("neato")){
+				if (layoutAlgorithm.equals("neato")){
 //					neato is able to handle up to 16000+ nodes, however when node number exceeds a certain value it is buggy in the way that the svg is generated but the process does not exit
 //					therefore one cannot rely on the process to exit on its own - neato is the algorithm for structured graphs (not directed)
 //					additional handling should be added if neato is not updated, set 5 seconds as maximum waittime
