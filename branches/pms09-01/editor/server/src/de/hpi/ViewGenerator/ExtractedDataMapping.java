@@ -38,11 +38,9 @@ public class ExtractedDataMapping extends ExtractedData {
 	private String connection_help;
 	private String layoutAlgorithm;
 	private String graphLabel;
-	private TranslatorInput translatorInput;
 	private ConnectorList connectorList_dir;
 	private ConnectorList connectorList_undir;
 	private ConnectorList connectorList_help;
-	private SVGGenerator generator;
 	private String svgName;
 	private int dataObjectsCount;
 
@@ -59,8 +57,6 @@ public class ExtractedDataMapping extends ExtractedData {
 		this.svgName = "Information Access";
 		initializeConnectorLists();
 		extractDataMappings(diagramPaths);
-		this.translatorInput = createTranslatorInput(extractedConnectionList);
-		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	public String getSVGName() {
@@ -289,9 +285,8 @@ public class ExtractedDataMapping extends ExtractedData {
 	
 	
 	public void generateSVG() {
-		createOriginSVGs(extractedConnectionList);
-		createOriginsHTMLs(extractedConnectionList);
-		generator.generateSVG();
+		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
+		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {

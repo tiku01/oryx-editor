@@ -35,13 +35,11 @@ public class ExtractedCommunications extends ExtractedData {
 	private String connection;
 	private ConnectorList connectorList;
 	private String layoutAlgorithm;
-	private TranslatorInput translatorInput;
 //	id-attribute is used temporarily, a separate attribute should be created in bpmn2.0 stencil-definition for messageflows 
 	private String correlationKeyAttribute;
 	private String graphLabel;
 	private String svgName;
 	private HashMap<String,ArrayList<String>> correlationKeyDictionary;
-	private SVGGenerator generator;
 	private int interactionsCount;
 	
 	public ExtractedCommunications(ArrayList<String> diagramPaths, String toSavePath) {
@@ -56,8 +54,6 @@ public class ExtractedCommunications extends ExtractedData {
 		this.correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
 		extractCommunications(diagramPaths);
 		fusionCommunicationsOnCorrelationKey();
-		this.translatorInput = createTranslatorInput(extractedConnectionList);
-		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	public String getSVGName() {
@@ -252,9 +248,8 @@ public class ExtractedCommunications extends ExtractedData {
 	}
 	
 	public void generateSVG() {
-		createOriginSVGs(extractedConnectionList);
-		createOriginsHTMLs(extractedConnectionList);
-		generator.generateSVG();
+		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
+		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {

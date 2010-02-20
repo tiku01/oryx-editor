@@ -35,9 +35,7 @@ public class ExtractedLanePassing extends ExtractedData {
 	private String connection;
 	private ConnectorList connectorList;
 	private String layoutAlgorithm;
-	private TranslatorInput translatorInput;
 	private String graphLabel;
-	private SVGGenerator generator;
 	private String svgName;
 	private int rolesCount;
 	private int handoversCount;
@@ -53,9 +51,6 @@ public class ExtractedLanePassing extends ExtractedData {
 		this.layoutAlgorithm = "dot";
 		initializeConnectorList();
 		extractLanePassings(diagramPaths);
-		this.translatorInput = createTranslatorInput(extractedConnectionList);
-		this.generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
-
 	}
 	
 	public String getSVGName() {
@@ -153,9 +148,8 @@ public class ExtractedLanePassing extends ExtractedData {
 	
 	
 	public void generateSVG() {
-		createOriginSVGs(extractedConnectionList);
-		createOriginsHTMLs(extractedConnectionList);
-		generator.generateSVG();
+		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
+		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
 	}
 	
 	
