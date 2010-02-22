@@ -45,11 +45,11 @@ class SVGGenerator {
 	public SVGGenerator(String toSavepath, String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm, String name) {
 		this.toSavePath = toSavepath;
 		this.pathToStaticResources = toSavePath;
-		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\"));
-		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf("\\") + 1);
+		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf(File.separator));
+		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf(File.separator) + 1);
 
 //		command to switch current directory to the graphvizrun-directory
-		this.scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
+		this.scriptCommand = "\"" + pathToStaticResources + "static" + File.separator + "cd_call.bat\"";
 		this.name = name;
 		this.dotInput = getTranslation(graphLabel, translatorInput, layoutAlgorithm);
 		this.dotInputFile = createTranslationFile(dotInput);
