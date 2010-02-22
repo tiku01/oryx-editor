@@ -63,7 +63,7 @@ Repository.Plugins.ViewGenerator = {
 
 			onSuccess: function(response){
 				//success handling
-				var url = "http://" + location.host + "/oryx/" + response.responseText;
+				var url = "http://" + response.responseText;
 				//console.log(url);
 				window.open(url, "_blank").focus();
 				
