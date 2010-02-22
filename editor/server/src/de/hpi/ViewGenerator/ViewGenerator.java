@@ -123,6 +123,13 @@ public class ViewGenerator {
         return headerDiv;
 	}
 	
+	private String getEmbeddedSVGDiv(String sourceNameWithSuffix, String svgHeight, String svgWidth) {
+		String embeddedSVGDiv = "<object data=\""+sourceNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">"+
+        	"<embed src=\""+sourceNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />"+
+        	"</object>";
+		return embeddedSVGDiv;
+	}
+	
 	private void createHTMLFileForSVG(String svgName, String communicationsHTMLName, String lanePassingsHTMLName, String dataMappingHTMLName) {
 		File htmlFile;
 		String svgWidth = "1200";
@@ -138,10 +145,10 @@ public class ViewGenerator {
 	          String headerDiv = getHeaderDiv(headFontSize, svgName, fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
 	          fout.write(headerDiv);      
 	          
-//	          embedded svg  
-	          fout.write("<br><object data=\""+svgNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">");
-	          fout.write("<embed src=\""+svgNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />");
-	          fout.write("</object>");
+//	          embedded svg 
+	          String embeddedSVGDiv = getEmbeddedSVGDiv(svgNameWithSuffix, svgHeight, svgWidth);
+	          fout.write("<br>");
+	          fout.write(embeddedSVGDiv);
 	          fout.write("</body></html>");
 	          fout.close();
 	     }
@@ -188,23 +195,20 @@ public class ViewGenerator {
 	          
 //	          Preview Conversation View
 	          fout.write("<tr><td>");
-	          fout.write("<object data=\""+communicationsSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">");
-	          fout.write("<embed src=\""+communicationsSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />");
-	          fout.write("</object>");
+	          String previewConversationView = getEmbeddedSVGDiv(communicationsSVGNameWithSuffix, svgHeight, svgWidth);
+	          fout.write(previewConversationView);
 	          fout.write("<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+">Conversation View</font></A></td>");
 
 //	          Preview Handovers
 	          fout.write("<td>");
-	          fout.write("<object data=\""+lanePassingsSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">");
-	          fout.write("<embed src=\""+lanePassingsSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />");
-	          fout.write("</object>");
+	          String previewHandovers = getEmbeddedSVGDiv(lanePassingsSVGNameWithSuffix, svgHeight, svgWidth);
+	          fout.write(previewHandovers);
 	          fout.write("<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+">Handovers</font></A></td>");
 	          	          
 //	          Preview Information Access
 	          fout.write("<td>");
-	          fout.write("<object data=\""+dataMappingSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">");
-	          fout.write("<embed src=\""+dataMappingSVGNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />");
-	          fout.write("</object>");
+	          String previewInformationAccess = getEmbeddedSVGDiv(dataMappingSVGNameWithSuffix, svgHeight, svgWidth);
+	          fout.write(previewInformationAccess);
 	          fout.write("<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+">Information Access</font></A></td>");
 	          fout.write("</tr>");
 	          
