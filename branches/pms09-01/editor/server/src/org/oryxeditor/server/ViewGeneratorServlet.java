@@ -85,10 +85,9 @@ public class ViewGeneratorServlet extends HttpServlet {
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\")+current+"\\");
 			viewGenerator.generate(diagramIds);
 			resp.setStatus(200);
-//			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName());
-
-//			req.getLocalAddr()
-			out.write(baseURL + "/" + current + "/" + viewGenerator.getOverviewHTMLName());
+//			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName())
+			String url = req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
+			out.write(url);
 		}
 		out.close(); 			 
 	}
