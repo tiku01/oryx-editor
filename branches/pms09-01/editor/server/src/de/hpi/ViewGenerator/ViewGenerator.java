@@ -47,38 +47,10 @@ public class ViewGenerator {
 		return toSavePath;
 	}
 	
-	public static void main(String[] args) {
-		String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
-		String baseURL = "viewgenerator/";
-		long current = System.currentTimeMillis();
-		File f = new File(oryxRootDirectory +  baseURL.replace("/", "\\")+current+"\\");
-		f.mkdirs();
-		ViewGenerator a = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", "\\") + current + "\\");
-//		String[] files = {"B.oryx.xml", "La1.oryx.xml", "La2.oryx.xml", "La3.oryx.xml", "reference.oryx.xml", "Blip.oryx.xml", "Data.oryx.xml", "un1.oryx.xml", "un2.oryx.xml","bpmn12.oryx.xml"};
-//		String[] files = {"Kauf abschließen.oryx.xml","Beratung und Probefahrt.oryx.xml","Bestellung aufgeben und Zahlungsart vereinbaren.oryx.xml","Subprozess Statusabfrage.oryx.xml","Ratenzahlung leisten.oryx.xml","Rückzahlung.oryx.xml","Preisverhandlung.oryx.xml",
-//							"Subprocess Aktuallisiere Bestellung.oryx.xml", "Hauptprozess.oryx.xml", "SubSubProzess Suche Proberad.oryx.xml", "SubprocessTeile nicht Vorraetig.oryx.xml", 
-//							"SubProzess Pause machen.oryx.xml", "SubProcess Auftragsaenderung.oryx.xml", "SubProzess Kunden beraten.oryx.xml", "SubProzess Fahrrad verleihen.oryx.xml", "SubProzess Abschluss-Inventur.oryx.xml", "Subprozess Fahrrad verkaufen.oryx.xml",
-//							"Subprocess Alternativvorschlag an Kunden.oryx.xml", "Zahlung organisieren.oryx.xml", 
-//							"Zahlung.oryx.xml", "Hersteller Rueckzahlung.oryx.xml", "Fami Kataloganfrage_oeffentlich.oryx.xml", "Fami lebt_Aufg4.oryx.xml"};
-
-		String[] files = {"Kundenanforderungen%20ermitteln.oryx.xml", "LaserTec2.oryx.xml"};
-//		String[] files = {"A.xml"};
-		String savePath = "file:/C:/Dokumente%20und%20Einstellungen/stewe.STEWE-FORCEONE/Desktop/port/PMS/signavio-dateien/";
-
-		ArrayList<String> ids = new ArrayList<String>();
-		for (String id: files) {
-			ids.add(savePath+id);
-		}
-		a.generate(ids);
-	}
 	
 	public void generate(ArrayList<String> diagram_Ids) {
 		int processes_count = diagram_Ids.size();
 				
-//		String[] files = {path+"B.oryx.xml", path+"A.oryx.xml", path+"A2.oryx.xml", path+"D.oryx.xml", path+"La1.oryx.xml", path+"La2.oryx.xml", path+"La3.oryx.xml", path+"reference.oryx.xml", path+"Blip.oryx.xml", path+"Data.oryx.xml", path+"un1.oryx.xml", path+"un2.oryx.xml"};
-//		String[] files = {path+"Blip.oryx.xml", path+"reference.oryx.xml"};
-//		String[] files = {path+"un1.oryx.xml"};
-
 		ExtractedLanePassing lanePassings = new ExtractedLanePassing(diagram_Ids, toSavePath);
 		ExtractedDataMapping dataMapping = new ExtractedDataMapping(diagram_Ids, toSavePath);
 		ExtractedCommunications communications = new ExtractedCommunications(diagram_Ids, toSavePath);
@@ -112,6 +84,44 @@ public class ViewGenerator {
 		createOverviewHTML(communicationsSVGName, communicationsHTMLName, lanePassingsSVGName, lanePassingsHTMLName, dataMappingSVGName, dataMappingHTMLName, processes_count, dataObjects_count, roles_count, handovers_count, interactions_count);
 	}
 	
+	private String getHeaderDiv(int headFontSize, String name, int fontSize, String communicationsHTMLName, String lanePassingsHTMLName, String dataMappingHTMLName) {
+		
+        String headerDiv = "<!doctype html>\n" + 
+        "<html>\n<head>\n<title>"+name+"</title>\n</head>" +    
+        "<link href=\"../static/style.css\" rel=\"stylesheet\" type=\"text/css\">" + 
+        "</head>" +
+        "<body>" + 
+        "<div style=\"left: 0px; top: 0px; width: 1152px;\">" + 
+        "<div class=\"upper\" style=\"width: 1152px; height: 35px;\">" +
+        "<div id=\"viewgenerator_header\">" +
+        "<img title=\"Oryx\" alt=\"\" id=\"Oryx_logo\" src=\"\"></a>" +
+        "<font size = "+headFontSize+" color=\"#0D0D0D \"><b>"+name+"</b></font>" +
+        "</div></div></div>" +
+        
+        "<div class=\"lower\" style=\"height: 35px; left: 0px; top: 35px; width: 1152px;\">" +
+        "<table cellspacing=\"0\"><tbody><tr>" +
+        
+//        linkLine	          
+        "<td>" +
+        "<div class=\"linkLineElement\">" +
+        "<A HREF=\""+getOverviewHTMLName()+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Project Navigator</font></A></td><td>" +
+        "</div>" +
+        "<div class=\"linkLineElement\">" +
+        "<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Conversation View</font></A></td><td>" +
+        "</div>" +
+        "<div class=\"linkLineElement\">" +
+        "<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Handovers</font></A></td><td>" +
+        "</div>" +
+        "<div class=\"linkLineElement\">" +
+        "<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Information Access</font></A></td><td>" +
+        "</div>" +
+        "</tr></tbody></table></div></div></div></td>" +	 
+        
+        "<td>" +
+        "<br><br><table width=\"100%\">" +	          
+        "<tr>";
+        return headerDiv;
+	}
 	
 	private void createHTMLFileForSVG(String svgName, String communicationsHTMLName, String lanePassingsHTMLName, String dataMappingHTMLName) {
 		File htmlFile;
@@ -125,42 +135,8 @@ public class ViewGenerator {
 	     try {
 	    	  htmlFile = new File(toSavePath + htmlNameWithSuffix);
 	          FileWriter fout = new FileWriter(htmlFile);
-	          fout.write("<!doctype html>\n");
-	          fout.write("<html>\n<head>\n<title>"+svgName+"</title>\n</head>");
-	          
-	          fout.write("<link href=\"../static/style.css\" rel=\"stylesheet\" type=\"text/css\">");
-	          fout.write("</head>");
-	          fout.write("<body>");
-	          
-	          fout.write("<div style=\"left: 0px; top: 0px; width: 1152px;\">");
-	          fout.write("<div class=\"upper\" style=\"width: 1152px; height: 35px;\">");
-	          fout.write("<div id=\"viewgenerator_header\">");
-	          fout.write("<img title=\"Oryx\" alt=\"\" id=\"Oryx_logo\" src=\"\"></a>");
-	          fout.write("<font size = "+headFontSize+" color=\"#0D0D0D \"><b>"+svgName+"</b></font>");
-	          fout.write("</div></div></div>");
-	          
-	          fout.write("<div class=\"lower\" style=\"height: 35px; left: 0px; top: 35px; width: 1152px;\">");
-	          fout.write("<table cellspacing=\"0\"><tbody><tr>");
-	          
-//	          linkLine	          
-	          fout.write("<td>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+getOverviewHTMLName()+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Project Navigator</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Conversation View</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Handovers</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Information Access</font></A></td><td>");
-	          fout.write("</div>");
-	          
-	          fout.write("</tr></tbody></table></div></div></div></td>");	          
-	          fout.write("<td>");
-	          fout.write("<br><br><table width=\"100%\">");	          
-	          fout.write("<tr>");
+	          String headerDiv = getHeaderDiv(headFontSize, svgName, fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
+	          fout.write(headerDiv);      
 	          
 //	          embedded svg  
 	          fout.write("<br><object data=\""+svgNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">");
@@ -189,42 +165,8 @@ public class ViewGenerator {
 	    	  htmlFile = new File(toSavePath + getOverviewHTMLName());
 	          FileWriter fout = new FileWriter(htmlFile);
 	          
-	          fout.write("<!doctype html>\n");
-	          fout.write("<html>\n<head>\n<title>Home</title>\n</head>");
-	          
-	          fout.write("<link href=\"../static/style.css\" rel=\"stylesheet\" type=\"text/css\">");
-	          fout.write("</head>");
-	          fout.write("<body>");
-	          
-	          fout.write("<div style=\"left: 0px; top: 0px; width: 1152px;\">");
-	          fout.write("<div class=\"upper\" style=\"width: 1152px; height: 35px;\">");
-	          fout.write("<div id=\"viewgenerator_header\">");
-	          fout.write("<img title=\"Oryx\" alt=\"\" id=\"Oryx_logo\" src=\"\"></a>");
-	          fout.write("<font size = "+headFontSize+" color=\"#0D0D0D \"><b>Project Navigator</b></font>");
-	          fout.write("</div></div></div>");
-	          
-	          fout.write("<div class=\"lower\" style=\"height: 35px; left: 0px; top: 35px; width: 1152px;\">");
-	          fout.write("<table cellspacing=\"0\"><tbody><tr>");
-	          
-//	          linkLine	          
-	          fout.write("<td>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+getOverviewHTMLName()+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Project Navigator</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Conversation View</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Handovers</font></A></td><td>");
-	          fout.write("</div>");
-	          fout.write("<div class=\"linkLineElement\">");
-	          fout.write("<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+" color=\"#0D0D0D \">Information Access</font></A></td><td>");
-	          fout.write("</div>");
-	          
-	          fout.write("</tr></tbody></table></div></div></div></td>");	          
-	          fout.write("<td>");
-	          fout.write("<br><br><table width=\"100%\">");	          
-	          fout.write("<tr>");
+	          String headerDiv = getHeaderDiv(headFontSize, "Project Navigator", fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
+	          fout.write(headerDiv);  
 	          
 //	          Navigator content
 	          fout.write("<td><table width=\"100%\">");

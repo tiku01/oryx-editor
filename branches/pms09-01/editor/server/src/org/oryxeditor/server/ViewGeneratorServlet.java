@@ -39,7 +39,6 @@ public class ViewGeneratorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2308798783469734955L;
 	private String baseURL = "viewgenerator/";
-//	private String oryxRootDirectory = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\";
 	private String oryxRootDirectory;
 	
 	
@@ -69,8 +68,8 @@ public class ViewGeneratorServlet extends HttpServlet {
 			out.println("There was no input diagrams parameter " + paramName + " given.");
 		} 
 		else if ("".equals(value)) {
-			// The request parameter 'param' was present in the query string but has no value 
-			// e.g. http://hostname.com?param=&a=b 
+			// The request parameter 'modeluris' was present in the query string but has no value 
+			// e.g. http://hostname.com?modeluris=&a=b 
 			resp.sendError(400);
 			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
 		}
@@ -85,7 +84,6 @@ public class ViewGeneratorServlet extends HttpServlet {
 			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", File.separator)+current+File.separator);
 			viewGenerator.generate(diagramIds);
 			resp.setStatus(200);
-//			resp.sendRedirect(baseURL + viewGenerator.getOverviewHTMLName())
 			String url = req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
 			out.write(url);
 		}
