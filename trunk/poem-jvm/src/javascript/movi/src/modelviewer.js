@@ -112,6 +112,20 @@ MOVI.namespace("widget");
 		}
 	};
 	
+	/**
+     * Remove the ModelViewer instance with the specified id.
+     * @method removeInstance
+     * @param {Integer | String} id The id of the ModelViewer instance
+     */
+	MOVI.widget.ModelViewer.removeInstance = function(id) {
+		if(YAHOO.lang.isNumber(id)) {
+			YAHOO.util.Event.purgeElement(_instances[id].get("element"), true);
+			_instances[id].get("element").innerHTML = "";
+			delete _instances[id];
+			_instances.splice(id, 1);
+		}
+	};
+	
  	MOVI.extend(MOVI.widget.ModelViewer, YAHOO.util.Element, {
 	
 		/**

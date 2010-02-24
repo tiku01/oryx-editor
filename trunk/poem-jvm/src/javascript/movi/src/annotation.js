@@ -207,8 +207,8 @@ MOVI.namespace("util");
 	     */
 		setPosition: function(x, y) {
 			var w = parseInt(this._canvas.getStyle("width"), 10);
-			if( w && (x>(w/2)) ) {
-				// align the annotation to the left
+			if( w && w>300 && (x>(w/2)) ) {
+				// align the annotation to the left (only if the canvas is wider than 300px)
 				this.setStyle("right", (w-x) + "px");
 				this.setStyle("left", "");
 				this.addClass("movi-bubble-right");
