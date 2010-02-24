@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -405,11 +407,16 @@ class ExtractedData {
 		  	for (int i=0; i<origins.size(); i++) {
 		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
 		  		String origin = origins.get(i);
-		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
-		  		origin = origin.substring(savePath.length(), origin.length());
+		  		URLConnection originCon = new URL(origin).openConnection();
+		  		String originName = originCon.getHeaderField("Content-Disposition");
+		  		String prefix = "inline; filename=";
+		  		String suffix = ".oryx.xml";
+		  		originName = originName.substring(prefix.length(),originName.length() - suffix.length());
+//		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
+//		  		origin = origin.substring(savePath.length(), origin.length());
 		  		fout.write("<div class=\"origin\">");
 			    fout.write("<div class=\"originName\">");
-		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(origin)+"</font></A></td>");
+		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(originName)+"</font></A></td>");
 			    fout.write("</div>");
 			    fout.write("<div class=\"infoBox\">");
 			    String description = replaceSpecialChars(getDescription(origins.get(i)));
