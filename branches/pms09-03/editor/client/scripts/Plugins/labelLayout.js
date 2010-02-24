@@ -19,12 +19,14 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		this.LabelYArea=undefined; //the height of the label (Y-Coordinate relative to rotaionPointCoordinates)
 		this.labelLength=undefined;
 		this.rotationPointCoordinates = {x:0, y:0};
+		this.mouseCoordinates = {x:0, y:0};
 		this.rotPointParent = undefined;	// set the Parent for the RotaionPoint	
 		this.rotate=false; //true ->Rotation of label is active; False -> Rotation of Label is not active
 		this.State=0; 		//current States for Rotation
 		this.prevState=0;	//previous State for Rotation
 		this.canvasLabel = undefined; //Reference to Canvas
 		this.canvas=false; //true if Reference to Canvas was saved
+		this.edgeSelected = false;
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
@@ -32,9 +34,15 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEMOVE, this.handleMouseMove.bind(this));
 		
 		//Visual representaion of the default RotationPoint
-		this.rotationPoint = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+		/*this.rotationPoint = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
 				['g', {"pointer-events":"none"},
-					['circle', {cx: "8", cy: "8", r: "5", fill:"green"}]]);
+					['circle', {cx: "8", cy: "8", r: "5", fill:"green"}]]); */
+		
+		this.rotationPoint = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['path', {
+					"stroke-width": 2.0, "stroke":"black", "d":  "M4,4 L0,6 M0,6 L-4,4 M-4,4 L-6,0 M-6,0 L-4,-4 M-4,-4 L0,-6 M0,-6 L4,-4 M4,-4 L6,2 M6,2 L2,0 M6,2 L8,0", "line-captions": "round"
+					}]);
+		
 		
 		//Visual representation of the Rotationpoint if rotation is active
 		this.rotationPointActive = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
@@ -45,6 +53,22 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 				['path', {
 					'stroke-width': 1, stroke: 'silver', fill: 'none',
 					'pointer-events': 'none'}]);
+		
+		this.startMovingCross = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['path', {
+					"stroke-width": 1.0, "stroke":"black", "d":  "M0,0 L-10,0 M-10,0 L-6,-4 M-10,0 L-6,4 M0,0 L10,0 M10,0 L6,4 M10,0 L6,-4 M0,0 L0,10 M0,10 L4,6 M0,10 L-4,6 M0,0 L0,-10 M0,-10 L4,-6 M0,-10 L-4,-6", "line-captions": "round"
+					}]);
+		
+		this.endMovingCross = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['path', {
+					"stroke-width": 1.0, "stroke":"black", "d":  "M-2,0 L-10,0 M2,0 L10,0 M0,2 L0,10 M0,-2 L0,-10 M-2,0 L-6,4 M-2,0 L-6,-4 M2,0 L6,4 M2,0 L6,-4 M0,-2 L4,-6 M0,-2 L-4,-6 M0,2 L4,6 M0,2 L-4,6", "line-captions": "round"
+					}]);
+		
+		this.moveLeftRight = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['path', {
+					"stroke-width": 2.0, "stroke":"black", "d":  "M0,0 L-15,0 M-15,0 L-11,-4 M-15,0 L-11,4 M0,0 L15,0 M15,0 L11,4 M15,0 L11,-4", "line-captions": "round"
+					}]);
+		
 		 
 		 this.facade.offer({
 	            'name': "Label rotate left",
@@ -77,33 +101,17 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 
 //Hide RotationPoint when leaving an Edge
 handleMouseOut: function(event, uiObj) {
-
-	if( uiObj instanceof ORYX.Core.Edge){
+/*
+	if( uiObj instanceof ORYX.Core.Edge && this.edgeSelected==false ){
 		if(this.myLabel){
 			this.hideRotationPointOverlay();
 			this.hideLine();
 		}
-	 }
+	 }*/
 },
 
 handleMouseOver: function(event, uiObj) {
 
-	if( uiObj instanceof ORYX.Core.Edge){
-		
-		//Identify and set the label of the current Edge	
-		this.myLabel=uiObj._labels[uiObj.id+"condition"];
-	 
-		//save the edge for adding rotationpoint	
-		this.rotPointParent=uiObj;
-		
-		//Show the RotationPoint and line of the label of the current Edge
-		if(this.myLabel && this.myLabel._text!=""){
-			//this.calculateLabelCoordinates();
-			this.calculateRotationPointCoordinates();
-			//this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );	
-			this.showLine();
-		}
-	}
 	//Save Canvas for Reference(used for showing Line between edge and label)
 	if(this.canvas==false){
 		if( uiObj instanceof ORYX.Core.Canvas){
@@ -114,8 +122,12 @@ handleMouseOver: function(event, uiObj) {
 },
 
 handleMouseDown: function(event, uiObj) {
+	
+	
+	
 
 	if(this.myLabel){
+	
 
 		//save MousePosition
 		var MouseX=this.facade.eventCoordinates(event).x;
@@ -156,6 +168,8 @@ handleMouseDown: function(event, uiObj) {
 				this.myLabel._rotationPoint.y=MouseY;
 			}
 			
+			// save the current position of the label in edge.js, mark the label as free moved
+			this.myLabel.edgePosition="freeMoved";
 			this.myLabel.update();
 			
 		
@@ -164,16 +178,22 @@ handleMouseDown: function(event, uiObj) {
 			this.calculateRotationPointCoordinates();		
 			
 			//Show visaul RotationPoint
-			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );
+			
+			this.hideSettingArrows();
+			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};			
+			this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
 			
 			//show the Association line
-			this.showLine();
+			//this.showLine();
 		}
 		else {
 			//hide RotationPoint
 			this.hideRotationPointOverlay();
 			//hide Association Line
 			this.hideLine();
+			this.hideMovingArrows();
+			this.hideSettingArrows();
 		}
 	
 		//Check if Mouse is in the ClickArea of the Label (for different degrees)
@@ -213,7 +233,7 @@ handleMouseDown: function(event, uiObj) {
 		
 			//Set Label as Selected
 			this.labelSelected=true;
-		
+						
 			//refresh and show RotationPoint
 			this.calculateRotationPointCoordinates();
 			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );
@@ -226,9 +246,9 @@ handleMouseDown: function(event, uiObj) {
 		//Check if MouseClick is on RotationPoint
 		if(	this.rotate==false && 
 			MouseX >= this.rotationPointCoordinates.x && 
-			MouseX <= this.rotationPointCoordinates.x+10 && 
+			MouseX <= this.rotationPointCoordinates.x+15 && 
 			MouseY >= this.rotationPointCoordinates.y && 
-			MouseY <= this.rotationPointCoordinates.y+10){
+			MouseY <= this.rotationPointCoordinates.y+15){
 		
 			//acitvate Rotation
 			this.rotate=true;
@@ -247,6 +267,38 @@ handleMouseDown: function(event, uiObj) {
 			this.hideOverlayActive();
 		}	
 	}
+	
+	//clicking on an Edge saves the label and show the line
+	if( uiObj instanceof ORYX.Core.Edge){  		
+		
+		//Identify and set the label of the current Edge	
+		this.myLabel=uiObj._labels[uiObj.id+"condition"];
+	 
+		//save the edge for adding rotationpoint	
+		this.rotPointParent=uiObj;
+		
+		//Show the RotationPoint and line of the label of the current Edge
+		if(this.myLabel && this.myLabel._text!=""){
+			this.calculateLabelCoordinates();
+			this.calculateRotationPointCoordinates();
+			//this.showRotationPointOverlay( uiObj, this.rotationPointCoordinates );	
+			this.showLine();
+			
+			this.calculateLabelCoordinates();
+			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};			
+			this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
+			this.showRotationPointOverlay(this.rotPointParent, this.rotationPointCoordinates);
+		}
+	}		
+	else {		
+		if(this.myLabel){
+			this.hideRotationPointOverlay();
+			this.hideLine();
+			this.hideRotationPointOverlay();
+		}		 
+	}
+	
+	
 },
 
 handleMouseMove: function(event, uiObj) {
@@ -299,6 +351,13 @@ handleMouseMove: function(event, uiObj) {
 			//this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
 			this.hideRotationPointOverlay();
 		
+			
+			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};	
+			this.hideMovingArrows();
+			this.hideSettingArrows();
+			this.showSettingArrows(this.rotPointParent, this.mouseCoordinates );
+			
+			
 			//Refresh the Line
 			this.hideLine();
 			this.showLine();
@@ -477,7 +536,7 @@ showOverlayActive: function(edge, point){
 			type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
 			id: 			"rotationPointActive",
 			shapes: 		[edge],
-			node:			this.rotationPointActive,
+			node:			this.moveLeftRight,
 			rotationPoint:	point,
 			dontCloneNode:	true
 		});			
@@ -490,6 +549,45 @@ hideOverlayActive: function() {
 		id: "rotationPointActive"
 	});	
 },
+
+showMovingArrows: function(edge, point) {
+	
+	this.facade.raiseEvent({
+		type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
+		id: 			"MovingArrows",
+		shapes: 		[edge],
+		node:			this.startMovingCross,
+		rotationPoint:	point,
+		dontCloneNode:	true
+	});	
+},
+
+hideMovingArrows: function() {
+	this.facade.raiseEvent({
+		type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
+		id: "MovingArrows"
+	});	
+},
+
+showSettingArrows: function(edge, point) {
+	
+	this.facade.raiseEvent({
+		type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
+		id: 			"SettingArrows",
+		shapes: 		[edge],
+		node:			this.endMovingCross,
+		rotationPoint:	point,
+		dontCloneNode:	true
+	});	
+},
+
+hideSettingArrows: function() {
+	this.facade.raiseEvent({
+		type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
+		id: "SettingArrows"
+	});	
+},
+
 
 //set the Coordinates of the RotationPoint for different degree values
 calculateRotationPointCoordinates: function(){
