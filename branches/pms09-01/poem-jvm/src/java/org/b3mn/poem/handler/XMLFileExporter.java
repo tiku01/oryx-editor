@@ -51,7 +51,7 @@ public class XMLFileExporter extends HandlerBase {
 					req.getServerName(),
                     req.getServerPort(),
                     "" );
-			res.setHeader("Content-Disposition", "inline; filename="+object.read().getTitle()+".xml" );
+			res.setHeader("Content-Disposition", "inline; filename="+object.read().getTitle()+".oryx.xml" );
 			PrintWriter out = res.getWriter();
 			out.write(begin);
 			out.write(object.read().getSummary());
