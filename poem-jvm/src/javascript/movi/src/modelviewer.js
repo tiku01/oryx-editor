@@ -731,14 +731,14 @@ MOVI.namespace("widget");
 			var ul = YAHOO.util.Dom.getXY(this._scrollbox);
 			var lrX = ul[0]+this.getScrollboxEl().get("offsetWidth"),
 				lrY = ul[1]+this.getScrollboxEl().get("offsetHeight");
-			if(this.getScrollboxEl().get("offsetWidth")/this.getImgWidth()<1) {
+			if(this.getScrollboxEl().get("element").clientWidth < this.getScrollboxEl().get("element").scrollWidth) {
 				// horizontal scrollbar shown
 				if( (mouseAbsXY[1]>=lrY-20) && (mouseAbsXY[1]<=lrY) ) {
 					// mouse down on scrollbar
 					return;
 				}
 			}
-			if(this.getScrollboxEl().get("offsetHeight")/this.getImgHeight()<1) {
+			if(this.getScrollboxEl().get("element").clientHeight < this.getScrollboxEl().get("element").scrollHeight) {
 				// vertical scrollbar shown
 				if( (mouseAbsXY[0]>=lrX-20) && (mouseAbsXY[0]<=lrX) ) {
 					// mouse down on scrollbar
