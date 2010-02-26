@@ -44,6 +44,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.hp.hpl.jena.query.function.library.abs;
+
 
 class ExtractedData {
 	
@@ -331,6 +333,23 @@ class ExtractedData {
 		return "";
 	}
 	
+	private String getFileName(String attributePair) {
+//		using hashCode so caseSensitive attributePairs will not result in same file on windows systems
+		return attributePair.hashCode()+"";
+	}
+	
+	protected String getOriginIndexHTMLName(ArrayList<String> attributePair) {
+		return getFileName(attributePair.toString())+"_index.html";
+	}
+	
+	protected String getOriginSVGName(ArrayList<String> attributePair, int originNumber) {
+		return getFileName(attributePair.toString()) + originNumber + ".svg";
+	}
+	
+	protected String getOriginHTMLName(ArrayList<String> attributePair) {
+		return getFileName(attributePair.toString()) + ".html";
+	}
+	
 	protected String replaceBadChars(String fileName) {	
 //		replacing badChars from fileNames
 		String fileName_new = fileName.replace("?","que").replace("\"", "quo").replace("/", "sl").replace("\\", "bs");
@@ -356,15 +375,13 @@ class ExtractedData {
 		fileName_new = fileName_new.replace("\n", "").replace("\t","").replace("\r","");
 		return fileName_new;
 	}
-
 	
 	protected File createOriginSVG(ArrayList<String> attributePair, String diagramPath, int originNumber) {
 		File svgFile;
 		String svg = getSVG(diagramPath);
 	      try {
-//	          svgFile = File.createTempFile(attributePair.toString(), ".svg", new File(path));
-	    	  String fileName = replaceBadChars(attributePair.toString());
-	    	  svgFile = new File(toSavePath + fileName + originNumber + ".svg");
+	    	  String fileName = getOriginSVGName(attributePair, originNumber);
+	    	  svgFile = new File(toSavePath + fileName);
 	          FileWriter fout = new FileWriter(svgFile);
 	          fout.write(svg);
 	          fout.close();
@@ -392,8 +409,8 @@ class ExtractedData {
 		File htmlFile;
 		
 		try {
-			String fileName = replaceBadChars(attributePair.toString()) + "_index";
-		    htmlFile = new File(toSavePath + fileName + ".html");
+			String fileName = getOriginIndexHTMLName(attributePair);
+		    htmlFile = new File(toSavePath + fileName);
 		    FileWriter fout = new FileWriter(htmlFile);
 		    fout.write("<!doctype html>\n");
 		    
@@ -405,7 +422,7 @@ class ExtractedData {
 		    fout.write("<body><h3><center>Origins for "+attributePair+"</center></h3><hr>");
 
 		  	for (int i=0; i<origins.size(); i++) {
-		  		String originSVG = replaceBadChars(attributePair.toString()) + i + ".svg";
+		  		String originSVG = getOriginSVGName(attributePair, i);
 		  		String origin = origins.get(i);
 		  		URLConnection originCon = new URL(origin).openConnection();
 		  		String originName = originCon.getHeaderField("Content-Disposition");
@@ -446,15 +463,15 @@ class ExtractedData {
 		createOriginsIndexHTML(attributePair, origins);
 		File htmlFile;
 		try {
-			String fileName = replaceBadChars(attributePair.toString());
-		    htmlFile = new File(toSavePath + fileName + ".html");
+			String fileName = getOriginHTMLName(attributePair);
+		    htmlFile = new File(toSavePath + fileName);
 		    FileWriter fout = new FileWriter(htmlFile);
 		    fout.write("<!doctype html>\n");
 		    fout.write("<html>\n<head>\n<title>Origins for " +attributePair+ "</title>\n</head>");
 		    fout.write("<frameset cols=\"15%,85%\">");
 		    fout.write("<body>");
-		    fout.write("<frame name=index src=\""+ fileName+"_index.html"+"\">");
-		    fout.write("<frame name=content src=\""+ replaceBadChars(attributePair.toString())+0+".svg" + "\">");
+		    fout.write("<frame name=index src=\""+ getOriginIndexHTMLName(attributePair)+"\">");
+		    fout.write("<frame name=content src=\""+ getOriginSVGName(attributePair, 0) + "\">");
 		    fout.write("</frameset>");
 	        fout.write("</body></html>");
 	        fout.close();
@@ -465,15 +482,13 @@ class ExtractedData {
 			return null;
 		}
 	}
-	
-	
+		
 	protected void createOriginsHTMLs(ExtractedConnectionList extractedConnectionList) {
 		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
 			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
 			createOriginsHTML(attributePair, origins);	
 		}
 	}
-	
 }
 	
 

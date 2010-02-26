@@ -405,7 +405,7 @@ public class ExtractedDataMapping extends ExtractedData {
 			}
 				
 //			edge between source and target 
-			String urlAttribute = "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"";
+			String urlAttribute = "\"" + getOriginHTMLName(attributePair) + "\"";
 			TranslatorInputEdge edge = createEdge(sourceNodeId, targetNodeId, urlAttribute);
 			input.addEdge(edge);											
 		}
