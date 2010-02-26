@@ -23,9 +23,13 @@
 
 package de.hpi.ViewGenerator;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+
+import org.apache.commons.lang.StringEscapeUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -44,20 +48,43 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.hp.hpl.jena.query.function.library.abs;
-
 
 class ExtractedData {
 	
 	protected ExtractedConnectionList extractedConnectionList;
 	protected String serverBaseUrl;
 	protected String toSavePath;
+	private HashMap<String,Document> modelDictionary;
 
-	public ExtractedData(String toSavePath) {
+	public ExtractedData(ArrayList<String> diagramPaths, String toSavePath) {
 		this.extractedConnectionList = new ExtractedConnectionList();
 		this.toSavePath = toSavePath;
+		this.initializeModelDictionary(diagramPaths);
 	}
 	
+	private void initializeModelDictionary(ArrayList<String> diagramPaths) {
+		modelDictionary = new HashMap<String,Document>();
+		for (String diagramPath: diagramPaths) {
+			try {
+				URI uri = new URI(diagramPath);
+				InputStream st = uri.toURL().openStream();
+				Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
+				
+			  	modelDictionary.put(diagramPath,xml);
+			}
+			catch (URISyntaxException e) {
+//				invalid parameter
+				e.printStackTrace();
+			}
+			catch (ParserConfigurationException e) {
+			}
+			catch (SAXException e) {		
+			}
+			catch (IOException e) { 
+				e.printStackTrace(); 
+			}
+		}
+	}
 	
 	private ConnectionList extractFromChildShapes(JSONObject jsonObject, ConnectionList connectionList, ConnectorList connectorList,  HashMap<String, JSONObject> stencilLevels) {
 		ConnectionList connectionList_new = connectionList;
@@ -164,7 +191,7 @@ class ExtractedData {
 				attributeToSaveFromSaveObject = saveObject.getString(attributeToSave);
 			}
 //			escaping bad chars
-			attributeToSaveFromSaveObject = replaceSpecialChars(attributeToSaveFromSaveObject);
+//			attributeToSaveFromSaveObject = replaceSpecialCharsForHTML(attributeToSaveFromSaveObject);
 			
 			return attributeToSaveFromSaveObject;
 		}
@@ -252,85 +279,32 @@ class ExtractedData {
 	
 	
 	protected String getJSON(String diagramPath) {
-		try {
-			URI uri = new URI(diagramPath);
-			InputStream st = uri.toURL().openStream();
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
+		Document xml = modelDictionary.get(diagramPath);			
+		NodeList nodeList = xml.getElementsByTagName("json-representation");
+		Node jsonNode = nodeList.item(0);	
+		String json = jsonNode.getTextContent();
 			
-		  	NodeList nodeList = xml.getElementsByTagName("json-representation");
-		  	Node jsonNode = nodeList.item(0);	
-			String json = jsonNode.getTextContent();
-				
-			return json;
-		}
-		catch (URISyntaxException e) {
-//			invalid parameter
-			e.printStackTrace();
-		}
-		catch (ParserConfigurationException e) {
-		}
-		catch (SAXException e) {		
-		}
-		catch (IOException e) { 
-			e.printStackTrace(); 
-		}
-		return "";
+		return json;
 	}
 	
 	
 	protected String getSVG(String diagramPath) {
-		try {
-			URI uri = new URI(diagramPath);
-			InputStream st = uri.toURL().openStream();
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
-			
-		  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
-		  	Node svgNode = nodeList.item(0);	
-			String svg = svgNode.getTextContent();
-			
-			return svg;
-		}
-		catch (URISyntaxException e) {
-//			invalid parameter
-			e.printStackTrace();
-
-		}
-		catch (ParserConfigurationException e) {
-		}
-		catch (SAXException e) {		
-		}
-		catch (IOException e) { 
-			e.printStackTrace(); 
-		}
-		return "";
+		Document xml = modelDictionary.get(diagramPath);
+	  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
+	  	Node svgNode = nodeList.item(0);	
+		String svg = svgNode.getTextContent();
+		
+		return svg;
 	}
 	
 	
 	protected String getDescription(String diagramPath) {
-		try {
-			URI uri = new URI(diagramPath);
-			InputStream st = uri.toURL().openStream();
-			Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
+		Document xml = modelDictionary.get(diagramPath);	
+		NodeList nodeList = xml.getElementsByTagName("description");
+		Node descriptionNode = nodeList.item(0);	
+		String description = descriptionNode.getTextContent();
 			
-		  	NodeList nodeList = xml.getElementsByTagName("description");
-		  	Node descriptionNode = nodeList.item(0);	
-			String description = descriptionNode.getTextContent();
-			
-			return description;
-		}
-		catch (URISyntaxException e) {
-//			invalid parameter
-			e.printStackTrace();
-
-		}
-		catch (ParserConfigurationException e) {
-		}
-		catch (SAXException e) {		
-		}
-		catch (IOException e) { 
-			e.printStackTrace(); 
-		}
-		return "";
+		return description;
 	}
 	
 	private String getFileName(String attributePair) {
@@ -349,42 +323,28 @@ class ExtractedData {
 	protected String getOriginHTMLName(ArrayList<String> attributePair) {
 		return getFileName(attributePair.toString()) + ".html";
 	}
-	
-	protected String replaceBadChars(String fileName) {	
-//		replacing badChars from fileNames
-		String fileName_new = fileName.replace("?","que").replace("\"", "quo").replace("/", "sl").replace("\\", "bs");
-		fileName_new = fileName_new.replace("<","lt").replace(">","gt").replace(":","dp").replace("*", "st").replace("|","li");
-		fileName_new = fileName_new.replace("ä","ae").replace("ö", "oe").replace("ü", "ue").replace("ß","ss");
-		fileName_new = fileName_new.replace("Ä","Ae").replace("Ö", "Oe").replace("Ü", "Ue");
-		fileName_new = fileName_new.replace("\n", "").replace("\t","").replace("\r","");
+		
+	protected String removeEscChars(String fileName) {
+//		replacing escaped chars, e.g. for graphVizLabels
+		String fileName_new = fileName.replace("\n", "").replace("\t","").replace("\r","");
 		return fileName_new;
 	}
 	
-	protected String replaceEscChars(String fileName) {
-//		replacing escaped chars
-		String fileName_new = fileName.replace("\\", "\\\\");
-		fileName_new = fileName_new.replace("\n", "").replace("\t","").replace("\r","");
+	protected String replaceSpecialCharsForHTML(String s) {
+//		replacing special chars related to displaying in html
+		String fileName_new = StringEscapeUtils.escapeHtml(s);
 		return fileName_new;
 	}
-	
-	protected String replaceSpecialChars(String fileName) {
-//		replacing special chars for linkdisplay
-		String fileName_new = fileName.replace("\\", "\\\\");
-		fileName_new = fileName_new.replace("ä","ae").replace("ö", "oe").replace("ü", "ue").replace("ß","ss");
-		fileName_new = fileName_new.replace("Ä","Ae").replace("Ö", "Oe").replace("Ü", "Ue");
-		fileName_new = fileName_new.replace("\n", "").replace("\t","").replace("\r","");
-		return fileName_new;
-	}
-	
+		
 	protected File createOriginSVG(ArrayList<String> attributePair, String diagramPath, int originNumber) {
 		File svgFile;
 		String svg = getSVG(diagramPath);
 	      try {
 	    	  String fileName = getOriginSVGName(attributePair, originNumber);
 	    	  svgFile = new File(toSavePath + fileName);
-	          FileWriter fout = new FileWriter(svgFile);
-	          fout.write(svg);
-	          fout.close();
+	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(svgFile),"UTF-8");
+	          out.write(svg);
+	          out.close();
 	          return svgFile;
 	      } 	      
 	      catch (java.io.IOException e) { 
@@ -410,16 +370,16 @@ class ExtractedData {
 		
 		try {
 			String fileName = getOriginIndexHTMLName(attributePair);
-		    htmlFile = new File(toSavePath + fileName);
-		    FileWriter fout = new FileWriter(htmlFile);
-		    fout.write("<!doctype html>\n");
-		    
-		    fout.write("<html><head>");
-		    fout.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
-		    fout.write("<script type=\"text/javascript\" src=\"../static/infoBox.js\"></script>");
-		    fout.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"../static/infoBox.css\" />");
-		    fout.write("</head>");
-		    fout.write("<body><h3><center>Origins for "+attributePair+"</center></h3><hr>");
+		    htmlFile = new File(toSavePath + fileName);	    
+	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
+	
+		    out.write("<!doctype html>\n");
+		    out.write("<html><head>");
+		    out.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
+		    out.write("<script type=\"text/javascript\" src=\"../static/infoBox.js\"></script>");
+		    out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"../static/infoBox.css\" />");
+		    out.write("</head>");
+		    out.write("<body><h3><center>Origins for "+replaceSpecialCharsForHTML(attributePair.toString())+"</center></h3><hr>");
 
 		  	for (int i=0; i<origins.size(); i++) {
 		  		String originSVG = getOriginSVGName(attributePair, i);
@@ -433,23 +393,23 @@ class ExtractedData {
 		  		else {
 			  		originName = originName.substring(originName.indexOf("=")+1,originName.lastIndexOf(".") );
 		  		}
-		  		fout.write("<div class=\"origin\">");
-			    fout.write("<div class=\"originName\">");
-		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(originName)+"</font></A></td>");
-			    fout.write("</div>");
-			    fout.write("<div class=\"infoBox\">");
-			    String description = replaceSpecialChars(getDescription(origins.get(i)));
+		  		out.write("<div class=\"origin\">");
+			    out.write("<div class=\"originName\">");
+		        out.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialCharsForHTML(originName)+"</font></A></td>");
+			    out.write("</div>");
+			    out.write("<div class=\"infoBox\">");
+			    String description = replaceSpecialCharsForHTML(getDescription(origins.get(i)));
 			    if (description.equals("")) {
-				    fout.write("<font>No Description given.</font>");
+				    out.write("<font>No Description given.</font>");
 			    }
 			    else {
-				    fout.write("<font>"+description+"</font>");
+				    out.write("<font>"+description+"</font>");
 			    }
-			    fout.write("</div>");
-			    fout.write("</div>");
+			    out.write("</div>");
+			    out.write("</div>");
 		  	}
-	        fout.write("</body></html>");
-	        fout.close();
+	        out.write("</body></html>");
+	        out.close();
 	        return htmlFile;	
 		} 	      
 		catch (java.io.IOException e) { 
@@ -465,16 +425,17 @@ class ExtractedData {
 		try {
 			String fileName = getOriginHTMLName(attributePair);
 		    htmlFile = new File(toSavePath + fileName);
-		    FileWriter fout = new FileWriter(htmlFile);
-		    fout.write("<!doctype html>\n");
-		    fout.write("<html>\n<head>\n<title>Origins for " +attributePair+ "</title>\n</head>");
-		    fout.write("<frameset cols=\"15%,85%\">");
-		    fout.write("<body>");
-		    fout.write("<frame name=index src=\""+ getOriginIndexHTMLName(attributePair)+"\">");
-		    fout.write("<frame name=content src=\""+ getOriginSVGName(attributePair, 0) + "\">");
-		    fout.write("</frameset>");
-	        fout.write("</body></html>");
-	        fout.close();
+		    
+	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
+		    out.write("<!doctype html>\n");
+		    out.write("<html>\n<head>\n<title>Origins for " +replaceSpecialCharsForHTML(attributePair.toString())+ "</title>\n</head>");
+		    out.write("<frameset cols=\"15%,85%\">");
+		    out.write("<body>");
+		    out.write("<frame name=index src=\""+ getOriginIndexHTMLName(attributePair)+"\">");
+		    out.write("<frame name=content src=\""+ getOriginSVGName(attributePair, 0) + "\">");
+		    out.write("</frameset>");
+	        out.write("</body></html>");
+	        out.close();
 	        return htmlFile;	
 		} 	    	
 		catch (java.io.IOException e) { 

@@ -24,18 +24,14 @@
 package de.hpi.ViewGenerator;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 
 class SVGGenerator {
-
-
-
 	String pathToDot = "C:\\Programme\\Graphviz2.26\\bin\\";
-//	String pathToStaticResources = "C:\\Programme\\Apache Software Foundation\\Tomcat 6.0\\webapps\\oryx\\viewgenerator\\";
-//	String scriptCommand = "\"" + pathToStaticResources + "static\\cd_call.bat\"";
 	String pathToStaticResources;
 	String scriptCommand;
-	
 	String dotInput;
 	File dotInputFile;
 	String layoutAlgorithm;
@@ -69,9 +65,9 @@ class SVGGenerator {
 		File dotInputFile;
 	      try {
 	    	  dotInputFile = new File(toSavePath + name);
-	          FileWriter fout = new FileWriter(dotInputFile);
-	          fout.write(dotInput);
-	          fout.close();
+	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dotInputFile),"UTF-8");
+	          out.write(dotInput);
+	          out.close();
 	          return dotInputFile;
 	      } 
 	      catch (java.io.IOException e) { 

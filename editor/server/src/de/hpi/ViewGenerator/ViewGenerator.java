@@ -24,7 +24,9 @@
 package de.hpi.ViewGenerator;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 
@@ -141,16 +143,17 @@ public class ViewGenerator {
 		String htmlNameWithSuffix = svgName + ".html";
 	     try {
 	    	  htmlFile = new File(toSavePath + htmlNameWithSuffix);
-	          FileWriter fout = new FileWriter(htmlFile);
+	    	  
+	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
 	          String headerDiv = getHeaderDiv(headFontSize, svgName, fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
-	          fout.write(headerDiv);      
+	          out.write(headerDiv);      
 	          
 //	          embedded svg 
 	          String embeddedSVGDiv = getEmbeddedSVGDiv(svgNameWithSuffix, svgHeight, svgWidth);
-	          fout.write("<br>");
-	          fout.write(embeddedSVGDiv);
-	          fout.write("</body></html>");
-	          fout.close();
+	          out.write("<br>");
+	          out.write(embeddedSVGDiv);
+	          out.write("</body></html>");
+	          out.close();
 	     }
 	     catch (java.io.IOException e) { 
 	    	 e.printStackTrace();
@@ -170,50 +173,50 @@ public class ViewGenerator {
 		
 	      try {  
 	    	  htmlFile = new File(toSavePath + getOverviewHTMLName());
-	          FileWriter fout = new FileWriter(htmlFile);
-	          
+	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
+	       
 	          String headerDiv = getHeaderDiv(headFontSize, "Project Navigator", fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
-	          fout.write(headerDiv);  
+	          out.write(headerDiv);  
 	          
 //	          Navigator content
-	          fout.write("<td><table width=\"100%\">");
-	          fout.write("<tr><td><font size = " +fontSize+">This project contains:</font></tr>");
-	          fout.write("<tr><td><font size = " +fontSize+">Processes: </font></td>");
-	          fout.write("<td><font size = " +fontSize+">"+processes_count+"</font></td></tr>");
-	          fout.write("<tr><td><font size = " +fontSize+">Data Objects: </font></td>");
-	          fout.write("<td><font size = " +fontSize+">"+dataObjects_count+"</font></td></tr>");
-	          fout.write("<tr><td><font size = " +fontSize+">Roles: </font></td>");
-	          fout.write("<td><font size = " +fontSize+">"+roles_count+"</font></td></tr>");
-	          fout.write("<tr><td><font size = " +fontSize+">Handovers: </font></td>");
-	          fout.write("<td><font size = " +fontSize+">"+handovers_count+"</font></td></tr>");
-	          fout.write("<tr><td><font size = " +fontSize+">Interactions between partners: </font></td>");
-	          fout.write("<td><font size = " +fontSize+">"+interactions_count+"</font></td></tr>");
-	          fout.write("</table></td></tr>");
+	          out.write("<td><table width=\"100%\">");
+	          out.write("<tr><td><font size = " +fontSize+">This project contains:</font></tr>");
+	          out.write("<tr><td><font size = " +fontSize+">Processes: </font></td>");
+	          out.write("<td><font size = " +fontSize+">"+processes_count+"</font></td></tr>");
+	          out.write("<tr><td><font size = " +fontSize+">Data Objects: </font></td>");
+	          out.write("<td><font size = " +fontSize+">"+dataObjects_count+"</font></td></tr>");
+	          out.write("<tr><td><font size = " +fontSize+">Roles: </font></td>");
+	          out.write("<td><font size = " +fontSize+">"+roles_count+"</font></td></tr>");
+	          out.write("<tr><td><font size = " +fontSize+">Handovers: </font></td>");
+	          out.write("<td><font size = " +fontSize+">"+handovers_count+"</font></td></tr>");
+	          out.write("<tr><td><font size = " +fontSize+">Interactions between partners: </font></td>");
+	          out.write("<td><font size = " +fontSize+">"+interactions_count+"</font></td></tr>");
+	          out.write("</table></td></tr>");
 	          
-	          fout.write("<td><br></td>");
-	          fout.write("<td><br></td>");
+	          out.write("<td><br></td>");
+	          out.write("<td><br></td>");
 	          
 //	          Preview Conversation View
-	          fout.write("<tr><td>");
+	          out.write("<tr><td>");
 	          String previewConversationView = getEmbeddedSVGDiv(communicationsSVGNameWithSuffix, svgHeight, svgWidth);
-	          fout.write(previewConversationView);
-	          fout.write("<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+">Conversation View</font></A></td>");
+	          out.write(previewConversationView);
+	          out.write("<A HREF=\""+communicationsHTMLName+"\"><font size = " +fontSize+">Conversation View</font></A></td>");
 
 //	          Preview Handovers
-	          fout.write("<td>");
+	          out.write("<td>");
 	          String previewHandovers = getEmbeddedSVGDiv(lanePassingsSVGNameWithSuffix, svgHeight, svgWidth);
-	          fout.write(previewHandovers);
-	          fout.write("<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+">Handovers</font></A></td>");
+	          out.write(previewHandovers);
+	          out.write("<A HREF=\""+lanePassingsHTMLName+"\"><font size = " +fontSize+">Handovers</font></A></td>");
 	          	          
 //	          Preview Information Access
-	          fout.write("<td>");
+	          out.write("<td>");
 	          String previewInformationAccess = getEmbeddedSVGDiv(dataMappingSVGNameWithSuffix, svgHeight, svgWidth);
-	          fout.write(previewInformationAccess);
-	          fout.write("<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+">Information Access</font></A></td>");
-	          fout.write("</tr>");
+	          out.write(previewInformationAccess);
+	          out.write("<A HREF=\""+dataMappingHTMLName+"\"><font size = " +fontSize+">Information Access</font></A></td>");
+	          out.write("</tr>");
 	          
-	          fout.write("</table></body></html>");     
-	          fout.close();
+	          out.write("</table></body></html>");     
+	          out.close();
 	      } 
 	      catch (java.io.IOException e) { 
 			  e.printStackTrace();
