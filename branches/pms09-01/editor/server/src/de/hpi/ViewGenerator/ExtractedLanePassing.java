@@ -42,7 +42,7 @@ public class ExtractedLanePassing extends ExtractedData {
 
 
 	public ExtractedLanePassing(ArrayList<String> diagramPaths, String toSavePath) {
-		super(toSavePath);
+		super(diagramPaths,toSavePath);
 		this.handoversCount = 0;
 		this.rolesCount = 0;
 		this.connection = "SequenceFlow";
@@ -210,7 +210,7 @@ public class ExtractedLanePassing extends ExtractedData {
 			String targetId = attributePair.get(1);
 			
 //			Node for source
-			String sourceNodeId = "\"" + sourceId + "\"";
+			String sourceNodeId = "\"" + removeEscChars(sourceId) + "\"";
 			TranslatorInputNode sourceNode;
 			
 			if (!done_Ids.contains(sourceId)) {
@@ -220,7 +220,7 @@ public class ExtractedLanePassing extends ExtractedData {
 			}
 				
 //			Node for target
-			String targetNodeId = "\"" + targetId + "\"";
+			String targetNodeId = "\"" + removeEscChars(targetId) + "\"";
 			TranslatorInputNode targetNode;
 
 			if (!done_Ids.contains(targetId)) {

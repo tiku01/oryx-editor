@@ -46,7 +46,7 @@ public class ExtractedDataMapping extends ExtractedData {
 
 	
 	public ExtractedDataMapping(ArrayList<String> diagramPaths, String toSavePath) {
-		super(toSavePath);
+		super(diagramPaths,toSavePath);
 		this.dataObjectsCount = 0;
 		this.connection_uni = "Association_Unidirectional";
 		this.connection_bi = "Association_Bidirectional";
@@ -367,7 +367,7 @@ public class ExtractedDataMapping extends ExtractedData {
 			String targetId = attributePair.get(1);
 				
 //			Node for source
-			String sourceNodeId = "\"" + sourceId + "\"";
+			String sourceNodeId = "\"" + removeEscChars(sourceId) + "\"";
 			
 			if (!done_Ids.contains(sourceId)) {
 				TranslatorInputNode sourceNode;
@@ -386,7 +386,7 @@ public class ExtractedDataMapping extends ExtractedData {
 			}
 				
 //			Node for target
-			String targetNodeId = "\"" + targetId + "\"";
+			String targetNodeId = "\"" + removeEscChars(targetId) + "\"";
 			
 			if (!done_Ids.contains(targetId)) {
 				TranslatorInputNode targetNode;

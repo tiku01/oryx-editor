@@ -43,7 +43,7 @@ public class ExtractedCommunications extends ExtractedData {
 	private int interactionsCount;
 	
 	public ExtractedCommunications(ArrayList<String> diagramPaths, String toSavePath) {
-		super(toSavePath);
+		super(diagramPaths,toSavePath);
 		this.interactionsCount = 0;
 		this.connection = "MessageFlow";
 		this.graphLabel = "Conversation_View";
@@ -281,7 +281,7 @@ public class ExtractedCommunications extends ExtractedData {
 		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
 			
 //			Node for communication
-			String communicationNodeId = "\"" + attributePair.toString() + "\"";
+			String communicationNodeId = "\"" + removeEscChars(attributePair.toString()) + "\"";
 			if (!done_communicationIds.contains(communicationNodeId)) {
 				String urlAttribute = "\"" + getOriginHTMLName(attributePair) + "\"";
 				TranslatorInputNode communicationNode = createCommunicationNode(communicationNodeId, urlAttribute);
@@ -293,7 +293,7 @@ public class ExtractedCommunications extends ExtractedData {
 	
 			for (String participant: attributePair) {
 //				Node for participant
-				String participantNodeId = "\"" + participant + "\"";
+				String participantNodeId = "\"" + removeEscChars(participant) + "\"";
 				if (!done_participantIds.contains(participantNodeId)) {
 					TranslatorInputNode participantNode = createParticipantNode(participantNodeId);
 					input.addNode(participantNode);
