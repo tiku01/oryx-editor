@@ -20,6 +20,7 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 		this.labelLength=undefined;
 		this.rotationPointCoordinates = {x:0, y:0};
 		this.mouseCoordinates = {x:0, y:0};
+		this.labelCoordinates = {x:0, y:0};
 		this.rotPointParent = undefined;	// set the Parent for the RotaionPoint	
 		this.rotate=false; //true ->Rotation of label is active; False -> Rotation of Label is not active
 		this.State=0; 		//current States for Rotation
@@ -42,6 +43,11 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 				['path', {
 					"stroke-width": 2.0, "stroke":"black", "d":  "M4,4 L0,6 M0,6 L-4,4 M-4,4 L-6,0 M-6,0 L-4,-4 M-4,-4 L0,-6 M0,-6 L4,-4 M4,-4 L6,2 M6,2 L2,0 M6,2 L8,0", "line-captions": "round"
 					}]);
+		
+		this.mouseOverMoving = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
+				['path', {
+					"stroke-width": 1.0, "stroke":"silver", "d":  "M0,0 L-10,0 M-10,0 L-6,-4 M-10,0 L-6,4 M0,0 L10,0 M10,0 L6,4 M10,0 L6,-4 M0,0 L0,10 M0,10 L4,6 M0,10 L-4,6 M0,0 L0,-10 M0,-10 L4,-6 M0,-10 L-4,-6", "line-captions": "round"
+				}]);
 		
 		
 		//Visual representation of the Rotationpoint if rotation is active
@@ -101,13 +107,13 @@ ORYX.Plugins.LabelLayout = Clazz.extend({
 
 //Hide RotationPoint when leaving an Edge
 handleMouseOut: function(event, uiObj) {
-/*
+
 	if( uiObj instanceof ORYX.Core.Edge && this.edgeSelected==false ){
 		if(this.myLabel){
-			this.hideRotationPointOverlay();
-			this.hideLine();
+			//this.hideRotationPointOverlay();
+			//this.hideLine();
 		}
-	 }*/
+	 }
 },
 
 handleMouseOver: function(event, uiObj) {
@@ -119,6 +125,9 @@ handleMouseOver: function(event, uiObj) {
 			canvas=true;
 		}
 	}
+	
+	
+	
 },
 
 handleMouseDown: function(event, uiObj) {
@@ -140,9 +149,12 @@ handleMouseDown: function(event, uiObj) {
 		if(this.labelSelected==true){
 
 			//Set LabelPosition to MousePosition
+			
+			/*
 			if(this.myLabel._rotate==360){
-				this.myLabel.x=MouseX+5;
-				this.myLabel.y=MouseY-5;
+				this.myLabel.x=MouseX+10;
+				this.myLabel.y=MouseY-10;
+				console.log("Position gesetzt");
 			}
 			else if(this.myLabel._rotate==90) {
 				this.myLabel.x=MouseX+10;
@@ -160,6 +172,18 @@ handleMouseDown: function(event, uiObj) {
 				//Default
 				this.myLabel.x=MouseX+5;
 				this.myLabel.y=MouseY-5;
+			} */
+			
+			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
+				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
+				//this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+10;
+				//this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
+			}else {
+				this.myLabel.x=this.facade.eventCoordinates(event).x-5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y+5;
+				//this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
+				//this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y+10;
 			}
 			
 			//refresh real Rotationpoint
@@ -181,8 +205,13 @@ handleMouseDown: function(event, uiObj) {
 			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );
 			
 			this.hideSettingArrows();
-			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};			
-			this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
+			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
+				this.mouseCoordinates = {x:this.LabelX, y:this.LabelY};			
+				this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
+			}else {
+				this.mouseCoordinates = {x:this.LabelX, y:this.LabelY};			
+				this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
+			}
 			
 			//show the Association line
 			//this.showLine();
@@ -196,43 +225,16 @@ handleMouseDown: function(event, uiObj) {
 			this.hideSettingArrows();
 		}
 	
-		//Check if Mouse is in the ClickArea of the Label (for different degrees)
+		//Check if Mouse is in the ClickArea of the Label 
 		if(	this.labelSelected==false && 
-			MouseX >= this.LabelX-20 && 
-			MouseX <= this.LabelXArea && 
-			MouseY <= this.LabelY+20 && 
-			MouseY >= this.LabelYArea &&
-			this.myLabel._rotate == 360 ||
-			
-			this.labelSelected==false &&
-			MouseX >= this.LabelX-5 && 
-			MouseX <= this.LabelXArea  &&
-			MouseY >= this.LabelY-20 &&
-			MouseY <= this.LabelYArea &&
-			this.myLabel._rotate ==90 ||
-			
-			this.labelSelected==false &&
-			MouseX >= this.LabelXArea && 
-			MouseX <= this.LabelX+5  &&
-			MouseY >= this.LabelY-20 &&
-			MouseY <= this.LabelYArea &&
-			this.myLabel._rotate ==180 ||
-			
-			this.labelSelected==false &&
-			MouseX >= this.LabelXArea && 
-			MouseX <= this.LabelX+5  &&
-			MouseY >= this.LabelYArea &&
-			MouseY <= this.LabelY &&
-			this.myLabel._rotate==270 ||
-			
-			this.labelSelected==false && 
-			MouseX >= this.LabelX-20 && 
-			MouseX <= this.LabelXArea && 
-			MouseY <= this.LabelY+20 && 
-			MouseY >= this.LabelYArea){		
+				MouseX >= this.LabelX-20 && 
+				MouseX <= this.LabelX+20 && 
+				MouseY <= this.LabelY+20 && 
+				MouseY >= this.LabelY-20){		
 		
 			//Set Label as Selected
 			this.labelSelected=true;
+			this.hideMouseOverMovingOverlay();
 						
 			//refresh and show RotationPoint
 			this.calculateRotationPointCoordinates();
@@ -285,9 +287,10 @@ handleMouseDown: function(event, uiObj) {
 			this.showLine();
 			
 			this.calculateLabelCoordinates();
-			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};			
+			this.mouseCoordinates = {x:this.LabelX, y:this.LabelY};			
 			this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
 			this.showRotationPointOverlay(this.rotPointParent, this.rotationPointCoordinates);
+			this.edgeSelected==true;
 		}
 	}		
 	else {		
@@ -295,6 +298,8 @@ handleMouseDown: function(event, uiObj) {
 			this.hideRotationPointOverlay();
 			this.hideLine();
 			this.hideRotationPointOverlay();
+			this.edgeSelected==false;
+			
 		}		 
 	}
 	
@@ -302,14 +307,17 @@ handleMouseDown: function(event, uiObj) {
 },
 
 handleMouseMove: function(event, uiObj) {
+	
+
+	
 
 	//if label is selected Posision is set to MousePosition
 	if(this.labelSelected==true){
 		if(this.myLabel){
-			
+			//this.hideMouseOverMovingOverlay();
 			//Set Label positon for different Rotations
 			
-			if(this.myLabel._rotate==360){
+			/*if(this.myLabel._rotate==360){
 				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
 				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
 				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
@@ -339,6 +347,18 @@ handleMouseMove: function(event, uiObj) {
 				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
 				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
 				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
+			} */
+			
+			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
+				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+10;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
+			}else {
+				this.myLabel.x=this.facade.eventCoordinates(event).x-5;
+				this.myLabel.y=this.facade.eventCoordinates(event).y+5;
+				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
+				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y+10;
 			}
 
 			this.myLabel.update();
@@ -348,14 +368,23 @@ handleMouseMove: function(event, uiObj) {
 			this.calculateRotationPointCoordinates();
 		
 			//show RotationPoint
-			//this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
 			this.hideRotationPointOverlay();
+			//this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
+			
 		
 			
-			this.mouseCoordinates = {x:this.LabelX-5, y:this.LabelY+5};	
+			
 			this.hideMovingArrows();
 			this.hideSettingArrows();
-			this.showSettingArrows(this.rotPointParent, this.mouseCoordinates );
+			
+			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {	
+				this.mouseCoordinates = {x:this.facade.eventCoordinates(event).x, y:this.facade.eventCoordinates(event).y};	
+				this.showSettingArrows(this.rotPointParent, this.mouseCoordinates );
+			}else {
+				this.mouseCoordinates = {x:this.facade.eventCoordinates(event).x, y:this.facade.eventCoordinates(event).y};	
+				this.showSettingArrows(this.rotPointParent, this.mouseCoordinates );
+				
+			}
 			
 			
 			//Refresh the Line
@@ -441,6 +470,29 @@ handleMouseMove: function(event, uiObj) {
 		//this.myLabel._rotationPoint.y=this.LabelY;
 		//console.log(this.myLabel._rotationPoint);
 	}
+	
+	var MouseX=this.facade.eventCoordinates(event).x;
+	var MouseY=this.facade.eventCoordinates(event).y;
+	this.labelCoordinates = {x: this.LabelX-5, y:this.LabelY+5};
+	
+	if(this.myLabel &&  this.rotPointParent &&
+			this.edgeSelected==true &&
+			this.labelSelected==false &&
+			MouseX >= this.LabelX-20 && 
+			MouseX <= this.LabelX && 
+			MouseY <= this.LabelY+20 && 
+			MouseY >= this.LabelY  ) {
+		console.log("überprüfung erfolgreich");
+		this.hideMovingArrows();	
+		this.showMouseOverMovingOverlay(this.rotPointParent, this.labelCoordinates );
+	}
+	else if(this.myLabel ){
+		//this.hideMouseOverMovingOverlay();
+		//this.showMovingArrows(this.rotPointParent, this.labelCoordinates);
+		console.log("überprüfung fehlgeschlagen");
+	}
+	
+	
 },
 
 
@@ -541,6 +593,26 @@ showOverlayActive: function(edge, point){
 			dontCloneNode:	true
 		});			
 },
+
+showMouseOverMovingOverlay: function(edge, point) {
+	this.facade.raiseEvent({
+		type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
+		id: 			"mouseOverMoving",
+		shapes: 		[edge],
+		node:			this.mouseOverMoving,
+		rotationPoint:	point,
+		dontCloneNode:	true
+	});	
+	
+},
+
+hideMouseOverMovingOverlay: function() {
+	this.facade.raiseEvent({
+		type: ORYX.CONFIG.EVENT_OVERLAY_HIDE,
+		id: "mouseOverMoving"
+	});
+},
+
 
 hideOverlayActive: function() {
 	
