@@ -331,7 +331,7 @@ class ExtractedData {
 		return "";
 	}
 	
-	protected String replaceBadChars(String fileName) {
+	protected String replaceBadChars(String fileName) {	
 //		replacing badChars from fileNames
 		String fileName_new = fileName.replace("?","que").replace("\"", "quo").replace("/", "sl").replace("\\", "bs");
 		fileName_new = fileName_new.replace("<","lt").replace(">","gt").replace(":","dp").replace("*", "st").replace("|","li");
@@ -409,11 +409,13 @@ class ExtractedData {
 		  		String origin = origins.get(i);
 		  		URLConnection originCon = new URL(origin).openConnection();
 		  		String originName = originCon.getHeaderField("Content-Disposition");
-		  		String prefix = "inline; filename=";
-		  		String suffix = ".oryx.xml";
-		  		originName = originName.substring(prefix.length(),originName.length() - suffix.length());
-//		  		String savePath = origin.substring(0,origin.lastIndexOf("/")+1);
-//		  		origin = origin.substring(savePath.length(), origin.length());
+		  		if (originName == null) {
+//		  			Header Field not set or local file
+		  			originName = origin.substring(origin.lastIndexOf("/")+1,origin.lastIndexOf("."));
+		  		}
+		  		else {
+			  		originName = originName.substring(originName.indexOf("=")+1,originName.lastIndexOf(".") );
+		  		}
 		  		fout.write("<div class=\"origin\">");
 			    fout.write("<div class=\"originName\">");
 		        fout.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialChars(originName)+"</font></A></td>");

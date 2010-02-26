@@ -312,6 +312,50 @@ public class ExtractedDataMapping extends ExtractedData {
 		return no_redundant;
 	}
 	
+	private TranslatorInputNode createDataObjectNode(String nodeId) {
+		TranslatorInputNode dataObjectNode = new TranslatorInputNode(nodeId);
+		dataObjectNode.setAttribute("shape", "box");
+		dataObjectNode.setAttribute("imagescale", "true");
+		dataObjectNode.setAttribute("labelloc", "c");
+		dataObjectNode.setAttribute("margin", "0.81,0.155");
+		dataObjectNode.setAttribute("image", "\"../static/data_object.png\"");
+		dataObjectNode.setAttribute("label", nodeId);
+		dataObjectsCount +=1;
+		
+		return dataObjectNode;
+	}
+	
+	private TranslatorInputNode createDataStoreNode(String nodeId) {
+		TranslatorInputNode dataStoreNode = new TranslatorInputNode(nodeId);
+		dataStoreNode.setAttribute("shape", "box");
+		dataStoreNode.setAttribute("imagescale", "true");
+		dataStoreNode.setAttribute("labelloc", "b");
+		dataStoreNode.setAttribute("margin", "0.81,0.155");
+		dataStoreNode.setAttribute("image", "\"../static/data_store.png\"");
+		dataStoreNode.setAttribute("label", nodeId);
+		dataObjectsCount +=1;
+		
+		return dataStoreNode;
+	}
+	
+	private TranslatorInputNode createHumanAgentNode(String nodeId) {
+		TranslatorInputNode humanAgentNode = new TranslatorInputNode(nodeId);
+		humanAgentNode.setAttribute("shape", "box");
+		humanAgentNode.setAttribute("imagescale", "true");
+		humanAgentNode.setAttribute("labelloc", "b");
+		humanAgentNode.setAttribute("margin", "1.11,0.01");
+		humanAgentNode.setAttribute("image", "\"../static/human_agent.png\"");
+		humanAgentNode.setAttribute("label", nodeId);
+		
+		return humanAgentNode;
+	}
+	
+	private TranslatorInputEdge createEdge(String sourceNodeId, String targetNodeId, String urlAttribute) {
+		TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
+		edge.setAttribute("URL", urlAttribute);
+		edge.setAttribute("target", "_blank");
+		return edge;
+	}
 	
 	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {
 		TranslatorInput input = new TranslatorInput(layoutAlgorithm);
@@ -326,30 +370,17 @@ public class ExtractedDataMapping extends ExtractedData {
 			String sourceNodeId = "\"" + sourceId + "\"";
 			
 			if (!done_Ids.contains(sourceId)) {
-				TranslatorInputNode sourceNode = new TranslatorInputNode(sourceNodeId);
-				sourceNode.setAttribute("shape", "box");
-				sourceNode.setAttribute("imagescale", "true");
-
+				TranslatorInputNode sourceNode;
+				
 				if (sourceId.contains("DataObject\\n")) {
-					sourceNode.setAttribute("labelloc", "c");
-					sourceNode.setAttribute("margin", "0.81,0.155");
-					sourceNode.setAttribute("image", "\"../static/data_object.png\"");
-					dataObjectsCount +=1;
-
+					sourceNode = createDataObjectNode(sourceNodeId);
 				}
 				else if (sourceId.contains("DataStore\\n")) {
-					sourceNode.setAttribute("labelloc", "b");
-					sourceNode.setAttribute("margin", "0.81,0.155");
-					sourceNode.setAttribute("image", "\"../static/data_store.png\"");
-					dataObjectsCount +=1;
+					sourceNode = createDataStoreNode(sourceNodeId);
 				}
 				else {
-					sourceNode.setAttribute("labelloc", "b");
-					sourceNode.setAttribute("margin", "1.11,0.01");
-					sourceNode.setAttribute("image", "\"../static/human_agent.png\"");
+					sourceNode = createHumanAgentNode(sourceNodeId);
 				}
-				
-				sourceNode.setAttribute("label", sourceNodeId);
 				input.addNode(sourceNode);
 				done_Ids.add(sourceId);
 			}
@@ -358,39 +389,24 @@ public class ExtractedDataMapping extends ExtractedData {
 			String targetNodeId = "\"" + targetId + "\"";
 			
 			if (!done_Ids.contains(targetId)) {
-				TranslatorInputNode targetNode = new TranslatorInputNode(targetNodeId);
-				targetNode.setAttribute("shape", "box");
-				targetNode.setAttribute("imagescale", "true");
+				TranslatorInputNode targetNode;
 				
 				if (targetId.contains("DataObject\\n")) {
-					targetNode.setAttribute("labelloc", "c");
-					targetNode.setAttribute("margin", "0.81,0.155");
-					targetNode.setAttribute("image", "\"../static/data_object.png\"");
-					dataObjectsCount +=1;
-
+					targetNode = createDataObjectNode(targetNodeId);
 				}
 				else if (targetId.contains("DataStore\\n")) {
-					targetNode.setAttribute("labelloc", "b");
-					targetNode.setAttribute("margin", "0.81,0.155");
-					targetNode.setAttribute("image", "\"../static/data_store.png\"");
-					dataObjectsCount +=1;
+					targetNode = createDataStoreNode(targetNodeId);
 				}
 				else {
-					targetNode.setAttribute("labelloc", "b");
-					targetNode.setAttribute("image", "\"../static/human_agent.png\"");
-					targetNode.setAttribute("margin", "1.11,0.01");
+					targetNode = createHumanAgentNode(targetNodeId);
 				}
-				
-				targetNode.setAttribute("label", targetNodeId);
 				input.addNode(targetNode);
 				done_Ids.add(targetId);
 			}
 				
 //			edge between source and target 
-			TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
-			edge.setAttribute("URL", "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"");
-			edge.setAttribute("target", "_blank");
-
+			String urlAttribute = "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"";
+			TranslatorInputEdge edge = createEdge(sourceNodeId, targetNodeId, urlAttribute);
 			input.addEdge(edge);											
 		}
 		return input;
