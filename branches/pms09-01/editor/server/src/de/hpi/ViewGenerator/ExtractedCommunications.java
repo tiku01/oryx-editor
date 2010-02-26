@@ -283,7 +283,7 @@ public class ExtractedCommunications extends ExtractedData {
 //			Node for communication
 			String communicationNodeId = "\"" + attributePair.toString() + "\"";
 			if (!done_communicationIds.contains(communicationNodeId)) {
-				String urlAttribute = "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"";
+				String urlAttribute = "\"" + getOriginHTMLName(attributePair) + "\"";
 				TranslatorInputNode communicationNode = createCommunicationNode(communicationNodeId, urlAttribute);
 //				Store communicationNode in communicationNodes - communicationNodes have to be added after participantNodes,
 //				because otherwise the URL attribute will not be set properly by GraphViz
