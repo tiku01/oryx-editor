@@ -124,19 +124,14 @@ handleMouseOver: function(event, uiObj) {
 			this.canvasLabel=uiObj;
 			canvas=true;
 		}
-	}
-	
-	
+	}	
 	
 },
 
 handleMouseDown: function(event, uiObj) {
 	
 	
-	
-
-	if(this.myLabel){
-	
+	if(this.myLabel){	
 
 		//save MousePosition
 		var MouseX=this.facade.eventCoordinates(event).x;
@@ -148,31 +143,7 @@ handleMouseDown: function(event, uiObj) {
 	
 		if(this.labelSelected==true){
 
-			//Set LabelPosition to MousePosition
-			
-			/*
-			if(this.myLabel._rotate==360){
-				this.myLabel.x=MouseX+10;
-				this.myLabel.y=MouseY-10;
-				console.log("Position gesetzt");
-			}
-			else if(this.myLabel._rotate==90) {
-				this.myLabel.x=MouseX+10;
-				this.myLabel.y=MouseY-10;
-			}
-			else if(this.myLabel._rotate==180) {
-				this.myLabel.x=MouseX-10;
-				this.myLabel.y=MouseY-10;
-			}
-			else if(this.myLabel._rotate==270) {
-				this.myLabel.x=MouseX-10;
-				this.myLabel.y=MouseY-10;
-			}
-			else {
-				//Default
-				this.myLabel.x=MouseX+5;
-				this.myLabel.y=MouseY-5;
-			} */
+			//Set LabelPosition to MousePosition	
 			
 			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
 				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
@@ -201,10 +172,11 @@ handleMouseDown: function(event, uiObj) {
 			this.calculateLabelCoordinates();
 			this.calculateRotationPointCoordinates();		
 			
-			//Show visaul RotationPoint
-			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );
-			
+
+			this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );			
 			this.hideSettingArrows();
+			
+			//Show Moving Arrows
 			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
 				this.mouseCoordinates = {x:this.LabelX, y:this.LabelY};			
 				this.showMovingArrows(this.rotPointParent, this.mouseCoordinates );
@@ -214,12 +186,10 @@ handleMouseDown: function(event, uiObj) {
 			}
 			
 			//show the Association line
-			//this.showLine();
+			this.showLine();
 		}
-		else {
-			//hide RotationPoint
-			this.hideRotationPointOverlay();
-			//hide Association Line
+		else {	
+			this.hideRotationPointOverlay();			
 			this.hideLine();
 			this.hideMovingArrows();
 			this.hideSettingArrows();
@@ -247,10 +217,10 @@ handleMouseDown: function(event, uiObj) {
 	
 		//Check if MouseClick is on RotationPoint
 		if(	this.rotate==false && 
-			MouseX >= this.rotationPointCoordinates.x && 
-			MouseX <= this.rotationPointCoordinates.x+15 && 
-			MouseY >= this.rotationPointCoordinates.y && 
-			MouseY <= this.rotationPointCoordinates.y+15){
+			MouseX >= this.rotationPointCoordinates.x-20 && 
+			MouseX <= this.rotationPointCoordinates.x+20 && 
+			MouseY >= this.rotationPointCoordinates.y-20 && 
+			MouseY <= this.rotationPointCoordinates.y+20){
 		
 			//acitvate Rotation
 			this.rotate=true;
@@ -258,14 +228,14 @@ handleMouseDown: function(event, uiObj) {
 			//Set current RotationState
 			this.State=0;
 			
-			//show yellow RotationPoint to show that rotation is active
+			//show yellow RotationArrows to show that rotation is active
 			this.showOverlayActive( this.rotPointParent, this.rotationPointCoordinates );
 		}
 		else{
 			//deactivate Rotation
 			this.rotate=false;
 			
-			//Hide yellow RotationPoint
+			//Hide yellow RotationArrows
 			this.hideOverlayActive();
 		}	
 	}
@@ -295,60 +265,22 @@ handleMouseDown: function(event, uiObj) {
 	}		
 	else {		
 		if(this.myLabel){
-			this.hideRotationPointOverlay();
-			this.hideLine();
-			this.hideRotationPointOverlay();
-			this.edgeSelected==false;
-			
+			//this.hideRotationPointOverlay();
+			//this.hideLine();
+			//this.hideRotationPointOverlay();
+			this.edgeSelected==false;			
 		}		 
-	}
-	
+	}	
 	
 },
 
 handleMouseMove: function(event, uiObj) {
-	
-
-	
 
 	//if label is selected Posision is set to MousePosition
 	if(this.labelSelected==true){
 		if(this.myLabel){
-			//this.hideMouseOverMovingOverlay();
+			
 			//Set Label positon for different Rotations
-			
-			/*if(this.myLabel._rotate==360){
-				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
-				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
-				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
-				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
-			}
-			else if(this.myLabel._rotate==90) {
-				this.myLabel.x=this.facade.eventCoordinates(event).x+10;
-				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
-				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+10;
-				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
-			}
-			else if(this.myLabel._rotate==180) {
-				this.myLabel.x=this.facade.eventCoordinates(event).x-10;
-				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
-				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
-				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
-			}
-			else if(this.myLabel._rotate==270) {
-				this.myLabel.x=this.facade.eventCoordinates(event).x-10;
-				this.myLabel.y=this.facade.eventCoordinates(event).y-10;
-				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x-10;
-				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-10;
-			}
-			else {
-				//Default
-				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
-				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
-				this.myLabel._rotationPoint.x=this.facade.eventCoordinates(event).x+5;
-				this.myLabel._rotationPoint.y=this.facade.eventCoordinates(event).y-5;
-			} */
-			
 			if(this.myLabel._rotate==270 || this.myLabel._rotate==315 || this.myLabel._rotate==360 || this.myLabel._rotate==45) {
 				this.myLabel.x=this.facade.eventCoordinates(event).x+5;
 				this.myLabel.y=this.facade.eventCoordinates(event).y-5;
@@ -371,9 +303,6 @@ handleMouseMove: function(event, uiObj) {
 			this.hideRotationPointOverlay();
 			//this.showRotationPointOverlay( this.rotPointParent, this.rotationPointCoordinates );	
 			
-		
-			
-			
 			this.hideMovingArrows();
 			this.hideSettingArrows();
 			
@@ -384,8 +313,7 @@ handleMouseMove: function(event, uiObj) {
 				this.mouseCoordinates = {x:this.facade.eventCoordinates(event).x, y:this.facade.eventCoordinates(event).y};	
 				this.showSettingArrows(this.rotPointParent, this.mouseCoordinates );
 				
-			}
-			
+			}			
 			
 			//Refresh the Line
 			this.hideLine();
@@ -481,17 +409,14 @@ handleMouseMove: function(event, uiObj) {
 			MouseX >= this.LabelX-20 && 
 			MouseX <= this.LabelX && 
 			MouseY <= this.LabelY+20 && 
-			MouseY >= this.LabelY  ) {
-		console.log("überprüfung erfolgreich");
+			MouseY >= this.LabelY  ) {	
 		this.hideMovingArrows();	
 		this.showMouseOverMovingOverlay(this.rotPointParent, this.labelCoordinates );
 	}
 	else if(this.myLabel ){
 		//this.hideMouseOverMovingOverlay();
-		//this.showMovingArrows(this.rotPointParent, this.labelCoordinates);
-		console.log("überprüfung fehlgeschlagen");
-	}
-	
+		//this.showMovingArrows(this.rotPointParent, this.labelCoordinates);		
+	}	
 	
 },
 
@@ -673,8 +598,7 @@ calculateRotationPointCoordinates: function(){
 		}
 		else if(this.myLabel._rotate==90) {
 			this.rotationPointCoordinates.x=this.LabelX+35;
-			this.rotationPointCoordinates.y=this.LabelY-8+this.labelLength/3;	
-		
+			this.rotationPointCoordinates.y=this.LabelY-8+this.labelLength/3;			
 		}
 		else if(this.myLabel._rotate==180) {
 			this.rotationPointCoordinates.x=this.LabelX-this.labelLength/2;
@@ -684,7 +608,24 @@ calculateRotationPointCoordinates: function(){
 			this.rotationPointCoordinates.x=this.LabelX-35;
 			this.rotationPointCoordinates.y=this.LabelY+8-this.labelLength/2;	
 		}
+		else if(this.myLabel._rotate==45) {
+			this.rotationPointCoordinates.x=this.LabelX+40;
+			this.rotationPointCoordinates.y=this.LabelY;	
+		}
+		else if(this.myLabel._rotate==135) {
+			this.rotationPointCoordinates.x=this.LabelX;
+			this.rotationPointCoordinates.y=this.LabelY+40;	
+		}
+		else if(this.myLabel._rotate==225) {
+			this.rotationPointCoordinates.x=this.LabelX-40;
+			this.rotationPointCoordinates.y=this.LabelY;	
+		}
+		else if(this.myLabel._rotate==315) {
+			this.rotationPointCoordinates.x=this.LabelX;
+			this.rotationPointCoordinates.y=this.LabelY-40;	
+		}
 		else {
+			//Default
 			this.rotationPointCoordinates.x=this.LabelX-8+this.labelLength/3;
 			this.rotationPointCoordinates.y=this.LabelY-35;	
 		}
