@@ -176,6 +176,25 @@ public class ExtractedLanePassing extends ExtractedData {
 		return no_redundant;
 	}
 	
+	private TranslatorInputNode createHumanAgentNode(String nodeId) {
+		TranslatorInputNode humanAgentNode = new TranslatorInputNode(nodeId);
+		humanAgentNode.setAttribute("shape", "box");
+		humanAgentNode.setAttribute("imagescale", "true");
+		humanAgentNode.setAttribute("labelloc", "b");
+		humanAgentNode.setAttribute("margin", "1.11,0.01");
+		humanAgentNode.setAttribute("image", "\"../static/human_agent.png\"");
+		humanAgentNode.setAttribute("label", nodeId);
+		rolesCount +=1;
+		
+		return humanAgentNode;
+	}
+	
+	private TranslatorInputEdge createEdge(String sourceNodeId, String targetNodeId, String urlAttribute) {
+		TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
+		edge.setAttribute("URL", urlAttribute);
+		edge.setAttribute("target", "_blank");
+		return edge;
+	}
 	
 	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {
 		TranslatorInput input = new TranslatorInput(layoutAlgorithm);
@@ -192,46 +211,27 @@ public class ExtractedLanePassing extends ExtractedData {
 			
 //			Node for source
 			String sourceNodeId = "\"" + sourceId + "\"";
-
+			TranslatorInputNode sourceNode;
+			
 			if (!done_Ids.contains(sourceId)) {
-				rolesCount +=1;
-				
-				TranslatorInputNode sourceNode = new TranslatorInputNode(sourceNodeId);
-				sourceNode.setAttribute("shape", "box");
-				sourceNode.setAttribute("imagescale", "true");
-				sourceNode.setAttribute("labelloc", "b");
-				sourceNode.setAttribute("margin", "1.11,0.01");
-
-
-				sourceNode.setAttribute("label", sourceNodeId);	
-				sourceNode.setAttribute("image", "\"../static/human_agent.png\"");
+				sourceNode = createHumanAgentNode(sourceNodeId);
 				input.addNode(sourceNode);
 				done_Ids.add(sourceId);
 			}
 				
 //			Node for target
 			String targetNodeId = "\"" + targetId + "\"";
+			TranslatorInputNode targetNode;
 
 			if (!done_Ids.contains(targetId)) {
-				rolesCount +=1;
-				
-				TranslatorInputNode targetNode = new TranslatorInputNode(targetNodeId);
-				targetNode.setAttribute("shape", "box");
-				targetNode.setAttribute("imagescale", "true");
-				targetNode.setAttribute("labelloc", "b");
-				targetNode.setAttribute("margin", "1.11,0.01");
-
-				targetNode.setAttribute("label", targetNodeId);
-				targetNode.setAttribute("image", "\"../static/human_agent.png\"");
+				targetNode = createHumanAgentNode(targetNodeId);
 				input.addNode(targetNode);
 				done_Ids.add(targetId);
 			}
 		
-//			edge between source and target				
-			TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
-			edge.setAttribute("URL", "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"");
-			edge.setAttribute("target", "blank");
-
+//			edge between source and target		
+			String urlAttribute = "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"";
+			TranslatorInputEdge edge = createEdge(sourceNodeId, targetNodeId, urlAttribute);
 			input.addEdge(edge);									
 		}
 		return input;

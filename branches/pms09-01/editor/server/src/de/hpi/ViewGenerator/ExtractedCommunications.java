@@ -237,19 +237,39 @@ public class ExtractedCommunications extends ExtractedData {
 				}
 				correlationKeyDictionary.put(correlationKey, value);
 				
-//				remove empty key-entries, because an empty string means the attribute is not set
-				
+//				remove empty key-entries, because an empty string means the attribute is not set			
 				correlationKeyDictionary.remove("");
 				correlationKeyDictionary.remove(null);
-				
 			}
 		}
-//		System.out.println(correlationKeyDictionary);
 	}
 	
 	public void generateSVG() {
 		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
 		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
+	}
+	
+	private TranslatorInputNode createCommunicationNode(String communicationNodeId, String urlAttribute) {
+		TranslatorInputNode communicationNode = new TranslatorInputNode(communicationNodeId);
+		communicationNode.setAttribute("shape", "hexagon");
+		communicationNode.setAttribute("label", "\"" + "   " + "\"");
+		communicationNode.setAttribute("width", ".3");
+		communicationNode.setAttribute("height", ".3");
+		communicationNode.setAttribute("fixedsize", "true");
+		communicationNode.setAttribute("URL", urlAttribute);
+		communicationNode.setAttribute("target", "_blank");
+//		count one communication as one interaction
+		interactionsCount += 1;
+		
+		return communicationNode;
+	}
+	
+	private TranslatorInputNode createParticipantNode(String participantNodeId) {
+		TranslatorInputNode participantNode = new TranslatorInputNode(participantNodeId);
+		participantNode.setAttribute("shape", "box");
+		participantNode.setAttribute("label", participantNodeId);
+		
+		return participantNode;
 	}
 	
 	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {
@@ -259,43 +279,26 @@ public class ExtractedCommunications extends ExtractedData {
 		ArrayList<TranslatorInputNode> communicationNodes = new ArrayList<TranslatorInputNode>();
 				
 		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
-//			count one communication as one interaction
-			interactionsCount += 1;
 			
 //			Node for communication
 			String communicationNodeId = "\"" + attributePair.toString() + "\"";
 			if (!done_communicationIds.contains(communicationNodeId)) {
-				
-				TranslatorInputNode communicationNode = new TranslatorInputNode(communicationNodeId);
-				communicationNode.setAttribute("shape", "hexagon");
-				communicationNode.setAttribute("label", "\"" + "   " + "\"");
-				communicationNode.setAttribute("width", ".3");
-				communicationNode.setAttribute("height", ".3");
-				communicationNode.setAttribute("fixedsize", "true");
-				communicationNode.setAttribute("URL", "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"");
-				communicationNode.setAttribute("target", "_blank");
-
+				String urlAttribute = "\"" + replaceBadChars(attributePair.toString()) + ".html" + "\"";
+				TranslatorInputNode communicationNode = createCommunicationNode(communicationNodeId, urlAttribute);
 //				Store communicationNode in communicationNodes - communicationNodes have to be added after participantNodes,
 //				because otherwise the URL attribute will not be set properly by GraphViz
-				
 				communicationNodes.add(communicationNode);
 				done_communicationIds.add(communicationNodeId);
 			}
 	
-			
 			for (String participant: attributePair) {
-				
 //				Node for participant
 				String participantNodeId = "\"" + participant + "\"";
 				if (!done_participantIds.contains(participantNodeId)) {
-					TranslatorInputNode participantNode = new TranslatorInputNode(participantNodeId);
-					participantNode.setAttribute("shape", "box");
-					participantNode.setAttribute("label", "\"" + participant + "\"");
-
+					TranslatorInputNode participantNode = createParticipantNode(participantNodeId);
 					input.addNode(participantNode);
 					done_participantIds.add(participantNodeId);
 				}
-				
 //				Edge between participant and communication
 				input.addEdge(new TranslatorInputEdge(participantNodeId,communicationNodeId));					
 			}
