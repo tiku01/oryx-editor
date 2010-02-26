@@ -72,6 +72,7 @@ handleMouseDown: function(event, uiObj) {
 		            position: this.facade.eventCoordinates(event)
 		        });			
 			}.bind(this),500);
+			this.hideOverlay();
 		}
 		else {
 			this.selected=true;
