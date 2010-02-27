@@ -28,11 +28,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.hpi.ViewGenerator.ReadWriteAdapter;
 import de.hpi.ViewGenerator.ViewGenerator;
 
 
@@ -62,7 +62,8 @@ public class ViewGeneratorServlet extends HttpServlet {
 	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String paramName = "modeluris";
 		String[] value = req.getParameterValues(paramName); 
-		Cookie[] cookies = req.getCookies();
+		String cookie = req.getHeader("Cookie");
+		
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("text/plain"); 
 		if (value == null) {
@@ -76,17 +77,19 @@ public class ViewGeneratorServlet extends HttpServlet {
 			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
 		}
 		else {
-			ArrayList<String> diagramIds = new ArrayList<String>();
+			ArrayList<String> diagramPaths = new ArrayList<String>();
 			for (int i=0;i<value.length;i++) {
-				diagramIds.add(value[i].replace(" ", "%20"));
+				diagramPaths.add(value[i].replace(" ", "%20"));
 			}
 			long current = System.currentTimeMillis();
 			File f = new File(oryxRootDirectory +  baseURL.replace("/", File.separator)+current+File.separator);
 			f.mkdirs();
-			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", File.separator)+current+File.separator, cookies);
-			viewGenerator.generate(diagramIds);
+			String toSavePath = oryxRootDirectory + baseURL.replace("/", File.separator)+current+File.separator;
+			ReadWriteAdapter rwa = new ReadWriteAdapter(diagramPaths, toSavePath, cookie);
+			ViewGenerator viewGenerator = new ViewGenerator(rwa);
+			viewGenerator.generate(diagramPaths);
 			resp.setStatus(200);
-			String url = req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
+			String url = "http://" + req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
 			out.write(url);
 		}
 		out.close(); 			 
