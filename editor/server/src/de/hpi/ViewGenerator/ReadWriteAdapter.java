@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import javax.servlet.http.Cookie;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -21,20 +21,30 @@ import org.xml.sax.SAXException;
 public class ReadWriteAdapter {
 	private String toSavePath;
 	private HashMap<String,Document> modelDictionary;
-	private Cookie[] cookies;
+	private String cookie;
 	
-	public ReadWriteAdapter(ArrayList<String> diagramPaths, String toSavePath, Cookie[] cookies) {
+	public ReadWriteAdapter(ArrayList<String> diagramPaths, String toSavePath, String cookie) {
 		this.toSavePath = toSavePath;
+		this.cookie = cookie;
 		this.initializeModelDictionary(diagramPaths);
-		this.cookies = cookies;
 	}
-
+	
 	private void initializeModelDictionary(ArrayList<String> diagramPaths) {
 		modelDictionary = new HashMap<String,Document>();
 		for (String diagramPath: diagramPaths) {
 			try {
 				URI uri = new URI(diagramPath);
-				InputStream st = uri.toURL().openStream();
+				URLConnection con = uri.toURL().openConnection();
+				con.setRequestProperty("Cookie", cookie);
+			
+//				seems like used cookie has wrong sessionid
+//				File doc = createFile("log");
+//				FileWriter fw = new FileWriter(doc);
+//				fw.write(cookie);
+//				fw.close();
+				
+				con.connect();
+				InputStream st = con.getInputStream();
 				Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
 				
 			  	modelDictionary.put(diagramPath,xml);
@@ -54,6 +64,18 @@ public class ReadWriteAdapter {
 			}
 		}
 	}
+	
+//	private String getRequestCookie(Cookie[] cookies) {
+//		if (cookies.length <= 0) {return "";}
+//		else {
+//			String strCookie = cookies[0].getName() + "=" + cookies[0].getValue();	
+//			for (int i=1;i<cookies.length;i++) {
+//				strCookie = strCookie + "; " + cookies[i].getName() + "=" + cookies[i].getValue();
+//			}
+//			return strCookie;
+//		}
+//
+//	}
 		
 	public String getJSON(String diagramPath) {
 		Document xml = modelDictionary.get(diagramPath);			

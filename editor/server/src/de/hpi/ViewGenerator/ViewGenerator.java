@@ -28,18 +28,14 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import javax.servlet.http.Cookie;
-
 
 public class ViewGenerator {
 	private String overviewHTMLName;
-	private String toSavePath;
-	private Cookie[] cookies;
+	private ReadWriteAdapter rwa;
 
-	public ViewGenerator(String oryxRootDirectory, String basePath, Cookie[] cookies) {
+	public ViewGenerator(ReadWriteAdapter rwa) {
 		this.overviewHTMLName = "Overview";
-		this.toSavePath = oryxRootDirectory + basePath;
-		this.cookies = cookies;
+		this.rwa = rwa;
 	}
 	
 	public String getOverviewHTMLName() {
@@ -48,13 +44,12 @@ public class ViewGenerator {
 	
 	
 	public String getToSavePath() {
-		return toSavePath;
+		return rwa.getToSavePath();
 	}
 	
 	
 	public void generate(ArrayList<String> diagram_Ids) {
 		int processes_count = diagram_Ids.size();
-		ReadWriteAdapter rwa = new ReadWriteAdapter(diagram_Ids, toSavePath, cookies);
 		
 		ExtractedLanePassing lanePassings = new ExtractedLanePassing(rwa);
 		ExtractedDataMapping dataMapping = new ExtractedDataMapping(rwa);
@@ -145,7 +140,7 @@ public class ViewGenerator {
 		
 		String htmlNameWithSuffix = svgName + ".html";
 	     try {
-	    	  htmlFile = new File(toSavePath + htmlNameWithSuffix);
+	    	  htmlFile = new File(getToSavePath() + htmlNameWithSuffix);
 	    	  
 	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
 	          String headerDiv = getHeaderDiv(headFontSize, svgName, fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
@@ -175,7 +170,7 @@ public class ViewGenerator {
 		String dataMappingSVGNameWithSuffix = dataMappingSVGName + ".svg";
 		
 	      try {  
-	    	  htmlFile = new File(toSavePath + getOverviewHTMLName());
+	    	  htmlFile = new File(getToSavePath() + getOverviewHTMLName());
 	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
 	       
 	          String headerDiv = getHeaderDiv(headFontSize, "Project Navigator", fontSize, communicationsHTMLName, lanePassingsHTMLName, dataMappingHTMLName);
