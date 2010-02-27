@@ -39,7 +39,6 @@ import org.json.JSONObject;
 class ExtractedData {
 	
 	protected ExtractedConnectionList extractedConnectionList;
-	protected String serverBaseUrl;
 	protected ReadWriteAdapter rwa;
 
 	public ExtractedData(ReadWriteAdapter rwa) {

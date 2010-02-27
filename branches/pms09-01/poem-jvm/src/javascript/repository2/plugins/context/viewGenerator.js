@@ -63,7 +63,7 @@ Repository.Plugins.ViewGenerator = {
 
 			onSuccess: function(response){
 				//success handling
-				var url = "http://" + response.responseText;
+				var url = response.responseText;
 				//console.log(url);
 				window.open(url, "_blank").focus();
 				

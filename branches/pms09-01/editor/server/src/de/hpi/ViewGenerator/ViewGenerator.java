@@ -39,6 +39,7 @@ public class ViewGenerator {
 	}
 	
 	public String getOverviewHTMLName() {
+//		name of the generated file for overview/project navigator file
 		return overviewHTMLName + ".html";
 	}
 	
@@ -49,31 +50,46 @@ public class ViewGenerator {
 	
 	
 	public void generate(ArrayList<String> diagram_Ids) {
+//		processes_count represents the number of input diagrams
+//		and will be presented on the project navigator page
 		int processes_count = diagram_Ids.size();
 		
+//		three views to generate:
+//		lanePassings/Handovers, dataMapping/Information Access, communications/Interactions
+//		
+//		for each view instantiate corresponding ExtractedData-SubClass
 		ExtractedLanePassing lanePassings = new ExtractedLanePassing(rwa);
 		ExtractedDataMapping dataMapping = new ExtractedDataMapping(rwa);
 		ExtractedCommunications communications = new ExtractedCommunications(rwa);
 		
-		String communicationsSVGName = communications.getSVGName();
+//		tell the SubClasses to generate a SVG-representation of their hold data
 		communications.generateSVG();
-		String lanePassingsSVGName = lanePassings.getSVGName();
-		String dataMappingSVGName = dataMapping.getSVGName();
 		lanePassings.generateSVG();
 		dataMapping.generateSVG();
+		
+//		ask for the names of the generated files for embedding it in html
+		String communicationsSVGName = communications.getSVGName();
+		String lanePassingsSVGName = lanePassings.getSVGName();
+		String dataMappingSVGName = dataMapping.getSVGName();
+
+//		ask for specific values which the SubClasses have counted
+//		these will be listed in overview/project navigator html
+		
 		int dataObjects_count = dataMapping.getDataObjectsCount();
 		int roles_count = lanePassings.getRolesCount();
 		int handovers_count = lanePassings.getHandoversCount();
 		int interactions_count = communications.getInteractionsCount();
+		
 		createHTMLs(communicationsSVGName, lanePassingsSVGName, dataMappingSVGName, processes_count, dataObjects_count, roles_count, handovers_count, interactions_count);	
 		}
 	
-	private String getHTMLNameWithSuffixForStringName(String svgName) {
-		return svgName + ".html";
+	private String getHTMLNameWithSuffixForStringName(String name) {
+		return name + ".html";
 	}
 
 	private void createHTMLs(String communicationsSVGName, String lanePassingsSVGName, String dataMappingSVGName, int processes_count, int dataObjects_count, int roles_count, int handovers_count, int interactions_count) {
 		
+//		getting corresponding HTMLNamesWithSuffix for svgNames without ".svg"
 		String communicationsHTMLName = getHTMLNameWithSuffixForStringName(communicationsSVGName);
 		String lanePassingsHTMLName = getHTMLNameWithSuffixForStringName(lanePassingsSVGName);
 		String dataMappingHTMLName = getHTMLNameWithSuffixForStringName(dataMappingSVGName);
@@ -85,7 +101,7 @@ public class ViewGenerator {
 	}
 	
 	private String getHeaderDiv(int headFontSize, String name, int fontSize, String communicationsHTMLName, String lanePassingsHTMLName, String dataMappingHTMLName) {
-		
+//		the html-div for the header with linkline and headline
         String headerDiv = "<!doctype html>\n" + 
         "<html>\n<head>\n<title>"+name+"</title>\n</head>" +    
         "<link href=\"../static/style.css\" rel=\"stylesheet\" type=\"text/css\">" + 
@@ -124,6 +140,7 @@ public class ViewGenerator {
 	}
 	
 	private String getEmbeddedSVGDiv(String sourceNameWithSuffix, String svgHeight, String svgWidth) {
+//		html-div for embedded svgs
 		String embeddedSVGDiv = "<object data=\""+sourceNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\">"+
         	"<embed src=\""+sourceNameWithSuffix+"\" width=\""+svgWidth+"\" height=\""+svgHeight+"\" type=\"image/svg+xml\" />"+
         	"</object>";
