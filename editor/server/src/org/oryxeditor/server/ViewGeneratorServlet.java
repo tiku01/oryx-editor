@@ -46,6 +46,7 @@ public class ViewGeneratorServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
+//		getting the path where the oryx server is running
 		oryxRootDirectory = this.getServletContext().getRealPath("") + File.separator;
 	}
 	
@@ -58,36 +59,51 @@ public class ViewGeneratorServlet extends HttpServlet {
 		doGetOrPost(req, resp); 
 	} 
 
-	
 	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//		expecting diagramUris as given parameters with names modeluris
 		String paramName = "modeluris";
 		String[] value = req.getParameterValues(paramName); 
+		
+//		getting the cookie from the request for using it later when requesting the xml of the diagrams
 		String cookie = req.getHeader("Cookie");
 		
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("text/plain"); 
+		
 		if (value == null) {
+//			no parameter with name modeluris present in request
 			resp.sendError(400);
 			out.println("There was no input diagrams parameter " + paramName + " given.");
 		} 
 		else if ("".equals(value)) {
-			// The request parameter 'modeluris' was present in the query string but has no value 
-			// e.g. http://hostname.com?modeluris=&a=b 
+//			 the request parameter modeluris was present in the query string but has no value 
+//			 e.g. http://hostname.com?modeluris=&... 
 			resp.sendError(400);
 			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
 		}
 		else {
+//			modeluris parameter was set correctly
+			
+//			storing modeluris, replacing spaces, because the Strings will be used for URI-creation later
 			ArrayList<String> diagramPaths = new ArrayList<String>();
 			for (int i=0;i<value.length;i++) {
 				diagramPaths.add(value[i].replace(" ", "%20"));
 			}
+			
+//			creating directory with unique name, where all generated files of this request will be generated to
 			long current = System.currentTimeMillis();
-			File f = new File(oryxRootDirectory +  baseURL.replace("/", File.separator)+current+File.separator);
-			f.mkdirs();
 			String toSavePath = oryxRootDirectory + baseURL.replace("/", File.separator)+current+File.separator;
+			File f = new File(toSavePath);
+			f.mkdirs();
+			
+//			instantiating ReadWriteAdapter which handles reading of the diagrams and creating of new files
 			ReadWriteAdapter rwa = new ReadWriteAdapter(diagramPaths, toSavePath, cookie);
+			
+//			instantiating ViewGenerator and generate views
 			ViewGenerator viewGenerator = new ViewGenerator(rwa);
 			viewGenerator.generate(diagramPaths);
+			
+//			set response status to ok and return url where to find the overview/project navigator html
 			resp.setStatus(200);
 			String url = "http://" + req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
 			out.write(url);
