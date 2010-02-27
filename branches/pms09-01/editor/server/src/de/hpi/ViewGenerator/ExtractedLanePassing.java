@@ -41,16 +41,16 @@ public class ExtractedLanePassing extends ExtractedData {
 	private int handoversCount;
 
 
-	public ExtractedLanePassing(ArrayList<String> diagramPaths, String toSavePath) {
-		super(diagramPaths,toSavePath);
+	public ExtractedLanePassing(ReadWriteAdapter rwa) {
+		super(rwa);
 		this.handoversCount = 0;
 		this.rolesCount = 0;
 		this.connection = "SequenceFlow";
 		this.graphLabel = "Handovers";
 		this.svgName = "Handovers";
 		this.layoutAlgorithm = "dot";
-		initializeConnectorList();
-		extractLanePassings(diagramPaths);
+		this.initializeConnectorList();
+		this.extractLanePassings(rwa.getDiagramPaths());
 	}
 	
 	public String getSVGName() {
@@ -124,7 +124,7 @@ public class ExtractedLanePassing extends ExtractedData {
 		connectorList.addConnector(new Connector("EndTerminateEvent", NamePoolNameLane, parentListTaskEventGateway));		
 	}
 	
-	private void extractLanePassings(ArrayList<String> diagramPaths) {
+	private void extractLanePassings(Set<String> diagramPaths) {
 		
 		for (String diagramPath: diagramPaths) {
 			

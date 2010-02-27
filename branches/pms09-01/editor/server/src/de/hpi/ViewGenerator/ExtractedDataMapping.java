@@ -45,8 +45,8 @@ public class ExtractedDataMapping extends ExtractedData {
 	private int dataObjectsCount;
 
 	
-	public ExtractedDataMapping(ArrayList<String> diagramPaths, String toSavePath) {
-		super(diagramPaths,toSavePath);
+	public ExtractedDataMapping(ReadWriteAdapter rwa) {
+		super(rwa);
 		this.dataObjectsCount = 0;
 		this.connection_uni = "Association_Unidirectional";
 		this.connection_bi = "Association_Bidirectional";
@@ -55,8 +55,8 @@ public class ExtractedDataMapping extends ExtractedData {
 		this.layoutAlgorithm = "dot";
 		this.graphLabel = "Information_Access";
 		this.svgName = "Information Access";
-		initializeConnectorLists();
-		extractDataMappings(diagramPaths);
+		this.initializeConnectorLists();
+		this.extractDataMappings(rwa.getDiagramPaths());
 	}
 	
 	public String getSVGName() {
@@ -173,7 +173,7 @@ public class ExtractedDataMapping extends ExtractedData {
 		connectorList_help.addConnector(new Connector("EndTerminateEvent", NamePoolNameLane, parentListTaskEventGateway));
 	}
 	
-	private void extractDataMappings(ArrayList<String> diagramPaths) {
+	private void extractDataMappings(Set<String> diagramPaths) {
 				
 		for (String diagramPath: diagramPaths) {
 			

@@ -25,6 +25,7 @@ package de.hpi.ViewGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,18 +43,18 @@ public class ExtractedCommunications extends ExtractedData {
 	private HashMap<String,ArrayList<String>> correlationKeyDictionary;
 	private int interactionsCount;
 	
-	public ExtractedCommunications(ArrayList<String> diagramPaths, String toSavePath) {
-		super(diagramPaths,toSavePath);
+	public ExtractedCommunications(ReadWriteAdapter rwa) {
+		super(rwa);
 		this.interactionsCount = 0;
 		this.connection = "MessageFlow";
 		this.graphLabel = "Conversation_View";
 		this.svgName = "Conversation View";
 		this.layoutAlgorithm = "neato";
 		this.correlationKeyAttribute = "correlation_key";
-		initializeConnectorList();
+		this.initializeConnectorList();
 		this.correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
-		extractCommunications(diagramPaths);
-		fusionCommunicationsOnCorrelationKey();
+		this.extractCommunications(rwa.getDiagramPaths());
+		this.fusionCommunicationsOnCorrelationKey();
 	}
 	
 	public String getSVGName() {
@@ -93,7 +94,7 @@ public class ExtractedCommunications extends ExtractedData {
 	}
 
 	
-	private void extractCommunications(ArrayList<String> diagramPaths) {
+	private void extractCommunications(Set<String> diagramPaths) {
 		
 		for (String diagramPath: diagramPaths) {
 			

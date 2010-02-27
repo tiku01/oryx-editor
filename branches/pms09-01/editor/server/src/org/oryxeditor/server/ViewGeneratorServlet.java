@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,6 +62,7 @@ public class ViewGeneratorServlet extends HttpServlet {
 	private void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String paramName = "modeluris";
 		String[] value = req.getParameterValues(paramName); 
+		Cookie[] cookies = req.getCookies();
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("text/plain"); 
 		if (value == null) {
@@ -81,7 +83,7 @@ public class ViewGeneratorServlet extends HttpServlet {
 			long current = System.currentTimeMillis();
 			File f = new File(oryxRootDirectory +  baseURL.replace("/", File.separator)+current+File.separator);
 			f.mkdirs();
-			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", File.separator)+current+File.separator);
+			ViewGenerator viewGenerator = new ViewGenerator(oryxRootDirectory, baseURL.replace("/", File.separator)+current+File.separator, cookies);
 			viewGenerator.generate(diagramIds);
 			resp.setStatus(200);
 			String url = req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
