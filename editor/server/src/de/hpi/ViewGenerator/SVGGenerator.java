@@ -35,12 +35,12 @@ class SVGGenerator {
 	String dotInput;
 	File dotInputFile;
 	String layoutAlgorithm;
-	String toSavePath;
 	String name;
+	ReadWriteAdapter rwa;
 	
-	public SVGGenerator(String toSavepath, String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm, String name) {
-		this.toSavePath = toSavepath;
-		this.pathToStaticResources = toSavePath;
+	public SVGGenerator(ReadWriteAdapter rwa, String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm, String name) {
+		this.rwa = rwa;
+		this.pathToStaticResources = rwa.getToSavePath();
 		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf(File.separator));
 		this.pathToStaticResources = pathToStaticResources.substring(0, pathToStaticResources.lastIndexOf(File.separator) + 1);
 
@@ -64,7 +64,7 @@ class SVGGenerator {
 	private File createTranslationFile(String dotInput){
 		File dotInputFile;
 	      try {
-	    	  dotInputFile = new File(toSavePath + name);
+	    	  dotInputFile = rwa.createFile(name);
 	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dotInputFile),"UTF-8");
 	          out.write(dotInput);
 	          out.close();

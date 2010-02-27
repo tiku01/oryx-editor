@@ -25,19 +25,21 @@ package de.hpi.ViewGenerator;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
+import javax.servlet.http.Cookie;
 
 
 public class ViewGenerator {
 	private String overviewHTMLName;
 	private String toSavePath;
+	private Cookie[] cookies;
 
-
-	public ViewGenerator(String oryxRootDirectory, String basePath) {
+	public ViewGenerator(String oryxRootDirectory, String basePath, Cookie[] cookies) {
 		this.overviewHTMLName = "Overview";
 		this.toSavePath = oryxRootDirectory + basePath;
+		this.cookies = cookies;
 	}
 	
 	public String getOverviewHTMLName() {
@@ -52,10 +54,11 @@ public class ViewGenerator {
 	
 	public void generate(ArrayList<String> diagram_Ids) {
 		int processes_count = diagram_Ids.size();
-				
-		ExtractedLanePassing lanePassings = new ExtractedLanePassing(diagram_Ids, toSavePath);
-		ExtractedDataMapping dataMapping = new ExtractedDataMapping(diagram_Ids, toSavePath);
-		ExtractedCommunications communications = new ExtractedCommunications(diagram_Ids, toSavePath);
+		ReadWriteAdapter rwa = new ReadWriteAdapter(diagram_Ids, toSavePath, cookies);
+		
+		ExtractedLanePassing lanePassings = new ExtractedLanePassing(rwa);
+		ExtractedDataMapping dataMapping = new ExtractedDataMapping(rwa);
+		ExtractedCommunications communications = new ExtractedCommunications(rwa);
 		
 		String communicationsSVGName = communications.getSVGName();
 		communications.generateSVG();

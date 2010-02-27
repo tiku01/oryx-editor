@@ -53,38 +53,13 @@ class ExtractedData {
 	
 	protected ExtractedConnectionList extractedConnectionList;
 	protected String serverBaseUrl;
-	protected String toSavePath;
-	private HashMap<String,Document> modelDictionary;
+	protected ReadWriteAdapter rwa;
 
-	public ExtractedData(ArrayList<String> diagramPaths, String toSavePath) {
+	public ExtractedData(ReadWriteAdapter rwa) {
+		this.rwa = rwa;
 		this.extractedConnectionList = new ExtractedConnectionList();
-		this.toSavePath = toSavePath;
-		this.initializeModelDictionary(diagramPaths);
 	}
 	
-	private void initializeModelDictionary(ArrayList<String> diagramPaths) {
-		modelDictionary = new HashMap<String,Document>();
-		for (String diagramPath: diagramPaths) {
-			try {
-				URI uri = new URI(diagramPath);
-				InputStream st = uri.toURL().openStream();
-				Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(st);
-				
-			  	modelDictionary.put(diagramPath,xml);
-			}
-			catch (URISyntaxException e) {
-//				invalid parameter
-				e.printStackTrace();
-			}
-			catch (ParserConfigurationException e) {
-			}
-			catch (SAXException e) {		
-			}
-			catch (IOException e) { 
-				e.printStackTrace(); 
-			}
-		}
-	}
 	
 	private ConnectionList extractFromChildShapes(JSONObject jsonObject, ConnectionList connectionList, ConnectorList connectorList,  HashMap<String, JSONObject> stencilLevels) {
 		ConnectionList connectionList_new = connectionList;
@@ -202,7 +177,7 @@ class ExtractedData {
 		return "";
 	}
 	
-	protected ConnectionList extractConnection(JSONArray jsonArray, ConnectionList connectionList, String connection, ConnectorList connectorList) {
+	public ConnectionList extractConnection(JSONArray jsonArray, ConnectionList connectionList, String connection, ConnectorList connectorList) {
 		ConnectionList connectionList_new = connectionList;
 		
 		try {
@@ -220,9 +195,8 @@ class ExtractedData {
 //		remove Entries where either target or source could not be found - possible modelling error, feedback could be added
 		return removeUncompleteEntries(connectionList_new);
 	}
-	
-	
-	protected void merge(ConnectionList connectionList, boolean symmetric, boolean storeRecursive) {
+		
+	public void merge(ConnectionList connectionList, boolean symmetric, boolean storeRecursive) {
 		extractedConnectionList.merge(connectionList, symmetric, storeRecursive);
 	}
 	
@@ -271,45 +245,29 @@ class ExtractedData {
 	}
 	
 	protected void generateFiles(String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm, String svgName) {
-		SVGGenerator generator = new SVGGenerator(toSavePath, graphLabel, translatorInput, layoutAlgorithm, svgName);
+		SVGGenerator generator = new SVGGenerator(rwa, graphLabel, translatorInput, layoutAlgorithm, svgName);
 		createOriginSVGs(extractedConnectionList);
 		createOriginsHTMLs(extractedConnectionList);
 		generator.generateSVG();
 	}
 	
 	
-	protected String getJSON(String diagramPath) {
-		Document xml = modelDictionary.get(diagramPath);			
-		NodeList nodeList = xml.getElementsByTagName("json-representation");
-		Node jsonNode = nodeList.item(0);	
-		String json = jsonNode.getTextContent();
-			
-		return json;
+	protected String getJSON(String diagramPath) {		
+		return rwa.getJSON(diagramPath);
 	}
 	
 	
 	protected String getSVG(String diagramPath) {
-		Document xml = modelDictionary.get(diagramPath);
-	  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
-	  	Node svgNode = nodeList.item(0);	
-		String svg = svgNode.getTextContent();
-		
-		return svg;
+		return rwa.getSVG(diagramPath);
 	}
 	
 	
 	protected String getDescription(String diagramPath) {
-		Document xml = modelDictionary.get(diagramPath);	
-		NodeList nodeList = xml.getElementsByTagName("description");
-		Node descriptionNode = nodeList.item(0);	
-		String description = descriptionNode.getTextContent();
-			
-		return description;
+		return rwa.getDescription(diagramPath);
 	}
 	
 	private String getFileName(String attributePair) {
-//		using hashCode so caseSensitive attributePairs will not result in same file on windows systems
-		return attributePair.hashCode()+"";
+		return rwa.getFileName(attributePair);
 	}
 	
 	protected String getOriginIndexHTMLName(ArrayList<String> attributePair) {
@@ -341,7 +299,7 @@ class ExtractedData {
 		String svg = getSVG(diagramPath);
 	      try {
 	    	  String fileName = getOriginSVGName(attributePair, originNumber);
-	    	  svgFile = new File(toSavePath + fileName);
+	    	  svgFile = rwa.createFile(fileName);
 	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(svgFile),"UTF-8");
 	          out.write(svg);
 	          out.close();
@@ -370,7 +328,7 @@ class ExtractedData {
 		
 		try {
 			String fileName = getOriginIndexHTMLName(attributePair);
-		    htmlFile = new File(toSavePath + fileName);	    
+		    htmlFile = rwa.createFile(fileName);	    
 	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
 	
 		    out.write("<!doctype html>\n");
@@ -424,7 +382,7 @@ class ExtractedData {
 		File htmlFile;
 		try {
 			String fileName = getOriginHTMLName(attributePair);
-		    htmlFile = new File(toSavePath + fileName);
+		    htmlFile = rwa.createFile(fileName);
 		    
 	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
 		    out.write("<!doctype html>\n");
@@ -449,6 +407,10 @@ class ExtractedData {
 			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
 			createOriginsHTML(attributePair, origins);	
 		}
+	}
+	
+	public ExtractedConnectionList getExtractedConnections() {
+		return extractedConnectionList;
 	}
 }
 	
