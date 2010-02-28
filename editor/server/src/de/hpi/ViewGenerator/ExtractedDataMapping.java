@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ExtractedDataMapping extends ExtractedData {
+//	class which extracts data for Information Access View
 	private String connection_uni;
 	private String connection_bi;
 	private String connection_un;
@@ -40,14 +41,12 @@ public class ExtractedDataMapping extends ExtractedData {
 	private ConnectorList connectorList_help;
 	private int dataObjectsCount;
 
-	
 	public ExtractedDataMapping(ReadWriteAdapter rwa) {
 		super(rwa);
 		this.connection_uni = "Association_Unidirectional";
 		this.connection_bi = "Association_Bidirectional";
 		this.connection_un = "Association_Undirected";
 		this.connection_help = "SequenceFlow";
-		this.initializeConnectorLists();
 		this.extractDataMappings(rwa.getDiagramPaths());
 	}
 	
@@ -132,7 +131,6 @@ public class ExtractedDataMapping extends ExtractedData {
 		connectorList_undir.addConnector(new Connector("DataObject", StencilIdDataObjectNamePoolNameLaneNameDataObject,parentListData));
 		connectorList_undir.addConnector(new Connector("SequenceFlow", SequenceFlowId,parentListNoParents));
 		
-		
 //		initialize connectorList for helperconnection (=SequenceFlow)		
 		
 		connectorList_help = new ConnectorList();	
@@ -186,16 +184,15 @@ public class ExtractedDataMapping extends ExtractedData {
 	}
 	
 	private void extractDataMappings(Set<String> diagramPaths) {
-				
-		for (String diagramPath: diagramPaths) {
-			
+		initializeConnectorLists();	
+		
+		for (String diagramPath: diagramPaths) {			
 			ConnectionList connectionList_uni = new ConnectionList(diagramPath);
 			ConnectionList connectionList_bi = new ConnectionList(diagramPath);
 			ConnectionList connectionList_un = new ConnectionList(diagramPath);
 			ConnectionList connectionList_help = new ConnectionList(diagramPath);
 				  		
-			String json = getJSON(diagramPath);
-	
+			String json = getJSON(diagramPath);	
 			JSONObject jsonObject = null;
 			try {
 				jsonObject = new JSONObject(json.toString());	
@@ -210,7 +207,7 @@ public class ExtractedDataMapping extends ExtractedData {
 			catch (JSONException e) {
 				e.printStackTrace(); 
 			}
-				
+//			merge with symmetric as false and storeRecursive as true
 			merge(connectionList_uni, false, true);
 			merge(splitToUnidirected(connectionList_bi), false, true);
 			merge(joinSplitToUnidirected(connectionList_un, connectionList_help),false, true);
@@ -219,6 +216,9 @@ public class ExtractedDataMapping extends ExtractedData {
 	}
 	
 	private ConnectionList splitToUnidirected(ConnectionList connectionList_bidirected) {
+//		splits data from a ConnectionList from a bidirected connection
+//		to data for directed connections
+		
 		String prefixForDir1 = "1_";
 		String prefixForDir2 = "2_";
 		String origin = connectionList_bidirected.getOrigin();
@@ -242,6 +242,8 @@ public class ExtractedDataMapping extends ExtractedData {
 	
 
 	private ConnectionList joinSplitToUnidirected(ConnectionList connectionList_undirected, ConnectionList directedJoinList) {
+//		takes one ConnectionList with data of a connection where the connection can be connected to other connections
+//		and joins it against a ConnectionList with data of one of these possible connections
 		String prefixForDir1 = "1_";
 		String prefixForDir2 = "2_";
 		String origin = connectionList_undirected.getOrigin();

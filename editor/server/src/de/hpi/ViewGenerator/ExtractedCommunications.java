@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 
 public class ExtractedCommunications extends ExtractedData {
+//	class which extracts data for Conversation View
 	private String connection;
 	private ConnectorList connectorList;
 	private String correlationKeyAttribute;
@@ -43,10 +44,8 @@ public class ExtractedCommunications extends ExtractedData {
 		super(rwa);
 		this.connection = "MessageFlow";
 		this.correlationKeyAttribute = "correlation_key";
-		this.initializeConnectorList();
 		this.correlationKeyDictionary = new HashMap<String,ArrayList<String>>();
 		this.extractCommunications(rwa.getDiagramPaths());
-		this.fusionCommunicationsOnCorrelationKey();
 	}
 		
 	private void initializeInteractionsCount(Set<String> diagramPaths) {
@@ -97,7 +96,7 @@ public class ExtractedCommunications extends ExtractedData {
 
 	
 	private void extractCommunications(Set<String> diagramPaths) {
-		
+		initializeConnectorList();
 		for (String diagramPath: diagramPaths) {
 			
 			ConnectionList connectionList = new ConnectionList(diagramPath);	
@@ -114,9 +113,11 @@ public class ExtractedCommunications extends ExtractedData {
 			catch (JSONException e) {
 				e.printStackTrace(); 
 			}			  
+//			merge with symmetric as true and storeRecursive as false
 			merge(connectionList, true, false);
 		}
 		initializeInteractionsCount(diagramPaths);
+		fusionCommunicationsOnCorrelationKey();
 	}
 	
 	private HashMap<String,ArrayList<String>> createCorrelationKeyDictionary(JSONArray jsonArray) {
