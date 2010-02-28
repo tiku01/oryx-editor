@@ -215,9 +215,9 @@ ORYX.Plugins.Overlay = Clazz.extend({
 					b.registerCallback( _temp.callback );
 				}
 				
-				if(options.rotationPoint){
+				if(options.labelPoint){
 					var point={x:0, y:0};
-					point=options.rotationPoint;
+					point=options.labelPoint;
 					_temp.callback = function(){
 						
 						var x = 0; var y = 0;
