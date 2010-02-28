@@ -25,43 +25,46 @@ package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 
 class Matchlist {
-		private ArrayList<String> connectionIds; 
-		private ArrayList<String> connectorIds;
+//	class which holds a number of connectionIds and its belonging targetIds
+	
+	private ArrayList<String> connectionIds; 
+	private ArrayList<String> connectorIds;
 		
-		public Matchlist() {
-			this.connectionIds = new ArrayList<String>();
-			this.connectorIds = new ArrayList<String>();
-		}
-		
-		public void add(String connectionId, String connectorId) {
-			connectionIds.add(connectionId);
-			connectorIds.add(connectorId);
-		}
-		
-		private ArrayList<Integer> find(String connectorId){
-			int index = 0;
-			ArrayList<Integer> indexList = new ArrayList<Integer>();
-			while(index < (connectorIds.size())){
-				if (connectorIds.get(index).equals(connectorId)) {
-					indexList.add(index);								
-				}
-				index += 1;
-			}
-			return indexList;
-		}
-		
-		public ArrayList<String> match(String connectorId) {
-			ArrayList<Integer> indexList = find(connectorId);
-
-			ArrayList<String> resultList = new ArrayList<String>();
-					
-			for(int i=0; i<(indexList.size());i++) {
-				resultList.add(connectionIds.get(indexList.get(i)-i));
-				connectionIds.remove(indexList.get(i)-i);
-				connectorIds.remove(indexList.get(i)-i);
-			}
-			return resultList;
-		}
-		
+	public Matchlist() {
+		this.connectionIds = new ArrayList<String>();
+		this.connectorIds = new ArrayList<String>();
 	}
-
+		
+	public void add(String connectionId, String connectorId) {
+		connectionIds.add(connectionId);
+		connectorIds.add(connectorId);
+	}
+		
+	private ArrayList<Integer> find(String connectorId){
+//		find all indexes of connectionId where the target equals the connectorId
+		int index = 0;
+		ArrayList<Integer> indexList = new ArrayList<Integer>();
+		
+		while(index < (connectorIds.size())){
+			if (connectorIds.get(index).equals(connectorId)) {
+				indexList.add(index);								
+			}
+			index += 1;
+		}
+		return indexList;
+	}
+		
+	public ArrayList<String> match(String connectorId) {
+//		find all connectionIds where the target equals the connectorId and remove the connectionIds 
+//		and connectorIds from the matchlist
+		ArrayList<Integer> indexList = find(connectorId);
+		ArrayList<String> resultList = new ArrayList<String>();
+					
+		for(int i=0; i<(indexList.size()); i++) {
+			resultList.add(connectionIds.get(indexList.get(i)-i));
+			connectionIds.remove(indexList.get(i)-i);
+			connectorIds.remove(indexList.get(i)-i);
+		}
+		return resultList;
+	}		
+}

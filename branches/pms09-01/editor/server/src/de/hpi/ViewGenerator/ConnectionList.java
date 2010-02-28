@@ -27,66 +27,66 @@ import java.util.HashMap;
 import java.util.Set;
 
 class ConnectionList {
-//		a ConnectionList holds the extracted Data from one diagram
-	
-		private HashMap<String,ConnectionAttributes> connectionList;
-		private Matchlist targetMatchlist;
-		private String origin;
+//	a ConnectionList holds the extracted data from one model
 
+	private HashMap<String,ConnectionAttributes> connectionList;
+	private Matchlist targetMatchlist;
+	private String origin;
 		
-		public ConnectionList(String diagramPath) {
-			this.origin = diagramPath;
-			this.connectionList = new HashMap<String,ConnectionAttributes>();
-			this.targetMatchlist = new Matchlist();
-		}
+	public ConnectionList(String diagramPath) {
+		this.origin = diagramPath;
+		this.connectionList = new HashMap<String,ConnectionAttributes>();
+		this.targetMatchlist = new Matchlist();
+	}
 		
-		public String getOrigin() {
-			return origin;
-		}
+	public String getOrigin() {
+//		return the diagramPath from which this ConnectionList was extracted
+		return origin;
+	}
 		
-		public void addConnection(String connectorId) {
-			ConnectionAttributes connectionAttributes = new ConnectionAttributes();
+	public void addConnection(String connectorId) {
+		ConnectionAttributes connectionAttributes = new ConnectionAttributes();
+		connectionList.put(connectorId, connectionAttributes);
+	}
+			
+	public void addTargetAttributeForConnection(String targetAttribute, String connectorId) {
+		ConnectionAttributes connectionAttributes = connectionList.get(connectorId);
+		if (!connectionAttributes.hasTargetAttribute()) {
+			connectionAttributes.setTargetAttribute(targetAttribute);
 			connectionList.put(connectorId, connectionAttributes);
 		}
-			
-		public void addTargetAttributeForConnection(String targetAttribute, String connectorId) {
-			ConnectionAttributes connectionAttributes = connectionList.get(connectorId);
-			if (!connectionAttributes.hasTargetAttribute()) {
-				connectionAttributes.setTargetAttribute(targetAttribute);
-				connectionList.put(connectorId, connectionAttributes);
-			}
+	}
+	
+	public void addSourceAttributeForConnection(String sourceAttribute, String connectorId) {
+		ConnectionAttributes connectionAttributes = connectionList.get(connectorId);
+		if (!connectionAttributes.hasSourceAttribute()) {
+			connectionAttributes.setSourceAttribute(sourceAttribute);
+			connectionList.put(connectorId, connectionAttributes);
 		}
+	}
 		
-		public void addSourceAttributeForConnection(String sourceAttribute, String connectorId) {
-			ConnectionAttributes connectionAttributes = connectionList.get(connectorId);
-			if (!connectionAttributes.hasSourceAttribute()) {
-				connectionAttributes.setSourceAttribute(sourceAttribute);
-				connectionList.put(connectorId, connectionAttributes);
-			}
-		}
+	public int size(){
+		return connectionList.size();
+	}
+	
+	public ConnectionAttributes getConnectionAttributesFor(String connectionId) {
+		return connectionList.get(connectionId);
+	}
 		
-		public int size(){
-			return connectionList.size();
-		}
+	public Set<String> connectionIds() {
+		return connectionList.keySet();
+	}
 		
-		public ConnectionAttributes getConnectionAttributesFor(String connectionId) {
-			return connectionList.get(connectionId);
-		}
+	public boolean containsConnectionId(String connectionId) {
+		return connectionList.containsKey(connectionId);
+	}
 		
-		public Set<String> connectionIds() {
-			return connectionList.keySet();
-		}
+	public void addToTargetMatchlist(String connectionId, String connectorId) {
+		targetMatchlist.add(connectionId, connectorId);
+	}
 		
-		public boolean containsConnectionId(String connectionId) {
-			return connectionList.containsKey(connectionId);
-		}
-		
-		public void addToTargetMatchlist(String connectionId, String connectorId) {
-			targetMatchlist.add(connectionId, connectorId);
-		}
-		
-		public ArrayList<String> matchInTargetMatchlist(String connectorId) {
-			ArrayList<String> resultList = targetMatchlist.match(connectorId);
-			return resultList;
-		}
+	public ArrayList<String> matchInTargetMatchlist(String connectorId) {
+		ArrayList<String> resultList = targetMatchlist.match(connectorId);
+		return resultList;
+	}
 }

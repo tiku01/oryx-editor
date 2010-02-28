@@ -51,11 +51,13 @@ class SVGGenerator {
 	}
 	
 	private String getTranslation(String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm) {
+//		gets the dot/neato representation of an graph
 		Translator translator = new Translator();
 		return translator.translate(graphLabel, translatorInput, layoutAlgorithm);
 	}
 	
 	private File createTranslationFile(String dotInput, String name){
+//		creating file with dot/neato graph description for passing as parameter to graphviz
 		File dotInputFile;
 	      try {
 	    	  dotInputFile = rwa.createFile(name);
@@ -125,12 +127,7 @@ class SVGGenerator {
 	private String getLabel(String name) {
 		return removeEscChars(name).replace(" ", "_");
 	}
-	
-	public void generateConversationView(ExtractedConnectionList extractedCommunications, String name) {
-		TranslatorInput translatorInput = createConversationViewTranslatorInput(extractedCommunications);
-		generateSVG(getLabel(name), translatorInput,"neato", name);
-	}
-	
+		
 	private TranslatorInputNode createCommunicationNode(String communicationNodeId, String urlAttribute) {
 		TranslatorInputNode communicationNode = new TranslatorInputNode(communicationNodeId);
 		communicationNode.setAttribute("shape", "hexagon");
@@ -227,29 +224,6 @@ class SVGGenerator {
 		return input;
 	}
 	
-	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
-		Set<ArrayList<String>> no_redundant = redundant;
-		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
-		
-		for (ArrayList<String> attributePair: redundant) {
-			redundant_tmp.add(attributePair);
-		}
-		
-		for (int i=0; i<redundant_tmp.size();i++) {
-			ArrayList<String> attributePair = redundant_tmp.get(i);
-			
-			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
-			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
-			
-			if (redundant_subcol.contains(attributePair)) {
-				int index = redundant_subcol.indexOf(attributePair) + i;
-				redundant_tmp.remove(index);
-				no_redundant.remove(index);
-			}
-		}
-		return no_redundant;
-	}
-	
 	private TranslatorInput createHandoversTranslatorInput(ExtractedConnectionList extractedLanePassings) {
 		TranslatorInput input = new TranslatorInput("dot");
 		ArrayList<String> done_Ids = new ArrayList<String>();
@@ -287,12 +261,7 @@ class SVGGenerator {
 		}
 		return input;
 	}
-	
-	public void generateHandoversView(ExtractedConnectionList extractedLanePassings, String name){
-		TranslatorInput translatorInput = createHandoversTranslatorInput(extractedLanePassings);
-		generateSVG(getLabel(name), translatorInput,"dot", name);
-	}
-	
+		
 	private TranslatorInput createInformationAccessTranslatorInput(ExtractedConnectionList extractedDataMappings) {
 		TranslatorInput input = new TranslatorInput("dot");
 		ArrayList<String> done_Ids = new ArrayList<String>();
@@ -348,7 +317,44 @@ class SVGGenerator {
 		return input;
 	}
 	
+	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
+//		method removes double entries, because double edges can cause graphviz to fail when setting attributes
+		Set<ArrayList<String>> no_redundant = redundant;
+		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
+		
+		for (ArrayList<String> attributePair: redundant) {
+			redundant_tmp.add(attributePair);
+		}
+		
+		for (int i=0; i<redundant_tmp.size();i++) {
+			ArrayList<String> attributePair = redundant_tmp.get(i);
+			
+			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
+			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
+			
+			if (redundant_subcol.contains(attributePair)) {
+				int index = redundant_subcol.indexOf(attributePair) + i;
+				redundant_tmp.remove(index);
+				no_redundant.remove(index);
+			}
+		}
+		return no_redundant;
+	}
+	
+	public void generateHandoversView(ExtractedConnectionList extractedLanePassings, String name){
+//		generate SVG from ExtractedConnectionList for Handovers View
+		TranslatorInput translatorInput = createHandoversTranslatorInput(extractedLanePassings);
+		generateSVG(getLabel(name), translatorInput,"dot", name);
+	}
+	
+	public void generateConversationView(ExtractedConnectionList extractedCommunications, String name) {
+//		generate SVG from ExtractedConnectionList for Conversation View
+		TranslatorInput translatorInput = createConversationViewTranslatorInput(extractedCommunications);
+		generateSVG(getLabel(name), translatorInput,"neato", name);
+	}
+	
 	public void generateInformationAccessView(ExtractedConnectionList extractedDataMappings, String name) {
+//		generate SVG from ExtractedConnectionList for Information Access View
 		TranslatorInput translatorInput = createInformationAccessTranslatorInput(extractedDataMappings);
 		generateSVG(getLabel(name), translatorInput,"dot", name);
 	}

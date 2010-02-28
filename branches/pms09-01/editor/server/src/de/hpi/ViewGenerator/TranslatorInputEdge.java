@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class TranslatorInputEdge {
-
+//	represents one edge according to dot/neato notation (graphviz) with possible attributes
 	private String sourceNodeId;
 	private String targetNodeId;
 	private HashMap<String,String> attributes;

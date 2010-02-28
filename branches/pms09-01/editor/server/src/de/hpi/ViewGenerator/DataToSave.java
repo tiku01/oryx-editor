@@ -25,7 +25,7 @@ package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 
 public class DataToSave {
-
+//	a DataToSave instance holds for one stencilId (of an Connector) all the data that has to be saved
 	private ArrayList<String> attributesToSave;
 	private ArrayList<String> stencilLevelsToSave;
 	private ArrayList<String> jsonIdsToSave;

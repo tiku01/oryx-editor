@@ -25,6 +25,7 @@ package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 
 class Connector {
+//	represents one object that can be connected by a connection
 	private String stencilId;
 	private DataToSave dataToSave;
 	private ArrayList<String> possibleParentStencils;
@@ -44,6 +45,7 @@ class Connector {
 	}
 			
 	public ArrayList<String> getPossibleParentStencils() {
+//		all stencilIds of shapes which can be a parentShape of this Connector
 		return possibleParentStencils;
 	}
 

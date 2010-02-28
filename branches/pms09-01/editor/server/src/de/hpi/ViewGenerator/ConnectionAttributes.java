@@ -24,13 +24,10 @@
 package de.hpi.ViewGenerator;
 
 class ConnectionAttributes {
+//	a ConnectionAttributes instance represents the extracted data from one connection
 	private String targetAttribute;
 	private String sourceAttribute;
 	
-	public ConnectionAttributes() {
-
-	}
-
 	public void setTargetAttribute(String targetAttribute) {
 		this.targetAttribute = targetAttribute;
 	}
@@ -54,5 +51,4 @@ class ConnectionAttributes {
 	public boolean hasSourceAttribute() {
 		return (sourceAttribute != null);
 	}
-	
 }

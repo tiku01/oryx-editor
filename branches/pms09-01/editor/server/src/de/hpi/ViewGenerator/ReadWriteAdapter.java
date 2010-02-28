@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ReadWriteAdapter {
+//	responsible for requesting diagrams and returning file handles for newly created files
 	private String toSavePath;
 	private HashMap<String,Document> modelDictionary;
 	private String cookie;
@@ -32,6 +33,8 @@ public class ReadWriteAdapter {
 	}
 	
 	private void initializeModelDictionary(ArrayList<String> diagramPaths) {
+//		making one request for each diagram and storing them in dictionary
+//		instead of making one request everytime when requesting json/svg/description/...
 		modelDictionary = new HashMap<String,Document>();
 		for (String diagramPath: diagramPaths) {
 			try {
@@ -66,25 +69,12 @@ public class ReadWriteAdapter {
 			}
 		}
 	}
-	
-//	private String getRequestCookie(Cookie[] cookies) {
-//		if (cookies.length <= 0) {return "";}
-//		else {
-//			String strCookie = cookies[0].getName() + "=" + cookies[0].getValue();	
-//			for (int i=1;i<cookies.length;i++) {
-//				strCookie = strCookie + "; " + cookies[i].getName() + "=" + cookies[i].getValue();
-//			}
-//			return strCookie;
-//		}
-//
-//	}
 		
 	public String getJSON(String diagramPath) {
 		Document xml = modelDictionary.get(diagramPath);			
 		NodeList nodeList = xml.getElementsByTagName("json-representation");
 		Node jsonNode = nodeList.item(0);	
 		String json = jsonNode.getTextContent();
-				
 		return json;
 	}
 				
@@ -93,7 +83,6 @@ public class ReadWriteAdapter {
 	  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
 	  	Node svgNode = nodeList.item(0);	
 		String svg = svgNode.getTextContent();
-			
 		return svg;
 	}		
 		
@@ -102,7 +91,6 @@ public class ReadWriteAdapter {
 		NodeList nodeList = xml.getElementsByTagName("description");
 		Node descriptionNode = nodeList.item(0);	
 		String description = descriptionNode.getTextContent();
-				
 		return description;
 	}
 	
@@ -111,7 +99,7 @@ public class ReadWriteAdapter {
 	  		URLConnection originCon = new URL(origin).openConnection();
 	  		String originName = originCon.getHeaderField("Content-Disposition");
 	  		if (originName == null) {
-//	  			Header Field not set or local file
+//	  			intended Header Field not set or local file - treating as local file
 	  			originName = origin.substring(origin.lastIndexOf("/")+1,origin.lastIndexOf("."));
 	  		}
 	  		else {

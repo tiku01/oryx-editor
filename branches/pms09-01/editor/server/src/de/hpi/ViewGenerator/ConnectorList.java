@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 class ConnectorList {
+//	holds the information of multiple Connectors
 	private ArrayList<String> stencilList;
 	private ArrayList<DataToSave> dataToSaveList;
 	private HashSet<String> parentStencils;

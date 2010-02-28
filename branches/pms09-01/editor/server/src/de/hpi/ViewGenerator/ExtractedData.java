@@ -32,6 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 class ExtractedData {
+//	super class which holds the generic algorithms to extract data from a oryx model in json-format
+//	and the call to merge extracted data from different models
+//	needs a ReadWriteAdapter as parameter from which it can request the list with diagramPaths and the json belonging to one model
 	protected ExtractedConnectionList extractedConnectionList;
 	protected ReadWriteAdapter rwa;
 
@@ -43,18 +46,25 @@ class ExtractedData {
 	private ConnectionList extractFromChildShapes(JSONObject jsonObject, ConnectionList connectionList, ConnectorList connectorList,  HashMap<String, JSONObject> stencilLevels) {
 		ConnectionList connectionList_new = connectionList;
 		try {
-			String stencilId = jsonObject.getJSONObject("stencil").get("id").toString();			
+//			remember jsonObject belonging to stencilId (for getting attributes belonging to parentStencils when already at childrenStencils level)
+			String stencilId = jsonObject.getJSONObject("stencil").get("id").toString();
 			stencilLevels.put(stencilId, jsonObject);
-			extractTargetAttribute(jsonObject, connectorList, connectionList_new, stencilLevels, stencilId);
+			
+//			extract target attribute
+			extractTargetAttribute(connectorList, connectionList_new, stencilLevels, stencilId);
 					
+//			extract source attribute by looking at outgoingArrays
 			JSONArray outgoingArray = jsonObject.getJSONArray("outgoing");
 			extractSourceAttribute(outgoingArray, connectorList, connectionList_new, stencilLevels, stencilId);
 			
 			JSONArray childShapesArray = jsonObject.getJSONArray("childShapes");
-			
-			if (!(childShapesArray.length() != 0) && connectorList.isPossibleParentStencil(stencilId)) {}
+			if (!(childShapesArray.length() != 0) && connectorList.isPossibleParentStencil(stencilId)) {
+//				no childShapes or stencilId is no possible parentStencil of any searched Connector
+//				abort of recursion
+			}
 			else {
 				for (int index = 0; index < childShapesArray.length(); index++) {
+//					recursive extraction for all children
 					JSONObject childShapeObject = new JSONObject(childShapesArray.get(index).toString());
 					connectionList_new = extractFromChildShapes(childShapeObject,connectionList_new, connectorList, stencilLevels);	
 				}
@@ -66,12 +76,15 @@ class ExtractedData {
 		return connectionList_new;
 	}
 	
-	private void extractTargetAttribute(JSONObject jsonObject, ConnectorList connectorList, ConnectionList connectionList_new, HashMap<String, JSONObject> stencilLevels, String stencilId) {
+	private void extractTargetAttribute(ConnectorList connectorList, ConnectionList connectionList_new, HashMap<String, JSONObject> stencilLevels, String stencilId) {
+		JSONObject jsonObject = stencilLevels.get(stencilId);
 		try {						
 			if (connectorList.containsConnectorWithStencil(stencilId)) {
+//				stencil is possible Connector, get the connections for which it was the target
 				 ArrayList<String> targetResultList = connectionList_new.matchInTargetMatchlist(jsonObject.getString("resourceId"));
 
-				for(int i=0; i<targetResultList.size();i++) {
+//				for all connections for which it has been target, set the targetAttribute
+				for(int i=0; i<targetResultList.size(); i++) {
 					String attributeToSaveFromSaveObject = extractAttributeToSaveFromSaveObject(connectorList, stencilLevels, stencilId);
 					connectionList_new.addTargetAttributeForConnection(attributeToSaveFromSaveObject, targetResultList.get(i));
 				}
@@ -84,9 +97,11 @@ class ExtractedData {
 	
 	private void extractSourceAttribute(JSONArray outgoingArray, ConnectorList connectorList, ConnectionList connectionList_new, HashMap<String, JSONObject> stencilLevels, String stencilId) {
 		try {
-			for(int i=0; i<outgoingArray.length();i++){
+//			iterate over outgoing shapes
+			for(int i=0; i<outgoingArray.length(); i++){
 				JSONObject outgoingObject = new JSONObject(outgoingArray.get(i).toString());
 				String connectionId = outgoingObject.getString("resourceId");
+//				look if outgoing shape is a searched connection and if it is, set the sourceAttribute for this connection 
 				if (connectionList_new.containsConnectionId(connectionId)){
 					String attributeToSaveFromSaveObject = extractAttributeToSaveFromSaveObject(connectorList, stencilLevels, stencilId);
 					connectionList_new.addSourceAttributeForConnection(attributeToSaveFromSaveObject, connectionId);	
@@ -101,6 +116,7 @@ class ExtractedData {
 	
 	private String extractAttributeToSaveFromSaveObject(ConnectorList connectorList, HashMap<String, JSONObject> stencilLevels, String stencilId) {	
 		try {
+//			at least one attribute has to be saved for stencilId
 			DataToSave dataToSave = connectorList.dataToSaveForConnectorWithStencil(stencilId);
 			String attributeToSave = dataToSave.getAttributeToSave(0);
 			String stencilLevelToSave = dataToSave.getStencilLevelToSave(0);
@@ -108,26 +124,27 @@ class ExtractedData {
 			JSONObject saveObject = stencilLevels.get(stencilLevelToSave);
 			String attributeToSaveFromSaveObject = extractAttribute(saveObject, jsonId, attributeToSave);
 
+//			for each further attribute that has to be saved according to its DataToSave Object
+//			create a string where all attributes are separated by a escaped newline character
 			for(int a=1; a<dataToSave.size(); a++) {
 				attributeToSave = dataToSave.getAttributeToSave(a);
 				stencilLevelToSave = dataToSave.getStencilLevelToSave(a);
 				saveObject = stencilLevels.get(stencilLevelToSave);
 				jsonId = dataToSave.getJSONIdWithAttributeToSave(a);
 				String attributeToSaveFromObject_tmp = extractAttribute(saveObject, jsonId, attributeToSave);
-//				escaping bad chars
 				attributeToSaveFromSaveObject = attributeToSaveFromObject_tmp + "\\n" + attributeToSaveFromSaveObject;
 			}
 			return attributeToSaveFromSaveObject;
 		}
 		catch (NullPointerException e) {
-//			Connector with no DataToSave
+//			Connector with no DataToSave, will result in an empty line
 			return null;
 		}
 	}
 	
 	private String extractAttribute(JSONObject saveObject, String jsonId, String attributeToSave) {
-		String attributeToSaveFromSaveObject;
-		
+//		trying to extract 'attributeToSave' from the JSONObject with 'jsonId' in 'saveObject'
+		String attributeToSaveFromSaveObject;		
 		try {
 			if (jsonId != null) {
 				try {
@@ -141,10 +158,7 @@ class ExtractedData {
 			}
 			else {
 				attributeToSaveFromSaveObject = saveObject.getString(attributeToSave);
-			}
-//			escaping bad chars
-//			attributeToSaveFromSaveObject = replaceSpecialCharsForHTML(attributeToSaveFromSaveObject);
-			
+			}	
 			return attributeToSaveFromSaveObject;
 		}
 		catch (JSONException e) {
@@ -155,14 +169,13 @@ class ExtractedData {
 	}
 	
 	public ConnectionList extractConnection(JSONArray jsonArray, ConnectionList connectionList, String connection, ConnectorList connectorList) {
-		ConnectionList connectionList_new = connectionList;
-		
+//		extract information from connection with name 'connection', add extracted information to 'connectionList'
+//		extract from 'jsonArray', searching for connected Connectors form 'connectorList'
+		ConnectionList connectionList_new = connectionList;		
 		try {
 			connectionList_new = initializeTargetMatchList(jsonArray, connectionList_new, connection);
-			
 			for(int index = 0; index < jsonArray.length(); index++) {
-				JSONObject jsonObject = new JSONObject(jsonArray.get(index).toString());
-				
+				JSONObject jsonObject = new JSONObject(jsonArray.get(index).toString());				
 				connectionList_new = extractFromChildShapes(jsonObject, connectionList_new, connectorList, new HashMap<String, JSONObject>());
 			}
 		}
@@ -174,10 +187,14 @@ class ExtractedData {
 	}
 		
 	public void merge(ConnectionList connectionList, boolean symmetric, boolean storeRecursive) {
+//		call to generic merge method on ExtractedConnectionList Class which can be used from subclasses
+//		with right values for symmetric (if true: treat A:B and B:A as same key) and storeRecursive (if true: store A:A)
 		extractedConnectionList.merge(connectionList, symmetric, storeRecursive);
 	}
 	
 	private ConnectionList initializeTargetMatchList(JSONArray jsonArray, ConnectionList connectionList, String connection) {
+//		memorize all target resourceIds of connections, which have to be matched
+//		initialize ConnectionList with all resourceIds of searched connections
 		ConnectionList connectionList_new = connectionList;
 		try {
 			for(int index = 0; index < jsonArray.length(); index++) {
@@ -204,6 +221,7 @@ class ExtractedData {
 	}	
 	
 	protected Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
+//		method removes double entries (edge because one attributePair represents/will be interpreted as an edge)
 		Set<ArrayList<String>> no_redundant = redundant;
 		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
 		
@@ -211,7 +229,7 @@ class ExtractedData {
 			redundant_tmp.add(attributePair);
 		}
 		
-		for (int i=0; i<redundant_tmp.size();i++) {
+		for (int i=0; i<redundant_tmp.size(); i++) {
 			ArrayList<String> attributePair = redundant_tmp.get(i);
 
 			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
@@ -227,6 +245,8 @@ class ExtractedData {
 	}
 	
 	private ConnectionList removeUncompleteEntries(ConnectionList connectionList) {
+//		remove entries from connectionList where either target or source could not be found
+//		e.g. if Connectors where not connected properly or not all possible Connectors were in used ConnectorList
 		String origin = connectionList.getOrigin();
 		ConnectionList connectionList_new = new ConnectionList(origin);
 		

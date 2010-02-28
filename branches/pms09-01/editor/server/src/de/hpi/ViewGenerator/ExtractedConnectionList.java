@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-
 class ExtractedConnectionList {
-
+//	an ExtractedConnectionList can hold the extracted data of multiple models
+//	for this it can merge a ConnectionList to its hold data
 	private HashMap<ArrayList<String>, ArrayList<String>> extractedConnectionList; 
 	private HashMap<String,String> origins; 
 	
@@ -44,14 +44,17 @@ class ExtractedConnectionList {
 		String source = connectionAttributes.getSourceAttribute();
 		String target = connectionAttributes.getTargetAttribute();		
 		
+//		create both possible source/target combinations, because if treated as symmetric they are treated equivalently
 		extractedConnectionKey1.add(source);
 		extractedConnectionKey2.add(target);
 		extractedConnectionKey1.add(target);
 		extractedConnectionKey2.add(source);
 		
-		
 		if (storeRecursive || (!source.equals(target))) {
+//			source and target are different or we want to save recursive values because storeRecursive is true
+			
 			if ((extractedConnectionList.containsKey(extractedConnectionKey1))) {
+//				key is present, add values to existing values
 				ArrayList<String> extractedConnectionValue = extractedConnectionList.get(extractedConnectionKey1);
 				if (!extractedConnectionValue.contains(connectionId)) {
 					extractedConnectionValue.add(connectionId);
@@ -60,24 +63,25 @@ class ExtractedConnectionList {
 			}
 			
 			else if (!extractedConnectionList.containsKey(extractedConnectionKey1) && !symmetric){
-				
+//				key is not present and we do not have to look for extractedConnectionKey2 because symmetric is false
+//				therefore create new key/value pair
 				ArrayList<String> extractedConnectionValue = new ArrayList<String>();
 				extractedConnectionValue.add(connectionId);				
 				extractedConnectionList.put(extractedConnectionKey1, extractedConnectionValue);
 			}
 			
 			else if (!extractedConnectionList.containsKey(extractedConnectionKey1) && symmetric){
-				
+//				still have to look for extractedConnectionKey2 because symmetric is true
 				if (extractedConnectionList.containsKey(extractedConnectionKey2)) {
-					
+//					key is present, add values to existing values
 					ArrayList<String> extractedConnectionValue = extractedConnectionList.get(extractedConnectionKey2);
 					if (!extractedConnectionValue.contains(connectionId)) {
 						extractedConnectionValue.add(connectionId);
 					}
-					extractedConnectionList.put(extractedConnectionKey2, extractedConnectionValue);
-					
+					extractedConnectionList.put(extractedConnectionKey2, extractedConnectionValue);				
 				}
 				else {
+//					key is not present, create new key/value pair
 					ArrayList<String> extractedConnectionValue = new ArrayList<String>();
 					extractedConnectionValue.add(connectionId);					
 					extractedConnectionList.put(extractedConnectionKey1, extractedConnectionValue);
@@ -88,13 +92,17 @@ class ExtractedConnectionList {
 	
 	
 	public void merge(ConnectionList connectionList, boolean symmetric, boolean storeRecursive){
+//		will merge the data hold by connectionList to extractedConnectionList according to the values of symmetric and storeRecursive
+//		symmetric (if true: treat A:B and B:A as same key) and storeRecursive (if true: store A:A)
 		for (String connectionId: connectionList.connectionIds()) {
+//			add new origins and merge every connection
 			origins.put(connectionId, connectionList.getOrigin());
 			mergeConnectionWithId(connectionId, connectionList, symmetric, storeRecursive);
 		}	
 	}
 	
 	public ArrayList<String> getOriginsForConnectionAttributePair(ArrayList<String> connectionAttributes) {
+//		return all diagramPaths where this attributePair could be extracted
 		ArrayList<String> originsForCon = new ArrayList<String>();
 		for (String connectionId: getResourceIdsFor(connectionAttributes)) {
 			originsForCon.add(origins.get(connectionId));

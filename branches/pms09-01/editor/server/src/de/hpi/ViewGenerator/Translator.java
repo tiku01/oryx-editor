@@ -24,10 +24,13 @@
 package de.hpi.ViewGenerator;
 
 public class Translator {
-	
+//	responsible for translating a TranslatorInput Class into a dot/neato representation
+//	of its described nodes and edges (graphviz)
 	public String translate(String graphLabel, TranslatorInput translatorInput, String translateAlgorithm) {
+//		neato is used for structured representations, therefore only undirected edges exist
 		if (translateAlgorithm.equals("neato")) {
 			String translated = "graph " + graphLabel + "{\n";
+			
 			for (TranslatorInputNode node: translatorInput.getNodes()) {
 				translated = translated + "node [";
 				
@@ -48,13 +51,10 @@ public class Translator {
 				}
 				translated = translated + "];\n";
 			}
-			
 			translated = translated + "}";
-			System.out.println(translated);
-
 			return translated;
 		}
-		
+//		dot is used for directed graphs
 		if (translateAlgorithm.equals("dot")) {
 			String translated = "digraph " + graphLabel + "{\n";
 		
@@ -64,7 +64,6 @@ public class Translator {
 				for (String attribute: node.attributes()) {
 					translated = translated + attribute + " = " + node.getAttribute(attribute) + ", ";
 				}
-				
 				translated = translated + "] " + node.getNodeId() + ";\n";
 			}
 			
@@ -72,20 +71,15 @@ public class Translator {
 				translated = translated + edge.getSourceNodeId();
 				translated = translated + " -> ";
 				translated = translated + edge.getTargetNodeId();
-				
 				translated = translated + " [";
 				for (String attribute: edge.attributes()) {
 					translated = translated + attribute + " = " + edge.getAttribute(attribute) + ", ";
 				}
 				translated = translated + "];\n";
 			}
-			
 			translated = translated + "}";
-			System.out.println(translated);
-
 			return translated;
 		}
-		
 		return "";
 	}
 }
