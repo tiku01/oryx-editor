@@ -25,11 +25,10 @@ package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 
 public class TranslatorInput {
-	
+//	holds information in form of nodes and edges like specified in dot/neato graph notation languages (graphviz)
 	private String layoutAlgorithm;
 	private ArrayList<TranslatorInputNode> nodes;
 	private ArrayList<TranslatorInputEdge> edges;
-
 	
 	public TranslatorInput(String layoutAlgorithm) {
 		this.layoutAlgorithm = layoutAlgorithm;

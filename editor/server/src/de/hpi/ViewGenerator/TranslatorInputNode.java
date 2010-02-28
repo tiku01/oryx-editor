@@ -28,11 +28,10 @@ import java.util.Set;
 
 
 public class TranslatorInputNode {
-	
+//	represents one node according to dot/neato notation (graphviz) with possible attributes
 	private String id;
 	private HashMap<String,String> attributes;
 
-	
 	public TranslatorInputNode(String NodeId) {
 		this.id = NodeId;
 		this.attributes = new HashMap<String,String>();

@@ -37,11 +37,11 @@ import de.hpi.ViewGenerator.ViewGenerator;
 
 
 public class ViewGeneratorServlet extends HttpServlet {
+//	responsible for handling the request, instantiating the correct ReadWriterAdapter and passing it to a ViewGenerator instance
 
 	private static final long serialVersionUID = -2308798783469734955L;
 	private String baseURL = "viewgenerator/";
 	private String oryxRootDirectory;
-	
 	
 	@Override
 	public void init() throws ServletException {
@@ -82,8 +82,7 @@ public class ViewGeneratorServlet extends HttpServlet {
 			out.println("The input diagrams parameter was empty, no diagrams were selected as input.");
 		}
 		else {
-//			modeluris parameter was set correctly
-			
+//			modeluris parameter was set correctly		
 //			storing modeluris, replacing spaces, because the Strings will be used for URI-creation later
 			ArrayList<String> diagramPaths = new ArrayList<String>();
 			for (int i=0;i<value.length;i++) {
@@ -103,7 +102,7 @@ public class ViewGeneratorServlet extends HttpServlet {
 			ViewGenerator viewGenerator = new ViewGenerator(rwa);
 			viewGenerator.generate(diagramPaths);
 			
-//			set response status to ok and return url where to find the overview/project navigator html
+//			set response status to OK and return url where to find the overview/project navigator html
 			resp.setStatus(200);
 			String url = "http://" + req.getServerName()+":" + req.getServerPort() +"/oryx"+"/"+ baseURL + current + "/" + viewGenerator.getOverviewHTMLName();
 			out.write(url);

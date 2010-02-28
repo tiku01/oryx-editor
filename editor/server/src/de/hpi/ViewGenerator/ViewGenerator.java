@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 
 public class ViewGenerator {
+//	responsible for extracting the necessary data and creating/generating all necessary files for the wanted views
 	private String overviewHTMLName;
 	private ReadWriteAdapter rwa;
 
@@ -82,19 +83,23 @@ public class ViewGenerator {
 		int handovers_count = lanePassings.getHandoversCount();
 		int interactions_count = communications.getInteractionsCount();
 		
+//		get the ExtractedConnectionLists
 		ExtractedConnectionList extractedCommunications = communications.getExtractedConnectionList();
 		ExtractedConnectionList extractedLanePassings = lanePassings.getExtractedConnectionList();
 		ExtractedConnectionList extractedDataMappings = dataMapping.getExtractedConnectionList();
 		
+//		create OriginSVGs and OriginHTMLs
 		createOriginFiles(extractedCommunications);
 		createOriginFiles(extractedLanePassings);
 		createOriginFiles(extractedDataMappings);
 		
+//		generate Views
 		SVGGenerator generator = new SVGGenerator(rwa);
 		generator.generateConversationView(extractedCommunications, communicationsSVGName);
 		generator.generateHandoversView(extractedLanePassings, lanePassingsSVGName);
 		generator.generateInformationAccessView(extractedDataMappings, dataMappingSVGName);
 		
+//		create all other HTMLs
 		createHTMLs(communicationsSVGName, lanePassingsSVGName, dataMappingSVGName, processes_count, dataObjects_count, roles_count, handovers_count, interactions_count);	
 		}
 	
@@ -302,6 +307,7 @@ public class ViewGenerator {
 	}
 	
 	private void createOriginSVGs(ExtractedConnectionList extractedConnectionList) {
+//		the variable right frame of an originsHTML
 		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {	
 			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
 
@@ -313,6 +319,7 @@ public class ViewGenerator {
 	}
 	
 	private File createOriginsIndexHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
+//		the fixed left frame of an originsHTML
 		int fontSize = 4;
 		File htmlFile;
 		
