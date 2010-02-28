@@ -3,8 +3,10 @@ package de.hpi.ViewGenerator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,8 +87,7 @@ public class ReadWriteAdapter {
 				
 		return json;
 	}
-		
-		
+				
 	public String getSVG(String diagramPath) {
 		Document xml = modelDictionary.get(diagramPath);
 	  	NodeList nodeList = xml.getElementsByTagName("svg-representation");
@@ -94,8 +95,7 @@ public class ReadWriteAdapter {
 		String svg = svgNode.getTextContent();
 			
 		return svg;
-	}
-		
+	}		
 		
 	public String getDescription(String diagramPath) {
 		Document xml = modelDictionary.get(diagramPath);	
@@ -104,6 +104,30 @@ public class ReadWriteAdapter {
 		String description = descriptionNode.getTextContent();
 				
 		return description;
+	}
+	
+	public String getOriginName(String origin) {
+		try {
+	  		URLConnection originCon = new URL(origin).openConnection();
+	  		String originName = originCon.getHeaderField("Content-Disposition");
+	  		if (originName == null) {
+//	  			Header Field not set or local file
+	  			originName = origin.substring(origin.lastIndexOf("/")+1,origin.lastIndexOf("."));
+	  		}
+	  		else {
+		  		originName = originName.substring(originName.indexOf("=")+1,originName.lastIndexOf(".") );
+	  		}
+	  		return originName;
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+			return "";
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+
 	}
 	
 	public File createFile(String fileName) {
@@ -121,5 +145,17 @@ public class ReadWriteAdapter {
 	public String getFileName(String fileName) {
 //		using hashCode so caseSensitive fileNames will not result in same file on windows systems
 		return fileName.hashCode()+"";
+	}
+	
+	public String getOriginIndexHTMLName(ArrayList<String> attributePair) {
+		return getFileName(attributePair.toString())+"_index.html";
+	}
+	
+	public String getOriginSVGName(ArrayList<String> attributePair, int originNumber) {
+		return getFileName(attributePair.toString()) + originNumber + ".svg";
+	}
+	
+	public String getOriginHTMLName(ArrayList<String> attributePair) {
+		return getFileName(attributePair.toString()) + ".html";
 	}
 }

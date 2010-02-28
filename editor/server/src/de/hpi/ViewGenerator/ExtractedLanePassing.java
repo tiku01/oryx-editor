@@ -24,7 +24,6 @@
 package de.hpi.ViewGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -34,29 +33,41 @@ import org.json.JSONObject;
 public class ExtractedLanePassing extends ExtractedData {
 	private String connection;
 	private ConnectorList connectorList;
-	private String layoutAlgorithm;
-	private String graphLabel;
-	private String svgName;
 	private int rolesCount;
 	private int handoversCount;
 
 
 	public ExtractedLanePassing(ReadWriteAdapter rwa) {
 		super(rwa);
-		this.handoversCount = 0;
-		this.rolesCount = 0;
 		this.connection = "SequenceFlow";
-		this.graphLabel = "Handovers";
-		this.svgName = "Handovers";
-		this.layoutAlgorithm = "dot";
 		this.initializeConnectorList();
 		this.extractLanePassings(rwa.getDiagramPaths());
 	}
 	
-	public String getSVGName() {
-		return svgName;
+	private void initializeCounts(Set<String> diagramPaths) {
+		ArrayList<String> done_Ids = new ArrayList<String>();
+		handoversCount = 0;
+		rolesCount = 0;	
+		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
+		
+//			treat any handover with same direction (same source and target) as the same handover			
+			handoversCount +=1;
+			
+//			attributePairs should have a length of 2, a target and a source
+			String sourceId = attributePair.get(0);
+			String targetId = attributePair.get(1);
+			
+			if (!done_Ids.contains(sourceId)) {
+				rolesCount +=1;	
+				done_Ids.add(sourceId);
+			}
+			if (!done_Ids.contains(targetId)) {
+				rolesCount +=1;
+				done_Ids.add(targetId);
+			}										
+		}
 	}
-	
+			
 	public int getRolesCount() {
 		return rolesCount;
 	}
@@ -125,7 +136,6 @@ public class ExtractedLanePassing extends ExtractedData {
 	}
 	
 	private void extractLanePassings(Set<String> diagramPaths) {
-		
 		for (String diagramPath: diagramPaths) {
 			
 			ConnectionList connectionList = new ConnectionList(diagramPath);				
@@ -144,96 +154,6 @@ public class ExtractedLanePassing extends ExtractedData {
 			
 			merge(connectionList, false, false);	
 		}
-	}
-	
-	
-	public void generateSVG() {
-		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
-		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
-	}
-	
-	
-	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
-		Set<ArrayList<String>> no_redundant = redundant;
-		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
-		
-		for (ArrayList<String> attributePair: redundant) {
-			redundant_tmp.add(attributePair);
-		}
-		
-		for (int i=0; i<redundant_tmp.size();i++) {
-			ArrayList<String> attributePair = redundant_tmp.get(i);
-			
-			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
-			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
-			
-			if (redundant_subcol.contains(attributePair)) {
-				int index = redundant_subcol.indexOf(attributePair) + i;
-				redundant_tmp.remove(index);
-				no_redundant.remove(index);
-			}
-		}
-		return no_redundant;
-	}
-	
-	private TranslatorInputNode createHumanAgentNode(String nodeId) {
-		TranslatorInputNode humanAgentNode = new TranslatorInputNode(nodeId);
-		humanAgentNode.setAttribute("shape", "box");
-		humanAgentNode.setAttribute("imagescale", "true");
-		humanAgentNode.setAttribute("labelloc", "b");
-		humanAgentNode.setAttribute("margin", "1.11,0.01");
-		humanAgentNode.setAttribute("image", "\"../static/human_agent.png\"");
-		humanAgentNode.setAttribute("label", nodeId);
-		rolesCount +=1;
-		
-		return humanAgentNode;
-	}
-	
-	private TranslatorInputEdge createEdge(String sourceNodeId, String targetNodeId, String urlAttribute) {
-		TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
-		edge.setAttribute("URL", urlAttribute);
-		edge.setAttribute("target", "_blank");
-		return edge;
-	}
-	
-	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {
-		TranslatorInput input = new TranslatorInput(layoutAlgorithm);
-		ArrayList<String> done_Ids = new ArrayList<String>();
-	
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
-		
-//			treat any handover with same direction (same source and target) as the same handover			
-			handoversCount +=1;
-			
-//			attributePairs should have a length of 2, a target and a source
-			String sourceId = attributePair.get(0);
-			String targetId = attributePair.get(1);
-			
-//			Node for source
-			String sourceNodeId = "\"" + removeEscChars(sourceId) + "\"";
-			TranslatorInputNode sourceNode;
-			
-			if (!done_Ids.contains(sourceId)) {
-				sourceNode = createHumanAgentNode(sourceNodeId);
-				input.addNode(sourceNode);
-				done_Ids.add(sourceId);
-			}
-				
-//			Node for target
-			String targetNodeId = "\"" + removeEscChars(targetId) + "\"";
-			TranslatorInputNode targetNode;
-
-			if (!done_Ids.contains(targetId)) {
-				targetNode = createHumanAgentNode(targetNodeId);
-				input.addNode(targetNode);
-				done_Ids.add(targetId);
-			}
-		
-//			edge between source and target		
-			String urlAttribute = "\"" + getOriginHTMLName(attributePair) + "\"";
-			TranslatorInputEdge edge = createEdge(sourceNodeId, targetNodeId, urlAttribute);
-			input.addEdge(edge);									
-		}
-		return input;
+		initializeCounts(diagramPaths);
 	}
 }

@@ -22,30 +22,23 @@
 ****************************************/
 
 package de.hpi.ViewGenerator;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 class ExtractedData {
-	
 	protected ExtractedConnectionList extractedConnectionList;
 	protected ReadWriteAdapter rwa;
 
 	public ExtractedData(ReadWriteAdapter rwa) {
 		this.rwa = rwa;
 		this.extractedConnectionList = new ExtractedConnectionList();
-	}
-	
+	}	
 	
 	private ConnectionList extractFromChildShapes(JSONObject jsonObject, ConnectionList connectionList, ConnectorList connectorList,  HashMap<String, JSONObject> stencilLevels) {
 		ConnectionList connectionList_new = connectionList;
@@ -72,7 +65,6 @@ class ExtractedData {
 		}			
 		return connectionList_new;
 	}
-
 	
 	private void extractTargetAttribute(JSONObject jsonObject, ConnectorList connectorList, ConnectionList connectionList_new, HashMap<String, JSONObject> stencilLevels, String stencilId) {
 		try {						
@@ -88,8 +80,7 @@ class ExtractedData {
 		catch (JSONException e) {
 			  e.printStackTrace(); 
 		}	
-	}
-	
+	}	
 	
 	private void extractSourceAttribute(JSONArray outgoingArray, ConnectorList connectorList, ConnectionList connectionList_new, HashMap<String, JSONObject> stencilLevels, String stencilId) {
 		try {
@@ -210,9 +201,30 @@ class ExtractedData {
 			  e.printStackTrace(); 
 		}
 		return connectionList_new;
-
-	}
+	}	
 	
+	protected Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
+		Set<ArrayList<String>> no_redundant = redundant;
+		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
+		
+		for (ArrayList<String> attributePair: redundant) {
+			redundant_tmp.add(attributePair);
+		}
+		
+		for (int i=0; i<redundant_tmp.size();i++) {
+			ArrayList<String> attributePair = redundant_tmp.get(i);
+
+			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
+			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
+			
+			if (redundant_subcol.contains(attributePair)) {
+				int index = redundant_subcol.indexOf(attributePair) + i;
+				redundant_tmp.remove(index);
+				no_redundant.remove(index);
+			}
+		}
+		return no_redundant;
+	}
 	
 	private ConnectionList removeUncompleteEntries(ConnectionList connectionList) {
 		String origin = connectionList.getOrigin();
@@ -229,173 +241,12 @@ class ExtractedData {
 		}
 		return connectionList_new;
 	}
-	
-	protected void generateFiles(String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm, String svgName) {
-		SVGGenerator generator = new SVGGenerator(rwa, graphLabel, translatorInput, layoutAlgorithm, svgName);
-		createOriginSVGs(extractedConnectionList);
-		createOriginsHTMLs(extractedConnectionList);
-		generator.generateSVG();
-	}
-	
-	
+		
 	protected String getJSON(String diagramPath) {		
 		return rwa.getJSON(diagramPath);
 	}
-	
-	
-	protected String getSVG(String diagramPath) {
-		return rwa.getSVG(diagramPath);
-	}
-	
-	
-	protected String getDescription(String diagramPath) {
-		return rwa.getDescription(diagramPath);
-	}
-	
-	private String getFileName(String attributePair) {
-		return rwa.getFileName(attributePair);
-	}
-	
-	protected String getOriginIndexHTMLName(ArrayList<String> attributePair) {
-		return getFileName(attributePair.toString())+"_index.html";
-	}
-	
-	protected String getOriginSVGName(ArrayList<String> attributePair, int originNumber) {
-		return getFileName(attributePair.toString()) + originNumber + ".svg";
-	}
-	
-	protected String getOriginHTMLName(ArrayList<String> attributePair) {
-		return getFileName(attributePair.toString()) + ".html";
-	}
 		
-	protected String removeEscChars(String fileName) {
-//		replacing escaped chars, e.g. for graphVizLabels
-		String fileName_new = fileName.replace("\n", "").replace("\t","").replace("\r","");
-		return fileName_new;
-	}
-	
-	protected String replaceSpecialCharsForHTML(String s) {
-//		replacing special chars related to displaying in html
-		String fileName_new = StringEscapeUtils.escapeHtml(s);
-		return fileName_new;
-	}
-		
-	protected File createOriginSVG(ArrayList<String> attributePair, String diagramPath, int originNumber) {
-		File svgFile;
-		String svg = getSVG(diagramPath);
-	      try {
-	    	  String fileName = getOriginSVGName(attributePair, originNumber);
-	    	  svgFile = rwa.createFile(fileName);
-	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(svgFile),"UTF-8");
-	          out.write(svg);
-	          out.close();
-	          return svgFile;
-	      } 	      
-	      catch (java.io.IOException e) { 
-			  e.printStackTrace();
-			  return null;
-	      }
-	}
-	
-	protected void createOriginSVGs(ExtractedConnectionList extractedConnectionList) {
-		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {	
-			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
-
-			for (int i=0; i<origins.size(); i++) {
-				String diagramPath = origins.get(i);
-				createOriginSVG(attributePair, diagramPath, i);
-			}
-		}
-	}
-	
-	private File createOriginsIndexHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
-		int fontSize = 4;
-		File htmlFile;
-		
-		try {
-			String fileName = getOriginIndexHTMLName(attributePair);
-		    htmlFile = rwa.createFile(fileName);	    
-	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
-	
-		    out.write("<!doctype html>\n");
-		    out.write("<html><head>");
-		    out.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
-		    out.write("<script type=\"text/javascript\" src=\"../static/infoBox.js\"></script>");
-		    out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"../static/infoBox.css\" />");
-		    out.write("</head>");
-		    out.write("<body><h3><center>Origins for "+replaceSpecialCharsForHTML(attributePair.toString())+"</center></h3><hr>");
-
-		  	for (int i=0; i<origins.size(); i++) {
-		  		String originSVG = getOriginSVGName(attributePair, i);
-		  		String origin = origins.get(i);
-		  		URLConnection originCon = new URL(origin).openConnection();
-		  		String originName = originCon.getHeaderField("Content-Disposition");
-		  		if (originName == null) {
-//		  			Header Field not set or local file
-		  			originName = origin.substring(origin.lastIndexOf("/")+1,origin.lastIndexOf("."));
-		  		}
-		  		else {
-			  		originName = originName.substring(originName.indexOf("=")+1,originName.lastIndexOf(".") );
-		  		}
-		  		out.write("<div class=\"origin\">");
-			    out.write("<div class=\"originName\">");
-		        out.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialCharsForHTML(originName)+"</font></A></td>");
-			    out.write("</div>");
-			    out.write("<div class=\"infoBox\">");
-			    String description = replaceSpecialCharsForHTML(getDescription(origins.get(i)));
-			    if (description.equals("")) {
-				    out.write("<font>No Description given.</font>");
-			    }
-			    else {
-				    out.write("<font>"+description+"</font>");
-			    }
-			    out.write("</div>");
-			    out.write("</div>");
-		  	}
-	        out.write("</body></html>");
-	        out.close();
-	        return htmlFile;	
-		} 	      
-		catch (java.io.IOException e) { 
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	private File createOriginsHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
-		createOriginsIndexHTML(attributePair, origins);
-		File htmlFile;
-		try {
-			String fileName = getOriginHTMLName(attributePair);
-		    htmlFile = rwa.createFile(fileName);
-		    
-	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
-		    out.write("<!doctype html>\n");
-		    out.write("<html>\n<head>\n<title>Origins for " +replaceSpecialCharsForHTML(attributePair.toString())+ "</title>\n</head>");
-		    out.write("<frameset cols=\"15%,85%\">");
-		    out.write("<body>");
-		    out.write("<frame name=index src=\""+ getOriginIndexHTMLName(attributePair)+"\">");
-		    out.write("<frame name=content src=\""+ getOriginSVGName(attributePair, 0) + "\">");
-		    out.write("</frameset>");
-	        out.write("</body></html>");
-	        out.close();
-	        return htmlFile;	
-		} 	    	
-		catch (java.io.IOException e) { 
-			e.printStackTrace();
-			return null;
-		}
-	}
-		
-	protected void createOriginsHTMLs(ExtractedConnectionList extractedConnectionList) {
-		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
-			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
-			createOriginsHTML(attributePair, origins);	
-		}
-	}
-	
-	public ExtractedConnectionList getExtractedConnections() {
+	public ExtractedConnectionList getExtractedConnectionList() {
 		return extractedConnectionList;
 	}
 }
