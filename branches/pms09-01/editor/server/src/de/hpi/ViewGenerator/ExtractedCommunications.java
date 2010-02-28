@@ -116,8 +116,9 @@ public class ExtractedCommunications extends ExtractedData {
 //			merge with symmetric as true and storeRecursive as false
 			merge(connectionList, true, false);
 		}
-		initializeInteractionsCount(diagramPaths);
+//		fusion communications according to their correlationKey after that count the communications
 		fusionCommunicationsOnCorrelationKey();
+		initializeInteractionsCount(diagramPaths);
 	}
 	
 	private HashMap<String,ArrayList<String>> createCorrelationKeyDictionary(JSONArray jsonArray) {
