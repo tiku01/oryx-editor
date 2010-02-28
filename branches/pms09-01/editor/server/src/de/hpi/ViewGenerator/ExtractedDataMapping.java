@@ -24,7 +24,6 @@
 package de.hpi.ViewGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -36,39 +35,52 @@ public class ExtractedDataMapping extends ExtractedData {
 	private String connection_bi;
 	private String connection_un;
 	private String connection_help;
-	private String layoutAlgorithm;
-	private String graphLabel;
 	private ConnectorList connectorList_dir;
 	private ConnectorList connectorList_undir;
 	private ConnectorList connectorList_help;
-	private String svgName;
 	private int dataObjectsCount;
 
 	
 	public ExtractedDataMapping(ReadWriteAdapter rwa) {
 		super(rwa);
-		this.dataObjectsCount = 0;
 		this.connection_uni = "Association_Unidirectional";
 		this.connection_bi = "Association_Bidirectional";
 		this.connection_un = "Association_Undirected";
 		this.connection_help = "SequenceFlow";
-		this.layoutAlgorithm = "dot";
-		this.graphLabel = "Information_Access";
-		this.svgName = "Information Access";
 		this.initializeConnectorLists();
 		this.extractDataMappings(rwa.getDiagramPaths());
 	}
 	
-	public String getSVGName() {
-		return svgName;
+	private void initializeDataObjectsCount(Set<String> diagramPaths) {
+		dataObjectsCount = 0;
+		ArrayList<String> done_Ids = new ArrayList<String>();
+
+		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
+//			attributePairs should have a length of 2, a target and a source
+			String sourceId = attributePair.get(0);
+			String targetId = attributePair.get(1);
+				
+			if (!done_Ids.contains(sourceId)) {
+				if (sourceId.contains("DataObject\\n") || sourceId.contains("DataStore\\n")) {	
+					dataObjectsCount +=1;
+				}
+				done_Ids.add(sourceId);
+			}
+			
+			if (!done_Ids.contains(targetId)) {			
+				if (targetId.contains("DataObject\\n") || targetId.contains("DataStore\\n")) {
+					dataObjectsCount +=1;
+				}
+				done_Ids.add(targetId);
+			}									
+		}
 	}
 	
 	public int getDataObjectsCount() {
 		return dataObjectsCount;
 	}
 	
-	private void initializeConnectorLists() {
-		
+	private void initializeConnectorLists() {		
 		ArrayList<String> parentListNoParents = new ArrayList<String>();
 		ArrayList<String> parentListTaskEventGateway = new ArrayList<String>();
 		parentListTaskEventGateway.add("Pool");
@@ -203,6 +215,7 @@ public class ExtractedDataMapping extends ExtractedData {
 			merge(splitToUnidirected(connectionList_bi), false, true);
 			merge(joinSplitToUnidirected(connectionList_un, connectionList_help),false, true);
 		}
+		initializeDataObjectsCount(diagramPaths);
 	}
 	
 	private ConnectionList splitToUnidirected(ConnectionList connectionList_bidirected) {
@@ -281,134 +294,5 @@ public class ExtractedDataMapping extends ExtractedData {
 			}			
 		}
 		return connectionList_uni;
-	}
-	
-	
-	public void generateSVG() {
-		TranslatorInput translatorInput = createTranslatorInput(extractedConnectionList);
-		generateFiles(graphLabel, translatorInput, layoutAlgorithm, svgName);
-	}
-	
-	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
-		Set<ArrayList<String>> no_redundant = redundant;
-		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
-		
-		for (ArrayList<String> attributePair: redundant) {
-			redundant_tmp.add(attributePair);
-		}
-		
-		for (int i=0; i<redundant_tmp.size();i++) {
-			ArrayList<String> attributePair = redundant_tmp.get(i);
-
-			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
-			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
-			
-			if (redundant_subcol.contains(attributePair)) {
-				int index = redundant_subcol.indexOf(attributePair) + i;
-				redundant_tmp.remove(index);
-				no_redundant.remove(index);
-			}
-		}
-		return no_redundant;
-	}
-	
-	private TranslatorInputNode createDataObjectNode(String nodeId) {
-		TranslatorInputNode dataObjectNode = new TranslatorInputNode(nodeId);
-		dataObjectNode.setAttribute("shape", "box");
-		dataObjectNode.setAttribute("imagescale", "true");
-		dataObjectNode.setAttribute("labelloc", "c");
-		dataObjectNode.setAttribute("margin", "0.81,0.155");
-		dataObjectNode.setAttribute("image", "\"../static/data_object.png\"");
-		dataObjectNode.setAttribute("label", nodeId);
-		dataObjectsCount +=1;
-		
-		return dataObjectNode;
-	}
-	
-	private TranslatorInputNode createDataStoreNode(String nodeId) {
-		TranslatorInputNode dataStoreNode = new TranslatorInputNode(nodeId);
-		dataStoreNode.setAttribute("shape", "box");
-		dataStoreNode.setAttribute("imagescale", "true");
-		dataStoreNode.setAttribute("labelloc", "b");
-		dataStoreNode.setAttribute("margin", "0.81,0.155");
-		dataStoreNode.setAttribute("image", "\"../static/data_store.png\"");
-		dataStoreNode.setAttribute("label", nodeId);
-		dataObjectsCount +=1;
-		
-		return dataStoreNode;
-	}
-	
-	private TranslatorInputNode createHumanAgentNode(String nodeId) {
-		TranslatorInputNode humanAgentNode = new TranslatorInputNode(nodeId);
-		humanAgentNode.setAttribute("shape", "box");
-		humanAgentNode.setAttribute("imagescale", "true");
-		humanAgentNode.setAttribute("labelloc", "b");
-		humanAgentNode.setAttribute("margin", "1.11,0.01");
-		humanAgentNode.setAttribute("image", "\"../static/human_agent.png\"");
-		humanAgentNode.setAttribute("label", nodeId);
-		
-		return humanAgentNode;
-	}
-	
-	private TranslatorInputEdge createEdge(String sourceNodeId, String targetNodeId, String urlAttribute) {
-		TranslatorInputEdge edge = new TranslatorInputEdge(sourceNodeId, targetNodeId);
-		edge.setAttribute("URL", urlAttribute);
-		edge.setAttribute("target", "_blank");
-		return edge;
-	}
-	
-	private TranslatorInput createTranslatorInput(ExtractedConnectionList extractedConnectionList) {
-		TranslatorInput input = new TranslatorInput(layoutAlgorithm);
-		ArrayList<String> done_Ids = new ArrayList<String>();
-
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
-//			attributePairs should have a length of 2, a target and a source
-			String sourceId = attributePair.get(0);
-			String targetId = attributePair.get(1);
-				
-//			Node for source
-			String sourceNodeId = "\"" + removeEscChars(sourceId) + "\"";
-			
-			if (!done_Ids.contains(sourceId)) {
-				TranslatorInputNode sourceNode;
-				
-				if (sourceId.contains("DataObject\\n")) {
-					sourceNode = createDataObjectNode(sourceNodeId);
-				}
-				else if (sourceId.contains("DataStore\\n")) {
-					sourceNode = createDataStoreNode(sourceNodeId);
-				}
-				else {
-					sourceNode = createHumanAgentNode(sourceNodeId);
-				}
-				input.addNode(sourceNode);
-				done_Ids.add(sourceId);
-			}
-				
-//			Node for target
-			String targetNodeId = "\"" + removeEscChars(targetId) + "\"";
-			
-			if (!done_Ids.contains(targetId)) {
-				TranslatorInputNode targetNode;
-				
-				if (targetId.contains("DataObject\\n")) {
-					targetNode = createDataObjectNode(targetNodeId);
-				}
-				else if (targetId.contains("DataStore\\n")) {
-					targetNode = createDataStoreNode(targetNodeId);
-				}
-				else {
-					targetNode = createHumanAgentNode(targetNodeId);
-				}
-				input.addNode(targetNode);
-				done_Ids.add(targetId);
-			}
-				
-//			edge between source and target 
-			String urlAttribute = "\"" + getOriginHTMLName(attributePair) + "\"";
-			TranslatorInputEdge edge = createEdge(sourceNodeId, targetNodeId, urlAttribute);
-			input.addEdge(edge);											
-		}
-		return input;
-	}
+	}	
 }

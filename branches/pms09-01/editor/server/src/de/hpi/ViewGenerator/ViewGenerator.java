@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 
 public class ViewGenerator {
 	private String overviewHTMLName;
@@ -62,15 +64,15 @@ public class ViewGenerator {
 		ExtractedDataMapping dataMapping = new ExtractedDataMapping(rwa);
 		ExtractedCommunications communications = new ExtractedCommunications(rwa);
 		
-//		tell the SubClasses to generate a SVG-representation of their hold data
-		communications.generateSVG();
-		lanePassings.generateSVG();
-		dataMapping.generateSVG();
+////		tell the SubClasses to generate a SVG-representation of their hold data
+//		communications.generateSVG();
+//		lanePassings.generateSVG();
+//		dataMapping.generateSVG();
 		
 //		ask for the names of the generated files for embedding it in html
-		String communicationsSVGName = communications.getSVGName();
-		String lanePassingsSVGName = lanePassings.getSVGName();
-		String dataMappingSVGName = dataMapping.getSVGName();
+		String communicationsSVGName = "Conversation View";
+		String lanePassingsSVGName = "Handovers";
+		String dataMappingSVGName = "Information Access";
 
 //		ask for specific values which the SubClasses have counted
 //		these will be listed in overview/project navigator html
@@ -79,6 +81,19 @@ public class ViewGenerator {
 		int roles_count = lanePassings.getRolesCount();
 		int handovers_count = lanePassings.getHandoversCount();
 		int interactions_count = communications.getInteractionsCount();
+		
+		ExtractedConnectionList extractedCommunications = communications.getExtractedConnectionList();
+		ExtractedConnectionList extractedLanePassings = lanePassings.getExtractedConnectionList();
+		ExtractedConnectionList extractedDataMappings = dataMapping.getExtractedConnectionList();
+		
+		createOriginFiles(extractedCommunications);
+		createOriginFiles(extractedLanePassings);
+		createOriginFiles(extractedDataMappings);
+		
+		SVGGenerator generator = new SVGGenerator(rwa);
+		generator.generateConversationView(extractedCommunications, communicationsSVGName);
+		generator.generateHandoversView(extractedLanePassings, lanePassingsSVGName);
+		generator.generateInformationAccessView(extractedDataMappings, dataMappingSVGName);
 		
 		createHTMLs(communicationsSVGName, lanePassingsSVGName, dataMappingSVGName, processes_count, dataObjects_count, roles_count, handovers_count, interactions_count);	
 		}
@@ -236,5 +251,142 @@ public class ViewGenerator {
 	      catch (java.io.IOException e) { 
 			  e.printStackTrace();
 	      }
+	}
+	
+	private String getSVG(String diagramPath) {
+		return rwa.getSVG(diagramPath);
+	}
+		
+	private String getDescription(String diagramPath) {
+		return rwa.getDescription(diagramPath);
+	}
+		
+	private String getOriginIndexHTMLName(ArrayList<String> attributePair) {
+		return rwa.getOriginIndexHTMLName(attributePair);
+	}
+	
+	private String getOriginSVGName(ArrayList<String> attributePair, int originNumber) {
+		return rwa.getOriginSVGName(attributePair, originNumber);
+	}
+	
+	private String getOriginHTMLName(ArrayList<String> attributePair) {
+		return rwa.getOriginHTMLName(attributePair);
+	}
+				
+	private String replaceSpecialCharsForHTML(String s) {
+//		replacing special chars related to displaying in html
+		String fileName_new = StringEscapeUtils.escapeHtml(s);
+		return fileName_new;
+	}
+		
+	private void createOriginFiles(ExtractedConnectionList extractedConnectionList) {
+		createOriginSVGs(extractedConnectionList);
+		createOriginsHTMLs(extractedConnectionList);
+	}
+		
+	private File createOriginSVG(ArrayList<String> attributePair, String diagramPath, int originNumber) {
+		File svgFile;
+		String svg = getSVG(diagramPath);
+	      try {
+	    	  String fileName = getOriginSVGName(attributePair, originNumber);
+	    	  svgFile = rwa.createFile(fileName);
+	    	  OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(svgFile),"UTF-8");
+	          out.write(svg);
+	          out.close();
+	          return svgFile;
+	      } 	      
+	      catch (java.io.IOException e) { 
+			  e.printStackTrace();
+			  return null;
+	      }
+	}
+	
+	private void createOriginSVGs(ExtractedConnectionList extractedConnectionList) {
+		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {	
+			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
+
+			for (int i=0; i<origins.size(); i++) {
+				String diagramPath = origins.get(i);
+				createOriginSVG(attributePair, diagramPath, i);
+			}
+		}
+	}
+	
+	private File createOriginsIndexHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
+		int fontSize = 4;
+		File htmlFile;
+		
+		try {
+			String fileName = getOriginIndexHTMLName(attributePair);
+		    htmlFile = rwa.createFile(fileName);	    
+	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
+	
+		    out.write("<!doctype html>\n");
+		    out.write("<html><head>");
+		    out.write("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js\"></script>");
+		    out.write("<script type=\"text/javascript\" src=\"../static/infoBox.js\"></script>");
+		    out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"../static/infoBox.css\" />");
+		    out.write("</head>");
+		    out.write("<body><h3><center>Origins for "+replaceSpecialCharsForHTML(attributePair.toString())+"</center></h3><hr>");
+
+		  	for (int i=0; i<origins.size(); i++) {
+		  		String originSVG = getOriginSVGName(attributePair, i);
+		  		String origin = origins.get(i);
+		  		String originName = rwa.getOriginName(origin);		  		
+		  		out.write("<div class=\"origin\">");
+			    out.write("<div class=\"originName\">");
+		        out.write("<td><A HREF=\""+originSVG+"\" target=\"content\"><font size = " +fontSize+">"+replaceSpecialCharsForHTML(originName)+"</font></A></td>");
+			    out.write("</div>");
+			    out.write("<div class=\"infoBox\">");
+			    String description = replaceSpecialCharsForHTML(getDescription(origins.get(i)));
+			    if (description.equals("")) {
+				    out.write("<font>No Description given.</font>");
+			    }
+			    else {
+				    out.write("<font>"+description+"</font>");
+			    }
+			    out.write("</div>");
+			    out.write("</div>");
+		  	}
+	        out.write("</body></html>");
+	        out.close();
+	        return htmlFile;	
+		} 	      
+		catch (java.io.IOException e) { 
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private void createOriginsHTMLs(ExtractedConnectionList extractedConnectionList) {
+		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
+			ArrayList<String> origins = extractedConnectionList.getOriginsForConnectionAttributePair(attributePair);
+			createOriginsHTML(attributePair, origins);	
+		}
+	}
+	
+	private File createOriginsHTML(ArrayList<String> attributePair, ArrayList<String> origins) {
+		createOriginsIndexHTML(attributePair, origins);
+		File htmlFile;
+		try {
+			String fileName = getOriginHTMLName(attributePair);
+		    htmlFile = rwa.createFile(fileName);
+		    
+	    	OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(htmlFile),"UTF-8");
+		    out.write("<!doctype html>\n");
+		    out.write("<html>\n<head>\n<title>Origins for " +replaceSpecialCharsForHTML(attributePair.toString())+ "</title>\n</head>");
+		    out.write("<frameset cols=\"15%,85%\">");
+		    out.write("<body>");
+		    out.write("<frame name=index src=\""+ getOriginIndexHTMLName(attributePair)+"\">");
+		    out.write("<frame name=content src=\""+ getOriginSVGName(attributePair, 0) + "\">");
+		    out.write("</frameset>");
+	        out.write("</body></html>");
+	        out.close();
+	        return htmlFile;	
+		} 	    	
+		catch (java.io.IOException e) { 
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
