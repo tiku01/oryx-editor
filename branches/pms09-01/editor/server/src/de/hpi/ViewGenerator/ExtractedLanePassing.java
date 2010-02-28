@@ -31,16 +31,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ExtractedLanePassing extends ExtractedData {
+//	class which extracts data for Handovers View
 	private String connection;
 	private ConnectorList connectorList;
 	private int rolesCount;
 	private int handoversCount;
 
-
 	public ExtractedLanePassing(ReadWriteAdapter rwa) {
 		super(rwa);
 		this.connection = "SequenceFlow";
-		this.initializeConnectorList();
 		this.extractLanePassings(rwa.getDiagramPaths());
 	}
 	
@@ -136,8 +135,9 @@ public class ExtractedLanePassing extends ExtractedData {
 	}
 	
 	private void extractLanePassings(Set<String> diagramPaths) {
-		for (String diagramPath: diagramPaths) {
-			
+		initializeConnectorList();
+		
+		for (String diagramPath: diagramPaths) {			
 			ConnectionList connectionList = new ConnectionList(diagramPath);				
 			String json = getJSON(diagramPath);
 			JSONObject jsonObject = null;
@@ -151,7 +151,7 @@ public class ExtractedLanePassing extends ExtractedData {
 			catch (JSONException e) {
 				e.printStackTrace(); 
 			}			  
-			
+//			merge with symmetric as false and storeRecursive as false
 			merge(connectionList, false, false);	
 		}
 		initializeCounts(diagramPaths);
