@@ -52,8 +52,7 @@ class SVGGenerator {
 	
 	private String getTranslation(String graphLabel, TranslatorInput translatorInput, String layoutAlgorithm) {
 //		gets the dot/neato representation of an graph
-		Translator translator = new Translator();
-		return translator.translate(graphLabel, translatorInput, layoutAlgorithm);
+		return Translator.translate(graphLabel, translatorInput, layoutAlgorithm);
 	}
 	
 	private File createTranslationFile(String dotInput, String name){
