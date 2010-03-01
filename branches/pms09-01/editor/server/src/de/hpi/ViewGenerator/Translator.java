@@ -26,7 +26,7 @@ package de.hpi.ViewGenerator;
 public class Translator {
 //	responsible for translating a TranslatorInput Class into a dot/neato representation
 //	of its described nodes and edges (graphviz)
-	public String translate(String graphLabel, TranslatorInput translatorInput, String translateAlgorithm) {
+	public static String translate(String graphLabel, TranslatorInput translatorInput, String translateAlgorithm) {
 //		neato is used for structured representations, therefore only undirected edges exist
 		if (translateAlgorithm.equals("neato")) {
 			String translated = "graph " + graphLabel + "{\n";

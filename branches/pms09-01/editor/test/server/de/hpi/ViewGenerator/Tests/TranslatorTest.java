@@ -11,7 +11,6 @@ import de.hpi.ViewGenerator.TranslatorInputEdge;
 import de.hpi.ViewGenerator.TranslatorInputNode;
 
 public class TranslatorTest {
-	Translator T;
 	TranslatorInput dotTi;
 	TranslatorInput neatoTi;
 	TranslatorInputNode firstNode;
@@ -19,7 +18,6 @@ public class TranslatorTest {
 	TranslatorInputEdge firstToSecond;
 	
 	@Before public void setUp() throws Exception {
-		T = new Translator();
 		dotTi = new TranslatorInput("dot");
 		neatoTi = new TranslatorInput("neato");
 		firstNode = new TranslatorInputNode("first");
@@ -30,8 +28,8 @@ public class TranslatorTest {
 	@Test public void noInput(){
 		String expectedDotTranslation = "digraph G{\n}";
 		String expectedNeatoTranslation = "graph G{\n}";
-		assertEquals(expectedDotTranslation,T.translate("G",dotTi, "dot"));
-		assertEquals(expectedNeatoTranslation,T.translate("G", neatoTi, "neato"));
+		assertEquals(expectedDotTranslation,Translator.translate("G",dotTi, "dot"));
+		assertEquals(expectedNeatoTranslation,Translator.translate("G", neatoTi, "neato"));
 	}
 	
 	@Test public void firstNodeAsInput() {
@@ -39,8 +37,8 @@ public class TranslatorTest {
 		neatoTi.addNode(firstNode);
 		String expectedDotTranslation = "digraph G{\nnode [] first;\n}";
 		String expectedNeatoTranslation = "graph G{\nnode [] first;\n}";		
-		assertEquals(expectedDotTranslation,T.translate("G",dotTi, "dot"));
-		assertEquals(expectedNeatoTranslation,T.translate("G", neatoTi, "neato"));
+		assertEquals(expectedDotTranslation,Translator.translate("G",dotTi, "dot"));
+		assertEquals(expectedNeatoTranslation,Translator.translate("G", neatoTi, "neato"));
 	}
 	
 	@Test public void bothNodesAsInput() {
@@ -50,8 +48,8 @@ public class TranslatorTest {
 		neatoTi.addNode(secondNode);
 		String expectedDotTranslation = "digraph G{\nnode [] first;\nnode [] second;\n}";
 		String expectedNeatoTranslation = "graph G{\nnode [] first;\nnode [] second;\n}";		
-		assertEquals(expectedDotTranslation,T.translate("G",dotTi, "dot"));
-		assertEquals(expectedNeatoTranslation,T.translate("G", neatoTi, "neato"));
+		assertEquals(expectedDotTranslation,Translator.translate("G",dotTi, "dot"));
+		assertEquals(expectedNeatoTranslation,Translator.translate("G", neatoTi, "neato"));
 	}
 	
 	@Test public void bothNodesAndEdgeAsInput() {
@@ -63,8 +61,8 @@ public class TranslatorTest {
 		neatoTi.addEdge(firstToSecond);
 		String expectedDotTranslation = "digraph G{\nnode [] first;\nnode [] second;\nfirst -> second [];\n}";
 		String expectedNeatoTranslation = "graph G{\nnode [] first;\nnode [] second;\nfirst -- second [];\n}";		
-		assertEquals(expectedDotTranslation,T.translate("G",dotTi, "dot"));
-		assertEquals(expectedNeatoTranslation,T.translate("G", neatoTi, "neato"));
+		assertEquals(expectedDotTranslation,Translator.translate("G",dotTi, "dot"));
+		assertEquals(expectedNeatoTranslation,Translator.translate("G", neatoTi, "neato"));
 	}
 
 }
