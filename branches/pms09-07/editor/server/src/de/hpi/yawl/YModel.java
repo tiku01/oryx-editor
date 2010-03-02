@@ -24,8 +24,14 @@ public class YModel implements FileWritingForYAWL {
 	 * @param id The given name
 	 * @param decomposition The given decomposition
 	 */
-	public void addDecomposition(String id, YDecomposition decomposition) {
-		decompositions.put(id, decomposition);
+	public void addDecomposition(YDecomposition decomposition) {
+		decompositions.put(decomposition.getID(), decomposition);
+	}
+	
+	public YDecomposition createDecomposition(String id){
+		YDecomposition decomposition = new YDecomposition(id, false, "NetFactsType");
+		addDecomposition(decomposition);
+		return decomposition;
 	}
 
 	public Collection<YDecomposition> getDecompositions() {

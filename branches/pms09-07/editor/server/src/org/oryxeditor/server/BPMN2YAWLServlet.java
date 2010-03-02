@@ -1,6 +1,7 @@
 package org.oryxeditor.server;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
@@ -110,18 +111,18 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			System.out.println("Fehler beim Erstellen des YBKP-Files");
 		}
 		
+		//YawlXmlValidator validator = new YawlXmlValidator();
 		int numberOfPools = diagram.getProcesses().size();
 		for(int i = 0; i < numberOfPools; i++){
 			BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
 			yawlXML = converter.translate(diagram, i, resourcing.getNodeMap());
 			
-			YawlXmlValidator validator = new YawlXmlValidator();
-			validator.validate(yawlXML);
-			
 			try{
-				fileWriter = new FileWriter("OryxBPMNToYAWL_" + i + ".yawl");
+				File file = new File("OryxBPMNToYAWL_" + i + ".yawl");
+				fileWriter = new FileWriter(file);
 				fileWriter.write(yawlXML);
 				fileWriter.close();
+				//validator.validate(file);
 			} catch (IOException e){
 				System.out.println("Fehler beim Erstellen des YAWL-Files");
 			}
