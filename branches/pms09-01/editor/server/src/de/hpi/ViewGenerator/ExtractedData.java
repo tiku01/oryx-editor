@@ -140,6 +140,12 @@ class ExtractedData {
 		}
 	}
 	
+	private String replaceEscChars(String fileName) {
+//		replacing escaped chars, e.g. for graphVizLabels
+		String fileName_new = fileName.replace("\n", "").replace("\t","").replace("\r","");
+		return fileName_new;
+	}
+	
 	private String extractAttribute(JSONObject saveObject, String jsonId, String attributeToSave) {
 //		trying to extract 'attributeToSave' from the JSONObject with 'jsonId' in 'saveObject'
 		String attributeToSaveFromSaveObject;		
@@ -157,7 +163,7 @@ class ExtractedData {
 			else {
 				attributeToSaveFromSaveObject = saveObject.getString(attributeToSave);
 			}	
-			return attributeToSaveFromSaveObject;
+			return replaceEscChars(attributeToSaveFromSaveObject);
 		}
 		catch (JSONException e) {
 //			ConnectorElement where the saveLevel has no jsonId, possible bad Connectordefinition or old editor version
