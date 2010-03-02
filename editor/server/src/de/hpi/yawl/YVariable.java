@@ -4,7 +4,7 @@ public class YVariable {
 
 	private String name = "";
 	private String type = "";
-	private String namespace = "";
+	private String namespace = "http://www.w3.org/2001/XMLSchema";
 	private String initialValue = "";
 	private Boolean readOnly = false;
 	

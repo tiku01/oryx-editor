@@ -172,6 +172,10 @@ public class YDecomposition implements FileWritingForYAWL {
         addNode(condition);
         return condition;
     }
+    
+    public YEdge connectInputToOutput(){
+    	return createEdge(inputCondition, outputCondition);
+    }
 
     /**
      * Creates a task with given name, join type, split type, and subdecomposition name and adds it the decomposition nodes collection.

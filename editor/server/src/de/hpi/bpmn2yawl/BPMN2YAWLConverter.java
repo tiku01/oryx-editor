@@ -76,22 +76,21 @@ public class BPMN2YAWLConverter {
 	 * @return
 	 */
 	private YDecomposition mapDecomposition(BPMNDiagram diagram, YModel model, Container graph) {
-		YInputCondition inputCondition = null;
-		YOutputCondition outputCondition = null;
-		YDecomposition dec = null;
-		
-		if (graph instanceof SubProcess) {
-			String subProcessLabel = ((SubProcess)graph).getLabel().replace(" ", "");
-			dec = new YDecomposition(generateId(subProcessLabel), false, "NetFactsType");
-		} else
-			dec = new YDecomposition("OryxBPMNtoYAWL_Net", true, "NetFactsType");
-		
-		model.addDecomposition(dec.getID(), dec);
 
+		YDecomposition dec = null;
 		HashMap<Node, YNode> nodeMap = new HashMap<Node, YNode>();
-		LinkedList<Node> controlElements = new LinkedList<Node>();
+		LinkedList<Node> gateways = new LinkedList<Node>();
 		LinkedList<Activity> withEventHandlers = new LinkedList<Activity>();
 		LinkedList<EndTerminateEvent> terminateEvents = new LinkedList<EndTerminateEvent>();
+		
+		//check for Subprocess
+		if (graph instanceof SubProcess) {
+			String subProcessLabel = ((SubProcess)graph).getLabel().replace(" ", "");
+			dec = model.createDecomposition(generateId(subProcessLabel));
+		} else{
+			dec = model.createDecomposition("OryxBPMNtoYAWL_Net");
+			dec.setRootNet(true);
+		}
 		
 		// Map process elements
 		for (Node node : graph.getChildNodes()) {
@@ -105,35 +104,32 @@ public class BPMN2YAWLConverter {
 			}
 			
 			YNode ynode = mapProcessElement(diagram, model, dec, node, nodeMap);
-			if (ynode == null)
-				controlElements.add(node);
-			else {
-				if (ynode instanceof YInputCondition)
-					inputCondition = (YInputCondition)ynode;
-				if (ynode instanceof YOutputCondition)
-					outputCondition = (YOutputCondition)ynode;
-			}
+			if ((ynode == null) && (node instanceof Gateway))
+				gateways.add(node);
 		}		
 		
 		// Map control Elements
-		for (Node node : controlElements)
-			mapControlElement(model, dec, node, nodeMap);
-		
-		if (outputCondition == null)
-			outputCondition = dec.createOutputCondition(generateId("Output"), "Output Condition");
-		
-		if (inputCondition == null){
-			inputCondition = dec.createInputCondition(generateId("Input"), "Input Condition");
-			if(nodeMap.isEmpty())
-				dec.createEdge(inputCondition, outputCondition, false, "", 0);	
+		for (Node node : gateways){
+			mapGateway(model, dec, node, nodeMap);
 		}
 		
+		//check decomposition's input and output condition
+		if (dec.getOutputCondition() == null)
+			dec.createOutputCondition(generateId("Output"), "Output Condition");
+		
+		if (dec.getInputCondition() == null){
+			dec.createInputCondition(generateId("Input"), "Input Condition");
+			if(nodeMap.isEmpty())
+				dec.connectInputToOutput();	
+		}
+		
+		// Map data objects
 		for (DataObject dataObject : diagram.getDataObjects()) {
 			mapDataObject(model, dec, dataObject, nodeMap);
 		}
 		
 		// Map links
-		linkYawlElements(outputCondition, nodeMap, dec, terminateEvents);
+		linkYawlElements(nodeMap, dec, terminateEvents);
 
 		// Event handlers
 		for (Activity act : withEventHandlers)
@@ -340,11 +336,10 @@ public class BPMN2YAWLConverter {
 				YEdge edge = (YEdge)flow;
 				if(edge.getOrdering() == 0){
 					edge.setOrdering(edgeCounter++);
-				}else{
-					edge.setOrdering(edgeCounter++);
 				}
 				if(edge.getPredicate().isEmpty()){
-					edge.setPredicate("not(" + predicate + ")");
+					edge.setDefault(true);
+					//edge.setPredicate("not(" + predicate + ")");
 				}
 			}
 		}
@@ -353,7 +348,6 @@ public class BPMN2YAWLConverter {
 		YVariable local = new YVariable();
 		local.setName(tag);
 		local.setType("boolean");
-		local.setNamespace("http://www.w3.org/2001/XMLSchema");
 		local.setInitialValue("false");
 		dec.getLocalVariables().add(local);
 
@@ -365,13 +359,11 @@ public class BPMN2YAWLConverter {
 		YVariable localVariable = new YVariable();
 		localVariable.setName("_"+varName+"_exception");
 		localVariable.setType("boolean");
-		localVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
 		compTask.getDecomposesTo().getLocalVariables().add(localVariable);
 		
 		YVariable outputParam = new YVariable();
 		outputParam.setName("_"+varName+"_exception");
 		outputParam.setType("boolean");
-		outputParam.setNamespace("http://www.w3.org/2001/XMLSchema");
 		compTask.getDecomposesTo().getOutputParams().add(outputParam);
 		
 		for (YNode exceptionNode : compTask.getDecomposesTo().getNodes()) {
@@ -385,28 +377,14 @@ public class BPMN2YAWLConverter {
 					exceptionTask.getCompletedMappings().add(anotherMapping);
 					
 					// Decomposition
-					YDecomposition exceptionDec = new YDecomposition(exceptionTask.getID(), false, "WebServiceGatewayFactsType");
+					YDecomposition exceptionDec = model.createDecomposition(exceptionTask.getID());
+					exceptionDec.setXSIType("WebServiceGatewayFactsType");
 
 					exceptionTask.setDecomposesTo(exceptionDec);
-					model.addDecomposition(exceptionDec.getID(), exceptionDec);
 					break;
 				}
 			}
 		}
-	}
-
-
-	/**
-	 * @param model
-	 * @param dec 
-	 * @param node
-	 * @param nodeMap
-	 * @return
-	 */
-	private void mapControlElement(YModel model, YDecomposition dec, Node node,
-			HashMap<Node, YNode> nodeMap) {		
-		if (node instanceof Gateway)
-			mapGateway(model, dec, node, nodeMap);
 	}
 
 	/**
@@ -640,12 +618,11 @@ public class BPMN2YAWLConverter {
 		YVariableMapping timerStartVarMap = new YVariableMapping(timerQuery, timerVariable);			
 		timerTask.getStartingMappings().add(timerStartVarMap);
 		
-		YDecomposition taskDecomposition = new YDecomposition(timerTask.getID(), false, "WebServiceGatewayFactsType");
-		
+		YDecomposition taskDecomposition = model.createDecomposition(timerTask.getID());
+		taskDecomposition.setXSIType("WebServiceGatewayFactsType");
 		taskDecomposition.getInputParams().add(timerVariable);
+		
 		timerTask.setDecomposesTo(taskDecomposition);
-	
-		model.addDecomposition(taskDecomposition.getID(), taskDecomposition);
 		
 		nodeMap.put(node, timerTask);
 		return timerTask;
@@ -657,40 +634,35 @@ public class BPMN2YAWLConverter {
 	 * @param dec 
 	 * @param terminateEvents 
 	 */
-	private void linkYawlElements(YNode exitTask, HashMap<Node, YNode> nodeMap, YDecomposition dec, LinkedList<EndTerminateEvent> terminateEvents) {		
+	private void linkYawlElements(HashMap<Node, YNode> nodeMap, YDecomposition dec, LinkedList<EndTerminateEvent> terminateEvents) {		
 		Map<YNode, Integer> counter = new HashMap<YNode, Integer>();
 		
 		for (Node node : nodeMap.keySet()) {
 			YEdge defaultEdge = null;
 			YNode defaultSourceTask = null;
+			YNode sourceTask;
 			
-			if (node instanceof EndErrorEvent) {
-				YNode sourceTask = nodeMap.get(node);				
-				dec.createEdge(sourceTask, exitTask, false, "", 1);
-				continue;
-			}
-			if (node instanceof EndTerminateEvent){
-				YNode sourceTask = nodeMap.get(node);
-				dec.createEdge(sourceTask, exitTask, false, "", 1);
-				//postponed to the end because during mapping not all elements are mapped
-				//mapEndTerminateToCancellationSet(sourceTask, nodeMap);
-				terminateEvents.add((EndTerminateEvent) node);
+			if ((node instanceof EndErrorEvent) || (node instanceof EndTerminateEvent)){
+				sourceTask = nodeMap.get(node);				
+				dec.createEdge(sourceTask, dec.getOutputCondition(), false, "", 1);
+				if (node instanceof EndTerminateEvent)
+					terminateEvents.add((EndTerminateEvent) node);
 				continue;
 			}
 			for (SequenceFlow edge : node.getOutgoingSequenceFlows()) {
 				String predicate = "";
 				
 				Node target = (Node) edge.getTarget();
-				YNode sourceTask = nodeMap.get(node);
 				YNode targetTask = nodeMap.get(target);
+				sourceTask = nodeMap.get(node);
 				
 				if (sourceTask == null || targetTask == null)
 					continue;
 				
 				if (!sourceTask.equals(targetTask) || (node instanceof Gateway && node == target)) {
-					if (!counter.containsKey(sourceTask)) {
+					if (!counter.containsKey(sourceTask))
 						counter.put(sourceTask, 0);
-					}
+						
 					Integer order = counter.get(sourceTask) + 1;
 					counter.put(sourceTask, order);
 					
@@ -700,7 +672,7 @@ public class BPMN2YAWLConverter {
 						predicate = "";
 						
 						defaultSourceTask = sourceTask;
-						order -= 1;
+						order--;
 						counter.put(sourceTask, order);
 						defaultEdge = new YEdge(sourceTask, targetTask, true, predicate, 0);
 						continue;
@@ -728,9 +700,6 @@ public class BPMN2YAWLConverter {
 		for(YNode ynode : nodeMap.values()){
 			if((ynode instanceof YInputCondition) || (ynode instanceof YOutputCondition)){
 				continue;
-				/*if(((YCondition) ynode).isInputCondition() || ((YCondition) ynode).isOutputCondition()){
-					continue;
-				}*/
 			}
 			if(ynode.equals(terminateNode))
 				continue;
@@ -781,14 +750,12 @@ public class BPMN2YAWLConverter {
 			HashMap<Node, YNode> nodeMap) {
 		
 		YCondition cond = null;
-		
-		Node preNode = (Node)node.getIncomingSequenceFlows().get(0).getSource();
-		YNode preYNode = nodeMap.get(preNode);
-		if(preYNode instanceof YCondition){
+	
+		YNode preYNode = nodeMap.get((Node)node.getIncomingSequenceFlows().get(0).getSource());
+		if(preYNode instanceof YCondition)
 			cond = (YCondition)preYNode;
-		}else{
+		else
 			cond = dec.createCondition(generateId("EXorGW"), "Condition");
-		}
 		
 		nodeMap.put(node, cond);
 		return cond;
@@ -820,8 +787,8 @@ public class BPMN2YAWLConverter {
 		
 		YTask task = dec.createTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent", "XOR", "AND", null);
 		
-		YDecomposition decomp = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
-		model.addDecomposition(decomp.getID(), decomp);
+		YDecomposition decomp = model.createDecomposition(task.getID());
+		decomp.setXSIType("WebServiceGatewayFactsType");
 		task.setDecomposesTo(decomp);
 		
 		nodeMap.put(node, task);
@@ -840,8 +807,8 @@ public class BPMN2YAWLConverter {
 		
 		YTask task = dec.createTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent", "XOR", "AND", null);
 		
-		YDecomposition decomp = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
-		model.addDecomposition(decomp.getID(), decomp);
+		YDecomposition decomp = model.createDecomposition(task.getID());
+		decomp.setXSIType("WebServiceGatewayFactsType");
 		task.setDecomposesTo(decomp);
 		
 		nodeMap.put(node, task);
@@ -871,9 +838,7 @@ public class BPMN2YAWLConverter {
 	private YNode mapCompositeTask(BPMNDiagram diagram, YModel model, YDecomposition dec, Activity activity, HashMap<Node, YNode> nodeMap) {
 		YTask task = null;
 		YDecomposition subdec = null;
-//		if (node.getEAnnotation("adhoc") != null)
-//			subdec = mapSpecialDecomposition(model, (SubProcess)node);
-//		else
+		
 		subdec = mapDecomposition(diagram, model, (SubProcess)activity);
 		
 		task = (YTask)mapTask(model, dec, activity, true, subdec);
@@ -897,127 +862,10 @@ public class BPMN2YAWLConverter {
 		if(isComposite)
 			addTaskDecomposition = false;
 		
-		if(activity.getProperties().size() > 0){
-			
-			for(Property property : activity.getProperties()){
-				//add a local variable in the given decomposition
-				YVariable mappedVariable = new YVariable();
-				
-				mappedVariable.setName(property.getName());
-				mappedVariable.setType(property.getType().toLowerCase());
-				mappedVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
-				mappedVariable.setInitialValue(property.getValue());
-				
-				taskVariablesLocal.add(mappedVariable);
-				
-				//set the variable mappings for the task
-				String startQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + dec.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";			
-				YVariableMapping localStartVarMap = new YVariableMapping(startQuery, mappedVariable);			
-				task.getStartingMappings().add(localStartVarMap);
-				
-				String completeQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + task.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";
-				YVariableMapping localCompleteVarMap = new YVariableMapping(completeQuery, mappedVariable);			
-				task.getCompletedMappings().add(localCompleteVarMap);
-			}			
-		}
+		mapActivityProperties(dec, activity, task, taskVariablesLocal);
 		
-		if(activity.getAssignments().size() > 0){
-
-			for(Assignment assignment : activity.getAssignments()){
-				 
-				if(assignment.getAssignTime() == Assignment.AssignTime.Start){
-					Boolean propertyIsMapped = false;
-					YVariable mappedVariable = null;
-					
-					//the mappings have to be accessed, because the task can still have no decomposition
-					for(YVariable localVar : taskVariablesLocal){
-						if(localVar.getName().equalsIgnoreCase(assignment.getTo())){
-							propertyIsMapped = true;
-							mappedVariable = localVar;
-						}
-					}
-					
-					if(!propertyIsMapped){
-						for(YVariable inputVar : taskVariablesInput){
-							if(inputVar.getName().equalsIgnoreCase(assignment.getTo())){
-								propertyIsMapped = true;
-								mappedVariable = inputVar;
-							}
-						}
-					}
-					
-					if(!propertyIsMapped){
-						//add a local variable in the given decomposition
-						mappedVariable = new YVariable();
-						
-						mappedVariable.setName(assignment.getTo());
-						mappedVariable.setType("string");
-						mappedVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
-						
-						taskVariablesLocal.add(mappedVariable);
-					}
-					
-					//set the variable mappings for the task
-					String startQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + dec.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";
-					Boolean sameMappingExisting = false;
-					for(YVariableMapping mapping : task.getStartingMappings()){
-						if(mapping.getQuery().equalsIgnoreCase(startQuery))
-							sameMappingExisting = true;
-					}
-					if(!sameMappingExisting){
-						YVariableMapping localStartVarMap = new YVariableMapping(startQuery, mappedVariable);			
-						task.getStartingMappings().add(localStartVarMap);
-					}
-				}
-				
-				if(assignment.getAssignTime() == Assignment.AssignTime.End){
-					Boolean propertyIsMapped = false;
-					YVariable mappedVariable = null;
-					
-					for(YVariable localVar : taskVariablesLocal){
-						if(localVar.getName().equalsIgnoreCase(assignment.getTo())){
-							propertyIsMapped = true;
-							mappedVariable = localVar;
-						}
-					}
-					
-					if(!propertyIsMapped){
-						for(YVariable outputVar : taskVariablesOutput){
-							if(outputVar.getName().equalsIgnoreCase(assignment.getTo())){
-								propertyIsMapped = true;
-								mappedVariable = outputVar;
-							}
-						}
-					}
-					
-					if(!propertyIsMapped){
-						//add a local variable in the given decomposition
-						mappedVariable = new YVariable();
-						
-						mappedVariable.setName(assignment.getTo());
-						mappedVariable.setType("string");
-						mappedVariable.setNamespace("http://www.w3.org/2001/XMLSchema");
-						
-						taskVariablesLocal.add(mappedVariable);
-					}
-					
-					//set the variable mappings for the task
-					String completeQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + task.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";
-					
-					Boolean sameMappingExisting = false;
-					for(YVariableMapping mapping : task.getCompletedMappings()){
-						if(mapping.getQuery().equalsIgnoreCase(completeQuery)){
-							sameMappingExisting = true;
-						}
-					}
-					if(!sameMappingExisting){
-						YVariableMapping localCompleteVarMap = new YVariableMapping(completeQuery, mappedVariable);			
-						task.getCompletedMappings().add(localCompleteVarMap);
-					}
-				}		
-			}
-
-		}
+		mapAllActivityAssignments(dec, activity, taskVariablesLocal,
+				taskVariablesInput, taskVariablesOutput, task);
 		
 		if(addTaskDecomposition){
 			
@@ -1026,31 +874,16 @@ public class BPMN2YAWLConverter {
 			dec.getOutputParams().addAll(taskVariablesOutput);
 			
 			//add a new decomposition for the task to the model
-			YDecomposition taskDecomposition;
 			
-			if(subDec != null){
-				taskDecomposition = subDec;
-			}else{
-				taskDecomposition = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
+			if(subDec == null){
+				subDec = model.createDecomposition(task.getID());
+				subDec.setXSIType("WebServiceGatewayFactsType");
 			}
 			
-			for(YVariable mappedVariable: taskVariablesLocal){
-				taskDecomposition.getInputParams().add(mappedVariable);
-				taskDecomposition.getOutputParams().add(mappedVariable);
-			}
-			
-			for(YVariable mappedVariable: taskVariablesInput){
-				taskDecomposition.getInputParams().add(mappedVariable);
-			}
-			
-			for(YVariable mappedVariable: taskVariablesOutput){
-				taskDecomposition.getOutputParams().add(mappedVariable);
-			}
-			
-			model.addDecomposition(taskDecomposition.getID(), taskDecomposition);
+			assignParametersToDecomposition(taskVariablesLocal,
+					taskVariablesInput, taskVariablesOutput, subDec);
 			
 			isComposite = true;
-			subDec = taskDecomposition;
 		}
 		
 		if (isComposite)
@@ -1088,9 +921,9 @@ public class BPMN2YAWLConverter {
 			// Decomposition
 			if(subDec == null)
 			{
-				subDec = new YDecomposition(task.getID(), false, "WebServiceGatewayFactsType");
+				subDec = model.createDecomposition(task.getID());
+				subDec.setXSIType("WebServiceGatewayFactsType");
 				task.setDecomposesTo(subDec);
-				model.addDecomposition(subDec.getID(), subDec);
 			}
 				
 			YVariable inputParam = new YVariable();
@@ -1163,5 +996,148 @@ public class BPMN2YAWLConverter {
 		}
 		
 		return task;
+	}
+
+	/**
+	 * @param taskVariablesLocal
+	 * @param taskVariablesInput
+	 * @param taskVariablesOutput
+	 * @param taskDecomposition
+	 */
+	private void assignParametersToDecomposition(
+			ArrayList<YVariable> taskVariablesLocal,
+			ArrayList<YVariable> taskVariablesInput,
+			ArrayList<YVariable> taskVariablesOutput,
+			YDecomposition taskDecomposition) {
+		for(YVariable mappedVariable: taskVariablesLocal){
+			taskDecomposition.getInputParams().add(mappedVariable);
+			taskDecomposition.getOutputParams().add(mappedVariable);
+		}
+		
+		for(YVariable mappedVariable: taskVariablesInput){
+			taskDecomposition.getInputParams().add(mappedVariable);
+		}
+		
+		for(YVariable mappedVariable: taskVariablesOutput){
+			taskDecomposition.getOutputParams().add(mappedVariable);
+		}
+	}
+
+	/**
+	 * @param dec
+	 * @param activity
+	 * @param taskVariablesLocal
+	 * @param taskVariablesInput
+	 * @param taskVariablesOutput
+	 * @param task
+	 */
+	private void mapAllActivityAssignments(YDecomposition dec,
+			Activity activity, ArrayList<YVariable> taskVariablesLocal,
+			ArrayList<YVariable> taskVariablesInput,
+			ArrayList<YVariable> taskVariablesOutput, YTask task) {
+		if(activity.getAssignments().size() > 0){
+
+			for(Assignment assignment : activity.getAssignments()){
+				 
+				if(assignment.getAssignTime() == Assignment.AssignTime.Start){
+					mapActivityAssignments(dec, taskVariablesLocal,
+							taskVariablesInput, task, assignment,
+							task.getStartingMappings(), dec.getID());
+				}
+				
+				if(assignment.getAssignTime() == Assignment.AssignTime.End){
+					mapActivityAssignments(dec, taskVariablesLocal,
+							taskVariablesOutput, task, assignment,
+							task.getCompletedMappings(), task.getID());
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * @param dec
+	 * @param taskVariablesLocal
+	 * @param taskVariables
+	 * @param task
+	 * @param assignment
+	 */
+	private void mapActivityAssignments(YDecomposition dec,
+			ArrayList<YVariable> taskVariablesLocal,
+			ArrayList<YVariable> taskVariables, YTask task,
+			Assignment assignment,
+			ArrayList<YVariableMapping> taskMapping,
+			String querySourceId) {
+		Boolean propertyIsMapped = false;
+		YVariable mappedVariable = null;
+		
+		//the mappings have to be accessed, because the task can still have no decomposition
+		taskVariables.addAll(taskVariablesLocal);
+		for (YVariable variable : taskVariables) {
+			if(variable.getName().equalsIgnoreCase(assignment.getTo())){
+				propertyIsMapped = true;
+				mappedVariable = variable;
+				break;
+			}
+		}
+		
+		if(!propertyIsMapped){
+			//add a local variable in the given decomposition
+			mappedVariable = new YVariable();
+			
+			mappedVariable.setName(assignment.getTo());
+			mappedVariable.setType("string");
+			
+			taskVariablesLocal.add(mappedVariable);
+		}
+		
+		//set the variable mappings for the task
+		String query = "&lt;" + mappedVariable.getName() + "&gt;{/" + querySourceId + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";
+		Boolean sameMappingExists = false;
+		for(YVariableMapping mapping : taskMapping){
+			if(mapping.getQuery().equalsIgnoreCase(query)){
+				sameMappingExists = true;
+				break;
+			}
+		}
+		if(!sameMappingExists){
+			YVariableMapping localVarMap = new YVariableMapping(query, mappedVariable);			
+			taskMapping.add(localVarMap);
+		}
+	}
+
+	/**
+	 * @param dec
+	 * @param activity
+	 * @param task
+	 * @param taskVariablesLocal
+	 */
+	private void mapActivityProperties(YDecomposition dec, Activity activity,
+			YTask task, ArrayList<YVariable> taskVariablesLocal) {
+		if(activity.getProperties().size() > 0){
+			
+			for(Property property : activity.getProperties()){
+				//add a local variable in the given decomposition
+				YVariable mappedVariable = new YVariable();
+				
+				mappedVariable.setName(property.getName());
+				if(!property.getType().equalsIgnoreCase("null"))
+					mappedVariable.setType(property.getType().toLowerCase());
+				else
+					mappedVariable.setType("string");
+				mappedVariable.setInitialValue(property.getValue());
+				
+				taskVariablesLocal.add(mappedVariable);
+				
+				//set the variable mappings for the task
+				String startQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + dec.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";			
+				YVariableMapping localStartVarMap = new YVariableMapping(startQuery, mappedVariable);			
+				task.getStartingMappings().add(localStartVarMap);
+				
+				String completeQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + task.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";
+				YVariableMapping localCompleteVarMap = new YVariableMapping(completeQuery, mappedVariable);			
+				task.getCompletedMappings().add(localCompleteVarMap);
+			}			
+		}
 	}	
 }
