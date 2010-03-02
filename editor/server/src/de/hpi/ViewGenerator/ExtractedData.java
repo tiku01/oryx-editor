@@ -24,8 +24,6 @@
 package de.hpi.ViewGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,30 +217,6 @@ class ExtractedData {
 		}
 		return connectionList_new;
 	}	
-	
-	protected Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
-//		method removes double entries (edge because one attributePair represents/will be interpreted as an edge)
-		Set<ArrayList<String>> no_redundant = redundant;
-		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
-		
-		for (ArrayList<String> attributePair: redundant) {
-			redundant_tmp.add(attributePair);
-		}
-		
-		for (int i=0; i<redundant_tmp.size(); i++) {
-			ArrayList<String> attributePair = redundant_tmp.get(i);
-
-			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
-			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
-			
-			if (redundant_subcol.contains(attributePair)) {
-				int index = redundant_subcol.indexOf(attributePair) + i;
-				redundant_tmp.remove(index);
-				no_redundant.remove(index);
-			}
-		}
-		return no_redundant;
-	}
 	
 	private ConnectionList removeUncompleteEntries(ConnectionList connectionList) {
 //		remove entries from connectionList where either target or source could not be found

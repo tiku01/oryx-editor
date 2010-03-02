@@ -54,7 +54,7 @@ public class ExtractedDataMapping extends ExtractedData {
 		dataObjectsCount = 0;
 		ArrayList<String> done_Ids = new ArrayList<String>();
 
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
+		for (ArrayList<String> attributePair: (extractedConnectionList.connectionAttributePairs())) {
 //			attributePairs should have a length of 2, a target and a source
 			String sourceId = attributePair.get(0);
 			String targetId = attributePair.get(1);
