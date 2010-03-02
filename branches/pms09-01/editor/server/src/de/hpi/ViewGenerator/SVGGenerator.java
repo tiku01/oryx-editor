@@ -27,8 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.HashMap;
 
 class SVGGenerator {
 	String pathToDot = "C:\\Programme\\Graphviz2.26\\bin\\";
@@ -191,8 +190,9 @@ class SVGGenerator {
 		ArrayList<String> done_participantIds = new ArrayList<String>();
 		ArrayList<String> done_communicationIds = new ArrayList<String>();
 		ArrayList<TranslatorInputNode> communicationNodes = new ArrayList<TranslatorInputNode>();
+		HashMap<String, ArrayList<String>> done_participantIdsForCommunications = new HashMap<String, ArrayList<String>>();
 				
-		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {			
+		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
 //			Node for communication
 			String communicationNodeId = "\"" + removeEscChars(attributePair.toString()) + "\"";
 			if (!done_communicationIds.contains(communicationNodeId)) {
@@ -204,6 +204,11 @@ class SVGGenerator {
 				done_communicationIds.add(communicationNodeId);
 			}	
 			
+			if (!done_participantIdsForCommunications.containsKey(communicationNodeId)) {
+				done_participantIdsForCommunications.put(communicationNodeId, new ArrayList<String>());
+			}
+
+			ArrayList<String> done_participantIdsForCommunication = done_participantIdsForCommunications.get(communicationNodeId);
 			for (String participant: attributePair) {
 //				Node for participant
 				String participantNodeId = "\"" + removeEscChars(participant) + "\"";
@@ -212,9 +217,13 @@ class SVGGenerator {
 					input.addNode(participantNode);
 					done_participantIds.add(participantNodeId);
 				}
-//				Edge between participant and communication
-				input.addEdge(new TranslatorInputEdge(participantNodeId,communicationNodeId));					
+				if (!done_participantIdsForCommunication.contains(participantNodeId)) {
+					done_participantIdsForCommunication.add(participantNodeId);
+//					Edge between participant and communication
+					input.addEdge(new TranslatorInputEdge(participantNodeId,communicationNodeId));	
+				}
 			}
+			done_participantIdsForCommunications.put(communicationNodeId, done_participantIdsForCommunication);
 		}			
 //		add previously stored communicationNodes to the TranslatorInput
 		for (TranslatorInputNode comNode: communicationNodes) {
@@ -227,7 +236,7 @@ class SVGGenerator {
 		TranslatorInput input = new TranslatorInput("dot");
 		ArrayList<String> done_Ids = new ArrayList<String>();
 	
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedLanePassings.connectionAttributePairs()))) {
+		for (ArrayList<String> attributePair: (extractedLanePassings.connectionAttributePairs())) {
 					
 //			attributePairs should have a length of 2, a target and a source
 			String sourceId = attributePair.get(0);
@@ -265,7 +274,7 @@ class SVGGenerator {
 		TranslatorInput input = new TranslatorInput("dot");
 		ArrayList<String> done_Ids = new ArrayList<String>();
 
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedDataMappings.connectionAttributePairs()))) {
+		for (ArrayList<String> attributePair: (extractedDataMappings.connectionAttributePairs())) {
 //			attributePairs should have a length of 2, a target and a source
 			String sourceId = attributePair.get(0);
 			String targetId = attributePair.get(1);
@@ -314,30 +323,6 @@ class SVGGenerator {
 			input.addEdge(edge);											
 		}
 		return input;
-	}
-	
-	private Set<ArrayList<String>> removeRedundantEdges(Set<ArrayList<String>> redundant) {
-//		method removes double entries, because double edges can cause graphviz to fail when setting attributes
-		Set<ArrayList<String>> no_redundant = redundant;
-		ArrayList<ArrayList<String>> redundant_tmp = new ArrayList<ArrayList<String>>();
-		
-		for (ArrayList<String> attributePair: redundant) {
-			redundant_tmp.add(attributePair);
-		}
-		
-		for (int i=0; i<redundant_tmp.size();i++) {
-			ArrayList<String> attributePair = redundant_tmp.get(i);
-			
-			List<ArrayList<String>> redundant_subcol = new ArrayList<ArrayList<String>>();
-			redundant_subcol = redundant_tmp.subList(i, redundant_tmp.size()-1);
-			
-			if (redundant_subcol.contains(attributePair)) {
-				int index = redundant_subcol.indexOf(attributePair) + i;
-				redundant_tmp.remove(index);
-				no_redundant.remove(index);
-			}
-		}
-		return no_redundant;
 	}
 	
 	public void generateHandoversView(ExtractedConnectionList extractedLanePassings, String name){

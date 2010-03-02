@@ -47,7 +47,7 @@ public class ExtractedLanePassing extends ExtractedData {
 		ArrayList<String> done_Ids = new ArrayList<String>();
 		handoversCount = 0;
 		rolesCount = 0;	
-		for (ArrayList<String> attributePair: (removeRedundantEdges(extractedConnectionList.connectionAttributePairs()))) {
+		for (ArrayList<String> attributePair: (extractedConnectionList.connectionAttributePairs())) {
 		
 //			treat any handover with same direction (same source and target) as the same handover			
 			handoversCount +=1;

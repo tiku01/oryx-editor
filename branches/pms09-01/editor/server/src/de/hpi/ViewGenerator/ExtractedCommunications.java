@@ -53,7 +53,6 @@ public class ExtractedCommunications extends ExtractedData {
 		ArrayList<String> done_communicationIds = new ArrayList<String>();
 				
 		for (ArrayList<String> attributePair: extractedConnectionList.connectionAttributePairs()) {
-			
 			String communicationId = attributePair.toString();
 			if (!done_communicationIds.contains(communicationId)) {
 				interactionsCount += 1;
