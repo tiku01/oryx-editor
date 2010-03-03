@@ -22,6 +22,7 @@
 package org.oryxeditor.server;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -56,12 +58,32 @@ import com.bpmnq.compliancechecker.TemporalQueryGraph;
 
 public class QueryEvalServlet extends HttpServlet {
     private static final long serialVersionUID = -7946509291423453168L;
-    private static final boolean useDataBaseConnection = false;
+    private static boolean useDataBaseConnection = false;
     private Logger log = Logger.getLogger(this.getClass());
-    private Map<QueryGraph,String> queryMatches = new HashMap<QueryGraph,String>(); 
+    private Map<QueryGraph,String> queryMatches = new HashMap<QueryGraph,String>();
+	private Properties props; 
     /* (non-Javadoc)
      * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	//Load properties
+    	InputStream in;
+
+    	//initialize properties from backend.properties
+    	try {
+
+    		in = this.getServletContext().getResourceAsStream("/WEB-INF/editor.properties");
+    		props = new Properties();
+    		props.load(in);
+    		in.close();
+    	}catch (Exception e) {
+    		props = new Properties();
+    	}
+    	useDataBaseConnection=props.getProperty("bpmnq.queryprocessor", "MEMORY").equals("DATABASE");
+    	}
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -75,6 +97,7 @@ public class QueryEvalServlet extends HttpServlet {
         // initialize BPMNQ processor
         try {
             Utilities util = Utilities.getInstance();
+          //  util.changeProperties(props);
             if (useDataBaseConnection && !Utilities.isConnectionOpen()) {
                 Utilities.openConnection();
                 System.out.println(" +++++++++++++++ DB Connection has been opened ++++++++++++");
