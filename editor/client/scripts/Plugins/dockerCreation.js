@@ -13,16 +13,14 @@ ORYX.Plugins.DockerCreation = Clazz.extend({
 		this.facade = facade;		
 		this.active = false; //true-> a ghostdocker is shown; false->ghostdocker is hidden
 		this.point = {x:0, y:0}; //Ghostdocker
-		this.selected = false;
-		var myXPoints= new Array (20,30,40);
-		var myYPoints= new Array(25,35,45);
+		this.selected = false; //true if the edge is selected
 		
 		//visual representation of the Ghostdocker
 		this.circle = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
 				['g', {"pointer-events":"none"},
-					['circle', {cx: "8", cy: "8", r: "3", fill:"yellow"}]]); 		
-	
+					['circle', {cx: "8", cy: "8", r: "3", fill:"yellow"}]]); 	
 		
+		//Event registrations
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOVER, this.handleMouseOver.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_MOUSEOUT, this.handleMouseOut.bind(this));
@@ -32,22 +30,25 @@ ORYX.Plugins.DockerCreation = Clazz.extend({
 
 /**
  * MouseOut Handler
- *
+ * 
+ *hide the Ghostpoint when Leaving the mouse from an edge
  */
-
-//hide the Ghostpoint when Leaving the mouse from an edge
 handleMouseOut: function(event, uiObj) {
 	
 	if (this.active) {		
 		this.hideOverlay();
-		this.active=false;
+		this.active = false;
 	}	
 },
 
-//show the Ghostpoint
+/**
+ * MouseOver Handler
+ * 
+ *show the Ghostpoint if the edge is selected
+ */
 handleMouseOver: function(event, uiObj) {
 	
-	if(this.selected==true){
+	if(this.selected == true){
 		this.point.x = this.facade.eventCoordinates(event).x;
 		this.point.y = this.facade.eventCoordinates(event).y;
 	
@@ -56,37 +57,45 @@ handleMouseOver: function(event, uiObj) {
 			this.showOverlay( uiObj, this.point )
 		}
 		//ghostdocker is active
-		this.active=true;
+		this.active = true;
 	}
 },
 
-//create a Docker when clicking on the edge
+/**
+ * MouseDown Handler
+ * 
+ *create a Docker when clicking on a selected edge
+ */
 handleMouseDown: function(event, uiObj) {	
 	
 	if (uiObj instanceof ORYX.Core.Edge){
-		if(this.selected==true){
+		if(this.selected == true){
+			//Timer for Doubleclick to be able to create a label
 			window.clearTimeout(this.timer);
-			this.timer=window.setTimeout(function () {
+			this.timer = window.setTimeout(function () {
 				this.addDockerCommand({
 		            edge: uiObj,
 		            position: this.facade.eventCoordinates(event)
 		        });			
 			}.bind(this),500);
 			this.hideOverlay();
+		}else {
+			this.selected = true;
 		}
-		else {
-			this.selected=true;
-		}
-	}	
-	else {
-		this.selected=false;
+	}else {
+		this.selected = false;
 	}
 },
 
-//refresh the ghostpoint when moving the mouse over an edge
+//
+/**
+ * MouseMove Handler
+ * 
+ *refresh the ghostpoint when moving the mouse over an edge
+ */
 handleMouseMove: function(event, uiObj) {		
 	
-	if(this.selected==true) {
+	if(this.selected == true) {
 		if (uiObj instanceof ORYX.Core.Edge){
 			this.point.x = this.facade.eventCoordinates(event).x;
 			this.point.y = this.facade.eventCoordinates(event).y;
@@ -94,15 +103,19 @@ handleMouseMove: function(event, uiObj) {
 			if (this.active) {			
 				this.hideOverlay();			
 				this.showOverlay( uiObj, this.point);
-			}
-			else{
+			}else{
 				this.showOverlay( uiObj, this.point);	
 			}		
 		}	
 	}
 },
 
-//Command for creating a new Docker
+
+/**
+ * Command for creating a new Docker
+ * 
+ * @param {Object} options
+ */
 addDockerCommand: function(options){
     if(!options.edge)
         return;
@@ -134,7 +147,12 @@ addDockerCommand: function(options){
     this.facade.executeCommands([command]);
 },
 
-//show the ghostpoint
+/**
+ *show the ghostpoint
+ *
+ *@param {Shape} edge
+ *@param {Point} point
+ */
 showOverlay: function(edge, point){
 
 	this.facade.raiseEvent({
@@ -147,7 +165,9 @@ showOverlay: function(edge, point){
 		});			
 },
 
-//hide the ghostpoint
+/**
+ *hide the ghostpoint
+ */
 hideOverlay: function() {
 	
 	this.facade.raiseEvent({
@@ -155,7 +175,6 @@ hideOverlay: function() {
 		id: "ghostpoint"
 	});	
 }
-
 
 });
 

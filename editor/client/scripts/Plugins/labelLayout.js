@@ -102,7 +102,7 @@ handleMouseOver: function(event, uiObj) {
  */
 handleMouseDown: function(event, uiObj) {	
 	
-	if(this.myLabel){	
+	if(this.myLabel && this.myLabel._text != ""){	
 		//save MousePosition
 		var MouseX = this.facade.eventCoordinates(event).x;
 		var MouseY = this.facade.eventCoordinates(event).y;
@@ -116,9 +116,13 @@ handleMouseDown: function(event, uiObj) {
 			if(this.myLabel._rotate == 270 || this.myLabel._rotate == 315 || this.myLabel._rotate == 360 || this.myLabel._rotate == 45) {
 				this.myLabel.x = this.facade.eventCoordinates(event).x+5;
 				this.myLabel.y = this.facade.eventCoordinates(event).y-5;
-			}else {
+			}else if (this.myLabel._rotate == 90 || this.myLabel._rotate == 135 || this.myLabel._rotate == 180 || this.myLabel._rotate == 225){
 				this.myLabel.x = this.facade.eventCoordinates(event).x-5;
 				this.myLabel.y = this.facade.eventCoordinates(event).y+5;
+			}
+			else {
+				this.myLabel.x = this.facade.eventCoordinates(event).x+10;
+				this.myLabel.y = this.facade.eventCoordinates(event).y-5;
 			}
 			
 			//refresh real Rotationpoint
@@ -137,14 +141,9 @@ handleMouseDown: function(event, uiObj) {
 			this.showOverlay("RotationPoint", this.myEdge, this.rotationPointCoordinates, this.rotationPoint);
 			this.hideOverlay("SettingArrows");
 			
-			//Show Moving Arrows
-			if(this.myLabel._rotate == 270 || this.myLabel._rotate == 315 || this.myLabel._rotate == 360 || this.myLabel._rotate == 45) {
-				this.mouseCoordinates = {x:this.labelCoordinates.x, y:this.labelCoordinates.y};			
-				this.showOverlay("MovingArrows", this.myEdge, this.mouseCoordinates, this.startMovingCross);
-			}else {
-				this.mouseCoordinates = {x:this.labelCoordinates.x, y:this.labelCoordinates.y};			
-				this.showOverlay("MovingArrows", this.myEdge, this.mouseCoordinates, this.startMovingCross);
-			}
+			//Show Moving Arrows		
+			this.mouseCoordinates = {x:this.labelCoordinates.x, y:this.labelCoordinates.y};			
+			this.showOverlay("MovingArrows", this.myEdge, this.mouseCoordinates, this.startMovingCross);			
 			
 			//show the Association line
 			this.showLine();
@@ -203,11 +202,18 @@ handleMouseDown: function(event, uiObj) {
 	//clicking on an Edge saves the label and show the line
 	if( uiObj instanceof ORYX.Core.Edge){  		
 		//Identify and set the label of the current Edge	
-		this.myLabel = uiObj._labels[uiObj.id+"condition"];
+		if(uiObj._labels[uiObj.id+"condition"]){
+			this.myLabel = uiObj._labels[uiObj.id+"condition"]; //for BPMN
+		}else if (uiObj._labels[uiObj.id+"name"]){
+			this.myLabel = uiObj._labels[uiObj.id+"name"]; //for UML
+		}else if (uiObj._labels[uiObj.id+"text"]){
+			this.myLabel = uiObj._labels[uiObj.id+"text"]; //for Petrinet
+		}
 	 
 		//save the edge for adding rotationpoint	
 		this.myEdge = uiObj;
 		
+		console.log(uiObj);
 		//Show the RotationPoint and line of the label of the current Edge
 		if(this.myLabel && this.myLabel._text != ""){
 			this.calculateLabelCoordinates();
@@ -235,12 +241,18 @@ handleMouseMove: function(event, uiObj) {
 				this.myLabel.y = this.facade.eventCoordinates(event).y-5;
 				this.myLabel._rotationPoint.x = this.facade.eventCoordinates(event).x+10;
 				this.myLabel._rotationPoint.y = this.facade.eventCoordinates(event).y-10;
-			}else {
+			}else if(this.myLabel._rotate == 90 || this.myLabel._rotate == 135 || this.myLabel._rotate == 180 || this.myLabel._rotate == 225){
 				this.myLabel.x = this.facade.eventCoordinates(event).x-5;
 				this.myLabel.y = this.facade.eventCoordinates(event).y+5;
 				this.myLabel._rotationPoint.x = this.facade.eventCoordinates(event).x-10;
 				this.myLabel._rotationPoint.y = this.facade.eventCoordinates(event).y+10;
+			}else {
+				this.myLabel.x = this.facade.eventCoordinates(event).x+10;
+				this.myLabel.y = this.facade.eventCoordinates(event).y-5;
+				this.myLabel._rotationPoint.x = this.facade.eventCoordinates(event).x+10;
+				this.myLabel._rotationPoint.y = this.facade.eventCoordinates(event).y-10;
 			}
+				
 			this.myLabel.update();
 		
 			//refresh Coordinates
