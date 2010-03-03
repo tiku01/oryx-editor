@@ -46,6 +46,10 @@
 				<messageLinks>
 					<xsl:call-template name="find-all-messageLinks"/>
 				</messageLinks>	
+
+				<!-- extended for the crossPartnerScopes by Changhua Li -->				
+				<xsl:call-template name="find-all-crossPartnerScopes"/>
+				<!-- extended end -->
 				
 				<nodeInfoSet>
 					<xsl:call-template name="record-process-infos"/>
@@ -404,10 +408,82 @@
 				
 				</xsl:if>
 			</xsl:if>
-	
 		</xsl:for-each>
 	</xsl:template>	
 	
+
+	<xsl:template name="find-all-crossPartnerScopes">
+		<xsl:for-each select="//rdf:Description">
+			<xsl:variable name="typeString" select="./oryx:type" />	
+			<xsl:variable name="nodeType">
+				<xsl:call-template name="get-exact-type">
+					<xsl:with-param name="typeString" select="$typeString" />
+				</xsl:call-template>
+			</xsl:variable>
+			
+			<!--crossPartnerScopes saved in process or scope-->
+			<xsl:if test="$nodeType='process' or 'scope'">
+				<xsl:variable name="typeName" select="./oryx:crosspartnerscopes" />
+				<xsl:variable name="elementName" select="./oryx:name" />
+				<xsl:variable name="elementType" select="./oryx:type" />
+					
+				<xsl:if test="$typeName!=''">
+					<xsl:call-template name="loop-for-adding-crossPartnerScopes">
+							<xsl:with-param name="data-set" select="$typeName" />
+							<xsl:with-param name="elementName" select="$elementName" />
+							<xsl:with-param name="elementType" select="$nodeType" />
+					</xsl:call-template>
+				</xsl:if>
+					
+				<xsl:if test="$typeName=''">
+					<crossPartnerScope />
+				</xsl:if>
+			</xsl:if>	
+		</xsl:for-each>
+	</xsl:template>
+
+
+	<xsl:template name="loop-for-adding-crossPartnerScopes">
+		<xsl:param name="data-set" />
+		<xsl:param name="elementName" />
+		<xsl:param name="elementType" />
+		
+		<xsl:if test="$data-set != ''">
+			<xsl:if test="contains($data-set, ',')">
+				<crossPartnerScope>
+					<xsl:attribute name="name">
+						<xsl:value-of select="substring-before($data-set, ',')" />
+					</xsl:attribute>
+					<xsl:attribute name="elementName">
+						<xsl:value-of select="$elementName" />
+					</xsl:attribute>
+					<xsl:attribute name="elementType">
+						<xsl:value-of select="$elementType" />
+					</xsl:attribute>	
+				</crossPartnerScope>
+			</xsl:if>
+			<xsl:if test="not(contains($data-set, ','))">
+				<crossPartnerScope>
+					<xsl:attribute name="name">
+						<xsl:value-of select="$data-set" />
+					</xsl:attribute>
+					<xsl:attribute name="elementName">
+						<xsl:value-of select="$elementName" />
+					</xsl:attribute>
+					<xsl:attribute name="elementType">
+						<xsl:value-of select="$elementType" />
+					</xsl:attribute>
+				</crossPartnerScope>
+			</xsl:if>
+			<xsl:call-template name="loop-for-adding-crossPartnerScopes">
+				<xsl:with-param name="data-set" select="substring-after($data-set, ',')" />
+				<xsl:with-param name="elementName" select="$elementName" />
+				<xsl:with-param name="elementType" select="$elementType" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
+
 
 	<xsl:template name="find-children-nodes">
 		<xsl:param name="searchedParentID" />
