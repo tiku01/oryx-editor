@@ -19,6 +19,7 @@
 				
 		</plugin>
 		<plugin source="rdfExport.js" name="ORYX.Plugins.RDFExport" />
+		<plugin source="general/feedbackPlugin.js" name="ORYX.Plugins.FeedbackPlugin" />
 		<plugin source="undo.js" name="ORYX.Plugins.Undo" />
 		
 		<plugin source="epcSupport.js" name="ORYX.Plugins.EPCSupport">
@@ -94,11 +95,6 @@
 		</plugin>	
 
 		<plugin source="desynchronizabilityOverlay.js" name="ORYX.Plugins.DesynchronizabilityOverlay">
-			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
-			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
-		</plugin>
-		
-		<plugin source="enforceabilityOverlay.js" name="ORYX.Plugins.EnforceabilityOverlay">
 			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 		</plugin>
@@ -197,6 +193,10 @@
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
+		<plugin source="transformationDownloadDialogForBPEL4Chor.js" name="ORYX.Plugins.TransformationDownloadDialogForBPEL4Chor">
+			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
+		</plugin>
+		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
 		<plugin source="bpmnplus2bpel4chor.js" name="ORYX.Plugins.Bpel4ChorTransformation">
 			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>	
@@ -220,6 +220,10 @@
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
+		<plugin source="bpel4chor2bpelSupport.js" name="ORYX.Plugins.BPEL4Chor2BPELSupport">
+			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
+		</plugin>
+		
 		<plugin source="bpelLayout.js" name="ORYX.Plugins.BPELLayouting">
 			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
@@ -235,10 +239,6 @@
         </plugin>
         
         <plugin source="petriNetSoundnessChecker.js" name="ORYX.Plugins.PetriNetSoundnessChecker">
-            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
-        </plugin>
-        
-        <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         
