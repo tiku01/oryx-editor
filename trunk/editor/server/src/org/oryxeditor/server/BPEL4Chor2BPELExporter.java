@@ -18,13 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -33,7 +30,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * Import the transformation for BPEL4Chor to BPEL 
@@ -121,15 +117,15 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
     	
     	String rdfString = req.getParameter("data");
     	
-    	out.print("!!!!!!"+rdfString+"!!!!!!");
+//    	out.print("!!!!!!"+rdfString+"!!!!!!");
     	
     	String contextPath = getServletContext().getRealPath("");
     	
-//    	transformTopology (rdfString, out, contextPath);
+    	transformTopology (rdfString, out, contextPath);
 
-//    	transformGrounding (rdfString, out, contextPath);
+    	transformGrounding (rdfString, out, contextPath);
     	
-//    	transformProcesses (rdfString, out, contextPath);
+    	transformProcesses (rdfString, out, contextPath);
     	
 //    	out.print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 //    	out.print(escapeJSON(topologyString));
@@ -138,26 +134,18 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 //    	out.print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 //    	out.print(escapeJSON(processString));
 //    	out.print("???????????????????????????????");
-//    	ArrayList<String> processesList = separateProcesses(processesString);
+    	ArrayList<String> processesList = separateProcesses(processesString);
 //    	out.print(processesList);
 
     	//convert the BPEL4Chor to BPEL    	
-/*    	try {
+    	try {
 			bpel4chorConvertToBPEL(topologyString, groundingString, processesList, out);
-		} catch (ParserConfigurationException e) {
+		} catch (Exception e) {
 			//TODO::Following the exception handling will be done. 
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TransformerFactoryConfigurationError e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
 		// convert end
-*/
+
     	out.print("]}");
     }
   
@@ -198,12 +186,96 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 	   		bufferResultString = writer.toString();
 	   		String resultString = postprocessTopology(out, bufferResultString);
 	   		
+	   		//resultString = crossPartnerScopeHandleTopology(resultString) arrange
+	   		//               crossPartnerScope node.
 		   	topologyString = resultString;           // store the content of the topology into the topologyString
 	   		
 	   	} catch (Exception e){
 	   		handleException(out, "topology", e); 
 	   	}
    }
+    
+    // extended for Cross Partner Scope by Changhua Li
+    /**
+     * rearrange the content of crossPartnerScopes node, according the content of oldString
+     * to create the matched <activities> and <wsp:Plicy>
+     * 
+     * @param  {String} oldString
+     * @return {String} newString
+     * @throws Exception 
+     */
+    private String crossPartnerScopesHandleTopology(String oldString) throws Exception{
+    	if(oldString == null || oldString == ""){
+    		return oldString;
+    	}
+
+ 	   	StringWriter stringOut = new StringWriter();
+ 	   	
+		// transform string to document
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputStream oldResultInputStream = new ByteArrayInputStream
+							(oldString.getBytes());
+		Document oldDocument = builder.parse(oldResultInputStream);
+		
+		// rearrange crossPartnerScope
+		Element topology = getChildElementWithNodeName(oldDocument, 
+				"topology", false);
+		
+		if (topology != null){
+
+			// record necessary informations
+			NodeList childrenList = topology.getChildNodes();
+			for (int i = 0; i < childrenList.getLength(); i++){
+				Node child = childrenList.item(i);
+				if (child instanceof Element){
+					Element childElement = (Element)child;
+					
+					if (childElement.getNodeName().equals("participants")
+						|| childElement.getNodeName().equals("messageLinks")
+						|| childElement.getNodeName().equals("nodeInfoSet")
+						|| childElement.getNodeName().equals("associationEdgeInfoSet")){
+						recordNodesInfo(childElement);
+					}
+				}
+			}
+
+			// handle each child elements
+			childrenList = topology.getChildNodes();
+			for (int i = 0; i < childrenList.getLength(); i++){
+				Node child = childrenList.item(i);
+				if (child instanceof Element){
+					Element childElement = (Element)child;
+					
+					if (childElement.getNodeName().equals("participantTypes")){
+						handleParticipantTypesElement(childElement);
+					}
+					
+					if (childElement.getNodeName().equals("participants")){
+						handleParticipantsElement(childElement);
+					}
+					
+					if (childElement.getNodeName().equals("messageLinks")){
+						handleMessageLinksElement(childElement);
+					}
+				}
+			}
+		}	
+		// delete all useless attributes and elements
+		//cleanUp(topology);
+		
+		// transform rearranged oldDocument to string
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		Transformer transformer = tFactory.newTransformer();
+		DOMSource source = new DOMSource(oldDocument);
+		StreamResult result = new StreamResult(stringOut);
+		transformer.transform(source, result);
+		stringOut.flush();
+ 
+ 		return stringOut.toString();
+	}  
+    // end of extended for Cross Partner Scope by Changhua Li
     
     private String postprocessTopology (PrintWriter out, String oldString) throws Exception{
  	   
@@ -825,7 +897,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
     			//      4. remove all useless attributes and elements, which contain
     			//         the necessary informations for the above works but useless
     			//         right now
-    			resultString = postprocessResult (out, resultString);
+    			resultString = postprocessResult(out, resultString);
 
     			processesString = resultString;		// Store the content of process in processString
     			return;
@@ -918,8 +990,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 	
 	/************************* convert BPEL4Chor String to BPEL String **************************/
 	private void bpel4chorConvertToBPEL(String topologyString, String groundingString, ArrayList<String> processList, PrintWriter out)
-	throws ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError,
-	TransformerException{
+		throws Exception{
 
 		// transform topology and grounding string to document
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
