@@ -86,7 +86,7 @@ public class SVGRectangle {
 		for (double y = this.height - distY; y > (round ? radius : 0); y -= distY){
 			// less variance for destination than for the reference
 			destX 	+= (destX < 0) ? Math.random() : -Math.random();
-			refX 	+= (refX < 0) ? Math.random()*2 : -Math.random()*2;
+			refX 	+= (refX < 0) ? Math.random()*3 : -Math.random()*3;
 			
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", refX + this.x, y + 15 + this.y, destX + this.x, y + this.y);
 		}
@@ -106,7 +106,7 @@ public class SVGRectangle {
 		for (double x = this.width - distX; x > (round ? radius : 0); x -= distX){
 			// less variance for destination than for the reference
 			destY 	+= (destY < this.height) ? Math.random() : -Math.random();
-			refY 	+= (refY < this.height) ? Math.random()*2 : -Math.random()*2;
+			refY 	+= (refY < this.height) ? Math.random()*3 : -Math.random()*3;
 			
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", x + 15 + this.x, refY + this.y, x + this.x, destY + this.y);
 		}
@@ -127,7 +127,7 @@ public class SVGRectangle {
 		for (double y = distY; y < (round ? this.height - radius : this.height); y += distY){
 			// less variance for destination than for the reference
 			destX 	+= (destX < this.width) ? Math.random() : -Math.random();
-			refX 	+= (refX < this.width) ? Math.random()*2 : -Math.random()*2;
+			refX 	+= (refX < this.width) ? Math.random()*3 : -Math.random()*3;
 			
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", refX + this.x, y - 15 + this.y, destX + this.x, y + this.y);
 		}
@@ -148,7 +148,7 @@ public class SVGRectangle {
 		for (double x = distX; x < (round ? this.width - radius : this.width); x += distX){
 			// less variance for destination than for the reference
 			destY 	+= (destY < 0) ? Math.random() : -Math.random();
-			refY 	+= (refY < 0) ? Math.random()*2 : -Math.random()*2;
+			refY 	+= (refY < 0) ? Math.random()*3 : -Math.random()*3;
 			
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", x - 15 + this.x, refY + this.y, x + this.x, destY + this.y);
 		}
