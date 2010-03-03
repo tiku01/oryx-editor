@@ -426,12 +426,16 @@
 				<xsl:variable name="typeName" select="./oryx:crosspartnerscopes" />
 				<xsl:variable name="elementName" select="./oryx:name" />
 				<xsl:variable name="elementType" select="./oryx:type" />
-					
+				<xsl:variable name="elementId" select="(./@rdf:about)" />
+			    <xsl:variable name="elementParent" select="(./raziel:parent/@rdf:resource)" />
+			    		
 				<xsl:if test="$typeName!=''">
 					<xsl:call-template name="loop-for-adding-crossPartnerScopes">
 							<xsl:with-param name="data-set" select="$typeName" />
 							<xsl:with-param name="elementName" select="$elementName" />
 							<xsl:with-param name="elementType" select="$nodeType" />
+							<xsl:with-param name="elementId" select="$elementId" />
+							<xsl:with-param name="elementParent" select="$elementParent" />
 					</xsl:call-template>
 				</xsl:if>
 					
@@ -447,6 +451,8 @@
 		<xsl:param name="data-set" />
 		<xsl:param name="elementName" />
 		<xsl:param name="elementType" />
+		<xsl:param name="elementId" />
+		<xsl:param name="elementParent" />
 		
 		<xsl:if test="$data-set != ''">
 			<xsl:if test="contains($data-set, ',')">
@@ -459,7 +465,16 @@
 					</xsl:attribute>
 					<xsl:attribute name="elementType">
 						<xsl:value-of select="$elementType" />
-					</xsl:attribute>	
+					</xsl:attribute>
+					<xsl:attribute name="elementId">
+						<xsl:value-of select="$elementId" />
+					</xsl:attribute>
+					<xsl:attribute name="elementParent">
+						<xsl:value-of select="$elementParent" />
+					</xsl:attribute>
+					<xsl:call-template name="find-children-nodes-of-process">
+						<xsl:with-param name="searchedParentID"><xsl:value-of select="$elementId" /></xsl:with-param>
+			    	</xsl:call-template>	
 				</crossPartnerScope>
 			</xsl:if>
 			<xsl:if test="not(contains($data-set, ','))">
@@ -473,17 +488,62 @@
 					<xsl:attribute name="elementType">
 						<xsl:value-of select="$elementType" />
 					</xsl:attribute>
+					<xsl:attribute name="elementId">
+						<xsl:value-of select="$elementId" />
+					</xsl:attribute>
+					<xsl:attribute name="elementParent">
+						<xsl:value-of select="$elementParent" />
+					</xsl:attribute>
+					<xsl:call-template name="find-children-nodes-of-process">
+						<xsl:with-param name="searchedParentID"><xsl:value-of select="$elementId" /></xsl:with-param>
+			    	</xsl:call-template>
 				</crossPartnerScope>
 			</xsl:if>
 			<xsl:call-template name="loop-for-adding-crossPartnerScopes">
 				<xsl:with-param name="data-set" select="substring-after($data-set, ',')" />
 				<xsl:with-param name="elementName" select="$elementName" />
 				<xsl:with-param name="elementType" select="$elementType" />
+				<xsl:with-param name="elementId" select="$elementId" />
+				<xsl:with-param name="elementParent" select="$elementParent" />
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 
 
+	<xsl:template name="find-children-nodes-of-process">
+		<xsl:param name="searchedParentID" />
+		
+        <xsl:for-each select="//rdf:Description">
+			<xsl:variable name="currentParentID"><xsl:value-of select="(./raziel:parent/@rdf:resource)" /></xsl:variable>         
+			<xsl:if test="$currentParentID = $searchedParentID">
+      		  	<xsl:variable name="currentID" select="@rdf:about" />
+      		  	<xsl:variable name="currentName" select="./oryx:name" />
+				<xsl:variable name="typeString" select="./oryx:type" />	
+				<xsl:variable name="nodeType">
+					<xsl:call-template name="get-exact-type">
+						<xsl:with-param name="typeString" select="$typeString" />
+					</xsl:call-template>
+				</xsl:variable>
+				
+				<child>
+					<xsl:attribute name="childId">
+						<xsl:value-of select="$currentID" />
+					</xsl:attribute>
+					<xsl:attribute name="childName">
+						<xsl:value-of select="$currentName" />
+					</xsl:attribute>
+					<xsl:attribute name="childType">
+						<xsl:value-of select="$nodeType" />
+					</xsl:attribute>
+				</child>
+				
+				<xsl:call-template name="find-children-nodes-of-process">
+					<xsl:with-param name="searchedParentID"><xsl:value-of select="$currentID" /></xsl:with-param>
+			    </xsl:call-template>	
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>				
+	
 
 	<xsl:template name="find-children-nodes">
 		<xsl:param name="searchedParentID" />
@@ -534,7 +594,7 @@
 		<xsl:value-of select="substring-after($typeString, '#')" />
 	</xsl:template>
 	
-	
+
 	<xsl:template name="get-number-of-elements-in-complex-type">
 		<xsl:param name="original_content" />
 		<xsl:value-of select="substring-before(substring-after($original_content, 'totalCount%27%3A'), '%2C%20%27items') " />
