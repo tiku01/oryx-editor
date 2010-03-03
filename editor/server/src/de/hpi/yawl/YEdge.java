@@ -1,6 +1,9 @@
 package de.hpi.yawl;
 
-public class YEdge extends YFlowRelationship {
+public class YEdge{
+	
+	protected YNode source;
+	protected YNode target;
 	
 	private boolean defaultEdge;
     private String predicate = "";
@@ -18,7 +21,31 @@ public class YEdge extends YFlowRelationship {
     	setTarget(edgeTarget);
     	setEdgeType(defaultEdge, predicate, ordering);
     }
+    
+    public YNode getSource() {
+		return source;
+	}
 
+	public void setSource(YNode value) {
+		if (source != null)
+			source.getOutgoingEdges().remove(this);
+		source = value;
+		if (source != null)
+			source.getOutgoingEdges().add(this);
+	}
+
+	public YNode getTarget() {
+		return target;
+	}
+
+	public void setTarget(YNode value) {
+		if (target != null)
+			target.getIncomingEdges().remove(this);
+		target = value;
+		if (target != null)
+			target.getIncomingEdges().add(this);
+	}
+	
 	public void setEdgeType(boolean defaultEdge, String predicate, int ordering) {
 		setDefault(defaultEdge);
 		setPredicate(predicate);
@@ -57,14 +84,14 @@ public class YEdge extends YFlowRelationship {
 	 * @param s
 	 * @return
 	 */
-	private String writePredicateToYAWL(YTask.SplitJoinType splitType, String s) {
-        if (splitType == YTask.SplitJoinType.AND)
+	private String writePredicateToYAWL(SplitJoinType splitType, String s) {
+        if (splitType == SplitJoinType.AND)
         	return s;
         
         s += "\t\t\t\t\t\t<predicate ";
-        if (splitType == YTask.SplitJoinType.XOR) {
+        if (splitType == SplitJoinType.XOR) {
             s += String.format(" ordering=\"%s\">", ordering);
-        } else if (splitType == YTask.SplitJoinType.OR) {
+        } else if (splitType == SplitJoinType.OR) {
             s += ">"; //closing tag bracket
         }
         
@@ -79,7 +106,7 @@ public class YEdge extends YFlowRelationship {
      * @param splitType int The split type of the originating YAWL node.
      * @return String The string to export for this YAWLDecompositon.
      */
-    public String writeToYAWL(YTask.SplitJoinType splitType) {
+    public String writeToYAWL(SplitJoinType splitType) {
         String s = "";
 
         s += "\t\t\t\t\t<flowsInto>\n";

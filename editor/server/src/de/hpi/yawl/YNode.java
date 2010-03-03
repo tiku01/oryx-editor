@@ -7,8 +7,8 @@ public abstract class YNode implements FileWritingForYAWL {
 	
 	protected String id = ""; //the internal ID of a node
 	protected String name = ""; //the name of a node that is shown in the editor
-	protected List<YFlowRelationship> incomingEdges;
-	protected List<YFlowRelationship> outgoingEdges;
+	protected List<YEdge> incomingEdges;
+	protected List<YEdge> outgoingEdges;
 	
 	public YNode(String ID, String name){
 		setID(ID);
@@ -31,15 +31,15 @@ public abstract class YNode implements FileWritingForYAWL {
 		this.name = nodeName;
 	}
 	
-	public List<YFlowRelationship> getIncomingEdges() {
+	public List<YEdge> getIncomingEdges() {
 		if (incomingEdges == null)
-			incomingEdges = new ArrayList<YFlowRelationship>();
+			incomingEdges = new ArrayList<YEdge>();
 		return incomingEdges;
 	}
 
-	public List<YFlowRelationship> getOutgoingEdges() {
+	public List<YEdge> getOutgoingEdges() {
 		if (outgoingEdges == null)
-			outgoingEdges = new ArrayList<YFlowRelationship>();
+			outgoingEdges = new ArrayList<YEdge>();
 		return outgoingEdges;
 	}
 	

@@ -25,12 +25,9 @@ public class YCondition extends YNode {
 	 * @return
 	 */
 	protected String writeOutgoingEdgesToYAWL(String s) {
-		for(YFlowRelationship flow: this.getOutgoingEdges()){
-			if (flow instanceof YEdge){
-				YEdge edge = (YEdge)flow;
-				s += edge.writeToYAWL(YTask.SplitJoinType.AND);
-			}
-		}
+		for(YEdge edge: this.getOutgoingEdges())
+			s += edge.writeToYAWL(SplitJoinType.AND);
+
 		return s;
 	}
 }
