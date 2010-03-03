@@ -100,7 +100,8 @@ handleMouseMove: function(event, uiObj) {
 			this.point.x = this.facade.eventCoordinates(event).x;
 			this.point.y = this.facade.eventCoordinates(event).y;
 
-			if (this.active) {			
+			if (this.active) {	
+				//refresh Ghostpoint
 				this.hideOverlay();			
 				this.showOverlay( uiObj, this.point);
 			}else{
@@ -148,7 +149,7 @@ addDockerCommand: function(options){
 },
 
 /**
- *show the ghostpoint
+ *show the ghostpoint overlay
  *
  *@param {Shape} edge
  *@param {Point} point
@@ -166,7 +167,7 @@ showOverlay: function(edge, point){
 },
 
 /**
- *hide the ghostpoint
+ *hide the ghostpoint overlay
  */
 hideOverlay: function() {
 	

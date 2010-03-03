@@ -297,8 +297,7 @@
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 		<plugin source="dockerCreation.js" name="ORYX.Plugins.DockerCreation" />
-		<plugin source="labelLayout.js" name="ORYX.Plugins.LabelLayout" />		
-		
+		<plugin source="labelLayout.js" name="ORYX.Plugins.LabelLayout"/>
 
 	</plugins>
 	

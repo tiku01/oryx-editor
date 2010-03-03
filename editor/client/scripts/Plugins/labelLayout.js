@@ -212,14 +212,12 @@ handleMouseDown: function(event, uiObj) {
 	 
 		//save the edge for adding rotationpoint	
 		this.myEdge = uiObj;
-		
-		console.log(uiObj);
+
 		//Show the RotationPoint and line of the label of the current Edge
 		if(this.myLabel && this.myLabel._text != ""){
 			this.calculateLabelCoordinates();
 			this.calculateRotationPointCoordinates();
 			this.showLine();			
-			//this.calculateLabelCoordinates();
 			this.mouseCoordinates = {x:this.labelCoordinates.x, y:this.labelCoordinates.y};			
 			this.showOverlay("MovingArrows", this.myEdge, this.mouseCoordinates, this.startMovingCross);
 			this.showOverlay("RotationPoint", this.myEdge, this.rotationPointCoordinates, this.rotationPoint);
