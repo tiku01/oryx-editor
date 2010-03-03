@@ -19,7 +19,6 @@
 				
 		</plugin>
 		<plugin source="rdfExport.js" name="ORYX.Plugins.RDFExport" />
-		<plugin source="general/feedbackPlugin.js" name="ORYX.Plugins.FeedbackPlugin" />
 		<plugin source="undo.js" name="ORYX.Plugins.Undo" />
 		
 		<plugin source="epcSupport.js" name="ORYX.Plugins.EPCSupport">
@@ -95,6 +94,11 @@
 		</plugin>	
 
 		<plugin source="desynchronizabilityOverlay.js" name="ORYX.Plugins.DesynchronizabilityOverlay">
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
+			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
+		</plugin>
+		
+		<plugin source="enforceabilityOverlay.js" name="ORYX.Plugins.EnforceabilityOverlay">
 			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 		</plugin>
@@ -239,6 +243,10 @@
         </plugin>
         
         <plugin source="petriNetSoundnessChecker.js" name="ORYX.Plugins.PetriNetSoundnessChecker">
+            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+        </plugin>
+        
+        <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         

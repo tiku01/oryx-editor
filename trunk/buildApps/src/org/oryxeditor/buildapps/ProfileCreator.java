@@ -109,6 +109,8 @@ public class ProfileCreator {
 		FileWriter writer = new FileWriter(profileFile);
 		for (String name : pluginNameSet) {
 			String source = nameSrc.get(name);
+			if(source==null)
+				throw new IllegalArgumentException("In profile '"+profileName+"' an unknown plugin is referenced named '"+ name+"'");
 			FileReader reader = new FileReader(pluginDirPath + File.separator + source);
 			writer.append(FileCopyUtils.copyToString(reader));
 		}
@@ -221,7 +223,9 @@ public class ProfileCreator {
 					// plugin defintion found copy or replace properties
 					Node profilePluginNode = getLastPluginNode(profileNode,
 							pluginName);
-					if(profilePluginNode==null){System.out.println("Plugin: "+pluginName+" assumed to be core");break;}
+					if(profilePluginNode==null){
+						//System.out.println("Plugin: "+pluginName+" assumed to be core");
+						break;}
 					saveOrUpdateProperties(pluginNode, profilePluginNode);
 
 				}else{
@@ -501,6 +505,7 @@ public class ProfileCreator {
 			.getNodeValue();
 			String src = plugins.item(i).getAttributes().getNamedItem("source")
 			.getNodeValue();
+			assert (src!=null);
 			nameSrc.put(name, src);
 			if (plugins.item(i).getAttributes().getNamedItem("core") != null) {
 				if (plugins.item(i).getAttributes().getNamedItem("core")
