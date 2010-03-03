@@ -5,10 +5,6 @@ import java.util.Locale;
 
 public class YTask extends YNode{
 	
-	public enum SplitJoinType {
-		AND, OR, XOR
-	}
-	
 	private SplitJoinType joinType = SplitJoinType.XOR;
 	private SplitJoinType splitType = SplitJoinType.AND;
 	private YDecomposition decomposesTo = null;
@@ -40,12 +36,11 @@ public class YTask extends YNode{
 		super(ID, name);
 	}
 	
-	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split, YDecomposition decomposesTo){
+	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split){
 		super(ID, name);
 		
 		setJoinType(join);
 		setSplitType(split);
-		setDecomposesTo(decomposesTo);
 	}
 	
 	public SplitJoinType getJoinType(){
@@ -127,12 +122,9 @@ public class YTask extends YNode{
 	 * @return
 	 */
 	private String writeOutgoingEdgesToYAWL(String s) {
-		for(YFlowRelationship flow: this.getOutgoingEdges()){
-			if (flow instanceof YEdge){
-				YEdge edge = (YEdge)flow;
-				s += edge.writeToYAWL(this.splitType);
-			}
-		}
+		for(YEdge edge: this.getOutgoingEdges())
+			s += edge.writeToYAWL(this.splitType);
+
 		return s;
 	}
 
@@ -235,7 +227,6 @@ public class YTask extends YNode{
 	
 	/**
 	 * Export to YAWL file.
-	 * @param phase Writing phase: 0 = inputCondition, 2 = outputCondition, 1 = rest.
 	 * @return String The string to export for this YTask.
 	 */
 	public String writeToYAWL() {

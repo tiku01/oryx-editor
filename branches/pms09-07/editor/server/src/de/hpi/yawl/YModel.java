@@ -29,7 +29,7 @@ public class YModel implements FileWritingForYAWL {
 	}
 	
 	public YDecomposition createDecomposition(String id){
-		YDecomposition decomposition = new YDecomposition(id, false, "NetFactsType");
+		YDecomposition decomposition = new YDecomposition(id, false, XsiType.NetFactsType);
 		addDecomposition(decomposition);
 		return decomposition;
 	}

@@ -16,7 +16,7 @@ public class YDecomposition implements FileWritingForYAWL {
 	
     private String id; // The id of the decomposition
     private boolean isRootNet; // Whether this decomposition is the root
-    private String xsiType; // the xsi:type of the decomposition
+    private XsiType xsiType; // the xsi:type of the decomposition
     
     private ArrayList<YVariable> inputParameters = new ArrayList<YVariable>();
     private ArrayList<YVariable> outputParameters = new ArrayList<YVariable>();
@@ -40,7 +40,7 @@ public class YDecomposition implements FileWritingForYAWL {
      * @param xsiType The xsi:type
      */
         
-    public YDecomposition(String id, Boolean isRootNet, String xsiType) {
+    public YDecomposition(String id, Boolean isRootNet, XsiType xsiType) {
         setID(id);
         setRootNet(isRootNet);
         setXSIType(xsiType);
@@ -50,7 +50,7 @@ public class YDecomposition implements FileWritingForYAWL {
     	this.isRootNet = isRootNet;
     }
     
-    public void setXSIType(String xsiType){
+    public void setXSIType(XsiType xsiType){
     	this.xsiType = xsiType;
     }
     
@@ -115,12 +115,9 @@ public class YDecomposition implements FileWritingForYAWL {
 	public HashSet<YEdge> getEdgesBetween(YNode sourceNode, YNode targetNode) {
 		HashSet<YEdge> result = new HashSet<YEdge>();
 		
-		for(YFlowRelationship flow: sourceNode.getOutgoingEdges()){
-			if (flow instanceof YEdge){
-				YEdge edge = (YEdge)flow;
-				if (edge.getTarget() == targetNode) {
-					result.add(edge);
-				}
+		for(YEdge edge: sourceNode.getOutgoingEdges()){
+			if (edge.getTarget() == targetNode) {
+				result.add(edge);
 			}
 		}
 		return result;
@@ -186,28 +183,18 @@ public class YDecomposition implements FileWritingForYAWL {
      * @param decomposesTo The given subdecomposition name.
      * @return the task created.
      */
-    public YTask createTask(String id, String name, String join, String split,
-                            YDecomposition decomposesTo) {
-    	YTask.SplitJoinType joinType = YTask.SplitJoinType.XOR;
-    	YTask.SplitJoinType splitType = YTask.SplitJoinType.AND;
-    	
-    	if(join.equalsIgnoreCase("and"))
-    		joinType = YTask.SplitJoinType.AND;
-    	else if(join.equalsIgnoreCase("xor"))
-    		joinType = YTask.SplitJoinType.XOR;
-    	else if(join.equalsIgnoreCase("or"))
-    		joinType = YTask.SplitJoinType.OR;
+    public YTask createTask(String id, String name, SplitJoinType joinType,
+    		SplitJoinType splitType) {
         
-    	if(split.equalsIgnoreCase("and"))
-    		splitType = YTask.SplitJoinType.AND;
-    	else if(split.equalsIgnoreCase("xor"))
-    		splitType = YTask.SplitJoinType.XOR;
-    	else if(split.equalsIgnoreCase("or"))
-    		splitType = YTask.SplitJoinType.OR;
-        
-        YTask task = new YTask(id, name, joinType, splitType, decomposesTo);
+        YTask task = new YTask(id, name, joinType, splitType);
         addNode(task);
         return task;
+    }
+    
+    public YTask createTask(String id, String name){
+    	YTask task = createTask(id, name, SplitJoinType.XOR, SplitJoinType.AND);
+    	
+    	return task;
     }
 
     public void removeNode(YNode node) {
