@@ -92,7 +92,7 @@ public class SVGRectangle {
 		}
 		if (round)
 			d += String.format("L %.2f, %.2f Q %.2f, %.2f, %.2f, %.2f", 
-					this.x, this.y + 15, this.x, this.y, this.x + 20, this.y + 5);
+					this.x, this.y + 15, this.x, this.y, this.x + 20, this.y + 3);
 		else
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", this.x, this.y, this.x, 
 				this.y - ((this.height < 200 && Math.random() < 0.5) ? 5 : 0) );

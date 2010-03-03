@@ -22,8 +22,6 @@ public class SVGPath {
 		this.styleHandler 	= styleHandler;
 		this.path 			= e;
 		this.corners 		= new ArrayList<PathSection>();
-		
-		extractSections();
 	}
 
 	private void extractSections() {
@@ -48,20 +46,19 @@ public class SVGPath {
 	}
 	
 	public void transform(){
-		
-		String dOld = this.path.getAttribute("d");
-	
-		String d = String.format("M %.2f, %.2f ", this.corners.get(0).getX(), this.corners.get(0).getY());		
-		
-		for (int i = 1; i < this.corners.size(); i += 1){
-			d += changeSection(this.corners.get(i-1), this.corners.get(i));
+		if (!this.path.getAttribute("d").contains("C") && !this.path.getAttribute("d").contains("c")){
+			this.extractSections();
+			String d = String.format("M %.2f, %.2f ", this.corners.get(0).getX(), this.corners.get(0).getY());		
+			for (int i = 1; i < this.corners.size(); i += 1){
+				d += changeSection(this.corners.get(i-1), this.corners.get(i));
+			}
+			
+			if (this.path.getAttribute("d").trim().endsWith("z") || this.path.getAttribute("d").trim().endsWith("Z"))
+				d += "z";	
+			
+			this.path.setAttribute("d", d);
+			this.changeStyle();
 		}
-		
-		if (this.path.getAttribute("d").trim().endsWith("z") || this.path.getAttribute("d").trim().endsWith("Z"))
-			d += "z";	
-		
-		this.path.setAttribute("d", d);
-		this.changeStyle();
 		
 	}
 	

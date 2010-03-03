@@ -11,7 +11,7 @@ import org.b3mn.poem.util.ExportHandler;
 
 import org.b3mn.poem.sketching.*;
 
-@ExportHandler(uri="/sketchy", formatName="Sketchy", iconUrl="/backend/images/silk/pencil_go.png")
+@ExportHandler(uri="/sketch", formatName="Sketch", iconUrl="/backend/images/silk/pencil_go.png")
 public class SketchyRenderer extends PdfRenderer {
 	
 	@Override
