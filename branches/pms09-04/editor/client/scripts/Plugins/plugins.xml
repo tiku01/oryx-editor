@@ -296,6 +296,10 @@
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
+		
+		<plugin source="uml.js" name="ORYX.Plugins.UML">
+			<requires namespace="http://b3mn.org/stencilset/UML2.2#"/>	
+		</plugin>	
 
 	</plugins>
 	

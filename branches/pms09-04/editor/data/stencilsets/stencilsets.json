@@ -98,5 +98,13 @@
             "uri":"/bpmnq/bpmnq.json",
             "icon_url":"/bpmnq/bpmn1.1.png",
             "visible":true
+        },
+        {
+            "title":"UML 2.2",
+            "namespace":"http://b3mn.org/stencilset/UML2.2#",
+            "description":"UML 2.2 Class Diagrams",
+            "uri":"/uml2.2/uml2.2.json",
+            "icon_url":"/bpmnq/bpmn1.1.png",
+            "visible":true
         }
 ]
