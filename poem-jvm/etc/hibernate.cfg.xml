@@ -9,7 +9,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://192.168.56.101:5432/poem</property>
+        <property name="connection.url">jdbc:postgresql://localhost/poem</property>
         <property name="connection.username">poem</property>
         <property name="connection.password">poem</property>
 
