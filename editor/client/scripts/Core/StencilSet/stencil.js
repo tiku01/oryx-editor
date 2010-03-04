@@ -302,6 +302,7 @@ ORYX.Core.StencilSet.Stencil = {
 //	},
 	// layout property to store events for layouting in plugins
 	layout: function(shape) {
+		//console.log("layout called"); console.log(this._jsonStencil.layout);
 		return this._jsonStencil.layout
 	},
 	
