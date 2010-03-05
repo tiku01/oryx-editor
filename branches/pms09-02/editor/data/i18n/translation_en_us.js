@@ -22,6 +22,12 @@ ORYX.I18N.Oryx.editorOpenTimeout = "The editor does not seem to be started yet. 
 
 // Note: groups will be sorted by position and collapsed from low to high priority
 ORYX.I18N.toolbarGroups = {
+	arrange: {
+		name: "Arrangement",
+		icon: "tb_arrange.png",
+		position: 60,
+		priority: 10
+	},
 	add: {
 		name: "Adding of Sets & Plugs",
 		icon: "tb_firstofall.png",
@@ -51,12 +57,6 @@ ORYX.I18N.toolbarGroups = {
 		icon: "tb_syntax.png",
 		position: 50,
 		priority: 70
-	},
-	arrange: {
-		name: "Arrangement",
-		icon: "tb_arrange.png",
-		position: 60,
-		priority: 10
 	},
 	important: {
 		name: "Important",
