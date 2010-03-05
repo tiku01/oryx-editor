@@ -16955,12 +16955,7 @@ Ext.Toolbar = function(A) {
 			if (!(F instanceof A.Button)) {
 				F = new A.Button(F)
 			}
-			var G = document.createElement("td");
-			this.tr.insertBefore(G, this.tr.childNodes[C]);
-			this.initMenuTracking(F);
-			F.render(G);
-			this.items.insert(C, F);
-			return F
+			return this.insertItem(C, F);
 		},
 		insertItem : function(C, B) {
 			var G = document.createElement("td");
