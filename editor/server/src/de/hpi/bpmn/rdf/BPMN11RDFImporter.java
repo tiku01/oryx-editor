@@ -343,8 +343,7 @@ public class BPMN11RDFImporter {
 					c.diagram.setTitle(getContent(n));
 				} else if (attribute.equals("id")) {
 					c.diagram.setId(getContent(n));
-					// } else {
-					// handleStandardAttributes(attribute, n, pool, c, "Name");
+				//BPMN Extension for YAWL for the datatypedefinition 
 				} else if (attribute.equals("datatypedefinition")) {
 					c.diagram.setDataTypeDefinition(getContent(n));
 				}
@@ -516,7 +515,7 @@ public class BPMN11RDFImporter {
 							}
 							seperateProperty = seperateProperty.trim();
 							seperateProperty = seperateProperty.substring(1);
-							String[] propertyComponents = seperateProperty.split(", ");
+							String[] propertyComponents = seperateProperty.split(",");
 						
 							for(String propertyComponent : propertyComponents){
 								String propertyLine = propertyComponent.replace("\"", "");
