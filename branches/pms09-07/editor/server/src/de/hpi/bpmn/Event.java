@@ -7,6 +7,10 @@ public abstract class Event extends Node {
 	
 	protected List<Assignment> assignments;
 	
+	/**
+	 * the assignments getter
+	 * @return List of Assignment
+	 */
 	public List<Assignment> getAssignments() {
 		if (assignments == null)
 			assignments = new ArrayList<Assignment>();

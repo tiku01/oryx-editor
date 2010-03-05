@@ -18,11 +18,11 @@ public class Task extends Activity {
 	protected String color;
 	
 	/* Start of EXTENSION for the mapping to YAWL */
-	/* specifies if the offering of this task is done by users or the YAWL engine */
+	/** specifies if the offering of this task is done by users or the YAWL engine */
 	protected String yawl_offeredBy = "";
-	/* specifies if users or the YAWL engine allocate this task */
+	/** specifies if users or the YAWL engine allocate this task */
 	protected String yawl_allocatedBy = "";
-	/* specifies if users or the YAWL engine start this task */
+	/** specifies if users or the YAWL engine start this task */
 	protected String yawl_startedBy = "";
 	
 	/* End of EXTENSION for the mapping to YAWL */
@@ -188,26 +188,50 @@ public class Task extends Activity {
 		return serialization.getSerializationForDiagramObject(this);
 	}
 
+	/**
+	 * the offeredBy getter for YAWL
+	 * @return yawl_offeredBy
+	 */
 	public String getYawl_offeredBy() {
 		return yawl_offeredBy;
 	}
 
+	/**
+	 * the offeredBy setter for YAWL
+	 * @param yawl_offeredBy
+	 */
 	public void setYawl_offeredBy(String yawl_offeredBy) {
 		this.yawl_offeredBy = yawl_offeredBy;
 	}
 
+	/**
+	 * the allocatedBy getter for YAWL
+	 * @return yawl_allocatedBy
+	 */
 	public String getYawl_allocatedBy() {
 		return yawl_allocatedBy;
 	}
 
+	/**
+	 * the allocatedBy setter for YAWL
+	 * @param yawl_allocatedBy
+	 */
 	public void setYawl_allocatedBy(String yawl_allocatedBy) {
 		this.yawl_allocatedBy = yawl_allocatedBy;
 	}
 
+	/**
+	 * the startedBy getter for YAWL
+	 * @return yawl_startedBy
+	 */
 	public String getYawl_startedBy() {
 		return yawl_startedBy;
 	}
 
+	/**
+	 * the startedBy setter for YAWL
+	 * @param yawl_startedBy
+	 */
 	public void setYawl_startedBy(String yawl_startedBy) {
 		this.yawl_startedBy = yawl_startedBy;
 	}

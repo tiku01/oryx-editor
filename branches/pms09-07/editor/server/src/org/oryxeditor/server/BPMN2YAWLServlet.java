@@ -29,7 +29,9 @@ import de.hpi.bpmn2yawl.BPMN2YAWLNormalizer;
 import de.hpi.yawl.validation.*;
 
 /**
- * Copyright (c) 2009 Armin Zamani
+ * Copyright (c) 2009
+ * 
+ * @author Armin Zamani
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,6 +54,9 @@ import de.hpi.yawl.validation.*;
 public class BPMN2YAWLServlet extends HttpServlet {
 	private static final long serialVersionUID = -4589304713944851993L;
 
+	/**
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		try {
@@ -65,7 +70,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new ByteArrayInputStream(rdf.getBytes()));
-			System.out.println("processDocument will now be called");
+
 			processDocument(document, res.getWriter());
 			
 		} catch (ParserConfigurationException e) {
@@ -75,6 +80,10 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * @param document
+	 * @param writer
+	 */
 	protected void processDocument(Document document, PrintWriter writer) {
 		FileWriter fileWriter;
 		String yawlXML, yawlOrgDataXML;
@@ -127,13 +136,14 @@ public class BPMN2YAWLServlet extends HttpServlet {
 				System.out.println("Fehler beim Erstellen des YAWL-Files");
 			}
 		}
+		
+		writer.print("{}");
 	}
 
 	/**
 	 * @param document
 	 * @param type
-	 * @param diagram
-	 * @return
+	 * @return the BPMN Diagram
 	 */
 	private BPMNDiagram getDiagram(Document document, String type) {
 		if (type.equals("bpmn.json"))

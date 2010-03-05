@@ -44,10 +44,18 @@ public class BPMNDiagram implements Container {
 		this.title = title;
 	}
 
+	/**
+	 * the dataTypeDefinition getter
+	 * @return dataTypeDefinition
+	 */
 	public String getDataTypeDefinition() {
 		return dataTypeDefinition;
 	}
 
+	/**
+	 * the dataTypeDefinition setter
+	 * @param dataTypeDefinition
+	 */
 	public void setDataTypeDefinition(String dataTypeDefinition) {
 		this.dataTypeDefinition = dataTypeDefinition;
 	}
