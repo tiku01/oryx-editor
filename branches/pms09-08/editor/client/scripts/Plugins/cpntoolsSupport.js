@@ -311,9 +311,9 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 					},
 					function( arg )
 					{
-						if (result.startsWith("error:"))
+						if (arg.startsWith("error:"))
 						{
-							this._showErrorMessageBox(ORYX.I18N.Oryx.title, result);
+							this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
 						}
 						else
 						{
@@ -454,9 +454,9 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
         					},
         					function( arg )
         					{
-								if (result.startsWith("error:"))
+								if (arg.startsWith("error:"))
 								{
-									this._showErrorMessageBox(ORYX.I18N.Oryx.title, result);
+									this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
 								}
 								else
 								{
