@@ -206,8 +206,8 @@ handleMouseDown: function(event, uiObj) {
 			this.myLabel = uiObj._labels[uiObj.id+"condition"]; //for BPMN
 		}else if (uiObj._labels[uiObj.id+"name"]){
 			this.myLabel = uiObj._labels[uiObj.id+"name"]; //for UML
-		}else if (uiObj._labels[uiObj.id+"text"]){
-			this.myLabel = uiObj._labels[uiObj.id+"text"]; //for Petrinet
+		}else {
+			this.myLabel = uiObj._labels[uiObj.id+"text"];
 		}
 	 
 		//save the edge for adding rotationpoint	
