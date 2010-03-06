@@ -6,9 +6,8 @@ import org.json.JSONObject;
 import com.thoughtworks.xstream.XStream;
 
 public class CPNVariable extends XMLConvertable
-{
-	
-	//	Beispiel
+{	
+	//	Example
 	//	<var id="ID88708">
 	//    <type>
 	//      <id>int</id>
@@ -33,20 +32,38 @@ public class CPNVariable extends XMLConvertable
 		xstream.aliasField("id", CPNVariable.class, "idattri");
 		xstream.aliasField("id", CPNVariable.class, "idtag");
 		
+		// the field idattri becomes an attribute of the variable - tag 
 		xstream.useAttributeFor(CPNVariable.class, "idattri");
 	}
 
-	// ----------------------------------- JSON Reader -----------------------------------
+// --------------------------------------- JSON Reader -----------------------------------
 	
 	public void readJSONname(JSONObject modelElement) throws JSONException
 	{
-		setIdtag(modelElement.getString("name"));
-		setIdattri(modelElement.getString("id"));
+		String name = modelElement.getString("name");
 		
-		setType(new CPNVarType());
-		getType().setId(modelElement.getString("type"));
+		setIdtag(name);
 		
-		setLayout(getLayoutText(modelElement));
+		String layout = getLayoutText(modelElement);
+		
+		setLayout(layout);
+	}
+	
+	public void readJSONid(JSONObject modelElement) throws JSONException
+	{
+		String id = modelElement.getString("id");
+		
+		setIdattri(id);
+	}
+	
+	public void readJSONtype(JSONObject modelElement) throws JSONException
+	{
+		CPNVarType tempVarType = new CPNVarType();
+		
+		String type = modelElement.getString("type");
+		tempVarType.setId(type);
+		
+		setType(tempVarType);
 	}
 	
 	// ---------------------------------------- Helper -----------------------------------
@@ -54,6 +71,7 @@ public class CPNVariable extends XMLConvertable
 	public String getLayoutText(JSONObject modelElement) throws JSONException
 	{
 		String layoutText = "var ";
+		
 		layoutText = layoutText + modelElement.getString("name");
 		layoutText = layoutText + ": ";
 		layoutText = layoutText + modelElement.getString("type");
@@ -63,7 +81,6 @@ public class CPNVariable extends XMLConvertable
 	}
 	
 	// ------------------------------ Accessor ------------------------------------------
-	
 	
 	public void setIdtag(String idtag) {
 		this.idtag = idtag;
@@ -92,6 +109,4 @@ public class CPNVariable extends XMLConvertable
 	public String getLayout() {
 		return layout;
 	}
-	
-
 }

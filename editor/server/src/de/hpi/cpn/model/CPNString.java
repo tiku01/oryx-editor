@@ -7,13 +7,16 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNString
 {
-	
-	
+	// Elements which are neither important for the Export nor the Import, but these elements
+	// are necessary for XStream otherwise XStream raises an error
+	private transient Object with;	
 	
 	// ------------------------------------------ Mapping ------------------------------------------
 	public static void registerMapping(XStream xstream)
 	{
 	   xstream.alias("string", CPNString.class);
+	   
+	   xstream.aliasField("with", CPNString.class, "with");
 	}
 	
 	// -------------------------------------------- Helper ----------------------------------------

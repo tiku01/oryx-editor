@@ -3,8 +3,6 @@ package de.hpi.cpn.model;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,53 +12,66 @@ public class CPNArcRelations
 	private Hashtable<String, String> sourceTable = new Hashtable<String, String>();
 	private Hashtable<String, String> targetTable = new Hashtable<String, String>();
 	
-	// Name �ndern
-	public void fillPlace(CPNPage tempPage)
+	// ----------------------------------------- API ------------------------------------
+	public void fill(CPNPage tempPage)
 	{
 		ArrayList<CPNArc> arcs = tempPage.getArcs();
 		
 		for (int i = 0; i < arcs.size(); i++)
 		{
-			if (i == 23)
-			{
-				int j = 0;
-			}
 			CPNArc tempArc = arcs.get(i);
 			if (tempArc != null)
 			{
-				String source = "", target = "";
+				String source = null, target = null;
 				String orientation = tempArc.getOrientation();
+				
+				// Does the arc go from a place to a transition?
 				if (orientation.equals("PtoT"))
 				{
 					source = tempArc.getPlaceend().getIdref();
 					target = tempArc.getTransend().getIdref();					
 				}
+				// Does the arc go from a transition to a place?
 				else if (orientation.equals("TtoP"))
 				{
 					source = tempArc.getTransend().getIdref();
 					target = tempArc.getPlaceend().getIdref();
 				}
+				// There is also the possibility that the orientation is in both directions
+				// Then I create two new arcs and append them at the end of the array 
 				else if (orientation.equals("BOTHDIR"))
 				{
+					// Copying the arc attributes
 					CPNArc arcTtoP = CPNArc.newCPNArc(tempArc);
 					arcTtoP.setOrientation("TtoP");
 					
 					CPNArc arcPtoT = CPNArc.newCPNArc(tempArc);
-					arcPtoT.setId(tempArc.getId() + i + i); // ich mache 2 um die wahrscheinlichkeit das es eindeutig ist zu erh�hen;
+					// Adding i two times in order to increase the possibility that the id
+					// is unique
+					arcPtoT.setId(tempArc.getId() + i + i);
 					arcPtoT.setOrientation("PtoT");
 					
+					// Adding the two new arcs
 					arcs.add(arcPtoT);
 					arcs.add(arcTtoP);
+
+					// Removing the current arc, so the array gets shorter
+					// That why i is decreased otherwise an element would be skipped
 					arcs.remove(i);
 					i--;
+					
 					continue;
 				}
 				
-				getSourceTable().put(tempArc.getId(), source);
-				getTargetTable().put(tempArc.getId(), target);
+				if (source != null && target != null)
+				{
+					getSourceTable().put(tempArc.getId(), source);
+					getTargetTable().put(tempArc.getId(), target);
+				}
 			}			
 		}
 		
+		// Putting the new arcs array to the pages arc array
 		tempPage.setArcs(arcs);
 	}
 	
@@ -81,12 +92,13 @@ public class CPNArcRelations
 		return result;
 	}
 	
-	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
+	public void fill(JSONObject modelElement) throws JSONException
+	{
 		JSONArray childShapes = modelElement.optJSONArray("childShapes");
 		
 		if (childShapes != null)
 		{
-			for (int i = 0; i<childShapes.length(); i++) 
+			for (int i = 0; i < childShapes.length(); i++) 
 			{
 				JSONObject childShape = childShapes.getJSONObject(i);
 				String stencil = childShape.getJSONObject("stencil").getString("id");
@@ -113,6 +125,7 @@ public class CPNArcRelations
 		
 		if (outgoing != null)
 		{
+			// Making a new entry for each outgoing Node
 			for (int i = 0; i < outgoing.length(); i++) 
 			{
 				JSONObject outgoingNode = outgoing.getJSONObject(i);
@@ -147,12 +160,13 @@ public class CPNArcRelations
 	{
 		Enumeration<String> tempEnumeration = hashtable.keys();
 		
+		// Looking in each key's value
 		while (tempEnumeration.hasMoreElements())
 		{
 			String key = tempEnumeration.nextElement();
 			String value = (String) hashtable.get(key);
 			
-			// if value and oldId are the same then the new should be put into the dictionary
+			// If value and oldId are the same then the new should be put into the dictionary
 			if (value.equals(oldId))
 				hashtable.put(key, newId);
 			

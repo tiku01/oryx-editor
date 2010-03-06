@@ -1,3 +1,18 @@
+/*This comment deals with the mapping of position attributes.
+ * 
+ * In Oryx every position is relative to the upperLeft corner of the canvas. CPN Tools represents
+ * position information in a usual coordinate system. For the export I choose to export net
+ * into the 4. quadrant (where x - values are positive and y - values are negative). The reason
+ * for that is the fact that you don't have to calculate much. You only have to multiply -1 to
+ * the y value, in order to make it negative. It's implemented in the method
+ * getXCoordinateWith(...) in CPNModellingElement.
+ * 
+ * In order to do now the other way around we must find out at the biggest bounds of the
+ * coordinate system relative to its upperLeft corner. You have to this because otherwise some
+ * elements would be positioned on the wrong place where you cannot see the elements because they
+ * are covered by some Oryx Editor elements (like Toolbar, StencilSet palette, ...).
+ */
+
 package de.hpi.cpn.model;
 
 import java.text.SimpleDateFormat;
@@ -15,49 +30,60 @@ public class CPNDiagram
 {
 	public static int[] getMaxBounds(CPNPage tempPage)
 	{
-					// x y
-		int[] array = {0,0};
+		// Take a look at the big comment above in order to know why maxBounds are needed   
+		
+		int[] maxBounds = {0,0};
 		
 		ArrayList<CPNPlace> places = tempPage.getPlaces();
 		ArrayList<CPNTransition> transitions = tempPage.getTransitions();
+		ArrayList<CPNArc> arcs = tempPage.getArcs();
 		
-		for (int i = 0; i < places.size(); i++)
+		// Getting the biggest extensi
+		maxBounds = getMaxBoundsof(places, maxBounds);
+		
+		maxBounds = getMaxBoundsof(transitions, maxBounds);		
+		
+		for (int i = 0; i < arcs.size(); i++)
 		{
-			CPNPlace tempPlace = places.get(i);
+			CPNArc tempArc = arcs.get(i);
 			
-			if (tempPlace != null)
+			if (tempArc != null)
 			{
-				int X = (int) Double.parseDouble(tempPlace.getPosattr().getX());
-				int Y = (int) Double.parseDouble(tempPlace.getPosattr().getY());
+				ArrayList<CPNBendpoint> bendpoints = tempArc.getBendpoints();
 				
-				if (X < array[0])
-					array[0] = X;
-				if (Y > array[1])
-					array[1] = Y;
+				maxBounds = getMaxBoundsof(bendpoints, maxBounds);
 			}
 		}
 		
-		for (int i = 0; i < transitions.size(); i++)
+		
+		return maxBounds;
+	}
+	
+	private static <T> int[] getMaxBoundsof(ArrayList<T> elements, int[] currentMaxBounds)
+	{
+		// Loooking in all 
+		for (int i = 0; i < elements.size(); i++)
 		{
-			CPNTransition tempTransition = transitions.get(i);
+			T tempElement = elements.get(i);
 			
-			if (tempTransition != null)
+			if (tempElement != null)
 			{
-				int X = (int) Double.parseDouble(tempTransition.getPosattr().getX());
-				int Y = (int) Double.parseDouble(tempTransition.getPosattr().getY());
+				int X = (int) Double.parseDouble(((CPNModellingThing) tempElement).getPosattr().getX());
+				int Y = (int) Double.parseDouble(((CPNModellingThing) tempElement).getPosattr().getY());
 				
-				if (X < array[0])
-					array[0] = X;
-				if (Y > array[1])
-					array[1] = Y;
+				if (X < currentMaxBounds[0])
+					currentMaxBounds[0] = X;
+				if (Y > currentMaxBounds[1])
+					currentMaxBounds[1] = Y;
 			}
 		}
 		
-		return array;
+		return currentMaxBounds;
 	}
 	
 	public static void setDiagramBounds(Diagram diagram, int[] boundsArray)
 	{
+		// 1485 and 1050 are default extent values
 		Point UpperLeft = new Point(0.0, 0.0);
 		Point LowerRight = new Point(1485.0 + boundsArray[0], 1050.0 + boundsArray[1]); 
 		
@@ -66,15 +92,13 @@ public class CPNDiagram
 	
 	public static Diagram newColoredPetriNetDiagram()
 	{
-		String resourceId = "oryx-canvas123";
-		
-		StencilType type = new StencilType("Diagram");
-		
-		String stencilSetNs = "http://b3mn.org/stencilset/coloredpetrinet#";
-		// vielleicht mit der root aufpassen die root ist hier "/oryx/"
+		String resourceId = "oryx-canvas123";		
+		StencilType type = new StencilType("Diagram");		
+		String stencilSetNs = "http://b3mn.org/stencilset/coloredpetrinet#";		
+		// Take care of the root "/oryx/"; it might be changed when the root changes
 		String url ="/oryx/stencilsets/coloredpetrinets/coloredpetrinet.json";
-		StencilSet stencilSet = new StencilSet(url, stencilSetNs);
 		
+		StencilSet stencilSet = new StencilSet(url, stencilSetNs);		
 		Diagram diagram = new Diagram(resourceId, type, stencilSet);
 		
 		diagram.setProperties(getDiagramProperties());
@@ -84,6 +108,7 @@ public class CPNDiagram
 	
 	private static HashMap<String, String> getDiagramProperties()
 	{
+		// Setting all properties specific for a CPN diagram
 		HashMap<String, String> propertyMap = new HashMap<String, String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date today = new Date();
@@ -103,8 +128,11 @@ public class CPNDiagram
 	
 	public static JSONObject getDeclarationJSONObject(JSONArray declarations) throws JSONException
 	{
+		// It should look like this: 
+		// {"totalCount":4,"items":[{"name":"Name","type":"String","declarationtype":"Colorset"},
+		// {"name":"Alter","type":"Integer","declarationtype":"Colorset"}]}
 		JSONObject declarationJSONObject = new JSONObject();
-//		{"totalCount":4,"items":[{"name":"Name","type":"String","declarationtype":"Colorset"},{"name":"Alter","type":"Integer","declarationtype":"Colorset"},{"name":"n","type":"","declarationtype":"Variable"},{"name":"a","type":"","declarationtype":"Variable"}
+		
 		declarationJSONObject.put("totalCount", declarations.length());
 		declarationJSONObject.put("items", declarations);
 		
@@ -113,6 +141,7 @@ public class CPNDiagram
 		
 	public static JSONObject getOneDeclaration(String name, String type, String declarationtype) throws JSONException
 	{
+		// Creating a declaration entry
 		JSONObject declaration = new JSONObject();
 		
 		declaration.put("name", name);
@@ -123,12 +152,12 @@ public class CPNDiagram
 	}
 	
 	public static Shape getanArc(String resourceId)
-	{		
+	{	
+		// "properties":{"id":"","label":"","transformation":""}
 		StencilType stencil = new StencilType("Arc");
 		
 		Shape arc = new Shape(resourceId, stencil);
 		
-//		"properties":{"id":"","label":"","transformation":""}
 		arc.getProperties().put("id", "");
 		arc.getProperties().put("label", "");
 		arc.getProperties().put("transformation", "");		
@@ -138,12 +167,21 @@ public class CPNDiagram
 	
 	public static void setArcBounds(Shape arc)
 	{
-		// oryx doesn't need in order to position the arc correctly
-		// translate the position in the cpnFile to a bounds position in oryx
+		// Oryx doesn't need in order to position the arc correctly
 		Point UpperLeft = new Point(0.0, 0.0);
 		Point LowerRight = new Point(0.0, 0.0); 
 		
 		arc.setBounds(new Bounds(LowerRight, UpperLeft));	
+	}
+	
+	public static Point getDockerBendpoint(CPNBendpoint bendPoint, int[] boundsArray)
+	{		
+		int xPos = stringToInteger(bendPoint.getPosattr().getX()); 
+		int yPos = stringToInteger(bendPoint.getPosattr().getY());
+		
+		// Translate the position in the cpnFile to a bounds position in Oryx
+		// I multiply -1 in order to make the y value positive
+		return new Point(0.0 + xPos + boundsArray[0], (0.0 + yPos + boundsArray[1]) * -1);
 	}
 	
 	public static Shape getaTransition(String resourceId)
@@ -152,28 +190,33 @@ public class CPNDiagram
 		
 		Shape transition = new Shape(resourceId, stencil);
 		
-		
 		transition.getProperties().put("id", "");
 		transition.getProperties().put("title", "");
 		transition.getProperties().put("firetype", "Automatic");
 		transition.getProperties().put("href", "");
 		transition.getProperties().put("omodel", "");
 		transition.getProperties().put("oform", "");
-		transition.getProperties().put("guard", "");
-		
+		transition.getProperties().put("guard", "");		
 		
 		return transition;
 	}
 	
 	public static void setTransitionBounds(Shape transition, int[] boundsArray, CPNTransition tempTransition)
 	{
+		// Default extent
 		int w = 40, h = 40;
 		
-		int xPos = (int) Double.parseDouble(tempTransition.getPosattr().getX()); 
-		int yPos = (int) Double.parseDouble(tempTransition.getPosattr().getY()); 
-		// mit einem kleinen Faktor w�rde sich das alles in die L�nge ziehen  
+		// Adapting the extent of the transition
+		int titleLen = transition.getProperties().get("title").length();
 		
-		// translate the position in the cpnFile to a bounds position in oryx
+		w = w + titleLen * 3;
+		h = h + titleLen;
+		
+		int xPos = stringToInteger(tempTransition.getPosattr().getX()); 
+		int yPos = stringToInteger(tempTransition.getPosattr().getY()); 
+		
+		// Translate the position in the cpnFile to a bounds position in Oryx
+		// I multiply -1 in order to make the y value positive
 		Point UpperLeft = new Point(0.0 + xPos + boundsArray[0], (0.0 + yPos + boundsArray[1]) * -1);
 		Point LowerRight = new Point(0.0 + xPos + boundsArray[0] + w, (0.0 + yPos + boundsArray[1]) * -1 + h); 
 		
@@ -186,7 +229,6 @@ public class CPNDiagram
 		
 		Shape place = new Shape(resourceId, stencil);
 		
-		
 		place.getProperties().put("id", "");
 		place.getProperties().put("title", "");
 		place.getProperties().put("external", "false");
@@ -195,24 +237,21 @@ public class CPNDiagram
 		place.getProperties().put("locatornames", "");
 		place.getProperties().put("locatortypes", "");
 		place.getProperties().put("locatorexpr", "");
-		place.getProperties().put("colordefinition", "");
-		
+		place.getProperties().put("colordefinition", "");		
 		
 		return place;
 	}
 	
 	public static void setPlaceBounds(Shape place, int[] boundsArray, CPNPlace tempPlace)
 	{
+		// Default extent
 		int w = 64, h = 64;
-		// these are the center positions of the Place
-		// but oryx only knows UpperLeft and lowerRight
-		// so I have to translate it into oryx format; and that's why boundsArray are needed
-		// it is a relative position which I have to add to 
-		// every Place, Trans .. in order to set a correct Bound
-		int xPos = (int) Double.parseDouble(tempPlace.getPosattr().getX()); 
-		int yPos = (int) Double.parseDouble(tempPlace.getPosattr().getY()); 
 		
-		// translate the position in the cpnFile to a bounds position in oryx
+		int xPos = stringToInteger(tempPlace.getPosattr().getX()); 
+		int yPos = stringToInteger(tempPlace.getPosattr().getY()); 
+		
+		// Translate the position in the cpnFile to a bounds position in Oryx
+		// I multiply -1 in order to make the y value positive 
 		Point UpperLeft = new Point(0.0 + xPos + boundsArray[0], (0.0 + yPos + boundsArray[1]) * -1);
 		Point LowerRight = new Point(0.0 + xPos + boundsArray[0] + w, (0.0 + yPos + boundsArray[1]) * -1 + h); 
 		
@@ -221,11 +260,12 @@ public class CPNDiagram
 	
 	public static Shape getaToken(String resourceId)
 	{
+		// "properties":{"initialmarking":"\"Gerardo\"","quantity":"1","color":""}
+		
 		StencilType stencil = new StencilType("Token");
 		
 		Shape token = new Shape(resourceId, stencil);
 		
-//		"properties":{"initialmarking":"\"Gerardo\"","quantity":"1","color":""}
 		token.getProperties().put("initialmarking", "");
 		token.getProperties().put("quantity", "1");
 		token.getProperties().put("color", "#ffffff");
@@ -236,11 +276,18 @@ public class CPNDiagram
 	
 	public static void setTokenBounds(Shape token, int i)
 	{
+		// Default extent
 		int w = 12, h = 12;
-		// because Token bounds are relative to the bounds of the place shape
-		int xMid = 26, yMid = 26; // 26 = 32 - 12 / 2 
 		
-		// in order to position the token in a circle in the place
+		// Token bounds are relative to the bounds of the place it contains. So the center 
+		// of the place is (32;32) because it has a default extent of 64 and 64. But the token
+		// shape has also the upperLeft and lowerRight position. So the the upperLeft position 
+		// of the token when the token is positioned in the center of the place is not (32;32).
+		// Do not forget about the extent of the token itself. So after all the upperLeft position
+		// of the token mentioned is (26;26). 26 = 64 / 2 - 12 / 2 = 32 - 6 
+		int xMid = 26, yMid = 26; 
+		
+		// In order to position the token in a circle in the place
 		double c = 10.0;
 		double yRel = Math.sin((Math.PI / 6) * i) * c;
 		double xRel = Math.cos((Math.PI / 6) * i) * c;
@@ -250,5 +297,9 @@ public class CPNDiagram
 		
 		token.setBounds(new Bounds(LowerRight, UpperLeft));		
 	}
-
+	
+	private static int stringToInteger(String number)
+	{
+		return (int) Double.parseDouble(number);
+	}
 }

@@ -4,10 +4,10 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNVarType 
 {	
-	// Beispiel
-	//  <type>
-	//  <id>int</id>
-	//</type>
+	// Example
+	// <type>
+	//   <id>int</id>
+	// </type>
 	
 	private String id;
 	

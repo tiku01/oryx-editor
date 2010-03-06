@@ -1,24 +1,3 @@
-/*
- * This class is the main class for defining the declarations used in the CP Net.
- * The declarations - property in the JSON is an JSONArray, which consists of more than
- * one declarations like this ['Name', 'String', 'Colorset']. The first element is
- * the declarationId, second element is decalarationDataType. The third element 
- * expresses whether the declaration is a Colorset or a Variable, so called declarationType. 
- * 
- * This class checks the given declarations and extract only the declarations
- * which are correct and put it to the XML. Therefore you can find to block for all Colorsets
- * and all Variables.
- * 
- * Supported declarationDataTypes:
- * String,Integer or Int, Boolean or Bool, Product ()
- * 
- * Definition of a Product - declaration:
- * e.g ['NameAlter', 'Name * Alter', 'Colorset']
- * It's necessary that Name and Alter are also declarations as Colorset which are defined before. 
- * 
- *
- * */
-
 package de.hpi.cpn.model;
 
 import java.util.ArrayList;
@@ -32,7 +11,9 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNGlobbox extends XMLConvertable
 {	
-	private transient String mltag;
+	// Elements which are neither important for the Export nor the Import, but these elements
+	// are necessary for XStream otherwise XStream raises an error
+	private transient Object mltag;
 	
 	private ArrayList<CPNColor> colors = new ArrayList<CPNColor>();
 	private ArrayList<CPNVariable> vars = new ArrayList<CPNVariable>();
@@ -47,7 +28,7 @@ public class CPNGlobbox extends XMLConvertable
 	}
 	
 	private void initializeList()
-	{		
+	{	
 		setColorSetBlock(initializeColorBlock("ID1001"));
 		setVaraibleBlock(initializeVariableBlock("ID1002"));
 	}
@@ -80,19 +61,15 @@ public class CPNGlobbox extends XMLConvertable
 	   xstream.addImplicitCollection(CPNGlobbox.class, "vars", CPNVariable.class);
 	   xstream.addImplicitCollection(CPNGlobbox.class, "blocks", CPNBlock.class);
 	   
-	   // this instance variables are not needed for the mapping
-	   // that's why they are excluded
+	   // These instance variables are not needed for the mapping, that's why they are excluded
 	   xstream.omitField(CPNGlobbox.class, "colorSetBlock");
-	   xstream.omitField(CPNGlobbox.class, "variableBlock");	   
-	   xstream.omitField(CPNGlobbox.class, "declarationIds");
+	   xstream.omitField(CPNGlobbox.class, "variableBlock");
 	   
-	   CPNBlock.registerMapping(xstream);
-	   
+	   CPNBlock.registerMapping(xstream);	   
 	}
 	
 	
 	// ----------------------------------- JSON Reader -----------------------------------
-	
 	
 	public void readJSONproperties(JSONObject modelElement) throws JSONException 
 	{
@@ -100,28 +77,20 @@ public class CPNGlobbox extends XMLConvertable
 		this.parse(properties);
 	}
 	
-	// Achtung!!! Aufpassen bei �nderungen im StencilSet JSON
 	public void readJSONdeclarations(JSONObject modelElement) throws JSONException
 	{
 		JSONObject declarations = modelElement.optJSONObject("declarations");
 		
 		if (declarations != null)
 		{
-			// Set DeclarationIds in order to use it later for checking declaration
 			JSONArray jsonDeclarations = declarations.optJSONArray("items");
 			
-			
-			setDeclarationIds(allIds(jsonDeclarations));
-			
-			// Iterating over all declarations
-			
+			// Iterating over all declarations			
 			for (int i = 0; i < jsonDeclarations.length(); i++)
 			{			
 				JSONObject declaration = jsonDeclarations.getJSONObject(i);
-				
-				// Check if the declaration is correct 
-				if (correctDeclaration(declaration))
-					addDeclaration(declaration, i);
+					
+				addDeclaration(declaration, i);
 			}
 			
 			getBlocks().add(getColorSetBlock());
@@ -133,32 +102,12 @@ public class CPNGlobbox extends XMLConvertable
 	
 	// ------------------------------ Helper Export ---------------------------------------------
 	
-	private ArrayList<String> declarationIds;	
-	
-	private ArrayList<String> allIds(JSONArray jsonDeclarations) throws JSONException
-	{
-		int jsonlen = jsonDeclarations.length();
-		ArrayList<String> tempDeclarationIds = new ArrayList<String>(jsonlen);
-		
-		for (int i = 0; i < jsonlen; i++)
-		{
-			String tempDeclaration = jsonDeclarations.getJSONObject(i).getString("name");
-			tempDeclarationIds.add(tempDeclaration.trim());
-		}
-		
-		System.out.println(tempDeclarationIds);
-		
-		return tempDeclarationIds;
-	}
-	
 	private void addDeclaration(JSONObject declarationJSON, int id) throws JSONException
 	{
-		// id is important because each colorset must have an unique Id
-		int IdStart = 20000;
-		String declarationType = declarationJSON.getString("declarationtype");
 		
-		 
-		declarationJSON.put("id", "ID" + (IdStart + id));
+		String declarationType = declarationJSON.getString("declarationtype");		
+		// The id is important because each colorset must have an unique Id
+		declarationJSON.put("id", "ID2000" + id);
 				
 		// Choose correct block depending on the declarationType
 		if	(declarationType.equalsIgnoreCase("Colorset"))
@@ -166,62 +115,6 @@ public class CPNGlobbox extends XMLConvertable
 				
 		else
 			getVaraibleBlock().parse(declarationJSON);
-		
-	}	
-	 	
-	private boolean correctDeclaration(JSONObject declaration) throws JSONException
-	{
-		String declarationType = declaration.getString("declarationtype");
-		String declarationDataType = declaration.getString("type");
-		
-		if (declarationType.equals("Colorset"))
-			return correctColorSet(declarationDataType);
-		 // Otherwise it must be "Variable"
-		else
-			return getDeclarationIds().contains(declarationDataType);
-	
-	}
-	
-	private boolean correctColorSet(String declarationDataType)
-	{
-		CharSequence productChar = " * "; // for product definition
-		
-		// Checking of the declaration is a product (a Complex Declaration)
-		if (declarationDataType.indexOf(" * ") != -1) // as long it's not a product or List
-			return testProductDataType(declarationDataType.split(" "));
-		
-		// if it's not a complex declarationDataType, you only have to look if it is a normal datatype 
-		// like string, int, ... by looking into the ArrayList 
-		else 
-			return getnormalDataTypes().contains(declarationDataType.toLowerCase());
-	}
-	
-	private boolean testProductDataType(String[] decalarationColorElements)
-	{
-		// all odd array elements must be "*" for product definition
-		// all even array elements must be a declarationId which is contained in this.declarationIds 
-		for (int i = 0; i < decalarationColorElements.length; i++)
-		{
-			if (i % 2 == 0 && !getDeclarationIds().contains(decalarationColorElements[i]))
-				return false;
-		 	if (i % 2 == 1 && !decalarationColorElements[i].equals("*"))		 		
-		 		return false;		 	
-		}
-		
-		return true;
-	}
-	
-	private ArrayList<String> getnormalDataTypes()
-	{
-		ArrayList<String> dataTypes = new ArrayList<String>();
-		
-		dataTypes.add("int");
-		dataTypes.add("integer");
-		dataTypes.add("bool");
-		dataTypes.add("boolean");
-		dataTypes.add("string");
-		
-		return dataTypes;
 	}
 	
 	// ------------------------------ Accessor ------------------------------------------
@@ -286,15 +179,6 @@ public class CPNGlobbox extends XMLConvertable
 	   public CPNBlock getBlock( int i)
 	   {
 	      return (CPNBlock) this.blocks.get(i);
-	   }
-	
-	   private void setDeclarationIds(ArrayList<String> _declarations) 
-	   {
-		   this.declarationIds = _declarations;
-	   }
-	   private ArrayList<String> getDeclarationIds() 
-	   {
-		   return declarationIds;
 	   }
 	   
 	   private void setVaraibleBlock(CPNBlock _varaibleBlock) {

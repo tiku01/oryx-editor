@@ -1,10 +1,6 @@
 package de.hpi.cpn.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.json.JSONArray;
@@ -19,31 +15,23 @@ public class CPNToolsTranslator
 	private CPNArcRelations arcRelations;
 	private JSONArray declarations;
 	private int[] relativeBounds;
-	private Hashtable<String, String> typeTable;
 	
 	public CPNToolsTranslator(CPNWorkspaceElement cpnfile)
 	{
 		setCpnfile(cpnfile);		
-	}
+	}	
 	
-	/*
-	 * toDo:
-	 * -> declarations
-	 * -> shapes:
-	 * 		-> transition
-	 * 		-> places
-	 * 		-> arcs
-	 * 		-> token
-	 * */
-	
-	
-	public String transformCPNFile(String[] pagesToImport) throws JSONException
+	public String translatePagesIntoDiagrams(String[] pagesToImport) throws JSONException
 	{
 		String resultDiagrams = "";
 		
+		// Setting up the CPN diagram
 		setOryxDiagram(CPNDiagram.newColoredPetriNetDiagram());
+		
+		// Beginning the mapping with the declarations
 		insertDeclarationsIntoDiagram();
 		
+		// Getting all pages
 		ArrayList<CPNPage> pages = getCpnfile().getCpnet().getPages();
 		
 		for (int i = 0; i < pages.size(); i++)
@@ -52,24 +40,35 @@ public class CPNToolsTranslator
 			if (page == null)
 				continue;
 			
+			// Getting the name of the page
 			String pageName = page.getPageattr().getName();
+			
+			// Checking if the page is chosen to be exported
 			if (! isPageAnImportPage(pageName, pagesToImport))
 				continue;
 			
+			// In order calculate the position correctly you have to 
+			// find out what are the biggest bounds in the page 
 			setRelativeBounds(CPNDiagram.getMaxBounds(page));
 			
 			CPNDiagram.setDiagramBounds(getOryxDiagram(), getRelativeBounds());
 			
+			// Preparing the Arc Relations, so that every arc knows which id is its 
+			// source or target
 			prepareArcRelations(page);
 			
 			insertModellingElementsIntoDiagram(page);
 			
+			// ";;;" is the limiter
 			resultDiagrams += JSONBuilder.parseModeltoString(getOryxDiagram()) + ";;;";
 			
-			resetPageVariable();
-			
+			// For importing another diagram the important variables must be cleared
+			// otherwise there would occur errors. For example if the chilShapes array would
+			// not be cleared then it would contain the childShapes of the last import too.
+			resetPageVariable();			
 		}
 		
+		// Cutting the last ";;;"
 		resultDiagrams = resultDiagrams.substring(0, resultDiagrams.length() - 3);
 		
 		return resultDiagrams;
@@ -77,14 +76,15 @@ public class CPNToolsTranslator
 	
 	private void resetPageVariable()
 	{
+		// Setting up like it was in the beginning of the 
 		setArcRelations(null);
-		setTypeTable(null);
 		getOryxDiagram().setBounds(null);
 		getOryxDiagram().setChildShapes(new ArrayList<Shape>());
 	}
 	
 	private boolean isPageAnImportPage(String pageToTest, String[] pagesToImport)
 	{
+		// Looking whether the page is in the array
 		for (int i = 0; i < pagesToImport.length; i++)
 		{
 			if (pageToTest.equals(pagesToImport[i]))
@@ -92,47 +92,20 @@ public class CPNToolsTranslator
 		}
 		
 		return false;
-	}
-	
-	public String transfromCPNFile() throws JSONException
-	{
-		setOryxDiagram(CPNDiagram.newColoredPetriNetDiagram());
-		
-		// erstmal alle colorsets und variables auf den declarationstag mappen
-		// muss vielleicht den JSONBuilder ver�ndern; in der Methode parseProperties; 
-		// einfach ein paar mehr if - Abfragen rein machen
-		// Alternative ist auch dass ich ein einfaches Replace mache auf den String "{ ersetzen durch {
-		insertDeclarationsIntoDiagram();
-		
-		setRelativeBounds(CPNDiagram.getMaxBounds(getCpnfile().getCpnet().getPage(0)));
-		
-		CPNDiagram.setDiagramBounds(getOryxDiagram(), getRelativeBounds());
-		
-		prepareArcRelations(getCpnfile().getCpnet().getPage(0));
-		
-		insertModellingElementsIntoDiagram(getCpnfile().getCpnet().getPage(0));
-		
-		
-		return JSONBuilder.parseModeltoString(getOryxDiagram());
-	}
+	}	
 	
 	private void prepareArcRelations(CPNPage tempPage)
 	{
-//		CPNPage tempPage = getCpnfile().getCpnet().getPage(0);
-		getArcRelations().fillPlace(tempPage);
+		getArcRelations().fill(tempPage);
 	}
 	
 	private void insertModellingElementsIntoDiagram(CPNPage page)
-	{
-//		CPNPage page = getCpnfile().getCpnet().getPage(0);
-		
+	{		
 		ArrayList<CPNPlace> places = page.getPlaces();
 		ArrayList<CPNTransition> transitions = page.getTransitions();
 		ArrayList<CPNArc> arcs = page.getArcs();
 		
-		// f�r die bounds des Diagramms muss ich die gr��ten negativen positionen von Transition und Stellen rauskriegen (vieleicht auch von den Bendpoints)
-//		int maxX = 0, maxY = 0;
-		
+		// Mapping all arcs 
 		for (int i = 0; i < places.size(); i++)
 		{
 			CPNPlace tempPlace = places.get(i);
@@ -141,6 +114,7 @@ public class CPNToolsTranslator
 				insertNewModellingElement(tempPlace);
 		}
 		
+		// Mapping all transitions
 		for (int i = 0; i < transitions.size(); i++)
 		{
 			CPNTransition tempTransitions = transitions.get(i);
@@ -149,6 +123,7 @@ public class CPNToolsTranslator
 				insertNewModellingElement(tempTransitions);
 		}
 		
+		// Mapping all arcs
 		for (int i = 0; i < arcs.size(); i++)
 		{
 			CPNArc tempArc = arcs.get(i);
@@ -162,14 +137,16 @@ public class CPNToolsTranslator
 	
 	private void insertDeclarationsIntoDiagram() throws JSONException
 	{
+		// Getting all necessary variables from the object
 		CPNGlobbox globbox = getCpnfile().getCpnet().getGlobbox();
 		ArrayList<CPNColor> colors = globbox.getColors();
 		ArrayList<CPNVariable> variables = globbox.getVars();
 		ArrayList<CPNBlock> blocks = globbox.getBlocks();
 		
+		// Looking in the colors array
 		if (colors != null)
 		{
-			// for all colors in globbox level
+			// For all colors in the globbox node of the XML
 			for (int i = 0; i < colors.size(); i++)
 			{
 				CPNColor tempColor = colors.get(i);
@@ -180,7 +157,7 @@ public class CPNToolsTranslator
 		
 		if (variables != null)
 		{
-			// for all varaibles in globbox level
+			// For all variables in the globbox node of the XML
 			for (int i = 0; i < variables.size(); i++)
 			{
 				CPNVariable tempVariable = variables.get(i);
@@ -192,9 +169,11 @@ public class CPNToolsTranslator
 		if (blocks == null)
 			return;
 		
+		// For all blocks in the globbox node of the XML
 		for (int i = 0; i < blocks.size(); i++)
 		{
 			CPNBlock tempBlock = blocks.get(i);
+			
 			if (tempBlock != null)
 			{
 				colors = tempBlock.getColors();
@@ -202,7 +181,7 @@ public class CPNToolsTranslator
 				
 				if (colors != null)
 				{
-					// for all colors in block level
+					// For all colors in the block node of the XML 
 					for (int j = 0; j < colors.size(); j++)
 					{
 						CPNColor tempColor = colors.get(j);
@@ -213,7 +192,7 @@ public class CPNToolsTranslator
 				
 				if (variables != null)
 				{
-					// for all varaibles in block level
+					// For all variables in the block node of the XML 
 					for (int j = 0; j < variables.size(); j++)
 					{
 						CPNVariable tempVariable = variables.get(j);
@@ -224,7 +203,7 @@ public class CPNToolsTranslator
 			}			
 		}
 		
-		// adding declarations to the diagram property
+		// Adding declarations to the diagram property
 		JSONObject declarationJSON = CPNDiagram.getDeclarationJSONObject(getDeclarations());
 		getOryxDiagram().putProperty("declarations", declarationJSON.toString());
 	}
@@ -235,44 +214,93 @@ public class CPNToolsTranslator
 		
 		Shape arc = CPNDiagram.getanArc(arcId);
 		
-		// properties
+		// Properties
 		arc.putProperty("id", arcId);
 									// sorry for the long way
 		arc.putProperty("label", tempArc.getAnnot().getText().getText());
 		
-		// bounds
-		// I don't have to take care about bounds; they can be 0
+		// Bounds
+		// I don't have to take care of the bounds of the arc; the bounds can be 0
 		CPNDiagram.setArcBounds(arc); 
 				
-		// outgoing
+		// Outgoing
 		String targetId = getArcRelations().getTargetValue(arcId);
 		Shape targetShape = new Shape(targetId);
 		arc.addOutgoing(targetShape);
 		arc.setTarget(targetShape);
 		
-		// dockers
-		setDockers(arc, arcId);
+		// Dockers		
+		setDockers(arc, tempArc);
 		
-		getOryxDiagram().getChildShapes().add(arc);
-		
+		getOryxDiagram().getChildShapes().add(arc);		
 	}
-	private void setDockers(Shape arc, String arcId)
+	
+	private void setDockers(Shape arc, CPNArc tempArc)
 	{
-		String sourceId = getArcRelations().getSourceValue(arcId);
-		String sourceType = getTypeTable().get(sourceId);
+		// See the comment in the first line of the class CPNArc to understand better why
+		// this has to be done
 		
-		if (sourceType.equals("Transition"))
-		{
-			// der Mittelpunkt einer TransitionShape
-			// also H�lfte der definierten Breite und H�he der Shape, die in CPNDiagram definiert ist
-			arc.getDockers().add(new Point(20.0, 20.0));			
-			arc.getDockers().add(new Point(32.0, 32.0));
+		// If the arc starts from a transition
+		if (tempArc.getOrientation().equals("TtoP"))
+		{				
+			ArrayList<CPNBendpoint> bendPoints = tempArc.getBendpoints();
+			
+			// Sorting the bendpoints so that they in correct order for Oryx
+			sortBendPoints(bendPoints, true);			
+			insertBendPointsIntoDockers(arc, bendPoints);				   
+				
+			// (20;20) is the center of the transition shape. These last docker entries
+			// are necessary, because they define from which point the arc begins and ends.
+			// The position of the first and the last docker are relative to the bounds
+			// of the shape that contains the corresponding docker. These are inserted
+			// at the beginning and at the end of the dockers array.
+			arc.getDockers().add(0, new Point(20.0, 20.0));			
+			arc.getDockers().add(arc.getDockers().size(), new Point(32.0, 32.0));
 		}
-		else // otherwise it must be a Place
+		else // Otherwise "PtoT"
 		{
-			arc.getDockers().add(new Point(32.0, 32.0));
-			arc.getDockers().add(new Point(20.0, 20.0));
+			ArrayList<CPNBendpoint> bendPoints = tempArc.getBendpoints();
+		
+			// Sorting the bendpoints so that they in correct order for Oryx; but now in
+			// the reverse order.   
+			sortBendPoints(bendPoints, false);			
+			insertBendPointsIntoDockers(arc, bendPoints);
+			
+			arc.getDockers().add(0, new Point(32.0, 32.0));
+			arc.getDockers().add(arc.getDockers().size(), new Point(20.0, 20.0));
 		}		
+	}
+	
+	private void insertBendPointsIntoDockers(Shape arc, ArrayList<CPNBendpoint> bendPoints)
+	{
+		for (int i = 0; i < bendPoints.size(); i++)
+		{
+			CPNBendpoint bendPoint = bendPoints.get(i);
+			Point dockerPoint = CPNDiagram.getDockerBendpoint(bendPoint, getRelativeBounds());
+			arc.getDockers().add(dockerPoint);
+		}
+	}
+	
+	private void sortBendPoints(ArrayList<CPNBendpoint> bendPoints, boolean smallToBig)
+	{
+		int smallToBigFactor = (smallToBig) ? 1 : -1;
+		
+		// Implementing bubbleSort
+		for(int i = 0; i < bendPoints.size(); i++)
+		{
+			for(int j = bendPoints.size() - 1; j > i; j--)
+			{
+				int serialA = Integer.parseInt(bendPoints.get(j-1).getSerial()) * smallToBigFactor;
+				int serialB = Integer.parseInt(bendPoints.get(j).getSerial()) * smallToBigFactor;
+				
+				if (serialA > serialB)
+				{
+					CPNBendpoint tempBendpoint = bendPoints.get(j-1);
+					bendPoints.set(j - 1, bendPoints.get(j));
+					bendPoints.set(j, tempBendpoint);
+				}
+			}
+		}
 	}
 	
 	private void insertNewModellingElement(CPNTransition tempTransition)
@@ -281,16 +309,18 @@ public class CPNToolsTranslator
 		
 		Shape transition = CPNDiagram.getaTransition(transitionId);
 		
-		// properties
+		// Properties
 		transition.putProperty("id", transitionId);
 		transition.putProperty("title", tempTransition.getText());
 													// sorry for the long way
-		transition.putProperty("guard", tempTransition.getCond().getText().getText());
+		String guard = tempTransition.getCond().getText().getText();
+		guard.replace(" ", "\n");
+		transition.putProperty("guard", guard);
 		
-		// bounds
+		// Bounds
 		CPNDiagram.setTransitionBounds(transition, getRelativeBounds(), tempTransition); 
 				
-		// outgoing
+		// Outgoing
 		Iterator<String> outgoingIter = getArcRelations().getSourcesFor(transitionId).iterator();
 		
 		while (outgoingIter.hasNext())
@@ -298,9 +328,6 @@ public class CPNToolsTranslator
 			String outgoingId = outgoingIter.next();
 			transition.addOutgoing(new Shape(outgoingId));
 		}		
-		
-		// telling which type it is
-		getTypeTable().put(transitionId, "Transition");
 		
 		getOryxDiagram().getChildShapes().add(transition);		
 	}
@@ -311,19 +338,25 @@ public class CPNToolsTranslator
 		
 		Shape place = CPNDiagram.getaPlace(placeId);
 		
-		// properties
+		// Mapping the properties
 		place.putProperty("id", placeId);
-		place.putProperty("title", tempPlace.getText());
-													// sorry for the long way
-		place.putProperty("colordefinition", tempPlace.getType().getText().getText());
+		String title = tempPlace.getText();
+		// For not having the whole title of the place in one line
+		title.replace(" ", "\n");
 		
-		// bounds
+		place.putProperty("title", title);
+		
+		// Sorry for the long way
+		String type = tempPlace.getType().getText().getText();											
+		place.putProperty("colordefinition", type);
+		
+		// Bounds
 		CPNDiagram.setPlaceBounds(place, getRelativeBounds(), tempPlace);
 		
-		// tokens
+		// Tokens
 		insertNewTokens(place, tempPlace.getInitmark()); 
 				
-		// outgoing
+		// Outgoing
 		Iterator<String> outgoingIter = getArcRelations().getSourcesFor(placeId).iterator();
 		
 		while (outgoingIter.hasNext())
@@ -331,9 +364,6 @@ public class CPNToolsTranslator
 			String outgoingId = outgoingIter.next();
 			place.addOutgoing(new Shape(outgoingId));
 		}		
-		
-		// telling which type it is
-		getTypeTable().put(placeId, "Place");
 		
 		getOryxDiagram().getChildShapes().add(place);		
 	}
@@ -345,48 +375,57 @@ public class CPNToolsTranslator
 		if ( initialDefinition.equals(""))
 			return;
 		
+		// Looking if initialDefinition contains the string "++"
 		if (initialDefinition.indexOf("++") != -1)
-		{	// a regex which means ++; so the string is splited when a "++" occurs
+		{	
+			// A regex which means ++
+			// So the string is split when a "++" occurs
 			String[] initialDefinitionParts = initialDefinition.split("\\+\\+");
 			
 			for (int i = 0; i < initialDefinitionParts.length; i++)
 			{
 				Shape token = CPNDiagram.getaToken(tempInitMark.getId() + i);
+				
 				if (initialDefinitionParts[i].indexOf("`") != -1)
 				{
-					String[] initialDefinitionParts2 = initialDefinitionParts[i].split("`");
-					// properties
-					token.putProperty("initialmarking", initialDefinitionParts2[1]);
-					token.putProperty("quantity", initialDefinitionParts2[0]);
-					
-					// bounds
-					CPNDiagram.setTokenBounds(token, i);
-					
-					place.getChildShapes().add(token);
+					try
+					{
+						String[] initialDefinitionParts2 = initialDefinitionParts[i].split("`");
+						// Properties
+						token.putProperty("initialmarking", initialDefinitionParts2[1]);
+						token.putProperty("quantity", initialDefinitionParts2[0]);
+						
+						// Bounds
+						CPNDiagram.setTokenBounds(token, i);
+						
+						place.getChildShapes().add(token);
+					}
+					catch (IndexOutOfBoundsException e){ }
 				}
 				else
 				{					
-					// properties
-					token.putProperty("initialmarking", initialDefinition);
+					// Properties
+					token.putProperty("initialmarking", initialDefinitionParts[i]);
 					token.putProperty("quantity", "1");
 					
-					// bounds
-					CPNDiagram.setTokenBounds(token, 0);
+					// Bounds
+					CPNDiagram.setTokenBounds(token, i);
 					
 					place.getChildShapes().add(token);
 				}
 			}
 		}
-		else // schreibe ich einfach hin was es gibt
+		else 
+		// Otherwise the whole text of the initialmarking is written into one token
 		{
-			// das gleiche wie oben
+			// The same like above
 			Shape token = CPNDiagram.getaToken(tempInitMark.getId());
 			
-			// properties
+			// Properties
 			token.putProperty("initialmarking", initialDefinition);
 			token.getProperties().put("quantity", "1");
 			
-			// bounds
+			// Bounds
 			CPNDiagram.setTokenBounds(token, 0);
 			
 			place.getChildShapes().add(token);
@@ -406,13 +445,12 @@ public class CPNToolsTranslator
 	
 	private void insertNewDeclaration(CPNColor tempColor) throws JSONException
 	{
-		// besser nicht mit layout umgehen; zu riskant
-		
 		String name, type, declarationtype;
 		name = tempColor.getIdtag();
 		declarationtype = "Colorset";
 		type = "";
 		
+		// Looking which type this color have
 		if (tempColor.getStringtag() != null)
 			type = "String";
 		
@@ -433,18 +471,16 @@ public class CPNToolsTranslator
 		}
 		else if (tempColor.getListtag() != null)
 		{
-			// muss implementiert werden.
-			type  = "not yet implemeted";
+			String listType = tempColor.getListtag().getId();
+			type  = "list " + listType;
 		}
 		else if (tempColor.getUnittag() != null)
-		{
-			// muss noch implementiert werden
-			type = "not yet implemented";
-		}
+			type = "Unit";
+		
 		else
 			type = "no support for: " + tempColor.getLayout();
 		
-		
+		// Creating a declaration entry
 		getDeclarations().put(CPNDiagram.getOneDeclaration(name, type, declarationtype));		
 	}
 	
@@ -489,25 +525,12 @@ public class CPNToolsTranslator
 	private void setRelativeBounds(int[] relativeBounds)
 	{
 		this.relativeBounds = new int[2];
-		// 50 ist nur ein Puffer damit es ein bisschen Abstand von der Wand gibt
+		// 50 is only a padding, so that there exists a little distance to the
+		// border of the canvas.
 		this.relativeBounds[0] = relativeBounds[0] * -1 + 50;
 		this.relativeBounds[1] = relativeBounds[1] * -1 - 50;
 	}
-
 	private int[] getRelativeBounds() {
 		return relativeBounds;
-	}
-
-	private Hashtable<String, String> getTypeTable() {
-		if (typeTable == null)
-			typeTable = new Hashtable<String, String>();
-		return typeTable;
-	}
-	
-	private void setTypeTable(Hashtable<String, String> _typeTable)
-	{
-		this.typeTable = _typeTable;
-	}
-	
-	
+	}	
 }

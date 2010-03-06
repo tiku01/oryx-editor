@@ -7,10 +7,16 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNBoolean
 {
+	// Elements which are neither important for the Export nor the Import, but these elements
+	// are necessary for XStream otherwise XStream raises an error
+	private transient Object with;
+	
 	// ------------------------------------------ Mapping ------------------------------------------
 	public static void registerMapping(XStream xstream)
 	{
 	   xstream.alias("bool", CPNBoolean.class);
+	   
+	   xstream.aliasField("with", CPNBoolean.class, "with");
 	}
 	
 	// -------------------------------------------- Helper ----------------------------------------

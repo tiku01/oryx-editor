@@ -7,23 +7,21 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNProperty extends CPNModellingThing
 {
+	// CPNProperty is like the class CPNLittleProperty. This class is used for a lot of
+	// XML Nodes. The difference to the different types of CPNLittleProperty is the following.
+	// The different types of CPNLittleProperty distinguish in their attribute variables. 
+	// CPNProperty in case does have an defined number of attribute variables (mainly defined in
+	// CPNModellingThing). They only distinguish in their behavior of how to set up the object.
+	// You will see it in the next lines of code where different readJSON... methods are defined.
+	
 	private CPNText text = new CPNText();
-	
-	
+
 	public CPNProperty()
 	{
 		super();
 		
 		getFillattr().setPattern("Solid");
 		getLineattr().setThick("0");		
-	}
-	
-	
-	// ---------------------------------------- Mapping -----------------------------------
-	
-	public static void registerMapping(XStream xstream)
-	{
-		xstream.alias("initmark", CPNInitmarking.class);
 	}
 	
 	public void readJSONpostattrX(JSONObject modelElement) throws JSONException
@@ -61,9 +59,7 @@ public class CPNProperty extends CPNModellingThing
 		
 		getText().insertTextforToken(initialmarking, quantity);
 	}
-	
-	
-	
+
 	public void readJSONcolordefinition(JSONObject modelElement) throws JSONException
 	{
 		String colorsettype = modelElement.getString("colordefinition");

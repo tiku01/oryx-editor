@@ -9,7 +9,9 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNTransition extends CPNModellingThing
 {
-//	VerticalEmptyTransition, Transition
+	// Elements which are neither important for the Export nor the Import, but these elements
+	// are necessary for XStream otherwise XStream raises an error
+	private transient Object subst;
 	
 	private String explicit = "false";
 	private String text;
@@ -44,8 +46,7 @@ public class CPNTransition extends CPNModellingThing
 	
 	public void readJSONtitle(JSONObject modelElement) throws JSONException
 	{
-		String text = modelElement.getString("title");
-		
+		String text = modelElement.getString("title");		
 		setText(text);
 	}
 	
@@ -84,11 +85,10 @@ public class CPNTransition extends CPNModellingThing
 	}
 	
 	public String correctGuard(String guardcondition)
-	{
-		 
+	{		 
 		String resultGuardcondition = guardcondition;
 		
-		// put the guard condition in brackets
+		// Surround the guard condition with brackets
 		if (! (guardcondition.startsWith("[") && guardcondition.endsWith("]")))
 		{
 			if (! guardcondition.startsWith("["))
@@ -97,7 +97,7 @@ public class CPNTransition extends CPNModellingThing
 				resultGuardcondition =  resultGuardcondition + " ]";
 		}
 		
-		// changing all == to = because CPN Tools cannot understand that
+		// Changing all == to = because CPN Tools cannot understand "=="
 		resultGuardcondition.replace("==", "=");
 		
 		return resultGuardcondition;
@@ -105,38 +105,33 @@ public class CPNTransition extends CPNModellingThing
 	
 	public void setPositionAttributes(JSONObject modelElement) throws JSONException
 	{		
-		getPosattr().setX(modelElement.getString("x") + ".000000");
-		getPosattr().setY(modelElement.getString("y") + ".000000");
+		getPosattr().setX(getXCoordinateWith(0, modelElement));
+		getPosattr().setY(getYCoordinateWith(0, modelElement));
 	}
 	
 	public void setcondPositionAttributes(JSONObject modelElement) throws JSONException
 	{
 		int defaultShiftX = -39;
-		int defaultShiftY = 31;
+		int defaultShiftY = -31;
 		
-		JSONObject condingPositionJSON = new JSONObject();
+		JSONObject condPositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
+		condPositionJSON.put("postattrX", getXCoordinateWith(defaultShiftX, modelElement));
+		condPositionJSON.put("postattrY", getYCoordinateWith(defaultShiftY, modelElement));
 		
-		condingPositionJSON.put("postattrX", "" + x + ".000000");
-		condingPositionJSON.put("postattrY", "" + y + ".000000");
-		
-		getCond().parse(condingPositionJSON);
+		getCond().parse(condPositionJSON);
 	}
 	
 	public void settimePositionAttributes(JSONObject modelElement) throws JSONException
 	{
 		int defaultShiftX = 44;
-		int defaultShiftY = 33;
+		int defaultShiftY = -33;
 		
 		JSONObject timePositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
+		timePositionJSON.put("postattrX", getXCoordinateWith(defaultShiftX, modelElement));
+		timePositionJSON.put("postattrY", getYCoordinateWith(defaultShiftY, modelElement));
 		
-		timePositionJSON.put("postattrX", "" + x + ".000000");
-		timePositionJSON.put("postattrY", "" + y + ".000000");
 		timePositionJSON.put("id", getId() + "2");
 		
 		getTime().parse(timePositionJSON);
@@ -144,16 +139,13 @@ public class CPNTransition extends CPNModellingThing
 	
 	public void setchannelPositionAttributes(JSONObject modelElement) throws JSONException
 	{
-		int defaultShiftX = 44;
+		int defaultShiftX = -44;
 		int defaultShiftY = 33;
 		
 		JSONObject channelPositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
-		
-		channelPositionJSON.put("postattrX", "" + x + ".000000");
-		channelPositionJSON.put("postattrY", "" + y + ".000000");
+		channelPositionJSON.put("postattrX", getXCoordinateWith(defaultShiftX, modelElement));
+		channelPositionJSON.put("postattrY", getYCoordinateWith(defaultShiftY, modelElement));		
 		channelPositionJSON.put("id", getId() + "4");
 		
 		getChannel().parse(channelPositionJSON);
@@ -166,11 +158,8 @@ public class CPNTransition extends CPNModellingThing
 		
 		JSONObject codePositionJSON = new JSONObject();
 		
-		int x = Integer.parseInt(modelElement.getString("x")) + defaultShiftX;
-		int y = Integer.parseInt(modelElement.getString("y")) + defaultShiftY;
-		
-		codePositionJSON.put("postattrX", "" + x + ".000000");
-		codePositionJSON.put("postattrY", "" + y + ".000000");
+		codePositionJSON.put("postattrX", getXCoordinateWith(defaultShiftX, modelElement));
+		codePositionJSON.put("postattrY", getYCoordinateWith(defaultShiftY, modelElement));
 		codePositionJSON.put("id", getId() + "3");
 		
 		getCode().parse(codePositionJSON);
@@ -178,68 +167,75 @@ public class CPNTransition extends CPNModellingThing
 	
 
 	// ---------------------------------------- Accessory ----------------------------------------
-	public void setText(String text) {
+	public void setText(String text)
+	{
 		this.text = text;
 	}
-
-
-	public String getText() {
+	public String getText()
+	{
 		return text;
 	}
 
-	public void setBox(CPNLittleProperty box) {
+	public void setBox(CPNLittleProperty box)
+	{
 		this.box = box;
 	}
-
-	public CPNLittleProperty getBox() {
+	public CPNLittleProperty getBox() 
+	{
 		return box;
 	}
 
-	public void setBinding(CPNLittleProperty binding) {
+	public void setBinding(CPNLittleProperty binding) 
+	{
 		this.binding = binding;
 	}
-
-	public CPNLittleProperty getBinding() {
+	public CPNLittleProperty getBinding() 
+	{
 		return binding;
 	}
 
-	public void setCond(CPNProperty cond) {
+	public void setCond(CPNProperty cond) 
+	{
 		this.cond = cond;
 	}
-
-	public CPNProperty getCond() {
+	public CPNProperty getCond() 
+	{
 		return cond;
 	}
 
-	public void setTime(CPNProperty time) {
+	public void setTime(CPNProperty time)
+	{
 		this.time = time;
 	}
-
-	public CPNProperty getTime() {
+	public CPNProperty getTime() 
+	{
 		return time;
 	}
 
-	public void setCode(CPNProperty code) {
+	public void setCode(CPNProperty code) 
+	{
 		this.code = code;
 	}
-
-	public CPNProperty getCode() {
+	public CPNProperty getCode() 
+	{
 		return code;
 	}
 
-	public void setChannel(CPNProperty channel) {
+	public void setChannel(CPNProperty channel) 
+	{
 		this.channel = channel;
 	}
-
-	public CPNProperty getChannel() {
+	public CPNProperty getChannel() 
+	{
 		return channel;
 	}
 
-	public void setExplicit(String explicit) {
+	public void setExplicit(String explicit) 
+	{
 		this.explicit = explicit;
 	}
-
-	public String getExplicit() {
+	public String getExplicit() 
+	{
 		return explicit;
 	}
 }
