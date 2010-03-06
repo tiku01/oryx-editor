@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
-import de.hpi.cpn.model.XMLConvertable;
+import de.hpi.cpn.mapperhelper.XMLConvertable;
 
 public class CPNVariable extends XMLConvertable
 {	
