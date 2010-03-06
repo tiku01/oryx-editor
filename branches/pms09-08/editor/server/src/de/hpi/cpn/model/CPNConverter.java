@@ -30,7 +30,7 @@ public class CPNConverter
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return "Fehler durch: " + e.getMessage();
+			return "error:" + e.getMessage();
 		}		
 	}
 	
@@ -52,13 +52,12 @@ public class CPNConverter
 			
 			String oryxJson = translator.translatePagesIntoDiagrams(pagesToImport);
 			
-			return oryxJson;
-			
+			return oryxJson;			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return "Fehler durch: " + e.getMessage();
+			return "error:" + e.getMessage();
 		}
 	}
 	
@@ -82,7 +81,7 @@ public class CPNConverter
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return "Fehler durch: " + e.getMessage();
+			return "error:" + e.getMessage();
 		}
 	}
 }
