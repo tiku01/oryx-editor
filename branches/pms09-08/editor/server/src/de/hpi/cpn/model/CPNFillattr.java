@@ -3,7 +3,12 @@ package de.hpi.cpn.model;
 import com.thoughtworks.xstream.XStream;
 
 public class CPNFillattr
-{	
+{
+	// Example
+	// <fillattr colour="White"
+	//         pattern="Solid"
+	//         filled="false"/>
+
 	private String colour;	
 	private String pattern;
 	private String filled;

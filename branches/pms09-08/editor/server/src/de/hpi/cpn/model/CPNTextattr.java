@@ -1,18 +1,21 @@
 package de.hpi.cpn.model;
 
-import java.io.ObjectInputStream.GetField;
-
 import com.thoughtworks.xstream.XStream;
 
 public class CPNTextattr
 {
+	// Example
+	// <textattr colour="Black"
+    //     	bold="false"/>
+	
 	private String colour;
 	private String bold;
 		
 	
 	// ---------------------------------------- Mapping ----------------------------------------
 	
-	public static void registerMapping(XStream xstream) {
+	public static void registerMapping(XStream xstream) 
+	{
 		xstream.alias("textattr", CPNTextattr.class);
 		
 		xstream.useAttributeFor(CPNTextattr.class, "colour");

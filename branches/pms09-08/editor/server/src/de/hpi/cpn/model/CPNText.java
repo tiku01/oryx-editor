@@ -19,12 +19,12 @@ public class CPNText
 	
 	public void insertTextforToken(String initialmarking, String quantity)
 	{
-//		e.g.
-//		1`("Gerardo",20)++
-//		1`("David",9)
+		// Example
+		// 1`("Gerardo",20)++
+		// 1`("David",9)
 		
 		if (! getText().isEmpty())
-			getText().concat("++");
+			setText(getText().concat("++"));
 		
 		insertRecord(initialmarking, quantity);			
 	}
@@ -46,21 +46,26 @@ public class CPNText
 	{
 		this.tool = tool;
 	}
-	public String getTool() {
+	public String getTool()
+	{
 		return tool;
 	}
 	
-	public void setVersion(String version) {
+	public void setVersion(String version) 
+	{
 		this.version = version;
 	}
-	public String getVersion() {
+	public String getVersion() 
+	{
 		return version;
 	}
 
-	public void setText(String text) {
+	public void setText(String text)
+	{
 		this.text = text;
 	}
-	public String getText() {
+	public String getText() 
+	{
 		return text;
 	}
 }

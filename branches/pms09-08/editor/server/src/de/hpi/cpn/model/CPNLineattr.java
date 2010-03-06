@@ -4,11 +4,14 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNLineattr
 {
+	// Example
+	// <lineattr colour="Black"
+    //    	thick="0"
+    //    	type="Solid"/>
+	
 	private String colour;	
 	private String thick;
-	private String type;
-	
-	
+	private String type;	
 	
 	// ---------------------------------------- Mapping ----------------------------------------
 	
@@ -43,25 +46,30 @@ public class CPNLineattr
 
 	// ------------------------------ Accessory ------------------------------
 	
-	public void setColour(String colour) {
+	public void setColour(String colour) 
+	{
 		this.colour = colour;
 	}
-	public String getColour() {
+	public String getColour()
+	{
 		return colour;
 	}
 
-	public void setThick(String thick) {
+	public void setThick(String thick) 
+	{
 		this.thick = thick;
 	}
-	public String getThick() {
+	public String getThick() 
+	{
 		return thick;
 	}
 
-	public void setType(String type) {
+	public void setType(String type)
+	{
 		this.type = type;
 	}
-	public String getType() {
+	public String getType()
+	{
 		return type;
 	}
-
 }

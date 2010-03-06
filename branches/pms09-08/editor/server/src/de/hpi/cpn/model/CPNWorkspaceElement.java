@@ -1,15 +1,12 @@
 package de.hpi.cpn.model;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
-
-
 public class CPNWorkspaceElement extends XMLConvertable
-{
+{	
    private CPNGenerator generator = new CPNGenerator();
    private CPNCpnet cpnet = new CPNCpnet();
    
@@ -17,6 +14,7 @@ public class CPNWorkspaceElement extends XMLConvertable
 	
    public static void registerMapping(XStream xstream)
    {
+	   // In the XML the class is represented as a workspaceElement - tag
 	   xstream.alias("workspaceElements", CPNWorkspaceElement.class);
 	   
 	   CPNCpnet.registerMapping(xstream);
@@ -27,6 +25,7 @@ public class CPNWorkspaceElement extends XMLConvertable
    
    public void readJSONresourceId(JSONObject modelElement) throws JSONException
    {
+	   // forward the JSON file
 	   getCpnet().parse(modelElement);
    }
    

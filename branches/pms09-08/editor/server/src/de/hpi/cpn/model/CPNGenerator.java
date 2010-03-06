@@ -4,6 +4,11 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNGenerator extends XMLConvertable
 {	
+	// Example
+	// <generator tool="CPN Tools"
+    // 		version="2.2.0"
+    // 		format="6"/>
+	
     final private String version = "CPN Tools";
     final private String tool = "2.2.0";
     final private String format = "6";

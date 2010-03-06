@@ -9,13 +9,13 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNBlock extends XMLConvertable 
 {
-//	e.g.
-//	<block id="ID170089">
-//    <id>Variables</id>
-//			...
-//		declarations
-//			...
-//	</block>
+	//	Example
+	//	<block id="ID170089">
+	//    <id>Variables</id>
+	//			...
+	//		declarations
+	//			...
+	//	</block>
 	
 	private String idattri;
 	private String idtag;	
@@ -51,37 +51,6 @@ public class CPNBlock extends XMLConvertable
 	
 	// ------------------------------------ JSON Reader ------------------------------------------
 	
-//	public void readJSONcolorset(JSONObject modelElement) throws JSONException 
-//	{
-//		CPNColor tempColor = new CPNColor();
-//		
-////		Transforming for better handling
-//		modelElement.put("name", modelElement.getString("colorset"));
-//		modelElement.remove("colorset");
-////		Forward the JSONObject to the CPNColor class to be handled there
-//		tempColor.parse(modelElement);
-//		
-//		
-//		getColors().add(tempColor);
-////		tempColor.setColorSetDataTypes(modelElement.getString("declarationDataType"));		
-//	}
-//	
-//	public void readJSONvariable(JSONObject modelElement) throws JSONException 
-//	{
-//		CPNVariable tempVariable = new CPNVariable();
-// 		
-////		Transforming for better handling
-//		modelElement.put("name", modelElement.getString("variable"));
-//		modelElement.remove("variable");
-//
-////		Forward the JSONObject to the CPNVarible class to be handled there
-//		tempVariable.parse(modelElement);
-//		
-//		
-//		getVars().add(tempVariable);
-////		tempColor.setColorSetDataTypes(modelElement.getString("declarationDataType"));		
-//	}
-	
 	public void readJSONname(JSONObject modelElement) throws JSONException 
 	{
 		String declarationType = modelElement.getString("declarationtype");
@@ -90,9 +59,8 @@ public class CPNBlock extends XMLConvertable
 		{
 			CPNColor tempColor = new CPNColor();
 			
-//			Forward the JSONObject to the CPNColor class to be handled there
-			tempColor.parse(modelElement);
-			
+			// Forward the JSONObject to the CPNColor class to be handled there
+			tempColor.parse(modelElement);			
 			
 			getColors().add(tempColor);
 		}
@@ -100,7 +68,7 @@ public class CPNBlock extends XMLConvertable
 		{
 			CPNVariable tempVariable = new CPNVariable();
 			
-//			Forward the JSONObject to the CPNVarible class to be handled there
+			// Forward the JSONObject to the CPNVarible class to be handled there
 			tempVariable.parse(modelElement);			
 			
 			getVars().add(tempVariable);
@@ -152,5 +120,4 @@ public class CPNBlock extends XMLConvertable
 	public ArrayList<CPNColor> getColors() {
 		return colors;
 	}
-
 }

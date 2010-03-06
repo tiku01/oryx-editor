@@ -1,16 +1,15 @@
 package de.hpi.cpn.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.thoughtworks.xstream.XStream;
 
 public class CPNPosattr extends XMLConvertable
 {
-	private String x;	
-	private String y;
-
+	// Example
+	// <posattr x="-122.500000"
+    //    	y="-4.000000"/>
 	
+	private String x;	
+	private String y;	
 	
 	// ---------------------------------------- Mapping ----------------------------------------
 	
@@ -20,9 +19,6 @@ public class CPNPosattr extends XMLConvertable
 		xstream.useAttributeFor(CPNPosattr.class, "x");
 		xstream.useAttributeFor(CPNPosattr.class, "y");
 	}
-	
-	// ---------------------------------------- JSON Reader ----------------------------------------
-	
 
 	// ------------------------------ Accessor ------------------------------
 	public void setX(String x) {

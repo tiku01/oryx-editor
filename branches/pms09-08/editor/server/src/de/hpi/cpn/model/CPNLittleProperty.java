@@ -4,23 +4,28 @@ import com.thoughtworks.xstream.XStream;
 
 public class CPNLittleProperty 
 {
-//	e.g.
-//		Place:
-//		<ellipse w="60.000000" h="40.000000"/>
-//		<token x="-10.000000" y="0.000000"/>
-//		<marking x="0.000000" y="0.000000" hidden="false"/>
-//
-//		Trans:                 
-//		<box w="60.000000" h="40.000000"/>
-//		<binding x="7.200000" y="-3.000000"/>
-//		                 
-//		Arc:                 
-//		<arrowattr headsize="1.200000"
-//		                   currentcyckle="2"/>
+	//		Example of little properties in the XML
+	//		Place:
+	//		<ellipse w="60.000000" h="40.000000"/>
+	//		<token x="-10.000000" y="0.000000"/>
+	//		<marking x="0.000000" y="0.000000" hidden="false"/>
+	//
+	//		Trans:                 
+	//		<box w="60.000000" h="40.000000"/>
+	//		<binding x="7.200000" y="-3.000000"/>
+	//		                 
+	//		Arc:                 
+	//		<arrowattr headsize="1.200000"
+	//		                   currentcyckle="2"/>
+	
+	// Normaly you should create for each element like box, ellipse an own
+	// container class. But except of the attributes in the XML nodes, they all
+	// nearly look the same so I decided to make it variable and let "factory methods"
+	// create the different elements.
 	
 	private String x;
 	private String y;
-	private String w;
+	private String w; 
 	private String h;
 	private String hidden;
 	private String headsize;
@@ -42,7 +47,7 @@ public class CPNLittleProperty
 		xstream.useAttributeFor(CPNLittleProperty.class, "idref");
 	}
 	
-	// ----------------------------------- Constructors -----------------------------------
+	// ----------------------------------- "Factory methods" -----------------------------------
 	
 	// ------------------------ Arc
 	
@@ -151,55 +156,73 @@ public class CPNLittleProperty
 	
 	// ----------------------------------- Accessory ----------------------------------------
 	
-	public void setX(String x) {
+	public void setX(String x) 
+	{
 		this.x = x;
 	}
-	public String getX() {
+	public String getX() 
+	{
 		return x;
 	}
-	public void setY(String y) {
+	
+	public void setY(String y) 
+	{
 		this.y = y;
 	}
-	public String getY() {
+	public String getY() 
+	{
 		return y;
 	}
-	public void setW(String w) {
+	public void setW(String w) 
+	{
 		this.w = w;
 	}
 	public String getW() {
 		return w;
 	}
-	public void setH(String h) {
+	
+	public void setH(String h) 
+	{
 		this.h = h;
 	}
-	public String getH() {
+	public String getH() 
+	{
 		return h;
 	}
-	public void setHidden(String hidden) {
+	
+	public void setHidden(String hidden) 
+	{
 		this.hidden = hidden;
 	}
-	public String getHidden() {
+	public String getHidden() 
+	{
 		return hidden;
 	}
-	public void setHeadsize(String headsize) {
+	
+	public void setHeadsize(String headsize) 
+	{
 		this.headsize = headsize;
 	}
-	public String getHeadsize() {
+	public String getHeadsize() 
+	{
 		return headsize;
 	}
-	public void setCurrentcyckle(String currentcyckle) {
+	
+	public void setCurrentcyckle(String currentcyckle) 
+	{
 		this.currentcyckle = currentcyckle;
 	}
-	public String getCurrentcyckle() {
+	public String getCurrentcyckle() 
+	{
 		return currentcyckle;
 	}
 
-	public void setIdref(String idref) {
+	public void setIdref(String idref)
+	{
 		this.idref = idref;
 	}
-
-	public String getIdref() {
+	public String getIdref()
+	{
 		return idref;
 	}
-
 }
