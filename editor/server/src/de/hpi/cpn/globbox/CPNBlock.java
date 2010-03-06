@@ -7,8 +7,6 @@ import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
 
-import de.hpi.cpn.model.CPNColor;
-import de.hpi.cpn.model.CPNVariable;
 import de.hpi.cpn.model.XMLConvertable;
 
 public class CPNBlock extends XMLConvertable 
