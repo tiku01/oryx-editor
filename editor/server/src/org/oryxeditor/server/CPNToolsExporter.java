@@ -8,39 +8,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
+import de.hpi.cpn.model.CPNConverter;
 
-import de.hpi.cpn.*;
-import de.hpi.cpn.model.CPNFillattr;
-import de.hpi.cpn.model.CPNTransformer;
 
 public class CPNToolsExporter extends HttpServlet
 {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-	
-		
-		PrintWriter out = null;		
-		out = response.getWriter();
-		
-		String json = request.getParameter("data");
-		
-		CPNTransformer transformer = new CPNTransformer();
-		
 		try
-		{
-			String cpnfileString = transformer.transformtoCPN(json);
+		{		
+			PrintWriter out = null;		
+			out = response.getWriter();
 			
-			out.write(cpnfileString);
+			String json = request.getParameter("data");		
+		
+			String cpnfileString = CPNConverter.convertToCPNFile(json);
 			
-		} catch (JSONException e) 
+			if (cpnfileString.startsWith("error:"))
+			{
+				out.write(cpnfileString);
+			}
+			else
+			{
+				out.write(cpnfileString);
+			}
+			
+		} catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			out.write("Schade nicht geklappt.");
-		}
-		
-		
+			
+			PrintWriter out = null;
+			out = response.getWriter();
+			out.write("error," + e.getMessage());
+		}		
 	}
-
 }
