@@ -5,20 +5,10 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 
 	facade: undefined,
 	
-	jPDLImporterUrl: 'g',
-	jPDLExporterUrlSuffix: 'g',
-	
-	stencilSetExtensionNamespace: 'g',
-	stencilSetExtensionDefinition: 'g',
-	
 	stencilSetNamespace: 'http://b3mn.org/stencilset/coloredpetrinet#',
-	stencilSetUrlSuffix: 'g',
 
-	/**
-	 * constructor method
-	 * 
-	 */
-	construct: function(facade) {
+	construct: function(facade) 
+	{
 		
 		this.facade = facade;
 			
@@ -26,193 +16,149 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'name':				"Export to CPN Tools",
 			'functionality': 	this.exportCPN.bind(this),
 			'group': 			"CPNTools",
-			'icon': 			ORYX.PATH + "images/cpn/cpn_export.png",
+			'icon': 			ORYX.PATH + "images/cpn/cpn_import.png",
 			'description': 		"CPNTools",
 			'index': 			1,
 			'minShape': 		0,
 			'maxShape': 		0,
 			'maxShape': 		0
-//			'isEnabled': 		this._isJpdlStencilSetExtensionLoaded.bind(this)
 		});
 					
 		this.facade.offer({
 			'name':				"Import from CPN Tools",
 			'functionality': 	this.importCPN.bind(this),
 			'group': 			"CPNTools",
-			'icon': 			ORYX.PATH + "images/cpn/cpn_import.png",
-			'description': 		"CPNTools",
-			'index': 			1,
-			'minShape': 		0,
-			'maxShape': 		0
-		});
-		
-		this.facade.offer({
-			'name':				"Pages",
-			'functionality': 	this.testWindowOpen.bind(this),
-			'group': 			"CPNTools",
-			'icon': 			ORYX.PATH + "images/cpn/cpn_button.png",
+			'icon': 			ORYX.PATH + "images/cpn/cpn_export.png",
 			'description': 		"CPNTools",
 			'index': 			1,
 			'minShape': 		0,
 			'maxShape': 		0
 		});
 
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_RESIZE_END, this.resetTokenPosition.bind(this));
 	},
-	
-//	/**
-//	 * Checks if the jPDL stencil set is loaded right now.
-//	 */
-//	_isJpdlStencilSetExtensionLoaded: function() {
-//		return this.isStencilSetExtensionLoaded(this.stencilSetExtensionNamespace);
-//	},
 
-	
-	// Test
-	
-	testWindowOpen: function()
-	{
-		var allJSON = "aaaaaaa;;;bbbbbbb;;;ccccccc";
-		
-		var allJSONParts = allJSON.split(";;;");
-		
-		allJSON = "aaaaaaa";
-		
-		allJSONParts = allJSON.split(";;;");
-		
-		var win = window.open();
-		
-		var i = 9;
-	},
-	
 	// Imports CPN - File
-	//	 
-	importCPN: function(){
+	importCPN: function()
+	{
 		this._showImportDialog();
 	},		
-
 	
 	// Exports CPN - File
-	//
-	exportCPN: function(){
+	exportCPN: function()
+	{
 				
 		// Get the JSON representation which is needed for the mapping 
 		var cpnJson = this.facade.getSerializedJSON();
 		
-		// aufpassen Unterstrich bedeutet private Methoden 
+		// Do the export
 		this._doExportToCPNTools( cpnJson );
 	},
 	
-// ---------------------------------------- Ajax Request --------------------------------
-	
+	resetTokenPosition: function()
+	{
+		// Get selected places		
+		var allplaces = this.facade.getSelection().findAll(function(selectedItem) {
+			return (selectedItem.getStencil().id() === "http://b3mn.org/stencilset/coloredpetrinet#Place");
+		});
+		
+		if (allplaces.length > 0)
+		{
+			allplaces.each(function(place) {
+				
+				var placeBounds = place.absoluteBounds();
+				var placeCenter = placeBounds.center();
+				
+				// Calculate radius in order to check if a token is in the place
+				var radiusY = placeCenter.y - placeBounds.upperLeft().y;
+				var radiusX = placeCenter.x - placeBounds.upperLeft().x;
+				var radius = Math.min(radiusY,radiusX);
+				var c = radius / 2;
+				
+				// Get all tokens inside the place 
+				var alltokens = place.getChildNodes(false).findAll(function(child) {
+					return (child.getStencil().id() === "http://b3mn.org/stencilset/coloredpetrinet#Token");
+				});
+				
+				if (alltokens.length > 0)
+				{
+					var i = 0;
+					var x = 0;
+					var y = 0;
+					
+					alltokens.each(function(token) {
+						var tokenBounds = token.absoluteBounds();
+						var tokenCenter = tokenBounds.center();
+						
+						// Calculate the distance between token and center of the place
+						var diffX = placeCenter.x - tokenCenter.x;
+						var diffY = placeCenter.y - tokenCenter.y;
+						var distanceToPlaceCenter= diffX*diffX + diffY*diffY; // take care it's squared
+						
+						// Check if the token is in the place
+						if (radius*radius <= distanceToPlaceCenter)
+						{	// if the token is out of the place, calculate the position for the token
+							// the token are positioned in circle which is in the place
+							y = Math.round(Math.sin((Math.PI / 6) * i) * c);
+							x = Math.round(Math.cos((Math.PI / 6) * i) * c);
+							// take care centerMoveTo is referred to the position in the selected place (not absolute) 
+							token.bounds.centerMoveTo(place.bounds.width() / 2  + x, place.bounds.height() / 2 + y);
+							token.update();
+							i = i + 1;
+						}
+					});					
+				}
+			});
 
+		}			
+		this.facade.getCanvas().update();
+	},
+
+	// ---------------------------------------- Ajax Request --------------------------------
+	
 	_sendRequest: function( url, method, params, successcallback, failedcallback ){
 
 		var suc = false;
 
-		new Ajax.Request(url, {
+		new Ajax.Request(
+		url, 
+		{
            method			: method,
-           asynchronous	: false,
+           asynchronous		: false,
            parameters		: params,
-		   onSuccess		: function(transport) {
-				
+		   onSuccess		: function(transport) 
+		   {
 				suc = true;
-				
-				if(successcallback){
+		
+				if(successcallback)
+				{
 					successcallback( transport.responseText )	
 				}
-				
-			}.bind(this),
-			
-			onFailure		: function(transport) {
-
-				if(failedcallback){
-					
-					failedcallback();
-					
-				} else {
-					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedReq);
-					ORYX.log.warn("Import jPDL failed: " + transport.responseText);	
-				}
-				
-			}.bind(this)		
+		
+		   }.bind(this),
+		   onFailure		: function(transport) 
+		   {
+				if(failedcallback)
+				{							
+					failedcallback();							
+				} 
+				else 
+				{
+					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+					ORYX.log.warn("Communication failed: " + transport.responseText);	
+				}					
+		   }.bind(this)		
 		});
 		
 		return suc;		
-	},
-	
-	
-	// Loads JSON into the editor
-	//
-	_loadJSON: function( jsonString )
-	{		
-		if (jsonString)
-		{
-			var jsonObj = jsonString.evalJSON();
-			if( jsonObj && this._hasStencilset(jsonObj) ) 
-			{
-				if ( this._isJpdlStencilSetExtensionLoaded() ) 
-				{
-					this.facade.importJSON(jsonString);
-				}
-				else
-				{
-					Ext.MessageBox.confirm(
-						ORYX.I18N.jPDLSupport.loadSseQuestionTitle,
-						ORYX.I18N.jPDLSupport.loadSseQuestionBody,
-						function(btn){
-							if (btn == 'yes') {
-								
-								if (this.loadStencilSetExtension(this.stencilSetNamespace, this.stencilSetExtensionDefinition)){
-									this.facade.importJSON(jsonString);
-								} else {
-									this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-								}
-								
-							} else {
-								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJsonAbort);
-							}
-						},
-						this
-					);
-				}				
-			}
-			else 
-			{
-				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-			}
-		}
-		else 
-		{
-			this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.impFailedJson);
-		}
-	},
-	
-//	loadStencilSetExtension: function(stencilSetNamespace, stencilSetExtensionDefinition) {
-//		var stencilset = this.facade.getStencilSets()[stencilSetNamespace];
-//		if (stencilset) {
-//			stencilset.addExtension(ORYX.CONFIG.SS_EXTENSIONS_FOLDER + stencilSetExtensionDefinition);
-//			this.facade.getRules().initializeRules(stencilset);
-//			this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_STENCIL_SET_LOADED});
-//			return true;
-//		} 
-//		return false;
-//	},
-	
-	
-	// Checks if a json object references the CNP stencil set.
-	//
-//	_hasStencilset: function( jsonObj ){
-//		return jsonObj.properties.ssextension == this.stencilSetExtensionNamespace && jsonObj.stencilset.url.endsWith(this.stencilSetUrlSuffix);
-//	},
-	
+	},	
 
 // -------------------------------------------- Export Functions ----------------------------
 	
-	_doExportToCPNTools: function( cpnJSON ){
-		
-//		this.openDownloadWindow( window.document.title + ".txt", text3 ); // das muss in die onSuccessFunction des Requestes
-		
-		this._sendRequest(
+	_doExportToCPNTools: function( cpnJSON )
+	{		
+		this._sendRequest
+		(
 			ORYX.CONFIG.CPNTOOLSEXPORTER,
 			'POST',
 			{ 
@@ -220,41 +166,54 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			},
 			function( result )
 			{ 			
-				this.openDownloadWindow( window.document.title + ".cpn", result );
+				if (result.startsWith("error:"))
+				{
+					this._showErrorMessageBox(ORYX.I18N.Oryx.title, result);
+				}
+				else
+				{
+					this.openDownloadWindow( window.document.title + ".cpn", result );
+				}				
 			}.bind(this),
-			function() { 
-				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.jPDLSupport.expFailedReq);
+			function()
+			{ 
+				this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
 		 	}.bind(this)
 		)
 	}, 
 
 // -------------------------------------------- Import Functions ------------------------
 	
-	 // Opens a upload dialog.
-	 //
-	_showImportDialog: function( successCallback ){
-	
+	 // Opens a upload dialog
+	_showImportDialog: function( successCallback )
+	{
+		// Define the form panel
 	    var form = new Ext.form.FormPanel({
 			baseCls: 		'x-plain',
 	        labelWidth: 	50,
 	        defaultType: 	'textfield',
-	        items: [{
-	            text : 		"Select an CNP (.cpn) file or type in the CPN XML structure to import it!", 
+	        items: 
+	        [
+	         {
+	            text : 		ORYX.I18N.cpntoolsSupport.importTask, 
 				style : 	'font-size:12px;margin-bottom:10px;display:block;',
 	            anchor:		'100%',
 				xtype : 	'label' 
-	        },{
-	            fieldLabel: "File:",
+	         },
+	         {
+	            fieldLabel: ORYX.I18N.cpntoolsSupport.File,
 	            name: 		'subject',
 				inputType : 'file',
 				style : 	'margin-bottom:10px;display:block;',
 				itemCls :	'ext_specific_window_overflow'
-	        }, {
+	         }, 
+	         {
 	            xtype: 'textarea',
 	            hideLabel: true,
 	            name: 'msg',
 	            anchor: '100% -63'  
-	        }]
+	         }
+	        ]
 	    });
 
 		// Create the panel
@@ -263,7 +222,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			layout: 	'fit',
 			plain:		true,
 			bodyStyle: 	'padding:5px;',
-			title: 		"CPN", 
+			title: 		ORYX.I18N.cpntoolsSupport.cpn, 
 			height: 	350, 
 			width:		500,
 			modal:		true,
@@ -274,16 +233,16 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			items: 		[form],
 			buttons:[
 				{
-					text: "Import",
+					text: ORYX.I18N.cpntoolsSupport.importLable,
 					handler:function(){
 						
 						var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.jPDLSupport.impProgress});
 						loadMask.show();
 						
-						window.setTimeout(function(){
-					
-							var cpnToImport =  form.items.items[2].getValue();
-							
+						window.setTimeout(function()
+						{					
+							// Get the text which is in the text field
+							var cpnToImport =  form.items.items[2].getValue();							
 							this._getAllPages(cpnToImport, loadMask);
 
 						}.bind(this), 100);
@@ -293,29 +252,29 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 					}.bind(this)
 					
 				},{
-					text: "Close",
-					handler:function(){
-						
-						dialog.hide();
-					
+					text: ORYX.I18N.cpntoolsSupport.close,
+					handler:function()
+					{						
+						dialog.hide();					
 					}.bind(this)
 				}
 			]
 		});
 		
 		// Destroy the panel when hiding
-		dialog.on('hide', function(){
+		dialog.on('hide', function()
+		{
 			dialog.destroy(true);
 			delete dialog;
 		});
-
 
 		// Show the panel
 		dialog.show();
 		
 				
 		// Adds the change event handler to 
-		form.items.items[1].getEl().dom.addEventListener('change',function(evt){
+		form.items.items[1].getEl().dom.addEventListener('change',function(evt)
+			{
 				var text = evt.target.files[0].getAsText('UTF-8');
 				form.items.items[2].setValue( text );
 			}, true)
@@ -328,10 +287,11 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var xmlDoc = parser.parseFromString(cpnXML,"text/xml");
 		var allPages = xmlDoc.getElementsByTagName("page");
 		
-		if (allPages.length == 0) // so ist es wahrscheinlich dass es sich nicht um ein CPN netz handelt
+		// If there are no pages then it is propably that cpnXML is not a cpn - File
+		if (allPages.length == 0)
 		{
 			loadMask.hide();
-			this._showErrorMessageBox("CPN Oryx","No correct CPN!");
+			this._showErrorMessageBox(ORYX.I18N.cpntoolsSupport.title, ORYX.I18N.cpntoolsSupport.wrongCPNFile);
 			
 			return;
 		}
@@ -339,20 +299,35 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 		
 		if (allPages.length == 1)
 		{
-			// mache dann einen Call zum Server, der dir dann das JSON für Oryx erstellt
 			pageAttr = allPages[0].children[0];
 			pageName = pageAttr.attributes[0].nodeValue;
-			alert("Eine Seite nur im Netz. Jetzt wird es an den Server geschickt.");
+			
 			this._sendRequest(
 					ORYX.CONFIG.CPNTOOLSIMPORTER,
 					'POST',
-					{ 'pagesToImport': pageName,
-						'data' : cpnXML },
-					function( arg ) { this.facade.importJSON(arg);  loadMask.hide(); }.bind(this),
-					function() { loadMask.hide();  }.bind(this)
+					{ 
+						'pagesToImport': pageName,
+						'data' : cpnXML 
+					},
+					function( arg )
+					{
+						if (result.startsWith("error:"))
+						{
+							this._showErrorMessageBox(ORYX.I18N.Oryx.title, result);
+						}
+						else
+						{
+							this.facade.importJSON(arg); 
+							loadMask.hide();							
+						}
+					}.bind(this),
+					function()
+					{
+						loadMask.hide();
+						this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+					}.bind(this)
 				);
 			
-//			loadMask.hide();
 			return;
 		}
 		
@@ -361,7 +336,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 		{
 			pageAttr = allPages[i].children[0];
 			pageName = pageAttr.attributes[0].nodeValue;
-			data.push([pageName, true]);
+			data.push([pageName]);
 		}
 		
 		loadMask.hide();
@@ -383,9 +358,12 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 	{
 		var reader = new Ext.data.ArrayReader(
 				{}, 
-				[ {name: 'name'}, {name: 'engaged'} ]);
+				[ {name: 'name'} ]);
 		
-		var sm = new Ext.grid.CheckboxSelectionModel();
+		var sm = new Ext.grid.CheckboxSelectionModel(
+			{
+				singleSelect: true
+			});
 		
 	    var grid2 = new Ext.grid.GridPanel({
 	    		store: new Ext.data.Store({
@@ -393,8 +371,12 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 		            data: data
 		        	}),
 		        cm: new Ext.grid.ColumnModel([
-		            
-		            {id:'name',width:200, sortable: true, dataIndex: 'name'},
+		            {
+		            	id:'name',
+		            	width:200,
+		            	sortable: true, 
+		            	dataIndex: 'name'
+		            },
 					sm]),
 			sm: sm,
 	        frame:true,
@@ -428,9 +410,9 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
         
         // Create a new Window
         var window = new Ext.Window({
-            id: 'oryx_new_stencilset_extention_window',
+            id: 'oryx_new_page_selection',
             autoWidth: true,
-            title: 'CPN Page Oryx',
+            title: ORYX.I18N.cpntoolsSupport.title,
             floating: true,
             shim: true,
             modal: true,
@@ -438,28 +420,60 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
             autoHeight: true,
             items: [panel],
             buttons: [{
-                text: 'Import',
-                handler: function(){
+                text: ORYX.I18N.cpntoolsSupport.importLable,
+                handler: function()
+                {
             		var chosenRecs = "";
 
-            		sm.getSelections().each(function(rec){
-						chosenRecs += rec.data.name + ";;";						
+            		// Actually it doesn't matter because it's one
+            		sm.getSelections().each(function(rec)
+            		{
+						chosenRecs = rec.data.name;						
 					}.bind(this));
             		
             		var strLen = chosenRecs.length; 
             		
             		if (chosenRecs.length == 0)
             		{
-            			alert("Es wurden keine Netze ausgewählt!!");
+            			alert(ORYX.I18N.cpntoolsSupport.noPageSelection);
             			return;
             		}
             		
-            		chosenRecs = chosenRecs.substring(0, strLen - 2);
-				
-            		alert(chosenRecs);
+            		var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.cpntoolsSupport.importProgress});
+					loadMask.show();
+					
+            		window.hide();
+            		
+        			pageName = chosenRecs;
+        			this._sendRequest(
+        					ORYX.CONFIG.CPNTOOLSIMPORTER,
+        					'POST',
+        					{ 
+        						'pagesToImport': pageName,
+        						'data' : cpnXML 
+        					},
+        					function( arg )
+        					{
+								if (result.startsWith("error:"))
+								{
+									this._showErrorMessageBox(ORYX.I18N.Oryx.title, result);
+								}
+								else
+								{
+									this.facade.importJSON(arg); 
+									loadMask.hide();							
+								}
+							}.bind(this),
+        					function()
+        					{
+								loadMask.hide();
+								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+							}.bind(this)
+        				);
                 }.bind(this)
-            }, {
-                text: 'Close',
+            }, 
+            {
+                text: ORYX.I18N.cpntoolsSupport.close,
                 handler: function(){
                     window.hide();
                 }.bind(this)

@@ -7,9 +7,6 @@
 		
 		
 		<!-- Colored Petri Nets -->		
-		<plugin source="cpnsupport.js" name="ORYX.Plugins.CpnSupport" >
-			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
-		</plugin>
 		<plugin source="cpntoolsSupport.js" name="ORYX.Plugins.CPNToolsSupport" >
 			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
 		</plugin> 
