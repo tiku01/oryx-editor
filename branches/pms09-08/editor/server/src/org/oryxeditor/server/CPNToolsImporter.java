@@ -8,31 +8,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.hpi.cpn.model.CPNTransformer;
+import de.hpi.cpn.model.CPNConverter;
 
 public class CPNToolsImporter extends HttpServlet 
 {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		PrintWriter out = null;		
-		out = response.getWriter();
-		
-		String cpnToImport = request.getParameter("data");
-		String[] pagesToImport = request.getParameter("pagesToImport").split(";;");
-		
-		CPNTransformer transformer = new CPNTransformer();
-		
-		// die Diagramme sind mit ";;;" voneinander getrennt
-		String resultJSONDiagrams = transformer.fromXML(cpnToImport, pagesToImport);
-		
-		if (resultJSONDiagrams.equals("problems"))
+		try
 		{
-			out.write("error");
+			PrintWriter out = null;		
+			out = response.getWriter();
+			
+			String cpnToImport = request.getParameter("data");
+			String[] pagesToImport = request.getParameter("pagesToImport").split(";;");
+		
+			String resultJSONDiagrams = CPNConverter.importPagesNamed(cpnToImport, pagesToImport);
+			
+			if (resultJSONDiagrams.startsWith("error:"))
+			{
+				out.write(resultJSONDiagrams);
+			}
+			else
+			{
+				out.write(resultJSONDiagrams);
+			}			
 		}
-		else
+		catch (Exception e)
 		{
-			out.write(resultJSONDiagrams);
+			e.printStackTrace();
+			
+			PrintWriter out = null;
+			out = response.getWriter();
+			out.write("error:" + e.getMessage());
 		}		
-	}
-	
+	}	
 }
