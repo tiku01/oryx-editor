@@ -38,7 +38,7 @@ public class CPNDiagram
 		ArrayList<CPNTransition> transitions = tempPage.getTransitions();
 		ArrayList<CPNArc> arcs = tempPage.getArcs();
 		
-		// Getting the biggest extensi
+		// Getting the biggest extension
 		maxBounds = getMaxBoundsof(places, maxBounds);
 		
 		maxBounds = getMaxBoundsof(transitions, maxBounds);		
