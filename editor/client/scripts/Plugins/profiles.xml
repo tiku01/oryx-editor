@@ -17,8 +17,7 @@
 		<plugin name="ORYX.Plugins.FeedbackPlugin" />
 		<plugin name="ORYX.Plugins.Undo" />		
 		<plugin name="ORYX.Plugins.Arrangement"/>	
-		<!-- plugin name="ORYX.Plugins.Save"/ -->
-		<plugin name="ORYX.Plugins.CPNToolsSupport"/>	
+		<!-- plugin name="ORYX.Plugins.Save"/ -->	
 		<plugin name="ORYX.Plugins.Grouping"/>	
 		<plugin name="ORYX.Plugins.HighlightingSelectedShapes"/>	
 		<plugin name="ORYX.Plugins.DragDocker"/>	
@@ -67,7 +66,7 @@
 		<plugin name="ORYX.Plugins.RowLayouting"/>	
 		<plugin name="ORYX.Plugins.AutoLayout"/>	
 		<plugin name="ORYX.Plugins.PluginLoader"/>
-		<plugin name="ORYX.Plugins.CpnSupport"/>	
+		<!-- plugin name="ORYX.Plugins.CPNToolsSupport"/ -->	
 	</profile>
 	
 	<profile name="pms" depends="default">
