@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.hpi.cpn.model.CPNConverter;
+import de.hpi.cpn.converter.CPNConverter;
 
 
 public class CPNToolsExporter extends HttpServlet
