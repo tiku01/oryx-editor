@@ -7,36 +7,11 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 	 *	Constructor
 	 *	@param {Object} Facade: The Facade of the Editor
 	 */
-	construct: function(facade) {
+	construct: function(facade) 
+	{
 		this.facade = facade;
-
-		this.facade.offer
-		({
-			'name':ORYX.I18N.AddDocker.add,
-			'functionality': this.hallo.bind(this),
-			'group': "CPN",
-			'icon': ORYX.PATH + "images/cpn/cpn_button.png",
-			'description': ORYX.I18N.AddDocker.addDesc,
-			'index': 1,
-            'toggle': true,
-			'minShape': 0,
-			'maxShape': 0});
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_RESIZE_END, this.resetTokenPosition.bind(this));
-	},
-	
-	hallo: function()
-	{
-		var selection = this.facade.getSelection();
-		var place = selection.first();
-		var token = place.getChildNodes(false).first();
-
-		var tokencenter = token.absoluteBounds().center();
-		token.bounds.centerMoveTo(1,2);
-		var tokencenter = token.absoluteBounds().center();
-		
-		this.facade.getCanvas().update();
-		
 	},
 	
 	resetTokenPosition: function()
@@ -96,125 +71,6 @@ ORYX.Plugins.CpnSupport = Clazz.extend({
 
 		}			
 		this.facade.getCanvas().update();
-	},
-	
-	showWindow: function()
-	{
-		var selection = this.facade.getStencilSets();
-		
-		
-		
-		var declarationsfromDiagram = this.facade.getCanvas();
-		
-		var test = declarationsfromDiagram[0][2];
-		
-		// Default definition types for variables and colors
-		var defaultDefinitionTypes = ['Integer','Boolean','Char','String'];
-		
-		var currentDefinitionTypes = []; // for the current Set
-		
-		var declarationTypeData = 
-			[
-			 ['CS', 'ColorSet'],
-			 ['VA', 'Variable']
-			];
-
-		// 2. Create the Store
-		var store = new Ext.data.SimpleStore({ 
-		fields : 
-			[
-			 	{ name: 'name', type: 'string' },
-			 	{ name: 'type', type: 'string' },
-		 		{ name: 'declarationtype', type: 'string' }
-			],
-			data: declarationsfromDiagram
-		});
-		
-		
-//		var defaultData = {
-//			    fullname: 'Full Name',
-//			    first: 'First Name'
-//			};
-//			var recId = 100; // provide unique id for the record
-//			var r = new myStore.recordType(defaultData, ++recId);
-		
-		var declarationTypeCombo = new Ext.form.ComboBox({
-		    typeAhead: true,
-		    triggerAction: 'all',
-		    editable: false,
-		    lazyRender:true,
-		    mode: 'local',
-		    store: new Ext.data.SimpleStore({
-		        id: 0,
-		        fields: [
-		            'declarationTypeId',
-		            'displaydeclarationType'
-		        ],
-		        data: declarationTypeData
-		    }),
-		    valueField: 'declarationTypeId',
-		    displayField: 'displaydeclarationType'
-		});
-		
-		var simpleGrid = new Ext.grid.EditorGridPanel({
-			  store: store,
-			        columns: [{
-			        	header: 'Name', // 4. Field cannot be edited.
-			            width: 160, 
-			            sortable: false, 
-			            dataIndex: 'name',
-			            editor: new Ext.form.TextField({
-			            	allowBlank: false
-			            })
-			        },
-			        {
-			            header: 'Type', // 5. Field can be edited
-			            width: 75, 
-			            sortable: false, 
-			            dataIndex: 'type', 
-			            editor: new Ext.form.TextField({ 
-			            	allowBlank: false
-			            })
-			        },
-			        {
-			            header: 'DeclarationType', // 5. Field can be edited
-			            width: 100, 
-			            sortable: false, 
-			            dataIndex: 'declarationtype', 
-			            editor: declarationTypeCombo
-			        }],			        
-			        clicksToEdit: 1,
-			        stripeRows: true,
-			        autoHeight:true,
-			        width:500,
-			        title:'Editor Grid'
-			 });
-		        
-		var win = new Ext.Window({
-			width:400,
-	        id:'autoload-win',
-	        height:300,
-	        autoScroll:true,
-	        title:"hallo",
-	        tbar:[
-	            {
-	             	text:'-'
-//	             	handler:function() {
-//	                	win.load(win.autoLoad.url + '?' + (new Date).getTime());
-//	            	}
-	            },
-	            {
-	            	text: '+',
-	            	handler: function(){	            		
-	            		declarations.push(['Name','Integer','Variable']);
-	            		store.loadData(declarations);
-	            	}
-	            }
-	        ],
-	        items: [simpleGrid]
-	        
-	    });
-	    win.show();
-    }	
+	}	
 });
 
