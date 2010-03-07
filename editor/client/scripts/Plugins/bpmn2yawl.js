@@ -3,13 +3,13 @@
  * Armin Zamani
  **/
 
-if (!ORYX) ORYX = new Object();
-if (!ORYX.Plugins) ORYX.Plugins = new Object();
+if (!ORYX.Plugins) 
+    ORYX.Plugins = new Object();
 
 ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
-	facade: undefined,
-	construct: function(facade){
-		this.facade = facade
+	/**@private*/
+	construct: function(){
+		arguments.callee.$.construct.apply(this, arguments);
 		
         this.active = false;
         this.raisedEventIds = [];
@@ -21,7 +21,6 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
 			'icon': ORYX.PATH + 'images/door.png',
 			'description': 'Map this diagram to YAWL and execute it',
 			'index': 1,
-			'toggle': true,
 			'minShape': 0,
 			'maxShape': 0
 		});
@@ -30,64 +29,74 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
         this.facade.registerOnEvent(ORYX.Plugins.BPMN2YAWLMapper.SHOW_ERRORS_EVENT, this.doShowErrors.bind(this));
 	},
 	perform: function(button, pressed){
-		if (!pressed) {
-            this.resetErrors();
-        } else {
-        	this.checkSyntaxAndMapBPMNtoYAWL({
-                onMappingSucceeded: function(){
-                    button.toggle();
-                    this.active = !this.active;
-                    Ext.Msg.alert("The BPMN to YAWL mapper succeeded and has created an YAWL file in your Eclipse directory");
-                },
-                onErrors: function(){
-                },
-                onFailure: function(){
-                    button.toggle();
-                    this.active = !this.active;
-                    Ext.Msg.alert("The connection to the server failed");
-                }
-            });
-        }
+		this.resetErrors();
+		this.checkSyntaxAndMapBPMNtoYAWL({
+			onMappingSucceeded: function(){
+			this.setActivated(false);
+
+			Ext.Msg.alert("The BPMN to YAWL mapper succeeded and has created an YAWL file in your Eclipse directory");
+		},
+		onErrors: function(){
+		},
+		onFailure: function(){
+			this.setActivated(false);
+			Ext.Msg.alert("The connection to the server failed");
+		}
+		});
 	},
 	
+	/**
+     * Sets the activated state of the plugin
+     * @param {Object} activated
+     */
+    setActivated: function(activated){
+        if(activated === undefined){
+            this.active = !this.active;
+        } else {
+            this.active = activated;
+        }
+    },
+	
 	checkSyntaxAndMapBPMNtoYAWL: function(options){
-		if(!options)
-            options = {};
+		Ext.applyIf(options || {}, {
+	          showErrors: true,
+	          ononMappingSucceeded: Ext.emptyFn,
+	          onErrors: Ext.emptyFn,
+	          onFailure: Ext.emptyFn
+	        });
+		
+		var data = this.getRDFFromDOM();
 		
 		new Ajax.Request(ORYX.CONFIG.BPMN2YAWL_URL, {
 			method: 'POST',
 			asynchronous: false,
 			parameters : {
-				data: this.getRDFFromDOM()
+				data: data
 			},
 			onSuccess: function(request){
 				var resp = request.responseText.evalJSON();
 				
+				Ext.Msg.hide();
+				
 				if (resp instanceof Object) {
 					resp = $H(resp)
 					if (resp.size() > 0) {
-						this.showErrors(resp);
-                 
-                    if(options.onErrors) options.onErrors();
+						if(options.showErrors) this.showErrors(resp);
+						options.onErrors();
+					}
+					else {
+						options.onMappingSucceeded();
+					}
 				}
 				else {
-					if(options.onMappingSucceeded) options.onMappingSucceeded();
-                }
-            }
-            else {
-            	if(options.onFailure) options.onFailure();
-            }
-            Ext.Msg.hide();
+					options.onFailure();
+				}
 			}.bind(this),
 			onFailure: function(){
 				Ext.Msg.hide();
-				if(options.onFailure) options.onFailure();
+				options.onFailure();
 			}
-		})
-	},
-	
-	getSubprocessRDF: function(){
-		
+		});
 	},
 	
 	/** Called on SHOW_ERRORS_EVENT.
@@ -101,7 +110,7 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
     
     /**
      * Shows overlays for each given error
-     * @methodOf ORYX.Plugins.BPMN2YAWLMapper.prototype ?
+     * @methodOf ORYX.Plugins.BPMN2YAWLMapper.prototype
      * @param {Hash|Object} errors
      * @example
      * showErrors({
@@ -122,7 +131,7 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
                 this.raiseOverlay(sh, errors[value]);
             }
         }.bind(this));
-        this.active = !this.active;
+        //this.active = !this.active;
     },
     
     /**
@@ -138,14 +147,15 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
         }.bind(this))
         
         this.raisedEventIds = [];
-        this.active = !this.active;
+        this.active = false;
     },
     
     raiseOverlay: function(shape, errorMsg){
         var id = "syntaxchecker." + this.raisedEventIds.length;
-        
+        var crossId = ORYX.Editor.provideId();
         var cross = ORYX.Editor.graft("http://www.w3.org/2000/svg", null, ['path', {
-            "title": errorMsg,
+        	"id":crossId,
+        	"title": errorMsg,
             "stroke-width": 5.0,
             "stroke": "red",
             "d": "M20,-5 L5,-20 M5,-5 L20,-20",

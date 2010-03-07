@@ -40,5 +40,6 @@
 	<profile name="pms" depends="default">
 		<plugin name="ORYX.Plugins.FileRepositorySave" />
 		<plugin name="ORYX.Plugins.BPMN2YAWLMapper" />
+		<plugin name="ORYX.Plugins.BPMN11" />
 	</profile>
 </profiles>

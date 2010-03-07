@@ -410,6 +410,13 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
+		<servlet-name>BPMN2YAWLServlet</servlet-name>
+		<url-pattern>/bpmn2yawl</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet-mapping>
 		<servlet-name>SimplePNMLExporter</servlet-name>
 		<url-pattern>/simplepnmlexporter</url-pattern>
 	</servlet-mapping>
