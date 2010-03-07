@@ -3,7 +3,9 @@ package de.hpi.bpmn2xpdl;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 
+@RootElement("TriggerResultCompensation")
 public class XPDLTriggerResultCompensation  extends XMLConvertible {
 
 	@Attribute("AttributeId")
