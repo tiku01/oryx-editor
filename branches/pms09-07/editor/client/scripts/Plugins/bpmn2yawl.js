@@ -85,6 +85,7 @@ ORYX.Plugins.BPMN2YAWLMapper = ORYX.Plugins.AbstractPlugin.extend({
 						options.onErrors();
 					}
 					else {
+						Ext.Msg.alert("Mapping succeeded");
 						options.onMappingSucceeded();
 					}
 				}
