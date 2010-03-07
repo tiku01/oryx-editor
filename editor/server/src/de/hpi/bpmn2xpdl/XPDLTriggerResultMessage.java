@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 
-public class XPDLTriggerResultMessage  extends XMLConvertable {
+public class XPDLTriggerResultMessage  extends XMLConvertible {
 
 	@Attribute("CatchThrow")
 	protected String catchThrow;

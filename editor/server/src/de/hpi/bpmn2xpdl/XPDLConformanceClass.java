@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("ConformanceClass")
-public class XPDLConformanceClass extends XMLConvertable {
+public class XPDLConformanceClass extends XMLConvertible {
 	
 	@Attribute("GraphConformance")
 	protected String graphConformance = "NON-BLOCKED";

@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Text;
 
-public class XPDLTriggerConditional  extends XMLConvertable {
+public class XPDLTriggerConditional  extends XMLConvertible {
 
 	@Text
 	protected String condition;

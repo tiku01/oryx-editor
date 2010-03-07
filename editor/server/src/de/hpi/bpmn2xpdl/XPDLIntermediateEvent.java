@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("IntermediateEvent")
-public class XPDLIntermediateEvent extends XMLConvertable {
+public class XPDLIntermediateEvent extends XMLConvertible {
 	
 	@Attribute("Trigger")
 	protected String trigger;

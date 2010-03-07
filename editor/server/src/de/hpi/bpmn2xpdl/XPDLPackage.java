@@ -104,7 +104,6 @@ public class XPDLPackage extends XPDLThing {
 	}
 	
 	public void readJSONbounds(JSONObject modelElement) {
-		//Do nothing. Bounds not visible for user - so reimport via extended attribute not necessary
 	}
 	
 	public void readJSONchildShapes(JSONObject modelElement) throws JSONException {
@@ -117,18 +116,22 @@ public class XPDLPackage extends XPDLThing {
 				
 				if  (XPDLActivity.handlesStencil(stencil)) {
 					createMainProcessChild(childShape);
+					readJSONchildShapes(childShape);
 				} else if (XPDLArtifact.handlesStencil(stencil)) {
 					createArtifact(childShape);
+					readJSONchildShapes(childShape);
 				} else if (XPDLAssociation.handlesStencil(stencil)) {
 					createAssociation(childShape);
+					readJSONchildShapes(childShape);
 				} else if (XPDLMessageFlow.handlesStencil(stencil)) {
 					createMessageFlow(childShape);
+					readJSONchildShapes(childShape);
 				} else if (XPDLPool.handlesStencil(stencil)) {
 					createPool(childShape);
 				} else if (XPDLTransition.handlesStencil(stencil)) {
 					createMainProcessChild(childShape);
+					readJSONchildShapes(childShape);
 				}
-				readJSONchildShapes(childShape);
 			}
 		}
 	}

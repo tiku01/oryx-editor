@@ -6,7 +6,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Author")
-public class XPDLAuthor extends XMLConvertable {
+public class XPDLAuthor extends XMLConvertible {
 
 	@Text
 	protected String content;

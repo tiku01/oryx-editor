@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 
-public class XPDLTriggerResultCompensation  extends XMLConvertable {
+public class XPDLTriggerResultCompensation  extends XMLConvertible {
 
 	@Attribute("AttributeId")
 	protected String attributeId;

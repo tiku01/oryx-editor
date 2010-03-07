@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("MultiInstance")
-public class XPDLMultiInstance extends XMLConvertable {
+public class XPDLMultiInstance extends XMLConvertible {
 	
 	@Attribute("MI_Condition")
 	protected String mi_condition;

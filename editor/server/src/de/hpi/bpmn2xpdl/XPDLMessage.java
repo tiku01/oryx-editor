@@ -7,7 +7,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Message")
-public class XPDLMessage extends XMLConvertable {
+public class XPDLMessage extends XMLConvertible {
 
 	@Attribute("Id")
 	protected String id;

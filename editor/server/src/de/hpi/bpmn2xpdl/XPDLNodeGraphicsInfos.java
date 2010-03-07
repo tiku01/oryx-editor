@@ -8,7 +8,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("NodeGraphicsInfos")
-public class XPDLNodeGraphicsInfos extends XMLConvertable {
+public class XPDLNodeGraphicsInfos extends XMLConvertible {
 
 	@Element("NodeGraphicsInfo")
 	protected ArrayList<XPDLNodeGraphicsInfo> nodeGraphicsInfos;

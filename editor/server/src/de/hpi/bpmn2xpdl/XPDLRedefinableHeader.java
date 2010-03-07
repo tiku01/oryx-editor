@@ -6,7 +6,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("RedefinableHeader")
-public class XPDLRedefinableHeader extends XMLConvertable {
+public class XPDLRedefinableHeader extends XMLConvertible {
 
 	@Element("Author")
 	protected XPDLAuthor author;

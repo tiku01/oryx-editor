@@ -8,7 +8,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("WorkflowProcesses")
-public class XPDLWorkflowProcesses extends XMLConvertable {
+public class XPDLWorkflowProcesses extends XMLConvertible {
 
 	@Element("WorkflowProcess")
 	protected ArrayList<XPDLWorkflowProcess> workflowProcesses;

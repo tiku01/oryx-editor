@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 
-public class XPDLResultError extends XMLConvertable {
+public class XPDLResultError extends XMLConvertible {
 	
 	@Attribute("ErrorCode")
 	protected String errorCode;

@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("Route")
-public class XPDLRoute extends XMLConvertable {
+public class XPDLRoute extends XMLConvertible {
 
 	@Attribute("ExclusiveType")
 	protected String exclusiveType;

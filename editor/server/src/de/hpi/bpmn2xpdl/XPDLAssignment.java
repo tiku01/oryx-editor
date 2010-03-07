@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("Assignment")
-public class XPDLAssignment extends XMLConvertable {
+public class XPDLAssignment extends XMLConvertible {
 	
 	@Attribute("AssignTime")
 	protected String assignTime;

@@ -8,7 +8,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("ConnectorGraphicsInfos")
-public class XPDLConnectorGraphicsInfos extends XMLConvertable {
+public class XPDLConnectorGraphicsInfos extends XMLConvertible {
 
 	@Element("ConnectorGraphicsInfo")
 	protected ArrayList<XPDLConnectorGraphicsInfo> connectorGraphicsInfos;

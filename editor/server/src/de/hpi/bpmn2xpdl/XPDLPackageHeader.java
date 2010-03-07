@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("PackageHeader")
-public class XPDLPackageHeader extends XMLConvertable {
+public class XPDLPackageHeader extends XMLConvertible {
 
 	@Element("Created")
 	protected XPDLCreated created;

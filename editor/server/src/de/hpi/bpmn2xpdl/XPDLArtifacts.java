@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Artifacts")
-public class XPDLArtifacts extends XMLConvertable {
+public class XPDLArtifacts extends XMLConvertible {
 
 	@Element("Artifact")
 	protected ArrayList<XPDLArtifact> artifacts;

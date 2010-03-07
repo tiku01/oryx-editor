@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Assignments")
-public class XPDLAssignments extends XMLConvertable {
+public class XPDLAssignments extends XMLConvertible {
 
 	@Element("Assignment")
 	protected ArrayList<XPDLAssignment> assignments;

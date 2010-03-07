@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Pools")
-public class XPDLPools extends XMLConvertable {
+public class XPDLPools extends XMLConvertible {
 
 	@Element("Pool")
 	protected ArrayList<XPDLPool> pools;

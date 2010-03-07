@@ -7,7 +7,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Category")
-public class XPDLCategory extends XMLConvertable {
+public class XPDLCategory extends XMLConvertible {
 	
 	@Attribute("Id")
 	protected String id;

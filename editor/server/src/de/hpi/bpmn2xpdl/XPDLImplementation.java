@@ -8,7 +8,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Implementation")
-public class XPDLImplementation extends XMLConvertable {
+public class XPDLImplementation extends XMLConvertible {
 	
 	@Element("No")
 	protected XPDLNo no;

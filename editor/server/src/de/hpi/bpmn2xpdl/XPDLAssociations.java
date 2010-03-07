@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Associations")
-public class XPDLAssociations extends XMLConvertable {
+public class XPDLAssociations extends XMLConvertible {
 
 	@Element("Association")
 	protected ArrayList<XPDLAssociation> associations;

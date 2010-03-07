@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Task")
-public class XPDLTask extends XMLConvertable {
+public class XPDLTask extends XMLConvertible {
 	
 	@Element("TaskManual")
 	protected XPDLTaskManual taskManual;

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.xmappr.RootElement;
 
 @RootElement("TaskScript")
-public class XPDLTaskScript extends XMLConvertable {
+public class XPDLTaskScript extends XMLConvertible {
 
 	public void readJSONimplementation(JSONObject modelElement) {
 	}

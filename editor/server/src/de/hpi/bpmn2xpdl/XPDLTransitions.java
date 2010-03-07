@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Transitions")
-public class XPDLTransitions extends XMLConvertable {
+public class XPDLTransitions extends XMLConvertible {
 
 	@Element("Transition")
 	protected ArrayList<XPDLTransition> transitions;

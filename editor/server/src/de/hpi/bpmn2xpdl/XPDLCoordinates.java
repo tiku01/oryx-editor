@@ -5,7 +5,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("Coordinates")
-public class XPDLCoordinates extends XMLConvertable {
+public class XPDLCoordinates extends XMLConvertible {
 	
 	@Attribute("XCoordinate")
 	protected double xCoordinate;
