@@ -981,9 +981,8 @@ public class BPMN2YAWLConverter {
 		//decomposition.getInputParams().add(local);
 		decomposition.getLocalVariables().add(local);
 			
-		//YVariable inputParam = defineInputStringVariable(task);
-		//task.getDecomposesTo().getInputParams().add(inputParam);
-		task.getDecomposesTo().getInputParams().add(local);
+		YVariable inputParam = defineInputStringVariable(task);
+		task.getDecomposesTo().getInputParams().add(inputParam);
 		
 		miParam.setMiDataInput(mapMiDataInput(decomposition, local));
 		miParam.setMiDataOutput(mapMiDataOutput(decomposition, local));
