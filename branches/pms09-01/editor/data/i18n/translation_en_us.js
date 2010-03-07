@@ -109,6 +109,19 @@ ORYX.I18N.Arrangement.arDesc = "Right";
 ORYX.I18N.Arrangement.as = "Alignment Same Size";
 ORYX.I18N.Arrangement.asDesc = "Same Size";
 
+if(!ORYX.I18N.Abstraction) ORYX.I18N.Abstraction = {};
+
+ORYX.I18N.Abstraction.abstractionDescription = "Abstraction mode";
+ORYX.I18N.Abstraction.editingDescription = "Editing mode";
+ORYX.I18N.Abstraction.alreadyAbstraction = "You are already in the abstraction mode";
+ORYX.I18N.Abstraction.abstractionMode = "You are in the abstraction mode. In order to abstract your model please drag the slider.";
+ORYX.I18N.Abstraction.requestFailed = "Request to the server failed";
+ORYX.I18N.Abstraction.alreadyEditing = "You are already in editing mode.";
+ORYX.I18N.Abstraction.editingMode = "You can now edit your model.";
+ORYX.I18N.Abstraction.beingAbstracted = "your model is being abstracted "; 
+ORYX.I18N.Abstraction.Error = "Error. Please check your model";
+
+
 if(!ORYX.I18N.BPELSupport) ORYX.I18N.BPELSupport = {};
 
 ORYX.I18N.BPELSupport.group = "BPEL";

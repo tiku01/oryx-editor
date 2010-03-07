@@ -229,6 +229,7 @@
         </servlet-class>
     </servlet>
 	
+	
 <!--<servlet>
 		<display-name>Worklist</display-name>
 		<servlet-name>Worklist</servlet-name>
@@ -338,6 +339,14 @@
              org.oryxeditor.server.BPMN2BPELServlet
         </servlet-class>
     </servlet>
+	
+	<servlet>
+        <display-name>EPC2RPSTTree Servlet</display-name>
+        <servlet-name>EPC2RPSTTreeServlet</servlet-name>
+        <servlet-class>
+             org.oryxeditor.server.EPC2RPSTTreeServlet
+        </servlet-class>
+    </servlet>
 
 
 	<servlet>
@@ -362,6 +371,14 @@
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<servlet-class>
 			org.oryxeditor.server.Bpmn2_0Servlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>BPMN 2 XPDL Exporter</display-name>
+		<servlet-name>Bpmn2_0ToXpdlServlet</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.Bpmn2_0ToXpdlServlet
 		</servlet-class>
 	</servlet>
 	
@@ -485,6 +502,11 @@
         <servlet-name>BPMN2PNServlet</servlet-name>
         <url-pattern>/bpmn2pn</url-pattern>
     </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>EPC2RPSTTreeServlet</servlet-name>
+        <url-pattern>/abstraction</url-pattern>
+    </servlet-mapping>
 
 <!--
 	<servlet-mapping>
@@ -600,6 +622,11 @@
 	<servlet-mapping>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<url-pattern>/bpmn2_0serialization</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Bpmn2_0ToXpdlServlet</servlet-name>
+		<url-pattern>/bpmn2xpdlserialization</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
@@ -733,4 +760,13 @@
         <description>Recipient for feedback servlet</description>
         <param-name>FEEDBACK_RECIPIENT_EMAIL</param-name><param-value>mymail@googlemail.com</param-value>
     </context-param>
+   <!--  
+    <context-param>
+    	<description>Analytics Snippet</description>
+    	<param-name>ANALYTICS_SNIPPET</param-name>
+    	<param-value><![CDATA[
+		  ... 	
+    	]]></param-value>
+    </context-param>
+    -->
 </web-app>

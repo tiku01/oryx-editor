@@ -36,6 +36,18 @@ ORYX.I18N.SSExtensionLoader.failed2 = "Das Laden der Konfigurationsdatei ist feh
 ORYX.I18N.SSExtensionLoader.panelTitle = "Stencil Set Erweiterungen";
 ORYX.I18N.SSExtensionLoader.panelText = "Wählen Sie die zu ladenden Stencil Set Erweiterungen aus.";
 
+if(!ORYX.I18N.Abstraction) ORYX.I18N.Abstraction = {};
+
+ORYX.I18N.Abstraction.abstractionDescription = "Abstraktionsmodus";
+ORYX.I18N.Abstraction.editingDescription = "Bearbeitungsmodus";
+ORYX.I18N.Abstraction.alreadyAbstraction = "Sie befinden sich schon im Abstraktionsmodus";
+ORYX.I18N.Abstraction.abstractionMode = "Sie sind jetzt im Abstraktionsmodus. Um Abstraktionsniveau zu ändern, betätigen Sie bitte den Slider";
+ORYX.I18N.Abstraction.requestFailed = "Serveranfrage ist gescheitert";
+ORYX.I18N.Abstraction.alreadyEditing = "Sie befinden sich schon im Bearbeitungsmodus";
+ORYX.I18N.Abstraction.editingMode = "Sie können jetzt Ihr Model bearbeiten ";
+ORYX.I18N.Abstraction.beingAbstracted = "Ihr Model wird abstrahiert "; 
+ORYX.I18N.Abstraction.Error = "Fehler. Bitte überprüfen Sie den Syntax";
+
 if(!ORYX.I18N.AdHocCC) ORYX.I18N.AdHocCC = {};
 
 ORYX.I18N.AdHocCC.group = "Ad Hoc";
