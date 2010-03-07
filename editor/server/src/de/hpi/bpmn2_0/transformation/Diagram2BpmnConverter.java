@@ -1035,7 +1035,7 @@ public class Diagram2BpmnConverter {
 	/**
 	 * Retrieves a BPMN 2.0 diagram and transforms it into the BPMN 2.0 model.
 	 * 
-	 * @param diagram
+	 * @param epsDiagram
 	 *            The BPMN 2.0 {@link Diagram} based on the ORYX JSON.
 	 * @return The definitions root element of the BPMN 2.0 model.
 	 * @throws BpmnConverterException
