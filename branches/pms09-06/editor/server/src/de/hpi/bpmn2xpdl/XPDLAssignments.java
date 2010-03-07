@@ -2,7 +2,6 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Element;
