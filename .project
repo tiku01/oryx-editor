@@ -3,6 +3,8 @@
 	<name>oryx</name>
 	<comment></comment>
 	<projects>
+		<project>RPST</project>
+		<project>RPST2</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

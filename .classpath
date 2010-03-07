@@ -126,7 +126,7 @@
 	<classpathentry kind="lib" path="lib/httpunit-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/jasper-compiler-5.5.9.jar"/>
 	<classpathentry kind="lib" path="lib/jasper-runtime-5.5.9.jar"/>
-	<classpathentry kind="lib" path="lib/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit-3.8.2.jar" sourcepath="lib/junit-3.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/nekohtml-1.9.6.jar"/>
 	<classpathentry kind="lib" path="lib/org.mortbay.jetty-5.1.9.jar"/>
@@ -171,5 +171,11 @@
 	<classpathentry kind="lib" path="editor/lib/jaxb1-impl.jar"/>
 	<classpathentry kind="lib" path="editor/lib/jsr173_1.0_api.jar"/>
 	<classpathentry kind="lib" path="buildApps/lib/yuicompressor-2.4.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RPST2">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="RPST2/src"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/RPST2/rpst.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
