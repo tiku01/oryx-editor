@@ -940,9 +940,10 @@ public class BPMN2YAWLConverter {
 			task.setDecomposesTo(subDecomposition);
 		}
 		else {
-			mapMultipleInstanceInfo(decomposition, activity, task);
 			// Decomposition
 			subDecomposition = setTaskDecomposition(model, subDecomposition, task);
+			
+			mapMultipleInstanceInfo(decomposition, activity, task);	
 		}
 		
 		if (activity.getLoopType() == Activity.LoopType.Standard) {
