@@ -9,7 +9,7 @@ public class Lane extends Node implements Container {
 	
 	protected List<Node> childNodes;
 	/**
-	 * BPMN extension for YAWL: Role, Participant, Position
+	 * BPMN extension for YAWL: resourcingType
 	 */
 	protected String resourcingType = "";
 	

@@ -17,7 +17,7 @@ public class Task extends Activity {
 	protected String form;
 	protected String color;
 	
-	/* Start of EXTENSION for the mapping to YAWL */
+	/*Start of BPMN EXTENSION for the mapping to YAWL */
 	/** specifies if the offering of this task is done by users or the YAWL engine */
 	protected String yawl_offeredBy = "";
 	/** specifies if users or the YAWL engine allocate this task */
@@ -25,7 +25,7 @@ public class Task extends Activity {
 	/** specifies if users or the YAWL engine start this task */
 	protected String yawl_startedBy = "";
 	
-	/* End of EXTENSION for the mapping to YAWL */
+	/* End of BPMN EXTENSION for the mapping to YAWL */
 	
 	/* The input message type of the operation */
 	private String inMessageType;

@@ -343,7 +343,7 @@ public class BPMN11RDFImporter {
 					c.diagram.setTitle(getContent(n));
 				} else if (attribute.equals("id")) {
 					c.diagram.setId(getContent(n));
-				//BPMN Extension for YAWL for the datatypedefinition 
+				//BPMN Extension for YAWL: the datatypedefinition attribute
 				} else if (attribute.equals("datatypedefinition")) {
 					c.diagram.setDataTypeDefinition(getContent(n));
 				}
@@ -417,6 +417,8 @@ public class BPMN11RDFImporter {
 				// if (attribute.equals("poolid")) {
 				// pool.setId(getContent(n));
 				// } else {
+				
+				//BPMN Extension for YAWL: the resourcingType attribute
 				if (attribute.equals("type")) {
 					lane.setResourcingType(getContent(n));
 				} else {
@@ -489,11 +491,13 @@ public class BPMN11RDFImporter {
 					} else if (miflowconditionValue != null && miflowconditionValue.equalsIgnoreCase("none")) {
 						activity.setMiFlowCondition(MIFlowCondition.None);
 					}
+				//BPMN Extension for YAWL: the assignments attributes
 				} else if (attribute.equals("assignments")) {
 					String assignmentValue = getContent(n);
 					ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
 					activity.getAssignments().addAll(assignmentList);
 					
+				//BPMN Extension for YAWL: the properties attributes
 				} else if (attribute.equals("properties")) {
 					String propertiesValue = getContent(n);
 				
@@ -627,15 +631,19 @@ public class BPMN11RDFImporter {
 
 				}
 				
-				/* Set yawl_offeredBy attribute */
+				
+				/* BPMN Extension for YAWL
+				 * Set yawl_offeredBy attribute */
 				else if (attribute.equals("yawl_offeredby"))
 					task.setYawl_offeredBy(getContent(n));
 				
-				/* Set yawl_allocatedBy attribute */
+				/* BPMN Extension for YAWL
+				 * Set yawl_allocatedBy attribute */
 				else if (attribute.equals("yawl_allocatedby"))
 					task.setYawl_allocatedBy(getContent(n));
 				
-				/* Set yawl_startedBy attribute */
+				/* BPMN Extension for YAWL
+				 * Set yawl_startedBy attribute */
 				else if (attribute.equals("yawl_startedby"))
 					task.setYawl_startedBy(getContent(n));
 				
@@ -794,7 +802,7 @@ public class BPMN11RDFImporter {
 				if (n instanceof Text)
 					continue;
 				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
-
+				//BUG FIXED
 				if (attribute.equals("timedate")) {
 					String timeDateValue = getContent(n);
 					if (timeDateValue != null)
@@ -844,6 +852,7 @@ public class BPMN11RDFImporter {
 					continue;
 				String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':') + 1);
 
+				//BUG FIXED
 				if (attribute.equals("timedate")) {
 					String timeDateValue = getContent(n);
 					if (timeDateValue != null)
@@ -967,6 +976,7 @@ public class BPMN11RDFImporter {
 				String attribute = n.getNodeName().substring(
 						n.getNodeName().indexOf(':') + 1);
 				
+				//BPMN Extension for YAWL
 				if (attribute.equals("assignments")) {
 					String assignmentValue = getContent(n);
 					ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
@@ -1034,6 +1044,7 @@ public class BPMN11RDFImporter {
 				String attribute = n.getNodeName().substring(
 						n.getNodeName().indexOf(':') + 1);
 				
+				//BPMN Extension for YAWL
 				if (attribute.equals("assignments")) {
 					String assignmentValue = getContent(n);
 					ArrayList<Assignment> assignmentList = handleAssignments(assignmentValue);
@@ -1064,9 +1075,10 @@ public class BPMN11RDFImporter {
 				// TODO: add further attributes...
 				if (attribute.equals("state")) {
 					obj.setState(getContent(n)); }
-				
+				//BPMN Extension for YAWL: the datatype attribute
 				else if (attribute.equals("datatype"))
 					obj.setDataType(getContent(n));	
+				//BPMN Extension for YAWL: the value attribute
 				else if (attribute.equals("value"))
 					obj.setValue(getContent(n));
 				
@@ -1261,6 +1273,11 @@ public class BPMN11RDFImporter {
 		return node;
 	}
 	
+	/**
+	 * parses assignment attribute string
+	 * @param rawAssignment assignment attribute string
+	 * @return list of Assignment objects
+	 */
 	protected ArrayList<Assignment> handleAssignments(String rawAssignment){
 		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 		

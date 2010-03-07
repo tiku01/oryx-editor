@@ -1,5 +1,27 @@
 package de.hpi.bpmn2yawl;
 
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 import java.util.HashMap;
 
 import de.hpi.bpmn.BPMNDiagram;
@@ -10,20 +32,32 @@ import de.hpi.yawl.resourcing.*;
 
 public class BPMN2YAWLResourceMapper {
 
+	/**
+	 * the hashmap for BPMN resourcing nodes and YAWL resourcing objects
+	 */
 	private HashMap<Node, ResourcingType> nodeMap;
 	
-	public BPMN2YAWLResourceMapper() {
-
-	}
-	
+	/**
+	 * the resourcing nodeMap getter
+	 * @return resourcing nodeMap
+	 */
 	public HashMap<Node, ResourcingType> getNodeMap() {
 		return nodeMap;
 	}
 
+	/**
+	 * the resourcing nodeMap setter
+	 * @param nodeMap resourcing nodeMap
+	 */
 	public void setNodeMap(HashMap<Node, ResourcingType> nodeMap) {
 		this.nodeMap = nodeMap;
 	}
 
+	/**
+	 * maps BPMN swimlanes in a BPMN diagram to YAWL resourcing
+	 * @param diagram BPMN diagram
+	 * @return serialized YAWL resourcing information
+	 */
 	public String translate(BPMNDiagram diagram) {
 		
 		setNodeMap(new HashMap<Node, ResourcingType>());
@@ -36,6 +70,7 @@ public class BPMN2YAWLResourceMapper {
 			Pool pool = (Pool)node;
 			
 			if(pool.getChildNodes().size() == 0)
+				//pool has no nodes
 				continue;
 			
 			mapToOrgGroup(orgData, pool, nodeMap);
@@ -43,7 +78,7 @@ public class BPMN2YAWLResourceMapper {
 			for (Node subNode : pool.getChildNodes()){
 				if (subNode instanceof Lane){
 					Lane lane = (Lane) subNode;
-					handleLane(orgData, lane, nodeMap);
+					handleLaneAccordingResourcingType(orgData, lane, nodeMap);
 				}
 			}
 		}
@@ -51,9 +86,10 @@ public class BPMN2YAWLResourceMapper {
 	}
 
 	/**
-	 * @param orgData
-	 * @param lane
-	 * @param nodeMap
+	 * maps a BPMN Lane to a YAWL participant
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
 	 */
 	private void mapLaneToParticipant(OrgData orgData, Lane lane,
 			HashMap<Node, ResourcingType> nodeMap) {
@@ -64,9 +100,10 @@ public class BPMN2YAWLResourceMapper {
 	}
 
 	/**
-	 * @param orgData
-	 * @param node
-	 * @param nodeMap
+	 * maps a BPMN Lane to a YAWL OrgGroup
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
 	 */
 	private void mapToOrgGroup(OrgData orgData, Node node,
 			HashMap<Node, ResourcingType> nodeMap) {
@@ -82,9 +119,10 @@ public class BPMN2YAWLResourceMapper {
 	}
 
 	/**
-	 * @param orgData
-	 * @param lane
-	 * @param nodeMap
+	 * maps a BPMN Lane to a YAWL position
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
 	 */
 	private void mapLaneToPosition(OrgData orgData, Lane lane, 
 			HashMap<Node, ResourcingType> nodeMap) {
@@ -96,9 +134,10 @@ public class BPMN2YAWLResourceMapper {
 	}
 
 	/**
-	 * @param orgData
-	 * @param lane
-	 * @param nodeMap 
+	 * maps a BPMN Lane to a YAWL role
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
 	 */
 	private void mapLaneToRole(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap) {
 		Role role = new Role();
@@ -107,7 +146,14 @@ public class BPMN2YAWLResourceMapper {
 		nodeMap.put(lane, role);
 	}
 	
-	private void handleLane(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap)
+	/**
+	 * maps the given lane to participant, role or position according to Resourcing Type attribute
+	 * if the lane is not nested
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
+	 */
+	private void handleLaneAccordingResourcingType(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap)
 	{
 		boolean shouldCheckResourceType = checkForNestedLane(orgData, lane, nodeMap);
 
@@ -122,10 +168,11 @@ public class BPMN2YAWLResourceMapper {
 	}
 
 	/**
-	 * @param orgData
-	 * @param lane
-	 * @param nodeMap
-	 * @return
+	 * checks if the given lane is nested
+	 * @param orgData organizational data
+	 * @param lane Lane to be mapped
+	 * @param nodeMap resourcing nodeMap
+	 * @return result of check
 	 */
 	private boolean checkForNestedLane(OrgData orgData, Lane lane, HashMap<Node, ResourcingType> nodeMap)
 	{
@@ -137,7 +184,7 @@ public class BPMN2YAWLResourceMapper {
 					mapToOrgGroup(orgData, lane, nodeMap);
 					isNotNested = false;
 				}
-				handleLane(orgData, (Lane)laneNode, nodeMap);
+				handleLaneAccordingResourcingType(orgData, (Lane)laneNode, nodeMap);
 			}
 		}
 		return isNotNested;

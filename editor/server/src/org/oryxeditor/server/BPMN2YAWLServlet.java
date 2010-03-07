@@ -81,6 +81,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	}
 
 	/**
+	 * process the document to map it to YAWL
 	 * @param document
 	 * @param writer
 	 */
@@ -91,7 +92,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		
 		BPMNDiagram diagram = getDiagram(document, type);
 
-		//Syntax-Checking
+		//STEP 1: Syntax-Checking
 		BPMN2YAWLSyntaxChecker checker = new BPMN2YAWLSyntaxChecker(diagram);
 		boolean isOK = checker.checkSyntax();
 		if(!isOK){
@@ -99,6 +100,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			return;
 		}
 		
+		//STEP 2: Normalization
 		//normalize the given diagram for easier mapping
 		BPMN2YAWLNormalizer normalizerForBPMN = new BPMN2YAWLNormalizer(diagram);
 		normalizerForBPMN.normalizeForYAWL();
@@ -109,6 +111,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 			return;
 		}
 		
+		//STEP 3: resource mapping
 		BPMN2YAWLResourceMapper resourcing = new BPMN2YAWLResourceMapper();
 		yawlOrgDataXML = resourcing.translate(diagram);
 		
@@ -121,6 +124,8 @@ public class BPMN2YAWLServlet extends HttpServlet {
 		}
 		
 		//YawlXmlValidator validator = new YawlXmlValidator();
+		
+		//STEP 4: control and data flow mapping
 		int numberOfPools = diagram.getProcesses().size();
 		for(int i = 0; i < numberOfPools; i++){
 			BPMN2YAWLConverter converter = new BPMN2YAWLConverter();
@@ -141,6 +146,7 @@ public class BPMN2YAWLServlet extends HttpServlet {
 	}
 
 	/**
+	 * calls the appropiate RDF Importer
 	 * @param document
 	 * @param type
 	 * @return the BPMN Diagram

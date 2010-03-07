@@ -1,14 +1,33 @@
 package de.hpi.yawl;
 
-import java.util.*;
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
+import java.util.*;
 
 public class YModel implements FileWritingForYAWL {
 	private String uri; // The uri of the YAWL model
 	private String description = "No description has been given.";
 	private String dataTypeDefinition = "";
-	//private String name = "";
-	//private String documentation = "";
 	private HashMap<String, YDecomposition> decompositions = new HashMap<String, YDecomposition>(); // All decompositions of the YAWL model
 
 	/**
@@ -20,30 +39,43 @@ public class YModel implements FileWritingForYAWL {
 	}
 
 	/**
-	 * Adds a given decomposition with a given name to the YAWL model.
-	 * @param id The given name
+	 * Adds a given decomposition to the YAWL model.
 	 * @param decomposition The given decomposition
 	 */
 	public void addDecomposition(YDecomposition decomposition) {
 		decompositions.put(decomposition.getID(), decomposition);
 	}
 	
+	/**
+	 * creates a decomposition and adds it to the YAWL model
+	 * @param id the decomposition id
+	 * @return created decomposition
+	 */
 	public YDecomposition createDecomposition(String id){
 		YDecomposition decomposition = new YDecomposition(id, false, XsiType.NetFactsType);
 		addDecomposition(decomposition);
 		return decomposition;
 	}
 
+	/**
+	 * the decompositions getter
+	 * @return collection of decompositions
+	 */
 	public Collection<YDecomposition> getDecompositions() {
 		return decompositions.values();
 	}
 
+	/**
+	 * returns a decomposition according to the given id
+	 * @param id decomposition identifier
+	 * @return decomposition
+	 */
 	public YDecomposition getDecomposition(String id) {
 		return decompositions.get(id);
 	}
 
 	/**
-	 * Return whether the given name corresponds to a non-empty decomposition
+	 * Returns whether the given name corresponds to a non-empty decomposition
 	 * @param name The given name
 	 * @return Whether this name corresponds to a non-empty decomposition
 	 */
@@ -64,8 +96,7 @@ public class YModel implements FileWritingForYAWL {
 	}
 
 	/**
-	 * Export to YAWL XML file.
-	 * @return String Returns the YAWL XML string.
+	 * @see de.hpi.yawl.FileWritingForYAWL#writeToYAWL()
 	 */
 	public String writeToYAWL() {
 		String s = "";

@@ -34,8 +34,7 @@ public class YCondition extends YNode {
 	}
 	
 	/**
-	 * Export to YAWL xml.
-	 * @return String the condition serialized to XML.
+	 * @see de.hpi.yawl.YNode#writeToYAWL()
 	 */
 	public String writeToYAWL() {
 		String s = "";
@@ -46,11 +45,11 @@ public class YCondition extends YNode {
 		s +="\t\t\t\t</condition>\n";
 		return s;
 	}
-
+	
 	/**
-	 * Export to YAWL xml.
-	 * @param s
-	 * @return serialized YAWL edges
+	 * serializes outgoing edges to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	protected String writeOutgoingEdgesToYAWL(String s) {
 		for(YEdge edge: this.getOutgoingEdges())

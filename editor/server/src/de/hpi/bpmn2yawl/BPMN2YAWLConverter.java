@@ -1,9 +1,7 @@
 package de.hpi.bpmn2yawl;
 
 /**
- * Copyright (c) 2010
- * 
- * @author Armin Zamani
+ * Copyright (c) 2010, Armin Zamani
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -488,9 +486,9 @@ public class BPMN2YAWLConverter {
 	}
 	
 	/**
-	 * determines if the given node is a looping node through control flow
-	 * the node is looping, if the third successor node of the given node is itself
-	 * the nodes between the given and the third successor node may only be AND, OR or
+	 * determines if the given node is a looping node through control flow.
+	 * The node is looping, if the third successor node of the given node is itself.
+	 * The nodes between the given and the third successor node may only be AND, OR or
 	 * Data-based Xor Gateways
 	 * @param node the node to be tested if it is looping
 	 * @return is node looping?
@@ -694,6 +692,7 @@ public class BPMN2YAWLConverter {
 		IntermediateTimerEvent timerEvent = (IntermediateTimerEvent)node;
 		Date timeDate = null;
 		
+		//try to get the date (if it is in a appropiate format)
 		try {
 			if(!timerEvent.getTimeDate().isEmpty()){
 				DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yy");
@@ -702,21 +701,25 @@ public class BPMN2YAWLConverter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		//create a YAWL timer object and attach it to the timer task
 		YTimer timer = new YTimer(YTimer.Trigger.OnEnabled, timerEvent.getTimeCycle(), timeDate);
 		timerTask.setTimer(timer);
 		if(attached)
 			timer.setTrigger(YTimer.Trigger.OnExecuting);
 		
+		//create a local timer variable
 		YVariable timerVariable = new YVariable();
 		timerVariable.setName(timerTask.getID() + "_timer");
 		timerVariable.setType("string");
 		timerVariable.setReadOnly(false);
 		decomposition.getLocalVariables().add(timerVariable);
 		
+		//create mappings from the local timer variable to the timer task
 		String timerQuery = "&lt;" + timerVariable.getName() + "&gt;{/" + decomposition.getID() + "/" + timerVariable.getName() + "/text()}&lt;/" + timerVariable.getName() + "&gt;";			
 		YVariableMapping timerStartVarMap = new YVariableMapping(timerQuery, timerVariable);			
 		timerTask.getStartingMappings().add(timerStartVarMap);
 		
+		//add the timer variable as a input parameter to the decomposition of the timer task
 		YDecomposition taskDecomposition = null;
 		taskDecomposition = setTaskDecomposition(model, taskDecomposition, timerTask);
 		taskDecomposition.getInputParams().add(timerVariable);
@@ -725,12 +728,13 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param exitTask
-	 * @param nodeMap
-	 * @param dec 
-	 * @param terminateEvents 
+	 * sets edges between the mapped YAWL elements in the nodeMap
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @param decomposition containing decomposition
+	 * @param terminateEvents list of End Terminate Events (are handled differently)
 	 */
-	private void linkYawlElements(HashMap<Node, YNode> nodeMap, YDecomposition dec, LinkedList<EndTerminateEvent> terminateEvents) {		
+	private void linkYawlElements(HashMap<Node, YNode> nodeMap, YDecomposition decomposition,
+			LinkedList<EndTerminateEvent> terminateEvents) {		
 		Map<YNode, Integer> counter = new HashMap<YNode, Integer>();
 		
 		for (Node node : nodeMap.keySet()) {
@@ -739,8 +743,9 @@ public class BPMN2YAWLConverter {
 			YNode sourceTask;
 			
 			if ((node instanceof EndErrorEvent) || (node instanceof EndTerminateEvent)){
+				//link the node directly to the decomposition's output condition
 				sourceTask = nodeMap.get(node);				
-				dec.createEdge(sourceTask, dec.getOutputCondition(), false, "", 1);
+				decomposition.createEdge(sourceTask, decomposition.getOutputCondition(), false, "", 1);
 				if (node instanceof EndTerminateEvent)
 					terminateEvents.add((EndTerminateEvent) node);
 				continue;
@@ -755,7 +760,7 @@ public class BPMN2YAWLConverter {
 				if (sourceTask == null || targetTask == null)
 					continue;
 				
-				if (!sourceTask.equals(targetTask) || (node instanceof Gateway && node == target)) {
+				if ((sourceTask != targetTask) || (node instanceof Gateway && node == target)) {
 					if (!counter.containsKey(sourceTask))
 						counter.put(sourceTask, 0);
 						
@@ -774,7 +779,7 @@ public class BPMN2YAWLConverter {
 						continue;
 					}
 					
-					dec.createEdge(sourceTask, targetTask, false, predicate, order);
+					decomposition.createEdge(sourceTask, targetTask, false, predicate, order);
 				}
 			}
 			if(defaultEdge != null){
@@ -783,37 +788,39 @@ public class BPMN2YAWLConverter {
 				
 				defaultEdge.setOrdering(order);
 				
-				dec.addEdge(defaultEdge);
+				decomposition.addEdge(defaultEdge);
 			}
 		}
-	}
-
-	private void mapEndTerminateToCancellationSet(YNode terminateNode, HashMap<Node, YNode> nodeMap) {
-		
-		YTask terminateTask = (YTask)terminateNode;
-		ArrayList<YNode> cancellationSet = new ArrayList<YNode>();
-		
-		for(YNode ynode : nodeMap.values()){
-			if((ynode instanceof YInputCondition) || (ynode instanceof YOutputCondition)){
-				continue;
-			}
-			if(ynode.equals(terminateNode))
-				continue;
-			
-			cancellationSet.add(ynode);
-		}
-		
-		terminateTask.getCancellationSet().addAll(cancellationSet);
 	}
 
 	/**
-	 * @param model
-	 * @param node
-	 * @param nodeMap
-	 * @return
+	 * adds each node in the nodeMap to the terminateNode's cancellation set
+	 * @param terminateNode the task mapped from Terminate Event
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
 	 */
-	private YNode mapConditionFromEventBased(YModel model, YDecomposition dec, Node node,
-			HashMap<Node, YNode> nodeMap) {
+	private void mapEndTerminateToCancellationSet(YNode terminateNode, HashMap<Node, YNode> nodeMap) { 
+		YTask terminateTask = (YTask)terminateNode;
+		
+		for(YNode ynode : nodeMap.values()){
+			if((ynode instanceof YInputCondition) || (ynode instanceof YOutputCondition) 
+					|| (ynode.equals(terminateNode))){
+				continue;
+			}
+			
+			terminateTask.getCancellationSet().add(ynode);
+		}
+	}
+
+	/**
+	 * maps an Event Based XOR Gateway to a YAWL condition
+	 * @param model containing YAWL model
+	 * @param decomposition containing decomposition
+	 * @param node node to be mapped (Event Based XOR Gateway)
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @return the mapped YAWL condition
+	 */
+	private YNode mapConditionFromEventBased(YModel model, YDecomposition decomposition,
+			Node node, HashMap<Node, YNode> nodeMap) {
 		
 		YCondition cond = null;
 	
@@ -821,65 +828,76 @@ public class BPMN2YAWLConverter {
 		if(preYNode instanceof YCondition)
 			cond = (YCondition)preYNode;
 		else
-			cond = dec.createCondition(generateId("EXorGW"), "Condition");
+			cond = decomposition.createCondition(generateId("EXorGW"), "Condition");
 		
 		return cond;
 	}
 	
 	/**
-	 * @param model
-	 * @param act
-	 * @param actMap
-	 * @return
+	 * maps a Intermediate Event to a YAWL Task
+	 * @param model containing YAWL model
+	 * @param decomposition containing decomposition
+	 * @param node node to be mapped (Intermediate Event)
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @return the mapped YAWL Task
 	 */
-	private YNode mapIntermediateEvent(YModel model, YDecomposition dec, Node node,
+	private YNode mapIntermediateEvent(YModel model, YDecomposition decomposition, Node node,
 			HashMap<Node, YNode> nodeMap) {
 		
-		YTask task = dec.createTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent");
+		YTask task = decomposition.createTask(generateId("intermediate"), "TaskMappedFromIntermediateEvent");
 		
-		YDecomposition decomposition = null;
-		decomposition = setTaskDecomposition(model, decomposition, task);
+		YDecomposition taskDecomposition = null;
+		taskDecomposition = setTaskDecomposition(model, taskDecomposition, task);
 		
 		return task;
 	}
 	
 	/**
-	 * @param model
-	 * @param act
-	 * @param actMap
-	 * @return
+	 * maps an Intermediate Message Event to a YAWL task
+	 * @param model containing YAWL model
+	 * @param decomposition containing decomposition
+	 * @param node node to be mapped (Intermediate Message Event)
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @return the mapped task
 	 */
-	private YNode mapIntermediateMessageEvent(YModel model, YDecomposition dec, Node node,
-			HashMap<Node, YNode> nodeMap) {
+	private YNode mapIntermediateMessageEvent(YModel model, YDecomposition decomposition, 
+			Node node, HashMap<Node, YNode> nodeMap) {
 		
-		YTask task = dec.createTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent");
+		YTask task = decomposition.createTask(generateId("msg"), "TaskMappedFromIntermediateMessageEvent");
 		
-		YDecomposition decomposition = null;
-		decomposition = setTaskDecomposition(model, decomposition, task);
+		YDecomposition taskDecomposition = null;
+		taskDecomposition = setTaskDecomposition(model, taskDecomposition, task);
 		
 		return task;
 	}
 
 	/**
-	 * @param model
-	 * @param act
-	 * @param actMap
-	 * @return
+	 * maps a BPMN Activity to a YAWL task
+	 * @param model containing YAWL model
+	 * @param decomposition containing decomposition
+	 * @param activity BPMN Activity to be mapped
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @return the mapped task
 	 */
-	private YNode mapTask(YModel model, YDecomposition dec, Activity activity,
+	private YNode mapTask(YModel model, YDecomposition decomposition, Activity activity,
 			HashMap<Node, YNode> nodeMap) {
-		YDecomposition decomposition = null;
-		YNode task = mapTask(model, dec, activity, decomposition);		
+		YDecomposition taskDecomposition = null;
+		YNode task = mapTask(model, decomposition, activity, taskDecomposition);		
 		return task;
 	}
 
 	/**
-	 * @param model
-	 * @param node
-	 * @param nodeMap
-	 * @return
+	 * maps a BPMN Subprocess to a YAWL composite task and maps 
+	 * the given subprocess to a decomposition
+	 * @param diagram BPMN Diagram
+	 * @param model containing YAWL model
+	 * @param decomposition containing decomposition
+	 * @param activity BPMN activity to be mapped
+	 * @param nodeMap the hashmap for BPMN and YAWL nodes
+	 * @return mapped composite task
 	 */
-	private YNode mapCompositeTask(BPMNDiagram diagram, YModel model, YDecomposition decomposition, Activity activity, HashMap<Node, YNode> nodeMap) {
+	private YNode mapCompositeTask(BPMNDiagram diagram, YModel model, YDecomposition decomposition,
+			Activity activity, HashMap<Node, YNode> nodeMap) {
 	
 		YDecomposition subdec = mapDecomposition(diagram, model, (SubProcess)activity);
 		YTask task = (YTask)mapTask(model, decomposition, activity, subdec);
@@ -888,123 +906,123 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param node
-	 * @param isComposite
-	 * @return
+	 * maps a BPMN activity to a YAWL task
+	 * @param model containing model
+	 * @param decomposition containing decomposition
+	 * @param activity BPMN activity to be mapped
+	 * @param subDecomposition already defined decomposition of the task to be mapped
+	 * @return mapped task
 	 */
-	private YNode mapTask(YModel model, YDecomposition dec, Activity activity, YDecomposition subDec) {
+	private YNode mapTask(YModel model, YDecomposition decomposition, Activity activity, 
+			YDecomposition subDecomposition) {
 		ArrayList<YVariable> taskVariablesLocal = new ArrayList<YVariable>();
 		ArrayList<YVariable> taskVariablesInput = new ArrayList<YVariable>();
 		ArrayList<YVariable> taskVariablesOutput = new ArrayList<YVariable>();
-		Boolean isACompositeTask = false;
 		
-		YTask task = dec.createTask(generateId("task"), activity.getLabel());
-		if(subDec != null){
-			isACompositeTask = true;
-		}
-		
-		mapActivityProperties(dec, activity, task, taskVariablesLocal);
-		
-		mapAllActivityAssignments(dec, activity, taskVariablesLocal,
-				taskVariablesInput, taskVariablesOutput, task);
-		
-		if(!isACompositeTask){
-			
-			copyParametersToDecomposition(dec, taskVariablesLocal,
+		YTask task = decomposition.createTask(generateId("task"), activity.getLabel());
+		if (!activity.isMultipleInstance()){
+
+			mapActivityProperties(decomposition, activity, task, taskVariablesLocal);
+
+			mapAllActivityAssignments(decomposition, activity, taskVariablesLocal,
+					taskVariablesInput, taskVariablesOutput, task);
+
+			assignParametersToContainingDecomposition(decomposition, taskVariablesLocal,
 					taskVariablesInput, taskVariablesOutput);
-			
-			//add a new decomposition for the task to the model
-			subDec = setTaskDecomposition(model, subDec, task);
-			
-			assignParametersToDecomposition(taskVariablesLocal,
-					taskVariablesInput, taskVariablesOutput, subDec);
-			
-			isACompositeTask = true;
+
+			if(subDecomposition == null){
+				//add a new decomposition for the task to the model
+				subDecomposition = setTaskDecomposition(model, subDecomposition, task);
+				assignParametersToSubDecomposition(subDecomposition, taskVariablesLocal,
+						taskVariablesInput, taskVariablesOutput);
+			}
+			//assign the subdecomposition to the task
+			task.setDecomposesTo(subDecomposition);
 		}
-		
-		if (isACompositeTask)
-			task.setDecomposesTo(subDec);
-		
-		//Multiple Instances
-		if (activity.isMultipleInstance()) {
-			mapMultipleInstanceInfo(dec, activity, task);
-			
+		else {
+			mapMultipleInstanceInfo(decomposition, activity, task);
 			// Decomposition
-			subDec = setTaskDecomposition(model, subDec, task);
+			subDecomposition = setTaskDecomposition(model, subDecomposition, task);
 		}
 		
 		if (activity.getLoopType() == Activity.LoopType.Standard) {
-			if (!loopingActivities.containsKey(dec))
-				loopingActivities.put(dec, new LinkedList<Node>());
-			loopingActivities.get(dec).add(activity);
+			if (!loopingActivities.containsKey(decomposition))
+				loopingActivities.put(decomposition, new LinkedList<Node>());
+			loopingActivities.get(decomposition).add(activity);
 		}
 		
 		if(isLoopingActivityBySequenceFlow(activity)){
-			if (!loopingActivities.containsKey(dec))
-				loopingActivities.put(dec, new LinkedList<Node>());
-			loopingActivities.get(dec).add(activity);
+			if (!loopingActivities.containsKey(decomposition))
+				loopingActivities.put(decomposition, new LinkedList<Node>());
+			loopingActivities.get(decomposition).add(activity);
 		}
-		mapTaskResourcingInfo(activity, task);
+		if (activity instanceof Task)
+			mapTaskResourcingInfo((Task)activity, task);
 		
 		return task;
 	}
 
 	/**
-	 * @param dec
-	 * @param activity
-	 * @param task
+	 * sets and maps multiple instance information from the given BPMN activity to the 
+	 * given YAWL task
+	 * @param decomposition containing decomposition
+	 * @param activity BPMN multiple instance activity
+	 * @param task the YAWL task to become a multiple instance task
 	 */
-	private void mapMultipleInstanceInfo(YDecomposition dec, Activity activity,
+	private void mapMultipleInstanceInfo(YDecomposition decomposition, Activity activity,
 			YTask task) {
 		task.setIsMultipleTask(true);
 		task.setXsiType("MultipleInstanceExternalTaskFactsType");
 			
 		YMultiInstanceParam miParam = mapMultiInstanceParameters(activity);
-
 		task.setMiParam(miParam);
-			
-		YVariable local = defineInputVariable(task);
-		dec.getInputParams().add(local);
-			
-		YVariable inputParam = defineInputVariable(task);
-		task.getDecomposesTo().getInputParams().add(inputParam);
 		
-		miParam.setMiDataInput(mapMiDataInput(dec, local));
+		YVariable local = defineInputStringVariable(task);
+		//decomposition.getInputParams().add(local);
+		decomposition.getLocalVariables().add(local);
+			
+		//YVariable inputParam = defineInputStringVariable(task);
+		//task.getDecomposesTo().getInputParams().add(inputParam);
+		task.getDecomposesTo().getInputParams().add(local);
 		
-		miParam.setMiDataOutput(mapMiDataOutput(dec, local));
+		miParam.setMiDataInput(mapMiDataInput(decomposition, local));
+		miParam.setMiDataOutput(mapMiDataOutput(decomposition, local));
 	}
 
 	/**
-	 * @param dec
-	 * @param local
-	 * @return
+	 * generates a YAWl MIDataOutput object with variable mapping rules
+	 * @param decomposition containing decomposition
+	 * @param local variable to which data is mapped
+	 * @return YAWL MIDataOutput object
 	 */
-	private YMIDataOutput mapMiDataOutput(YDecomposition dec, YVariable local) {
+	private YMIDataOutput mapMiDataOutput(YDecomposition decomposition, YVariable local) {
 		YMIDataOutput miDataOutput = new YMIDataOutput();
-		miDataOutput.setFormalOutputExpression("/" + dec.getID() + "/" + local.getName());
+		miDataOutput.setFormalOutputExpression("/" + decomposition.getID() + "/" + local.getName());
 		miDataOutput.setOutputJoiningExpression(" ");
 		miDataOutput.setResultAppliedToLocalVariable(local);
 		return miDataOutput;
 	}
 
 	/**
-	 * @param dec
-	 * @param local
-	 * @return
+	 * generates a YAWl MIDataInput object with variable mapping rules
+	 * @param decomposition
+	 * @param input input parameter to which data is mapped 
+	 * @return YAWL MIDataInput object
 	 */
-	private YMIDataInput mapMiDataInput(YDecomposition dec, YVariable local) {
+	private YMIDataInput mapMiDataInput(YDecomposition decomposition, YVariable input) {
 		YMIDataInput miDataInput = new YMIDataInput();
-		miDataInput.setExpression("/" + dec.getID() + "/" + local.getName());
+		miDataInput.setExpression("/" + decomposition.getID() + "/" + input.getName());
 		miDataInput.setSplittingExpression(" ");
-		miDataInput.setFormalInputParam(local);
+		miDataInput.setFormalInputParam(input);
 		return miDataInput;
 	}
 
 	/**
-	 * @param task
-	 * @return
+	 * sets a input variable of type string for given task
+	 * @param task YAWL task
+	 * @return YAWL variable
 	 */
-	private YVariable defineInputVariable(YTask task) {
+	private YVariable defineInputStringVariable(YTask task) {
 		YVariable local = new YVariable();
 		local.setName(task.getID() + "_input");
 		local.setType("string");
@@ -1012,26 +1030,29 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param model
-	 * @param subDec
-	 * @param task
-	 * @return
+	 * creates an executable subdecomposition for a given task
+	 * @param model YAWL model that will contain the new decomposition
+	 * @param subDecomposition decomposition to be created, if not already created
+	 * @param task YAWL task that refers to the subdecomposition
+	 * @return task's decomposition
 	 */
 	private YDecomposition setTaskDecomposition(YModel model,
-			YDecomposition subDec, YTask task) {
-		if(subDec == null){
-			subDec = model.createDecomposition(task.getID());
-			subDec.setXSIType(XsiType.WebServiceGatewayFactsType);
-			task.setDecomposesTo(subDec);
+			YDecomposition subDecomposition, YTask task) {
+		if(subDecomposition == null){
+			subDecomposition = model.createDecomposition(task.getID());
+			subDecomposition.setXSIType(XsiType.WebServiceGatewayFactsType);
+			task.setDecomposesTo(subDecomposition);
 		}
-		return subDec;
+		return subDecomposition;
 	}
 
 	/**
-	 * @param activity
-	 * @return
+	 * creates a YAWL Multi Instance Parameter object according to BPMN activity setting
+	 * @param activity BPMN Multiple instance activity
+	 * @return YAWL Multi Instance Parameter object
 	 */
 	private YMultiInstanceParam mapMultiInstanceParameters(Activity activity) {
+		//the number 2147483647 stands for infinite in YAWL
 		YMultiInstanceParam param = new YMultiInstanceParam();
 		param.setMinimum(1);
 		param.setMaximum(2147483647);
@@ -1043,8 +1064,9 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param activity
-	 * @param param
+	 * sets the threshold for a multiple instance activity
+	 * @param activity BPMN multi instance activity
+	 * @param param YAWL Multi Instance Parameter object
 	 */
 	private void mapMultipleInstanceThreshold(Activity activity,
 			YMultiInstanceParam param) {
@@ -1059,12 +1081,13 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param decomposition
-	 * @param taskVariablesLocal
-	 * @param taskVariablesInput
-	 * @param taskVariablesOutput
+	 * copies all variables, input and output parameters of a task to the containing decomposition
+	 * @param decomposition containing decomposition
+	 * @param taskVariablesLocal list of local variables of a task
+	 * @param taskVariablesInput list of input parameters of a task
+	 * @param taskVariablesOutput list of output parameters of a task
 	 */
-	private void copyParametersToDecomposition(YDecomposition decomposition,
+	private void assignParametersToContainingDecomposition(YDecomposition decomposition,
 			ArrayList<YVariable> taskVariablesLocal,
 			ArrayList<YVariable> taskVariablesInput,
 			ArrayList<YVariable> taskVariablesOutput) {
@@ -1074,39 +1097,37 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param activity
-	 * @param task
+	 * attaches YAWL resourcing information from the BPMN activity to the YAWL task
+	 * @param bpmnTask BPMN task
+	 * @param task YAWL task
 	 */
-	private void mapTaskResourcingInfo(Activity activity, YTask task) {
-		if(activity instanceof Task){
-			Task bpmnTask = (Task)activity;
-			YResourcing resourcingParam = new YResourcing();
+	private void mapTaskResourcingInfo(Task bpmnTask, YTask task) {
+		YResourcing resourcingParam = new YResourcing();
 
-			mapOfferInfo(bpmnTask, resourcingParam);
-			
-			mapAllocateInfo(bpmnTask, resourcingParam);
+		mapOfferInfo(bpmnTask, resourcingParam);
+		mapAllocateInfo(bpmnTask, resourcingParam);
+		mapStartInfo(bpmnTask, resourcingParam);
 
-			mapStartInfo(bpmnTask, resourcingParam);
-			
-			task.setResourcing(resourcingParam);
-			
-			if (bpmnTask.getParent() instanceof Lane){
-				ResourcingType resource = resourcingNodeMap.get(bpmnTask.getParent());
-				DistributionSet distributionSet = new DistributionSet();
-				distributionSet.getInitialSetList().add(resource);
-				
-				if(resourcingParam.getOffer().equals(InitiatorType.SYSTEM))
-					resourcingParam.setOfferDistributionSet(distributionSet);
-				
-				if(resourcingParam.getAllocate().equals(InitiatorType.SYSTEM))
-					resourcingParam.setAllocateDistributionSet(distributionSet);
-			}
+		task.setResourcing(resourcingParam);
+
+		if (bpmnTask.getParent() instanceof Lane){
+			//get the resourcing object corresponding to the lane
+			ResourcingType resource = resourcingNodeMap.get(bpmnTask.getParent());
+			DistributionSet distributionSet = new DistributionSet();
+			distributionSet.getInitialSetList().add(resource);
+
+			if(resourcingParam.getOffer().equals(InitiatorType.SYSTEM))
+				resourcingParam.setOfferDistributionSet(distributionSet);
+
+			if(resourcingParam.getAllocate().equals(InitiatorType.SYSTEM))
+				resourcingParam.setAllocateDistributionSet(distributionSet);
 		}
 	}
 
 	/**
-	 * @param bpmnTask
-	 * @param resourcingParam
+	 * maps the initiator type for the starting the task
+	 * @param bpmnTask BPMN task
+	 * @param resourcingParam Resourcing Parameter object
 	 */
 	private void mapStartInfo(Task bpmnTask, YResourcing resourcingParam) {
 		if((bpmnTask.getYawl_startedBy() != null) && bpmnTask.getYawl_startedBy().toLowerCase().equals("system"))
@@ -1117,8 +1138,9 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param bpmnTask
-	 * @param resourcingParam
+	 * maps the initiator type for the allocating the task
+	 * @param bpmnTask BPMN task
+	 * @param resourcingParam Resourcing Parameter object
 	 */
 	private void mapAllocateInfo(Task bpmnTask, YResourcing resourcingParam) {
 		if((bpmnTask.getYawl_allocatedBy() != null) && bpmnTask.getYawl_allocatedBy().toLowerCase().equals("system"))
@@ -1129,8 +1151,9 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param bpmnTask
-	 * @param resourcingParam
+	 * maps the initiator type for the offering the task
+	 * @param bpmnTask BPMN task
+	 * @param resourcingParam Resourcing Parameter object
 	 */
 	private void mapOfferInfo(Task bpmnTask, YResourcing resourcingParam) {
 		if((bpmnTask.getYawl_offeredBy() != null) && bpmnTask.getYawl_offeredBy().toLowerCase().equals("system"))
@@ -1141,39 +1164,35 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param taskVariablesLocal
-	 * @param taskVariablesInput
-	 * @param taskVariablesOutput
-	 * @param taskDecomposition
+	 * assigns the task variables to the decomposition of the task
+	 * @param taskDecomposition decomposition of the task
+	 * @param taskVariablesLocal local variables
+	 * @param taskVariablesInput input parameters
+	 * @param taskVariablesOutput output parameters
 	 */
-	private void assignParametersToDecomposition(
+	private void assignParametersToSubDecomposition(YDecomposition taskDecomposition,
 			ArrayList<YVariable> taskVariablesLocal,
 			ArrayList<YVariable> taskVariablesInput,
-			ArrayList<YVariable> taskVariablesOutput,
-			YDecomposition taskDecomposition) {
-		for(YVariable mappedVariable: taskVariablesLocal){
-			taskDecomposition.getInputParams().add(mappedVariable);
-			taskDecomposition.getOutputParams().add(mappedVariable);
-		}
+			ArrayList<YVariable> taskVariablesOutput) {
 		
-		for(YVariable mappedVariable: taskVariablesInput){
-			taskDecomposition.getInputParams().add(mappedVariable);
-		}
+		taskDecomposition.getInputParams().addAll(taskVariablesLocal);
+		taskDecomposition.getOutputParams().addAll(taskVariablesLocal);
 		
-		for(YVariable mappedVariable: taskVariablesOutput){
-			taskDecomposition.getOutputParams().add(mappedVariable);
-		}
+		taskDecomposition.getInputParams().addAll(taskVariablesInput);
+
+		taskDecomposition.getOutputParams().addAll(taskVariablesOutput);
 	}
 
 	/**
-	 * @param dec
-	 * @param activity
-	 * @param taskVariablesLocal
-	 * @param taskVariablesInput
-	 * @param taskVariablesOutput
-	 * @param task
+	 * maps all assignments of an activity to input and output parameters
+	 * @param decomposition containing decomposition
+	 * @param activity activity containing assignments
+	 * @param taskVariablesLocal list of local variables
+	 * @param taskVariablesInput list of input parameters
+	 * @param taskVariablesOutput list of output parameters
+	 * @param task YAWL task
 	 */
-	private void mapAllActivityAssignments(YDecomposition dec,
+	private void mapAllActivityAssignments(YDecomposition decomposition,
 			Activity activity, ArrayList<YVariable> taskVariablesLocal,
 			ArrayList<YVariable> taskVariablesInput,
 			ArrayList<YVariable> taskVariablesOutput, YTask task) {
@@ -1182,13 +1201,13 @@ public class BPMN2YAWLConverter {
 			for(Assignment assignment : activity.getAssignments()){
 				 
 				if(assignment.getAssignTime() == Assignment.AssignTime.Start){
-					mapActivityAssignments(dec, taskVariablesLocal,
+					mapActivityAssignments(decomposition, taskVariablesLocal,
 							taskVariablesInput, task, assignment,
-							task.getStartingMappings(), dec.getID());
+							task.getStartingMappings(), decomposition.getID());
 				}
 				
 				if(assignment.getAssignTime() == Assignment.AssignTime.End){
-					mapActivityAssignments(dec, taskVariablesLocal,
+					mapActivityAssignments(decomposition, taskVariablesLocal,
 							taskVariablesOutput, task, assignment,
 							task.getCompletedMappings(), task.getID());
 				}
@@ -1196,15 +1215,19 @@ public class BPMN2YAWLConverter {
 
 		}
 	}
-
+	
 	/**
-	 * @param dec
-	 * @param taskVariablesLocal
-	 * @param taskVariables
-	 * @param task
-	 * @param assignment
+	 * generic method, maps an assignment to a local variable, adds it as a parameter
+	 *  and defines the variable mapping between parameter and local variable
+	 * @param decomposition containing decomposition
+	 * @param taskVariablesLocal list of local variables
+	 * @param taskVariables list of parameters
+	 * @param task YAWL task
+	 * @param assignment BPMN assignment to be mapped
+	 * @param taskMapping list of mappings of a task (starting or completing mappings)
+	 * @param querySourceId id of the variable source
 	 */
-	private void mapActivityAssignments(YDecomposition dec,
+	private void mapActivityAssignments(YDecomposition decomposition,
 			ArrayList<YVariable> taskVariablesLocal,
 			ArrayList<YVariable> taskVariables, YTask task,
 			Assignment assignment,
@@ -1249,12 +1272,14 @@ public class BPMN2YAWLConverter {
 	}
 
 	/**
-	 * @param dec
-	 * @param activity
-	 * @param task
-	 * @param taskVariablesLocal
+	 * maps the properties of a BPMN activity to a local variable
+	 * and defines variable mappings for the given task
+	 * @param decomposition containing decomposition
+	 * @param activity activity containing properties
+	 * @param task YAWL task
+	 * @param taskVariablesLocal list of local variables
 	 */
-	private void mapActivityProperties(YDecomposition dec, Activity activity,
+	private void mapActivityProperties(YDecomposition decomposition, Activity activity,
 			YTask task, ArrayList<YVariable> taskVariablesLocal) {
 		if(activity.getProperties().size() > 0){
 			
@@ -1273,7 +1298,7 @@ public class BPMN2YAWLConverter {
 				taskVariablesLocal.add(mappedVariable);
 				
 				//set the variable mappings for the task
-				String startQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + dec.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";			
+				String startQuery = "&lt;" + mappedVariable.getName() + "&gt;{/" + decomposition.getID() + "/" + mappedVariable.getName() + "/text()}&lt;/" + mappedVariable.getName() +"&gt;";			
 				YVariableMapping localStartVarMap = new YVariableMapping(startQuery, mappedVariable);			
 				task.getStartingMappings().add(localStartVarMap);
 				

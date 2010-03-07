@@ -26,7 +26,9 @@ public class BPMNDiagram implements Container {
 	
 	protected String title;
 	protected String id;
+	//BPMN extension for YAWL
 	protected String dataTypeDefinition;
+	
 	protected List<Node> childNodes;
 	protected List<DataObject> dataObjects;
 	protected List<Edge> edges;
