@@ -4,7 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
+import org.xmappr.RootElement;
 
+@RootElement("TriggerResultMessage")
 public class XPDLTriggerResultMessage  extends XMLConvertible {
 
 	@Attribute("CatchThrow")
@@ -40,9 +42,10 @@ public class XPDLTriggerResultMessage  extends XMLConvertible {
 		this.message = message;
 	}
 	
-	public void writeJSONmessage(JSONObject modelElement) {
+	public void writeJSONmessage(JSONObject modelElement) throws JSONException {
 		XPDLMessage messageObject = getMessage();
 		if (messageObject != null) {
+			initializeProperties(modelElement);
 			messageObject.write(getProperties(modelElement));
 		}
 	}

@@ -2,8 +2,10 @@ package de.hpi.bpmn2xpdl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.RootElement;
 import org.xmappr.Text;
 
+@RootElement("TriggerConditional")
 public class XPDLTriggerConditional  extends XMLConvertible {
 
 	@Text

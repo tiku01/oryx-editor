@@ -3,8 +3,10 @@ package de.hpi.bpmn2xpdl;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
+import org.xmappr.RootElement;
 import org.xmappr.Text;
 
+@RootElement("TriggerResultLink")
 public class XPDLTriggerResultLink extends XMLConvertible {
 
 	@Attribute("CatchThrow")

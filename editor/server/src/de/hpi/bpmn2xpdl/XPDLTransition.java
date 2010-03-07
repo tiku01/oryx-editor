@@ -44,12 +44,16 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 	}
 	
 	public void readJSONconditionexpression(JSONObject modelElement) throws JSONException {
-		initializeCondition();
+		String type = modelElement.optString("conditiontype");
 		
-		JSONObject passCondition = new JSONObject();
-		passCondition.put("conditionexpression", modelElement.optString("conditionexpression"));
+		if (!"None".equals(type)) {
+			initializeCondition();
 		
-		getCondition().parse(passCondition);
+			JSONObject passCondition = new JSONObject();
+			passCondition.put("conditionexpression", modelElement.optString("conditionexpression"));
+		
+			getCondition().parse(passCondition);
+		}
 	}
 	
 	public void readJSONconditiontype(JSONObject modelElement) throws JSONException {
