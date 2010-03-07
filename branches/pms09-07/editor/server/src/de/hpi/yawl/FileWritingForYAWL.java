@@ -25,6 +25,10 @@ package de.hpi.yawl;
  */
 
 public interface FileWritingForYAWL {
-
+	
+	/**
+	 * Serializes a YAWL object as an XML string
+	 * @return XML as String
+	 */
 	public String writeToYAWL();
 }

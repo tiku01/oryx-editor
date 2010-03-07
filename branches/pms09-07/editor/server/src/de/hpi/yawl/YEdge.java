@@ -1,5 +1,27 @@
 package de.hpi.yawl;
 
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 public class YEdge{
 	
 	protected YNode source;
@@ -9,6 +31,9 @@ public class YEdge{
     private String predicate = "";
     private int ordering = 0;
     
+    /**
+     * constructor of class 
+     */
     public YEdge(YNode edgeSource, YNode edgeTarget)
     {
     	setSource(edgeSource);
@@ -16,6 +41,9 @@ public class YEdge{
     	setEdgeType(false, "", 0);
     }
     
+    /**
+     * constructor of class 
+     */
     public YEdge(YNode edgeSource, YNode edgeTarget, boolean defaultEdge, String predicate, int ordering){
     	setSource(edgeSource);
     	setTarget(edgeTarget);
@@ -46,6 +74,12 @@ public class YEdge{
 			target.getIncomingEdges().add(this);
 	}
 	
+	/**
+	 * sets the edge parameters
+	 * @param defaultEdge is the edge a default edge
+	 * @param predicate the predicate of the edge
+	 * @param ordering the ordering number
+	 */
 	public void setEdgeType(boolean defaultEdge, String predicate, int ordering) {
 		setDefault(defaultEdge);
 		setPredicate(predicate);
@@ -80,9 +114,10 @@ public class YEdge{
 	}
 	
 	/**
-	 * @param splitType
-	 * @param s
-	 * @return
+	 * serializes the predicate to XML
+	 * @param splitType split type of the source Task
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writePredicateToYAWL(SplitJoinType splitType, String s) {
         if (splitType == SplitJoinType.AND)
@@ -102,8 +137,8 @@ public class YEdge{
 	}
 	
 	/**
-     * Export to YAWL file.
-     * @param splitType int The split type of the originating YAWL node.
+     * Serializes the edge to XML.
+     * @param splitType The split type of the originating YAWL node.
      * @return String The string to export for this YAWLDecompositon.
      */
     public String writeToYAWL(SplitJoinType splitType) {

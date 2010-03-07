@@ -1,5 +1,27 @@
 package de.hpi.yawl;
 
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 import java.util.*;
 
 public class YDecomposition implements FileWritingForYAWL {
@@ -125,7 +147,7 @@ public class YDecomposition implements FileWritingForYAWL {
     
 	/**
      * Adds the given node to the decomposition node collection.
-     * @param node The given node
+     * @param node The YAWL node
      */
     public void addNode(YNode node){
     	if (!((node instanceof YInputCondition) || (node instanceof YOutputCondition)))
@@ -136,8 +158,8 @@ public class YDecomposition implements FileWritingForYAWL {
 
     /**
      * Creates an input condition with given id and name and adds it to the decomposition.
-     * @param id The given id for the node (technical)
-     * @param name The given name for the node (representative)
+     * @param id The id for the node (technical)
+     * @param name The name for the node (representative)
      * @return created input condition node
      */
     public YInputCondition createInputCondition(String id, String name) {
@@ -148,8 +170,8 @@ public class YDecomposition implements FileWritingForYAWL {
 
     /**
      * Creates an output condition with given id and name and adds it to the decomposition.
-     * @param id The given id for the node (technical)
-     * @param name The given name for the node (representative)
+     * @param id The id for the node (technical)
+     * @param name The name for the node (representative)
      * @return created output condition node
      */
     public YOutputCondition createOutputCondition(String id, String name) {
@@ -160,8 +182,8 @@ public class YDecomposition implements FileWritingForYAWL {
 
     /**
      * Creates a (normal) condition with given id and name and adds it to the decomposition nodes collection.
-     * @param id The given id for the node (technical)
-     * @param name The given name for the node (representative)
+     * @param id The id for the node (technical)
+     * @param name The name for the node (representative)
      * @return created condition node
      */
     public YCondition createCondition(String id, String name) {
@@ -170,18 +192,21 @@ public class YDecomposition implements FileWritingForYAWL {
         return condition;
     }
     
+    /**
+     * connects the input condition to the output condition
+     * @return created edge
+     */
     public YEdge connectInputToOutput(){
     	return createEdge(inputCondition, outputCondition);
     }
 
     /**
-     * Creates a task with given name, join type, split type, and subdecomposition name and adds it the decomposition nodes collection.
-     * @param id The given identifier
-     * @param name The given name
-     * @param join The given join type (and, xor, or)
-     * @param split The given split type (and, xor, or)
-     * @param decomposesTo The given subdecomposition name.
-     * @return the task created.
+     * Creates a task with given name, join type, split type and adds it the decomposition nodes collection.
+     * @param id The identifier
+     * @param name The name
+     * @param joinType The join type (and, xor, or)
+     * @param splitType The split type (and, xor, or)
+     * @return the task created
      */
     public YTask createTask(String id, String name, SplitJoinType joinType,
     		SplitJoinType splitType) {
@@ -191,16 +216,31 @@ public class YDecomposition implements FileWritingForYAWL {
         return task;
     }
     
+    /**
+     * create a YAWL task with no special splitting/joining behaviour (YAWL standard for this case 
+     * is a joining XOR and a splitting AND behaviour)
+     * @param id
+     * @param name
+     * @return
+     */
     public YTask createTask(String id, String name){
     	YTask task = createTask(id, name, SplitJoinType.XOR, SplitJoinType.AND);
     	
     	return task;
     }
 
+    /**
+     * removes the given node from the node collection
+     * @param node node to be removed
+     */
     public void removeNode(YNode node) {
         nodes.remove(node);
     }
     
+    /**
+     * removes the given edge from the edge collection
+     * @param edge edge to be removed
+     */
     public void removeEdge(YEdge edge){
     	edge.getSource().getOutgoingEdges().remove(edge);
     	edge.getTarget().getIncomingEdges().remove(edge);
@@ -217,49 +257,65 @@ public class YDecomposition implements FileWritingForYAWL {
 
     /**
      * Adds an edge from the given source node to the given destination node, given whether it is a default flow, given its predicate and its ordering.
-     * @param fromNode The name of the source node
-     * @param toNode The name of the destination node
+     * @param source the source node
+     * @param target the target node
      * @param isDefaultFLow Whether it is a default edge
-     * @param predicate The given predicate
-     * @param ordering The given predicate ordering
+     * @param predicate The predicate
+     * @param ordering The predicate ordering
      */
-
-    public YEdge createEdge(YNode fromNode, YNode toNode, boolean isDefaultFlow, String predicate, int ordering) {
-        YEdge newEdge = new YEdge(fromNode, toNode, isDefaultFlow, predicate, ordering);
+    public YEdge createEdge(YNode source, YNode target, boolean isDefaultFlow, String predicate, int ordering) {
+        YEdge newEdge = new YEdge(source, target, isDefaultFlow, predicate, ordering);
         addEdge(newEdge);
         return newEdge;
     }
     
     /**
      * Adds an edge from the given source node to the given destination node.
-     * @param fromNode The name of the source node
-     * @param toNode The name of the destination node
+     * @param source The name of the source node
+     * @param target The name of the destination node
      */
     
-    public YEdge createEdge(YNode fromNode, YNode toNode) {
-     	 YEdge newEdge = new YEdge(fromNode, toNode);
+    public YEdge createEdge(YNode source, YNode target) {
+     	 YEdge newEdge = new YEdge(source, target);
          addEdge(newEdge);
          return newEdge;
     }
     
+    /**
+     * returns the list of input parameters of the decomposition
+     * @return input parameters
+     */
     public ArrayList<YVariable> getInputParams(){
     	if (inputParameters == null)
     		inputParameters = new ArrayList<YVariable>();
 		return inputParameters;
     }
     
+    /**
+     * returns the list of output parameters of the decomposition
+     * @return output parameters
+     */
     public ArrayList<YVariable> getOutputParams(){
     	if (outputParameters == null)
     		outputParameters = new ArrayList<YVariable>();
 		return outputParameters;
     }
     
+    /**
+     * returns the list of local variables of the decomposition
+     * @return local variables
+     */
     public ArrayList<YVariable> getLocalVariables(){
     	if (localVariables == null)
     		localVariables = new ArrayList<YVariable>();
 		return localVariables;
     }
     
+    /**
+	 * serializes the list of input parameters to XML
+	 * @param s XML String
+	 * @return XML String
+	 */
     private String writeInputParamsToYAWL(String s){
     	if(getInputParams().size() > 0){
         	for(YVariable var : getInputParams()){
@@ -271,9 +327,10 @@ public class YDecomposition implements FileWritingForYAWL {
     	return s;
     }
     
-	/**
-	 * @param s
-	 * @return
+    /**
+	 * serializes the list of output parameters to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeOutputParamsToYAWL(String s) {
 		if(getOutputParams().size() > 0){
@@ -287,8 +344,9 @@ public class YDecomposition implements FileWritingForYAWL {
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * serializes the list of local variables to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeLocalVariablesToYAWL(String s) {
 		if(getLocalVariables().size() > 0){
@@ -302,8 +360,9 @@ public class YDecomposition implements FileWritingForYAWL {
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * serializes the process control elements to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeProcessControlElementsToYAWL(String s) {
 		Iterator<YNode> it = getNodes().iterator();
@@ -325,8 +384,9 @@ public class YDecomposition implements FileWritingForYAWL {
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * serializes the web service information of the decomposition to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeWebServiceGatewayFactsTypeToYAWL(String s) {
         if(!codelet.isEmpty())
@@ -337,8 +397,7 @@ public class YDecomposition implements FileWritingForYAWL {
 	}
 
     /**
-     * Export to YAWL file.
-     * @return String The string to export for this YAWLDecompositon.
+     * @see de.hpi.yawl.FileWritingForYAWL#writeToYAWL()
      */
     public String writeToYAWL() {
         String s = "";
@@ -357,7 +416,7 @@ public class YDecomposition implements FileWritingForYAWL {
 
         s = writeProcessControlElementsToYAWL(s);
         
-        if(xsiType.equals("WebServiceGatewayFactsType"))
+        if(xsiType.equals(XsiType.WebServiceGatewayFactsType))
         	s = writeWebServiceGatewayFactsTypeToYAWL(s);
         
         s += "\t\t</decomposition>\n";

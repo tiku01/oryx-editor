@@ -1,5 +1,47 @@
 package de.hpi.yawl;
 
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+/**
+ * Copyright (c) 2010, Armin Zamani
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * s
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -31,11 +73,17 @@ public class YTask extends YNode{
 		super(ID, "");
 	}
 	
+	/**
+	 * constructor of class 
+	 */
 	public YTask(String ID, String name)
 	{
 		super(ID, name);
 	}
 	
+	/**
+	 * constructor of class 
+	 */
 	public YTask(String ID, String name, SplitJoinType join, SplitJoinType split){
 		super(ID, name);
 		
@@ -91,18 +139,30 @@ public class YTask extends YNode{
 		this.isMultipleTask = multiple;
 	}
 	
+	/**
+	 * the cancellationSet getter
+	 * @return cancellation set
+	 */
 	public ArrayList<YNode> getCancellationSet(){
 		if (cancellationSet == null)
 			cancellationSet = new ArrayList<YNode>();
 		return cancellationSet;
 	}
 	
+	/**
+	 * the startingMappings getter
+	 * @return starting mappings
+	 */
 	public ArrayList<YVariableMapping> getStartingMappings(){
 		if (startingMappings == null)
 			startingMappings = new ArrayList<YVariableMapping>();
 		return startingMappings;
 	}
 	
+	/**
+	 * the completedMappings getter
+	 * @return completed mappings
+	 */
 	public ArrayList<YVariableMapping> getCompletedMappings(){
 		if (completedMappings == null)
 			completedMappings = new ArrayList<YVariableMapping>();
@@ -118,8 +178,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the outgoing edges to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeOutgoingEdgesToYAWL(String s) {
 		for(YEdge edge: this.getOutgoingEdges())
@@ -129,8 +190,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the completed mappings to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeCompletedMappingsToYAWL(String s) {
 		if (getCompletedMappings().size() > 0){
@@ -144,8 +206,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the starting mappings to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeStartingMappingsToYAWL(String s) {
 		if (getStartingMappings().size() > 0){
@@ -159,8 +222,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the cancellation set to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeCancellationSetToYAWL(String s) {
 		if (getCancellationSet().size() > 0){
@@ -172,8 +236,9 @@ public class YTask extends YNode{
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * serializes the multiple instance parameters to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeMiParamToYAWL(String s) {
 		if (isMultipleTask()) {
@@ -183,8 +248,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the decomposesTo to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeDecomposesToToYAWL(String s) {
 		if (decomposesTo != null) {
@@ -194,8 +260,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the timer to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeTimerToYAWL(String s) {
 		if (timer != null){
@@ -205,8 +272,9 @@ public class YTask extends YNode{
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * serializes resourcing to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeResourcingToYAWL(String s) {
 		if (resourcing != null){
@@ -216,8 +284,9 @@ public class YTask extends YNode{
 	}
 
 	/**
-	 * @param s
-	 * @return
+	 * serializes the split and join type to XML
+	 * @param s XML String
+	 * @return XML String
 	 */
 	private String writeSplitJoinTypeToYAWL(String s) {
 		s += String.format("\t\t\t\t\t<join code=\"%s\"/>\n", getJoinType().toString().toLowerCase(Locale.ENGLISH));
@@ -226,8 +295,7 @@ public class YTask extends YNode{
 	}
 	
 	/**
-	 * Export to YAWL file.
-	 * @return String The string to export for this YTask.
+	 * @see de.hpi.yawl.YNode#writeToYAWL()
 	 */
 	public String writeToYAWL() {
 		String s = "";

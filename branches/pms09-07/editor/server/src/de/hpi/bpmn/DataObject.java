@@ -5,8 +5,11 @@ import de.hpi.bpmn.serialization.BPMNSerialization;
 public class DataObject extends Node {
 	
 	protected String state;
+	//BPMN extension for YAWL
 	protected String dataType = "";
+	//BPMN extension for YAWL
 	protected String value = "";
+	//BPMN extension for YAWL
 	protected String targetOfCopy;
 	
 	/**
