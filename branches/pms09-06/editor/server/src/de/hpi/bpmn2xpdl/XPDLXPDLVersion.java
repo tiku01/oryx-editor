@@ -6,7 +6,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("XPDLVersion")
-public class XPDLXPDLVersion extends XMLConvertable {
+public class XPDLXPDLVersion extends XMLConvertible {
 
 	@Text
 	protected String content = "2.1";

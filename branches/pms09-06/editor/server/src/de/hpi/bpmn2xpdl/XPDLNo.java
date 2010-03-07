@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.xmappr.RootElement;
 
 @RootElement("No")
-public class XPDLNo extends XMLConvertable {
+public class XPDLNo extends XMLConvertible {
 
 	public void readJSONnounknowns(JSONObject modelElement) {
 		readUnknowns(modelElement, "nounknowns");

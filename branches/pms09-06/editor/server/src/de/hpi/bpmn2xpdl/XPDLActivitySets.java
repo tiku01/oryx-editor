@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("ActivitySets")
-public class XPDLActivitySets extends XMLConvertable {
+public class XPDLActivitySets extends XMLConvertible {
 
 	@Element("ActivitySet")
 	protected ArrayList<XPDLActivitySet> actvitySets;

@@ -8,9 +8,9 @@ import org.json.JSONObject;
 import org.xmappr.Xmappr;
 
 public class BPMN2XPDLConverter {
-	protected XMLConvertable convertObject;
+	protected XMLConvertible convertObject;
 
-	public XMLConvertable getConvertObject() {
+	public XMLConvertible getConvertObject() {
 		return convertObject;
 	}
 
@@ -41,7 +41,7 @@ public class BPMN2XPDLConverter {
 		return importObject.toString();
 	}
 
-	public void setConvertObject(XMLConvertable toConvert) {
+	public void setConvertObject(XMLConvertible toConvert) {
 		convertObject = toConvert;
 	}
 	

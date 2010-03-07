@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("LoopStandard")
-public class XPDLLoopStandard extends XMLConvertable {
+public class XPDLLoopStandard extends XMLConvertible {
 
 	@Attribute("LoopCondition")
 	protected String loopCondition;

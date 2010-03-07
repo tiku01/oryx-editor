@@ -8,7 +8,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Categories")
-public class XPDLCategories extends XMLConvertable {
+public class XPDLCategories extends XMLConvertible {
 
 	@Element("Category")
 	protected ArrayList<XPDLCategory> categories;

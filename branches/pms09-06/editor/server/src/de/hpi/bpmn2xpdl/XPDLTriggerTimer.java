@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 
-public class XPDLTriggerTimer extends XMLConvertable {
+public class XPDLTriggerTimer extends XMLConvertible {
 	
 	@Attribute("TimerCycle")
 	protected String timerCycle;

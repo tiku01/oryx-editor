@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Loop")
-public class XPDLLoop extends XMLConvertable {
+public class XPDLLoop extends XMLConvertible {
 	
 	@Attribute("Type")
 	protected String loopType;

@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("GraphicsInfo")
-public abstract class XPDLGraphicsInfo extends XMLConvertable {
+public abstract class XPDLGraphicsInfo extends XMLConvertible {
 	
 	@Attribute("BorderColor")
 	protected String borderColor = "#0,0,0";

@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("BlockActivity")
-public class XPDLBlockActivity extends XMLConvertable {
+public class XPDLBlockActivity extends XMLConvertible {
 	
 	@Attribute("ActivitySetId")
 	protected String activitySetId;

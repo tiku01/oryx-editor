@@ -12,7 +12,7 @@ import org.xmappr.RootElement;
 import de.hpi.diagram.OryxUUID;
 
 @RootElement("Thing")
-public abstract class XPDLThing extends XMLConvertable {
+public abstract class XPDLThing extends XMLConvertible {
 
 	@Attribute("Id")
 	protected String id;

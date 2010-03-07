@@ -6,7 +6,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Vendor")
-public class XPDLVendor extends XMLConvertable {
+public class XPDLVendor extends XMLConvertible {
 
 	@Text
 	protected String content = "Hasso Plattner Institute";

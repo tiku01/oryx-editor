@@ -20,7 +20,7 @@ import org.xmappr.Element;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-public abstract class XMLConvertable {
+public abstract class XMLConvertible {
 	
 	@Attribute("*")
 	protected HashMap<String,String> unknownAttributes = new HashMap<String,String>();

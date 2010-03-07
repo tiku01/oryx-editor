@@ -6,7 +6,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("ModificationDate")
-public class XPDLModificationDate extends XMLConvertable {
+public class XPDLModificationDate extends XMLConvertible {
 
 	@Text
 	protected String content;

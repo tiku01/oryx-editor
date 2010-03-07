@@ -6,7 +6,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("ExtendedAttributes")
-public class XPDLExtendedAttributes extends XMLConvertable {
+public class XPDLExtendedAttributes extends XMLConvertible {
 
 	@Element("ExtendedAttribute")
 	protected ArrayList<XPDLExtendedAttribute> extendedAttributes;

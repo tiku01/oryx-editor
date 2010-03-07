@@ -7,7 +7,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Condition")
-public class XPDLCondition extends XMLConvertable {
+public class XPDLCondition extends XMLConvertible {
 	
 	@Attribute("Type")
 	protected String conditionType;

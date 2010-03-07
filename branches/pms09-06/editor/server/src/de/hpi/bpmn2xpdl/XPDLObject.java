@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Object")
-public class XPDLObject extends XMLConvertable {
+public class XPDLObject extends XMLConvertible {
 	
 	@Element("Categories")
 	protected XPDLCategories categories;

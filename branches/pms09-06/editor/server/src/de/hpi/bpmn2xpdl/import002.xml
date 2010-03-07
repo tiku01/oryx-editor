@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Package Language="English" QueryLanguage="dfg" Id="dfg" Name="dfg">
+<Package Language="English" QueryLanguage="dfg" Id="dfg" Name="dfg" badAttribute="evil">
   <PackageHeader>
     <Created>
       21-21-2100

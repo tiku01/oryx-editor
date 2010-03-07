@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("MessageFlows")
-public class XPDLMessageFlows extends XMLConvertable {
+public class XPDLMessageFlows extends XMLConvertible {
 
 	@Element("MessageFlow")
 	protected ArrayList<XPDLMessageFlow> messageFlows;

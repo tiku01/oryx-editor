@@ -6,7 +6,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Event")
-public class XPDLEvent extends XMLConvertable {
+public class XPDLEvent extends XMLConvertible {
 	
 	@Element("EndEvent")
 	protected XPDLEndEvent endEvent;

@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("Script")
-public class XPDLScript extends XMLConvertable {
+public class XPDLScript extends XMLConvertible {
 
 	@Attribute("Type")
 	protected String scriptType;

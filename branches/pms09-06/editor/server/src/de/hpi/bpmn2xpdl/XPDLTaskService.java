@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("TaskService")
-public class XPDLTaskService extends XMLConvertable {
+public class XPDLTaskService extends XMLConvertible {
 
 	@Attribute("Implementation")
 	protected String implementation;

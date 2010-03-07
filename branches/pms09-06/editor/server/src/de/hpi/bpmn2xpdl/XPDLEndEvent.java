@@ -7,7 +7,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("EndEvent")
-public class XPDLEndEvent extends XMLConvertable {
+public class XPDLEndEvent extends XMLConvertible {
 	
 	@Attribute("Result")
 	protected String result;

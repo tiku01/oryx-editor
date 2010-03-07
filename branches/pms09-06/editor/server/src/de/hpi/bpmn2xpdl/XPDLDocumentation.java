@@ -7,7 +7,7 @@ import org.xmappr.RootElement;
 import org.xmappr.Text;
 
 @RootElement("Documentation")
-public class XPDLDocumentation extends XMLConvertable {
+public class XPDLDocumentation extends XMLConvertible {
 
 	@Text
 	protected String content;

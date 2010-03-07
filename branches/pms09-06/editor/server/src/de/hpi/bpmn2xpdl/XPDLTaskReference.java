@@ -6,7 +6,7 @@ import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
 @RootElement("TaskReference")
-public class XPDLTaskReference extends XMLConvertable {
+public class XPDLTaskReference extends XMLConvertible {
 
 	@Attribute("TaskRef")
 	protected String taskref;

@@ -9,7 +9,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Lanes")
-public class XPDLLanes extends XMLConvertable {
+public class XPDLLanes extends XMLConvertible {
 
 	@Element("Lane")
 	protected ArrayList<XPDLLane> lanes;
