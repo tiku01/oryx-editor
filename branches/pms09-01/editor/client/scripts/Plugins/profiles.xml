@@ -83,6 +83,7 @@
 	
 	<profile name="epc" depends="default" stencilset="stencilsets/epc/epc.json">
 		<plugin name="ORYX.Plugins.EPCSupport"/>
+		<plugin name="ORYX.Plugins.EPCLayouter"/>
 		<plugin name="ORYX.Plugins.EPCValidator"/>
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
 		<plugin name="ORYX.Plugins.StepThroughPlugin"/>
@@ -105,5 +106,9 @@
 		<plugin name="ORYX.Plugins.QueryEvaluator"/>
 		<plugin name="ORYX.Plugins.QueryResultHighlighter"/>
 	</profile>
+	<profile name="abstraction" depends="epc" stencilset="stencilsets/epc/epc.json">
+		<plugin name="ORYX.Plugins.Abstraction"/>
+	</profile>
+	
 
 </profiles>

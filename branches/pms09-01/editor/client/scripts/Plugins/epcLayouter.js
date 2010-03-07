@@ -39,6 +39,7 @@ ORYX.Plugins.EPCLayouter = ORYX.Plugins.AbstractPlugin.extend({
 			'minShape' : 0,
 			'maxShape' : 0
 		});
+		this.facade.registerOnEvent(ORYX.Plugins.EPCLayouter.LayoutEPC, this.layout.bind(this));
 	},
 	layout: function(){
 		
@@ -120,7 +121,7 @@ ORYX.Plugins.EPCLayouter = ORYX.Plugins.AbstractPlugin.extend({
 			}.bind(this)
 		})
 	},
-	setDockersBad: function(shape, dockers){
+	setDockersBad: function(shape, dockers){ 
 		var dockersString = "";
 		dockers.each(function(p){
 			dockersString += p.x + " " + p.y + " ";
@@ -175,3 +176,4 @@ ORYX.Plugins.EPCLayouter = ORYX.Plugins.AbstractPlugin.extend({
 		}		
 	}
 });
+ORYX.Plugins.EPCLayouter.LayoutEPC = "LayoutEPC";

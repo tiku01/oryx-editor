@@ -282,6 +282,9 @@
 		<plugin source="bpmnClearSodBodHighlights.js" name="ORYX.Plugins.ClearSodBodHighlights">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
+		<plugin source="abstract.js" name="ORYX.Plugins.Abstraction">
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>
+		</plugin>
 				
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
 		
