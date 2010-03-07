@@ -28,7 +28,11 @@
     <oryx:magnet oryx:cx="60" oryx:cy="35" oryx:default="yes" />
   </oryx:magnets>
   <g oryx:minimumSize="50 40" oryx:maximumSize="">
-    <path oryx:resize="vertical horizontal" d="M120 10 L110 10 L 110 0 L120 10 L120 70 L0 70 L0 0 L110 0" fill="white" stroke="black" />
-    <text font-size="12" id="text" x="60" y="35" oryx:align="middle center" stroke="black"></text>
+    <rect id="classBorder" oryx:resize="vertical horizontal" x="0" y="0" width="120" height="70" stroke="black" stroke-width="1.4" fill="white" />
+    <text font-size="12" id="className" x="60" y="10" oryx:align="middle center" oryx:anchors="top" stroke="black"></text>
+    <text font-size="12" id="attributes" x="3" y="22" oryx:align="top left" oryx:anchors="top" stroke="black"></text>
+    <text font-size="12" id="methods" x="3" y="42" oryx:align="top left" oryx:anchors="top" stroke="black"></text>
+    <line x1="0" x2="120" y1="20" y2="20" oryx:resize="horizontal" oryx:anchors="top" />
+    <line x1="0" x2="120" y1="40" y2="40" oryx:resize="horizontal" oryx:anchors="top" id="separator" />
   </g>
 </svg>
