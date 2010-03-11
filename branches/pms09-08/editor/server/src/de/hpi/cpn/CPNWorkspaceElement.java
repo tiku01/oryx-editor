@@ -1,9 +1,11 @@
-package de.hpi.cpn.model;
+package de.hpi.cpn;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
+
+import de.hpi.cpn.mapperhelper.XMLConvertable;
 
 public class CPNWorkspaceElement extends XMLConvertable
 {	

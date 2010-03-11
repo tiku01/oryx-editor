@@ -67,6 +67,8 @@ public class CPNConverter
 	{
 		try
 		{
+			xml = xml.substring(xml.indexOf("<workspaceElements>"));
+			
 			XStream xstream = new XStream(new DomDriver());
 			
 			CPNWorkspaceElement.registerMapping(xstream);

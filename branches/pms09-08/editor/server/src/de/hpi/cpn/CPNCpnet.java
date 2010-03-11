@@ -1,4 +1,4 @@
-package de.hpi.cpn.model;
+package de.hpi.cpn;
 
 import java.util.*;
 
@@ -6,6 +6,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.thoughtworks.xstream.XStream;
+
+import de.hpi.cpn.elements.CPNPage;
+import de.hpi.cpn.globbox.CPNGlobbox;
+import de.hpi.cpn.mapperhelper.XMLConvertable;
 
 public class CPNCpnet extends XMLConvertable 
 {

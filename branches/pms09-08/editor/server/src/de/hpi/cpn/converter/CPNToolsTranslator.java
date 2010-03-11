@@ -362,7 +362,7 @@ public class CPNToolsTranslator
 		
 		// Sorry for the long way
 		String type = tempPlace.getType().getText().getText();											
-		place.putProperty("colordefinition", type);
+		place.putProperty("colorsettype", type);
 		
 		// Bounds
 		CPNDiagram.setPlaceBounds(place, getRelativeBounds(), tempPlace);
