@@ -1,6 +1,8 @@
-package de.hpi.cpn.model;
+package de.hpi.cpn;
 
 import com.thoughtworks.xstream.XStream;
+
+import de.hpi.cpn.mapperhelper.XMLConvertable;
 
 public class CPNGenerator extends XMLConvertable
 {	
