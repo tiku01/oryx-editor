@@ -7,7 +7,8 @@
     version="1.1">
     
     <g pointer-events="fill" oryx:minimumSize="4 4">
-	    <circle cx="16" cy="16" r="6" stroke="black" stroke-width="2" fill="black"/>
+	    <circle id="tokencircle" cx="16" cy="16" r="6" stroke="black" stroke-width="1" fill="black"/>
+	    <text font-size="8" id="tokenquantity" x="6" y="6" oryx:align="center middle" stroke="white" oryx:fittoelem="tokencircle"></text>
     </g>
 
 </svg>

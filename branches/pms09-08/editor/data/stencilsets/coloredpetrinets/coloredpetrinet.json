@@ -122,37 +122,10 @@
 						{
 							"id":"type",
 							"name":"Type",
-							"type":"Choice",
+							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false,
-							"items":
-							[
-								{
-									"id":"integer",
-									"title":"Integer",
-									"value":"Integer",
-									"refToView":"Integerl"
-								},
-								{
-									"id":"char",
-									"title":"Char",
-									"value":"Char",
-									"refToView":"Charl"
-								},
-								{
-									"id":"boolean",
-									"title":"Boolean",
-									"value":"Boolean",
-									"refToView":"Booleanl"
-								},
-								{
-									"id":"string",
-									"title":"String",
-									"value":"String",
-									"refToView":"Stringl"
-								}
-							]
+							"optional":false
 						},
 						{
 							"id":"declarationtype",
@@ -288,6 +261,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
+					"refToView":"guardtext",
 					"optional":true,
 					"length":""
 				}															
@@ -386,6 +360,7 @@
 					"value":"",
 					"description":"",
 					"readonly":false,
+					"refToView":"guardtext",
 					"optional":true,
 					"length":""
 				}						
@@ -426,46 +401,10 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
+					"wrapLines":true,
 					"refToView":"text",
 					"length":""
 				},
-                {
-                    "id":"numberOfTokens",
-                    "type":"Choice",
-                    "title":"# Tokens",
-                    "title_de":"# Tokens",
-                    "value":"0",
-                    "description":"",
-                    "readonly":false,
-                    "optional":false,
-                    "refToView":"",
-                    "items": [
-                        {
-                            "id":"0",
-                            "title":"0",
-                            "value":"0",
-                            "refToView":"numTokens0"
-                        },
-                        {
-                            "id":"1",
-                            "title":"1",
-                            "value":"1",
-                            "refToView":"numTokens1"
-                        },
-                        {
-                            "id":"2",
-                            "title":"2",
-                            "value":"2",
-                            "refToView":"numTokens2"
-                        },
-                        {
-                            "id":"3",
-                            "title":"3",
-                            "value":"3",
-                            "refToView":"numTokens3"
-                        }
-                    ]
-                },
 				{
 					"id":"external",
 					"type":"Boolean",
@@ -541,7 +480,7 @@
 					"length":""
 				},
 				{
-					"id":"colordefinition",
+					"id":"colorsettype",
 					"type":"String",
 					"title":"Color Set",
 					"value":"",
@@ -549,7 +488,8 @@
 					"description_de":"Definiert die Belegung der Stelle.",
 					"readonly":false,
 					"optional":false,
-					"length":""
+					"length":"",
+					"refToView":"colorset"
 				}
 			]
 		},
@@ -586,7 +526,8 @@
 					"readonly":false,
 					"optional":true,
 					"refToView":"text",
-					"length":""
+					"length":"",
+					"wrapLines": true
 				},
 				{
 					"id":"transformation",
@@ -627,6 +568,33 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
+				},
+				{
+					"id":"quantity",
+					"type":"Integer",
+					"title":"Count",
+					"title_de":"Anzahl",
+					"value":"1",
+					"description":"Number of markings in the token",
+					"description_de":"Anzahl der Belegungen",
+					"tooltip":"",
+					"refToView":"tokenquantity",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"color",
+					"type":"Color",
+					"title":"Color",
+					"title_de":"Farbe",
+					"value":"#ffffff",
+					"description":"Color of the token",
+					"description_de":"Farbe des Token",
+					"tooltip":"",
+					"refToView":"tokencircle",
+					"fill":true,
+					"stroke": false
 				}
 			]		
 		}
