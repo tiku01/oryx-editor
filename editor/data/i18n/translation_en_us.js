@@ -748,3 +748,20 @@ ORYX.I18N.Bpmn2_0Serialization.btnImp = "Import";
 ORYX.I18N.Bpmn2_0Serialization.progress = "Importing BPMN 2.0 XML ...";
 ORYX.I18N.Bpmn2_0Serialization.btnClose = "Close";
 ORYX.I18N.Bpmn2_0Serialization.error = "An error occurred while importing BPMN 2.0 XML";
+
+
+if(!ORYX.I18N.cpntoolsSupport) ORYX.I18N.cpntoolsSupport = {};
+
+ORYX.I18N.cpntoolsSupport.serverConnectionFailed = "Connection to server failed.";
+ORYX.I18N.cpntoolsSupport.importTask = "Select an CPN file (.cpn) or type in the CPN XML structure in order to import it!";
+ORYX.I18N.cpntoolsSupport.File = "File:";
+ORYX.I18N.cpntoolsSupport.cpn = "CPN";
+ORYX.I18N.cpntoolsSupport.title = "CPN Oryx";
+ORYX.I18N.cpntoolsSupport.importLable = "Import";
+ORYX.I18N.cpntoolsSupport.close = "Close";
+ORYX.I18N.cpntoolsSupport.wrongCPNFile = "Not chosen correct CPN - File.";
+ORYX.I18N.cpntoolsSupport.noPageSelection = "No page has been selected.";
+ORYX.I18N.cpntoolsSupport.importProgress = "Importing ...";
+ORYX.I18N.cpntoolsSupport.exportProgress = "Exporting ...";
+ORYX.I18N.cpntoolsSupport.exportDescription = "Export to CPN Tools";
+ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
