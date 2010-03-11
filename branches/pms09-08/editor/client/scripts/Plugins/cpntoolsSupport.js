@@ -17,7 +17,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'functionality': 	this.exportCPN.bind(this),
 			'group': 			"CPNTools",
 			'icon': 			ORYX.PATH + "images/cpn/cpn_import.png",
-			'description': 		"CPNTools",
+			'description': 		ORYX.I18N.cpntoolsSupport.exportDescription,
 			'index': 			1,
 			'minShape': 		0,
 			'maxShape': 		0,
@@ -29,7 +29,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'functionality': 	this.importCPN.bind(this),
 			'group': 			"CPNTools",
 			'icon': 			ORYX.PATH + "images/cpn/cpn_export.png",
-			'description': 		"CPNTools",
+			'description': 		ORYX.I18N.cpntoolsSupport.importDescription,
 			'index': 			1,
 			'minShape': 		0,
 			'maxShape': 		0
@@ -314,6 +314,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 						if (arg.startsWith("error:"))
 						{
 							this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
+							loadMask.hide();
 						}
 						else
 						{
@@ -457,6 +458,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 								if (arg.startsWith("error:"))
 								{
 									this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
+									loadMask.hide();
 								}
 								else
 								{
