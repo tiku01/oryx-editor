@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,15 @@ public class XPDLAssociations extends XMLConvertible {
 		initializeAssociations();
 		
 		getAssociations().add(newAssociation);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getAssociations() != null) {
+			for (XPDLThing thing: getAssociations()) {
+				thing.setResourceIdToObject(mapping);
+				mapping.put(thing.getId(), thing);
+			}
+		}
 	}
 	
 	public ArrayList<XPDLAssociation> getAssociations() {

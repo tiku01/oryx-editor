@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -180,11 +181,42 @@ public abstract class XPDLThing extends XMLConvertible {
 	}
 	
 	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
-		modelElement.put("outgoing", new JSONArray());
+		JSONArray outgoing = new JSONArray();
+		if(getResourceIdToObject()==null){
+			modelElement.put("outgoing", outgoing);
+			return;
+		}
+			
+		// FIXME get all outgoing for a shape
+		for(Entry<String, XPDLThing> entry: getResourceIdToObject().entrySet()){
+			XPDLThing thing= entry.getValue();
+			if(thing instanceof XPDLAssociation){
+				if(getId().equals(((XPDLAssociation) thing).getSource()))
+						outgoing.put(resourceIdToJSONObject(entry.getKey()));
+			}else if(thing instanceof XPDLMessageFlow){
+				if(getId().equals(((XPDLMessageFlow) thing).getSource()))
+						outgoing.put(resourceIdToJSONObject(entry.getKey()));
+			}else if(thing instanceof XPDLTransition){
+				if(getId().equals(((XPDLTransition) thing).getFrom()))
+						outgoing.put(resourceIdToJSONObject(entry.getKey()));
+			}
+		}
+		
+		modelElement.put("outgoing", outgoing);
+
 	}
 	
+	protected JSONObject resourceIdToJSONObject(String id) throws JSONException{
+		JSONObject target = new JSONObject();
+		target.put("resourceId", id);
+		return target;
+	}
 	public void writeJSONresourceId(JSONObject modelElement) throws JSONException {
-		modelElement.put("resourceId", OryxUUID.generate());
+		if (getId() != null) {
+			modelElement.put("resourceId", getId());
+		} else {
+			modelElement.put("resourceId", OryxUUID.generate());
+		}
 	}
 	
 	public void writeJSONunknowns(JSONObject modelElement) throws JSONException {

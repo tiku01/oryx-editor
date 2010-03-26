@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +29,23 @@ public abstract class XMLConvertible {
 	@Element("*")
 	protected ArrayList<DomElement> unknownChildren;
 	
+	protected HashMap<String, JSONObject> resourceIdToShape;
+	protected Map<String, XPDLThing> resourceIdToObject;
+	
 	public HashMap<String,String> getUnknownAttributes() {
 		return unknownAttributes;
 	}
 	
 	public ArrayList<DomElement> getUnknownChildren() {
 		return unknownChildren;
+	}
+	
+	public Map<String, XPDLThing> getResourceIdToObject() {
+		return resourceIdToObject;
+	}
+	
+	public HashMap<String, JSONObject> getResourceIdToShape() {
+		return resourceIdToShape;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -70,6 +82,14 @@ public abstract class XMLConvertible {
 		System.err.println("Unknown JSON-key: " + key + "\n" +
 							"in JSON-Object: " + modelElement + "\n" +
 							"while parsing in: " + getClass() + "\n");
+	}
+	
+	public void setResourceIdToObject(Map<String, XPDLThing> mapping) {
+		resourceIdToObject = mapping;
+	}
+	
+	public void setResourceIdToShape(HashMap<String, JSONObject> mapping) {
+		resourceIdToShape = mapping;
 	}
 	
 	public void setUnknownAttributes(HashMap<String,String> unknowns) {

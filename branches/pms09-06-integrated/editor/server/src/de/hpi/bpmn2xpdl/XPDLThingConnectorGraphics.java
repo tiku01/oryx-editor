@@ -1,5 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,15 +34,12 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		JSONArray dockers = modelElement.optJSONArray("dockers");
 		
 		if (dockers != null) {			
-			JSONArray parseDockers = new JSONArray();
-			for (int i = 1; i < dockers.length()-1; i++) {
-				parseDockers.put(dockers.optJSONObject(i));				
-			}
-			
-			if (parseDockers.length() > 0) {
+			if (dockers.length() > 0) {
 				initializeGraphics();
 				JSONObject passObject = new JSONObject();
-				passObject.put("dockers", parseDockers);
+				passObject.put("dockers", dockers);
+				passObject.put("target", modelElement.optJSONObject("target"));
+				passObject.put("resourceId", modelElement.optString("resourceId"));
 				getFirstGraphicsInfo().parse(passObject);
 			}
 		}
@@ -62,7 +61,7 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		connectorGraphics = graphics;
 	}
 	
-	public void writeJSONgraphicsinfos(JSONObject modelElement) {
+	public void writeJSONgraphicsinfos(JSONObject modelElement) throws JSONException {
 		XPDLConnectorGraphicsInfos infos = getConnectorGraphics();
 		if (infos != null) {
 			infos.write(modelElement);
@@ -77,6 +76,7 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		if (getConnectorGraphics() == null) {
 			setConnectorGraphics(new XPDLConnectorGraphicsInfos());
 			getConnectorGraphics().add(new XPDLConnectorGraphicsInfo());
+			getConnectorGraphics().get(0).setResourceIdToShape(getResourceIdToShape());
 		}
 	}
 	
@@ -86,5 +86,51 @@ public abstract class XPDLThingConnectorGraphics extends XPDLThing {
 		JSONObject passObject = new JSONObject();
 		passObject.put(key, modelElement.optString(key));
 		getFirstGraphicsInfo().parse(passObject);
+	}
+	protected void convertFirstAndLastDockerToRelative(String toID, String fromID, JSONObject modelElement) throws JSONException{
+		JSONArray dockers = modelElement.optJSONArray("dockers");
+		if(dockers!=null){
+			if (fromID != null) {
+				JSONObject firstDocker = dockers.optJSONObject(0);
+				makeDockerRelativeToShape(fromID, firstDocker);
+			}
+			if (toID != null) {
+				JSONObject lastDocker = dockers.optJSONObject(dockers.length() - 1);
+				makeDockerRelativeToShape(toID, lastDocker);
+					
+				}			
+		}
+	}
+
+	/**
+	 * @param fromID
+	 * @param firstDocker
+	 * @throws JSONException
+	 */
+	private void makeDockerRelativeToShape(String fromID, JSONObject firstDocker)
+			throws JSONException {
+		if (firstDocker != null) {
+			XPDLThing object = getResourceIdToObject().get(fromID);
+			if (object instanceof XPDLThingNodeGraphics) {
+				XPDLThingNodeGraphics thing = (XPDLThingNodeGraphics) object;
+				if (thing.getNodeGraphics() != null) {
+					if (thing.getNodeGraphics().getNodeGraphicsInfos() != null) {
+						ArrayList<XPDLNodeGraphicsInfo> infos = thing.getNodeGraphics().getNodeGraphicsInfos();
+						XPDLNodeGraphicsInfo info = infos.get(0);
+						for (XPDLNodeGraphicsInfo iterate : infos) {
+							if ("Oryx".equals(iterate.getToolId())) {
+								info = iterate;
+							}
+						}
+						if (info.getCoordinates() != null) {
+							XPDLCoordinates coords = info.getCoordinates().get(0);
+							
+							firstDocker.put("x", firstDocker.optDouble("x") - coords.getXCoordinate());
+							firstDocker.put("y", firstDocker.optDouble("y") - coords.getYCoordinate());
+						}
+					}
+				}
+			}
+		}
 	}
 }

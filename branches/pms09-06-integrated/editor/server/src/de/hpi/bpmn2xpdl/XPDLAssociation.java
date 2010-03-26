@@ -1,7 +1,9 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -41,8 +43,12 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 		setDirection(modelElement.optString("direction"));
 	}
 	
-	public void readJSONsource(JSONObject modelElement) {
-		setSource(modelElement.optString("source"));	
+	public void readJSONresourceId(JSONObject modelElement) throws JSONException {
+		super.readJSONresourceId(modelElement);
+		findSourceId(getResourceId());
+	}
+	
+	public void readJSONsource(JSONObject modelElement) throws JSONException {
 	}
 	
 	public void readJSONtarget(JSONObject modelElement) throws JSONException {
@@ -61,11 +67,22 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 	public void setTarget(String targetValue) {
 		target = targetValue;
 	}
-	
+	public void writeJSONgraphicsinfos(JSONObject modelElement) throws JSONException {
+		super.writeJSONgraphicsinfos(modelElement);
+		
+		convertFirstAndLastDockerToRelative(getTarget(), getSource(), modelElement);
+	}
 	public void writeJSONsource(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "target", "");
 	}
 	
+	@Override
+	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
+		super.writeJSONoutgoing(modelElement);
+		JSONArray outgoing = modelElement.optJSONArray("outgoing");
+		outgoing.put(resourceIdToJSONObject(getTarget()));
+		
+	}
 	public void writeJSONstencil(JSONObject modelElement) throws JSONException {
 		
 		String directionValue = getDirection();
@@ -78,11 +95,27 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 		} else {
 			putProperty(modelElement, "direction", "None");
 			writeStencil(modelElement, "Association_Undirected");
-		}
-		
+		}	
 	}
 	
 	public void writeJSONtarget(JSONObject modelElement) throws JSONException {
-		putProperty(modelElement, "source", "");
+		JSONObject target = new JSONObject();
+		target.put("resourceId", getTarget());
+		
+		modelElement.put("target", target);
+	}
+	
+	private void findSourceId(String resourceId) throws JSONException{
+		for(Entry<String, JSONObject> entry: getResourceIdToShape().entrySet()){
+			JSONArray outgoings=entry.getValue().optJSONArray("outgoing");
+			if(outgoings!=null){
+				for(int i=0; i<outgoings.length();i++){
+					String shapeId = outgoings.getJSONObject(i).optString("resourceId");
+					if(resourceId.equals(shapeId)) {
+						setSource(shapeId);
+					}
+				}
+			}
+		}
 	}
 }

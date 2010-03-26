@@ -1,7 +1,9 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -38,13 +40,18 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 	public void readJSONmessage(JSONObject modelElement) throws JSONException {
 		passInformationToMessage(modelElement, "message");
 	}
-	
+
 	public void readJSONmessageunknowns(JSONObject modelElement) throws JSONException {
 		passInformationToMessage(modelElement, "messageunknowns");
 	}
 	
-	public void readJSONsource(JSONObject modelElement) {
-		createExtendedAttribute("source", modelElement.optString("source"));
+	public void readJSONresourceId(JSONObject modelElement) throws JSONException {
+		super.readJSONresourceId(modelElement);
+		findSourceId(getResourceId());
+	}
+	
+	public void readJSONsource(JSONObject modelElement) throws JSONException {
+		findSourceId(getResourceId());
 	}
 	
 	public void readJSONtarget(JSONObject modelElement) throws JSONException {
@@ -63,7 +70,11 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 	public void setTarget(String targetValue) {
 		target = targetValue;
 	}
-	
+	public void writeJSONgraphicsinfos(JSONObject modelElement) throws JSONException {
+		super.writeJSONgraphicsinfos(modelElement);
+		
+		convertFirstAndLastDockerToRelative(getTarget(), getSource(), modelElement);
+	}
 	public void writeJSONmessage(JSONObject modelElement) throws JSONException {
 		XPDLMessage messageObject = getMessage();
 		if (messageObject != null) {
@@ -84,12 +95,17 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 	}
 	
 	public void writeJSONtarget(JSONObject modelElement) throws JSONException {
-		putProperty(modelElement, "target", "");
+		JSONObject target = new JSONObject();
+		target.put("resourceId", getTarget());
 		
-		String targetValue = getTarget();
-		if (targetValue != null) {
-			
-		}
+		modelElement.put("target", target);
+	}
+	@Override
+	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
+		super.writeJSONoutgoing(modelElement);
+		JSONArray outgoing = modelElement.optJSONArray("outgoing");
+		outgoing.put(resourceIdToJSONObject(getTarget()));
+		
 	}
 	
 	protected void initializeMessage() {
@@ -106,5 +122,19 @@ public class XPDLMessageFlow extends XPDLThingConnectorGraphics {
 		passObject.put(key, modelElement.optString(key));
 		
 		getMessage().parse(passObject);
+	}
+	
+	private void findSourceId(String resourceId) throws JSONException{
+		for(Entry<String, JSONObject> entry: getResourceIdToShape().entrySet()){
+			JSONArray outgoings=entry.getValue().optJSONArray("outgoing");
+			if(outgoings!=null){
+				for(int i=0; i<outgoings.length();i++){
+					String shapeId = outgoings.getJSONObject(i).optString("resourceId");
+					if(resourceId.equals(shapeId)) {
+						setSource(shapeId);
+					}
+				}
+			}
+		}
 	}
 }

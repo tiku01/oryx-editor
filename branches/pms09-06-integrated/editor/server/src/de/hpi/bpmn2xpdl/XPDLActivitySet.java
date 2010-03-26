@@ -2,6 +2,7 @@ package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +29,15 @@ public class XPDLActivitySet extends XPDLThing {
 				"Subprocess",
 				"CollapsedSubprocess"};
 		return Arrays.asList(types).contains(stencil);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getActivities() != null) {
+			getActivities().createAndDistributeMapping(mapping);
+		}
+		if (getTransitions() != null) {
+			getTransitions().createAndDistributeMapping(mapping);
+		}
 	}
 
 	public String getAdHoc() {
@@ -144,6 +154,7 @@ public class XPDLActivitySet extends XPDLThing {
 		initializeActivities();
 		
 		XPDLActivity nextActivity = new XPDLActivity();
+		nextActivity.setResourceIdToShape(getResourceIdToShape());
 		nextActivity.parse(modelElement);
 		getActivities().add(nextActivity);
 	}
@@ -152,6 +163,7 @@ public class XPDLActivitySet extends XPDLThing {
 		initializeTransitions();
 		
 		XPDLTransition nextTranistion = new XPDLTransition();
+		nextTranistion.setResourceIdToShape(getResourceIdToShape());
 		nextTranistion.parse(modelElement);
 		getTransitions().add(nextTranistion);
 	}

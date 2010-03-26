@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,15 @@ public class XPDLMessageFlows extends XMLConvertible {
 		initializeMessageFlows();
 		
 		getMessageFlows().add(newFlow);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getMessageFlows() != null) {
+			for (XPDLThing thing: getMessageFlows()) {
+				thing.setResourceIdToObject(mapping);
+				mapping.put(thing.getId(), thing);
+			}
+		}
 	}
 	
 	public ArrayList<XPDLMessageFlow> getMessageFlows() {

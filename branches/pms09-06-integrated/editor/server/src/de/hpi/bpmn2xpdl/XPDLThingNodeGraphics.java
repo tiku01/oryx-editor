@@ -1,5 +1,8 @@
 package de.hpi.bpmn2xpdl;
 
+import java.util.Map.Entry;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Element;
@@ -48,6 +51,38 @@ public abstract class XPDLThingNodeGraphics extends XPDLThing {
 		if (infos != null) {
 			infos.write(modelElement);
 		}
+	}
+	
+	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
+		JSONArray outgoing = new JSONArray();
+		if(getId()==null)
+			return;
+		
+		for (Entry<String, XPDLThing> entry : getResourceIdToObject().entrySet()) {
+			if (entry.getValue() instanceof XPDLTransition) {
+				XPDLTransition t= (XPDLTransition)entry.getValue();
+				if (getId().equals(t.getFrom())){
+					JSONObject j= new JSONObject();
+					j.put("resourceId", entry.getKey());
+					outgoing.put(j);
+				}
+			}else if(entry.getValue() instanceof XPDLMessageFlow) {
+				XPDLMessageFlow t= (XPDLMessageFlow)entry.getValue();
+				if (getId().equals(t.getSource())){
+					JSONObject j= new JSONObject();
+					j.put("resourceId", entry.getKey());
+					outgoing.put(j);
+				}
+			}else if(entry.getValue() instanceof XPDLAssociation) {
+				XPDLAssociation t= (XPDLAssociation)entry.getValue();
+				if (getId().equals(t.getSource())){
+					JSONObject j= new JSONObject();
+					j.put("resourceId", entry.getKey());
+					outgoing.put(j);
+				}
+			}
+		}
+		modelElement.put("outgoing", outgoing);
 	}
 	
 	protected XPDLNodeGraphicsInfo getFirstGraphicsInfo() {
