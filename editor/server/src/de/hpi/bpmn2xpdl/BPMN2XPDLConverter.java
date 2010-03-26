@@ -2,7 +2,9 @@ package de.hpi.bpmn2xpdl;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
@@ -14,9 +16,14 @@ public class BPMN2XPDLConverter {
 		return convertObject;
 	}
 
-	public String exportXPDL(String json) throws JSONException {		
+	public String exportXPDL(String json) throws JSONException {
+		JSONObject model = new JSONObject(json);
+		HashMap<String, JSONObject> mapping = new HashMap<String, JSONObject>();
+		constructResourceIdShapeMapping(model, mapping);
+		
 		XPDLPackage newPackage = new XPDLPackage();
-		newPackage.parse(new JSONObject(json));
+		newPackage.setResourceIdToShape(mapping);
+		newPackage.parse(model);
 		
 		StringWriter writer = new StringWriter();
 		
@@ -34,6 +41,7 @@ public class BPMN2XPDLConverter {
 		
 		Xmappr xmappr = new Xmappr(XPDLPackage.class);
 		XPDLPackage newPackage = (XPDLPackage) xmappr.fromXML(reader);
+		newPackage.createAndDistributeMapping();		
 		
 		JSONObject importObject = new JSONObject();
 		newPackage.write(importObject);
@@ -43,6 +51,21 @@ public class BPMN2XPDLConverter {
 
 	public void setConvertObject(XMLConvertible toConvert) {
 		convertObject = toConvert;
+	}
+	
+	private void constructResourceIdShapeMapping(JSONObject model, HashMap<String, JSONObject> mapping) {
+		JSONArray childShapes = model.optJSONArray("childShapes");
+		
+		if (childShapes != null) {
+			for (int i = 0; i < childShapes.length(); i++) {
+				JSONObject childShape = childShapes.optJSONObject(i);
+				if (childShape == null) {
+					continue;
+				}
+				mapping.put(childShape.optString("resourceId"), childShape);
+				constructResourceIdShapeMapping(childShape, mapping);
+			}
+		}
 	}
 	
 	private String filterXMLString(String xml) {

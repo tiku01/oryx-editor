@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +60,15 @@ public class XPDLLanes extends XMLConvertible {
 	protected void initializeLanes() {
 		if (getLanes() == null) {
 			setLanes(new ArrayList<XPDLLane>());
+		}
+	}
+
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getLanes() != null) {
+			for (XPDLThing thing : getLanes()) {
+				thing.setResourceIdToObject(mapping);
+				mapping.put(thing.getResourceId(), thing);
+			}
 		}
 	}
 }

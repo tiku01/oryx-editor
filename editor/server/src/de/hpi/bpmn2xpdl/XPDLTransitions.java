@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,15 @@ public class XPDLTransitions extends XMLConvertible {
 		initializeTransitions();
 		
 		getTransitions().add(newTransition);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getTransitions() != null) {
+			for (XPDLThing thing: getTransitions()) {
+				thing.setResourceIdToObject(mapping);
+				mapping.put(thing.getId(), thing);
+			}
+		}
 	}
 	
 	public ArrayList<XPDLTransition> getTransitions() {

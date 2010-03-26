@@ -1,7 +1,9 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -86,12 +88,16 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 		setQuantity(modelElement.optString("quantity"));
 	}
 	
+	public void readJSONresourceId(JSONObject modelElement) throws JSONException {
+		super.readJSONresourceId(modelElement);
+		findSourceId(getResourceId());
+	}
+	
 	public void readJSONshowdiamondmarker(JSONObject modelElement) {
 		createExtendedAttribute("showdiamondmarker", modelElement.optString("showdiamondmarker"));
 	}
 	
-	public void readJSONsource(JSONObject modelElement) {
-		setFrom(modelElement.optString("source"));	
+	public void readJSONsource(JSONObject modelElement) throws JSONException {	
 	}
 	
 	public void readJSONsourceref(JSONObject modelElement) {
@@ -131,6 +137,12 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 		}
 	}
 	
+	public void writeJSONgraphicsinfos(JSONObject modelElement) throws JSONException {
+		super.writeJSONgraphicsinfos(modelElement);
+		
+		convertFirstAndLastDockerToRelative(getTo(), getFrom(), modelElement);
+	}
+	
 	public void writeJSONquantity(JSONObject modelElement) throws JSONException {
 		putProperty(modelElement, "quantity", getQuantity());
 	}
@@ -139,9 +151,37 @@ public class XPDLTransition extends XPDLThingConnectorGraphics {
 		writeStencil(modelElement, "SequenceFlow");
 	}
 	
+	public void writeJSONtarget(JSONObject modelElement) throws JSONException {
+		JSONObject target = new JSONObject();
+		target.put("resourceId", getTo());
+		
+		modelElement.put("target", target);
+	}
+	@Override
+	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
+		super.writeJSONoutgoing(modelElement);
+		JSONArray outgoing = modelElement.optJSONArray("outgoing");
+		outgoing.put(resourceIdToJSONObject(getTo()));
+		
+	}
+	
 	protected void initializeCondition() {
 		if (getCondition() == null) {
 			setCondition(new XPDLCondition());
+		}
+	}
+	
+	private void findSourceId(String resourceId) throws JSONException{
+		for(Entry<String, JSONObject> entry: getResourceIdToShape().entrySet()){
+			JSONArray outgoings=entry.getValue().optJSONArray("outgoing");
+			if(outgoings!=null){
+				for(int i=0; i<outgoings.length();i++){
+					String shapeId = outgoings.getJSONObject(i).optString("resourceId");
+					if(resourceId.equals(shapeId)) {
+						setFrom(entry.getKey());
+					}
+				}
+			}
 		}
 	}
 }

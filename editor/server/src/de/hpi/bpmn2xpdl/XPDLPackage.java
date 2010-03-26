@@ -1,6 +1,9 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,30 @@ public class XPDLPackage extends XPDLThing {
 	
 	public XPDLPackage() {
 		setConformanceClass(new XPDLConformanceClass());
+	}
+	
+	public void createAndDistributeMapping() {
+		Map<String, XPDLThing> mapping = new HashMap<String, XPDLThing>();
+		
+		if (getArtifacts() != null) {
+			getArtifacts().createAndDistributeMapping(mapping);
+		}
+		if (getAssociations() != null) {
+			getAssociations().createAndDistributeMapping(mapping);
+		}
+		if (getMessageFlows() != null) {
+			getMessageFlows().createAndDistributeMapping(mapping);
+		}
+		if (getPools() != null) {
+			getPools().createAndDistributeMapping(mapping);
+		}
+		if (getWorkflowProcesses() != null) {
+			getWorkflowProcesses().createAndDistributeMapping(mapping);
+		}
+		
+		for (Entry<String, XPDLThing> x : mapping.entrySet()) {
+			System.out.println(x.getKey() + " " + x.getValue() + "\n");
+		}
 	}
 	
 	public XPDLArtifacts getArtifacts() {
@@ -419,6 +446,7 @@ public class XPDLPackage extends XPDLThing {
 		initializeArtifacts();
 		
 		XPDLArtifact nextArtifact = new XPDLArtifact();
+		nextArtifact.setResourceIdToShape(getResourceIdToShape());
 		nextArtifact.parse(modelElement);
 		getArtifacts().add(nextArtifact);
 	}
@@ -427,6 +455,7 @@ public class XPDLPackage extends XPDLThing {
 		initializeAssociations();
 		
 		XPDLAssociation nextAssociation = new XPDLAssociation();
+		nextAssociation.setResourceIdToShape(getResourceIdToShape());
 		nextAssociation.parse(modelElement);
 		getAssociations().add(nextAssociation);
 	}
@@ -435,6 +464,7 @@ public class XPDLPackage extends XPDLThing {
 		initializeMessageFlows();
 		
 		XPDLMessageFlow nextFlow = new XPDLMessageFlow();
+		nextFlow.setResourceIdToShape(getResourceIdToShape());
 		nextFlow.parse(modelElement);
 		getMessageFlows().add(nextFlow);
 	}
@@ -449,6 +479,7 @@ public class XPDLPackage extends XPDLThing {
 		initializePools();
 		
 		XPDLPool nextPool = new XPDLPool();
+		nextPool.setResourceIdToShape(getResourceIdToShape());
 		nextPool.setAccordingProcess(accordingProcess);
 		nextPool.parse(modelElement);
 		getPools().add(nextPool);
@@ -466,6 +497,7 @@ public class XPDLPackage extends XPDLThing {
 		childShapes.put("childShapes", childShapesArray);
 		
 		XPDLWorkflowProcess mainProcess = getMainPool().getAccordingProcess();
+		mainProcess.setResourceIdToShape(getResourceIdToShape());
 		mainProcess.parse(childShapes);
 	}
 	

@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +77,18 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	protected XPDLActivities  activities;
 	@Element("Transitions")
 	protected XPDLTransitions transitions;
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getActivities() != null) {
+			getActivities().createAndDistributeMapping(mapping);
+		}
+		if (getTransitions() != null) {
+			getTransitions().createAndDistributeMapping(mapping);
+		}
+		if (getActivitySets() != null) {
+			getActivitySets().createAndDistributeMapping(mapping);
+		}
+	}
 	
 	public XPDLActivities getActivities() {
 		return activities;
@@ -429,6 +442,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		initializeActivities();
 		
 		XPDLActivity nextActivity = new XPDLActivity();
+		nextActivity.setResourceIdToShape(getResourceIdToShape());
 		nextActivity.parse(modelElement);
 		getActivities().add(nextActivity);
 	}
@@ -436,6 +450,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 	protected void createActivitySet(JSONObject modelElement) throws JSONException {
 		initializeActivitySets();
 		XPDLActivitySet nextSet = new XPDLActivitySet();
+		nextSet.setResourceIdToShape(getResourceIdToShape());
 		
 		JSONObject properties = modelElement.optJSONObject("properties");
 		properties.put("resourceId", modelElement.optString("resourceId"));
@@ -457,6 +472,7 @@ public class XPDLWorkflowProcess extends XPDLThing {
 		initializeTransitions();
 		
 		XPDLTransition nextTranistion = new XPDLTransition();
+		nextTranistion.setResourceIdToShape(getResourceIdToShape());
 		nextTranistion.parse(modelElement);
 		getTransitions().add(nextTranistion);
 	}

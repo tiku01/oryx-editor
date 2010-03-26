@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,17 @@ public class XPDLPools extends XMLConvertible {
 		initializePools();
 		
 		getPools().add(newPool);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getPools() != null) {
+			for (XPDLPool pool: getPools()) {
+				pool.setResourceIdToObject(mapping);
+				String id=pool.getId();
+				mapping.put(id, pool);
+				pool.createAndDistributeMapping(mapping);
+			}
+		}
 	}
 	
 	public ArrayList<XPDLPool> getPools() {

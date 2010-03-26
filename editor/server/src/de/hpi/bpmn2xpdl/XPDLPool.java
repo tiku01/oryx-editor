@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -235,6 +236,7 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		initializeLanes();
 		
 		XPDLLane nextLane = new XPDLLane();
+		nextLane.setResourceIdToShape(getResourceIdToShape());
 		nextLane.parse(modelElement);
 		getLanes().add(nextLane);
 		
@@ -263,5 +265,11 @@ public class XPDLPool extends XPDLThingNodeGraphics {
 		passObject.put("childShapes", childShapes);
 		
 		getAccordingProcess().parse(passObject);
+	}
+
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getLanes() != null) {
+			getLanes().createAndDistributeMapping(mapping);
+		}
 	}
 }

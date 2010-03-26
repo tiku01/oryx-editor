@@ -1,6 +1,7 @@
 package de.hpi.bpmn2xpdl;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +18,14 @@ public class XPDLWorkflowProcesses extends XMLConvertible {
 		initializeWorkflowProcesses();
 		
 		getWorkflowProcesses().add(newProcess);
+	}
+	
+	public void createAndDistributeMapping(Map<String, XPDLThing> mapping) {
+		if (getWorkflowProcesses() != null) {
+			for (XPDLWorkflowProcess process: getWorkflowProcesses()) {
+				process.createAndDistributeMapping(mapping);
+			}
+		}
 	}
 	
 	public ArrayList<XPDLWorkflowProcess> getWorkflowProcesses() {
