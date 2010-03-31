@@ -112,7 +112,7 @@ public class XPDLAssociation extends XPDLThingConnectorGraphics {
 				for(int i=0; i<outgoings.length();i++){
 					String shapeId = outgoings.getJSONObject(i).optString("resourceId");
 					if(resourceId.equals(shapeId)) {
-						setSource(shapeId);
+						setSource(entry.getKey());
 					}
 				}
 			}
