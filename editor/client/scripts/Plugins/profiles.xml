@@ -103,5 +103,9 @@
 		
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
 	</profile>
+	<profile name="uml2.2" depends="default" stencilset="stencilsets/uml2.2/uml2.2.json">
+		
+		<plugin name="ORYX.Plugins.UML"/>
+	</profile>
 
 </profiles>

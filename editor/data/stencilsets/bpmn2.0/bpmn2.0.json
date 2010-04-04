@@ -1705,6 +1705,55 @@
 			]
 		},
 		{
+			"name":"process",
+			"properties":[
+				{
+					"id":"processtype",
+					"type":"Choice",
+					"title":"ProcessType",
+					"title_de":"Prozesstyp",
+					"value":"None",
+					"description":"The processType attribute Provides additional information about the level of abstraction modeled by this Process.",
+					"description_de":"Beschreibt den Abstraktionsgrad des beinhaltenden Prozesses.",
+					"readonly":false,
+					"optional":false,
+					"popular" : true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Executable",
+							"value":"Executable"
+						},
+						{
+							"id":"c3",
+							"title":"Non-Executable",
+							"value":"Non-Executable"
+						},
+						{
+							"id":"c4",
+							"title":"Public",
+							"value":"Public"
+						}
+					]
+				},
+				{
+					"id":"isclosed",
+					"type":"Boolean",
+					"title":"isClosed",
+					"title_de":"IstGeschlossen",
+					"value":false,
+					"description":"A Boolean value specifying whether interactions, such as sending and receiving Messages and Events, not modeled in the Process can occur when the Process is executed or performed. If the value is true, they MAY NOT occur. If the value is false, they MAY occur.",
+					"readonly":false,
+					"optional":false
+				},
+			]
+		},
+		{
 			"name" : "pool",
 			"properties" : [
 				{
@@ -1720,29 +1769,6 @@
 					"refToView" : "multiInstance"
 				},
 				{
-					"id":"participantref",
-					"type":"String",
-					"title":"ParticipantRef",
-					"title_de":"Teilnehmer-Referenz",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":"50",
-					"wrapLines":true
-				},
-				{
-					"id":"lanes",
-					"type":"String",
-					"title":"Lanes",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"length":"50",
-					"wrapLines":true
-				},
-				{
 					"id":"boundaryvisible",
 					"type":"Boolean",
 					"title":"BoundaryVisible",
@@ -1756,28 +1782,6 @@
 					"visible":false
 				},
 				{
-					"id":"mainpool",
-					"type":"Boolean",
-					"title":"is main pool",
-					"title_de":"ist Hauptpool",
-					"value":false,
-					"description":"Defines if the current Pool is the main Pool of the diagram.",
-					"description_de":"Gibt an, ob der Pool Hauptpool des Diagramms ist.",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"processref",
-					"type":"String",
-					"title":"ProcessRef",
-					"title_de":"Prozess-Referenz",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":"30"
-				},
-				{
 					"id":"processname",
 					"type":"String",
 					"title":"ProcessName",
@@ -1788,43 +1792,6 @@
 					"optional":false,
 					"refToView":"",
 					"length":"30"
-				},
-				{
-					"id":"processtype",
-					"type":"Choice",
-					"title":"ProcessType",
-					"title_de":"Prozesstyp",
-					"value":"None",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"popular" : true,
-					"items": [
-						{
-							"id":"c1",
-							"title":"None",
-							"title_de":"Keiner",
-							"value":"None"
-						},
-						{
-							"id":"c2",
-							"title":"Private",
-							"title_de":"Privat",
-							"value":"Private"
-						},
-						{
-							"id":"c3",
-							"title":"Abstract",
-							"title_de":"Abstrakt",
-							"value":"Abstract"
-						},
-						{
-							"id":"c4",
-							"title":"Collaboration",
-							"title_de":"Kollaboration",
-							"value":"Collaboration"
-						}
-					]
 				},
 				{
 					"id":"status",
@@ -2800,6 +2767,7 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"pool",
+				"process",
 				"bgColor"
 			],
 			"roles" : 			[
@@ -2825,6 +2793,7 @@
 			"propertyPackages": [
 				"baseAttributes",
 				"pool",
+				"process",
 				"bgColor"
 			],
 			"properties" : 		[

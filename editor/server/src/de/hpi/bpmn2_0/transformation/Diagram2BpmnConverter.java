@@ -84,11 +84,11 @@ import de.hpi.bpmn2_0.model.event.CompensateEventDefinition;
 import de.hpi.bpmn2_0.model.event.Event;
 import de.hpi.bpmn2_0.model.gateway.Gateway;
 import de.hpi.bpmn2_0.model.gateway.GatewayWithDefaultFlow;
+import de.hpi.bpmn2_0.model.misc.ProcessType;
 import de.hpi.bpmn2_0.model.participant.Lane;
 import de.hpi.bpmn2_0.model.participant.LaneSet;
 import de.hpi.bpmn2_0.model.participant.Participant;
 import de.hpi.diagram.OryxUUID;
-import de.hpi.util.reflection.ClassFinder;
 
 /**
  * Converter class for Diagram to BPMN 2.0 transformation.
@@ -642,10 +642,24 @@ public class Diagram2BpmnConverter {
 		/* Handle pools, current solution: only one process per pool */
 		for (BPMNElement element : this.diagramChilds) {
 			if (element.getNode() instanceof LaneSet) {
+				LaneSet laneSet = (LaneSet) element.getNode();
+				
 				Process process = new Process();
 				process.setId(OryxUUID.generate());
-				process.getLaneSet().add((LaneSet) element.getNode());
-				((LaneSet) element.getNode()).setProcess(process);
+				
+				/* Process attributes derived from lane set */
+				if(laneSet._isClosed != null && laneSet._isClosed.equalsIgnoreCase("true"))
+					process.setIsClosed(true);
+				else 
+					process.setIsClosed(false);
+				
+				if(laneSet._processType != null) {
+					process.setProcessType(ProcessType.fromValue(laneSet._processType));
+				}
+				
+				
+				process.getLaneSet().add(laneSet);
+				laneSet.setProcess(process);
 
 				process.getFlowElement().addAll(
 						((LaneSet) element.getNode()).getChildFlowElements());
