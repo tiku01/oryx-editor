@@ -49,6 +49,7 @@ import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
 import de.hpi.bpmn2_0.model.activity.Activity;
 import de.hpi.bpmn2_0.model.activity.SubProcess;
+import de.hpi.bpmn2_0.model.activity.Task;
 import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
 import de.hpi.bpmn2_0.model.connector.Association;
@@ -596,6 +597,32 @@ public class Diagram2BpmnConverter {
 			}
 		}
 	}
+	
+	/**
+	 * @return All {@link Activity} contained in the diagram.
+	 */
+	private List<Activity> getAllActivities() {
+		ArrayList<Activity> activities = new ArrayList<Activity>();
+		for(BPMNElement element : this.bpmnElements.values()) {
+			if(element.getNode() instanceof Activity)
+				activities.add((Activity) element.getNode());
+		}
+		
+		return activities;
+	}
+	
+	/**
+	 * @return All {@link Task} contained in the diagram.
+	 */
+	private List<Task> getAllTasks() {
+		ArrayList<Task> activities = new ArrayList<Task>();
+		for(BPMNElement element : this.bpmnElements.values()) {
+			if(element.getNode() instanceof Activity)
+				activities.add((Task) element.getNode());
+		}
+		
+		return activities;
+	}
 
 	/**
 	 * Identifies sets of nodes, connected through SequenceFlows.
@@ -1126,6 +1153,14 @@ public class Diagram2BpmnConverter {
 		if (typeLanguage != null && !typeLanguage.isEmpty())
 			this.definitions.setTypeLanguage(typeLanguage);
 	}
+	
+	/**
+	 * Method to create input output specification based on data inputs and outputs. 
+	 */
+	private void setIOSpecification() {
+		for(Task t : this.getAllTasks()) 
+			t.determineIoSpecification();
+	}
 
 	/**
 	 * Retrieves a BPMN 2.0 diagram and transforms it into the BPMN 2.0 model.
@@ -1154,7 +1189,11 @@ public class Diagram2BpmnConverter {
 		this.detectBoundaryEvents();
 		this.detectConnectors();
 		this.setInitiatingParticipant();
+		
+		/* Section to handle data concerning aspects */
 		this.updateDataAssociationsRefs();
+		this.setIOSpecification();
+		
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 		this.setCompensationEventActivityRef();
 		this.setConversationParticipants();
