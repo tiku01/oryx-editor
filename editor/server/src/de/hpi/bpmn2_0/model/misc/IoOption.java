@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009
+ * Copyright (c) 2010
  * Philipp Giese, Sven Wagner-Boysen
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,52 +21,46 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.diagram.OryxUUID;
-
+package de.hpi.bpmn2_0.model.misc;
 
 /**
- * <p>Java class for tExpression complex type.
+ * @author Sven Wagner-Boysen
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ * Describes whether an data operation is optional or while executing. Only used 
+ * in an intermediate processing step!
+ *
  */
-@XmlRootElement(/*name = "conditionExpression"*/)
-@XmlSeeAlso({
-	FormalExpression.class
-})
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
+public class IoOption {
+	private boolean optional;
+	private boolean whileExecuting;
+	
+	
+	/* Getter & Setter */
+	
 	/**
-	 * Default no-arg constructor
+	 * @return the optional
 	 */
-	public Expression() {
-		
+	public boolean isOptional() {
+		return optional;
+	}
+	/**
+	 * @param optional the optional to set
+	 */
+	public void setOptional(boolean optional) {
+		this.optional = optional;
+	}
+	/**
+	 * @return the whileExecuting
+	 */
+	public boolean isWhileExecuting() {
+		return whileExecuting;
+	}
+	/**
+	 * @param whileExecuting the whileExecuting to set
+	 */
+	public void setWhileExecuting(boolean whileExecuting) {
+		this.whileExecuting = whileExecuting;
 	}
 	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
-
+	
 }

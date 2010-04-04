@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2009
- * Philipp Giese, Sven Wagner-Boysen
+ * Copyright (c) 20010
+ * Sven Wagner-Boysen
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,35 +21,25 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.activity;
+package de.hpi.bpmn2_0.model.event;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import org.oryxeditor.server.diagram.Shape;
-import org.oryxeditor.server.diagram.StencilType;
-
-import de.hpi.bpmn2_0.model.activity.type.BusinessRuleTask;
-import de.hpi.bpmn2_0.model.activity.type.ManualTask;
-import de.hpi.bpmn2_0.model.activity.type.ReceiveTask;
-import de.hpi.bpmn2_0.model.activity.type.ScriptTask;
-import de.hpi.bpmn2_0.model.activity.type.SendTask;
-import de.hpi.bpmn2_0.model.activity.type.ServiceTask;
-import de.hpi.bpmn2_0.model.activity.type.UserTask;
-
-
 /**
- * <p>Java class for tTask complex type.
+ * <p>
+ * Java class for tImplicitThrowEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tTask">
+ * &lt;complexType name="tImplicitThrowEvent">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tActivity">
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tThrowEvent">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -59,26 +49,24 @@ import de.hpi.bpmn2_0.model.activity.type.UserTask;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTask")
-@XmlSeeAlso({
-    ManualTask.class,
-    ServiceTask.class,
-    ScriptTask.class,
-    ReceiveTask.class,
-    BusinessRuleTask.class,
-    SendTask.class,
-    UserTask.class
-})
-public class Task
-    extends Activity
-{
+@XmlType(name = "tImplicitThrowEvent")
+public class ImplicitThrowEvent extends ThrowEvent {
 	/**
-	 * Transforming a task to its JSON-based shape representation.
+	 * Default constructor
 	 */
-	public void toShape(Shape shape) {
-    	super.toShape(shape);
-    	
-    	shape.setStencil(new StencilType("Task"));
-    }
+	public ImplicitThrowEvent() {
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param eventIdentifier
+	 *            String to identify the appropriate {@link EventDefinition}
+	 */
+	public ImplicitThrowEvent(String eventIdentifier) {
+		this.getEventDefinition().add(
+				EventDefinition.createEventDefinition(eventIdentifier));
+	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009
+ * Copyright (c) 2010
  * Philipp Giese, Sven Wagner-Boysen
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,52 +21,51 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model;
+package de.hpi.bpmn2_0.model.misc;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
-
-import de.hpi.diagram.OryxUUID;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for tExpression complex type.
+ * <p>Java class for tItemKind.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
- * &lt;complexType name="tExpression">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tBaseElementWithMixedContent">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;simpleType name="tItemKind">
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     &lt;enumeration value="Information"/>
+ *     &lt;enumeration value="Physical"/>
+ *   &lt;/restriction>
+ * &lt;/simpleType>
  * </pre>
  * 
- * 
  */
-@XmlRootElement(/*name = "conditionExpression"*/)
-@XmlSeeAlso({
-	FormalExpression.class
-})
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExpression")
-public class Expression
-    extends BaseElement
-{	
-	/**
-	 * Default no-arg constructor
-	 */
-	public Expression() {
-		
-	}
-	
-	public Expression(String text) {
-		this.getDocumentation().add(new Documentation(text));
-		this.setId(OryxUUID.generate());
-	}
+@XmlEnum
+public enum ItemKind {
+
+    @XmlEnumValue("Information")
+    INFORMATION("Information"),
+    @XmlEnumValue("Physical")
+    PHYSICAL("Physical");
+    private final String value;
+
+    ItemKind(String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    public static ItemKind fromValue(String v) {
+        for (ItemKind c: ItemKind.values()) {
+            if (c.value.equalsIgnoreCase(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
 
 }

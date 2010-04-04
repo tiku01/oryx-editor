@@ -116,6 +116,7 @@ public class SubprocessFactory extends AbstractActivityFactory {
 		Activity subprocess = null;
 		try {
 			subprocess = (Activity) this.invokeCreatorMethodAfterProperty(shape);
+			this.createLoopCharacteristics(subprocess, shape);
 		} catch (Exception e) {
 //			throw new BpmnConverterException("Error creating subprocess elements.", e);
 		} 
