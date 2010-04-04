@@ -306,6 +306,10 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>	
 		</plugin>
 		
+		<plugin source="uml.js" name="ORYX.Plugins.UML">
+			<requires namespace="http://b3mn.org/stencilset/UML2.2Class#"/>	
+		</plugin>
+		
 		<!-- only enable autolayouter if ruby is active -->
 		<!--<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />-->
 		
