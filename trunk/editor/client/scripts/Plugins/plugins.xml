@@ -47,6 +47,10 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>	
 		</plugin>
 		
+		<!-- Colored Petri Nets -->		
+		<plugin source="cpntoolsSupport.js" name="ORYX.Plugins.CPNToolsSupport" >
+			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
+		</plugin> 
 		
 		<!-- following plugins don't require Ext -->
 		<plugin source="arrangement.js" name="ORYX.Plugins.Arrangement">
@@ -326,6 +330,8 @@
 		</plugin>
 		
 		<!-- <plugin source="stencilsetmanipulator.js" name="ORYX.Plugins.StencilSetManipulator" /> -->
+		
+		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 
 	</plugins>
 	
