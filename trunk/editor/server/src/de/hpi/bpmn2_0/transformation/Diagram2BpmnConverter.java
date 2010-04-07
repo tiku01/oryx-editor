@@ -617,7 +617,7 @@ public class Diagram2BpmnConverter {
 	private List<Task> getAllTasks() {
 		ArrayList<Task> activities = new ArrayList<Task>();
 		for(BPMNElement element : this.bpmnElements.values()) {
-			if(element.getNode() instanceof Activity)
+			if(element.getNode() instanceof Task)
 				activities.add((Task) element.getNode());
 		}
 		
