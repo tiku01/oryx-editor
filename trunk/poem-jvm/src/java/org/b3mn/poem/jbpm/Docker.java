@@ -1,4 +1,4 @@
-package org.b3mn.poem.jbpm;
+package de.hpi.jbpm;
 
 import org.json.JSONException;
 import org.json.JSONObject;
