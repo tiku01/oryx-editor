@@ -1,4 +1,4 @@
-package de.hpi.jbpm;
+package org.b3mn.poem.jbpm;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ public class Process {
 	private String key;
 	private String version;
 	private String description;
-	private List<de.hpi.jbpm.Node> childNodes;
-	private HashMap<String, de.hpi.jbpm.Node> children;
+	private List<org.b3mn.poem.jbpm.Node> childNodes;
+	private HashMap<String, org.b3mn.poem.jbpm.Node> children;
 	private Node root;
 
 	public Process(Node rootNode) {
 		this.root = rootNode;
-		childNodes = new ArrayList<de.hpi.jbpm.Node>();
-		children = new HashMap<String, de.hpi.jbpm.Node>();
+		childNodes = new ArrayList<org.b3mn.poem.jbpm.Node>();
+		children = new HashMap<String, org.b3mn.poem.jbpm.Node>();
 
 		NamedNodeMap attributes = root.getAttributes();
 		this.name = JpdlToJson.getAttribute(attributes, "name");
@@ -39,7 +39,7 @@ public class Process {
 						.getNextSibling()) {
 
 					String stencil = node.getNodeName();
-					de.hpi.jbpm.Node item = null;
+					org.b3mn.poem.jbpm.Node item = null;
 					if (stencil.equals("start"))
 						item = new StartEvent(node);
 					else if (stencil.equals("end"))
@@ -107,7 +107,7 @@ public class Process {
 		} catch (JSONException e) {
 		}
 
-		childNodes = new ArrayList<de.hpi.jbpm.Node>();
+		childNodes = new ArrayList<org.b3mn.poem.jbpm.Node>();
 
 		try {
 			JSONArray processElements = process.getJSONArray("childShapes");
@@ -117,7 +117,7 @@ public class Process {
 				JSONObject currentElement = processElements.getJSONObject(i);
 				String currentElementID = currentElement.getJSONObject(
 						"stencil").getString("id");
-				de.hpi.jbpm.Node item = null;
+				org.b3mn.poem.jbpm.Node item = null;
 				if (currentElementID.equals("StartEvent"))
 					item = new StartEvent(currentElement);
 				else if (currentElementID.equals("EndEvent"))
@@ -176,7 +176,7 @@ public class Process {
 		for (Node node = root.getFirstChild(); node != null; node = node
 				.getNextSibling()) {
 			if (!node.getNodeName().equals("#text")) {
-				de.hpi.jbpm.Node currentStencil;
+				org.b3mn.poem.jbpm.Node currentStencil;
 				try {
 					String currentStencilName = node.getAttributes()
 							.getNamedItem("name").getNodeValue();
@@ -231,7 +231,7 @@ public class Process {
 		JSONArray childShapes = new JSONArray();
 
 		// add all childShapes
-		for (de.hpi.jbpm.Node n : childNodes) {
+		for (org.b3mn.poem.jbpm.Node n : childNodes) {
 			childShapes.put(n.toJson());
 			for (Transition t : n.getOutgoings())
 				childShapes.put(t.toJson());
@@ -241,7 +241,7 @@ public class Process {
 		return process.toString();
 	}
 
-	public de.hpi.jbpm.Node getTarget(String targetName) {
+	public org.b3mn.poem.jbpm.Node getTarget(String targetName) {
 		return children.get(targetName);
 	}
 }

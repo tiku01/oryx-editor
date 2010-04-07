@@ -1,4 +1,4 @@
-package de.hpi.jbpm;
+package org.b3mn.poem.jbpm;
 
 public class InvalidModelException extends Exception {
 
