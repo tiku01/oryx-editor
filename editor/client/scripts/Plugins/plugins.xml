@@ -26,7 +26,10 @@
 		</plugin>	
 		
 		<plugin source="jpdlSupport.js" name="ORYX.Plugins.JPDLSupport">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<!-- plugin loads dynamically the needed extension 
+				<requires namespace="http://oryx-editor.org/stencilsets/extensions/jbpm#"/>
+			-->
 		</plugin>	
 
 		<!-- User Interface Aggregation -->
@@ -82,7 +85,7 @@
 		<plugin source="overlay.js" name="ORYX.Plugins.Overlay" />		
 		<plugin source="edit.js" name="ORYX.Plugins.Edit" />
 		<plugin source="keysMove.js" name="ORYX.Plugins.KeysMove" />
-		<!--plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" /-->
+		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 
 		<!-- plugin for PNML export and deployment -->
 		<plugin source="pnmlexport.js" name="ORYX.Plugins.Pnmlexport">
