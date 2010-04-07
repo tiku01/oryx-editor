@@ -1,4 +1,4 @@
-package org.b3mn.poem.jbpm;
+package de.hpi.jbpm;
 
 import java.io.StringWriter;
 import java.util.UUID;
