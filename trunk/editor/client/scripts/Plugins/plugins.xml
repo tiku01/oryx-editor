@@ -82,7 +82,7 @@
 		<plugin source="overlay.js" name="ORYX.Plugins.Overlay" />		
 		<plugin source="edit.js" name="ORYX.Plugins.Edit" />
 		<plugin source="keysMove.js" name="ORYX.Plugins.KeysMove" />
-		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
+		<!--plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" /-->
 
 		<!-- plugin for PNML export and deployment -->
 		<plugin source="pnmlexport.js" name="ORYX.Plugins.Pnmlexport">
