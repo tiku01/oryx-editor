@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009
+ * Copyright (c) 2010
  * Philipp Giese, Sven Wagner-Boysen
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,30 +21,26 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.activity.type;
+package de.hpi.bpmn2_0.model.misc;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.namespace.QName;
 
-import de.hpi.bpmn2_0.model.activity.Task;
-import de.hpi.bpmn2_0.model.activity.misc.ServiceImplementation;
+import de.hpi.bpmn2_0.model.RootElement;
 
 
 /**
- * <p>Java class for tServiceTask complex type.
+ * <p>Java class for tError complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tServiceTask">
+ * &lt;complexType name="tError">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.omg.org/bpmn20}tTask">
- *       &lt;attribute name="messageRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
- *       &lt;attribute name="operationRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
+ *     &lt;extension base="{http://www.omg.org/bpmn20}tRootElement">
+ *       &lt;attribute name="structureRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -52,57 +48,37 @@ import de.hpi.bpmn2_0.model.activity.misc.ServiceImplementation;
  * 
  * 
  */
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tServiceTask")
-public class ServiceTask
-    extends Task
+@XmlType(name = "tError")
+public class Error
+    extends RootElement
 {
 
-    @XmlAttribute
-    protected ServiceImplementation implementation;
-	
-    @XmlAttribute
-    protected QName operationRef;
-
-	/* Getter & Setter */
-	
-	/**
-	 * @return the implementation
-	 */
-	public ServiceImplementation getImplementation() {
-		return implementation;
-	}
-	
-	/**
-	 * @param implementation the implementation to set
-	 */
-	public void setImplementation(ServiceImplementation implementation) {
-		this.implementation = implementation;
-	}
+    @XmlElement
+    protected ItemDefinition structureRef;
 
     /**
-     * Gets the value of the operationRef property.
+     * Gets the value of the structureRef property.
      * 
      * @return
      *     possible object is
-     *     {@link QName }
+     *     {@link ItemDefinition }
      *     
      */
-    public QName getOperationRef() {
-        return operationRef;
+    public ItemDefinition getStructureRef() {
+        return structureRef;
     }
 
     /**
-     * Sets the value of the operationRef property.
+     * Sets the value of the structureRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link QName }
+     *     {@link ItemDefinition }
      *     
      */
-    public void setOperationRef(QName value) {
-        this.operationRef = value;
+    public void setStructureRef(ItemDefinition value) {
+        this.structureRef = value;
     }
 
 }

@@ -21,30 +21,30 @@
  * SOFTWARE.
  */
 
-package de.hpi.bpmn2_0.model.data_object;
+
+package de.hpi.bpmn2_0.model.misc;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.hpi.bpmn2_0.model.FlowNode;
-import de.hpi.bpmn2_0.model.misc.ItemDefinition;
+import de.hpi.bpmn2_0.model.RootElement;
 
 
 /**
- * <p>Java class for tMessage complex type.
+ * <p>Java class for tItemDefinition complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tMessage">
+ * &lt;complexType name="tItemDefinition">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.omg.org/bpmn20}tRootElement">
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="structureRef" type="{http://www.w3.org/2001/XMLSchema}QName" />
+ *       &lt;attribute name="isCollection" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *       &lt;attribute name="itemKind" type="{http://www.omg.org/bpmn20}tItemKind" default="Information" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -52,59 +52,29 @@ import de.hpi.bpmn2_0.model.misc.ItemDefinition;
  * 
  * 
  */
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tMessage")
-public class Message
-    extends FlowNode
+@XmlType(name = "tItemDefinition")
+public class ItemDefinition
+    extends RootElement
 {
 
+    @XmlElement
+    protected String structure;
     @XmlAttribute
-    protected String name;
-    
+    protected Boolean isCollection;
     @XmlAttribute
-    @XmlIDREF
-    protected ItemDefinition structureRef;
-    
-    @XmlAttribute
-    private boolean isInitiating;
-    
-    /* Getter & Setter */
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+    protected ItemKind itemKind;
 
     /**
      * Gets the value of the structureRef property.
      * 
      * @return
      *     possible object is
-     *     {@link ItemDefinition }
+     *     {@link String }
      *     
      */
-    public ItemDefinition getStructureRef() {
-        return structureRef;
+    public String getStructure() {
+        return structure;
     }
 
     /**
@@ -112,25 +82,67 @@ public class Message
      * 
      * @param value
      *     allowed object is
-     *     {@link ItemDefinition }
+     *     {@link String }
      *     
      */
-    public void setStructureRef(ItemDefinition value) {
-        this.structureRef = value;
+    public void setStructure(String value) {
+        this.structure = value;
     }
 
-	/**
-	 * @return the isInitiating
-	 */
-	public boolean isInitiating() {
-		return isInitiating;
-	}
+    /**
+     * Gets the value of the isCollection property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public boolean isIsCollection() {
+        if (isCollection == null) {
+            return false;
+        } else {
+            return isCollection;
+        }
+    }
 
-	/**
-	 * @param isInitiating the isInitiating to set
-	 */
-	public void setInitiating(boolean isInitiating) {
-		this.isInitiating = isInitiating;
-	}
+    /**
+     * Sets the value of the isCollection property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setIsCollection(Boolean value) {
+        this.isCollection = value;
+    }
+
+    /**
+     * Gets the value of the itemKind property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ItemKind }
+     *     
+     */
+    public ItemKind getItemKind() {
+        if (itemKind == null) {
+            return ItemKind.INFORMATION;
+        } else {
+            return itemKind;
+        }
+    }
+
+    /**
+     * Sets the value of the itemKind property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TItemKind }
+     *     
+     */
+    public void setItemKind(ItemKind value) {
+        this.itemKind = value;
+    }
 
 }

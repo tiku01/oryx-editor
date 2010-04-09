@@ -1359,30 +1359,6 @@
 					]
 				},
 				{
-					"id":"inmessage",
-					"type":"String",
-					"title":"InMessage",
-					"title_de":"Eingangsnachricht",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
-				},
-				{
-					"id":"outmessage",
-					"type":"String",
-					"title":"OutMessage",
-					"title_de":"Ausgangsnachricht",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
-				},
-				{
 					"id":"implementation",
 					"type":"Choice",
 					"title":"Implementation",
@@ -1520,11 +1496,10 @@
 					"title":"OperationRef",
 					"title_de":"Operations-Referenz",
 					"value":"",
-					"description":"",
+					"description":"ID-Reference to an operation definition.",
+					"description_de":"ID-Referenz zur Definition einer Operation.",
 					"readonly":false,
-					"optional":false,
-					"refToView":"",
-					"length":"50"
+					"optional":true
 				},
 				{
 					"id":"instantiate",
@@ -2233,8 +2208,7 @@
 				"task",
 				"loopcharacteristics",
 				"properties",
-				"iospecification",
-				"operation"
+				"iospecification"
 			],
 			"roles" : 			[
 				"all",
