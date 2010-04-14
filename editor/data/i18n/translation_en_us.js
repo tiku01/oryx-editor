@@ -823,6 +823,7 @@ ORYX.I18N.cpntoolsSupport.importLable = "Import";
 ORYX.I18N.cpntoolsSupport.close = "Close";
 ORYX.I18N.cpntoolsSupport.wrongCPNFile = "Not chosen correct CPN - File.";
 ORYX.I18N.cpntoolsSupport.noPageSelection = "No page has been selected.";
+ORYX.I18N.cpntoolsSupport.group = "Export";
 ORYX.I18N.cpntoolsSupport.importProgress = "Importing ...";
 ORYX.I18N.cpntoolsSupport.exportProgress = "Exporting ...";
 ORYX.I18N.cpntoolsSupport.exportDescription = "Export to CPN Tools";
