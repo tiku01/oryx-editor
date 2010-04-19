@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
+import com.hp.hpl.jena.graph.Factory;
+
 import de.hpi.bpmn2_0.annotations.SSetExtension;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
@@ -194,12 +196,24 @@ public class Diagram2BpmnConverter {
 				if (factory == null)
 					factory = factoryClass;
 				else {
+					/* Prefer the general factory class if the necessary stencil
+					 * set extension of the specialized factory class is not loaded
+					 * in the diagram. */
+					SSetExtension oldSSetExtension = factory.getAnnotation(SSetExtension.class);
+					if(oldSSetExtension != null) {
+						if(!this.diagram.getSsextensions().containsAll(Arrays.asList(oldSSetExtension.value()))) {
+							factory = factoryClass;
+							continue;
+						}
+					}
+					
 					/*
 					 * Check if there is a specialized factory for an loaded
 					 * extension
 					 */
 					SSetExtension ssetExtension = factoryClass
-							.getAnnotation(SSetExtension.class);
+					.getAnnotation(SSetExtension.class);
+					
 					if (ssetExtension == null)
 						continue;
 					if (this.diagram.getSsextensions().containsAll(
