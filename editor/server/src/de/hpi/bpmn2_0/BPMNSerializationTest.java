@@ -144,7 +144,7 @@ public class BPMNSerializationTest {
       	
       	
         
-      	File directory = new File("build/editor/classes/" + path);
+      	File directory = new File("bin/" + path);
       	directory.getAbsolutePath();
 
         ArrayList<Class<? extends T>> classes = new ArrayList<Class<? extends T>>();
