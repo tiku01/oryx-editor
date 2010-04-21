@@ -1059,7 +1059,6 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			pbdCon.property2nsprefixOfPropMap = groundAnaly.property2nsprefixOfPropMap; 
 
 			//PBD conversion
-			pbdCon.setCurrentDocument(docPBD);
 			pbdCon.convertPBD(docPBD);
 			String processName = ((Element)docPBD.getFirstChild()).getAttribute("name");
 
