@@ -26,19 +26,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.oryxeditor.bpel4chor.BPEL4Chor2BPELGroundingAnalyze;
+import org.oryxeditor.bpel4chor.BPEL4Chor2BPELPBDConversion;
+import org.oryxeditor.bpel4chor.BPEL4Chor2BPELTopologyAnalyze;
+import org.oryxeditor.bpel4chor.BPEL4Chor2BPELWSDLCreate;
+import org.oryxeditor.bpel4chor.BPELExportPostprocessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-/**
- * Import the transformation for BPEL4Chor to BPEL 
- */
-import org.oryxeditor.bpel4chor.BPEL4Chor2BPELTopologyAnalyze;
-import org.oryxeditor.bpel4chor.BPEL4Chor2BPELGroundingAnalyze;
-import org.oryxeditor.bpel4chor.BPEL4Chor2BPELPBDConversion;
-import org.oryxeditor.bpel4chor.BPEL4Chor2BPELWSDLCreate;
-import org.oryxeditor.bpel4chor.BPELExportPostprocessor;
 
 /**
  * Copyright (c) 2010 
@@ -1063,8 +1059,8 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			pbdCon.property2nsprefixOfPropMap = groundAnaly.property2nsprefixOfPropMap; 
 
 			//PBD conversion
-			pbdCon.currentDocument = docPBD;
-			pbdCon.convertPBD((Element)docPBD.getFirstChild());
+			pbdCon.setCurrentDocument(docPBD);
+			pbdCon.convertPBD(docPBD);
 			String processName = ((Element)docPBD.getFirstChild()).getAttribute("name");
 
 			//output of the converted PBD

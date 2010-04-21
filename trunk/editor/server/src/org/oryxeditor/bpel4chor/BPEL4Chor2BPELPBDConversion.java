@@ -213,14 +213,14 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			if(partnerLinkSet != null){
 				// There are partner links to be declared
 				//System.out.println(partnerLinkSet.iterator().next().getName());
-				partnerLinks = currentDocument.createElement("partnerLinks");
+				partnerLinks = getCurrentDocument().createElement("partnerLinks");
 				currentElement.appendChild(partnerLinks);					// adding a <partnerLinks> declaration
 				//System.out.println("partnerLinks is: " + partnerLinks.getTagName());
 				Iterator<PartnerLink> it = partnerLinkSet.iterator();
 				while(it.hasNext()){
 					pl = (PartnerLink)it.next();
 					// create a new partner link declaration for pl
-					partnerLink = currentDocument.createElement("partnerLink");
+					partnerLink = getCurrentDocument().createElement("partnerLink");
 					partnerLink.setAttribute("name", pl.getName());
 					s = ftypePL(pl);
 					partnerLink.setAttribute("partnerLinkType", "plt:" + s);	// "plt" is the name space prefix of the name space of
@@ -452,8 +452,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		// <scope> activity nested in the <forEach> activity, and the input id is its wsu:id
 		String fe;																// name of <Scope> inherits of QName
 		String set;																// name of <Participant> inherits of NCName
-		Element startCounter = currentDocument.createElement("startCounterValue");	// the <startCounterValue>
-		Element finalCounter = currentDocument.createElement("finalCounterValue");  // the <finalCounterValue>
+		Element startCounter = getCurrentDocument().createElement("startCounterValue");	// the <startCounterValue>
+		Element finalCounter = getCurrentDocument().createElement("finalCounterValue");  // the <finalCounterValue>
 		Element completionCondition = getChildElement(forEach, "completionCondition");// the optional <completionCondition>
 																					// construct of the current <forEach>
 		fe = buildQName(process_nsprefix, id);
@@ -523,12 +523,12 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			}
 		}
 
-		Element sequence = currentDocument.createElement("sequence");				// the new <sequence> activity
-		Element assign   = currentDocument.createElement("assign");					// the new <assign> activity
-		Element copy	 = currentDocument.createElement("copy");					// the new <copy> activity
-		Element from	 = currentDocument.createElement("from");					// the new <from> activity
-		Element query	 = currentDocument.createElement("query");					// the new <query> activity
-		Element to		 = currentDocument.createElement("to");						// the new <to> activity
+		Element sequence = getCurrentDocument().createElement("sequence");				// the new <sequence> activity
+		Element assign   = getCurrentDocument().createElement("assign");					// the new <assign> activity
+		Element copy	 = getCurrentDocument().createElement("copy");					// the new <copy> activity
+		Element from	 = getCurrentDocument().createElement("from");					// the new <from> activity
+		Element query	 = getCurrentDocument().createElement("query");					// the new <query> activity
+		Element to		 = getCurrentDocument().createElement("to");						// the new <to> activity
 		
 		fEScope.removeChild(nestedActivity);										// remove the nested activity
 		from.setAttribute("variable", set);											// specify the <copy> construct
@@ -566,7 +566,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			// add a <variables> declaration
 			//System.out.println(getChildElement(construct, "variables"));
 			if((getChildElement(construct, "variables")) == null){
-				variables = currentDocument.createElement("variables");
+				variables = getCurrentDocument().createElement("variables");
 				construct.appendChild(variables);
 			}
 			// variables becomes the <variables> declaration
@@ -578,7 +578,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 				paSetElement = it.next();
 				if(paSetList.contains(paSetElement)){
 					// variable becomes a new <variable> declaration
-					variable = currentDocument.createElement("variable");
+					variable = getCurrentDocument().createElement("variable");
 					// add a name and a type attribute to the <variable> declaration
 					variable.setAttribute("name", paSetElement);
 					variable.setAttribute("type", "srefs:service-refs");
@@ -889,6 +889,14 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	 */
 	private static String buildQName(String prefix, String NCName){
 		return prefix + ":" + NCName;
+	}
+
+	public void setCurrentDocument(Document currentDocument) {
+		this.currentDocument = currentDocument;
+	}
+
+	public Document getCurrentDocument() {
+		return currentDocument;
 	}
 
 }
