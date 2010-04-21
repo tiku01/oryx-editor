@@ -134,6 +134,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	 * @param {Element} currentElement     The current element
 	 */
 	public void convertPBD(Document docPBD){
+		this.setCurrentDocument(docPBD);
 		Element currentElement = (Element)docPBD.getFirstChild();
 		if(!(currentElement.getNodeName().equals("process"))){
 			return;
@@ -891,11 +892,11 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		return prefix + ":" + NCName;
 	}
 
-	public void setCurrentDocument(Document currentDocument) {
+	private void setCurrentDocument(Document currentDocument) {
 		this.currentDocument = currentDocument;
 	}
 
-	public Document getCurrentDocument() {
+	private Document getCurrentDocument() {
 		return currentDocument;
 	}
 
