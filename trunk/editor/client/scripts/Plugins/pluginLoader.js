@@ -11,14 +11,15 @@ ORYX.Plugins.PluginLoader = Clazz.extend({
 		this.facade = facade;
 		
 		this.facade.offer({
-			'name': ORYX.I18N.PluginLoad.AddPluginButtonName,
-			'functionality': this.showManageDialog.bind(this),
-			'group': ORYX.I18N.SSExtensionLoader.group,
-			'icon': ORYX.PATH + "images/labs/script_add.png",
-			'description': ORYX.I18N.PluginLoad.AddPluginButtonDesc,
-			'index': 8,
-			'minShape': 0,
-			'maxShape': 0
+			name: ORYX.I18N.PluginLoad.AddPluginButtonName,
+			functionality: this.showManageDialog.bind(this),
+			group: ORYX.I18N.PluginLoad.group,
+            toolbarGroup: ORYX.I18N.PluginLoad.toolbarGroup,
+			icon: ORYX.PATH + "images/labs/script_add.png",
+			description: ORYX.I18N.PluginLoad.AddPluginButtonDesc,
+			index: 8,
+			minShape: 0,
+			maxShape: 0
 		});},
 	showManageDialog: function(){
 			this.mask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.Oryx.pleaseWait});
