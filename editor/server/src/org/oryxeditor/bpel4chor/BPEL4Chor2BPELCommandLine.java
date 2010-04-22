@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -78,7 +79,13 @@ public class BPEL4Chor2BPELCommandLine {
 		BPEL4Chor2BPEL t = new BPEL4Chor2BPEL();
 		List<Document> res = t.convert((Element) docGround.getFirstChild(), (Element) docTopo.getFirstChild(), pbdDocs);
 
-		/**************************output of the converted PBD******************************/
+		// setup reusable transformer
+		Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        //Setup indenting to "pretty print"
+        xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        xformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+        /**************************output of the converted PBD******************************/
 		for (Document currentPBD: res) {
 			Source sourceBPEL = new DOMSource(currentPBD);
 			
@@ -87,8 +94,7 @@ public class BPEL4Chor2BPELCommandLine {
 			Result resultBPEL = new StreamResult(bpelFile);
 			 
 			// Write the converted docPBD to the file
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
-			xformer.transform(sourceBPEL, resultBPEL);
+            xformer.transform(sourceBPEL, resultBPEL);
 		}
 	}
 	
