@@ -15,6 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class BPEL4Chor2BPELCommandLine {
 
@@ -59,21 +60,30 @@ public class BPEL4Chor2BPELCommandLine {
 		*/
 		
 
+		// assumption: working directory is the directory where the files are included
+		// This is ensured by the Eclipse Debug configuration -..-> Arguments -> Working directory
+		Document docGround = docBuilder.parse("groundingSA.bpel");
+		Document docTopo = docBuilder.parse("topologySA.xml");
+		Document docPBD = docBuilder.parse("processSA.bpel");
+
+		/*
 		Document docGround = docBuilder.parse("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/groundingSA.bpel");
 		Document docTopo = docBuilder.parse("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/topologySA.xml");
 		Document docPBD = docBuilder.parse("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/processSA.bpel");
+		*/
 		
 		ArrayList<Document> pbdDocs = new ArrayList<Document>();
 		pbdDocs.add(docPBD);
 		
 		BPEL4Chor2BPEL t = new BPEL4Chor2BPEL();
-		List<Document> res = t.convert(docGround, docTopo, pbdDocs);
+		List<Document> res = t.convert((Element) docGround.getFirstChild(), (Element) docTopo.getFirstChild(), pbdDocs);
 
 		/**************************output of the converted PBD******************************/
 		for (Document currentPBD: res) {
 			Source sourceBPEL = new DOMSource(currentPBD);
 			
-			File bpelFile = new File("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/PBDConvertion.bpel");
+			//File bpelFile = new File("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/PBDConvertion.bpel");
+			File bpelFile = new File("processSA-with-WSD-info.bpel");
 			Result resultBPEL = new StreamResult(bpelFile);
 			 
 			// Write the converted docPBD to the file
