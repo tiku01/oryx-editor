@@ -1004,10 +1004,10 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 		BPEL4Chor2BPELWSDLCreate wsdlCreate = new BPEL4Chor2BPELWSDLCreate();
 
 		//topology analyze
-		topoAnaly.nsAnalyze(docTopo);
-		topoAnaly.paTypeAnalyze(docTopo);
-		topoAnaly.paAnalyze(docTopo);
-		topoAnaly.mlAnalyze(docTopo);
+		topoAnaly.nsAnalyze((Element) docTopo.getFirstChild());
+		topoAnaly.paTypeAnalyze((Element) docTopo.getFirstChild());
+		topoAnaly.paAnalyze((Element) docTopo.getFirstChild());
+		topoAnaly.mlAnalyze((Element) docTopo.getFirstChild());
 		topoAnaly.getMl2BindSenderToMap(((Element)docTopo.getFirstChild()));
 
 		//grounding analyze
@@ -1024,10 +1024,10 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 		groundAnaly.pa2paTypeMap = topoAnaly.pa2paTypeMap;              // will be used in Alg. 3.4 createPartnerLinkDeclarations
 		groundAnaly.paType2processMap = topoAnaly.paType2processMap;    // will be used in Alg. 3.4 createPartnerLinkDeclarations
 
-		groundAnaly.nsAnalyze(docGround);
-		groundAnaly.mlAnalyze(docGround);
-		groundAnaly.propertyAnalyze(docGround);
-
+		groundAnaly.nsAnalyze((Element) docGround.getFirstChild());
+		groundAnaly.mlAnalyze((Element) docGround.getFirstChild());
+		groundAnaly.propertyAnalyze((Element) docGround.getFirstChild());
+		
 		//processes analyze
 		Iterator<String> processListIter = processList.iterator();
 		String processString = "";

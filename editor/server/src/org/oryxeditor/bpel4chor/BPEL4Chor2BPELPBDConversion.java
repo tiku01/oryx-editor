@@ -131,7 +131,9 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	/**
 	 * Algorithm 3.5 and Algorithm 3.17 Conversion of one PBD into BPEL
 	 * 
-	 * @param {Element} currentElement     The current element
+	 * FIXME: This method should work on an element and return a new element containing the converted process (instead of MODIFYING the element!)
+	 * 
+	 * @param {Element} docPBD - the process element
 	 */
 	public void convertPBD(Document docPBD){
 		this.setCurrentDocument(docPBD);

@@ -23,7 +23,6 @@
 
 package org.oryxeditor.bpel4chor;
 
-import java.util.AbstractCollection;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -31,27 +30,27 @@ import javax.jws.WebService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@WebService()
 public class BPEL4Chor2BPEL {
 	
 	/**
 	 * Adds WSDL specific elements to the given BPEL4Chor choreography
 	 * 
+	 * FIXME add WSDLs to result set (see BPEL4Chor2BPELExport)
 	 * 
 	 * @param docPBD the BPEL process definitions to modify - These documents are MODIFIED!
 	 * @return docPBD with WSDL specific elements 
 	 */
-	public List<Document> convert(Document docGround, Document docTopo, List<Document> docPBD) {
+	public List<Document> convert(Element elGround, Element elTopo, List<Document> docPBD) {
 		BPEL4Chor2BPELTopologyAnalyze topoAnaly = new BPEL4Chor2BPELTopologyAnalyze();
 		BPEL4Chor2BPELGroundingAnalyze grouAnaly = new BPEL4Chor2BPELGroundingAnalyze();
 		BPEL4Chor2BPELPBDConversion pbdCon = new BPEL4Chor2BPELPBDConversion();
 
 		//topology analyze
-		topoAnaly.nsAnalyze(docTopo);
-		topoAnaly.paTypeAnalyze(docTopo);
-		topoAnaly.paAnalyze(docTopo);
-		topoAnaly.mlAnalyze(docTopo);
-		topoAnaly.getMl2BindSenderToMap(((Element)docTopo.getFirstChild()));
+		topoAnaly.nsAnalyze(elTopo);
+		topoAnaly.paTypeAnalyze(elTopo);
+		topoAnaly.paAnalyze(elTopo);
+		topoAnaly.mlAnalyze(elTopo);
+		topoAnaly.getMl2BindSenderToMap(elTopo);
 			
 		grouAnaly.namespacePrefixSet = topoAnaly.namespacePrefixSet;    // will be used in grounding nsAnalyze
 		grouAnaly.namespaceSet = topoAnaly.namespaceSet;				// will be used in grounding nsAnalyze
@@ -67,9 +66,9 @@ public class BPEL4Chor2BPEL {
 		grouAnaly.paType2processMap = topoAnaly.paType2processMap;      // will be used in Alg. 3.4 createPartnerLinkDeclarations
 			
 		//grounding analyze
-		grouAnaly.nsAnalyze(docGround);
-		grouAnaly.mlAnalyze(docGround);
-		grouAnaly.propertyAnalyze(docGround);
+		grouAnaly.nsAnalyze(elGround);
+		grouAnaly.mlAnalyze(elGround);
+		grouAnaly.propertyAnalyze(elGround);
 			
 		pbdCon.scopeSet = topoAnaly.scopeSet;							// will be used in Conversion of PBD
 		pbdCon.processSet = topoAnaly.processSet;						// will be used in Conversion of PBD
