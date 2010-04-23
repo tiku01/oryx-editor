@@ -5,16 +5,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import sun.rmi.runtime.Log;
+
 /**
- * Copyright (c) 2009-2010 
- * 
- * Changhua Li
+ * Copyright (c) 2009-2010 Changhua Li
+ *               2010      Oliver Kopp
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -183,7 +185,8 @@ class PartnerLink {
 }
 
 public class BPEL4Chor2BPELGroundingAnalyze {
-	
+	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELGroundingAnalyze");
+
 	final static String EMPTY = "";
 	public Set<String> messageLinkSet = new HashSet<String>();
 
@@ -295,7 +298,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	 *  
 	 * @param {Element} currentDocument      The <grounding> element of grounding.bpel 
 	 */
-	public void mlAnalyze(Element currentDocument){
+	public void mlAnalyze(Element groundingElement){
 		/*
 		 * ml :             member of messageLinkSet and inherits of NCName
 		 * mc1, mc2 :       member of messageConstructsSet and inherits of QName
@@ -314,7 +317,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		String b = "";
 		Set<Object> ASet = new HashSet<Object>();
 		
-		NodeList childNodes = currentDocument.getElementsByTagName("messageLink");
+		NodeList childNodes = groundingElement.getElementsByTagName("messageLink");
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -945,6 +948,15 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		ArrayList<String> mcSenderReceiver = new ArrayList<String>();
 		if(!ml2mcMap.isEmpty()){
 			mcSenderReceiver = (ArrayList<String>)ml2mcMap.get(ml);
+		} else {
+			log.severe("foncstructsML: ml2mcMap is empty for " + ml);
+		}
+		if (mcSenderReceiver == null) {
+			log.severe("ml2mcMap found empty element for " + ml);
+			throw new IllegalStateException("ml2mcMap found empty element for " + ml);
+		}
+		if (mcSenderReceiver.size() != 2) {
+			log.severe("foncstructsML: mcSenderReceiver.size() is != 2 " + ml);
 		}
 		return mcSenderReceiver;
 	}
