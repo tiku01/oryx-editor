@@ -66,7 +66,7 @@ public class BPEL4Chor2BPEL {
 		grouAnaly.paType2processMap = topoAnaly.paType2processMap;      // will be used in Alg. 3.4 createPartnerLinkDeclarations
 			
 		//grounding analyze
-		grouAnaly.nsAnalyze(elGround);
+		grouAnaly.nsAnalyze(elGround); // add more namespace prefixes to ns2prefixMap
 		grouAnaly.mlAnalyze(elGround);
 		grouAnaly.propertyAnalyze(elGround);
 			

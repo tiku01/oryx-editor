@@ -243,6 +243,8 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	/**
 	 * to create the Sets: namespaceSet, namespaceprefixSet and Mapping: ns2prefixMap
 	 * 
+	 * Difference to BPEL4Chor2BPELGroundingAnalyze.getNamespaceSet: "topology" instead of "grounding" 
+	 * 
 	 * @param {Node}   currentNode     The current node of the XML file
 	 * @param {String} nodeName        The name of the Node
 	 */
@@ -250,7 +252,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 		String str;
 		String[] strSplit, prefixSplit;
 
-		if(currentNode.getNodeName().equals(nodeName)){
+		if(currentNode.getLocalName().equals(nodeName)){
 			for(int i=0; i<currentNode.getAttributes().getLength(); i++){
 				str = currentNode.getAttributes().item(i).toString();
 				strSplit = str.split("=");
@@ -308,7 +310,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-		if(currentElement.getNodeName().equals("participantType")){
+		if(currentElement.getLocalName().equals("participantType")){
 			// analyze name space of participantType node
 			String paType = currentElement.getAttribute("name");
 			paTypeSet.add(paType);
@@ -338,7 +340,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-/*		if(currentElement.getNodeName().equals("participant")){
+/*		if(currentElement.getLocalName().equals("participant")){
 			String processLocalName = currentElement.getAttribute("name");
 			String processType = currentElement.getAttribute("type");
 			String prefixOfProcess = fnsprefixProcess(paType2PBDMap.get(processType));
@@ -347,7 +349,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 		}
 */
 		
-		if(currentElement.getNodeName().equals("participantType")){
+		if(currentElement.getLocalName().equals("participantType")){
 			// analyze namespace of participantType node
 			String pbd = currentElement.getAttribute("participantBehaviorDescription");
 			processSet.add(pbd);
@@ -375,8 +377,8 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-/*		if(currentElement.getNodeName().equals("participant") && 
-				!currentElement.getParentNode().getNodeName().equals("participantSet")){
+/*		if(currentElement.getLocalName().equals("participant") && 
+				!currentElement.getParentNode().getLocalName().equals("participantSet")){
 
 			// analyze namespace of participantType node
 			String processLocalName = currentElement.getAttribute("name");
@@ -388,7 +390,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 		}
 */
 		
-		if(currentElement.getNodeName().equals("participantType")){
+		if(currentElement.getLocalName().equals("participantType")){
 
 			// analyze namespace of participantType node
 			String paName = currentElement.getAttribute("name");
@@ -448,14 +450,14 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-		if(currentElement.getNodeName().equals("participant") || 
-			currentElement.getNodeName().equals("participantSet")){
+		if(currentElement.getLocalName().equals("participant") || 
+			currentElement.getLocalName().equals("participantSet")){
 				String pa = currentElement.getAttribute("name");
 				paSet.add(pa);
 		}
 
 		// make forEach2setMap for PBDConvertion (base for function 3.36)
-		if(currentElement.getNodeName().equals("participantSet")){
+		if(currentElement.getLocalName().equals("participantSet")){
 			String paSetName = currentElement.getAttribute("name");
 			if(currentElement.hasAttribute("scope")){
 				String scContent = currentElement.getAttribute("scope");
@@ -498,7 +500,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return;
 		}
 
-		if(currentElement.getNodeName().equals("participant")){
+		if(currentElement.getLocalName().equals("participant")){
 			try{
 				if(!(currentElement.getAttribute("name") == "") &&
 						!(currentElement.getAttribute("type") == "")){
@@ -511,7 +513,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 				e.printStackTrace();
 			}
 		}
-		if(currentElement.getNodeName().equals("participantSet")){
+		if(currentElement.getLocalName().equals("participantSet")){
 			try{
 				String pa = currentElement.getAttribute("name");
 				String paType = currentElement.getAttribute("type");
@@ -580,7 +582,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-		if(currentElement.getNodeName().equals("participant") || currentElement.getNodeName().equals("participantSet")){
+		if(currentElement.getLocalName().equals("participant") || currentElement.getLocalName().equals("participantSet")){
 			try{
 				// it is might be many elements in forEach attribute
 				if(!(currentElement.getAttribute("forEach") == "")){
@@ -629,7 +631,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return;
 		}
 
-		if(currentElement.getNodeName().equals("participant")){
+		if(currentElement.getLocalName().equals("participant")){
 			try{
 				if((currentElement.getAttribute("name") != "") &&
 						(currentElement.getAttribute("scope") != "")){
@@ -667,7 +669,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 				e.printStackTrace();
 			}
 		}
-		else if(currentElement.getNodeName().equals("participantSet")){
+		else if(currentElement.getLocalName().equals("participantSet")){
 			try{
 				if(currentElement.getAttribute("name") != ""){
 					String pa = currentElement.getAttribute("name");
@@ -743,7 +745,9 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	}
 */
 	/**
-	 * function: To build QName for function 3.12 
+	 * function: To build QName for function 3.12
+	 * 
+	 * FIXME: throughout the code, javax.xml.namespace.QName should be used
 	 * 
 	 * @param {String} prefix     The prefix
 	 * @param {String} NCName     The NCName
@@ -764,7 +768,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			return null;
 		}
 
-		if(currentElement.getNodeName().equals("messageLink")){
+		if(currentElement.getLocalName().equals("messageLink")){
 			try{
 				String mlString = currentElement.getAttribute("name");
 				messageLinkSet.add(mlString);
