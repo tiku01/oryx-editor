@@ -63,7 +63,8 @@ import org.xml.sax.SAXException;
  * It is the procedure of conversion for an PBD , which was designed in the Studien Arbeit
  * of Peter Reimann(2008)
  * 
- * TODO: think about using a BPEL data model instead of operating directly on the XML document
+ * TODO: think about using a BPEL data model / XML2Java tooling (JAX-B, xmappr, ...) / ... instead of operating directly on the XML document
+ * 
  */
 public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELPBDConversion");
@@ -232,8 +233,42 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 				
 				partnerLinks = getCurrentDocument().createElementNS(BPEL_Namespace, "partnerLinks");
 				
-				currentElement.appendChild(partnerLinks);					// adding a <partnerLinks> declaration
+				// put at schema-conform place in element
+				Node sucNode = currentElement.getFirstChild();
+				while (!(sucNode instanceof Element)) {
+					sucNode = sucNode.getNextSibling();
+				}
+				if (sucNode.getLocalName().equals("documentation")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				// extensability
+				while (!sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}				
+				// extensions? and import* precede partnerLinks in the case of the process element
+				// scope does not carray extensions and import
+				if (sucNode.getLocalName().equals("extensions")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				while (sucNode.getLocalName().equals("import")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				// adding a <partnerLinks> declaration before 
+				currentElement.insertBefore(partnerLinks, sucNode);
 				//System.out.println("partnerLinks is: " + partnerLinks.getTagName());
+				
 				Iterator<PartnerLink> it = partnerLinkSet.iterator();
 				while(it.hasNext()){
 					pl = (PartnerLink)it.next();
@@ -607,7 +642,53 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			//System.out.println(getChildElement(construct, "variables"));
 			if((getChildElement(construct, "variables")) == null){
 				variables = getCurrentDocument().createElementNS(BPEL_Namespace, "variables");
-				construct.appendChild(variables);
+				
+				// put at schema-conform place in element
+				Node sucNode = construct.getFirstChild();
+				while (!(sucNode instanceof Element)) {
+					sucNode = sucNode.getNextSibling();
+				}
+				if (sucNode.getLocalName().equals("documentation")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				// extensability
+				while (!sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}				
+				// extensions? and import* precede partnerLinks in the case of the process element
+				// scope does not carray extensions and import
+				if (sucNode.getLocalName().equals("extensions")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				while (sucNode.getLocalName().equals("import")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				if (sucNode.getLocalName().equals("partnerLinks")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				if (sucNode.getLocalName().equals("mesageExchanges")) {
+					sucNode = sucNode.getNextSibling();
+					while (!(sucNode instanceof Element)) {
+						sucNode = sucNode.getNextSibling();
+					}
+				}
+				// adding a <variables> declaration before 
+				construct.insertBefore(variables, sucNode);
 			}
 			// variables becomes the <variables> declaration
 			variables = getChildElement(construct, "variables");
@@ -730,7 +811,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	/**
 	 * getChildElement function: this function get the specified name of the childElement of currentElement.
 	 * 
-	 * FIXME: replace with getElementsByTagNameNS
+	 * getElementsByTagName cannot be used since this does a DFS on the XML document ("decendents")
 	 * 
 	 * @param {Element} currentElement     
 	 * @param {String}  childElement       
