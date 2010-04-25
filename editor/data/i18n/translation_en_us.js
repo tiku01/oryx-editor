@@ -340,7 +340,7 @@ ORYX.I18N.jPDLSupport.expDesc = "Export to jPDL";
 ORYX.I18N.jPDLSupport.imp = "Import from jPDL";
 ORYX.I18N.jPDLSupport.impDesc = "Import jPDL File";
 ORYX.I18N.jPDLSupport.impFailedReq = "Request for import of jPDL failed.";
-ORYX.I18N.jPDLSupport.impFailedJson = "Transformation of jPDL failed.";
+//ORYX.I18N.jPDLSupport.impFailedJson = "Transformation of jPDL failed.";
 ORYX.I18N.jPDLSupport.impFailedJsonAbort = "Import aborted.";
 ORYX.I18N.jPDLSupport.loadSseQuestionTitle = "jBPM stencil set extension needs to be loaded"; 
 ORYX.I18N.jPDLSupport.loadSseQuestionBody = "In order to import jPDL, the stencil set extension has to be loaded. Do you want to proceed?";
@@ -678,7 +678,8 @@ ORYX.I18N.BPMN2XHTML.XHTMLExport = "Export XHTML Documentation";
 if(!ORYX.I18N.JSONImport) ORYX.I18N.JSONImport = {};
 
 ORYX.I18N.JSONImport.title = "JSON Import";
-ORYX.I18N.JSONImport.wrongSS = "The stencil set of the imported file ({0}) does not match to the loaded stencil set ({1})."
+ORYX.I18N.JSONImport.wrongSS = "The stencil set of the imported file ({0}) does not match to the loaded stencil set ({1}).";
+ORYX.I18N.JSONImport.invalidJSON = "The JSON to import is invalid.";
 
 if(!ORYX.I18N.Feedback) ORYX.I18N.Feedback = {};
 
