@@ -99,7 +99,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	// 3.20: messageConstruct --> messageLink mapping
 	// constructed by getMc2mlMap()
-	private HashMap<String, String> mc2mlMap = null;
+	public HashMap<String, String> mc2mlMap = null;
 
 	// 3.24: scope --> partnerLinkSet Mapping
 	public HashMap<String, Set<PartnerLink>> sc2plMap = new HashMap<String, Set<PartnerLink>>();
