@@ -554,6 +554,7 @@ if(!ORYX.I18N.JSONImport) ORYX.I18N.JSONImport = {};
 
 ORYX.I18N.JSONImport.title = "JSON Import";
 ORYX.I18N.JSONImport.wrongSS = "Das Stencil Set der importierten Datei ({0}) entspricht nicht dem geladenen Stencil Set ({1})."
+ORYX.I18N.JSONImport.invalidJSON = "Das zu importierende JSON ist ungültig.";
 
 if(!ORYX.I18N.Feedback) ORYX.I18N.Feedback = {};
 
