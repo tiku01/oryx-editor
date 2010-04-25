@@ -184,12 +184,24 @@ class PartnerLink {
 	}
 }
 
+class MessageLink_Ab {
+	public Set<Object> senders; // A
+	public String receiver;     // b
+}
+
+
+/**
+ * 
+ * TODO: refactor: message links should be an object and not strings
+ *                 the whole access functions of Peter can be converted to getting properties of an object 
+ *
+ */
 public class BPEL4Chor2BPELGroundingAnalyze {
 	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELGroundingAnalyze");
 
 	final static String EMPTY = "";
 	public Set<String> messageLinkSet = new HashSet<String>();
-
+	
 	// 3.4: participant types set
 	public Set<String> paTypeSet = new HashSet<String>();
 
@@ -289,6 +301,46 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		//System.out.println("namespaces Set of grounding is: " + namespaceSet);
 	}
 	
+	private void generateNewPtOpForUngroundedMLs(Set<String> ungroundedMLs) {
+		for (String currentMl: ungroundedMLs) {
+			MessageLink_Ab mAb = getAbFromMl(currentMl);
+			
+			//traverseComm(mAb.senders, mAb.receiver, pt, mc1, mc2, currentMl);
+		}
+	}
+	
+	private MessageLink_Ab getAbFromMl(String ml) {
+		ArrayList<Object> parefsML = fparefsML(ml);
+		//System.out.println("parefsML is: " + parefsML);
+		Set<Object> A = new HashSet<Object>();
+		if (parefsML.get(0).getClass().getSimpleName().equals("ArrayList")){
+			ArrayList<String> strList = (ArrayList<String>)parefsML.get(0);
+			for(int j = 0; j<strList.size(); j++){
+				String str = strList.get(j);
+				A.add(str);
+			}
+		}
+		else 
+		{
+			A.add(parefsML.get(0).toString());
+		}
+		String b = (String)parefsML.get(1);
+		//System.out.println("A is: " + A);
+		//System.out.println("b is: " + b);
+		//System.out.println("ml2bindSenderToMap is: " + ml2bindSenderToMap);
+		
+		if(ml2bindSenderToMap.containsKey(ml) && (!(ml2bindSenderToMap.get(ml).equals(EMPTY)))){
+			A.clear();
+			A.add((String)ml2bindSenderToMap.get(ml));
+		}
+		//System.out.println("A after ml2bindSenderToMap is: " + A);
+		
+		MessageLink_Ab res = new MessageLink_Ab();
+		res.senders = A;
+		res.receiver = b;
+		return res;
+	}
+	
 	/************************Message Links of Grounding********************/
 	/**
 	 * To analyze the part <messageLinks> of grounding.bpel, it is Algorithm 3.2 also.
@@ -309,75 +361,38 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		 * b :              member of paSet(participant)
 		 * ASet :           a List of participant references
 		*/
-		String ml = "";
+		String ml;
 		String mc1 = "", mc2 = "";
-		String pt = "";
+		String pt;
 		String o;
 		String pt_nsprefix;
-		String b = "";
-		Set<Object> ASet = new HashSet<Object>();
-		
+
+		Set<String> notConvertedMessageLinks = new HashSet<String>();
+		notConvertedMessageLinks.addAll(messageLinkSet);
+				
 		NodeList childNodes = groundingElement.getElementsByTagName("messageLink");
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
-			if (child instanceof Element){
-				// add ml and pt into messageLinkSet and ptSet
 				ml = ((Element)child).getAttribute("name");
-				messageLinkSet.add(ml);
+				// instead of adding a removal has to be done. The set is later handled to generate "fake" groudnings
+				notConvertedMessageLinks.remove(ml);
+				
+				// add ml and pt into ptSet
 				pt = ((Element)child).getAttribute("portType");
 				ptSet.add(pt);
+				// * function 3.20: portTypeMC: MC -> PT
 				ml2ptMap.put(ml, pt);					// make a mapping of ml and portType for PBDConvertion
 				
 				// get name space prefix of pt
 				pt_nsprefix = fnsprefixPT(((Element)child).getAttribute("portType"));
 				o = buildQName(pt_nsprefix, ((Element)child).getAttribute("operation"));
 				oSet.add(o);
+				// * function 3.21: operationMC: MC -> O
 				ml2opMap.put(ml, o);					// make a mapping of ml and operation for PBDConvertion
 				
-				// assign message constructs of ml to port type pt and operation o
-				ArrayList<String> mcList = fconstructsML(ml);
-				//System.out.println("mcList is: " + mcList);
-				mc1 = mcList.get(0);
-				mc2 = mcList.get(1);
-				fportTypeMC((Element)child, mc1);
-				fportTypeMC((Element)child, mc2);
-				foperationMC((Element)child, mc1);
-				foperationMC((Element)child, mc2);
-				//System.out.println("pt is: " + pt);
-				//System.out.println("portTypeMC(mc1) is: " + fportTypeMC(mc1));
-				//System.out.println("portTypeMC(mc2) is: " + fportTypeMC(mc2));
-				//System.out.println("o is: " + o);
-				//System.out.println("operationMC(mc1) is: " + foperationMC(mc1));
-				//System.out.println("operationMC(mc2) is: " + foperationMC(mc2));
-				 
-				ArrayList<Object> parefsML = fparefsML(ml);
-				//System.out.println("parefsML is: " + parefsML);
-				Set<Object> A = new HashSet<Object>();
-				A.clear();
-				if (parefsML.get(0).getClass().getSimpleName().equals("ArrayList")){
-					ArrayList<String> strList = (ArrayList<String>)parefsML.get(0);
-					for(int j = 0; j<strList.size(); j++){
-						String str = strList.get(j);
-						A.add(str);
-					}
-				}
-				else 
-				{
-					A.add(parefsML.get(0).toString());
-				}
-				b = (String)parefsML.get(1);
-				//System.out.println("A is: " + A);
-				//System.out.println("b is: " + b);
-				//System.out.println("ml2bindSenderToMap is: " + ml2bindSenderToMap);
-				
-				if(ml2bindSenderToMap.containsKey(ml) && (!(ml2bindSenderToMap.get(ml).equals(EMPTY)))){
-					A.clear();
-					A.add((String)ml2bindSenderToMap.get(ml));
-				}
-				//System.out.println("A after ml2bindSenderToMap is: " + A);
-				ASet = A;
-			}
+				// Generate A and b for traverseComm
+				MessageLink_Ab mAb = getAbFromMl(ml);
 			//TRAVERSEComm procedure
 			//System.out.println("*****A is: " + ASet);
 			//System.out.println("*****b is: " + b);
@@ -385,8 +400,10 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 			//System.out.println("*****mc1 is: " + mc1);
 			//System.out.println("*****mc2 is: " + mc2);
 			//System.out.println("*****ml is: " + ml);
-			traverseComm(ASet, b, pt, mc1, mc2, ml);
+			traverseComm(mAb.senders, mAb.receiver, pt, mc1, mc2, ml);
 		}
+		
+		generateNewPtOpForUngroundedMLs(notConvertedMessageLinks);
 	}
 	
 	/**
@@ -407,7 +424,6 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		String a = A.iterator().next().toString();
 		Set<String> bSet = new HashSet<String>();
 		bSet.add(b);
-		System.out.println(commSet);
 		if(!commSet.isEmpty()){
 			Iterator<Object> it = commSet.iterator();
 			while(it.hasNext()){
@@ -702,53 +718,11 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		}
 		return EMPTY;
 	}
-
-	/**
-	 * function 3.20: portTypeMC: MC -> PT
-	 * 
-	 * @param {Element} currentElement     The current element
-	 * @param {String}  mc                 The message construct
+	
+	/*
+	 * function 3.20: fportTypeMC/portTypeMC: MC -> PT and
+	 * function 3.21: foperationMC/operationMC: MC -> O not needed, since never called
 	 */
-	private void fportTypeMC(Element currentElement, String mc){
-		NodeList childNodes = currentElement.getElementsByTagName("messageLink");
-		Node child;
-		for (int i=0; i<childNodes.getLength(); i++){
-			child = childNodes.item(i);
-			if(child instanceof Element){
-				String ml = ((Element)child).getAttribute("name");
-				String pt = ((Element)child).getAttribute("portType");
-				// create messageLinkSet of grounding
-				//messageLinkSet.add(ml);
-				// create ml2ptMap for 3.20 function 
-				ml2ptMap.put(ml, pt);
-			}
-		}
-	}
-
-	/**
-	 * function 3.21: operationMC: MC -> O
-	 * 
-	 * @param {Element} currentElement     The current Element
-	 * @param {String}  mc                 The message construct
-	 */
-	private void foperationMC (Element currentElement, String mc){
-		NodeList childNodes = currentElement.getElementsByTagName("messageLink");
-		Node child;
-		for (int i=0; i<childNodes.getLength(); i++){
-			child = childNodes.item(i);
-			if(child instanceof Element){
-				String ml = ((Element)child).getAttribute("name");
-				String op = ((Element)child).getAttribute("operation");
-				if(!op.contains(":")){
-					op = fnsprefixPT(((Element)child).getAttribute("portType")) + ":" + op;
-				}
-				// create messageLinkSet of grounding
-				//messageLinkSet.add(ml);
-				// create ml2opMap for 3.21 function 
-				ml2opMap.put(ml, op);
-			}
-		}
-	}
 
 	/**
 	 * function 3.23: partnerLinkMC: MC -> PL
