@@ -37,9 +37,7 @@
          Grand is distributed under the terms of the BSD License. -->
     <target name="generate-build-dependcy-graph" depends="check-build-dependcy-graph" unless="buildDependencyGraph.isUpToDate">
         <typedef resource="net/ggtools/grand/antlib.xml" classpath="buildApps/lib/grand-1.8.jar"/>
-        <grand output="build.dot">
-            <filter name="removenode" node="Oryx Editor" />
-        </grand>
+        <grand output="build.dot" />
         <!-- the replaceregexp task requires ant-nodeps.jar and fails the build
              if the library is not found
         <typedef
@@ -62,6 +60,7 @@
         <replace file="build.dot" token="Oryx Editor." />
         <replace file="build.dot" token="Oryx BuildApps." />
         <replace file="build.dot" token="Oryx on a Stick." />
+        <replace file="build.dot" token="MashUp." />
         <replace file="build.dot" token="digraph &quot;" value="strict digraph &quot;" />
         <!-- the dot tool from http://graphviz.org/ is required
              but it won't fail the build if not available -->
