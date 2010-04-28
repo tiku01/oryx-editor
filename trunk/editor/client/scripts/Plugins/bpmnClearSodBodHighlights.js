@@ -34,15 +34,16 @@ ORYX.Plugins.ClearSodBodHighlights = Clazz.extend({
 		this.raisedEventIds = [];
 		
         this.facade.offer({
-            'name': ORYX.I18N.ClearSodBodHighlights.name,
-            'functionality': this.removeHighlightsAndOverlays.bind(this),
-            'group': ORYX.I18N.ClearSodBodHighlights.group,
-            'icon': ORYX.PATH + "images/sod_bod_view_clear.png",
-            'description': ORYX.I18N.ClearSodBodHighlights.desc,
-            'index': 5,
-            'toggle': false,
-            'minShape': 0,
-            'maxShape': 0
+            'name': 		ORYX.I18N.ClearSodBodHighlights.name,
+            'functionality':this.removeHighlightsAndOverlays.bind(this),
+            'group': 		ORYX.I18N.ClearSodBodHighlights.group,
+            'toolbarGroup': ORYX.I18N.ClearSodBodHighlights.toolbarGroup,
+            'icon': 		ORYX.PATH + "images/sod_bod_view_clear.png",
+            'description':	ORYX.I18N.ClearSodBodHighlights.desc,
+            'index': 		5,
+            'toggle': 		false,
+            'minShape': 	0,
+            'maxShape': 	0
         });
 		
     },

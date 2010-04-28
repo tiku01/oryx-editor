@@ -39,6 +39,7 @@ ORYX.Plugins.EnforceabilityOverlay = ORYX.Plugins.AbstractPlugin.extend({
             'name': "Enforceability",
             'functionality': this.showOverlay.bind(this),
             'group': "Enforceability",
+            toolbarGroup: 	ORYX.I18N.toolbarGroups.syntax,
             'icon': ORYX.PATH + "images/checker_validation.png",
             'description': "enforce?",
             'index': 3,

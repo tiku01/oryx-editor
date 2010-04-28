@@ -17,6 +17,7 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'functionality': 	this.exportCPN.bind(this),
 			'group': 			ORYX.I18N.cpntoolsSupport.group,
 			'dropDownGroupIcon':ORYX.PATH + "images/export2.png",
+            'toolbarGroup': 	ORYX.I18N.cpntoolsSupport.toolbarGroup,
 			'icon': 			ORYX.PATH + "images/cpn/cpn_export.png",
 			'description': 		ORYX.I18N.cpntoolsSupport.exportDescription,
 			'index': 			0,
@@ -28,8 +29,9 @@ ORYX.Plugins.CPNToolsSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.offer({
 			'name':				"Import from CPN Tools",
 			'functionality': 	this.importCPN.bind(this),
-			'group': 			ORYX.I18N.cpntoolsSupport.group,
+			'group': 			ORYX.I18N.cpntoolsSupport.groupImp,
 			'dropDownGroupIcon':ORYX.PATH + "images/import.png",
+            'toolbarGroup': 	ORYX.I18N.cpntoolsSupport.toolbarGroup,
 			'icon': 			ORYX.PATH + "images/cpn/cpn_import.png",
 			'description': 		ORYX.I18N.cpntoolsSupport.importDescription,
 			'index': 			1,

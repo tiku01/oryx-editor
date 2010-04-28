@@ -41,14 +41,15 @@ ORYX.Plugins.AdHocCC = Clazz.extend({
 		this.facade = facade;
 		
 		this.facade.offer({
-			'name':ORYX.I18N.AdHocCC.compl,
-			'functionality': this.editCC.bind(this),
-			'group': ORYX.I18N.AdHocCC.group,
-			'icon': ORYX.PATH + "images/adhoc.gif",
-			'description': ORYX.I18N.AdHocCC.complDesc,
-			'index': 0,
-			'minShape': 1,
-			'maxShape': 1
+			'name'			: ORYX.I18N.AdHocCC.compl,
+			'functionality'	: this.editCC.bind(this),
+			'group'			: ORYX.I18N.AdHocCC.group,
+            'toolbarGroup'	: ORYX.I18N.AdHocCC.toolbarGroup,
+			'icon'			: ORYX.PATH + "images/adhoc.gif",
+			'description'	: ORYX.I18N.AdHocCC.complDesc,
+			'index'			: 0,
+			'minShape'		: 1,
+			'maxShape'		: 1
 			// ISSUE: Should the Context Area this Plugin is creating be removed?
 		});
 	},

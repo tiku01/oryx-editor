@@ -17,7 +17,8 @@ ORYX.I18N.Oryx.noBackendDefined	= "Caution! \nNo Backend defined.\n The requeste
 ORYX.I18N.Oryx.pleaseWait 	= "Please wait while loading...";
 ORYX.I18N.Oryx.notLoggedOn = "Not logged on";
 ORYX.I18N.Oryx.editorOpenTimeout = "The editor does not seem to be started yet. Please check, whether you have a popup blocker enabled and disable it or allow popups for this site. We will never display any commercials on this site.";
-
+ORYX.I18N.Oryx.imp = "Import";
+ORYX.I18N.Oryx.exp = "Export"; 
 
 /** new property toolbarGroup for each plugin shown in toolbar, 27.12.09 */
 
@@ -117,10 +118,11 @@ ORYX.I18N.AdHocCC.addExecState = "Add Execution State Expression: ";
 ORYX.I18N.AdHocCC.addDataExp = "Add Data Expression: ";
 ORYX.I18N.AdHocCC.addLogOp = "Add Logical Operators: ";
 ORYX.I18N.AdHocCC.curCond = "Current Completion Condition: ";
+ORYX.I18N.AdHocCC.toolbarGroup = ORYX.I18N.toolbarGroups.edit;
 
 if(!ORYX.I18N.AMLSupport) ORYX.I18N.AMLSupport = {};
 
-ORYX.I18N.AMLSupport.group = "EPC";
+ORYX.I18N.AMLSupport.group = ORYX.I18N.Oryx.imp;
 ORYX.I18N.AMLSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.AMLSupport.imp = "Import AML file";
 ORYX.I18N.AMLSupport.impDesc = "Import an Aris 7 AML file";
@@ -171,7 +173,8 @@ ORYX.I18N.Arrangement.asDesc = "Same Size";
 
 if(!ORYX.I18N.BPELSupport) ORYX.I18N.BPELSupport = {};
 
-ORYX.I18N.BPELSupport.group = "BPEL";
+ORYX.I18N.BPELSupport.groupExp = ORYX.I18N.Oryx.imp;
+ORYX.I18N.BPELSupport.groupImp = "Export";
 ORYX.I18N.BPELSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.BPELSupport.exp = "Export BPEL";
 ORYX.I18N.BPELSupport.expDesc = "Export diagram to BPEL";
@@ -196,6 +199,7 @@ ORYX.I18N.BPELLayout.disable = "disable layout";
 ORYX.I18N.BPELLayout.disDesc = "disable auto layout plug-in";
 ORYX.I18N.BPELLayout.enable = "enable layout";
 ORYX.I18N.BPELLayout.enDesc = "enable auto layout plug-in";
+
 
 if(!ORYX.I18N.BPEL4ChorSupport) ORYX.I18N.BPEL4ChorSupport = {};
 
@@ -292,7 +296,8 @@ ORYX.I18N.Edit.delDesc = "Deletes all selected shapes";
 
 if(!ORYX.I18N.EPCSupport) ORYX.I18N.EPCSupport = {};
 
-ORYX.I18N.EPCSupport.group = "EPC";
+ORYX.I18N.EPCSupport.group = "Export";
+ORYX.I18N.EPCSupport.groupImp = ORYX.I18N.Oryx.imp;
 ORYX.I18N.EPCSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.EPCSupport.exp = "Export EPC";
 ORYX.I18N.EPCSupport.expDesc = "Export diagram to EPML";
@@ -307,10 +312,12 @@ ORYX.I18N.EPCSupport.close = "Close";
 ORYX.I18N.EPCSupport.error = "Error";
 ORYX.I18N.EPCSupport.progressImp = "Import...";
 
+
 if(!ORYX.I18N.ERDFSupport) ORYX.I18N.ERDFSupport = {};
 
 
-ORYX.I18N.ERDFSupport.group = "ERDF";
+ORYX.I18N.ERDFSupport.group = "Export";
+ORYX.I18N.ERDFSupport.groupImp = ORYX.I18N.Oryx.imp;
 ORYX.I18N.ERDFSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.ERDFSupport.exp = "Export to ERDF";
 ORYX.I18N.ERDFSupport.expDesc = "Export to ERDF";
@@ -333,7 +340,8 @@ ORYX.I18N.ERDFSupport.deprText = "Exporting to eRDF is not recommended anymore b
 
 if(!ORYX.I18N.jPDLSupport) ORYX.I18N.jPDLSupport = {};
 
-ORYX.I18N.jPDLSupport.group = "ExecBPMN";
+ORYX.I18N.jPDLSupport.group = "Export";
+ORYX.I18N.jPDLSupport.groupImp = ORYX.I18N.Oryx.imp;
 ORYX.I18N.jPDLSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.jPDLSupport.exp = "Export to jPDL";
 ORYX.I18N.jPDLSupport.expDesc = "Export to jPDL";
@@ -354,9 +362,10 @@ ORYX.I18N.jPDLSupport.impBtn = "Import";
 ORYX.I18N.jPDLSupport.impProgress = "Importing...";
 ORYX.I18N.jPDLSupport.close = "Close";
 
+
 if(!ORYX.I18N.Bpmn2Bpel) ORYX.I18N.Bpmn2Bpel = {};
 
-ORYX.I18N.Bpmn2Bpel.group = "ExecBPMN";
+ORYX.I18N.Bpmn2Bpel.group = "Export";
 ORYX.I18N.Bpmn2Bpel.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.Bpmn2Bpel.show = "Show transformed BPEL";
 ORYX.I18N.Bpmn2Bpel.download = "Download transformed BPEL";
@@ -369,7 +378,7 @@ ORYX.I18N.Bpmn2Bpel.ApacheOdeUrlInputTitle = "Apache ODE URL";
 ORYX.I18N.Bpmn2Bpel.ApacheOdeUrlInputLabelDeploy = "Deploy Process";
 ORYX.I18N.Bpmn2Bpel.ApacheOdeUrlInputLabelCancel = "Cancel";
 ORYX.I18N.Bpmn2Bpel.ApacheOdeUrlInputPanelText = "Please type-in the URL to the Apache ODE BPEL-Engine. E.g.: http://myserver:8080/ode";
-
+ORYX.I18N.Bpmn2Bpel.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 
 if(!ORYX.I18N.Save) ORYX.I18N.Save = {};
 
@@ -492,6 +501,7 @@ ORYX.I18N.Undo.redoDesc = "Redo the last undone action";
 
 if(!ORYX.I18N.Validator) ORYX.I18N.Validator = {};
 ORYX.I18N.Validator.checking = "Checking";
+ORYX.I18N.Validator.toolbarGroup = ORYX.I18N.toolbarGroups.syntax;;
 
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 
@@ -508,7 +518,8 @@ ORYX.I18N.View.zoomFitToModelDesc = "Zoom to fit the model size";
 
 if(!ORYX.I18N.XFormsSerialization) ORYX.I18N.XFormsSerialization = {};
 
-ORYX.I18N.XFormsSerialization.group = "XForms Serialization";
+ORYX.I18N.XFormsSerialization.group = "Export";
+ORYX.I18N.XFormsSerialization.groupImp = ORYX.I18N.Oryx.imp;
 ORYX.I18N.XFormsSerialization.exportXForms = "XForms Export";
 ORYX.I18N.XFormsSerialization.exportXFormsDesc = "Export XForms+XHTML markup";
 ORYX.I18N.XFormsSerialization.importXForms = "XForms Import";
@@ -525,6 +536,7 @@ ORYX.I18N.XFormsSerialization.expTitle = "Export XForms+XHTML document";
 ORYX.I18N.XFormsSerialization.impButton = "Import";
 ORYX.I18N.XFormsSerialization.impProgress = "Importing...";
 ORYX.I18N.XFormsSerialization.close = "Close";
+ORYX.I18N.XFormsSerialization.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 
 
 if(!ORYX.I18N.TreeGraphSupport) ORYX.I18N.TreeGraphSupport = {};
@@ -577,7 +589,8 @@ Ext.MessageBox.buttonText.ok = "OK";
 /** New Language Properties: 28.01.2009 */
 if(!ORYX.I18N.BPMN2XPDL) ORYX.I18N.BPMN2XPDL = {};
 ORYX.I18N.BPMN2XPDL.group = "Export";
-ORYX.I18N.BPMN2XPDL.toolbarGroup = ORYX.I18N.toolbarGroups.syntax;
+ORYX.I18N.BPMN2XPDL.groupImp = ORYX.I18N.Oryx.imp;
+ORYX.I18N.BPMN2XPDL.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;
 ORYX.I18N.BPMN2XPDL.xpdlExport = "Export to XPDL";
 ORYX.I18N.BPMN2XPDL.xpdlImport = "Import from XPDL";
 ORYX.I18N.BPMN2XPDL.importGroup = "Import";
@@ -594,36 +607,42 @@ if(!ORYX.I18N.ResourcesSoDAdd) ORYX.I18N.ResourcesSoDAdd = {};
 ORYX.I18N.ResourcesSoDAdd.name = "Define Separation of Duties Contraint";
 ORYX.I18N.ResourcesSoDAdd.group = "Resource Perspective";
 ORYX.I18N.ResourcesSoDAdd.desc = "Define a Separation of Duties constraint for the selected tasks";
+ORYX.I18N.ResourcesSoDAdd.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 if(!ORYX.I18N.ResourcesSoDShow) ORYX.I18N.ResourcesSoDShow = {};
 
 ORYX.I18N.ResourcesSoDShow.name = "Show Separation of Duties Constraints";
 ORYX.I18N.ResourcesSoDShow.group = "Resource Perspective";
 ORYX.I18N.ResourcesSoDShow.desc = "Show Separation of Duties constraints of the selected task";
+ORYX.I18N.ResourcesSoDShow.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 if(!ORYX.I18N.ResourcesBoDAdd) ORYX.I18N.ResourcesBoDAdd = {};
 
 ORYX.I18N.ResourcesBoDAdd.name = "Define Binding of Duties Constraint";
 ORYX.I18N.ResourcesBoDAdd.group = "Resource Perspective";
 ORYX.I18N.ResourcesBoDAdd.desc = "Define a Binding of Duties Constraint for the selected tasks";
+ORYX.I18N.ResourcesBoDAdd.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 if(!ORYX.I18N.ResourcesBoDShow) ORYX.I18N.ResourcesBoDShow = {};
 
 ORYX.I18N.ResourcesBoDShow.name = "Show Binding of Duties Constraints";
 ORYX.I18N.ResourcesBoDShow.group = "Resource Perspective";
 ORYX.I18N.ResourcesBoDShow.desc = "Show Binding of Duties constraints of the selected task";
+ORYX.I18N.ResourcesSoDShow.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 if(!ORYX.I18N.ResourceAssignment) ORYX.I18N.ResourceAssignment = {};
 
 ORYX.I18N.ResourceAssignment.name = "Resource Assignment";
 ORYX.I18N.ResourceAssignment.group = "Resource Perspective";
 ORYX.I18N.ResourceAssignment.desc = "Assign resources to the selected task(s)";
+ORYX.I18N.ResourceAssignment.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 if(!ORYX.I18N.ClearSodBodHighlights) ORYX.I18N.ClearSodBodHighlights = {};
 
 ORYX.I18N.ClearSodBodHighlights.name = "Clear Highlights and Overlays";
 ORYX.I18N.ClearSodBodHighlights.group = "Resource Perspective";
 ORYX.I18N.ClearSodBodHighlights.desc = "Remove all Separation and Binding of Duties Highlights/ Overlays";
+ORYX.I18N.ClearSodBodHighlights.toolbarGroup = ORYX.I18N.toolbarGroups.other;
 
 
 if(!ORYX.I18N.Perspective) ORYX.I18N.Perspective = {};
@@ -637,7 +656,7 @@ ORYX.I18N.JSONSupport = {
     imp: {
         name: "Import from JSON",
         desc: "Imports a model from JSON",
-        group: "Export",
+        group: ORYX.I18N.Oryx.imp,
         selectFile: "Select an JSON (.json) file or type in JSON to import it!",
         file: "File",
         btnImp: "Import",
@@ -656,7 +675,7 @@ ORYX.I18N.TBPMSupport = {
     imp: {
         name: "Import from PNG/JPEG",
         desc: "Imports a model from a TPBM photo",
-        group: "Export",
+        group: ORYX.I18N.Oryx.imp,
         selectFile: "Select an image (.png/.jpeg) file!",
         file: "File",
         btnImp: "Import",
@@ -944,7 +963,9 @@ ORYX.I18N.cpntoolsSupport.close = "Close";
 ORYX.I18N.cpntoolsSupport.wrongCPNFile = "Not chosen correct CPN - File.";
 ORYX.I18N.cpntoolsSupport.noPageSelection = "No page has been selected.";
 ORYX.I18N.cpntoolsSupport.group = "Export";
+ORYX.I18N.cpntoolsSupport.groupImp = ORYX.I18N.Oryx.imp;
 ORYX.I18N.cpntoolsSupport.importProgress = "Importing ...";
 ORYX.I18N.cpntoolsSupport.exportProgress = "Exporting ...";
 ORYX.I18N.cpntoolsSupport.exportDescription = "Export to CPN Tools";
 ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
+ORYX.I18N.cpntoolsSupport.toolbarGroup = ORYX.I18N.toolbarGroups.importExport;

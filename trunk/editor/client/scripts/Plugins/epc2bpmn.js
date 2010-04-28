@@ -53,7 +53,8 @@ ORYX.Plugins.EPC2BPMN = Clazz.extend({
 		this.facade.offer({
             'name': "EPC to BPMN transform",
             'functionality': this.startTransform.bind(this),
-            'group': "epc",
+            'group': "Import",
+            toolbarGroup: ORYX.I18N.toolbarGroups.importExport,
             'icon': ORYX.PATH + "images/epc_export.png",
             'description': "Import from EPC",
             'index': 1,

@@ -44,6 +44,7 @@ ORYX.Plugins.AMLSupport = Clazz.extend({
             'name': ORYX.I18N.AMLSupport.imp,
             'functionality': this.importAML.bind(this),
             'group': ORYX.I18N.AMLSupport.group,
+            'toolbarGroup': ORYX.I18N.AMLSupport.toolbarGroup,
             'icon': ORYX.PATH + "images/aris_import_icon.png",
             'description': ORYX.I18N.AMLSupport.impDesc,
             'index': 3,
