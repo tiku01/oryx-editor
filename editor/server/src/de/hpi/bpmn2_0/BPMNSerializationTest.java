@@ -31,8 +31,8 @@ import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 
 public class BPMNSerializationTest {
 
-	final static String path = "C:\\Users\\Sven Wagner-Boysen\\workspace\\oryx3\\editor\\server\\src\\de\\hpi\\bpmn2_0\\";
-	final static String schemaFilePath = "C:\\Users\\Sven Wagner-Boysen\\workspace\\oryx3\\editor\\lib\\xsd\\bpmn20\\Bpmn20.xsd";
+	final static String path = "C:\\Users\\Sven Wagner-Boysen\\workspace\\oryx\\editor\\server\\src\\de\\hpi\\bpmn2_0\\";
+	final static String schemaFilePath = "C:\\Users\\Sven Wagner-Boysen\\workspace\\oryx\\editor\\lib\\xsd\\bpmn20\\Bpmn20.xsd";
 	
 	final static String batchPath = "C:\\Users\\Sven Wagner-Boysen\\Documents\\oryx\\BPMN2.0\\TestProcesses";
 	final static boolean doBatchTest = false;
