@@ -35,6 +35,7 @@ ORYX.Plugins.SimplePnmlexport = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.SimplePnmlexport.name,
             'functionality': this.exportIt.bind(this),
             'group': ORYX.I18N.SimplePnmlexport.group,
+            toolbarGroup: ORYX.I18N.SimplePnmlexport.toolbarGroup,
             dropDownGroupIcon: ORYX.PATH + "images/export2.png",
 			'icon': ORYX.PATH + "images/page_white_gear.png",
             'description': ORYX.I18N.SimplePnmlexport.desc,

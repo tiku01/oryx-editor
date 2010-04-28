@@ -42,8 +42,9 @@ ORYX.Plugins.BPEL2BPMN = Clazz.extend({
 		this.facade.offer({
 			'name':"Transform BPEL into BPMN",
 			'functionality': this.transform.bind(this),
-			'group': 			'Export',
+			'group': 			'Import',
             dropDownGroupIcon: ORYX.PATH + "images/import.png",
+            toolbarGroup: 	ORYX.I18N.toolbarGroups.importExport,
 			'description': "Transform a BPEL process into its BPMN representation",
 			'index': 1,
 			'minShape': 0,
