@@ -141,4 +141,9 @@
 	<profile name="uml2.2" depends="default" stencilset="stencilsets/uml2.2/uml2.2.json">
 		<plugin name="ORYX.Plugins.UML"/>
 	</profile>
+	<profile name="labelbeta" depends="bpmn" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
+	 	<plugin name="ORYX.Plugins.DockerCreation"/>
+		<plugin name="ORYX.Plugins.OverlayExample"/>
+		<plugin name="ORYX.Plugins.LabelLayout"/>
+	</profile>
 </profiles>
