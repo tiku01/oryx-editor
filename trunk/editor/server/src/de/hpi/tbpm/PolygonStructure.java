@@ -117,11 +117,15 @@ public class PolygonStructure implements ShapeStructure{
 		coordinates[1] = (int) this.polygon.getBounds2D().getMinY();
 		return coordinates;
 	}
-	
+	@Override
 	public int getX(){
 		return (int) this.polygon.getBounds2D().getMinX();
 	}
-	
+	@Override
+	public int getY() {
+		return (int) this.polygon.getBounds2D().getMinY();
+	}
+	@Override
 	public Bounds getBounds( double ratio ) {
 		String[] bounds = new String[4];
 		bounds[0] = ( new Float(this.polygon.getBounds2D().getMinX() * ratio) ).toString();
@@ -129,6 +133,16 @@ public class PolygonStructure implements ShapeStructure{
 		bounds[2] = ( new Float(this.polygon.getBounds2D().getMaxX() * ratio) ).toString();
 		bounds[3] = ( new Float(this.polygon.getBounds2D().getMaxY() * ratio) ).toString();
 		return new Bounds(bounds);
+	}
+
+	@Override
+	public int getHeight() {
+		return (int) (this.polygon.getBounds2D().getMaxY() - this.getY());
+	}
+
+	@Override
+	public int getWidth() {
+		return (int) (this.polygon.getBounds2D().getMaxX() - this.getX());
 	}
 
 }

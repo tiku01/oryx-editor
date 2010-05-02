@@ -83,6 +83,13 @@ ORYX.I18N.AddDocker.addDesc = "Add a Docker to an edge, by clicking on it";
 ORYX.I18N.AddDocker.del = "Delete Docker";
 ORYX.I18N.AddDocker.delDesc = "Delete a Docker";
 
+if(!ORYX.I18N.ShapeConnector) ORYX.I18N.ShapeConnector = {};
+
+ORYX.I18N.ShapeConnector.group = "Connector";
+ORYX.I18N.ShapeConnector.toolbarGroup = ORYX.I18N.toolbarGroups.important;
+ORYX.I18N.ShapeConnector.add = "Connect Shapes";
+ORYX.I18N.ShapeConnector.addDesc = "Connect several nodes by marking them in the desired order";
+
 if(!ORYX.I18N.SSExtensionLoader) ORYX.I18N.SSExtensionLoader = {};
 
 ORYX.I18N.SSExtensionLoader.group = "02Stencil Set";
@@ -672,7 +679,8 @@ ORYX.I18N.JSONSupport = {
 };
 
 ORYX.I18N.TBPMSupport = {
-    imp: {
+	toolbarGroup: ORYX.I18N.toolbarGroups.importExport,
+		imp: {
         name: "Import from PNG/JPEG",
         desc: "Imports a model from a TPBM photo",
         group: ORYX.I18N.Oryx.imp,

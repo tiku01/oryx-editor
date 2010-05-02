@@ -42,9 +42,11 @@ public class CircleFinder {
 	private static int thresh = 50;
 	private CvMemStorage storage;
 	private ArrayList<CircleStructure> circles;
+	private ArrayList<PolygonStructure> polygons;
 
-	public CircleFinder(String imgSource) {
+	public CircleFinder(String imgSource, ArrayList<PolygonStructure> polygons) {
 		this.img0 = cvLoadImage(imgSource, 1);
+		this.polygons = polygons;
 		if (this.img0 == null) {
 			System.out.println(imgSource);
 		}
@@ -56,40 +58,51 @@ public class CircleFinder {
 
 	public ArrayList<CircleStructure> findCircles() {
 		
-		double edgeThresh = 1;
-
 		IplImage gray = cvCreateImage(cvGetSize(this.img), 8, 1);
 		IplImage edge = cvCreateImage(cvGetSize(this.img), 8, 1 );
-		IplImage tgray = cvCreateImage(cvGetSize(this.img), 8, 1);
-		IplImage timg = cvCloneImage( this.img0 );
-		
-		cvSetImageCOI(timg, 1);
-		cvCopy(timg, tgray, null);
 
-		//cvCvtColor(this.img, gray, CV_BGR2GRAY);
-		cvThreshold(tgray, gray, 100, 255, CV_THRESH_BINARY);
-		cvSmooth( gray, gray, CV_GAUSSIAN, 11, 11, 0, 0 );
-		cvCanny(gray, edge, edgeThresh, edgeThresh * 3, 5);
+		int[] colours = {0,1};
+		int thresh = 50;		//fenster: 30
+		double edgeThresh = 1;
+
+		for ( int i : colours){
+			if ( i == 0 ) {
+				cvCvtColor(this.img, gray, CV_BGR2GRAY);
+			}
+			else {
+				cvSetImageCOI(this.img, i);
+				cvCopy(this.img, gray, null);
+				
+			}
+			
+			cvThreshold( gray, gray, thresh, 255, CV_THRESH_BINARY);
+			cvSmooth( gray, gray, CV_GAUSSIAN, 11, 11, 0, 0 );
+			cvCanny( gray, edge, edgeThresh, edgeThresh * 3, 5);
+		
+//			CanvasFrame canvas = new CanvasFrame("pic");
+//			canvas.showImage( gray );
+			
+			CvSeq results = cvHoughCircles(gray, this.storage.getPointer(),
+					CV_HOUGH_GRADIENT, 
+					1, this.img.height/10, 		// dp, min distance between centers
+					5, 35, 			// before 5, 35
+					0, 0); 	// min max radius
 	
-//		CanvasFrame canvas = new CanvasFrame(false, "pic");
-//		canvas.showImage( gray );
-		
-		CvSeq results = cvHoughCircles(gray, this.storage.getPointer(),
-				CV_HOUGH_GRADIENT, 1, 5, 5, 35, 1, 100000);
-
-		float[] p;
-		CvPoint center;
-		for (int i = 0; i < results.total; i++) {
-			p = cvGetSeqElem(results, i).getFloatArray(0, 3);
-			center = cvPoint(Math.round(p[0]), Math.round(p[1]));
-			this.circles.add(new CircleStructure(center, p[2]));
+			float[] p;
+			CvPoint center;
+			for (int j = 0; j < results.total; j++) {
+				p = cvGetSeqElem(results, j).getFloatArray(0, 3);
+				if (p[2] < this.img.height / 10 && p[2] > this.img.height / 30) {
+					center = cvPoint(Math.round(p[0]), Math.round(p[1]));
+					System.out.println("radius: " + p[2]);
+					this.circles.add(new CircleStructure(center, p[2]));
+				}
+			}
 		}
 
 		// release all the temporary images
 		cvReleaseImage(gray.pointerByReference());
 		cvReleaseImage(edge.pointerByReference());
-		cvReleaseImage(tgray.pointerByReference());
-		cvReleaseImage(timg.pointerByReference());
 		
 		System.out.println("circles total: " + this.circles.size());
 		this.filterRedundancy();
@@ -120,20 +133,39 @@ public class CircleFinder {
 	 * @param n
 	 */
 	private void filterRedundancy() {
-		for ( int i = 0; i < this.circles.size() - 1; i++ ) {
-			ArrayList<CircleStructure> duplicates = new ArrayList<CircleStructure>();
+		
+		for ( int i = 0; i < this.circles.size(); i++ ) {
+			
+			ArrayList<CircleStructure> duplicates = new ArrayList<CircleStructure>();			
 			CircleStructure c1 = this.circles.get(i);
 			// instantiate Ellipse with width = height to have a circle
-			Ellipse2D.Double e1 = new Ellipse2D.Double(c1.getCenter().x, c1.getCenter().y, 
-					c1.getRadius(), c1.getRadius());
-			// check for all other circles if their center is enclosed by th i-th circle))
-			for ( int j = i+1; j < this.circles.size(); j++) {
-				CircleStructure c2 = this.circles.get(j);
-				// instantiate Ellipse with width = height to have a circle
-				Ellipse2D.Double e2 = new Ellipse2D.Double(c2.getCenter().x, c2.getCenter().y, 
-						c2.getRadius(), c2.getRadius());
-				if (e1.intersects(e2.getBounds2D()))
-					duplicates.add(c2);
+			Ellipse2D.Double e1 = new Ellipse2D.Double(
+								c1.getCenter().x - c1.getRadius(), 
+								c1.getCenter().y - c1.getRadius(), 
+								c1.getRadius()*2, 
+								c1.getRadius()*2);
+			
+			for ( int k = 0; k < this.polygons.size(); k++) {
+				if ( e1.getBounds2D().intersects( this.polygons.get(k).getPolygon().getBounds2D() ) ) {
+					duplicates.add(c1);
+					i--;
+					break;
+				}
+			}
+			// duplicates need only be detected if the circle does not intersect one of the polygons
+			if (duplicates.size() == 0) {
+				// check for all other circles if their center is enclosed by th i-th circle))
+				for ( int j = i+1; j < this.circles.size(); j++) {
+					CircleStructure c2 = this.circles.get(j);
+					// instantiate Ellipse with width = height to have a circle
+					Ellipse2D.Double e2 = new Ellipse2D.Double(
+									c2.getCenter().x - c2.getRadius(), 
+									c2.getCenter().y - c2.getRadius(), 
+									c2.getRadius()*2, 
+									c2.getRadius()*2);
+					if (e1.intersects(e2.getBounds2D()))
+						duplicates.add(c2);
+				}
 			}
 			this.circles.removeAll(duplicates);
 		}

@@ -75,7 +75,7 @@ public class TBPM2BPMNConverter {
 		this.events = new ArrayList<CircleStructure>();
 	}
 
-	public Diagram convertImage() {
+	public String convertImage() {
 
 		PolygonFinder polygonFinder = new PolygonFinder(this.imgPath);
 
@@ -91,25 +91,30 @@ public class TBPM2BPMNConverter {
 		}
 
 		this.dataObjects = polygonFinder.findPolygons(5);
+		
+		ArrayList<PolygonStructure> polygons = new ArrayList<PolygonStructure>();
+		polygons.addAll(this.tasks);
+		polygons.addAll(this.gateways);
+		polygons.addAll(this.dataObjects);
 
-		CircleFinder circleFinder = new CircleFinder(this.imgPath);
+		CircleFinder circleFinder = new CircleFinder(this.imgPath, polygons);
 		this.events = circleFinder.findCircles();
 
 		this.drawShapes();
 		
-		//this.imgPath = "C:\\Dokumente und Einstellungen\\Helen\\Desktop\\img\\img.png";
+//		this.imgPath = "C:\\Dokumente und Einstellungen\\Helen\\Desktop\\img\\img.png";
 		cvSaveImage(this.imgPath, this.image);		
 		
 		double ratio = this.FACADE_WIDTH / this.image.width;
-		scaleImage((int) this.FACADE_WIDTH , (int) (this.image.height * ratio) );
+		this.scaleImage((int) this.FACADE_WIDTH , (int) (this.image.height * ratio) );
 
 		BPMNBuilder builder = new BPMNBuilder(this.tasks, this.gateways,
 				this.dataObjects, this.events, this.rootDir);
-		Diagram diagram = builder.buildDiagram();
-		// diagram.identifyProcesses();
+		String json = builder.buildDiagram();
+	
 
 		cvReleaseImage(this.image.pointerByReference());
-		return diagram;
+		return json;
 	}
 
 	/**
@@ -136,8 +141,8 @@ public class TBPM2BPMNConverter {
 	}
 
 	public File scaleImage( int pWidth, int pHeight){
-
 		
+		// parameter determines brightness
 		BufferedImage image = this.image.getBufferedImage(0.3);
 
 		int thumbWidth = pWidth;
