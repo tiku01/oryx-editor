@@ -22,7 +22,13 @@ package de.hpi.tbpm;
  * DEALINGS IN THE SOFTWARE.
  ****************************************/
 
+import static name.audet.samuel.javacv.jna.cxcore.cvCopy;
+import static name.audet.samuel.javacv.jna.cxcore.cvSetImageCOI;
 import static name.audet.samuel.javacv.jna.cxcore.v21.*;
+import static name.audet.samuel.javacv.jna.cv.CV_BGR2GRAY;
+import static name.audet.samuel.javacv.jna.cv.CV_GAUSSIAN;
+import static name.audet.samuel.javacv.jna.cv.cvCvtColor;
+import static name.audet.samuel.javacv.jna.cv.cvSmooth;
 import static name.audet.samuel.javacv.jna.cv.v21.*;
 import static name.audet.samuel.javacv.jna.cvaux.v21.*;
 import static name.audet.samuel.javacv.jna.highgui.v21.*;
@@ -52,7 +58,6 @@ public class PolygonFinder {
 		this.img = cvCloneImage(this.img0);
 	}
 
-
 	/**
 	 * finds cosine of angle between vectors pt0->pt1 and from pt0->pt2
 	 * @param pt1
@@ -68,7 +73,6 @@ public class PolygonFinder {
 		
 		return (dx1 * dx2 + dy1 * dy2)
 			/ Math.sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10 );
-		
 	}
 
 	/**
@@ -76,42 +80,41 @@ public class PolygonFinder {
 	 * @param n
 	 */
 	public ArrayList<PolygonStructure> findPolygons(int n) {
-		int N = 3;
 		CvSize imgSize = cvSize(this.img.width & -2, this.img.height & -2);
 
 		IplImage timg 	= cvCloneImage( this.img0 ); // make a copy of input image
 		IplImage gray 	= cvCreateImage( imgSize.byValue(), 8, 1);
+		IplImage tgray 	= cvCreateImage( imgSize.byValue(), 8, 1);
 		IplImage pyr 	= cvCreateImage(cvSize(imgSize.width / 2, imgSize.height / 2), 8, 3);
 		this.polygons	= new ArrayList<PolygonStructure>();
-		
-		cvSetImageROI(timg, cvRect(0, 0, imgSize.width, imgSize.height));
 
-		// down-scale and upscale the image to filter out the noise
+		// down-scale and upscale to filter out the noise
 		cvPyrDown(timg, pyr, 7);
 		cvPyrUp(pyr, timg, 7);
-		IplImage tgray = cvCreateImage(imgSize.byValue(), 8, 1);
-
-		// find squares in every color plane of the image
-		for (int c = 0; c < 3; c++) {
-			// extract the c-th color plane
-			cvSetImageCOI(timg, c + 1);
-			cvCopy(timg, tgray, null);			
-			// try several threshold levels
-			for (int l = 1; l < N; l++) {		
 				
-				//cvCopy(timg, tgray, null);
-				// System.out.println("c: " + c + " l: " + l);
-				// hack: use Canny instead of zero threshold level.
+		// find squares in every color plane of the image
+		int[] colours = {0, 1};				// cam/wand: 0,1,2 fenster: 0,1
+		int[] threshs = {25, 50};			// cam/wand: 25, 50	fenster: 100, 150
+		for ( int i: colours){
+			if ( i == 0 ) {
+				cvCvtColor(timg, tgray, CV_BGR2GRAY);
+			}
+			else {
+				cvSetImageCOI(timg, i);
+				cvCopy(timg, tgray, null);
+			}
+			
+			// try several threshold levels
+			for (int j : threshs) {	
 				// Canny helps to catch squares with gradient shading
-				if ( l == 0) {
-					cvCanny(tgray, gray, 0, this.thresh, 5);
-
-					// dilate canny output to remove potential
-					// holes between edge segments
+				if ( j == 0) {
+					cvCanny(gray, gray, 0, this.thresh, 5);
+					// remove potential holes between edge segments
 					cvDilate(gray, gray, null, 1);
 				} else {
-					cvThreshold(tgray, gray, (l) * 255 / 10, 255,
-							CV_THRESH_BINARY);
+					// possibly several corners
+					cvThreshold( tgray, gray, j, 255, CV_THRESH_BINARY);
+					cvSmooth( gray, gray, CV_GAUSSIAN, 11, 11, 0, 0 );
 				}
 
 				processContours(n, gray);
@@ -121,8 +124,8 @@ public class PolygonFinder {
 		// release all the temporary images
 		cvReleaseImage(gray.pointerByReference());
 		cvReleaseImage(pyr.pointerByReference());
-		cvReleaseImage(tgray.pointerByReference());
 		cvReleaseImage(timg.pointerByReference());
+		cvReleaseImage(tgray.pointerByReference());
 		
 		System.out.println(this.polygons.size());
 		this.filterOuterBorder(n);
@@ -145,11 +148,14 @@ public class PolygonFinder {
 	private void processContours(int n, IplImage gray) {
 		
 		CvSeq.PointerByReference contoursPointer = new CvSeq.PointerByReference();
-		cvFindContours(gray, this.storage, contoursPointer, 
-				Native.getNativeSize(CvContour.ByValue.class), CV_RETR_LIST,
-				CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
+		try{
+			cvFindContours(gray, this.storage, contoursPointer, 
+					Native.getNativeSize(CvContour.ByValue.class), CV_RETR_LIST,
+					CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
+		} catch (Error e1){
+			return;
+		}
 		CvSeq contours = contoursPointer.getStructure();
-		System.out.println("contours: " + contours.total);
 		// test each contour
 		int count = contours.total;
 		while ( count > 0 ) {
@@ -167,7 +173,8 @@ public class PolygonFinder {
 
 				for (int j = 0; j < result.total; j++) {
 					// find minimum angle between joint
-					if (j >= 2) {
+					//if (j >= 2) {
+					if (true){
 						CvPoint p1 = new CvPoint(cvGetSeqElem(result, j));
 						CvPoint p2 = new CvPoint(cvGetSeqElem(result, j - 2));
 						CvPoint p3 = new CvPoint(cvGetSeqElem(result, j - 1));
@@ -176,10 +183,8 @@ public class PolygonFinder {
 					}
 				}
 				// if cosines of all angles are small
-				// (all angles are ~90 degree) then write quandrange
 				// vertices to resultant sequence
-				//if (s < 0.8) {
-				if (true) {
+				if (s < 0.8) {
 					Polygon p = new Polygon();
 					CvPoint[] vertices = new CvPoint[n];
 					for (int j = 0; j < result.total; j++){
@@ -190,7 +195,6 @@ public class PolygonFinder {
 					this.polygons.add( new PolygonStructure(p, vertices, n) );
 				}
 			}
-
 			// take the next contour
 			contours = contours.h_next;
 			count--;
@@ -219,7 +223,7 @@ public class PolygonFinder {
 		
 		HashSet<PolygonStructure> borders = new HashSet<PolygonStructure>();
 		for ( int i = 0; i < this.polygons.size(); i++ ){
-			if ( this.polygons.get(i).getPolygon().getBounds2D().getHeight() > this.img.height - 50 ){
+			if ( this.polygons.get(i).getPolygon().getBounds2D().getWidth() > this.img.width/2 ){
 				borders.add(this.polygons.get(i));
 			}
 		}

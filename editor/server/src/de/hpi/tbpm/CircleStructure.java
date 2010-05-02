@@ -70,6 +70,19 @@ public class CircleStructure implements ShapeStructure{
 	public int getX(){
 		return this.center.x - (int) this.radius;
 	}
+	
+	public int getY() {
+		return this.center.y - (int) this.radius;
+	}
+	
+	public int getHeight(){
+		return (int) (this.radius * 2);
+	}
+
+	public int getWidth(){
+		return this.getHeight();
+	}	
+	
 	public Bounds getBounds( double ratio ) {
 		String[] bounds = new String[4];
 		bounds[0] = ( new Float( (this.center.x - this.radius) * ratio) ).toString();

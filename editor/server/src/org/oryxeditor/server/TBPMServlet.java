@@ -70,10 +70,8 @@ public class TBPMServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException {
 
-		res.setContentType("text/plain");
+		res.setContentType("text/html");
 		res.setStatus(200);
-
-		JSONObject object = new JSONObject();
 		
 		PrintWriter out = null;
 		try {
@@ -100,15 +98,13 @@ public class TBPMServlet extends HttpServlet {
 	    		printError(res, "No file with .png or .jpg extension uploaded.");
 	    		return ;
 	    	}
-			String eRDF = this.processUploadedFile(fileItem);
-			out.print("model missing");
-//			object.put("content", eRDF);
-//			object.write(out);
+			String json = this.processUploadedFile(fileItem);
+			System.out.println(json);
+			out.write(json);
 
 		} catch (FileUploadException e1) {
 			e1.printStackTrace();
-		} 
-		return;
+		}
 	}
 
 	private String processUploadedFile(FileItem item) {
@@ -123,7 +119,7 @@ public class TBPMServlet extends HttpServlet {
 		}
 
 		File uploadedImage = new File(tmpFolder, fileName);
-		String eRDF = "";
+		String json = "";
 		try {
 			item.write(uploadedImage);
 			
@@ -131,14 +127,11 @@ public class TBPMServlet extends HttpServlet {
 			
 			TBPM2BPMNConverter converter = new TBPM2BPMNConverter(tmpFolder + "\\"
 					+ fileName, uploadedImage, rootDir);
-			Diagram diagram = converter.convertImage();
-//			eRDF = new BPMNeRDFSerializer().serializeBPMNDiagram(diagram)
-//					.replaceAll("\"", "'");
-			//eRDF = JSONBuilder.parseModeltoString(diagram);
+			json = converter.convertImage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return eRDF;
+		return json;
 
 	}
 	

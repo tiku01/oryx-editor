@@ -20,7 +20,8 @@
 		<plugin name="ORYX.Plugins.Grouping"/>	
 		<plugin name="ORYX.Plugins.HighlightingSelectedShapes"/>	
 		<plugin name="ORYX.Plugins.DragDocker"/>	
-		<plugin name="ORYX.Plugins.AddDocker"/>	
+		<plugin name="ORYX.Plugins.AddDocker"/>
+		<plugin name="ORYX.Plugins.ShapeConnector"/>	
 		<plugin name="ORYX.Plugins.SSExtensionLoader"/>	
 		<plugin name="ORYX.Plugins.SelectionFrame"/>	
 		<plugin name="ORYX.Plugins.ShapeHighlighting"/>	

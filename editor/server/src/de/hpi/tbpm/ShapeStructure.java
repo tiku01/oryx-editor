@@ -35,6 +35,9 @@ public interface ShapeStructure {
 	int[] getCoordinates();
 	
 	int getX();
+	int getY();
+	int getHeight();
+	int getWidth();
 	
 	Bounds getBounds(double ratio);
 }
