@@ -36,28 +36,26 @@ ORYX.Plugins.BPEL4ChorSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.dialogSupport = new ORYX.Plugins.TransformationDownloadDialog();
 		
 	    this.facade.offer({
-			'name'				: ORYX.I18N.BPEL4ChorSupport.exp,
-			'functionality'		: this.exportProcess.bind(this),
-			'group'				: ORYX.I18N.JSONSupport.exp.group,
-			'icon'				: ORYX.PATH + "images/bpel4chor_export_icon.png",
-			'description'		: ORYX.I18N.BPEL4ChorSupport.expDesc,
-            'toolbarGroup'		: ORYX.I18N.BPEL4ChorSupport.toolbarGroup,
-			'index'				: 0,
-			'minShape'			: 0,
-			'maxShape'			: 0
+			'name':ORYX.I18N.BPEL4ChorSupport.exp,
+			'functionality': this.exportProcess.bind(this),
+			'group': ORYX.I18N.JSONSupport.exp.group,
+			'icon':  ORYX.PATH + "images/bpel4chor_export_icon.png",
+			'description': ORYX.I18N.BPEL4ChorSupport.expDesc,
+			'index': 0,
+			'minShape': 0,
+			'maxShape': 0
 		});
 			
         this.facade.offer({
-			'name'				: ORYX.I18N.BPEL4ChorSupport.imp,
-			'functionality'		: this.importProcess.bind(this),
-			'group'				: ORYX.I18N.JSONSupport.imp.group,
-			'icon'				: ORYX.PATH + "images/bpel4chor_import_icon.png",
-			'description'		: ORYX.I18N.BPEL4ChorSupport.impDesc,
-            'toolbarGroup'		: ORYX.I18N.BPEL4ChorSupport.toolbarGroup,
-			'index'				: 1,
-			'minShape'			: 0,
-			'maxShape'			: 0,
-			'isEnabled'			: function(){ return false}
+			'name':ORYX.I18N.BPEL4ChorSupport.imp,
+			'functionality': this.importProcess.bind(this),
+			'group': ORYX.I18N.JSONSupport.imp.group,
+			'icon':  ORYX.PATH + "images/bpel4chor_import_icon.png",
+			'description': ORYX.I18N.BPEL4ChorSupport.impDesc,
+			'index': 1,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': function(){ return false}
 		});
 	},
 	

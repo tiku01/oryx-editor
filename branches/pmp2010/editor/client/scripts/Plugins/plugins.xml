@@ -58,12 +58,15 @@
 		<plugin source="arrangement.js" name="ORYX.Plugins.Arrangement">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
 		</plugin>
+		
+	<!-- 	
 		<plugin source="file.js" name="ORYX.Plugins.File"/>
 		<plugin source="file.js" name="ORYX.Plugins.Save"/>
-		
+	-->
 		<plugin source="view.js" name="ORYX.Plugins.View">
 			<property zoomLevel="2" maxFitToScreenLevel="1.24" />
 		</plugin>
+	
 		<plugin source="dragdropresize.js" name="ORYX.Plugins.DragDropResize" />
 		<plugin source="grouping.js" name="ORYX.Plugins.Grouping">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
@@ -73,9 +76,6 @@
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
 		</plugin>		
 		<plugin source="addDocker.js" name="ORYX.Plugins.AddDocker">
-			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
-		</plugin>	
-		<plugin source="shapeConnector.js" name="ORYX.Plugins.ShapeConnector">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
 		</plugin>	
 		<plugin source="addssextension.js" name="ORYX.Plugins.SSExtensionLoader" />
@@ -344,14 +344,19 @@
 		<!-- <plugin source="stencilsetmanipulator.js" name="ORYX.Plugins.StencilSetManipulator" /> -->
 		
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
-		<plugin source="dockerCreation.js" name="ORYX.Plugins.DockerCreation" />
-		<plugin source="labelLayout.js" name="ORYX.Plugins.LabelLayout"/>
 
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
 			
 	</plugins>
+	
+	<plugin source="shapeConnector.js" name="ORYX.Plugins.ShapeConnector">
+    	<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
+    </plugin> 
+	
+	<plugin source="dockerCreation.js" name="ORYX.Plugins.DockerCreation" />
+    <plugin source="labelLayout.js" name="ORYX.Plugins.LabelLayout"/>
 	
 	
 	<properties>

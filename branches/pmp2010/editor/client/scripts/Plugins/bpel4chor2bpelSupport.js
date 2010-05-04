@@ -36,16 +36,15 @@ ORYX.Plugins.BPEL4Chor2BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
         this.dialog2BPELSupport = new ORYX.Plugins.TransformationDownloadDialogForBPEL4Chor();
         
 	    this.facade.offer({
-			'name'				: ORYX.I18N.BPEL4Chor2BPELSupport.exp,
-			'functionality'		: this.exportProcess.bind(this),
-			'group'				: ORYX.I18N.JSONSupport.exp.group,
-            'toolbarGroup'		: ORYX.I18N.toolbarGroups.importExport,
-			dropDownGroupIcon	: ORYX.PATH + "images/export2.png",
-			'icon'				: ORYX.PATH + "images/bpel4chor2bpel_export_icon.png",
-			'description'		: ORYX.I18N.BPEL4Chor2BPELSupport.expDesc,
-			'index'				: 0,
-			'minShape'			: 0,
-			'maxShape'			: 0
+			'name':ORYX.I18N.BPEL4Chor2BPELSupport.exp,
+			'functionality': this.exportProcess.bind(this),
+			'group': ORYX.I18N.JSONSupport.exp.group,
+			dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'icon':  ORYX.PATH + "images/bpel4chor2bpel_export_icon.png",
+			'description': ORYX.I18N.BPEL4Chor2BPELSupport.expDesc,
+			'index': 0,
+			'minShape': 0,
+			'maxShape': 0
 		});
 	},
 	

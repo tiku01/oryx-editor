@@ -40,29 +40,27 @@ ORYX.Plugins.BPELLayouting = Clazz.extend({
 		this.isEnabled = true;
 		
 		this.facade.offer({
-			'name'				: ORYX.I18N.BPELSupport.enable,
-			'functionality'		: this.enableBpelLayout.bind(this),
-			'group'				: ORYX.I18N.BPELLayout.group,
-            'toolbarGroup'		: ORYX.I18N.BPELLayout.toolbarGroup,
-			'icon'				: ORYX.PATH + "images/bpel_layout_enable.png",
-			'description'		: ORYX.I18N.BPELLayout.enDesc,
-			'index'				: 0,
-			'minShape'			: 0,
-			'maxShape'			: 0,
-			'isEnabled'			: function(){ return !(this.isEnabled)}.bind(this)
+			'name':ORYX.I18N.BPELSupport.enable,
+			'functionality': this.enableBpelLayout.bind(this),
+			'group': ORYX.I18N.BPELLayout.group,
+			'icon': ORYX.PATH + "images/bpel_layout_enable.png",
+			'description': ORYX.I18N.BPELLayout.enDesc,
+			'index': 0,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': function(){ return !(this.isEnabled)}.bind(this)
 		});
 		
 		this.facade.offer({
-			'name'				: ORYX.I18N.BPELSupport.disable,
-			'functionality'		: this.disableBpelLayout.bind(this),
-			'group'				: ORYX.I18N.BPELLayout.group,
-            'toolbarGroup'		: ORYX.I18N.BPELLayout.toolbarGroup,
-			'icon'				: ORYX.PATH + "images/bpel_layout_disable.png",
-			'description'		: ORYX.I18N.BPELLayout.disDesc,
-			'index'				: 1,
-			'minShape'			: 0,
-			'maxShape'			: 0,
-			'isEnabled'			: function(){ return this.isEnabled}.bind(this)
+			'name':ORYX.I18N.BPELSupport.disable,
+			'functionality': this.disableBpelLayout.bind(this),
+			'group': ORYX.I18N.BPELLayout.group,
+			'icon': ORYX.PATH + "images/bpel_layout_disable.png",
+			'description': ORYX.I18N.BPELLayout.disDesc,
+			'index': 1,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': function(){ return this.isEnabled}.bind(this)
 		});
 	
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LAYOUT_BPEL, this.handleLayoutEvent.bind(this));

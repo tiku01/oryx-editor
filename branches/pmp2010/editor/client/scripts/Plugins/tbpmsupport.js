@@ -45,8 +45,7 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.TBPMSupport.imp.name,
             'functionality': this.showImportDialog.bind(this),
             'group': ORYX.I18N.TBPMSupport.imp.group,
-            'toolbarGroup': ORYX.I18N.TBPMSupport.toolbarGroup,
-            'dropDownGroupIcon': ORYX.PATH + "images/import.png",
+            dropDownGroupIcon: ORYX.PATH + "images/import.png",
 			'icon': ORYX.PATH + "images/page_white_picture.png",
             'description': ORYX.I18N.TBPMSupport.imp.desc,
             'index': 3,
@@ -126,29 +125,22 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
     	
 		this.form.form.submit({	
     				url: this.tbpmImportServletURL, 
-    				clientValidation: true,
+    				clientValidation: false,
     				waitMsg:'Saving Data...',
     				method: "POST",
     				
     				success: function(form, action) {
-						obj = Ext.util.JSON.decode(action.response.responseText);
-						alert(object);
+						this.shapes = action.result;
     			    	this.dialog.hide();
     					this.showConfirmDialog(imageName);
     					// Hide the waiting panel
     					loadMask.hide()  ;  					
     			    }.bind(this),
     			    
-    			    // invokes failure handler even i case of successful response (no idea why)
-    				failure: function(form, action){
+    				failure: function(action){
     			    	this.dialog.hide();
-    					this.showConfirmDialog(imageName, action.response.responseText);
-    					// Hide the waiting panel
-    					loadMask.hide()  ;
-    			    	
-    			    	//this.dialog.hide();
-    			    	//loadMask.hide();
-    					//Ext.Msg.alert(ORYX.I18N.Oryx.title, ORYX.I18N.TBPMSupport.imp.impFailed);
+    			    	loadMask.hide();
+    					Ext.Msg.alert(ORYX.I18N.Oryx.title, ORYX.I18N.TBPMSupport.imp.impFailed);
     				}.bind(this)
     	});
         
@@ -158,8 +150,15 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
      * show image with highlighted shapes
      * import model and image layer if image confirmed
      */
-    showConfirmDialog: function(imageName, json){
+    showConfirmDialog: function(imageName){
     	
+    	var images = new Ext.data.JsonStore({
+    		src: this.TMP_FOLDER + imageName,
+	    	width: '550',
+    	    fields: [  'src', 'width']
+    	});
+    	//images.load();
+
     	var confirmDialog = new Ext.Window({
     		autoCreate: true,
     		layout: 'fit',
@@ -181,7 +180,7 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
                 text: ORYX.I18N.TBPMSupport.imp.btnImp,
                 handler: function() {
     	    		confirmDialog.close();
-    	    		this.processImport(imageName, json);
+    	    		this.processImport(imageName);
     	    	}.bind(this)
             }, {
                 text: ORYX.I18N.TBPMSupport.imp.btnClose,
@@ -194,10 +193,10 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
     	confirmDialog.show();
     },
     
-    processImport: function(imageName, json){
+    processImport: function(imageName){
     	
     	this.addImageLayer(imageName);
-    	this.importShapes(json);
+    	this.importShapes();
     	
     	// update the canvas
 		this.facade.getCanvas().update();
@@ -208,14 +207,42 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
      * 
      */
     addImageLayer: function(imageName){  
+    	
+    	$(this.canvasId).style.background = "";
+
+//    	if ( $("TBPMImage-Container") ) {
+//    		$(this.canvasId).removeChild( $("TBPMImage-Container") );
+//    	}
+//    	
+//    	var imgDiv = document.createElement("div");
+//		imgDiv.id = "TBPMImage-Container";
+//		imgDiv.setStyle({
+//			  margin: '2px',
+//			  width: '95%',
+//			  position: 'absolute',
+//			  top: '5px',
+//			  background: "url(" + this.TMP_FOLDER + imageName + ") no-repeat left top"
+//		});
+//		
+//		var img = document.createElement("img");
+//		img.id = "TBPMImage";
+//		img.src = this.TMP_FOLDER + imageName;
+//		img.setStyle({
+//			  margin: '2px',
+//			  height: '100%',
+//			  opacity: '0.3',
+//		});
+//		
+//		//imgDiv.appendChild(img);
+//		$(this.canvasId).appendChild(imgDiv);
 		$(this.canvasId).style.background = "url(" + this.TMP_FOLDER + imageName + ") no-repeat scroll center center";
     },
     
     /*
      * generate detected shapes
      */
-    importShapes: function(json){
-    	this.facade.importJSON(json, true);
+    importShapes: function(){
+    	
     }
 
    
