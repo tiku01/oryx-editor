@@ -325,7 +325,8 @@ MOVI.namespace("widget");
 			}
 			
 			if(this._syncResources.length==0) {
-			    if(this._initCanvas()) this._onSuccess();
+				if(this._loadOptions.onlyImage) this._onSuccess();
+			    else if(this._initCanvas()) this._onSuccess();
 			}
 				
 		},
@@ -404,6 +405,13 @@ MOVI.namespace("widget");
          * parameter that indicates the type of the requested resource 
          * ("png", "json", "stencilset")
          * </dd>
+		 * <dt>onlyImage</dt>
+         * <dd>
+         * If set to true, the model JSON data and the stencil set definition
+		 * data is not loaded. Thus the model loading is accelerated, but it
+		 * won't be possible to register events on shapes, use markers or annotations.
+		 * Defaults to false.
+         * </dd>
 		 * </dl>
 		 * @throws Exception, if passed URI is not valid
 	     */
@@ -421,26 +429,31 @@ MOVI.namespace("widget");
 			if(!this._loadOptions.timeout)
 				this._loadOptions.timeout = 15000; // default timeout
 				
-			this._syncResources = new Array();
-			this._syncResources.push("data"); // include model data in synchronization
-			
 			this.onModelLoadStart.fire(this._modelUri);
 			this.onZoomLevelChangeStart.fire(this.getZoomLevel());
 			
-			var jsonp = encodeURIComponent(
-				"MOVI.widget.ModelViewer.getInstance(" + 
-				this._index + ").loadModelCallback");
-			var url = uri + "/json?jsonp=" + jsonp;
+			this._syncResources = new Array();
 			
-			if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
-			    url = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, url, this, "json");
-			
-			var transactionObj = YAHOO.util.Get.script(url, {
-				onFailure: this._onLoadFailure, 
-				onTimeout: this._onLoadTimeout,
-				timeout  : this._loadOptions.timeout,
-				scope    : this
-			});
+			if(!this._loadOptions.onlyImage) {
+				
+				this._syncResources.push("data"); // include model data in synchronization
+
+				var jsonp = encodeURIComponent(
+					"MOVI.widget.ModelViewer.getInstance(" + 
+					this._index + ").loadModelCallback");
+				var url = uri + "/json?jsonp=" + jsonp;
+
+				if(YAHOO.lang.isFunction(this._loadOptions.urlModificationFunction))
+				    url = this._loadOptions.urlModificationFunction.call(this._loadOptions.scope || this, url, this, "json");
+
+				var transactionObj = YAHOO.util.Get.script(url, {
+					onFailure: this._onLoadFailure, 
+					onTimeout: this._onLoadTimeout,
+					timeout  : this._loadOptions.timeout,
+					scope    : this
+				});
+				
+			}
 			
 			this._loadImage(uri);
 		},
