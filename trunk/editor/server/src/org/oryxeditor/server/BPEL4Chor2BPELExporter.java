@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -35,6 +37,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * Copyright (c) 2010 
@@ -621,17 +624,17 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			String currentSenders = messageLink.getAttribute("senders");
 			String currentSendActivities = messageLink.getAttribute("sendActivities");
 			String currentReceivers = messageLink.getAttribute("receivers");
-			String currentReveiveActivities = messageLink.getAttribute("reveiveActivities");
+			String currentreceiveActivities = messageLink.getAttribute("receiveActivities");
 			
 			String newSenders = addItemInString(sender, currentSenders);
 			String newSendActivities = addItemInString(sendActivity, currentSendActivities);
 			String newReceivers = addItemInString(receiver, currentReceivers);
-			String newReveiveActivities = addItemInString(receiveActivity, currentReveiveActivities);
+			String newreceiveActivities = addItemInString(receiveActivity, currentreceiveActivities);
 			
 			messageLink.setAttribute("senders", newSenders);
 			messageLink.setAttribute("sendActivities", newSendActivities);
 			messageLink.setAttribute("receivers", newReceivers);
-			messageLink.setAttribute("reveiveActivities", newReveiveActivities);
+			messageLink.setAttribute("receiveActivities", newreceiveActivities);
 		}
 		
 		Iterator<Element> movingList = uselessLinks.iterator();
@@ -651,7 +654,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 				String currentSenders = messageLink.getAttribute("senders");
 				String currentReceivers = messageLink.getAttribute("receivers");
 				String currentSendActivities = messageLink.getAttribute("sendActivities");
-				String currentReveiveActivities = messageLink.getAttribute("reveiveActivities");
+				String currentreceiveActivities = messageLink.getAttribute("receiveActivities");
 				
 				if (currentSenders != null && !currentSenders.contains(" ")){
 					messageLink.setAttribute("sender", currentSenders);
@@ -668,9 +671,9 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 					messageLink.removeAttribute("sendActivities");
 				}
 				
-				if (currentReveiveActivities != null && !currentReveiveActivities.contains(" ")){
-					messageLink.setAttribute("reveiveActivity", currentReveiveActivities);
-					messageLink.removeAttribute("reveiveActivities");
+				if (currentreceiveActivities != null && !currentreceiveActivities.contains(" ")){
+					messageLink.setAttribute("receiveActivity", currentreceiveActivities);
+					messageLink.removeAttribute("receiveActivities");
 				}
 			}
 		}
@@ -868,19 +871,17 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
     	final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
     	// Get the result string
-    	String resultString = null;
+    	Document processDoc;
     	try {
     		Transformer transformer = transformerFactory.newTransformer(xsltSource);
-    		StringWriter writer = new StringWriter();
-    		transformer.transform(rdfSource, new StreamResult(writer));
-    		resultString = writer.toString();
+    		DOMResult res = new DOMResult();
+    		transformer.transform(rdfSource, res);
+    		processDoc = (Document) res.getNode();
     	} catch (Exception e){
     		handleException(out, "processes", e); 
     		return;
     	}
 
-    	//System.out.println(resultString);
-    	if (resultString != null){
     		try {
     			// do a post-processing on this result bpel document
     			// in this postprocessor the following works will be done:
@@ -893,31 +894,24 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
     			//      4. remove all useless attributes and elements, which contain
     			//         the necessary informations for the above works but useless
     			//         right now
-    			resultString = postprocessResult(out, resultString);
+    			
+    			// Store the content of process in processString
+    			processesString = postprocessResult(out, processDoc);
 
-    			processesString = resultString;		// Store the content of process in processString
     			return;
     		} catch (Exception e){
     			handleException(out, "processes", e); 
     		}
-    	}
     }
 
-    private String postprocessResult (PrintWriter out, String oldString){
+    private String postprocessResult (PrintWriter out, Document doc){
 
     	StringWriter stringOut = new StringWriter();
     	try {
-    		// transform string to document
-    		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    		DocumentBuilder builder = factory.newDocumentBuilder();
-    		InputStream oldResultInputStream = new ByteArrayInputStream(oldString.getBytes());
-    		Document oldDocument = builder.parse(oldResultInputStream);
-
-
     		BPELExportPostprocessor postprocessor = new BPELExportPostprocessor();
 
     		// rearrange document
-    		Document newDocument = postprocessor.postProcessDocument(oldDocument);
+    		Document newDocument = postprocessor.postProcessDocument(doc);
 
     		// transform document to string
     		TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -989,13 +983,16 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 		throws Exception{
 
 		// transform topology and grounding string to document
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		InputStream TopologyInputStream = new ByteArrayInputStream(topologyString.getBytes());
-		InputStream GroundingInputStream = new ByteArrayInputStream(groundingString.getBytes());
-
-		Document docTopo = builder.parse(TopologyInputStream);
-		Document docGround = builder.parse(GroundingInputStream);
+		StreamSource s = new StreamSource(new StringReader(topologyString));
+		Transformer t = TransformerFactory.newInstance().newTransformer();
+		DOMResult topRes = new DOMResult();
+		t.transform(s, topRes);
+		Document docTopo = (Document) topRes.getNode();
+		
+		s = new StreamSource(new StringReader(groundingString));
+		DOMResult groundRes = new DOMResult();
+		t.transform(s, groundRes);
+		Document docGround = (Document) groundRes.getNode();
 		
 		// call the topology, grounding, processes, wsdl analyze method
 		BPEL4Chor2BPELTopologyAnalyze topoAnaly = new BPEL4Chor2BPELTopologyAnalyze();
@@ -1030,11 +1027,13 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 		
 		//processes analyze
 		Iterator<String> processListIter = processList.iterator();
-		String processString = "";
+		String processString;
 		while (processListIter.hasNext()){
 			processString = processListIter.next();
-			InputStream ProcessInputStream = new ByteArrayInputStream(processString.getBytes());
-			Document docPBD = builder.parse(ProcessInputStream);
+			s = new StreamSource(new StringReader(processString));
+			DOMResult processRes = new DOMResult();
+			t.transform(s, processRes);
+			Document docPBD = (Document) processRes.getNode();
 
 			pbdCon.scopeSet = topoAnaly.scopeSet;							
 			pbdCon.processSet = topoAnaly.processSet;						
@@ -1062,6 +1061,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			pbdCon.convertPBD(docPBD);
 			String processName = ((Element)docPBD.getFirstChild()).getAttribute("name");
 
+			/*
 			//output of the converted PBD
 			Source sourceBPEL = new DOMSource(docPBD);
 			File bpelFile = new File("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/PBDConvertion" 
@@ -1071,6 +1071,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			// Write to the BPEL file
 			Transformer xformer = TransformerFactory.newInstance().newTransformer();
 			xformer.transform(sourceBPEL, resultBPEL);
+			*/
 
 			// transform document BPEL to string
 			StringWriter stringOutBPEL = new StringWriter();
@@ -1091,6 +1092,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			wsdlCreate.nsprefixSet = pbdCon.namespacePrefixSet;
 			wsdlCreate.declarePartnerLinkTypes((Element)docPBD.getFirstChild());
 			
+			/*
 			//output of the created WSDL
 			Source sourceWSDL = new DOMSource(docPBD);
 			File wsdlFile = new File("/home/eysler/work/DiplomArbeit/oryx-editor/editor/server/src/org/oryxeditor/bpel4chor/testFiles/PBDConvertion"
@@ -1100,6 +1102,7 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
 			// Write to the WSDL file
 			Transformer xformerWSDL = TransformerFactory.newInstance().newTransformer();
 			xformerWSDL.transform(sourceWSDL, resultWSDL);
+			*/
 
 			// transform document WSDL to string
 			StringWriter stringOutWSDL = new StringWriter();
