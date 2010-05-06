@@ -151,8 +151,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	 * @param {Element} docPBD - the process element
 	 */
 	public void convertPBD(Document docPBD){
-		log.setLevel(Level.FINER);
-		
 		this.setCurrentDocument(docPBD);
 		Element currentElement = (Element)docPBD.getFirstChild();
 		if(!(currentElement.getLocalName().equals("process"))){

@@ -12,8 +12,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import sun.rmi.runtime.Log;
-
 /**
  * Copyright (c) 2009-2010 Changhua Li
  *               2010      Oliver Kopp
@@ -270,7 +268,9 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	private Set<String> ptSet = new HashSet<String>();
 
 	// 3.19: to save the operation of messageLink of grounding
-	private Set<String> oSet = new HashSet<String>();
+	// not needed anywhere
+	//private Set<String> oSet = new HashSet<String>();
+	
 	// 3.28: communication --> partnerLink X partnerLink
 	private HashMap<Comm, Object> comm2plsMap = new HashMap<Comm, Object>();
 	// relation COMM ((A,c),(b,d))
@@ -301,11 +301,33 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		//System.out.println("namespaces Set of grounding is: " + namespaceSet);
 	}
 	
+	private int currentPtNum = 0;
+	private HashMap<String,Integer> ptToCurrentOpCount = new HashMap<String,Integer>();
+	
 	private void generateNewPtOpForUngroundedMLs(Set<String> ungroundedMLs) {
 		for (String currentMl: ungroundedMLs) {
 			MessageLink_Ab mAb = getAbFromMl(currentMl);
+
+			ArrayList<String> mcList = fconstructsML(currentMl);
+			String mc1 = mcList.get(0);
+			String mc2 = mcList.get(1);
 			
-			//traverseComm(mAb.senders, mAb.receiver, pt, mc1, mc2, currentMl);
+			String senderIds = getSenderIds(mAb.senders);
+			String ptName = senderIds.concat("_missingOps_pt");
+			Integer currentOpNum;
+			if (ptToCurrentOpCount.containsKey(ptName)) {
+				currentOpNum = ptToCurrentOpCount.get(ptName);
+				currentOpNum = currentOpNum + 1;
+			} else {
+				currentOpNum = new Integer(0);
+			}
+			ptToCurrentOpCount.put(ptName, currentOpNum);
+			
+			String operationName = "op".concat(currentOpNum.toString());
+			// store for later use in PBDConversion.modifyMessageConstruct -> foperationMC
+			ml2opMap.put(currentMl, operationName);
+			
+			traverseComm(mAb.senders, mAb.receiver, ptName, mc1, mc2, currentMl);
 		}
 	}
 	
@@ -362,7 +384,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		 * ASet :           a List of participant references
 		*/
 		String ml;
-		String mc1 = "", mc2 = "";
+		String mc1, mc2;
 		String pt;
 		String o;
 		String pt_nsprefix;
@@ -387,9 +409,22 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 				// get name space prefix of pt
 				pt_nsprefix = fnsprefixPT(((Element)child).getAttribute("portType"));
 				o = buildQName(pt_nsprefix, ((Element)child).getAttribute("operation"));
-				oSet.add(o);
+				//oSet.add(o);
 				// * function 3.21: operationMC: MC -> O
 				ml2opMap.put(ml, o);					// make a mapping of ml and operation for PBDConvertion
+				
+				// assign message constructs of ml to port type pt and operation o
+				ArrayList<String> mcList = fconstructsML(ml);
+				//System.out.println("mcList is: " + mcList);
+				mc1 = mcList.get(0);
+				mc2 = mcList.get(1);
+				//System.out.println("pt is: " + pt);
+				//System.out.println("portTypeMC(mc1) is: " + fportTypeMC(mc1));
+				//System.out.println("portTypeMC(mc2) is: " + fportTypeMC(mc2));
+				//System.out.println("o is: " + o);
+				//System.out.println("operationMC(mc1) is: " + foperationMC(mc1));
+				//System.out.println("operationMC(mc2) is: " + foperationMC(mc2));
+				
 				
 				// Generate A and b for traverseComm
 				MessageLink_Ab mAb = getAbFromMl(ml);
@@ -527,6 +562,24 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	}
 	
 	/**
+	 * Generate a  list of senders for the given set A
+	 * 
+	 * @param A Set<String>
+	 */
+	private String getSenderIds(Set<Object> A) {
+		Iterator<Object> it = A.iterator();
+		String res = "";
+		do {
+			String current = (String) it.next();
+			res = res.concat(current);
+			if (it.hasNext()) {
+				res = res.concat("_");
+			}
+		} while (it.hasNext());
+		return res;
+	}
+	
+	/**
 	 * Algorithm 3.4 Procedure createPartnerLinkDeclarations
 	 * 
 	 * @param {Comm}   commNewInput     The input of new Comm construct
@@ -541,20 +594,11 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 												String mc1Input, String mc2Input, String ml){
 		PartnerLink pl1, pl2;                     				//inherits of NCName
 		String plt;                                             //PartnerLinkType, inherits of NCName
-		String senders_ids = (String)AInput.iterator().next();  //initially the identifier of the first participant reference of A
-		String firstSender = senders_ids;
-		//String a;												//element of Participant, inherits of NCName
+		String senders_ids = getSenderIds(AInput);   
+		String firstSender = (String)AInput.iterator().next();
+		
 		String sc;                                              //QName, sc will be used for elements of (Scope U Process)
-		if (AInput.remove(senders_ids) && !(AInput.isEmpty())){
-			Iterator<Object> it = AInput.iterator();
-			while(it.hasNext()){
-				//adds an underline and the identifier of the participant reference 'next' at the end of the string senders_ids,
-				//such as "a1_a2_..._an"
-				senders_ids = senders_ids + '_' + (String)it.next();
-			}
-		}
 
-		AInput.add(firstSender);                                 //recover 'removed element' to ensure the completely of Set A
 		//create partner link declarations
 		String pl1Name = senders_ids + "-" + bInput + "_isRealizedBy_" + replaceColons(ptInput);
 		pl1 = new PartnerLink(pl1Name);
