@@ -37,7 +37,6 @@ ORYX.Plugins.XFormsExportOrbeon = ORYX.Plugins.AbstractPlugin.extend({
 			'name': "Run XForm with Orbeon",
 			'functionality': this.exportIt.bind(this),
 			'group': ORYX.I18N.XFormsSerialization.group,
-            toolbarGroup: ORYX.I18N.XFormsSerialization.toolbarGroup,
 			'icon': ORYX.PATH + "images/xforms_orbeon_export.png",
 			'description': 'XForms export for Orbeon',
 			'index': 1,

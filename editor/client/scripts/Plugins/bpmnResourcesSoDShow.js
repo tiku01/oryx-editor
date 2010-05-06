@@ -38,7 +38,6 @@ ORYX.Plugins.ResourcesSoDShow = Clazz.extend({
             'name': ORYX.I18N.ResourcesSoDShow.name,
             'functionality': this.showSoD.bind(this),
             'group': ORYX.I18N.ResourcesSoDShow.group,
-            toolbarGroup: ORYX.I18N.ResourcesSoDShow.toolbarGroup,
 			'dropDownGroupIcon': ORYX.PATH + "images/sod.png",
             'icon': ORYX.PATH + "images/sod_view.png",
             'description': ORYX.I18N.ResourcesSoDShow.desc,

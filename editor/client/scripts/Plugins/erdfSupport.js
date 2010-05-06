@@ -47,9 +47,8 @@ ORYX.Plugins.ERDFSupport = Clazz.extend({
 		this.facade.offer({
 			'name':				ORYX.I18N.ERDFSupport.exp,
 			'functionality': 	this.exportERDF.bind(this),
-			'group': 			ORYX.I18N.ERDFSupport.group,
-            'toolbarGroup': 	ORYX.I18N.ERDFSupport.toolbarGroup,
-            'dropDownGroupIcon':ORYX.PATH + "images/export2.png",
+			'group': 			'Export',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
 			'icon': 			ORYX.PATH + "images/erdf_export_icon.png",
 			'description': 		ORYX.I18N.ERDFSupport.expDesc,
 			'index': 			0,
@@ -60,9 +59,8 @@ ORYX.Plugins.ERDFSupport = Clazz.extend({
 		this.facade.offer({
 			'name':				ORYX.I18N.ERDFSupport.imp,
 			'functionality': 	this.importERDF.bind(this),
-			'group': 			ORYX.I18N.ERDFSupport.groupImp,
-            'toolbarGroup': 			ORYX.I18N.ERDFSupport.toolbarGroup,
-            'dropDownGroupIcon':ORYX.PATH + "images/import.png",
+			'group': 			'Export',
+            dropDownGroupIcon: ORYX.PATH + "images/import.png",
 			'icon': 			ORYX.PATH + "images/erdf_import_icon.png",
 			'description': 		ORYX.I18N.ERDFSupport.impDesc,
 			'index': 			1,

@@ -34,8 +34,7 @@ ORYX.Plugins.XFormsImport = Clazz.extend({
 		this.facade.offer({
 			'name':ORYX.I18N.XFormsSerialization.importXForms,
 			'functionality': this.importXForms.bind(this),
-			'group': ORYX.I18N.XFormsSerialization.groupImp,
-            toolbarGroup: ORYX.I18N.XFormsSerialization.toolbarGroup,
+			'group': ORYX.I18N.XFormsSerialization.group,
 			'icon': ORYX.PATH + "images/xforms_import.png",
 			'description': ORYX.I18N.XFormsSerialization.importXFormsDesc,
 			'index': 3,
