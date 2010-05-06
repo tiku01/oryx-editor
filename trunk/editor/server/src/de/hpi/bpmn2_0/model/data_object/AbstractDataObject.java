@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
 import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.Process;
@@ -54,6 +57,18 @@ public abstract class AbstractDataObject extends FlowNode {
 	protected DataState dataState;
 	@XmlAttribute
     protected Boolean isCollection;
+	
+	/**
+	 * Basic method to convert a data aware item to its shape representation.
+	 * 
+	 * @param shape
+	 * 		The resource shape object containing graphical information only.
+	 */
+    public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	
+    	shape.setStencil(new StencilType("DataObject"));
+    }
 	
 //	@XmlTransient
 //	private Boolean isRequiredForStart;
