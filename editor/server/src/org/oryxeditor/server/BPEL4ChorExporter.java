@@ -506,17 +506,17 @@ public class BPEL4ChorExporter extends HttpServlet {
 			String currentSenders = messageLink.getAttribute("senders");
 			String currentSendActivities = messageLink.getAttribute("sendActivities");
 			String currentReceivers = messageLink.getAttribute("receivers");
-			String currentReveiveActivities = messageLink.getAttribute("reveiveActivities");
+			String currentreceiveActivities = messageLink.getAttribute("receiveActivities");
 			
 			String newSenders = addItemInString(sender, currentSenders);
 			String newSendActivities = addItemInString(sendActivity, currentSendActivities);
 			String newReceivers = addItemInString(receiver, currentReceivers);
-			String newReveiveActivities = addItemInString(receiveActivity, currentReveiveActivities);
+			String newreceiveActivities = addItemInString(receiveActivity, currentreceiveActivities);
 			
 			messageLink.setAttribute("senders", newSenders);
 			messageLink.setAttribute("sendActivities", newSendActivities);
 			messageLink.setAttribute("receivers", newReceivers);
-			messageLink.setAttribute("reveiveActivities", newReveiveActivities);
+			messageLink.setAttribute("receiveActivities", newreceiveActivities);
 		}
 		
 		Iterator<Element> movingList = uselessLinks.iterator();
@@ -536,7 +536,7 @@ public class BPEL4ChorExporter extends HttpServlet {
 				String currentSenders = messageLink.getAttribute("senders");
 				String currentReceivers = messageLink.getAttribute("receivers");
 				String currentSendActivities = messageLink.getAttribute("sendActivities");
-				String currentReveiveActivities = messageLink.getAttribute("reveiveActivities");
+				String currentreceiveActivities = messageLink.getAttribute("receiveActivities");
 				
 				if (currentSenders != null && !currentSenders.contains(" ")){
 					messageLink.setAttribute("sender", currentSenders);
@@ -553,9 +553,9 @@ public class BPEL4ChorExporter extends HttpServlet {
 					messageLink.removeAttribute("sendActivities");
 				}
 				
-				if (currentReveiveActivities != null && !currentReveiveActivities.contains(" ")){
-					messageLink.setAttribute("reveiveActivity", currentReveiveActivities);
-					messageLink.removeAttribute("reveiveActivities");
+				if (currentreceiveActivities != null && !currentreceiveActivities.contains(" ")){
+					messageLink.setAttribute("receiveActivity", currentreceiveActivities);
+					messageLink.removeAttribute("receiveActivities");
 				}
 			}
 		}
