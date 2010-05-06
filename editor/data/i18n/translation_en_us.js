@@ -208,6 +208,12 @@ ORYX.I18N.BPELLayout.enable = "enable layout";
 ORYX.I18N.BPELLayout.enDesc = "enable auto layout plug-in";
 
 
+if(!ORYX.I18N.BPEL4Chor2BPELSupport) ORYX.I18N.BPEL4Chor2BPELSupport = {};
+
+ORYX.I18N.BPEL4Chor2BPELSupport.group = "BPEL4Chor";
+ORYX.I18N.BPEL4Chor2BPELSupport.exp = "Export to BPEL";
+ORYX.I18N.BPEL4Chor2BPELSupport.expDesc = "Export diagram to BPEL";
+
 if(!ORYX.I18N.BPEL4ChorSupport) ORYX.I18N.BPEL4ChorSupport = {};
 
 ORYX.I18N.BPEL4ChorSupport.group = "BPEL4Chor";
