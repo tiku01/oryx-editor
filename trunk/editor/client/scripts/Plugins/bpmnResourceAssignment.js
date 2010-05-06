@@ -37,7 +37,7 @@ ORYX.Plugins.ResourceAssignment = Clazz.extend({
             'name': ORYX.I18N.ResourceAssignment.name,
             'functionality': this.assignResource.bind(this),
             'group': ORYX.I18N.ResourceAssignment.group,
-            toolbarGroup: ORYX.I18N.ResourcesSoDShow.toolbarGroup,
+           // 'dropDownGroupIcon': ORYX.PATH + "images/hr.png",
             'icon': ORYX.PATH + "images/hr.png",
             'description': ORYX.I18N.ResourceAssignment.desc,
             'index': 0,

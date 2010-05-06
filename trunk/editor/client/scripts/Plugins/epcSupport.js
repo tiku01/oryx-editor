@@ -45,7 +45,6 @@ ORYX.Plugins.EPCSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'functionality': this.exportEPC.bind(this),
 			'group': ORYX.I18N.EPCSupport.group,
 			'icon': ORYX.PATH + "images/epml_export_icon.png",
-            toolbarGroup: 	ORYX.I18N.EPCSupport.toolbarGroup,
 			'description': ORYX.I18N.EPCSupport.expDesc,
 			'index': 1,
 			'minShape': 0,
@@ -54,8 +53,7 @@ ORYX.Plugins.EPCSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.offer({
 			'name':ORYX.I18N.EPCSupport.imp,
 			'functionality': this.importEPC.bind(this),
-			'group': ORYX.I18N.EPCSupport.groupImp,
-            toolbarGroup: 	ORYX.I18N.EPCSupport.toolbarGroup,
+			'group': ORYX.I18N.EPCSupport.group,
 			'icon': ORYX.PATH + "images/epml_import_icon.png",
 			'description': ORYX.I18N.EPCSupport.impDesc,
 			'index': 2,

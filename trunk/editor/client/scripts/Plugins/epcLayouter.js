@@ -34,7 +34,6 @@ ORYX.Plugins.EPCLayouter = ORYX.Plugins.AbstractPlugin.extend({
 			'description' : "Layout EPC Model",
 			'functionality' : this.layout.bind(this),
 			'group' : "Layout",
-			toolbarGroup: ORYX.I18N.toolbarGroups.others,
 			'icon' : ORYX.PATH + "images/auto_layout.png",
 			'index' : 1,
 			'minShape' : 0,

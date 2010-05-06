@@ -37,7 +37,6 @@ ORYX.Plugins.ResourcesBoDAdd = Clazz.extend({
             'name': ORYX.I18N.ResourcesBoDAdd.name,
             'functionality': this.defineBoD.bind(this),
             'group': ORYX.I18N.ResourcesBoDAdd.group,
-            toolbarGroup: ORYX.I18N.ResourcesBoDAdd.toolbarGroup,
             'dropDownGroupIcon': ORYX.PATH + "images/bod.png",
             'icon': ORYX.PATH + "images/bod+.png",
             'description': ORYX.I18N.ResourcesBoDAdd.desc,

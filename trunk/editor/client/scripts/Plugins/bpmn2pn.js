@@ -127,16 +127,15 @@ ORYX.Plugins.PNExport = Clazz.extend({
         this.facade = facade;
        
         this.facade.offer({
-            'name'				: ORYX.I18N.BPMN2PNConverter.name,
-            'functionality'		: this.exportIt.bind(this),
-            'group'				: ORYX.I18N.BPMN2PNConverter.group,
-            'toolbarGroup'		: 	ORYX.I18N.BPMN2PNConverter.toolbarGroup,
-            dropDownGroupIcon	: ORYX.PATH + "images/export2.png",
-			'icon'				: ORYX.PATH + "images/page_white_convert.png",
-            'description'		: ORYX.I18N.BPMN2PNConverter.desc,
-            'index'				: 3,
-            'minShape'			: 0,
-            'maxShape'			: 0
+            'name': ORYX.I18N.BPMN2PNConverter.name,
+            'functionality': this.exportIt.bind(this),
+            'group': ORYX.I18N.BPMN2PNConverter.group,
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'icon': ORYX.PATH + "images/page_white_convert.png",
+            'description': ORYX.I18N.BPMN2PNConverter.desc,
+            'index': 3,
+            'minShape': 0,
+            'maxShape': 0
         });
     },
     

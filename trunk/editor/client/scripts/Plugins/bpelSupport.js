@@ -43,9 +43,7 @@ ORYX.Plugins.BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
 	    this.facade.offer({
 			'name':ORYX.I18N.BPELSupport.exp,
 			'functionality': this.exportProcess.bind(this),
-			'group': ORYX.I18N.BPELSupport.groupExp,
-            'toolbarGroup': ORYX.I18N.BPELSupport.toolbarGroup,
-			'tbGroup': ORYX.I18N.BPELSupport.tbGroup,
+			'group': ORYX.I18N.BPELSupport.group,
 			'icon': ORYX.PATH + "images/bpel_export_icon.png",
 			'description': ORYX.I18N.BPELSupport.expDesc,
 			'index': 0,
@@ -56,8 +54,7 @@ ORYX.Plugins.BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
         this.facade.offer({
 			'name':ORYX.I18N.BPELSupport.imp,
 			'functionality': this.importProcess.bind(this),
-			'group': ORYX.I18N.BPELSupport.groupImp,
-			'tbGroup': ORYX.I18N.BPELSupport.tbGroup,
+			'group': ORYX.I18N.BPELSupport.group,
 			'icon': ORYX.PATH + "images/bpel_import_icon.png",
 			'description': ORYX.I18N.BPELSupport.impDesc,
 			'index': 1,

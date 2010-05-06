@@ -102,7 +102,7 @@ ORYX.Plugins.BPMN2_0Serialization = {
 		this.facade.offer({
 			'name'				: ORYX.I18N.Bpmn2_0Serialization['import'],
 			'functionality'		: this.showImportDialog.bind(this),
-			'group'				: 'Import',
+			'group'				: 'Export',
             dropDownGroupIcon : ORYX.PATH + "images/import.png",
 			'icon' 				: ORYX.PATH + "images/source.png",
 			'description'		: ORYX.I18N.Bpmn2_0Serialization.importDesc,

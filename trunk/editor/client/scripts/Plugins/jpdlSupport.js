@@ -46,7 +46,6 @@ ORYX.Plugins.JPDLSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.offer({
 			'name':				ORYX.I18N.jPDLSupport.exp,
 			'functionality': 	this.exportJPDL.bind(this),
-            'toolbarGroup': 	ORYX.I18N.jPDLSupport.toolbarGroup,
 			'group': 			ORYX.I18N.jPDLSupport.group,
 			'icon': 			ORYX.PATH + "images/jpdl_export_icon.png",
 			'description': 		ORYX.I18N.jPDLSupport.expDesc,
@@ -60,8 +59,7 @@ ORYX.Plugins.JPDLSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.offer({
 			'name':				ORYX.I18N.jPDLSupport.imp,
 			'functionality': 	this.importJPDL.bind(this),
-			'group': 			ORYX.I18N.jPDLSupport.groupImp,
-            'toolbarGroup': 	ORYX.I18N.jPDLSupport.toolbarGroup,
+			'group': 			ORYX.I18N.jPDLSupport.group,
 			'icon': 			ORYX.PATH + "images/jpdl_import_icon.png",
 			'description': 		ORYX.I18N.jPDLSupport.impDesc,
 			'index': 			2,

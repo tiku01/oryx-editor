@@ -41,7 +41,6 @@ ORYX.Plugins.SyntaxChecker = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.SyntaxChecker.name,
             'functionality': this.perform.bind(this),
             'group': ORYX.I18N.SyntaxChecker.group,
-            'toolbarGroup': ORYX.I18N.SyntaxChecker.toolbarGroup,
             'icon': ORYX.PATH + "images/checker_syntax.png",
             'description': ORYX.I18N.SyntaxChecker.desc,
             'index': 0,

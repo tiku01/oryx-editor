@@ -37,7 +37,6 @@ ORYX.Plugins.Validator = ORYX.Plugins.AbstractPlugin.extend({
             'id': this.buttonId,
             'functionality': this.load.bind(this),
             'group': "Verification",
-            'toolbarGroup':		ORYX.I18N.Validator.toolbarGroup,
             'icon': ORYX.PATH + "images/checker_validation.png",
             'description': ORYX.I18N.Validator.description,
             'index': 1,
