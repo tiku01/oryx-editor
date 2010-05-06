@@ -653,7 +653,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 					}
 				}
 				// extensability
-				while (!sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
+				// check for null at namespace is necessary as current oryx output does not add a default namespace declaration. There seems to be a bug somewhere at BPELExportPostprocessor (maybe a transformer setting)
+				while ((sucNode.getNamespaceURI()!=null) && !sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
 					sucNode = sucNode.getNextSibling();
 					while (!(sucNode instanceof Element)) {
 						sucNode = sucNode.getNextSibling();

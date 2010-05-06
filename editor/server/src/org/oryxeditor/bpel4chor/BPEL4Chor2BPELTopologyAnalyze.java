@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -49,6 +50,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class BPEL4Chor2BPELTopologyAnalyze {
+	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELTopologyAnalyze");
 	
 	final static String EMPTY = "";
 	public Set<String> namespaceSet = new HashSet<String>();
@@ -175,6 +177,9 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 				ml = ((Element)child).getAttribute("name");
 				messageLinkSet.add(ml);
 				receiver = ((Element)child).getAttribute("receiver");
+				if (receiver == null) {
+					log.severe("No receiver given");
+				}
 				if (((Element) child).hasAttribute("sender")){
 					sender1 = ((Element)child).getAttribute("sender");
 				}
@@ -190,7 +195,13 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 					}
 				}
 				receiveActivity = ((Element)child).getAttribute("receiveActivity");
+				if (receiveActivity == null) {
+					log.severe("No receiveActivity given");
+				}
 				sendActivity = ((Element)child).getAttribute("sendActivity");
+				if (sendActivity == null) {
+					log.severe("No sendActivity given");
+				}
 				receiverns = fnsprefixProcess(fprocessPaType(ftypePa(receiver)));
 				senderns = fnsprefixProcess(fprocessPaType(ftypePa(sender1)));
 				mc2 = buildQName(receiverns, receiveActivity);
@@ -214,6 +225,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 					mcSenderReceiverList.add(mc1);
 					mcSenderReceiverList.add(mc2);
 					ml2mcMap.put(ml, mcSenderReceiverList);
+					
 				}
 				// create ml2paMap for function fparefsML
 				ArrayList<Object> senderReceiverList = new ArrayList<Object>();
