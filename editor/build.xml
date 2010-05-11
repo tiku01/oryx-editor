@@ -4,9 +4,8 @@
     <property file="build.properties" />
 	<property name="build-dir" value="build" />
 	<property name="target-dir" value="dist" />
-	
+	<property name="war-dir" value="war" />
     <import file="../buildApps/build.xml" />
-	
 	
     
     <!-- Editor properties *************************************************** -->
@@ -17,6 +16,8 @@
 	<!-- parses plugin xml-->
 	<xmlproperty file="${editor-src-client}/scripts/Plugins/plugins.xml" collapseAttributes="true"/>
     
+	
+	
     <!-- Targets for oryx javascript documentation ****************************************************** -->
     <path id="jsdoc.classpath">
         <fileset file="${editor-src-root}/lib/js.jar" />
@@ -84,7 +85,7 @@
 	
 	
     <target name="deploy-editor">
-        <copy file="${target-dir}/oryx.war" todir="${deploymentdir}"/>
+        <copy file="${war-dir}/oryx.war" todir="${deploymentdir}"/>
     </target>
     
     <target name="undeploy-editor">
@@ -101,7 +102,7 @@
     </target>
     
     <target name="clean-editor">
-        <delete file="${target-dir}/oryx.war" />
+        <delete file="${war-dir}/oryx.war" />
         <delete dir="${editor-build-root}"/>
     </target>
     
@@ -436,12 +437,93 @@
     </target>
     
     <target name="dist">
-        <mkdir dir="${target-dir}"/>
         
         <echo>
-            Creating web application archive. ${deploy-xhtml}
+            Creating web application. ${deploy-xhtml}
         </echo>
-        <war destfile="${target-dir}/oryx.war" webxml="${editor-src-root}/etc/web.xml">
+        <mkdir dir="${target-dir}"/>
+    	<mkdir dir="${target-dir}/client"/>
+    	<mkdir dir="${target-dir}/client/WEB-INF" />
+    	<mkdir dir="${target-dir}/client/META-INF" />
+    	
+    	<copy todir="${target-dir}/client/WEB-INF" >
+    		<fileset dir="${editor-src-root}/etc">
+    			<include name="web.xml"/>
+    			<depend  targetdir="${target-dir}/client/WEB-INF" />
+    		</fileset>
+    	</copy>
+    	
+    	<mkdir dir="${target-dir}/client/WEB-INF/lib"/>
+    	<copy todir="${target-dir}/client/WEB-INF/lib">
+          <fileset dir="${editor-src-root}/lib">
+            <include name="*.jar"/>
+            <include name="*.xsl"/>
+            <exclude name="deprecated/**"/>
+            <exclude name="sources/**"/>
+            <exclude name="servlet-api.jar" />	
+          	<depend  targetdir="${target-dir}/client/WEB-INF/lib" />
+          </fileset>          
+    	</copy>
+    	
+    	<mkdir dir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
+    	<copy todir="${target-dir}/client/WEB-INF/lib/wsdl2xforms">
+          <fileset dir="${editor-src-root}/lib/wsdl2xforms">
+            <include name="*.xsl"/>
+          	<depend  targetdir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
+          </fileset>          
+    	</copy>
+		
+    	<mkdir dir="${target-dir}/client/WEB-INF/lib/xsd" />
+    	<copy todir="${target-dir}/client/WEB-INF/lib/xsd">
+          <fileset dir="${editor-src-root}/lib/xsd">
+            <include name="**/*.xsd"/>
+          	<depend  targetdir="${target-dir}/client/WEB-INF/lib/xsd" />
+          </fileset>          
+    	</copy>
+		
+    	<copy todir="${target-dir}/client">
+	        <fileset dir="${editor-src-root}/client">           
+	            <include name="${build-with-script-files-flag}"/>
+	          	<depend  targetdir="${target-dir}/client" />
+	        </fileset>
+		</copy>
+    	
+    	<copy todir="${target-dir}/client">
+	        <fileset dir="${editor-build-root}">
+	            <exclude name="classes/**"/>
+	            <exclude name="*.xhtml"/>
+	          	<depend  targetdir="${target-dir}/client" />
+	        </fileset>
+        </copy>
+
+    	<copy todir="${target-dir}/client">
+	    	<fileset dir="${editor-build-root}">
+	            <include name="${build-with-xhtml-test-files-flag}"/>
+	          	<depend  targetdir="${target-dir}/client" />
+	        </fileset>
+		</copy>
+    	
+    	<mkdir dir="${target-dir}/client/WEB-INF/classes" />
+    	<copy todir="${target-dir}/client/WEB-INF/classes">
+    		<fileset dir="${editor-build-root}/classes">
+    			<include name="**/*.*" />
+              	<depend  targetdir="${target-dir}/client/WEB-INF/classes" />
+    		</fileset>
+    	</copy>
+    	
+    	<copy file="${editor-build-root}/LICENSE" tofile="${target-dir}/client/META-INF/LICENSE" />
+    	<copy file="${editor-build-root}/LIBRARIES" tofile="${target-dir}/client/META-INF/LIBRARIES" />
+    	<copy file="${editor-build-root}/VERSION" tofile="${target-dir}/client/META-INF/VERSION" />
+    	<copy file="${editor-src-root}/etc/context.xml" tofile="${target-dir}/client/META-INF/context.xml" />
+    	<copy file="favicon.ico" tofile="${target-dir}/client/favicon.ico" />    	    
+    </target>
+    
+	<target name="build-client-war">
+		<mkdir dir="${war-dir}"/>
+		<echo>
+			Building war-file.
+		</echo>
+        <war destfile="${war-dir}/oryx.war" webxml="${editor-src-root}/etc/web.xml">
             
             <lib dir="${editor-src-root}/lib">
                 <include name="*.jar"/>
@@ -481,9 +563,7 @@
             
             <fileset file="favicon.ico"/>
         </war>
-        
-          
-    </target>
-    
-    <target name="build-editor" depends="build, examples, compress, dist"/>
+
+	</target>
+    <target name="build-editor" depends="build, examples, compress, dist, build-client-war"/>
 </project>

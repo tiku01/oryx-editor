@@ -7,7 +7,7 @@
 	
 	<property name="build-dir" value="build" />
 	<property name="target-dir" value="dist" />
-	
+	<property name="war-dir" value="war" />
 	<property name="java-dir" value="${server-root-dir}/src/java" />
 	<property name="poem-build-dir" value="${build-dir}/poem-jvm" />
 	<property name="bin-dir" value="${poem-build-dir}/bin" />
@@ -22,7 +22,7 @@
 	<!-- Server targets (backend.war) ****************************************************** -->
 	
     <target name="deploy-backend">
-        <copy file="${target-dir}/backend.war" tofile="${deploymentdir}/backend.war"/>
+        <copy file="${war-dir}/backend.war" tofile="${deploymentdir}/backend.war"/>
     </target>
     
     <target name="undeploy-backend">
@@ -71,12 +71,102 @@
         </concat>
 	</target>
 	
-	<target name="build-backend" depends="compile-backend, compress-repository-javascript, generate-version-file-backend" >
+	<target name="dist" depends="compile-backend, compress-repository-javascript, generate-version-file-backend" >
 		<!-- Add Hibernate xml files to the binary classes dir -->
 		<copy file="${config-dir}/hibernate.cfg.xml" todir="${bin-dir}" />
 		<copy file="${data-dir}/Access.hbm.xml" todir="${bin-dir}" />
 		<mkdir dir="${target-dir}" />
-		<war destfile="${target-dir}/backend.war"  
+		<mkdir dir="${target-dir}/backend" />
+		<mkdir dir="${target-dir}/backend/WEB-INF" />
+		
+    	<copy todir="${target-dir}/backend/WEB-INF" >
+    		<fileset dir="${config-dir}">
+    			<include name="web.xml"/>
+    			<depend  targetdir="${target-dir}/backend/WEB-INF" />
+    		</fileset>
+    	</copy>
+
+    	<copy todir="${target-dir}/backend">
+          <fileset dir="editor/lib">
+            <include name="ext-2.0.2/"/>
+          	<depend  targetdir="${target-dir}/backend/ext-2.0.2" />
+          </fileset>          
+    	</copy>
+
+
+		<copy todir="${target-dir}/backend">
+			<fileset dir="${data-dir}" >
+				<include name="images/" />
+				<depend targetdir="${target-dir}/backend/ext-2.0.2"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${target-dir}/backend">
+			<fileset dir="${server-root-dir}" >
+				<include name="i18n/" />
+				<depend targetdir="${target-dir}/backend/i18n"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${target-dir}/backend">
+			<fileset dir="${server-root-dir}/src" >
+				<include name="css/" />
+				<depend targetdir="${target-dir}/backend/css"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${target-dir}/backend">
+			<fileset dir="${server-root-dir}/src/javascript" >
+				<include name="repository2/" />
+				<depend targetdir="${target-dir}/backend/repository2"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${target-dir}/backend">
+			<fileset dir="${poem-build-dir}" >
+				<include name="repository2/" />
+				<depend targetdir="${target-dir}/backend/repository2"/>
+			</fileset>
+		</copy>
+    	<mkdir dir="${target-dir}/backend/WEB-INF/lib"/>
+    	<copy todir="${target-dir}/backend/WEB-INF/lib">
+          <fileset dir="${lib-dir}">
+            <include name="**/*.*"/>
+          	<depend  targetdir="${target-dir}/backend/WEB-INF/lib" />
+          </fileset>          
+    	</copy>
+
+    	<mkdir dir="${target-dir}/backend/WEB-INF/classes" />
+    	<copy todir="${target-dir}/backend/WEB-INF/classes">
+    		<fileset dir="${bin-dir}">
+    			<include name="**/*.*" />
+              	<depend  targetdir="${target-dir}/backend/WEB-INF/classes" />
+    		</fileset>
+    	</copy>
+
+		<mkdir dir="${target-dir}/backend/META-INF" />
+    	<copy file="build/editor/LICENSE" tofile="${target-dir}/backend/META-INF/LICENSE" />
+
+		
+    	<copy todir="${target-dir}/backend/WEB-INF" >
+    		<fileset dir="${server-root-dir}/etc">
+				<include name="backend.properties" />
+				<include name="*.crt" />
+    			<depend  targetdir="${target-dir}/backend/WEB-INF" />
+    		</fileset>
+    	</copy>
+    	<copy file="${poem-build-dir}/version.xml" tofile="${target-dir}/backend/version.xml" />
+    	<copy file="favicon.ico" tofile="${target-dir}/backend/favicon.ico" />    	    
+
+	</target>	
+	
+	
+	<target name="build-backend-war" depends="compile-backend, compress-repository-javascript, generate-version-file-backend" >
+		<!-- Add Hibernate xml files to the binary classes dir -->
+		<copy file="${config-dir}/hibernate.cfg.xml" todir="${bin-dir}" />
+		<copy file="${data-dir}/Access.hbm.xml" todir="${bin-dir}" />
+		<mkdir dir="${target-dir}" />
+		<war destfile="${war-dir}/backend.war"  
 			webxml="${config-dir}/web.xml" 
 			update="true">
 			<!-- Ext files-->
@@ -161,5 +251,5 @@
             <arg value="--xml"/>
         </exec>
     </target>
-        
+    <target name="build-backend" depends="dist, build-backend-war"/>
 </project>
