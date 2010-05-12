@@ -186,7 +186,7 @@ public class JSONBuilder {
 			for(String key : properties.keySet()) {
 				String propertyValue = properties.get(key);
 				
-				if(propertyValue.matches("true|false")) {
+				/*if(propertyValue.matches("true|false")) {
 				
 					propertiesObject.put(key, propertyValue.equals("true"));
 
@@ -195,7 +195,7 @@ public class JSONBuilder {
 					Integer value = Integer.parseInt(propertyValue);
 					propertiesObject.put(key, value);
 				
-				} else if (propertyValue.startsWith("{") && propertyValue.endsWith("}"))
+				} else */ if (propertyValue.startsWith("{") && propertyValue.endsWith("}"))
 				{
 					propertiesObject.put(key, new JSONObject(propertyValue));
 					
