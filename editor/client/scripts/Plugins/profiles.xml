@@ -119,4 +119,7 @@
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
+	<profile name="ibm" depends="bpmn2.0" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
+		<plugin  name="ORYX.Plugins.IBMModelChanger"/>
+	</profile>
 </profiles>
