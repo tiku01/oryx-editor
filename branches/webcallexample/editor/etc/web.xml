@@ -435,7 +435,11 @@
 		<servlet-name>CPNToolsImporter</servlet-name>
 		<servlet-class>org.oryxeditor.server.CPNToolsImporter</servlet-class>
 	</servlet>
-	
+	<servlet>
+		<display-name>Send a webservice call with bpmnXi xml</display-name>
+		<servlet-name>BPMN20XIWebserviceCall</servlet-name>
+		<servlet-class>org.oryxeditor.server.BPMN20XIWebserviceCall</servlet-class>
+	</servlet>	
 	<!-- Gerardo's Posts finished -->
 
     <!-- Servlet Mappings -->
@@ -676,7 +680,6 @@
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
 		<url-pattern>/bpmn2_0serialization</url-pattern>
 	</servlet-mapping>
-	
 	<servlet-mapping>
 		<servlet-name>Bpmn2_0ToXpdlServlet</servlet-name>
 		<url-pattern>/bpmn2xpdlserialization</url-pattern>
@@ -691,7 +694,10 @@
 		<servlet-name>BPMN2MigrationServlet</servlet-name>
 		<url-pattern>/bpmn2migration</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>BPMN20XIWebserviceCall</servlet-name>
+		<url-pattern>/bpmn2_0webcall</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>TBPMServlet</servlet-name>

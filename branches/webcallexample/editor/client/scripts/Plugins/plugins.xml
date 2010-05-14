@@ -350,7 +350,8 @@
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
-			
+		<plugin source="ibmModelChanger.js" name="ORYX.Plugins.IBMModelChanger"/>
+		
 	</plugins>
 	
 	
