@@ -274,7 +274,7 @@ ORYX.I18N.ERDFSupport.deprText = "Exporting to eRDF is not recommended anymore b
 
 if(!ORYX.I18N.jPDLSupport) ORYX.I18N.jPDLSupport = {};
 
-ORYX.I18N.jPDLSupport.group = "ExecBPMN";
+ORYX.I18N.jPDLSupport.group = "Export";
 ORYX.I18N.jPDLSupport.exp = "Export to jPDL";
 ORYX.I18N.jPDLSupport.expDesc = "Export to jPDL";
 ORYX.I18N.jPDLSupport.imp = "Import from jPDL";
