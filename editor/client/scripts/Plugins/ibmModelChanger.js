@@ -32,6 +32,14 @@ ORYX.Plugins.IBMModelChanger = Clazz.extend({
 				url: ORYX.CONFIG.ROOT_PATH +"bpmn2_0webcall",
 				method: 'POST',
 				success: function(request){
+					/*
+					 * remove all elements from canvas
+					 * CAUTION cannot be undone
+					 */
+					var allShapes = this.facade.getCanvas().getChildShapes();
+					for(i=0;i<allShapes.length;i++){
+						this.facade.getCanvas().remove(allShapes[i]);
+					}
 					this.facade.importJSON(request.responseText, true); 
 					}.bind(this),
 				failure: function() {
