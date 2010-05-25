@@ -96,7 +96,6 @@ MOVI.namespace("util");
 		if (YAHOO.env.ua.ie > 0)
 			this.set("unselectable", "off");           // IE
 		
-		this._update();
 	}
 
 	MOVI.extend(MOVI.util.Annotation, Element, {
@@ -226,6 +225,7 @@ MOVI.namespace("util");
 	     * @method show
 	     */
 		show: function() {
+		    this._update();
 			this._marker.show();
 			this.addClass(_BUBBLE_VISIBLE_CLASS_NAME);
 			this.removeClass(_BUBBLE_HIDDEN_CLASS_NAME)

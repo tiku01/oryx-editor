@@ -384,6 +384,11 @@ MOVI.namespace("util");
 				
 				var left = - MOVI.util.Marker.PADDING;
 				var top = - MOVI.util.Marker.PADDING;
+				if(YAHOO.env.ua.ie) {
+					left = Math.round(left/2);
+					top = Math.round(top/2);
+				}
+				
 				var width = Math.round((shape.bounds.lowerRight.x
 							- shape.bounds.upperLeft.x)*zoomFactor) + 2*MOVI.util.Marker.PADDING
 							- bLWidth - bRWidth;

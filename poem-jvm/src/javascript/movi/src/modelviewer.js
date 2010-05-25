@@ -639,8 +639,8 @@ MOVI.namespace("widget");
 				}
 			}
 			
-			if (null != (h = this.getScrollboxEl().getStyle("height").match(/(\d+)px/)) &&
-			    null != (w = this.getScrollboxEl().getStyle("width").match(/(\d+)px/)))
+			if (null != (h = this.getScrollboxEl().getStyle("height").match(/(\d+)px/) || this.getScrollboxEl().get("element").offsetHeight) &&
+			    null != (w = this.getScrollboxEl().getStyle("width").match(/(\d+)px/) || this.getScrollboxEl().get("element").offsetWidth))
 			{
 				var bounds = shape.getAbsBounds();			
 
