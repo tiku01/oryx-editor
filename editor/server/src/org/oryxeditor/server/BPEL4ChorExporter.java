@@ -268,7 +268,7 @@ public class BPEL4ChorExporter extends HttpServlet {
 			}
 
 			// delete all useless attributes and elements
-			cleanUp(topology);
+			//cleanUp(topology);
 			
 			// extension by changhua Li
 			// set the xmlns:processes attribute of element topology
@@ -480,59 +480,6 @@ public class BPEL4ChorExporter extends HttpServlet {
 							prefix + ":" + pbd);
 					childElement.setAttribute("xmlns:" + prefix, namespace);
 				}
-/*				// record type
-				String type = childElement.getAttribute("name");
-				if (typeRecorder.contains(type)){
-=======
-				String pbd = childElement
-							.getAttribute("participantBehaviorDescription");
-				if (pbd == "") {
->>>>>>> .r3499
-					uselessChildren.add(childElement);
-				} else {
-					// record type only if BPD is existend
-					String type = childElement.getAttribute("name");
-					typeRecorder.add(type);
-<<<<<<< .mine
-				}
-				
-				String processName = childElement
-							.getAttribute("participantBehaviorDescription");
-				// extension by changhua Li
-				// store the processName into processNameSet
-				processNameSet.add(processName);
-				// extension end
-				if (processName != ""){
-=======
-
->>>>>>> .r3499
-					String namespace = childElement.getAttribute("processNamespace");
-					String prefix = childElement.lookupPrefix(namespace);
-<<<<<<< .mine
-					
-					if (prefix != ""){
-						childElement.setAttribute("participantBehaviorDescription", 
-								prefix + ":" + processName);
-=======
-					if (prefix == null) {
-						prefix = "ns" + pbd;
->>>>>>> .r3499
-					}
-<<<<<<< .mine
-					// extension by changhua Li
-					// to ensure that participantBehaviorDescription has a QName value
-					else {
-						childElement.setAttribute("participantBehaviorDescription",
-								processName + ":" + processName);
-					}
-					// extension end
-=======
-					childElement.setAttribute("participantBehaviorDescription",
-							prefix + ":" + pbd);
-					childElement.setAttribute("xmlns:" + prefix, namespace);
->>>>>>> .r3499
-				}
-*/				
 			}
 		}
 		

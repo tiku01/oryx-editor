@@ -422,7 +422,7 @@
 			</xsl:variable>
 			
 			<!--crossPartnerScopes saved in process or scope-->
-			<xsl:if test="$nodeType='process'">
+			<xsl:if test="$nodeType='process' or 'scope'">
 				<xsl:variable name="typeName" select="./oryx:crosspartnerscopes" />
 				<xsl:variable name="elementName" select="./oryx:name" />
 				<xsl:variable name="elementType" select="./oryx:type" />
