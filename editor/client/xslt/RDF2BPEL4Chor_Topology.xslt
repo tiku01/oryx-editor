@@ -17,7 +17,7 @@
 
 		<xsl:if test="$nodeType='worksheet'">
 			<!-- root element -->
-			<topology>
+			<topology xmlns="urn:HPI_IAAS:choreography:schemas:choreography:topology:2006/12">
 				<xsl:variable name="name" select="./oryx:name" />
 				<xsl:if test="$name!=''">
 					<xsl:attribute name="name">
