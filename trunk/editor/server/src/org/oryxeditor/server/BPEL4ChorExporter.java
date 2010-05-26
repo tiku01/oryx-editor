@@ -338,6 +338,10 @@ public class BPEL4ChorExporter extends HttpServlet {
 		}
 	}
 	
+	/**
+	 * FIXME: This method is NOT namespace aware. Incoming element has NO namespace information
+	 * @param participantTypes
+	 */
 	private void handleParticipantTypesElement(Element participantTypes) {
 		
 		ArrayList<String> typeRecorder = new ArrayList<String>();
@@ -351,24 +355,23 @@ public class BPEL4ChorExporter extends HttpServlet {
 				
 				Element childElement = (Element)child;
 				
-				// record type
-				String type = childElement.getAttribute("name");
-				if (typeRecorder.contains(type)){
+				String pbd = childElement
+							.getAttribute("participantBehaviorDescription");
+				if (pbd == "") {
 					uselessChildren.add(childElement);
 				} else {
+					// record type only if BPD is existend
+					String type = childElement.getAttribute("name");
 					typeRecorder.add(type);
-				}
-				
-				String processName = childElement
-							.getAttribute("participantBehaviorDescription");
-				if (processName != null){
+
 					String namespace = childElement.getAttribute("processNamespace");
 					String prefix = childElement.lookupPrefix(namespace);
-					
-					if (prefix != null){
-						childElement.setAttribute("participantBehaviorDescription", 
-								prefix + ":" + processName);
+					if (prefix == null) {
+						prefix = "ns" + pbd;
 					}
+					childElement.setAttribute("participantBehaviorDescription",
+							prefix + ":" + pbd);
+					childElement.setAttribute("xmlns:" + prefix, namespace);
 				}
 				
 			}
