@@ -422,7 +422,7 @@
 			</xsl:variable>
 			
 			<!--crossPartnerScopes saved in process or scope-->
-			<xsl:if test="$nodeType='process' or 'scope'">
+			<xsl:if test="$nodeType='process'">
 				<xsl:variable name="typeName" select="./oryx:crosspartnerscopes" />
 				<xsl:variable name="elementName" select="./oryx:name" />
 				<xsl:variable name="elementType" select="./oryx:type" />
@@ -440,7 +440,7 @@
 				</xsl:if>
 					
 				<xsl:if test="$typeName=''">
-					<crossPartnerScope />
+					<crossPartnerScopeInfo />
 				</xsl:if>
 			</xsl:if>	
 		</xsl:for-each>
@@ -456,7 +456,7 @@
 		
 		<xsl:if test="$data-set != ''">
 			<xsl:if test="contains($data-set, ',')">
-				<crossPartnerScope>
+				<crossPartnerScopeInfo>
 					<xsl:attribute name="name">
 						<xsl:value-of select="substring-before($data-set, ',')" />
 					</xsl:attribute>
@@ -475,10 +475,10 @@
 					<xsl:call-template name="find-children-nodes-of-process">
 						<xsl:with-param name="searchedParentID"><xsl:value-of select="$elementId" /></xsl:with-param>
 			    	</xsl:call-template>	
-				</crossPartnerScope>
+				</crossPartnerScopeInfo>
 			</xsl:if>
 			<xsl:if test="not(contains($data-set, ','))">
-				<crossPartnerScope>
+				<crossPartnerScopeInfo>
 					<xsl:attribute name="name">
 						<xsl:value-of select="$data-set" />
 					</xsl:attribute>
@@ -497,7 +497,7 @@
 					<xsl:call-template name="find-children-nodes-of-process">
 						<xsl:with-param name="searchedParentID"><xsl:value-of select="$elementId" /></xsl:with-param>
 			    	</xsl:call-template>
-				</crossPartnerScope>
+				</crossPartnerScopeInfo>
 			</xsl:if>
 			<xsl:call-template name="loop-for-adding-crossPartnerScopes">
 				<xsl:with-param name="data-set" select="substring-after($data-set, ',')" />
@@ -709,6 +709,7 @@
 			<xsl:if test="$type='process'">
 				<xsl:variable name="processID"><xsl:value-of select="@rdf:about" /></xsl:variable>
 				<xsl:variable name="participantType" select="./oryx:participanttype" />
+				<xsl:variable name="processName" select="./oryx:name" />
 					
 				<process>
 					<xsl:if test="$processID!=''">
@@ -722,6 +723,19 @@
 							<xsl:value-of select="$participantType" />
 						</xsl:attribute>
 					</xsl:if>
+					
+					<!-- extended by Changhua Li (create the children elements of process)-->
+					<xsl:if test="$processName!=''">
+						<xsl:attribute name="name">
+							<xsl:value-of select="$processName" />
+						</xsl:attribute>
+					</xsl:if>		
+					
+					<xsl:call-template name="find-children-nodes-of-process">
+						<xsl:with-param name="searchedParentID"><xsl:value-of select="$processID" /></xsl:with-param>
+			    	</xsl:call-template>
+			    	<!-- extended end -->
+			    	
 				</process>	
 				
 				<xsl:call-template name="find-children-nodes">
