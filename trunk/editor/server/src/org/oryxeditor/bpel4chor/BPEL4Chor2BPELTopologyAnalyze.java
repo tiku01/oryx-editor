@@ -3,7 +3,6 @@ package org.oryxeditor.bpel4chor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -11,6 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
 
 /**
  * Copyright (c) 2009-2010 
@@ -38,14 +39,11 @@ import org.w3c.dom.NodeList;
 
 
 /**
- * !!!!!!Attention!!!!!!
- * Now this files works isolated from the other files, which outside of this directory.
- * But it should be added into oryx as a plugin in the further.
  * 
  * It will be used for the Transformation of the BPEL4Chor to BPEL.
  * 
  * It was designed for the Diplom Arbeit of Changhua Li(student of uni. stuttgart), 
- * It is the analyze of Topology, which was designed in the Studien Arbeit
+ * It is the analyze of Topology, which was designed in the Studien-Arbeit
  * of Peter Reimann(2008)
  */
 
@@ -59,36 +57,35 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	public Set<String> namespacePrefixSet = new HashSet<String>();
 	public HashMap<String, String> ns2prefixMap = new HashMap<String, String>();
 	public String topologyNS;					// it will be used in conversion of PBD
-	public HashMap<String, String> forEach2setMap = new HashMap<String, String>();
+	public HashMap<QName, String> forEach2setMap = new HashMap<QName, String>();
 
 	/*************************ParticipantType variables***********************/
 	public Set<String> paTypeSet = new HashSet<String>();
 
 	// 3.5: process set
-	public Set<String> processSet = new HashSet<String>();
-	//private HashMap<String, String> paType2PBDMap = new HashMap<String, String>();
+	public Set<QName> processSet = new HashSet<QName>();
 	
 	// for the function 3.6 fprocessPaType
-	public HashMap<String, String> paType2processMap = new HashMap<String, String>();
+	public HashMap<String, QName> paType2processMap = new HashMap<String, QName>();
 
 	/*************************Participants**************************/
 	public Set<String> paSet = new HashSet<String>();
 
 	// 3.10: scopes set
-	public Set<String> scopeSet = new HashSet<String>();
+	public Set<QName> scopeSet = new HashSet<QName>();
 
 	// for function 3.9 ftypePa
 	public HashMap<String, String> pa2paTypeMap = new HashMap<String, String>();
 
 	// for function 3.11 fscopePa
 	public HashMap<String, Object> pa2scopeMap = new HashMap<String, Object>();
-	private HashMap<String, String> pa2foreachInScopeMap = new HashMap<String, String>();
+	private HashMap<QName, String> pa2foreachInScopeMap = new HashMap<QName, String>();
 
 
 	/*************************MessageLink variables***************************/
 	public Set<String> messageLinkSet = new HashSet<String>();
 
-	public Set<String> messageConstructsSet = new HashSet<String>();
+	public Set<QName> messageConstructsSet = new HashSet<QName>();
 
 	public HashMap<String, Object> ml2mcMap = new HashMap<String, Object>();
 
@@ -100,76 +97,59 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	/**
 	 * To analyze the name spaces of <topology> of topology.xml with the node name "topology"
 	 * 
-	 * @param {Document} currentDocument      The element <topology> of topology.xml 
+	 * @param {Element} elCurrent      The element <topology> of topology.xml 
 	 */
-	public void nsAnalyze (Element currentDocument){
+	public void nsAnalyze (Element elTopology){
 		
-		getNamespaceSet(currentDocument, "topology");
-		
-		//System.out.println("ns2prefixMap of topology is: " + ns2prefixMap);
-		//System.out.println("namespaces prefix Set of topology is: " + namespacePrefixSet);
-		//System.out.println("namespaceSet is: " + namespaceSet);			
+		getNamespaceSet(elTopology, "topology");
 	}
 	
 	/**
 	 * To analyze the part <participantTypes> of topology.xml
 	 * 
-	 * @param {Document} currentDocument     The element <topology> of topology.xml 
+	 * @param {Element} elCurrent     The element <topology> of topology.xml 
 	 */
-	public void paTypeAnalyze (Element currentDocument){
+	public void paTypeAnalyze (Element elTopology){
 		
-		paTypeSet = getPaTypeSet(currentDocument);
-		processSet = getProcessSet(currentDocument);
-		paType2processMap = getPaType2ProcessMap(currentDocument);
-		
-		//System.out.println("paTypeSet" + paTypeSet);
-		//System.out.println("processSet" + processSet);
-		//System.out.println("paType2processMap is: " + paType2processMap);
+		paTypeSet = getPaTypeSet(elTopology);
+		processSet = getProcessSet(elTopology);
+		paType2processMap = getPaType2ProcessMap(elTopology);
 	}
 	
 	/**
 	 * To analyze the part <participants> of topology.xml
 	 * 
-	 * @param {Element} topology     The element <topology> of topology.xml
+	 * @param {Element} elTopology     The element <topology> of topology.xml
 	 */
-	public void paAnalyze (Element topology){
+	public void paAnalyze (Element elTopology){
 				
-		paSet = getPaSet(topology);
-		paTypeSet = getPaTypeSet(topology);
-		
-		getPa2PaTypeMap(topology);
-
-		scopeSet = getScopeSet(topology);
-		
-		getPa2ScopeMap(topology);
-				
-		//System.out.println("pa2scopeMap is: " + pa2scopeMap);
-		//System.out.println("pa2paTypeMap is:" + pa2paTypeMap);
-		//System.out.println("scopeSet is:" + scopeSet);
-		//System.out.println("paTypeSet is: " + paTypeSet);
-		//System.out.println("paSet is: " + paSet);
-		//System.out.println("pa2foreachInScopeMap is: " + pa2foreachInScopeMap);
+		paSet = getPaSet(elTopology);
+		paTypeSet = getPaTypeSet(elTopology);
+		getPa2PaTypeMap(elTopology);
+		scopeSet = getScopeSet(elTopology);
+		getPa2ScopeMap(elTopology);
 	}
 	
 	/**
 	 * To analyze the part <messageLinks> of topology.xml
 	 * 
-	 * @param {Element} topology     The element <topology> of topology.xml
+	 * @param {Element} elTopology     The element <topology> of topology.xml
 	 */
-	public void mlAnalyze(Element topology){
+	public void mlAnalyze(Element elTopology){
 		
 		messageLinkSet = new HashSet<String>();		  // ML Set
-		messageConstructsSet = new HashSet<String>(); // MC Set
+		messageConstructsSet = new HashSet<QName>();  // MC Set
 		String ml;                                    // ml is an Element of messageLinkSet
-		String receiver, sender1 = ""; 				  // they are the Element of PaSet
+		String receiver, sender1 = EMPTY; 			  // they are the Element of PaSet
 		ArrayList<String> sendersList = new ArrayList<String>();  // to store Elements of Attribute "senders"
 		String receiveActivity, sendActivity;         // NCName
-		String receiverns, senderns;                  // name space prefixes receiver-ns and sender-ns
-		String mc1, mc2;							  // QName, mc1 will be the sned activity and mc2 the receive activity of the message link
+		String receiverNSPrefix, senderNSPrefix;      // Prefix of name space of "receiver" and "sender"
+		QName mc1, mc2;							  	  // QName, mc1 will be the "sendActivity" and mc2 the
+													  // "receiveActivity" of the message link
 		
 		// during the analyze of messageLink of topology to get the messageLinkSet, 
-		// messageConstructsSet, ml2mcMap, ml2paMap, 
-		NodeList childNodes = topology.getElementsByTagName("messageLink");
+		// messageConstructsSet, ml2mcMap, ml2paMap 
+		NodeList childNodes = elTopology.getElementsByTagName("messageLink");
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -202,52 +182,45 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 				if (sendActivity == null) {
 					log.severe("No sendActivity given");
 				}
-				receiverns = fnsprefixProcess(fprocessPaType(ftypePa(receiver)));
-				senderns = fnsprefixProcess(fprocessPaType(ftypePa(sender1)));
-				mc2 = buildQName(receiverns, receiveActivity);
-				mc1 = buildQName(senderns, sendActivity);
+				receiverNSPrefix = fnsprefixProcess(fprocessPaType(ftypePa(receiver)));
+				senderNSPrefix = fnsprefixProcess(fprocessPaType(ftypePa(sender1)));
+				mc2 = buildQName(receiverNSPrefix, receiveActivity);
+				mc1 = buildQName(senderNSPrefix, sendActivity);
 				messageConstructsSet.add(mc2);
 				messageConstructsSet.add(mc1);
-				// deal with the senders attribute
+				// deal with the "senders" attribute
 				if(sendersList.size() >= 2){
 					for(int k=1; k<sendersList.size(); k++){
-						senderns = fnsprefixProcess(fprocessPaType(ftypePa(sendersList.get(k))));
-						mc2 = buildQName(receiverns, receiveActivity);
-						mc1 = buildQName(senderns, sendActivity);
+						senderNSPrefix = fnsprefixProcess(fprocessPaType(ftypePa(sendersList.get(k))));
+						mc2 = buildQName(receiverNSPrefix, receiveActivity);
+						mc1 = buildQName(senderNSPrefix, sendActivity);
 						messageConstructsSet.add(mc2);
 						messageConstructsSet.add(mc1);
 					}
 				}
 				// create ml2mcMap for function fconstructsML
-				ArrayList<String> mcSenderReceiverList = new ArrayList<String>();
+				ArrayList<QName> mcSenderReceiverList = new ArrayList<QName>();
 				if (!sendActivity.isEmpty() && !receiveActivity.isEmpty()){
 					mcSenderReceiverList.clear();
 					mcSenderReceiverList.add(mc1);
 					mcSenderReceiverList.add(mc2);
 					ml2mcMap.put(ml, mcSenderReceiverList);
-					
 				}
 				// create ml2paMap for function fparefsML
-				ArrayList<Object> senderReceiverList = new ArrayList<Object>();
-				//senderReceiverList.clear();
+				ArrayList<Object> sendersReceiverList = new ArrayList<Object>();
 				if (((Element) child).hasAttribute("senders")){
-					senderReceiverList.add(sendersList);
-					senderReceiverList.add(receiver);
+					sendersReceiverList.add(sendersList);
+					sendersReceiverList.add(receiver);
 				}
 				else {
 					ArrayList<String> senderList = new ArrayList<String>();
 					senderList.add(sender1);
-					senderReceiverList.add(senderList);
-					senderReceiverList.add(receiver);
+					sendersReceiverList.add(senderList);
+					sendersReceiverList.add(receiver);
 				}
-				ml2paMap.put(ml, senderReceiverList);
+				ml2paMap.put(ml, sendersReceiverList);
 			}
 		}
-		
-		//System.out.println("MessageLinkSet is: " + messageLinkSet);
-		//System.out.println("MessageConstructsSet is: " + messageConstructsSet);
-		//System.out.println("ml2mcMap is: " + ml2mcMap);
-		//System.out.println("ml2paMap is: " + ml2paMap);
 	}
 	
 
@@ -255,7 +228,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	/**
 	 * to create the Sets: namespaceSet, namespaceprefixSet and Mapping: ns2prefixMap
 	 * 
-	 * Difference to BPEL4Chor2BPELGroundingAnalyze.getNamespaceSet: "topology" instead of "grounding" 
+	 * Difference to BPEL4Chor2BPELGroundingAnalyze.getNamespaceSet: no "topology" name space handling
 	 * 
 	 * @param {Node}   currentNode     The current node of the XML file
 	 * @param {String} nodeName        The name of the Node
@@ -268,8 +241,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			for(int i=0; i<currentNode.getAttributes().getLength(); i++){
 				str = currentNode.getAttributes().item(i).toString();
 				strSplit = str.split("=");
-				if(strSplit[0].contains("xmlns") || (strSplit[0].equals("targetNamespace")) 
-						|| (strSplit[0].equals("topology"))){
+				if(strSplit[0].contains("xmlns") || (strSplit[0].equals("targetNamespace"))){
 					if(strSplit[0].equals("targetNamespace")){
 						ns2prefixMap.put(strSplit[0], strSplit[1].replaceAll("\"", ""));
 						String valueOfTopologyNS = strSplit[1].replaceAll("\"", "");
@@ -289,12 +261,6 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 						namespaceSet.add(strSplit[1].replaceAll("\"", ""));
 						ns2prefixMap.put(strSplit[0],strSplit[1].replaceAll("\"", ""));
 					}
-					if(strSplit[0].equals("topology")){
-						ns2prefixMap.put(strSplit[0], strSplit[1].replaceAll("\"", ""));
-						String valueOfTopologyInGrounding = strSplit[1].replaceAll("\"", "");
-						namespacePrefixSet.add(strSplit[0]);
-						namespaceSet.add(valueOfTopologyInGrounding);
-					}
 				}
 			}
 		}
@@ -312,25 +278,24 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 
 	/***********************Method of ParticipantType*************************/
 	/**
-	 * function 3.4: To create the participantTypeSet (create the mapping between "name" and "participantBehaviorDescription")
+	 * function 3.4: To create the participantTypeSet 
+	 * create set for "participantType"
 	 * 
-	 * @param {Element} currentElement     The current Element
-	 * @return {Set}    paTypeSet          The participantType set
+	 * @param {Element} elCurrent     The current Element
+	 * @return {Set}    paTypeSet     The participantType set
 	 */
-	private Set<String> getPaTypeSet(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	private Set<String> getPaTypeSet(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return null;
 		}
 
-		if(currentElement.getLocalName().equals("participantType")){
+		if(elCurrent.getLocalName().equals("participantType")){
 			// analyze name space of participantType node
-			String paType = currentElement.getAttribute("name");
+			String paType = elCurrent.getAttribute("name");
 			paTypeSet.add(paType);
-//			String paTypePBD = currentElement.getAttribute("participantBehaviorDescription");
-//			paType2PBDMap.put(paType, paTypePBD);
 		}
 
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -343,31 +308,24 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	
 	/**
 	 * function 3.5: To create the processSet
+	 * create set for "participantBehaviorDescription"
 	 * 
-	 * @param {Element} currentElement     The current element
-	 * @return {Set}    processSet         The process set
+	 * @param {Element} elCurrent     The current element
+	 * @return {Set}    processSet    The process set
 	 */
-	private Set<String> getProcessSet(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	private Set<QName> getProcessSet(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return null;
 		}
-
-/*		if(currentElement.getLocalName().equals("participant")){
-			String processLocalName = currentElement.getAttribute("name");
-			String processType = currentElement.getAttribute("type");
-			String prefixOfProcess = fnsprefixProcess(paType2PBDMap.get(processType));
-			String processName = prefixOfProcess + ":" + processLocalName;
-			processSet.add(processName);
-		}
-*/
 		
-		if(currentElement.getLocalName().equals("participantType")){
+		if(elCurrent.getLocalName().equals("participantType")){
 			// analyze namespace of participantType node
-			String pbd = currentElement.getAttribute("participantBehaviorDescription");
-			processSet.add(pbd);
+			String pbd = elCurrent.getAttribute("participantBehaviorDescription");
+			QName qNamePBD = QName.valueOf(pbd);
+			processSet.add(qNamePBD);
 		}
 		
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -380,37 +338,25 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 
 	/**
 	 * To create the paType2processMap for function 3.6
+	 * create the mapping between "participantType" and "participantBehaviorDescription" 
 	 * 
-	 * @param {Element} currentElement     The current element
+	 * @param {Element} elCurrent     The current element
 	 * @return {HashMap} paType2processMap The mapping of paType and process
 	 */
-	private HashMap<String, String> getPaType2ProcessMap(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)) {
+	private HashMap<String, QName> getPaType2ProcessMap(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)) {
 			return null;
 		}
 
-/*		if(currentElement.getLocalName().equals("participant") && 
-				!currentElement.getParentNode().getLocalName().equals("participantSet")){
-
+		if(elCurrent.getLocalName().equals("participantType")){
 			// analyze namespace of participantType node
-			String processLocalName = currentElement.getAttribute("name");
-			String processType = currentElement.getAttribute("type");
-			String processPrefix = fnsprefixProcess(paType2PBDMap.get(processType));
-			String process = processPrefix + ":" + processLocalName;
-			//String pbd = currentElement.getAttribute("participantBehaviorDescription");
-			paType2processMap.put(processType, process);
-		}
-*/
-		
-		if(currentElement.getLocalName().equals("participantType")){
-
-			// analyze namespace of participantType node
-			String paName = currentElement.getAttribute("name");
-			String pbd = currentElement.getAttribute("participantBehaviorDescription");
-			paType2processMap.put(paName, pbd);
+			String paName = elCurrent.getAttribute("name");
+			String pbd = elCurrent.getAttribute("participantBehaviorDescription");
+			QName qNamePBD = QName.valueOf(pbd);
+			paType2processMap.put(paName, qNamePBD);
 		}
 		
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -423,75 +369,80 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 
 	/**
 	 * function 3.6: processPaType: PaType -> Process
+	 * according to the participantType output the pbd.
+	 * assumption: paType2processMap is existed.
 	 * 
-	 * @param {String} paType     The participant type
-	 * @return {String} process   The process 
+	 * @param {String} participantType     The participant type
+	 * @return {QName} process   		   The PBD 
 	 */
-	private String fprocessPaType(String paType){
-		if(!paType.isEmpty() && paType2processMap.containsKey(paType)){
-			return paType2processMap.get(paType);
+	private QName fprocessPaType(String participantType){
+		if(!participantType.isEmpty() && paType2processMap.containsKey(participantType)){
+			return paType2processMap.get(participantType);
 		}
-		return EMPTY;
+		return QName.valueOf(EMPTY);
 	}
 
 	/**
 	 * function 3.7: nsprefixProcess: Process -> NSPrefix
+	 * according to the pbd output the prefix of pbd.
+	 * assumption: process is QName.
 	 * 
-	 * @param {String} process     The process
+	 * @param {QName} process      The process
 	 * @return {String} nsprefix   The name space prefix
 	 */
-	private String fnsprefixProcess(String process){
-		String[] nsprefixSplit;
-		if(process.contains(":")){
-			nsprefixSplit = process.split(":");
-			return nsprefixSplit[0];
-		}
-		return EMPTY;
+	private String fnsprefixProcess(QName process){
+		return process.toString().split(":")[0];
 	}
 
 
 	/********************Method of Participant*************************/
 	/**
-	 * function 3.8: To create a set of participants
+	 * function 3.8: To create a set of "participant" and call the function 3.36 
+	 * to create mapping between "forEach" or "scope" with <participantSet> element
+	 * or <participant> element
 	 * 
-	 * @param {Element} currentElement     The current element
-	 * @return {Set}    paSet              The participant set
+	 * @param {Element} elCurrent     The current element
+	 * @return {Set}    paSet         The participant set
 	 */
-	private Set<String> getPaSet(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	private Set<String> getPaSet(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return null;
 		}
 
-		if(currentElement.getLocalName().equals("participant") || 
-			currentElement.getLocalName().equals("participantSet")){
-				String pa = currentElement.getAttribute("name");
+		if(elCurrent.getLocalName().equals("participant") || 
+			elCurrent.getLocalName().equals("participantSet")){
+				String pa = elCurrent.getAttribute("name");
 				paSet.add(pa);
 		}
 
 		// make forEach2setMap for PBDConvertion (base for function 3.36)
-		if(currentElement.getLocalName().equals("participantSet")){
-			String paSetName = currentElement.getAttribute("name");
-			if(currentElement.hasAttribute("scope")){
-				String scContent = currentElement.getAttribute("scope");
-				// it allow just one scope for scope attribute
-				fsetForEach(scContent, EMPTY);
+		if(elCurrent.getLocalName().equals("participantSet")){
+			String paSetName = elCurrent.getAttribute("name");
+			if(elCurrent.hasAttribute("scope")){
+				String scContent = elCurrent.getAttribute("scope");
+				QName qNameScope = QName.valueOf(scContent);
+				// it allows just one scope for scope attribute
+				fsetForEach(qNameScope, EMPTY);
 			}
-		    if(currentElement.hasAttribute("forEach")){
-				String scContent = currentElement.getAttribute("forEach");
-				// it allow many forEachs for forEach attribute
-				if(scContent.contains(" ")){
-					String[] scArray = scContent.split(" ");
-					for(int i=0;i<scArray.length;i++){
-						fsetForEach(scArray[i].toString(), paSetName);
+		    if(elCurrent.hasAttribute("forEach")){
+				String fEContent = elCurrent.getAttribute("forEach");
+				// it allows many forEachs for forEach attribute
+				if(fEContent.contains(" ")){
+					String[] fEArray = fEContent.split(" ");
+					for(int i=0;i<fEArray.length;i++){
+						String strFE = fEArray[i].toString();
+						QName qNameForEach = QName.valueOf(strFE);
+						fsetForEach(qNameForEach, paSetName);
 					}
 				}
 				else{
-					fsetForEach(scContent, paSetName);
+					QName qNameForEach = QName.valueOf(fEContent);
+					fsetForEach(qNameForEach, paSetName);
 				}
 			}
 		}
 
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for(int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -503,35 +454,37 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	}
 
 	/**
-	 * To create pa2paTypeMap for 3.9
+	 * create pa2paTypeMap for function 3.9
+	 * to create mapping between <participant> and <participantType>
 	 * 
-	 * @param {Element} currentElement     The current element
+	 * @param {Element} elCurrent     The current element
 	 */
-	private void getPa2PaTypeMap(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	private void getPa2PaTypeMap(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return;
 		}
 
-		if(currentElement.getLocalName().equals("participant")){
+		if(elCurrent.getLocalName().equals("participant")){
 			try{
-				if(!(currentElement.getAttribute("name") == "") &&
-						!(currentElement.getAttribute("type") == "")){
-					String pa = currentElement.getAttribute("name");
-					String paType = currentElement.getAttribute("type");
+				if(!(elCurrent.getAttribute("name") == EMPTY) &&
+						!(elCurrent.getAttribute("type") == EMPTY)){
+					String pa = elCurrent.getAttribute("name");
+					String paType = elCurrent.getAttribute("type");
 					pa2paTypeMap.put(pa, paType);
 				}
 			}
 			catch(Exception e){
 				e.printStackTrace();
+				log.severe("participant is not defined completely.");
 			}
 		}
-		if(currentElement.getLocalName().equals("participantSet")){
+		if(elCurrent.getLocalName().equals("participantSet")){
 			try{
-				String pa = currentElement.getAttribute("name");
-				String paType = currentElement.getAttribute("type");
+				String pa = elCurrent.getAttribute("name");
+				String paType = elCurrent.getAttribute("type");
 				pa2paTypeMap.put(pa, paType);
-				if(currentElement.hasChildNodes()){
-					NodeList childNodes = currentElement.getChildNodes();
+				if(elCurrent.hasChildNodes()){
+					NodeList childNodes = elCurrent.getChildNodes();
 					Node child;
 					for(int i = 0; i < childNodes.getLength(); i++){
 						child = childNodes.item(i);
@@ -545,10 +498,11 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			}
 			catch(Exception e){
 				e.printStackTrace();
+				log.severe("participantSet is not defined completely.");
 			}
 		}
 
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -560,60 +514,52 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 
 	/**
 	 * function 3.9: typePa: Pa -> paType
+	 * according to participant output the participantType.
+	 * assumption: pa2paTypeMap is not empty.
 	 * 
-	 * @param {String} participant       The participant
-	 * @return {String} participantType  The participantType
+	 * @param {String} participant       The name of <participant>
+	 * @return {String} participantType  The name of <participantType>
 	 */
 	private String ftypePa (String participant){
-		if(!paTypeSet.isEmpty()){
-			Iterator<String> it = paTypeSet.iterator();
-			while (it.hasNext()){
-				String participantType = (String)it.next();
-				try{
-					if(pa2paTypeMap.containsKey(participant) && pa2paTypeMap.get(participant).equals(participantType)){
-						return participantType;
-					}
-				}
-				catch (Exception e){
-					e.printStackTrace();
-					System.out.println(participant + " has problem");
-				}
-			}
-		}
-		return EMPTY;
+		return pa2paTypeMap.get(participant);
 	}
 
 	/**
-	 * function 3.10: getScopeSet for <scope> and <forEach> attribute of participant 
+	 * function 3.10: getScopeSet for "scope" and "forEach" attribute of <participant> or <participantSet>
+	 * create set scopeSet to store "scope" and "forEach" of <participant> or <participantSet>
 	 * 
-	 * @param {Element} currentElement     The current element
-	 * @return {Set}    scopeSet           The scope set
+	 * @param {Element} elCurrent     The current element
+	 * @return {Set}    scopeSet      The scope set
 	 */
-	private Set<String> getScopeSet(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	private Set<QName> getScopeSet(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return null;
 		}
 
-		if(currentElement.getLocalName().equals("participant") || currentElement.getLocalName().equals("participantSet")){
+		if(elCurrent.getLocalName().equals("participant") || 
+		   elCurrent.getLocalName().equals("participantSet")){
 			try{
-				// it is might be many elements in forEach attribute
-				if(!(currentElement.getAttribute("forEach") == "")){
-					String forEachAttribute = currentElement.getAttribute("forEach");
+				// it allows many elements in forEach attribute
+				if(!(elCurrent.getAttribute("forEach") == EMPTY)){
+					String forEachAttribute = elCurrent.getAttribute("forEach");
 					if(forEachAttribute.contains(" ")){
 						String[] forEachArray = forEachAttribute.split(" ");
 						for(int i=0;i<forEachArray.length;i++){
-							scopeSet.add(forEachArray[i]);
+							QName qNameForEach = QName.valueOf(forEachArray[i].toString());
+							scopeSet.add(qNameForEach);
 						}
 					}
 					else{
-						scopeSet.add(forEachAttribute);
+						QName qNameForEach = QName.valueOf(forEachAttribute);
+						scopeSet.add(qNameForEach);
 					}
 				}
 
-				// it could be just one element in scope attribute 
-				if(!(currentElement.getAttribute("scope") == "")){
-					String scopeAttribute = currentElement.getAttribute("scope");
-					scopeSet.add(scopeAttribute);
+				// it allows just one element in scope attribute 
+				if(!(elCurrent.getAttribute("scope") == EMPTY)){
+					String scopeAttribute = elCurrent.getAttribute("scope");
+					QName qNameScope = QName.valueOf(scopeAttribute);
+					scopeSet.add(qNameScope);
 				}
 			}
 			catch (NullPointerException e)
@@ -622,7 +568,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 			}
 		}
 
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -634,45 +580,48 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	}
 
 	/**
-	 * To create mapping{participant, scope||forEach} for function 3.11
+	 * To create mapping between "participant" and "scope" or "forEach" for function 3.11
+	 * create pa2scopeMap: ({String} participant, {QName} "scope" or "forEach")
 	 * 
-	 * @param {Element} currentElement     The current element
+	 * @param {Element} elCurrent     The current element
 	 */
-	private void getPa2ScopeMap(Element currentElement){
-		if(!((currentElement instanceof Node) || (currentElement instanceof Document))){
+	private void getPa2ScopeMap(Element elCurrent){
+		if(!((elCurrent instanceof Node) || (elCurrent instanceof Document))){
 			return;
 		}
 
-		if(currentElement.getLocalName().equals("participant")){
+		if(elCurrent.getLocalName().equals("participant")){
 			try{
-				if((currentElement.getAttribute("name") != "") &&
-						(currentElement.getAttribute("scope") != "")){
-					String pa = currentElement.getAttribute("name");
-					String paScope = currentElement.getAttribute("scope");
-					pa2scopeMap.put(pa, paScope);
+				if((elCurrent.getAttribute("name") != EMPTY) &&
+						(elCurrent.getAttribute("scope") != EMPTY)){
+					String pa = elCurrent.getAttribute("name");
+					String paScope = elCurrent.getAttribute("scope");
+					QName qNameScope = QName.valueOf(paScope);
+					pa2scopeMap.put(pa, qNameScope);
 				}
-				else if((currentElement.getAttribute("name") != "") &&
-						(currentElement.getAttribute("forEach") != "")){
-					String pa = currentElement.getAttribute("name");
-					String paForEach = currentElement.getAttribute("forEach");
+				else if((elCurrent.getAttribute("name") != EMPTY) &&
+						(elCurrent.getAttribute("forEach") != EMPTY)){
+					String pa = elCurrent.getAttribute("name");
+					String paForEach = elCurrent.getAttribute("forEach");
 					if(paForEach.contains(" ")){
 						String[] paForEachArray = paForEach.split(" ");
 						for(int i=0;i<paForEachArray.length;i++){
-							//TODO:: to be refined with many forEachs in forEach attribute of a single participant of
-							//       participantSet
-							pa2foreachInScopeMap.put(paForEachArray[i], "<ForEach>");
+							// mapping between "participant" and "forEachs" are stored here with
+							// "<ForEach>" as id.
+							QName qNameForEach = QName.valueOf(paForEachArray[i].toString());
+							pa2foreachInScopeMap.put(qNameForEach, "<ForEach>");
 							pa2scopeMap.put(pa, pa2foreachInScopeMap);
-							//pa2scopeMap.put(paNameAttribute, paForEachArray[i]);
-							scopeSet.add(paForEachArray[i]);
+							scopeSet.add(qNameForEach);
 						}
 					}
 					else{
-						scopeSet.add(paForEach);
-						pa2scopeMap.put(pa, paForEach);
+						QName qNameForEach = QName.valueOf(paForEach);
+						scopeSet.add(qNameForEach);
+						pa2scopeMap.put(pa, qNameForEach);
 					}
 				}
 				else{
-					String pa = currentElement.getAttribute("name");
+					String pa = elCurrent.getAttribute("name");
 					pa2scopeMap.put(pa, EMPTY);
 				}
 			}
@@ -681,10 +630,10 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 				e.printStackTrace();
 			}
 		}
-		else if(currentElement.getLocalName().equals("participantSet")){
+		else if(elCurrent.getLocalName().equals("participantSet")){
 			try{
-				if(currentElement.getAttribute("name") != ""){
-					String pa = currentElement.getAttribute("name");
+				if(elCurrent.getAttribute("name") != EMPTY){
+					String pa = elCurrent.getAttribute("name");
 					pa2scopeMap.put(pa, EMPTY);
 				}
 			}
@@ -695,7 +644,7 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 		}
 	
 		// recursive to search
-		NodeList childNodes = currentElement.getChildNodes();
+		NodeList childNodes = elCurrent.getChildNodes();
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
@@ -708,113 +657,34 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 
 	/***********************Method of MessageLink***********************/
 	/**
-	 * function 3.12: create message construct set
-	 * 
-	 * @param {Node} currentNode          The current node
-	 * @return {Set} messageConstructsSet The message constructs set
-	 */
-/*	private Set<String> getMessageConstructsSet (Node currentNode){
-		NodeList childNodes = ((Element)currentNode).getElementsByTagName("messageLink");
-		Node child;
-		
-		for (int i=0; i<childNodes.getLength(); i++){
-			child = childNodes.item(i);
-			if(child instanceof Element){
-				String receiver = ((Element)child).getAttribute("receiver");
-				String sender1 = "";
-				ArrayList<String> sendersList = new ArrayList<String>();
-				if(((Element)child).hasAttribute("sender")){
-					sender1 = ((Element)child).getAttribute("sender");
-				}
-				else if(((Element)child).hasAttribute("senders")){
-					String senders = ((Element)child).getAttribute("senders");
-					String[] sendersSplit = senders.split(" ");
-					for(int j=0; j<sendersSplit.length; j++){
-						sendersList.add(sendersSplit[j]);
-						sender1 = (String)sendersList.get(0);
-					}
-				}
-				String receiveActivity = ((Element)child).getAttribute("receiveActivity");
-				String sendActivity = ((Element)child).getAttribute("sendActivity");
-				String receiverns = fnsprefixProcess(fprocessPaType(ftypePa(receiver)));
-				String senderns = fnsprefixProcess(fprocessPaType(ftypePa(sender1)));
-				String mc2 = buildQName(receiverns, receiveActivity);
-				String mc1 = buildQName(senderns, sendActivity);
-				messageConstructsSet.add(mc2);
-				messageConstructsSet.add(mc1);
-				if(sendersList.size() >= 2){
-					for(int k=1; k<sendersList.size(); k++){
-						senderns = fnsprefixProcess(fprocessPaType(ftypePa(sendersList.get(k))));
-						mc2 = buildQName(receiverns, receiveActivity);
-						mc1 = buildQName(senderns, sendActivity);
-						messageConstructsSet.add(mc2);
-						messageConstructsSet.add(mc1);
-					}
-				}
-			}
-		}
-		return messageConstructsSet;
-	}
-*/
-	/**
 	 * function: To build QName for function 3.12
-	 * 
+	 * according to the prefix and NCName output the builded QName.
+	 *  
 	 * FIXME: throughout the code, javax.xml.namespace.QName should be used
+	 * Fixed: all of the "qName" is generated with QName
 	 * 
 	 * @param {String} prefix     The prefix
 	 * @param {String} NCName     The NCName
-	 * @return {String} QName     The QName
+	 * @return {QName} qName      The QName
 	 */
-	private static String buildQName(String prefix, String NCName){
-		return prefix + ":" + NCName;
+	private static QName buildQName(String prefix, String NCName){
+		String strName = prefix + ":" + NCName;
+		QName qName = QName.valueOf(strName);
+		return qName;
 	}
 
 	/**
-	 * function 3.13: To create message link set
+	 * To create mapping between <messageLink> and "bindSenderTo"
+	 * will be used in fbindSenderToML in Grounding analyze
 	 * 
-	 * @param {Element} currentElement     The current element
-	 * @return {Set}    messageLinkSet     The message link set
+	 * @param {Element} elCurrent      The current element
 	 */
-/*	private Set<String> getMessageLinkSet(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
-			return null;
-		}
-
-		if(currentElement.getLocalName().equals("messageLink")){
-			try{
-				String mlString = currentElement.getAttribute("name");
-				messageLinkSet.add(mlString);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		NodeList childNodes = currentElement.getChildNodes();
-		Node child;
-		for (int i=0; i<childNodes.getLength(); i++){
-			child = childNodes.item(i);
-			if(child instanceof Element){
-				getMessageLinkSet((Element)child);
-			}	
-		}
-		return messageLinkSet;
-	}
-*/
-
-	/**
-	 * To create mapping[messageLink, bindSenderTo]
-	 * will be used in fbindSenderToML and Grounding analyze
-	 * 
-	 * @param {Element} currentElement      The current element
-	 */
-	public void getMl2BindSenderToMap(Element currentElement){
-		if(!(currentElement instanceof Node || currentElement instanceof Document)){
+	public void getMl2BindSenderToMap(Element elCurrent){
+		if(!(elCurrent instanceof Node || elCurrent instanceof Document)){
 			return;
 		}
 
-		NodeList childNodes = currentElement.getElementsByTagName("messageLink");
+		NodeList childNodes = elCurrent.getElementsByTagName("messageLink");
 		Element child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = (Element)childNodes.item(i);
@@ -833,13 +703,14 @@ public class BPEL4Chor2BPELTopologyAnalyze {
 	
 	/**
 	 * function 3.36: assigning a set of participant references to each <forEach> activity
-	 * Attention: the following functions of 3.36 will be just used within the tag <participantSet> of XML files.
+	 * attention: functions of 3.36 will be just used with the tag <participantSet>. 
+	 * assumption: pa2scopeMap is not empty.
 	 * create a mapping forEach2setMap[sc, paSetName]
 	 * 
-	 * @param {String} sc         The QName of <scope> or <forEach> activity
+	 * @param {QName}  sc         The QName of <scope> or <forEach> activity
 	 * @param {String} paSetName  The name of <participantSet>
 	 */
-	private void fsetForEach(String sc, String paSetName){
+	private void fsetForEach(QName sc, String paSetName){
 			if(pa2scopeMap.containsValue(sc)){
 				forEach2setMap.put(sc, EMPTY);
 			}

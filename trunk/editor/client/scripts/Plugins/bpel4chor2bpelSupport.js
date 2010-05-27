@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008
+ * Copyright (c) 2010
  * Changhua Li
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -77,17 +77,9 @@ ORYX.Plugins.BPEL4Chor2BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
 
         var resource = location.href;
 		
-		
 		try {
 			var serialized_rdf = this.getRDFFromDOM();
 
-			Ext.Msg.show({
-				   title:'RDF Information',
-				   msg: serialized_rdf,				// rdf information of this Dom.
-				   buttons: Ext.Msg.YESNOCANCEL,
-				   icon: Ext.MessageBox.QUESTION
-			});
-			
 			if (!serialized_rdf.startsWith("<?xml")) {
 				serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
 			}
@@ -160,7 +152,7 @@ ORYX.Plugins.BPEL4Chor2BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
 
 		var resultString = '(' + result + ')';
 		
-		alert (resultString);
+		//alert (resultString);
 		
 		var resultObject;
 		
@@ -183,7 +175,7 @@ ORYX.Plugins.BPEL4Chor2BPELSupport = ORYX.Plugins.AbstractPlugin.extend({
 			}
 			var data = this.buildTransData(bpelArray, wsdlArray);
 			
-			alert(data);
+			//alert(data);
 			
 			this.dialog2BPELSupport.openResultDialog(data);
 		}
