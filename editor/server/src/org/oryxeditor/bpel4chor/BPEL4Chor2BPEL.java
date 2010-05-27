@@ -23,9 +23,12 @@
 
 package org.oryxeditor.bpel4chor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,15 +38,17 @@ public class BPEL4Chor2BPEL {
 	/**
 	 * Adds WSDL specific elements to the given BPEL4Chor choreography
 	 * 
-	 * FIXME add WSDLs to result set (see BPEL4Chor2BPELExport)
+	 * FIXED: add WSDLs to result set (see BPEL4Chor2BPELExport)
 	 * 
 	 * @param docPBD the BPEL process definitions to modify - These documents are MODIFIED!
 	 * @return docPBD with WSDL specific elements 
+	 * @throws Exception 
 	 */
-	public List<Document> convert(Element elGround, Element elTopo, List<Document> docPBD) {
+	public List<Document> convert(Element elGround, Element elTopo, List<Document> docPBD) throws Exception {
 		BPEL4Chor2BPELTopologyAnalyze topoAnaly = new BPEL4Chor2BPELTopologyAnalyze();
 		BPEL4Chor2BPELGroundingAnalyze grouAnaly = new BPEL4Chor2BPELGroundingAnalyze();
 		BPEL4Chor2BPELPBDConversion pbdCon = new BPEL4Chor2BPELPBDConversion();
+		BPEL4Chor2BPELWSDLCreate wsdlCre = new BPEL4Chor2BPELWSDLCreate();
 
 		//topology analyze
 		topoAnaly.nsAnalyze(elTopo);
@@ -52,9 +57,9 @@ public class BPEL4Chor2BPEL {
 		topoAnaly.mlAnalyze(elTopo);
 		topoAnaly.getMl2BindSenderToMap(elTopo);
 			
-		grouAnaly.namespacePrefixSet = topoAnaly.namespacePrefixSet;    // will be used in grounding nsAnalyze
-		grouAnaly.namespaceSet = topoAnaly.namespaceSet;				// will be used in grounding nsAnalyze
-		grouAnaly.ns2prefixMap = topoAnaly.ns2prefixMap;				// will be used in grounding nsAnalyze
+		grouAnaly.namespacePrefixSet = topoAnaly.namespacePrefixSet;    
+		grouAnaly.namespaceSet = topoAnaly.namespaceSet;				
+		grouAnaly.ns2prefixMap = topoAnaly.ns2prefixMap;				
 		grouAnaly.messageConstructsSet = topoAnaly.messageConstructsSet;
 		grouAnaly.messageLinkSet = topoAnaly.messageLinkSet;
 		grouAnaly.ml2mcMap = topoAnaly.ml2mcMap;
@@ -70,33 +75,55 @@ public class BPEL4Chor2BPEL {
 		grouAnaly.mlAnalyze(elGround);
 		grouAnaly.propertyAnalyze(elGround);
 			
-		pbdCon.scopeSet = topoAnaly.scopeSet;							// will be used in Conversion of PBD
-		pbdCon.processSet = topoAnaly.processSet;						// will be used in Conversion of PBD
-		pbdCon.topologyNS = topoAnaly.topologyNS;						// will be used in Conversion of PBD
-		pbdCon.forEach2setMap = topoAnaly.forEach2setMap;				// will be used in Conversion of PBD
-		pbdCon.paSet = topoAnaly.paSet;									// will be used in Conversion of PBD
-		pbdCon.pa2scopeMap = topoAnaly.pa2scopeMap; 					// will be used in Conversion of PBD
-		pbdCon.ns2prefixMap = grouAnaly.ns2prefixMap;					// will be used in Conversion of PBD
-		pbdCon.namespacePrefixSet = grouAnaly.namespacePrefixSet;		// will be used in Conversion of PBD
-		pbdCon.plSet = grouAnaly.plSet;									// will be used in Conversion of PBD
-		pbdCon.sc2plMap = grouAnaly.sc2plMap;							// will be used in Conversion of PBD
-		pbdCon.pl2plTypeMap = grouAnaly.pl2plTypeMap;					// will be used in Conversion of PBD
-		pbdCon.pl2myRoleMap = grouAnaly.pl2myRoleMap;					// will be used in Conversion of PBD
-		pbdCon.pl2partnerRoleMap = grouAnaly.pl2partnerRoleMap;			// will be used in Conversion of PBD
-		pbdCon.messageConstructsSet = grouAnaly.messageConstructsSet;	// will be used in Conversion of PBD
-		pbdCon.mc2plMap = grouAnaly.mc2plMap;							// will be used in Conversion of PBD
-		pbdCon.ml2mcMap = grouAnaly.ml2mcMap;							// will be used in Conversion of PBD
-		pbdCon.messageLinkSet = grouAnaly.messageLinkSet;				// will be used in Conversion of PBD
-		pbdCon.ml2ptMap = grouAnaly.ml2ptMap;							// will be used in Conversion of PBD
-		pbdCon.ml2opMap = grouAnaly.ml2opMap;							// will be used in Conversion of PBD
-		pbdCon.corrPropName2propertyMap = grouAnaly.corrPropName2propertyMap;  // will be used in Conversion of PBD
-		pbdCon.property2nsprefixOfPropMap = grouAnaly.property2nsprefixOfPropMap; // will be used in Conversion of PBD
-			
-		//PBD conversion
+		pbdCon.scopeSet = topoAnaly.scopeSet;							
+		pbdCon.processSet = topoAnaly.processSet;						
+		pbdCon.topologyNS = topoAnaly.topologyNS;						
+		pbdCon.forEach2setMap = topoAnaly.forEach2setMap;				
+		pbdCon.paSet = topoAnaly.paSet;									
+		pbdCon.pa2scopeMap = topoAnaly.pa2scopeMap; 					
+		pbdCon.ns2prefixMap = grouAnaly.ns2prefixMap;					
+		pbdCon.namespacePrefixSet = grouAnaly.namespacePrefixSet;		
+		pbdCon.plSet = grouAnaly.plSet;									
+		pbdCon.sc2plMap = grouAnaly.sc2plMap;							
+		pbdCon.pl2plTypeMap = grouAnaly.pl2plTypeMap;					
+		pbdCon.pl2myRoleMap = grouAnaly.pl2myRoleMap;					
+		pbdCon.pl2partnerRoleMap = grouAnaly.pl2partnerRoleMap;			
+		pbdCon.messageConstructsSet = grouAnaly.messageConstructsSet;	
+		pbdCon.mc2plMap = grouAnaly.mc2plMap;							
+		pbdCon.ml2mcMap = grouAnaly.ml2mcMap;							
+		pbdCon.messageLinkSet = grouAnaly.messageLinkSet;				
+		pbdCon.ml2ptMap = grouAnaly.ml2ptMap;							
+		pbdCon.ml2opMap = grouAnaly.ml2opMap;							
+		pbdCon.corrPropName2propertyMap = grouAnaly.corrPropName2propertyMap;  
+		pbdCon.property2nsprefixOfPropMap = grouAnaly.property2nsprefixOfPropMap; 
+		
+		List<Document> newDocumentList = new ArrayList<Document>();
+		List<String> processList = new ArrayList<String>();			// a List to store the process names 
+
+		// PBD conversion
 		for (Document currentDoc: docPBD) {
 			pbdCon.convertPBD(currentDoc);
+			processList.add(pbdCon.processName);
+			newDocumentList.add(currentDoc);
 		}
 		
-		return docPBD;
+		// WSDL files creation
+		for (int i = 0; i < docPBD.size(); i++){
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document newDoc = builder.newDocument();
+
+			//WSDL creation
+			wsdlCre.currentDocument = newDoc;
+			wsdlCre.topologyNS = topoAnaly.topologyNS;
+			wsdlCre.plTypeSet = grouAnaly.plTypeSet;
+			wsdlCre.comm2pltMap = grouAnaly.comm2pltMap;
+			wsdlCre.ptSet = grouAnaly.ptSet;						
+			wsdlCre.ns2prefixMap = grouAnaly.ns2prefixMap;
+			wsdlCre.processName = processList.get(i);
+			wsdlCre.declarePartnerLinkTypes((Element)newDoc.getFirstChild());
+			newDocumentList.add(newDoc);
+		}
+		// return the newDocumentList (the first half is converted processes, the last half is created wsdl)
+		return newDocumentList;
 	}
 }

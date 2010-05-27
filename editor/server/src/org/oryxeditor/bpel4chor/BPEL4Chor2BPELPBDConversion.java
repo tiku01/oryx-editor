@@ -1,32 +1,18 @@
 package org.oryxeditor.bpel4chor;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * Copyright (c) 2009-2010 Changhua Li
@@ -53,10 +39,6 @@ import org.xml.sax.SAXException;
 
 
 /**
- * !!!!!!Attention!!!!!!
- * Now this files works isolated from the other files, which outside of this directory.
- * But it should be added into oryx as a plugin in the further.
- * 
  * It will be used for the Transformation of the BPEL4Chor to BPEL.
  * 
  * It was designed for the Diplom Arbeit of Changhua Li(student of uni. stuttgart), 
@@ -66,7 +48,7 @@ import org.xml.sax.SAXException;
  * TODO: think about using a BPEL data model / XML2Java tooling (JAX-B, xmappr, ...) / ... instead of operating directly on the XML document
  * 
  */
-public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
+public class BPEL4Chor2BPELPBDConversion {
 	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELPBDConversion");
 	
 	private Document currentDocument;								// the current document to handle
@@ -75,7 +57,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 																	// set-based <forEach> activities in this process iterate
 																	// they are used as names of variables containing an array of
 																	// endpoint references
-	// attention: global name space prefix set here is namespacePrefixSet !!
 
 	// FIXME null should be used
 	final static String EMPTY = "";
@@ -86,23 +67,23 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	public Set<String> messageLinkSet = new HashSet<String>();
 
 	// 3.20: fportTypeMC()
-	public HashMap<String, String> ml2ptMap = new HashMap<String, String>();
+	public HashMap<String, QName> ml2ptMap = new HashMap<String, QName>();
 
 	// 3.21: foperationMC()
-	public HashMap<String, String> ml2opMap = new HashMap<String, String>();
+	public HashMap<String, QName> ml2opMap = new HashMap<String, QName>();
 
 	// 3.22: partnerLink Set
 	public Set<String> plSet = new HashSet<String>();
 
 	// 3.23: messageConstruct --> partnerLink Mapping
-	public HashMap<String, PartnerLink> mc2plMap = new HashMap<String, PartnerLink>();
+	public HashMap<QName,PartnerLink> mc2plMap = new HashMap<QName, PartnerLink>();
 
 	// 3.20: messageConstruct --> messageLink mapping
 	// constructed by getMc2mlMap()
-	public HashMap<String, String> mc2mlMap = null;
+	private HashMap<QName, String> mc2mlMap = null;
 
 	// 3.24: scope --> partnerLinkSet Mapping
-	public HashMap<String, Set<PartnerLink>> sc2plMap = new HashMap<String, Set<PartnerLink>>();
+	public HashMap<QName, Set<PartnerLink>> sc2plMap = new HashMap<QName, Set<PartnerLink>>();
 
 	// 3.26: partnerLink --> partnerLinkType
 	public HashMap<String, String> pl2plTypeMap = new HashMap<String, String>();
@@ -126,29 +107,31 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	public Set<String> namespacePrefixSet = new HashSet<String>();
 	public HashMap<String, String> ns2prefixMap = new HashMap<String, String>();
 	public String topologyNS;					// it will be used in conversion of PBD
-	public HashMap<String, String> forEach2setMap = new HashMap<String, String>();
+	public HashMap<QName, String> forEach2setMap = new HashMap<QName, String>();
 
 	public HashMap<String, Object> ml2mcMap = new HashMap<String, Object>();
 
 
 	// 3.5: process set
-	public Set<String> processSet = new HashSet<String>();
-	//private HashMap<String, String> paType2PBDMap = new HashMap<String, String>();
+	public Set<QName> processSet = new HashSet<QName>();
 	
 	// 3.8: participant set
 	public Set<String> paSet = new HashSet<String>();
 
 	// 3.10: scopes set
-	public Set<String> scopeSet = new HashSet<String>();
-	public Set<String> messageConstructsSet;
+	public Set<QName> scopeSet = new HashSet<QName>();
+	public Set<QName> messageConstructsSet;
+	
+	// to save the process name of the actual process
+	protected String processName = EMPTY; 
 
 
 	/**
-	 * Algorithm 3.5 and Algorithm 3.17 Conversion of one PBD into BPEL
+	 * Algorithm 3.5 and Algorithm 3.17 Conversion of PBD into BPEL
 	 * 
 	 * FIXME: This method should work on an element and return a new element containing the converted process (instead of MODIFYING the element!)
 	 * 
-	 * @param {Element} docPBD - the process element
+	 * @param {Document} docPBD  	The pbd document
 	 */
 	public void convertPBD(Document docPBD){
 		this.setCurrentDocument(docPBD);
@@ -156,8 +139,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		if(!(currentElement.getLocalName().equals("process"))){
 			throw new IllegalStateException("first child is not a process");
 		}
+		
 															// the input process points on the <process> activity of current PBD
-		//String process_nsprefix;							// the name space prefix of the target name space of the current PBD
 		Set<String> nsprefixSet = this.namespacePrefixSet;	// a list of name space prefixes referencing to the name
 															// spaces of the WSDL definitions of port types used in
 															// this process
@@ -165,33 +148,19 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 															// set-based <forEach> activities in this process iterate
 															// they are used as names of variables containing an array of
 															// endpoint references
-		//System.out.println("scope set is: " + scopeSet);
-		//System.out.println("pa2scopeMap is: " + pa2scopeMap);
-		//System.out.println("process set is: " + processSet);
-		//System.out.println("partnerLink set is: " + plSet);
-		//System.out.println("sc2plMap is: " + sc2plMap);
-		//System.out.println("messageConstructsSet is: " + messageConstructsSet);
-		//System.out.println("messageLinkSet is: " + messageLinkSet);
-		//System.out.println("ml2ptMap is: " + ml2ptMap);
-		//System.out.println("ml2mcMap is: " + ml2mcMap);
-		//System.out.println("nsprefixSet is: " + nsprefixSet);
-		//System.out.println("ns2prefixMap is: " + ns2prefixMap);
-		//System.out.println("--------------------------------------------------");
 		
 		process_nsprefix = fprefixNSofPBD(currentElement);
 		log.finer("process_nsprefix of PBD is: " + process_nsprefix);
 
 		// add the declaration of the name space of the partner link type definitions
 		currentElement.setAttribute("xmlns:plt", topologyNS + "/partnerLinkTypes");
-		//System.out.println("xmlns:plt=" + currentElement.getAttribute("xmlns:plt"));
 	
 		// start depth-first search
 		executeDepthFirstSearch(currentElement);							// algorithm 3.7
 
 		// add partner link declarations to the process
-		String localName = currentElement.getAttribute("name");				// localName is value of "name" of the PBD
-		//System.out.println("#########" + localName);
-		declarePartnerLinks(currentElement, localName);						// algorithm 3.6
+		processName = currentElement.getAttribute("name");					// store the "name" of the PBD
+		declarePartnerLinks(currentElement, processName);					// algorithm 3.6
 		
 		// add the declarations of the name spaces of the port type definitions
 		declareNameSpaces(currentElement, nsprefixSet);						// algorithm 3.8
@@ -205,12 +174,13 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	
 	/**
 	 * Algorithm 3.6 declarepartnerLinks
+	 * to declare partnerLinks
 	 * 
 	 * @param {Element} currentElement     current element (process or scope)
 	 * @param {String}  localName          value of name attribute
 	 */
 	private void declarePartnerLinks(Element currentElement, String localName){
-		String sc;											// an element of (scopeSet U processSet), it is a QName
+		QName sc;											// an element of (scopeSet U processSet), it is a QName
 		Set<PartnerLink> partnerLinkSet;					// plSet for declarePartnerLinks is ready
 		PartnerLink pl = null;								// a single partner link declaration
 		Element partnerLinks, partnerLink;					// single BPEL constructs
@@ -224,11 +194,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			// thus the function fpartnerLinksScope can be used on sc
 			// determine the set of partner link declarations that need to be declared
 			partnerLinkSet = (Set<PartnerLink>)fpartnerLinksScope(sc);
-			//System.out.println("sc2plMap: " + sc2plMap);
 			if(partnerLinkSet != null){
 				// There are partner links to be declared
-				//System.out.println(partnerLinkSet.iterator().next().getName());
-				
 				partnerLinks = getCurrentDocument().createElementNS(BPEL_Namespace, "partnerLinks");
 				
 				// put at schema-conform place in element
@@ -243,7 +210,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 					}
 				}
 				// extensability
-				while (!sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
+				while (sucNode.getNamespaceURI() != null && !sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
 					sucNode = sucNode.getNextSibling();
 					while (!(sucNode instanceof Element)) {
 						sucNode = sucNode.getNextSibling();
@@ -265,7 +232,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 				}
 				// adding a <partnerLinks> declaration before 
 				currentElement.insertBefore(partnerLinks, sucNode);
-				//System.out.println("partnerLinks is: " + partnerLinks.getTagName());
 				
 				Iterator<PartnerLink> it = partnerLinkSet.iterator();
 				while(it.hasNext()){
@@ -304,7 +270,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		for(int i=0; i<=constructList.getLength(); i++){
 			construct = constructList.item(i);
 			if(construct instanceof Element){
-				//System.out.println("!!!!!!!!!!!!!!!!!current construct is: " + ((Element)construct).getTagName());
 				modifyConstruct((Element)construct);
 			}
 		}
@@ -312,6 +277,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * Algorithm 3.8 declareNameSpaces
+	 * according to the nsprefixSet declare the name spaces of BPEL process
 	 * 
 	 * @param {Element} construct     The tag of the current BPEL construct
 	 * @param {Set}     nsprefixSet   includes the name space prefixes referencing to the name spaces 
@@ -322,7 +288,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		// referencing to the name spaces which need to be declared within construct
 		String nsprefix = EMPTY;												// a single name space prefix
 		// add each name space declaration to the construct
-		Iterator<String> it = namespacePrefixSet.iterator();
+		Iterator<String> it = nsprefixSet.iterator();
 		while(it.hasNext()){
 			nsprefix = (String)it.next();
 			if (!nsprefix.equals("targetNamespace")){
@@ -333,6 +299,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	
 	/**
 	 * Algorithm 3.9,3.12 and 3.14 (refined)modifyConstruct
+	 * modify the construct of pbd process 
 	 * 
 	 * @param {Element} construct     The current BPEL construct
 	 */
@@ -354,14 +321,14 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 		else if(constructName.equals("scope") && (getId(construct) != null)) {
 			// construct is a <scope> activity having a wsu:id attribute assigned
 			executeDepthFirstSearch((Element)construct);						// continue depth-first search
-			declarePartnerLinks(construct, getId(construct));	// algorithm 3.10
+			declarePartnerLinks(construct, getId(construct));					// algorithm 3.10
 		}
 		else if(constructName.equals("forEach")){
 			// construct is a <forEach> activity
 			NodeList nl = construct.getElementsByTagName("scope");
 			for (int i=0; i<nl.getLength(); i++){
 				fEScope = (Element)nl.item(i);									// fEScope points on the <scope> activity nested
-				//System.out.println("feScope: " + fEScope.getLocalName());		// in the <forEach> activity
+																				// in the <forEach> activity
 				// continue depth-first search on the scope
 				modifyConstruct(fEScope);										// recursion
 				String id = getId(construct);
@@ -431,53 +398,55 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	
 	/**
 	 * Algorithm 3.10 modifyMessageConstruct
+	 * modify message construct
 	 * 
 	 * @param {Element} construct     The current BPEL construct
 	 * @param {String}  constructName The local name of this construct
 	 */
 	private void modifyMessageConstruct(Element construct, String constructName){
 		// the input construct points on the tag of the current message construct, and constructName is the local name of it
-		String mc = EMPTY;														// the current element of MC(messageConstructsSet)
-		String constructID = EMPTY;												// NCName
-		PartnerLink pl = null;													// a single partner link declaration
-		String pt = EMPTY;														// a single port type
-		String op = EMPTY;														// a single operation
-		String pt_nsprefix = EMPTY;												// the name space prefix of the port type pt
+		QName mc;														// the current element of MC(messageConstructsSet)
+		String constructID = EMPTY;										// NCName
+		PartnerLink pl = null;											// a single partner link declaration
+		QName pt;														// a single port type
+		String op = EMPTY;												// a single operation
+		String pt_nsprefix = EMPTY;										// the name space prefix of the port type pt
 
 		constructID = getId(construct);
-		mc = buildQName(process_nsprefix, constructID);							// mc becomes the global name of the current message
-																				// construct and the corresponding element of MC
+		// change the wsu:id attribute to a name attribute if possible
+		mc = buildQName(process_nsprefix, constructID);					// mc becomes the global name of the current message
+																		// construct and the corresponding element of MC
 		// add a partnerLink attribute to the message construct
-		pl = fpartnerLinkMC(mc);												// pl becomes the partner link declaration used by 
-																				// the current message construct
+		pl = fpartnerLinkMC(mc);										// pl becomes the partner link declaration used by 
+																		// the current message construct
 		if (pl != null){
 			construct.setAttribute("partnerLink", pl.getName());
-			//System.out.println("mc mapped to pl: " + pl.getName());
 		}
 		
 		// add a portType attribute to the message construct
 		log.fine("current mc: " + mc);
 		pt = fportTypeMC(mc);
-		if(pt != null){															// when no mapping between mc and pt then null
-			construct.setAttribute("portType", pt);
+		if(pt != null && pt.toString() != EMPTY){													// when no mapping between mc and pt then null
+			construct.setAttribute("portType", pt.toString());
 			
 			// add the name space prefix of pt to the global list nsprefixList if it has not been added before
 			pt_nsprefix = fnsprefixPT(pt);
 			if (!namespacePrefixSet.contains(pt_nsprefix) && !pt_nsprefix.equals(EMPTY)){
-				namespacePrefixSet.add(pt);
+				namespacePrefixSet.add(pt_nsprefix);
 			}
 		}
 		
 		// add an operation attribute to the message construct
 		op = foperationMC(mc);
-		if(op != null){															// when there is no mapping between mc an op then null
-			construct.setAttribute("operation", fremoveNSPrefix(op));			// the operation attribute needs to be associated with
+		if(op != null && op != EMPTY){															// when there is no mapping between mc an op then null
+			construct.setAttribute("operation", fremoveNSPrefix(QName.valueOf(op)));			// the operation attribute needs to be associated with
 																				// the local name of the operation
 		}
 	}
 
 	/**
 	 * Algorithm 3.13 modifyCorrelationSet
+	 * modify the <correlationSet> construct
 	 * 
 	 * @param {Element} correlationSet     The tag of the current <correlationSet> construct
 	 */
@@ -515,6 +484,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	
 	/**
 	 * Algorithm 3.15 modifyForEach
+	 * modify <forEach> construct
 	 * 
 	 * @param {Element} forEach     The tag <forEach>
 	 * @param {Element} fEScope     a BPEL construct
@@ -523,15 +493,13 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	private void modifyForEach(Element forEach, Element fEScope, String id){
 		// the input forEach points on the tag of the current <forEach> activity, the input fEScope on the tag of the
 		// <scope> activity nested in the <forEach> activity, and the input id is its wsu:id
-		String fe;																// name of <Scope> inherits of QName
+		QName fe;																// name of <Scope> inherits of QName
 		String set;																// name of <Participant> inherits of NCName
 		Element startCounter = getCurrentDocument().createElementNS(BPEL_Namespace, "startCounterValue");	// the <startCounterValue>
 		Element finalCounter = getCurrentDocument().createElementNS(BPEL_Namespace, "finalCounterValue");  // the <finalCounterValue>
 		Element completionCondition = getChildElement(forEach, "completionCondition");// the optional <completionCondition>
 																					// construct of the current <forEach>
 		fe = buildQName(process_nsprefix, id);
-		//System.out.println("forEach of <forEach> is: " + fe);
-		//System.out.println("scopeSet is: " + scopeSet);
 		// the global name of the current <forEach> activity and the corresponding element of scopeSet
 		if (scopeSet.contains(fe)){
 			// a set of participant references is associated with fe by a forEach attribute, thus it is a set-based
@@ -545,7 +513,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			// fsetForEach(fe) is the name of the set of participant references over which the current <forEach> activity
 			// iterates
 			// Add this name to the global list paSet if it has not been added before
-			//System.out.println("paSetList is: " + paSetList);
 			if(!paSetList.contains(set)){ 							
 				paSetList.add(set);
 			}
@@ -567,9 +534,6 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			}
 			// add the <assign> activities to copy the endpoint references on the partner links
 			Set<PartnerLink> plSetForEach = fpartnerLinksScope(fe);
-			//System.out.println("scopeSet is: " + scopeSet);
-			//System.out.println("sc2plMap is: " + sc2plMap);
-			//System.out.println("plSetForEach is: " + plSetForEach);
 			if(plSetForEach != null && plSetForEach.size() == 1){
 				addAssignsToForEach(fEScope, set, plSetForEach.iterator().next(), id);// algorithm 3.16
 			}
@@ -578,6 +542,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * Algorithm 3.16 addAssignsToForEach
+	 * add <assign> into <forEach>
 	 * 
 	 * @param {Element}     fEScope     The tag <scope> nested in the current <forEach> activity
 	 * @param {String}      set         It is the set participant references over which the <forEach> activity iterates
@@ -637,62 +602,61 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 			String srefsNamespace = "http://www.bpel4chor.org/service-references";
 			construct.setAttribute("xmlns:srefs", srefsNamespace);
 			// add a <variables> declaration
-			//System.out.println(getChildElement(construct, "variables"));
 			if((getChildElement(construct, "variables")) == null){
 				variables = getCurrentDocument().createElementNS(BPEL_Namespace, "variables");
-				
 				// put at schema-conform place in element
 				Node sucNode = construct.getFirstChild();
-				while (!(sucNode instanceof Element)) {
-					sucNode = sucNode.getNextSibling();
-				}
-				if (sucNode.getLocalName().equals("documentation")) {
-					sucNode = sucNode.getNextSibling();
+				if(sucNode != null){
 					while (!(sucNode instanceof Element)) {
 						sucNode = sucNode.getNextSibling();
 					}
-				}
-				// extensability
-				// check for null at namespace is necessary as current oryx output does not add a default namespace declaration. There seems to be a bug somewhere at BPELExportPostprocessor (maybe a transformer setting)
-				while ((sucNode.getNamespaceURI()!=null) && !sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
-					sucNode = sucNode.getNextSibling();
-					while (!(sucNode instanceof Element)) {
+					if (sucNode.getLocalName().equals("documentation")) {
 						sucNode = sucNode.getNextSibling();
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
 					}
-				}				
-				// extensions? and import* precede partnerLinks in the case of the process element
-				// scope does not carray extensions and import
-				if (sucNode.getLocalName().equals("extensions")) {
-					sucNode = sucNode.getNextSibling();
-					while (!(sucNode instanceof Element)) {
+					// extensability
+					// check for null at namespace is necessary as current oryx output does not add a default namespace declaration. There seems to be a bug somewhere at BPELExportPostprocessor (maybe a transformer setting)
+					while ((sucNode.getNamespaceURI()!=null) && !sucNode.getNamespaceURI().equals(BPEL_Namespace)) {
 						sucNode = sucNode.getNextSibling();
-					}
-				}
-				while (sucNode.getLocalName().equals("import")) {
-					sucNode = sucNode.getNextSibling();
-					while (!(sucNode instanceof Element)) {
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
+					}				
+					// extensions? and import* precede partnerLinks in the case of the process element
+					// scope does not carray extensions and import
+					if (sucNode.getLocalName().equals("extensions")) {
 						sucNode = sucNode.getNextSibling();
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
 					}
-				}
-				if (sucNode.getLocalName().equals("partnerLinks")) {
-					sucNode = sucNode.getNextSibling();
-					while (!(sucNode instanceof Element)) {
+					while (sucNode.getLocalName().equals("import")) {
 						sucNode = sucNode.getNextSibling();
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
 					}
-				}
-				if (sucNode.getLocalName().equals("mesageExchanges")) {
-					sucNode = sucNode.getNextSibling();
-					while (!(sucNode instanceof Element)) {
+					if (sucNode.getLocalName().equals("partnerLinks")) {
 						sucNode = sucNode.getNextSibling();
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
 					}
+					if (sucNode.getLocalName().equals("messageExchanges")) {
+						sucNode = sucNode.getNextSibling();
+						while (!(sucNode instanceof Element)) {
+							sucNode = sucNode.getNextSibling();
+						}
+					}
+					// adding a <variables> declaration before 
+					construct.insertBefore(variables, sucNode);
 				}
-				// adding a <variables> declaration before 
-				construct.insertBefore(variables, sucNode);
 			}
 			// variables becomes the <variables> declaration
 			variables = getChildElement(construct, "variables");
 			// declare all necessary variables
-			//System.out.println("paSet is: " + paSet);
 			Iterator<String> it = paSet.iterator();
 			while(it.hasNext()){
 				paSetElement = it.next();
@@ -706,12 +670,12 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 					variables.appendChild(variable);
 				}
 			}
-			//System.out.println("paSetList is: " + paSetList);
 		}
 	}
 	
 	/**
 	 * function: fprefixNSofPBD
+	 * according to the name of pbd output the prefix of it.
 	 * 
 	 * @param  {Element} currentElement     
 	 * @return {String}  result
@@ -744,28 +708,34 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	
 	/**
 	 * fremoveNSPrefix function: this function returns the second NCName of the	QName
+	 * remove the prefix of a QName
 	 * 
-	 * @param {String} name     It is a name of QName
-	 * @return{String} output   a NCName, name without ":"
+	 * @param {QName} 	name     a QName
+	 * @return{String} 	output   a NCName, name without ":"
 	 */
-	private String fremoveNSPrefix(String name){
-		if(name.contains(":")){
-			int index = name.indexOf(":");
-			name = name.substring(index+1);
-			return name;
+	private String fremoveNSPrefix(QName name){
+		if(name.toString().contains(":")){
+			int index = name.toString().indexOf(":");
+			name = QName.valueOf(name.toString().substring(index+1));
+			return name.toString();
 		}
-		return name;
+		return name.toString();
 	}
 
 	/**
-	 * getAttributeValueAsList function: this function returns the value of the attribute 
-	 *                                   having the name name as list.
+	 * getAttributeValueAsList function 
+	 * this function returns the value of the attribute 
+	 * having the name name as list.
 	 * 
 	 * @param {Element} currentElement     current Element
 	 * @param {String}  attributeName      name of attribute
 	 * @return {Set}    valueSet		   valueSet according the specified attribute
 	 */
 	private Set<String> getAttributeValueAsList(Element currentElement, String attributeName){
+		if (!(currentElement instanceof Node || currentElement instanceof Document)) {
+			return null;
+		}
+		
 		Set<String> valueSet = new HashSet<String>();
 		if (!currentElement.hasAttribute(attributeName)){
 			return valueSet;
@@ -787,8 +757,9 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	}
 
 	/**
-	 * addAttributeList function: this function adds an attribute having the name name, 
-	 *                            as value the attribute gets the list.
+	 * addAttributeList function 
+	 * this function adds an attribute having the name name, 
+	 * as value the attribute gets the list.
 	 * 
 	 * @param {Element} currentElement     current Element
 	 * @param {String}  attributeName      name of attribute
@@ -808,7 +779,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	}
 
 	/**
-	 * getChildElement function: this function get the specified name of the childElement of currentElement.
+	 * getChildElement function 
+	 * this function get the specified name of the childElement of currentElement.
 	 * 
 	 * getElementsByTagName cannot be used since this does a DFS on the XML document ("decendents")
 	 * 
@@ -832,11 +804,13 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.24: partnerLinksScope: (Scope U Process) -> 2^PL
+	 * according to "scope" or "pbd" output the "partnerLink set"
+	 * assumption: sc2plMap is not empty.
 	 * 
 	 * @param {String} sc             The element of scopeSet and processSet
 	 * @return {Set}   partnerLinkSet The partner link set
 	 */
-	private Set<PartnerLink> fpartnerLinksScope(String sc){
+	private Set<PartnerLink> fpartnerLinksScope(QName sc){
 		if(sc2plMap.containsKey(sc)){
 			return sc2plMap.get(sc);
 		}
@@ -845,6 +819,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.26: typePL: PL -> PLType
+	 * according <partnerLink> output the <partnerLinkType> of it.
+	 * assumption: pl2plTypeMap is not empty.
 	 * 
 	 * @param {PartnerLink} pl       The partner link
 	 * @return {String}     plType   The partner link type
@@ -858,79 +834,85 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.18: nsprefixPT: PT -> NSPrefix
+	 * return the prefix of "portType"
+	 * assumption: portType is like NCName:NCName
 	 * 
-	 * TODO: should portType also be of type QName?
-	 * 
-	 * @param {String} portType     The port type
-	 * @return {String} nsprefix    The name space prefix
+	 * @param 	{QName} 	portType	The port type
+	 * @return 	{String} 	nsprefix	The name space prefix
 	 */
-	private String fnsprefixPT(String portType){
-		String[] nsprefixSplit;
-		if(portType.contains(":")){
-			nsprefixSplit = portType.split(":");
-			return nsprefixSplit[0];
+	private String fnsprefixPT(QName portType){
+		if(portType.getLocalPart().contains(":")){
+			return portType.getLocalPart().split(":")[0];
 		}
 		return EMPTY;
 	}
 
 	/**
-	 * function for 3.20: To create a mapping[messageConstruct, messageLink] 
-	 * we assume here, that we have already messageLinkSet, ml2mcMap, constrctsML from topologyAnalyze
+	 * function for 3.20: add a mapping [messageConstruct, messageLink] into mc2mlMap 
+	 * assumption: messageLinkSet, ml2mcMap are not empty.
 	 *  
 	 * @return {HashMap} mc2mlMap     The mapping of messageConstruct to messageLink
 	 */
-	private HashMap<String, String> getMc2mlMap(){
+	private HashMap<QName, String> getMc2mlMap(){
 		if (this.mc2mlMap != null)
 			return this.mc2mlMap;
 		
-		this.mc2mlMap = new HashMap<String, String>();
+		this.mc2mlMap = new HashMap<QName, String>();
 		Iterator<String> it = messageLinkSet.iterator();
 		while (it.hasNext()){
 			String ml = (String)it.next();
-			ArrayList<String> valueList = (ArrayList<String>)ml2mcMap.get(ml);
+			ArrayList<QName> valueList = (ArrayList<QName>)ml2mcMap.get(ml);
 			String mc1Str = valueList.get(0).toString().split(":")[1];
 			String mc2Str = valueList.get(1).toString().split(":")[1];
-			mc2mlMap.put(mc1Str, ml);
-			mc2mlMap.put(mc2Str, ml);
+			QName mc1 = QName.valueOf(mc1Str);
+			QName mc2 = QName.valueOf(mc2Str);
+			mc2mlMap.put(mc1, ml);
+			mc2mlMap.put(mc2, ml);
 		}
 		return mc2mlMap;
 	}
 
 	/**
 	 * function 3.20: portTypeMC: MC -> PT
+	 * according to "messageConstruct" output the "portType"
+	 * assumption: ml2ptMap is not empty
 	 * 
 	 * @param {String}  mc          The message construct
-	 * @return {String} portType    The port type
+	 * @return {QName} portType     The port type
 	 */
-	private String fportTypeMC(String mc){
-		HashMap<String, String> mc2mlMap = getMc2mlMap();
-		if(ml2ptMap.containsKey(mc2mlMap.get((mc.split(":"))[1]))){
-			return ml2ptMap.get(mc2mlMap.get((mc.split(":"))[1]));
+	private QName fportTypeMC(QName mc){
+		HashMap<QName, String> mc2mlMap = getMc2mlMap();
+		if(ml2ptMap.containsKey(mc2mlMap.get(QName.valueOf((mc.toString().split(":"))[1])))){
+			return ml2ptMap.get(mc2mlMap.get(QName.valueOf((mc.toString().split(":"))[1])));
 		}
-		return EMPTY;
+		return QName.valueOf(EMPTY);
 	}
 
 	/**
 	 * function 3.21: operationMC: MC -> O
+	 * according to "messageConstruct" output the "operation"
+	 * assumption: ml2opMap is not empty
 	 * 
-	 * @param {String}  mc         The message construct
+	 * @param {QName}  mc         The message construct
 	 * @return {String} operation  The operation
 	 */
-	private String foperationMC(String mc){
-		HashMap<String, String> mc2mlMap = getMc2mlMap();
-		if(ml2opMap.containsKey(mc2mlMap.get((mc.split(":"))[1]))){
-			return ml2opMap.get(mc2mlMap.get((mc.split(":"))[1]));
+	private String foperationMC(QName mc){
+		HashMap<QName, String> mc2mlMap = getMc2mlMap();
+		if(ml2opMap.containsKey(mc2mlMap.get(QName.valueOf((mc.toString().split(":"))[1])))){
+			return ml2opMap.get(mc2mlMap.get(QName.valueOf((mc.toString().split(":"))[1]))).toString();
 		}
 		return EMPTY;
 	}
 
 	/**
 	 * function 3.23: partnerLinkMC: MC -> PL
+	 * according to "messageConstruct" output <partnerLink>
+	 * assumption: mc2plMap is not empty
 	 * 
-	 * @param {String}       mc       The message construct
+	 * @param {QName}        mc       The message construct
 	 * @return {PartnerLink} pl       The partner link
 	 */
-	private PartnerLink fpartnerLinkMC(String mc){
+	private PartnerLink fpartnerLinkMC(QName mc){
 		if(mc2plMap.containsKey(mc)){
 			return mc2plMap.get(mc);
 		}
@@ -939,6 +921,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.30: myRolePL: PL -> Pa U {EMPTY}
+	 * according to <partnerLink> output the "myRole"
+	 * assumption: pl2myRoleMap is not empty
 	 * 
 	 * @param {PartnerLink} pl           The partner link
 	 * @return {String}     myRoleValue  The value of myRole in partner link
@@ -952,6 +936,8 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.31: partnerRolePL: PL -> Pa U {EMPTY}
+	 * according to <partnerLink> output the "partnerRole"
+	 * assumption: pl2partnerRole is not empty.
 	 * 
 	 * @param {PartnerLink} pl                The partner link
 	 * @return {String}     partnerRoleValue  The value of partnerRole in partner link
@@ -966,6 +952,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	/**
 	 * function 3.34: assigning a property to each property name. 
 	 *                propertyCorrPropName: CorrPropName -> Property
+	 * assumption: corrpropName2propertyMap is not empty.
 	 * 
 	 * @param  {String} propNameInput      The property name
 	 * @return {String} property           The WSDLproperty value
@@ -980,6 +967,7 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	/**
 	 * function 3.35: assigning a name space prefix to each WSDL property. 
 	 *                nsprefixProperty: property -> nsprefix
+	 * assumption: property2nsprefixOfPropMap is not empty
 	 * 
 	 * @param  {String} propertyInput        The WSDLproperty value in grounding
 	 * @return {String} nsprefix             The name space prefix of this value
@@ -993,12 +981,13 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 
 	/**
 	 * function 3.36: assigning a set of participant references to each <forEach> activity
-	 * Attention: the following functions of 3.36 will be just used within the tag <participantSet> of XML files.
+	 * it will be just used with the tag <participantSet> of topology.
+	 * assumption: forEach2setMap is not empty
 	 * 
-	 * @param  {String} sc         The QName of <scope> or <forEach> activity
+	 * @param  {QName} sc          The QName of <scope> or <forEach> activity
 	 * @return {String} paSetName  The name of <participantSet>
 	 */
-	private String fsetForEach(String sc){
+	private String fsetForEach(QName sc){
 		if(forEach2setMap.containsKey(sc)){
 			return forEach2setMap.get(sc);
 		}
@@ -1010,17 +999,29 @@ public class BPEL4Chor2BPELPBDConversion {//extends FunctionsOfBPEL4Chor2BPEL {
 	 * function: To build QName for function 3.12 
 	 * 
 	 * @param {String} prefix     The prefix
-	 * @param {String} NCName     The NCName
-	 * @return {String} QName     The QName
+	 * @param {String} ncName     The NCName
+	 * @return {String} qName     The QName
 	 */
-	private static String buildQName(String prefix, String NCName){
-		return prefix + ":" + NCName;
+	private static QName buildQName(String prefix, String ncName){
+		String strName = prefix + ":" + ncName;
+		QName qName = QName.valueOf(strName);
+		return qName;
 	}
 
+	/**
+	 * to set the current document
+	 * 
+	 * @param {Document}	currentDocument	The Document
+	 */
 	private void setCurrentDocument(Document currentDocument) {
 		this.currentDocument = currentDocument;
 	}
 
+	/**
+	 * to get the current document
+	 * 
+	 * @return {Document}	currentDocument	The Document
+	 */
 	private Document getCurrentDocument() {
 		return currentDocument;
 	}

@@ -268,7 +268,7 @@ public class BPEL4ChorExporter extends HttpServlet {
 			}
 
 			// delete all useless attributes and elements
-			//cleanUp(topology);
+			cleanUp(topology);
 			
 			// extension by changhua Li
 			// set the xmlns:processes attribute of element topology
@@ -490,7 +490,6 @@ public class BPEL4ChorExporter extends HttpServlet {
 			participantTypes.removeChild(movingChild);
 		}
 	}
-
 
 
 	private void handleParticipantsElement(Element participants) {
