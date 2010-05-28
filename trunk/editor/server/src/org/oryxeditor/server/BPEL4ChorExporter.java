@@ -272,12 +272,12 @@ public class BPEL4ChorExporter extends HttpServlet {
 			
 			// extension by changhua Li
 			// set the xmlns:processes attribute of element topology
-/*			if (!processNameSet.isEmpty()){
+			if (!processNameSet.isEmpty()){
 				for(String processName : processNameSet){
 					topology.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" + processName, 
 							topology.getAttribute("targetNamespace") + ":" + processName);
 				}
-			}*/
+			}
 			
 			// create the <crossPartnerScope> element
 			if (cps2elNameListMap != null && crossPartnerScopeSet != null) {

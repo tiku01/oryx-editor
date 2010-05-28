@@ -460,9 +460,19 @@
 					<xsl:attribute name="name">
 						<xsl:value-of select="substring-before($data-set, ',')" />
 					</xsl:attribute>
-					<xsl:attribute name="elementName">
-						<xsl:value-of select="$elementName" />
-					</xsl:attribute>
+					
+					<xsl:if test="not($elementName)">
+						<xsl:attribute name="elementName">
+							<xsl:value-of select="$elementType" />
+						</xsl:attribute>
+					</xsl:if>
+					
+					<xsl:if test="$elementName!=''">
+						<xsl:attribute name="elementName">
+							<xsl:value-of select="$elementName" />
+						</xsl:attribute>
+					</xsl:if>
+					
 					<xsl:attribute name="elementType">
 						<xsl:value-of select="$elementType" />
 					</xsl:attribute>
@@ -482,9 +492,19 @@
 					<xsl:attribute name="name">
 						<xsl:value-of select="$data-set" />
 					</xsl:attribute>
-					<xsl:attribute name="elementName">
-						<xsl:value-of select="$elementName" />
-					</xsl:attribute>
+					
+					<xsl:if test="not($elementName)">
+						<xsl:attribute name="elementName">
+							<xsl:value-of select="$elementType" />
+						</xsl:attribute>
+					</xsl:if>
+					
+					<xsl:if test="$elementName!=''">
+						<xsl:attribute name="elementName">
+							<xsl:value-of select="$elementName" />
+						</xsl:attribute>
+					</xsl:if>
+					
 					<xsl:attribute name="elementType">
 						<xsl:value-of select="$elementType" />
 					</xsl:attribute>
@@ -529,9 +549,19 @@
 					<xsl:attribute name="childId">
 						<xsl:value-of select="$currentID" />
 					</xsl:attribute>
-					<xsl:attribute name="childName">
-						<xsl:value-of select="$currentName" />
-					</xsl:attribute>
+					
+					<xsl:if test="$currentName='' or (not($currentName))">
+						<xsl:attribute name="childName">
+							<xsl:value-of select="$nodeType" />
+						</xsl:attribute>
+					</xsl:if>
+					
+					<xsl:if test="$currentName!=''">
+						<xsl:attribute name="childName">
+							<xsl:value-of select="$currentName" />
+						</xsl:attribute>
+					</xsl:if>
+
 					<xsl:attribute name="childType">
 						<xsl:value-of select="$nodeType" />
 					</xsl:attribute>
@@ -559,15 +589,25 @@
 					</xsl:call-template>
 				</xsl:variable>
 				
-				<xsl:if test="$nodeType='invoke' or 'reply' or 'onMessage' or 'receive'">
+				<xsl:if test="$nodeType='invoke' or 'reply' or 'onMessage' or 'receive' or 'onEvent'">
 					<sendOrReceiveActivity> 
-					
+						
 						<xsl:variable name="name"><xsl:value-of select="./oryx:name" /></xsl:variable>
+
+						<!-- extended by changhua Li (to ensure that the activityName is not empty, but onMessage or onEvent)-->						
+						<xsl:if test="$name!=''">
+							<xsl:attribute name="activityName">
+								<xsl:value-of select="$name" />
+							</xsl:attribute>
+						</xsl:if>
 						
-						<xsl:attribute name="activityName">
-							<xsl:value-of select="$name" />
-						</xsl:attribute>
-						
+						<xsl:if test="$name='' or (not($name))">
+							<xsl:attribute name="activityName">
+								<xsl:value-of select="$nodeType" />
+							</xsl:attribute>
+						</xsl:if>
+						<!-- extended ende -->
+												
 						<xsl:attribute name="id">
 							<xsl:value-of select="$currentID" />
 						</xsl:attribute>

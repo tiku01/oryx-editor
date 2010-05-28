@@ -159,6 +159,17 @@ public class BPEL4Chor2BPELWSDLCreate extends BPEL4Chor2BPELPBDConversion{
 			while(it.hasNext()){
 				// create a new <plnk:partnerLinkType> construct
 				plt = (String)it.next();
+				/**
+				 * wsdl files should just include the corresponding partnerLinkType declarations. 
+				 * for example, p1.wsdl should includes the "p1-px-plt" or "px-p1-plt".
+				 * 
+				 * Because all "plts" in wsdl are coming from "pltSet" during the transformation.
+				 * "pltSet" is created in grounding analysis and limited to the "commSet", which is created as a 
+				 * public set in the topology analysis. So it is now difficult from the transformation intern to 
+				 * make a mapping between "plt" and its process, which it belongs to. i adopts here the method 
+				 * to decide whether the name of "plt" contains the process name to declare the partnerLinkType 
+				 * in accordingly wsdl.
+				 */
 				if(plt.contains(processName)){	// if the content of partnerLinkType include the
 												// processName of PBD, then it will be declared
 												// in its wsdl file.
