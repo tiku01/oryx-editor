@@ -195,6 +195,9 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	private Logger log = Logger.getLogger("org.oryxeditor.bpel4chor.BPEL4Chor2BPELGroundingAnalyze");
 
 	final static String EMPTY = "";
+	private final static String WSU_Namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
+	private final static String BPEL_Namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/abstract";
+	
 	public Set<String> messageLinkSet = new HashSet<String>();
 	
 	// 3.4: participant types set
@@ -366,7 +369,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		Node child;
 		for (int i=0; i<childNodes.getLength(); i++){
 			child = childNodes.item(i);
-			ml = ((Element)child).getAttribute("name");
+			ml = getId((Element)child);
 			// instead of adding a removal has to be done. The set is later handled to generate "fake" groundings
 			notConvertedMessageLinks.remove(ml);
 
@@ -620,7 +623,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		String property;									// element of propertySet, inherits of QName
 		
 		// get property name and WSDL property
-		propName = construct.getAttribute("name");
+		propName = getId(construct);
 		property = construct.getAttribute("WSDLproperty");
 		// add them to the sets corrPropNameSet and propertySet
 		corrPropNameSet.add(propName);
@@ -629,6 +632,33 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		fpropertyCorrPropName(propName, property);
 		// assign WSDL property to its name space prefix
 		fnsprefixProperty(property, getAttributeNamespacePrefix(construct, "WSDLproperty"));
+	}
+	
+	/**
+	 * 
+	 * @param construct
+	 * @return returns the id of the construct, null if the element has no id
+	 */
+	private String getId(Element construct) {
+		if (construct.hasAttributeNS(WSU_Namespace, "Id")){
+			return construct.getAttributeNS(WSU_Namespace, "Id");
+		} else if (construct.hasAttribute("name")){
+			return construct.getAttribute("name");
+		} else if (construct.hasAttribute("wsu:id")) {
+			// hack - if wsu is not declared in the namespaces, we just use the string used in papers
+			return construct.getAttribute("wsu:id");
+		} else if (construct.hasAttribute("wsu:Id")) {
+			// hack - same as above, but with correct casing
+			return construct.getAttribute("wsu:Id");
+		} else if (construct.hasAttributeNS(BPEL_Namespace, "name")){
+			// fallback - maybe the name attribute is prefixed with the BPEL namespace prefix
+			// This seems to be an awkard design by DOM, isn't it?
+			// normally, hasAttributeNS(BPEL_Namespace, "name") should return the same as hasAttribute("name") if the element
+			// itself is in the BPEL namespace
+			return construct.getAttributeNS(BPEL_Namespace, "name");
+		} else {
+			return null;
+		}
 	}
 	
 	/**

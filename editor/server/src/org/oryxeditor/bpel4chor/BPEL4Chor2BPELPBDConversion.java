@@ -332,7 +332,7 @@ public class BPEL4Chor2BPELPBDConversion {
 				// continue depth-first search on the scope
 				modifyConstruct(fEScope);										// recursion
 				String id = getId(construct);
-				if (id != null) {
+				if (id != EMPTY) {
 					// modify the set-based <forEach> activity
 					modifyForEach(construct, fEScope, id);						// algorithm 3.15
 					
