@@ -255,6 +255,14 @@
         </servlet-class>
     </servlet>
 	
+	<servlet>
+        <display-name>BPMN to YAWL Converter</display-name>
+        <servlet-name>BPMN2YAWLServlet</servlet-name>
+        <servlet-class>
+            org.oryxeditor.server.BPMN2YAWLServlet
+        </servlet-class>
+    </servlet>
+	
 <!--<servlet>
 		<display-name>Worklist</display-name>
 		<servlet-name>Worklist</servlet-name>
@@ -457,6 +465,13 @@
 		<servlet-name>ExportServlet</servlet-name>
 		<url-pattern>/pnml</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPMN2YAWLServlet</servlet-name>
+		<url-pattern>/bpmn2yawl</url-pattern>
+	</servlet-mapping>
+	
+	
 	
 	<servlet-mapping>
 		<servlet-name>SimplePNMLExporter</servlet-name>

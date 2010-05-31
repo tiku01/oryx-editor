@@ -254,6 +254,10 @@
         <plugin source="bpmn2pn.js" name="ORYX.Plugins.BPMNImport">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
+		
+		<plugin source="bpmn2yawl.js" name="ORYX.Plugins.BPMN2YAWLMapper">
+            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+        </plugin>
         
         <plugin source="petriNetSoundnessChecker.js" name="ORYX.Plugins.PetriNetSoundnessChecker">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>

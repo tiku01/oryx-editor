@@ -857,3 +857,9 @@ ORYX.I18N.cpntoolsSupport.importProgress = "Importing ...";
 ORYX.I18N.cpntoolsSupport.exportProgress = "Exporting ...";
 ORYX.I18N.cpntoolsSupport.exportDescription = "Export to CPN Tools";
 ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
+
+if(!ORYX.I18N.BPMN2YAWLMapper) ORYX.I18N.BPMN2YAWLMapper = {};
+
+ORYX.I18N.BPMN2YAWLMapper.group = "Export";
+ORYX.I18N.BPMN2YAWLMapper.name = 'YAWL Export';
+ORYX.I18N.BPMN2YAWLMapper.desc = 'Map this diagram to YAWL and execute it';
