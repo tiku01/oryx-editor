@@ -25,7 +25,7 @@ ORYX.Plugins.IBMModelChanger = Clazz.extend({
 			var selectedShapes = this.facade.getSelection();
 			var selectedIds = [];
 			for(index =0;index<selectedShapes.size();index++){
-				selectedIds.push(selectedShapes[index].getId());
+				selectedIds.push(selectedShapes[index].resourceId);
 			}
 			var modelAsJson = this.facade.getSerializedJSON();
 			Ext.Ajax.request({
