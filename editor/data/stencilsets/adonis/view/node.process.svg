@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   width="80"
+   height="80"
+   version="0.1">
+  <defs></defs>
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="12" oryx:cy="30" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="40" oryx:cy="4" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="76" oryx:cy="30" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="40" oryx:cy="56" oryx:anchors="bottom" />
+	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes" />
+  </oryx:magnets>
+  <g pointer-events="fill">
+	<polygon 
+		id="procelem"
+		points="4,4 68,4 76,30 68,56 4,56 12,30" 
+		fill="#AAAAFF" 
+		stroke="black" 
+		stroke-width="1"/>
+	<text
+		font-size="14" 
+		id="proctext" 
+		x="8" 
+		y="70" 
+		oryx:align="middle center"
+		oryx:fittoelem="procelem"
+		stroke="black">testtext</text>
+  </g>
+</svg>
