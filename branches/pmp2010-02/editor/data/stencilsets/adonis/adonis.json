@@ -1,0 +1,350 @@
+{
+	"title":"Adonis",
+	"namespace":"http://b3mn.org/stencilset/Adonis#",
+	"description":"Stencils according the Adonis modelling language",
+ 	"stencils" : [
+		{
+			//=================================================================
+			// Diagramm
+			//=================================================================
+			"name" : "diagram",
+			"type" : "node",
+			"id":"diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"",
+			"view":"node.diagram.svg",
+			"properties" : [
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{	
+					"id":"namespaces",
+					"type":"Complex",
+					"title":"Namespaces",
+					"value":"",
+					"description":"Additional namespaces and theire prefixes used in the diagram., ",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"prefix",
+							"name":"adonis",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"url",
+							"name":"URL",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":false 
+						}
+					]
+				},
+				{
+					"id":"targetnamespace",
+					"type":"String",
+					"title":"Target Namespace",
+					"value":"..."/* any address*/,
+					"description":"Defines the XML namespace of the elements inside the document.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+			]
+		},		
+		{
+			//=================================================================
+			// Knoten - Actor
+			//=================================================================
+			"type":"node",
+			"id":"actor",
+			"title","Actor",
+			"groups":[],
+			"description":"",
+			"view": "/nodes/node.actor.svg",
+			"roles":["diagramcontent","actor"],
+			"properties": [
+				{
+					"id":"title",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Title",
+					"value":""
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				}
+				{
+					"id":"type",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Type",
+					"value":"actor",
+					"readonly":true,
+					"optional":false
+				}
+			]
+			
+		},
+		{
+			//=================================================================
+			// Knoten - Process
+			//=================================================================
+			"type":"node",
+			"id":"process",
+			"title","Process",
+			"groups":[],
+			"description":"",
+			"view": "/nodes/node.process.svg",
+			"roles":["diagramcontent","process"],
+			"properties": [
+				{
+					"id":"title",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Title",
+					"value":""
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				}
+				{
+					"id":"type",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Type",
+					"value":"process",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+ 		{
+			//=================================================================
+			// Knoten - External partners
+			//=================================================================
+			"type":"node",
+			"id":"externalpartern",
+			"title","External partners",
+			"groups":[],
+			"description":"",
+			"view": "/nodes/node.external-partner.svg",
+			"roles":["diagramcontent","externalpartner"],
+			"properties": [
+				{
+					"id":"title",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Title",
+					"value":""
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				}
+				{
+					"id":"type",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Type",
+					"value":"external-partner",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+		{
+			//=================================================================
+			// Knoten - Performance
+			//=================================================================
+			"type":"node",
+			"id":"performance",
+			"title","performance",
+			"groups":[],
+			"description":"",
+			"view": "/nodes/node.performance.svg",
+			"roles":["diagramcontent","performance"],
+			"properties": [
+				{
+					"id":"title",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Title",
+					"value":""
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				}
+				{
+					"id":"type",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Type",
+					"value":"performance",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+		{
+			//=================================================================
+			// Knoten - Cross Reference
+			//=================================================================
+			"type":"node",
+			"id":"externalpartern",
+			"title","Cross reference",
+			"groups":[],
+			"description":"",
+			"view": "/nodes/node.cross-reference.svg",
+			"roles":["diagramcontent","crossreference"],
+			"properties": [
+				{
+					"id":"title",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Title",
+					"value":""
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				}
+				{
+					"id":"type",
+					"prefix":"adonis",
+					"type":"String",
+					"title":"Type",
+					"value":"external-partner",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+		{
+			//=================================================================
+			//Kante has cross reference
+			//=================================================================
+			"type": "edge",
+			"id":"hascrossreference",
+			"title":"has cross-reference",
+			"description":"",
+			"groups":[],
+			"view":"connector.has-cross-reference.svg",
+			"roles": ["diagramcontent"],
+			"properties": [
+				{
+					"id":"InteractionType",
+					"type":"String",
+					"title":"Interaction Type",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":""
+				}
+			]
+		},
+		{
+			//=================================================================
+			//Kante value-flow
+			//=================================================================
+			"type": "edge",
+			"id":"valueflow",
+			"title":"value-flow",
+			"description":"",
+			"groups":[],
+			"view":"connector.value-flow.svg",
+			"roles": ["diagramcontent"],
+			"properties": [
+				{
+					"id":"InteractionType",
+					"type":"String",
+					"title":"Interaction Type",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":""
+				}
+			]
+		},
+		{
+			//=================================================================
+			//Kante has process
+			//=================================================================
+			"type": "edge",
+			"id":"hasprocess",
+			"title":"has process",
+			"description":"",
+			"groups":[],
+			"view":"connector.has-process.svg",
+			"roles": ["diagramcontent"],
+			"properties": [
+				{
+					"id":"InteractionType",
+					"type":"String",
+					"title":"Interaction Type",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":""
+				}
+			]
+		},
+	],
+	//=========================================================================
+	// Rules
+	//=========================================================================
+	rules: [
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			}
+		]
+	]
+}
