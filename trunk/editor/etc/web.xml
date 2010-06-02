@@ -188,6 +188,16 @@
 	
 	<servlet>
 		<display-name>
+			ProcessWaveEditorHandler
+		</display-name>
+		<servlet-name>ProcessWaveEditorHandler</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.ProcessWaveEditorHandler
+		</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>
 			Oryx syntax checker
 		</display-name>
 		<servlet-name>SyntaxChecker</servlet-name>
@@ -660,6 +670,10 @@
 	 <servlet-mapping>
             <servlet-name>EditorHandler</servlet-name>
             <url-pattern>/editor</url-pattern>
+    </servlet-mapping>
+   	<servlet-mapping>
+            <servlet-name>ProcessWaveEditorHandler</servlet-name>
+            <url-pattern>/jsoneditor</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
             <servlet-name>FeedbackServlet</servlet-name>
