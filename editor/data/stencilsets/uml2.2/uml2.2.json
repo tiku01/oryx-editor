@@ -53,6 +53,7 @@
 					"type" : "Choice",
 					"title" : "Reading Direction",
 					"title_de" : "Leserichtung",
+					"value" : " ",
 					"items": [
 						{
 							"id":"c0",
@@ -469,6 +470,7 @@
 					"title" : "Stereotype",
 					"title_de" : "Stereotyp",
 					"refToView" : "keyword",
+					"value" : " ",
 					"items": [
 						{
 							"id":"c0",
@@ -534,6 +536,7 @@
 					"title" : "Stereotype",
 					"title_de" : "Stereotyp",
 					"refToView" : "keyword",
+					"value" : " ",
 					"items": [
 						{
 							"id":"c0",
