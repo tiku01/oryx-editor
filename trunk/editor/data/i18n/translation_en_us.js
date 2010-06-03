@@ -862,4 +862,4 @@ if(!ORYX.I18N.BPMN2YAWLMapper) ORYX.I18N.BPMN2YAWLMapper = {};
 
 ORYX.I18N.BPMN2YAWLMapper.group = "Export";
 ORYX.I18N.BPMN2YAWLMapper.name = 'YAWL Export';
-ORYX.I18N.BPMN2YAWLMapper.desc = 'Map this diagram to YAWL and execute it';
+ORYX.I18N.BPMN2YAWLMapper.desc = 'Map this diagram to YAWL and export it, please ensure "BPMN Subset for mapping to YAWL" is loaded';
