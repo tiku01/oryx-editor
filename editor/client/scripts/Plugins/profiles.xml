@@ -21,6 +21,7 @@
 		<plugin name="ORYX.Plugins.HighlightingSelectedShapes"/>	
 		<plugin name="ORYX.Plugins.DragDocker"/>	
 		<plugin name="ORYX.Plugins.AddDocker"/>
+		<plugin name="ORYX.Plugins.DockerCreation"/>
 		<plugin name="ORYX.Plugins.SSExtensionLoader"/>	
 		<plugin name="ORYX.Plugins.SelectionFrame"/>	
 		<plugin name="ORYX.Plugins.ShapeHighlighting"/>	
@@ -52,6 +53,7 @@
 		<plugin name="ORYX.Plugins.BPMN2XPDL20"/>
 		<plugin name="ORYX.Plugins.BPMN2DTRPXMI"/>
 		<plugin name="ORYX.Plugins.JPDLSupport"/>
+		<plugin name="ORYX.Plugins.BPMN2YAWLMapper"/>
 	</profile>
 	<profile name="bpmn2.0" depends="default" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
@@ -115,8 +117,9 @@
 		<plugin name="ORYX.Plugins.UML"/>
 	</profile>
 	<profile name="labelbeta" depends="bpmn" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
-	 	<plugin name="ORYX.Plugins.DockerCreation"/>
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
+	
+	
 </profiles>

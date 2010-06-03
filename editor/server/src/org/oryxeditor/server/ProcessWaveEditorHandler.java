@@ -25,8 +25,6 @@ package org.oryxeditor.server;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +38,11 @@ public class ProcessWaveEditorHandler extends EditorHandler {
 	private static final String oryx_path = "/oryx/";
 	private static final long serialVersionUID = 1L;
 	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -49,19 +52,20 @@ public class ProcessWaveEditorHandler extends EditorHandler {
 		String sset=request.getParameter("stencilset");
 		String json = request.getParameter("json");
 		String extString=request.getParameter("exts");
-
-
 		String content = 
 	        "<script type='text/javascript'>" +
 	        "if(!ORYX) var ORYX = {};" +
-	        "if(!ORYX.CONFIG) ORYX.CONFIG = {};" +
-	        "ORYX.CONFIG.SSET='" + sset +"';" +
-	        "ORYX.CONFIG.SSEXTS=" + extString + ";"+
-
-        	"ORYX.Log.warn('No adapter to repository specified, default used. You need a function window.onOryxResourcesLoaded that obtains model-JSON from your repository');" +
-        	"window.onOryxResourcesLoaded = function() {" +
-            "var stencilset=ORYX.Utils.getParamFromUrl('stencilset')?ORYX.Utils.getParamFromUrl('stencilset'):'"+sset+"';"+
-            "new ORYX.Editor("+json+")"+
+	        "if(!ORYX.CONFIG) ORYX.CONFIG = {};\n" +
+	        "ORYX.CONFIG.SSET='" + sset +"';\n" +
+	        "ORYX.CONFIG.SSEXTS=" + extString + ";\n"+
+        	"window.onOryxResourcesLoaded = function() {\n" +
+        	"var json=" +json+";\n" +
+        	"if(json.stencilset){\n" +
+        	"json.stencilset.url='" +
+        	sset+
+        	"';\n" +
+        	"}"+
+            "new ORYX.Editor(json);\n"+
 	      	  "}" +
           	"</script>";
 		response.setContentType("application/xhtml+xml");
@@ -157,38 +161,4 @@ public class ProcessWaveEditorHandler extends EditorHandler {
       	  	+ "</body>\n"
       	  	+ "</html>";
     }
-    protected String getOryxRootDirectory() {
-    	String realPath = this.getServletContext().getRealPath("");
-    	File backendDir = new File(realPath);
-    	return backendDir.getParent();
-    }
-    protected String getCountryCode(HttpServletRequest req) {
-    	return (String) req.getSession().getAttribute("countrycode");
-    }
-    protected String getLanguageCode(HttpServletRequest req) {
-    	return (String) req.getSession().getAttribute("languagecode");
-    }
-	protected String getRelativeServerPath(HttpServletRequest req){
-		return "/backend/poem"; //+ req.getServletPath();
-	}
-	public Collection<String> getAvailableProfileNames() {
-		Collection<String> profilNames = new ArrayList<String>();
-
-		File handlerDir=null;
-		try {
-			handlerDir = new File(this.getServletContext().
-					getRealPath("/profiles"));
-		} catch (NullPointerException e) {
-			return profilNames;
-		}
-		if(handlerDir==null)
-			return profilNames;
-		
-		for (File source : handlerDir.listFiles()) {
-			if (source.getName().endsWith(".js")) {
-				profilNames.add(source.getName().substring(0, source.getName().lastIndexOf(".")));
-			}
-		}
-		return profilNames;
-	}
 }
