@@ -42,12 +42,12 @@
 	</g>
 	<text 
 		font-size="14" 
-		id="partnertext" 
+		id="text" 
 		x="2" 
 		y="54" 
 		oryx:align="top left"
 		oryx:fittoelem="partnergrp"
-		stroke="black">external partner</text>
+		stroke="black"></text>
 
   </g>
 </svg>

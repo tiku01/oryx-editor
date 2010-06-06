@@ -21,11 +21,11 @@
 		stroke-width="1"/>
 	<text 
 		font-size="14" 
-		id="perfortext" 
+		id="text" 
 		x="12" 
 		y="35" 
 		oryx:align="middle center"
 		oryx:fittoelem="perforelem"
-		stroke="black">sdfkölsnadfölksjadf</text>
+		stroke="black"></text>
   </g>
 </svg>

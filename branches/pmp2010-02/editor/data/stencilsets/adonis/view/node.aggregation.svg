@@ -16,12 +16,12 @@
  <rect id="aggelem" stroke="#000000" fill="#F0F0F0" stroke-width="1" x="2" y="2" width="36" height="36"/>
 <text 
 			font-size="14" 
-			id="aggtext" 
+			id="text" 
 			x="4" 
 			y="14" 
 			oryx:align="top left"
 			oryx:fittoelem="aggelem"
-			stroke="black">GGGGGGG
+			stroke="black">
 		</text>
 
   </g>
