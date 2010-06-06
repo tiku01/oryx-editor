@@ -5,10 +5,13 @@
 	<defs>
 		<marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
 		  <path d="M 0 10 L 10 5 L 0 0" fill="none" stroke="black" stroke-width="2"/>
-	  </marker>
+		</marker>
+		<marker id="start" refX="0" refY="5" markerUnits="userSpaceOnUse" markerWidth="2" markerHeight="10" orient="auto">
+		  <line x1="0" y1="0" x2="0" y2="10" fill="none" stroke="black" stroke-width="4"/>
+		</marker>
 	</defs>
 	<g id="edge">
-		<path d="M50 50 L100 50" stroke="black" fill="none" stroke-width="2" marker-end="url(#end)"/>
+		<path d="M50 50 L100 50" stroke="black" fill="none" stroke-width="2" marker-end="url(#end)" marker-start="url(#start)"/>
 		<text id="cardinalityStart" x="0" y="0" oryx:edgePosition="startTop"/>
 		<text id="roleStart" x="0" y="0" oryx:edgePosition="startBottom"/>
 		<text id="name" x="0" y="0" oryx:edgePosition="midTop"/>

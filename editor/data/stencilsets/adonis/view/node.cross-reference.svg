@@ -21,10 +21,10 @@
 		stroke-width="1"/>
 	<text 
 		font-size="14" 
-		id="crossreftext" 
+		id="text" 
 		x="8" 
 		y="70" 
 		oryx:align="middle center"
-		stroke="black">testeteaklsjdh</text>
+		stroke="black"></text>
   </g>
 </svg>

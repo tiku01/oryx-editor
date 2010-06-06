@@ -1,350 +1,319 @@
 {
 	"title":"Adonis",
-	"namespace":"http://b3mn.org/stencilset/Adonis#",
-	"description":"Stencils according the Adonis modelling language",
- 	"stencils" : [
+	"namespace":"http://b3mn.org/stencilset/adonis#",
+	"description":"A stencil set for ADONIS BPMS",
+	"stencils": [
 		{
-			//=================================================================
-			// Diagramm
-			//=================================================================
-			"name" : "diagram",
-			"type" : "node",
-			"id":"diagram",
-			"title":"Diagram",
-			"groups":[],
-			"description":"",
-			"view":"node.diagram.svg",
-			"properties" : [
-				{
-					"id":"version",
-					"type":"String",
-					"title":"Version",
-					"value":"",
-					"description":"This defines the Version number of the Diagram.",
-					"readonly":false,
-					"optional":true,
-					"length":"50"
-				},
-				{
-					"id":"author",
-					"type":"String",
-					"title":"Author",
-					"value":"",
-					"description":"This holds the name of the author of the Diagram.",
-					"readonly":false,
-					"optional":true,
-					"length":"50"
-				},
-				{	
-					"id":"namespaces",
-					"type":"Complex",
-					"title":"Namespaces",
-					"value":"",
-					"description":"Additional namespaces and theire prefixes used in the diagram., ",
-					"readonly":false,
-					"optional":true,
-					"complexItems": [
-						{
-							"id":"prefix",
-							"name":"adonis",
-							"type":"String",
-							"value":"",
-							"width":100,
-							"optional":false 
-						},
-						{
-							"id":"url",
-							"name":"URL",
-							"type":"String",
-							"value":"",
-							"width":200,
-							"optional":false 
-						}
-					]
-				},
-				{
-					"id":"targetnamespace",
-					"type":"String",
-					"title":"Target Namespace",
-					"value":"..."/* any address*/,
-					"description":"Defines the XML namespace of the elements inside the document.",
-					"readonly":false,
-					"optional":true,
-					"length":"50"
-				},
-			]
-		},		
-		{
-			//=================================================================
-			// Knoten - Actor
-			//=================================================================
-			"type":"node",
-			"id":"actor",
-			"title","Actor",
-			"groups":[],
-			"description":"",
-			"view": "/nodes/node.actor.svg",
-			"roles":["diagramcontent","actor"],
-			"properties": [
-				{
-					"id":"title",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Title",
-					"value":""
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined,
-					"wrapLines":true
-				}
-				{
-					"id":"type",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Type",
-					"value":"actor",
-					"readonly":true,
-					"optional":false
-				}
-			]
-			
+			"type":			"node",
+			"id":			"diagram",
+			"title":		"Diagram",	
+			"groups":		["diagram"],
+			"description":	"Adonis diagram",
+			"view":			"node.diagram.svg",
+			"icon":			"diagram.png",
+			"roles":		[]
 		},
 		{
-			//=================================================================
-			// Knoten - Process
-			//=================================================================
-			"type":"node",
-			"id":"process",
-			"title","Process",
-			"groups":[],
-			"description":"",
-			"view": "/nodes/node.process.svg",
-			"roles":["diagramcontent","process"],
+			"type":			"node",
+			"id":			"process",
+			"title":		"Process",
+			"groups":		["node"],
+			"description":	"Proceess",
+			"view": 		"node.process.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		["node"],
 			"properties": [
 				{
-					"id":"title",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Title",
-					"value":""
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined,
-					"wrapLines":true
-				}
-				{
-					"id":"type",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Type",
-					"value":"process",
-					"readonly":true,
-					"optional":false
-				}
-			]
-		},
- 		{
-			//=================================================================
-			// Knoten - External partners
-			//=================================================================
-			"type":"node",
-			"id":"externalpartern",
-			"title","External partners",
-			"groups":[],
-			"description":"",
-			"view": "/nodes/node.external-partner.svg",
-			"roles":["diagramcontent","externalpartner"],
-			"properties": [
-				{
-					"id":"title",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Title",
-					"value":""
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined,
-					"wrapLines":true
-				}
-				{
-					"id":"type",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Type",
-					"value":"external-partner",
-					"readonly":true,
-					"optional":false
+					"id":			"processtext",
+					"type":			"String",
+					"title":		"Process title",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"wrapLines":	true
 				}
 			]
 		},
 		{
-			//=================================================================
-			// Knoten - Performance
-			//=================================================================
-			"type":"node",
-			"id":"performance",
-			"title","performance",
-			"groups":[],
-			"description":"",
-			"view": "/nodes/node.performance.svg",
-			"roles":["diagramcontent","performance"],
+			"type":			"node",
+			"id":			"actor",
+			"title":		"Actor",
+			"groups":		["node"],
+			"description":	"Actor",
+			"view": 		"node.actor.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"actor",
+				"node",
+				"additional"],
 			"properties": [
 				{
-					"id":"title",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Title",
-					"value":""
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined,
-					"wrapLines":true
-				}
-				{
-					"id":"type",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Type",
-					"value":"performance",
-					"readonly":true,
-					"optional":false
+					"id":			"actortext",
+					"type":			"String",
+					"title":		"Actor title",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"wrapLines":	true
 				}
 			]
 		},
 		{
-			//=================================================================
-			// Knoten - Cross Reference
-			//=================================================================
-			"type":"node",
-			"id":"externalpartern",
-			"title","Cross reference",
-			"groups":[],
-			"description":"",
-			"view": "/nodes/node.cross-reference.svg",
-			"roles":["diagramcontent","crossreference"],
+			"type":			"node",
+			"id":			"external-partner",
+			"title":		"External partner",
+			"groups":		["node"],
+			"description":	"External partner",
+			"view": 		"node.external-partner.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"external_partner",
+				"node",
+				"additional"],
+			"properties": [
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"note",
+			"title":		"Note",
+			"groups":		["node"],
+			"description":	"A note",
+			"view": 		"node.note.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"note",
+				"additional"],
+			"properties": [
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"performance",
+			"title":		"Performance",
+			"groups":		["node"],
+			"description":	"performance",
+			"view": 		"node.performance.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"performance",
+				"node",
+				"additional"],
+			"properties": [
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"cross_reference",
+			"title":		"Cross reference",
+			"groups":		["node"],
+			"description":	"Cross reference",
+			"view":			"node.cross-reference.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"node",
+				"additional",
+				"cross_reference"],
 			"properties": [
 				{
-					"id":"title",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Title",
-					"value":""
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"length":undefined,
-					"wrapLines":true
-				}
-				{
-					"id":"type",
-					"prefix":"adonis",
-					"type":"String",
-					"title":"Type",
-					"value":"external-partner",
-					"readonly":true,
-					"optional":false
+					"id":			"text",
+					"type":			"String",
+					"title":		"Cross reference text",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"refToView":	"crossreftext",
+					"wrapLines":	true
 				}
 			]
 		},
 		{
-			//=================================================================
-			//Kante has cross reference
-			//=================================================================
-			"type": "edge",
-			"id":"hascrossreference",
-			"title":"has cross-reference",
-			"description":"",
-			"groups":[],
-			"view":"connector.has-cross-reference.svg",
-			"roles": ["diagramcontent"],
+			"type":			"node",
+			"id":			"aggregation",
+			"title":		"Aggregation",
+			"groups":		["node"],
+			"description":	"Aggregation",
+			"view":			"node.aggregation.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles":		[
+				"node",
+				"additional"],
 			"properties": [
 				{
-					"id":"InteractionType",
-					"type":"String",
-					"title":"Interaction Type",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
+					"id":			"text",
+					"type":			"String",
+					"title":		"Aggregation text",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"wrapLines":	true
 				}
 			]
 		},
 		{
-			//=================================================================
-			//Kante value-flow
-			//=================================================================
-			"type": "edge",
-			"id":"valueflow",
-			"title":"value-flow",
-			"description":"",
-			"groups":[],
-			"view":"connector.value-flow.svg",
-			"roles": ["diagramcontent"],
-			"properties": [
+			"type": 		"node",
+			"id":			"lane_vertical",
+			"title":		"Vertical lane",
+			"groups":		["Swimlanes"],
+			"description":	"",
+			"view":			"node.lane.vertical.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles": 		["group"],
+			"properties":	[
 				{
-					"id":"InteractionType",
-					"type":"String",
-					"title":"Interaction Type",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				}
-			]
+					"id":			"text_v",
+					"type":			"String",
+					"title":		"Lane title",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"wrapLines":	true
+				}]
 		},
 		{
-			//=================================================================
-			//Kante has process
-			//=================================================================
-			"type": "edge",
-			"id":"hasprocess",
-			"title":"has process",
-			"description":"",
-			"groups":[],
-			"view":"connector.has-process.svg",
-			"roles": ["diagramcontent"],
-			"properties": [
+			"type": 		"node",
+			"id":			"lane_horizontal",
+			"title":		"Horizontal lane",
+			"groups":		["Swimlanes"],
+			"description":	"",
+			"view":			"node.lane.horizontal.svg",
+			"icon":			"node.complexinteraction.png",
+			"roles": 		["group"],
+			"properties":	[
 				{
-					"id":"InteractionType",
-					"type":"String",
-					"title":"Interaction Type",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				}
-			]
+					"id":			"text_h",
+					"type":			"String",
+					"title":		"Lane title",
+					"value":		"",
+					"description":	"",
+					"readonly":		false,
+					"optional":		true,
+					"length":		"",
+					"wrapLines":	true
+				}]
 		},
+		{
+			"type":			"edge",
+			"id":			"has_cross_reference",
+			"title":		"Has cross reference",	
+			"groups":		["connector"],
+			"description":	"A has cross reference edge",
+			"view":			"connector.has-cross-reference.svg",
+			"icon":			"edge.precedes.png",
+			"roles":		[
+				"connector",
+				"cross_reference"]
+		},
+		{
+			"type":			"edge",
+			"id":			"has_process",
+			"title":		"Has process",	
+			"groups":		["connector"],
+			"description":	"A has process edge",
+			"view":			"connector.has-process.svg",
+			"icon":			"edge.precedes.png",
+			"roles":		[
+				"connector"]
+		},
+		{
+			"type":			"edge",
+			"id":			"value_flow",
+			"title":		"Value flow",	
+			"groups":		["connector"],
+			"description":	"A value flow edge",
+			"view":			"connector.value-flow.svg",
+			"icon":			"edge.precedes.png",
+			"roles":		[
+				"connector",
+				"value_flow"]
+		},
+		{
+			"type":			"edge",
+			"id":			"has_note",
+			"title":		"Has note",	
+			"groups":		["note_connector"],
+			"description":	"A note edge",
+			"view":			"connector.has-note.svg",
+			"icon":			"edge.precedes.png",
+			"roles":		[
+				"note_connector"]
+		}
+		
+		
+		
 	],
-	//=========================================================================
-	// Rules
-	//=========================================================================
-	rules: [
-		"containmentRules": [
+	"rules":{
+		"connectionRules": [
 			{
-				"role":"Diagram",
+				"role":		"value_flow",
+				"connects":	[
+					{
+						"from":	"node",
+						"to":	"node"
+					}
+				],
+			},
+			{
+				"role":		"cross_reference",
+				"connects":	[
+					{
+						"from":	"node",
+						"to":	"node"
+					},
+					{
+						"from":	"process",
+						"to":	"note"
+					},
+					{
+						"from":	"note",
+						"to":	"process"
+					},
+					{
+						"from":	"note",
+						"to":	"note"
+					}
+				],
+			},
+			{
+				"role":		"connector",
+				"connects":	[
+					{
+						"from":	"process",
+						"to":	"process"
+					}
+				],
+			},
+			{
+				"role":		"note_connector",
+				"connects":	[
+					{
+						"from":	"additional",
+						"to":	"additional"
+					}
+				],
+			}
+		],
+		"containmentRules":	[
+			{
+				"role":		"diagram",
 				"contains": [
-					"diagramcontent"
+							"node",
+							"note",
+							"link",
+							"group",
+							"process",
 				]
 			}
 		]
-	]
+	}
 }

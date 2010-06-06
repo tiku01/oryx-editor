@@ -22,11 +22,11 @@
 		stroke-width="1"/>
 	<text
 		font-size="14" 
-		id="proctext" 
+		id="text" 
 		x="8" 
 		y="70" 
 		oryx:align="middle center"
 		oryx:fittoelem="procelem"
-		stroke="black">testtext</text>
+		stroke="black"></text>
   </g>
 </svg>
