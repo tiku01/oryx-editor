@@ -7,6 +7,9 @@
 		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" core="true" />
 		<plugin source="selectssperspective.js" name="ORYX.Plugins.SelectStencilSetPerspective"/>
 		<plugin source="shaperepository.js" name="ORYX.Plugins.ShapeRepository" />
+		<plugin source="fragmentRepository.js" name="ORYX.Plugins.FragmentRepository" engaged="false">
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
+		</plugin>
 		<plugin source="propertywindow.js" name="ORYX.Plugins.PropertyWindow" />
 		<plugin source="loading.js" name="ORYX.Plugins.Loading" core="true" />
 		<plugin source="canvasResize.js" name="ORYX.Plugins.CanvasResize">
@@ -350,6 +353,7 @@
 		<plugin source="fileRepository.js" name="ORYX.Plugins.FileRepositorySave" />
 		<plugin source="dockerCreation.js" name="ORYX.Plugins.DockerCreation" />
 		<plugin source="labelLayout.js" name="ORYX.Plugins.LabelLayout"/>
+
 
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
