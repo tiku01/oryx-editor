@@ -36,6 +36,14 @@
 			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
 		{
+		"title":"BPMN 2.0 Compliance Template Extension",
+		"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnComplianceTemplate#",
+		"description":"Extension to BPMN 2.0 to work with compliance templates.",
+		"definition":"bpmn2.0complianceTemplate/bpmn2.0complianceTemplate.json",
+		"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+		},
+
+		{
 			"title" : "BPMN 2.0 Basic Subset",
 			"namespace" : "http://oryx-editor.org/stencilsets/extensions/bpmn2.0basicsubset#",
 			"description":"A basic subset of BPMN 2.0 containing only task, sequence flow, start event, end event, parallel gateway and data-based XOR.",

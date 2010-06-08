@@ -5,7 +5,7 @@
 	<profile name="none" stencilset="stencilsets/bpmn1.1/bpmn1.1.json"/>
 	<profile name="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
 		<!--<plugin name="ORYX.Plugins.SelectStencilSetPerspective"/>-->
-		<plugin name="ORYX.Plugins.ShapeRepository"/>
+		<plugin name="ORYX.Plugins.ShapeRepository"/>  
 		<plugin name="ORYX.Plugins.PropertyWindow"/>
 		<plugin name="ORYX.Plugins.CanvasResize"/>
 		<plugin name="ORYX.Plugins.View"/>
@@ -34,7 +34,7 @@
 		<plugin name="ORYX.Plugins.Save"/>
 		<plugin name="ORYX.Plugins.ContainerLayouter" />
 		<plugin name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-		
+
 				
 	</profile>
 	<profile name="bpmn" depends="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
@@ -120,6 +120,9 @@
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
+	<profile name="complianceTemplate" depends="default" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
+		<stencilsetextension namespace="http://oryx-editor.org/stencilsets/extensions/bpmn2.0complianceTemplate#"/>
+		<plugin name="ORYX.Plugins.FragmentRepository"/>
 	
-	
+	</profile>
 </profiles>
