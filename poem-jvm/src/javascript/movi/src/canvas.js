@@ -54,7 +54,13 @@ MOVI.namespace("model");
 		this.shapes = {};
 		this._indexShapes();
 		
-		this._modelviewer.onZoomLevelChangeEnd.subscribe(this._update, this, true);
+		this._modelviewer.onZoomLevelChangeStart.subscribe(function() {
+			this.setStyle("display", "none");
+		}, this, true);
+		this._modelviewer.onZoomLevelChangeEnd.subscribe(function() {
+			this._update();
+			this.setStyle("display", "block");
+		}, this, true);
 		
 		this._update();
 		
