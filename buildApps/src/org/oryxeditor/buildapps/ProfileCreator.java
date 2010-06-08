@@ -58,7 +58,7 @@ public class ProfileCreator {
 			return;
 		}
 		String pluginDirPath = args[0];
-		;
+		
 		String pluginXMLPath = pluginDirPath + "/plugins.xml";// args[0];
 		String profilePath = pluginDirPath + "/profiles.xml";// ;
 		String outputPath = args[1];
@@ -69,6 +69,9 @@ public class ProfileCreator {
 		ArrayList<String> coreNames = new ArrayList<String>();
 
 		extractPluginData(pluginXMLPath, nameSrc, coreNames);
+		//HasMap profilName contains the name of the profile
+		//as key and an ArrayList of the names of the pluins contained
+		//within that profile
 		extractProfileData(profilePath, profilName);
 		for (String key : profilName.keySet()) {
 			ArrayList<String> pluginNames = profilName.get(key);
@@ -158,9 +161,11 @@ public class ProfileCreator {
 			String profileXMLPath, String outputPath, String ProfileName,
 			ArrayList<String> pluginNames) throws IOException,
 			FileNotFoundException, JSONException {
-
+		//All plugins are copied in the xml file to be used with the current
+		//profile
 		FileCopyUtils.copy(new FileInputStream(pluginXMLPath),
 				new FileOutputStream(outputPath + File.separator + ProfileName + ".xml"));
+		//reader for the profile that contains all plugins from the plugins.xml
 		InputStream reader = new FileInputStream(outputPath + File.separator + ProfileName
 				+ ".xml");
 		DocumentBuilder builder;
@@ -168,12 +173,19 @@ public class ProfileCreator {
 
 		try {
 			builder = factory.newDocumentBuilder();
+			//outProfileXMLdocument contains all plugins from the plugins.xml
+			//no plugins are removed according to the profile
 			Document outProfileXMLdocument = builder.parse(reader);
+			//reader is used twice => bad practice 
+			//Reader for the file named profile.xml
 			reader = new FileInputStream(profileXMLPath);
 			builder = factory.newDocumentBuilder();
+			//profilesXMLdocument contains the contents of profile.xml
 			Document profilesXMLdocument = builder.parse(reader);
+			//The plugin-nodes are saved here
 			NodeList pluginNodeList = outProfileXMLdocument
 			.getElementsByTagName("plugin");
+			//The one node containing the current profile
 			Node profileNode = getProfileNodeFromDocument(ProfileName,
 					profilesXMLdocument);
 
@@ -189,7 +201,8 @@ public class ProfileCreator {
 			for (int profilePluginNodeIndex = 0; profilePluginNodeIndex < profileNode
 			.getChildNodes().getLength(); profilePluginNodeIndex++) {
 				Node tmpNode = profileNode.getChildNodes().item(profilePluginNodeIndex);
-
+				//check if we have a plugin xml tag
+				//this if construct is useless because there is no else branch
 				if("plugin".equals(tmpNode.getNodeName()) || tmpNode==null)
 					continue;
 				JSONObject nodeObject = new JSONObject();
@@ -207,6 +220,7 @@ public class ProfileCreator {
 				}
 
 			}
+			//Print the JSON configuration file to the file system
 			FileCopyUtils.copy(config.toString(), new FileWriter(outputPath + File.separator+ProfileName+".conf"));
 			// for each plugin in the copied plugin.xml
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
