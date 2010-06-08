@@ -392,21 +392,38 @@ ORYX.Core.StencilSet.Rules = {
 		}
 	},
 	
+	/**
+	 * The name of this method is misleading. 
+	 * It returns the stencils that can be contained in a 
+	 * stencil defined by the input parameter.  
+	 */
 	_cacheContain: function(args) {
-		
+		//The result variable is an array with two fields. 
+		//The first field contains the result if the input
+		//args.contained stencil can contain the args.containingStencil.
+		//The second field returns the maximum number of time the 
+		//args.containingStencil stencil can be contained in args.containedStencil
 		var result = [this._canContain(args), 
 					  this._getMaximumOccurrence(args.containingStencil, args.containedStencil)]
 		
+		//If there is no maximum number for the args.containingStencil
+		//we set the second field of the result array to -1
+		//which must be a common value for not defined values :-)
 		if(result[1] == undefined) 
 			result[1] = -1;
 		
+		//The rest of this method is useless besides the return statement
+		//The children array isn't used anymore after it was assigned. 
 		var children = this._cachedContainPC[args.containingStencil.id()];
 		
+		//If there are no children we create a new hashmap for future children
+		//with an empty hash map
 		if(!children) {
 			children = new Hash();
 			this._cachedContainPC[args.containingStencil.id()] = children;
 		}
 		
+
 		children[args.containedStencil.id()] = result;
 		
 		return result;
@@ -823,7 +840,7 @@ ORYX.Core.StencilSet.Rules = {
 	/** Begin containment rules' methods */
 
 	/**
-	 * 
+	 * Check if a stencil can be contained by another stencil. 
 	 * @param {Object}
 	 *            args containingStencil: ORYX.Core.StencilSet.Stencil
 	 *            containingShape: ORYX.Core.AbstractShape containedStencil:
@@ -837,6 +854,7 @@ ORYX.Core.StencilSet.Rules = {
 		}
 		
 		// init arguments
+		//Useless shifts. 
 		if(args.containedShape) {
 			args.containedStencil = args.containedShape.getStencil();
 		}
@@ -845,18 +863,26 @@ ORYX.Core.StencilSet.Rules = {
 			args.containingStencil = args.containingShape.getStencil();
 		}
 		
+		
 		//if(args.containingStencil.type() == 'edge' || args.containedStencil.type() == 'edge')
 		//	return false;
 		if(args.containedStencil.type() == 'edge') 
 			return false;
 		
 		var childValues;
-		
+		//parent is a array of roles with a corresponding array. 
+		//The array has two fields (Boolean, integer). The first field tells if a corresponding
+		//role can be contained within the stencil we want to put another stencil in. 
 		var parent = this._cachedContainPC[args.containingStencil.id()];
 		
+		//ChildValues contains an array of boolean and integer.  
+		//If parent is undefined we 
 		if(!parent)
 			childValues = this._cacheContain(args);
 		else {
+			//Here we get one array out of the parent array
+			//by querying with the stencil id of the stencil we 
+			//just want to put into another stencil. 
 			childValues = parent[args.containedStencil.id()];
 			
 			if(!childValues)
@@ -885,20 +911,23 @@ ORYX.Core.StencilSet.Rules = {
 	},
 	
 	/**
-	 * 
+	 * This method checks if the args.containingStencil stencil
+	 * can contain the args.containedStencil stencil. 
 	 * @param {Object}
 	 *            args containingStencil: ORYX.Core.StencilSet.Stencil
 	 *            containingShape: ORYX.Core.AbstractShape containedStencil:
 	 *            ORYX.Core.StencilSet.Stencil containedShape: ORYX.Core.Shape
 	 */
 	_canContain: function(args) {
+		//Check for undefined values
 		if(!args ||
 		   !args.containingStencil && !args.containingShape ||
 		   !args.containedStencil && !args.containedShape) {
 		   	return false;
 		}
 		
-		// init arguments
+		// Useless checks. It would be better to describe the
+		//args object instead of shifting values in it. 
 		if(args.containedShape) {
 			args.containedStencil = args.containedShape.getStencil();
 		}
@@ -918,10 +947,20 @@ ORYX.Core.StencilSet.Rules = {
 		var result;
 		
 		// check containment rules
+		//We loop through all roles of the stencil we just moved
+		//over with the mouse while draging another stencil. 
 		result = args.containingStencil.roles().any((function(role) {
+			//this._containmentRules is an array of an array of roles.
+			//The inner array are roles that can be contained by the roles
+			//named by the outer array. Example: [subprocess[sequence_end, ...]]. 
+			//So the roles are the roles that can be contained within a stencil
+			//with the role from the current iteration. 
 			var roles = this._containmentRules[role];
 			if(roles) {
 				return roles.any(function(role) {
+					//Here we look if the role of the current stencil allows
+					//it to contain the role of the stencil we just drag. 
+					//The roles of these stencils must be the same. 
 					return args.containedStencil.roles().member(role);
 				});
 			} else {
