@@ -140,7 +140,7 @@ ORYX.Plugins.PropertyWindow = {
 			width: 220,
 			layout: "fit",
 			border: false,
-			//title: 'Properties',
+			title: 'Properties',
 			items: [
 				this.grid 
 			]
