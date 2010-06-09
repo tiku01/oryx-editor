@@ -29,17 +29,17 @@
 				color: #FFFFFF !important;
 			}
 			
-			.viewer {
+			#viewer {
 				height: 100%;
 				width: 100%;
 			}
 			
-			.navigator {
+			#navigator {
 				position: relative;
-				width: 150px;
+				width: 250px;
 			}
 			
-			.zoomslider{
+			#zoomslider{
 				position: relative;
 			}
 			

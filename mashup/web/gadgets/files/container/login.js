@@ -37,7 +37,6 @@ Container.login = (function(){
 					method			: "post",
 					asynchronous 	: false,
 					onSuccess		: function(response){
-						Container.login.currentUser = response.responseText;
 						
 						if ( response.responseText.match(/public/) ) {
 							Container.login.showLogin();
@@ -45,6 +44,8 @@ Container.login = (function(){
 						else {
 							Container.login.showLogout();
 						}
+
+						Container.login.currentUser = response.responseText;
 						
 					},
 					onFailure		: function(){
