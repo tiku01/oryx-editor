@@ -20,7 +20,7 @@
 	</g>
 	<text 
 		font-size="14" 
-		id="text" 
+		id="name" 
 		x="2" 
 		y="50" 
 		oryx:align="top left"
