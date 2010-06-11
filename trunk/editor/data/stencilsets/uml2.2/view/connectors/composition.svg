@@ -8,7 +8,7 @@
 	  </marker>
 	</defs>
 	<g id="edge">
-		<path d="M50 50 L100 50" stroke="black" fill="none" stroke-width="2" marker-start="url(#start)" stroke-dasharray="3, 4"/>
+		<path d="M50 50 L100 50" stroke="black" fill="none" stroke-width="2" marker-start="url(#start)" />
 		<text id="cardinalityStart" x="0" y="0" oryx:edgePosition="startTop"/>
 		<text id="roleStart" x="0" y="0" oryx:edgePosition="startBottom"/>
 		<text id="name" x="0" y="0" oryx:edgePosition="midTop"/>
