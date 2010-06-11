@@ -47,12 +47,14 @@ ORYX.Plugins.IBPMN2BPMN = Clazz.extend({
 		this.facade.offer({
 			'name':				"Transform from iBPMN to BPMN",
 			'functionality': 	this.transform.bind(this),
-			'group': 			"Transform",
-			'icon': 			ORYX.PATH + "images/erdf_export_icon.png",
+			'icon': 			ORYX.PATH + "images/erdf_import_icon.png",
 			'description': 		"Transformation from iBPMN to BPMN",
-			'index': 			0,
+            'index': 1,
 			'minShape': 		0,
-			'maxShape': 		0
+			'maxShape': 		0,
+			'group': ORYX.I18N.JSONSupport.imp.group,
+            dropDownGroupIcon: ORYX.PATH + "images/import.png"
+
 		});
 
 

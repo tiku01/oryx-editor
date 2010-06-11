@@ -58,6 +58,7 @@ public class NewModelHandler extends HandlerBase {
 	}
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
+		String pName=request.getParameter("profile");
 	    String queryString = request.getQueryString();   // d=789
 	    if (queryString != null) {
 			queryString="?"+queryString;
@@ -67,10 +68,9 @@ public class NewModelHandler extends HandlerBase {
 			queryString="";
 
 	    }
-		if(request.getParameter("profile")!=null){
-			response.sendRedirect("/oryx/editor;"+request.getParameter("profile")+queryString+queryString);
+		if(pName!=null){
+			response.sendRedirect("/oryx/editor;"+pName+queryString);
 			return;
-
 		}
 		
 		redirectToDefaultProfileForStencilSet(request, response, queryString);

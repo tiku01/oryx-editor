@@ -3,7 +3,6 @@
 	<plugins>
 		<plugin source="toolbar.js" name="ORYX.Plugins.Toolbar" core="true" />
 		<!-- <plugin source="toolbar2.js" name="ORYX.Plugins.Toolbar2" />-->
-		
 		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" core="true" />
 		<plugin source="selectssperspective.js" name="ORYX.Plugins.SelectStencilSetPerspective"/>
 		<plugin source="shaperepository.js" name="ORYX.Plugins.ShapeRepository" />
@@ -195,9 +194,9 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 		</plugin>
 		
-		<plugin source="tbpmsupport.js" name="ORYX.Plugins.TBPMSupport">
+		<!-- <plugin source="tbpmsupport.js" name="ORYX.Plugins.TBPMSupport">
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#" />
-		</plugin>
+		</plugin> -->
 		
 		<!-- End: BPMN2.0 specific plugins -->
 		
@@ -358,7 +357,13 @@
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
-			
+		<plugin source="waveThis.js" name="ORYX.Plugins.WaveThis">
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
+			<requires namespace="http://b3mn.org/stencilset/UML2.2Class#"/>	
+			<requires namespace="http://www.fmc-modeling.org/stencilsets/fmcblockdiagram#"/>
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+			<requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+		</plugin>
 	</plugins>
 	
 	
