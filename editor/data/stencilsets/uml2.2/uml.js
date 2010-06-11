@@ -115,7 +115,7 @@ ORYX.Plugins.UML =
 			if (shape.properties["oryx-abstract"] == true) {
 				className.node.setAttribute("font-style", "italic");
 			} else {
-				className.node.setAttribute("font-style", "none");
+				className.node.setAttribute("font-style", "normal");
 			}
 		}
 		
