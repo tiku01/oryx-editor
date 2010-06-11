@@ -89,8 +89,10 @@ public class ProfileCreator {
 	/**
 	 * Create the profileName.js by reading all path out of the nameSrc Hashmap, the required names
 	 * are given
-	 * @param pluginDirPath
-	 * @param outputPath
+	 * @param pluginDirPath 
+	 * 			  path where all plugin-source-paths are relative to
+	 * @param outputPath 
+	 * 			  location of the generated pfrofile javascript file
 	 * @param nameSrc
 	 *            plugin name to js source file
 	 * @param profileName
@@ -104,24 +106,46 @@ public class ProfileCreator {
 			HashMap<String, String> nameSrc, String profileName,
 			ArrayList<String> pluginNames) throws IOException,
 			FileNotFoundException {
+		/*
+		 * create a unique set of all plugin names
+		 */
 		HashSet<String> pluginNameSet = new HashSet<String>();
 		pluginNameSet.addAll(pluginNames);
-
+		/*
+		 * create the output profile file and open a writer
+		 */
 		File profileFile = new File(outputPath + File.separator + profileName +"Uncompressed.js");
 		profileFile.createNewFile();
 		FileWriter writer = new FileWriter(profileFile);
+		
 		for (String name : pluginNameSet) {
+			/*
+			 * lookup the javascript file path of each plugin
+			 */
 			String source = nameSrc.get(name);
+			/*
+			 * if no path is found, an error in the plugin xml exists
+			 */
 			if(source==null)
 				throw new IllegalArgumentException("In profile '"+profileName+"' an unknown plugin is referenced named '"+ name+"'");
+			
+			/*
+			 * open the javascript file and append the whole plugin javascript to the profiles javascript file
+			 */
 			FileReader reader = new FileReader(pluginDirPath + File.separator + source);
 			writer.append(FileCopyUtils.copyToString(reader));
 		}
 		writer.close();
 
+		/*
+		 * creqate a new file for the compressed version of the profile file
+		 */
 		File compressOut=new File(outputPath + File.separator + profileName +".js");
 		FileReader reader = new FileReader(profileFile);
 		FileWriter writer2 = new FileWriter(compressOut);
+		/*
+		 * start YUI compression with the concatinated profile javascript file as input and the compress out file as output
+		 */
 		try{
 			com.yahoo.platform.yui.compressor.JavaScriptCompressor x= new JavaScriptCompressor(reader, null);
 			x.compress(writer2, 1, true, false, false, false);
@@ -147,26 +171,32 @@ public class ProfileCreator {
 	}
 
 	/**
-	 * @param pluginDirPath
+	 * Create an copy of the plugins.xml, marking all plugins of the profile as engaged
+	 * the new plugins.xml is named PROFILENAME.xml
+	 * @param pluginXMLPath
+	 * 				path to the standard plugins.xml
+	 * @param profileXMLPath
+	 * 				path to the profile.xml to read from
 	 * @param outputPath
-	 * @param ProfileName
-	 *            name of the profile, serve as name for the js file
+	 * 				path were all profile files are located
+	 * @param profileName
+	 *            	name of the profile, serve as name for the js file
 	 * @param pluginNames
 	 *            all plugins for this profile
 	 * @throws IOException
 	 * @throws FileNotFoundException
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	private static void writeProfileXML(String pluginXMLPath,
-			String profileXMLPath, String outputPath, String ProfileName,
+			String profileXMLPath, String outputPath, String profileName,
 			ArrayList<String> pluginNames) throws IOException,
 			FileNotFoundException, JSONException {
 		//All plugins are copied in the xml file to be used with the current
 		//profile
 		FileCopyUtils.copy(new FileInputStream(pluginXMLPath),
-				new FileOutputStream(outputPath + File.separator + ProfileName + ".xml"));
+				new FileOutputStream(outputPath + File.separator + profileName + ".xml"));
 		//reader for the profile that contains all plugins from the plugins.xml
-		InputStream reader = new FileInputStream(outputPath + File.separator + ProfileName
+		InputStream reader = new FileInputStream(outputPath + File.separator + profileName
 				+ ".xml");
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -176,17 +206,17 @@ public class ProfileCreator {
 			//outProfileXMLdocument contains all plugins from the plugins.xml
 			//no plugins are removed according to the profile
 			Document outProfileXMLdocument = builder.parse(reader);
-			//reader is used twice => bad practice 
+
 			//Reader for the file named profile.xml
-			reader = new FileInputStream(profileXMLPath);
+			InputStream readerProfileXML  = new FileInputStream(profileXMLPath);
 			builder = factory.newDocumentBuilder();
 			//profilesXMLdocument contains the contents of profile.xml
-			Document profilesXMLdocument = builder.parse(reader);
+			Document profilesXMLdocument = builder.parse(readerProfileXML);
 			//The plugin-nodes are saved here
 			NodeList pluginNodeList = outProfileXMLdocument
 			.getElementsByTagName("plugin");
 			//The one node containing the current profile
-			Node profileNode = getProfileNodeFromDocument(ProfileName,
+			Node profileNode = getProfileNodeFromDocument(profileName,
 					profilesXMLdocument);
 
 			if (profileNode == null)
@@ -221,13 +251,15 @@ public class ProfileCreator {
 
 			}
 			//Print the JSON configuration file to the file system
-			FileCopyUtils.copy(config.toString(), new FileWriter(outputPath + File.separator+ProfileName+".conf"));
+			FileCopyUtils.copy(config.toString(), new FileWriter(outputPath + File.separator+profileName+".conf"));
 			// for each plugin in the copied plugin.xml
+			System.out.println("pluginNodelength"+pluginNodeList.getLength());
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
 				Node pluginNode = pluginNodeList.item(i);
 				String pluginName = pluginNode.getAttributes().getNamedItem(
 				"name").getNodeValue();
 				// if plugin is in the current profile
+				System.out.println(pluginName);
 				if (pluginNames.contains(pluginName)) {
 					// mark plugin as active
 					((Element) pluginNode).setAttribute("engaged", "true");
@@ -239,7 +271,7 @@ public class ProfileCreator {
 							pluginName);
 					if(profilePluginNode==null){
 						//System.out.println("Plugin: "+pluginName+" assumed to be core");
-						break;}
+						continue;}
 					saveOrUpdateProperties(pluginNode, profilePluginNode);
 
 				}else{
@@ -247,7 +279,7 @@ public class ProfileCreator {
 				}
 			}
 			writeXMLToFile(outProfileXMLdocument, outputPath + File.separator
-					+ ProfileName + ".xml");
+					+ profileName + ".xml");
 		} catch (DOMException e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
@@ -257,9 +289,18 @@ public class ProfileCreator {
 		}
 	}
 
+	/**
+	 * Searches the plugin definition for the passed plugin name in the profile node and all depending profiles
+	 * @param profileNode 
+	 * 				node to begin searching from
+	 * @param pluginName 
+	 * 				name of the wanted plugin
+	 * @return 
+	 * 				the first matching node for the current plugin's name, null if no match found
+	 */
 	private static Node getLastPluginNode(Node profileNode, String pluginName) {
 		Node profilePluginNode = null;
-		// search plugin definition in profile xml
+		// search plugin defefinition in the current node
 		for (int profilePluginNodeIndex = 0; profilePluginNodeIndex < profileNode
 		.getChildNodes().getLength(); profilePluginNodeIndex++) {
 			Node tmpNode = profileNode.getChildNodes().item(
@@ -270,26 +311,40 @@ public class ProfileCreator {
 					.getNodeValue().equals(pluginName))
 				profilePluginNode = tmpNode;
 		}
+		
+		/*
+		 * if no definition in the passed node found, searches the dependent profiles
+		 */
 		if (profilePluginNode == null) {
 			String[] dependsOnProfiles = getDependencies(profileNode);
+			/*
+			 * if no dependencies defined return null
+			 */
 			if (dependsOnProfiles==null ||dependsOnProfiles.length == 0) {
-				return profilePluginNode;
+				return null;
 			}
 			for (String dependsProfile : dependsOnProfiles) {
+				/*
+				 * recursive call to traverse all depndencies
+				 */
 				profilePluginNode = getLastPluginNode(
 						getProfileNodeFromDocument(dependsProfile, profileNode
 								.getOwnerDocument()), pluginName);
+				/*
+				 * if first match found break
+				 */
 				if (profilePluginNode != null)
 					break;
 			}
 			// plugin definition not found, plugin defined in depended profiles
 			// TODO handle recursive property search
 		}
-		;
 		return profilePluginNode;
 	};
 
+
 	/**
+	 * Helper method which writes a XML document to the given filename
 	 * @param outProfileXMLdocument
 	 * @param xmlFileName
 	 * @throws FileNotFoundException
@@ -314,7 +369,7 @@ public class ProfileCreator {
 	}
 
 	/**
-	 * 
+	 * Enables the overwriting of properties
 	 * @param pluginNode
 	 * @param profilePluginNode
 	 * @throws DOMException
@@ -375,6 +430,7 @@ public class ProfileCreator {
 	}
 
 	/**
+	 * Searches the profile with the passed name in the passed document
 	 * @param ProfileName
 	 * @param profilesXMLdocument
 	 * @throws DOMException
@@ -395,6 +451,7 @@ public class ProfileCreator {
 	}
 
 	/**
+	 * Reads the whole profile.xml to create the mapping from profile names to plugin names
 	 * @param profilePath
 	 * @param profilName
 	 * @throws FileNotFoundException
@@ -407,6 +464,9 @@ public class ProfileCreator {
 			HashMap<String, ArrayList<String>> profilName)
 	throws FileNotFoundException, ParserConfigurationException,
 	SAXException, IOException, DOMException {
+		/*
+		 * read the profile xml
+		 */
 		InputStream reader = new FileInputStream(profilePath);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		Document document = factory.newDocumentBuilder().parse(reader);
@@ -415,10 +475,16 @@ public class ProfileCreator {
 			Node profile = profiles.item(i);
 			String name = profile.getAttributes().getNamedItem("name")
 			.getNodeValue();
+			/*
+			 * new entry for the name of the profile
+			 */
 			profilName.put(name, new ArrayList<String>());
 			for (int q = 0; q < profile.getChildNodes().getLength(); q++) {
 				if (profile.getChildNodes().item(q).getNodeName()
 						.equalsIgnoreCase("plugin")) {
+					/*
+					 * add each plugin name under the profile name
+					 */
 					profilName.get(name).add(
 							profile.getChildNodes().item(q).getAttributes()
 							.getNamedItem("name").getNodeValue());
@@ -430,40 +496,59 @@ public class ProfileCreator {
 	}
 
 	/**
-	 * @param profilName
-	 * @param profiles
+	 * Traverse over the dependencies of all profile to complete the profileName map. 
+	 * In order that to each profile name all direct contained plugins are list 
+	 * and all plugins which are contained over dependencies
+	 * @param profilName map to complete
+	 * @param profiles the xml nodelist of all plugins
 	 * @throws DOMException
 	 */
 	private static void resolveDependencies(
 			HashMap<String, ArrayList<String>> profilName, NodeList profiles)
 	throws DOMException {
+		
+		/*
+		 * read the dependencies from the xml document into a HashMap
+		 */
 		HashMap<String, String[]> profileDepends = new HashMap<String, String[]>();
-
 		for (int i = 0; i < profiles.getLength(); i++) {
 			Node profile = profiles.item(i);
 			String name = profile.getAttributes().getNamedItem("name")
 			.getNodeValue();
 			profileDepends.put(name, getDependencies(profile));
 		}
-
+		/*
+		 * each profile which has no dependencies is complete, and does need anymore attention
+		 */
 		ArrayList<String> completedProfiles = new ArrayList<String>();
 		for (String key : profileDepends.keySet()) {
 			if (profileDepends.get(key) == null) {
 				completedProfiles.add(key);
 			}
 		}
+		/*
+		 * remove all complete profiles from the dependencies
+		 */
 		for (String cur : completedProfiles)
 			profileDepends.remove(cur);
 
 		while (!profileDepends.isEmpty()) {
 			for (String key : profileDepends.keySet()) {
 				boolean allIn = true;
+				/*
+				 * check if all dependent profile are complete, 
+				 * therefore has no unresolved dependencies
+				 */
 				for (String name : profileDepends.get(key)) {
 					if (!completedProfiles.contains(name)) {
 						allIn = false;
 						break;
 					}
 				}
+				/*
+				 * if all profile resolved, add for each dependent profile all 
+				 * plugin names to the list of the current plugin
+				 */
 				if (allIn) {
 					for (String name : profileDepends.get(key)) {
 						profilName.get(key).addAll(profilName.get(name));
@@ -472,14 +557,21 @@ public class ProfileCreator {
 
 				}
 			}
+			
+			/*
+			 * remove all complete profiles from the dependencies
+			 */
 			for (String cur : completedProfiles)
 				profileDepends.remove(cur);
 		}
 	}
 
 	/**
-	 * @param profile
+	 * Reads the depends attribute from a profile node, converting it in a list of profile names
+	 * @param profil
 	 *            DocumentNode containing a profile
+	 * @return
+	 * 			  null if no dependencies defined
 	 * @throws DOMException
 	 */
 	private static String[] getDependencies(Node profil) throws DOMException {
@@ -507,6 +599,9 @@ public class ProfileCreator {
 			HashMap<String, String> nameSrc, ArrayList<String> coreNames)
 	throws FileNotFoundException, ParserConfigurationException,
 	SAXException, IOException, DOMException {
+		/*
+		 * read the node list of all plugins from the xml path
+		 */
 		InputStream reader = new FileInputStream(pluginXMLPath);
 		DocumentBuilder builder;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -514,6 +609,10 @@ public class ProfileCreator {
 		Document document = builder.parse(reader);
 		NodeList plugins = document.getElementsByTagName("plugin");
 
+		/*
+		 * collect the mapping from name to source file from all plugin nodes
+		 * and collect all plugins which are marked as core
+		 */
 		for (int i = 0; i < plugins.getLength(); i++) {
 			String name = plugins.item(i).getAttributes().getNamedItem("name")
 			.getNodeValue();
