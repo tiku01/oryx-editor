@@ -5111,7 +5111,7 @@
 					"type":"Choice",
 					"title":"Responsibilities",
 					"title_de":"Verantwortlichkeiten",
-					"value":"none",
+					"value":" ",
 					"description":"Describes the type of the responsibility according to RACI.",
 					"description_de":"Beschreibt die Verantwortlichkeiten nach dem RACI-Modell.",
 					"readonly":false,
@@ -5120,9 +5120,9 @@
 					"items": [
 						{
 							"id":"c1",
-							"title":"",
-							"title_de":"",
-							"value":"none"
+							"title":"None",
+							"title_de":"Keine",
+							"value":" "
 						},
 						{
 							"id":"c2",
