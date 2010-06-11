@@ -253,13 +253,11 @@ public class ProfileCreator {
 			//Print the JSON configuration file to the file system
 			FileCopyUtils.copy(config.toString(), new FileWriter(outputPath + File.separator+profileName+".conf"));
 			// for each plugin in the copied plugin.xml
-			System.out.println("pluginNodelength"+pluginNodeList.getLength());
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
 				Node pluginNode = pluginNodeList.item(i);
 				String pluginName = pluginNode.getAttributes().getNamedItem(
 				"name").getNodeValue();
 				// if plugin is in the current profile
-				System.out.println(pluginName);
 				if (pluginNames.contains(pluginName)) {
 					// mark plugin as active
 					((Element) pluginNode).setAttribute("engaged", "true");
