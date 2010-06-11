@@ -56,7 +56,6 @@ import org.apache.commons.io.*;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.serialization.erdf.BPMNeRDFSerializer;
-import de.hpi.tbpm.TBPM2BPMNConverter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -121,13 +120,13 @@ public class TBPMServlet extends HttpServlet {
 		File uploadedImage = new File(tmpFolder, fileName);
 		String json = "";
 		try {
-			item.write(uploadedImage);
-			
-			String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
-			
-			TBPM2BPMNConverter converter = new TBPM2BPMNConverter(tmpFolder + "\\"
-					+ fileName, uploadedImage, rootDir);
-			json = converter.convertImage();
+//			item.write(uploadedImage);
+//			
+//			String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
+//			
+//			TBPM2BPMNConverter converter = new TBPM2BPMNConverter(tmpFolder + "\\"
+//					+ fileName, uploadedImage, rootDir);
+//			json = converter.convertImage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
