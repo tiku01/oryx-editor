@@ -46,14 +46,12 @@ public class Shape {
 		this.outgoingShapes.add(outgoingShape);
 	}
 	
-	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Shape) {
 			return ((Shape)o).getId().equals(this.id);
 		} else return false;
 	}
 
-	@Override
 	public int hashCode() {
 		return this.id.hashCode();
 	}
