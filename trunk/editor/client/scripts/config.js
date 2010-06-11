@@ -186,6 +186,7 @@ ORYX.CONFIG.EVENT_LAYOUT = 					"layout.dolayout";
 ORYX.CONFIG.EVENT_COLOR_CHANGE = 			"color.change";
 ORYX.CONFIG.EVENT_DOCKERDRAG = 				"dragTheDocker";	
 ORYX.CONFIG.EVENT_SHOW_PROPERTYWINDOW =		"propertywindow.show";
+ORYX.CONFIG.EVENT_MODEL_SAVED =				"model.saved";
 	
 	/* Selection Shapes Highlights */
 ORYX.CONFIG.SELECTION_HIGHLIGHT_SIZE =				5;

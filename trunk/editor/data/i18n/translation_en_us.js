@@ -863,3 +863,9 @@ if(!ORYX.I18N.BPMN2YAWLMapper) ORYX.I18N.BPMN2YAWLMapper = {};
 ORYX.I18N.BPMN2YAWLMapper.group = "Export";
 ORYX.I18N.BPMN2YAWLMapper.name = 'YAWL Export';
 ORYX.I18N.BPMN2YAWLMapper.desc = 'Map this diagram to YAWL and export it, please ensure "BPMN Subset for mapping to YAWL" is loaded';
+
+if(!ORYX.I18N.WaveThis) ORYX.I18N.WaveThis = {};
+ORYX.I18N.WaveThis.group = "Export";
+ORYX.I18N.WaveThis.name = 'ProcessWave This!';
+ORYX.I18N.WaveThis.desc = 'Opens the model in the processWave editor';
+ORYX.I18N.WaveThis.failUnsaved ="Only saved models can be exported";

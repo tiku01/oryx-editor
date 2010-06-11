@@ -44,13 +44,22 @@ ORYX.Plugins.QueryResultHighlighter = ORYX.Plugins.AbstractPlugin.extend({
 			'index': 1,
 			'toggle': true,
 			'minShape': 0,
-			'maxShape': 0
+			'maxShape': 0,
+			'isEnabled': 	 this._isQueryResultThere.bind(this)
 		});
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.highlightMatches.bind(this));
 		
 	},
-	
+	_isQueryResultThere: function(){
+		var parameters = window.location.search;
+		var PARAMKEY = "matches=";
+		
+		var paramStart = parameters.indexOf(PARAMKEY) + PARAMKEY.length;
+		return (paramStart > PARAMKEY.length);
+
+	},
+
 	highlightMatches : function() {
 		var elements = this.deserializeMatches();
 		
