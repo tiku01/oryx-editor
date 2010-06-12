@@ -47,11 +47,11 @@ ORYX.Plugins.WaveThis = Clazz.extend({
 		if(this.changeDifference!=0){
 	        Ext.Msg.confirm(ORYX.I18N.WaveThis.name, "You have unsaved changes in your model. Proceed?", function(id){
 	        	if(id=="yes"){
-	        		this._openWave();
+	        		this._openWave(modelUri);
 	        	}
 	        },this);
 		}else{
-			this._openWave();
+			this._openWave(modelUri);
 		}
 		
 	},
