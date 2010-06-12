@@ -3,7 +3,10 @@ if(!ORYX.Plugins)
 if (!ORYX.Config) {
 	ORYX.Config = new Object();
 }
-ORYX.Config.WaveThisGadgetUri = "http://code.processwave.org/raw-file/stable/gadget/oryx.xml";
+/*
+ * http://oryx.processwave.org/gadget/oryx_stable.xml
+ */
+ORYX.Config.WaveThisGadgetUri = "http://oryx.processwave.org/gadget/oryx_stable.xml";
 ORYX.Plugins.WaveThis = Clazz.extend({
 	
 	/**
