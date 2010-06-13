@@ -1,5 +1,6 @@
 package de.hpi.visio.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.xmappr.Element;
@@ -10,5 +11,15 @@ public class Shapes {
 	
 	@Element("Shape")
 	public List<Shape> shapes;
+	
+	public List<Shape> getShapes() {
+		if (shapes == null)
+			shapes = new ArrayList<Shape>();
+		return shapes;
+	}
 
+	public void setShapes(List<Shape> shapes) {
+		this.shapes = shapes;
+	}
+	
 }

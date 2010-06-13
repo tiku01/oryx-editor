@@ -1,5 +1,7 @@
 package de.hpi.visio.util;
 
+import java.util.List;
+
 import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Point;
 
@@ -15,7 +17,7 @@ public class ShapeUtil {
 	}
 		
 	public Bounds getCorrectedShapeBounds(Shape shape, Page page) {
-		Bounds shapeBounds = shape.getBoundsForPage(page);
+		Bounds shapeBounds = shape.getBoundsOnPage(page);
 		Bounds correctedBounds = correctPointsOfBounds(shapeBounds);
 		return correctedBounds;
 	}
@@ -34,5 +36,42 @@ public class ShapeUtil {
 		Bounds result = new Bounds(correctedLowerRight, correctedUpperLeft);
 		return result;
 	}
+	
+	public Shape getFirstTaskShapeThatContainsTheGivenShape(List<Shape> shapes, Shape givenShape) {
+		for (Shape currentShape : shapes) {
+			if (isFirstShapeOnSecondShape(givenShape, currentShape) && givenShape != currentShape) {
+				if (currentShape.getName() == null)
+					continue;
+				if (importUtil.getStencilIdForName(currentShape.getName()).equals("Task")) {
+					return currentShape;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Shape getFirstShapeThatContainsTheGivenShape(List<Shape> shapes, Shape givenShape) {
+		for (Shape currentShape : shapes) {
+			if (isFirstShapeOnSecondShape(givenShape, currentShape) && givenShape != currentShape)
+				return currentShape;
+		}
+		return null;
+	}
+	
+	private Boolean isFirstShapeOnSecondShape(Shape firstShape, Shape secondShape) {
+		Boolean result = isAPointInsideBounds(firstShape.getCentralPin(), secondShape.getVisioBounds());
+		return result;
+	} 
+	
+	private Boolean isAPointInsideBounds(Point point, Bounds bounds) {
+		if (point.getX() >= bounds.getUpperLeft().getX() && point.getX() <= bounds.getLowerRight().getX()) {
+			if (point.getY() >= bounds.getLowerRight().getY() && point.getY() <= bounds.getUpperLeft().getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 
 }

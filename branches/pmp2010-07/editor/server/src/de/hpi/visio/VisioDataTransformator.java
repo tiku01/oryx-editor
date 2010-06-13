@@ -9,6 +9,7 @@ import org.oryxeditor.server.diagram.StencilType;
 
 import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
+import de.hpi.visio.data.VisioDocument;
 import de.hpi.visio.util.ImportConfigurationUtil;
 import de.hpi.visio.util.ShapeUtil;
 
@@ -26,13 +27,15 @@ public class VisioDataTransformator {
 		shapeUtil = new ShapeUtil(importUtil);
 	}
 
-	public Diagram createDiagramFromVisioData(Page visioPage) {
-		VisioDataCleaner cleaner = new VisioDataCleaner(importUtil);
-		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioPage);
+	public Diagram createDiagramFromVisioData(VisioDocument visioData) {
+		VisioPageMerger merger = new VisioPageMerger();
+		visioData = merger.mergeAllPages(visioData);
+		VisioDataCleaner cleaner = new VisioDataCleaner(importUtil, shapeUtil);
+		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
 		HeuristicVisioInterpreter interpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
 		Page interpretedPage = interpreter.interpret(cleanedVisioPage);
 		Diagram diagram = getNewBPMNDiagram();
-		diagram.setBounds(shapeUtil.getCorrectedDiagramBounds(visioPage.getBounds()));
+		diagram.setBounds(shapeUtil.getCorrectedDiagramBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
 		return diagram;
@@ -50,11 +53,13 @@ public class VisioDataTransformator {
 			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape("oryx-canvas123", type);
 			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
 			oryxShape.setBounds(correctedBounds);
-			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
+			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) { // TODO: importConfigurationUtil --> define a mapping for label to property in json
 				oryxShape.putProperty("name", visioShape.getLabel());
 				oryxShape.putProperty("title", visioShape.getLabel());
 				oryxShape.putProperty("text", visioShape.getLabel());
-				// TODO: importConfigurationUtil --> define a mapping for label to property in json
+			}
+			for (String propertyKey : visioShape.getProperties().keySet()) {
+				oryxShape.putProperty(propertyKey, visioShape.getPropertyValueByKey(propertyKey));
 			}
 			childShapes.add(oryxShape);
 		}

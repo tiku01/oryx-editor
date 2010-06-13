@@ -20,10 +20,9 @@ public class HeuristicVisioInterpreter {
 
 	public Page interpret(Page visioPage) {
 		Page page = interpreteShapeNames(visioPage);
-		// TODO implement fency logic
 		return page;
 	}
-	
+
 	private Page interpreteShapeNames(Page visioPage) {
 		List<Shape> allShapes = visioPage.getShapes();
 		List<Shape> shapesWithNames = new ArrayList<Shape>();

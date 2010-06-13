@@ -12,5 +12,9 @@ public class PinX {
 	public Double getX() {
 		return content;
 	}
+
+	public void setX(Double x) {
+		content = x;
+	}
 	
 }

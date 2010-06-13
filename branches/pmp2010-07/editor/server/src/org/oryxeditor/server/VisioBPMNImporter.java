@@ -36,11 +36,13 @@ public class VisioBPMNImporter extends HttpServlet {
 	// testing purpose
 	public static void main(String[] args) {
 		try {
-			byte[] buffer = new byte[(int) new File("/Users/Thamsen/Desktop/test.vdx").length()];
-		    BufferedInputStream f = new BufferedInputStream(new FileInputStream("/Users/Thamsen/Desktop/test.vdx"));
+			String testFilePath = "/Users/Thamsen/Desktop/allBPTShapes.vdx";
+			byte[] buffer = new byte[(int) new File(testFilePath).length()];
+		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(testFilePath));
 		    f.read(buffer);
 		    VisioToJSONConverter converter = new VisioToJSONConverter("/Users/Thamsen/Workspaces/oryx/oryx/editor/data/");
 		    String result = converter.importVisioData(new String(buffer));
+		    System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Put a good vdx in place...");

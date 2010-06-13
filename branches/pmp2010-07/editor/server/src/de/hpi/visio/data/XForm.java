@@ -52,13 +52,25 @@ public class XForm {
 	
 	public Point getUpperLeftPointForPage(Page visioPage) {
 		Double upperLeftX = getX() - (getWidth() / 2);
-		Double upperLeftY = visioPage.getHeight() - (getCorrectedY() + (getHeight() / 2));
+		Double upperLeftY = visioPage.getHeight() - (getY() + (getHeight() / 2));
+		return new Point(upperLeftX, upperLeftY);
+	}
+	
+	public Point getUpperLeftVisioPoint() {
+		Double upperLeftX = getX() - (getWidth() / 2);
+		Double upperLeftY = getY() + (getHeight() / 2);
 		return new Point(upperLeftX, upperLeftY);
 	}
 	
 	public Point getLowerRightPointForPage(Page visioPage) {
 		Double lowerRightX = getX() + (getWidth() / 2);
-		Double lowerRightY = visioPage.getHeight() - (getCorrectedY() - (getHeight() / 2));
+		Double lowerRightY = visioPage.getHeight() - (getY() - (getHeight() / 2));
+		return new Point(lowerRightX, lowerRightY);
+	}
+	
+	public Point getLowerRightVisioPoint() {
+		Double lowerRightX = getX() + (getWidth() / 2);
+		Double lowerRightY = getY() - (getHeight() / 2);
 		return new Point(lowerRightX, lowerRightY);
 	}
 	
@@ -74,14 +86,25 @@ public class XForm {
 		return positionX.getX();
 	}
 	
-	public Double getCorrectedY() {
+	public Double getY() {
 		return positionY.getY();
 	}
 	
-//	public double cutAfterTheComma(Double value) {
-//		Integer intValue = value.intValue();
-//		Double cuttedValue = intValue.doubleValue();
-//		return cuttedValue;
-//	}
+	public Point getCentralPin() {
+		return new Point(positionX.getX(), positionY.getY());
+	}
+
+	public void setWidth(Double width2) {
+		width.setWidth(width2);
+	}
+
+	public void setHeight(Double height2) {
+		height.setHeight(height2);
+	}
+
+	public void setCentralPin(Point newPin) {
+		positionX.setX(newPin.getX());
+		positionY.setY(newPin.getY());
+	}
 
 }

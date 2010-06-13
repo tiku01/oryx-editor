@@ -13,75 +13,80 @@
 		Stencil Set of the Business Process Technology Group at HPI:
 		http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner
 	-->
-	<entry key="stencilsets.BPTBPMN11.Start">StartNoneEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intemediate">IntermediateEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.End">EndNoneEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Start Message">StartMessageEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Message">IntermediateMessageEventCatching</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Message 2">IntermediateMessageEventThrowing</entry>
-	<entry key="stencilsets.BPTBPMN11.End Message">EndMessageEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Start Timer">StartTimerEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Timer">IntermediateTimerEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Exception">IntermediateErrorEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.End Exception">EndErrorEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Cancel">IntermediateCancelEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.End Cancel">EndCancelEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Compensation">IntermediateCompensationEventCatching</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Compensation 2">IntermediateCompensationEventThrowing</entry>
-	<entry key="stencilsets.BPTBPMN11.End Compensation">EndCompensationEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Start Rule">StartConditionalEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Rule">IntermediateConditionalEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Link">IntermediateLinkEventCatching</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Link 2">IntermediateLinkEventThrowing</entry>
-	<entry key="stencilsets.BPTBPMN11.Start Signal">StartSignalEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Signal">IntermediateSignalEventCatching</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Signal 2">IntermediateSignalEventThrowing</entry>
-	<entry key="stencilsets.BPTBPMN11.End Signal">EndSignalEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.End Terminate">EndTerminateEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Start Multiple">StartMultipleEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Mutliple">IntermediateMultipleEventCatching</entry>
-	<entry key="stencilsets.BPTBPMN11.Intermediate Mutliple 2">IntermediateEscalationEventThrowing</entry>
-	<entry key="stencilsets.BPTBPMN11.End Multiple">EndMultipleEvent</entry>
-	<entry key="stencilsets.BPTBPMN11.Pool Header">Pool</entry>
-	<entry key="stencilsets.BPTBPMN11.Pool/Lane Body">Lane</entry>
-	<entry key="stencilsets.BPTBPMN11.Collapsed Pool">CollapsedPool</entry>
-	<entry key="stencilsets.BPTBPMN11.Task/ Subprocess">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Task/Subtask">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Transaction">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Group">Group</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway">Exclusive_Databased_Gateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway XOR">Exclusive_Databased_Gateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway Event-based">EventbasedGateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway OR">InclusiveGateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway Complex">ComplexGateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Gateway AND">ParallelGateway</entry>
-	<entry key="stencilsets.BPTBPMN11.Data Object1">DataObject</entry>
-	<entry key="stencilsets.BPTBPMN11.Collapsed Subprocess Marker">CollapsedSubprocess</entry>
-	<entry key="stencilsets.BPTBPMN11.Activity Looping">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Multiple Instances">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Compensation">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Ad-Hoc">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.Flow">SequenceFlow</entry>
-	<entry key="stencilsets.BPTBPMN11.Conditional Flow">SequenceFlow</entry>
-	<entry key="stencilsets.BPTBPMN11.Default Flow">SequenceFlow</entry>
-	<entry key="stencilsets.BPTBPMN11.Message Flow">MessageFlow</entry>
-	<entry key="stencilsets.BPTBPMN11.Association">Association_Unidirectional</entry>
-	<entry key="stencilsets.BPTBPMN11.Undirected Association">Association_Undirected</entry>
-	<entry key="stencilsets.BPTBPMN11.Branching Condition">TextAnnotation</entry>
-	<entry key="stencilsets.BPTBPMN11.Description">TextAnnotation</entry>
-
+	<entry key="stencilsets.BPTBPMN11.stencil.Start">StartNoneEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intemediate">IntermediateEvent</entry> <!-- InteRmediate: Typo is in visio stencil set... -->
+	<entry key="stencilsets.BPTBPMN11.stencil.End">EndNoneEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Start Message">StartMessageEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Message">IntermediateMessageEventCatching</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Message 2">IntermediateMessageEventThrowing</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Message">EndMessageEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Start Timer">StartTimerEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Timer">IntermediateTimerEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Exception">IntermediateErrorEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Exception">EndErrorEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Cancel">IntermediateCancelEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Cancel">EndCancelEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Compensation">IntermediateCompensationEventCatching</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Compensation 2">IntermediateCompensationEventThrowing</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Compensation">EndCompensationEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Start Rule">StartConditionalEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Rule">IntermediateConditionalEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Link">IntermediateLinkEventCatching</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Link 2">IntermediateLinkEventThrowing</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Start Signal">StartSignalEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Signal">IntermediateSignalEventCatching</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Signal 2">IntermediateSignalEventThrowing</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Signal">EndSignalEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Terminate">EndTerminateEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Start Multiple">StartMultipleEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Mutliple">IntermediateMultipleEventCatching</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Intermediate Mutliple 2">IntermediateEscalationEventThrowing</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.End Multiple">EndMultipleEvent</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Pool Header">Pool</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Pool/Lane Body">Lane</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Collapsed Pool">CollapsedPool</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Task/ Subprocess">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Task/Subtask">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Activity">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Transaction">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Group">Group</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway">Exclusive_Databased_Gateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway XOR">Exclusive_Databased_Gateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway Event-based">EventbasedGateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway OR">InclusiveGateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway Complex">ComplexGateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Gateway AND">ParallelGateway</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Data Object1">DataObject</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Collapsed Subprocess Marker">CollapsedSubprocess</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.CollapsedSubprocess">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.BPTBPMN11.stencil.Activity Looping">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Multiple Instances">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Compensation">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Ad-Hoc">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Flow">SequenceFlow</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Conditional Flow">SequenceFlow</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Default Flow">SequenceFlow</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Message Flow">MessageFlow</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Association">Association_Unidirectional</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Undirected Association">Association_Undirected</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
+	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Ad-Hoc</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.value">Standard</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.key">looptype</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.value">Parallel</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.key">isforcompensation</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.value">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
+	 
 	<!--
-		Mapping problems: 
+		Mapping problems to tackle!!: 
 		- Task/Subprocess are only one Stencil in this Visio
 		stencil set, but two in BPMN 
 		- Collapsed Subprocess is only the
 		plus-symbol and is added to a ordinary task 
-		- Activity Looping is only
-		the circle-symbol and is added to a ordinary task 
-		- Multiple Instance
-		is only the III-symbol and is added to a ordinary task 
-		- Ad-Hoc, Transaction, Multiple Instance, Activity Looping and Compensation are
-		attributes of a task 
+		- How to map ad-hoc tasks??
 		- In this visio stencil set there is no:
 		EventSubprocess/ CollapsedEventSubprocess 
 		- In this visio stencil a pool is assembled from two elements: 
@@ -110,4 +115,6 @@
 	<entry key="heuristics.Unknown_NameU_And_Without_Label_is">Flow</entry> 
 	<entry key="heuristics.Skip_unknown_NameU_But_With_Label">false</entry>
 	<entry key="heuristics.Skip_unknown_NameU_And_Without_Label">false</entry>
+	
+	
 </properties>

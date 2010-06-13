@@ -11,6 +11,10 @@ public class Height {
 	
 	public Double getHeight() {
 		return content;
+	}
+
+	public void setHeight(Double height) {
+		content = height;
 	} 
 	
 }

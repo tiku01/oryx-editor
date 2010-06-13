@@ -14,6 +14,8 @@ public class ImportConfigurationUtil {
 	
 	private static final String CONFIGURATION_XML_FILE = "VisioBPMNConfiguration.xml";
 	private static final String BPT_BPMN_11_PATH = "stencilsets.BPTBPMN11.";
+	private static final String BPT_BPMN_11_STENCILS_PATH = BPT_BPMN_11_PATH + "stencil.";
+	private static final String BPT_BPMN_11_CONFIG_PATH = BPT_BPMN_11_PATH + "config.";
 	private static final String HEURISTICS_PATH = "heuristics.";
 	
 	private Properties properties;
@@ -67,7 +69,12 @@ public class ImportConfigurationUtil {
 	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
 	 */
 	public String getStencilIdForName(String name) {
-		String stencilId = properties.getProperty(BPT_BPMN_11_PATH + name);
+		String stencilId = properties.getProperty(BPT_BPMN_11_STENCILS_PATH + name);
+		return stencilId;
+	}
+	
+	public String getStencilSetConfig(String key) {
+		String stencilId = properties.getProperty(BPT_BPMN_11_CONFIG_PATH + key);
 		return stencilId;
 	}
 	

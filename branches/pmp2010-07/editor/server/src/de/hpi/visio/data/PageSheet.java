@@ -16,6 +16,8 @@ public class PageSheet {
 	}
 	
 	public void setWidth(Double width) {
+		if (properties == null)
+			properties = new PageProperties();
 		properties.setWidth(width);
 	}
 	
@@ -26,6 +28,8 @@ public class PageSheet {
 	}	
 	
 	public void setHeight(Double height) {
+		if (properties == null)
+			properties = new PageProperties();
 		properties.setHeight(height);
 	}
 
