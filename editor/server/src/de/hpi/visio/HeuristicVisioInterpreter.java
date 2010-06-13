@@ -20,6 +20,7 @@ public class HeuristicVisioInterpreter {
 
 	public Page interpret(Page visioPage) {
 		Page page = interpreteShapeNames(visioPage);
+		page = interpreteTaskBounds(page);
 		return page;
 	}
 
@@ -46,6 +47,37 @@ public class HeuristicVisioInterpreter {
 		}
 		visioPage.setShapes(shapesWithNames);
 		return visioPage;
+	}
+	
+	private Page interpreteTaskBounds(Page page) {
+		Boolean hugeTasksAreSubprocesses = Boolean.valueOf(importUtil.getStencilSetConfig("interpreteHugeTasksAsSubprocesses"));
+		if (hugeTasksAreSubprocesses) {
+			List<Shape> tasks = getAllTaskShapes(page);
+			for (Shape task : tasks) {
+				if (taskIsAsHugeAsASubprocess(task)) 
+					task.setName("Subprocess");
+			}
+		}
+		return page;
+	}
+
+	private List<Shape> getAllTaskShapes(Page page) {
+		List<Shape> tasks = new ArrayList<Shape>();
+		for (Shape shape : page.getShapes()) {
+			if (importUtil.getStencilIdForName(shape.getName()).equals("Task"))
+				tasks.add(shape);
+		}
+		return tasks;
+	}
+	
+	private boolean taskIsAsHugeAsASubprocess(Shape task) {
+		Double widthThreshold = Double.valueOf(importUtil.getStencilSetConfig("taskToSubprocessThresholdWidth"));
+		Double heightThreshold = Double.valueOf(importUtil.getStencilSetConfig("taskToSubprocessThresholdHeight"));
+		if (task.getWidth() >= widthThreshold || task.getHeight() >= heightThreshold) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

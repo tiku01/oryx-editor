@@ -32,25 +32,30 @@ public class VisioDataTransformator {
 		visioData = merger.mergeAllPages(visioData);
 		VisioDataCleaner cleaner = new VisioDataCleaner(importUtil, shapeUtil);
 		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
-		HeuristicVisioInterpreter interpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
-		Page interpretedPage = interpreter.interpret(cleanedVisioPage);
+		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
+		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
 		Diagram diagram = getNewBPMNDiagram();
 		diagram.setBounds(shapeUtil.getCorrectedDiagramBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
+		HeuristicOryxInterpreter oryxInterpreter = new HeuristicOryxInterpreter(importUtil);
+		diagram = oryxInterpreter.interpret(diagram); 
 		return diagram;
 	}
 
 	private ArrayList<org.oryxeditor.server.diagram.Shape> getOryxChildShapesFromVisioData(Page visioPage) {
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = new ArrayList<org.oryxeditor.server.diagram.Shape>();
+		int nextId = 0; //set the ids better
 		for (Shape visioShape : visioPage.getShapes()) {
+			nextId +=1;
+			String resourceID = "oryx-canvas123" + nextId;
 			String stencilId = importUtil.getStencilIdForName(visioShape.getName());
 			if (stencilId == null) {
 				// stencilId is required in oryx json
 				continue;
 			}
 			StencilType type = new StencilType(stencilId);
-			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape("oryx-canvas123", type);
+			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(resourceID, type);
 			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
 			oryxShape.setBounds(correctedBounds);
 			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) { // TODO: importConfigurationUtil --> define a mapping for label to property in json

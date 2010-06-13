@@ -36,7 +36,7 @@ public class VisioBPMNImporter extends HttpServlet {
 	// testing purpose
 	public static void main(String[] args) {
 		try {
-			String testFilePath = "/Users/Thamsen/Desktop/allBPTShapes.vdx";
+			String testFilePath = "/Users/Thamsen/Desktop/Subprocesses.vdx";
 			byte[] buffer = new byte[(int) new File(testFilePath).length()];
 		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(testFilePath));
 		    f.read(buffer);
