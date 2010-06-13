@@ -350,6 +350,12 @@
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
+		
+		
+		<!-- added by Lauritz Thamsen, PMP seminar 2010 -->
+		<plugin source="VisioBPMNImport.js" name="ORYX.Plugins.VisioBPMNImport">
+			<!-- <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	-->
+		</plugin>
 			
 	</plugins>
 	

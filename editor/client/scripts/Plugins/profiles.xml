@@ -30,6 +30,8 @@
 		<plugin name="ORYX.Plugins.RowLayouting"/>	
 		<plugin name="ORYX.Plugins.PluginLoader"/>
 		
+		<plugin name="ORYX.Plugins.VisioBPMNImport"/>
+		
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
 		
@@ -182,4 +184,10 @@
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
+	
+	<!-- Added by Lauritz Thamsen: Visio Import profile -->
+	<profile name="visioimport" stencilset="stencilsets/bpmn2.0/bpmn2.0.json" depends="bpmn">
+		<plugin name="ORYX.Plugins.VisioBPMNImport"/>	
+	</profile>
+	
 </profiles>

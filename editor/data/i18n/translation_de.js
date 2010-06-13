@@ -754,3 +754,16 @@ ORYX.I18N.SyntaxChecker.COMMUNICATION_AT_LEAST_TWO_PARTICIPANTS = "Die Kommunika
 ORYX.I18N.SyntaxChecker.MESSAGEFLOW_START_MUST_BE_PARTICIPANT = "Die Nachrichtenflussquelle muss ein Teilnehmer sein.";
 ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "Das Nachrichtenflussziel muss ein Teilnehmer sein.";
 ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "Der Konversationslink muss eine Kommunikation oder Sub-Konversation mit einem Teilnehmer verbinden.";
+
+/** New Language Properties from Visio Import by Lauritz Thamsen */
+if(!ORYX.I18N.visioBPMNImport) ORYX.I18N.visioBPMNImport = {};
+
+ORYX.I18N.visioBPMNImport.name = "Visio BPMN importieren";
+ORYX.I18N.visioBPMNImport.desc = "Importiert ein neues Modell aus einer Microsoft Visio .vdx-Datei.";
+ORYX.I18N.visioBPMNImport.selectFile = "Wählen Sie eine vdx-Datei aus, die im richtigen Stencil Set modelliert wurde.";
+ORYX.I18N.visioBPMNImport.file = ".vdx-Datei";
+ORYX.I18N.visioBPMNImport.btnImp = "Diagramm laden";
+ORYX.I18N.visioBPMNImport.btnClose = "Schließen";
+ORYX.I18N.visioBPMNImport.progress = "Wird geladen...";
+ORYX.I18N.visioBPMNImport.notVdxError = "Die angegebene Datei hat keine vdx-xml-Struktur oder das Diagramm ist leer.";
+ORYX.I18N.visioBPMNImport.connectionError = "Verbindung zum Server konnte nicht aufgebaut werden.";

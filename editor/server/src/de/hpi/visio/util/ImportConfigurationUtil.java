@@ -1,7 +1,8 @@
 package de.hpi.visio.util;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
@@ -9,10 +10,11 @@ import java.util.Properties;
  * Provides an entry to the VisioBPMNConfiguration.xml and is used to map Visio 2003 Stencilset 
  * values to BPMN properties
  */
-public class MappingConfigurationUtil {
+public class ImportConfigurationUtil {
 	
 	private static final String CONFIGURATION_XML_FILE = "VisioBPMNConfiguration.xml";
-	private static final String BPT_BPMN_11_Path = "stencilsets.BPTBPMN11.";
+	private static final String BPT_BPMN_11_PATH = "stencilsets.BPTBPMN11.";
+	private static final String HEURISTICS_PATH = "heuristics.";
 	
 	private Properties properties;
 	private String path;
@@ -25,18 +27,25 @@ public class MappingConfigurationUtil {
 	 * for each call. Therefore methods and members should also be static.
 	 */
 	
-	public MappingConfigurationUtil(String realPath) {
+	public ImportConfigurationUtil(String realPath) {
 		path = realPath;
 		initializeTheProperties();
 	}
 	
 	private void initializeTheProperties() {
-		Properties newProperties = new Properties();
-		ClassLoader cl = MappingConfigurationUtil.class.getClassLoader();
-		InputStream in = cl.getResourceAsStream(path + CONFIGURATION_XML_FILE);
+		Properties newProperties;
+		FileInputStream in;
+		try {
+			in = new FileInputStream(path + CONFIGURATION_XML_FILE);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			throw new IllegalStateException("Not able to load the mapping properties for Visio importing.",e1);			
+		}
 		if (in != null) {
 			try {
+				newProperties = new Properties();
 				newProperties.loadFromXML(in);
+				properties = newProperties;
 			} catch (InvalidPropertiesFormatException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -49,18 +58,26 @@ public class MappingConfigurationUtil {
 				}
 			}
 		}
-		properties = newProperties;
 		if (properties == null)
 			throw new IllegalStateException("Not able to create the Visio Stencil Set to BPMN mapping properties.");
 	}
 
 	/**
-	 * @param nameU in a Microsoft Visio .vdx: A shape's attribute nameU
+	 * @param name in a Microsoft Visio .vdx: A shape's attribute nameU
 	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
 	 */
-	public String getStencilIdForNameU(String nameU) {
-		String type = properties.getProperty(BPT_BPMN_11_Path + nameU);
-		return type;
+	public String getStencilIdForName(String name) {
+		String stencilId = properties.getProperty(BPT_BPMN_11_PATH + name);
+		return stencilId;
+	}
+	
+	/**
+	 * @param name in a Microsoft Visio .vdx: A shape's attribute nameU
+	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
+	 */
+	public String getValueForHeuristic(String name) {
+		String stencilId = properties.getProperty(HEURISTICS_PATH + name);
+		return stencilId;
 	}
 	
 }

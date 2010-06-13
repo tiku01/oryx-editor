@@ -64,6 +64,9 @@ ORYX.CONFIG.CPNTOOLSIMPORTER = 			ORYX.CONFIG.ROOT_PATH + "cpntoolsimporter";
 ORYX.CONFIG.BPMN2XPDLPATH =				ORYX.CONFIG.ROOT_PATH + "bpmn2xpdl";
 ORYX.CONFIG.TBPMIMPORT =				ORYX.CONFIG.ROOT_PATH + "tbpmimport";
 
+	/* added by Lauritz Thamsen */
+
+ORYX.CONFIG.VISIO_BPMN_IMPORT = 			ORYX.CONFIG.ROOT_PATH + "visiobpmnimport";
 
 
 	/* Namespaces */
