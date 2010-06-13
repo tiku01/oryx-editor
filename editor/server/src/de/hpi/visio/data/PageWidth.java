@@ -10,6 +10,8 @@ public class PageWidth {
 	public Double content;
 	
 	public Double getWidth() {
+		if (content == null)
+			content = 0.0;
 		return content;
 	}
 	

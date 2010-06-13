@@ -12,5 +12,9 @@ public class Width {
 	public Double getWidth() {
 		return content;
 	}
+
+	public void setWidth(Double width) {
+		content = width;
+	}
 	
 }

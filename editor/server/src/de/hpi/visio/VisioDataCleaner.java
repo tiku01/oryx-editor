@@ -2,24 +2,43 @@ package de.hpi.visio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
+import de.hpi.visio.data.VisioDocument;
 import de.hpi.visio.data.XForm;
 import de.hpi.visio.util.ImportConfigurationUtil;
+import de.hpi.visio.util.ShapeUtil;
 
 public class VisioDataCleaner {
 	
 	private ImportConfigurationUtil importUtil;
+	private ShapeUtil shapeUtil;
 	
-	public VisioDataCleaner(ImportConfigurationUtil importUtil) {
+	public VisioDataCleaner(ImportConfigurationUtil importUtil, ShapeUtil shapeUtil) {
 		this.importUtil = importUtil;
+		this.shapeUtil = shapeUtil;
 	}
 
-	public Page checkAndCleanVisioData(Page visioPage) {
-		Page checkedPage = checkPage(visioPage);
+	public Page checkAndCleanVisioData(VisioDocument visioData) {
+		Page page = resolveMasterReferences(visioData);
+		Page checkedPage = checkPage(page);
 		Page checkedAndCleanedPage = cleanPage(checkedPage);
 		return checkedAndCleanedPage;
+	}
+
+	private Page resolveMasterReferences(VisioDocument visioData) {
+		Map<String, String>masterIdToNameMapping = visioData.getMasterIdToNameMapping();
+		Page firstPage = visioData.getFirstPage();
+		for (Shape shape : firstPage.getShapes()) {
+			if (shape.getName() == null || shape.getName().equals(""))
+				if (shape.getMasterId() != null && !shape.getMasterId().equals("")) {
+					String newName = masterIdToNameMapping.get(shape.getMasterId());
+					shape.setName(newName);
+				}
+		}
+		return firstPage;
 	}
 
 	private Page checkPage(Page visioPage) {
@@ -30,9 +49,11 @@ public class VisioDataCleaner {
 
 	private Page cleanPage(Page visioPage) {
 		Page pageWithStandardShapes = normalizeNames(visioPage);
-		return pageWithStandardShapes;
+		Page pageWithConvertedProperties = convertTaskProperties(pageWithStandardShapes);
+		Page pageWithRealSubprocesses = convertTaskWithMarkerToSubprocesses(pageWithConvertedProperties);
+		return pageWithRealSubprocesses;
 	}
-	
+
 	private Page checkDiagramForBounds(Page visioPage) {
 		if (visioPage.getWidth() == null) {
 			String heuristicValue = importUtil.getValueForHeuristic("Default_Page_Width");
@@ -70,6 +91,40 @@ public class VisioDataCleaner {
 		visioPage.setShapes(shapesWithNormalizedNames);
 		return visioPage;
 	}
+	
+	private Page convertTaskProperties(Page page) {
+		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyTaskProperties");
+		String[] propertyElements = propertyElementsString.split(",");
+		for (String propertyElementName : propertyElements) {
+			List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
+			for (Shape propertyShape : propertyShapes) {
+				Shape containingShape = shapeUtil.getFirstTaskShapeThatContainsTheGivenShape(page.getShapes(), propertyShape);
+				if (containingShape != null) {
+					String propertyKey = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".key");
+					String propertyValue = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".value");
+					if (propertyKey != null && propertyValue != null) {
+						containingShape.putProperty(propertyKey, propertyValue);
+					}
+				}
+				page.removeShape(propertyShape);
+			}
+		}
+		return page;
+	}
+	
+	private Page convertTaskWithMarkerToSubprocesses(Page page) {
+		List<Shape> subprocessMarkers = page.getShapesByName("Collapsed Subprocess Marker");
+		for (Shape marker : subprocessMarkers) {
+			Shape containingShape = shapeUtil.getFirstTaskShapeThatContainsTheGivenShape(page.getShapes(), marker);
+			if (containingShape != null) {
+				containingShape.setName(importUtil.getStencilSetConfig("taskWithSubprocessMarker"));
+			}	
+			page.removeShape(marker);
+		}
+		return page;
+	}
+
+
 
 	private boolean hasCompleteBoundaries(Shape shape) {
 		XForm xForm = shape.xForm;

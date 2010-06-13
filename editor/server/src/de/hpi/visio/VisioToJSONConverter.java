@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.JSONBuilder;
 import org.xmappr.Xmappr;
-import de.hpi.visio.data.Page;
+import de.hpi.visio.data.VisioDocument;
                	
 public class VisioToJSONConverter {
 	
@@ -18,14 +18,17 @@ public class VisioToJSONConverter {
 	}
 
 	public String importVisioData(String xml) {
-		Reader reader = new StringReader(xml);
-		Xmappr xmappr = new Xmappr(Page.class);
-		Page visioPage = (Page) xmappr.fromXML(reader);
-		Diagram diagram = transformator.createDiagramFromVisioData(visioPage);
+		VisioXmlPreparator preparator = new VisioXmlPreparator();
+		String preparedXml = preparator.prepareXML(xml);
+		Reader reader = new StringReader(preparedXml);
+		Xmappr xmappr = new Xmappr(VisioDocument.class);
+		VisioDocument visioDocument = (VisioDocument) xmappr.fromXML(reader);
+		Diagram diagram = transformator.createDiagramFromVisioData(visioDocument);
 		String diagramJSONString = convertDiagramToJSON(diagram);
-		System.out.println(diagramJSONString);
 		return diagramJSONString;
 	}
+
+
 
 	private String convertDiagramToJSON(Diagram diagram) {
 		try {

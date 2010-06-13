@@ -115,7 +115,7 @@ _getAllPages : function(vdx, loadMask) {
 
 	var parser = new DOMParser();
 	var xmlDoc = parser.parseFromString(vdx, "text/xml");
-	var allPages = xmlDoc.getElementsByTagName("Page");
+	var allPages = xmlDoc.getElementsByTagName("VisioDocument");
 
 	// If there are no pages in the vdx file, it's propably not a correct file
 	if (allPages.length == 0) {

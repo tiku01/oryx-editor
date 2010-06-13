@@ -12,5 +12,9 @@ public class PinY {
 	public Double getY() {
 		return content;
 	}
+
+	public void setY(Double y) {
+		content = y;
+	}
 	
 }

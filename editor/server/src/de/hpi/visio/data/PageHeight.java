@@ -10,6 +10,8 @@ public class PageHeight {
 	public Double content;
 	
 	public Double getHeight() {
+		if (content == null)
+			content = 0.0;
 		return content;
 	}
 	
