@@ -1,5 +1,8 @@
 package org.oryxeditor.server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -9,22 +12,38 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
 
-import de.hpi.visio.VisioToBPMNConverter;
+import de.hpi.visio.VisioToJSONConverter;
 
 public class VisioBPMNImporter extends HttpServlet {
 
 	private static final long serialVersionUID = -5602000015928255933L;
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		res.setContentType("text/xml");
-		String data = req.getParameter("data");
+		response.setContentType("text/xml");
+		String data = request.getParameter("data");
 		//TODO solve the path problem
-		VisioToBPMNConverter converter = new VisioToBPMNConverter(this.getServletContext().getRealPath("/")+"execution/");
+		VisioToJSONConverter converter = new VisioToJSONConverter(this.getServletContext().getRealPath("/"));
 		try {
-			converter.importVisioData(data);
+			String result = converter.importVisioData(data);
+			response.getWriter().print(result);
+			response.setStatus(HttpStatus.SC_OK);
 		} catch (Exception e) {
-			res.setStatus(HttpStatus.SC_BAD_REQUEST);
+			response.setStatus(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
+	
+	// testing purpose
+	public static void main(String[] args) {
+		try {
+			byte[] buffer = new byte[(int) new File("/Users/Thamsen/Desktop/test.vdx").length()];
+		    BufferedInputStream f = new BufferedInputStream(new FileInputStream("/Users/Thamsen/Desktop/test.vdx"));
+		    f.read(buffer);
+		    VisioToJSONConverter converter = new VisioToJSONConverter("/Users/Thamsen/Workspaces/oryx/oryx/editor/data/");
+		    String result = converter.importVisioData(new String(buffer));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Put a good vdx in place...");
 		}
 	}
 	

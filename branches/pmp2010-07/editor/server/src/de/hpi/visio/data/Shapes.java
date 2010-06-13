@@ -1,6 +1,6 @@
 package de.hpi.visio.data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.xmappr.Element;
 import org.xmappr.RootElement;
@@ -9,6 +9,6 @@ import org.xmappr.RootElement;
 public class Shapes {
 	
 	@Element("Shape")
-	public ArrayList<Shape> shapes;
+	public List<Shape> shapes;
 
 }
