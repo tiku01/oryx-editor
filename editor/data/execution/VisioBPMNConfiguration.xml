@@ -71,6 +71,7 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Undirected Association">Association_Undirected</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
 	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Ad-Hoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.value">Standard</entry>
@@ -79,11 +80,13 @@
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.key">isforcompensation</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.value">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
+	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
+	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
 	 
 	<!--
 		Mapping problems to tackle!!: 
-		- Task/Subprocess are only one Stencil in this Visio
-		stencil set, but two in BPMN 
 		- Collapsed Subprocess is only the
 		plus-symbol and is added to a ordinary task 
 		- How to map ad-hoc tasks??
