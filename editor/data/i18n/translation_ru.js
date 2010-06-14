@@ -56,19 +56,6 @@ ORYX.I18N.AdHocCC.addDataExp = "Добавить операторы данных
 ORYX.I18N.AdHocCC.addLogOp = "Добавить логические операторы: ";
 ORYX.I18N.AdHocCC.curCond = "Текущие условия завершения: ";
 
-
-if(!ORYX.I18N.Abstraction) ORYX.I18N.Abstraction = {};
-
-ORYX.I18N.Abstraction.abstractionDescription = "Модус абстракции";
-ORYX.I18N.Abstraction.editingDescription = "Модус изменений";
-ORYX.I18N.Abstraction.alreadyAbstraction = "Вы уже находитесь в модусе абстракции";
-ORYX.I18N.Abstraction.abstractionMode = "Вы находитесь в модусе абстракции. Для того чтобы изменить уровень абстракции передвиньте слайдер";
-ORYX.I18N.Abstraction.requestFailed = "Запрос к серверу не удался";
-ORYX.I18N.Abstraction.alreadyEditing = "Вы уже находитесь в модусе изменений";
-ORYX.I18N.Abstraction.editingMode = "Теперь вы можете изменять Вашу модель";
-ORYX.I18N.Abstraction.beingAbstracted = "создается абстракция Вашей модели"; 
-ORYX.I18N.Abstraction.Error = "Ошибка. Пожалуйста, проверьте Вашу модель";
-
 if(!ORYX.I18N.AMLSupport) ORYX.I18N.AMLSupport = {};
 
 //ORYX.I18N.AMLSupport.group = "EPC";
