@@ -425,7 +425,7 @@ public class XPDLPackage extends XPDLThing {
 	
 	public void writeJSONstencilset(JSONObject modelElement) throws JSONException {
 		JSONObject stencilset = new JSONObject();
-		stencilset.put("url", "/oryx//stencilsets/bpmn1.1/bpmn1.1.json");
+		stencilset.put("url", org.oryxeditor.server.EditorHandler.oryx_path + "/stencilsets/bpmn1.1/bpmn1.1.json");
 		stencilset.put("namespace", "http://b3mn.org/stencilset/bpmn1.1#");
 		
 		modelElement.put("stencilset", stencilset);

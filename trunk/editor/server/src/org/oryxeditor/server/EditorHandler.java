@@ -44,7 +44,7 @@ public class EditorHandler extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final String oryx_path = "/oryx/";
+	public static final String oryx_path = "/oryx/";
 	private static final String defaultSS="stencilsets/bpmn1.1/bpmn1.1.json";
 	private static final long serialVersionUID = 1L;
 	private Collection<String> availableProfiles;

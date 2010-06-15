@@ -32,10 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ProcessWaveEditorHandler extends EditorHandler {
 
-	/**
-	 * 
-	 */
-	private static final String oryx_path = "/oryx/";
 	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -88,12 +84,12 @@ public class ProcessWaveEditorHandler extends EditorHandler {
     	String languageFiles = "";
     	String profileFiles="";
     	
-    	if (new File(this.getOryxRootDirectory() + "/oryx/i18n/translation_"+languageCode+".js").exists()) {
+    	if (new File(this.getOryxRootDirectory() + oryx_path + "i18n/translation_"+languageCode+".js").exists()) {
     		languageFiles += "<script src=\"" + oryx_path 
     		+ "i18n/translation_"+languageCode+".js\" type=\"text/javascript\" />\n";
     	}
     	
-    	if (new File(this.getOryxRootDirectory() + "/oryx/i18n/translation_" + languageCode+"_" + countryCode + ".js").exists()) {
+    	if (new File(this.getOryxRootDirectory() + oryx_path + "i18n/translation_" + languageCode+"_" + countryCode + ".js").exists()) {
     		languageFiles += "<script src=\"" + oryx_path 
     		+ "i18n/translation_" + languageCode+"_" + countryCode 
     		+ ".js\" type=\"text/javascript\" />\n";

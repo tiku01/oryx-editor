@@ -35,7 +35,7 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
 	
 	canvasId: "ext-gen56",
 	
-	TMP_FOLDER: "/oryx/tmp/",
+	TMP_FOLDER: ORYX.PATH + "/tmp/",
 	
     construct: function(){
         // Call super class constructor

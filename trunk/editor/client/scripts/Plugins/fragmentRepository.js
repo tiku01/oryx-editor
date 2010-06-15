@@ -166,7 +166,7 @@ ORYX.Plugins.FragmentRepository = Clazz.extend({
 			// Create and add the Stencil to the Group
 			var newElement = new Ext.tree.TreeNode({
 					text:		"Task", 		// Text of the stencil
-					icon:		"/oryx/stencilsets/bpmn2.0/icons/activity/task.png",			// Icon of the stencil
+					icon:		ORYX.PATH + "/stencilsets/bpmn2.0/icons/activity/task.png",			// Icon of the stencil
 					allowDrag:	false,					// Don't use the Drag and Drop of Ext-Tree
 					allowDrop:	false,
 					iconCls:	'ShapeRepEntreeImg', 	// CSS-Class for Icon
@@ -401,7 +401,7 @@ ORYX.Plugins.FragmentRepository = Clazz.extend({
 					      }
 					   },
 					   "stencilset":{
-					      "url":"/oryx/stencilsets/bpmn2.0/bpmn2.0.json",
+					      "url":ORYX.PATH + "/stencilsets/bpmn2.0/bpmn2.0.json",
 					      "namespace":"http://b3mn.org/stencilset/bpmn2.0#"
 					   },
 					   "ssextensions":[
