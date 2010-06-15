@@ -66,7 +66,7 @@ ORYX.CONFIG.TBPMIMPORT =				ORYX.CONFIG.ROOT_PATH + "tbpmimport";
 
 	/* added by Lauritz Thamsen */
 
-ORYX.CONFIG.VISIO_BPMN_IMPORT = 			ORYX.CONFIG.ROOT_PATH + "visiobpmnimport";
+ORYX.CONFIG.VISIOBPMNIMPORT = 			ORYX.CONFIG.ROOT_PATH + "visiobpmnimport";
 
 
 	/* Namespaces */

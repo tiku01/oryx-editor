@@ -30,6 +30,7 @@ public class VisioBPMNImporter extends HttpServlet {
 			response.setStatus(HttpStatus.SC_OK);
 		} catch (Exception e) {
 			response.setStatus(HttpStatus.SC_BAD_REQUEST);
+			throw new RuntimeException("Failed Visio BPMN Import.", e);
 		}
 	}
 	

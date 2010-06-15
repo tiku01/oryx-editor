@@ -64,7 +64,7 @@ public class HeuristicVisioInterpreter {
 	private List<Shape> getAllTaskShapes(Page page) {
 		List<Shape> tasks = new ArrayList<Shape>();
 		for (Shape shape : page.getShapes()) {
-			if (importUtil.getStencilIdForName(shape.getName()).equals("Task"))
+			if ("Task".equals(importUtil.getStencilIdForName(shape.getName())))
 				tasks.add(shape);
 		}
 		return tasks;

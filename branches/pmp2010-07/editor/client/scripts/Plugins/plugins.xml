@@ -354,7 +354,7 @@
 		
 		<!-- added by Lauritz Thamsen, PMP seminar 2010 -->
 		<plugin source="visioBPMNImport.js" name="ORYX.Plugins.VisioBPMNImport">
-			<!-- <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	-->
+			<!-- <requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>  -->
 		</plugin>
 			
 	</plugins>

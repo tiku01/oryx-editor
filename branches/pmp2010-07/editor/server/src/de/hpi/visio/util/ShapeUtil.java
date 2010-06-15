@@ -42,7 +42,7 @@ public class ShapeUtil {
 			if (isFirstShapeOnSecondShape(givenShape, currentShape) && givenShape != currentShape) {
 				if (currentShape.getName() == null)
 					continue;
-				if (importUtil.getStencilIdForName(currentShape.getName()).equals("Task")) {
+				if ("Task".equals(importUtil.getStencilIdForName(currentShape.getName()))) {
 					return currentShape;
 				}
 			}
