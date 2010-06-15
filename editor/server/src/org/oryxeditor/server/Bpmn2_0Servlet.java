@@ -84,7 +84,7 @@ public class Bpmn2_0Servlet extends HttpServlet {
 				e.printStackTrace();
 				res.setStatus(500);
 				res.setContentType("text/plain");
-				res.getWriter().write(e.getCause().getMessage());
+				res.getWriter().write(e.getCause != null ? e.getCause().getMessage() : e.getMessage());
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
