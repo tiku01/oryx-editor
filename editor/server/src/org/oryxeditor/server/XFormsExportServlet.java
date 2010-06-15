@@ -42,7 +42,7 @@ public class XFormsExportServlet extends HttpServlet {
 			String reqUrl = req.getRequestURL().toString();
 			String baseUrl = reqUrl.substring(0, reqUrl.length()
 					- req.getRequestURI().length());
-			cssUrl = baseUrl + "/oryx/css/xforms_default.css";
+			cssUrl = baseUrl + EditorHandler.oryx_path + "/css/xforms_default.css";
 		}
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -74,7 +74,7 @@ public class XFormsExportServlet extends HttpServlet {
 			String reqUrl = req.getRequestURL().toString();
 			String baseUrl = reqUrl.substring(0, reqUrl.length()
 					- req.getRequestURI().length());
-			cssUrl = baseUrl + "/oryx/css/xforms_default.css";
+			cssUrl = baseUrl + EditorHandler.oryx_path + "/css/xforms_default.css";
 		}
 
 		if (path.endsWith("/self"))

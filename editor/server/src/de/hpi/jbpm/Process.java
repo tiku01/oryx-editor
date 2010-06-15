@@ -207,7 +207,7 @@ public class Process {
 		JSONObject process = new JSONObject();
 
 		JSONObject stencilset = new JSONObject();
-		stencilset.put("url", "/oryx/stencilsets/bpmn1.1/bpmn1.1.json");
+		stencilset.put("url", org.oryxeditor.server.EditorHandler.oryx_path + "/stencilsets/bpmn1.1/bpmn1.1.json");
 
 		JSONObject stencil = new JSONObject();
 		stencil.put("id", "BPMNDiagram");

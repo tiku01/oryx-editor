@@ -260,7 +260,7 @@ onOryxResourcesLoaded = function () {
 		new ORYX.Editor({
 			id: 'oryx-canvas123',
 			stencilset: {
-				url: '/oryx/'+stencilset
+				url: ORYX.PATH + '/'+stencilset
 			}
 		});
 	}

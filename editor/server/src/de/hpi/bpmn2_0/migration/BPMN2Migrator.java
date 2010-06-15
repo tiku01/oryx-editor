@@ -208,7 +208,7 @@ public class BPMN2Migrator {
 				return JSONBuilder.parseModeltoString(diagram);
 			
 			/* Convert the Namespace and URL */
-			StencilSet ss = new StencilSet("/oryx/stencilsets/bpmn2.0/bpmn2.0.json", "http://b3mn.org/stencilset/bpmn2.0#");
+			StencilSet ss = new StencilSet(org.oryxeditor.server.EditorHandler.oryx_path + "/stencilsets/bpmn2.0/bpmn2.0.json", "http://b3mn.org/stencilset/bpmn2.0#");
 			diagram.setStencilset(ss);
 				
 			migrateActivities();
