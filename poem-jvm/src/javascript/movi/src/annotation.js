@@ -217,9 +217,9 @@ MOVI.namespace("util");
 	     */
 		show: function() {
 			this._marker.show();
-			this.addClass(_BUBBLE_VISIBLE_CLASS_NAME);
-			this.removeClass(_BUBBLE_HIDDEN_CLASS_NAME)
+			this.get("element").className = _BUBBLE_VISIBLE_CLASS_NAME;
 			this.bringToFront();
+			this.visible = true;
 		},
 		
 		/**
@@ -227,8 +227,8 @@ MOVI.namespace("util");
 	     * @method hide
 	     */
 		hide: function() {
-			this.addClass(_BUBBLE_HIDDEN_CLASS_NAME);
-			this.removeClass(_BUBBLE_VISIBLE_CLASS_NAME);
+			this.get("element").className = _BUBBLE_HIDDEN_CLASS_NAME;
+			this.visible = false;
 		},
 		
 		/**
@@ -248,7 +248,7 @@ MOVI.namespace("util");
 		 * @returns {Boolean} 
 		 */
 		isVisible: function() {
-		    return this.hasClass(_BUBBLE_VISIBLE_CLASS_NAME);
+		    return this.visible === undefined ? this.hasClass(_BUBBLE_VISIBLE_CLASS_NAME) : this.visible;
 		},
 		
 		/**
