@@ -248,7 +248,7 @@ MOVI.namespace("util");
 		 * @returns {Boolean} 
 		 */
 		isVisible: function() {
-		    return this.visible === undefined ? this.hasClass(_BUBBLE_VISIBLE_CLASS_NAME) : this.visible;
+		    return "undefined" == typeof(this.visible) ? this.hasClass(_BUBBLE_VISIBLE_CLASS_NAME) : this.visible;
 		},
 		
 		/**
