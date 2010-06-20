@@ -21,25 +21,61 @@ public class HeuristicVisioInterpreter {
 	public Page interpret(Page visioPage) {
 		Page page = interpreteShapeNames(visioPage);
 		page = interpreteTaskBounds(page);
+		List<Shape> correctedChildShapes = correctAllEdges(page.getShapes());
+		page.setShapes(correctedChildShapes);
 		return page;
 	}
 
+	
+
+	private List<Shape> correctAllEdges(List<Shape> shapes) {
+		List<Shape> edges = getAllEdges(shapes);
+		for (Shape edge : edges) {
+			Shape source = shapeUtil.getNearestShapeToPointInsideThreshold(edge, edge.getStartPoint(), shapes);
+			Shape target = shapeUtil.getNearestShapeToPointInsideThreshold(edge, edge.getEndPoint(), shapes);
+			if (source != null) {
+				source.addOutgoing(edge);
+				edge.addIncoming(edge);
+			}
+				
+			if (target != null) {
+				target.addIncoming(edge);
+				edge.addOutgoing(target);
+				edge.setTarget(target);
+			}
+				
+		}
+		return shapes;
+	}
+
+	private List<Shape> getAllEdges(List<Shape> shapes) {
+		String[] edgeStencils = importUtil.getOryxBPMNConfig("Edges").split(",");
+		List<Shape> edges = new ArrayList<Shape>();
+		for (Shape shape : shapes) {
+			for (String edgeStencil : edgeStencils) {
+				if (edgeStencil.equalsIgnoreCase(importUtil.getStencilIdForName(shape.getName())))
+					edges.add(shape);
+			}
+		}
+		return edges;
+	}
+	
 	private Page interpreteShapeNames(Page visioPage) {
 		List<Shape> allShapes = visioPage.getShapes();
 		List<Shape> shapesWithNames = new ArrayList<Shape>();
 		for (Shape shape : allShapes) {
 			if (shape.name == null || shape.name.equals("")) {
 				if (shape.getLabel() != null && shape.getLabel() != "") {
-					String shouldSkip = importUtil.getValueForHeuristic("Skip_unknown_NameU_But_With_Label");
+					String shouldSkip = importUtil.getStencilSetConfig("Skip_unknown_NameU_But_With_Label");
 					if (Boolean.valueOf(shouldSkip)) 
 						continue;
-					String defaultType = importUtil.getValueForHeuristic("Unknown_NameU_But_With_Label_is");
+					String defaultType = importUtil.getStencilSetConfig("Unknown_NameU_But_With_Label_is");
 					shape.setName(defaultType);
 				} else {
-					String shouldSkip = importUtil.getValueForHeuristic("Skip_unknown_NameU_And_Without_Label");
+					String shouldSkip = importUtil.getStencilSetConfig("Skip_unknown_NameU_And_Without_Label");
 					if (Boolean.valueOf(shouldSkip)) 
 						continue;
-					String defaultType = importUtil.getValueForHeuristic("Unknown_NameU_And_Without_Label_is");
+					String defaultType = importUtil.getStencilSetConfig("Unknown_NameU_And_Without_Label_is");
 					shape.setName(defaultType);
 				}
 			}

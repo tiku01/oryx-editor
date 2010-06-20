@@ -28,14 +28,13 @@ public class VisioToJSONConverter {
 		return diagramJSONString;
 	}
 
-
-
 	private String convertDiagramToJSON(Diagram diagram) {
 		try {
 			return JSONBuilder.parseModeltoString(diagram);
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new IllegalStateException();
+			throw new IllegalStateException("Wasn't possible to get a json representation " +
+					"of the created diagram.", e);
 		}
 	}
 

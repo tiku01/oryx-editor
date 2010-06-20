@@ -54,6 +54,7 @@ public class VisioDataCleaner {
 		return pageWithRealSubprocesses;
 	}
 
+
 	private Page checkDiagramForBounds(Page visioPage) {
 		if (visioPage.getWidth() == null) {
 			String heuristicValue = importUtil.getValueForHeuristic("Default_Page_Width");
@@ -95,18 +96,25 @@ public class VisioDataCleaner {
 	private Page convertTaskProperties(Page page) {
 		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyTaskProperties");
 		String[] propertyElements = propertyElementsString.split(",");
+		Shape resultingShape = null;
 		for (String propertyElementName : propertyElements) {
 			List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
 			for (Shape propertyShape : propertyShapes) {
-				Shape containingShape = shapeUtil.getFirstTaskShapeThatContainsTheGivenShape(page.getShapes(), propertyShape);
-				if (containingShape != null) {
-					String propertyKey = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".key");
-					String propertyValue = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".value");
-					if (propertyKey != null && propertyValue != null) {
-						containingShape.putProperty(propertyKey, propertyValue);
+				Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".isMarker"));
+				if (isOnlyAMarkerElement) {
+					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
+					if (containingShape != null) { 
+						resultingShape = containingShape;
 					}
+					page.removeShape(propertyShape);
+				} else {
+					resultingShape = propertyShape;
 				}
-				page.removeShape(propertyShape);
+				String propertyKey = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".key");
+				String propertyValue = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".value");
+				if (resultingShape != null && propertyKey != null && propertyValue != null) {
+					resultingShape.putProperty(propertyKey, propertyValue);
+				}
 			}
 		}
 		return page;
@@ -115,7 +123,7 @@ public class VisioDataCleaner {
 	private Page convertTaskWithMarkerToSubprocesses(Page page) {
 		List<Shape> subprocessMarkers = page.getShapesByName("Collapsed Subprocess Marker");
 		for (Shape marker : subprocessMarkers) {
-			Shape containingShape = shapeUtil.getFirstTaskShapeThatContainsTheGivenShape(page.getShapes(), marker);
+			Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), marker, "Task");
 			if (containingShape != null) {
 				containingShape.setName(importUtil.getStencilSetConfig("taskWithSubprocessMarker"));
 			}	

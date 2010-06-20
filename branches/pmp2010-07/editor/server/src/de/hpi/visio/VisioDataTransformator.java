@@ -1,9 +1,11 @@
 package de.hpi.visio;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Diagram;
+import org.oryxeditor.server.diagram.Point;
 import org.oryxeditor.server.diagram.StencilSet;
 import org.oryxeditor.server.diagram.StencilType;
 
@@ -34,6 +36,7 @@ public class VisioDataTransformator {
 		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
 		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
+		assignShapeIds(interpretedPage.getShapes());
 		Diagram diagram = getNewBPMNDiagram();
 		diagram.setBounds(shapeUtil.getCorrectedDiagramBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
@@ -45,20 +48,19 @@ public class VisioDataTransformator {
 
 	private ArrayList<org.oryxeditor.server.diagram.Shape> getOryxChildShapesFromVisioData(Page visioPage) {
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = new ArrayList<org.oryxeditor.server.diagram.Shape>();
-		int nextId = 0; //set the ids better
 		for (Shape visioShape : visioPage.getShapes()) {
-			nextId +=1;
-			String resourceID = "oryx-canvas123" + nextId;
 			String stencilId = importUtil.getStencilIdForName(visioShape.getName());
 			if (stencilId == null) {
 				// stencilId is required in oryx json
 				continue;
 			}
 			StencilType type = new StencilType(stencilId);
-			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(resourceID, type);
+			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(visioShape.getShapeId(), type);
 			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
 			oryxShape.setBounds(correctedBounds);
-			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) { // TODO: importConfigurationUtil --> define a mapping for label to property in json
+			ArrayList<Point> dockers = shapeUtil.getCorrectedDockers(visioShape, visioPage);
+			oryxShape.setDockers(dockers);
+			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
 				oryxShape.putProperty("name", visioShape.getLabel());
 				oryxShape.putProperty("title", visioShape.getLabel());
 				oryxShape.putProperty("text", visioShape.getLabel());
@@ -68,6 +70,7 @@ public class VisioDataTransformator {
 			}
 			childShapes.add(oryxShape);
 		}
+		correctFlowOfShapes(childShapes, visioPage);
 		return childShapes;
 	}
 
@@ -79,6 +82,44 @@ public class VisioDataTransformator {
 		return diagram;
 	}
 	
+	private void assignShapeIds(List<Shape> shapes) {
+		String shapeString = "bpmnvisio_";
+		Integer i = 0;
+		for (Shape shape : shapes) {
+			shape.setShapeId(shapeString + i.toString());
+			i += 1;
+		}
+	}
+	
+	private void correctFlowOfShapes(ArrayList<org.oryxeditor.server.diagram.Shape> childShapes, Page visioPage) {
+		for (Shape visioShape : visioPage.getShapes()) {
+			if (visioShape.getOutgoings().size() > 0) {
+				org.oryxeditor.server.diagram.Shape oryxShape = getOryxShapeById(childShapes, visioShape.getShapeId());
+				for (Shape outgoing : visioShape.getOutgoings()) {
+					oryxShape.addOutgoing(getOryxShapeById(childShapes, outgoing.getShapeId()));
+				}
+			}
+			if (visioShape.getIncomings().size() > 0) {
+				org.oryxeditor.server.diagram.Shape oryxShape = getOryxShapeById(childShapes, visioShape.getShapeId());
+				for (Shape incoming : visioShape.getIncomings()) {
+					oryxShape.addIncoming(getOryxShapeById(childShapes, incoming.getShapeId()));
+				}
+			}
+			if (visioShape.getTarget() != null) {
+				org.oryxeditor.server.diagram.Shape oryxShape = getOryxShapeById(childShapes, visioShape.getShapeId());
+				oryxShape.setTarget(getOryxShapeById(childShapes, visioShape.getTarget().getShapeId()));
+			}
+		}
+	}
+
+	private org.oryxeditor.server.diagram.Shape
+		getOryxShapeById(ArrayList<org.oryxeditor.server.diagram.Shape> childShapes, String shapeId) {
+		for (org.oryxeditor.server.diagram.Shape oryxShape : childShapes) {
+			if (oryxShape.getResourceId().equals(shapeId))
+				return oryxShape;
+		}
+		return null;
+	}
 	
 
 }

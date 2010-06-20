@@ -29,9 +29,65 @@ public class HeuristicOryxInterpreter {
 	}
 
 	public Diagram interpret(Diagram diagram) {
-		ArrayList<Shape> correctedChildShapes = correctContainment(diagram.getChildShapes());
+		ArrayList<Shape> correctedChildShapes = correctPools(diagram.getChildShapes());
+		correctedChildShapes = correctContainment(correctedChildShapes);
 		diagram.setChildShapes(correctedChildShapes);
 		return diagram;
+	}
+
+	private ArrayList<Shape> correctPools(ArrayList<Shape> childShapes) {
+		List<Shape> lanes = new ArrayList<Shape>();
+		for (Shape pool : childShapes) {
+			if (pool.getStencilId().equalsIgnoreCase("Pool")) {
+				Shape lane = getBestFittingLane(pool, childShapes);
+				if (lane != null) {
+					lanes.add(lane);
+					ArrayList<Shape> poolsLanes = new ArrayList<Shape>();
+					poolsLanes.add(lane);
+					pool.setChildShapes(poolsLanes);
+					correctPoolBounds(pool,lane);
+				}
+			}
+		}
+		childShapes.removeAll(lanes);
+		return childShapes;
+	}
+
+	private void correctPoolBounds(Shape pool, Shape lane) {
+		Double poolHeaderWidth = Double.valueOf(importUtil.getOryxBPMNConfig("PoolHeaderWidth"));
+		Double poolUpperleftX = lane.getUpperLeft().getX() - poolHeaderWidth;
+		Double poolUpperLeftY = lane.getUpperLeft().getY();
+		Point poolUpperLeft = new Point(poolUpperleftX, poolUpperLeftY);
+		Point poolLowerRight = lane.getLowerRight();
+		Bounds poolBounds = new Bounds(poolLowerRight, poolUpperLeft);
+		pool.setBounds(poolBounds);
+	}
+
+	private Shape getBestFittingLane(Shape pool, ArrayList<Shape> allShapes) {
+		List<Shape> lanes = new ArrayList<Shape>();
+		for (Shape shape : allShapes) {
+			if (shapeOverlapsAnotherShape(pool, shape) && shape.getStencilId().equalsIgnoreCase("Lane"))
+				lanes.add(shape);
+		}
+		return mostRightLane(lanes);
+	}
+	
+	private Shape mostRightLane(List<Shape> shapes) {
+		Shape rightest = null;
+		if (shapes.size() > 0)
+			rightest = shapes.get(0);
+		for (Shape lane : shapes) {
+			if (lane.getUpperLeft().getX() < rightest.getUpperLeft().getX())
+				rightest = lane;
+		}
+		return rightest;
+	}
+
+	private boolean shapeOverlapsAnotherShape(Shape pool, Shape shape) {
+		Double rightMiddlePinX = pool.getLowerRight().getX();
+		Double rightMiddlePinY = pool.getUpperLeft().getY() + (pool.getHeight() / 2);
+		Point rightMiddlePin = new Point(rightMiddlePinX, rightMiddlePinY);
+		return pointIsOnShape(rightMiddlePin, shape);
 	}
 
 	private ArrayList<Shape> correctContainment(ArrayList<Shape> shapes) {
@@ -48,7 +104,7 @@ public class HeuristicOryxInterpreter {
 			}
 		}
 		shapes.removeAll(containedShapes);
-		makeChildrenShapeBoundsRelative(shapes);
+		makeChildrenShapeFormsRelative(shapes);
 		return shapes;
 	}
 
@@ -83,10 +139,14 @@ public class HeuristicOryxInterpreter {
 
 	private boolean firstShapeIsOnSecoundShape(Shape containableShape, Shape container) {
 		Point centralPin = getCentralPinOfShape(containableShape);
-		if (container.getUpperLeft().getX().doubleValue() <= centralPin.getX().doubleValue() &&
-				centralPin.getX().doubleValue() <= container.getLowerRight().getX().doubleValue())
-			if (container.getUpperLeft().getY().doubleValue() <= centralPin.getY().doubleValue() &&
-					centralPin.getY().doubleValue() <= container.getLowerRight().getY().doubleValue())
+		return pointIsOnShape(centralPin, container);
+	}
+	
+	private boolean pointIsOnShape(Point point, Shape container) {
+		if (container.getUpperLeft().getX().doubleValue() <= point.getX().doubleValue() &&
+				point.getX().doubleValue() <= container.getLowerRight().getX().doubleValue())
+			if (container.getUpperLeft().getY().doubleValue() <= point.getY().doubleValue() &&
+					point.getY().doubleValue() <= container.getLowerRight().getY().doubleValue())
 				return true;
 		return false;
 	}
@@ -101,17 +161,18 @@ public class HeuristicOryxInterpreter {
 		return new Point(x,y);
 	}
 	
-	private void makeChildrenShapeBoundsRelative(ArrayList<Shape> shapes) {
+	private void makeChildrenShapeFormsRelative(ArrayList<Shape> shapes) {
 		for (Shape shape : shapes) {
 			if (shape.getChildShapes() != null && shape.getChildShapes().size() > 0) {
-				makeChildrenShapeBoundsRelative(shape.getChildShapes());
+				makeChildrenShapeFormsRelative(shape.getChildShapes());
 				for (Shape childShape : shape.getChildShapes()) {
 					correctShapeBoundsToBeRelativeToContainer(childShape, shape);
+					correctShapeDockerToBeRelativeToContainer(childShape, shape);
 				}
 			}
 		}
 	}
-	
+
 	private void correctShapeBoundsToBeRelativeToContainer(Shape child, Shape container) {
 		Double relativeUpperLeftX = child.getUpperLeft().getX().doubleValue() - container.getUpperLeft().getX().doubleValue();
 		Double relativeUpperLeftY = child.getUpperLeft().getY().doubleValue() - container.getUpperLeft().getY().doubleValue();
@@ -120,6 +181,15 @@ public class HeuristicOryxInterpreter {
 		Point upperLeftPoint = new Point(relativeUpperLeftX, relativeUpperLeftY);
 		Point lowerRightPoint = new Point(relativeLowerRightX,relativeLowerRightY);
 		child.setBounds(new Bounds(lowerRightPoint, upperLeftPoint));
+	}
+	
+	private void correctShapeDockerToBeRelativeToContainer(Shape childShape, Shape container) {
+		Double childDockerX = childShape.getDockers().get(0).getX().doubleValue() - container.getUpperLeft().getX().doubleValue();
+		Double childDockerY = childShape.getDockers().get(0).getY().doubleValue() - container.getUpperLeft().getY().doubleValue();
+		Point centralDocker = new Point(childDockerX, childDockerY);
+		ArrayList<Point> dockers = new ArrayList<Point>();
+		dockers.add(centralDocker);
+		childShape.setDockers(dockers);
 	}
 
 }
