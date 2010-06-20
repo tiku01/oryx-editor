@@ -72,52 +72,86 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
-	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Ad-Hoc</entry>
+	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.value">Standard</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.key">looptype</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.value">Parallel</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.isMarker">false</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.key">callacitivity</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.value">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.key">isforcompensation</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.value">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.isMarker">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.key">isadhoc</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.value">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
 	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
 	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
-	 
+	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_But_With_Label_is">Description</entry> 
+	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_And_Without_Label_is">Flow</entry> 
+	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_But_With_Label">false</entry>
+	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_And_Without_Label">false</entry>
+	
 	<!--
 		Mapping problems to tackle!!: 
-		- Collapsed Subprocess is only the
-		plus-symbol and is added to a ordinary task 
-		- How to map ad-hoc tasks??
-		- In this visio stencil set there is no:
-		EventSubprocess/ CollapsedEventSubprocess 
 		- In this visio stencil a pool is assembled from two elements: 
 		body and head...but there's only a pool in BPMN 
 		- Also: A Lane isn't distinct to a pool body... 
 		- Conditional Flow is Sequence Flow with a specific attribute... 
 		- Branching Condition is no element in BPMN 
-		- Standard gateway will be displayed with the xor-cross 
-		- not found: 
-			May be only on Signavio or only in BPMN 2.0 BPMNDiagram {ITSystem,DataStore} ProcessParticipant
-			Association_Bidirectional, StartEscalationEvent, IntermediateEscalationEvent,
-			EndEscalationEvent, StartErrorEvent, StartCompensationEvent, StartParallelMultipleEvent
-			IntermediateParallelMultipleEventCatching, Message
 	-->
 	
 	
+	<!-- 
+		ORYX SPECIFIC CONFIGURATION
+	 -->
+	<entry key="oryx.config.BPMN.resizableElements">Group,CollapsedPool,Pool,Lane,EventSubprocess,CollapsedEventSubprocess,Subprocess,CollapsedSubprocess,Task,TextAnnotation,DataObject</entry>	
+	<entry key="oryx.config.BPMN.Group.minWidth">60</entry>
+	<entry key="oryx.config.BPMN.Group.minHeight">50</entry>
+	<entry key="oryx.config.BPMN.CollapsedPool.minWidth">20</entry>
+	<entry key="oryx.config.BPMN.CollapsedPool.minHeight">20</entry>
+	<entry key="oryx.config.BPMN.Pool.minWidth">20</entry>
+	<entry key="oryx.config.BPMN.Pool.minHeight">20</entry>
+	<entry key="oryx.config.BPMN.Lane.minWidth">10</entry>
+	<entry key="oryx.config.BPMN.Lane.minHeight">20</entry>
+	<entry key="oryx.config.BPMN.EventSubprocess.minWidth">120</entry>
+	<entry key="oryx.config.BPMN.EventSubprocess.minHeight">100</entry>
+	<entry key="oryx.config.BPMN.CollapsedEventSubprocess.minWidth">80</entry>
+	<entry key="oryx.config.BPMN.CollapsedEventSubprocess.minHeight">60</entry>
+	<entry key="oryx.config.BPMN.Subprocess.minWidth">120</entry>
+	<entry key="oryx.config.BPMN.Subprocess.minHeight">100</entry>
+	<entry key="oryx.config.BPMN.CollapsedSubprocess.minWidth">80</entry>
+	<entry key="oryx.config.BPMN.CollapsedSubprocess.minHeight">60</entry>	
+	<entry key="oryx.config.BPMN.Task.minWidth">50</entry>
+	<entry key="oryx.config.BPMN.Task.minHeight">40</entry>
+	<entry key="oryx.config.BPMN.TextAnnotation.minWidth">10</entry>
+	<entry key="oryx.config.BPMN.TextAnnotation.minHeight">20</entry>	
+	<entry key="oryx.config.BPMN.DataObject.minWidth">20</entry>
+	<entry key="oryx.config.BPMN.DataObject.minHeight">20</entry>
+	<entry key="oryx.config.BPMN.fixedSizeShapeCategories">AllGateways,AllEvents</entry>		
+	<entry key="oryx.config.BPMN.AllGateways">Exclusive_Databased_Gateway,EventbasedGateway,InclusiveGateway,ComplexGateway,ParallelGateway</entry>
+	<entry key="oryx.config.BPMN.AllGateways.category">Gateway</entry>
+	<entry key="oryx.config.BPMN.Gateway.fixedWidth">40</entry>
+	<entry key="oryx.config.BPMN.Gateway.fixedHeight">40</entry>
+	<entry key="oryx.config.BPMN.AllEvents">StartNoneEvent,StartMessageEvent,StartTimerEvent,StartEscalationEvent,StartConditionalEvent,StartErrorEvent,StartCompensationEvent,StartSignalEvent,StartMultipleEvent,StartParallelMultipleEvent,IntermediateMessageEventCatching,IntermediateTimerEvent,IntermediateEscalationEvent,IntermediateConditionalEvent,IntermediateLinkEventCatching,IntermediateErrorEvent,IntermediateCancelEvent,IntermediateCompensationEventCatching,IntermediateSignalEventCatching,IntermediateMultipleEventCatching,IntermediateParallelMultipleEventCatching,IntermediateEvent,IntermediateMessageEventThrowing,IntermediateEscalationEventThrowing,IntermediateLinkEventThrowing,IntermediateCompensationEventThrowing,IntermediateSignalEventThrowing,IntermediateMultipleEventThrowing,EndNoneEvent,EndMessageEvent,EndEscalationEvent,EndErrorEvent,EndCancelEvent,EndCompensationEvent,EndSignalEvent,EndMultipleEvent,EndTerminateEvent</entry>
+	<entry key="oryx.config.BPMN.AllEvents.category">Event</entry>
+	<entry key="oryx.config.BPMN.Event.fixedWidth">30</entry>
+	<entry key="oryx.config.BPMN.Event.fixedHeight">30</entry>
+	<entry key="oryx.config.BPMN.PoolHeaderWidth">30</entry>
+	<entry key="oryx.config.BPMN.Edges">Association_Bidirectional,MessageFlow,SequenceFlow,Association_Undirected,Association_Unidirectional</entry>
 	<!--
 		HEURISTICS
 	-->
 	<entry key="heuristics.Default_Page_Width">20.0</entry>
 	<entry key="heuristics.Default_Page_Height">20.0</entry>
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
-	<entry key="heuristics.Distance_Precision">2</entry>
-	<entry key="heuristics.Pool_Header_Body_Max_Difference">5</entry>
-	<entry key="heuristics.Unknown_NameU_But_With_Label_is">Description</entry> 
-	<entry key="heuristics.Unknown_NameU_And_Without_Label_is">Flow</entry> 
-	<entry key="heuristics.Skip_unknown_NameU_But_With_Label">false</entry>
-	<entry key="heuristics.Skip_unknown_NameU_And_Without_Label">false</entry>
+	<entry key="heuristics.maxEdgeToShapeDistance">0.1</entry>
 	
 	
 </properties>

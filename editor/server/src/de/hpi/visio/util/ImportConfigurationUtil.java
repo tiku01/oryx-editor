@@ -17,6 +17,7 @@ public class ImportConfigurationUtil {
 	private static final String BPT_BPMN_11_STENCILS_PATH = BPT_BPMN_11_PATH + "stencil.";
 	private static final String BPT_BPMN_11_CONFIG_PATH = BPT_BPMN_11_PATH + "config.";
 	private static final String HEURISTICS_PATH = "heuristics.";
+	private static final String ORYX_CONFIG_BPMN = "oryx.config.BPMN.";
 	
 	private Properties properties;
 	private String path;
@@ -82,9 +83,14 @@ public class ImportConfigurationUtil {
 	 * @param name in a Microsoft Visio .vdx: A shape's attribute nameU
 	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
 	 */
-	public String getValueForHeuristic(String name) {
-		String stencilId = properties.getProperty(HEURISTICS_PATH + name);
+	public String getValueForHeuristic(String key) {
+		String stencilId = properties.getProperty(HEURISTICS_PATH + key);
 		return stencilId;
+	}
+	
+	public String getOryxBPMNConfig(String key) {
+		String configValue = properties.getProperty(ORYX_CONFIG_BPMN + key);
+		return configValue;
 	}
 	
 }

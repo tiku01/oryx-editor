@@ -1,6 +1,8 @@
 package de.hpi.visio.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.oryxeditor.server.diagram.Bounds;
@@ -11,7 +13,15 @@ import org.xmappr.RootElement;
 
 @RootElement("Shape")
 public class Shape {
+		
+	private List<Shape> outgoings;
 
+	private List<Shape> incomings;
+	
+	private Shape target;
+	
+	private String shapeId;
+	
 	@Attribute("NameU")
 	public String name;
 	
@@ -21,10 +31,61 @@ public class Shape {
 	@Element("XForm")
 	public XForm xForm;
 	
+	@Element("XForm1D")
+	public xFormStartAndEnd xFormStartAndEnd;
+	
 	@Element("Text")
 	public Label label;
 	
 	public Map<String, String> properties;
+
+	public void setOutgoings(List<Shape> outgoings) {
+		this.outgoings = outgoings;
+	}
+
+	public List<Shape> getOutgoings() {
+		if (outgoings == null)
+			outgoings = new ArrayList<Shape>();
+		return outgoings;
+	}
+	
+	public void addOutgoing(Shape outgoing) {
+		if (outgoings == null)
+			outgoings = new ArrayList<Shape>();
+		outgoings.add(outgoing);
+	}
+
+	public void setIncomings(List<Shape> incomings) {
+		this.incomings = incomings;
+	}
+
+	public List<Shape> getIncomings() {
+		if (incomings == null)
+			incomings = new ArrayList<Shape>();
+		return incomings;
+	}
+	
+	public void addIncoming(Shape incoming) {
+		if (incomings == null)
+			incomings = new ArrayList<Shape>();
+		incomings.add(incoming);
+	}
+
+	public void setTarget(Shape target) {
+		this.target = target;
+	}
+
+	public Shape getTarget() {
+		return target;
+	}
+
+	public void setShapeId(String shapeId) {
+		this.shapeId = shapeId;
+	}
+
+	public String getShapeId() {
+		return shapeId;
+	}
 
 	public String getName() {
 		return name;
@@ -104,6 +165,22 @@ public class Shape {
 	
 	public void setCentralPin(Point newPin) {
 		xForm.setCentralPin(newPin);
+	}
+	
+	public Point getStartPoint() {
+		return xFormStartAndEnd.getStartPoint();
+	}
+	
+	public void setStartPoint(Point startPoint) {
+		xFormStartAndEnd.setStartPoint(startPoint);
+	} 
+	
+	public Point getEndPoint() {
+		return xFormStartAndEnd.getEndPoint();
+	}
+	
+	public void setEndPoint(Point endPoint) {
+		xFormStartAndEnd.setEndPoint(endPoint);
 	}
 	
 }
