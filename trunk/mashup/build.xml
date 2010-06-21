@@ -4,10 +4,10 @@
 	
 	<property name="oryx.project" value="oryx"/>
 	<property name="deployment.dir" value="C:\Programme\Apache Software Foundation\apache-tomcat-6.0.20\webapps"/>
-	<property name="build.dir" value="MashUp\build"/>
-	<property name="conf.dir" value="MashUp\etc"/>
-	<property name="web.content" value="MashUp\web"/>
-	<property name="dist.dir" value="MashUp\dist"/>
+	<property name="build.dir" value="mashup\build"/>
+	<property name="conf.dir" value="mashup\etc"/>
+	<property name="web.content" value="mashup\web"/>
+	<property name="dist.dir" value="mashup\dist"/>
     
 	<!-- empties "build" and "dist" directory -->
 	<target name="clean">
