@@ -110,27 +110,29 @@ MOVI.namespace("model");
 	     */
 		_update: function() {
 			var zoomFactor = this._modelviewer.getZoomLevel() / 100;
-			var minX, minY, maxX, maxY;
+			var minX, minY, maxX, maxY, bounds;
 			for(i in this.childShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this.childShapes, i)) continue;
 				
-				if(minX==undefined) minX = this.childShapes[i].getAbsBounds().upperLeft.x;
-				else minX = Math.min(minX, this.childShapes[i].getAbsBounds().upperLeft.x);
-				if(minY==undefined) minY = this.childShapes[i].getAbsBounds().upperLeft.y;
-				else minY = Math.min(minY, this.childShapes[i].getAbsBounds().upperLeft.y);
+				bounds = this.childShapes[i].getAbsBounds();
+				if(minX==undefined) minX = bounds.upperLeft.x;
+				else minX = Math.min(minX, bounds.upperLeft.x);
+				if(minY==undefined) minY = bounds.upperLeft.y;
+				else minY = Math.min(minY, bounds.upperLeft.y);
 				
-				if(maxX==undefined) maxX = this.childShapes[i].getAbsBounds().upperLeft.x;
-				else maxX = Math.max(maxX, this.childShapes[i].getAbsBounds().upperLeft.x);
-				if(maxY==undefined) maxY = this.childShapes[i].getAbsBounds().upperLeft.y;
-				else maxY = Math.max(maxY, this.childShapes[i].getAbsBounds().upperLeft.y);
+				if(maxX==undefined) maxX = bounds.upperLeft.x;
+				else maxX = Math.max(maxX, bounds.upperLeft.x);
+				if(maxY==undefined) maxY = bounds.upperLeft.y;
+				else maxY = Math.max(maxY, bounds.upperLeft.y);
 			}
 			for(i in this.childShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this.childShapes, i)) continue;
 				
-				this.childShapes[i].bounds.upperLeft.x -= minX;
-				this.childShapes[i].bounds.upperLeft.y -= minY;
-				this.childShapes[i].bounds.lowerRight.x -= minX;
-				this.childShapes[i].bounds.lowerRight.y -= minY;
+				bounds = this.childShapes[i].bounds;
+				bounds.upperLeft.x -= minX;
+				bounds.upperLeft.y -= minY;
+				bounds.lowerRight.x -= minX;
+				bounds.lowerRight.y -= minY;
 				this.childShapes[i].update();
 				
 				// for edges also adjust the absolute coordinates of the dockers

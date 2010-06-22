@@ -217,7 +217,7 @@ MOVI.namespace("util");
 	     */
 		show: function() {
 			this._marker.show();
-			this.get("element").className = _BUBBLE_VISIBLE_CLASS_NAME;
+			this.replaceClass(_BUBBLE_HIDDEN_CLASS_NAME, _BUBBLE_VISIBLE_CLASS_NAME);
 			this.bringToFront();
 			this.visible = true;
 		},
@@ -227,7 +227,7 @@ MOVI.namespace("util");
 	     * @method hide
 	     */
 		hide: function() {
-			this.get("element").className = _BUBBLE_HIDDEN_CLASS_NAME;
+			this.replaceClass(_BUBBLE_VISIBLE_CLASS_NAME, _BUBBLE_HIDDEN_CLASS_NAME);
 			this.visible = false;
 		},
 		
