@@ -348,7 +348,7 @@ MOVI.namespace("util");
 			
 			for(i in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, i)) continue;
-				
+			
 				var shape = this._shapes[i];
 				
 				var overlay = this.overlays[i];
