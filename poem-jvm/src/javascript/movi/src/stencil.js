@@ -42,7 +42,7 @@ MOVI.namespace("stencilset");
 		
 		if(this.propertyPackages) {
 			var props = {};
-			for(propIndex in this.properties) {
+			for(var propIndex in this.properties) {
 				var prop = this.properties[propIndex];
 				props[prop.id] = prop;
 			}
@@ -60,7 +60,7 @@ MOVI.namespace("stencilset");
 			
 			this.properties = [];
 			
-			for(propKey in props) {
+			for(var propKey in props) {
 				if(!(props[propKey] instanceof Function)) {
 					this.properties.push(props[propKey]);
 				}

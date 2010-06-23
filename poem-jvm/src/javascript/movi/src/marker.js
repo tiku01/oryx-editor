@@ -346,7 +346,7 @@ MOVI.namespace("util");
 			
 			/* update shape marking rectangle elements */
 			
-			for(i in this._shapes) {
+			for(var i in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, i)) continue;
 			
 				var shape = this._shapes[i];
@@ -364,7 +364,7 @@ MOVI.namespace("util");
 				/* following code is only executed for node overlays */
 				
 				// apply styles
-				for(prop in this._nodeStyle) {
+				for(var prop in this._nodeStyle) {
 					if(!YAHOO.lang.hasOwnProperty(this._nodeStyle, prop)) continue;
 					overlay.setStyle(prop, this._nodeStyle[prop]);
 				}
@@ -414,7 +414,7 @@ MOVI.namespace("util");
 					// now we can append the elements to the dom 
 					// (all marked shapes have to belong to the same canvas)
 					this.canvas.appendChild(this.markerRect); 
-					for(orientation in this._icons) {
+					for(var orientation in this._icons) {
 						if(!YAHOO.lang.hasOwnProperty(this._icons, orientation)) continue;
 						
 						if(this._icons[orientation])
@@ -473,7 +473,7 @@ MOVI.namespace("util");
 				var zoomFactor = 1.0;
 			
 			var bounds = this.getAbsBounds();
-			for(orientation in this._icons) {
+			for(var orientation in this._icons) {
 				if(!YAHOO.lang.hasOwnProperty(this._icons, orientation)) continue;
 				
 				var left, top, margin;
@@ -641,7 +641,7 @@ MOVI.namespace("util");
 	     */		
 		setEdgeStyle: function(property) {
 			this._edgeStyle[property] = value;
-			for(key in this._shapes) {
+			for(var key in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, key)) continue;
 				
 				this.overlays[key].remove();
@@ -718,7 +718,7 @@ MOVI.namespace("util");
 	     * @method removeAllShapes
 	     */
 		removeAllShapes: function() {
-			for(key in this._shapes) {
+			for(var key in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, key)) continue;
 				
 				if(this._shapes[key].isNode())
@@ -740,7 +740,7 @@ MOVI.namespace("util");
 	     */
 		getShapes: function() {
 			var marked = new Array();
-			for(key in this._shapes) {
+			for(var key in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, key)) continue;
 				marked.push(this._shapes[key]);
 			}
@@ -755,11 +755,11 @@ MOVI.namespace("util");
 		show: function() {
 			this.markerRect.setStyle("display", "block");
 			this.setRectStyle("display", "block");
-			for(key in this._shapes) {
+			for(var key in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, key)) continue;
 				if(this._shapes[key].isEdge()) this.overlays[key].show();
 			}
-			for(orientation in this._icons) {
+			for(var orientation in this._icons) {
 				if(!YAHOO.lang.hasOwnProperty(this._icons, orientation)) continue;
 				if(this._icons[orientation]) 
 					this._icons[orientation].setStyle("display", "block");
@@ -773,11 +773,11 @@ MOVI.namespace("util");
 		hide: function() {
 			this.markerRect.setStyle("display", "none");
 			this.setRectStyle("display", "none");
-			for(key in this._shapes) {
+			for(var key in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, key)) continue;
 				if(this._shapes[key].isEdge()) this.overlays[key].hide();
 			}
-			for(orientation in this._icons) {
+			for(var orientation in this._icons) {
 				if(!YAHOO.lang.hasOwnProperty(this._icons, orientation)) continue;
 				if(this._icons[orientation]) 
 					this._icons[orientation].setStyle("display", "none");
@@ -789,7 +789,7 @@ MOVI.namespace("util");
 		 */		
 		fadeIn: function() {
 			if(YAHOO.env.ua.ie){ return }
-			for( key in this.overlays ){
+			for(var key in this.overlays ){
 				if (typeof key != "string") {return}
 				this.overlays[key].setStyle("opacity", 0);	
 				var anim = new YAHOO.util.ColorAnim(this.overlays[key], { opacity: { to: 1 } }, 0.4, YAHOO.util.Easing.easeOut);
@@ -808,7 +808,7 @@ MOVI.namespace("util");
 				return 
 			}
 			var anim;
-			for( key in this.overlays ){
+			for(var key in this.overlays ){
 				if (typeof key != "string") {return}
 				anim = new YAHOO.util.ColorAnim(this.overlays[key], { opacity: { to: 0 } }, 0.4, YAHOO.util.Easing.easeOut);
 				anim.animate();	
@@ -847,9 +847,10 @@ MOVI.namespace("util");
 		 * { upperLeft: {x:Number,y:Number}, lowerRight: {x:Number,y:Number} }
 	     */
 		getAbsBounds: function() {
+			if(this._cachedAbsBounds) return this._cachedAbsBounds;
 			var upperLeft  = {x: undefined, y: undefined};
 				lowerRight = {x: undefined, y: undefined};
-			for(i in this._shapes) {
+			for(var i in this._shapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._shapes, i)) continue;
 				
 				var bounds = this._shapes[i].getAbsBounds();
@@ -862,7 +863,8 @@ MOVI.namespace("util");
 				if(lowerRight.y == undefined || bounds.upperLeft.y > lowerRight.y)
 					lowerRight.y = bounds.lowerRight.y;
 			}
-			return { upperLeft: upperLeft, lowerRight: lowerRight };
+			this._cachedAbsBounds = { upperLeft: upperLeft, lowerRight: lowerRight };
+			return this._cachedAbsBounds;
 		},
 		
 		/**

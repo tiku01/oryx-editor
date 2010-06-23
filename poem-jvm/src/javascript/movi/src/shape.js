@@ -313,7 +313,7 @@ MOVI.namespace("model");
 		 * @return {Boolean} true if the shape has children, false otherwise
 		 */
 		hasChildShapes: function() {
-			for(key in this.childShapes) {
+			for(var key in this.childShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this.childShapes, key)) continue;
 				return true;
 			}

@@ -60,7 +60,7 @@ MOVI.namespace("util");
 		this._selectedShapes = {};
 		this._highlightMarkers = {};
 		
-		for(key in shapes) {
+		for(var key in shapes) {
 			if(!YAHOO.lang.hasOwnProperty(shapes, key)) continue;
 			
 			var shape = modelviewer.canvas.shapes[key];
@@ -98,7 +98,7 @@ MOVI.namespace("util");
 		
 		_init: function() {
 			// create highlighting markers
-			for(key in this._selectableShapes) {
+			for(var key in this._selectableShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._selectableShapes, key)) continue;
 				
 				var s = this._selectableShapes[key];
@@ -146,7 +146,7 @@ MOVI.namespace("util");
 		},
 		
 		_reset: function() {
-			for(key in this._selectedShapes) {
+			for(var key in this._selectedShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._selectableShapes, key)) continue;
 				
 				var s = this._selectedShapes[key];
@@ -163,7 +163,7 @@ MOVI.namespace("util");
 		select: function(shapes) {
 			if(!YAHOO.lang.isArray(shapes)) shapes = [shapes];
 			
-			for(key in shapes) {
+			for(var key in shapes) {
 				if(!YAHOO.lang.hasOwnProperty(shapes, key)) continue;
 				
 				var s = shapes[key];
@@ -192,7 +192,7 @@ MOVI.namespace("util");
 		deselect: function(shapes) {
 			if(!YAHOO.lang.isArray(shapes)) shapes = [shapes];
 			
-			for(key in shapes) {
+			for(var key in shapes) {
 				if(!YAHOO.lang.hasOwnProperty(shapes, key)) continue;
 				
 				var s = shapes[key];
@@ -239,7 +239,7 @@ MOVI.namespace("util");
 		 */
 		getSelectedShapes: function() {
 			var selected = new Array();
-			for(key in this._selectedShapes) {
+			for(var key in this._selectedShapes) {
 				if(!YAHOO.lang.hasOwnProperty(this._selectedShapes, key)) continue;
 				
 				selected.push(this._selectedShapes[key]);
