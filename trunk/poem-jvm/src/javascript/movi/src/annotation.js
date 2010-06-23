@@ -216,7 +216,7 @@ MOVI.namespace("util");
 	     * @method show
 	     */
 		show: function() {
-			this._marker.show();
+			//this._marker.show();
 			this.replaceClass(_BUBBLE_HIDDEN_CLASS_NAME, _BUBBLE_VISIBLE_CLASS_NAME);
 			this.bringToFront();
 			this.visible = true;
@@ -280,19 +280,25 @@ MOVI.namespace("util");
 	     * @method bringToFront
 	     */
 		bringToFront: function() {
+			// TODO: method is outdated, as the markers z-index is updated and the annotation
+			// node is no longer a child of it. also, this method has very poor performance in IE6
+			return; // skip all calls of this method for the first
+			
 			// if element has not been added to the dom do nothing
 			if(!this.get("element").parentNode) return;
+			
+			MOVI.util.Annotation
 			
 			// detemine the maximal z-index of markers of visible annotation elements
 			var maxZIndex = 0;
 			var canvasEl = new Element(this.get("element").parentNode.parentNode);
 			var elements = canvasEl.getElementsByClassName(_BUBBLE_VISIBLE_CLASS_NAME);
-			for(key in elements) {
+			for(var key in elements) {
 				if(!YAHOO.lang.hasOwnProperty(elements, key)) continue;
 				var zIndex = parseInt((new Element(elements[key].parentNode)).getStyle("z-index"), 10);
 				if(zIndex>maxZIndex) maxZIndex = zIndex;
 			}
-			// set the z-index of parent marker to maximum+1
+			// set the z-index of parent marker to maximum+1*/
 			this._marker.markerRect.setStyle("z-index", maxZIndex+1);
 		},
 		
@@ -332,31 +338,31 @@ MOVI.namespace("util");
 		this.set("className", _BUBBLE_HIDDEN_CLASS_NAME);
 		
 		this.set("innerHTML", 	
-						"<div class=\"" + _BUBBLE_UL_CLASS_NAME + "\">"+
-							(isIE6 ? "<img class=\""+ _BUBBLE_UL_CLASS_NAME +"\">":"")+
-							"<div class=\"" + _BUBBLE_UR_CLASS_NAME + "\">" +
-								(isIE6 ? "<img class=\""+ _BUBBLE_UR_CLASS_NAME +"\">":"")+
-					   			"<div class=\"" + _BUBBLE_LL_CLASS_NAME + "\">"+
-									(isIE6 ? "<img class=\""+ _BUBBLE_LL_CLASS_NAME +"\">":"")+
-									"<div class=\"" + _BUBBLE_LR_CLASS_NAME + "\">" + 
-										(isIE6 ? "<img class=\""+ _BUBBLE_LR_CLASS_NAME +"\">":"")+
-								    	"<div class=\"" + _BUBBLE_BORDERTOP_CLASS_NAME + "\"></div>" +
-								    	"<div class=\"" + _BUBBLE_BORDERLEFT_CLASS_NAME + "\">" +
-											(isIE6 ? "<img class=\""+ _BUBBLE_BORDERLEFT_CLASS_NAME +"\">":"")+
-								    		"<div class=\"" + _BUBBLE_BORDERRIGHT_CLASS_NAME + "\">" +
-												(isIE6 ? "<img class=\""+ _BUBBLE_BORDERRIGHT_CLASS_NAME +"\">":"")+
-								   		   		"<div class=\"" + _BUBBLE_CONTENT_CLASS_NAME + "\">" +
-										    		"<div class=\"" + _BUBBLE_CLOSEBUTTON_CLASS_NAME + "\"></div>" +
-								            			content +
-								         			"</div>" +
-								        		"</div>"+
-											"</div>" +
-								        "<div class=\"" + _BUBBLE_BORDERBOTTOM_CLASS_NAME + "\"></div>" +
-					   				"</div>"+
-								"</div>" +
-					   		"</div>"+
-						"</div>" +
-					    "<div class=\"" + _BUBBLE_ARROW_LEFT_CLASS_NAME + "\"/>");
+						["<div class=\"" + _BUBBLE_UL_CLASS_NAME + "\">",
+							(isIE6 ? "<img class=\""+ _BUBBLE_UL_CLASS_NAME +"\">":""),
+							"<div class=\"" + _BUBBLE_UR_CLASS_NAME + "\">",
+								(isIE6 ? "<img class=\""+ _BUBBLE_UR_CLASS_NAME +"\">":""),
+					   			"<div class=\"" + _BUBBLE_LL_CLASS_NAME + "\">",
+									(isIE6 ? "<img class=\""+ _BUBBLE_LL_CLASS_NAME +"\">":""),
+									"<div class=\"" + _BUBBLE_LR_CLASS_NAME + "\">",
+										(isIE6 ? "<img class=\""+ _BUBBLE_LR_CLASS_NAME +"\">":""),
+								    	"<div class=\"" + _BUBBLE_BORDERTOP_CLASS_NAME + "\"></div>",
+								    	"<div class=\"" + _BUBBLE_BORDERLEFT_CLASS_NAME + "\">",
+											(isIE6 ? "<img class=\""+ _BUBBLE_BORDERLEFT_CLASS_NAME +"\">":""),
+								    		"<div class=\"" + _BUBBLE_BORDERRIGHT_CLASS_NAME + "\">",
+												(isIE6 ? "<img class=\""+ _BUBBLE_BORDERRIGHT_CLASS_NAME +"\">":""),
+								   		   		"<div class=\"" + _BUBBLE_CONTENT_CLASS_NAME + "\">",
+										    		"<div class=\"" + _BUBBLE_CLOSEBUTTON_CLASS_NAME + "\"></div>",
+								            			content,
+								         			"</div>",
+								        		"</div>",
+											"</div>",
+								        "<div class=\"" + _BUBBLE_BORDERBOTTOM_CLASS_NAME + "\"></div>",
+					   				"</div>",
+								"</div>",
+					   		"</div>",
+						"</div>",
+					    "<div class=\"" + _BUBBLE_ARROW_LEFT_CLASS_NAME + "\"/>"].join(""));
 	}
 	
 })();
