@@ -90,6 +90,10 @@
     <target name="undeploy-editor">
         <delete file="${deploymentdir}/oryx.war"/>
     </target>
+	
+	<target name="delete-webapps-oryx-directory">
+		<delete dir="${deploymentdir}/oryx" />
+	</target>
     
     <target name="deploy-stencilsets">
         <copy todir='${deploymentdir}/oryx/stencilsets'>

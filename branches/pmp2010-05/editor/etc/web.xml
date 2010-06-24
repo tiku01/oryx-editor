@@ -437,6 +437,12 @@
 	</servlet>
 	
 	<!-- Gerardo's Posts finished -->
+	
+	<servlet>
+		<display-name>Petrinet to Process Log</display-name>
+		<servlet-name>ProcessLogGenerator</servlet-name>
+		<servlet-class>org.oryxeditor.server.ProcessLogGeneratorServlet</servlet-class>
+	</servlet>
 
     <!-- Servlet Mappings -->
 <!--	
@@ -711,6 +717,10 @@
 	</servlet-mapping>
 	<!-- Gerardo's Mapping finished -->
 	
+	<servlet-mapping>
+		<servlet-name>ProcessLogGenerator</servlet-name>
+		<url-pattern>/processloggenerator</url-pattern>
+	</servlet-mapping>
 
 	<jsp-config>
 		<taglib>
