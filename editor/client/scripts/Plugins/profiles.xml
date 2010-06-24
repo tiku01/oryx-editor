@@ -32,7 +32,7 @@
 		
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-		
+		<plugin name="ORYX.Plugins.ProcessLogGenerator"/>
 				
 	</profile>
 
@@ -181,5 +181,9 @@
 	 	<plugin name="ORYX.Plugins.DockerCreation"/>
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
+	</profile>
+	
+	<profile name="processlogs" depends="signavio" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
+	 	<plugin name="ORYX.Plugins.ProcessLogGenerator"/> 
 	</profile>
 </profiles>
