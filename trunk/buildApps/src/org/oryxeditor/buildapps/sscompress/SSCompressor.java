@@ -7,17 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import org.apache.commons.codec.binary.Base64;
 
 
 
@@ -171,9 +165,9 @@ public class SSCompressor {
 		StringBuffer result = new StringBuffer();
 
 		String thisLine = "";
-		BufferedReader myInput = new BufferedReader(new InputStreamReader(fin));
+		BufferedReader myInput = new BufferedReader(new InputStreamReader(fin, "utf-8"));
 		
-		while ((thisLine = myInput.readLine()) != null) {  
+		while ((thisLine = myInput.readLine()) != null) {
 			result.append(thisLine);
 			result.append("\n");
 		}
@@ -187,7 +181,7 @@ public class SSCompressor {
 	private static void writeFile(File file, String text) throws Exception {
 		FileOutputStream fos =  new FileOutputStream(file);
 		
-		BufferedWriter myOutput = new BufferedWriter(new OutputStreamWriter(fos));
+		BufferedWriter myOutput = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
 		
 		myOutput.write(text);
 		myOutput.flush();
