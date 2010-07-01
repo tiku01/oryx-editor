@@ -128,4 +128,9 @@
 		<plugin name="ORYX.Plugins.FragmentRepository"/>
 	
 	</profile>
+	
+	<profile name="timeline" depends="default" stencilset="stencilsets/timeline/timeline.json">
+		
+		<plugin name="ORYX.Plugins.Timeline" />
+	</profile>
 </profiles>
