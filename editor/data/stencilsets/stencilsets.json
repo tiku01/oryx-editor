@@ -103,6 +103,13 @@
             "uri":"/uml2.2/uml2.2.json",
             "icon_url":"/uml2.2/uml2.2class.png",
             "visible":true
-        }
-		
+        },
+        {
+			"title":"Time Line",
+			"namespace":"http://matthias-kunze.info/oryx/stencilsets/timeline#",
+			"description":"Stencil Set to create Time Line graphs",
+			"uri":"/timeline/timeline.json",
+			"icon_url":"/timeline/timeline.png",
+			"visible":false
+		}
 ]

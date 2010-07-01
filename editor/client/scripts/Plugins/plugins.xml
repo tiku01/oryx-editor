@@ -340,8 +340,6 @@
 		<plugin source="pluginLoader.js" name="ORYX.Plugins.PluginLoader" />
 		<plugin source="bpmn.js" name="ORYX.Plugins.BPMN" />
 		
-		
-		
 		<plugin source="feedback.js" name="ORYX.Plugins.Feedback">
 			<property name="cssfile" value="/oryx/css/feedback.css" />
 			<!-- configure subjects and info in localization: /editor/data/I18N#ORYX.I18N.Feedback.subjects  -->
@@ -363,6 +361,10 @@
 			<requires namespace="http://www.fmc-modeling.org/stencilsets/fmcblockdiagram#"/>
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
 			<requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+		</plugin>
+		
+		<plugin source="timeline.js" name="ORYX.Plugins.Timeline">
+			<requires namespace="http://matthias-kunze.info/oryx/stencilsets/timeline#"/>
 		</plugin>
 	</plugins>
 	
