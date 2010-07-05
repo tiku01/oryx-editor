@@ -50,6 +50,13 @@
 			"definition":"bpmn2.0basicsubset/bpmn2.0basicsubset.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		},
+		{
+			"title" : "BPMN 2.0 eCH Subset",
+			"namespace" : "http://oryx-editor.org/stencilsets/extensions/bpmn2.0eCHsubset#",
+			"description":"A basic subset of BPMN 2.0 adapted to the swiss eGovernment bpmn - business process modelling project.",
+			"definition":"bpmn2.0eCHsubset/bpmn2.0eCHsubset.json",
+			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+		},
         {
             "title":"BPMN Subset for Service Composition",
             "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset#",
