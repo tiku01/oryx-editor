@@ -16,6 +16,7 @@
 		"CollapsedEventSubprocess",
 		"Subprocess",
 		"DataStore",
+		"Message",
 		"StartErrorEvent",
 		"StartCompensationEvent",
 		"StartParallelMultipleEvent",
