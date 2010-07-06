@@ -51,6 +51,33 @@ public class LabeledTransitionImpl extends NodeImpl implements LabeledTransition
 			clone.setLabel(new String(this.getLabel()));
 		return clone;
 	}
+	
+	/*
+	 * Add communication channels
+	 */
+	private String comChan = "";
+	private CommunicationType comType = CommunicationType.DEFAULT;
+	@Override
+	public String getCommunicationChannel() {
+		return this.comChan;
+	}
+
+	@Override
+	public CommunicationType getCommunicationType() {
+		return this.comType;
+	}
+
+	@Override
+	public void setCommunicationChannel(String channel) {
+		this.comChan =channel;
+
+	}
+
+	@Override
+	public void setCommunicationType(CommunicationType type) {
+		this.comType =type;
+
+	}
 
 }
 

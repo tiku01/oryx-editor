@@ -26,5 +26,14 @@ public interface LabeledTransition extends Node, Transition {
 	public String getLabel();
 	
 	public void setLabel(String label);
+
+	
+	/*
+	 * Add Communication channels
+	 */
+	public CommunicationType getCommunicationType();
+	public void setCommunicationType(CommunicationType type);
+	public String getCommunicationChannel();
+	public void setCommunicationChannel(String channel);
 	
 }

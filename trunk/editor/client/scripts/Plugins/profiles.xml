@@ -93,6 +93,7 @@
 		<plugin name="ORYX.Plugins.SimplePnmlexport" />
 		<plugin name="ORYX.Plugins.PetriNetStepThroughPlugin"/>
 		<plugin name="ORYX.Plugins.PetrinetSyntaxChecker"/>
+		<plugin name="ORYX.Plugins.LolaPetriNetSoundnessChecker"/>
 	</profile>
 	<profile name="xforms" depends="default" stencilset="stencilsets/xforms/xforms.json">
 		<plugin name="ORYX.Plugins.XFormsExportOrbeon"/>
