@@ -264,6 +264,9 @@
         <plugin source="petriNetSoundnessChecker.js" name="ORYX.Plugins.PetriNetSoundnessChecker">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
+        <plugin source="lolaPetriNetSoundnessChecker.js" name="ORYX.Plugins.LolaPetriNetSoundnessChecker">
+            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+        </plugin>
         
         <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>

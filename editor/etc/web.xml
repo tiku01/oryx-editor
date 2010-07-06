@@ -89,7 +89,15 @@
 			org.oryxeditor.server.SimplePNMLExporter
 		</servlet-class>
 	</servlet>
-	
+		<servlet>
+		<display-name>
+			Oryx Lola driven Soundness Check
+		</display-name>
+		<servlet-name>LolaPetrinetSoundnessChecker</servlet-name>
+		<servlet-class>
+			org.oryxeditor.server.LolaPetrinetSoundnessChecker
+		</servlet-class>
+	</servlet>
 	<servlet>
 		<display-name>Oryx BPEL IMPORTER</display-name>
 		<servlet-name>BPELImporter</servlet-name>
@@ -496,7 +504,10 @@
 		<servlet-name>SimplePNMLExporter</servlet-name>
 		<url-pattern>/simplepnmlexporter</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>LolaPetrinetSoundnessChecker</servlet-name>
+		<url-pattern>/lola</url-pattern>
+	</servlet-mapping>	
 	<servlet-mapping>
 		<servlet-name>BPELImporter</servlet-name>
 		<url-pattern>/bpelimporter</url-pattern>

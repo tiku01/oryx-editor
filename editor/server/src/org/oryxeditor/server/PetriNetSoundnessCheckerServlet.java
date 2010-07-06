@@ -53,8 +53,9 @@ public class PetriNetSoundnessCheckerServlet extends HttpServlet {
 	}
 
 	protected void processDocument(Document document, PrintWriter writer) throws JSONException {
-		String type = new StencilSetUtil().getStencilSet(document);
+//		String type = new StencilSetUtil().getStencilSet(document);
 		PetriNet net = new PetriNeteRDFParser(document).parse();
+//				net.getInitialMarking().setNumTokens(net.getInitialPlace(), 1);
 
 		JSONObject object = new JSONObject();
 		JSONArray errors = new JSONArray();
