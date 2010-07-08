@@ -435,8 +435,27 @@
         <delete file='${compress.temp}'/>
         
     </target>
+	
+	<target name="check-wsdl2xforms">
+		<condition property="wsdl2xforms_present">
+			<available file="${editor-src-root}/lib/wsdl2xforms" type="dir" />
+		</condition>
+	</target>
+	
+	<target name="dist-wsdl2xforms" depends="check-wsdl2xforms" if="wsdl2xforms_present">
+		<echo>
+			Including WSDL2XForms
+		</echo>
+		<mkdir dir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
+		<copy todir="${target-dir}/client/WEB-INF/lib/wsdl2xforms">
+    	  <fileset dir="${editor-src-root}/lib/wsdl2xforms">
+            <include name="*.xsl"/>
+          	<depend  targetdir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
+          </fileset>          
+  	    </copy>
+	</target>
     
-    <target name="dist">
+    <target name="dist" depends="dist-wsdl2xforms">
         
         <echo>
             Creating web application. ${deploy-xhtml}
@@ -465,14 +484,13 @@
           </fileset>          
     	</copy>
     	
+    	<!-- include WSDL2 Xforms only if it is present, this is done 
+    	     conditionally by the target dist-wsdl2xforms.
+    	     This directory will be crated, since it is required to build the 
+    	     war 
+    	-->
     	<mkdir dir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
-    	<copy todir="${target-dir}/client/WEB-INF/lib/wsdl2xforms">
-          <fileset dir="${editor-src-root}/lib/wsdl2xforms">
-            <include name="*.xsl"/>
-          	<depend  targetdir="${target-dir}/client/WEB-INF/lib/wsdl2xforms" />
-          </fileset>          
-    	</copy>
-		
+
     	<mkdir dir="${target-dir}/client/WEB-INF/lib/xsd" />
     	<copy todir="${target-dir}/client/WEB-INF/lib/xsd">
           <fileset dir="${editor-src-root}/lib/xsd">
@@ -533,7 +551,7 @@
                 <exclude name="servlet-api.jar" />
             </lib>
             
-            <lib dir="${editor-src-root}/lib/wsdl2xforms">
+            <lib dir="${target-dir}/client/WEB-INF/lib/wsdl2xforms">
                 <include name="*.xsl"/>
             </lib>
             
