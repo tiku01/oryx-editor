@@ -197,7 +197,7 @@ ORYX.Plugins.Feedback = ORYX.Plugins.AbstractPlugin.extend({
 			}
 			catch(e) {
 				failure();
-				console.warn(e);
+				ORYX.Log.warn(e);
 			}
 			// stop form submission through browser
 			return false; 
