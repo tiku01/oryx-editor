@@ -109,7 +109,6 @@ ORYX.Plugins.Feedback = ORYX.Plugins.AbstractPlugin.extend({
     		dialog.state = ORYX.Config.Feedback.VISIBLE_STATE;
     	}
 
-		console.info(dialog.state);
     },
     
     /**
