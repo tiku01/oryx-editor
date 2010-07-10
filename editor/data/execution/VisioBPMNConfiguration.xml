@@ -178,5 +178,6 @@
 	<entry key="heuristics.labelOnlyIsDanglingAnnotation">true</entry>
 	<entry key="heuristics.labelOnlyAnnotationType">Description</entry> <!-- Visio nameU -->
 	<entry key="heuristics.labelOnlyAnnotationAssociation">Undirected Association</entry> <!-- Visio nameU -->
+	<entry key="heuristics.labelOnlyTooLongForAnotherShapesLabelThreshold">30</entry>
 	
 </properties>

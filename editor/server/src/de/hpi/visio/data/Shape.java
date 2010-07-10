@@ -186,10 +186,14 @@ public class Shape implements Comparable<Shape> {
 	}
 
 	public Point getStartPoint() {
+		if (xFormStartAndEnd == null)
+			return xForm.getUpperLeftVisioPoint();
 		return xFormStartAndEnd.getStartPoint();
 	}
 
 	public Point getStartPointForPage(Page visioPage) {
+		if (xFormStartAndEnd == null)
+			return xForm.getUpperLeftPointForPage(visioPage);
 		return xFormStartAndEnd.getStartPointForPage(visioPage);
 	}
 
@@ -200,10 +204,14 @@ public class Shape implements Comparable<Shape> {
 	}
 
 	public Point getEndPoint() {
+		if (xFormStartAndEnd == null)
+			return xForm.getLowerRightVisioPoint();
 		return xFormStartAndEnd.getEndPoint();
 	}
 
 	public Point getEndPointForPage(Page visioPage) {
+		if (xFormStartAndEnd == null)
+			return xForm.getLowerRightPointForPage(visioPage);
 		return xFormStartAndEnd.getEndPointForPage(visioPage);
 	}
 

@@ -36,6 +36,7 @@ public class VisioDataTransformator {
 		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
 		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
+		interpretedPage.setShapes(removeShapesWithoutStencilId(interpretedPage.getShapes()));
 		assignShapeIds(interpretedPage.getShapes());
 		Diagram diagram = getNewBPMNDiagram();
 		diagram.setBounds(shapeUtil.correctPointsOfBounds(interpretedPage.getBounds()));
@@ -50,10 +51,6 @@ public class VisioDataTransformator {
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = new ArrayList<org.oryxeditor.server.diagram.Shape>();
 		for (Shape visioShape : visioPage.getShapes()) {
 			String stencilId = importUtil.getStencilIdForName(visioShape.getName());
-			if (stencilId == null) {
-				// stencilId is required in oryx json
-				continue;
-			}
 			StencilType type = new StencilType(stencilId);
 			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(visioShape.getShapeId(), type);
 			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
@@ -85,6 +82,18 @@ public class VisioDataTransformator {
 		diagram.putProperty("targetnamespace", "http://www.omg.org/bpmn20");
 		diagram.putProperty("typelanguage","http://www.w3.org/2001/XMLSchema");
 		return diagram;
+	}
+	
+	private List<Shape> removeShapesWithoutStencilId(List<Shape> shapes) {
+		List<Shape> shapesWithId = new ArrayList<Shape>();
+		for (Shape shape : shapes) {
+			String stencilID = importUtil.getStencilIdForName(shape.getName());
+			if (stencilID == null || "".equals(stencilID)) {
+				// stencilId is required in oryx json
+				continue;
+			}
+		}
+		return shapesWithId;
 	}
 	
 	private void assignShapeIds(List<Shape> shapes) {
