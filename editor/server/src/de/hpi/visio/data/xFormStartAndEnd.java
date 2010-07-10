@@ -24,6 +24,8 @@ public class xFormStartAndEnd {
 	}
 
 	public void setStartX(Double beginX) {
+		if (this.startX == null)
+			this.startX = new StartX();
 		this.startX.setX(beginX);
 	}
 
@@ -32,6 +34,8 @@ public class xFormStartAndEnd {
 	}
 
 	public void setStartY(Double beginY) {
+		if (this.startY == null)
+			this.startY = new StartY();
 		this.startY.setY(beginY);
 	}
 
@@ -40,6 +44,8 @@ public class xFormStartAndEnd {
 	}
 
 	public void setEndX(Double endX) {
+		if (this.endX == null)
+			this.endX = new EndX();
 		this.endX.setX(endX);
 	}
 
@@ -48,6 +54,8 @@ public class xFormStartAndEnd {
 	}
 
 	public void setEndY(Double endY) {
+		if (this.endY == null)
+			this.endY = new EndY();
 		this.endY.setY(endY);
 	}
 	

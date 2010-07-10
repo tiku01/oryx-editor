@@ -16,5 +16,9 @@ public class Label {
 	public String getLabel() {
 		return this.text;
 	}
+	
+	public void setLabel(String label) {
+		text = label;
+	}
 
 }

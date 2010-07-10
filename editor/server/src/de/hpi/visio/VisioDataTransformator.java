@@ -61,9 +61,14 @@ public class VisioDataTransformator {
 			ArrayList<Point> dockers = shapeUtil.getCorrectedDockersForShape(visioShape, visioPage);
 			oryxShape.setDockers(dockers);
 			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
-				oryxShape.putProperty("name", visioShape.getLabel());
-				oryxShape.putProperty("title", visioShape.getLabel());
-				oryxShape.putProperty("text", visioShape.getLabel());
+				String[] labelPropertyNameExceptions = importUtil.getOryxBPMNConfig("LabelPropertyException").split(",");
+				for (String exception : labelPropertyNameExceptions) {
+					if (exception.equalsIgnoreCase(oryxShape.getStencilId())) 
+						oryxShape.putProperty(importUtil.getOryxBPMNConfig(exception + ".LabelProperty"), visioShape.getLabel());
+				}
+				if (oryxShape.getProperties().size() == 0) {
+					oryxShape.putProperty(importUtil.getOryxBPMNConfig("DefaultLabelProperty"), visioShape.getLabel());
+				}
 			}
 			for (String propertyKey : visioShape.getProperties().keySet()) {
 				oryxShape.putProperty(propertyKey, visioShape.getPropertyValueByKey(propertyKey));
@@ -112,8 +117,7 @@ public class VisioDataTransformator {
 		}
 	}
 
-	private org.oryxeditor.server.diagram.Shape
-		getOryxShapeById(ArrayList<org.oryxeditor.server.diagram.Shape> childShapes, String shapeId) {
+	private org.oryxeditor.server.diagram.Shape getOryxShapeById(ArrayList<org.oryxeditor.server.diagram.Shape> childShapes, String shapeId) {
 		for (org.oryxeditor.server.diagram.Shape oryxShape : childShapes) {
 			if (oryxShape.getResourceId().equals(shapeId))
 				return oryxShape;
