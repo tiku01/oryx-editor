@@ -9,6 +9,8 @@
 	-->
 
 
+
+	<!-- STENCIL SET MAPPINGS -->
 	<!--
 		Stencil Set of the Business Process Technology Group at HPI:
 		http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner
@@ -69,10 +71,13 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Message Flow">MessageFlow</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Association">Association_Unidirectional</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Undirected Association">Association_Undirected</entry>
-	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">NOT_VALID_SHAPE_NAME</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>
+	
+	
+	<!-- STENCIL SET CONFIGURATION -->
 	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
@@ -89,28 +94,33 @@
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.key">isadhoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.value">true</entry>
+	
 	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
+	
 	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
+	
 	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
-	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_But_With_Label_is">Description</entry> 
+	
+	<!-- Simple interpratation of unnamed shapes -->
 	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_And_Without_Label_is">Flow</entry> 
-	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_But_With_Label">false</entry>
 	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_And_Without_Label">false</entry>
+	<!-- For simple interpreation mode of label-only shapes: set to another visio stencil nameU (e.g. Description) -->
+	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_But_With_Label">false</entry>
+	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_But_With_Label_is">Description</entry> 
+	
 	
 	<!--
 		Mapping problems to tackle!!: 
 		- In this visio stencil a pool is assembled from two elements: 
 		body and head...but there's only a pool in BPMN 
 		- Also: A Lane isn't distinct to a pool body... 
-		- Conditional Flow is Sequence Flow with a specific attribute... 
-		- Branching Condition is no element in BPMN 
 	-->
 	
 	
 	<!-- 
-		ORYX SPECIFIC CONFIGURATION
+		BPMN at ORYX: SPECIFIC CONFIGURATION (Resizeability/Fixed sizes)
 	 -->
 	<entry key="oryx.config.BPMN.resizableElements">Group,CollapsedPool,Pool,Lane,EventSubprocess,CollapsedEventSubprocess,Subprocess,CollapsedSubprocess,Task,TextAnnotation,DataObject</entry>	
 	<entry key="oryx.config.BPMN.Group.minWidth">60</entry>
@@ -146,16 +156,27 @@
 	<entry key="oryx.config.BPMN.Event.fixedHeight">30</entry>
 	<entry key="oryx.config.BPMN.PoolHeaderWidth">30</entry>
 	<entry key="oryx.config.BPMN.Edges">Association_Bidirectional,MessageFlow,SequenceFlow,Association_Undirected,Association_Unidirectional</entry>	
+	<entry key="oryx.config.BPMN.LabelPropertyException">SequenceFlow,TextAnnotation</entry>
+	<entry key="oryx.config.BPMN.SequenceFlow.LabelProperty">conditionexpression</entry>
+	<entry key="oryx.config.BPMN.TextAnnotation.LabelProperty">text</entry> 
+	<entry key="oryx.config.BPMN.DefaultLabelProperty">name</entry>
 	
+	<!-- HEURISTICS -->
 	
-	
-	<!--
-		HEURISTICS
-	-->
 	<entry key="heuristics.Default_Page_Width">20.0</entry>
 	<entry key="heuristics.Default_Page_Height">20.0</entry>
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
+	
+	<!-- Sequenceflow: For a start or end of an edge all shapes within this distance will be found
+	and the smallest will be assigned. So that a shape will be prefared to some swimlane.-->
 	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
 	
+	<!-- Interpration of label-only shapes -->
+	<entry key="heuristics.labelOnlyInterpretationMode">heuristic</entry> <!-- simple / heuristic --> <!-- for simple config see above -->
+	<entry key="heuristics.labelOnlyIsLabelForAnotherShapeThreshold">0.5</entry>
+	<entry key="heuristics.labelOnlyIsAnnotationToAnotherShapeThreshold">1.5</entry>
+	<entry key="heuristics.labelOnlyIsDanglingAnnotation">true</entry>
+	<entry key="heuristics.labelOnlyAnnotationType">Description</entry> <!-- Visio nameU -->
+	<entry key="heuristics.labelOnlyAnnotationAssociation">Undirected Association</entry> <!-- Visio nameU -->
 	
 </properties>

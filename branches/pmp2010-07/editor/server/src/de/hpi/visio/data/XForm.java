@@ -98,15 +98,23 @@ public class XForm {
 		return new Point(getX(), visioPage.getHeight() - getY());
 	}
 
-	public void setWidth(Double width2) {
-		width.setWidth(width2);
+	public void setWidth(Double width) {
+		if (this.width == null)
+			this.width = new Width();
+		this.width.setWidth(width);
 	}
 
-	public void setHeight(Double height2) {
-		height.setHeight(height2);
+	public void setHeight(Double height) {
+		if (this.height == null)
+			this.height = new Height();
+		this.height.setHeight(height);
 	}
 
 	public void setCentralPin(Point newPin) {
+		if (positionX == null)
+			positionX = new PinX();
+		if (positionY == null)
+			positionY = new PinY();
 		positionX.setX(newPin.getX());
 		positionY.setY(newPin.getY());
 	}
