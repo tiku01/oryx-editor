@@ -1,0 +1,1651 @@
+{
+	"title":"YAWL",
+    "namespace":"http://b3mn.org/stencilset/YAWL#",
+    "description":"stencil set for yet another workflow language",
+    "stencils" : [
+    	{
+    		"type":         "node",
+            "id":           "Diagram",
+            "title":        "Diagram",      
+            "groups":       ["Diagram"],
+            "description":  "Diagram of YAWL",
+            "view":         "node.diagram.svg",
+            "icon":         "diagram.png",
+            "mayBeRoot": 	true,
+            "hide":			true,
+            "roles":        ["Diagram"],
+            "properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"version",
+					"type":"Version",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"date",
+					"type":"String",
+					"title":"creation Date",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+    		"type":         "edge",
+            "id":           "Edge",
+            "title":        "Edge",      
+            "groups":       ["Connection"],
+            "description":  "connecting edge",
+            "view":         "connection/edge.svg",
+            "icon":         "connection/edge.png",
+            "roles":        [
+            	"connector",
+            	"fromtoall"
+            ],
+            "properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"Task",
+			"title":"Task",
+			"groups":["Tasks"],
+			"description":"A simple task",
+			"view":"tasks/node.task.svg",
+			"icon":"tasks/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositeTask",
+			"title":"composite Task",
+			"groups":["Tasks"],
+			"description":"A composite task",
+			"view":"tasks/node.task.composite.svg",
+			"icon":"tasks/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleInstancesTask",
+			"title":"multiple Task",
+			"groups":["Tasks"],
+			"description":"A task of multiple instances",
+			"view":"tasks/node.task.multiple.instances.svg",
+			"icon":"tasks/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleInstancesCompositeTask",
+			"title":"multiple composite Task",
+			"groups":["Tasks"],
+			"description":"A composite task of multiple instances",
+			"view":"tasks/node.task.composite.multiple.instances.svg",
+			"icon":"tasks/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"taskjoinand",
+			"title":"Task",
+			"groups":["AND Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinAND/node.task.svg",
+			"icon":"tasksJoinAND/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetaskjoinand",
+			"title":"composite Task",
+			"groups":["AND Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinAND/node.task.composite.svg",
+			"icon":"tasksJoinAND/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestaskjoinand",
+			"title":"multiple instances Task",
+			"groups":["AND Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinAND/node.task.multiple.instances.svg",
+			"icon":"tasksJoinAND/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestaskjoinand",
+			"title":"multiple composite Task",
+			"groups":["AND Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinAND/node.task.composite.multiple.instances.svg",
+			"icon":"tasksJoinAND/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},	
+		{
+			"type": "node",
+			"id":"taskjoinor",
+			"title":"Task",
+			"groups":["OR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinOR/node.task.svg",
+			"icon":"tasksJoinOR/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetaskjoinor",
+			"title":"composite Task",
+			"groups":["OR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinOR/node.task.composite.svg",
+			"icon":"tasksJoinOR/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestaskjoinor",
+			"title":"multiple instances Task",
+			"groups":["OR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinOR/node.task.multiple.instances.svg",
+			"icon":"tasksJoinOR/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestaskjoinor",
+			"title":"multiple composite Task",
+			"groups":["OR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinOR/node.task.composite.multiple.instances.svg",
+			"icon":"tasksJoinOR/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"taskjoinxor",
+			"title":"Task",
+			"groups":["XOR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinXOR/node.task.svg",
+			"icon":"tasksJoinXOR/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetaskjoinxor",
+			"title":"composite Task",
+			"groups":["XOR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinXOR/node.task.composite.svg",
+			"icon":"tasksJoinXOR/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestaskjoinxor",
+			"title":"multiple instances Task",
+			"groups":["XOR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinXOR/node.task.multiple.instances.svg",
+			"icon":"tasksJoinXOR/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestaskjoinxor",
+			"title":"multiple composite Task",
+			"groups":["XOR Joining Tasks"],
+			"description":"",
+			"view":"tasksJoinXOR/node.task.composite.multiple.instances.svg",
+			"icon":"tasksJoinXOR/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"tasksplitand",
+			"title":"Task",
+			"groups":["AND Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitAND/node.task.svg",
+			"icon":"tasksSplitAND/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetasksplitand",
+			"title":"composite Task",
+			"groups":["AND Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitAND/node.task.composite.svg",
+			"icon":"tasksSplitAND/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestasksplitand",
+			"title":"multiple instances Task",
+			"groups":["AND Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitAND/node.task.multiple.instances.svg",
+			"icon":"tasksSplitAND/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestasksplitand",
+			"title":"multiple composite Task",
+			"groups":["AND Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitAND/node.task.composite.multiple.instances.svg",
+			"icon":"tasksSplitAND/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"tasksplitor",
+			"title":"Task",
+			"groups":["OR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitOR/node.task.svg",
+			"icon":"tasksSplitOR/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetasksplitor",
+			"title":"composite Task",
+			"groups":["OR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitOR/node.task.composite.svg",
+			"icon":"tasksSplitOR/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestasksplitor",
+			"title":"multiple instances Task",
+			"groups":["OR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitOR/node.task.multiple.instances.svg",
+			"icon":"tasksSplitOR/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestasksplitor",
+			"title":"multiple composite Task",
+			"groups":["OR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitOR/node.task.composite.multiple.instances.svg",
+			"icon":"tasksSplitOR/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"tasksplitxor",
+			"title":"Task",
+			"groups":["XOR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitXOR/node.task.svg",
+			"icon":"tasksSplitXOR/node.task.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositetasksplitxor",
+			"title":"composite Task",
+			"groups":["XOR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitXOR/node.task.composite.svg",
+			"icon":"tasksSplitXOR/node.task.composite.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"multipleinstancestasksplitxor",
+			"title":"multiple instances Task",
+			"groups":["XOR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitXOR/node.task.multiple.instances.svg",
+			"icon":"tasksSplitXOR/node.task.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositemultipleinstancestasksplitxor",
+			"title":"multiple composite Task",
+			"groups":["XOR Splitting Tasks"],
+			"description":"",
+			"view":"tasksSplitXOR/node.task.composite.multiple.instances.svg",
+			"icon":"tasksSplitXOR/node.task.composite.multiple.instances.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"label",
+					"type":"String",
+					"title":"Label",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"caption",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},	
+		{
+			"type": "node",
+			"id":"startEvent",
+			"title":"start Event",
+			"groups":["Events"],
+			"description":"starting event of this diagram",
+			"view":"events/node.start.svg",
+			"icon":"events/node.start.png",
+			"roles": [
+				"fromtoall",
+				"edgeout"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"endEvent",
+			"title":"end Event",
+			"groups":["Events"],
+			"description":"ending event of this diagram",
+			"view":"events/node.end.svg",
+			"icon":"events/node.end.png",
+			"roles": [
+				"fromtoall",
+				"edgein",
+				"input"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"checkPoint",
+			"title":"Checkpoint",
+			"groups":["Events"],
+			"description":"checkpoint to control flow",
+			"view":"events/node.checkpoint.svg",
+			"icon":"events/node.checkpoint.png",
+			"roles": [
+				"fromtoall",
+				"edgeout",
+				"edgein"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"ID",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"notes",
+					"type":"String",
+					"title":"Notes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				}
+			]
+		}		
+    ],
+    "rules":{
+    	"connectionRules": [
+    		{
+    		"role":"connector",
+				"connects": [
+					{
+						"from":"edgeout",
+						"to":["edgein"]
+					}
+				]
+			},
+			{
+    		"role":"task",
+				"connects": [
+					{
+						"from":"splitout",
+						"to":["taskin"]
+					}
+				]
+			}
+    	],
+    	"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"fromtoall"
+				]
+			}
+		]
+    }
+}
