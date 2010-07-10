@@ -12,7 +12,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Shape")
-public class Shape {
+public class Shape implements Comparable<Shape>{
 		
 	private List<Shape> outgoings;
 
@@ -20,8 +20,10 @@ public class Shape {
 	
 	private Shape target;
 	
-	private String shapeId;
+	private Shape source;
 	
+	private String shapeId;
+		
 	@Attribute("NameU")
 	public String name;
 	
@@ -77,6 +79,14 @@ public class Shape {
 
 	public Shape getTarget() {
 		return target;
+	}
+
+	public void setSource(Shape source) {
+		this.source = source;
+	}
+
+	public Shape getSource() {
+		return source;
 	}
 
 	public void setShapeId(String shapeId) {
@@ -163,12 +173,20 @@ public class Shape {
 		return xForm.getCentralPin();
 	}
 	
+	public Point getCentralPinForPage(Page visioPage) {
+		return xForm.getCentralPinForPage(visioPage);
+	}
+	
 	public void setCentralPin(Point newPin) {
 		xForm.setCentralPin(newPin);
 	}
 	
 	public Point getStartPoint() {
 		return xFormStartAndEnd.getStartPoint();
+	}
+	
+	public Point getStartPointForPage(Page visioPage) {
+		return xFormStartAndEnd.getStartPointForPage(visioPage);
 	}
 	
 	public void setStartPoint(Point startPoint) {
@@ -179,8 +197,21 @@ public class Shape {
 		return xFormStartAndEnd.getEndPoint();
 	}
 	
+	public Point getEndPointForPage(Page visioPage) {
+		return xFormStartAndEnd.getEndPointForPage(visioPage);
+	}
+	
 	public void setEndPoint(Point endPoint) {
 		xFormStartAndEnd.setEndPoint(endPoint);
+	}
+	
+	public Double getArea() {
+		return this.getHeight() * this.getWidth();
+	}
+
+	@Override
+	public int compareTo(Shape otherShape) {
+		return this.getArea().compareTo(otherShape.getArea());
 	}
 	
 }

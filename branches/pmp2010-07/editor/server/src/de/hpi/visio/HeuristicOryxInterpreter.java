@@ -184,12 +184,24 @@ public class HeuristicOryxInterpreter {
 	}
 	
 	private void correctShapeDockerToBeRelativeToContainer(Shape childShape, Shape container) {
-		Double childDockerX = childShape.getDockers().get(0).getX().doubleValue() - container.getUpperLeft().getX().doubleValue();
-		Double childDockerY = childShape.getDockers().get(0).getY().doubleValue() - container.getUpperLeft().getY().doubleValue();
-		Point centralDocker = new Point(childDockerX, childDockerY);
-		ArrayList<Point> dockers = new ArrayList<Point>();
-		dockers.add(centralDocker);
-		childShape.setDockers(dockers);
+		// edge-dockers are relative to source and target and therefore not relative to the container
+		if (!isBPMNEdge(childShape)) {
+			Double childDockerX = childShape.getDockers().get(0).getX().doubleValue() - container.getUpperLeft().getX().doubleValue();
+			Double childDockerY = childShape.getDockers().get(0).getY().doubleValue() - container.getUpperLeft().getY().doubleValue();
+			Point centralDocker = new Point(childDockerX, childDockerY);
+			ArrayList<Point> dockers = new ArrayList<Point>();
+			dockers.add(centralDocker);
+			childShape.setDockers(dockers);
+		}
 	}
 
+	
+	private Boolean isBPMNEdge(Shape shape) {
+		for (String edgeId : importUtil.getOryxBPMNConfig("Edges").split(",")) {
+			if (edgeId.equalsIgnoreCase(shape.getStencilId())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

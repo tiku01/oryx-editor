@@ -29,7 +29,7 @@ public class XForm {
 	 *
 	 *	The oryx canvas
 	 *	
-	 *	------------> x increas
+	 *	------------> x increases
 	 *	|
 	 *	|
 	 *	|
@@ -92,6 +92,10 @@ public class XForm {
 	
 	public Point getCentralPin() {
 		return new Point(positionX.getX(), positionY.getY());
+	}
+	
+	public Point getCentralPinForPage(Page visioPage) {
+		return new Point(getX(), visioPage.getHeight() - getY());
 	}
 
 	public void setWidth(Double width2) {

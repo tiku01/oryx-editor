@@ -8,14 +8,20 @@ import org.oryxeditor.server.diagram.Point;
 
 import de.hpi.visio.data.Shape;
 import de.hpi.visio.data.Page;
+import java.util.Collections;
 
 public class ShapeUtil {
 	
 	private ImportConfigurationUtil importUtil;
 	private String actualFixedSizeCategory = null;
 	
+	private Integer visioPointUnitFactor;
+	private Double maxDistanceThresholdInVisioUnit;
+	
 	public ShapeUtil(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
+		 visioPointUnitFactor = Integer.valueOf(importUtil.getValueForHeuristic("Unit_To_Pixel_Exchange"));
+		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getValueForHeuristic("maxEdgeToShapeDistance"));
 	}
 		
 	public Bounds getCorrectedShapeBounds(Shape shape, Page page) {
@@ -77,19 +83,18 @@ public class ShapeUtil {
 			bounds.setLowerRight(new Point(bounds.getUpperLeft().getX() + minWidth, bounds.getLowerRight().getY()));
 		return bounds;
 	}
-
-	public Bounds getCorrectedDiagramBounds(Bounds bounds) {
-		Bounds correctedBounds = correctPointsOfBounds(bounds);
-		return correctedBounds;
-	}
 	
-	private Bounds correctPointsOfBounds(Bounds bounds) {
-		String heuristicValue = importUtil.getValueForHeuristic("Unit_To_Pixel_Exchange");
-		Integer factor = Integer.valueOf(heuristicValue);
-		Point correctedLowerRight = new Point(bounds.getLowerRight().getX() * factor, bounds.getLowerRight().getY() * factor);
-		Point correctedUpperLeft = new Point(bounds.getUpperLeft().getX() * factor, bounds.getUpperLeft().getY() * factor);
+	public Bounds correctPointsOfBounds(Bounds bounds) {
+		Point correctedLowerRight = getCorrectedPoint(bounds.getLowerRight());
+		Point correctedUpperLeft = getCorrectedPoint(bounds.getUpperLeft());
 		Bounds result = new Bounds(correctedLowerRight, correctedUpperLeft);
 		return result;
+	}
+	
+	private Point getCorrectedPoint(Point point) {
+		Point correctedPoint = new Point(point.getX() * visioPointUnitFactor,
+				point.getY() * visioPointUnitFactor);
+		return correctedPoint;
 	}
 	
 	public Shape getFirstShapeOfStencilThatContainsTheGivenShape(List<Shape> shapes, Shape givenShape, String stencilId) {
@@ -137,41 +142,71 @@ public class ShapeUtil {
 		}
 		return isResizable;
 	}
-
-	public ArrayList<Point> getCorrectedDockers(Shape shape, Page page) {
-		ArrayList<Point> dockers = new ArrayList<Point>();
-		Bounds bounds = getCorrectedShapeBounds(shape, page);
-		Point centralDocker = new Point(bounds.getUpperLeft().getX() + ((bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2), 
-				bounds.getUpperLeft().getY() + ((bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2));
-		dockers.add(centralDocker);
-		return dockers;
+	
+	public ArrayList<Point> getCorrectedDockersForShape(Shape shape, Page page) {
+		String stencilId = importUtil.getStencilIdForName(shape.getName());
+		for (String edgeId : importUtil.getOryxBPMNConfig("Edges").split(",")) {
+			if (edgeId.equalsIgnoreCase(stencilId)) {
+				return getCorrectedEdgeDockers(shape, page);
+			}
+		}
+		return getCorrectedCentralDockerAsList(shape, page);
+	}
+	
+	private ArrayList<Point> getCorrectedCentralDockerAsList(Shape shape, Page page) {
+		ArrayList<Point> correctedCentalDockerList = new ArrayList<Point>();
+		correctedCentalDockerList.add(getCorrectedCentralDocker(shape, page));
+		return correctedCentalDockerList;
+	}
+	
+	private Point getCorrectedCentralDocker(Shape shape, Page page) {
+		Point centralDocker = shape.getCentralPinForPage(page);
+		Point correctedDocker = getCorrectedPoint(centralDocker);
+		return correctedDocker;
+	}
+	
+	private ArrayList<Point> getCorrectedEdgeDockers(Shape shape, Page page) {
+		ArrayList<Point> correctedDockers = new ArrayList<Point>();
+		if (shape.getSource() != null) {
+			Bounds correctedSourceBounds = getCorrectedShapeBounds(shape.getSource(),page);
+			Point sourceMiddlePoint = getCentralPinOfCorrectedBounds(correctedSourceBounds);
+			correctedDockers.add((sourceMiddlePoint));
+		}
+		if (shape.getTarget() != null) {
+			Bounds correctedTargetBounds = getCorrectedShapeBounds(shape.getTarget(),page);
+			Point targetMiddlePoint = getCentralPinOfCorrectedBounds(correctedTargetBounds);
+			correctedDockers.add((targetMiddlePoint));
+		}
+		return correctedDockers;
+	}
+	
+	private Point getCentralPinOfCorrectedBounds(Bounds bounds) {
+		Double x = (bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2;
+		Double y = (bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2;
+		return new Point(x,y);
 	}
 
-	public Shape getNearestShapeToPointInsideThreshold(Shape self, Point point, List<Shape> shapes) {
+	public Shape getSmallestShapeToPointWithinThreshold(Shape self, Point point, List<Shape> shapes) {
 		if (shapes.size() > 0) {
-			int start = 0;
-			if (self != shapes.get(start)) 
-				start = 1;
-			Shape nearestShape = shapes.get(start);
-			Double minDistance = getDistanceToShapeBorderFromPoint(nearestShape, point);
+			List<Shape> shapesWithinThreshold = new ArrayList<Shape>();
 			for (Shape shape : shapes) {
 				if (shape == self)
 					continue;
-				if (getDistanceToShapeBorderFromPoint(shape, point) < minDistance) {
-					nearestShape = shape;
-					minDistance = getDistanceToShapeBorderFromPoint(shape, point);
+				if (getDistanceToShapeBorderFromPoint(shape, point) < maxDistanceThresholdInVisioUnit) {
+					shapesWithinThreshold.add(shape);
 				}
 			}
-			Double maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getValueForHeuristic("maxEdgeToShapeDistance"));
-			if (minDistance < maxDistanceThresholdInVisioUnit)
-				return nearestShape;
+			if (shapesWithinThreshold.size() > 0) {
+				Collections.sort(shapesWithinThreshold);	// the smallest
+				return shapesWithinThreshold.get(0);		// will be returned
+			}
 		} 
 		return null;
 	}
 	
 	
 	/*	Getting of a point to a shape's nearest border
-	 * 	All 8 distance cases are: 
+	 * 	All 8 distance calculation cases are: 
 	 * 
 	 * 		8		2		5
 	 * 			----------

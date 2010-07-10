@@ -68,5 +68,13 @@ public class xFormStartAndEnd {
 		setEndX(endPoint.getX());
 		setEndY(endPoint.getY());
 	}
+	
+	public Point getStartPointForPage(Page visioPage) {
+		return new Point(getStartX(), visioPage.getHeight() - getStartY());
+	}
+	
+	public Point getEndPointForPage(Page visioPage) {
+		return new Point(getEndX(), visioPage.getHeight() - getEndY());
+	} 
 
 }
