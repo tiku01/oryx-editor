@@ -105,7 +105,6 @@ public class HeuristicVisioInterpreter {
 	}
 	
 	private void interpreteShapeWithoutNameButWithLabelHeuristic(Shape shape,Page visioPage, List<Shape> shapesWithNames) {
-		Point shapesCentralPin = shape.getCentralPin();
 		Double isLabelThreshold = Double.valueOf(importUtil.getValueForHeuristic("labelOnlyIsLabelForAnotherShapeThreshold"));
 		Double isAnnotationThreshold = Double.valueOf(importUtil.getValueForHeuristic("labelOnlyIsAnnotationToAnotherShapeThreshold"));
 		String annotationType = importUtil.getValueForHeuristic("labelOnlyAnnotationType");
@@ -114,14 +113,15 @@ public class HeuristicVisioInterpreter {
 		for (Shape otherShape : visioPage.getShapes()) {
 			if (shape == otherShape) 
 				continue;
-			Double currentDistance = shapeUtil.getDistanceToShapeBorderFromPoint(otherShape, shapesCentralPin);
+			Double currentDistance = shapeUtil.getAroundMinimalDistanceBetweenTwoShapeBorders(shape, otherShape);
 			if (currentDistance < isLabelThreshold)
 				labelThresholdShapes.add(otherShape);
 			if (currentDistance < isAnnotationThreshold)
 				annotationThresholdShapes.add(otherShape);
 		}
 		Boolean handled = false;
-		if (labelThresholdShapes.size() > 0) {
+		Integer stringLengthThresholdForLabels = Integer.valueOf(importUtil.getValueForHeuristic("labelOnlyTooLongForAnotherShapesLabelThreshold"));
+		if (labelThresholdShapes.size() > 0 && shape.getLabel().length() < stringLengthThresholdForLabels) {
 			Collections.sort(labelThresholdShapes);
 			if (labelThresholdShapes.get(0).getLabel() == null || "".equals(labelThresholdShapes.get(0).getLabel())) {
 				labelThresholdShapes.get(0).setLabel(shape.getLabel());

@@ -204,6 +204,40 @@ public class ShapeUtil {
 		return null;
 	}
 	
+	/*	Getting of a point to a shape's nearest border
+	 * 	All 8 distance calculation cases are: 
+	 * 
+	 * 		8		2		5
+	 * 			----------
+	 * 		7	|	1	 |	4
+	 * 			----------
+	 * 		9		3		6
+	 */
+	public Double getAroundMinimalDistanceBetweenTwoShapeBorders(Shape shape1, Shape shape2) {
+		List<Double> distancesFromCorners = new ArrayList<Double>();
+		
+		// 1 
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, shape1.getCentralPin()));
+		// 2
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX(), shape1.getCentralPin().getY() + shape1.getHeight()/2)));
+		// 3
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX(), shape1.getCentralPin().getY() - shape1.getHeight()/2)));
+		// 4
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() + shape1.getWidth()/2, shape1.getCentralPin().getY())));
+		// 5
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() + shape1.getWidth()/2, shape1.getCentralPin().getY() + shape1.getHeight()/2)));
+		// 6
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() + shape1.getWidth()/2, shape1.getCentralPin().getY() - shape1.getHeight()/2)));
+		// 7
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() - shape1.getWidth()/2, shape1.getCentralPin().getY())));
+		// 8
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() - shape1.getWidth()/2, shape1.getCentralPin().getY() + shape1.getHeight()/2)));
+		// 9
+		distancesFromCorners.add(getDistanceToShapeBorderFromPoint(shape2, new Point(shape1.getCentralPin().getX() - shape1.getWidth()/2, shape1.getCentralPin().getY() - shape1.getHeight()/2)));
+		
+		Collections.sort(distancesFromCorners);
+		return distancesFromCorners.get(0);
+	}
 	
 	/*	Getting of a point to a shape's nearest border
 	 * 	All 8 distance calculation cases are: 
