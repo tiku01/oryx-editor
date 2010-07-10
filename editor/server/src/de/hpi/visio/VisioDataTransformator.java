@@ -38,7 +38,7 @@ public class VisioDataTransformator {
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
 		assignShapeIds(interpretedPage.getShapes());
 		Diagram diagram = getNewBPMNDiagram();
-		diagram.setBounds(shapeUtil.getCorrectedDiagramBounds(interpretedPage.getBounds()));
+		diagram.setBounds(shapeUtil.correctPointsOfBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
 		HeuristicOryxInterpreter oryxInterpreter = new HeuristicOryxInterpreter(importUtil);
@@ -58,7 +58,7 @@ public class VisioDataTransformator {
 			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(visioShape.getShapeId(), type);
 			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
 			oryxShape.setBounds(correctedBounds);
-			ArrayList<Point> dockers = shapeUtil.getCorrectedDockers(visioShape, visioPage);
+			ArrayList<Point> dockers = shapeUtil.getCorrectedDockersForShape(visioShape, visioPage);
 			oryxShape.setDockers(dockers);
 			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
 				oryxShape.putProperty("name", visioShape.getLabel());

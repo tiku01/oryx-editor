@@ -72,6 +72,7 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>
 	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
@@ -144,14 +145,17 @@
 	<entry key="oryx.config.BPMN.Event.fixedWidth">30</entry>
 	<entry key="oryx.config.BPMN.Event.fixedHeight">30</entry>
 	<entry key="oryx.config.BPMN.PoolHeaderWidth">30</entry>
-	<entry key="oryx.config.BPMN.Edges">Association_Bidirectional,MessageFlow,SequenceFlow,Association_Undirected,Association_Unidirectional</entry>
+	<entry key="oryx.config.BPMN.Edges">Association_Bidirectional,MessageFlow,SequenceFlow,Association_Undirected,Association_Unidirectional</entry>	
+	
+	
+	
 	<!--
 		HEURISTICS
 	-->
 	<entry key="heuristics.Default_Page_Width">20.0</entry>
 	<entry key="heuristics.Default_Page_Height">20.0</entry>
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
-	<entry key="heuristics.maxEdgeToShapeDistance">0.1</entry>
+	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
 	
 	
 </properties>

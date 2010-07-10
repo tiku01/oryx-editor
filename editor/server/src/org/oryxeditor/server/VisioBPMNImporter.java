@@ -22,7 +22,6 @@ public class VisioBPMNImporter extends HttpServlet {
 
 		response.setContentType("text/xml");
 		String data = request.getParameter("data");
-		//TODO solve the path problem
 		VisioToJSONConverter converter = new VisioToJSONConverter(this.getServletContext().getRealPath("/"));
 		try {
 			String result = converter.importVisioData(data);

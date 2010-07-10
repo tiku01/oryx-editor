@@ -31,13 +31,13 @@ public class HeuristicVisioInterpreter {
 	private List<Shape> correctAllEdges(List<Shape> shapes) {
 		List<Shape> edges = getAllEdges(shapes);
 		for (Shape edge : edges) {
-			Shape source = shapeUtil.getNearestShapeToPointInsideThreshold(edge, edge.getStartPoint(), shapes);
-			Shape target = shapeUtil.getNearestShapeToPointInsideThreshold(edge, edge.getEndPoint(), shapes);
+			Shape source = shapeUtil.getSmallestShapeToPointWithinThreshold(edge, edge.getStartPoint(), shapes);
+			Shape target = shapeUtil.getSmallestShapeToPointWithinThreshold(edge, edge.getEndPoint(), shapes);
 			if (source != null) {
+				edge.setSource(source);
 				source.addOutgoing(edge);
 				edge.addIncoming(edge);
-			}
-				
+			} 
 			if (target != null) {
 				target.addIncoming(edge);
 				edge.addOutgoing(target);
