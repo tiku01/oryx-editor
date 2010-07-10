@@ -103,6 +103,14 @@
             "uri":"/uml2.2/uml2.2.json",
             "icon_url":"/uml2.2/uml2.2class.png",
             "visible":true
+        },
+        {
+            "title":"YAWL",
+            "namespace":"http://b3mn.org/stencilset/YAWL#",
+            "description":"Yet Another Workflow Language",
+            "uri":"/YAWL/YAWL.json",
+            "icon_url":"/YAWL/YAWL.png",
+            "visible":true
         }
 		
 ]
