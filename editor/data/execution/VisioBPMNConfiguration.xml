@@ -179,8 +179,9 @@
 	<entry key="stencilsets.VISIO2010.stencil.Multi-Instance Loop Expanded Sub-Process">Subprocess</entry>	
 	<entry key="stencilsets.VISIO2010.stencil.Compensation Expanded Sub-Process">Subprocess</entry>	
 	<entry key="stencilsets.VISIO2010.stencil.Ad-Hoc Expanded Sub-Process">Subprocess</entry>	
-	<entry key="stencilsets.VISIO2010.stencil.Transaction Expanded Sub-Process">Subprocess</entry>		
-	
+	<entry key="stencilsets.VISIO2010.stencil.Transaction Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Pool / Lane">Pool</entry>
+	<entry key="stencilsets.VISIO2010.stencil.CFF Container">Pool</entry>
 	
 	
 	<!-- STENCIL SET CONFIGURATION - PROPERTY MAPPINGS -->
@@ -217,7 +218,7 @@
 	<entry key="stencilsets.config.Collapsed sub-process 3.keys">isadhoc</entry>
 	<entry key="stencilsets.config.Collapsed sub-process 3.values">true</entry>
 	<entry key="stencilsets.config.Collapsed sub-process 4.keys">isadhoc,looptype</entry>
-	<entry key="stencilsets.config.Collapsed sub-process 4.values">true,standard</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 4.values">true,Standard</entry>
 	<entry key="stencilsets.config.Default Flow.keys">conditiontype</entry>
 	<entry key="stencilsets.config.Default Flow.values">Default</entry>
 	<entry key="stencilsets.config.Conditional Flow.keys">conditiontype</entry>
@@ -329,6 +330,7 @@
 	<!-- Sequenceflow: For a start or end of an edge all shapes within this distance will be found
 	and the smallest will be assigned. So that a shape will be preferred to some swimlane.-->
 	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
+	<entry key="heuristics.maxDistanceBetweenPoolAndContainedSwimlane">5</entry> <!-- Oryx unit (Pixel)-->
 	
 	<!-- Interpretation of label-only shapes -->
 	<entry key="heuristics.labelOnlyInterpretationMode">heuristic</entry> <!-- simple / heuristic --> <!-- for simple config see above -->

@@ -6,14 +6,19 @@ public class VisioXmlPreparator {
 		xml = removeXmlDeclaration(xml);
 		xml = removeAttributesFromRootElement(xml);
 		xml = cleanAllTextElements(xml);
+		xml = removeNamespacePrefix(xml);
 		return xml;
 	}
 
 	private String removeXmlDeclaration(String xml) {
 		xml = xml.substring(xml.indexOf(">") + 1);
+		if (xml.startsWith("\n"))
+			xml = xml.substring("\n".length());
 		return xml;
 	}
 	
+	
+	// so that there will be a mapping with the declared xmappr-root 
 	private String removeAttributesFromRootElement(String xml) {
 		xml = xml.substring(xml.indexOf(">") + 1);
 		xml = "<VisioDocument>" + xml;
@@ -34,6 +39,14 @@ public class VisioXmlPreparator {
 			xml = xml.substring(textEnd + "</Text>".length(), xml.length());
 		}
 		return result + xml;
+	}
+	
+	private String removeNamespacePrefix(String xml) {
+		if (xml.contains(":v14") || xml.contains("v14:")) {
+			xml = xml.replaceAll(":v14", "");
+			xml = xml.replaceAll("v14:", "");
+		}
+		return xml;
 	}
 
 	private String getCleanedTextElement(String text) {
