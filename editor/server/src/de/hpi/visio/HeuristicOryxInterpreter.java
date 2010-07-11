@@ -9,6 +9,7 @@ import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Point;
 import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
 
 import de.hpi.visio.util.ImportConfigurationUtil;
 import de.hpi.visio.util.ShapesLowerRightXComparator;
@@ -20,20 +21,19 @@ import java.util.Collections;
 
 public class HeuristicOryxInterpreter {
 	
-	private final List<String> CONTAINER_SHAPE_IDS;
-	private final List<String> NOT_CONTAINABLE_SHAPE_IDS;
+	private List<String> CONTAINER_SHAPE_IDS = new ArrayList<String>();;
+	private List<String> NOT_CONTAINABLE_SHAPE_IDS = new ArrayList<String>();;
 	
 	private ImportConfigurationUtil importUtil;
 
 	public HeuristicOryxInterpreter(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
-		CONTAINER_SHAPE_IDS = new ArrayList<String>();
-		CONTAINER_SHAPE_IDS.add("Pool");
-		CONTAINER_SHAPE_IDS.add("Lane");
-		CONTAINER_SHAPE_IDS.add("Subprocess");
-		NOT_CONTAINABLE_SHAPE_IDS = new ArrayList<String>();
-		NOT_CONTAINABLE_SHAPE_IDS.add("Pool");
-		NOT_CONTAINABLE_SHAPE_IDS.add("Group");
+		for (String containerShape : importUtil.getOryxBPMNConfig("ContainerShapes").split(",")) {
+			CONTAINER_SHAPE_IDS.add(containerShape);
+		}
+		for (String containerShape : importUtil.getOryxBPMNConfig("NotContainableShapes").split(",")) {
+			NOT_CONTAINABLE_SHAPE_IDS.add(containerShape);
+		}
 	}
 
 	public Diagram interpret(Diagram diagram) {
@@ -51,6 +51,7 @@ public class HeuristicOryxInterpreter {
 			for (Shape swimlane : swimlanes) {
 				// only swimlanes that arent yet contained can be contained
 				if (swimlane != null && !assignedlanes.contains(swimlane)) {
+					swimlane.setStencil(new StencilType("Lane"));
 					assignedlanes.add(swimlane);
 					poolsLanes.add(swimlane);
 				}

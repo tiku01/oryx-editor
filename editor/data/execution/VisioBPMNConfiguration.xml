@@ -303,6 +303,8 @@
 	<entry key="oryx.config.BPMN.TextAnnotation.LabelProperty">text</entry> 
 	<entry key="oryx.config.BPMN.DefaultLabelProperty">name</entry>
 	
+	<entry key="oryx.config.BPMN.ContainerShapes">Pool,Lane,Subprocess,CollapsedSubprocess</entry>
+	<entry key="oryx.config.BPMN.NotContainableShapes">Pool,Group</entry>
 	
 	
 	
