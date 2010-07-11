@@ -1,7 +1,9 @@
 package de.hpi.visio;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Diagram;
@@ -9,6 +11,12 @@ import org.oryxeditor.server.diagram.Point;
 import org.oryxeditor.server.diagram.Shape;
 
 import de.hpi.visio.util.ImportConfigurationUtil;
+import de.hpi.visio.util.ShapesLowerRightXComparator;
+import de.hpi.visio.util.ShapesLowerRightYComparator;
+import de.hpi.visio.util.ShapesUpperLeftXComparator;
+import de.hpi.visio.util.ShapesUpperLeftYComparator;
+
+import java.util.Collections;
 
 public class HeuristicOryxInterpreter {
 	
@@ -36,58 +44,92 @@ public class HeuristicOryxInterpreter {
 	}
 
 	private ArrayList<Shape> correctPools(ArrayList<Shape> childShapes) {
-		List<Shape> lanes = new ArrayList<Shape>();
-		for (Shape pool : childShapes) {
-			if (pool.getStencilId().equalsIgnoreCase("Pool")) {
-				Shape lane = getBestFittingLane(pool, childShapes);
-				if (lane != null) {
-					lanes.add(lane);
-					ArrayList<Shape> poolsLanes = new ArrayList<Shape>();
-					poolsLanes.add(lane);
-					pool.setChildShapes(poolsLanes);
-					correctPoolBounds(pool,lane);
+		List<Shape> assignedlanes = new ArrayList<Shape>();
+		for (Shape pool : getAllPoolsSortedFromRightToLeft(childShapes)) {
+			List<Shape> swimlanes = getFittingLanesAndPools(pool, childShapes);
+			ArrayList<Shape> poolsLanes = new ArrayList<Shape>();
+			for (Shape swimlane : swimlanes) {
+				// only swimlanes that arent yet contained can be contained
+				if (swimlane != null && !assignedlanes.contains(swimlane)) {
+					assignedlanes.add(swimlane);
+					poolsLanes.add(swimlane);
 				}
 			}
+			if (poolsLanes.size() > 0) {
+				pool.setChildShapes(poolsLanes);
+				correctPoolBounds(pool);
+			}
 		}
-		childShapes.removeAll(lanes);
+		childShapes.removeAll(assignedlanes);
 		return childShapes;
 	}
+	
+	private ArrayList<Shape> getAllPoolsSortedFromRightToLeft(ArrayList<Shape> shapes) {
+		ArrayList<Shape> pools = new ArrayList<Shape>();
+		for (Shape shape : shapes) {
+			if (shape.getStencilId().equalsIgnoreCase("Pool")) {
+				pools.add(shape);
+			}
+		}
+		Collections.sort(pools, new ShapesUpperLeftXComparator());
+		Collections.reverse(pools); // from left to right, to handle right pools before left: left pools can contain more right pools or lanes
+		return pools;
+	}
 
-	private void correctPoolBounds(Shape pool, Shape lane) {
-		Double poolHeaderWidth = Double.valueOf(importUtil.getOryxBPMNConfig("PoolHeaderWidth"));
-		Double poolUpperleftX = lane.getUpperLeft().getX() - poolHeaderWidth;
-		Double poolUpperLeftY = lane.getUpperLeft().getY();
-		Point poolUpperLeft = new Point(poolUpperleftX, poolUpperLeftY);
-		Point poolLowerRight = lane.getLowerRight();
-		Bounds poolBounds = new Bounds(poolLowerRight, poolUpperLeft);
+	private void correctPoolBounds(Shape pool) {
+		setPoolHeaderWidthToStandardWidth(pool);
+		Set<Shape> allChildShapesSet = getAllChildShapes(pool);
+		List<Shape> allChildShapes = new ArrayList<Shape>(allChildShapesSet);
+		Collections.sort(allChildShapes, new ShapesUpperLeftYComparator());
+		Double upperLeftY = allChildShapes.get(0).getUpperLeft().getY();
+		Collections.sort(allChildShapes, new ShapesUpperLeftXComparator());
+		Double upperLeftX = allChildShapes.get(0).getUpperLeft().getX();
+		Collections.sort(allChildShapes, new ShapesLowerRightYComparator());
+		Collections.reverse(allChildShapes);
+		Double lowerRightY = allChildShapes.get(0).getLowerRight().getY();
+		Collections.sort(allChildShapes, new ShapesLowerRightXComparator());
+		Collections.reverse(allChildShapes);
+		Double lowerRightX = allChildShapes.get(0).getLowerRight().getX();
+		Bounds poolBounds = new Bounds(new Point(lowerRightX,lowerRightY), new Point(upperLeftX, upperLeftY));
 		pool.setBounds(poolBounds);
 	}
 
-	private Shape getBestFittingLane(Shape pool, ArrayList<Shape> allShapes) {
-		List<Shape> lanes = new ArrayList<Shape>();
-		for (Shape shape : allShapes) {
-			if (shapeOverlapsAnotherShape(pool, shape) && shape.getStencilId().equalsIgnoreCase("Lane"))
-				lanes.add(shape);
-		}
-		return mostRightLane(lanes);
-	}
-	
-	private Shape mostRightLane(List<Shape> shapes) {
-		Shape rightest = null;
-		if (shapes.size() > 0)
-			rightest = shapes.get(0);
-		for (Shape lane : shapes) {
-			if (lane.getUpperLeft().getX() < rightest.getUpperLeft().getX())
-				rightest = lane;
-		}
-		return rightest;
+	private void setPoolHeaderWidthToStandardWidth(Shape pool) {
+		Double poolHeaderWidth = Double.valueOf(importUtil.getOryxBPMNConfig("PoolHeaderWidth"));
+		Point poolsLowerRight = new Point(pool.getBounds().getUpperLeft().getX() + poolHeaderWidth, pool.getLowerRight().getY());
+		pool.setBounds(new Bounds(poolsLowerRight, pool.getBounds().getUpperLeft()));
 	}
 
-	private boolean shapeOverlapsAnotherShape(Shape pool, Shape shape) {
-		Double rightMiddlePinX = pool.getLowerRight().getX();
-		Double rightMiddlePinY = pool.getUpperLeft().getY() + (pool.getHeight() / 2);
-		Point rightMiddlePin = new Point(rightMiddlePinX, rightMiddlePinY);
-		return pointIsOnShape(rightMiddlePin, shape);
+	private Set<Shape> getAllChildShapes(Shape shape) {
+		Set<Shape> allChildShapes = new HashSet<Shape>();
+		for (Shape childShape : shape.getChildShapes()) {
+			allChildShapes.addAll(getAllChildShapes(childShape));
+		}
+		allChildShapes.add(shape);
+		return allChildShapes;
+	}
+
+	private List<Shape> getFittingLanesAndPools(Shape pool, ArrayList<Shape> allShapes) {
+		List<Shape> lanes = new ArrayList<Shape>();
+		for (Shape shape : allShapes) {
+			if (shape == pool)
+				continue;
+			if (shapeIsSwimlaneOfPool(pool, shape))
+				lanes.add(shape);
+		}
+		return lanes;
+	}
+
+	private boolean shapeIsSwimlaneOfPool(Shape pool, Shape shape) {
+		if ((shape.getStencilId().equalsIgnoreCase("Lane") || shape.getStencilId().equalsIgnoreCase("Pool"))) {
+			if (pool.getUpperLeft().getX() < shape.getUpperLeft().getX() && (shape.getUpperLeft().getX() < pool.getLowerRight().getX() + Double.valueOf(importUtil.getHeuristicValue("maxDistanceBetweenPoolAndContainedSwimlane")))) {
+				Point shapesCentralLeftBorderPoint = new Point(shape.getUpperLeft().getY(),shape.getUpperLeft().getY() + shape.getHeight() / 2);
+				if (shapesCentralLeftBorderPoint.getY() >= pool.getUpperLeft().getY() && shapesCentralLeftBorderPoint.getY() <= pool.getLowerRight().getY()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private ArrayList<Shape> correctContainment(ArrayList<Shape> shapes) {

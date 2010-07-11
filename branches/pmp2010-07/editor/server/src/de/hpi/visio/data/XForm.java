@@ -50,35 +50,44 @@ public class XForm {
 	@Element("Height")
 	public Height height;
 	
+	@Element("Angle")
+	public Angle angle;
+	
 	public Point getUpperLeftPointForPage(Page visioPage) {
+		swapWidthAndHeightIfThereIsAnAngle();
 		Double upperLeftX = getX() - (getWidth() / 2);
 		Double upperLeftY = visioPage.getHeight() - (getY() + (getHeight() / 2));
 		return new Point(upperLeftX, upperLeftY);
 	}
-	
+
 	public Point getUpperLeftVisioPoint() {
+		swapWidthAndHeightIfThereIsAnAngle();
 		Double upperLeftX = getX() - (getWidth() / 2);
 		Double upperLeftY = getY() + (getHeight() / 2);
 		return new Point(upperLeftX, upperLeftY);
 	}
 	
 	public Point getLowerRightPointForPage(Page visioPage) {
+		swapWidthAndHeightIfThereIsAnAngle();
 		Double lowerRightX = getX() + (getWidth() / 2);
 		Double lowerRightY = visioPage.getHeight() - (getY() - (getHeight() / 2));
 		return new Point(lowerRightX, lowerRightY);
 	}
 	
 	public Point getLowerRightVisioPoint() {
+		swapWidthAndHeightIfThereIsAnAngle();
 		Double lowerRightX = getX() + (getWidth() / 2);
 		Double lowerRightY = getY() - (getHeight() / 2);
 		return new Point(lowerRightX, lowerRightY);
 	}
 	
 	public Double getHeight() {
+		swapWidthAndHeightIfThereIsAnAngle();
 		return height.getHeight();
 	}
 	
 	public Double getWidth() {
+		swapWidthAndHeightIfThereIsAnAngle();
 		return width.getWidth();
 	}
 	
@@ -95,6 +104,7 @@ public class XForm {
 	}
 	
 	public Point getCentralPinForPage(Page visioPage) {
+		swapWidthAndHeightIfThereIsAnAngle();
 		return new Point(getX(), visioPage.getHeight() - getY());
 	}
 
@@ -117,6 +127,17 @@ public class XForm {
 			positionY = new PinY();
 		positionX.setX(newPin.getX());
 		positionY.setY(newPin.getY());
+	}
+	
+	private void swapWidthAndHeightIfThereIsAnAngle() {
+		// angle around 90 degrees? pool headers...
+		if (angle.getAngle() > 1 && angle.getAngle() < 2) {
+			Double height = this.height.getHeight();
+			Double width = this.width.getWidth();
+			this.height.setHeight(width);
+			this.width.setWidth(height);
+			angle.setAngle(0.0);
+		}
 	}
 
 }
