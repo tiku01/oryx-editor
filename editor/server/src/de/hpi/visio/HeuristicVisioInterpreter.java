@@ -75,11 +75,11 @@ public class HeuristicVisioInterpreter {
 	
 	private Page interpreteShapeNames(Page visioPage) {
 		List<Shape> shapesWithNames = new ArrayList<Shape>();
-		Boolean shouldSkipUnnamedWithLabel = Boolean.valueOf(importUtil.getStencilSetConfig("Skip_unknown_NameU_But_With_Label"));
-		Boolean shouldSkipUnnamedWithoutLabel = Boolean.valueOf(importUtil.getStencilSetConfig("Skip_unknown_NameU_And_Without_Label"));
-		Boolean isInSimpleInterpretationMode = importUtil.getValueForHeuristic("labelOnlyInterpretationMode").equalsIgnoreCase("simple");
-		String defaultTypeWithLabel = importUtil.getStencilSetConfig("Unknown_NameU_But_With_Label_is");
-		String defaultTypeWithoutLabel = importUtil.getStencilSetConfig("Unknown_NameU_And_Without_Label_is");
+		Boolean shouldSkipUnnamedWithLabel = Boolean.valueOf(importUtil.getHeuristicValue("skipUnknownNameUButWithLabel"));
+		Boolean shouldSkipUnnamedWithoutLabel = Boolean.valueOf(importUtil.getHeuristicValue("skipUnknownNameUAndWithoutLabel"));
+		Boolean isInSimpleInterpretationMode = importUtil.getHeuristicValue("labelOnlyInterpretationMode").equalsIgnoreCase("simple");
+		String defaultTypeWithLabel = importUtil.getHeuristicValue("unknownNameUButWithLabelType");
+		String defaultTypeWithoutLabel = importUtil.getHeuristicValue("unknownNameUAndWithoutLabelType");
 		for (Shape shape : visioPage.getShapes()) {
 			if (shape.name == null || shape.name.equals("")) {
 				if (shape.getLabel() != null && shape.getLabel() != "") {
@@ -105,9 +105,9 @@ public class HeuristicVisioInterpreter {
 	}
 	
 	private void interpreteShapeWithoutNameButWithLabelHeuristic(Shape shape,Page visioPage, List<Shape> shapesWithNames) {
-		Double isLabelThreshold = Double.valueOf(importUtil.getValueForHeuristic("labelOnlyIsLabelForAnotherShapeThreshold"));
-		Double isAnnotationThreshold = Double.valueOf(importUtil.getValueForHeuristic("labelOnlyIsAnnotationToAnotherShapeThreshold"));
-		String annotationType = importUtil.getValueForHeuristic("labelOnlyAnnotationType");
+		Double isLabelThreshold = Double.valueOf(importUtil.getHeuristicValue("labelOnlyIsLabelForAnotherShapeThreshold"));
+		Double isAnnotationThreshold = Double.valueOf(importUtil.getHeuristicValue("labelOnlyIsAnnotationToAnotherShapeThreshold"));
+		String annotationType = importUtil.getHeuristicValue("labelOnlyAnnotationType");
 		List<Shape> labelThresholdShapes = new ArrayList<Shape>();
 		List<Shape> annotationThresholdShapes = new ArrayList<Shape>();
 		for (Shape otherShape : visioPage.getShapes()) {
@@ -120,7 +120,7 @@ public class HeuristicVisioInterpreter {
 				annotationThresholdShapes.add(otherShape);
 		}
 		Boolean handled = false;
-		Integer stringLengthThresholdForLabels = Integer.valueOf(importUtil.getValueForHeuristic("labelOnlyTooLongForAnotherShapesLabelThreshold"));
+		Integer stringLengthThresholdForLabels = Integer.valueOf(importUtil.getHeuristicValue("labelOnlyTooLongForAnotherShapesLabelThreshold"));
 		if (labelThresholdShapes.size() > 0 && shape.getLabel().length() < stringLengthThresholdForLabels) {
 			Collections.sort(labelThresholdShapes);
 			if (labelThresholdShapes.get(0).getLabel() == null || "".equals(labelThresholdShapes.get(0).getLabel())) {
@@ -140,7 +140,7 @@ public class HeuristicVisioInterpreter {
 	}
 
 	private Shape createAssociationBetween(Shape shape, Shape annotation) {
-		String associationType = importUtil.getValueForHeuristic("labelOnlyAnnotationAssociation");
+		String associationType = importUtil.getHeuristicValue("labelOnlyAnnotationAssociation");
 		Shape association = new Shape();
 		association.setName(associationType);
 		association.setStartPoint(shape.getCentralPin());

@@ -88,9 +88,9 @@ public class VisioDataTransformator {
 		List<Shape> shapesWithId = new ArrayList<Shape>();
 		for (Shape shape : shapes) {
 			String stencilID = importUtil.getStencilIdForName(shape.getName());
-			if (stencilID == null || "".equals(stencilID)) {
+			if (stencilID != null && !"".equals(stencilID)) {
 				// stencilId is required in oryx json
-				continue;
+				shapesWithId.add(shape);
 			}
 		}
 		return shapesWithId;

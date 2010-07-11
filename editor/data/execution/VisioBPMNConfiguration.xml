@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<!--
-		Properties for the import of Microsoft Visio .vdx files (XML for
-		Visio) These properties define mappings from specific Visio 2003
-		stencil set identifiers (nameU attribute of Shape Elements) to BPMN2.0
-		types. Also in algorithms used heuristics are defined.
-	-->
+	<!-- Author: Lauritz Thamsen (PMP seminar 2010, Visio Import) -->
+
+	<!-- Properties for the import of Microsoft Visio .vdx files (XML for
+		 Visio) These properties define mappings from specific Visio 2003
+		 stencil set identifiers (nameU attribute of Shape Elements) to BPMN2.0
+		 types. Also in algorithms used heuristics are defined. -->
 
 
 
 	<!-- STENCIL SET MAPPINGS -->
-	<!--
-		Stencil Set of the Business Process Technology Group at HPI:
-		http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner
-	-->
+	<entry key="stencilsets.mappings">BPTBPMN11,OMG09</entry>
+	<!-- BPMN 1.1 Stencil Set of the Business Process Technology Group at HPI: http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner-->
 	<entry key="stencilsets.BPTBPMN11.stencil.Start">StartNoneEvent</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Intemediate">IntermediateEvent</entry> <!-- InteRmediate: Typo is in visio stencil set... -->
 	<entry key="stencilsets.BPTBPMN11.stencil.End">EndNoneEvent</entry>
@@ -75,8 +73,6 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>
-	
-	
 	<!-- STENCIL SET CONFIGURATION -->
 	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.isMarker">true</entry>
@@ -94,34 +90,70 @@
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.isMarker">true</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.key">isadhoc</entry>
 	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.value">true</entry>
-	
 	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
 	
-	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
-	
-	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
-	
-	<!-- Simple interpratation of unnamed shapes -->
-	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_And_Without_Label_is">Flow</entry> 
-	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_And_Without_Label">false</entry>
-	<!-- For simple interpreation mode of label-only shapes: set to another visio stencil nameU (e.g. Description) -->
-	<entry key="stencilsets.BPTBPMN11.config.Skip_unknown_NameU_But_With_Label">false</entry>
-	<entry key="stencilsets.BPTBPMN11.config.Unknown_NameU_But_With_Label_is">Description</entry> 
 	
 	
-	<!--
-		Mapping problems to tackle!!: 
-		- In this visio stencil a pool is assembled from two elements: 
-		body and head...but there's only a pool in BPMN 
-		- Also: A Lane isn't distinct to a pool body... 
-	-->
+	<!--BPMN 0.9 Stencil Set of the Object Management Group (OMG): http://www.omg.org/bpmn/documents.htm -->
+	<entry key="stencilsets.OMG09.stencil.Vertical pool">Pool</entry>
+	<entry key="stencilsets.OMG09.stencil.Task">Task</entry>
+	<entry key="stencilsets.OMG09.stencil.Start timer">StartTimerEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Start rule">StartConditionalEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Start multiple">StartMultipleEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Start message">StartMessageEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Start link">IntermediateLinkEventCatching</entry>
+	<entry key="stencilsets.OMG09.stencil.Start event">EndNoneEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Sequence flow">SequenceFlow</entry>
+	<entry key="stencilsets.OMG09.stencil.Message flow">MessageFlow</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate timer">IntermediateTimerEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate rule">IntermediateConditionalEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate process error">IntermediateErrorEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate multiple">IntermediateMultipleEventCatching</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate message">IntermediateMessageEventCatching</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate link">IntermediateLinkEventCatching</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate event">IntermediateEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Intermediate compensate">IntermediateCompensationEventCatching</entry>
+	<entry key="stencilsets.OMG09.stencil.Horizontal pool">Pool</entry>
+	<entry key="stencilsets.OMG09.stencil.Horizontal lane">Lane</entry>
+	<entry key="stencilsets.OMG09.stencil.Expanded sub-process">Subprocess</entry>
+	<entry key="stencilsets.OMG09.stencil.End process error">EndErrorEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.End multiple">EndMultipleEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.End message">EndMessageEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.End link">IntermediateLinkEventThrowing</entry>
+	<entry key="stencilsets.OMG09.stencil.End event">EndNoneEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.End compensate">EndCompensationEvent</entry>
+	<entry key="stencilsets.OMG09.stencil.Decision">Exclusive_Databased_Gateway</entry>
+	<entry key="stencilsets.OMG09.stencil.Data object">DataObject</entry>
+	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process">CollapsedSubprocess</entry>
+	<entry key="stencilsets.OMG09.stencil.Annotation">TextAnnotation</entry>
+	<entry key="stencilsets.OMG09.stencil.Activity looping">Task</entry>
+	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 1">CollapsedSubprocess</entry>
+	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 2">CollapsedSubprocess</entry>
+	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 3">CollapsedSubprocess</entry>
+	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 4">CollapsedSubprocess</entry>
+	<!-- STENCIL SET CONFIGURATION -->
+	<entry key="stencilsets.OMG09.config.specialTypes">Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4</entry>
+	<entry key="stencilsets.OMG09.config.Activity looping.keys">looptype</entry>
+	<entry key="stencilsets.OMG09.config.Activity looping.values">Standard</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 2.keys">looptype</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 2.values">Standard</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 3.keys">isadhoc</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 3.values">true</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 4.keys">isadhoc,looptype</entry>
+	<entry key="stencilsets.OMG09.config.Collapsed sub-process 4.values">true,standard</entry>
 	
 	
-	<!-- 
-		BPMN at ORYX: SPECIFIC CONFIGURATION (Resizeability/Fixed sizes)
-	 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- BPMN at ORYX: SPECIFIC CONFIGURATION (Resizeability/Fixed sizes) -->
+	
+	
 	<entry key="oryx.config.BPMN.resizableElements">Group,CollapsedPool,Pool,Lane,EventSubprocess,CollapsedEventSubprocess,Subprocess,CollapsedSubprocess,Task,TextAnnotation,DataObject</entry>	
 	<entry key="oryx.config.BPMN.Group.minWidth">60</entry>
 	<entry key="oryx.config.BPMN.Group.minHeight">50</entry>
@@ -161,6 +193,24 @@
 	<entry key="oryx.config.BPMN.TextAnnotation.LabelProperty">text</entry> 
 	<entry key="oryx.config.BPMN.DefaultLabelProperty">name</entry>
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- HEURISTICS -->
 	
 	<entry key="heuristics.Default_Page_Width">20.0</entry>
@@ -168,10 +218,10 @@
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
 	
 	<!-- Sequenceflow: For a start or end of an edge all shapes within this distance will be found
-	and the smallest will be assigned. So that a shape will be prefared to some swimlane.-->
+	and the smallest will be assigned. So that a shape will be preferred to some swimlane.-->
 	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
 	
-	<!-- Interpration of label-only shapes -->
+	<!-- Interpretation of label-only shapes -->
 	<entry key="heuristics.labelOnlyInterpretationMode">heuristic</entry> <!-- simple / heuristic --> <!-- for simple config see above -->
 	<entry key="heuristics.labelOnlyIsLabelForAnotherShapeThreshold">0.5</entry>
 	<entry key="heuristics.labelOnlyIsAnnotationToAnotherShapeThreshold">1.5</entry>
@@ -179,5 +229,18 @@
 	<entry key="heuristics.labelOnlyAnnotationType">Description</entry> <!-- Visio nameU -->
 	<entry key="heuristics.labelOnlyAnnotationAssociation">Undirected Association</entry> <!-- Visio nameU -->
 	<entry key="heuristics.labelOnlyTooLongForAnotherShapesLabelThreshold">30</entry>
+	<!-- For simple interpretation mode of label-only shapes: set to another visio stencil nameU (e.g. Description) -->
+	<entry key="heuristics.skipUnknownNameUButWithLabel">false</entry>
+	<entry key="heuristics.unknownNameUButWithLabelType">Description</entry> 
+	
+	<!-- Interpretation of unnamed and empty shapes -->
+	<entry key="heuristics.skipUnknownNameUAndWithoutLabel">false</entry>
+	<entry key="heuristics.unknownNameUAndWithoutLabelType">Flow</entry> 
+	
+	<!-- Huge tasks are subprocesses? -->
+	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
+	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
+	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
 	
 </properties>
