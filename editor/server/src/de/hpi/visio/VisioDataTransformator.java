@@ -32,7 +32,7 @@ public class VisioDataTransformator {
 	public Diagram createDiagramFromVisioData(VisioDocument visioData) {
 		VisioPageMerger merger = new VisioPageMerger();
 		visioData = merger.mergeAllPages(visioData);
-		VisioDataCleaner cleaner = new VisioDataCleaner(importUtil, shapeUtil);
+		VisioDataPreparator cleaner = new VisioDataPreparator(importUtil, shapeUtil);
 		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
 		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);

@@ -20,12 +20,12 @@ import de.hpi.visio.util.ShapeUtil;
  * - Sets properties from shape'S nameU values
  * @author Lauritz Thamsen
  */
-public class VisioDataCleaner {
+public class VisioDataPreparator {
 	
 	private ImportConfigurationUtil importUtil;
 	private ShapeUtil shapeUtil;
 	
-	public VisioDataCleaner(ImportConfigurationUtil importUtil, ShapeUtil shapeUtil) {
+	public VisioDataPreparator(ImportConfigurationUtil importUtil, ShapeUtil shapeUtil) {
 		this.importUtil = importUtil;
 		this.shapeUtil = shapeUtil;
 	}
@@ -41,11 +41,11 @@ public class VisioDataCleaner {
 		Map<String, String>masterIdToNameMapping = visioData.getMasterIdToNameMapping();
 		Page firstPage = visioData.getFirstPage();
 		for (Shape shape : firstPage.getShapes()) {
-			if (shape.getName() == null || shape.getName().equals(""))
-				if (shape.getMasterId() != null && !shape.getMasterId().equals("")) {
-					String newName = masterIdToNameMapping.get(shape.getMasterId());
-					shape.setName(newName);
-				}
+			if (shape.getMasterId() != null && !shape.getMasterId().equals("")) {
+				// master's nameUs seem to be more valid
+				String newName = masterIdToNameMapping.get(shape.getMasterId());
+				shape.setName(normalizeName(newName));
+			}
 		}
 		return firstPage;
 	}
@@ -91,28 +91,37 @@ public class VisioDataCleaner {
 		List<Shape> shapes = visioPage.getShapes();
 		List<Shape> shapesWithNormalizedNames = new ArrayList<Shape>();
 		for (Shape shape : shapes) {
-			if (shape.getName() != null && shape.getName().contains(".")) {
-				int end = shape.getName().indexOf(".");
-				String cleanedName = shape.getName().substring(0,end);
-				shape.setName(cleanedName);
-			} 
+			shape.setName(normalizeName(shape.getName())); 
 			shapesWithNormalizedNames.add(shape);
 		}
 		visioPage.setShapes(shapesWithNormalizedNames);
 		return visioPage;
 	}
+
+	private String normalizeName(String name) {
+		if (name != null && name.contains(".")) {
+			int end = name.indexOf(".");
+			String cleanedName = name.substring(0,end);
+			return cleanedName;
+		}
+		return name;
+	}
 	
 	private Page convertMarkersToTypeWithProperties(Page page) {
-		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyTaskProperties");
+		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyProperties");
 		String[] propertyElements = propertyElementsString.split(",");
 		Shape resultingShape = null;
 		for (String propertyElementName : propertyElements) {
 			List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
 			for (Shape propertyShape : propertyShapes) {
-				Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".isMarker"));
+				Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getStencilSetConfig("Properties." + propertyElementName + ".isMarker"));
 				if (isOnlyAMarkerElement) {
 					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
-					if (containingShape != null) { 
+					if  (containingShape == null) 
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
+					if  (containingShape == null) 
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
+					if (containingShape != null) {
 						resultingShape = containingShape;
 					}
 					page.removeShape(propertyShape);
@@ -133,7 +142,7 @@ public class VisioDataCleaner {
 		String[] nameUTypesIncludingProperties = importUtil.getStencilSetConfig("specialTypes").split(",");
 		for (Shape shape : page.getShapes()) {
 			for (String specialType : nameUTypesIncludingProperties) {
-				if (specialType.equalsIgnoreCase(shape.getName())) {
+				if (specialType.equals(shape.getName())) {
 					String[] keys = importUtil.getStencilSetConfig(shape.getName() + ".keys").split(",");
 					String[] values = importUtil.getStencilSetConfig(shape.getName() + ".values").split(",");
 					for (int i=0; i<keys.length; i++) {

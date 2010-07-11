@@ -11,8 +11,10 @@
 
 
 	<!-- STENCIL SET MAPPINGS -->
-	<entry key="stencilsets.mappings">BPTBPMN11,OMG09</entry>
+	<entry key="stencilsets.mappings">BPTBPMN11,OMG09,VISIO2010</entry>
+	
 	<!-- BPMN 1.1 Stencil Set of the Business Process Technology Group at HPI: http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner-->
+	
 	<entry key="stencilsets.BPTBPMN11.stencil.Start">StartNoneEvent</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Intemediate">IntermediateEvent</entry> <!-- InteRmediate: Typo is in visio stencil set... -->
 	<entry key="stencilsets.BPTBPMN11.stencil.End">EndNoneEvent</entry>
@@ -72,25 +74,7 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Branching Condition">NOT_VALID_SHAPE_NAME</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
-	<entry key="stencilsets.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>
-	<!-- STENCIL SET CONFIGURATION -->
-	<entry key="stencilsets.BPTBPMN11.config.areOnlyTaskProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.isMarker">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.key">looptype</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Activity Looping.value">Standard</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.isMarker">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.key">looptype</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Multiple Instances.value">Parallel</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.isMarker">false</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.key">callacitivity</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Transaction.value">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.isMarker">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.key">isforcompensation</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Compensation.value">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.isMarker">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.key">isadhoc</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskProperties.Ad-Hoc.value">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>	
 	
 	
 	
@@ -131,16 +115,142 @@
 	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 2">CollapsedSubprocess</entry>
 	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 3">CollapsedSubprocess</entry>
 	<entry key="stencilsets.OMG09.stencil.Collapsed sub-process 4">CollapsedSubprocess</entry>
-	<!-- STENCIL SET CONFIGURATION -->
-	<entry key="stencilsets.OMG09.config.specialTypes">Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4</entry>
-	<entry key="stencilsets.OMG09.config.Activity looping.keys">looptype</entry>
-	<entry key="stencilsets.OMG09.config.Activity looping.values">Standard</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 2.keys">looptype</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 2.values">Standard</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 3.keys">isadhoc</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 3.values">true</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 4.keys">isadhoc,looptype</entry>
-	<entry key="stencilsets.OMG09.config.Collapsed sub-process 4.values">true,standard</entry>
+	
+	
+	
+	<!--Official BPMN 1.2 Stencil Set of Microsoft Visio 2010 -->
+	
+	<entry key="stencilsets.VISIO2010.stencil.Dynamic Connector">SequenceFlow</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Collapsed Sub-Process">CollapsedSubprocess</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Task">Task</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Gateway">Exclusive_Databased_Gateway</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Event">IntermediateEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Event">StartNoneEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Event">IntermediateMessageEventThrowing</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Event">EndNoneEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Message Event">StartMessageEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Message Event">IntermediateMessageEventCatching</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Message Event">IntermediateMessageEventThrowing</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Message Event">EndMessageEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Timer Event">StartTimerEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Timer Event">IntermediateTimerEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Error Event">IntermediateErrorEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Error Event">EndErrorEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Cancel Event">IntermediateCancelEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Cancel Event">EndCancelEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Terminate Event">EndTerminateEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Compensation Event">IntermediateCompensationEventCatching</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Compensation Event">IntermediateCompensationEventThrowing</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Compensation Event">EndCompensationEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Conditional Event">StartConditionalEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Conditional Event">IntermediateConditionalEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Link Event">IntermediateLinkEventCatching</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Link Event">IntermediateLinkEventThrowing</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Signal Event">StartSignalEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Signal Event">IntermediateSignalEventCatching</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Signal Event">IntermediateSignalEventThrowing</entry>
+	<entry key="stencilsets.VISIO2010.stencil.End Signal Event">EndSignalEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Start Multiple Event">StartMultipleEvent</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate Multiple Event">IntermediateMultipleEventCatching</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Intermediate (Throwing) Multiple Event">IntermediateEscalationEventThrowing</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.End Multiple Event">EndMultipleEvent</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Exclusive Data Gateway">Exclusive_Databased_Gateway</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Exclusive Data Gateway (with Marker)">Exclusive_Databased_Gateway</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Exclusive Event Gateway">EventbasedGateway</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Inclusive Gateway">InclusiveGateway</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Parallel Gateway">ParallelGateway</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Sequence Flow">SequenceFlow</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Message Flow">MessageFlow</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Sequence Flow (Conditional)">SequenceFlow</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Sequence Flow (Default)">SequenceFlow</entry>		
+	<entry key="stencilsets.VISIO2010.stencil.Association">Association_Undirected</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Association (One Direction)">Association_Unidirectional</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Association (Both Directions)">Association_Bidirectional</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Standard Loop Task">Task</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Multi-Instance Loop Task">Task</entry>
+	<entry key="stencilsets.VISIO2010.stencil.Compensation Task">Task</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Standard Loop Collapsed Sub-Process">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Multi-Instance Loop Collapsed Sub-Process">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Compensation Collapsed Sub-Process">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Ad-Hoc Collapsed Sub-Process">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Transaction Collapsed Sub-Process">CollapsedSubprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Standard Loop Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Multi-Instance Loop Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Compensation Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Ad-Hoc Expanded Sub-Process">Subprocess</entry>	
+	<entry key="stencilsets.VISIO2010.stencil.Transaction Expanded Sub-Process">Subprocess</entry>		
+	
+	
+	
+	<!-- STENCIL SET CONFIGURATION - PROPERTY MAPPINGS -->
+	
+	<!-- mind case-sensivity, but having the same name as taskPropertyMarker and 
+	as specialTaskType that represents a property will cause failure -->
+	<!-- Markers -->
+	<entry key="stencilsets.config.areOnlyProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
+	<entry key="stencilsets.config.Properties.Activity Looping.isMarker">true</entry>
+	<entry key="stencilsets.config.Properties.Activity Looping.key">looptype</entry>
+	<entry key="stencilsets.config.Properties.Activity Looping.value">Standard</entry>
+	<entry key="stencilsets.config.Properties.Multiple Instances.isMarker">true</entry>
+	<entry key="stencilsets.config.Properties.Multiple Instances.key">looptype</entry>
+	<entry key="stencilsets.config.Properties.Multiple Instances.value">Parallel</entry>
+	<entry key="stencilsets.config.Properties.Transaction.isMarker">false</entry>
+	<entry key="stencilsets.config.Properties.Transaction.key">callacitivity</entry>
+	<entry key="stencilsets.config.Properties.Transaction.value">true</entry>
+	<entry key="stencilsets.config.Properties.Compensation.isMarker">true</entry>
+	<entry key="stencilsets.config.Properties.Compensation.key">isforcompensation</entry>
+	<entry key="stencilsets.config.Properties.Compensation.value">true</entry>
+	<entry key="stencilsets.config.Properties.Ad-Hoc.isMarker">true</entry>
+	<entry key="stencilsets.config.Properties.Ad-Hoc.key">isadhoc</entry>
+	<entry key="stencilsets.config.Properties.Ad-Hoc.value">true</entry>
+	<entry key="stencilsets.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
+	
+	<!-- special types of stencils, representing properties -->
+	<entry key="stencilsets.config.specialTypes">Multi-Instance Loop Collapsed Sub-Process,Standard Loop Collapsed Sub-Process,Compensation Task,Multi-Instance Loop Task,Sequence Flow (Default),Sequence Flow (Conditional),Conditional Flow,Default Flow,Standard Loop Task,Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4</entry>
+	<entry key="stencilsets.config.Standard Loop Task.keys">looptyp</entry>
+	<entry key="stencilsets.config.Standard Loop Task.values">Standard</entry>
+	<entry key="stencilsets.config.Activity looping.keys">looptype</entry>
+	<entry key="stencilsets.config.Activity looping.values">Standard</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 2.keys">looptype</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 2.values">Standard</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 3.keys">isadhoc</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 3.values">true</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 4.keys">isadhoc,looptype</entry>
+	<entry key="stencilsets.config.Collapsed sub-process 4.values">true,standard</entry>
+	<entry key="stencilsets.config.Default Flow.keys">conditiontype</entry>
+	<entry key="stencilsets.config.Default Flow.values">Default</entry>
+	<entry key="stencilsets.config.Conditional Flow.keys">conditiontype</entry>
+	<entry key="stencilsets.config.Conditional Flow.values">Expression</entry>
+	<entry key="stencilsets.config.Sequence Flow (Conditional).keys">conditiontype</entry>
+	<entry key="stencilsets.config.Sequence Flow (Conditional).values">Expression</entry>
+	<entry key="stencilsets.config.Sequence Flow (Default).keys">conditiontype</entry>
+	<entry key="stencilsets.config.Sequence Flow (Default).values">Default</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Task.keys">looptype</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Task.values">Parallel</entry>
+	<entry key="stencilsets.config.Compensation Task.keys">isforcompensation</entry>
+	<entry key="stencilsets.config.Compensation Task.values">true</entry>
+	<entry key="stencilsets.config.Standard Loop Collapsed Sub-Process.keys">looptype</entry>
+	<entry key="stencilsets.config.Standard Loop Collapsed Sub-Process.values">Standard</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Collapsed Sub-Process.keys">looptype</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Collapsed Sub-Process.values">Parallel</entry>
+	<entry key="stencilsets.config.Compensation Collapsed Sub-Process.keys">isforcompensation</entry>
+	<entry key="stencilsets.config.Compensation Collapsed Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Ad-Hoc Collapsed Sub-Process.keys">isadhoc</entry>
+	<entry key="stencilsets.config.Ad-Hoc Collapsed Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Transaction Collapsed Sub-Process.keys">callacitivity</entry>
+	<entry key="stencilsets.config.Transaction Collapsed Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Standard Loop Expanded Sub-Process.keys">looptype</entry>
+	<entry key="stencilsets.config.Standard Loop Expanded Sub-Process.values">Standard</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Expanded Sub-Process.keys">looptype</entry>
+	<entry key="stencilsets.config.Multi-Instance Loop Expanded Sub-Process.values">Parallel</entry>
+	<entry key="stencilsets.config.Compensation Expanded Sub-Process.keys">isforcompensation</entry>
+	<entry key="stencilsets.config.Compensation Expanded Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Ad-Hoc Expanded Sub-Process.keys">isadhoc</entry>
+	<entry key="stencilsets.config.Ad-Hoc Expanded Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Transaction Expanded Sub-Process.keys">callacitivity</entry>
+	<entry key="stencilsets.config.Transaction Expanded Sub-Process.values">true</entry>
+	
 	
 	
 	
@@ -152,7 +262,6 @@
 	
 	
 	<!-- BPMN at ORYX: SPECIFIC CONFIGURATION (Resizeability/Fixed sizes) -->
-	
 	
 	<entry key="oryx.config.BPMN.resizableElements">Group,CollapsedPool,Pool,Lane,EventSubprocess,CollapsedEventSubprocess,Subprocess,CollapsedSubprocess,Task,TextAnnotation,DataObject</entry>	
 	<entry key="oryx.config.BPMN.Group.minWidth">60</entry>

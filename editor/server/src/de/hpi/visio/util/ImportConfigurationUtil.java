@@ -83,13 +83,7 @@ public class ImportConfigurationUtil {
 	 * @return
 	 */
 	public String getStencilSetConfig(String key) {
-		String[] stencilSets = properties.getProperty("stencilsets.mappings").split(",");
-		for (String stencilSet : stencilSets) {
-			String configValue = properties.getProperty("stencilsets." + stencilSet + ".config." + key);
-			if (configValue != null)
-				return configValue;
-		}
-		return null;
+		return properties.getProperty("stencilsets.config." + key);
 	}
 	
 	/**
