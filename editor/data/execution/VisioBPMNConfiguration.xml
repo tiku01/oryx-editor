@@ -347,9 +347,9 @@
 	<entry key="heuristics.unknownNameUAndWithoutLabelType">Flow</entry> 
 	
 	<!-- Huge tasks are subprocesses? -->
-	<entry key="stencilsets.BPTBPMN11.config.interpreteHugeTasksAsSubprocesses">true</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdWidth">2.1</entry>
-	<entry key="stencilsets.BPTBPMN11.config.taskToSubprocessThresholdHeight">1.7</entry>
-	<entry key="stencilsets.BPTBPMN11.config.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
+	<entry key="heuristics.interpreteHugeTasksAsSubprocesses">true</entry>
+	<entry key="heuristics.taskToSubprocessThresholdWidth">2.1</entry>
+	<entry key="heuristics.taskToSubprocessThresholdHeight">1.7</entry>
+	<entry key="heuristics.containerShouldHaveAtLeastXTimesTheSizeThreshold">1.5</entry>
 	
 </properties>
