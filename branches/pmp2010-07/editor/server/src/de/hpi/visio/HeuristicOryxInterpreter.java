@@ -110,8 +110,8 @@ public class HeuristicOryxInterpreter {
 
 	private Shape searchBestFittingContainers(Shape containableShape, ArrayList<Shape> shapes) {
 		List<Shape> allFittingContainers = new ArrayList<Shape>();
+		Double shapeSizeThresholdFactor = Double.valueOf(importUtil.getHeuristicValue("containerShouldHaveAtLeastXTimesTheSizeThreshold"));
 		for (Shape possibleContainer : shapes) {
-			Double shapeSizeThresholdFactor = Double.valueOf(importUtil.getStencilSetConfig("containerShouldHaveAtLeastXTimesTheSizeThreshold"));
 			if (CONTAINER_SHAPE_IDS.contains(possibleContainer.getStencilId())) {
 				if (getShapeSize(possibleContainer) > (getShapeSize(containableShape) * shapeSizeThresholdFactor)) {
 					if (firstShapeIsOnSecoundShape(containableShape, possibleContainer))

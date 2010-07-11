@@ -164,7 +164,7 @@ public class HeuristicVisioInterpreter {
 	}
 
 	private Page interpreteTaskBounds(Page page) {
-		Boolean hugeTasksAreSubprocesses = Boolean.valueOf(importUtil.getStencilSetConfig("interpreteHugeTasksAsSubprocesses"));
+		Boolean hugeTasksAreSubprocesses = Boolean.valueOf(importUtil.getHeuristicValue("interpreteHugeTasksAsSubprocesses"));
 		if (hugeTasksAreSubprocesses) {
 			List<Shape> tasks = getAllTaskShapes(page);
 			for (Shape task : tasks) {
@@ -185,8 +185,8 @@ public class HeuristicVisioInterpreter {
 	}
 	
 	private boolean taskIsAsHugeAsASubprocess(Shape task) {
-		Double widthThreshold = Double.valueOf(importUtil.getStencilSetConfig("taskToSubprocessThresholdWidth"));
-		Double heightThreshold = Double.valueOf(importUtil.getStencilSetConfig("taskToSubprocessThresholdHeight"));
+		Double widthThreshold = Double.valueOf(importUtil.getHeuristicValue("taskToSubprocessThresholdWidth"));
+		Double heightThreshold = Double.valueOf(importUtil.getHeuristicValue("taskToSubprocessThresholdHeight"));
 		if (task.getWidth() >= widthThreshold || task.getHeight() >= heightThreshold) {
 			return true;
 		} else {
