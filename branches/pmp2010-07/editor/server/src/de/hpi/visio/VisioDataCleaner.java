@@ -11,6 +11,15 @@ import de.hpi.visio.data.XForm;
 import de.hpi.visio.util.ImportConfigurationUtil;
 import de.hpi.visio.util.ShapeUtil;
 
+/**
+ * The VisioDataCleaner prepares the xmappr-generated Java classes to be mapped
+ * to the Diagram Api of Oryx. 
+ * - Resolves MasterIds, when in *.vdx-data the nameU (type) was only set by a reference to a master-shape.
+ * - Checks diagrams and all shapes for bounds
+ * - Merges markers and shapes to be oryx-conform shapes (e.g. task with a loop-marker)
+ * - Sets properties from shape'S nameU values
+ * @author Lauritz Thamsen
+ */
 public class VisioDataCleaner {
 	
 	private ImportConfigurationUtil importUtil;
@@ -49,19 +58,19 @@ public class VisioDataCleaner {
 
 	private Page cleanPage(Page visioPage) {
 		Page pageWithStandardShapes = normalizeNames(visioPage);
-		Page pageWithConvertedProperties = convertTaskProperties(pageWithStandardShapes);
+		Page pageWithConvertedMarkers = convertMarkersToTypeWithProperties(pageWithStandardShapes);
+		Page pageWithConvertedProperties = convertSpecialTypesToTypesWithProperties(pageWithConvertedMarkers);
 		Page pageWithRealSubprocesses = convertTaskWithMarkerToSubprocesses(pageWithConvertedProperties);
 		return pageWithRealSubprocesses;
 	}
 
-
 	private Page checkDiagramForBounds(Page visioPage) {
 		if (visioPage.getWidth() == null) {
-			String heuristicValue = importUtil.getValueForHeuristic("Default_Page_Width");
+			String heuristicValue = importUtil.getHeuristicValue("Default_Page_Width");
 			visioPage.setWidth(Double.valueOf(heuristicValue));
 		}
 		if (visioPage.getHeight() == null) {
-			String heuristicValue = importUtil.getValueForHeuristic("Default_Page_Height");
+			String heuristicValue = importUtil.getHeuristicValue("Default_Page_Height");
 			visioPage.setHeight(Double.valueOf(heuristicValue));
 		}
 		return visioPage;
@@ -93,7 +102,7 @@ public class VisioDataCleaner {
 		return visioPage;
 	}
 	
-	private Page convertTaskProperties(Page page) {
+	private Page convertMarkersToTypeWithProperties(Page page) {
 		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyTaskProperties");
 		String[] propertyElements = propertyElementsString.split(",");
 		Shape resultingShape = null;
@@ -114,6 +123,22 @@ public class VisioDataCleaner {
 				String propertyValue = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".value");
 				if (resultingShape != null && propertyKey != null && propertyValue != null) {
 					resultingShape.putProperty(propertyKey, propertyValue);
+				}
+			}
+		}
+		return page;
+	}
+	
+	private Page convertSpecialTypesToTypesWithProperties(Page page) {
+		String[] nameUTypesIncludingProperties = importUtil.getStencilSetConfig("specialTypes").split(",");
+		for (Shape shape : page.getShapes()) {
+			for (String specialType : nameUTypesIncludingProperties) {
+				if (specialType.equalsIgnoreCase(shape.getName())) {
+					String[] keys = importUtil.getStencilSetConfig(shape.getName() + ".keys").split(",");
+					String[] values = importUtil.getStencilSetConfig(shape.getName() + ".values").split(",");
+					for (int i=0; i<keys.length; i++) {
+						shape.putProperty(keys[i], values[i]);
+					} 
 				}
 			}
 		}

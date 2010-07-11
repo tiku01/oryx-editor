@@ -20,8 +20,8 @@ public class ShapeUtil {
 	
 	public ShapeUtil(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
-		 visioPointUnitFactor = Integer.valueOf(importUtil.getValueForHeuristic("Unit_To_Pixel_Exchange"));
-		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getValueForHeuristic("maxEdgeToShapeDistance"));
+		 visioPointUnitFactor = Integer.valueOf(importUtil.getHeuristicValue("Unit_To_Pixel_Exchange"));
+		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getHeuristicValue("maxEdgeToShapeDistance"));
 	}
 		
 	public Bounds getCorrectedShapeBounds(Shape shape, Page page) {
