@@ -50,7 +50,7 @@
 	<entry key="stencilsets.BPTBPMN11.stencil.Task/ Subprocess">Task</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Task/Subtask">Task</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Activity">Task</entry>
-	<entry key="stencilsets.BPTBPMN11.stencil.Transaction">Task</entry>
+	<entry key="stencilsets.BPTBPMN11.stencil.Transaction">Subprocess</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Group">Group</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Gateway">Exclusive_Databased_Gateway</entry>
 	<entry key="stencilsets.BPTBPMN11.stencil.Gateway XOR">Exclusive_Databased_Gateway</entry>
@@ -208,7 +208,7 @@
 	<entry key="stencilsets.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
 	
 	<!-- special types of stencils, representing properties -->
-	<entry key="stencilsets.config.specialTypes">Multi-Instance Loop Collapsed Sub-Process,Standard Loop Collapsed Sub-Process,Compensation Task,Multi-Instance Loop Task,Sequence Flow (Default),Sequence Flow (Conditional),Conditional Flow,Default Flow,Standard Loop Task,Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4</entry>
+	<entry key="stencilsets.config.specialTypes">Multi-Instance Loop Collapsed Sub-Process,Standard Loop Collapsed Sub-Process,Compensation Task,Multi-Instance Loop Task,Sequence Flow (Default),Sequence Flow (Conditional),Conditional Flow,Default Flow,Standard Loop Task,Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4,Transaction</entry>
 	<entry key="stencilsets.config.Standard Loop Task.keys">looptyp</entry>
 	<entry key="stencilsets.config.Standard Loop Task.values">Standard</entry>
 	<entry key="stencilsets.config.Activity looping.keys">looptype</entry>
@@ -239,7 +239,7 @@
 	<entry key="stencilsets.config.Compensation Collapsed Sub-Process.values">true</entry>
 	<entry key="stencilsets.config.Ad-Hoc Collapsed Sub-Process.keys">isadhoc</entry>
 	<entry key="stencilsets.config.Ad-Hoc Collapsed Sub-Process.values">true</entry>
-	<entry key="stencilsets.config.Transaction Collapsed Sub-Process.keys">callacitivity</entry>
+	<entry key="stencilsets.config.Transaction Collapsed Sub-Process.keys">isatransaction</entry>
 	<entry key="stencilsets.config.Transaction Collapsed Sub-Process.values">true</entry>
 	<entry key="stencilsets.config.Standard Loop Expanded Sub-Process.keys">looptype</entry>
 	<entry key="stencilsets.config.Standard Loop Expanded Sub-Process.values">Standard</entry>
@@ -249,8 +249,11 @@
 	<entry key="stencilsets.config.Compensation Expanded Sub-Process.values">true</entry>
 	<entry key="stencilsets.config.Ad-Hoc Expanded Sub-Process.keys">isadhoc</entry>
 	<entry key="stencilsets.config.Ad-Hoc Expanded Sub-Process.values">true</entry>
-	<entry key="stencilsets.config.Transaction Expanded Sub-Process.keys">callacitivity</entry>
+	<entry key="stencilsets.config.Transaction Expanded Sub-Process.keys">isatransaction</entry>
 	<entry key="stencilsets.config.Transaction Expanded Sub-Process.values">true</entry>
+	<entry key="stencilsets.config.Transaction.keys">isatransaction</entry>
+	<entry key="stencilsets.config.Transaction.values">true</entry>
+	
 	
 	
 	
@@ -336,8 +339,8 @@
 	
 	<!-- Interpretation of label-only shapes -->
 	<entry key="heuristics.labelOnlyInterpretationMode">heuristic</entry> <!-- simple / heuristic --> <!-- for simple config see above -->
-	<entry key="heuristics.labelOnlyIsLabelForAnotherShapeThreshold">0.5</entry>
-	<entry key="heuristics.labelOnlyIsAnnotationToAnotherShapeThreshold">1.5</entry>
+	<entry key="heuristics.labelOnlyIsLabelForAnotherShapeThreshold">0.8</entry>
+	<entry key="heuristics.labelOnlyIsAnnotationToAnotherShapeThreshold">2.5</entry>
 	<entry key="heuristics.labelOnlyIsDanglingAnnotation">true</entry>
 	<entry key="heuristics.labelOnlyAnnotationType">Description</entry> <!-- Visio nameU -->
 	<entry key="heuristics.labelOnlyAnnotationAssociation">Undirected Association</entry> <!-- Visio nameU -->

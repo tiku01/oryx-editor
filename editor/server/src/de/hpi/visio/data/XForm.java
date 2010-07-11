@@ -131,12 +131,12 @@ public class XForm {
 	
 	private void swapWidthAndHeightIfThereIsAnAngle() {
 		// angle around 90 degrees? pool headers...
-		if (angle.getAngle() > 1 && angle.getAngle() < 2) {
-			Double height = this.height.getHeight();
-			Double width = this.width.getWidth();
-			this.height.setHeight(width);
-			this.width.setWidth(height);
-			angle.setAngle(0.0);
+		if (angle != null && angle.getAngle() != null && angle.getAngle() > 1 && angle.getAngle() < 2) {
+				Double height = this.height.getHeight();
+				Double width = this.width.getWidth();
+				this.height.setHeight(width);
+				this.width.setWidth(height);
+				angle.setAngle(0.0);
 		}
 	}
 

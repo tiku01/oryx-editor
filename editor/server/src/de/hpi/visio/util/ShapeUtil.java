@@ -172,6 +172,13 @@ public class ShapeUtil {
 			Point sourceMiddlePoint = getCentralPinOfCorrectedBounds(correctedSourceBounds);
 			correctedDockers.add((sourceMiddlePoint));
 		}
+		for (Point dockerPoint : shape.getDockerPoints()) {
+			Point correctedDocker = getCorrectedPoint(dockerPoint);
+			Point correctEdgeStartPoint = this.getCorrectedPoint(shape.getStartPointForPage(page));
+			Double correctedAndFromSourceX = correctEdgeStartPoint.getX() + correctedDocker.getX();
+			Double correctedAndFromSourceY = correctEdgeStartPoint.getY() - correctedDocker.getY();
+			correctedDockers.add(new Point(correctedAndFromSourceX, correctedAndFromSourceY));
+		}
 		if (shape.getTarget() != null) {
 			Bounds correctedTargetBounds = getCorrectedShapeBounds(shape.getTarget(),page);
 			Point targetMiddlePoint = getCentralPinOfCorrectedBounds(correctedTargetBounds);

@@ -23,7 +23,7 @@ public class Shape implements Comparable<Shape> {
 	private Shape source;
 
 	private String shapeId;
-
+	
 	@Attribute("NameU")
 	public String name;
 
@@ -38,6 +38,9 @@ public class Shape implements Comparable<Shape> {
 
 	@Element("Text")
 	public Label label;
+	
+	@Element("Geom")
+	public Geom geom;
 
 	public Map<String, String> properties;
 
@@ -222,10 +225,19 @@ public class Shape implements Comparable<Shape> {
 	public Double getArea() {
 		return this.getHeight() * this.getWidth();
 	}
+	
+	public List<Point> getDockerPoints() {
+		if (geom != null) {
+			 return geom.getDockerPointsInRightOrder();
+		}
+		return new ArrayList<Point>();
+	}
 
 	@Override
 	public int compareTo(Shape otherShape) {
 		return this.getArea().compareTo(otherShape.getArea());
 	}
+
+	
 
 }

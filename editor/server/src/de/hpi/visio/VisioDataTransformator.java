@@ -57,16 +57,7 @@ public class VisioDataTransformator {
 			oryxShape.setBounds(correctedBounds);
 			ArrayList<Point> dockers = shapeUtil.getCorrectedDockersForShape(visioShape, visioPage);
 			oryxShape.setDockers(dockers);
-			if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
-				String[] labelPropertyNameExceptions = importUtil.getOryxBPMNConfig("LabelPropertyException").split(",");
-				for (String exception : labelPropertyNameExceptions) {
-					if (exception.equalsIgnoreCase(oryxShape.getStencilId())) 
-						oryxShape.putProperty(importUtil.getOryxBPMNConfig(exception + ".LabelProperty"), visioShape.getLabel());
-				}
-				if (oryxShape.getProperties().size() == 0) {
-					oryxShape.putProperty(importUtil.getOryxBPMNConfig("DefaultLabelProperty"), visioShape.getLabel());
-				}
-			}
+			setLabelPropertyForShape(visioShape, oryxShape);
 			for (String propertyKey : visioShape.getProperties().keySet()) {
 				oryxShape.putProperty(propertyKey, visioShape.getPropertyValueByKey(propertyKey));
 			}
@@ -74,6 +65,20 @@ public class VisioDataTransformator {
 		}
 		correctFlowOfShapes(childShapes, visioPage);
 		return childShapes;
+	}
+
+	private void setLabelPropertyForShape(Shape visioShape,
+			org.oryxeditor.server.diagram.Shape oryxShape) {
+		if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
+			String[] labelPropertyNameExceptions = importUtil.getOryxBPMNConfig("LabelPropertyException").split(",");
+			for (String exception : labelPropertyNameExceptions) {
+				if (exception.equalsIgnoreCase(oryxShape.getStencilId())) 
+					oryxShape.putProperty(importUtil.getOryxBPMNConfig(exception + ".LabelProperty"), visioShape.getLabel());
+			}
+			if (oryxShape.getProperties().size() == 0) {
+				oryxShape.putProperty(importUtil.getOryxBPMNConfig("DefaultLabelProperty"), visioShape.getLabel());
+			}
+		}
 	}
 
 	private Diagram getNewBPMNDiagram() {

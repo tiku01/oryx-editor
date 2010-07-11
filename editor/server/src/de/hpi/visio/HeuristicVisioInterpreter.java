@@ -25,7 +25,7 @@ public class HeuristicVisioInterpreter {
 		Page page = removeInvalidShapeNames(visioPage);
 		page = interpreteShapeNames(visioPage);
 		page = interpreteTaskBounds(page);
-		List<Shape> correctedChildShapes = correctAllEdges(page.getShapes());
+		List<Shape> correctedChildShapes = assignAllEdges(page);
 		page.setShapes(correctedChildShapes);
 		return page;
 	}
@@ -41,7 +41,8 @@ public class HeuristicVisioInterpreter {
 		return visioPage;
 	}
 
-	private List<Shape> correctAllEdges(List<Shape> shapes) {
+	private List<Shape> assignAllEdges(Page page) {
+		List<Shape> shapes = page.getShapes();
 		List<Shape> edges = getAllEdges(shapes);
 		for (Shape edge : edges) {
 			Shape source = shapeUtil.getSmallestShapeToPointWithinThreshold(edge, edge.getStartPoint(), shapes);
@@ -56,7 +57,6 @@ public class HeuristicVisioInterpreter {
 				edge.addOutgoing(target);
 				edge.setTarget(target);
 			}
-				
 		}
 		return shapes;
 	}
