@@ -94,7 +94,7 @@ public class StepThroughServlet extends HttpServlet {
 				}
 				
 				// Initialize step through
-				IEPC epcDiagram = new OryxParser(new EPCFactory()).parse(document).get(0);
+				IEPC<?, ?, ?, ?, ?, ?, ?, ?, ?> epcDiagram = new OryxParser(new EPCFactory()).parse(document).get(0);
 				EPCStepThroughInterpreter epcStm = new EPCStepThroughInterpreter(epcDiagram);
 				epcStm.setInitialMarking(Arrays.asList(initialMarking.split(";")));
 				

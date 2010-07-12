@@ -9,6 +9,7 @@ public class CPNString
 {
 	// Elements which are neither important for the Export nor the Import, but these elements
 	// are necessary for XStream otherwise XStream raises an error
+	@SuppressWarnings("unused")
 	private transient Object with;	
 	
 	// ------------------------------------------ Mapping ------------------------------------------

@@ -195,7 +195,7 @@ public class ReachabilityGraph<Diagram, FlowObject, Marking>
 	 * @return Next marking which is a result of a transition with given flow object
 	 */
 	public Marking getSuccessor(Marking m, FlowObject fo){
-		for(ReachabilityTransition trans : this.getOutgoingEdges(this.findByMarking(m))){
+		for(ReachabilityTransition<FlowObject, Marking>  trans : this.getOutgoingEdges(this.findByMarking(m))){
 			if(trans.getFlowObject() == fo){
 				return ((ReachabilityNode<Marking>)trans.getTarget()).getMarking();
 			}

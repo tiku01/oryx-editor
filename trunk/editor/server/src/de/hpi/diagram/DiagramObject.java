@@ -3,7 +3,7 @@ package de.hpi.diagram;
 import java.util.Map;
 
 
-public abstract class DiagramObject implements Comparable {
+public abstract class DiagramObject implements Comparable<DiagramObject> {
 
 	protected String resourceId;
 	protected String type;
@@ -25,7 +25,7 @@ public abstract class DiagramObject implements Comparable {
 		this.type = type;
 	}
 	
-	public int compareTo(Object o){
+	public int compareTo(DiagramObject o){
 		return this.getResourceId().compareTo(((DiagramObject)o).getResourceId());
 	}
 	

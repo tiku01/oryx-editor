@@ -11,7 +11,10 @@ public class ReachabilityNode<Marking> extends Vertex {
 	
 	public boolean equals(Object o){
 		//System.out.println("Calling MarkingNode#equals");
-		return marking.equals(((ReachabilityNode<Marking>)o).getMarking());
+		if(o instanceof ReachabilityNode<?>){
+			return marking.equals(((ReachabilityNode<?>)o).getMarking());
+		}
+		return false;
 	}
 
 	public Marking getMarking() {

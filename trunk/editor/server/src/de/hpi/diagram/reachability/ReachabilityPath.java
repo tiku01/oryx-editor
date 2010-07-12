@@ -30,6 +30,7 @@ public class ReachabilityPath<FlowObject, Marking> implements Cloneable{
 		return transitionPath.contains(flowObject);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ReachabilityPath<FlowObject, Marking> clone(){
 		LinkedList<ReachabilityTransition<FlowObject, Marking>> clonedTransitionList = (LinkedList<ReachabilityTransition<FlowObject, Marking>>)this.transitionPath.clone();
 		return new ReachabilityPath<FlowObject, Marking>(clonedTransitionList);
