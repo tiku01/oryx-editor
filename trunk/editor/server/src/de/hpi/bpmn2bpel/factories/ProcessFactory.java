@@ -1,6 +1,5 @@
 package de.hpi.bpmn2bpel.factories;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,7 +10,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.hpi.bpel4chor.model.Swimlane;
-import de.hpi.bpel4chor.model.activities.Scope;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.Activity;
 import de.hpi.bpmn.BPMNDiagram;
@@ -124,7 +122,7 @@ public class ProcessFactory {
 	 * @return The scope that was modeled for expressing the process
 	 * fault handler. The result is null if such a scope does not exist. 
 	 */
-	private Scope modeledScopeForHandlers(Process process) {
+//	private Scope modeledScopeForHandlers(Process process) {
 //		List<StartEvent> startEvents = process.getStartEvents();
 //		List<EndEvent> endEvents = process.getEndEvents();
 //		List<Scope> scopes = process.getScopes();
@@ -203,8 +201,8 @@ public class ProcessFactory {
 //			
 //			return scope;
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * If a scope was modeled only for expressing a process fault handler
@@ -216,7 +214,7 @@ public class ProcessFactory {
 	 * @param process The process to copy the elements to.
 	 * @param scope   The scope to copy the elements from.
 	 */
-	private void moveElementsToProcess(Process process, Scope scope) {
+//	private void moveElementsToProcess(Process process, Scope scope) {
 //		// remove start and end event from process
 //		List<StartEvent> startEvents = process.getStartEvents();
 //		process.getActivities().removeAll(startEvents);
@@ -250,7 +248,7 @@ public class ProcessFactory {
 //		
 //		// remove scope from process
 //		process.getActivities().remove(scope);
-	}
+//	}
 	
 	/**
 	 * Creates a BPEL process element. For this purpose the process

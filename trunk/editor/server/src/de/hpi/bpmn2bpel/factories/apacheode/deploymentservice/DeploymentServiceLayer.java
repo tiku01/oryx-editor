@@ -5,27 +5,20 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 import javax.xml.namespace.QName;
 
-//import lu.ses_astra.goldeneye.stationcontroller.exceptions.DeploymentFailException;
-//import lu.ses_astra.goldeneye.stationcontroller.exceptions.InvalidConfigurationException;
-//import lu.ses_astra.goldeneye.stationcontroller.exceptions.UndeploymentFailException;
-//import lu.ses_astra.goldeneye.stationcontroller.models.EWSDL;
-//import lu.ses_astra.goldeneye.stationcontroller.models.SystemConfiguration;
-//import lu.ses_astra.goldeneye.stationcontroller.models.XWSDL;
+import org.apache.commons.configuration.DatabaseConfiguration;
+import org.apache.log4j.Logger;
+
 import de.hpi.bpmn2bpel.factories.apacheode.deploymentservice.stub.Base64Binary;
 import de.hpi.bpmn2bpel.factories.apacheode.deploymentservice.stub.DeployUnit;
 import de.hpi.bpmn2bpel.factories.apacheode.deploymentservice.stub.DeploymentService;
 import de.hpi.bpmn2bpel.factories.apacheode.deploymentservice.stub.DeploymentServicePortType;
 import de.hpi.bpmn2bpel.factories.apacheode.deploymentservice.stub.Package;
-
-import org.apache.commons.configuration.DatabaseConfiguration;
-import org.apache.log4j.Logger;
 
 public class DeploymentServiceLayer {
 	
@@ -221,5 +214,8 @@ public class DeploymentServiceLayer {
 	
 	public void setConfig(DatabaseConfiguration config) {
 		this.config = config;
+	}
+	public DatabaseConfiguration getConfig() {
+		return config;
 	}
 }

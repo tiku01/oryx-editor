@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -22,7 +21,6 @@ import de.hpi.bpel4chor.model.supporting.FromPart;
 import de.hpi.bpel4chor.model.supporting.Import;
 import de.hpi.bpel4chor.model.supporting.Loop;
 import de.hpi.bpel4chor.model.supporting.ToPart;
-import de.hpi.bpmn2bpel.util.BPELUtil;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Task;
@@ -31,6 +29,7 @@ import de.hpi.bpmn2bpel.model.supporting.FromSpec;
 import de.hpi.bpmn2bpel.model.supporting.ToSpec;
 import de.hpi.bpmn2bpel.model.supporting.FromSpec.fromTypes;
 import de.hpi.bpmn2bpel.model.supporting.ToSpec.toTypes;
+import de.hpi.bpmn2bpel.util.BPELUtil;
 
 /**
  * This factory is used for generating certain child elements of BPEL4Chor 

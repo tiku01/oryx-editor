@@ -8,24 +8,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.hpi.bpel4chor.model.Container;
-import de.hpi.bpel4chor.model.SubProcess;
 import de.hpi.bpel4chor.model.activities.Activity;
 import de.hpi.bpel4chor.model.activities.BlockActivity;
 import de.hpi.bpel4chor.model.activities.Handler;
 import de.hpi.bpel4chor.model.activities.IntermediateEvent;
 import de.hpi.bpel4chor.model.activities.ReceiveTask;
 import de.hpi.bpel4chor.model.activities.ResultError;
-import de.hpi.bpel4chor.model.activities.Scope;
 import de.hpi.bpel4chor.model.activities.StartEvent;
 import de.hpi.bpel4chor.model.activities.Task;
 import de.hpi.bpel4chor.model.activities.Trigger;
 import de.hpi.bpel4chor.model.activities.TriggerResultMessage;
 import de.hpi.bpel4chor.model.activities.TriggerTimer;
 import de.hpi.bpel4chor.model.artifacts.VariableDataObject;
-import de.hpi.bpel4chor.model.connections.Association;
 import de.hpi.bpel4chor.model.supporting.Import;
 import de.hpi.bpel4chor.model.supporting.Loop;
-import de.hpi.bpel4chor.util.BPELUtil;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.BPMNDiagram;
 
@@ -69,7 +65,7 @@ public class StructuredElementsFactory {
 	 * @return The created "scope" element or the given content element
 	 * if no variables are present in the handler.
 	 */
-	private Element createHandlerScope(Handler handler, Element content) {
+//	private Element createHandlerScope(Handler handler, Element content) {
 //		Element scope = this.document.createElement("scope");
 //		Element variablesElement = this.supportingFactory.createVariablesElement(
 //					handler.getParentSwimlane(), handler.getSubProcess());
@@ -79,8 +75,8 @@ public class StructuredElementsFactory {
 //			scope.appendChild(content);
 //			return scope;
 //		} 
-		return content;
-	}
+//		return content;
+//	}
 	
 	/**
 	 * Creates a "catch" element that is represented by the given fault event and
@@ -667,21 +663,21 @@ public class StructuredElementsFactory {
 	 * @return The create counter variable data object that acts as loop 
 	 *         counter for the task.
 	 */
-	private VariableDataObject generateLoopCounter(Task task, String loopName) {
-		VariableDataObject counter = new VariableDataObject(this.output);
-		counter.setType(VariableDataObject.TYPE_COUNTER);
-		counter.setId(task.getId() + "_generatedCounter");
-		counter.setName(loopName + "_generatedCounter");
-		counter.setContainer(task.getParentContainer());
-		this.diagram.addVariableDataObject(counter);
-		Association assoc = new Association(this.output);
-		assoc.setDirection(Association.DIRECTION_TO);
-		assoc.setSource(task);
-		assoc.setTarget(counter);
-		assoc.setId(task.getId() + "generatedCounterAssoc");
-		this.diagram.addAssociation(assoc);
-		return counter;
-	}
+//	private VariableDataObject generateLoopCounter(Task task, String loopName) {
+//		VariableDataObject counter = new VariableDataObject(this.output);
+//		counter.setType(VariableDataObject.TYPE_COUNTER);
+//		counter.setId(task.getId() + "_generatedCounter");
+//		counter.setName(loopName + "_generatedCounter");
+//		counter.setContainer(task.getParentContainer());
+//		this.diagram.addVariableDataObject(counter);
+//		Association assoc = new Association(this.output);
+//		assoc.setDirection(Association.DIRECTION_TO);
+//		assoc.setSource(task);
+//		assoc.setTarget(counter);
+//		assoc.setId(task.getId() + "generatedCounterAssoc");
+//		this.diagram.addAssociation(assoc);
+//		return counter;
+//	}
 	
 	/**
 	 * Appends the scope content to the given result element. Of the scope content
@@ -694,7 +690,7 @@ public class StructuredElementsFactory {
 	 * @param scopeContent The element that represents the sequence flow of the loop. 
 	 * @param result       The element to add the scope content to.
 	 */
-	private void appendLoopScope(Activity activity, Element scopeContent, Element result) {
+//	private void appendLoopScope(Activity activity, Element scopeContent, Element result) {
 //		if (scopeContent != null) {
 //			if (!scopeContent.getNodeName().equals("scope")) {
 //				Element scope = this.document.createElement("scope");
@@ -713,7 +709,7 @@ public class StructuredElementsFactory {
 //				appendLoopScope(activity, sequenceFlow, result);
 //			}
 //		}
-	}
+//	}
 	
 	/**
 	 * Appends the attributes and child elements that are related with the
@@ -725,23 +721,23 @@ public class StructuredElementsFactory {
 	 * @param result  The result element to add the attributes and child
 	 *                elements to
 	 */
-	private void appendLoopCounterAttrEl(VariableDataObject counter, Loop loop, Element result) {
-		if (counter == null) {
-			return;
-		}
-		
-		result.setAttribute("counterName", counter.getName());
-		
-		if (loop.getStartCounterValue() != null) {
-			result.appendChild(this.supportingFactory.createExpressionElement(
-					"startCounterValue", loop.getStartCounterValue()));
-		}
-		
-		if (loop.getFinalCounterValue() != null) {
-			result.appendChild(this.supportingFactory.createExpressionElement(
-					"finalCounterValue", loop.getFinalCounterValue()));
-		}
-	}
+//	private void appendLoopCounterAttrEl(VariableDataObject counter, Loop loop, Element result) {
+//		if (counter == null) {
+//			return;
+//		}
+//		
+//		result.setAttribute("counterName", counter.getName());
+//		
+//		if (loop.getStartCounterValue() != null) {
+//			result.appendChild(this.supportingFactory.createExpressionElement(
+//					"startCounterValue", loop.getStartCounterValue()));
+//		}
+//		
+//		if (loop.getFinalCounterValue() != null) {
+//			result.appendChild(this.supportingFactory.createExpressionElement(
+//					"finalCounterValue", loop.getFinalCounterValue()));
+//		}
+//	}
 	
 	/**
 	 * Creates a "forEach" element for the given looping task. In the "forEach"

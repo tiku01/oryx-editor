@@ -2,22 +2,14 @@ package de.hpi.bpmn2bpel.factories;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import de.hpi.bpel4chor.model.Container;
 import de.hpi.bpel4chor.model.activities.Activity;
-import de.hpi.bpel4chor.model.activities.BlockActivity;
-import de.hpi.bpel4chor.model.activities.EmptyTask;
-import de.hpi.bpel4chor.model.activities.Event;
 import de.hpi.bpel4chor.model.activities.FoldedTask;
-import de.hpi.bpel4chor.model.activities.Gateway;
-import de.hpi.bpel4chor.model.activities.Task;
-import de.hpi.bpel4chor.model.connections.Transition;
 import de.hpi.bpel4chor.model.supporting.Expression;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.BPMNDiagram;
@@ -32,11 +24,11 @@ import de.hpi.bpmn.BPMNDiagram;
  */
 public class SynchronizingProcessMapper {
 		
-	private BPMNDiagram diagram = null;
-	private Document document = null;
-	private Container container = null;
-	private Component component = null;
-	private int linkCounter = 0;
+//	private BPMNDiagram diagram = null;
+//	private Document document = null;
+//	private Container container = null;
+//	private Component component = null;
+//	private int linkCounter = 0;
 	
 	/**
 	 * This class represents the holds a list with activities and a list with
@@ -45,67 +37,67 @@ public class SynchronizingProcessMapper {
 	 * the component. The expressions express the transition conditions of these control
 	 * flows.
 	 */
-	private class TEC {
-		List<Activity> activities = new ArrayList<Activity>();
-		List<Expression> expressions = new ArrayList<Expression>();
-		
-		/**
-		 * Constructor
-		 */
-		public TEC() {}
-		
-		/**
-		 * Adds one activity to the list of activities of this TEC.
-		 * 
-		 * @param act The activit to add.
-		 */
-		public void addActivity(Activity act) {
-			this.activities.add(act);
-		}
-		
-		/**
-		 * Adds all activities contained in the list to the activities of 
-		 * this TEC.
-		 * 
-		 * @param act The activities to add.
-		 */
-		public void addActivities(List<Activity> act) {
-			this.activities.addAll(act);
-		}
-		
-		/**
-		 * @return The activities of this TEC.
-		 */
-		public List<Activity> getActivities() {
-			return this.activities;
-		}
-		
-		/**
-		 * Adds an expression to the list of expressions of this TEC.
-		 * 
-		 * @param expr The expression to add.
-		 */
-		public void addExpression(Expression expr) {
-			this.expressions.add(expr);
-		}
-		
-		/**
-		 * Adds all expressions contained in the list to the expressions of 
-		 * this TEC.
-		 * 
-		 * @param expr The expressions to add.
-		 */
-		public void addExpressions(List<Expression> expr) {
-			this.expressions.addAll(expr);
-		}
-		
-		/**
-		 * @return The expressions of this TEC.
-		 */
-		public List<Expression> getExpressions() {
-			return this.expressions;
-		}
-	}
+//	private class TEC {
+//		List<Activity> activities = new ArrayList<Activity>();
+//		List<Expression> expressions = new ArrayList<Expression>();
+//		
+//		/**
+//		 * Constructor
+//		 */
+//		public TEC() {}
+//		
+//		/**
+//		 * Adds one activity to the list of activities of this TEC.
+//		 * 
+//		 * @param act The activit to add.
+//		 */
+//		public void addActivity(Activity act) {
+//			this.activities.add(act);
+//		}
+//		
+//		/**
+//		 * Adds all activities contained in the list to the activities of 
+//		 * this TEC.
+//		 * 
+//		 * @param act The activities to add.
+//		 */
+//		public void addActivities(List<Activity> act) {
+//			this.activities.addAll(act);
+//		}
+//		
+//		/**
+//		 * @return The activities of this TEC.
+//		 */
+//		public List<Activity> getActivities() {
+//			return this.activities;
+//		}
+//		
+//		/**
+//		 * Adds an expression to the list of expressions of this TEC.
+//		 * 
+//		 * @param expr The expression to add.
+//		 */
+//		public void addExpression(Expression expr) {
+//			this.expressions.add(expr);
+//		}
+//		
+//		/**
+//		 * Adds all expressions contained in the list to the expressions of 
+//		 * this TEC.
+//		 * 
+//		 * @param expr The expressions to add.
+//		 */
+//		public void addExpressions(List<Expression> expr) {
+//			this.expressions.addAll(expr);
+//		}
+//		
+//		/**
+//		 * @return The expressions of this TEC.
+//		 */
+//		public List<Expression> getExpressions() {
+//			return this.expressions;
+//		}
+//	}
 	
 	/**
 	 * Constructor. Initializes the mapper.
@@ -118,10 +110,10 @@ public class SynchronizingProcessMapper {
 	 */
 	public SynchronizingProcessMapper(BPMNDiagram diagram, Document document,
 			Container parentContainer, Component component) {
-		this.diagram = diagram;
-		this.document = document;
-		this.container = parentContainer;
-		this.component = component;
+//		this.diagram = diagram;
+//		this.document = document;
+//		this.container = parentContainer;
+//		this.component = component;
 		
 //		// component activities also must contain the source and sink object
 //		this.component.addActivity(component.getSinkObject());
@@ -140,33 +132,33 @@ public class SynchronizingProcessMapper {
 	 * conditions are opaque. If all transition conditions are opaque, the
 	 * result is an empty string.
 	 */
-	private String combineWithConjunction(List<Transition> transitions) {
-		String result = "";		
-		boolean opaque = false;
-		for (Iterator<Transition> it = transitions.iterator(); it.hasNext();) {
-			Transition trans = it.next();
-			if (trans.getConditionType().equals(Transition.TYPE_OTHERWISE)) {
-				continue;
-			}
-			Expression expression = trans.getConditionExpression();
-			if ((expression != null) && (expression.getExpression() != null)) {
-				if (opaque) {
-					return null;
-				}
-				result = result + expression.getExpression() + " and ";  
-			} else if (!result.equals("")) {
-				return null;
-			} else {
-				opaque = true;
-			}
-		}
-		// remove last and from result
-		int index = result.lastIndexOf(" and ");
-		if (index < 0) {
-			return result;
-		}
-		return result.substring(0, index);
-	}
+//	private String combineWithConjunction(List<Transition> transitions) {
+//		String result = "";		
+//		boolean opaque = false;
+//		for (Iterator<Transition> it = transitions.iterator(); it.hasNext();) {
+//			Transition trans = it.next();
+//			if (trans.getConditionType().equals(Transition.TYPE_OTHERWISE)) {
+//				continue;
+//			}
+//			Expression expression = trans.getConditionExpression();
+//			if ((expression != null) && (expression.getExpression() != null)) {
+//				if (opaque) {
+//					return null;
+//				}
+//				result = result + expression.getExpression() + " and ";  
+//			} else if (!result.equals("")) {
+//				return null;
+//			} else {
+//				opaque = true;
+//			}
+//		}
+//		// remove last and from result
+//		int index = result.lastIndexOf(" and ");
+//		if (index < 0) {
+//			return result;
+//		}
+//		return result.substring(0, index);
+//	}
 	
 	/**
 	 * Checks if the given refined condition and the transition expression are
@@ -187,33 +179,33 @@ public class SynchronizingProcessMapper {
 	 * @return True, if the refined expression and the transition expression
 	 * are valid, false otherwise.
 	 */
-	private boolean isValid(String refinedExpression, Expression transExpr, 
-			Gateway gateway, Output output) {
-		if (transExpr == null) {
-			output.addError(
-					"The gateway " +
-					"must define conditions for its outgoing transitions.",  gateway.getId());
-			return false;
-		}
-		if (refinedExpression == null) {
-			// error
-			output.addError(
-					"The conditions of the outgoing transitions " +
-					"from this gateway "+ 
-					" must be all opaque or all non-opaque.", gateway.getId());
-			return false;
-		} else if (refinedExpression.equals("")) {
-			// opaque expression
-			if (transExpr.getExpression() != null) {
-				output.addError(
-						"The conditions of the outgoing transitions " +
-						"from this gateway "+  
-						" must be all opaque or all non-opaque.", gateway.getId());
-				return false;
-			}
-		}
-		return true;
-	}
+//	private boolean isValid(String refinedExpression, Expression transExpr, 
+//			Gateway gateway, Output output) {
+//		if (transExpr == null) {
+//			output.addError(
+//					"The gateway " +
+//					"must define conditions for its outgoing transitions.",  gateway.getId());
+//			return false;
+//		}
+//		if (refinedExpression == null) {
+//			// error
+//			output.addError(
+//					"The conditions of the outgoing transitions " +
+//					"from this gateway "+ 
+//					" must be all opaque or all non-opaque.", gateway.getId());
+//			return false;
+//		} else if (refinedExpression.equals("")) {
+//			// opaque expression
+//			if (transExpr.getExpression() != null) {
+//				output.addError(
+//						"The conditions of the outgoing transitions " +
+//						"from this gateway "+  
+//						" must be all opaque or all non-opaque.", gateway.getId());
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 	/**
 	 * Refines the transition conditions of the outgoing transitions of the
@@ -232,53 +224,53 @@ public class SynchronizingProcessMapper {
 	 * conditions. The actual transition conditions of the transitions will
 	 * not be changed.
 	 */
-	private Map<Transition, String> getRefinedConditions(Gateway gateway, Output output) {
-		Map<Transition, String> result = new HashMap<Transition, String>();
-		List<Transition> transitions = gateway.determineEvaluationOrder();
-		for (int i = 1; i < transitions.size(); i++) {
-			Transition trans = transitions.get(i);
-			if (trans.getConditionType().equals(Transition.TYPE_OTHERWISE)) {
-				
-				// all other transitions are negated
-				String refinedExpression = 
-					combineWithConjunction(transitions.subList(0, transitions.size()));
-				
-				// check refined expression
-				if (refinedExpression == null) {
-					output.addError(
-							"The conditions of the outgoing transitions " +
-							"from this gateway "+ 
-							" must be all opaque or all non-opaque.",
-							gateway.getId());
-					return null;
-				} else if (refinedExpression.equals("")) {
-					// opaque expression can not be negated
-					result.put(trans, refinedExpression);
-				} else {
-					refinedExpression = "not(" + refinedExpression + ")";				
-					result.put(trans, refinedExpression);
-				}
-				
-			} else {
-				String refinedExpression = 
-					combineWithConjunction(transitions.subList(0,i));
-				Expression expression = trans.getConditionExpression();
-				
-				// check if refined expression and this expression can be combined
-				if (isValid(refinedExpression, expression, gateway, output)) {
-					// refine expression
-					if ((expression != null) && 
-							(expression.getExpression() != null)) {
-						
-						refinedExpression = "not(" + refinedExpression + 
-							") and " + expression.getExpression();						
-						result.put(trans, refinedExpression);
-					}
-				}
-			}
-		}
-		return result;
-	}
+//	private Map<Transition, String> getRefinedConditions(Gateway gateway, Output output) {
+//		Map<Transition, String> result = new HashMap<Transition, String>();
+//		List<Transition> transitions = gateway.determineEvaluationOrder();
+//		for (int i = 1; i < transitions.size(); i++) {
+//			Transition trans = transitions.get(i);
+//			if (trans.getConditionType().equals(Transition.TYPE_OTHERWISE)) {
+//				
+//				// all other transitions are negated
+//				String refinedExpression = 
+//					combineWithConjunction(transitions.subList(0, transitions.size()));
+//				
+//				// check refined expression
+//				if (refinedExpression == null) {
+//					output.addError(
+//							"The conditions of the outgoing transitions " +
+//							"from this gateway "+ 
+//							" must be all opaque or all non-opaque.",
+//							gateway.getId());
+//					return null;
+//				} else if (refinedExpression.equals("")) {
+//					// opaque expression can not be negated
+//					result.put(trans, refinedExpression);
+//				} else {
+//					refinedExpression = "not(" + refinedExpression + ")";				
+//					result.put(trans, refinedExpression);
+//				}
+//				
+//			} else {
+//				String refinedExpression = 
+//					combineWithConjunction(transitions.subList(0,i));
+//				Expression expression = trans.getConditionExpression();
+//				
+//				// check if refined expression and this expression can be combined
+//				if (isValid(refinedExpression, expression, gateway, output)) {
+//					// refine expression
+//					if ((expression != null) && 
+//							(expression.getExpression() != null)) {
+//						
+//						refinedExpression = "not(" + refinedExpression + 
+//							") and " + expression.getExpression();						
+//						result.put(trans, refinedExpression);
+//					}
+//				}
+//			}
+//		}
+//		return result;
+//	}
 
 	/**
 	 * Refines the condition of each data-based exclusive gateway contained
@@ -290,7 +282,7 @@ public class SynchronizingProcessMapper {
 	 * 
 	 * @param output The output to add errors to.
 	 */
-	private void refineConditions(Output output) {
+//	private void refineConditions(Output output) {
 //		List<Gateway> splits = 
 //			this.component.getDataBasedExclusiveDecisionGateways();
 //		for (Iterator<Gateway> it = splits.iterator(); it.hasNext();) {
@@ -315,7 +307,7 @@ public class SynchronizingProcessMapper {
 //				}
 //			}
 //		}
-	}
+//	}
 	
 	/**
 	 * Adds the condition expression of the transition to each TEC in the list.
@@ -323,11 +315,11 @@ public class SynchronizingProcessMapper {
 	 * @param trans The transition that holds the condition expression.
 	 * @param list  The TECs the expressions will be added to.
 	 */
-	private void addCond(Transition trans, List<TEC> list) {
-		for (Iterator<TEC> it = list.iterator(); it.hasNext();) {
-			it.next().addExpression(trans.getConditionExpression());
-		}
-	}
+//	private void addCond(Transition trans, List<TEC> list) {
+//		for (Iterator<TEC> it = list.iterator(); it.hasNext();) {
+//			it.next().addExpression(trans.getConditionExpression());
+//		}
+//	}
 	
 	/**
 	 * Builds the cartesian product for the given lists of TECs.
@@ -340,28 +332,28 @@ public class SynchronizingProcessMapper {
 	 * 
 	 * @return The cartesian product for the given TECs.
 	 */
-	private List<TEC> cartesianProduct(List<TEC> list1, List<TEC> list2) {
-		if ((list1 == null) || list1.isEmpty()){
-			return list2;
-		} else if ((list2 == null) || list2.isEmpty()) {
-			return list1;
-		}
-		
-		List<TEC> result = new ArrayList<TEC>();
-		for (Iterator<TEC> it = list1.iterator(); it.hasNext();) {
-			TEC tec1 = it.next();
-			for (Iterator<TEC> it2 = list2.iterator(); it2.hasNext();) {
-				TEC tec2 = it2.next();
-				TEC tec = new TEC();
-				tec.addActivities(tec1.getActivities());
-				tec.addActivities(tec2.getActivities());
-				tec.addExpressions(tec1.getExpressions());
-				tec.addExpressions(tec2.getExpressions());
-				result.add(tec);
-			}
-		}
-		return result;
-	}
+//	private List<TEC> cartesianProduct(List<TEC> list1, List<TEC> list2) {
+//		if ((list1 == null) || list1.isEmpty()){
+//			return list2;
+//		} else if ((list2 == null) || list2.isEmpty()) {
+//			return list1;
+//		}
+//		
+//		List<TEC> result = new ArrayList<TEC>();
+//		for (Iterator<TEC> it = list1.iterator(); it.hasNext();) {
+//			TEC tec1 = it.next();
+//			for (Iterator<TEC> it2 = list2.iterator(); it2.hasNext();) {
+//				TEC tec2 = it2.next();
+//				TEC tec = new TEC();
+//				tec.addActivities(tec1.getActivities());
+//				tec.addActivities(tec2.getActivities());
+//				tec.addExpressions(tec1.getExpressions());
+//				tec.addExpressions(tec2.getExpressions());
+//				result.add(tec);
+//			}
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * This method implements the PreTEC-SetsFlow method of the Ouyang et.
@@ -375,55 +367,55 @@ public class SynchronizingProcessMapper {
 	 * @return The list with TECs containing the preceding tasks, events
 	 * and/or expressions.
 	 */
-	private List<TEC> preTECSetsFlow(Activity y, Activity x) {
-		List<TEC> result = new ArrayList<TEC>();
-		if ((y instanceof Task) || (y instanceof Event) || (y instanceof BlockActivity)) {
-			TEC tec = new TEC();
-			tec.addActivity(y);
-			result.add(tec);
-		} else if (y instanceof Gateway) {
-			Gateway gateway = (Gateway)y;
-			if (gateway.getGatewayType().equals(Gateway.TYPE_AND)) {
-				if	(gateway.getSourceFor().size() > 1) {
-					// parallel fork gateway
-					result = preTECSets(gateway);
-				} else {
-					// parallel join gateway
-					for (Iterator<Activity> it = y.getPredecessors().iterator(); it.hasNext();) {
-						List<TEC> list = preTECSetsFlow(it.next(),gateway);
-						result = cartesianProduct(result, list);
-					}
-				}
-			} else if (gateway.getGatewayType().equals(Gateway.TYPE_XOR)) {
-				if (gateway.getSplitType().equals(Gateway.SPLIT_XORDATA) &&
-					(gateway.getSourceFor().size() > 1)) {
-					// exclusive data-based decision gateway
-					result = preTECSets(gateway);
-					Transition trans = y.getTransitionTo(x);
-					addCond(trans, result);
-				} else if (gateway.getTargetFor().size() > 1) {
-					// exclusive merge gateway
-					result = new ArrayList<TEC>();
-					for (Iterator<Activity> it = y.getPredecessors().iterator(); it.hasNext();) {
-						List<TEC> list = preTECSetsFlow(it.next(),gateway);
-						result.addAll(list);
-					}
-				}
-			} else if (gateway.getGatewayType().equals(Gateway.TYPE_OR)) {
-				if (gateway.getSourceFor().size() > 1) {
-					// inclusive split gateway
-					result = preTECSets(gateway);
-					Transition trans = y.getTransitionTo(x);
-					addCond(trans, result);
-				} else {
-					// inclusive merge gateway
-					// no join Condition needed because by default or-join
-					result = preTECSets(gateway);
-				}
-			}
-		}
-		return result;
-	}
+//	private List<TEC> preTECSetsFlow(Activity y, Activity x) {
+//		List<TEC> result = new ArrayList<TEC>();
+//		if ((y instanceof Task) || (y instanceof Event) || (y instanceof BlockActivity)) {
+//			TEC tec = new TEC();
+//			tec.addActivity(y);
+//			result.add(tec);
+//		} else if (y instanceof Gateway) {
+//			Gateway gateway = (Gateway)y;
+//			if (gateway.getGatewayType().equals(Gateway.TYPE_AND)) {
+//				if	(gateway.getSourceFor().size() > 1) {
+//					// parallel fork gateway
+//					result = preTECSets(gateway);
+//				} else {
+//					// parallel join gateway
+//					for (Iterator<Activity> it = y.getPredecessors().iterator(); it.hasNext();) {
+//						List<TEC> list = preTECSetsFlow(it.next(),gateway);
+//						result = cartesianProduct(result, list);
+//					}
+//				}
+//			} else if (gateway.getGatewayType().equals(Gateway.TYPE_XOR)) {
+//				if (gateway.getSplitType().equals(Gateway.SPLIT_XORDATA) &&
+//					(gateway.getSourceFor().size() > 1)) {
+//					// exclusive data-based decision gateway
+//					result = preTECSets(gateway);
+//					Transition trans = y.getTransitionTo(x);
+//					addCond(trans, result);
+//				} else if (gateway.getTargetFor().size() > 1) {
+//					// exclusive merge gateway
+//					result = new ArrayList<TEC>();
+//					for (Iterator<Activity> it = y.getPredecessors().iterator(); it.hasNext();) {
+//						List<TEC> list = preTECSetsFlow(it.next(),gateway);
+//						result.addAll(list);
+//					}
+//				}
+//			} else if (gateway.getGatewayType().equals(Gateway.TYPE_OR)) {
+//				if (gateway.getSourceFor().size() > 1) {
+//					// inclusive split gateway
+//					result = preTECSets(gateway);
+//					Transition trans = y.getTransitionTo(x);
+//					addCond(trans, result);
+//				} else {
+//					// inclusive merge gateway
+//					// no join Condition needed because by default or-join
+//					result = preTECSets(gateway);
+//				}
+//			}
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * This method implements the PreTEC-Sets method of the Ouyang et.
@@ -435,8 +427,8 @@ public class SynchronizingProcessMapper {
 	 * @return The list with TECs containing the preceding tasks, events
 	 * and/or expressions.
 	 */
-	private List<TEC> preTECSets(Activity x) {
-		List<TEC> result = new ArrayList<TEC>();
+//	private List<TEC> preTECSets(Activity x) {
+//		List<TEC> result = new ArrayList<TEC>();
 //		for (Iterator<Activity> it = x.getPredecessors().iterator(); it.hasNext();) {
 //			Activity pred = it.next();
 //			if (this.component.getActivities().contains(pred)) {
@@ -444,8 +436,8 @@ public class SynchronizingProcessMapper {
 //				result.addAll(list);
 //			}
 //		}
-		return result;
-	}
+//		return result;
+//	}
 	
 	/**
 	 * Checks if the list of Links contains a link from the given source
@@ -458,16 +450,16 @@ public class SynchronizingProcessMapper {
 	 * @return The determined link with the source and the target activitiy 
 	 * or null if the link does not exist in the list.
 	 */
-	private Link getLink(List<Link> links, Activity source, Activity target) {
-		for (Iterator<Link> it = links.iterator(); it.hasNext();) {
-			Link link = it.next();
-			if (link.getSource().equals(source) && (link.getTarget().equals(target))) {
-				return link;
-			}
-		}
-		return null;
-	}
-	
+//	private Link getLink(List<Link> links, Activity source, Activity target) {
+//		for (Iterator<Link> it = links.iterator(); it.hasNext();) {
+//			Link link = it.next();
+//			if (link.getSource().equals(source) && (link.getTarget().equals(target))) {
+//				return link;
+//			}
+//		}
+//		return null;
+//	}
+//	
 	/**
 	 * Derives the set of control links with their associated transition
 	 * conditions for each of the tasks, events and block activities within
@@ -475,7 +467,7 @@ public class SynchronizingProcessMapper {
 	 * 
 	 * @return The list with the created control links.
 	 */
-	private List<Link> calcTransCond() {		
+//	private List<Link> calcTransCond() {		
 		List<Link> links = new ArrayList<Link>();
 //		for (Iterator<Activity> it = 
 //			this.component.getActivities().iterator(); it.hasNext();) {
@@ -524,8 +516,8 @@ public class SynchronizingProcessMapper {
 //				}
 //			}
 //		}
-		return links;
-	}
+//		return links;
+//	}
 	
 	/**
 	 * Derives the join conditions for each activity from the set of control links.
@@ -536,7 +528,7 @@ public class SynchronizingProcessMapper {
 	 * 
 	 * @return A map that maps the activity to its determined join condition. 
 	 */
-	private Map<Activity, Expression> calcJoinCond(List<Link> links, Output output) {
+//	private Map<Activity, Expression> calcJoinCond(List<Link> links, Output output) {
 		Map<Activity, Expression> joinConds = new HashMap<Activity, Expression>();
 //		for (Iterator<Activity> it = this.component.getActivities().iterator(); it.hasNext();) {
 //			Activity target = it.next();
@@ -580,8 +572,8 @@ public class SynchronizingProcessMapper {
 //				joinConds.put(target, joinCond);
 //			}
 //		}
-		return joinConds;
-	}
+//		return joinConds;
+//	}
 	
 	/**
 	 * Finishes the mapping by mapping the component to a "flow" element.
@@ -597,8 +589,8 @@ public class SynchronizingProcessMapper {
 	 * 
 	 * @return The created folded task.
 	 */
-	private FoldedTask finishMapping(Output output) {
-		Element flowElement = this.document.createElement("flow");
+//	private FoldedTask finishMapping(Output output) {
+//		Element flowElement = this.document.createElement("flow");
 //		List<Link> links = calcTransCond();
 //		Map<Activity, Expression> joinConds = calcJoinCond(links, output);
 //		Element linksElement = 
@@ -621,8 +613,8 @@ public class SynchronizingProcessMapper {
 //		
 //		FoldedTask task = new FoldedTask(flowElement, this.container, output);
 //		return task;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Does the actual mapping of the synchronzing process component according

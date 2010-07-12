@@ -649,59 +649,59 @@ public class BasicActivityFactory {
 		return createInvokeElement(task);
 	}
 	
-	/**
-	 * Creates an scope element containing the given content. Moreover,
-	 * fault handlers, a compensation handler and a termination handler
-	 * is created in this scope from handlers modeled for the given task.
-	 * 
-	 * If the task does not define any handlers, there is no need to 
-	 * create an additional scope. In this case the given content
-	 * is returned.
-	 * 
-	 * @param content The content enclosed by the scope.
-	 * @param task    The task that provides the handlers to be created
-	 *                in the scope.
-	 *                
-	 * @return The created scope enclosing the created handlers and the given
-	 * content. If a scope is not necessary, the given content is returned.
-	 */
-	private Element createScopeForAttachedHandlers(Element content, Task task) {
-//		// create fault, compensation and termination handlers but they must 
-//		// be located in an additional scope 
-//		List<Element> faultHandlers = this.structuredElementsFactory.
-//			createFaultHandlerElements(task);
-//		Element compensationHandler = this.structuredElementsFactory.
-//			createCompensationHandlerElement(task);
-//		Element terminationHandler = 
-//			this.structuredElementsFactory.createTerminationHandlerElement(task);
-//		
-//		if ((faultHandlers.size() > 0) || (compensationHandler != null) || 
-//				(terminationHandler != null)) {
-//			
-//			Element scope = this.document.createElement("scope");
-//			scope.setAttribute("name", BPELUtil.generateScopeName(task));
-//			if (faultHandlers.size() > 0) {
-//				Element faultHandlersElement = 
-//					this.document.createElement("faultHandlers");
-//				for (Iterator<Element> it = faultHandlers.iterator(); it.hasNext();) {
-//					faultHandlersElement.appendChild(it.next());
-//				}
-//				scope.appendChild(faultHandlersElement);
-//			}
-//			
-//			if (compensationHandler != null) {
-//				scope.appendChild(compensationHandler);
-//			}
-//			
-//			if (terminationHandler != null) {
-//				scope.appendChild(terminationHandler);
-//			}
-//			scope.appendChild(content);
-//			return scope;
-//		}
-//		return content;
-		return null;
-	}
+//	/**
+//	 * Creates an scope element containing the given content. Moreover,
+//	 * fault handlers, a compensation handler and a termination handler
+//	 * is created in this scope from handlers modeled for the given task.
+//	 * 
+//	 * If the task does not define any handlers, there is no need to 
+//	 * create an additional scope. In this case the given content
+//	 * is returned.
+//	 * 
+//	 * @param content The content enclosed by the scope.
+//	 * @param task    The task that provides the handlers to be created
+//	 *                in the scope.
+//	 *                
+//	 * @return The created scope enclosing the created handlers and the given
+//	 * content. If a scope is not necessary, the given content is returned.
+//	 */
+//	private Element createScopeForAttachedHandlers(Element content, Task task) {
+////		// create fault, compensation and termination handlers but they must 
+////		// be located in an additional scope 
+////		List<Element> faultHandlers = this.structuredElementsFactory.
+////			createFaultHandlerElements(task);
+////		Element compensationHandler = this.structuredElementsFactory.
+////			createCompensationHandlerElement(task);
+////		Element terminationHandler = 
+////			this.structuredElementsFactory.createTerminationHandlerElement(task);
+////		
+////		if ((faultHandlers.size() > 0) || (compensationHandler != null) || 
+////				(terminationHandler != null)) {
+////			
+////			Element scope = this.document.createElement("scope");
+////			scope.setAttribute("name", BPELUtil.generateScopeName(task));
+////			if (faultHandlers.size() > 0) {
+////				Element faultHandlersElement = 
+////					this.document.createElement("faultHandlers");
+////				for (Iterator<Element> it = faultHandlers.iterator(); it.hasNext();) {
+////					faultHandlersElement.appendChild(it.next());
+////				}
+////				scope.appendChild(faultHandlersElement);
+////			}
+////			
+////			if (compensationHandler != null) {
+////				scope.appendChild(compensationHandler);
+////			}
+////			
+////			if (terminationHandler != null) {
+////				scope.appendChild(terminationHandler);
+////			}
+////			scope.appendChild(content);
+////			return scope;
+////		}
+////		return content;
+//		return null;
+//	}
 	
 	/**
 	 * <p>Creates the BPEL4Chor "reply" element from an reply task.</p>
@@ -914,46 +914,46 @@ public class BasicActivityFactory {
 		return handoverCopies;
 	}
 	
-	/**
-	 * Creates the BPEL copy elements to pass the token and reporting service URL
-	 * as web service method parameters.
-	 * 
-	 * @return
-	 * 		The list of copy objects
-	 */
-	private List<Copy> createCopyForMetaParameters(String targetVariable) {
-		ArrayList<Copy> copies = new ArrayList<Copy>();
-		
-		/* Copy token */
-		Copy copy = new Copy();
-		FromSpec from = new FromSpec();
-		from.setType(fromTypes.EXPRESSION);
-		from.setExpression("$input.payload/tns:token");
-		copy.setFromSpec(from);
-		
-		ToSpec to = new ToSpec();
-		to.setType(toTypes.EXPRESSION);
-		to.setExpression("$" + targetVariable + ".parameters/token");
-		copy.setToSpec(to);
-		
-		copies.add(copy);
-		
-		/* Copy reporting service URL */
-		copy = new Copy();
-		from = new FromSpec();
-		from.setType(fromTypes.EXPRESSION);
-		from.setExpression("$input.payload/tns:reportingServiceUrl");
-		copy.setFromSpec(from);
-		
-		to = new ToSpec();
-		to.setType(toTypes.EXPRESSION);
-		to.setExpression("$" + targetVariable + ".parameters/reportingServiceUrl");
-		copy.setToSpec(to);
-		
-		copies.add(copy);
-		
-		return copies;
-	}
+//	/**
+//	 * Creates the BPEL copy elements to pass the token and reporting service URL
+//	 * as web service method parameters.
+//	 * 
+//	 * @return
+//	 * 		The list of copy objects
+//	 */
+//	private List<Copy> createCopyForMetaParameters(String targetVariable) {
+//		ArrayList<Copy> copies = new ArrayList<Copy>();
+//		
+//		/* Copy token */
+//		Copy copy = new Copy();
+//		FromSpec from = new FromSpec();
+//		from.setType(fromTypes.EXPRESSION);
+//		from.setExpression("$input.payload/tns:token");
+//		copy.setFromSpec(from);
+//		
+//		ToSpec to = new ToSpec();
+//		to.setType(toTypes.EXPRESSION);
+//		to.setExpression("$" + targetVariable + ".parameters/token");
+//		copy.setToSpec(to);
+//		
+//		copies.add(copy);
+//		
+//		/* Copy reporting service URL */
+//		copy = new Copy();
+//		from = new FromSpec();
+//		from.setType(fromTypes.EXPRESSION);
+//		from.setExpression("$input.payload/tns:reportingServiceUrl");
+//		copy.setFromSpec(from);
+//		
+//		to = new ToSpec();
+//		to.setType(toTypes.EXPRESSION);
+//		to.setExpression("$" + targetVariable + ".parameters/reportingServiceUrl");
+//		copy.setToSpec(to);
+//		
+//		copies.add(copy);
+//		
+//		return copies;
+//	}
 
 	/**
 	 * Creates the assign element related to a {@link BPELDataObject} and its 
@@ -1077,7 +1077,7 @@ public class BasicActivityFactory {
 	 * @return 		The generated BPEL4Chor "empty" element
 	 */
 	public Element createEmptyElement(EmptyTask task) {
-		Element empty = this.document.createElement("empty");
+//		Element empty = this.document.createElement("empty");
 		
 //		BPELUtil.setStandardAttributes(empty, task);
 		
@@ -1096,7 +1096,7 @@ public class BasicActivityFactory {
 	 * @return 		The generated BPEL4Chor "opaqueActivity" element
 	 */
 	public Element createOpaqueElement(NoneTask task) {
-		Element opaque = this.document.createElement("opaqueActivity");
+//		Element opaque = this.document.createElement("opaqueActivity");
 		
 //		BPELUtil.setStandardAttributes(opaque, task);
 		

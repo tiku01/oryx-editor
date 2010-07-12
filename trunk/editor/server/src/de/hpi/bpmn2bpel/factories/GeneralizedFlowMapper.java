@@ -1,20 +1,9 @@
 package de.hpi.bpmn2bpel.factories;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import de.hpi.bpel4chor.model.Container;
-import de.hpi.bpel4chor.model.activities.Activity;
-import de.hpi.bpel4chor.model.activities.EndEvent;
 import de.hpi.bpel4chor.model.activities.FoldedTask;
-import de.hpi.bpel4chor.model.activities.Gateway;
-import de.hpi.bpel4chor.model.activities.StartEvent;
-import de.hpi.bpel4chor.model.connections.Transition;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.BPMNDiagram;
 
@@ -27,12 +16,12 @@ import de.hpi.bpmn.BPMNDiagram;
  */
 public class GeneralizedFlowMapper {
 		
-	private BPMNDiagram diagram = null;
-	private Document document = null;
-	private Container container = null;
-	private Component component = null;
-	private Output output = null;
-	private int linkCounter = 0;
+//	private BPMNDiagram diagram = null;
+//	private Document document = null;
+//	private Container container = null;
+//	private Component component = null;
+//	private Output output = null;
+//	private int linkCounter = 0;
 	
 	/**
 	 * Constructor. Initializes the mapper.
@@ -46,11 +35,11 @@ public class GeneralizedFlowMapper {
 	 */
 	public GeneralizedFlowMapper(BPMNDiagram diagram, Document document,
 			Container parentContainer, Component component, Output output) {
-		this.diagram = diagram;
-		this.document = document;
-		this.container = parentContainer;
-		this.component = component;
-		this.output = output;
+//		this.diagram = diagram;
+//		this.document = document;
+//		this.container = parentContainer;
+//		this.component = component;
+//		this.output = output;
 		
 		// component activities also must contain the source and sink object
 //		this.component.addActivity(component.getSinkObject());
@@ -67,7 +56,7 @@ public class GeneralizedFlowMapper {
 	 * 
 	 * @return The gateways contained in the component
 	 */
-	private List<Gateway> getGateways(boolean withSource, boolean withSink) {
+//	private List<Gateway> getGateways(boolean withSource, boolean withSink) {
 //		List<Gateway> result = new ArrayList<Gateway>();
 //		for (Iterator<Activity> it = 
 //			this.component.getActivities().iterator(); it.hasNext();) {
@@ -83,8 +72,8 @@ public class GeneralizedFlowMapper {
 //			result.remove(this.component.getSinkObject());
 //		}
 //		return result;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Collects the fork gateways contained in the component.
@@ -94,7 +83,7 @@ public class GeneralizedFlowMapper {
 	 * 
 	 * @return The fork gateways contained in the component
 	 */
-	private List<Gateway> getForkGateways(boolean withSource) {
+//	private List<Gateway> getForkGateways(boolean withSource) {
 //		List<Gateway> result = new ArrayList<Gateway>();
 //		for (Iterator<Activity> it = 
 //			this.component.getActivities().iterator(); it.hasNext();) {
@@ -111,8 +100,8 @@ public class GeneralizedFlowMapper {
 //			result.remove(this.component.getSourceObject());
 //		}
 //		return result;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Collects the join gateways contained in the component.
@@ -122,7 +111,7 @@ public class GeneralizedFlowMapper {
 	 * 
 	 * @return The join gateways contained in the component
 	 */
-	private List<Gateway> getJoinGateways(boolean withSink) {
+//	private List<Gateway> getJoinGateways(boolean withSink) {
 //		List<Gateway> result = new ArrayList<Gateway>();
 //		for (Iterator<Activity> it = 
 //			this.component.getActivities().iterator(); it.hasNext();) {
@@ -139,14 +128,14 @@ public class GeneralizedFlowMapper {
 //			result.remove(this.component.getSinkObject());
 //		}
 //		return result;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * @return The first fork gateway found with another fork gateway as
 	 * predecessor
 	 */
-	private Gateway getSequentialForkGateways() {
+//	private Gateway getSequentialForkGateways() {
 //		List<Gateway> forkGateways = getForkGateways(false);
 //		for (Iterator<Gateway> it = forkGateways.iterator(); it.hasNext();) {
 //			Gateway gateway = it.next();
@@ -156,8 +145,8 @@ public class GeneralizedFlowMapper {
 //				return gateway;
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Removes all fork gateways that have another fork gateway
@@ -165,7 +154,7 @@ public class GeneralizedFlowMapper {
 	 * The gateway is removed after the source of all outgoing transitions
 	 * is changed to the predecessor fork gateway. 
 	 */
-	private void removeSequentialForkGateways() {
+//	private void removeSequentialForkGateways() {
 //		Gateway sequentialGateway = getSequentialForkGateways();
 //		while (sequentialGateway != null) {
 //			Gateway predecessor = (Gateway)sequentialGateway.getPredecessor();
@@ -189,7 +178,7 @@ public class GeneralizedFlowMapper {
 //			
 //			sequentialGateway = getSequentialForkGateways();
 //		}
-	}
+//	}
 	
 	/**
 	 * Checks if the gateway is a join gateway and if this gateway type
@@ -200,15 +189,15 @@ public class GeneralizedFlowMapper {
 	 * @return True, if the gateway is an inclusive or parallel join gateway.
 	 * False, otherwise. 
 	 */
-	private boolean isJoinGateway(Gateway gateway) {
-		if (gateway.getGatewayType().equals(Gateway.TYPE_AND) ||
-				gateway.getGatewayType().equals(Gateway.TYPE_OR)) {
-			if (gateway.getTargetFor().size() > 1) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean isJoinGateway(Gateway gateway) {
+//		if (gateway.getGatewayType().equals(Gateway.TYPE_AND) ||
+//				gateway.getGatewayType().equals(Gateway.TYPE_OR)) {
+//			if (gateway.getTargetFor().size() > 1) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 	/**
 	 * Checks if the gateway is a fork gateway and if this gateway type
@@ -219,30 +208,30 @@ public class GeneralizedFlowMapper {
 	 * @return True, if the gateway is a parallel fork gateway.
 	 * False, otherwise. 
 	 */
-	private boolean isForkGateway(Gateway gateway) {
-		if (gateway.getGatewayType().equals(Gateway.TYPE_AND) && 
-				gateway.getSourceFor().size() > 1) {
-			return true;
-		}
-		return false;
-	}
+//	private boolean isForkGateway(Gateway gateway) {
+//		if (gateway.getGatewayType().equals(Gateway.TYPE_AND) && 
+//				gateway.getSourceFor().size() > 1) {
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	/**
 	 * @return The first join gateway found, that has another join
 	 * gateway as successor.
 	 */
-	private Gateway getSequentialJoinGateways() {
-		List<Gateway> joinGateways = getJoinGateways(false);
-		for (Iterator<Gateway> it = joinGateways.iterator(); it.hasNext();) {
-			Gateway gateway = it.next();
-			Activity successor = gateway.getSuccessor();
-			if ((successor instanceof Gateway) && 
-				(isJoinGateway((Gateway)gateway.getSuccessor()))) {				
-				return gateway;
-			}
-		}
-		return null;
-	}
+//	private Gateway getSequentialJoinGateways() {
+//		List<Gateway> joinGateways = getJoinGateways(false);
+//		for (Iterator<Gateway> it = joinGateways.iterator(); it.hasNext();) {
+//			Gateway gateway = it.next();
+//			Activity successor = gateway.getSuccessor();
+//			if ((successor instanceof Gateway) && 
+//				(isJoinGateway((Gateway)gateway.getSuccessor()))) {				
+//				return gateway;
+//			}
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * Removes all join gateways, that have another join gateway as successor. 
@@ -250,7 +239,7 @@ public class GeneralizedFlowMapper {
 	 * is changed to the successor gateway. 
 	 * 
 	 */
-	private void removeSequentialJoinGateways() { 
+//	private void removeSequentialJoinGateways() { 
 //		Gateway sequentialGateway = getSequentialJoinGateways();
 //		while (sequentialGateway != null) {
 //			Gateway successor = (Gateway)sequentialGateway.getSuccessor();
@@ -275,30 +264,30 @@ public class GeneralizedFlowMapper {
 //			
 //			sequentialGateway = getSequentialJoinGateways();
 //		}
-	}
+//	}
 	
 	/** 
 	 * @return All join gateways that have an incoming transition 
 	 * from a fork gateway.
 	 */
-	private List<Gateway> getDirectJoinGateways() {
-		List<Gateway> result = new ArrayList<Gateway>();
-		List<Gateway> joinGateways = getJoinGateways(true);
-		for (Iterator<Gateway> it = joinGateways.iterator(); it.hasNext();) {
-			Gateway gateway = it.next();
-			for (Iterator<Transition> itTrans = 
-				gateway.getTargetFor().iterator(); itTrans.hasNext();) {
-				// check if source of one of the incoming transitions 
-				// is a fork gateway
-				Transition trans = itTrans.next();
-				if ((trans.getSource() instanceof Gateway) && 
-					(isForkGateway((Gateway)trans.getSource()))) {
-					result.add(gateway);
-				}
-			}
-		}
-		return result;
-	}
+//	private List<Gateway> getDirectJoinGateways() {
+//		List<Gateway> result = new ArrayList<Gateway>();
+//		List<Gateway> joinGateways = getJoinGateways(true);
+//		for (Iterator<Gateway> it = joinGateways.iterator(); it.hasNext();) {
+//			Gateway gateway = it.next();
+//			for (Iterator<Transition> itTrans = 
+//				gateway.getTargetFor().iterator(); itTrans.hasNext();) {
+//				// check if source of one of the incoming transitions 
+//				// is a fork gateway
+//				Transition trans = itTrans.next();
+//				if ((trans.getSource() instanceof Gateway) && 
+//					(isForkGateway((Gateway)trans.getSource()))) {
+//					result.add(gateway);
+//				}
+//			}
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * Searches a fork gateway in the given list.
@@ -306,16 +295,16 @@ public class GeneralizedFlowMapper {
 	 * @param activities The list to search in.
 	 *  
 	 * @return The first fork gateway found in the list. 
-	 */
-	private Gateway getFirstFork(List<Activity> activities) {
-		for (Iterator<Activity> it = activities.iterator(); it.hasNext();) {
-			Activity act = it.next();
-			if ((act instanceof Gateway) && (isForkGateway((Gateway)act))) {
-				return (Gateway)act;
-			}
-		}
-		return null;
-	}
+//	 */
+//	private Gateway getFirstFork(List<Activity> activities) {
+//		for (Iterator<Activity> it = activities.iterator(); it.hasNext();) {
+//			Activity act = it.next();
+//			if ((act instanceof Gateway) && (isForkGateway((Gateway)act))) {
+//				return (Gateway)act;
+//			}
+//		}
+//		return null;
+//	}
 	
 	
 	/**
@@ -325,7 +314,7 @@ public class GeneralizedFlowMapper {
 	 * 
 	 * @return A list with the created links
 	 */
-	private List<Link> deriveLinks() {
+//	private List<Link> deriveLinks() {
 //		List<Link> result = new ArrayList<Link>();
 //		for (Iterator<Gateway> it = 
 //			getDirectJoinGateways().iterator(); it.hasNext();) {
@@ -358,8 +347,8 @@ public class GeneralizedFlowMapper {
 //			}
 //		}
 //		return result;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Removes gateways with exactly one incoming and one outgoing transition
@@ -369,7 +358,7 @@ public class GeneralizedFlowMapper {
 	 * new transitions form the gateways successor to the gateways predecessor.
 	 *
 	 */
-	private void reduceNeedlessGateways() {
+//	private void reduceNeedlessGateways() {
 //		List<Gateway> gateways = getGateways(false, false);
 //		for (Iterator<Gateway> it = gateways.iterator(); it.hasNext();) {
 //			Gateway gateway = it.next();
@@ -387,7 +376,7 @@ public class GeneralizedFlowMapper {
 //				this.component.getTransitions().add(trans);
 //			}
 //		}
-	}
+//	}
 	
 	/**
 	 * Finishes the mapping of the generalized flow component, if there is only 
@@ -402,7 +391,7 @@ public class GeneralizedFlowMapper {
 	 * The result is null if there is more than one activity left or the activity is
 	 * not a folded task. 
 	 */
-	private FoldedTask finishFlow(List<Link> links) {
+//	private FoldedTask finishFlow(List<Link> links) {
 //		if (this.component.getActivities().size() != 1) {
 //			this.output.addError("A generalized flow pattern could not be mapped correctly.", this.component.getId());
 //			return null;
@@ -432,8 +421,8 @@ public class GeneralizedFlowMapper {
 //		}
 //		
 //		return (FoldedTask)act;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * <p>Does the actual mapping. Searches for components and maps them to folded tasks.
@@ -446,7 +435,7 @@ public class GeneralizedFlowMapper {
 	 * 
 	 * @param links The links that were already created in the preparation of the mapping
 	 */
-	private void doMapping(List<Link> links) {
+//	private void doMapping(List<Link> links) {
 //		// transform component into a task and attached the appropriate BPEL Code
 //		// and replace start and end events by the original elements
 //		Activity target = this.component.getSinkObject();
@@ -501,7 +490,7 @@ public class GeneralizedFlowMapper {
 //			}
 //			next = componentizer.getNextComponent();
 //		}
-	}
+//	}
 
 	
 	/**

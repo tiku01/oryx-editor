@@ -11,14 +11,11 @@ import java.util.Set;
 
 import org.w3c.dom.Document;
 
-
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.BPMNDiagram;
-import de.hpi.bpmn.Container;
 import de.hpi.bpmn.Node;
 import de.hpi.bpmn.Task;
 import de.hpi.bpmn2bpel.TransformationResult.Type;
-import de.hpi.bpmn2bpel.factories.DeploymentDescriptorFactory;
 import de.hpi.bpmn2bpel.factories.ProcessFactory;
 import de.hpi.bpmn2bpel.factories.apacheode.DeployProcessFactory;
 

@@ -1,7 +1,6 @@
 package de.hpi.bpmn2bpel.factories;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,8 +12,8 @@ import org.w3c.dom.Element;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.Container;
-import de.hpi.bpmn.Task;
 import de.hpi.bpmn.Process;
+import de.hpi.bpmn.Task;
 import de.hpi.bpmn2bpel.model.Container4BPEL;
 
 /**
@@ -145,7 +144,8 @@ public class DeploymentDescriptorFactory {
 	 */
 	private void insertElementsForTasks(Document document,
 			Element processElement, Process process) {
-		for(Task t : process.getTasks()) {
+//		for(Task t : process.getTasks()) {
+		for(int i=0;i<process.getTasks().size();i++){
 			Element invoke = document.createElement("invoke");
 //			invoke.setAttribute("name", t.getLabel());
 			
