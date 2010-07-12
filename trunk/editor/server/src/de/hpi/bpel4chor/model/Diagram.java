@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import de.hpi.bpel4chor.model.activities.Activity;
 import de.hpi.bpel4chor.model.activities.BlockActivity;
 import de.hpi.bpel4chor.model.activities.Event;
@@ -74,7 +75,7 @@ public class Diagram {
 	 * association was found.
 	 */
 	public List<Association> getAssociationsWithSource(
-			String sourceId, String direction, Class targetClass) {
+			String sourceId, String direction, Class<? extends GraphicalObject> targetClass) {
 		List<Association> result = new ArrayList<Association>();
 		if (sourceId != null) { 
 			for (Iterator<Association> it = this.associations.iterator(); it.hasNext();) {
@@ -114,7 +115,7 @@ public class Diagram {
 	 * list if no association was found.
 	 */
 	public List<Association> getAssociationsWithTarget(
-			String targetId, String direction, Class sourceClass) {
+			String targetId, String direction, Class<? extends GraphicalObject> sourceClass) {
 		List<Association> result = new ArrayList<Association>();
 		if (targetId != null) { 
 			for (Iterator<Association> it = this.associations.iterator(); it.hasNext();) {
