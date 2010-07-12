@@ -30,7 +30,6 @@ import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.model.artifacts.Group;
 import de.hpi.bpmn2_0.model.artifacts.TextAnnotation;
 import de.hpi.bpmn2_0.model.diagram.GroupShape;
-import de.hpi.bpmn2_0.model.diagram.TextAnnotationShape;
 
 /**
  * Factor to create {@link TextAnnotation}

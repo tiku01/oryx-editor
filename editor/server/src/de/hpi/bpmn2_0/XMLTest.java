@@ -1,8 +1,6 @@
 package de.hpi.bpmn2_0;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -107,7 +105,7 @@ public class XMLTest {
 			JAXBContext context = JAXBContext.newInstance(Definitions.class);
 			Unmarshaller u = context.createUnmarshaller();
 			File xml = new File(path + "bpmntest.xml");
-			BufferedReader br = new BufferedReader(new FileReader(xml));
+//			BufferedReader br = new BufferedReader(new FileReader(xml));
 //			String bpmnXml = "";
 //			String line;
 //			while((line = br.readLine()) != null) {

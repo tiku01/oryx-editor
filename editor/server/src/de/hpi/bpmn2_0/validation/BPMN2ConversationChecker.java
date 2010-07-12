@@ -1,7 +1,6 @@
 package de.hpi.bpmn2_0.validation;
 
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
-import de.hpi.bpmn2_0.model.conversation.Communication;
 import de.hpi.bpmn2_0.model.conversation.Conversation;
 import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.model.conversation.ConversationNode;

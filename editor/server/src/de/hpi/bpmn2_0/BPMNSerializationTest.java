@@ -3,7 +3,6 @@ package de.hpi.bpmn2_0;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +100,7 @@ public class BPMNSerializationTest {
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		NamespacePrefixMapper nsp = new BPMNPrefixMapper();
 		m.setProperty("com.sun.xml.bind.namespacePrefixMapper", nsp);
-		StringWriter sw = new StringWriter();
+//		StringWriter sw = new StringWriter();
 //		m.marshal(def, sw);
 		m.marshal(def, System.out);
 		ValidationEvent[] events = vec.getEvents();

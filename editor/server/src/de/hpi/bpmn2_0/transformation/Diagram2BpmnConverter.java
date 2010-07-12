@@ -36,8 +36,6 @@ import org.json.JSONObject;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
-import com.hp.hpl.jena.graph.Factory;
-
 import de.hpi.bpmn2_0.annotations.SSetExtension;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
@@ -632,18 +630,19 @@ public class Diagram2BpmnConverter {
 		}
 	}
 
-	/**
-	 * @return All {@link Activity} contained in the diagram.
-	 */
-	private List<Activity> getAllActivities() {
-		ArrayList<Activity> activities = new ArrayList<Activity>();
-		for (BPMNElement element : this.bpmnElements.values()) {
-			if (element.getNode() instanceof Activity)
-				activities.add((Activity) element.getNode());
-		}
-
-		return activities;
-	}
+//	/**
+//	 * @return All {@link Activity} contained in the diagram.
+//	 */
+//	TODO this method is never used, remove code
+//	private List<Activity> getAllActivities() {
+//		ArrayList<Activity> activities = new ArrayList<Activity>();
+//		for (BPMNElement element : this.bpmnElements.values()) {
+//			if (element.getNode() instanceof Activity)
+//				activities.add((Activity) element.getNode());
+//		}
+//
+//		return activities;
+//	}
 
 	/**
 	 * @return All {@link Task} contained in the diagram.
