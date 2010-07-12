@@ -121,12 +121,12 @@ public class BPMNRDFImporter {
 		ImportContext c = new ImportContext();
 		c.diagram = factory.createBPMNDiagram();
 		// Map map = new HashMap();
-		c.objects = new HashMap(); // key = resource id, value = node
-		c.connections = new HashMap(); // key = to resource id, value = from
+		c.objects = new HashMap<String, de.hpi.bpmn.DiagramObject> (); // key = resource id, value = node
+		c.connections = new HashMap<String, de.hpi.bpmn.DiagramObject> (); // key = to resource id, value = from
 		// node
-		c.parentRelationships = new HashMap();
+		c.parentRelationships = new HashMap<de.hpi.bpmn.Node, String>();
 
-		List<Node> edges = new ArrayList();
+		List<Node> edges = new ArrayList<Node>();
 
 		// handle nodes
 		if (root.hasChildNodes()) {

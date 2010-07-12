@@ -13,7 +13,7 @@ public class Process implements Container, Container4BPEL {
 
 	public List<Node> getChildNodes() {
 		if (childNodes == null)
-			childNodes = new ArrayList();
+			childNodes = new ArrayList<Node>();
 		return childNodes;
 	}
 

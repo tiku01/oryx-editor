@@ -48,12 +48,15 @@ public abstract class ListUtil {
 	 * 
 	 * @return True, if both lists contain the same elements, false otherwise.
 	 */
-	public static boolean isEqual(List list1, List list2) {
+	public static boolean isEqual(List<? extends Object> list1, List<? extends Object> list2) {
+		/*
+		 * TODO check if this is actual not the default implementation of java for equals
+		 */
 		if (list1.size() != list2.size()) {
 			return false;
 		}
 		
-		for (Iterator it = list1.iterator(); it.hasNext();) {
+		for (Iterator<? extends Object> it = list1.iterator(); it.hasNext();) {
 			Object obj = it.next();
 			if (!list2.contains(obj)) {
 				return false;
@@ -71,9 +74,9 @@ public abstract class ListUtil {
 	 * @return The string containing the names of each list element separated
 	 * by comma.
 	 */
-	public static String toString(List list) {
+	public static String toString(List<? extends Object> list) {
 		String result = "";
-		for (Iterator it = list.iterator(); it.hasNext();) {
+		for (Iterator<? extends Object> it = list.iterator(); it.hasNext();) {
 			Object obj = it.next();
 			if (it.hasNext()) {
 				result += obj.toString() + ", ";
