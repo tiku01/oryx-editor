@@ -518,7 +518,7 @@ public class Componentizer {
 		if (!ListUtil.isEqual(X, Y)) {
 			int counter = 0;
 			// count the activities that are not gateways
-			for (Iterator it = Z.iterator(); it.hasNext();) {
+			for (Iterator<Activity> it = Z.iterator(); it.hasNext();) {
 				if (!(it.next() instanceof Gateway)) {
 					counter++;
 				}

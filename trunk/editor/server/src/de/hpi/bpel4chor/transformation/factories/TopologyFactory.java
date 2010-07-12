@@ -806,12 +806,12 @@ public class TopologyFactory {
 	 * 
 	 * @return True, if both lists contain the same participants, false otherwise.
 	 */
-	private boolean isEqual(List list1, List list2, boolean copyTo) {
+	private boolean isEqual(List<? extends DataObject> list1, List<? extends DataObject> list2, boolean copyTo) {
 		if (list1.size() != list2.size()) {
 			return false;
 		}
 		
-		for (Iterator itList1 = list1.iterator(); itList1.hasNext();) {
+		for (Iterator<? extends DataObject> itList1 = list1.iterator(); itList1.hasNext();) {
 			Object obj = itList1.next();
 			if (!(obj instanceof DataObject)) {
 				continue;
@@ -820,7 +820,7 @@ public class TopologyFactory {
 			
 			// check if data object with this type, name and copyTo is contained in list2
 			boolean found = false;
-			for (Iterator itList2 = list2.iterator(); itList2.hasNext();) {
+			for (Iterator<? extends DataObject> itList2 = list2.iterator(); itList2.hasNext();) {
 				obj = itList2.next();
 				if (!(obj instanceof DataObject)) {
 					continue;
@@ -845,6 +845,11 @@ public class TopologyFactory {
 								(ParticipantSetDataObject)obj1;
 							ParticipantSetDataObject ref2 = 
 								(ParticipantSetDataObject)obj2;
+							/*
+							 * added by Philipp Berger due to unused variables
+							 */
+							copyTo1 = ref1.getCopyTo();
+							copyTo2 = ref2.getCopyTo();
 						}
 						if ((copyTo1 != null) && (copyTo2 != null)) {
 							if (!copyTo1.equals(copyTo2)) {

@@ -486,7 +486,7 @@ public class SequenceFlowFactory {
 			newList.remove(gateway);
 			
 			// remove old lists for combined start events
-			for (Iterator it = toCombine.iterator(); it.hasNext();) {
+			for (Iterator<StartEvent> it = toCombine.iterator(); it.hasNext();) {
 				map.remove(it.next());
 			}
 			

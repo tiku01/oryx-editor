@@ -3,13 +3,18 @@ package de.hpi.bpel4chor.transformation.factories;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import de.hpi.bpel4chor.model.Diagram;
 import de.hpi.bpel4chor.model.GraphicalObject;
 import de.hpi.bpel4chor.model.Pool;
 import de.hpi.bpel4chor.model.activities.Activity;
 import de.hpi.bpel4chor.model.activities.BlockActivity;
-import de.hpi.bpel4chor.model.activities.ServiceTask;
 import de.hpi.bpel4chor.model.activities.SendTask;
+import de.hpi.bpel4chor.model.activities.ServiceTask;
 import de.hpi.bpel4chor.model.activities.Task;
 import de.hpi.bpel4chor.model.artifacts.DataObject;
 import de.hpi.bpel4chor.model.artifacts.ParticipantReferenceDataObject;
@@ -18,9 +23,6 @@ import de.hpi.bpel4chor.model.artifacts.VariableDataObject;
 import de.hpi.bpel4chor.model.connections.Association;
 import de.hpi.bpel4chor.model.connections.MessageFlow;
 import de.hpi.bpel4chor.model.supporting.Loop;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import de.hpi.bpel4chor.util.Output;
 
 /**
@@ -1338,7 +1340,7 @@ public class ParticipantsFactory {
 			ParticipantSetDataObject set = it.next();
 			
 			// check if association from set to other participant set data object
-			List associations = this.diagram.getAssociationsWithSource(
+			List<Association> associations = this.diagram.getAssociationsWithSource(
 						set.getId(), Association.DIRECTION_FROM, 
 						ParticipantSetDataObject.class);
 			if (!associations.isEmpty()) {
