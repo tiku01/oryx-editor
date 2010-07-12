@@ -13,7 +13,7 @@ public class HighConversionContext extends ConversionContext {
 	/* Maintain list of ancestor tasks which should perform exception handling/ 
 	 * token cleansing
 	 */
-	public Map<Container, List<Transition>> excpTransitionMap = new HashMap();
+	public Map<Container, List<Transition>> excpTransitionMap = new HashMap<Container, List<Transition>>();
 	public List<Transition> getExcpTransitions() {
 		// "flatten" all transitions from list
 		List<Transition> trans = new ArrayList<Transition>();

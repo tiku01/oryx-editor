@@ -131,8 +131,8 @@ public class Preprocessor {
 
 	protected void introduceStartAndEndEvents(Container process) {
 		// TODO do not introduce events for adhoc subprocesses
-		List<Node> startNodes = new ArrayList();
-		List<Node> endNodes = new ArrayList();
+		List<Node> startNodes = new ArrayList<Node> ();
+		List<Node> endNodes = new ArrayList<Node> ();
 		for (Node node: process.getChildNodes()) {
 			if (!(node instanceof StartEvent || (node instanceof IntermediateEvent && ((IntermediateEvent)node).getActivity() != null)) 
 					&& countSequenceFlows(node.getIncomingEdges()) == 0)

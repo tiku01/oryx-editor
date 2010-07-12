@@ -189,13 +189,14 @@ public class ExecConverter extends Converter {
 			Document modelDoc = parser.newDocument();
 			//modelDoc.appendChild(modelDoc.createElement("engine-info"));
 			Node places = modelDoc.appendChild(modelDoc.createElement("places"));
-			Node data = places.appendChild(modelDoc.createElement("data")); 
+//			Node data = 
+				places.appendChild(modelDoc.createElement("data")); 
 			//Node metaData = places.appendChild(modelDoc.createElement("metadata")); 
 			//Node processData = places.appendChild(modelDoc.createElement("processdata"));
 
 			// initialize engine Post URL
 			PropertiesConfiguration config = new PropertiesConfiguration("pnengine.properties");
-			this.enginePostURL = config.getString("pnengine.url") + "/documents/";
+			ExecConverter.enginePostURL = config.getString("pnengine.url") + "/documents/";
 			
 			// interrogate all incoming data objects for task, create DataPlaces for them and create Task model
 			HashMap<String, Node> processdataMap = new HashMap<String, Node>();
@@ -616,27 +617,27 @@ public class ExecConverter extends Converter {
 		return list;
 	}
 	
-	private void addDataDependeny(PetriNet net, ExecTask execTask, Place dataPlace, NodeList elements){
-		
-		StringBuffer guardStringBuffer = new StringBuffer();
-		for (int i = 0 ; i<elements.getLength(); i++){
-			String name = elements.item(i).getAttributes().getNamedItem("name").getNodeValue();
-			if (guardStringBuffer.length() > 0){
-				guardStringBuffer.append("&&");
-			}
-			guardStringBuffer.append(dataPlace.getId()+"."+name+"!=''");
-		}
-		if (guardStringBuffer.length() > 0){
-			String formerGuard = execTask.tr_allocate.getGuard();
-			if (formerGuard != null && formerGuard.length() > 0){
-				guardStringBuffer.append("&&("+formerGuard+")");
-			}
-			String guardString = guardStringBuffer.toString();
-			execTask.tr_allocate.setGuard(guardString);
-			addReadOnlyFlowRelationship(net, dataPlace, execTask.tr_allocate);
-		}
-		
-	}
+//	private void addDataDependeny(PetriNet net, ExecTask execTask, Place dataPlace, NodeList elements){
+//		
+//		StringBuffer guardStringBuffer = new StringBuffer();
+//		for (int i = 0 ; i<elements.getLength(); i++){
+//			String name = elements.item(i).getAttributes().getNamedItem("name").getNodeValue();
+//			if (guardStringBuffer.length() > 0){
+//				guardStringBuffer.append("&&");
+//			}
+//			guardStringBuffer.append(dataPlace.getId()+"."+name+"!=''");
+//		}
+//		if (guardStringBuffer.length() > 0){
+//			String formerGuard = execTask.tr_allocate.getGuard();
+//			if (formerGuard != null && formerGuard.length() > 0){
+//				guardStringBuffer.append("&&("+formerGuard+")");
+//			}
+//			String guardString = guardStringBuffer.toString();
+//			execTask.tr_allocate.setGuard(guardString);
+//			addReadOnlyFlowRelationship(net, dataPlace, execTask.tr_allocate);
+//		}
+//		
+//	}
 
 	
 	
@@ -801,13 +802,14 @@ public class ExecConverter extends Converter {
 			do {
 				if (processDataChild == null) break;
 				if (processDataChild.getNodeType() != Node.ELEMENT_NODE) continue;
-				String attributeName, attributeType;
+				String attributeName;
+//				String attributeType;
 				Node name = processDataChild.getAttributes().getNamedItem("name");
 				if (name == null) continue;
 				attributeName = name.getNodeValue().replaceAll(" " , "");
 				Node type = processDataChild.getAttributes().getNamedItem("type");
 				if (type == null) continue;
-				attributeType = type.getNodeValue();
+//				attributeType = type.getNodeValue();
 				
 				// for template watch in engine folder "/public/examples/delegation/formulartemplate"
 				// ==========  create Document  ===========			
@@ -910,13 +912,14 @@ public class ExecConverter extends Converter {
 					do {
 						if (processDataChild == null) break;
 						if (processDataChild.getNodeType() != Node.ELEMENT_NODE) continue;
-						String attributeName, attributeType;
+						String attributeName;
+//						String attributeType;
 						Node name = processDataChild.getAttributes().getNamedItem("name");
 						if (name == null) continue;
 						attributeName = name.getNodeValue().replaceAll(" " , "");
 						Node type = processDataChild.getAttributes().getNamedItem("type");
 						if (type == null) continue;
-						attributeType = type.getNodeValue();
+//						attributeType = type.getNodeValue();
 			
 					Element valuereadonly = doc.createElement("x:setvalue");
 					valuereadonly.setAttribute("bind", dataObjectName+"_"+attributeName + ".readonly");
@@ -1057,13 +1060,14 @@ public class ExecConverter extends Converter {
 					do {
 						if (processDataChild == null) break;
 						if (processDataChild.getNodeType() != Node.ELEMENT_NODE) continue;
-						String attributeName, attributeType;
+						String attributeName;
+//						String attributeType;
 						Node name = processDataChild.getAttributes().getNamedItem("name");
 						if (name == null) continue;
 						attributeName = name.getNodeValue().replaceAll(" " , "");
 						Node type = processDataChild.getAttributes().getNamedItem("type");
 						if (type == null) continue;
-						attributeType = type.getNodeValue();
+//						attributeType = type.getNodeValue();
 				
 					Element valuereadonly = doc.createElement("x:setvalue");
 					valuereadonly.setAttribute("bind", dataObjectName+"_"+attributeName + ".readonly");
@@ -1141,13 +1145,14 @@ public class ExecConverter extends Converter {
 					do {
 						if (processDataChild == null) break;
 						if (processDataChild.getNodeType() != Node.ELEMENT_NODE) continue;
-						String attributeName, attributeType;
+						String attributeName;
+//						String attributeType;
 						Node name = processDataChild.getAttributes().getNamedItem("name");
 						if (name == null) continue;
 						attributeName = name.getNodeValue().replaceAll(" " , "");
 						Node type = processDataChild.getAttributes().getNamedItem("type");
 						if (type == null) continue;
-						attributeType = type.getNodeValue();
+//						attributeType = type.getNodeValue();
 						
 						Element property = doc.createElement(dataObjectName + "_" + attributeName);
 						property.setAttribute("futurereadonly", "false");
@@ -1170,13 +1175,14 @@ public class ExecConverter extends Converter {
 			do {
 				if (processDataChild == null) break;
 				if (processDataChild.getNodeType() != Node.ELEMENT_NODE) continue;
-				String attributeName, attributeType;
+				String attributeName;
+//				String attributeType;
 				Node name = processDataChild.getAttributes().getNamedItem("name");
 				if (name == null) continue;
 				attributeName = name.getNodeValue().replaceAll(" " , "");
 				Node type = processDataChild.getAttributes().getNamedItem("type");
 				if (type == null) continue;
-				attributeType = type.getNodeValue();
+//				attributeType = type.getNodeValue();
 			
 				Element bind1 = doc.createElement("x:bind");
 				bind1.setAttribute("id", dataObjectName+"_"+attributeName);
@@ -1296,7 +1302,7 @@ public class ExecConverter extends Converter {
                 dataOutStream.flush();
                 dataOutStream.close(); 
                 // Read the response 
-                int resp = URLconn.getResponseCode();
+//                int resp = URLconn.getResponseCode();
                 if (URLconn.getResponseCode() == HttpURLConnection.HTTP_OK)
                 	URLResponse = URLconn.getURL().toString(); 
                 else
@@ -1315,17 +1321,17 @@ public class ExecConverter extends Converter {
       * @param list List of <data> childs
       * @return is tag existent?
       */
-		private boolean isContainedIn(ExecDataObject dataObject, NodeList list){
-			for (int procdata = 0; procdata<list.getLength(); procdata++) {
-				NamedNodeMap attributeList = list.item(procdata).getAttributes();
-				for (int attr = 0; attr<attributeList.getLength(); attr++) {
-					Node attribute = attributeList.item(attr);
-					if (list.item(procdata).getNodeName() == "processData" && attribute.equals(dataObject.getId()))
-						return true;
-				}
-			}
-			return false;
-		}
+//		private boolean isContainedIn(ExecDataObject dataObject, NodeList list){
+//			for (int procdata = 0; procdata<list.getLength(); procdata++) {
+//				NamedNodeMap attributeList = list.item(procdata).getAttributes();
+//				for (int attr = 0; attr<attributeList.getLength(); attr++) {
+//					Node attribute = attributeList.item(attr);
+//					if (list.item(procdata).getNodeName() == "processData" && attribute.equals(dataObject.getId()))
+//						return true;
+//				}
+//			}
+//			return false;
+//		}
 		
 		private boolean isContainedIn(ExecDataObject dataObject, HashMap<String, Node> map){
 			Set<String> list = map.keySet();
@@ -1339,18 +1345,18 @@ public class ExecConverter extends Converter {
 		 * @param data
 		 * @return
 		 */
-		private HashMap<String, NodeList> getProcessDataNodes(Node data) {
-			HashMap<String, NodeList> targetMap = new HashMap<String, NodeList>();
-			NodeList list = data.getChildNodes();
-			for (int i = 0; i<list.getLength(); i++) {
-				if (list.item(i).getNodeName().equals("processdata")) {
-					String id = list.item(i).getAttributes().getNamedItem("id").getNodeName();
-					NodeList attributes = list.item(i).getChildNodes();
-					targetMap.put(id, attributes);
-				}
-			}
-			return targetMap;
-		}
+//		private HashMap<String, NodeList> getProcessDataNodes(Node data) {
+//			HashMap<String, NodeList> targetMap = new HashMap<String, NodeList>();
+//			NodeList list = data.getChildNodes();
+//			for (int i = 0; i<list.getLength(); i++) {
+//				if (list.item(i).getNodeName().equals("processdata")) {
+//					String id = list.item(i).getAttributes().getNamedItem("id").getNodeName();
+//					NodeList attributes = list.item(i).getChildNodes();
+//					targetMap.put(id, attributes);
+//				}
+//			}
+//			return targetMap;
+//		}
 		
 		private String domToString(Document document) {
 			// Normalizing the DOM

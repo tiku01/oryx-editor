@@ -30,6 +30,7 @@ import de.hpi.highpetrinet.HighPetriNet;
 import de.hpi.highpetrinet.HighPetriNetFactory;
 import de.hpi.highpetrinet.HighSilentTransition;
 import de.hpi.highpetrinet.HighTransition;
+import de.hpi.petrinet.FlowRelationship;
 import de.hpi.petrinet.LabeledTransition;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.PetriNetFactory;
@@ -79,7 +80,13 @@ public class HighConverter extends StandardConverter {
 	
 	protected HighFlowRelationship addInhibitorFlowRelationship(PetriNet net,
 			de.hpi.petrinet.Place source, de.hpi.petrinet.Transition target) {
-		for (HighFlowRelationship rel : (List<HighFlowRelationship>)target.getIncomingFlowRelationships()){
+		for (FlowRelationship supposedRel : target.getIncomingFlowRelationships()){
+			HighFlowRelationship rel;
+			if(supposedRel instanceof HighFlowRelationship){
+				rel = (HighFlowRelationship) supposedRel;
+			}else{
+				continue;
+			}
 			if ((Place)rel.getSource() == source){
 				// there is already a connection, perhaps return null or raise error?
 				return rel;
@@ -193,8 +200,8 @@ public class HighConverter extends StandardConverter {
 		visitedNodes.add(edge);
 		//if(edge.getId().contains("ok"))
 		//	return;
-		for(HighFlowRelationship relEdge : (List<HighFlowRelationship>)edge.getIncomingFlowRelationships()){
-			if(relEdge.getType() != HighFlowRelationship.ArcType.Plain)
+		for(FlowRelationship relEdge : edge.getIncomingFlowRelationships()){
+			if(!(relEdge instanceof HighFlowRelationship) || ((HighFlowRelationship) relEdge).getType() != HighFlowRelationship.ArcType.Plain)
 				continue;
 			HighTransition incomingTransition = (HighTransition)relEdge.getSource();
 			DiagramObject incomingBPMN = incomingTransition.getBPMNObj();
@@ -208,7 +215,7 @@ public class HighConverter extends StandardConverter {
 			addInhibitorFlowRelationship(net, edge, gatewayTransition);
 			
 			if(!checkDominator((Node)incomingBPMN, (Node)gatewayTransition.getBPMNObj(), c)){
-				for(HighFlowRelationship rel : (List<HighFlowRelationship>)incomingTransition.getIncomingFlowRelationships()){
+				for(FlowRelationship rel : incomingTransition.getIncomingFlowRelationships()){
 					handleUpstream(net, gatewayTransition, (Place)rel.getSource(), c, visitedNodes);
 				}
 			}
@@ -366,7 +373,7 @@ public class HighConverter extends StandardConverter {
 			//only add, if there is not already an reset arc
 			//TODO this should be guaranteed by mapping!!
 			boolean alreadyConnected = false;
-			for (HighFlowRelationship rel : (List<HighFlowRelationship>)t.getIncomingFlowRelationships()){
+			for (FlowRelationship rel : t.getIncomingFlowRelationships()){
 				if ((Place)rel.getSource() == p){
 					alreadyConnected = true;
 				}
@@ -380,7 +387,9 @@ public class HighConverter extends StandardConverter {
 		Transition t = addLabeledTransition(net, event.getId(), event, 0, event.getLabel(), c);
 		handleMessageFlow(net, event, t, t, c);
 		addFlowRelationship(net, c.map.get(getIncomingSequenceFlow(event)), t);
-		Place p = c.getSubprocessPlaces(event.getProcess()).endP;
+//		Place p = 
+			c.getSubprocessPlaces(event.getProcess());
+//			.endP;
 		//connect with end place from process
 		addFlowRelationship(net, t, c.getSubprocessPlaces(event.getProcess()).endP);
 		if (c.ancestorHasExcpH)
