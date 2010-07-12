@@ -1338,7 +1338,7 @@ public class ParticipantsFactory {
 			ParticipantSetDataObject set = it.next();
 			
 			// check if association from set to other participant set data object
-			List associations = this.diagram.getAssociationsWithSource(
+			List<Association> associations = this.diagram.getAssociationsWithSource(
 						set.getId(), Association.DIRECTION_FROM, 
 						ParticipantSetDataObject.class);
 			if (!associations.isEmpty()) {

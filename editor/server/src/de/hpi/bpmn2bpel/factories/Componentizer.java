@@ -4,21 +4,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.Activity;
-import de.hpi.bpmn.Node;
+import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.EndEvent;
+import de.hpi.bpmn.Gateway;
+import de.hpi.bpmn.Node;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.StartEvent;
-import de.hpi.bpmn.Gateway;
-import de.hpi.bpel4chor.model.activities.Handler;
-import de.hpi.bpel4chor.model.activities.IntermediateEvent;
-import de.hpi.bpel4chor.model.activities.ReceiveTask;
-import de.hpi.bpel4chor.model.connections.Transition;
-import de.hpi.bpel4chor.util.ListUtil;
-import de.hpi.bpel4chor.util.Output;
-import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.sese.XOREventBasedGatewaySplit;
 import de.hpi.bpmn2bpel.model.Container4BPEL;
 
@@ -30,9 +24,6 @@ import de.hpi.bpmn2bpel.model.Container4BPEL;
 public class Componentizer {
 	
 	private Container4BPEL container = null;
-	private BPMNDiagram diagram = null;
-	private Output output;
-	
 	/**
 	 * Constructor. Initializes the Componentizer with container to examine
 	 *  and the diagram the container belongs to.
@@ -42,9 +33,7 @@ public class Componentizer {
 	 * @param output    The output to print errors to.
 	 */
 	public Componentizer(BPMNDiagram diagram, Container4BPEL container, Output output) {
-		this.diagram = diagram;
 		this.container = container;
-		this.output = output;
 	}
 	
 	/**
@@ -109,7 +98,7 @@ public class Componentizer {
 	 * @return List of found error handlers or null if the activity
 	 * has no error events attached.
 	 */
-	private List<Handler> getErrorHandlers(Activity activity) {
+//	private List<Handler> getErrorHandlers(Activity activity) {
 //		List<Handler> result = new ArrayList<Handler>();
 //		List<IntermediateEvent> errorEvents = 
 //			activity.getAttachedEvents(IntermediateEvent.TRIGGER_ERROR);
@@ -124,8 +113,8 @@ public class Componentizer {
 //			}
 //		}
 //		return result;
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * <p>Determines the sink object of the attached-error-events-pattern.</p>
@@ -138,7 +127,7 @@ public class Componentizer {
 	 * @return The sink object (inclusive of exlusive merge gateway) of the
 	 * attached-events-pattern or null if such a pattern could not be found.
 	 */
-	private Gateway getAttachedErrorEventSinkObject(Activity activity) {
+//	private Gateway getAttachedErrorEventSinkObject(Activity activity) {
 //		List<Handler> errorHandlers = getErrorHandlers(activity);
 //		if ((errorHandlers == null) || errorHandlers.isEmpty()) {
 //			return null;
@@ -203,8 +192,8 @@ public class Componentizer {
 //				" must be the gateway with id "+ 
 //				gateway.getId(), activity.getId());
 //		this.output.addError("This gateway has to be the successor of the acitivity with id "+activity.getId(), gateway.getId());
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * <p>Checks if the activity applies to an attached-error-events-pattern and creates 
@@ -229,7 +218,7 @@ public class Componentizer {
 	 * gateway, the error handlers are connected to. The component activities are the
 	 * error events and error handlers. 
 	 */
-	private Component computeAttachedErrorEvents(Activity activity, boolean quasi) {
+//	private Component computeAttachedErrorEvents(Activity activity, boolean quasi) {
 //		List<IntermediateEvent> errorEvents = 
 //			activity.getAttachedEvents(IntermediateEvent.TRIGGER_ERROR);
 //		
@@ -257,8 +246,8 @@ public class Componentizer {
 //						activity, sinkGateway);
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks for each task and scope in the container if it is applicable 
@@ -386,8 +375,8 @@ public class Componentizer {
 	 * the result will be null. If there is a path from the source, that does not lead
 	 * to the target activity, null will be returned, too.
 	 */
-	private List<Activity> getElementsBetween(Activity source, Activity target) {
-		List<Activity> successors = null;
+//	private List<Activity> getElementsBetween(Activity source, Activity target) {
+//		List<Activity> successors = null;
 //		if (source instanceof Gateway) {
 //			successors = ((Gateway)source).getSuccessors();
 //		} else if (source.getSuccessor() != null) {
@@ -414,8 +403,8 @@ public class Componentizer {
 //			}
 //			return null;
 //		}
-		return successors;	
-	}
+//		return successors;	
+//	}
 	
 	/**
 	 * <p>Determines the element between the source and the target activity. 
@@ -428,8 +417,8 @@ public class Componentizer {
 	 * @return The Activity between the source and the target activity. If
 	 * there are multiple such Activities the result is null.
 	 */
-	private Activity getElementBetween(Gateway source, Gateway target) {
-		Activity result = null;
+//	private Activity getElementBetween(Gateway source, Gateway target) {
+//		Activity result = null;
 //		List<Activity> successors = source.getSuccessors();
 //		
 //		// check if all successors are valid and return null otherwise
@@ -444,8 +433,8 @@ public class Componentizer {
 //				result = act;
 //			}
 //		}
-		return result;	
-	}
+//		return result;	
+//	}
 	
 	/**
 	 * Checks if the given activities are the only successors of the activity.
@@ -459,15 +448,15 @@ public class Componentizer {
 	 * @return true, if all successors of the activity are contained in the list,
 	 * false otherwise 
 	 */
-	private boolean isOnlySuccessors(Activity source, List<Activity> successors) {
+//	private boolean isOnlySuccessors(Activity source, List<Activity> successors) {
 //		for (Iterator<Transition> it = source.getSourceFor().iterator(); it.hasNext();) {
 //			Transition trans = it.next();
 //			if (!successors.contains(trans.getTarget())) {
 //				return false;
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Checks if the activities in the list are the only predecessors of 
@@ -481,15 +470,15 @@ public class Componentizer {
 	 * @return true, if all predecessors of the activity are contained in
 	 * the list, false otherwise
 	 */
-	private boolean isOnlyPredecessor(Activity target, List<Activity> predecessors) {
+//	private boolean isOnlyPredecessor(Activity target, List<Activity> predecessors) {
 //		for (Iterator<Transition> it = target.getTargetFor().iterator(); it.hasNext();) {
 //			Transition trans = it.next();
 //			if (!predecessors.contains(trans.getSource())) {
 //				return false;
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Computes a component that matches a quasi flow pattern for 
@@ -508,7 +497,7 @@ public class Componentizer {
 	 * @return The component that matches the quasi flow pattern with the given
 	 * source and sink object. If no component was found the result is null.
 	 */
-	private Component computeQuasiFlow(Gateway source, Gateway sink) {
+//	private Component computeQuasiFlow(Gateway source, Gateway sink) {
 //		List<Activity> X = source.getSuccessors();
 //		List<Activity> Y = sink.getPredecessors();
 //		
@@ -534,8 +523,8 @@ public class Componentizer {
 //						source, sink);
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Computes a component that matches a flow pattern for 
@@ -553,7 +542,7 @@ public class Componentizer {
 	 * @return The component that matches the flow pattern with the given
 	 * source and sink object. If no component was found the result is null.
 	 */
-	private Component computeFlow(Gateway source, Gateway sink) {
+//	private Component computeFlow(Gateway source, Gateway sink) {
 //		List<Activity> result = getElementsBetween(source, sink);
 //		if (result != null) {
 //			List<Activity> activities = new ArrayList<Activity>();
@@ -569,8 +558,8 @@ public class Componentizer {
 //						source, sink);
 //			}
 //		 }
-		 return null;
-	}
+//		 return null;
+//	}
 	
 	/**
 	 * Checks for each parallel split and parallel or inclusive join gateway, if 
@@ -582,7 +571,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a (quasi) flow pattern.
 	 */
-	private Component computeFlow(boolean quasi) {
+//	private Component computeFlow(boolean quasi) {
 //		 List<Gateway> andSplits = 
 //			 this.container.getSplitGateways(Gateway.TYPE_AND);
 //		 List<Gateway> andJoins = 
@@ -624,8 +613,8 @@ public class Componentizer {
 //				 }
 //			 }
 //		 }
-		 return null;
-	}
+//		 return null;
+//	}
 
 	/**
 	 * Checks for each inclusive split and inclusive join gateway, if 
@@ -637,7 +626,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a (quasi)special flow pattern.
 	 */
-	private Component computeSpecialFlow(boolean quasi) {
+//	private Component computeSpecialFlow(boolean quasi) {
 //		 List<Gateway> orSplits = 
 //			 this.container.getSplitGateways(Gateway.TYPE_OR);
 //		 List<Gateway> orJoins = 
@@ -670,8 +659,8 @@ public class Componentizer {
 //				 }
 //			 }
 //		 }
-		 return null;
-	}
+//		 return null;
+//	}
 	
 	/**
 	 * Computes a component that matches an if pattern for 
@@ -694,7 +683,7 @@ public class Componentizer {
 	 * @return The component that matches the if pattern with the given
 	 * source and sink object. If no component was found the result is null.
 	 */
-	private Component computeIf(Gateway source, Gateway sink, boolean quasi) {
+//	private Component computeIf(Gateway source, Gateway sink, boolean quasi) {
 //		List<Activity> result = getElementsBetween(source, sink);
 //		if (result != null) {
 //			List<Activity> activities = new ArrayList<Activity>();
@@ -722,8 +711,8 @@ public class Componentizer {
 //				}
 //			}
 //		 }
-		 return null;
-	}
+//		 return null;
+//	}
 	
 	/**
 	 * Checks for each exclusive split and exclusive or inclusive join gateway, if 
@@ -735,7 +724,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a (quasi) if pattern.
 	 */
-	private Component computeIf(boolean quasi) {
+//	private Component computeIf(boolean quasi) {
 //		List<Gateway> xorSplits = 
 //			this.container.getSplitGateways(Gateway.TYPE_XOR);
 //		List<Gateway> xorJoins = 
@@ -768,8 +757,8 @@ public class Componentizer {
 //				 }
 //			 }
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks if the xorEventGateway matches to a source gateway for a pick pattern.
@@ -782,8 +771,8 @@ public class Componentizer {
 	 * if the gateway matches the source gateway of a pick pattern.
 	 * Null, otherwise.   
 	 */
-	private List<Activity> getPickBranches(Gateway xorEventGateway) {
-		List<Activity> result = new ArrayList<Activity>();
+//	private List<Activity> getPickBranches(Gateway xorEventGateway) {
+//		List<Activity> result = new ArrayList<Activity>();
 //		for (Iterator<Transition> it = xorEventGateway.getSourceFor().iterator(); it.hasNext();) {
 //			Activity act = it.next().getTarget();
 //			if (act instanceof IntermediateEvent) {
@@ -800,8 +789,8 @@ public class Componentizer {
 //				return null;
 //			}
 //		}
-		return result;
-	}
+//		return result;
+//	}
 	
 	/**
 	 * Computes a component that matches a pick pattern for 
@@ -826,7 +815,7 @@ public class Componentizer {
 	 * @return The component that matches the pick-pattern with the given
 	 * source and sink object. If no component was found the result is null.
 	 */
-	private Component computePick(Gateway source, Gateway sink, boolean quasi) {
+//	private Component computePick(Gateway source, Gateway sink, boolean quasi) {
 //		List<Activity> pickBranches = getPickBranches(source);
 //		if (pickBranches == null) {
 //			return null;
@@ -863,8 +852,8 @@ public class Componentizer {
 //					computeTransitions(predecessors, source, sink), 
 //					source, sink);
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks for each event-based exclusive split and exclusive 
@@ -877,7 +866,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a (quasi) pick-pattern.
 	 */
-	private Component computePick(boolean quasi) {
+//	private Component computePick(boolean quasi) {
 //		List<Gateway> xorSplits = 
 //			this.container.getEventBasedExclusiveDecisionGateways();
 //		List<Gateway> joins = this.container.getJoinGateways(Gateway.TYPE_XOR);
@@ -897,8 +886,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks for exclusive split and exclusive join gateway, if there exists
@@ -919,7 +908,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a while-pattern.
 	 */
-	private Component computeWhile() {
+//	private Component computeWhile() {
 //		List<Gateway> xorSplits = 
 //			this.container.getDataBasedExclusiveDecisionGateways();
 //		List<Gateway> joins = this.container.getJoinGateways(Gateway.TYPE_XOR);
@@ -962,8 +951,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks for exclusive split and exclusive join gateway, if there exists
@@ -984,7 +973,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a repeat-pattern.
 	 */
-	private Component computeRepeat() {
+//	private Component computeRepeat() {
 //		List<Gateway> xorSplits = 
 //			this.container.getDataBasedExclusiveDecisionGateways();
 //		List<Gateway> joins = this.container.getJoinGateways(Gateway.TYPE_XOR);
@@ -1031,8 +1020,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Checks for exclusive split and exclusive join gateway, if there exists
@@ -1057,7 +1046,7 @@ public class Componentizer {
 	 *   
 	 * @return A component that matches a repeat-while-pattern.
 	 */
-	private Component computeRepeatWhile() {
+//	private Component computeRepeatWhile() {
 //		List<Gateway> xorSplits = 
 //			this.container.getDataBasedExclusiveDecisionGateways();
 //		List<Gateway> joins = this.container.getJoinGateways(Gateway.TYPE_XOR);
@@ -1111,8 +1100,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 	
 	/**
 	 * Collects all activities between source (exclude) and target (exclude).
@@ -1124,20 +1113,20 @@ public class Componentizer {
 	 * Null, if there is a path that does not lead to the target or if a 
 	 * path contains a cycle. 
 	 */
-	private Set<Activity> getActivitiesFromTo(Activity source, Activity target) {
-		Set<Activity> activities = new HashSet<Activity>();
-		
-		List<Activity> path = new ArrayList<Activity>();
-		path.add(source);
-		Set<Activity> pathsFound = getActivitiesFromTo(source, target, path);
-		if (pathsFound != null) {
-			pathsFound.remove(source);
-			activities.addAll(pathsFound);
-		} else {
-			return null;
-		}
-		return activities;
-	}
+//	private Set<Activity> getActivitiesFromTo(Activity source, Activity target) {
+//		Set<Activity> activities = new HashSet<Activity>();
+//		
+//		List<Activity> path = new ArrayList<Activity>();
+//		path.add(source);
+//		Set<Activity> pathsFound = getActivitiesFromTo(source, target, path);
+//		if (pathsFound != null) {
+//			pathsFound.remove(source);
+//			activities.addAll(pathsFound);
+//		} else {
+//			return null;
+//		}
+//		return activities;
+//	}
 
 	/**
 	 * Calculates the activities on all the paths (list of activities)
@@ -1154,10 +1143,10 @@ public class Componentizer {
 	 * form source to target. Null, if there is a path that does not lead to
 	 * the target or if a path contains a cycle.   
 	 */
-	private Set<Activity> getActivitiesFromTo(
-			Activity source, Activity target, final List<Activity> path) {
-		Set<Activity> activities = new HashSet<Activity>();
-		
+//	private Set<Activity> getActivitiesFromTo(
+//			Activity source, Activity target, final List<Activity> path) {
+//		Set<Activity> activities = new HashSet<Activity>();
+//		
 //		for (Iterator<Transition> it = source.getSourceFor().iterator(); it.hasNext();) {
 //			Activity nextSource = it.next().getTarget();
 //			if ((nextSource instanceof EndEvent) ||
@@ -1182,8 +1171,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return activities;
-	}
+//		return activities;
+//	}
 	
 	/**
 	 * Checks if all successors of the gateway are contained
@@ -1196,8 +1185,8 @@ public class Componentizer {
 	 * @return True, if all successors of the gateway
 	 * are contained in the given Set, false otherwise.
 	 */
-	private boolean gatewaySuccessorsContainedIn(
-			Gateway gateway, Set<Activity> containedIn) {
+//	private boolean gatewaySuccessorsContainedIn(
+//			Gateway gateway, Set<Activity> containedIn) {
 //		List<Activity> successors = gateway.getSuccessors();
 //		if (successors.size() > 1) {
 //			for (Iterator<Activity> it = successors.iterator(); it.hasNext();) {
@@ -1206,8 +1195,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Checks if all predecessors of the gateway are contained
@@ -1220,8 +1209,8 @@ public class Componentizer {
 	 * @return True, if all predecessors of the gateway
 	 * are contained in the given Set, false otherwise.
 	 */
-	private boolean gatewayPredecessorsContainedIn(
-			Gateway gateway, Set<Activity> containedIn) {
+//	private boolean gatewayPredecessorsContainedIn(
+//			Gateway gateway, Set<Activity> containedIn) {
 //		List<Activity> predecessors = gateway.getPredecessors();
 //		if (predecessors.size() > 1) {
 //			for (Iterator<Activity> it = predecessors.iterator(); it.hasNext();) {
@@ -1230,8 +1219,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Checks if all predecessors and successors of the gateway are contained
@@ -1247,8 +1236,8 @@ public class Componentizer {
 	 * @return True, if all predecessors and successors of the gateway
 	 * are contained in the given Set, false otherwise.
 	 */
-	private boolean completeGatewayContainedIn(
-			Gateway gateway, Set<Activity> containedIn, Gateway source, Gateway target) {
+//	private boolean completeGatewayContainedIn(
+//			Gateway gateway, Set<Activity> containedIn, Gateway source, Gateway target) {
 //		List<Activity> predecessors = gateway.getPredecessors();
 //		for (Iterator<Activity> it = predecessors.iterator(); it.hasNext();) {
 //			Activity act = it.next();
@@ -1264,8 +1253,8 @@ public class Componentizer {
 //				return false;
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Checks if the activities contained in the set are allowed in 
@@ -1280,9 +1269,9 @@ public class Componentizer {
 	 * @return True, if the activities contained in the set are allowed
 	 *  in a generalized flow pattern, false otherwise.
 	 */
-	private boolean checkGeneralizedFlowAct(
-			Set<Activity> set, Gateway source, Gateway target) {
-		
+//	private boolean checkGeneralizedFlowAct(
+//			Set<Activity> set, Gateway source, Gateway target) {
+//		
 //		for (Iterator<Activity> it = set.iterator(); it.hasNext();) {
 //			Activity act = it.next();
 //			if (act instanceof Gateway) {
@@ -1298,8 +1287,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 	
 	/**
 	 * Checks if the activities contained in the set are allowed in 
@@ -1314,7 +1303,7 @@ public class Componentizer {
 	 * @return True, if the activities contained in the set are allowed
 	 *  in a synchronzing process pattern, false otherwise.
 	 */
-	private boolean checkSynchronizingProcessAct(Set<Activity> set, Gateway source, Gateway target) {
+//	private boolean checkSynchronizingProcessAct(Set<Activity> set, Gateway source, Gateway target) {
 //		for (Iterator<Activity> it = set.iterator(); it.hasNext();) {
 //			Activity act = it.next();
 //			if (act instanceof Gateway) {
@@ -1327,8 +1316,8 @@ public class Componentizer {
 //				}
 //			}
 //		}
-		return true;
-	}
+//		return true;
+//	}
 
 	/**
 	 * Computes a minimal general flow pattern, which is defined as follows:
@@ -1342,7 +1331,7 @@ public class Componentizer {
 	 * @return A generalized flow component or null if no generalized flow
 	 * component was found.
 	 */
-	private Component computeGeneralizedFlow() { 
+//	private Component computeGeneralizedFlow() { 
 //		List<Gateway> andSplits = 
 //			this.container.getSplitGateways(Gateway.TYPE_AND);
 //		List<Gateway> andJoins = 
@@ -1398,8 +1387,8 @@ public class Componentizer {
 //				Component.TYPE_GENERALISED_FLOW, activities,
 //				computeTransitions(activities, minStart, minEnd),
 //				minStart, minEnd);
-				return null;
-	}
+//				return null;
+//	}
 	
 	/**
 	 * Computes a minimal synchronizing process component.
@@ -1412,7 +1401,7 @@ public class Componentizer {
 	 * @return A minimal process component or null if no minimal process component
 	 * was found.
 	 */
-	private Component computeSynchronizingProcessComponent() { 
+//	private Component computeSynchronizingProcessComponent() { 
 //		List<Gateway> splits = 
 //			this.container.getSplitGateways(Gateway.TYPE_AND);
 //		splits.addAll(this.container.getSplitGateways(Gateway.TYPE_OR));
@@ -1464,8 +1453,8 @@ public class Componentizer {
 //				Component.TYPE_SYNCHRONIZING_PROCESS, activities,
 //				computeTransitions(activities, minStart, minEnd),
 //				minStart, minEnd);
-					return null;
-	}
+//					return null;
+//	}
 	
 	/**
 	 * Computes a quasi-structured component in the container.
@@ -1473,24 +1462,24 @@ public class Componentizer {
 	 * @return the first quasi-structured component found or null
 	 *  if no quasi component was found
 	 */
-	private Component computeQuasiStructured() {
-		Component result = computeAttachedErrorEvents(true);
-		if (result == null)
-			result = computeFlow(true);
-		if (result == null) {
-			result = computeSpecialFlow(true);
-		}
-		if (result == null) {
-			result = computeIf(true);
-		}
-		if (result == null) {
-			result = computePick(true);
-		}
-		if (result == null) {
-			result = computeSpecialFlow(true);
-		}
-		return result;
-	}
+//	private Component computeQuasiStructured() {
+//		Component result = computeAttachedErrorEvents(true);
+//		if (result == null)
+//			result = computeFlow(true);
+//		if (result == null) {
+//			result = computeSpecialFlow(true);
+//		}
+//		if (result == null) {
+//			result = computeIf(true);
+//		}
+//		if (result == null) {
+//			result = computePick(true);
+//		}
+//		if (result == null) {
+//			result = computeSpecialFlow(true);
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * Computes a well-structured component in the container.
@@ -1498,28 +1487,28 @@ public class Componentizer {
 	 * @return the first well-structured component found or null
 	 *  if no well-structured component was found
 	 */
-	private Component computeWellStructured() {
-		Component result = computeFlow(false);
-		if (result == null) {
-			result = computeSpecialFlow(false);
-		}
-		if (result == null) {
-			result = computeIf(false);
-		}
-		if (result == null) {
-			result = computePick(false);
-		}
-		if (result == null) {
-			result = computeWhile();
-		}
-		if (result == null) {
-			result = computeRepeat();
-		}
-		if (result == null) {
-			result = computeRepeatWhile();
-		}
-		return result;
-	}
+//	private Component computeWellStructured() {
+//		Component result = computeFlow(false);
+//		if (result == null) {
+//			result = computeSpecialFlow(false);
+//		}
+//		if (result == null) {
+//			result = computeIf(false);
+//		}
+//		if (result == null) {
+//			result = computePick(false);
+//		}
+//		if (result == null) {
+//			result = computeWhile();
+//		}
+//		if (result == null) {
+//			result = computeRepeat();
+//		}
+//		if (result == null) {
+//			result = computeRepeatWhile();
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * Returns the next component, that can be found in the container.

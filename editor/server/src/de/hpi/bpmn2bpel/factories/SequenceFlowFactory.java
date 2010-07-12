@@ -3,16 +3,10 @@ package de.hpi.bpmn2bpel.factories;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import de.hpi.bpel4chor.model.SubProcess;
-import de.hpi.bpel4chor.model.activities.BlockActivity;
-import de.hpi.bpel4chor.model.activities.Gateway;
-import de.hpi.bpel4chor.model.activities.Handler;
-import de.hpi.bpel4chor.model.activities.IntermediateEvent;
 import de.hpi.bpel4chor.model.supporting.Expression;
 import de.hpi.bpel4chor.util.Output;
 import de.hpi.bpmn.Activity;
@@ -50,13 +44,13 @@ import de.hpi.bpmn2bpel.model.FoldedTask;
 public class SequenceFlowFactory {
 
 	private Container4BPEL container = null;
-	private boolean errorHandler = false;
-	private boolean messageHandler = false;
-	private BPMNDiagram diagram = null;
+//	private boolean errorHandler = false;
+//	private boolean messageHandler = false;
+//	private BPMNDiagram diagram = null;
 	private Document document = null;
 	private BasicActivityFactory basicFactory = null;
-	private SupportingFactory supportingFactory = null;
-	private StructuredElementsFactory structuredFactory = null;
+//	private SupportingFactory supportingFactory = null;
+//	private StructuredElementsFactory structuredFactory = null;
 	private Componentizer componentizer = null;
 	private Output output = null;
 
@@ -76,16 +70,16 @@ public class SequenceFlowFactory {
 	 */
 	public SequenceFlowFactory(BPMNDiagram diagram, Document document,
 			Container4BPEL container, Output output) {
-		this.diagram = diagram;
+//		this.diagram = diagram;
 		this.container = container;
 		this.document = document;
 		this.output = output;
 		this.basicFactory = new BasicActivityFactory(diagram, document,
 				this.output);
-		this.supportingFactory = new SupportingFactory(diagram, document,
-				this.output);
-		this.structuredFactory = new StructuredElementsFactory(diagram,
-				document, this.output);
+//		this.supportingFactory = new SupportingFactory(diagram, document,
+//				this.output);
+//		this.structuredFactory = new StructuredElementsFactory(diagram,
+//				document, this.output);
 		this.componentizer = new Componentizer(diagram, container, this.output);
 
 		// // determine if container is error or message handler
@@ -124,16 +118,16 @@ public class SequenceFlowFactory {
 	 */
 	public SequenceFlowFactory(BPMNDiagram diagram, Document document,
 			Container4BPEL container, Output output, Element processElement) {
-		this.diagram = diagram;
+//		this.diagram = diagram;
 		this.container = container;
 		this.document = document;
 		this.output = output;
 		this.basicFactory = new BasicActivityFactory(diagram, document,
 				this.output, processElement);
-		this.supportingFactory = new SupportingFactory(diagram, document,
-				this.output);
-		this.structuredFactory = new StructuredElementsFactory(diagram,
-				document, this.output);
+//		this.supportingFactory = new SupportingFactory(diagram, document,
+//				this.output);
+//		this.structuredFactory = new StructuredElementsFactory(diagram,
+//				document, this.output);
 		this.componentizer = new Componentizer(diagram, container, this.output);
 
 		// // determine if container is error or message handler
@@ -181,8 +175,8 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return A list with the transformed intermediate events.
 	 */
-	private List<IntermediateEvent> transfromToIntermiateEvent(
-			List<StartEvent> toTransform, boolean createInstance) {
+//	private List<IntermediateEvent> transfromToIntermiateEvent(
+//			List<StartEvent> toTransform, boolean createInstance) {
 		// List<IntermediateEvent> result = new ArrayList<IntermediateEvent>();
 		//		
 		// for (Iterator<StartEvent> it = toTransform.iterator(); it.hasNext();)
@@ -218,8 +212,8 @@ public class SequenceFlowFactory {
 		// }
 		//		
 		// return result;
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * <p>
@@ -249,8 +243,8 @@ public class SequenceFlowFactory {
 	 * @return True, if an end event was reached or a cycle was detected. False,
 	 *         otherwise.
 	 */
-	private boolean getGatewaysTo(Activity start, List<Activity> visited,
-			final List<Gateway> result) {
+//	private boolean getGatewaysTo(Activity start, List<Activity> visited,
+//			final List<Gateway> result) {
 		// if (visited == null) {
 		// visited = new ArrayList<Activity>();
 		// }
@@ -289,8 +283,8 @@ public class SequenceFlowFactory {
 		// return getGatewaysTo(successors.get(0), visited, result);
 		// }
 
-		return false;
-	}
+//		return false;
+//	}
 
 	/**
 	 * Determines a map that contains the reachable gateways for each start
@@ -303,8 +297,8 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The map with the reachable gateways for each start event.
 	 */
-	private Map<StartEvent, List<Gateway>> getStartGatewayMap(
-			List<StartEvent> startEvents) {
+//	private Map<StartEvent, List<Gateway>> getStartGatewayMap(
+//			List<StartEvent> startEvents) {
 		// Map<StartEvent, List<Gateway>> startGatewayMap =
 		// new HashMap<StartEvent, List<Gateway>>();
 		//		
@@ -322,8 +316,8 @@ public class SequenceFlowFactory {
 		// }
 		// }
 		// return startGatewayMap;
-		return null;
-	}
+//		return null;
+//	}
 
 	// /**
 	// * <p>Creates a new gateway to combine the given start events. The
@@ -461,17 +455,17 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The number of lists in the map, the gateway is contained in.
 	 */
-	private int countListsWithGateway(Map<StartEvent, List<Gateway>> map,
-			Gateway gateway) {
-		int counter = 0;
-		for (Iterator<List<Gateway>> it = map.values().iterator(); it.hasNext();) {
-			List<Gateway> gateways = it.next();
-			if (gateways.contains(gateway)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
+//	private int countListsWithGateway(Map<StartEvent, List<Gateway>> map,
+//			Gateway gateway) {
+//		int counter = 0;
+//		for (Iterator<List<Gateway>> it = map.values().iterator(); it.hasNext();) {
+//			List<Gateway> gateways = it.next();
+//			if (gateways.contains(gateway)) {
+//				counter++;
+//			}
+//		}
+//		return counter;
+//	}
 
 	/**
 	 * Gets the first gateway that is contained in at least lists as possible.
@@ -489,27 +483,27 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The first found gateway that is contained in the fewest lists.
 	 */
-	private Gateway determineGateway(Map<StartEvent, List<Gateway>> map) {
-		if (map.keySet().size() < 2) {
-			return null;
-		}
-		for (int i = 2; i <= map.keySet().size(); i++) {
-			// check if gateway exists, that is contained in only i lists
-			for (Iterator<List<Gateway>> it = map.values().iterator(); it
-					.hasNext();) {
-				List<Gateway> gateways = it.next();
-				for (Iterator<Gateway> itGat = gateways.iterator(); itGat
-						.hasNext();) {
-					Gateway gateway = itGat.next();
-					int countedLists = countListsWithGateway(map, gateway);
-					if (countedLists == i) {
-						return gateway;
-					}
-				}
-			}
-		}
-		return null;
-	}
+//	private Gateway determineGateway(Map<StartEvent, List<Gateway>> map) {
+//		if (map.keySet().size() < 2) {
+//			return null;
+//		}
+//		for (int i = 2; i <= map.keySet().size(); i++) {
+//			// check if gateway exists, that is contained in only i lists
+//			for (Iterator<List<Gateway>> it = map.values().iterator(); it
+//					.hasNext();) {
+//				List<Gateway> gateways = it.next();
+//				for (Iterator<Gateway> itGat = gateways.iterator(); itGat
+//						.hasNext();) {
+//					Gateway gateway = itGat.next();
+//					int countedLists = countListsWithGateway(map, gateway);
+//					if (countedLists == i) {
+//						return gateway;
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Determines the map value that is the longest list. The map key of the
@@ -522,18 +516,18 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The determined list.
 	 */
-	private List<Gateway> getLongestList(List<StartEvent> keys,
-			Map<StartEvent, List<Gateway>> map) {
-		List<Gateway> result = null;
-		for (Iterator<StartEvent> it = keys.iterator(); it.hasNext();) {
-			StartEvent key = it.next();
-			List<Gateway> gateways = map.get(key);
-			if ((result == null) || (gateways.size() > result.size())) {
-				result = gateways;
-			}
-		}
-		return result;
-	}
+//	private List<Gateway> getLongestList(List<StartEvent> keys,
+//			Map<StartEvent, List<Gateway>> map) {
+//		List<Gateway> result = null;
+//		for (Iterator<StartEvent> it = keys.iterator(); it.hasNext();) {
+//			StartEvent key = it.next();
+//			List<Gateway> gateways = map.get(key);
+//			if ((result == null) || (gateways.size() > result.size())) {
+//				result = gateways;
+//			}
+//		}
+//		return result;
+//	}
 
 	// /**
 	// * Combines the start events in the map that have a path to the
@@ -648,7 +642,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return True if the start event is valid, false otherwise.
 	 */
-	private boolean isValidStartEvent(StartEvent start) {
+//	private boolean isValidStartEvent(StartEvent start) {
 		// if (this.container instanceof SubProcess) {
 		// BlockActivity act = ((SubProcess)this.container).getBlockActivity();
 		// if (act instanceof Handler) {
@@ -681,8 +675,8 @@ public class SequenceFlowFactory {
 		// this.container.getId());
 		// return false;
 		// }
-		return true;
-	}
+//		return true;
+//	}
 
 	/**
 	 * Checks if the given start events are valid. The validity depends on the
@@ -754,7 +748,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The new end event that was created during the combination.
 	 */
-	private EndEvent combineMultipleEndEvents() {
+//	private EndEvent combineMultipleEndEvents() {
 		// List<EndEvent> endEvents = this.container.getEndEvents();
 		// if (endEvents.size() < 1) {
 		// this.output.addError(
@@ -795,8 +789,8 @@ public class SequenceFlowFactory {
 		// this.output);
 		// this.container.addTransition(transition);
 		// return endEvent;
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * <p>
@@ -905,13 +899,13 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The BPEL4Chor element the block activity represents.
 	 */
-	private Element mapBlockActivity(BlockActivity blockActivity) {
-		if (blockActivity.getLoop() != null) {
-			return this.structuredFactory
-					.createLoopElement(blockActivity, null);
-		}
-		return this.structuredFactory.createScopeElement(blockActivity);
-	}
+//	private Element mapBlockActivity(BlockActivity blockActivity) {
+//		if (blockActivity.getLoop() != null) {
+//			return this.structuredFactory
+//					.createLoopElement(blockActivity, null);
+//		}
+//		return this.structuredFactory.createScopeElement(blockActivity);
+//	}
 
 	/**
 	 * Checks if the location of the intermediate event is valid. Compensation
@@ -924,28 +918,28 @@ public class SequenceFlowFactory {
 	 * @return True if the location of the intermediate event is valid, false
 	 *         otherwise.
 	 */
-	private boolean isValidLocation(IntermediateEvent event) {
-		if (!event.getTriggerType().equals(
-				IntermediateEvent.TRIGGER_COMPENSATION)) {
-			return true;
-		}
-		// compensate event can only located in fault, compensation or
-		// termination handlers
-		if (event.getParentContainer() instanceof SubProcess) {
-			BlockActivity parent = ((SubProcess) event.getParentContainer())
-					.getBlockActivity();
-			if (parent instanceof Handler) {
-				Handler handler = (Handler) parent;
-				if (handler.getHandlerType().equals(Handler.TYPE_COMPENSATION)
-						|| handler.getHandlerType().equals(Handler.TYPE_FAULT)
-						|| handler.getHandlerType().equals(
-								Handler.TYPE_TERMINATION)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	private boolean isValidLocation(IntermediateEvent event) {
+//		if (!event.getTriggerType().equals(
+//				IntermediateEvent.TRIGGER_COMPENSATION)) {
+//			return true;
+//		}
+//		// compensate event can only located in fault, compensation or
+//		// termination handlers
+//		if (event.getParentContainer() instanceof SubProcess) {
+//			BlockActivity parent = ((SubProcess) event.getParentContainer())
+//					.getBlockActivity();
+//			if (parent instanceof Handler) {
+//				Handler handler = (Handler) parent;
+//				if (handler.getHandlerType().equals(Handler.TYPE_COMPENSATION)
+//						|| handler.getHandlerType().equals(Handler.TYPE_FAULT)
+//						|| handler.getHandlerType().equals(
+//								Handler.TYPE_TERMINATION)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 	/**
 	 * Maps an intermediate event to its BPEL4Chor representation. If the event
@@ -960,28 +954,28 @@ public class SequenceFlowFactory {
 	 * @return The BPEL4Chor element the event represents or null if the event
 	 *         could not be mapped.
 	 */
-	private Element mapIntermediateEvent(IntermediateEvent event) {
-		if (event.getTriggerType().equals(
-				IntermediateEvent.TRIGGER_COMPENSATION)) {
-			if (isValidLocation(event)) {
-				return this.basicFactory.createCompensateElement(event);
-			}
-			this.output.addError("The compensation intermediate event "
-					+ "must be located in a fault, "
-					+ "compensation or termination handler.", event.getId());
-		} else if (event.getTriggerType().equals(
-				IntermediateEvent.TRIGGER_ERROR)) {
-			return this.basicFactory.createThrowElement(event,
-					this.errorHandler);
-		} else if (event.getTriggerType().equals(
-				IntermediateEvent.TRIGGER_MESSAGE)) {
-			return this.basicFactory.createReceiveElement(event);
-		} else if (event.getTriggerType().equals(
-				IntermediateEvent.TRIGGER_TIMER)) {
-			return this.basicFactory.createWaitElement(event);
-		}
-		return null;
-	}
+//	private Element mapIntermediateEvent(IntermediateEvent event) {
+//		if (event.getTriggerType().equals(
+//				IntermediateEvent.TRIGGER_COMPENSATION)) {
+//			if (isValidLocation(event)) {
+//				return this.basicFactory.createCompensateElement(event);
+//			}
+//			this.output.addError("The compensation intermediate event "
+//					+ "must be located in a fault, "
+//					+ "compensation or termination handler.", event.getId());
+//		} else if (event.getTriggerType().equals(
+//				IntermediateEvent.TRIGGER_ERROR)) {
+//			return this.basicFactory.createThrowElement(event,
+//					this.errorHandler);
+//		} else if (event.getTriggerType().equals(
+//				IntermediateEvent.TRIGGER_MESSAGE)) {
+//			return this.basicFactory.createReceiveElement(event);
+//		} else if (event.getTriggerType().equals(
+//				IntermediateEvent.TRIGGER_TIMER)) {
+//			return this.basicFactory.createWaitElement(event);
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Maps a trivial sequence flow (see
@@ -1278,11 +1272,11 @@ public class SequenceFlowFactory {
 	 * @return The created activity element or null if the activity could not be
 	 *         mapped.
 	 */
-	private Element mapAttachedEvents(Component comp, List<Link> links) {
+//	private Element mapAttachedEvents(Component comp, List<Link> links) {
 		// Element result = mapActivity(comp.getSourceObject(), links);
 		// return result;
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps a flow component to its BPEL4Chor representation. For this purpose
@@ -1300,7 +1294,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "flow" element.
 	 */
-	private Element mapFlow(Component comp, List<Link> links) {
+//	private Element mapFlow(Component comp, List<Link> links) {
 		// Element result = this.document.createElement("flow");
 		// for (Iterator<Activity> it = comp.getActivities().iterator();
 		// it.hasNext();) {
@@ -1319,8 +1313,8 @@ public class SequenceFlowFactory {
 		// }
 		//		
 		// return result;
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps an if component to its BPEL4Chor representation. For this purpose
@@ -1347,7 +1341,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "if" element.
 	 */
-	private Element mapIf(Component comp, List<Link> links) {
+//	private Element mapIf(Component comp, List<Link> links) {
 		// Element result = this.document.createElement("if");
 		// Element defaultElement = null;
 		//		
@@ -1411,8 +1405,8 @@ public class SequenceFlowFactory {
 		// }
 		//		
 		// return result;
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps a pick component to its BPEL4Chor representation. For this purpose
@@ -1432,8 +1426,8 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "pick" element.
 	 */
-	private Element mapPick(Component comp, List<Link> links) {
-		Element result = this.document.createElement("pick");
+//	private Element mapPick(Component comp, List<Link> links) {
+//		Element result = this.document.createElement("pick");
 		// if (comp.getSourceObject() instanceof Gateway) {
 		// if (((Gateway)comp.getSourceObject()).getCreateInstance()) {
 		// result.setAttribute("createInstance", "yes");
@@ -1479,8 +1473,8 @@ public class SequenceFlowFactory {
 		// }
 		// }
 
-		return result;
-	}
+//		return result;
+//	}
 
 	// /**
 	// * Refines a quasi component where the sink gateway has additional
@@ -1550,7 +1544,7 @@ public class SequenceFlowFactory {
 	 * @return True if all successors of the activity are contained in the list,
 	 *         false otherwise
 	 */
-	private boolean isOnlySuccessors(Activity source, List<Activity> successors) {
+//	private boolean isOnlySuccessors(Activity source, List<Activity> successors) {
 		// for (Iterator<Transition> it = source.getSourceFor().iterator();
 		// it.hasNext();) {
 		// Transition trans = it.next();
@@ -1558,8 +1552,8 @@ public class SequenceFlowFactory {
 		// return false;
 		// }
 		// }
-		return true;
-	}
+//		return true;
+//	}
 
 	/**
 	 * Checks if the activities are the only predecessors of the given activity.
@@ -1572,17 +1566,17 @@ public class SequenceFlowFactory {
 	 * @return True, if all predecessors of the activity are contained in the
 	 *         list, false otherwise
 	 */
-	private boolean isOnlyPredecessor(Activity target,
-			List<Activity> predecessors) {
-		// for (Iterator<Transition> it = target.getTargetFor().iterator();
-		// it.hasNext();) {
-		// Transition trans = it.next();
-		// if (!predecessors.contains(trans.getSource())) {
-		// return false;
-		// }
-		// }
-		return true;
-	}
+//	private boolean isOnlyPredecessor(Activity target,
+//			List<Activity> predecessors) {
+//		// for (Iterator<Transition> it = target.getTargetFor().iterator();
+//		// it.hasNext();) {
+//		// Transition trans = it.next();
+//		// if (!predecessors.contains(trans.getSource())) {
+//		// return false;
+//		// }
+//		// }
+//		return true;
+//	}
 
 	/**
 	 * Refines the condition of an inclusive gateway. This refinement is
@@ -1593,13 +1587,13 @@ public class SequenceFlowFactory {
 	 * @return The refined condition. This condition will always evaluate to
 	 *         true.
 	 */
-	private Expression getRefinedInclCond() {
-		Expression result = new Expression();
-		result
-				.setExpressionLanguage("urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0");
-		result.setExpression("true()");
-		return result;
-	}
+//	private Expression getRefinedInclCond() {
+//		Expression result = new Expression();
+//		result
+//				.setExpressionLanguage("urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0");
+//		result.setExpression("true()");
+//		return result;
+//	}
 
 	// /**
 	// * Refines a quasi (special) flow component where the source gateway has
@@ -1717,7 +1711,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "repeatUntil" element.
 	 */
-	private Element mapRepeat(Component comp, List<Link> links) {
+//	private Element mapRepeat(Component comp, List<Link> links) {
 		// if (comp.getActivities().size() == 1) {
 		// Element result = this.document.createElement("repeatUntil");
 		// Activity act = comp.getActivities().get(0);
@@ -1743,8 +1737,8 @@ public class SequenceFlowFactory {
 		//		
 		// this.output.addError("A repeat component was not generated correctly",
 		// comp.getId());
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps a repeat-while component to its BPEL4Chor representation. For this
@@ -1767,7 +1761,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "sequence" element.
 	 */
-	private Element mapRepeatWhile(Component comp, List<Link> links) {
+//	private Element mapRepeatWhile(Component comp, List<Link> links) {
 		// if (comp.getActivities().size() == 2) {
 		// Activity t1 = null;
 		// Activity t2 = null;
@@ -1825,8 +1819,8 @@ public class SequenceFlowFactory {
 		// this.output.addError("A repeat-while component was not generated correctly",
 		// comp.getId());
 		// }
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps a while component to its BPEL4Chor representation. For this purpose
@@ -1848,7 +1842,7 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "while" element.
 	 */
-	private Element mapWhile(Component comp, List<Link> links) {
+//	private Element mapWhile(Component comp, List<Link> links) {
 		// if (comp.getActivities().size() == 1) {
 		// Activity act = comp.getActivities().get(0);
 		// Transition condTrans =
@@ -1873,8 +1867,8 @@ public class SequenceFlowFactory {
 		// this.output.addError("A while component was not generated correctly",
 		// comp.getId());
 		// }
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * Maps a special-flow component to its BPEL4Chor representation. For this
@@ -1888,8 +1882,8 @@ public class SequenceFlowFactory {
 	 * 
 	 * @return The created "flow" element.
 	 */
-	private Element mapSpecialFlow(Component comp) {
-		Element result = this.document.createElement("flow");
+//	private Element mapSpecialFlow(Component comp) {
+//		Element result = this.document.createElement("flow");
 		// Element links = this.document.createElement("links");
 		// Element empty = this.document.createElement("empty");
 		//		
@@ -1956,8 +1950,8 @@ public class SequenceFlowFactory {
 		// }
 		// empty.appendChild(sources);
 
-		return result;
-	}
+//		return result;
+//	}
 
 	/**
 	 * Folds a component to a single folded task. There is no need to define
