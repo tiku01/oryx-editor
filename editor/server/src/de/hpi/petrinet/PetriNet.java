@@ -305,9 +305,8 @@ public class PetriNet implements Cloneable {
 		}
 
 		@Override
-		public boolean removeAll(Collection list) {
-			List mylist = new ArrayList(list);
-			for (Iterator it=mylist.iterator(); it.hasNext(); ) {
+		public boolean removeAll(Collection<?> mylist) {
+			for (Iterator<?> it=mylist.iterator(); it.hasNext(); ) {
 				FlowRelationship rel = (FlowRelationship)it.next();
 				rel.setSource(null);
 				rel.setTarget(null);

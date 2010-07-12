@@ -1,16 +1,18 @@
 package de.hpi.treeGraph;
 
-import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import javax.xml.parsers.*;
-
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class Diagram {
 	
@@ -89,7 +91,7 @@ public class Diagram {
 		Document doc = DocumentBuilderFactory
 			.newInstance()
 			.newDocumentBuilder()
-			.parse(new StringBufferInputStream(eRdf));
+			.parse(new InputSource(new StringReader(eRdf)));
 		
 		// Search the canvas
 		Element oryxCanvas = this.getElementsByIdAndTag((Element)doc.getFirstChild(), 

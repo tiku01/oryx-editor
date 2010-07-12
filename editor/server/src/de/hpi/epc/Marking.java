@@ -15,7 +15,10 @@ import de.hpi.bpt.process.epc.IControlFlow;
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.bpt.process.epc.IFlowObject;
 import de.hpi.bpt.process.epc.ProcessInterface;
-
+/*
+ * Due to the use off unmodifiable jar library, cast cannot be fully fixed
+ */
+@SuppressWarnings("unchecked")
 public class Marking implements Cloneable {
 	public enum State {
 		POS_TOKEN, NEG_TOKEN, NO_TOKEN
@@ -206,7 +209,7 @@ public class Marking implements Cloneable {
 
 					nodeNewMarkings.add(nodeNewMarking);
 					// (e)
-				} else if ( this.isXorConnector(node)) {
+				} else if ( Marking.isXorConnector(node)) {
 					// Each of the outgoing edges can receive a token
 					for (IControlFlow edge : (Collection<IControlFlow>)diag.getOutgoingControlFlow(node)) {
 						NodeNewMarkingPair nodeNewMarking = new NodeNewMarkingPair(
@@ -226,7 +229,7 @@ public class Marking implements Cloneable {
 						nodeNewMarkings.add(nodeNewMarking);
 					}
 					// (g)
-				} else if (this.isOrConnector(node)) {
+				} else if (Marking.isOrConnector(node)) {
 					List<IControlFlow> controlFlowList = new LinkedList<IControlFlow>((Collection<IControlFlow>)diag.getOutgoingControlFlow(node));
 					for (List<IControlFlow> edges : (List<List<IControlFlow>>) de.hpi.bpmn.analysis.Combination.findCombinations(controlFlowList)) {
 						if (edges.size() == 0)
@@ -252,7 +255,7 @@ public class Marking implements Cloneable {
 				// join connectors
 			} else if (diag.getOutgoingControlFlow(node).size() == 1) {
 				// (d)
-				if (this.isAndConnector(node)
+				if (Marking.isAndConnector(node)
 						&& filterByState(diag.getIncomingControlFlow(node),
 								State.POS_TOKEN).size() == diag.getIncomingControlFlow(node).size()) {
 					NodeNewMarkingPair nodeNewMarking = new NodeNewMarkingPair(
@@ -265,7 +268,7 @@ public class Marking implements Cloneable {
 					nodeNewMarking.newMarking.applyState(diag.getOutgoingControlFlow(node), State.POS_TOKEN);
 
 					nodeNewMarkings.add(nodeNewMarking);
-				} else if (this.isXorConnector(node)
+				} else if (Marking.isXorConnector(node)
 						&& filterByState(diag.getIncomingControlFlow(node),
 								State.POS_TOKEN).size() >= 1) {
 					NodeNewMarkingPair nodeNewMarking = new NodeNewMarkingPair(
@@ -282,7 +285,7 @@ public class Marking implements Cloneable {
 
 					nodeNewMarkings.add(nodeNewMarking);
 					// (h)
-				} else if (this.isOrConnector(node)){
+				} else if (Marking.isOrConnector(node)){
 					Collection<IControlFlow> incomingControlFlow = diag.getIncomingControlFlow((Connector)node);
 					// Collect the control flows which would enable the or join to fire
 					// (pos + neg tokens, dead context)

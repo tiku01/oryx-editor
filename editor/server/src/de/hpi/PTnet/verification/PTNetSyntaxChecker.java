@@ -71,7 +71,7 @@ public class PTNetSyntaxChecker extends PetriNetSyntaxChecker {
 //			return false;
 		}
 		
-		List<Node> allNodes = new ArrayList();
+		List<Node> allNodes = new ArrayList<Node>();
 		allNodes.addAll(net.getPlaces());
 		allNodes.addAll(net.getTransitions());
 		removeConnectedNodesFromList(allNodes.get(0), allNodes);

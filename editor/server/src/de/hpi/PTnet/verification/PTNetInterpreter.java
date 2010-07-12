@@ -51,8 +51,8 @@ public class PTNetInterpreter implements PetriNetInterpreter {
 
 	public List<Transition> getEnabledTransitions(PetriNet net,
 			Marking marking) {
-		List<Transition> transitions = new ArrayList();
-		for (Iterator it=net.getTransitions().iterator(); it.hasNext(); ) {
+		List<Transition> transitions = new ArrayList<Transition>();
+		for (Iterator<Transition> it=net.getTransitions().iterator(); it.hasNext(); ) {
 			Transition t = (Transition)it.next();
 			boolean isEnabled = true;
 			for (FlowRelationship rel: t.getIncomingFlowRelationships()) {
@@ -71,7 +71,7 @@ public class PTNetInterpreter implements PetriNetInterpreter {
 	public boolean[] getEnablement(PetriNet net, Marking marking) {
 		boolean[] enabled = new boolean[net.getTransitions().size()];
 		int i=0;
-		for (Iterator it=net.getTransitions().iterator(); it.hasNext(); i++) {
+		for (Iterator<Transition> it=net.getTransitions().iterator(); it.hasNext(); i++) {
 			Transition t = (Transition)it.next();
 			enabled[i] = true;
 			for (FlowRelationship rel: t.getIncomingFlowRelationships()) {

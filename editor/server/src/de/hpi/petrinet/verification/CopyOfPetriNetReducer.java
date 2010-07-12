@@ -121,7 +121,7 @@ public abstract class CopyOfPetriNetReducer {
 		}
 
 		// remove old places and flow relationships
-		List<Place> rp = new ArrayList();
+		List<Place> rp = new ArrayList<Place>();
 		for (Iterator<? extends FlowRelationship> p1iter=i.getIncomingFlowRelationships().iterator(); p1iter.hasNext(); )
 			rp.add((Place)p1iter.next().getSource());
 		for (Iterator<? extends FlowRelationship> p2iter=i.getOutgoingFlowRelationships().iterator(); p2iter.hasNext(); )
@@ -140,8 +140,8 @@ public abstract class CopyOfPetriNetReducer {
 	protected void applyRule3(PetriNet net, Transition i) {
 //		List<Transition> newtransitions = new ArrayList<Transition>();
 
-		List<Transition> succ = new ArrayList();
-		List<Place> out = new ArrayList();
+		List<Transition> succ = new ArrayList<Transition>();
+		List<Place> out = new ArrayList<Place>();
 		for (Iterator<? extends FlowRelationship> iter2=i.getOutgoingFlowRelationships().iterator(); iter2.hasNext(); ) {
 			Place p = (Place)iter2.next().getTarget();
 			out.add(p);
@@ -168,7 +168,7 @@ public abstract class CopyOfPetriNetReducer {
 				
 			} else {
 
-				List<Place> in = new ArrayList();
+				List<Place> in = new ArrayList<Place>();
 				for (Iterator<? extends FlowRelationship> iter3=i2.getIncomingFlowRelationships().iterator(); iter3.hasNext(); ) {
 					Place p = (Place)iter3.next().getSource();
 					in.add(p);

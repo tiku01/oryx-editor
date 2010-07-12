@@ -52,12 +52,15 @@ import de.unihannover.se.infocup2008.bpmn.layouter.EdgeLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.LeftToRightGridLayouter;
 import de.unihannover.se.infocup2008.bpmn.layouter.topologicalsort.TopologicalSorterBPMN;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagram;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNDiagramERDF;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNElement;
-import de.unihannover.se.infocup2008.bpmn.model.BPMNElementERDF;
 import de.unihannover.se.infocup2008.bpmn.model.BPMNType;
 
 public class BPMNLayouterServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5881072861254329384L;
 
 	protected BPMNDiagram diagram;
 
@@ -172,14 +175,14 @@ public class BPMNLayouterServlet extends HttpServlet {
 		return dockers;
 	}
 
-	private String buildDokersString(BPMNElement element) {
-		String dockersString = "";
-		for (Point p : element.getDockers().getPoints()) {
-			dockersString += p.x + " " + p.y + " ";
-		}
-		dockersString += " # ";
-		return dockersString;
-	}
+//	private String buildDokersString(BPMNElement element) {
+//		String dockersString = "";
+//		for (Point p : element.getDockers().getPoints()) {
+//			dockersString += p.x + " " + p.y + " ";
+//		}
+//		dockersString += " # ";
+//		return dockersString;
+//	}
 
 	protected void doLayoutAlgorithm() {
 		preprocessHeuristics();

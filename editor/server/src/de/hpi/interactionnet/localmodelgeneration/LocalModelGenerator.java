@@ -233,7 +233,7 @@ public class LocalModelGenerator {
 		}
 
 		// remove old places and flow relationships
-		List<Place> rp = new ArrayList();
+		List<Place> rp = new ArrayList<Place>();
 		for (FlowRelationship rel: i.getIncomingFlowRelationships())
 			rp.add((Place)rel.getSource());
 		for (FlowRelationship rel: i.getOutgoingFlowRelationships())
@@ -252,8 +252,8 @@ public class LocalModelGenerator {
 	protected void applyRule3(PetriNet net, Transition i) {
 //		List<Transition> newtransitions = new ArrayList<Transition>();
 
-		List<Transition> succ = new ArrayList();
-		List<Place> out = new ArrayList();
+		List<Transition> succ = new ArrayList<Transition>();
+		List<Place> out = new ArrayList<Place>();
 		for (FlowRelationship rel: i.getOutgoingFlowRelationships()) {
 			Place p = (Place)rel.getTarget();
 			out.add(p);
@@ -279,7 +279,7 @@ public class LocalModelGenerator {
 				
 			} else {
 
-				List<Place> in = new ArrayList();
+				List<Place> in = new ArrayList<Place>();
 				for (FlowRelationship rel: i2.getIncomingFlowRelationships()) {
 					Place p = (Place)rel.getSource();
 					in.add(p);

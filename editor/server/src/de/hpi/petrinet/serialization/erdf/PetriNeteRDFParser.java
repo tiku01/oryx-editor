@@ -59,7 +59,7 @@ public class PetriNeteRDFParser {
 	 * @param net
 	 */
 	private void addAllObjects(){
-		List<Node> arcs = new LinkedList<Node>();
+//		List<Node> arcs = new LinkedList<Node>();
 		NodeList divList = getChildNodesOfBody();
 		
 		for(int i=0; i < divList.getLength(); i++){

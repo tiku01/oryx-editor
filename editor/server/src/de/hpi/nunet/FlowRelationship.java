@@ -14,7 +14,7 @@ public class FlowRelationship extends de.hpi.petrinet.FlowRelationship {
 
 	protected Node source;
 	protected Node target;
-	protected List variables;
+	protected List<String> variables;
 	
 	public Node getSource() {
 		return this.source;

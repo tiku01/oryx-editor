@@ -24,7 +24,7 @@ public class PTNetOptimizer {
 	}
 
 	public boolean removeEndPlaces() {
-		List<Place> plist = new ArrayList();
+		List<Place> plist = new ArrayList<Place>();
 		for (Iterator<Place> it=net.getPlaces().iterator(); it.hasNext(); ) {
 			Place p = it.next();
 			if (p.getOutgoingFlowRelationships().size() > 0 || p.getIncomingFlowRelationships().size() > 1)
@@ -47,8 +47,8 @@ public class PTNetOptimizer {
 	}
 
 	public boolean removeUnnecessaryTransitions() {
-		List<Transition> tlist = new ArrayList();
-		List<Place> plist = new ArrayList();
+		List<Transition> tlist = new ArrayList<Transition>();
+		List<Place> plist = new ArrayList<Place>();
 		for (Iterator<Place> it=net.getPlaces().iterator(); it.hasNext(); ) {
 			Place p = it.next();
 			if (p.getIncomingFlowRelationships().size() > 0 || net.getInitialMarking().getNumTokens(p) > 0)
@@ -80,7 +80,7 @@ public class PTNetOptimizer {
 
 	public boolean removeAllTauTransitions() {
 		int oldsize = net.getTransitions().size();
-		List<Transition> removeList = new ArrayList();
+		List<Transition> removeList = new ArrayList<Transition>();
 		PTNetReducer reducer = new PTNetReducer();
 	
 //		do {
@@ -99,7 +99,7 @@ public class PTNetOptimizer {
 
 	public boolean removeEasyTauTransitions() {
 		int oldsize = net.getTransitions().size();
-		List<Transition> removeList = new ArrayList();
+		List<Transition> removeList = new ArrayList<Transition>();
 		PTNetReducer reducer = new PTNetReducer();
 	
 //		do {
@@ -113,7 +113,7 @@ public class PTNetOptimizer {
 	protected boolean shouldRemoveTransition(Transition t) {
 		if (!(t instanceof SilentTransition))
 			return false;
-		for (Iterator iter=t.getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
+		for (Iterator<FlowRelationship> iter=t.getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
 			FlowRelationship f = (FlowRelationship)iter.next();
 			Place p = (Place)f.getSource();
 			if (p.getOutgoingFlowRelationships().size() > 1)
@@ -143,7 +143,7 @@ public class PTNetOptimizer {
 		Set<Transition> reachableTransitions = net.getInterpreter().getReachableTransitions(net, net.getInitialMarking());
 		int oldsize = net.getTransitions().size();
 		
-		List<Transition> removeList = new ArrayList(net.getTransitions());
+		List<Transition> removeList = new ArrayList<Transition>(net.getTransitions());
 		removeList.removeAll(reachableTransitions);
 	
 //		do {

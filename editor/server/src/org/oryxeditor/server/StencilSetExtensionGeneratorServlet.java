@@ -146,7 +146,7 @@ public class StencilSetExtensionGeneratorServlet extends HttpServlet {
 					        		CsvPreference.EXCEL_PREFERENCE
 					        		);
 					        csvHeader = csvFileReader.getCSVHeader(true);
-							if (columnPropertyMapping != null || columnPropertyMapping.length > 0) {
+							if (columnPropertyMapping != null && columnPropertyMapping.length > 0) {
 								csvHeader = columnPropertyMapping;
 							}
 					        Map<String,String> row;

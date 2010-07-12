@@ -1,18 +1,18 @@
 package org.oryxeditor.server;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.Configuration;
-
-import sun.misc.BASE64Decoder;
-
 public class EngineProxy extends HttpServlet {
 	private static final long serialVersionUID = -596209118625017987L;
 	private static Configuration config = null;
@@ -27,8 +27,9 @@ public class EngineProxy extends HttpServlet {
 						user);
 				if (st.hasMoreTokens()) {
 					if (st.nextToken().equalsIgnoreCase("Basic")) {
-						BASE64Decoder decoder = new sun.misc.BASE64Decoder();
-						String userPass = new String(decoder.decodeBuffer(st.nextToken()));
+						String userPass = new String(
+								Base64.decodeBase64(
+										st.nextToken().getBytes(Charset.forName("utf-8"))));
 						user = userPass.split(":")[0];
 					}
 				}
@@ -43,7 +44,7 @@ public class EngineProxy extends HttpServlet {
 			URL url_engine = new URL(engineURL);
 			HttpURLConnection connection_engine = (HttpURLConnection) url_engine.openConnection();
 			connection_engine.setRequestMethod("GET");
-			String encoding = new sun.misc.BASE64Encoder().encode((user + ":").getBytes());
+			String encoding = new String(Base64.encodeBase64((user + ":").getBytes()));
 			connection_engine.setRequestProperty("Authorization", "Basic " + encoding);
 			connection_engine.setDoInput(true);
 
@@ -53,11 +54,12 @@ public class EngineProxy extends HttpServlet {
 			connection_engine.connect();
 
 			if (connection_engine.getResponseCode() == 200) {
-				DataInputStream in = new DataInputStream(connection_engine.getInputStream());
-				String str;
-				String xmlDoc = "";
-				while ((str = in.readLine()) != null) {
-					xmlDoc += str + " ";
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection_engine.getInputStream(), "UTF-8"));
+				String line;
+				StringBuilder xmlDocBuild = new StringBuilder();
+				while ((line = reader.readLine()) != null) {
+					xmlDocBuild.append(line);
+					xmlDocBuild.append("");
 				}
 /*
 				xmlDoc = xmlDoc.replaceAll("href=\"/", "href=\"/oryx/engineproxy?url="+url_engine.getProtocol()+"://"+url_engine.getHost()+":"+url_engine.getPort()+"/");
@@ -66,11 +68,19 @@ public class EngineProxy extends HttpServlet {
 */
 				PrintWriter out = resp.getWriter();
 				
-				out.print(xmlDoc);
+				out.print(xmlDocBuild.toString());
 
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public static void setConfig(Configuration config) {
+		EngineProxy.config = config;
+	}
+
+	public static Configuration getConfig() {
+		return config;
 	}
 }

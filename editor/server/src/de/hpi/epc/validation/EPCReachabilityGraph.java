@@ -18,6 +18,7 @@ import de.hpi.epc.Marking.NodeNewMarkingPair;
  * TODO title thesis?
  * Implementation as proposed by Jan Mendling, p. 90 
  */
+@SuppressWarnings("unchecked")
 public class EPCReachabilityGraph
 		extends
 		ReachabilityGraph<IEPC, IFlowObject, Marking> {

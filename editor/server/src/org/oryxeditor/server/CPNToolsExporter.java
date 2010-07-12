@@ -13,6 +13,11 @@ import de.hpi.cpn.converter.CPNConverter;
 
 public class CPNToolsExporter extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8147835847836434261L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		try

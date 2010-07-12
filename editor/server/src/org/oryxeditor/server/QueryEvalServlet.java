@@ -22,15 +22,12 @@
 package org.oryxeditor.server;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -43,8 +40,6 @@ import org.apache.log4j.Logger;
 import com.bpmnq.AbstractQueryProcessor;
 import com.bpmnq.FileFormatException;
 import com.bpmnq.GraphBuilder;
-import com.bpmnq.Match;
-
 import com.bpmnq.OryxMemoryQueryProcessor;
 import com.bpmnq.ProcessGraph;
 import com.bpmnq.QueryGraph;
@@ -60,7 +55,7 @@ public class QueryEvalServlet extends HttpServlet {
     private static final long serialVersionUID = -7946509291423453168L;
     private static boolean useDataBaseConnection = false;
     private Logger log = Logger.getLogger(this.getClass());
-    private Map<QueryGraph,String> queryMatches = new HashMap<QueryGraph,String>();
+//    private Map<QueryGraph,String> queryMatches = new HashMap<QueryGraph,String>();
 	private Properties props; 
     /* (non-Javadoc)
      * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -96,7 +91,7 @@ public class QueryEvalServlet extends HttpServlet {
         
         // initialize BPMNQ processor
         try {
-            Utilities util = Utilities.getInstance();
+            Utilities.getInstance();
           //  util.changeProperties(props);
             if (useDataBaseConnection && !Utilities.isConnectionOpen()) {
                 Utilities.openConnection();
@@ -230,7 +225,7 @@ public class QueryEvalServlet extends HttpServlet {
         						if (compliantModels.contains(s))
         							continue;
 
-        						boolean insert = false;
+//        						boolean insert = false;
         						ProcessGraph matchAntiPattern=null;
         						QueryGraph cln = (QueryGraph) q.clone();
         						matchAntiPattern = qProcessor.runQueryAgainstModel(cln, s);
@@ -329,10 +324,10 @@ public class QueryEvalServlet extends HttpServlet {
                 qProcessor.testQueryAgainstModel(query, modelID,match);
             } else if ("processMultiQuery".equalsIgnoreCase(command)) {
             	qProcessor.includeEnclosingAndSplits= false;
-                List<Match> matches = qProcessor.processMultiQuery(query);
+//                List<Match> matches = qProcessor.processMultiQuery(query);
             } else { // default case, if no (or unknown) command was specified
             	qProcessor.includeEnclosingAndSplits= false;
-                List<String> matchedModels = qProcessor.processQuery(query);
+//                List<String> matchedModels = qProcessor.processQuery(query);
             }
         } catch (Exception e) {
             try {

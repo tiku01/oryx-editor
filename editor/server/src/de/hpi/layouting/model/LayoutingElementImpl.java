@@ -93,7 +93,8 @@ public class LayoutingElementImpl implements LayoutingElement {
 		return this.getFollowingElements().size() > 1;
 	}
 	public int backwardDistanceTo(LayoutingElement other) {
-		return _backwardDistanceTo(other, Collections.EMPTY_SET);
+		Set<LayoutingElement> emtpy =Collections.emptySet();
+		return _backwardDistanceTo(other, emtpy );
 	}
 
 	/**

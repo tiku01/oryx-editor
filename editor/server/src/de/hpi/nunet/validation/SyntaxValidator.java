@@ -71,8 +71,8 @@ public class SyntaxValidator {
 			Place p = it.next();
 			int length = -1;
 			
-			for (Iterator<FlowRelationship> it2=p.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
-				FlowRelationship rel = it2.next();
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=p.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
+				FlowRelationship rel = (FlowRelationship) it2.next();
 				if (length == -1)
 					length = rel.getVariables().size();
 				else if (length != rel.getVariables().size()) {
@@ -81,8 +81,8 @@ public class SyntaxValidator {
 				}
 			}
 			
-			for (Iterator<FlowRelationship> it2=p.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
-				FlowRelationship rel = it2.next();
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=p.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
+				FlowRelationship rel = (FlowRelationship) it2.next();
 				if (length == -1)
 					length = rel.getVariables().size();
 				else if (length != rel.getVariables().size()) {
@@ -105,14 +105,14 @@ public class SyntaxValidator {
 	}
 
 	private boolean outputVariablesProperlySet(NuNet net) {
-		ArrayList inputVariables = new ArrayList();
+		ArrayList<String> inputVariables = new ArrayList<String>();
 		for (Iterator<Transition> it=net.getTransitions().iterator(); it.hasNext(); ) {
 			Transition t = it.next();
 			
 			// retrieve all input variables
 			inputVariables.clear();
-			for (Iterator<FlowRelationship> it2=t.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
-				FlowRelationship rel = it2.next();
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=t.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
+				FlowRelationship rel = (FlowRelationship) it2.next();
 				inputVariables.addAll(rel.getVariables());
 			}
 			
@@ -121,8 +121,8 @@ public class SyntaxValidator {
 				return false;
 			}
 			
-			for (Iterator<FlowRelationship> it2=t.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
-				FlowRelationship rel = it2.next();
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=t.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
+				FlowRelationship rel = (FlowRelationship) it2.next();
 				
 				for (Iterator<String> it3=rel.getVariables().iterator(); it3.hasNext(); ) {
 					String v = it3.next();
@@ -153,14 +153,14 @@ public class SyntaxValidator {
 			Place p = it.next();
 			if (p.getProcessModel() == null) 
 				continue;
-			for (Iterator<FlowRelationship> it2=p.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=p.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
 				Transition t = (Transition)it2.next().getSource();
 				if (!t.getProcessModel().equals(p.getProcessModel())) {
 					errorCode = INVALID_INTERNAL_PLACE+" (place "+p.getLabel()+" and transition "+t.getLabel()+")";
 					return false;
 				}
 			}
-			for (Iterator<FlowRelationship> it2=p.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
+			for (Iterator<de.hpi.petrinet.FlowRelationship> it2=p.getOutgoingFlowRelationships().iterator(); it2.hasNext(); ) {
 				Transition t = (Transition)it2.next().getTarget();
 				if (!t.getProcessModel().equals(p.getProcessModel())) {
 					errorCode = INVALID_INTERNAL_PLACE+" (place "+p.getLabel()+" and transition "+t.getLabel()+")";

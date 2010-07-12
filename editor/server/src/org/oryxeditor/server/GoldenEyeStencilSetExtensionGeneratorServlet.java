@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.oryxeditor.server.ServiceComposerServlet.Operation;
-import org.oryxeditor.server.ServiceComposerServlet.PortType;
-import org.oryxeditor.server.ServiceComposerServlet.Service;
 
 
 
@@ -524,9 +521,9 @@ public class GoldenEyeStencilSetExtensionGeneratorServlet extends ServiceCompose
 		return "Extension for " + extensionName + " using " + services.size()
 				+ " services.";
 	}
-	private static String getStencilSetExtensionDescription(String extensionName,
-			ArrayList<Service> services) {
-		return "Extension for " + extensionName + " using " + services.size()
-				+ " services.";
-	}
+//	private static String getStencilSetExtensionDescription(String extensionName,
+//			ArrayList<Service> services) {
+//		return "Extension for " + extensionName + " using " + services.size()
+//				+ " services.";
+//	}
 }

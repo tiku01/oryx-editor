@@ -23,43 +23,23 @@
 
 package org.oryxeditor.server;
 
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONObject;
-import org.oryxeditor.server.diagram.Diagram;
-import org.oryxeditor.server.diagram.DiagramBuilder;
-import org.oryxeditor.server.diagram.JSONBuilder;
-
-import org.apache.commons.fileupload.*;
-import org.apache.commons.fileupload.disk.*;
-import org.apache.commons.fileupload.servlet.*;
-import org.apache.commons.fileupload.util.*;
-import org.apache.commons.io.*;
-
-import de.hpi.bpmn.BPMNDiagram;
-import de.hpi.bpmn.serialization.erdf.BPMNeRDFSerializer;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.xml.parsers.ParserConfigurationException;
 
 public class TBPMServlet extends HttpServlet {
 
@@ -107,7 +87,7 @@ public class TBPMServlet extends HttpServlet {
 	}
 
 	private String processUploadedFile(FileItem item) {
-		String fileName = item.getName();
+//		String fileName = item.getName();
 		String tmpPath = this.getServletContext().getRealPath("/")
 				+ File.separator + "tmp" + File.separator;
 
@@ -117,7 +97,7 @@ public class TBPMServlet extends HttpServlet {
 			tmpFolder.mkdirs();
 		}
 
-		File uploadedImage = new File(tmpFolder, fileName);
+//		File uploadedImage = new File(tmpFolder, fileName);
 		String json = "";
 		try {
 //			item.write(uploadedImage);
@@ -171,7 +151,7 @@ public class TBPMServlet extends HttpServlet {
 
 		/* Retrieve diagram model from JSON */
 
-		Diagram diagram = DiagramBuilder.parseJson(json);
+//		Diagram diagram = DiagramBuilder.parseJson(json);
 
 		/*
 		 * Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
@@ -193,13 +173,13 @@ public class TBPMServlet extends HttpServlet {
 		return writer;
 	}
 
-	private static String escapeJSON(String json) {
-		// escape (some) JSON special characters
-		String res = json.replace("\"", "\\\"");
-		res = res.replace("\n", "\\n");
-		res = res.replace("\r", "\\r");
-		res = res.replace("\t", "\\t");
-		return res;
-	}
+//	private static String escapeJSON(String json) {
+//		// escape (some) JSON special characters
+//		String res = json.replace("\"", "\\\"");
+//		res = res.replace("\n", "\\n");
+//		res = res.replace("\r", "\\r");
+//		res = res.replace("\t", "\\t");
+//		return res;
+//	}
 
 }

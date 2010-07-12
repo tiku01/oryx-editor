@@ -19,14 +19,14 @@ public class StateSpaceCalculator {
 	
 	private Interpreter interpreter;
 	private NuNet net;
-	private Set markings;
+	private Set<String> markings;
 	
 	public static final int MAX_NUM_STATES = 1000;
 	
 	public StateSpaceCalculator(NuNet net) {
 		this.interpreter = new Interpreter();
 		this.net = net;
-		this.markings = new HashSet();
+		this.markings = new HashSet<String>();
 	}
 
 	/**

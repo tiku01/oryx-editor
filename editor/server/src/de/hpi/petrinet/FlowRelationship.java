@@ -50,7 +50,7 @@ public class FlowRelationship implements Cloneable {
 			source.getOutgoingFlowRelationships().remove(this);
 		source = value;
 		if (source != null)
-			((List<FlowRelationship>)source.getOutgoingFlowRelationships()).add(this);
+			source.getOutgoingFlowRelationships().add(this);
 	}
 
 	public Node getTarget() {

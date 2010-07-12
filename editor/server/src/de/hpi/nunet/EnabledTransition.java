@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.hpi.petrinet.FlowRelationship;
+
 public class EnabledTransition {
 	
 	public EnabledTransition(Transition transition, Map<String,String> mode) {
@@ -34,7 +36,13 @@ public class EnabledTransition {
 //
 	
 	public boolean createsFreshName() {
-		for (FlowRelationship rel: transition.getOutgoingFlowRelationships()) {
+		for (FlowRelationship rel1: transition.getOutgoingFlowRelationships()) {
+			de.hpi.nunet.FlowRelationship rel;
+			if(rel1 instanceof de.hpi.nunet.FlowRelationship){
+				rel=(de.hpi.nunet.FlowRelationship) rel1;
+			}else{
+				continue;
+			}
 			for (Iterator<String> it2=rel.getVariables().iterator(); it2.hasNext(); ) {
 				String v = it2.next();
 				if (v.equals(NuNet.NEW)) 

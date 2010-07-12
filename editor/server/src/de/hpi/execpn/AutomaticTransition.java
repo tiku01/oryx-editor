@@ -2,7 +2,6 @@ package de.hpi.execpn;
 
 import de.hpi.petrinet.Node;
 import de.hpi.petrinet.SilentTransition;
-import de.hpi.petrinet.SilentTransitionImpl;
 
 
 public class AutomaticTransition extends ExecTransition implements SilentTransition {

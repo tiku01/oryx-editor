@@ -861,7 +861,7 @@ public class BPEL4Chor2BPELPBDConversion {
 		Iterator<String> it = messageLinkSet.iterator();
 		while (it.hasNext()){
 			String ml = (String)it.next();
-			ArrayList<QName> valueList = (ArrayList<QName>)ml2mcMap.get(ml);
+			ArrayList<QName> valueList = BPEL4Chor2BPELGroundingAnalyze.convertObjectTo(ml2mcMap.get(ml));
 			String mc1Str = valueList.get(0).toString().split(":")[1];
 			String mc2Str = valueList.get(1).toString().split(":")[1];
 			QName mc1 = QName.valueOf(mc1Str);

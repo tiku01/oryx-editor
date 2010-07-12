@@ -19,7 +19,7 @@ import de.hpi.diagram.stepthrough.IStepThroughInterpreter;
 import de.hpi.epc.Marking;
 import de.hpi.epc.Marking.NodeNewMarkingPair;
 import de.hpi.petrinet.stepthrough.AutoSwitchLevel;
-
+@SuppressWarnings("unchecked")
 public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 
 	List<NodeNewMarkingPair> nodeNewMarkings;
@@ -139,7 +139,7 @@ public class EPCStepThroughInterpreter implements IStepThroughInterpreter {
 	/* Fire given marking. Normally, marking.node would be added to changedObjects,
 	 * but by giving a change object directly, this behavior can be avoided. 
 	 * This method performs automatic execution of Events, XOR-Joins and AND-Connectors,
-	 * depending on auto swtich level
+	 * depending on auto switch level
 	 */
 	//TODO implement auto switch level
 	protected void fireMarking(Marking marking){

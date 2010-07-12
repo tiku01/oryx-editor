@@ -1,6 +1,5 @@
 package org.oryxeditor.server;
 
-import java.net.ResponseCache;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
@@ -9,10 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.hpi.treeGraph.Diagram;
-import de.hpi.treeGraph.Shape;
 
 public class TreeGraphChecker extends HttpServlet {
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2996369762488247554L;
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException {
     	try {
 
     	String eRdf = req.getParameter("data");

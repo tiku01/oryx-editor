@@ -48,7 +48,7 @@ public class SimpleStorageServlet extends HttpServlet {
 
     // serialization id.
     private static final long serialVersionUID = -5801302483240001557L;
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     private static Configuration config = null;
     private Connection database = null;

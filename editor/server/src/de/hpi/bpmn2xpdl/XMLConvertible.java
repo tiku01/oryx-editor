@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +19,8 @@ import org.xmappr.Attribute;
 import org.xmappr.DomElement;
 import org.xmappr.Element;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+//import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Encoder;
 
 public abstract class XMLConvertible {
 	
@@ -129,11 +130,10 @@ public abstract class XMLConvertible {
 
 	
 	protected Object fromStorable(String stored) {
-		BASE64Decoder base64dec = new BASE64Decoder();
 		
 		try {
 			//Read Base64 String and decode them
-			byte[] decodedBytes = base64dec.decodeBuffer(stored);
+			byte[] decodedBytes = Base64.decodeBase64(stored.getBytes("utf-8"));
 			ByteArrayInputStream byteStreamIn = new ByteArrayInputStream(decodedBytes);
 			//Restore the object
 			ObjectInputStream objectStreamIn = new ObjectInputStream(byteStreamIn);
@@ -154,9 +154,8 @@ public abstract class XMLConvertible {
 			e.printStackTrace();
 		}
 		
-		BASE64Encoder base64enc = new BASE64Encoder();
 		//Encode the byte stream with Base64 -> Readable characters for the JSONObject
-		return base64enc.encode(byteStream.toByteArray());	
+		return new String(Base64.encodeBase64(byteStream.toByteArray()));	
 	}
 	
 	protected boolean hasJSONMethod(String methodName) {

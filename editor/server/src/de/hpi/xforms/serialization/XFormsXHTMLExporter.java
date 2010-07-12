@@ -11,9 +11,24 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import de.hpi.xforms.*;
+import de.hpi.xforms.AbstractAction;
+import de.hpi.xforms.ActionContainer;
+import de.hpi.xforms.Bind;
+import de.hpi.xforms.Case;
+import de.hpi.xforms.Item;
+import de.hpi.xforms.Itemset;
+import de.hpi.xforms.LabelContainer;
+import de.hpi.xforms.ListUICommon;
+import de.hpi.xforms.ListUICommonContainer;
+import de.hpi.xforms.PCDataContainer;
+import de.hpi.xforms.Submission;
+import de.hpi.xforms.Switch;
+import de.hpi.xforms.UICommonContainer;
+import de.hpi.xforms.UIElementContainer;
+import de.hpi.xforms.XForm;
+import de.hpi.xforms.XFormsElement;
+import de.hpi.xforms.XFormsUIElement;
 
 /**
  * 
@@ -130,56 +145,56 @@ public class XFormsXHTMLExporter {
 		}
 	}
 	
-	private void modifyHead(Element head) {
-		if(head.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "title").getLength()>0) {
-			head.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "title").item(0).setTextContent(form.getAttributes().get("name"));
-		} else {
-			Element title = (Element) head.appendChild(
-					doc.createElementNS("http://www.w3.org/1999/xhtml", 
-							nsPrefixes.get("http://www.w3.org/1999/xhtml") + ":title"));
-			title.appendChild(doc.createCDATASection(form.getAttributes().get("name")));
-			head.appendChild(title);
-		}
-		
-		Element model;
-		if(head.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "model").getLength()>0) {
-			model = (Element) head.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "model").item(0);
-		} else {
-			model = (Element) head.appendChild(
-					doc.createElementNS("http://www.w3.org/2002/xforms", 
-							nsPrefixes.get("http://www.w3.org/2002/xforms") + "model"));
-			addAttributes(model, form.getModel());
-		}
-		
-		NodeList bindNodes = model.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "bind");
-		for(Bind bind : form.getModel().getBinds()) {
-			boolean replaced = false;
-			for(int i=0; i<bindNodes.getLength(); i++) {
-				String nodeset = ((Element) bindNodes.item(i)).getAttribute("nodeset");
-				if((nodeset!=null) && nodeset.equals(bind.getAttributes().get("nodeset"))) {
-					model.replaceChild(getElement(bind), bindNodes.item(i));
-					replaced = true;
-				}
-			}
-			if(!replaced) 
-				addElementsRecursive(model, bind);
-		}
-		
-		NodeList submissionNodes = model.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "submission");
-		for(Submission submission : form.getModel().getSubmissions()) {
-			boolean replaced = false;
-			for(int i=0; i<submissionNodes.getLength(); i++) {
-				String id = ((Element) submissionNodes.item(i)).getAttribute("id");
-				if((id!=null) && id.equals(submission.getAttributes().get("id"))) {
-					model.replaceChild(getElement(submission), submissionNodes.item(i));
-					replaced = true;
-				}
-			}
-			if(!replaced) 
-				addElementsRecursive(model, submission);
-		}
-			
-	}
+//	private void modifyHead(Element head) {
+//		if(head.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "title").getLength()>0) {
+//			head.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "title").item(0).setTextContent(form.getAttributes().get("name"));
+//		} else {
+//			Element title = (Element) head.appendChild(
+//					doc.createElementNS("http://www.w3.org/1999/xhtml", 
+//							nsPrefixes.get("http://www.w3.org/1999/xhtml") + ":title"));
+//			title.appendChild(doc.createCDATASection(form.getAttributes().get("name")));
+//			head.appendChild(title);
+//		}
+//		
+//		Element model;
+//		if(head.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "model").getLength()>0) {
+//			model = (Element) head.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "model").item(0);
+//		} else {
+//			model = (Element) head.appendChild(
+//					doc.createElementNS("http://www.w3.org/2002/xforms", 
+//							nsPrefixes.get("http://www.w3.org/2002/xforms") + "model"));
+//			addAttributes(model, form.getModel());
+//		}
+//		
+//		NodeList bindNodes = model.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "bind");
+//		for(Bind bind : form.getModel().getBinds()) {
+//			boolean replaced = false;
+//			for(int i=0; i<bindNodes.getLength(); i++) {
+//				String nodeset = ((Element) bindNodes.item(i)).getAttribute("nodeset");
+//				if((nodeset!=null) && nodeset.equals(bind.getAttributes().get("nodeset"))) {
+//					model.replaceChild(getElement(bind), bindNodes.item(i));
+//					replaced = true;
+//				}
+//			}
+//			if(!replaced) 
+//				addElementsRecursive(model, bind);
+//		}
+//		
+//		NodeList submissionNodes = model.getElementsByTagNameNS("http://www.w3.org/2002/xforms", "submission");
+//		for(Submission submission : form.getModel().getSubmissions()) {
+//			boolean replaced = false;
+//			for(int i=0; i<submissionNodes.getLength(); i++) {
+//				String id = ((Element) submissionNodes.item(i)).getAttribute("id");
+//				if((id!=null) && id.equals(submission.getAttributes().get("id"))) {
+//					model.replaceChild(getElement(submission), submissionNodes.item(i));
+//					replaced = true;
+//				}
+//			}
+//			if(!replaced) 
+//				addElementsRecursive(model, submission);
+//		}
+//			
+//	}
 
 	private void generateHead(String cssUrl, Element head) {
 		// Title

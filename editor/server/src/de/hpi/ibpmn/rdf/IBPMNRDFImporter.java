@@ -74,7 +74,7 @@ public class IBPMNRDFImporter {
 		ImportContext c = new ImportContext();
 		c.diagram = factory.createIBPMNDiagram();
 		
-		List<Node> edges = new ArrayList();
+		List<Node> edges = new ArrayList<Node>();
 		
 		// handle nodes
 		for (Node node=root.getFirstChild(); node != null; node=node.getNextSibling()) {

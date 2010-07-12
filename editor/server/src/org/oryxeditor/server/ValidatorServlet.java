@@ -119,6 +119,7 @@ public class ValidatorServlet extends HttpServlet {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void processEPC(List<IEPC> epcs, PrintWriter writer){
 		IEPC epc = epcs.get(0);
 		EPCSoundnessChecker soundChecker = new EPCSoundnessChecker(epc);
