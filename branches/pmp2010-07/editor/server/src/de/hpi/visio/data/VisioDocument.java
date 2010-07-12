@@ -15,6 +15,8 @@ public class VisioDocument {
 	@Element("Masters")
 	public Masters masters;
 	
+	private String stencilSet;
+	
 	public Map<String, String> getMasterIdToNameMapping() {
 		return masters.getMasterIdToNameMapping();
 	}
@@ -29,6 +31,14 @@ public class VisioDocument {
 	
 	public void setFirstAndOnlyPage(Page onlyPage) {
 		pages.setFirstAndOnlyPage(onlyPage);
+	}
+
+	public void setStencilSet(String stencilSet) {
+		this.stencilSet = stencilSet;
+	}
+
+	public String getStencilSet() {
+		return stencilSet;
 	}
 
 }

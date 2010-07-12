@@ -7,29 +7,39 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 /**
- * Provides an entry to the VisioBPMNConfiguration.xml and is used to map Visio 2003 Stencilset 
- * values to BPMN properties
+ * Provides all properties for visio import: Uses the VisioBPMNConfiguration.xml  
  */
 public class ImportConfigurationUtil {
 	
-	private static final String CONFIGURATION_XML_FILE = "VisioBPMNConfiguration.xml";
-	private static final String HEURISTICS_PATH = "heuristics.";
-	private static final String ORYX_CONFIG_BPMN = "oryx.config.BPMN.";
-	
-	private Properties properties;
+	private static final String CONFIGURATION_XML_FILE = "VisioImportConfiguration.xml";
+
 	private String path;
+	private Properties properties;
 	
-	/*
-	 * Important to do: The path shouldn't be passed through the VisioToBPMNConverter
-	 * all down from the servlet. There have to be a better solution!!
-	 * In a better solution properties would be final while die initializeTheProperties
-	 * would be static {...} code running once, so that the properties aren't reread
-	 * for each call. Therefore methods and members should also be static.
-	 */
+	private String stencilSetPath;
+	private String stencilSetMappingConfigPath;
+	private String stencilSetConfigPath;
+	private String heuristicPath;
+	private String stencilSetHeuristicsPath;
+
 	
-	public ImportConfigurationUtil(String realPath) {
+	public ImportConfigurationUtil(String realPath, String type) {
 		path = realPath;
 		initializeTheProperties();
+		heuristicPath = "heuristics.";
+		if (type.equals("bpmn")) {
+			stencilSetPath = "stencilsets.bpmn.";
+			stencilSetMappingConfigPath = "stencilsets.bpmn.config.";
+			stencilSetConfigPath = "oryx.config.bpmn.";
+			stencilSetHeuristicsPath = "heuristics.bpmn.";
+		} else if (type.equals("epc")){
+			stencilSetPath = "stencilsets.epc.";
+			stencilSetMappingConfigPath = "stencilsets.epc.config.";
+			stencilSetConfigPath = "oryx.config.epc.";
+			stencilSetHeuristicsPath = "heuristics.epc.";
+		} else {
+			throw new RuntimeException("Failure in visio import: Stencilset type isn't supported yet.");
+		}
 	}
 	
 	private void initializeTheProperties() {
@@ -62,47 +72,37 @@ public class ImportConfigurationUtil {
 			throw new IllegalStateException("Not able to create the Visio Stencil Set to BPMN mapping properties.");
 	}
 
-	/**
-	 * Uses VisioBPMNConfiguration.xml: Uses all defined mappings, that are included in the property: stencilsets.mappings
-	 * @param name in a Microsoft Visio .vdx: A shape's attribute nameU
-	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
-	 */
 	public String getStencilIdForName(String name) {
-		String[] stencilSets = properties.getProperty("stencilsets.mappings").split(",");
+		String mappingsString = properties.getProperty(stencilSetPath + "mappings");
+		if (mappingsString == null || "".equals(mappingsString)) {
+			throw new RuntimeException("Failure to load .vdx-visio-model: " +
+					"Check VisioImportConfiguration.xml and define mappings for this stencil set.");
+		}
+		String[] stencilSets = mappingsString.split(",");
 		for (String stencilSet : stencilSets) {
-			String stencilIdForName = properties.getProperty("stencilsets." + stencilSet + ".stencil." + name);
+			String stencilIdForName = properties.getProperty(stencilSetPath + stencilSet + ".stencil." + name);
 			if (stencilIdForName != null)
 				return stencilIdForName;
 		}
 		return null;
 	}
 	
-	/**
-	 * Get additional information for mappings
-	 * @param key
-	 * @return
-	 */
+	public String getMappingConfig(String key) {
+		return properties.getProperty(stencilSetMappingConfigPath + key);
+	}
+	
 	public String getStencilSetConfig(String key) {
-		return properties.getProperty("stencilsets.config." + key);
+		return properties.getProperty(stencilSetConfigPath + key);
 	}
 	
-	/**
-	 * @param name in a Microsoft Visio .vdx: A shape's attribute nameU
-	 * @return a Stencil of BPMN or null, if there is no value defined for the given nameU
-	 */
-	public String getHeuristicValue(String key) {
-		String heuristicValue = properties.getProperty(HEURISTICS_PATH + key);
-		return heuristicValue;
+	public String getHeuristic(String key) {
+		return properties.getProperty(heuristicPath + key);
 	}
 	
-	/**
-	 * Get configuration values for resizing and setting of shapes that will be displayed correctly at oryx.
-	 * @param key
-	 * @return
-	 */
-	public String getOryxBPMNConfig(String key) {
-		String configValue = properties.getProperty(ORYX_CONFIG_BPMN + key);
-		return configValue;
+	public String getStencilSetHeuristic(String key) {
+		return properties.getProperty(stencilSetHeuristicsPath + key);
 	}
+	
+	
 	
 }

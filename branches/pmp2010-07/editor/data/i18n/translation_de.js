@@ -756,13 +756,14 @@ ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "Das Nachrichtenfl
 ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "Der Konversationslink muss eine Kommunikation oder Sub-Konversation mit einem Teilnehmer verbinden.";
 
 /** New Language Properties from Visio Import by Lauritz Thamsen */
-if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioBPMNImport = {};
+if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioImport = {};
 
-ORYX.I18N.VisioBPMNImport.name = "Visio BPMN importieren";
-ORYX.I18N.VisioBPMNImport.desc = "Importiert ein neues Modell aus einer Microsoft Visio .vdx-Datei.";
-ORYX.I18N.VisioBPMNImport.selectFile = "Wählen Sie eine vdx-Datei aus, die im richtigen Stencil Set modelliert wurde.";
-ORYX.I18N.VisioBPMNImport.file = ".vdx-Datei";
-ORYX.I18N.VisioBPMNImport.btnImp = "Diagramm laden";
-ORYX.I18N.VisioBPMNImport.btnClose = "Schließen";
-ORYX.I18N.VisioBPMNImport.progress = "Wird geladen...";
-ORYX.I18N.VisioBPMNImport.connectionError = "Fehler...";
+ORYX.I18N.VisioImport.BPMNName = "Visio BPMN importieren";
+ORYX.I18N.VisioImport.EPCName = "Visio EPK importieren";
+ORYX.I18N.VisioImport.desc = "Importiert ein neues Modell aus einer Microsoft Visio .vdx-Datei.";
+ORYX.I18N.VisioImport.selectFile = "Wählen Sie eine vdx-Datei aus, die im richtigen Stencil Set modelliert wurde.";
+ORYX.I18N.VisioImport.file = ".vdx-Datei";
+ORYX.I18N.VisioImport.btnImp = "Diagramm laden";
+ORYX.I18N.VisioImport.btnClose = "Schließen";
+ORYX.I18N.VisioImport.progress = "Wird geladen...";
+ORYX.I18N.VisioImport.connectionError = "Fehler: Verbindung und benutztes Visio Stencil Set prüfen.";

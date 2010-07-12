@@ -441,13 +441,13 @@
 	<!-- Added by Lauritz Thamsen - PMP seminar 2010 - Visio Import - Start -->
 	<servlet>
 		<display-name>Visio</display-name>
-		<servlet-name>VisioBPMNImporter</servlet-name>
-		<servlet-class>org.oryxeditor.server.VisioBPMNImporter</servlet-class>
+		<servlet-name>VisioImporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.VisioImporter</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>VisioBPMNImporter</servlet-name>
-		<url-pattern>/visiobpmnimport</url-pattern>
+		<servlet-name>VisioImporter</servlet-name>
+		<url-pattern>/visioimport</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Added by Lauritz Thamsen - PMP seminar 2010 - Visio Import - End -->

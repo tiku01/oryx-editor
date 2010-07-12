@@ -12,7 +12,7 @@ import org.xmappr.Element;
 import org.xmappr.RootElement;
 
 @RootElement("Shape")
-public class Shape implements Comparable<Shape> {
+public class Shape {
 
 	private List<Shape> outgoings;
 
@@ -127,11 +127,11 @@ public class Shape implements Comparable<Shape> {
 	}
 
 	public Double getWidth() {
-		return xForm.getWidth();
+		return Math.abs(xForm.getWidth());
 	}
 
 	public Double getHeight() {
-		return xForm.getHeight();
+		return Math.abs(xForm.getHeight());
 	}
 
 	public void setWidth(Double width) {
@@ -223,6 +223,8 @@ public class Shape implements Comparable<Shape> {
 	}
 
 	public Double getArea() {
+		if (this.getHeight() == null || this.getWidth() == null)
+			return null;
 		return this.getHeight() * this.getWidth();
 	}
 	
@@ -231,13 +233,6 @@ public class Shape implements Comparable<Shape> {
 			 return geom.getDockerPointsInRightOrder();
 		}
 		return new ArrayList<Point>();
-	}
-
-	@Override
-	public int compareTo(Shape otherShape) {
-		return this.getArea().compareTo(otherShape.getArea());
-	}
-
-	
+	}	
 
 }

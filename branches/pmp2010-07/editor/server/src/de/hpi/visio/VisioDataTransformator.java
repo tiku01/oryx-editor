@@ -17,15 +17,11 @@ import de.hpi.visio.util.ShapeUtil;
 
 public class VisioDataTransformator {
 	
-	private final StencilSet BPMN_STENCILS = new StencilSet(
-			"/oryx//stencilsets/bpmn2.0/bpmn2.0.json",
-			"http://b3mn.org/stencilset/bpmn2.0#");
-	
 	private ImportConfigurationUtil importUtil;
 	private ShapeUtil shapeUtil;
 	
-	public VisioDataTransformator(String contextPath) {
-		importUtil = new ImportConfigurationUtil(contextPath + "execution/");
+	public VisioDataTransformator(String contextPath, String type) {
+		importUtil = new ImportConfigurationUtil(contextPath + "execution/", type);
 		shapeUtil = new ShapeUtil(importUtil);
 	}
 
@@ -38,7 +34,7 @@ public class VisioDataTransformator {
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
 		interpretedPage.setShapes(removeShapesWithoutStencilId(interpretedPage.getShapes()));
 		assignShapeIds(interpretedPage.getShapes());
-		Diagram diagram = getNewBPMNDiagram();
+		Diagram diagram = getNewDiagram();
 		diagram.setBounds(shapeUtil.correctPointsOfBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
@@ -70,22 +66,27 @@ public class VisioDataTransformator {
 	private void setLabelPropertyForShape(Shape visioShape,
 			org.oryxeditor.server.diagram.Shape oryxShape) {
 		if (visioShape.getLabel() != null && !visioShape.getLabel().equals("")) {
-			String[] labelPropertyNameExceptions = importUtil.getOryxBPMNConfig("LabelPropertyException").split(",");
-			for (String exception : labelPropertyNameExceptions) {
-				if (exception.equalsIgnoreCase(oryxShape.getStencilId())) 
-					oryxShape.putProperty(importUtil.getOryxBPMNConfig(exception + ".LabelProperty"), visioShape.getLabel());
+			String labelPropertyNameExceptionsString = importUtil.getStencilSetConfig("LabelPropertyException");
+			if (labelPropertyNameExceptionsString != null && !"".equals(labelPropertyNameExceptionsString)) {
+				String[] labelPropertyNameExceptions = labelPropertyNameExceptionsString.split(",");
+				for (String exception : labelPropertyNameExceptions) {
+					if (exception.equalsIgnoreCase(oryxShape.getStencilId())) 
+						oryxShape.putProperty(importUtil.getStencilSetConfig(exception + ".LabelProperty"), visioShape.getLabel());
+				}
 			}
 			if (oryxShape.getProperties().size() == 0) {
-				oryxShape.putProperty(importUtil.getOryxBPMNConfig("DefaultLabelProperty"), visioShape.getLabel());
+				oryxShape.putProperty(importUtil.getStencilSetConfig ("DefaultLabelProperty"), visioShape.getLabel());
 			}
 		}
 	}
-
-	private Diagram getNewBPMNDiagram() {
-		StencilType bpmnType = new StencilType("BPMNDiagram");
-		Diagram diagram = new Diagram("oryx-canvas123", bpmnType, BPMN_STENCILS);
-		diagram.putProperty("targetnamespace", "http://www.omg.org/bpmn20");
-		diagram.putProperty("typelanguage","http://www.w3.org/2001/XMLSchema");
+	
+	private Diagram getNewDiagram() {
+		StencilSet stencilSet = new StencilSet(importUtil.getStencilSetConfig("StencilSetUrl"),
+				importUtil.getStencilSetConfig("StencilSetNameSpace"));
+		StencilType type = new StencilType(importUtil.getStencilSetConfig("StencilType"));
+		Diagram diagram = new Diagram("oryx-canvas123", type, stencilSet);
+		diagram.putProperty("targetnamespace", importUtil.getStencilSetConfig("TargetNameSpace"));
+		diagram.putProperty("typelanguage", importUtil.getStencilSetConfig("TypeLanguage"));
 		return diagram;
 	}
 	
