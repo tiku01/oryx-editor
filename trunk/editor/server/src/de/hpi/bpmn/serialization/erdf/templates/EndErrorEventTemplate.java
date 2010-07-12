@@ -1,7 +1,6 @@
 package de.hpi.bpmn.serialization.erdf.templates;
 
 import de.hpi.bpmn.DiagramObject;
-import de.hpi.bpmn.EndCompensationEvent;
 import de.hpi.bpmn.EndErrorEvent;
 import de.hpi.bpmn.serialization.erdf.ERDFSerializationContext;
 

@@ -3,8 +3,6 @@
  */
 package de.hpi.bpmn.sese;
 
-import java.util.List;
-
 import de.hpi.bpmn.ANDGateway;
 import de.hpi.bpmn.SequenceFlow;
 import de.hpi.bpmn.analysis.BPMNSESENormalizer;

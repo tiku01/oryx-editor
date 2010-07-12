@@ -138,10 +138,7 @@ public class BPMNSESENormalizer extends BPMNNormalizer{
 			}
 			
 			connectNodes(joinAndGateway, splitAndGateway);
-		} else if (false) {
-			
-		}
-		
+		}		
 		
 		removeNode(gateway);
 		// TODO Also handle xor data and event based gateways

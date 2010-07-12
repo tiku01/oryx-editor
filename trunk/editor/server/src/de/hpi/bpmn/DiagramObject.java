@@ -13,7 +13,7 @@ import de.hpi.bpmn.serialization.BPMNSerialization;
  * @author gero.decker
  *
  */
-public abstract class DiagramObject implements Comparable{
+public abstract class DiagramObject implements Comparable<DiagramObject>{
 
 	protected String id;
 	protected String resourceId;
@@ -83,7 +83,7 @@ public abstract class DiagramObject implements Comparable{
 			return false;
 	}
 	
-	public int compareTo(Object o){
+	public int compareTo(DiagramObject o){
 		return this.getId().compareTo(((DiagramObject)o).getId());
 	}
 	

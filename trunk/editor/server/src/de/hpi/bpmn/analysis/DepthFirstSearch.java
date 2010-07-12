@@ -30,7 +30,7 @@ public class DepthFirstSearch {
 	protected void doDFS(Node node){
 		preOrder.add(node);
 		
-		List list = node.getOutgoingEdges();
+		List<Edge> list = node.getOutgoingEdges();
 		
 		for(Object rel : list){
 			if(!preOrder.contains(((Edge)rel).getTarget()))
