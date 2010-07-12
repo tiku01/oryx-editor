@@ -26,6 +26,7 @@ public class CPNPlace extends CPNModellingThing
 {
 	// Elements which are neither important for the Export nor the Import, but these elements
 	// are necessary for XStream otherwise XStream raises an error
+	@SuppressWarnings("unused")
 	private transient Object ports, tokens, fusioninfos;
 	
 	private String text;

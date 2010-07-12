@@ -3,8 +3,6 @@ package de.hpi.cpn.attributes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.thoughtworks.xstream.XStream;
-
 public class CPNProperty extends CPNModellingThing
 {
 	// CPNProperty is like the class CPNLittleProperty. This class is used for a lot of

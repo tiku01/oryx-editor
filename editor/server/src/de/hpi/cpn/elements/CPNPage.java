@@ -79,6 +79,7 @@ public class CPNPage extends XMLConvertable
 		
 	// Elements which are neither important for the Export nor the Import, but these elements
 	// are necessary for XStream otherwise XStream raises an error
+	@SuppressWarnings("unused")
 	private transient Object auxtag, grouptag, vguidelines, hguidelines;
 	
 	// These variables are not needed directly for serialization of the XML

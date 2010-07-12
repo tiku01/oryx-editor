@@ -10,7 +10,8 @@ public class CPNTextConverter implements Converter
 {
 	// This is a class which helps XStream to convert the object structure into a XML
 	// and also the other way around. 
-    public boolean canConvert(Class clazz) {
+    @SuppressWarnings("unchecked")
+	public boolean canConvert(Class clazz) {
             return clazz.equals(CPNText.class);
     }
 
