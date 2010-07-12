@@ -36,7 +36,7 @@ public class Workbench {
 		run();
 	}
 	
-	private static Map<String,NuNet> nunets = new HashMap();
+	private static Map<String,NuNet> nunets = new HashMap<String, NuNet>();
 	
 	private static final String LOAD = "load";
 	private static final String SIMULATE = "simulate";
@@ -310,7 +310,7 @@ public class Workbench {
 		System.out.println();
 		System.out.print("> ");
 		String str = readln();
-		List<String> command = new ArrayList();
+		List<String> command = new ArrayList<String>();
 		
 		int currStart = -1;
 		boolean isReading = false;

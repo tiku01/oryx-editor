@@ -21,7 +21,7 @@ public class InteractionNet extends PTNet {
 
 	public List<Role> getRoles() {
 		if (roles == null)
-			roles = new ArrayList();
+			roles = new ArrayList<Role>();
 		return roles;
 	}
 
@@ -44,7 +44,7 @@ public class InteractionNet extends PTNet {
 	public InteractionNet getCopy() {
 		InteractionNetFactory factory = getFactory();
 		InteractionNet newnet = factory.createInteractionNet();
-		Map map = new HashMap();
+		Map<Object,Object> map = new HashMap<Object, Object>();
 		
 		for (Role r1: getRoles()) {
 			Role r2 = factory.createRole();

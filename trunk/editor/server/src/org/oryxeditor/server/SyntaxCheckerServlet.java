@@ -29,7 +29,6 @@ import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
-import de.hpi.bpmn2_0.factory.BPMNElement;
 import de.hpi.bpmn2_0.model.Definitions;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import de.hpi.bpmn2pn.BPMN2PNSyntaxChecker;
@@ -159,7 +158,8 @@ public class SyntaxCheckerServlet extends HttpServlet {
 		Diagram diagram = DiagramBuilder.parseJson(jsonDocument);
 		
 		//TODO: validate edges that are not in the java object model
-		ArrayList<Shape> edges = this.getEdgesFromDiagram(diagram.getChildShapes());
+//		ArrayList<Shape> edges = 
+			this.getEdgesFromDiagram(diagram.getChildShapes());
 		
 		String type = diagram.getStencilset().getNamespace();
 		SyntaxChecker checker = null;

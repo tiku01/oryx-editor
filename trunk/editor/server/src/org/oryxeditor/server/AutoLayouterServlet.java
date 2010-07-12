@@ -94,29 +94,29 @@ public class AutoLayouterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
 	    throws ServletException, IOException {
 
-	if (false && DEBUG) {
-
-	    // execute 'which ruby' in the context of the servlet container.
-	    try {
-
-		// start a process for 'which ruby' and wait for it.
-		Process which = Runtime.getRuntime().exec("which ruby");
-		which.waitFor();
-
-		// get the output in a buffered reader.
-		BufferedReader whichIn = new BufferedReader(
-			new InputStreamReader(which.getInputStream()));
-
-		// output the debug information.
-		System.out.print("ruby location: ");
-		System.out.println(whichIn.readLine());
-
-	    } catch (InterruptedException e1) {
-
-		// if something goes wrong, tell us.
-		e1.printStackTrace();
-	    }
-	}
+//	if (false && DEBUG) {
+//
+//	    // execute 'which ruby' in the context of the servlet container.
+//	    try {
+//
+//		// start a process for 'which ruby' and wait for it.
+//		Process which = Runtime.getRuntime().exec("which ruby");
+//		which.waitFor();
+//
+//		// get the output in a buffered reader.
+//		BufferedReader whichIn = new BufferedReader(
+//			new InputStreamReader(which.getInputStream()));
+//
+//		// output the debug information.
+//		System.out.print("ruby location: ");
+//		System.out.println(whichIn.readLine());
+//
+//	    } catch (InterruptedException e1) {
+//
+//		// if something goes wrong, tell us.
+//		e1.printStackTrace();
+//	    }
+//	}
 
 	// get rdf and timestamp for the temporary file.
 	String rdf = req.getParameter("rdf");

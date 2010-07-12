@@ -1,10 +1,7 @@
 
 package org.oryxeditor.server;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -25,11 +19,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
 
 import de.hpi.bpel4chor.transformation.Transformation;
 import de.hpi.bpel4chor.transformation.TransformationResult;

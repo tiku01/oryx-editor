@@ -13,9 +13,9 @@ public class InterconnectionModel extends NuNet {
 
 	private List<ProcessModel> processModels;
 
-	public List getProcessModels() {
+	public List<ProcessModel> getProcessModels() {
 		if (processModels == null)
-			processModels = new ArrayList();
+			processModels = new ArrayList<ProcessModel>();
 		return processModels;
 	}
 

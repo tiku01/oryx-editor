@@ -414,7 +414,7 @@ public class EPCEdgeLayouter {
 		// set dockers
 		// double halfBoundsX = sourceGeometry.getX2()
 		// + ((targetGeometry.getX() - sourceGeometry.getX2()) / 2);
-		double halfBoundsX = sourceAbsoluteX2 + 15;
+//		double halfBoundsX = sourceAbsoluteX2 + 15;
 
 		edge.getDockers().setPoints(sourceRelativCenterX, sourceRelativCenterY,
 				 targetRelativCenterX,

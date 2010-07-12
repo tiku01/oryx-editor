@@ -22,8 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 
 public class JsonErdfTransformation {
 	private JSONObject canvas;
@@ -137,9 +137,9 @@ public class JsonErdfTransformation {
 		// Properties
 		if(shape.has("properties")){
 			JSONObject props = shape.getJSONObject("properties");
-			Iterator<String> it = props.keys();
+			Iterator<?> it = props.keys();
 			while(it.hasNext()){
-				String key = it.next();
+				String key = (String) it.next();
 				String val = props.getString(key);
 				shapeEl.appendChild(createOryxNsElement(key, val));
 			}

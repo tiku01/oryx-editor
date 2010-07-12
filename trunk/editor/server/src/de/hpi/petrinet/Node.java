@@ -35,13 +35,13 @@ public interface Node extends Cloneable {
 	
 	public void setResourceId(String resourceId);
 
-	public List<? extends FlowRelationship> getIncomingFlowRelationships();
+	public List<FlowRelationship> getIncomingFlowRelationships();
 
-	public List<? extends FlowRelationship> getOutgoingFlowRelationships();
+	public List<FlowRelationship> getOutgoingFlowRelationships();
 
-	public void setIncomingFlowRelationships(List<? extends FlowRelationship> incomingFlowRelationships);
+	public void setIncomingFlowRelationships(List<FlowRelationship> incomingFlowRelationships);
 
-	public void setOutgoingFlowRelationships(List<? extends FlowRelationship> flowRelationships);
+	public void setOutgoingFlowRelationships(List<FlowRelationship> flowRelationships);
 	
 	public String toString();
 	

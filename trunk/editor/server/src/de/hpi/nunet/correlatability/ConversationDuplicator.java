@@ -31,7 +31,7 @@ public class ConversationDuplicator {
 		this.factory = NuNetFactory.eINSTANCE;
 	}
 
-	private void duplicateTokens(NuNet net, Map map) {
+	private void duplicateTokens(NuNet net, Map<Node,Node> map) {
 		for (Iterator<Place> it=model.getPlaces().iterator(); it.hasNext(); ) {
 			Place p = it.next();
 			Place newp = factory.createPlace();
@@ -73,7 +73,7 @@ public class ConversationDuplicator {
 	 */
 	public NuNet getDuplicatedModel() {
 		NuNet net = factory.createNuNet();
-		Map map = new HashMap();
+		Map<Node,Node> map = new HashMap<Node, Node>();
 		
 		duplicateTokens(net, map);
 		
@@ -95,7 +95,7 @@ public class ConversationDuplicator {
 
 	public NuNet getRestrictedDuplicatedModel() {
 		NuNet net = factory.createNuNet();
-		Map map = new HashMap();
+		Map<Node,Node> map = new HashMap<Node, Node>();
 		
 		duplicateTokens(net, map);
 		
@@ -151,7 +151,7 @@ public class ConversationDuplicator {
 		boolean[][] flowstar = new boolean[numplaces+numtransitions][numplaces+numtransitions];
 
 		// init
-		Map<Node,Integer> indexmap = new HashMap(model.getFlowRelationships().size());
+		Map<Node,Integer> indexmap = new HashMap<Node, Integer>(model.getFlowRelationships().size());
 		int i = 0;
 		for (Iterator<Place> it=model.getPlaces().iterator(); it.hasNext(); i++)
 			indexmap.put(it.next(), new Integer(i));

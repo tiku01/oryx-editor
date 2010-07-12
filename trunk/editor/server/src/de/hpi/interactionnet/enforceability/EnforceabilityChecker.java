@@ -28,8 +28,8 @@ public class EnforceabilityChecker {
 		this.net = net;
 		interpreter = InteractionNetFactory.eINSTANCE.createInterpreter();
 		
-		visited = new HashSet();
-		visitedcancel = new HashSet();
+		visited = new HashSet<String>();
+		visitedcancel = new HashSet<String>();
 		wasreached = new boolean[net.getTransitions().size()];
 
 		numtransitions = net.getTransitions().size();
@@ -103,10 +103,10 @@ public class EnforceabilityChecker {
 	protected void setupShareRole() {
 		shareRole = new boolean[numtransitions][numtransitions];
 		int x1 = 0;
-		for (Iterator iter=net.getTransitions().iterator(); iter.hasNext(); ) {
+		for (Iterator<de.hpi.petrinet.Transition> iter=net.getTransitions().iterator(); iter.hasNext(); ) {
 			InteractionTransition i1 = (InteractionTransition)iter.next();
 			int x2 = 0;
-			for (Iterator iter2=net.getTransitions().iterator(); iter2.hasNext(); ) {
+			for (Iterator<de.hpi.petrinet.Transition> iter2=net.getTransitions().iterator(); iter2.hasNext(); ) {
 				InteractionTransition i2 = (InteractionTransition)iter2.next();
 				
 				shareRole[x1][x2] = (i1.getSender().equals(i2.getSender()) || 
@@ -119,7 +119,7 @@ public class EnforceabilityChecker {
 		}
 	}
 	
-	private Map<String,boolean[]> enablementMap = new HashMap();
+	private Map<String,boolean[]> enablementMap = new HashMap<String,boolean[]>();
 	
 	private boolean[] getEnablement(Marking marking) {
 		boolean[] enablement = enablementMap.get(marking.toString());

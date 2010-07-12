@@ -50,10 +50,10 @@ public class InteractionNetRDFImporter {
 		ImportContext c = new ImportContext();
 		c.net = factory.createInteractionNet();
 //		Map map = new HashMap();		
-		c.objects = new HashMap(); // key = resource id, value = node
-		c.connections = new HashMap(); // key = to resource id, value = from node
+		c.objects = new HashMap<String, de.hpi.petrinet.Node>(); // key = resource id, value = node
+		c.connections = new HashMap<String, de.hpi.petrinet.Node>(); // key = to resource id, value = from node
 		
-		List<Node> edges = new ArrayList();
+		List<Node> edges = new ArrayList<Node>();
 		
 		// handle nodes
 		for (Node node=root.getFirstChild(); node != null; node=node.getNextSibling()) {

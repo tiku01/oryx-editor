@@ -22,7 +22,7 @@ public class SigmaBisimulationChecker {
 	
 	private Interpreter interpreter;
 	private List<EnabledTransition> transitions;
-	private Set markings;
+	private Set<String> markings;
 	
 	private Marking lastM1;
 	private Marking lastM2;
@@ -32,8 +32,8 @@ public class SigmaBisimulationChecker {
 
 	public SigmaBisimulationChecker() {
 		this.interpreter = new Interpreter();
-		this.transitions = new ArrayList();
-		this.markings = new HashSet();
+		this.transitions = new ArrayList<EnabledTransition>();
+		this.markings = new HashSet<String>();
 	}
 	
 	/**

@@ -30,7 +30,7 @@ public class ConversationDuplicator {
 	public InterconnectionModel getDuplicatedModel(List<Transition> competitionTransitions) {
 		competitionTransitions.clear();
 		InterconnectionModel newmodel = factory.createInterconnectionModel();
-		Map map = new HashMap();
+		Map<Object,Object>  map = new HashMap<Object, Object>();
 		
 		copyProcessModels(newmodel, map);
 		
@@ -43,7 +43,7 @@ public class ConversationDuplicator {
 		return newmodel;
 	}
 
-	private void copyProcessModels(InterconnectionModel newmodel, Map map) {
+	private void copyProcessModels(InterconnectionModel newmodel, Map<Object,Object> map) {
 		for (Iterator<ProcessModel> iter=model.getProcessModels().iterator(); iter.hasNext(); ) {
 			ProcessModel pm = iter.next();
 			ProcessModel newpm = factory.createProcessModel();
@@ -53,7 +53,7 @@ public class ConversationDuplicator {
 		}
 	}
 
-	private void addCommunicationPlaces(InterconnectionModel newmodel, Map map) {
+	private void addCommunicationPlaces(InterconnectionModel newmodel, Map<Object,Object>  map) {
 		for (Iterator<Place> iter = model.getPlaces().iterator(); iter.hasNext(); ) {
 			Place p = iter.next();
 			if (p.isCommunicationPlace()) {
@@ -65,7 +65,7 @@ public class ConversationDuplicator {
 		}
 	}
 
-	private void addInternalPlacesAndTransitions(InterconnectionModel newmodel, Map map) {
+	private void addInternalPlacesAndTransitions(InterconnectionModel newmodel, Map<Object,Object>  map) {
 		for (Iterator<Place> iter = model.getPlaces().iterator(); iter.hasNext(); ) {
 			Place p = iter.next();
 			if (p.isInternalPlace()) {
@@ -103,9 +103,9 @@ public class ConversationDuplicator {
 		return newtoken;
 	}
 
-	private void addCompetitionTransitions(InterconnectionModel newmodel, Map map, List<Transition> competitionTransitions) {
+	private void addCompetitionTransitions(InterconnectionModel newmodel, Map<Object,Object>  map, List<Transition> competitionTransitions) {
 		
-		Map<ProcessModel, Place> apmap = new HashMap(newmodel.getProcessModels().size()); 
+		Map<ProcessModel, Place> apmap = new HashMap<ProcessModel, Place>(newmodel.getProcessModels().size()); 
 		
 		// add additional places
 		for (Iterator<ProcessModel> iter=newmodel.getProcessModels().iterator(); iter.hasNext(); ) {
@@ -134,8 +134,8 @@ public class ConversationDuplicator {
 					for (int j=i+1; j<p.getOutgoingFlowRelationships().size(); j++) { // optimization: combinations only in one direction
 						if (i==j) continue;
 
-						FlowRelationship rel1 = p.getOutgoingFlowRelationships().get(i);
-						FlowRelationship rel2 = p.getOutgoingFlowRelationships().get(j);
+						FlowRelationship rel1 = (FlowRelationship) p.getOutgoingFlowRelationships().get(i);
+						FlowRelationship rel2 = (FlowRelationship) p.getOutgoingFlowRelationships().get(j);
 						if (rel1.getTarget().getProcessModel() != rel2.getTarget().getProcessModel()) continue;
 						
 						Transition newt = factory.createTransition();
@@ -148,8 +148,8 @@ public class ConversationDuplicator {
 						// empty variable list
 						
 						// copy connections targeting t1
-						for (Iterator<FlowRelationship> iter2=rel1.getTarget().getIncomingFlowRelationships().iterator(); iter2.hasNext(); ) {
-							FlowRelationship rel = iter2.next();
+						for (Iterator<de.hpi.petrinet.FlowRelationship> iter2=rel1.getTarget().getIncomingFlowRelationships().iterator(); iter2.hasNext(); ) {
+							FlowRelationship rel = (FlowRelationship) iter2.next();
 							FlowRelationship newrel = addFlowRelationship(newmodel, rel.getSource(), newt);
 							newrel.getVariables().addAll(rel.getVariables());
 						}
@@ -158,8 +158,8 @@ public class ConversationDuplicator {
 						Map<String, String> varmap = createVarMap(rel1, rel2);
 						
 						// copy connections targeting t2 (=> consider renaming!)
-						for (Iterator<FlowRelationship> iter2=rel2.getTarget().getIncomingFlowRelationships().iterator(); iter2.hasNext(); ) {
-							FlowRelationship rel = iter2.next();
+						for (Iterator<de.hpi.petrinet.FlowRelationship> iter2=rel2.getTarget().getIncomingFlowRelationships().iterator(); iter2.hasNext(); ) {
+							FlowRelationship rel = (FlowRelationship) iter2.next();
 							if (rel == rel2) continue;
 							FlowRelationship newrel = addFlowRelationship(newmodel, rel.getSource(), newt);
 							for (Iterator<String> iter3=rel.getVariables().iterator(); iter3.hasNext(); )
@@ -182,11 +182,11 @@ public class ConversationDuplicator {
 	// variables from target transition of rel1 will be kept
 	// resulting map will contain rewrites for target transition of rel2
 	private Map<String, String> createVarMap(FlowRelationship rel1, FlowRelationship rel2) {
-		Map<String, String> map = new HashMap();
+		Map<String, String> map = new HashMap<String, String>();
 		
-		Set<String> variables = new HashSet();
-		for (Iterator<FlowRelationship> iter=rel1.getTarget().getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
-			FlowRelationship rel = iter.next();
+		Set<String> variables = new HashSet<String>();
+		for (Iterator<de.hpi.petrinet.FlowRelationship> iter=rel1.getTarget().getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
+			FlowRelationship rel = (FlowRelationship) iter.next();
 			variables.addAll(rel.getVariables());
 		}
 		
@@ -198,8 +198,8 @@ public class ConversationDuplicator {
 		}
 		
 		// rewrite remaining variables targeting t2
-		for (Iterator<FlowRelationship> iter=rel2.getTarget().getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
-			FlowRelationship rel = iter.next();
+		for (Iterator<de.hpi.petrinet.FlowRelationship> iter=rel2.getTarget().getIncomingFlowRelationships().iterator(); iter.hasNext(); ) {
+			FlowRelationship rel = (FlowRelationship) iter.next();
 			if (rel == rel2) continue;
 			for (Iterator<String> iter2=rel.getVariables().iterator(); iter2.hasNext(); ) {
 				String v = iter2.next();

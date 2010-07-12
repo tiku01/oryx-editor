@@ -16,7 +16,7 @@ public class Place extends Node {
 
 	public List<Token> getTokens() {
 		if (tokens == null)
-			tokens = new ArrayList();
+			tokens = new ArrayList<Token>();
 		return tokens;
 	}
 

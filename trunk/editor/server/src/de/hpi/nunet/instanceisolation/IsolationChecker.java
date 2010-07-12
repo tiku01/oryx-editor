@@ -17,17 +17,17 @@ public class IsolationChecker {
 	public static final int MAX_NUM_STATES = 1000;
 	
 	private Interpreter interpreter;
-	private Set markings;
+	private Set<String> markings;
 	private InterconnectionModel model;
 	
 	public IsolationChecker(InterconnectionModel model) {
 		this.model = model;
 		this.interpreter = new Interpreter();
-		this.markings = new HashSet();
+		this.markings = new HashSet<String>();
 	}
 	
 	public boolean isIsolated() {
-		List<Transition> competitionTransitions = new ArrayList();
+		List<Transition> competitionTransitions = new ArrayList<Transition>();
 		InterconnectionModel duplicatedModel = new ConversationDuplicator(model).getDuplicatedModel(competitionTransitions);
 		return !checkReachability(duplicatedModel, competitionTransitions);
 	}

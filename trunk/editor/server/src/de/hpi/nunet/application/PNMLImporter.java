@@ -31,7 +31,7 @@ public class PNMLImporter {
 		if (netnode == null)
 			return net;
 		
-		Map map = new HashMap();
+		Map<String,Node> map = new HashMap<String, Node>();
 		
 		for (Node node=netnode.getFirstChild(); node.getNextSibling() != null; node=node.getNextSibling()) {
 			if (node.getNodeName().equals("place")) {
@@ -59,11 +59,11 @@ public class PNMLImporter {
 		}
 	}
 
-	private void addPlace(InterconnectionModel net, Node pnode, Map map) {
+	private void addPlace(InterconnectionModel net, Node pnode, Map<String,Node> map) {
 		Place p = factory.createPlace();
 		net.getPlaces().add(p);
 		String id = pnode.getAttributes().getNamedItem("id").getNodeValue();
-		map.put(id, p);
+		map.put(id, (Node) p);
 		
 		p.setLabel(getContent(getChild(getChild(pnode, "name"), "value")));
 		if (p.getLabel() == null) {
@@ -91,11 +91,11 @@ public class PNMLImporter {
 		checkProcessModel(net, p, pnode);
 	}
 
-	private void addTransition(InterconnectionModel net, Node tnode, Map map) {
+	private void addTransition(InterconnectionModel net, Node tnode, Map<String,Node>  map) {
 		Transition t = factory.createTransition();
 		net.getTransitions().add(t);
 		String id = tnode.getAttributes().getNamedItem("id").getNodeValue();
-		map.put(id, t);
+		map.put(id, (Node) t);
 
 		t.setLabel(getContent(getChild(getChild(tnode, "name"), "value")));
 		if (t.getLabel() == null) {
@@ -107,7 +107,7 @@ public class PNMLImporter {
 		checkProcessModel(net, t, tnode);
 	}
 
-	private void addArc(InterconnectionModel net, Node anode, Map map) {
+	private void addArc(InterconnectionModel net, Node anode, Map<String,Node>  map) {
 		FlowRelationship rel = factory.createFlowRelationship();
 		net.getFlowRelationships().add(rel);
 		

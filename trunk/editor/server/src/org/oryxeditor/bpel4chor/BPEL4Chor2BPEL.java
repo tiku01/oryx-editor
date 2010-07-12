@@ -26,7 +26,6 @@ package org.oryxeditor.bpel4chor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebService;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 

@@ -194,9 +194,9 @@ public class BPEL4Chor2BPELExporter extends HttpServlet {
      * @throws Exception 
      */
     //TODO::to be defined and refined, not working now
-    private String crossPartnerScopesHandleTopology(String oldString) throws Exception{
-    	return "";
-	}  
+//    private String crossPartnerScopesHandleTopology(String oldString) throws Exception{
+//    	return "";
+//	}  
     // end of extended for Cross Partner Scope by Changhua Li
     
     private String postprocessTopology (PrintWriter out, String oldString) throws Exception{

@@ -19,11 +19,11 @@ public class Marking {
 	
 	public Marking(NuNet net) {
 		this.net = net;
-		this.marking = new HashMap(net.getPlaces().size());
+		this.marking = new HashMap<Place, List<Token>>(net.getPlaces().size());
 		this.names = null;
 		
 		for (Iterator<Place> it=net.getPlaces().iterator(); it.hasNext(); )
-			marking.put(it.next(), new ArrayList());
+			marking.put(it.next(), new ArrayList<Token>());
 	}
 	
 	public Marking getCopy() {
@@ -51,7 +51,7 @@ public class Marking {
 			Place p = it.next();
 			List<Token> tokens = getTokens(p);
 			
-			List<String> serializedTokens = new ArrayList(tokens.size());
+			List<String> serializedTokens = new ArrayList<String>(tokens.size());
 			for (Iterator<Token> it2=tokens.iterator(); it2.hasNext(); ) {
 				serializedTokens.add(it2.next().toString());
 			}
@@ -94,7 +94,7 @@ public class Marking {
 	
 	public Set<String> getNames() {
 		if (names == null) {
-			names = new HashSet();
+			names = new HashSet<String>();
 			for (Iterator<List<Token>> it=marking.values().iterator(); it.hasNext(); ) {
 				List<Token> tokens = it.next();
 				for (Iterator<Token> it2=tokens.iterator(); it2.hasNext(); ) {
@@ -125,7 +125,7 @@ public class Marking {
 	}
 
 	public String toStringUncolored() {
-		List<Place> places = new ArrayList(marking.keySet());
+		List<Place> places = new ArrayList<Place>(marking.keySet());
 		Collections.sort(places, new Comparator<Place>() {
 			public int compare(Place p1, Place p2) {
 				return p1.getLabel().compareTo(p2.getLabel());
@@ -137,7 +137,7 @@ public class Marking {
 	public List<Token> getTokens(Place p) {
 		List<Token> tokens = marking.get(p);
 		if (tokens == null && net.getPlaces().contains(p)) {
-			tokens = new ArrayList();
+			tokens = new ArrayList<Token>();
 			marking.put(p, tokens);
 		}
 		return tokens;

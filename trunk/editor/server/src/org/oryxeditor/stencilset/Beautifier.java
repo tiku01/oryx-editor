@@ -1,14 +1,10 @@
 package org.oryxeditor.stencilset;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 public class Beautifier {

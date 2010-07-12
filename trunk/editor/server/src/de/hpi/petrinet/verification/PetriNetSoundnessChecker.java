@@ -133,7 +133,7 @@ public class PetriNetSoundnessChecker {
 		if (notParticipatingTransitions != null)
 			return;
 		
-		notParticipatingTransitions = new HashSet(net.getTransitions());
+		notParticipatingTransitions = new HashSet<Transition>(net.getTransitions());
 		
 		for(Marking marking : rg.getLeaves()){
 			if(marking.isFinalMarking()){

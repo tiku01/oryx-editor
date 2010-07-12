@@ -6,15 +6,22 @@ import java.util.List;
 import de.hpi.PTnet.Marking;
 import de.hpi.highpetrinet.HighFlowRelationship;
 import de.hpi.highpetrinet.HighPetriNet;
+import de.hpi.petrinet.FlowRelationship;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.Transition;
 
 public class HighPNInterpreter extends de.hpi.PTnet.verification.PTNetInterpreter {
 	@Override
 	public Marking fireTransition(PetriNet _net, Marking marking, Transition t){
-		HighPetriNet net = (HighPetriNet)_net;
+//		HighPetriNet net = (HighPetriNet)_net;
 		Marking newmarking = (Marking) marking.getCopy();
-		for (HighFlowRelationship rel : (List<HighFlowRelationship>)t.getIncomingFlowRelationships()) {
+		for (FlowRelationship rel1 : t.getIncomingFlowRelationships()) {
+			HighFlowRelationship rel;
+			if(rel1 instanceof HighFlowRelationship) {
+				rel =(HighFlowRelationship) rel1;
+			}else{
+				continue;
+			}
 			de.hpi.petrinet.Place p = (de.hpi.petrinet.Place) rel.getSource();
 
 			/*
@@ -36,7 +43,14 @@ public class HighPNInterpreter extends de.hpi.PTnet.verification.PTNetInterprete
 				break;
 			}
 		}
-		for (HighFlowRelationship rel : (List<HighFlowRelationship>)t.getOutgoingFlowRelationships()) {
+		for (FlowRelationship rel1 : t.getOutgoingFlowRelationships()) {
+			HighFlowRelationship rel;
+			if(rel1 instanceof HighFlowRelationship) {
+				rel =(HighFlowRelationship) rel1;
+			}else{
+				continue;
+			}
+				
 			de.hpi.petrinet.Place p = (de.hpi.petrinet.Place) rel.getTarget();
 			newmarking.addToken(p);
 		}
@@ -49,7 +63,13 @@ public class HighPNInterpreter extends de.hpi.PTnet.verification.PTNetInterprete
 		List<Transition> transitions = new ArrayList<Transition>();
 		for (Transition t : (List<Transition>)net.getTransitions()) {
 			boolean isEnabled = true;
-			for (HighFlowRelationship rel : (List<HighFlowRelationship>)t.getIncomingFlowRelationships()) {
+			for (FlowRelationship rel1 : t.getIncomingFlowRelationships()) {
+				HighFlowRelationship rel;
+				if(rel1 instanceof HighFlowRelationship) {
+					rel =(HighFlowRelationship) rel1;
+				}else{
+					continue;
+				}
 				de.hpi.petrinet.Place p = (de.hpi.petrinet.Place) rel.getSource();
 				switch (rel.getType()) {
 				case Plain:

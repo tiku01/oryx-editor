@@ -9,7 +9,7 @@ import de.hpi.bpmn.validation.BPMNSyntaxChecker;
 public class STSyntaxChecker extends BPMNSyntaxChecker {
 	
 	private static final String COMP_GATEWAY = "The Complex Gateway is not supported.";
-	private static final String OR_GATEWAY = "The OR Gateway is not supported.";
+//	private static final String OR_GATEWAY = "The OR Gateway is not supported.";
 //	private static final String INCOMING_EDGES = "Multiple incoming edges are not supported.";
 //	private static final String OUTGOING_EDGES = "Multiple outgoing edges are not supported.";
 

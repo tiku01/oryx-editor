@@ -21,13 +21,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xml.internal.serialize.DOMSerializer;
-import com.sun.org.apache.xml.internal.serialize.Method;
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
 import de.hpi.bpmn.BPMNDiagram;
-import de.hpi.bpmn.analysis.BPMNNormalizer;
 import de.hpi.bpmn.analysis.BPMNSESENormalizer;
 import de.hpi.bpmn.rdf.BPMN11RDFImporter;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;

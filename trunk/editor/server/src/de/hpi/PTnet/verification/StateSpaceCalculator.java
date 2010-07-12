@@ -62,8 +62,8 @@ public class StateSpaceCalculator {
 	}
 
 	protected void calculateStateSpace() {
-		markings = new HashSet();
-		reachableTransitions = new HashSet();
+		markings = new HashSet<String>();
+		reachableTransitions = new HashSet<Transition>();
 		
 		doCalculation(marking);
 	}

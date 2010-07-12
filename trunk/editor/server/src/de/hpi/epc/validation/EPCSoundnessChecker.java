@@ -9,7 +9,7 @@ import java.util.Stack;
 import de.hpi.bpt.process.epc.IControlFlow;
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.epc.Marking;
-
+@SuppressWarnings("unchecked")
 public class EPCSoundnessChecker {
 	EPCReachabilityGraph rg;
 	IEPC diag;

@@ -262,7 +262,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	// 3.2: record all name space prefixes of QName
 	public Set<String> namespacePrefixSet = new HashSet<String>();
 	public HashMap<String, String> ns2prefixMap = new HashMap<String, String>();
-	private String topologyNS;					// it will be used in conversion of PBD
+//	private String topologyNS;					// it will be used in conversion of PBD
 
 	// 3.17: to save the portType of messageLink of grounding
 	public Set<QName> ptSet = new HashSet<QName>();
@@ -288,7 +288,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		getNamespaceSet(grounding, "grounding");
 	}
 	
-	private int currentPtNum = 0;
+//	private int currentPtNum = 0;
 	private HashMap<QName,Integer> ptToCurrentOpCount = new HashMap<QName,Integer>();
 	
 	private void generateNewPtOpForUngroundedMLs(Set<String> ungroundedMLs) {
@@ -319,12 +319,13 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	}
 	
 	private MessageLink_Ab getAbFromMl(String ml) {
-		ArrayList<Object> parefsML = fparefsML(ml);
+		ArrayList<?> parefsML = fparefsML(ml);
 		Set<Object> A = new HashSet<Object>();
-		if (parefsML.get(0).getClass().getSimpleName().equals("ArrayList")){
-			ArrayList<String> strList = (ArrayList<String>)parefsML.get(0);
+//		if (parefsML.get(0).getClass().getSimpleName().equals("ArrayList")){
+		if(parefsML.get(0) instanceof ArrayList<?>){
+			ArrayList<?> strList = (ArrayList<?>)parefsML.get(0);
 			for(int j = 0; j<strList.size(); j++){
-				String str = strList.get(j);
+				String str = (String) strList.get(j);
 				A.add(str);
 			}
 		}
@@ -428,7 +429,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 				final boolean CONDITION2 = !CONDITION1 && pa1.equals(bSet) && pa2.equals(a) && pt1.equals(pt);
 				final boolean CONDITION3 = !CONDITION1 && !CONDITION2 && pa1.equals(bSet) && pa2.equals(a) && pt1.getLocalPart().equals(EMPTY);
 				if (CONDITION1){
-					ArrayList<Object> plsPair = new ArrayList<Object>();
+					ArrayList<?> plsPair = new ArrayList<Object>();
 					//partnerLinksPair is (pl1, pl2)
 					plsPair = fpartnerLinksComm(comm);
 					pl1 = new PartnerLink(plsPair.get(0).toString());
@@ -437,7 +438,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 					fpartnerLinkMC(mc2, pl2);
 				}
 				else if(CONDITION2){
-					ArrayList<Object> plsPair = new ArrayList<Object>();
+					ArrayList<?> plsPair = new ArrayList<Object>();
 					//partnerLinksPair is (pl1, pl2)
 					plsPair = fpartnerLinksComm(comm);
 					pl1 = new PartnerLink(plsPair.get(0).toString());
@@ -446,7 +447,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 					fpartnerLinkMC(mc2, pl1);
 				}
 				else if(CONDITION3){
-					ArrayList<Object> plsPair = new ArrayList<Object>();
+					ArrayList<?> plsPair = new ArrayList<Object>();
 					//partnerLinksPair is (pl1, pl2)
 					plsPair = fpartnerLinksComm(comm);
 					pl1 = new PartnerLink(plsPair.get(0).toString());
@@ -720,7 +721,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	 * @param {Comm}      comm     The communication((A,c),(b,d))
 	 * @param {ArrayList} plsPair  The pair of partner link(pl1, pl2)
 	 */
-	private void fpartnerLinksComm(Comm comm, ArrayList<Object> plsPair){
+	private void fpartnerLinksComm(Comm comm, ArrayList<?> plsPair){
 		comm2plsMap.put(comm, plsPair);
 	}
 
@@ -732,10 +733,11 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	 * @param {Comm}       comm     The communication((A,c),(b,d))
 	 * @return {ArrayList} plsPair  The pair of partner link(pl1, pl2)
 	 */
-	private ArrayList<Object> fpartnerLinksComm(Comm comm){
+	private ArrayList<?> fpartnerLinksComm(Comm comm){
 		ArrayList<Object> plsPair = new ArrayList<Object>();
 		if(comm2plsMap.containsKey(comm)){
-			return (ArrayList<Object>) comm2plsMap.get(comm);
+			Object anObject = comm2plsMap.get(comm);
+			return (ArrayList<?>)anObject ;
 		}
 		return plsPair;
 	}
@@ -839,7 +841,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 					if(strSplit[0].equals("targetNamespace")){
 						ns2prefixMap.put(strSplit[0], strSplit[1].replaceAll("\"", ""));
 						String valueOfTopologyNS = strSplit[1].replaceAll("\"", "");
-						topologyNS = strSplit[1].replaceAll("\"", "");
+//						topologyNS = strSplit[1].replaceAll("\"", "");
 						ns2prefixMap.put("topologyNS", valueOfTopologyNS);
 						String targetNS = "targetNamespace";
 						namespacePrefixSet.add(targetNS);
@@ -885,7 +887,7 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	private ArrayList<QName> fconstructsML(String ml){
 		ArrayList<QName> mcSenderReceiver = new ArrayList<QName>();
 		if(!ml2mcMap.isEmpty()){
-			mcSenderReceiver = (ArrayList<QName>)ml2mcMap.get(ml);
+			mcSenderReceiver = convertObjectTo(ml2mcMap.get(ml));
 		} else {
 			log.severe("foncstructsML: ml2mcMap is empty for " + ml);
 		}
@@ -896,9 +898,22 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 		if (mcSenderReceiver.size() != 2) {
 			log.severe("foncstructsML: mcSenderReceiver.size() is != 2 " + ml);
 		}
+		
 		return mcSenderReceiver;
 	}
 	
+	public static ArrayList<QName> convertObjectTo(Object object) {
+		ArrayList<QName> result = new ArrayList<QName>();
+		if(object instanceof ArrayList<?>){
+			for(Object o:(ArrayList<?>) object){
+				if(o instanceof QName){
+					result.add((QName) o);
+				}
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * function: To build QName for function 3.12 
 	 * to build a QName
@@ -921,10 +936,12 @@ public class BPEL4Chor2BPELGroundingAnalyze {
 	 * @param 	{String} 	ml                          The message link
 	 * @return 	{ArrayList} outputSenderReceiverPaList 	The ArrayList [[senderArrayListPa], receiverPa]
 	 */
-	private ArrayList<Object> fparefsML(String ml){
-		ArrayList<Object> outputSenderReceiverPaList = new ArrayList<Object>();
+	private ArrayList<?> fparefsML(String ml){
+		ArrayList<?> outputSenderReceiverPaList = new ArrayList<Object>();
 		if(!(ml2paMap.isEmpty())){
-			outputSenderReceiverPaList = (ArrayList<Object>)ml2paMap.get(ml);
+			if(ml2paMap.get(ml) instanceof ArrayList<?>){
+				outputSenderReceiverPaList = (ArrayList<?>)ml2paMap.get(ml);
+			}
 		}
 		return outputSenderReceiverPaList;
 	}

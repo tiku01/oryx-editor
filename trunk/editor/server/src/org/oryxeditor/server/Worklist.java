@@ -165,4 +165,12 @@ public class Worklist extends HttpServlet {
 		out.println("</html>");
 
 	}
+
+	public static void setConfig(Configuration config) {
+		Worklist.config = config;
+	}
+
+	public static Configuration getConfig() {
+		return config;
+	}
 }

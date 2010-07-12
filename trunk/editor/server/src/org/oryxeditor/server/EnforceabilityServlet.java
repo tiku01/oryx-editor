@@ -26,7 +26,6 @@ import de.hpi.ibpmn.converter.IBPMNConverter;
 import de.hpi.ibpmn.rdf.IBPMNRDFImporter;
 import de.hpi.interactionnet.InteractionNet;
 import de.hpi.interactionnet.enforceability.EnforceabilityChecker;
-import de.hpi.interactionnet.localmodelgeneration.DesynchronizabilityChecker;
 import de.hpi.interactionnet.serialization.InteractionNetRDFImporter;
 import de.hpi.petrinet.Transition;
 

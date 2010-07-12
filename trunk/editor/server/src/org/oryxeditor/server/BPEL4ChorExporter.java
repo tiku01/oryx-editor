@@ -901,13 +901,13 @@ public class BPEL4ChorExporter extends HttpServlet {
     }
     
     
-    private void printError(PrintWriter out, String type, String err){
-		out.print("{\"type\":\"" + type+ "\",");
-		out.print("\"success\":false,");
-		out.print("\"content\":\"");
-		out.print(escapeJSON(err));
-		out.print("\"}");
-    }
+//    private void printError(PrintWriter out, String type, String err){
+//		out.print("{\"type\":\"" + type+ "\",");
+//		out.print("\"success\":false,");
+//		out.print("\"content\":\"");
+//		out.print(escapeJSON(err));
+//		out.print("\"}");
+//    }
     
 	private void handleException(PrintWriter out, String type, Exception e) {
 		e.printStackTrace();

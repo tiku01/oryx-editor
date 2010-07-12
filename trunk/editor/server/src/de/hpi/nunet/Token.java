@@ -16,7 +16,7 @@ public class Token {
 
 	public List<String> getNames() {
 		if (names == null)
-			names = new ArrayList();
+			names = new ArrayList<String>();
 		return names;
 	}
 

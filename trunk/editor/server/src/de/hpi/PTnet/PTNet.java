@@ -2,13 +2,10 @@ package de.hpi.PTnet;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hpi.PTnet.verification.BoundednessChecker;
 import de.hpi.PTnet.verification.PTNetInterpreter;
-import de.hpi.petrinet.Node;
 import de.hpi.petrinet.PetriNet;
 import de.hpi.petrinet.Place;
 
@@ -148,7 +145,7 @@ public class PTNet extends PetriNet {
 		}
 
 		@Override
-		public boolean removeAll(Collection list) {
+		public boolean removeAll(Collection<?> list) {
 			((Marking)net.getInitialMarking()).reset();
 			return super.removeAll(list);
 		}

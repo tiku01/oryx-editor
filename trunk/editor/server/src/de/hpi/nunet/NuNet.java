@@ -18,21 +18,21 @@ public class NuNet {
 	private List<FlowRelationship> flowRelationships;
 	private Marking initialMarking;
 	
-	public List getPlaces() {
+	public List<Place> getPlaces() {
 		if (places == null)
-			places = new ArrayList();
+			places = new ArrayList<Place>();
 		return places;
 	}
 
 	public List<Transition> getTransitions() {
 		if (transitions == null)
-			transitions = new ArrayList();
+			transitions = new ArrayList<Transition>();
 		return transitions;
 	}
 
 	public List<FlowRelationship> getFlowRelationships() {
 		if (flowRelationships == null)
-			flowRelationships = new ArrayList();
+			flowRelationships = new ArrayList<FlowRelationship>();
 		return flowRelationships;
 	}
 

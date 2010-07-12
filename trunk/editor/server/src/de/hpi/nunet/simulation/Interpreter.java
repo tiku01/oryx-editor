@@ -43,7 +43,7 @@ public class Interpreter {
 	}
 
 	private boolean enoughInputTokens(Transition t, Marking marking) {
-		for (Iterator<FlowRelationship> it2=t.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
+		for (Iterator<de.hpi.petrinet.FlowRelationship> it2=t.getIncomingFlowRelationships().iterator(); it2.hasNext(); ) {
 			Place p = (Place)it2.next().getSource();
 			if (marking.getTokens(p).size() == 0) 
 				return false;
@@ -54,7 +54,7 @@ public class Interpreter {
 	// precondition: at least one input place + lengths of names and variables correspond
 	private void addMatchingModes(Transition t, Marking marking, List<EnabledTransition> transitions) {
 		// copy the list of incoming flow relationships
-		List<FlowRelationship> rels = new ArrayList<FlowRelationship>(t.getIncomingFlowRelationships());
+		List<de.hpi.petrinet.FlowRelationship> rels = new ArrayList<de.hpi.petrinet.FlowRelationship>(t.getIncomingFlowRelationships());
 		
 		//
 		Token[] tokens = new Token[rels.size()];
@@ -63,11 +63,11 @@ public class Interpreter {
 		addMatchingModes(t, rels, marking, 0, mode, tokens, transitions);
 	}
 
-	private void addMatchingModes(Transition t, List<FlowRelationship> rels, Marking marking, int i, Map<String, String> currentMode, Token[] tokens, List<EnabledTransition> transitions) {
+	private void addMatchingModes(Transition t, List<de.hpi.petrinet.FlowRelationship> rels, Marking marking, int i, Map<String, String> currentMode, Token[] tokens, List<EnabledTransition> transitions) {
 		if (i == 0)
 			currentMode.clear(); // this map is used for all combinations of tokens...
 		
-		FlowRelationship rel = rels.get(i);
+		FlowRelationship rel = (FlowRelationship) rels.get(i);
 		for (Iterator<Token> it2=marking.getTokens((Place)rel.getSource()).iterator(); it2.hasNext(); ) {
 			Token token = it2.next();
 			tokens[i] = token;
@@ -111,14 +111,14 @@ public class Interpreter {
 		
 		// remove tokens from input places
 		int i=0;
-		for (Iterator<FlowRelationship> it = tmode.transition.getIncomingFlowRelationships().iterator(); it.hasNext(); i++) {
+		for (Iterator<de.hpi.petrinet.FlowRelationship> it = tmode.transition.getIncomingFlowRelationships().iterator(); it.hasNext(); i++) {
 			Place p = (Place)it.next().getSource();
 			marking.getTokens(p).remove(tmode.tokens[i]);
 		}
 		
 		// produce tokens on output places
-		for (Iterator<FlowRelationship> it = tmode.transition.getOutgoingFlowRelationships().iterator(); it.hasNext(); ) {
-			FlowRelationship rel = it.next();
+		for (Iterator<de.hpi.petrinet.FlowRelationship> it = tmode.transition.getOutgoingFlowRelationships().iterator(); it.hasNext(); ) {
+			FlowRelationship rel = (FlowRelationship) it.next();
 			Place p = (Place)rel.getTarget();
 			
 			// create new token

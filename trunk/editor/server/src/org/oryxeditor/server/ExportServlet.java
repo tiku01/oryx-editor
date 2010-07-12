@@ -19,14 +19,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 
 import de.hpi.bpmn.BPMNDiagram;
 import de.hpi.bpmn.rdf.BPMNRDFImporter;
@@ -75,8 +76,8 @@ public class ExportServlet extends HttpServlet {
 		String engineURL = config.getString("pnengine.url") + "/petrinets";
                 String engineURL_host = config.getString("pnengine.url");
 		String modelURL = config.getString("pnengine.default_model_url");
-		String formURL = null;
-		String bindingsURL = null;
+//		String formURL = null;
+//		String bindingsURL = null;
 		
 		String rdf = req.getParameter("data");
 		String diagramTitle = req.getParameter("title");
@@ -120,8 +121,7 @@ public class ExportServlet extends HttpServlet {
 			URL url_engine = new URL(engineURL);
 			HttpURLConnection connection_engine = (HttpURLConnection) url_engine.openConnection();
 			connection_engine.setRequestMethod("POST");
-
-			String encoding = new sun.misc.BASE64Encoder().encode("testuser:".getBytes());
+			String encoding = new String(Base64.encodeBase64(("testuser:" + ":").getBytes()));;
 			connection_engine.setRequestProperty("Authorization", "Basic " + encoding);
 
 			connection_engine.setUseCaches(false);
