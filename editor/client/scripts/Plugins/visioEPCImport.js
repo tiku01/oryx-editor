@@ -1,12 +1,11 @@
-/** Import of Visio BPMN diagrams, that have been build with supported stencil sets.
- *  Currently supported: 0MG 0.9, BPT 1.1, Official Visio 2010 BPMN 1.1
+/** Import of Visio EPC diagrams, that have been build with the visio EPC stencil sets.
  *	Created in the PMP seminar 2010. 
  *  Author: Lauritz Thamsen
  **/
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
-ORYX.Plugins.VisioBPMNImport = ORYX.Plugins.AbstractPlugin.extend({
+ORYX.Plugins.VisioEPCImport = ORYX.Plugins.AbstractPlugin.extend({
 
 	facade: undefined,
 	
@@ -18,13 +17,13 @@ ORYX.Plugins.VisioBPMNImport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade = facade;
 					
 		this.facade.offer({
-			'name':				ORYX.I18N.VisioImport.BPMNName,
+			'name':				ORYX.I18N.VisioImport.EPCName,
 			'functionality': 	this.importVDX.bind(this),
 			'group': 			'Export',
 			'dropDownGroupIcon':ORYX.PATH + "images/import.png",
 			'icon': 			ORYX.PATH + "images/visio_icon.png",
 			'description': 		ORYX.I18N.VisioImport.desc,
-			'index': 			1,
+			'index': 			2,
 			'minShape': 		0,
 			'maxShape': 		0
 		});
@@ -185,7 +184,7 @@ ORYX.Plugins.VisioBPMNImport = ORYX.Plugins.AbstractPlugin.extend({
 			success: function(request){this.facade.importJSON(request.responseText); loadMask.hide()}.bind(this),
 			failure: function() {loadMask.hide(); Ext.Msg.alert(ORYX.I18N.VisioImport.connectionError);},
 			params: {data: vdx,
-					 action: "BPMNImport"}
+					 action: "EPCImport"}
 		});
 				
 		loadMask.hide();

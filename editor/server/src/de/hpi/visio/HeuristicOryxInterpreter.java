@@ -28,10 +28,10 @@ public class HeuristicOryxInterpreter {
 
 	public HeuristicOryxInterpreter(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
-		for (String containerShape : importUtil.getOryxBPMNConfig("ContainerShapes").split(",")) {
+		for (String containerShape : importUtil.getStencilSetConfig("ContainerShapes").split(",")) {
 			CONTAINER_SHAPE_IDS.add(containerShape);
 		}
-		for (String containerShape : importUtil.getOryxBPMNConfig("NotContainableShapes").split(",")) {
+		for (String containerShape : importUtil.getStencilSetConfig("NotContainableShapes").split(",")) {
 			NOT_CONTAINABLE_SHAPE_IDS.add(containerShape);
 		}
 	}
@@ -96,7 +96,7 @@ public class HeuristicOryxInterpreter {
 	}
 
 	private void setPoolHeaderWidthToStandardWidth(Shape pool) {
-		Double poolHeaderWidth = Double.valueOf(importUtil.getOryxBPMNConfig("PoolHeaderWidth"));
+		Double poolHeaderWidth = Double.valueOf(importUtil.getStencilSetConfig("PoolHeaderWidth"));
 		Point poolsLowerRight = new Point(pool.getBounds().getUpperLeft().getX() + poolHeaderWidth, pool.getLowerRight().getY());
 		pool.setBounds(new Bounds(poolsLowerRight, pool.getBounds().getUpperLeft()));
 	}
@@ -123,7 +123,7 @@ public class HeuristicOryxInterpreter {
 
 	private boolean shapeIsSwimlaneOfPool(Shape pool, Shape shape) {
 		if ((shape.getStencilId().equalsIgnoreCase("Lane") || shape.getStencilId().equalsIgnoreCase("Pool"))) {
-			if (pool.getUpperLeft().getX() < shape.getUpperLeft().getX() && (shape.getUpperLeft().getX() < pool.getLowerRight().getX() + Double.valueOf(importUtil.getHeuristicValue("maxDistanceBetweenPoolAndContainedSwimlane")))) {
+			if (pool.getUpperLeft().getX() < shape.getUpperLeft().getX() && (shape.getUpperLeft().getX() < pool.getLowerRight().getX() + Double.valueOf(importUtil.getStencilSetHeuristic("maxDistanceBetweenPoolAndContainedSwimlane")))) {
 				Point shapesCentralLeftBorderPoint = new Point(shape.getUpperLeft().getY(),shape.getUpperLeft().getY() + shape.getHeight() / 2);
 				if (shapesCentralLeftBorderPoint.getY() >= pool.getUpperLeft().getY() && shapesCentralLeftBorderPoint.getY() <= pool.getLowerRight().getY()) {
 					return true;
@@ -153,7 +153,7 @@ public class HeuristicOryxInterpreter {
 
 	private Shape searchBestFittingContainers(Shape containableShape, ArrayList<Shape> shapes) {
 		List<Shape> allFittingContainers = new ArrayList<Shape>();
-		Double shapeSizeThresholdFactor = Double.valueOf(importUtil.getHeuristicValue("containerShouldHaveAtLeastXTimesTheSizeThreshold"));
+		Double shapeSizeThresholdFactor = Double.valueOf(importUtil.getStencilSetHeuristic("containerShouldHaveAtLeastXTimesTheSizeThreshold"));
 		for (Shape possibleContainer : shapes) {
 			if (CONTAINER_SHAPE_IDS.contains(possibleContainer.getStencilId())) {
 				if (getShapeSize(possibleContainer) > (getShapeSize(containableShape) * shapeSizeThresholdFactor)) {
@@ -240,7 +240,7 @@ public class HeuristicOryxInterpreter {
 
 	
 	private Boolean isBPMNEdge(Shape shape) {
-		for (String edgeId : importUtil.getOryxBPMNConfig("Edges").split(",")) {
+		for (String edgeId : importUtil.getStencilSetConfig("Edges").split(",")) {
 			if (edgeId.equalsIgnoreCase(shape.getStencilId())) {
 				return true;
 			}

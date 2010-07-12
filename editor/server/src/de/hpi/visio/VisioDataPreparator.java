@@ -66,11 +66,11 @@ public class VisioDataPreparator {
 
 	private Page checkDiagramForBounds(Page visioPage) {
 		if (visioPage.getWidth() == null) {
-			String heuristicValue = importUtil.getHeuristicValue("Default_Page_Width");
+			String heuristicValue = importUtil.getHeuristic("Default_Page_Width");
 			visioPage.setWidth(Double.valueOf(heuristicValue));
 		}
 		if (visioPage.getHeight() == null) {
-			String heuristicValue = importUtil.getHeuristicValue("Default_Page_Height");
+			String heuristicValue = importUtil.getHeuristic("Default_Page_Height");
 			visioPage.setHeight(Double.valueOf(heuristicValue));
 		}
 		return visioPage;
@@ -108,46 +108,51 @@ public class VisioDataPreparator {
 	}
 	
 	private Page convertMarkersToTypeWithProperties(Page page) {
-		String propertyElementsString = importUtil.getStencilSetConfig("areOnlyProperties");
-		String[] propertyElements = propertyElementsString.split(",");
-		Shape resultingShape = null;
-		for (String propertyElementName : propertyElements) {
-			List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
-			for (Shape propertyShape : propertyShapes) {
-				Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getStencilSetConfig("Properties." + propertyElementName + ".isMarker"));
-				if (isOnlyAMarkerElement) {
-					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
-					if  (containingShape == null) 
-						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
-					if  (containingShape == null) 
-						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
-					if (containingShape != null) {
-						resultingShape = containingShape;
+		String propertyElementsString = importUtil.getMappingConfig("areOnlyProperties");
+		if (propertyElementsString != null && !"".equals(propertyElementsString)) {
+			String[] propertyElements = propertyElementsString.split(",");
+			Shape resultingShape = null;
+			for (String propertyElementName : propertyElements) {
+				List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
+				for (Shape propertyShape : propertyShapes) {
+					Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getMappingConfig("Properties." + propertyElementName + ".isMarker"));
+					if (isOnlyAMarkerElement) {
+						Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
+						if  (containingShape == null) 
+							containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
+						if  (containingShape == null) 
+							containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
+						if (containingShape != null) {
+							resultingShape = containingShape;
+						}
+						page.removeShape(propertyShape);
+					} else {
+						resultingShape = propertyShape;
 					}
-					page.removeShape(propertyShape);
-				} else {
-					resultingShape = propertyShape;
+					String propertyKey = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".key");
+					String propertyValue = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".value");
+					if (resultingShape != null && propertyKey != null && propertyValue != null) {
+						resultingShape.putProperty(propertyKey, propertyValue);
+					}
 				}
-				String propertyKey = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".key");
-				String propertyValue = importUtil.getStencilSetConfig("taskProperties." + propertyElementName + ".value");
-				if (resultingShape != null && propertyKey != null && propertyValue != null) {
-					resultingShape.putProperty(propertyKey, propertyValue);
-				}
-			}
+			}	
 		}
 		return page;
 	}
 	
 	private Page convertSpecialTypesToTypesWithProperties(Page page) {
-		String[] nameUTypesIncludingProperties = importUtil.getStencilSetConfig("specialTypes").split(",");
-		for (Shape shape : page.getShapes()) {
-			for (String specialType : nameUTypesIncludingProperties) {
-				if (specialType.equals(shape.getName())) {
-					String[] keys = importUtil.getStencilSetConfig(shape.getName() + ".keys").split(",");
-					String[] values = importUtil.getStencilSetConfig(shape.getName() + ".values").split(",");
-					for (int i=0; i<keys.length; i++) {
-						shape.putProperty(keys[i], values[i]);
-					} 
+		String specialTypesString = importUtil.getMappingConfig("specialTypes");
+		if (specialTypesString != null && !"".equals(specialTypesString)) {
+			String[] nameUTypesIncludingProperties = specialTypesString.split(",");
+			for (Shape shape : page.getShapes()) {
+				for (String specialType : nameUTypesIncludingProperties) {
+					if (specialType.equals(shape.getName())) {
+						String[] keys = importUtil.getMappingConfig(shape.getName() + ".keys").split(",");
+						String[] values = importUtil.getMappingConfig(shape.getName() + ".values").split(",");
+						for (int i=0; i<keys.length; i++) {
+							shape.putProperty(keys[i], values[i]);
+						} 
+					}
 				}
 			}
 		}
@@ -159,7 +164,7 @@ public class VisioDataPreparator {
 		for (Shape marker : subprocessMarkers) {
 			Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), marker, "Task");
 			if (containingShape != null) {
-				containingShape.setName(importUtil.getStencilSetConfig("taskWithSubprocessMarker"));
+				containingShape.setName(importUtil.getMappingConfig("taskWithSubprocessMarker"));
 			}	
 			page.removeShape(marker);
 		}

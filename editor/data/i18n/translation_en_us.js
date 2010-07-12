@@ -860,13 +860,14 @@ ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
 
 
 /** New Language Properties from Visio Import by Lauritz Thamsen */
-if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioBPMNImport = {};
+if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioImport = {};
 
-ORYX.I18N.VisioBPMNImport.name = "Import from Visio BPMN";
-ORYX.I18N.VisioBPMNImport.desc = "Imports a new model from a .vdx-Visio Drawing";
-ORYX.I18N.VisioBPMNImport.selectFile = "Select a .vdx-file, that was build with the right Stencil Set.";
-ORYX.I18N.VisioBPMNImport.file = ".vdx-File";
-ORYX.I18N.VisioBPMNImport.btnImp = "Import";
-ORYX.I18N.VisioBPMNImport.btnClose = "Close";
-ORYX.I18N.VisioBPMNImport.progress = "Importing...";
-ORYX.I18N.VisioBPMNImport.connectionError = "Error...";
+ORYX.I18N.VisioImport.BPMNName = "Import from Visio BPMN";
+ORYX.I18N.VisioImport.EPCName = "Import from Visio EPC";
+ORYX.I18N.VisioImport.desc = "Imports a new model from a .vdx-Visio Drawing";
+ORYX.I18N.VisioImport.selectFile = "Select a .vdx-file, that was build with the right Stencil Set.";
+ORYX.I18N.VisioImport.file = ".vdx-File";
+ORYX.I18N.VisioImport.btnImp = "Import";
+ORYX.I18N.VisioImport.btnClose = "Close";
+ORYX.I18N.VisioImport.progress = "Importing...";
+ORYX.I18N.VisioImport.connectionError = "Error: Please ensure connection and that the visio stencil is supported.";

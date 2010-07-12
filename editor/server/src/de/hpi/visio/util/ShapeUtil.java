@@ -20,8 +20,8 @@ public class ShapeUtil {
 	
 	public ShapeUtil(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
-		 visioPointUnitFactor = Integer.valueOf(importUtil.getHeuristicValue("Unit_To_Pixel_Exchange"));
-		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getHeuristicValue("maxEdgeToShapeDistance"));
+		 visioPointUnitFactor = Integer.valueOf(importUtil.getHeuristic("Unit_To_Pixel_Exchange"));
+		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getHeuristic("maxEdgeToShapeDistance"));
 	}
 		
 	public Bounds getCorrectedShapeBounds(Shape shape, Page page) {
@@ -44,13 +44,16 @@ public class ShapeUtil {
 	private boolean isShapeOfFixedSize(Shape shape, Page page) {
 		Boolean isFixedSize = false;
 		String stencilId = importUtil.getStencilIdForName(shape.getName());
-		String[] fixedSizeShapeCategories = importUtil.getOryxBPMNConfig("fixedSizeShapeCategories").split(",");
-		for (String category : fixedSizeShapeCategories) {
-			String[] fixedSizeShapes = importUtil.getOryxBPMNConfig(category).split(",");
-			for (String fixedSizeShape : fixedSizeShapes) {
-				if (fixedSizeShape.equalsIgnoreCase(stencilId)) {
-					isFixedSize = true;
-					actualFixedSizeCategory = category;
+		String fixedSizeShapeCategoriesString = importUtil.getStencilSetConfig("fixedSizeShapeCategories");
+		if (fixedSizeShapeCategoriesString != null && !"".equals(fixedSizeShapeCategoriesString)) {
+			String[] fixedSizeShapeCategories = fixedSizeShapeCategoriesString.split(",");
+			for (String category : fixedSizeShapeCategories) {
+				String[] fixedSizeShapes = importUtil.getStencilSetConfig(category).split(",");
+				for (String fixedSizeShape : fixedSizeShapes) {
+					if (fixedSizeShape.equalsIgnoreCase(stencilId)) {
+						isFixedSize = true;
+						actualFixedSizeCategory = category;
+					}
 				}
 			}
 		}
@@ -61,9 +64,9 @@ public class ShapeUtil {
 		if (actualFixedSizeCategory == null)
 			throw new IllegalStateException("Also a shape should have fixed boundaries, " +
 					"it wasn't possible to set those.");
-		String actualCategory = importUtil.getOryxBPMNConfig(actualFixedSizeCategory + ".category");
-		Double fixedWidth = Double.valueOf(importUtil.getOryxBPMNConfig(actualCategory + ".fixedWidth"));
-		Double fixedHeight = Double.valueOf(importUtil.getOryxBPMNConfig(actualCategory + ".fixedHeight"));
+		String actualCategory = importUtil.getStencilSetConfig(actualFixedSizeCategory + ".category");
+		Double fixedWidth = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedWidth"));
+		Double fixedHeight = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedHeight"));
 		// json interpretation at the client works better with rounded values
 		bounds.setUpperLeft(new Point(Double.valueOf(bounds.getUpperLeft().getX().intValue()), (Double.valueOf(bounds.getUpperLeft().getY().intValue()))));
 		bounds.setLowerRight(new Point(bounds.getUpperLeft().getX().intValue() + fixedWidth, bounds.getLowerRight().getY()));
@@ -73,8 +76,8 @@ public class ShapeUtil {
 
 	private Bounds checkBoundsForShapesMinimumSize(Bounds bounds, Shape shape) {
 		String stencilId = importUtil.getStencilIdForName(shape.name);
-		Double minHeight = Double.valueOf(importUtil.getOryxBPMNConfig(stencilId + ".minHeight"));
-		Double minWidth = Double.valueOf(importUtil.getOryxBPMNConfig(stencilId + ".minWidth"));
+		Double minHeight = Double.valueOf(importUtil.getStencilSetConfig(stencilId + ".minHeight"));
+		Double minWidth = Double.valueOf(importUtil.getStencilSetConfig(stencilId + ".minWidth"));
 		Double actualWidth = bounds.getLowerRight().getX() - bounds.getUpperLeft().getX();
 		Double actualHeight = bounds.getLowerRight().getY() - bounds.getUpperLeft().getY();
 		if (actualHeight < minHeight)
@@ -133,19 +136,22 @@ public class ShapeUtil {
 	}
 	
 	private Boolean isShapeResizableWithMinimumSize(Shape shape) {
-		String[] resizableElements = importUtil.getOryxBPMNConfig("resizableElements").split(",");
 		Boolean isResizable = false;
-		for (int i=0; i < resizableElements.length; i++) {
-			String stencilId = importUtil.getStencilIdForName(shape.name);
-			if (resizableElements[i].equalsIgnoreCase(stencilId))
-				isResizable = true;
+		String elementsWithMinimumString = importUtil.getStencilSetConfig("ElementsWithMinimum");
+		if (elementsWithMinimumString != null && !"".equals(elementsWithMinimumString)) {
+			String[] resizableElements = elementsWithMinimumString.split(",");
+			for (int i=0; i < resizableElements.length; i++) {
+				String stencilId = importUtil.getStencilIdForName(shape.name);
+				if (resizableElements[i].equalsIgnoreCase(stencilId))
+					isResizable = true;
+			}
 		}
 		return isResizable;
 	}
 	
 	public ArrayList<Point> getCorrectedDockersForShape(Shape shape, Page page) {
 		String stencilId = importUtil.getStencilIdForName(shape.getName());
-		for (String edgeId : importUtil.getOryxBPMNConfig("Edges").split(",")) {
+		for (String edgeId : importUtil.getStencilSetConfig("Edges").split(",")) {
 			if (edgeId.equalsIgnoreCase(stencilId)) {
 				return getCorrectedEdgeDockers(shape, page);
 			}
@@ -204,8 +210,8 @@ public class ShapeUtil {
 				}
 			}
 			if (shapesWithinThreshold.size() > 0) {
-				Collections.sort(shapesWithinThreshold);	// the smallest
-				return shapesWithinThreshold.get(0);		// will be returned
+				Collections.sort(shapesWithinThreshold, new ShapeSizeComparator());	
+				return shapesWithinThreshold.get(0);		
 			}
 		} 
 		return null;
