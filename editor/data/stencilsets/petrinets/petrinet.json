@@ -542,6 +542,104 @@
 					"length":""
 				}								
 			]
+		},
+		{
+			"type": "node",
+			"id":"Test",
+			"title":"Test",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"test.svg",
+			"icon":"test.png",
+			"mayBeRoot": false,
+			"roles": [ "fromtoall"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"engine",
+					"type":"Boolean",
+					"title":"For engine",
+					"value":"false",
+					"description":".",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"English",
+					"description":"This holds the name of the language in which text is written.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"creationdate",
+					"type":"Date",
+					"title":"CreationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was created.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationdate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"The modeler may add optional text documentation about the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},				
+			]
 		}
 	],	
 	"rules": {
