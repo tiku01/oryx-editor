@@ -235,7 +235,6 @@ public class Dispatcher extends HttpServlet {
 
 	// The dispatching magic goes here. Each exception is caught and the tomcat stackstrace page 
 	// is replaced by a custom oryx error page.
-	@SuppressWarnings("unchecked")
 	protected void dispatch(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException {
 		try { 

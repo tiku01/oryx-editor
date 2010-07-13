@@ -147,7 +147,7 @@ public class RdfJsonTransformation {
 						} catch (JSONException e) {
 							// non-JSON content
 							try {
-								properties.put(child.getNodeName(), URLDecoder.decode(content));
+								properties.put(child.getNodeName(), URLDecoder.decode(content, "utf-8"));
 							} catch (Exception z) {
 								properties.put(child.getNodeName(), content);
 							} 

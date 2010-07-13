@@ -44,7 +44,7 @@ public class TagHandler extends HandlerBase {
 	
 	protected void tagsToJson(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
 		Model model = new Model(object.getId());
-		Collection<String> tags = null;
+//		Collection<String> tags = null;
 		User user = new User(subject.getId());
 		JSONArray jsonPublicTags = new JSONArray(model.getPublicTags(user));
 		JSONArray jsonUserTags = new JSONArray(model.getUserTags(user));
@@ -71,7 +71,7 @@ public class TagHandler extends HandlerBase {
 			User user = new User(subject.getId());
 			// Separate tags by comma
 			for (String tag : tags.split(",")) {
-				tag = this.removeSpaces(tag);
+				tag = TagHandler.removeSpaces(tag);
 				model.addTag(user, tag);
 			}
 		}
@@ -88,7 +88,7 @@ public class TagHandler extends HandlerBase {
 			User user = new User(subject.getId());
 			// Separate tags by comma
 			for (String tag : tags.split(",")) {
-				tag = this.removeSpaces(tag);
+				tag = TagHandler.removeSpaces(tag);
 				model.removeTag(user, tag);
 			}
 		}

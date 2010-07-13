@@ -91,7 +91,7 @@ public class ConfigurationManager {
 	}
 	
 	public Collection<String> getUserSettingKeys(Identity subject) {
-		List result = (List) Persistance.getSession()
+		List<?> result = (List<?>) Persistance.getSession()
 			.createSQLQuery("SELECT key FROM setting WHERE subject_id=:subject_id")
 			.setInteger("subject_id", subject.getId())
 			.list();
@@ -152,7 +152,7 @@ public class ConfigurationManager {
 	}
 	
 	public Collection<String> getServerSettingKeys(Identity subject) {
-		List result = (List) Persistance.getSession()
+		List<?> result = (List<?>) Persistance.getSession()
 			.createSQLQuery("SELECT key FROM setting WHERE subject_id=0")
 			.list();
 		

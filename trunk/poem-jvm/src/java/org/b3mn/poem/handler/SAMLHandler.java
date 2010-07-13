@@ -92,7 +92,8 @@ public class SAMLHandler extends HandlerBase {
 			uniqueIdentifierClaimUri = props.getProperty("org.b3mn.poem.handler.SAMLHandler.uniqueIdentifier");
 			System.out.println("ID: " + uniqueIdentifierClaimUri);
 			try {
-				URL uIdUrl = new URL(uniqueIdentifierClaimUri);
+//				URL uIdUrl = 
+					new URL(uniqueIdentifierClaimUri);
 			} catch (MalformedURLException mue) {
 				uniqueIdentifierClaimUri = null;
 				System.out.println("ID malformed");
@@ -112,7 +113,8 @@ public class SAMLHandler extends HandlerBase {
 					String issuer = trustedIssuersArray[i];
 					try {
 						System.out.println(issuer);
-						URL issuerUrl = new URL(issuer);
+//						URL issuerUrl = 
+							new URL(issuer);
 						trustedIssuers.add(issuer);
 					} catch (MalformedURLException mue) {
 						throw new Exception("Issuer " + issuer + " is not a valid URL.");

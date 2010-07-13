@@ -134,9 +134,9 @@ public class JsonErdfTransformation {
 		// Properties
 		if(shape.has("properties")){
 			JSONObject props = shape.getJSONObject("properties");
-			Iterator<String> it = props.keys();
+			Iterator<?> it = props.keys();
 			while(it.hasNext()){
-				String key = it.next();
+				String key = (String) it.next();
 				String val = props.getString(key);
 				shapeEl.appendChild(createOryxNsElement(key, val));
 			}

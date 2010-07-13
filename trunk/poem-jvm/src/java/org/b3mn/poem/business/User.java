@@ -293,7 +293,6 @@ public class User extends BusinessObject {
 		return result;
 	}	
 	
-	@SuppressWarnings("unchecked")
 	public void addAuthentificationAttributes(ServletContext con, HttpServletRequest req, HttpServletResponse res) {
 		addAuthenticationAttributes(con, req, res, null);
 	}

@@ -142,9 +142,11 @@ public class HandlerInfoTest {
 		try {
 			HandlerInfo hi = new HandlerInfo("org.b3mn.poem.TestHandlerWithModelContext");
 			hi = new HandlerInfo("org.b3mn.poem.TestHandlerWithoutModelContext");
+			assertNotNull(hi);
 		} catch (ClassNotFoundException e) {
 			assertTrue(false);
 		}
+		
 	}
 
 	/**

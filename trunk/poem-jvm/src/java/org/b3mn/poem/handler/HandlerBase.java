@@ -56,7 +56,7 @@ public abstract class HandlerBase {
 	}
 	
 	public static String getPublicUser() {
-		return dispatcher.getPublicUser();
+		return Dispatcher.getPublicUser();
 	}
 	
 	public ServletContext getServletContext() {
@@ -71,12 +71,12 @@ public abstract class HandlerBase {
 	// Returns a JSONObject that contain all keys given in the String array and their values
 	@Deprecated
 	protected JSONObject toJSON(Object o, String[] keys) {
-		Class c = o.getClass();
+		Class<? extends Object> c = o.getClass();
 		JSONObject json = new JSONObject();
 		for (String method : keys) {
 			try {
 				// Invoke the getter method of the key with some reflection magic ;)
-				json.put(method.toLowerCase(), c.getMethod("get" + method, null).invoke(o));
+				json.put(method.toLowerCase(), c.getMethod("get" + method, new Class[0]).invoke(o));
 			} catch (Exception e) {
 				return null;
 			}

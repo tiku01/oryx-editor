@@ -54,12 +54,12 @@ public abstract class BusinessObject {
 		return this.identity;
 	}
 	
-	protected  static <T> Collection<T> toStringCollection(Collection<? extends Object> collection) {
-		ArrayList<T> list = new ArrayList<T>();
+	protected  static Collection<String> toStringCollection(Collection<? extends Object> collection) {
+		ArrayList<String> list = new ArrayList<String>();
 		for (Object o: collection) {
 			// TODO implement type checking (--> erasure)
 			try {
-				list.add((T) o);
+				list.add((String) o);
 			} catch (Exception e) {}
 		}
 		return list;

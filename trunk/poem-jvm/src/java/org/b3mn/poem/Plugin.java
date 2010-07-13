@@ -56,7 +56,7 @@ public class Plugin {
 	public String getDescription() {
 		return this.description;
 	}
-	public void setDescription(String decription) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

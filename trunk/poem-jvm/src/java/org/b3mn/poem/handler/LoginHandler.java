@@ -229,14 +229,13 @@ public class LoginHandler extends HandlerBase {
             }
         } catch (OpenIDException e) {
             // present error to the user
-        	OpenIDException test = e;
+//        	OpenIDException test = e;
             throw new ServletException(e);
         }
         return null;
     }
 
     // --- processing the authentication response ---
-    @SuppressWarnings("unchecked")
     public User verifyResponse(HttpServletRequest httpReq, HttpServletResponse httpResponse)
             throws ServletException {
         try {

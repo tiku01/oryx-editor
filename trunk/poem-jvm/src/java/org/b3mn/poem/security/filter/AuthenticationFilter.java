@@ -59,20 +59,20 @@ public class AuthenticationFilter implements Filter {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 
 		try {
 			// make sure this is a HttpServlet.
 			HttpServletRequest request = null;
-			HttpServletResponse response = null;
-			try {
-				request = (HttpServletRequest) req;
-				response = (HttpServletResponse) res;
-			} catch (ClassCastException cce) {
+//			HttpServletResponse response = null;
+			if(!(req instanceof HttpServletRequest && res instanceof HttpServletResponse)){
 				chain.doFilter(req, res);
 				return;
 			}
+			request = (HttpServletRequest) req;
+//			response = (HttpServletResponse) res;
 
 			// If you want to disable OpenID login, hard code the openId here.
 			// You can use any name without spaces as openId

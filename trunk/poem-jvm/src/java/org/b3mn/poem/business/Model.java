@@ -148,6 +148,7 @@ public class Model extends BusinessObject {
 	}
 	
 	// TODO: implement erdf and svg db access here instead of the representation class
+	@SuppressWarnings("deprecation")
 	public String geteRdf() {
 		return representation.getContent();
 	}
@@ -352,13 +353,11 @@ public class Model extends BusinessObject {
 		else return 0;
 	}
 
-	@SuppressWarnings("unchecked")
 	public int getTotalVotes() {
 		List<ModelRating> scores = getRatingList();
 		return scores.size();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public int getUserScore(Identity subject) {
 		if (subject.getUri().equals(Dispatcher.getPublicUser())) return 0;
 		ModelRating rating = (ModelRating) Persistance.getSession()
@@ -375,7 +374,6 @@ public class Model extends BusinessObject {
 		else return 0;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void setUserScore(Identity subject, int score) {
 		if (subject.getUri().equals(Dispatcher.getPublicUser())) return;
 		if (score > 5) score=5;
