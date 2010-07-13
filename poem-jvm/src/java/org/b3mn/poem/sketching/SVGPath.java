@@ -23,13 +23,12 @@
 
 package org.b3mn.poem.sketching;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.batik.dom.svg.*;
-// import org.apache.batik.dom.svg.SVGOMAnimatedPathData.BaseSVGPathSegList;
-
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 
 public class SVGPath {

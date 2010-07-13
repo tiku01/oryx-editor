@@ -41,18 +41,18 @@ public class Repository2Handler extends  HandlerBase {
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws Exception {
 
-		String[] java_script_includes = {"ext_templates", 
-				"core/clazz", 
-				"config", 
-				"core/extExtention", 
-				"core/eventHandler", 
-				"core/dataCache", 
-				"core/repository", 
-				"core/plugin", 
-				"core/viewPlugin", 
-				"core/contextFreePlugin", 
-				"core/contextPlugin",
-				};
+//		String[] java_script_includes = {"ext_templates", 
+//				"core/clazz", 
+//				"config", 
+//				"core/extExtention", 
+//				"core/eventHandler", 
+//				"core/dataCache", 
+//				"core/repository", 
+//				"core/plugin", 
+//				"core/viewPlugin", 
+//				"core/contextFreePlugin", 
+//				"core/contextPlugin",
+//				};
 
 		String[] stylesheet_links 	= {"openid", "repository", "model_properties"};
 		String stylesheet_ie_fix 	= "repository_ie_fixes";

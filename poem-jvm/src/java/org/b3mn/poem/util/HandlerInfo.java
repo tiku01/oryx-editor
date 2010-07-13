@@ -91,6 +91,7 @@ public class HandlerInfo {
 		return handlerClass;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public HandlerInfo(String className) throws ClassNotFoundException {
 		Class<? extends HandlerBase> handlerClass = (Class<? extends HandlerBase>) Class.forName(className);
 		init(handlerClass);
@@ -184,7 +185,7 @@ public class HandlerInfo {
 						if (!method.getAnnotation(FilterMethod.class).FilterName().equals("")) {
 							filterName = method.getAnnotation(FilterMethod.class).FilterName().toLowerCase();
 						}
-						this.filterMapping.put(filterName, method);
+						HandlerInfo.filterMapping.put(filterName, method);
 					}
 				}
 				// Find sorting methods ************************************************************
@@ -203,7 +204,7 @@ public class HandlerInfo {
 						if (!method.getAnnotation(SortMethod.class).SortName().equals("")) {
 							sortName = method.getAnnotation(SortMethod.class).SortName().toLowerCase();
 						}
-						this.sortMapping.put(sortName, method);
+						HandlerInfo.sortMapping.put(sortName, method);
 					}
 				}											
 			}

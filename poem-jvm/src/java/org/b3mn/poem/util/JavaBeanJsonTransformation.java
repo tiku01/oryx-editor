@@ -17,7 +17,7 @@ public class JavaBeanJsonTransformation {
 		if (attributes == null) {
 			attributes = new ArrayList<String>();
 		}
-		Class beanClass = bean.getClass();
+		Class<? extends Object> beanClass = bean.getClass();
 		JSONObject jsonObject = new JSONObject();
 		
 		// Iterate over the class methods
@@ -50,7 +50,7 @@ public class JavaBeanJsonTransformation {
 		return toJsonObject(bean, null);
 	}
 	
-	public static Object createJavaBean(String jsonString, Class javaClass) {
+	public static Object createJavaBean(String jsonString, Class<?> javaClass) {
 		try {
 			return updateJavaBean(new JSONObject(jsonString), javaClass.newInstance());
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class JavaBeanJsonTransformation {
 		}
 	}
 	
-	public static Object createJavaBean(JSONObject jsonObject, Class javaClass) {
+	public static Object createJavaBean(JSONObject jsonObject, Class<?> javaClass) {
 		try {
 			return updateJavaBean(jsonObject, javaClass.newInstance());
 		} catch (Exception e) {

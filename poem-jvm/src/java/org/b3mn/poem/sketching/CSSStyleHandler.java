@@ -41,12 +41,13 @@ public class CSSStyleHandler implements StyleHandler {
     }
     
     // invokes other setStyle Method with required parameter SVGGeneratorContext
-    public void setStyle(Element element, Map styleMap){
+    public void setStyle(Element element, Map<String,String> styleMap){
     	this.setStyle(element, styleMap, this.ctx);
     }
 
     // parameter context is necessary to comply with the interface StyleHandler
-    public void setStyle(Element element, Map styleMap, SVGGeneratorContext context) {
+    @SuppressWarnings("unchecked")
+	public void setStyle(Element element, Map styleMap, SVGGeneratorContext context) {
         Iterator iter = styleMap.keySet().iterator();
 
         // Create a new class in the style sheet.

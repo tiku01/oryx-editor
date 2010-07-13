@@ -34,6 +34,7 @@ import org.b3mn.poem.util.HandlerWithModelContext;
 @HandlerWithModelContext(uri="/copy")
 public class CopyModelHandler extends HandlerBase {
 
+	@SuppressWarnings("deprecation")
 	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response, Identity subject, Identity object) throws IOException {
 

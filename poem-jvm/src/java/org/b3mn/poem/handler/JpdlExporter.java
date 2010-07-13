@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.b3mn.poem.Identity;
 import org.b3mn.poem.jbpm.InvalidModelException;
 import org.b3mn.poem.jbpm.JsonToJpdl;
-import org.b3mn.poem.util.ExportHandler;
 import org.json.JSONObject;
 
 //@ExportHandler(uri="/jpdl", formatName="jPDL", iconUrl="/backend/images/silk/jbpm.png")

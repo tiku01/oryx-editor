@@ -104,7 +104,7 @@ public class AccessHandler extends  HandlerBase {
 	@SuppressWarnings("unchecked")
 	@FilterMethod(FilterName="friend")
 	public static Collection<String> filterByFriends(Identity subject, String params) throws Exception {
-		String typeQuery = "";
+//		String typeQuery = "";
 		User user = new User(subject);
 		Collection<String> modelUris = user.getModelUris(); // get all models of the user
 		for (String friend : params.split(",")) {

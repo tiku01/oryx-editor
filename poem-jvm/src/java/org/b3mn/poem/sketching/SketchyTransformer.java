@@ -23,19 +23,33 @@
 
 package org.b3mn.poem.sketching;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.w3c.dom.*;
-import org.w3c.dom.svg.*;
-import org.apache.batik.dom.svg.*;
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.batik.svggen.SVGGeneratorContext;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.svggen.SVGSyntax;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
-import org.apache.batik.util.*;
-import org.apache.batik.svggen.*;
-import org.apache.batik.dom.GenericCDATASection;
+import org.apache.batik.util.XMLResourceDescriptor;
 import org.apache.fop.svg.PDFTranscoder;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.svg.SVGSVGElement;
 
 public class SketchyTransformer extends PDFTranscoder{
 
