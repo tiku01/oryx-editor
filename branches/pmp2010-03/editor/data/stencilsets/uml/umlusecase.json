@@ -1,0 +1,179 @@
+{
+	"title":"UML Use Case Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlusecase#",
+	"description":"UML Use Case Diagram",
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"node.diagram.svg",
+			"icon":"node.diagram.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"HumanAgent",
+			"title":"Actor",
+			"groups":[],
+			"description":"A human agent is an active system component exactly like an agent but the only difference that it depicts a human.",
+			"view":"node.human-agent.svg",
+			"icon":"node.human-agent.png",
+			"roles": [
+				"from_active",
+				"to_active",
+				"diagramcontent",
+				"agentcontent"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"humanagent",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+	],	
+	"rules": {
+		"connectionRules": [
+			{
+				"role":"BidirectionalConnection",
+				"connects": [
+					{
+						"from":"from_active",
+						"to":["to_channel"]
+					},
+					{
+						"from":"from_channel",
+						"to":["to_active"]
+					}
+				]
+			},	
+			{
+				"role":"WriteAccess",
+				"connects": [
+					{
+						"from":"from_active",
+						"to":["to_passive"]
+					},
+					{
+						"from":"from_passive",
+						"to":["to_active"]
+					}
+				]
+			},	
+			{
+				"role":"ReadAccess",
+				"connects": [
+					{
+						"from":"from_active",
+						"to":["to_passive"]
+					},
+					{
+						"from":"from_passive",
+						"to":["to_active"]
+					}
+				]
+			},	
+			{
+				"role":"ModifyingAccess",
+				"connects": [
+					{
+						"from":"from_active",
+						"to":["to_storage"]
+					},
+					{
+						"from":"from_storage",
+						"to":["to_active"]
+					}
+				]
+			},
+            {
+                "role":"UndirectedAssociation",
+                "connects": [
+                    {
+                        "from":"diagramcontent",
+                        "to":["TextAnnotation"]
+                    },
+                    {
+                        "from":"TextAnnotation",
+                        "to":["diagramcontent"]
+                    }
+                ]
+            },
+		],
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+				"role":"Storage",
+				"contains": [
+					"storagecontent"
+				]
+			},
+			{
+				"role":"Agent",
+				"contains": [
+					"agentcontent"
+				]
+			},
+			{
+				"role":"StructureVariance",
+				"contains": [
+					"agentcontent"
+				]
+			}
+		]
+	}
+}

@@ -103,6 +103,22 @@
             "uri":"/uml2.2/uml2.2.json",
             "icon_url":"/uml2.2/uml2.2class.png",
             "visible":true
+        },
+        {
+            "title":"UML Use Case Diagram",
+            "namespace":"http://b3mn.org/stencilset/umlusecase#",
+            "description":"UML 2.2 Use Case Diagrams",
+            "uri":"/umlusecase/umlusecase.json",
+            "icon_url":"/umlusecase/umlusecase.png",
+            "visible":true
+        },
+        {
+            "title":"UML Activity Diagram",
+            "namespace":"http://b3mn.org/stencilset/umlactivity#",
+            "description":"UML 2.2 Use Case Diagrams",
+            "uri":"/umlactivity/umlactivity.json",
+            "icon_url":"/umlactivity/umlactivity.png",
+            "visible":true
         }
 		
 ]

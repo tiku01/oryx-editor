@@ -1,0 +1,670 @@
+{
+	"title":"UML Use Case Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlusecase#",
+	"description":"UML Use Case Diagram",
+ 	"propertyPackages": [
+		{
+			"name" : "cardinalityProperties",
+			"properties" : [
+				{
+					"id" : "cardinalityStart",
+					"type" : "String",
+					"title" : "Cardinality left",
+					"title_de" : "Kardinalität links",
+					"value" : "",
+					"refToView" : "cardinalityStart"
+				},
+				{
+					"id" : "cardinalityEnd",
+					"type" : "String",
+					"title" : "Cardinality right",
+					"title_de" : "Kardinalität rechts",
+					"value" : "",
+					"refToView" : "cardinalityEnd"
+				}
+			]
+		},
+		{
+			"name" : "directionProperty",
+			"properties" : [
+				{
+					"id" : "direction",
+					"type" : "Choice",
+					"title" : "Reading Direction",
+					"title_de" : "Leserichtung",
+					"items": [
+						{
+							"id":"c0",
+							"title":"none",
+							"title_de":"keine",
+							"value":" "
+						},
+						{
+							"id":"c1",
+							"title":"Left",
+							"title_de":"Links",
+							"value":"left"
+						},
+						{
+							"id":"c2",
+							"title":"Right",
+							"title_de":"Rechts",
+							"value":"right"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name" : "edgeProperties",
+			"properties" : [
+				{
+					"id" : "name",
+					"type" : "String",
+					"title" : "Name",
+					"value" : "",
+					"refToView" : "name"
+				},
+				{
+					"id":"hideLabels",
+					"type":"Boolean",
+					"title":"Show Labels",
+					"title_de":"Labels sichtbar",
+					"value":true,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView": ["cardinalityStart", "cardinalityEnd", "name"]
+				}
+			]
+		}
+	],
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"node.diagram.svg",
+			"icon":"node.diagram.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"umlHumanActor",
+			"title":"Human Actor",
+			"groups":["Nodes"],
+			"description":"An actor can use different use cases a system offers.",
+			"view":"node.humanActor.svg",
+			"icon":"node.humanActor.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"actor"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"background",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlActor",
+			"title":"Actor",
+			"groups":["Nodes"],
+			"description":"An actor can use different use cases a system offers.",
+			"view":"node.actor.svg",
+			"icon":"node.actor.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"actor"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"stereotype",
+					"type":"String",
+					"title":"Stereotype",
+					"value":"<<actor>>",
+					"description":"",
+					"tooltip":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"stereotype",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actor",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		
+		{
+			"type": "node",
+			"id":"umlUcSystem",
+			"title":"System",
+			"groups":["Nodes"],
+			"description":"A System",
+			"view":"node.system.svg",
+			"icon":"node.system.png",
+			"roles": [
+				"diagramcontent",
+				"System",
+				"systemcontent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"stereotype",
+					"type":"String",
+					"title":"Stereotype",
+					"value":"<<>>",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"stereotype",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"umlSystem",
+                    "fill":true,
+                    "stroke":false
+				}
+			],
+			"layout" : [{"type" : "layout.uml.system"}]
+		},
+		{
+			"type": "node",
+			"id":"umlNote",
+			"title":"Note",
+			"groups":["Nodes"],
+			"description":"A System",
+			"view":"node.note.svg",
+			"icon":"node.note.png",
+			"roles": [
+				"diagramcontent",
+				"systemcontent",
+				"annotation"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+				{
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlUseCase",
+			"title":"Use Case",
+			"groups":["Nodes"],
+			"description":"A use case a system owns",
+			"view":"node.useCase.svg",
+			"icon":"node.useCase.png",
+			"roles": [
+			    "usecase",
+				"systemcontent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"usecase",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlUseCaseExtended",
+			"title":"Use Case Extended",
+			"groups":["Nodes"],
+			"description":"A use case a system owns",
+			"view":"node.useCase.extended.svg",
+			"icon":"node.useCase.extended.png",
+			"roles": [
+			    "usecase",
+				"systemcontent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"extensionPoint",
+					"type":"String",
+					"title":"Extension Points",
+					"value":"Extension Points",
+					"description":"",
+					"tooltip":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"extensionpoint",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"Extensions",
+					"type":"String",
+					"title":"Extensions",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"extensions",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"usecase",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcUndirectedAssociation",
+			"title":"Association",
+			"groups":["Connectors"],
+			"description":"Can connect Actors and Use Cases.",
+			"view":"edge.association.svg",
+			"icon":"edge.association.png",
+			"roles": [
+				"Association",
+				"diagramcontent",
+				"annotatable"
+			],
+			"propertyPackages" : [
+				"edgeProperties",
+				"cardinalityProperties",
+				"directionProperty"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcDirectedAssociation",
+			"title":"Directed Association",
+			"groups":["Connectors"],
+			"description":"Can connect Actors and Use Cases.",
+			"view":"edge.directed_association.svg",
+			"icon":"edge.directed_association.png",
+			"roles": [
+				"Association",
+				"diagramcontent",
+				"annotatable"
+			],
+			"propertyPackages" : [
+				"edgeProperties",
+				"cardinalityProperties",
+				"directionProperty"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcUnnavigableDirectedAssociation",
+			"title":"Unnavigable Association",
+			"groups":["Connectors"],
+			"description":"Can connect Actors and Use Cases.",
+			"view":"edge.unnavigable_directed_association.svg",
+			"icon":"edge.unnavigable_directed_association.png",
+			"roles": [
+				"Association",
+				"diagramcontent",
+				"annotatable"
+			],
+			"propertyPackages" : [
+				"edgeProperties",
+				"cardinalityProperties",
+				"directionProperty"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcGeneralization",
+			"title":"Generalization",
+			"groups":["Connectors"],
+			"description":"Can connect Actors and Use Cases.",
+			"view":"edge.generalization.svg",
+			"icon":"edge.generalization.png",
+			"roles": [
+				"Generalization",
+				"diagramcontent",
+				"annotatable"
+			],
+		},
+		{
+			"type": "edge",
+			"id":"umlUcInclude",
+			"title":"Include",
+			"groups":["Connectors"],
+			"description":"Can connect Use Cases.",
+			"view":"edge.include.svg",
+			"icon":"edge.include.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"IncludeExtend"
+			],
+			"properties": [
+			    {
+					"id":"include",
+					"type":"String",
+					"title":"Title",
+					"value":"<<include>>",
+					"description":"",
+					"tooltip":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"include",
+					"length":"",
+					"wrapLines":false
+                },
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcExtend",
+			"title":"Extend",
+			"groups":["Connectors"],
+			"description":"Can connect Use Cases.",
+			"view":"edge.extend.svg",
+			"icon":"edge.extend.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"IncludeExtend"
+			],
+			"properties": [
+			    {
+					"id":"extend",
+					"type":"String",
+					"title":"Title",
+					"value":"<<extend>>",
+					"description":"",
+					"tooltip":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"extend",
+					"length":"",
+					"wrapLines":false
+                },
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlUcAnnotationEdge",
+			"title":"Annotation Edge",
+			"groups":["Connectors"],
+			"description":"Can connect annotatables with annotations.",
+			"view":"edge.annotation.svg",
+			"icon":"edge.annotation.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable"
+			],
+		},
+	],	
+	"rules": {
+		"connectionRules": [
+			{
+                "role":"Association",
+                "connects": [
+                    {
+                        "from":"usecase",
+                        "to":["actor"]
+                    },
+                    {
+                        "from":"actor",
+                        "to":["usecase"]
+                    }
+                ]
+            },
+            {
+                "role":"Generalization",
+                "connects": [
+                    {
+                        "from":"actor",
+                        "to":["actor"]
+                    },
+                    {
+                        "from":"usecase",
+                        "to":["usecase"]
+                    }
+                ]
+            },
+            {
+                "role":"IncludeExtend",
+                "connects": [
+                    {
+                        "from":"usecase",
+                        "to":["usecase"]
+                    }
+                ]
+            },
+            {
+				"role":"umlUcAnnotationEdge",
+				"connects":[
+					{ 
+					    "from":"annotatable",
+					    "to":["annotation"] 
+					},
+					{ "from":"annotation",
+					    "to":["annotatable"]
+					}
+				]
+			},
+		],
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+			"role":"System",
+			"contains":["systemcontent"]
+			},
+		]
+	}
+}

@@ -1,0 +1,734 @@
+{
+	"title":"UML Activity Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlactivity#",
+	"description":"UML Activity Diagram",
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"node.diagram.svg",
+			"icon":"node.diagram.png",
+			"roles": [],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"umlAction",
+			"title":"Action",
+			"groups":[],
+			"description":"Action",
+			"view":"node.action.svg",
+			"icon":"node.action.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"action",
+				"controlFlowElement",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				},
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlActivity",
+			"title":"Activity",
+			"groups":[],
+			"description":"Activity",
+			"view":"node.activity.svg",
+			"icon":"node.activity.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"action",
+				"controlFlowElement",
+				"activityContent",
+				"Activity"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"activityrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAnd",
+			"title":"And Split/Join",
+			"groups":[],
+			"description":"And",
+			"view":"node.and.svg",
+			"icon":"node.and.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlOr",
+			"title":"Or Split/Join",
+			"groups":[],
+			"description":"Or",
+			"view":"node.or.svg",
+			"icon":"node.or.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent"
+			],
+			"properties": [
+                
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlInitialNode",
+			"title":"Initial Node",
+			"groups":[],
+			"description":"Initial Node",
+			"view":"node.initialNode.svg",
+			"icon":"node.initialNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlFlowFinalNode",
+			"title":"Flow Final Node",
+			"groups":[],
+			"description":"Flow Final Node",
+			"view":"node.flowFinalNode.svg",
+			"icon":"node.flowFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+			    
+               
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlActivityFinalNode",
+			"title":"Activity Final Node",
+			"groups":[],
+			"description":"Activity Final Node",
+			"view":"node.activityFinalNode.svg",
+			"icon":"node.activityFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcObject",
+			"title":"Object",
+			"groups":[],
+			"description":"A System",
+			"view":"node.object.svg",
+			"icon":"node.object.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcReceivingEvent",
+			"title":"Receiving Event",
+			"groups":[],
+			"description":"A System",
+			"view":"node.event.incoming.svg",
+			"icon":"node.event.incoming.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"causingEvent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcSendingEvent",
+			"title":"Sending Event",
+			"groups":[],
+			"description":"A System",
+			"view":"node.event.outgoing.svg",
+			"icon":"node.event.outgoing.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcTimedEvent",
+			"title":"Timed Event",
+			"groups":[],
+			"description":"A System",
+			"view":"node.event.timed.svg",
+			"icon":"node.event.timed.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"causingEvent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcInterruptableArea",
+			"title":"Interruptable Area",
+			"groups":[],
+			"description":"A System",
+			"view":"node.interruptableArea.svg",
+			"icon":"node.interruptableArea.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"Activity",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcActivityRegion",
+			"title":"Activity Region",
+			"groups":[],
+			"description":"A System",
+			"view":"node.activityRegion.vertical.svg",
+			"icon":"node.activityRegion.vertical.png",
+			"roles": [
+				"diagramcontent",
+				"Activity"
+				
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAcNote",
+			"title":"Note",
+			"groups":[],
+			"description":"A System",
+			"view":"node.note.svg",
+			"icon":"node.note.png",
+			"roles": [
+				"diagramcontent",
+				"annotation",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"URL",
+                    "type":"Url",
+                    "title":"URL",
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true
+				},
+				{
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlAnnotationEdge",
+			"title":"Annotation Edge",
+			"groups":[],
+			"description":"Can connect annotatables with annotations.",
+			"view":"edge.annotation.svg",
+			"icon":"edge.annotation.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+		},
+		{
+			"type": "edge",
+			"id":"umlControlFlow",
+			"title":"Control Flow",
+			"groups":[],
+			"description":"Can connect control flow elements.",
+			"view":"edge.controlFlow.svg",
+			"icon":"edge.controlFlow.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"condition",
+					"type":"String",
+					"title":"Condition",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                },
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlObjectFlow",
+			"title":"Object Flow",
+			"groups":[],
+			"description":"Can connect objects with actions and the other way round.",
+			"view":"edge.objectFlow.svg",
+			"icon":"edge.objectFlow.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+		},
+		{
+			"type": "edge",
+			"id":"umlInterrupt",
+			"title":"Interrupt Edge",
+			"groups":[],
+			"description":"Connects Event with action.",
+			"view":"edge.interrupt.svg",
+			"icon":"edge.interrupt.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+		}
+	],	
+	"rules": {
+		"connectionRules": [
+			{
+                "role":"umlControlFlow",
+                "connects": [
+                    {
+                        "from":"controlFlowElement",
+                        "to":["controlFlowElement","umlFlowFinalNode","umlActivityFinalNode"]
+                    },
+                    {
+                        "from":"umlInitialNode",
+                        "to":["controlFlowElement"]
+                    }
+                ]
+            },
+            {
+                "role":"umlObjectFlow",
+                "connects": [
+                    {
+                        "from":"action",
+                        "to":["umlAcObject"]
+                    },
+                    {
+                        "from":"object",
+                        "to":["umlAcObject"]
+                    }
+                ]
+            },
+            {
+				"role":"umlAnnotationEdge",
+				"connects":[
+					{ 
+					    "from":"annotatable",
+					    "to":"annotation" 
+					},
+					{ 
+					    "from":"annotation",
+					    "to":"annotatable" 
+					}
+				]
+			},
+			{
+				"role":"umlInterrupt",
+				"connects":[
+					{ 
+					    "from":"causingEvent",
+					    "to":"action" 
+					}
+				]
+			}
+		],
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+				"role":"Activity",
+				"contains": [
+					"activityContent"
+				]
+			}
+		]
+	}
+}
