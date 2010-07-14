@@ -12,10 +12,5 @@
 	</defs>
 	<g id="edge">
 		<path d="M50 50 L100 50" stroke="black" fill="none" stroke-width="2" marker-end="url(#end)" marker-start="url(#start)"/>
-		<text id="cardinalityStart" x="0" y="0" oryx:edgePosition="startTop"/>
-		<text id="roleStart" x="0" y="0" oryx:edgePosition="startBottom"/>
-		<text id="name" x="0" y="0" oryx:edgePosition="midTop"/>
-		<text id="cardinalityEnd" x="0" y="0" oryx:edgePosition="endTop"/>
-		<text id="roleEnd" x="0" y="0" oryx:edgePosition="endBottom"/>
 		</g>
 </svg>

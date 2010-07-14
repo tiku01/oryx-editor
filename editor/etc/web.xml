@@ -438,6 +438,14 @@
 	
 	<!-- Gerardo's Posts finished -->
 
+	<!-- Servlets added by Christian -->
+	<servlet>
+		<display-name>Adonis import and export</display-name>
+		<servlet-name>AdonisSupportServlet</servlet-name>
+		<servlet-class>org.oryxeditor.server.AdonisSupportServlet</servlet-class>
+	</servlet>
+	<!-- Servlets added by Christian end -->
+
     <!-- Servlet Mappings -->
 <!--	
 	<servlet-mapping>
@@ -559,6 +567,11 @@
     <servlet-mapping>
         <servlet-name>BPMN2XPDLServlet</servlet-name>
         <url-pattern>/bpmn2xpdl</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>AdonisSupportServlet</servlet-name>
+        <url-pattern>/adonissupport</url-pattern>
     </servlet-mapping>
 
 <!--

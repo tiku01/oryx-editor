@@ -861,12 +861,12 @@ ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
 /** Adonis Support */
 if(!ORYX.I18N.AdonisSupport) ORYX.I18N.AdonisSupport = {};
 ORYX.I18N.AdonisSupport.group = "Export";
-ORYX.I18N.AdonisSupport.xmlExport = "Export to AML";
-ORYX.I18N.AdonisSupport.xmlImport = "Import from AML";
+ORYX.I18N.AdonisSupport.xmlExport = "Export to Adonis XML";
+ORYX.I18N.AdonisSupport.xmlImport = "Import from Adonis XML";
 ORYX.I18N.AdonisSupport.importGroup = "Import";
-ORYX.I18N.AdonisSupport.selectFile = "Select a Adonis Model (.aml file) or type in the Path of the AML-File to import it!";
+ORYX.I18N.AdonisSupport.selectFile = "Select a Adonis Model (.xml file) to import it!";
 ORYX.I18N.AdonisSupport.file = "File";
-ORYX.I18N.AdonisSupport.impXml = "Import AML";
+ORYX.I18N.AdonisSupport.impXml = "Import Adonis XML";
 ORYX.I18N.AdonisSupport.impBtn = "Import";
 ORYX.I18N.AdonisSupport.impProgress = "Importing...";
 ORYX.I18N.AdonisSupport.close = "Close";

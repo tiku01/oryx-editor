@@ -123,12 +123,14 @@ public class AdonisXML {
 	}
 
 	public Vector<JSONObject> writeDiagrams() throws JSONException{
+		Log.v("writeDiagrams");
 		collectAttributes();
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
 		JSONObject json = null;
-	
+		
 		for (AdonisModel aModel : getModels().getChildren()){
+			Log.v("write Model "+aModel.getName());
 			json = new JSONObject();
 			aModel.write(json);
 			jsonDiagrams.add(json);

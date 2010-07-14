@@ -2,51 +2,54 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
-   width="40"
-   height="62"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="2" oryx:cy="15" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="2" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="38" oryx:cy="15" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="28" oryx:anchors="bottom" />
 	<oryx:magent oryx:cx="20" oryx:cy="20" oryx:default="yes" />
   </oryx:magnets>
-  <g pointer-events="fill">
-	<g id="partnergrp">
-		<circle 
-			stroke="#000000" 
-			r="5" cy="11" cx="24" 
-			fill="#959595"/>
-		<path 
-			stroke="#000000" 
-			d="m24,16 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 	
-			fill="#959595"/>
-		<circle 
-			stroke="#000000" 
-			r="5" cy="9" cx="22" 
-			fill="#A5A5A5"/>
-		<path 
-			stroke="#000000" 
-			d="m22,14 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 
-			fill="#A5A5A5"/>
-		<circle 
-			stroke="#000000" 
-			r="5" cy="7" cx="20" 
-			fill="#FFFFFF"/>
-		<path 
-			stroke="#000000" 
-			d="m20,12 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 
-			fill="#FFFFFF"/>
-	</g>
+  <g>
+	<circle 
+		stroke="#000000" 
+		r="5" cy="11" cx="24" 
+		fill="#959595"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<path 
+		stroke="#000000" 
+		d="m24,16 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 	
+		fill="#959595"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<circle 
+		stroke="#000000" 
+		r="5" cy="9" cx="22" 
+		fill="#A5A5A5"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<path 
+		stroke="#000000" 
+		d="m22,14 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 
+		fill="#A5A5A5"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<circle 
+		stroke="#000000" 
+		r="5" cy="7" cx="20" 
+		fill="#FFFFFF"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<path 
+		stroke="#000000" 
+		d="m20,12 l-9,0 l-3,12 l4,0 l2,-8 l0,8 l-1,14 l6,0 l1,-14 l1,14 l6,0 l-1,-14 l0,-8 l2,8 l4,0 l-3,-12z" 
+		fill="#FFFFFF"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
 	<text 
 		font-size="14" 
-		id="text" 
+		id="externalpartnertext" 
 		x="2" 
 		y="54" 
-		oryx:align="top left"
-		oryx:fittoelem="partnergrp"
+		oryx:align="bottom center"
 		stroke="black"></text>
 
   </g>

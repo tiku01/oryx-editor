@@ -56,7 +56,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 
 	exportXML: function() {
-		var url = ORYX.CONFIG.ROOT_PATH.ADONISSUPPORT;
+		var url = ORYX.CONFIG.ADONISSUPPORT;
 		var json = this.facade.getSerializedJSON();
 		
 		Ext.Ajax.request({
@@ -71,7 +71,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	importXML: function( successCallback ){
-		var url =  ORYX.CONFIG.ROOT_PATH.ADONISSUPPORT;
+		var url =  ORYX.CONFIG.ADONISSUPPORT;
 	    var form = new Ext.form.FormPanel({
 			baseCls: 		'x-plain',
 	        labelWidth: 	50,
@@ -127,7 +127,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 							Ext.Ajax.request({
 								url: url,
 								method: 'POST',
-								success: function(request){this.facade.importJSON(request.responseText); loadMask.hide();dialog.hide()}.bind(this),
+								success: function(request){Ext.Msg.alert("Starting import"+request.responseText);Ext.Msg.alert(xmlString);this.facade.importJSON(request.responseText); loadMask.hide();dialog.hide()}.bind(this),
 								failure: function() {loadMask.hide(); Ext.Msg.alert("Import failed");},
 								params: {data: xmlString,
 										 action: "Import"}

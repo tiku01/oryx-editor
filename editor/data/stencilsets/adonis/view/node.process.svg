@@ -2,31 +2,31 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
-   width="80"
-   height="80"
+   xmlns:svg="http://www.w3.org/2000/svg"
    version="0.1">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="12" oryx:cy="30" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="4" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="76" oryx:cy="30" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="56" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="8" oryx:cy="30" />
+  	<oryx:magnet oryx:cx="40" oryx:cy="0" />
+  	<oryx:magnet oryx:cx="80" oryx:cy="30" />
+  	<oryx:magnet oryx:cx="40" oryx:cy="60" />
 	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes" />
   </oryx:magnets>
-  <g pointer-events="fill">
+  <g>
 	<polygon 
-		id="procelem"
-		points="4,4 68,4 76,30 68,56 4,56 12,30" 
+		id="processelement"
+		points="0,0 68,0 80,30 68,60 0,60 12,30" 
 		fill="#AAAAFF" 
 		stroke="black" 
-		stroke-width="1"/>
+		stroke-width="1"
+		oryx:anchor="top bottom left right"
+		oryx:resize="vertical horizontal" />
 	<text
-		font-size="14" 
-		id="text" 
 		x="8" 
 		y="70" 
+		font-size="14" 
+		id="processtext" 
 		oryx:align="middle center"
-		oryx:fittoelem="procelem"
 		stroke="black"></text>
   </g>
 </svg>

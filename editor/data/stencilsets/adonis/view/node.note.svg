@@ -1,27 +1,36 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
-   width="40"
-   height="40"
+xmlns:svg="http://www.w3.org/2000/svg"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="2" oryx:cy="15" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="2" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="38" oryx:cy="15" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="28" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="0" oryx:cy="20"  />
+  	<oryx:magnet oryx:cx="20" oryx:cy="0"  />
+  	<oryx:magnet oryx:cx="40" oryx:cy="20" />
+  	<oryx:magnet oryx:cx="20" oryx:cy="40"  />
+	<oryx:magnet oryx:cx="20" oryx:cy="20" oryx:default="yes" />
   </oryx:magnets>
-  <g pointer-events="fill">
- <rect id="noteelement" stroke="#000000" fill="#FAFACC" stroke-width="1" x="2" y="2" width="36" height="36"/>
-<text 
-			font-size="14" 
-			id="text" 
-			x="4" 
-			y="14" 
-			oryx:align="middle center"
-			oryx:fittoelem="noteelement"
-			stroke="black">
-		</text>
+  <g>
+ 	<rect 
+		id="noteelement" 
+		x="0" 
+		y="0" 
+		width="40" 
+		height="40"
+		stroke="#000000" 
+		fill="#FAFACC" 
+		stroke-width="1" 
+		oryx:anchor="top bottom left right"
+		oryx:resize="vertical horizontal" />
+	<text 	
+		id="notetext" 
+		x="0" 
+		y="15" 
+		font-size="14" 
+		stroke="black"
+		oryx:align="middle center"
+		oryx:fittoelem="noteelement"></text>
 
   </g>
 </svg>
