@@ -12,12 +12,14 @@
 
 	<!-- STENCIL SET MAPPINGS -->
 	
+	<!-- Hint: You can forbid shapes by mapping them to: NOT_VALID_SHAPE_NAME -->
+	
 	<!-- BPMN STENCIL SETS -->
 	<entry key="stencilsets.bpmn.mappings">BPTBPMN11,OMG09,VISIO2010</entry>
 	
 	<!-- BPT: BPMN 1.1 Stencil Set of the Business Process Technology Group at HPI: http://bpt.hpi.uni-potsdam.de/Public/BPMNCorner-->
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Start">StartNoneEvent</entry>
-	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Intemediate">IntermediateEvent</entry> <!-- InteRmediate: Typo is in visio stencil set... -->
+	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Intemediate">IntermediateEvent</entry> <!-- InteRmediate: The character R misses in visio stencil set... -->
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.End">EndNoneEvent</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Start Message">StartMessageEvent</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Intermediate Message">IntermediateMessageEventCatching</entry>
@@ -72,7 +74,7 @@
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Message Flow">MessageFlow</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Association">Association_Unidirectional</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Undirected Association">Association_Undirected</entry>
-	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Branching Condition">NOT_VALID_SHAPE_NAME</entry>
+	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Branching Condition">TextAnnotation</entry> <!-- wrong but there is not branching condition, textAnnotation will hopefully be reduced to be a real condition -->
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>	
@@ -221,10 +223,10 @@
 	<entry key="stencilsets.bpmn.config.Collapsed sub-process 4.values">true,Standard</entry>
 	<entry key="stencilsets.bpmn.config.Default Flow.keys">conditiontype</entry>
 	<entry key="stencilsets.bpmn.config.Default Flow.values">Default</entry>
-	<entry key="stencilsets.bpmn.config.Conditional Flow.keys">conditiontype</entry>
-	<entry key="stencilsets.bpmn.config.Conditional Flow.values">Expression</entry>
-	<entry key="stencilsets.bpmn.config.Sequence Flow (Conditional).keys">conditiontype</entry>
-	<entry key="stencilsets.bpmn.config.Sequence Flow (Conditional).values">Expression</entry>
+	<entry key="stencilsets.bpmn.config.Conditional Flow.keys">conditiontype,showdiamondmarker</entry>
+	<entry key="stencilsets.bpmn.config.Conditional Flow.values">Expression,true</entry>
+	<entry key="stencilsets.bpmn.config.Sequence Flow (Conditional).keys">conditiontype,showdiamondmarker</entry>
+	<entry key="stencilsets.bpmn.config.Sequence Flow (Conditional).values">Expression,true</entry>
 	<entry key="stencilsets.bpmn.config.Sequence Flow (Default).keys">conditiontype</entry>
 	<entry key="stencilsets.bpmn.config.Sequence Flow (Default).values">Default</entry>
 	<entry key="stencilsets.bpmn.config.Multi-Instance Loop Task.keys">looptype</entry>
@@ -329,8 +331,8 @@
 	<entry key="stencilsets.epc.VISIO2010.stencil.Information/ Material">Data</entry>
 	<entry key="stencilsets.epc.VISIO2010.stencil.Main process">Function</entry> <!-- No main process stencil at oryx -->
 	<entry key="stencilsets.epc.VISIO2010.stencil.Component">System</entry> <!-- component = system? -->
-	<entry key="stencilsets.epc.VISIO2010.stencil.Enterprise area">NOT_VALID_SHAPE_NAME</entry>
-	<entry key="stencilsets.epc.VISIO2010.stencil.Process group">NOT_VALID_SHAPE_NAME</entry>
+	<entry key="stencilsets.epc.VISIO2010.stencil.Enterprise area">Organization</entry> <!-- wrong, but there is no mapping since there is no enterprise area in oryx and in epcs -->
+	<entry key="stencilsets.epc.VISIO2010.stencil.Process group">Organization</entry> <!-- wrong, but there is no mapping  since there is no enterprise area in oryx and in epcs -->
 	<entry key="stencilsets.epc.VISIO2010.stencil.Dynamic connector">ControlFlow</entry>	<!-- no distinction between flow and relation -->
 	<entry key="stencilsets.epc.VISIO2010.stencil.FreeText">TextNote</entry>	<!-- only for free-text mapping -->
 	<entry key="stencilsets.epc.VISIO2010.stencil.Relation">Relation</entry>	<!-- only for free-text mapping -->
@@ -346,7 +348,7 @@
 	<entry key="oryx.config.epc.StencilSetUrl">/oryx/stencilsets/epc/epc.json</entry>
 	<entry key="oryx.config.epc.StencilSetNameSpace">http://b3mn.org/stencilset/epc#</entry>
 	<entry key="oryx.config.epc.StencilType">Diagram</entry>
-	<entry key="oryx.config.epc.TargetNameSpace">http://www.omg.org/bpmn20</entry>
+	<entry key="oryx.config.epc.TargetNameSpace">http://www.omg.org/epc</entry>
 	<entry key="oryx.config.epc.TypeLanguage">http://www.w3.org/2001/XMLSchema</entry>
 				
 	<entry key="oryx.config.epc.ElementsWithMinimum">Event,Function,OrConnector,XorConnector,AndConnector,ProcessInterface,Organization,Position,Data,System,TextNote</entry>	
@@ -427,8 +429,6 @@
 	<entry key="heuristics.Default_Page_Height">20.0</entry>
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
 	
-	<!-- FLOW: For a start or end of an edge all shapes within this distance will be found
-	and the smallest will be assigned. So that a shape will be preferred to some swimlane.-->
 	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
 	
 	<!-- LABEL-ONLY: Interpretation of label-only shapes -->

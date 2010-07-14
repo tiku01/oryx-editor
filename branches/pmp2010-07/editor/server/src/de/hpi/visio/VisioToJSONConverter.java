@@ -17,23 +17,23 @@ public class VisioToJSONConverter {
 		this.contextPath = contextPath;
 	}
 
-	public String importVisioData(String xml, String action) {
+	public String importVisioData(String xml, String stencilSet) {
 		VisioXmlPreparator preparator = new VisioXmlPreparator();
 		String preparedXml = preparator.prepareXML(xml);
-		VisioDocument visioDocument = getVisioDocumentFromXML(action, preparedXml);
+		VisioDocument visioDocument = getVisioDocumentFromXML(stencilSet, preparedXml);
 		VisioDataTransformator transformator = new VisioDataTransformator(contextPath, visioDocument.getStencilSet());
 		Diagram diagram = transformator.createDiagramFromVisioData(visioDocument);
 		String diagramJSONString = convertDiagramToJSON(diagram);
 		return diagramJSONString;
 	}
 
-	private VisioDocument getVisioDocumentFromXML(String action, String preparedXml) {
+	private VisioDocument getVisioDocumentFromXML(String stencilSet, String preparedXml) {
 		Reader reader = new StringReader(preparedXml);
 		Xmappr xmappr = new Xmappr(VisioDocument.class);
 		VisioDocument visioDocument = (VisioDocument) xmappr.fromXML(reader);
-		if (action.toLowerCase().contains("bpmn")) {
+		if (stencilSet.toLowerCase().equals("bpmn")) {
 			visioDocument.setStencilSet("bpmn");
-		} else if (action.toLowerCase().contains("epc")) {
+		} else if (stencilSet.toLowerCase().equals("epc")) {
 			visioDocument.setStencilSet("epc");
 		}
 		return visioDocument;
