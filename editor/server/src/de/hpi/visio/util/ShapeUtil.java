@@ -62,15 +62,14 @@ public class ShapeUtil {
 	
 	private Bounds getFixedBoundsSizeForShapeOnPage(Bounds bounds) {
 		if (actualFixedSizeCategory == null)
-			throw new IllegalStateException("Also a shape should have fixed boundaries, " +
-					"it wasn't possible to set those.");
+			throw new IllegalStateException("Also a shape should have fixed boundaries, it wasn't possible to set those.");
 		String actualCategory = importUtil.getStencilSetConfig(actualFixedSizeCategory + ".category");
 		Double fixedWidth = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedWidth"));
 		Double fixedHeight = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedHeight"));
-		// json interpretation at the client works better with rounded values
-		bounds.setUpperLeft(new Point(Double.valueOf(bounds.getUpperLeft().getX().intValue()), (Double.valueOf(bounds.getUpperLeft().getY().intValue()))));
-		bounds.setLowerRight(new Point(bounds.getUpperLeft().getX().intValue() + fixedWidth, bounds.getLowerRight().getY()));
-		bounds.setLowerRight(new Point(bounds.getLowerRight().getX(), bounds.getUpperLeft().getY().intValue() + fixedHeight));
+		Double centralPinX = bounds.getUpperLeft().getX() + (( bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2.0);
+		Double centralPinY = bounds.getUpperLeft().getY() + ((bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2.0);
+		bounds.setUpperLeft(new Point(centralPinX - fixedWidth/2, centralPinY - fixedHeight/2));
+		bounds.setLowerRight(new Point(centralPinX + fixedWidth/2, centralPinY + fixedHeight/2));
 		return bounds;
 	}
 
@@ -80,10 +79,16 @@ public class ShapeUtil {
 		Double minWidth = Double.valueOf(importUtil.getStencilSetConfig(stencilId + ".minWidth"));
 		Double actualWidth = bounds.getLowerRight().getX() - bounds.getUpperLeft().getX();
 		Double actualHeight = bounds.getLowerRight().getY() - bounds.getUpperLeft().getY();
-		if (actualHeight < minHeight)
-			bounds.setLowerRight(new Point(bounds.getLowerRight().getX(), bounds.getUpperLeft().getY() + minHeight));
-		if (actualWidth < minWidth)
-			bounds.setLowerRight(new Point(bounds.getUpperLeft().getX() + minWidth, bounds.getLowerRight().getY()));
+		if (actualHeight < minHeight) {
+			Double centralPinY = bounds.getUpperLeft().getY() + ((bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2.0);
+			bounds.setLowerRight(new Point(bounds.getLowerRight().getX(), centralPinY + (minHeight/2)));
+			bounds.setUpperLeft(new Point(bounds.getUpperLeft().getX(), centralPinY - (minHeight/2)));
+		}
+		if (actualWidth < minWidth) {
+			Double centralPinX = bounds.getUpperLeft().getX() + (( bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2.0);
+			bounds.setLowerRight(new Point(centralPinX + (minWidth/2), bounds.getLowerRight().getY()));
+			bounds.setUpperLeft(new Point(centralPinX - (minWidth/2), bounds.getUpperLeft().getY()));
+		}
 		return bounds;
 	}
 	
