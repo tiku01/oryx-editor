@@ -2,29 +2,37 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
-   width="40"
-   height="60"
+xmlns:svg="http://www.w3.org/2000/svg"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="2" oryx:cy="15" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="2" oryx:anchors="top" />
-  	<oryx:magnet oryx:cx="38" oryx:cy="15" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="20" oryx:cy="28" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="2" oryx:cy="15" />
+  	<oryx:magnet oryx:cx="20" oryx:cy="2" />
+  	<oryx:magnet oryx:cx="38" oryx:cy="15" />
+  	<oryx:magnet oryx:cx="20" oryx:cy="28" />
 	<oryx:magnet oryx:cx="20" oryx:cy="20" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill">
-	<g id="actorelem">
-		<circle stroke="#000000" r="5" cy="7" cx="20" fill="none"/>
-		<path stroke="#000000" d="m20,12 L11,12 L8,24 L12,24 L14,16 L14,24 L10,38 L15,38 L20,24 L25,38 L30,38 26,24 L26,16 L28,24 L32,24 L 29,12z" fill="none"/>
-	</g>
+	<circle 
+		stroke="#000000" 
+		r="5" 
+		cy="7" 
+		cx="20" 
+		fill="white"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
+	<path 
+		stroke="#000000" 
+		d="m20,12 L11,12 L8,24 L12,24 L14,16 L14,24 L10,38 L15,38 L20,24 L25,38 L30,38 26,24 L26,16 L28,24 L32,24 L 29,12z" 
+		fill="white"
+		oryx:anchor="top bottom left right"
+	       	oryx:resize="vertical horizontal"/>
 	<text 
 		font-size="14" 
-		id="name" 
+		id="actorname" 
 		x="2" 
 		y="50" 
 		oryx:align="top left"
-		stroke="black">
-		</text>
+		stroke="black"></text>
 	</g>
 </svg>

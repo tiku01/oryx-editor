@@ -10,1448 +10,290 @@
 			"groups":		["diagram"],
 			"description":	"Adonis diagram",
 			"view":			"node.diagram.svg",
-			"icon":			"diagram.png",
+			"icon":			"container.diagram.png",
 			"roles":		[],
 			"properties":	[
-				{
-					"id":			"date_last_changed",
-					"type":			"String",
-					"title":		"Date last changed",
-					"value":		"",
-					"description":	"Data of the last change",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"last_user",
-					"type":			"String",
-					"title":		"Last user",
-					"value":		"",
-					"description":	"The last user",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"The name of the map",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-				},
+				
 			]
 		},
 		{
 			"type":			"node",
 			"id":			"process",
 			"title":		"Process",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"A process",
 			"view": 		"node.process.svg",
-			"icon":			"node.complexinteraction.png",
-			"roles":		["node"],
+			"icon":			"node.process.png",
+			"roles":		[
+				"all",
+				"valueable",
+			],
 			"properties": [
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"name",
-					"wrapLines":	true
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-								{
-					"id":			"display_name_and_reference",
-					"type":			"Boolean",
-					"title":		"Display name and reference",
-					"value":		true,
-					"description":	"Display the name and the reference",
-					"readonly":		false,
-					"optional":		true,
-				},
-				{
-					"id":			"order",
-					"type":			"Integer",
-					"title":		"Order",
-					"value":		"",
-					"description":	"The identification number of the process",
-					"readonly":		false,
-					"optional":		false,
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the process",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the process",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"external_process",
-					"type":			"Boolean",
-					"title":		"External process",
-					"value":		false,
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-				},
-				{
-					"id":			"referenced_it_system_element",
-					"type":			"String",
-					"title":		"Referenced IT-System element",
-					"value":		"",
-					"description":	"List of referenced IT-Systems",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"visualize_it_system_elements",
-					"type":			"Boolean",
-					"title":		"Visualize IT-System elements",
-					"value":		false,
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"open_questions",
-					"type":			"String",
-					"title":		"Open questions",
-					"value":		"",
-					"description":	"Open questions",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"risks",
-					"type":			"String",
-					"title":		"Risks",
-					"value":		"",
-					"description":	"A table of risks",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"input",
-					"type":			"String",
-					"title":		"Input",
-					"value":		"",
-					"description":	"Input of the process",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"output",
-					"type":			"String",
-					"title":		"Output",
-					"value":		"",
-					"description":	"Output of the process",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_cycle_time",
-					"type":			"String",
-					"title":		"Aggregated cycle time",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_execution_time",
-					"type":			"String",
-					"title":		"Aggregated execution time",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_waiting_time",
-					"type":			"String",
-					"title":		"Aggregated waiting time",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_resting_time",
-					"type":			"String",
-					"title":		"Aggregated resting time",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_transport_time",
-					"type":			"String",
-					"title":		"Aggregated transport time",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_costs",
-					"type":			"Integer",
-					"title":		"Aggregated costs",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"aggregated_personal_costs",
-					"type":			"Integer",
-					"title":		"Aggregated personal costs",
-					"value":		"",
-					"description":	"",
-					"readonly":		true,
-					"optional":		true,
-					"length":		"",
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#F2F5A9",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"font_size",
-					"type":			"Integer",
-					"title":		"Font size",
-					"value":		"",
-					"description":	"The size of the text",
-					"readonly":		false,
-					"optional":		false,
-					"length":		""
-				},
-				{
-					"id":			"line_style",
-					"type":			"Choice",
-					"title":		"Line style",
-					"value":		"Normal",
-					"description":	"The style of the connector",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Normal",
-							"value":	"Normal",
-						},
-						{
-							"title":	"Dots",
-							"value":	"Dots",
-						},
-						{
-							"title":	"Lines",
-							"value":	"Lines",
-						},
-						{
-							"title":	"Dots & Lines",
-							"value":	"Dots_Lines",
-						},
-						{
-							"title":	"Bold",
-							"value":	"Bold",
-						},
-						{
-							"title":	"None",
-							"value":	"None",
-						}
-					]
-				}
+				
 			]
 		},
 		{
 			"type":			"node",
 			"id":			"actor",
 			"title":		"Actor",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"An actor",
 			"view": 		"node.actor.svg",
-			"icon":			"node.complexinteraction.png",
+			"icon":			"node.actor.png",
 			"roles":		[
-				"node",
-				"additional"],
+				"all",
+				"valueable"
+			],
 			"properties": [
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"Actor",
-					"description":	"The name of the actor",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true,
-					"refToView":	"text"
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the actor",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the actor",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#FFFFFF",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"open_questions",
-					"type":			"String",
-					"title":		"Open questions",
-					"value":		"",
-					"description":	"Open questions",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				}
 			]
 		},
 		{
 			"type":			"node",
-			"id":			"external-partner",
+			"id":			"external partner",
 			"title":		"External partner",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"An external partner",
 			"view": 		"node.external-partner.svg",
-			"icon":			"node.complexinteraction.png",
+			"icon":			"node.external-partner.png",
 			"roles":		[
-				"node",
-				"additional"],
+				"all",
+				"valueable"
+			],
 			"properties": [
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"An external partner",
-					"description":	"Name of external partner",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					/*"wrapLines":	true,*/
-					"refToView":	"text"
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the external partner",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the external partner",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				}
 			]
 		},
 		{
 			"type":			"node",
 			"id":			"note",
 			"title":		"Note",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"A note",
 			"view": 		"node.note.svg",
-			"icon":			"node.complexinteraction.png",
+			"icon":			"node.note.png",
 			"roles":		[
-				"note",
-				"additional"],
+				"all",
+			],
 			"properties": [
-				{
-					"id":			"text",
-					"type":			"String",
-					"title":		"Text",
-					"value":		"",
-					"description":	"The content of the note",
-					"readonly":		false,
-					"optional":		false,
-					"length":		"",
-					"wrapLines":	true,
-					"refToView":	"text"
-				},
-				{
-					"id":			"font_size",
-					"type":			"Integer",
-					"title":		"Font size",
-					"value":		"",
-					"description":	"The size of the text",
-					"readonly":		false,
-					"optional":		false,
-					"length":		""
-				},
-				{
-					"id":			"font_style",
-					"type":			"Choice",
-					"title":		"Style",
-					"value":		"Standard",
-					"description":	"The font decoration",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Standard",
-							"value":	"Standard",
-						},
-						{
-							"title":	"Italic",
-							"value":	"Italic",
-						},
-						{
-							"title":	"Bold",
-							"value":	"Bold",
-						},
-						{
-							"title":	"Bold italic",
-							"value":	"Bold_italic",
-						},
-						{
-							"title":	"Underline",
-							"value":	"Underline",
-						},
-						{
-							"title":	"Bold underline",
-							"value":	"Bold_underline",
-						}
-					]
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#F2F5A9",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"executable",
-					"type":			"String",
-					"title":		"Executable",
-					"value":		"",
-					"description":	"Associated executable",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"executable_arguments",
-					"type":			"String",
-					"title":		"Arguments",
-					"value":		"",
-					"description":	"Arguments for the executeable",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"calculate_graphic_size_automatically",
-					"type":			"Boolean",
-					"title":		"Calculate graphic size automatically",
-					"value":		"true",
-					"description":	"Referenced documents",
-					"readonly":		false,
-					"optional":		false
-				}
+				
 			]
 		},
 		{
 			"type":			"node",
-			"id":			"performance",
-			"title":		"Performance",
-			"groups":		["node"],
-			"description":	"Performance",
-			"view": 		"node.performance.svg",
-			"icon":			"node.complexinteraction.png",
-			"roles":		[
-				"node",
-				"additional"],
-			"properties": [
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"Performance",
-					"description":	"Name of a performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true,
-					"refToView":	"text"
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"representation",
-					"type":			"Choice",
-					"title":		"Representation",
-					"value":		"Horizontal",
-					"description":	"Select the representation",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Horizontal",
-							"value":	"Horizontal",
-							"refToView":	"representation"
-						},
-						{
-							"title":	"Vertical",
-							"value":	"Vertical",
-							"refToView":	"representation"
-						}
-					]
-				},
-				{
-					"id":			"executable",
-					"type":			"String",
-					"title":		"Executable",
-					"value":		"",
-					"description":	"Associated executable",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"executable_arguments",
-					"type":			"String",
-					"title":		"Arguments",
-					"value":		"",
-					"description":	"Arguments for the executeable",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{	/*TODO is in ADOINS a list of Links -> needs to be separated */
-					"id":			"referenced_documents",
-					"type":			"String",
-					"title":		"Referenced documents",
-					"value":		"",
-					"description":	"Referenced documents",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"open_questions",
-					"type":			"String",
-					"title":		"Open questions",
-					"value":		"",
-					"description":	"Open questions",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				}
-			]
-		},
-		{
-			"type":			"node",
-			"id":			"cross_reference",
+			"id":			"cross-reference",
 			"title":		"Cross reference",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"A cross reference",
 			"view":			"node.cross-reference.svg",
-			"icon":			"node.complexinteraction.png",
+			"icon":			"node.cross-reference.png",
 			"roles":		[
-				"node",
-				"additional"],
+				"all"
+			],
 			"properties": [
-				{
-					"id":			"text",
-					"type":			"String",
-					"title":		"Cross reference text",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"text",
-					"wrapLines":	true
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"type",
-					"type":			"Choice",
-					"title":		"Type",
-					"value":		"Not defined",
-					"description":	"Type of the cross reference",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Not defined",
-							"value":	"Not_defined",
-						},
-						{
-							"title":	"Incoming",
-							"value":	"Incoming",
-						},
-						{
-							"title":	"Outgoing",
-							"value":	"Outgoing",
-						}
-					]
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				}
 			]
 		},
 		{
 			"type":			"node",
 			"id":			"aggregation",
 			"title":		"Aggregation",
-			"groups":		["node"],
+			"groups":		["Standard"],
 			"description":	"An aggregation",
 			"view":			"node.aggregation.svg",
-			"icon":			"node.complexinteraction.png",
+			"icon":			"node.aggregation.png",
 			"roles":		[
-				"node",
-				"additional"],
+				"all"
+			],
 			"properties": [
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"performance",
+			"title":		"Performance",
+			"groups":		["Standard"],
+			"description":	"Performance",
+			"view": 		"node.performance.svg",
+			"icon":			"node.performance.png",
+			"roles":		[
+				"all",
+				"valueable"
+			],
+			"properties": [
+				
+			]
+		},
+		{
+			"type":			"edge",
+			"id":			"has cross-reference",
+			"title":		"Has cross reference",	
+			"groups":		["Standard"],
+			"description":	"A has cross reference edge",
+			"view":			"connector.has-cross-reference.svg",
+			"icon":			"connector.has-cross-reference.png",
+			"roles":		[
+				"all to all"
+			],
+			"properties":	[
+			]
+		},
+		{
+			"type":			"edge",
+			"id":			"has process",
+			"title":		"Has process",	
+			"groups":		["Standard"],
+			"description":	"A has process edge",
+			"view":			"connector.has-process.svg",
+			"icon":			"connector.has-process.png",
+			"roles":		[
+				"process to process"
+			],
+			"properties":	[
+			]
+		},
 				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"name",
-					"wrapLines":	true
-				},
-				{
-					"id":			"referenced_organizational_unit",
-					"type":			"String",
-					"title":		"Refernenced Unit",
-					"value":		"",
-					"description":	"A reference to another unit",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"display_name",
-					"type":			"Boolean",
-					"title":		"Display name",
-					"value":		true,
-					"description":	"Display the name",
-					"readonly":		false,
-					"optional":		false,
-				},
-				{
-					"id":			"representation",
-					"type":			"Choice",
-					"title":		"Representation",
-					"value":		"Inside",
-					"description":	"Display the name inside/outside the box",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Inside",
-							"value":	"Inside",
-						},
-						{
-							"title":	"Outside",
-							"value":	"Outside",
-						}
-					]
-				},
-				{
-					"id":			"font_size",
-					"type":			"Integer",
-					"title":		"Font size",
-					"value":		"",
-					"description":	"The size of the text",
-					"readonly":		false,
-					"optional":		false,
-					"length":		""
-				},
-				{
-					"id":			"font_style",
-					"type":			"Choice",
-					"title":		"Style",
-					"value":		"Standard",
-					"description":	"The font decoration",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Standard",
-							"value":	"Standard",
-						},
-						{
-							"title":	"Italic",
-							"value":	"Italic",
-						},
-						{
-							"title":	"Bold",
-							"value":	"Bold",
-						},
-						{
-							"title":	"Bold italic",
-							"value":	"Bold_italic",
-						},
-						{
-							"title":	"Underline",
-							"value":	"Underline",
-						},
-						{
-							"title":	"Bold underline",
-							"value":	"Bold_underline",
-						}
-					]
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"graphical_representation",
-					"type":			"Choice",
-					"title":		"Graphical representation",
-					"value":		"Rectangle",
-					"description":	"The shape of the aggregation",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Rectangle",
-							"value":	"Rectangle",
-						},
-						{
-							"title":	"Circle",
-							"value":	"Circle",
-						},
-						{
-							"title":	"Right arrow",
-							"value":	"Right_arrow",
-						},
-						{
-							"title":	"Downward arrow",
-							"value":	"Downward_arrow",
-						},
-						{
-							"title":	"Left arrow",
-							"value":	"Left_arrow",
-						},
-						{
-							"title":	"Upward arrow",
-							"value":	"Upward_arrow",
-						}
-					]
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#F2F5A9",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"line_style",
-					"type":			"Choice",
-					"title":		"Line style",
-					"value":		"Normal",
-					"description":	"The style of the connector",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Normal",
-							"value":	"Normal",
-						},
-						{
-							"title":	"Dots",
-							"value":	"Dots",
-						},
-						{
-							"title":	"Lines",
-							"value":	"Lines",
-						},
-						{
-							"title":	"Dots & Lines",
-							"value":	"Dots_Lines",
-						},
-						{
-							"title":	"Bold",
-							"value":	"Bold",
-						},
-						{
-							"title":	"None",
-							"value":	"None",
-						}
-					]
-				}
+			"type":			"edge",
+			"id":			"has note",
+			"title":		"Has note",	
+			"groups":		["Standard"],
+			"description":	"A note edge",
+			"view":			"connector.has-note.svg",
+			"icon":			"connector.has-note.png",
+			"roles":		[
+			]
+		},
+		{
+			"type":			"edge",
+			"id":			"value flow",
+			"title":		"Value flow",	
+			"groups":		["Standard"],
+			"description":	"A value flow edge",
+			"view":			"connector.value-flow.svg",
+			"icon":			"connector.value-flow.png",
+			"roles":		[
+				"value flow"
 			]
 		},
 		{
 			"type": 		"node",
-			"id":			"lane_vertical",
-			"title":		"Vertical lane",
+			"id":			"swimlane (vertical)",
+			"title":		"Vertical swimlane",
 			"groups":		["Swimlanes"],
 			"description":	"A vertical swimlane",
 			"view":			"node.lane.vertical.svg",
-			"icon":			"node.complexinteraction.png",
-			"roles": 		["group"],
-			"properties":	[
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"name",
-					"wrapLines":	true
-				},
-				{
-					"id":			"working_environment",
-					"type":			"String",
-					"title":		"Working environment",
-					"value":		"",
-					"description":	"A reference to a working environment",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"referenced_it_system_elements",
-					"type":			"String",
-					"title":		"Refernenced IT-System elements",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"open_questions",
-					"type":			"String",
-					"title":		"Open questions",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#F2F5A9",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"text_alignment",
-					"type":			"Choice",
-					"title":		"Text alignment",
-					"value":		"Center",
-					"description":	"The alignment of the name",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Center",
-							"value":	"Center",
-						},
-						{
-							"title":	"Top",
-							"value":	"Top",
-						},
-						{
-							"title":	"Bottom",
-							"value":	"Bottom",
-						}
-					]
-				}
-			]
+			"icon":			"container.swimlane-vertical.png",
+			"roles": 		[
+				"container"
+			],
+			"properties":	[]
 		},
 		{
 			"type": 		"node",
-			"id":			"lane_horizontal",
-			"title":		"Horizontal lane",
+			"id":			"swimlane (horizontal)",
+			"title":		"Horizontal swimlane",
 			"groups":		["Swimlanes"],
 			"description":	"A horizontal swimlane",
 			"view":			"node.lane.horizontal.svg",
-			"icon":			"node.complexinteraction.png",
-			"roles": 		["group"],
-			"properties":	[
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"name",
-					"wrapLines":	true
-				},
-				{
-					"id":			"working_environment",
-					"type":			"String",
-					"title":		"Working environment",
-					"value":		"",
-					"description":	"A reference to a working environment",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"referenced_it_system_elements",
-					"type":			"String",
-					"title":		"Refernenced IT-System elements",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"description",
-					"type":			"String",
-					"title":		"Description",
-					"value":		"",
-					"description":	"Additional description to the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"comment",
-					"type":			"String",
-					"title":		"Comments",
-					"value":		"",
-					"description":	"Comments on the performance",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"open_questions",
-					"type":			"String",
-					"title":		"Open questions",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"wrapLines":	true
-				},
-				{
-					"id":			"colorname",
-					"type":			"String",
-					"title":		"Colorname",
-					"value":		"",
-					"description":	"The name of the color",
-					"readonly":		false,
-					"optional":		true,
-					"length":		""
-				},
-				{
-					"id":"color",
-					"type":"Color",
-					"title":"Color",
-					"value":"#F2F5A9",
-					"description":"",
-					"readonly":false,
-					"optional":false,
-					"fill":true,
-					"stroke":false
-				},
-				{
-					"id":			"text_alignment",
-					"type":			"Choice",
-					"title":		"Text alignment",
-					"value":		"Center",
-					"description":	"The alignment of the name",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Center",
-							"value":	"Center",
-						},
-						{
-							"title":	"Top",
-							"value":	"Top",
-						},
-						{
-							"title":	"Bottom",
-							"value":	"Bottom",
-						}
-					]
-				}
+			"icon":			"container.swimlane-horizontal.png",
+			"roles": 		[
+				"container"
+			],
+			"properties":	[]
+		},
+		{
+			"type":			"node",
+			"id":			"performance indicator",
+			"title":		"Performance indicator",
+			"groups":		["Extended"],
+			"description":	"A performance indicator",
+			"view":			"node.performance-indicator.svg",
+			"icon":			"node.performance-indicator.png",
+			"roles":		[
+				"all"
+			],
+			"properties": [
 			]
 		},
 		{
-			"type":			"edge",
-			"id":			"has_cross_reference",
-			"title":		"Has cross reference",	
-			"groups":		["connector"],
-			"description":	"A has cross reference edge",
-			"view":			"connector.has-cross-reference.svg",
-			"icon":			"edge.precedes.png",
+			"type":			"node",
+			"id":			"performance indicator overview",
+			"title":		"Performance indicator overview",
+			"groups":		["Extended"],
+			"description":	"A performance indicator overview",
+			"view":			"node.performance-indicator-overview.svg",
+			"icon":			"node.performance-indicator-overview.png",
 			"roles":		[
-				"connector",
-				"cross_reference"],
-			"properties":	[
-				{
-					"id":			"type",
-					"type":			"Choice",
-					"title":		"Type",
-					"value":		"Information flow",
-					"description":	"The type of the edge",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Information flow",
-							"value":	"Information_flow",
-						},
-						{
-							"title":	"Material flow",
-							"value":	"Material_flow",
-						},
-						{
-							"title":	"Control flow",
-							"value":	"Control_flow",
-						}
-					]
-				}
-				]
-			
-		},
-		{
-			"type":			"edge",
-			"id":			"has_process",
-			"title":		"Has process",	
-			"groups":		["connector"],
-			"description":	"A has process edge",
-			"view":			"connector.has-process.svg",
-			"icon":			"edge.precedes.png",
-			"roles":		[
-				"connector"],
-				"properties":	[
-				{
-					"id":			"name",
-					"type":			"String",
-					"title":		"Name",
-					"value":		"",
-					"description":	"",
-					"readonly":		false,
-					"optional":		true,
-					"length":		"",
-					"refToView":	"name",
-					"wrapLines":	true
-				},
-				{
-					"id":			"representation",
-					"type":			"Choice",
-					"title":		"Representation",
-					"value":		"above/below",
-					"description":	"Choose display of the name",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"Above/below",
-							"value":	"Above_below",
-						},
-						{
-							"title":	"Left/Right",
-							"value":	"Left_right",
-						}
-					]
-				},
-				{
-					"id":			"fontcolor",
-					"type":			"Choice",
-					"title":		"Fontcolor",
-					"value":		"black",
-					"description":	"Choose the color of the text",
-					"optional":		false,
-					"items": [
-						{
-							"title":	"black",
-							"value":	"black",
-						},
-						{
-							"title":	"white",
-							"value":	"white",
-						}
-					]
-				}
-
+				"all"
+			],
+			"properties": [
 			]
 		},
-		{
-			"type":			"edge",
-			"id":			"value_flow",
-			"title":		"Value flow",	
-			"groups":		["connector"],
-			"description":	"A value flow edge",
-			"view":			"connector.value-flow.svg",
-			"icon":			"edge.precedes.png",
-			"roles":		[
-				"connector",
-				"value_flow"]
-		},
-		{
-			"type":			"edge",
-			"id":			"has_note",
-			"title":		"Has note",	
-			"groups":		["note_connector"],
-			"description":	"A note edge",
-			"view":			"connector.has-note.svg",
-			"icon":			"edge.precedes.png",
-			"roles":		[
-				"note_connector"]
-		}
 		
+		{
+			"type":			"edge",
+			"id":			"owns",
+			"title":		"owns",	
+			"groups":		["Extended"],
+			"description":	"A owns edge",
+			"view":			"connector.owns.svg",
+			"icon":			"connector.owns.png",
+			"roles":		[]
+		}
 		
 		
 	],
 	"rules":{
 		"connectionRules": [
 			{
-				"role":		"value_flow",
+				"role":		"all to all",
 				"connects":	[
 					{
-						"from":	"node",
-						"to":	"node"
+						"from":	"all",
+						"to":	"all"
 					}
-				],
+				]
 			},
 			{
-				"role":		"note_connector",
+				"role":		"has note",
 				"connects":	[
 					{
-						"from":	"additional",
-						"to":	"additional"
-					}
-				],
-			},
-			{
-				"role":		"cross_reference",
-				"connects":	[
-					{
-						"from":	"node",
-						"to":	"node"
-					},
-					{
-						"from":	"process",
-						"to":	"note"
-					},
-					{
-						"from":	"note",
-						"to":	"process"
-					},
-					{
-						"from":	"note",
+						"from":	"all",
 						"to":	"note"
 					}
-				],
+				]
 			},
 			{
-				"role":		"connector",
+				"role":		"owns",
+				"connects":	[
+					{
+						"from":	"all",
+						"to":	"performance indicator"
+					}
+				]
+			},
+			{
+				"role":		"process to process",
 				"connects":	[
 					{
 						"from":	"process",
 						"to":	"process"
 					}
-				],
+				]
+			},
+			{
+				"role":		"value flow",
+				"connects":	[
+					{
+						"from":	"valueable",
+						"to":	"valueable"
+					}
+				]
 			}
 		],
 		"containmentRules":	[
 			{
 				"role":		"diagram",
 				"contains": [
-							"node",
-							"note",
-							"link",
-							"group",
-							"process",
+							"all",
+							"container"
 				]
 			}
 		]

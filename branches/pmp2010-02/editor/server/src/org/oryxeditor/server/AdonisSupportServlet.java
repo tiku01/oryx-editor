@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
 
-import de.hpi.AdonisSupport.AdonisConverter;;
+import de.hpi.AdonisSupport.AdonisConverter;
 
 /**
  * Copyright (c) 2010 Markus Goetz
@@ -40,7 +40,6 @@ public class AdonisSupportServlet extends HttpServlet {
 
 		res.setContentType("text/xml");
 		String data = req.getParameter("data");
-		
 		
 		String action = req.getParameter("action");
 		AdonisConverter converter = null;

@@ -4,16 +4,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Vector;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
+
 
 
 public class AdonisConverter {
@@ -61,22 +60,28 @@ public class AdonisConverter {
 	 * @return
 	 */
 	public String importXML(String xml){
-//		System.err.println("importXML\n"+xml);
+		Log.v("importXML");
+
 		String filteredXML = filterXML(xml);
 		StringReader stringReader = new StringReader(filteredXML);
 		
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
 		AdonisXML xmlModelCollection = (AdonisXML) xmappr.fromXML(stringReader);
+		Log.v("mapping xml to java done");
+		
 		xmlModelCollection.collectAttributes();
+		
+		
 		
 		Vector<JSONObject> models = null;
 		try {
-//			xmlModelCollection.write(model);
 			models = xmlModelCollection.writeDiagrams();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			Log.e("E importXML",e);
 			e.printStackTrace();
 		}
+		Log.v("mapping java to json done");
+		Log.v("reuslt: "+models.elementAt(0).toString());
 		return models.elementAt(0).toString();
 	}
 	
@@ -91,7 +96,7 @@ public class AdonisConverter {
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
 		System.out.println(
-				ac.importXML(importFromFile("D:\\Desktop\\Adonis\\Bank CompanyMap"+/* Referenced*/".xml")));
+				ac.importXML(importFromFile("D:\\Desktop\\Adonis\\CompanyMapExportXML.xml")));
 		
 		
 		

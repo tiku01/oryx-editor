@@ -1,4 +1,11 @@
 [
+		 {
+            "title":"ADONIS",
+            "namespace":"http://b3mn.org/stencilset/adonis#",
+            "description":"ADONIS stencil set specification.",
+            "uri":"/adonis/adonis.json",
+            "visible":true
+        },
         {
             "title":"BPMN 1.0",
             "namespace":"http://b3mn.org/stencilset/bpmn#",

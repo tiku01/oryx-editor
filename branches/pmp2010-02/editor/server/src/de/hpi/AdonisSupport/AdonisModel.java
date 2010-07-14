@@ -128,24 +128,28 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	public void writeJSONinheritedProperties(JSONObject json) throws JSONException{
 		JSONObject properties = getJSONObject(json, "properties");
-		JSONObject inherited = getJSONObject(properties,"inheritedProperties");
-		for (String key : inheritedProperties.keySet()){
-			inherited.put(key, inheritedProperties.get(key));
-		}
+		//XXX
+//		JSONObject inherited = getJSONObject(properties,"inheritedProperties");
+//		for (String key : inheritedProperties.keySet()){
+//			inherited.put(key, inheritedProperties.get(key));
+//		}
 	}
 	/**
 	 * write the resource id
 	 */
 	@Override
 	public void writeJSONresourceId(JSONObject json) throws JSONException{
-		json.put("resourceId","oryx-diagram123");
+		//XXX
+		json.put("resourceId","oryx-canvas123");
 	}
 	/**
 	 * write the stencil
 	 */
 	@Override
 	public void writeJSONstencil(JSONObject json) throws JSONException{
-		json.put("stencil","diagram");
+		//XXX oryx-canvas123 vs diagram 
+		JSONObject stencil = getJSONObject(json,"stencil");
+		stencil.put("id","Diagram");
 	}
 	/**
 	 * write the properties (including not used ones and except special attributes with a representation in oryx)
@@ -153,12 +157,13 @@ public class AdonisModel extends AdonisStencil{
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException{
 		JSONObject properties = getJSONObject(json, "properties");
-		properties.put("id",getId());
-		properties.put("name",getName());
-		properties.put("version",getVersion());
-		properties.put("modeltype",getModeltype());
-		properties.put("libtype",getLibtype());
-		properties.put("applib",getApplib());
+//		XXX
+//		properties.put("id",getId());
+//		properties.put("name",getName());
+//		properties.put("version",getVersion());
+//		properties.put("modeltype",getModeltype());
+//		properties.put("libtype",getLibtype());
+//		properties.put("applib",getApplib());
 		
 //		TODO sort out
 //		// store the unused attributes as triple in the properties
@@ -179,7 +184,8 @@ public class AdonisModel extends AdonisStencil{
 	 * write the namespace
 	 */
 	public void writeJSONnamespace(JSONObject json) throws JSONException{
-		json.put("namespace","http://b3mn.org/stencilset/adonis#");
+		JSONObject stencilset = getJSONObject(json, "stencilset");
+		stencilset.put("namespace","http://b3mn.org/stencilset/adonis#");
 	}
 	/**
 	 * write down the used stencilset extensions
@@ -199,11 +205,11 @@ public class AdonisModel extends AdonisStencil{
 			aInstance.write(shape);
 			childShapes.put(shape);
 		}
-//		for (AdonisConnector aConnector : getConnector()){
-//			shape = new JSONObject();
-//			aConnector.write(shape);
-//			childShapes.put(shape);
-//		}
+		for (AdonisConnector aConnector : getConnector()){
+			shape = new JSONObject();
+			aConnector.write(shape);
+			childShapes.put(shape);
+		}
 	}
 	/**
 	 * write the bounds of the diagram
@@ -215,14 +221,20 @@ public class AdonisModel extends AdonisStencil{
 		for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
 			if (aAttribute.getName().equalsIgnoreCase("world area")){
 				// extract the numbers out of the string
-				String area = aAttribute.getElement().replace("w:", "");
-				area = area.replace("h:", "");
-				area = area.replace("cm","");
 				JSONObject bounds = getJSONObject(json,"bounds");
 				JSONObject temp = getJSONObject(bounds,"lowerRight");
-				// try to give the diagram a nice size
-				temp.put("x",Double.parseDouble(area.split(" ")[0])*CENTIMETERTOPIXEL);
-				temp.put("y",Double.parseDouble(area.split(" ")[1])*CENTIMETERTOPIXEL);
+				if (aAttribute.getElement() != null){
+					String area = aAttribute.getElement().replace("w:", "");
+					area = area.replace("h:", "");
+					area = area.replace("cm","");
+		
+					// try to give the diagram a nice size
+					temp.put("x",(int)(double)Double.parseDouble(area.split(" ")[0])*CENTIMETERTOPIXEL);
+					temp.put("y",(int)(double)Double.parseDouble(area.split(" ")[1])*CENTIMETERTOPIXEL);
+				} else {
+					temp.put("x",1485);
+					temp.put("y",1050);
+				}
 				
 				temp = getJSONObject(bounds,"upperLeft");
 				temp.put("x",0);

@@ -84,7 +84,9 @@ public class AdonisInstance extends AdonisStencil {
 		for (AdonisAttribute aAttribute : getAttribute()){
 			if (aAttribute.getName().equalsIgnoreCase("Position")){
 				// extract the numbers out of the string
-				String area = aAttribute.getElement().replace("NODE x:", "");
+				String area = aAttribute.getElement().replace("NODE","");
+				area = aAttribute.getElement().replace("SWIMLANE","");
+				area = area.replace("x:", "");
 				area = area.replace("y:", "");
 				area = area.replace("w:", "");
 				area = area.replace("h:", "");
@@ -92,16 +94,16 @@ public class AdonisInstance extends AdonisStencil {
 				String[] position = area.split(" ");
 				
 				//upperLeft
-				bounds[0] = Double.parseDouble(position[0])*CENTIMETERTOPIXEL;
-				bounds[1] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
+				bounds[0] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
+				bounds[1] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL;
 				//lowerRight
 				//TODO look if there is variant with 3 space values (x y w or x y h)
 				if (position.length <= 3){
-					bounds[2] = (Double.parseDouble(position[0])+getStandardSize(true))*CENTIMETERTOPIXEL;
-					bounds[3] = (Double.parseDouble(position[1])+getStandardSize(false))*CENTIMETERTOPIXEL;
+					bounds[2] = (getStandardSize(true))*CENTIMETERTOPIXEL + bounds[0];
+					bounds[3] = (getStandardSize(false))*CENTIMETERTOPIXEL + bounds[1];
 				} else {
-					bounds[2] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL;
-					bounds[3] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL;
+					bounds[2] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + bounds[0];
+					bounds[3] = Double.parseDouble(position[4])*CENTIMETERTOPIXEL + bounds[1];
 				}
 				break;
 			}
@@ -114,7 +116,7 @@ public class AdonisInstance extends AdonisStencil {
 		if (bounds == null){
 			getBounds(); 
 		}
-		return new Double[]{(bounds[0] + bounds[2])/2, (bounds[1] + bounds[3])/3};   
+		return new Double[]{(bounds[0] + bounds[2])/2, (bounds[1] + bounds[3])/2};   
 	}
 	/**
 	 * these attributes have influences on the representation in oryx
@@ -160,9 +162,9 @@ public class AdonisInstance extends AdonisStencil {
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json,"properties");
-		properties.put("id",getId());
-		properties.put("class",getStencilClass());
-		properties.put("name",getName());
+//		properties.put("id",getId());
+//		properties.put("class",getStencilClass());
+//		properties.put("name",getName());
 		
 //		TODO sort out
 //		for (AdonisAttribute aAttribute : getAttribute()){
@@ -183,12 +185,12 @@ public class AdonisInstance extends AdonisStencil {
 		JSONObject bounds = getJSONObject(json,"bounds");
 		
 		JSONObject temp = getJSONObject(bounds,"upperLeft");
-		temp.put("x",getBounds()[0]);
-		temp.put("y",getBounds()[1]);
+		temp.put("x",(int)(double)getBounds()[0]);
+		temp.put("y",(int)(double)getBounds()[1]);
 		
 		temp = getJSONObject(bounds,"lowerRight");
-		temp.put("x",getBounds()[2]);
-		temp.put("y",getBounds()[3]);	
+		temp.put("x",(int)(double)getBounds()[2]);
+		temp.put("y",(int)(double)getBounds()[3]);	
 	}
 
 	@Override
@@ -204,8 +206,13 @@ public class AdonisInstance extends AdonisStencil {
 		}
 	}
 	
-	@Override
-	public void writeJSONtarget(JSONObject json) throws JSONException{
-		// not used
-	}
+
+	
+//	public void write(JSONObject json) throws JSONException{
+//		if (!stencilClass.contains("Swimlane") && 
+//				(stencilClass.contains("actor") ||
+//						stencilClass.contains("Process"))){
+//			super.write(json);
+//		}
+//	}
 }
