@@ -36,10 +36,12 @@ public class HeuristicOryxInterpreter {
 		}
 	}
 
-	public Diagram interpret(Diagram diagram) {
-		ArrayList<Shape> correctedChildShapes = correctPools(diagram.getChildShapes());
-		correctedChildShapes = correctContainment(correctedChildShapes);
-		diagram.setChildShapes(correctedChildShapes);
+	public Diagram interpretDiagram(Diagram diagram) {
+		if (Boolean.valueOf(importUtil.getStencilSetConfig("HasContainingShapes"))) {
+			ArrayList<Shape> correctedChildShapes = correctPools(diagram.getChildShapes());
+			correctedChildShapes = correctContainment(correctedChildShapes);
+			diagram.setChildShapes(correctedChildShapes);	
+		}
 		return diagram;
 	}
 

@@ -8,8 +8,20 @@ import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
 import de.hpi.visio.data.VisioDocument;
 
+/**
+ * In visio it's possible to create several pages within a .vdx-document,
+ * each page can contain stencil-element.
+ * Due to a direct import into the editor instead into the explorer or into
+ * diagram-files, those pages are currently merged.
+ * @author Thamsen
+ */
 public class VisioPageMerger {
 
+	/**
+	 * Merges all pages of a visio-document to a single page of added size, so
+	 * that all shapes will imported into one model at oryx.
+	 * @return
+	 */
 	public VisioDocument mergeAllPages(VisioDocument visioData) {
 		List<Page> allPages = visioData.getPages();
 		if (allPages.size() > 1) {

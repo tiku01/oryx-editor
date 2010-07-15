@@ -1,8 +1,6 @@
 package org.oryxeditor.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -26,38 +24,20 @@ public class VisioImporter extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			response.setContentType("text/plain");
 			FileItemFactory factory = new DiskFileItemFactory();
 
 			List<FileItem> items = new ServletFileUpload(factory).parseRequest(request);
-			Iterator<FileItem> iterator = items.iterator();
-			List<FileItem> files = new ArrayList<FileItem>();
 			
-			String stencil = "";
-	
-			while (iterator.hasNext()) {
-				FileItem item = iterator.next();
-				if (item.isFormField() && item.getFieldName().equals("stencil")) {
-					stencil = item.getString();
-				} else if (item.getFieldName().equals("vdxFile")) {
-					files.add(item);
-				}
-			}
-			
-			if ("".equals(stencil) || files.get(0) == null) {
-				throw new RuntimeException("Stencil set isn't supported yet or the file upload wasn't correct");
-			}
-			
-			String data = files.get(0).getString("UTF-8");
-
+			String data = items.get(0).getString("UTF-8");
+			String stencil = items.get(1).getString("UTF-8");
+		
 			VisioToJSONConverter converter = new VisioToJSONConverter(this.getServletContext().getRealPath("/"));
-
+			
 			String result = converter.importVisioData(data, stencil);
-			System.out.println(result);
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(result);
 			response.setStatus(HttpStatus.SC_OK);
-
-		
 		} catch (Exception e) {
 			response.setStatus(HttpStatus.SC_BAD_REQUEST);
 			throw new RuntimeException("Failure in attempt to import from the given .vdx-file.", e);

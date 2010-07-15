@@ -1,7 +1,9 @@
 package de.hpi.visio.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Point;
@@ -204,19 +206,40 @@ public class ShapeUtil {
 		return new Point(x,y);
 	}
 
-	public Shape getSmallestShapeToPointWithinThreshold(Shape self, Point point, List<Shape> shapes) {
+	public Shape getNearestPreferedShapeToPointWithinThreshold(Shape self, Point point, List<Shape> shapes) {
+		// anti prefered stencils: e.g. pools, because the distance is nearly always 0.0, 
+		// so tasks should be preferred when distance within also in threshold
+		// Better results than to take the smallest shape, because edges always win in that comparison
+		String[] antiPreferedStencils = importUtil.getStencilSetConfig("antiPreferForEdgeAssignment").split(",");
 		if (shapes.size() > 0) {
-			List<Shape> shapesWithinThreshold = new ArrayList<Shape>();
+			Map<Shape, Double> shapesWithinThresholdMap = new HashMap<Shape, Double>();
 			for (Shape shape : shapes) {
 				if (shape == self)
 					continue;
-				if (getDistanceToShapeBorderFromPoint(shape, point) < maxDistanceThresholdInVisioUnit) {
-					shapesWithinThreshold.add(shape);
+				Double distance = getDistanceToShapeBorderFromPoint(shape, point);
+				if (distance < maxDistanceThresholdInVisioUnit) {
+					shapesWithinThresholdMap.put(shape, distance);
 				}
 			}
-			if (shapesWithinThreshold.size() > 0) {
-				Collections.sort(shapesWithinThreshold, new ShapeSizeComparator());	
-				return shapesWithinThreshold.get(0);		
+			if (shapesWithinThresholdMap.size() > 0) {
+				List<Map.Entry<Shape, Double>> shapesWithinThresholdList = 
+					new ArrayList<Map.Entry<Shape, Double>>(shapesWithinThresholdMap.entrySet());
+				Collections.sort(shapesWithinThresholdList, new DistanceToShapeComparator());	
+				int i = 0;
+				while (i < shapesWithinThresholdMap.size()) {
+					Shape shape = shapesWithinThresholdList.get(i).getKey();
+					Boolean isAntiPrefered = false;
+					for (String antiPreferedStencil : antiPreferedStencils) {
+						if (antiPreferedStencil.equals(importUtil.getStencilIdForName(shape.getName())))
+							isAntiPrefered = true;
+					}
+					if (!isAntiPrefered)
+						return shape;
+					i++;
+				}
+				// all stencils anti-prefered or anti-preferation undefined
+				Shape nearestShape = shapesWithinThresholdList.get(0).getKey();
+				return nearestShape;
 			}
 		} 
 		return null;

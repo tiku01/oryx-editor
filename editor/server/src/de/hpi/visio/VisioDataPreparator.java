@@ -115,20 +115,15 @@ public class VisioDataPreparator {
 			for (String propertyElementName : propertyElements) {
 				List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
 				for (Shape propertyShape : propertyShapes) {
-					Boolean isOnlyAMarkerElement = Boolean.valueOf(importUtil.getMappingConfig("Properties." + propertyElementName + ".isMarker"));
-					if (isOnlyAMarkerElement) {
-						Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
-						if  (containingShape == null) 
-							containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
-						if  (containingShape == null) 
-							containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
-						if (containingShape != null) {
-							resultingShape = containingShape;
-						}
-						page.removeShape(propertyShape);
-					} else {
-						resultingShape = propertyShape;
+					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
+					if  (containingShape == null) 
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
+					if  (containingShape == null) 
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
+					if (containingShape != null) {
+						resultingShape = containingShape;
 					}
+					page.removeShape(propertyShape);
 					String propertyKey = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".key");
 					String propertyValue = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".value");
 					if (resultingShape != null && propertyKey != null && propertyValue != null) {

@@ -8,7 +8,13 @@ import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.JSONBuilder;
 import org.xmappr.Xmappr;
 import de.hpi.visio.data.VisioDocument;
-               	
+   
+/**
+ * Main class of Visio import:
+ * Imports visio .vdx-models to orxy-json, that can be imported
+ * through the json-import into the oryx-editor
+ * @author Thamsen
+ */
 public class VisioToJSONConverter {
 	
 	private String contextPath;
@@ -17,29 +23,31 @@ public class VisioToJSONConverter {
 		this.contextPath = contextPath;
 	}
 
+	/**
+	 * Main method to import Visio files
+	 * @return
+	 */
 	public String importVisioData(String xml, String stencilSet) {
 		VisioXmlPreparator preparator = new VisioXmlPreparator();
 		String preparedXml = preparator.prepareXML(xml);
+		
 		VisioDocument visioDocument = getVisioDocumentFromXML(stencilSet, preparedXml);
+		
 		VisioDataTransformator transformator = new VisioDataTransformator(contextPath, visioDocument.getStencilSet());
 		Diagram diagram = transformator.createDiagramFromVisioData(visioDocument);
-		String diagramJSONString = convertDiagramToJSON(diagram);
-		return diagramJSONString;
+		
+		return getJSONForDiagram(diagram);
 	}
 
 	private VisioDocument getVisioDocumentFromXML(String stencilSet, String preparedXml) {
 		Reader reader = new StringReader(preparedXml);
 		Xmappr xmappr = new Xmappr(VisioDocument.class);
 		VisioDocument visioDocument = (VisioDocument) xmappr.fromXML(reader);
-		if (stencilSet.toLowerCase().equals("bpmn")) {
-			visioDocument.setStencilSet("bpmn");
-		} else if (stencilSet.toLowerCase().equals("epc")) {
-			visioDocument.setStencilSet("epc");
-		}
+		visioDocument.setStencilSet(stencilSet);
 		return visioDocument;
 	}
 
-	private String convertDiagramToJSON(Diagram diagram) {
+	private String getJSONForDiagram(Diagram diagram) {
 		try {
 			return JSONBuilder.parseModeltoString(diagram);
 		} catch (JSONException e) {
