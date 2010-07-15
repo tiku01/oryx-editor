@@ -1,0 +1,50 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:oryx="http://www.b3mn.org/oryx"
+	xmlns:svg="http://www.w3.org/2000/svg"
+	version="1.0">
+	<defs>
+		<marker 
+			id="end" 
+			refX="5" 
+			refY="5" 
+			markerUnits="userSpaceOnUse" 
+			markerWidth="10" 
+			markerHeight="10" 
+			orient="auto">
+			<polygon 
+				points="10,5 0,10 0,0" 
+				stroke="black"
+				fill="blue" 
+				stroke-width="2"/>
+		</marker>
+		<marker 
+			id="start" 
+			refX="-2" 
+			refY="5" 
+			markerUnits="userSpaceOnUse" 
+			markerWidth="10" 
+			markerHeight="10" 
+			orient="auto">
+			<circle 
+				id="countelement" 
+				cx="5" 
+				cy="5" 
+				r="4" 
+				stroke-width="1" 
+				fill="blue" 
+				stroke="black"/>
+		</marker>
+	</defs>
+	<g id="edge">
+
+		<path
+			d="M50 50 l100 0" 
+			stroke="black" 
+			fill="none" 
+			stroke-width="2" 
+			marker-start="url(#start)" 
+			marker-end="url(#end)"
+			/>		
+		</g>
+</svg>

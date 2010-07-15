@@ -1,0 +1,18 @@
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+xmlns:svg="http://www.w3.org/2000/svg"
+   version="1.0">
+  <defs></defs>
+  <oryx:magnets>
+	<oryx:magnet oryx:cx="15" oryx:cy="15" oryx:default="yes" />
+  </oryx:magnets>
+  <g>
+ 	<polygon 
+		points="0 0 30 15 0 30" 
+		stroke="black"
+		fill="blue" 
+		stroke-width="2"/>
+
+  </g>
+</svg>

@@ -20,7 +20,7 @@ import org.xmappr.RootElement;
 //>
 
 @RootElement("ADOXML")
-public class AdonisXML {
+public class AdonisXML extends AdonisBaseObject {
 	
 	public AdonisXML(){
 		setAdoversion("Version 3.9");
@@ -124,32 +124,25 @@ public class AdonisXML {
 
 	public Vector<JSONObject> writeDiagrams() throws JSONException{
 		Log.v("writeDiagrams");
-		collectAttributes();
+		HashMap<String,String> modelAttributes = new HashMap<String, String>();
+		modelAttributes.put("adoversion",getAdoversion());
+		modelAttributes.put("date",getDate());            
+		modelAttributes.put("time",getTime());            
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
 		JSONObject json = null;
 		
 		for (AdonisModel aModel : getModels().getChildren()){
+			//pass global information to models
+			aModel.setInheritedProperties(modelAttributes);
+			
 			Log.v("write Model "+aModel.getName());
+			
 			json = new JSONObject();
 			aModel.write(json);
 			jsonDiagrams.add(json);
 		}
 		
 		return jsonDiagrams;
-	}	
-	
-	
-	public void collectAttributes() {
-		HashMap<String,String> modelAttributes = new HashMap<String, String>();
-		modelAttributes.put("adoversion",getAdoversion());
-		modelAttributes.put("date",getDate());            
-		modelAttributes.put("time",getTime());            
-		// optionals are not used
-		if (getModels() != null && getModels().getChildren() != null){
-			for (AdonisModel model : getModels().getChildren()){
-				model.setInheritedProperties(modelAttributes);
-			}
-		}
 	}
 }

@@ -6,10 +6,6 @@ xmlns:svg="http://www.w3.org/2000/svg"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="0" oryx:cy="30" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="0" />
-  	<oryx:magnet oryx:cx="80" oryx:cy="30" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="60" />
   	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes"/>
   </oryx:magnets>
   <g>

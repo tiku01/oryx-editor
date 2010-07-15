@@ -84,8 +84,9 @@ public class AdonisInstance extends AdonisStencil {
 		for (AdonisAttribute aAttribute : getAttribute()){
 			if (aAttribute.getName().equalsIgnoreCase("Position")){
 				// extract the numbers out of the string
-				String area = aAttribute.getElement().replace("NODE","");
-				area = aAttribute.getElement().replace("SWIMLANE","");
+				String area = aAttribute.getElement().replace("NODE ","");
+				area = area.replace("SWIMLANE ","");
+				area = area.replace("index:", "");
 				area = area.replace("x:", "");
 				area = area.replace("y:", "");
 				area = area.replace("w:", "");
@@ -94,16 +95,16 @@ public class AdonisInstance extends AdonisStencil {
 				String[] position = area.split(" ");
 				
 				//upperLeft
-				bounds[0] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
-				bounds[1] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL;
+				bounds[0] = Double.parseDouble(position[0])*CENTIMETERTOPIXEL;
+				bounds[1] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
 				//lowerRight
 				//TODO look if there is variant with 3 space values (x y w or x y h)
 				if (position.length <= 3){
 					bounds[2] = (getStandardSize(true))*CENTIMETERTOPIXEL + bounds[0];
 					bounds[3] = (getStandardSize(false))*CENTIMETERTOPIXEL + bounds[1];
 				} else {
-					bounds[2] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + bounds[0];
-					bounds[3] = Double.parseDouble(position[4])*CENTIMETERTOPIXEL + bounds[1];
+					bounds[2] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL + bounds[0];
+					bounds[3] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + bounds[1];
 				}
 				break;
 			}
