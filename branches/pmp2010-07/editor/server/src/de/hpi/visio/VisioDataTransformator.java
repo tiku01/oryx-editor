@@ -39,7 +39,7 @@ public class VisioDataTransformator {
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
 		HeuristicOryxInterpreter oryxInterpreter = new HeuristicOryxInterpreter(importUtil);
-		diagram = oryxInterpreter.interpret(diagram); 
+		diagram = oryxInterpreter.interpretDiagram(diagram); 
 		return diagram;
 	}
 
@@ -103,7 +103,7 @@ public class VisioDataTransformator {
 	}
 	
 	private void assignShapeIds(List<Shape> shapes) {
-		String shapeString = "bpmnvisio_";
+		String shapeString = "imported_visio_";
 		Integer i = 0;
 		for (Shape shape : shapes) {
 			shape.setShapeId(shapeString + i.toString());

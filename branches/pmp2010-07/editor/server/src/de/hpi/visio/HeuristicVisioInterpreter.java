@@ -48,8 +48,8 @@ public class HeuristicVisioInterpreter {
 		List<Shape> shapes = page.getShapes();
 		List<Shape> edges = getAllEdges(shapes);
 		for (Shape edge : edges) {
-			Shape source = shapeUtil.getSmallestShapeToPointWithinThreshold(edge, edge.getStartPoint(), shapes);
-			Shape target = shapeUtil.getSmallestShapeToPointWithinThreshold(edge, edge.getEndPoint(), shapes);
+			Shape source = shapeUtil.getNearestPreferedShapeToPointWithinThreshold(edge, edge.getStartPoint(), shapes);
+			Shape target = shapeUtil.getNearestPreferedShapeToPointWithinThreshold(edge, edge.getEndPoint(), shapes);
 			if (source != null) {
 				edge.setSource(source);
 				source.addOutgoing(edge);

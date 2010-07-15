@@ -190,18 +190,13 @@
 	
 	<!-- mind case-sensivity, but having the same name as taskPropertyMarker and 
 	as specialTaskType that represents a property will cause failure-->
-	<!-- Markers -->
+	<!-- Markers (no real shapes but shapes to specialize other shapes (e.g., a + on a task is a collapsed subprocess)) -->
+	<!-- Make sure that all Properties.STENCIL key-value-pairs are included in .areOnlyProperties -->
 	<entry key="stencilsets.bpmn.config.areOnlyProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Activity Looping.isMarker">true</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Activity Looping.key">looptype</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Activity Looping.value">Standard</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Multiple Instances.isMarker">true</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Multiple Instances.key">looptype</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Multiple Instances.value">Parallel</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Transaction.isMarker">false</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Transaction.key">callacitivity</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Transaction.value">true</entry>
-	<entry key="stencilsets.bpmn.config.Properties.Compensation.isMarker">true</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Compensation.key">isforcompensation</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Compensation.value">true</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Ad-Hoc.isMarker">true</entry>
@@ -210,7 +205,13 @@
 	<entry key="stencilsets.bpmn.config.taskWithSubprocessMarker">CollapsedSubprocess</entry>
 	
 	<!-- special types of stencils, representing properties -->
-	<entry key="stencilsets.bpmn.config.specialTypes">Multi-Instance Loop Collapsed Sub-Process,Standard Loop Collapsed Sub-Process,Compensation Task,Multi-Instance Loop Task,Sequence Flow (Default),Sequence Flow (Conditional),Conditional Flow,Default Flow,Standard Loop Task,Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4,Transaction</entry>
+	<!-- make sure that all key-value-pairs that define the properties of an ordanary element are included in .specialTypes -->
+	<entry key="stencilsets.bpmn.config.specialTypes">Standard Loop Task,Activity looping,Collapsed sub-process 2,
+		Collapsed sub-process 3,Collapsed sub-process 4,Default Flow,Conditional Flow,Sequence Flow (Conditional),Sequence Flow (Default),
+		Multi-Instance Loop Task,Compensation Task,Standard Loop Collapsed Sub-Process,Multi-Instance Loop Collapsed Sub-Process,
+		Compensation Collapsed Sub-Process,Ad-Hoc Collapsed Sub-Process,Transaction Collapsed Sub-Process,Standard Loop Expanded Sub-Process,
+		Multi-Instance Loop Expanded Sub-Process,Compensation Expanded Sub-Process,Ad-Hoc Expanded Sub-Process,
+		Transaction Expanded Sub-Process,Transaction</entry>
 	<entry key="stencilsets.bpmn.config.Standard Loop Task.keys">looptyp</entry>
 	<entry key="stencilsets.bpmn.config.Standard Loop Task.values">Standard</entry>
 	<entry key="stencilsets.bpmn.config.Activity looping.keys">looptype</entry>
@@ -265,7 +266,7 @@
 	<entry key="oryx.config.bpmn.StencilType">BPMNDiagram</entry>
 	<entry key="oryx.config.bpmn.TargetNameSpace">http://www.omg.org/bpmn20</entry>
 	<entry key="oryx.config.bpmn.TypeLanguage">http://www.w3.org/2001/XMLSchema</entry>
-	
+		
 	<entry key="oryx.config.bpmn.ElementsWithMinimum">Group,CollapsedPool,Pool,Lane,EventSubprocess,CollapsedEventSubprocess,Subprocess,CollapsedSubprocess,Task,TextAnnotation,DataObject</entry>	
 	<entry key="oryx.config.bpmn.Group.minWidth">60</entry>
 	<entry key="oryx.config.bpmn.Group.minHeight">50</entry>
@@ -304,6 +305,8 @@
 	<entry key="oryx.config.bpmn.SequenceFlow.LabelProperty">conditionexpression</entry>
 	<entry key="oryx.config.bpmn.TextAnnotation.LabelProperty">text</entry> 
 	<entry key="oryx.config.bpmn.DefaultLabelProperty">name</entry>
+	
+	<entry key="oryx.config.bpmn.HasContainingShapes">true</entry>
 	<entry key="oryx.config.bpmn.ContainerShapes">Pool,Lane,Subprocess,CollapsedSubprocess</entry>
 	<entry key="oryx.config.bpmn.NotContainableShapes">Pool,Group</entry>
 	<entry key="oryx.config.bpmn.FromFreeTextInterpretationExcludedStencils">Pool,Lane,Group</entry>
@@ -313,7 +316,7 @@
 	<entry key="oryx.config.bpmn.labelOnlyAnnotationType">Description</entry> <!-- Visio nameU: there has to be a mapping for this name in a stencil set -->
 	<entry key="oryx.config.bpmn.unknownNameUAndWithoutLabelType">Flow</entry> 
 	
-	
+	<entry key="oryx.config.bpmn.antiPreferForEdgeAssignment">Pool,Lane,Group,Subprocess,Association_Bidirectional,MessageFlow,SequenceFlow,Association_Undirected,Association_Unidirectional</entry>
 	
 	
 	
@@ -339,7 +342,6 @@
 	
 	
 	<!-- STENCIL SET CONFIGURATION - PROPERTY MAPPINGS -->
-	<entry key="stencilsets.bpmn.config.areOnlyProperties"></entry>
 	<entry key="stencilsets.epc.config.specialTypes"></entry>
 	
 		
@@ -381,16 +383,21 @@
 		<entry key="oryx.config.bpmn.AllGateways.category">Gateway</entry>
 		<entry key="oryx.config.bpmn.Gateway.fixedWidth">40</entry>
 		<entry key="oryx.config.bpmn.Gateway.fixedHeight">40</entry> -->					
-	<entry key="oryx.config.epc.Edges">ControlFlow</entry>	
+	<entry key="oryx.config.epc.Edges">ControlFlow,Relation</entry>	
 	<entry key="oryx.config.epc.LabelPropertyException"></entry>
 		<!-- Have a look at bpmn above for usage: 
 		<entry key="oryx.config.bpmn.LabelPropertyException">SequenceFlow,TextAnnotation</entry>
 		<entry key="oryx.config.bpmn.SequenceFlow.LabelProperty">conditionexpression</entry>
 		<entry key="oryx.config.bpmn.TextAnnotation.LabelProperty">text</entry> -->
 	<entry key="oryx.config.epc.DefaultLabelProperty">title</entry>
+	
+	<entry key="oryx.config.epc.HasContainingShapes">false</entry>
 	<entry key="oryx.config.epc.ContainerShapes"></entry>
 	<entry key="oryx.config.epc.NotContainableShapes">Event,ProcessInterface,Organization,XorConnector,OrConnector,AndConnector,Data,Function,System,TextNote,ControlFlow,Relation,Position</entry> <!-- all -->
 	<entry key="oryx.config.epc.FromFreeTextInterpretationExcludedStencils"></entry>
+	
+	<entry key="oryx.config.epc.antiPreferForEdgeAssignment">Relation,ControlFlow</entry>
+	
 	
 	<entry key="oryx.config.epc.unknownNameUButWithLabelType">FreeText</entry> <!-- Visio nameU: there has to be a mapping for this name in a stencil set -->
 	<entry key="oryx.config.epc.labelOnlyAnnotationAssociation">Relation</entry> <!-- Visio nameU: there has to be a mapping for this name in a stencil set -->
@@ -429,7 +436,7 @@
 	<entry key="heuristics.Default_Page_Height">20.0</entry>
 	<entry key="heuristics.Unit_To_Pixel_Exchange">100</entry>
 	
-	<entry key="heuristics.maxEdgeToShapeDistance">0.05</entry> <!-- Visio unit -->
+	<entry key="heuristics.maxEdgeToShapeDistance">0.1</entry> <!-- Visio unit -->
 	
 	<!-- LABEL-ONLY: Interpretation of label-only shapes -->
 	<entry key="heuristics.labelOnlyInterpretationMode">heuristic</entry> <!-- simple / heuristic --> <!-- for simple config see above -->

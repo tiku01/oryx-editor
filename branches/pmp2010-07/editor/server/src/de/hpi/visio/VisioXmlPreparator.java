@@ -1,15 +1,25 @@
 package de.hpi.visio;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+/**
+ * Prepares visio vdx-files (xml) for import to java through the xmappr-library:
+ * - removes the namespaces of Visio 2010
+ * - removes the xml-declaration
+ * - removes all attributes from the root-element
+ * - removes all child-elements in <Text></Text>-Elements
+ * @author Thamsen
+ */
 public class VisioXmlPreparator {
 	
 	private StringBuilder stringBuilder;
 	
+	/**
+	 *	Returns a cleaned version of the given visio-xml, so that it can
+	 * 	be imported correctly through the xmappr-library.
+	 *  (See class comment for additional information). 
+	 */
 	public String prepareXML(String xml) {
 		xml = removeVisio2010Namespaces(xml);
-		// uses stringbuilder to prevend reallocation that comes with string catenation
+		// uses stringbuilder to prevend reallocation that comes with string catenations
 		stringBuilder = new StringBuilder(xml.length());
 		int startIndex = getStartIndexWithoutXmlDeclaration(xml);
 		int afterRootElementIndex = removeAttributesFromRootElement(xml, startIndex);
@@ -22,6 +32,7 @@ public class VisioXmlPreparator {
 		return xml.replaceAll(":v14|v14:", "");
 	}
 
+	// xmappr needs the root-element of xml to be first
 	private int getStartIndexWithoutXmlDeclaration(String xml) {
 		int startIndex = xml.indexOf(">") + 1;
 		if (xml.startsWith("\n"))
