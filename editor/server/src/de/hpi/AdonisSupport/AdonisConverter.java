@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Vector;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
@@ -66,28 +64,35 @@ public class AdonisConverter {
 		StringReader stringReader = new StringReader(filteredXML);
 		
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
-		AdonisXML xmlModelCollection = (AdonisXML) xmappr.fromXML(stringReader);
+		AdonisXML modelCollection = (AdonisXML) xmappr.fromXML(stringReader);
 		Log.v("mapping xml to java done");
-		
-		xmlModelCollection.collectAttributes();
-		
-		
-		
+				
 		Vector<JSONObject> models = null;
 		try {
-			models = xmlModelCollection.writeDiagrams();
+			models = modelCollection.writeDiagrams();
 		} catch (JSONException e) {
 			Log.e("E importXML",e);
 			e.printStackTrace();
 		}
 		Log.v("mapping java to json done");
-		Log.v("reuslt: "+models.elementAt(0).toString());
+		Log.v("result: "+models.elementAt(0).toString());
 		return models.elementAt(0).toString();
 	}
 	
-	public char[] exportXML(String json) {
-//		System.err.println("exportXML\n"+json);
-		return new char[]{'a','b'};
+	public String exportXML(String json) throws JSONException {
+		AdonisXML model = new AdonisXML();
+		JSONObject jsonModel = new JSONObject(json);
+		model.parse(jsonModel);
+		
+		StringWriter writer = new StringWriter();
+		Xmappr xmappr = new Xmappr(AdonisXML.class);
+		xmappr.setPrettyPrint(true);
+		xmappr.toXML(model,writer);
+		
+		return 
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
+			"<!DOCTYPE ADOXML SYSTEM \"adoxml31.dtd\">"+ 
+			writer.toString();
 	}
 	
 	/**
@@ -95,11 +100,15 @@ public class AdonisConverter {
 	 */
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
-		System.out.println(
-				ac.importXML(importFromFile("D:\\Desktop\\Adonis\\CompanyMapExportXML.xml")));
-		
-		
-		
+		String json = ac.importXML(importFromFile("D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml")); 
+		System.out.println(json);
+		try {
+			System.out.println(ac.exportXML(json));
+		} catch (JSONException e){
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+
 	}
 	
 

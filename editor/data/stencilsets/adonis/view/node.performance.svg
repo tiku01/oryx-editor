@@ -6,10 +6,6 @@
    version="0.1">
   <defs></defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="0" oryx:cy="30" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="4" />
-  	<oryx:magnet oryx:cx="80" oryx:cy="30" />
-  	<oryx:magnet oryx:cx="40" oryx:cy="56" />
 	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes" />
   </oryx:magnets>
   <g>
