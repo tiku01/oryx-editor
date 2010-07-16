@@ -9,104 +9,26 @@ import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Point;
 
 import de.hpi.visio.data.Shape;
-import de.hpi.visio.data.Page;
 import java.util.Collections;
 
-public class ShapeUtil {
+/**
+ * Utility class to interpret visio shapes for oryx-shape-containment.
+ * @author Thamsen
+ */
+public class VisioShapeDistanceUtil {
 	
 	private ImportConfigurationUtil importUtil;
-	private String actualFixedSizeCategory = null;
-	
-	private Integer visioPointUnitFactor;
 	private Double maxDistanceThresholdInVisioUnit;
 	
-	public ShapeUtil(ImportConfigurationUtil importUtil) {
+	public VisioShapeDistanceUtil(ImportConfigurationUtil importUtil) {
 		this.importUtil = importUtil;
-		 visioPointUnitFactor = Integer.valueOf(importUtil.getHeuristic("Unit_To_Pixel_Exchange"));
 		 maxDistanceThresholdInVisioUnit = Double.valueOf(importUtil.getHeuristic("maxEdgeToShapeDistance"));
 	}
 		
-	public Bounds getCorrectedShapeBounds(Shape shape, Page page) {
-		Bounds correctedAndCheckedBounds = null;
-		Bounds shapeBounds = shape.getBoundsOnPage(page);
-		Bounds correctedBounds = correctPointsOfBounds(shapeBounds);
-		if(isShapeOfFixedSize(shape,page)) {
-			correctedAndCheckedBounds = getFixedBoundsSizeForShapeOnPage(correctedBounds);
-		} else {
-			if (isShapeResizableWithMinimumSize(shape)) {
-				correctedAndCheckedBounds = checkBoundsForShapesMinimumSize(correctedBounds, shape);
-			} else {
-				// edges are resizable without a minimum size
-				correctedAndCheckedBounds = correctedBounds; 
-			}
-		}
-		return correctedAndCheckedBounds;
-	}
-
-	private boolean isShapeOfFixedSize(Shape shape, Page page) {
-		Boolean isFixedSize = false;
-		String stencilId = importUtil.getStencilIdForName(shape.getName());
-		String fixedSizeShapeCategoriesString = importUtil.getStencilSetConfig("fixedSizeShapeCategories");
-		if (fixedSizeShapeCategoriesString != null && !"".equals(fixedSizeShapeCategoriesString)) {
-			String[] fixedSizeShapeCategories = fixedSizeShapeCategoriesString.split(",");
-			for (String category : fixedSizeShapeCategories) {
-				String[] fixedSizeShapes = importUtil.getStencilSetConfig(category).split(",");
-				for (String fixedSizeShape : fixedSizeShapes) {
-					if (fixedSizeShape.equalsIgnoreCase(stencilId)) {
-						isFixedSize = true;
-						actualFixedSizeCategory = category;
-					}
-				}
-			}
-		}
-		return isFixedSize;
-	}
-	
-	private Bounds getFixedBoundsSizeForShapeOnPage(Bounds bounds) {
-		if (actualFixedSizeCategory == null)
-			throw new IllegalStateException("Also a shape should have fixed boundaries, it wasn't possible to set those.");
-		String actualCategory = importUtil.getStencilSetConfig(actualFixedSizeCategory + ".category");
-		Double fixedWidth = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedWidth"));
-		Double fixedHeight = Double.valueOf(importUtil.getStencilSetConfig(actualCategory + ".fixedHeight"));
-		Double centralPinX = bounds.getUpperLeft().getX() + (( bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2.0);
-		Double centralPinY = bounds.getUpperLeft().getY() + ((bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2.0);
-		bounds.setUpperLeft(new Point(centralPinX - fixedWidth/2, centralPinY - fixedHeight/2));
-		bounds.setLowerRight(new Point(centralPinX + fixedWidth/2, centralPinY + fixedHeight/2));
-		return bounds;
-	}
-
-	private Bounds checkBoundsForShapesMinimumSize(Bounds bounds, Shape shape) {
-		String stencilId = importUtil.getStencilIdForName(shape.name);
-		Double minHeight = Double.valueOf(importUtil.getStencilSetConfig(stencilId + ".minHeight"));
-		Double minWidth = Double.valueOf(importUtil.getStencilSetConfig(stencilId + ".minWidth"));
-		Double actualWidth = bounds.getLowerRight().getX() - bounds.getUpperLeft().getX();
-		Double actualHeight = bounds.getLowerRight().getY() - bounds.getUpperLeft().getY();
-		if (actualHeight < minHeight) {
-			Double centralPinY = bounds.getUpperLeft().getY() + ((bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2.0);
-			bounds.setLowerRight(new Point(bounds.getLowerRight().getX(), centralPinY + (minHeight/2)));
-			bounds.setUpperLeft(new Point(bounds.getUpperLeft().getX(), centralPinY - (minHeight/2)));
-		}
-		if (actualWidth < minWidth) {
-			Double centralPinX = bounds.getUpperLeft().getX() + (( bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2.0);
-			bounds.setLowerRight(new Point(centralPinX + (minWidth/2), bounds.getLowerRight().getY()));
-			bounds.setUpperLeft(new Point(centralPinX - (minWidth/2), bounds.getUpperLeft().getY()));
-		}
-		return bounds;
-	}
-	
-	public Bounds correctPointsOfBounds(Bounds bounds) {
-		Point correctedLowerRight = getCorrectedPoint(bounds.getLowerRight());
-		Point correctedUpperLeft = getCorrectedPoint(bounds.getUpperLeft());
-		Bounds result = new Bounds(correctedLowerRight, correctedUpperLeft);
-		return result;
-	}
-	
-	private Point getCorrectedPoint(Point point) {
-		Point correctedPoint = new Point(point.getX() * visioPointUnitFactor,
-				point.getY() * visioPointUnitFactor);
-		return correctedPoint;
-	}
-	
+	/**
+	 *	Given an oryx stencil id and a list of visio shapes and one specific shape, this will
+	 *	return the first shape that's under the specific shape.
+	 */
 	public Shape getFirstShapeOfStencilThatContainsTheGivenShape(List<Shape> shapes, Shape givenShape, String stencilId) {
 		for (Shape currentShape : shapes) {
 			if (isFirstShapeOnSecondShape(givenShape, currentShape) && givenShape != currentShape) {
@@ -142,70 +64,6 @@ public class ShapeUtil {
 		return false;
 	}
 	
-	private Boolean isShapeResizableWithMinimumSize(Shape shape) {
-		Boolean isResizable = false;
-		String elementsWithMinimumString = importUtil.getStencilSetConfig("ElementsWithMinimum");
-		if (elementsWithMinimumString != null && !"".equals(elementsWithMinimumString)) {
-			String[] resizableElements = elementsWithMinimumString.split(",");
-			for (int i=0; i < resizableElements.length; i++) {
-				String stencilId = importUtil.getStencilIdForName(shape.name);
-				if (resizableElements[i].equalsIgnoreCase(stencilId))
-					isResizable = true;
-			}
-		}
-		return isResizable;
-	}
-	
-	public ArrayList<Point> getCorrectedDockersForShape(Shape shape, Page page) {
-		String stencilId = importUtil.getStencilIdForName(shape.getName());
-		for (String edgeId : importUtil.getStencilSetConfig("Edges").split(",")) {
-			if (edgeId.equalsIgnoreCase(stencilId)) {
-				return getCorrectedEdgeDockers(shape, page);
-			}
-		}
-		return getCorrectedCentralDockerAsList(shape, page);
-	}
-	
-	private ArrayList<Point> getCorrectedCentralDockerAsList(Shape shape, Page page) {
-		ArrayList<Point> correctedCentalDockerList = new ArrayList<Point>();
-		correctedCentalDockerList.add(getCorrectedCentralDocker(shape, page));
-		return correctedCentalDockerList;
-	}
-	
-	private Point getCorrectedCentralDocker(Shape shape, Page page) {
-		Point centralDocker = shape.getCentralPinForPage(page);
-		Point correctedDocker = getCorrectedPoint(centralDocker);
-		return correctedDocker;
-	}
-	
-	private ArrayList<Point> getCorrectedEdgeDockers(Shape shape, Page page) {
-		ArrayList<Point> correctedDockers = new ArrayList<Point>();
-		if (shape.getSource() != null) {
-			Bounds correctedSourceBounds = getCorrectedShapeBounds(shape.getSource(),page);
-			Point sourceMiddlePoint = getCentralPinOfCorrectedBounds(correctedSourceBounds);
-			correctedDockers.add((sourceMiddlePoint));
-		}
-		for (Point dockerPoint : shape.getDockerPoints()) {
-			Point correctedDocker = getCorrectedPoint(dockerPoint);
-			Point correctEdgeStartPoint = this.getCorrectedPoint(shape.getStartPointForPage(page));
-			Double correctedAndFromSourceX = correctEdgeStartPoint.getX() + correctedDocker.getX();
-			Double correctedAndFromSourceY = correctEdgeStartPoint.getY() - correctedDocker.getY();
-			correctedDockers.add(new Point(correctedAndFromSourceX, correctedAndFromSourceY));
-		}
-		if (shape.getTarget() != null) {
-			Bounds correctedTargetBounds = getCorrectedShapeBounds(shape.getTarget(),page);
-			Point targetMiddlePoint = getCentralPinOfCorrectedBounds(correctedTargetBounds);
-			correctedDockers.add((targetMiddlePoint));
-		}
-		return correctedDockers;
-	}
-	
-	private Point getCentralPinOfCorrectedBounds(Bounds bounds) {
-		Double x = (bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2;
-		Double y = (bounds.getLowerRight().getY() - bounds.getUpperLeft().getY()) / 2;
-		return new Point(x,y);
-	}
-
 	public Shape getNearestPreferedShapeToPointWithinThreshold(Shape self, Point point, List<Shape> shapes) {
 		// anti prefered stencils: e.g. pools, because the distance is nearly always 0.0, 
 		// so tasks should be preferred when distance within also in threshold

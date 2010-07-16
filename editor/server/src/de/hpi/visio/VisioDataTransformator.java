@@ -13,29 +13,35 @@ import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
 import de.hpi.visio.data.VisioDocument;
 import de.hpi.visio.util.ImportConfigurationUtil;
-import de.hpi.visio.util.ShapeUtil;
+import de.hpi.visio.util.VisioShapeBoundsUtil;
+import de.hpi.visio.util.VisioShapeDistanceUtil;
+import de.hpi.visio.util.VisioShapeDockerUtil;
 
 public class VisioDataTransformator {
 	
 	private ImportConfigurationUtil importUtil;
-	private ShapeUtil shapeUtil;
+	private VisioShapeDistanceUtil shapeDistanceUtil;
+	private VisioShapeBoundsUtil shapeBoundsUtil;
+	private VisioShapeDockerUtil shapeDockerUtil;
 	
 	public VisioDataTransformator(String contextPath, String type) {
 		importUtil = new ImportConfigurationUtil(contextPath + "execution/", type);
-		shapeUtil = new ShapeUtil(importUtil);
+		shapeDistanceUtil = new VisioShapeDistanceUtil(importUtil);
+		shapeBoundsUtil = new VisioShapeBoundsUtil(importUtil);
+		shapeDockerUtil = new VisioShapeDockerUtil(importUtil, shapeBoundsUtil);
 	}
 
 	public Diagram createDiagramFromVisioData(VisioDocument visioData) {
 		VisioPageMerger merger = new VisioPageMerger();
 		visioData = merger.mergeAllPages(visioData);
-		VisioDataPreparator cleaner = new VisioDataPreparator(importUtil, shapeUtil);
+		VisioDataPreparator cleaner = new VisioDataPreparator(importUtil, shapeDistanceUtil);
 		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
-		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeUtil);
+		HeuristicVisioInterpreter visioInterpreter = new HeuristicVisioInterpreter(importUtil, shapeDistanceUtil);
 		Page interpretedPage = visioInterpreter.interpret(cleanedVisioPage);
 		interpretedPage.setShapes(removeShapesWithoutStencilId(interpretedPage.getShapes()));
 		assignShapeIds(interpretedPage.getShapes());
 		Diagram diagram = getNewDiagram();
-		diagram.setBounds(shapeUtil.correctPointsOfBounds(interpretedPage.getBounds()));
+		diagram.setBounds(shapeBoundsUtil.getCorrectOryxShapeBounds(interpretedPage.getBounds()));
 		ArrayList<org.oryxeditor.server.diagram.Shape> childShapes = getOryxChildShapesFromVisioData(interpretedPage);
 		diagram.setChildShapes(childShapes);
 		HeuristicOryxInterpreter oryxInterpreter = new HeuristicOryxInterpreter(importUtil);
@@ -49,9 +55,9 @@ public class VisioDataTransformator {
 			String stencilId = importUtil.getStencilIdForName(visioShape.getName());
 			StencilType type = new StencilType(stencilId);
 			org.oryxeditor.server.diagram.Shape oryxShape = new org.oryxeditor.server.diagram.Shape(visioShape.getShapeId(), type);
-			Bounds correctedBounds = shapeUtil.getCorrectedShapeBounds(visioShape, visioPage);
+			Bounds correctedBounds = shapeBoundsUtil.getCorrectOryxShapeBoundsWithResizing(visioShape, visioPage);
 			oryxShape.setBounds(correctedBounds);
-			ArrayList<Point> dockers = shapeUtil.getCorrectedDockersForShape(visioShape, visioPage);
+			ArrayList<Point> dockers = shapeDockerUtil.getCorrectedDockersForShape(visioShape, visioPage);
 			oryxShape.setDockers(dockers);
 			setLabelPropertyForShape(visioShape, oryxShape);
 			for (String propertyKey : visioShape.getProperties().keySet()) {

@@ -7,37 +7,6 @@ import org.xmappr.RootElement;
 @RootElement("XForm")
 public class XForm {
 	
-	/*	Interpreting Visio XForm values	
-	 * 
-	 * 	y increases
-	 *  ^
-	 *	|
-	 *	|
-	 *	|
-	 *	-----------> x increases
-	 *
-	 *	PINs are at the center: *
-	 *	-----------------
-	 *	|				|
-	 *	|				|
-	 *	|		* 		|
-	 *	|				|
-	 *	|				|
-	 *	-----------------
-	 *
-	 *
-	 *
-	 *	The oryx canvas
-	 *	
-	 *	------------> x increases
-	 *	|
-	 *	|
-	 *	|
-	 *	|
-	 *	v y increases
-	 *
-	 */
-	
 	@Element("PinX")
 	public PinX positionX;
 	
