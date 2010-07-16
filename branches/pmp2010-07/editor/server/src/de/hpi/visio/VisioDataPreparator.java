@@ -9,7 +9,7 @@ import de.hpi.visio.data.Shape;
 import de.hpi.visio.data.VisioDocument;
 import de.hpi.visio.data.XForm;
 import de.hpi.visio.util.ImportConfigurationUtil;
-import de.hpi.visio.util.ShapeUtil;
+import de.hpi.visio.util.VisioShapeDistanceUtil;
 
 /**
  * The VisioDataCleaner prepares the xmappr-generated Java classes to be mapped
@@ -23,9 +23,9 @@ import de.hpi.visio.util.ShapeUtil;
 public class VisioDataPreparator {
 	
 	private ImportConfigurationUtil importUtil;
-	private ShapeUtil shapeUtil;
+	private VisioShapeDistanceUtil shapeUtil;
 	
-	public VisioDataPreparator(ImportConfigurationUtil importUtil, ShapeUtil shapeUtil) {
+	public VisioDataPreparator(ImportConfigurationUtil importUtil, VisioShapeDistanceUtil shapeUtil) {
 		this.importUtil = importUtil;
 		this.shapeUtil = shapeUtil;
 	}

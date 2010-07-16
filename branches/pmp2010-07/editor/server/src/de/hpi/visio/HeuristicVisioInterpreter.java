@@ -11,15 +11,15 @@ import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
 import de.hpi.visio.util.DistanceToShapeComparator;
 import de.hpi.visio.util.ImportConfigurationUtil;
-import de.hpi.visio.util.ShapeUtil;
+import de.hpi.visio.util.VisioShapeDistanceUtil;
 import java.util.Collections;
 
 public class HeuristicVisioInterpreter {
 	
 	private ImportConfigurationUtil importUtil;
-	private ShapeUtil shapeUtil;
+	private VisioShapeDistanceUtil shapeUtil;
 
-	public HeuristicVisioInterpreter(ImportConfigurationUtil importUtil, ShapeUtil shapeUtil) {
+	public HeuristicVisioInterpreter(ImportConfigurationUtil importUtil, VisioShapeDistanceUtil shapeUtil) {
 		this.importUtil = importUtil;
 		this.shapeUtil = shapeUtil;
 	}
