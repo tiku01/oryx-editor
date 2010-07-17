@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 public class SVGPath {
@@ -67,8 +68,16 @@ public class SVGPath {
 		}	
 	}
 	
-	public void transform(){
-		if (!this.path.getAttribute("d").contains("C") && !this.path.getAttribute("d").contains("c")){
+	public void transform() throws SketchyException{
+		
+		// for Data-based XOR Gateways the cross inside ist not a child but a child's child of the Gateway Node
+		if (  ((Element)this.path.getParentNode()).getAttribute("title").contains("Gateway")
+					|| ((Element)this.path.getParentNode().getParentNode()).getAttribute("title").contains("Gateway") ){
+			
+			transformGateway();
+		}
+		
+		else if (!this.path.getAttribute("d").contains("C") && !this.path.getAttribute("d").contains("c")){
 			this.extractSections();
 			String d = String.format("M %.2f, %.2f ", this.corners.get(0).getX(), this.corners.get(0).getY());		
 			for (int i = 1; i < this.corners.size(); i += 1){
@@ -82,6 +91,40 @@ public class SVGPath {
 			this.changeStyle();
 		}
 		
+	}
+
+	private void transformGateway() throws SketchyException {
+		if ( this.path.getAttribute("id").contains("frame") ){ 
+			this.path.setAttribute("d", 
+					"M 20, 1 L35, 15 Q 40, 20, 33, 25 L 25, 35" +
+					"Q 20, 40, 15, 35 L 5, 25 Q 0, 20, 5, 15 L 25, 0");
+//				this.path.setAttribute("d", 
+//						"M15 0 L45 25 M45 15 L15 40 M20 40 L-5 15 M-5 25 L 25 0");
+		}
+		else if ( ((Element)this.path.getParentNode()).getAttribute("title").contains("Parallel") ){
+			this.path.setAttribute("d", 
+					"M 10 20 L32 20 M20 10 L21 32");
+		}
+		else if ( ((Element)this.path.getParentNode().getParentNode()).getAttribute("title").contains("Data-based") ){
+			System.out.println("has d: " + (this.path.getAttribute("d") == "") );
+			if(this.path.getAttribute("d") != ""){
+				NodeList paths = ((Element)this.path.getParentNode()).getElementsByTagName("path");
+				if (paths.getLength() != 2)
+					throw new SketchyException("unexpected  SVG-representation for Data Based XOR Gateway");
+				((Element) paths.item(0)).setAttribute("d", "M13 13 L 27 27 M 27 13 L 13 27");
+				((Element) paths.item(1)).setAttribute("d", "");
+			}
+			
+		}
+		else if ( ((Element)this.path.getParentNode()).getAttribute("title").contains("Event-based") ){
+			this.path.setAttribute("d", 
+					"M15 0 L45 25 M45 15 L15 40 M20 40  L-5 15 M-5 25 L 25 0");
+		}
+		else if ( ((Element)this.path.getParentNode()).getAttribute("title").contains("Inclusive") ){
+			this.path.setAttribute("d", 
+					"M15 0 L45 25 M45 15 L15 40 M20 40 L-5 15 M-5 25 L 25 0");
+		}
+		this.changeStyle();
 	}
 	
 	private String changeSection(PathSection from, PathSection to){	

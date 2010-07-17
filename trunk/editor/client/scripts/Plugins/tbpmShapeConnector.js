@@ -24,7 +24,7 @@
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
-ORYX.Plugins.ShapeConnector = Clazz.extend({
+ORYX.Plugins.TBPMShapeConnector = Clazz.extend({
 
 	/**
 	 *	Constructor
@@ -36,12 +36,12 @@ ORYX.Plugins.ShapeConnector = Clazz.extend({
 		this.sourceNode = null;
 
 		this.facade.offer({
-			name:			ORYX.I18N.ShapeConnector.add,
+			name:			ORYX.I18N.TBPMShapeconnctor.name,
 			functionality: 	this.enableConnector.bind(this),
-			group: 			ORYX.I18N.ShapeConnector.group,
-            toolbarGroup: 	ORYX.I18N.ShapeConnector.toolbarGroup,
+			group: 			ORYX.I18N.TBPMShapeconnctor.group,
+			//dropDownGroupIcon: ORYX.PATH + "images/tbpm.png",
 			icon: 			ORYX.PATH + "images/pencil_go.png",
-			description: 	ORYX.I18N.ShapeConnector.addDesc,
+			description: 	ORYX.I18N.TBPMShapeconnctor.desc,
 			index: 			1,
             toggle: 		true,
 			minShape: 		0,
@@ -56,8 +56,13 @@ ORYX.Plugins.ShapeConnector = Clazz.extend({
         	this.active = false;
         	this.sourceNode = null;
         }
-		else 
+		else {
 			this.active = true;
+			this.facade.raiseEvent({
+				type:ORYX.CONFIG.EVENT_LOADING_STATUS,
+				text:ORYX.I18N.TBPMShapeconnctor.usage
+			});
+		}
 	},	
 	/**
 	 * MouseDown Handler
@@ -66,7 +71,11 @@ ORYX.Plugins.ShapeConnector = Clazz.extend({
 	handleMouseDown: function(event, uiObj) {
 		if (this.active && uiObj instanceof ORYX.Core.Node) {
             if (this.sourceNode){	
-            	this.createEdge( this.sourceNode, uiObj)
+	            if (! this.createEdge( this.sourceNode, uiObj))
+	            	return;
+	            this.facade.raiseEvent({
+                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
+                });
             }
         	this.sourceNode = uiObj
 		}
@@ -82,22 +91,48 @@ ORYX.Plugins.ShapeConnector = Clazz.extend({
 		// Create a new Stencil		
 		var ssn 	= this.facade.getStencilSets().keys()[0];						
 		var stencil = ORYX.Core.StencilSet.stencil(ssn + "SequenceFlow");
-			
-		// Create a new Shape
-		var edge = new ORYX.Core.Edge({'eventHandlerCallback':this.facade.raiseEvent }, stencil);
-		edge.dockers.first().setDockedShape( source );
-		edge.dockers.first().setReferencePoint({x: source.bounds.width() / 2.0, y: source.bounds.height() / 2.0});
-		//shape.dockers.first().update()
-
-		edge.dockers.last().setDockedShape( target );
-		edge.dockers.last().setReferencePoint({x: target.bounds.width() / 2.0, y: target.bounds.height() / 2.0});
+		var isValid = this.facade.getRules().canConnect({
+			sourceShape: source,
+			edgeStencil: stencil,
+			targetShape: target
+		});	
+		//if(!isValid)
+		//	return null;
 		
-		// Add the shape to the canvas
-		this.facade.getCanvas().add(edge);
-		this.facade.getCanvas().update();		
-		
-		return edge;
+		var command = new ORYX.Plugins.TBPMShapeConnector.CreateEdge(source, target, stencil, this.facade);
+        
+		this.facade.executeCommands([command]);		
+		return command.edge;
 					
 	},
 });
+ORYX.Plugins.TBPMShapeConnector.CreateEdge = ORYX.Core.Command.extend({
+    construct: function(source, target, stencil, facade){
+        this.source          	= source;
+        this.target       		= target;
+        this.stencil      		= stencil;
+        this.facade             = facade;
+                
+    },          
+    execute: function(){
+		console.log("execute");
+    	var edge = new ORYX.Core.Edge({'eventHandlerCallback':this.facade.raiseEvent}, this.stencil);
+		edge.dockers.first().setDockedShape( this.source );
+		edge.dockers.first().setReferencePoint({x: this.source.bounds.width() / 2.0, y: this.source.bounds.height() / 2.0});
+		//shape.dockers.first().update()
 
+		edge.dockers.last().setDockedShape( this.target );
+		edge.dockers.last().setReferencePoint({x: this.target.bounds.width() / 2.0, y: this.target.bounds.height() / 2.0});
+		
+		// Add the shape to the canvas
+		this.facade.getCanvas().add(edge);
+        this.facade.getCanvas().update();		
+        this.edge = edge;
+    },
+    rollback: function(){
+        this.facade.deleteShape(this.edge);
+        this.facade.getCanvas().update();	
+		this.facade.updateSelection();
+        
+    }
+});

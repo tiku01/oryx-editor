@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2009
  * Helen Kaltegaertner
@@ -31,28 +30,29 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
 
 	facade: undefined,
 	
-	tbpmImportServletURL: ORYX.CONFIG.TBPMIMPORT,
-	
 	canvasId: "ext-gen56",
 	
-	TMP_FOLDER: ORYX.PATH + "/tmp/",
-	
-    construct: function(){
+    construct: function(facade, ownPluginData){
         // Call super class constructor
         arguments.callee.$.construct.apply(this, arguments);
         
         this.facade.offer({
-            'name': ORYX.I18N.TBPMSupport.imp.name,
-            'functionality': this.showImportDialog.bind(this),
-            'group': ORYX.I18N.TBPMSupport.imp.group,
-            'toolbarGroup': ORYX.I18N.TBPMSupport.toolbarGroup,
-            'dropDownGroupIcon': ORYX.PATH + "images/import.png",
-			'icon': ORYX.PATH + "images/page_white_picture.png",
-            'description': ORYX.I18N.TBPMSupport.imp.desc,
-            'index': 3,
-            'minShape': 0,
-            'maxShape': 0
+            name: ORYX.I18N.TBPMSupport.imp.name,
+            functionality: this.showImportDialog.bind(this),
+            group: ORYX.I18N.TBPMSupport.imp.group,
+            //dropDownGroupIcon: ORYX.PATH + "images/tbpm.png",
+			icon: ORYX.PATH + "images/page_white_picture.png",
+            description: ORYX.I18N.TBPMSupport.imp.desc,
+            index: 3,
+            minShape: 0,
+            maxShape: 0
         });
+        
+        ownPluginData.properties.each( function(property) {			
+			if (property.tbpm_recognition_service) {
+				this.tbpmImportServletURL = property.tbpm_recognition_service;
+			}
+		}.bind(this));
     },
     
     /**
@@ -114,41 +114,27 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
         // Show the panel
         this.dialog.show();        
     },
-    
     uploadImage: function(button, event) {    	
-    	  	
+	  	
     	var imageName = this.form.items.items[1].getValue().replace("png", "jpg");
-    	
-		var loadMask = new Ext.LoadMask(Ext.getBody(), {
-		    msg: ORYX.I18N.TBPMSupport.imp.progress
-		});
-		loadMask.show();
-    	
 		this.form.form.submit({	
     				url: this.tbpmImportServletURL, 
     				clientValidation: true,
-    				waitMsg:'Saving Data...',
+    				waitMsg:'Processing picture...',
     				method: "POST",
     				
     				success: function(form, action) {
-						obj = Ext.util.JSON.decode(action.response.responseText);
-						alert(object);
-    			    	this.dialog.hide();
-    					this.showConfirmDialog(imageName);
-    					// Hide the waiting panel
-    					loadMask.hide()  ;  					
-    			    }.bind(this),
+						this.dialog.hide();
+						this.showConfirmDialog(action.response.responseText);
+				    }.bind(this),
     			    
     			    // invokes failure handler even i case of successful response (no idea why)
     				failure: function(form, action){
     			    	this.dialog.hide();
-    					this.showConfirmDialog(imageName, action.response.responseText);
-    					// Hide the waiting panel
-    					loadMask.hide()  ;
+    					this.showConfirmDialog(action.response.responseText);
     			    	
+    					//"real" failure callback 
     			    	//this.dialog.hide();
-    			    	//loadMask.hide();
-    					//Ext.Msg.alert(ORYX.I18N.Oryx.title, ORYX.I18N.TBPMSupport.imp.impFailed);
     				}.bind(this)
     	});
         
@@ -158,7 +144,9 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
      * show image with highlighted shapes
      * import model and image layer if image confirmed
      */
-    showConfirmDialog: function(imageName, json){
+    showConfirmDialog: function(json){
+    	var obj = Ext.util.JSON.decode(json);
+    	imgUri = obj.uri;
     	
     	var confirmDialog = new Ext.Window({
     		autoCreate: true,
@@ -174,14 +162,14 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
             resizable: true,
     	    title: ORYX.I18N.TBPMSupport.imp.confirm,
     	    html: '<div style="width:100%;">' +
-            			'<img src="'+ this.TMP_FOLDER + imageName + '" style="width:550px;"></img>'+
+            			'<img src="'+ imgUri + '" style="width:550px;"></img>'+
             		'</div>',
     	    
     	    buttons: [{
                 text: ORYX.I18N.TBPMSupport.imp.btnImp,
                 handler: function() {
     	    		confirmDialog.close();
-    	    		this.processImport(imageName, json);
+    	    		this.processImport(imgUri, obj.model, obj.width, obj.height);
     	    	}.bind(this)
             }, {
                 text: ORYX.I18N.TBPMSupport.imp.btnClose,
@@ -193,22 +181,27 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
     	
     	confirmDialog.show();
     },
-    
-    processImport: function(imageName, json){
-    	
-    	this.addImageLayer(imageName);
-    	this.importShapes(json);
-    	
+    /*
+     * import json and resizre canvas if necessary
+     */
+    processImport: function(imgUri, model, width, height){
+    	var canvas = this.facade.getCanvas();
+    	this.addImageLayer(imgUri);
+    	this.importShapes(model);
+    	if (canvas.bounds.width() < width)
+    		canvas.setSize({width: width + 50, height: canvas.bounds.height()});
+    	if (canvas.bounds.height() < obj.height)
+    		canvas.setSize({height: height + 50, width: canvas.bounds.width()});
     	// update the canvas
-		this.facade.getCanvas().update();
+		canvas.update();
     },
     
     /*
      * show transparent Layer with image
      * 
      */
-    addImageLayer: function(imageName){  
-		$(this.canvasId).style.background = "url(" + this.TMP_FOLDER + imageName + ") no-repeat scroll center center";
+    addImageLayer: function(imgUri){  
+		$(this.canvasId).style.background = "url(" + imgUri + ") no-repeat scroll 0% 0%";
     },
     
     /*
@@ -216,6 +209,16 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
      */
     importShapes: function(json){
     	this.facade.importJSON(json, true);
+		$A($$('rect')).each( 
+			function(rect) {
+				if (rect.id.endsWith("bg_frame")){
+					rect.setAttributeNS(null,"fill","None");
+					rect.setAttributeNS(null,"stroke-width","4");
+				}
+			}.bind(this)
+		)
+		
+		this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_TBPM_BACKGROUND_UPDATE});
     }
 
    

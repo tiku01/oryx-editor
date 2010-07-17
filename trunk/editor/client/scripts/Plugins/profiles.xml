@@ -64,6 +64,11 @@
 		<plugin name="ORYX.Plugins.BPMN2_0"/>
 		<plugin name="ORYX.Plugins.BPMN2_0Serialization"/>
 		<plugin name="ORYX.Plugins.Bpmn2_0Choreography"/>
+		<!--
+		<plugin name="ORYX.Plugins.TBPMShapeConnector"/>
+		<plugin name="ORYX.Plugins.TBPMCanvasMode"/>
+		<plugin name="ORYX.Plugins.TBPMSupport"/>
+		-->
 	</profile>
 	<profile name="bpmn2.0Choreography" depends="default" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
 		<stencilsetextension namespace="http://oryx-editor.org/stencilsets/extensions/bpmn2.0choreography#"/>
@@ -77,6 +82,15 @@
 		<plugin name="ORYX.Plugins.BPMN2_0"/>
 		<plugin name="ORYX.Plugins.BPMN2_0Serialization"/>
 		<plugin name="ORYX.Plugins.BPMN2CONVERSATION"/>
+	</profile>
+	<profile name="tbpm" depends="default" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
+		<plugin name="ORYX.Plugins.SyntaxChecker"/>
+		<plugin name="ORYX.Plugins.BPMN2_0"/>
+		<plugin name="ORYX.Plugins.BPMN2_0Serialization"/>
+		<plugin name="ORYX.Plugins.Bpmn2_0Choreography"/>
+		<plugin name="ORYX.Plugins.TBPMShapeConnector"/>
+		<plugin name="ORYX.Plugins.TBPMCanvasMode"/>
+		<plugin name="ORYX.Plugins.TBPMSupport"/>
 	</profile>
 	
 	<profile name="epc" depends="default" stencilset="stencilsets/epc/epc.json">

@@ -64,7 +64,7 @@ public class SVGEllipse {
 		Element ellipse = this.doc.createElementNS(SVGDOMImplementation.SVG_NAMESPACE_URI, "ellipse");
 		ellipse.setAttribute("cx", this.x.toString());
 		ellipse.setAttribute("cy", this.y.toString());
-		double variance = Math.random() * 2 + 2;	
+		double variance = Math.random() * 2 + 1;	
 		ellipse.setAttribute("rx", ((Double)(this.radius + variance)).toString());
 		ellipse.setAttribute("ry", ((Double)(this.radius - variance/2)).toString());		
 		elements.add(ellipse);

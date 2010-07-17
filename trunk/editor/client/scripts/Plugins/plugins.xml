@@ -77,9 +77,6 @@
 		<plugin source="addDocker.js" name="ORYX.Plugins.AddDocker">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
 		</plugin>	
-		<plugin source="shapeConnector.js" name="ORYX.Plugins.ShapeConnector">
-			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
-		</plugin>	
 		<plugin source="addssextension.js" name="ORYX.Plugins.SSExtensionLoader" />
 		
 		<plugin source="selectionframe.js" name="ORYX.Plugins.SelectionFrame">
@@ -194,9 +191,16 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0conversation#" />
 		</plugin>
 		
-		<!-- <plugin source="tbpmsupport.js" name="ORYX.Plugins.TBPMSupport">
+		<plugin source="tbpmsupport.js" name="ORYX.Plugins.TBPMSupport">
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#" />
-		</plugin> -->
+			<property name="tbpm_recognition_service" value="/tbpm/recognition"/>
+		</plugin>
+		<plugin source="tbpmShapeConnector.js" name="ORYX.Plugins.TBPMShapeConnector" >
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
+		<plugin source="tbpmCanvasMode.js" name="ORYX.Plugins.TBPMCanvasMode" >
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#" />
+		</plugin>
 		
 		<!-- End: BPMN2.0 specific plugins -->
 		

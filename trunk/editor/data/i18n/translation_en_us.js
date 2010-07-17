@@ -26,12 +26,6 @@ ORYX.I18N.AddDocker.addDesc = "Add a Docker to an edge, by clicking on it";
 ORYX.I18N.AddDocker.del = "Delete Docker";
 ORYX.I18N.AddDocker.delDesc = "Delete a Docker";
 
-if(!ORYX.I18N.ShapeConnector) ORYX.I18N.ShapeConnector = {};
-
-ORYX.I18N.ShapeConnector.group = "Connector";
-ORYX.I18N.ShapeConnector.add = "Connect Shapes";
-ORYX.I18N.ShapeConnector.addDesc = "Connect several nodes by marking them in the desired order";
-
 if(!ORYX.I18N.SSExtensionLoader) ORYX.I18N.SSExtensionLoader = {};
 
 ORYX.I18N.SSExtensionLoader.group = "Stencil Set";
@@ -576,10 +570,10 @@ ORYX.I18N.JSONSupport = {
 };
 
 ORYX.I18N.TBPMSupport = {
-		imp: {
+	imp: {
         name: "Import from PNG/JPEG",
         desc: "Imports a model from a TPBM photo",
-        group: "Export",
+        group: "tbpm",
         selectFile: "Select an image (.png/.jpeg) file!",
         file: "File",
         btnImp: "Import",
@@ -589,6 +583,20 @@ ORYX.I18N.TBPMSupport = {
         impFailed: "Request for import of document failed.",
         confirm: "Confirm import of highlighted shapes!",
     }
+};
+
+ORYX.I18N.TBPMCanvasMode = {
+        name: "Toggle background image",
+        desc: "Fades tbpm foto in and out",
+        group: "tbpm"
+
+	};
+
+ORYX.I18N.TBPMShapeconnctor = {
+		name: "Connect Shapes",
+		desc: "Connect several nodes by marking them in the desired order",
+		group: "tbpm",
+		usage: "Connect several nodes by clicking on the shapes in the desired order!"
 };
 
 /** New Language Properties: 08.05.2009 */
