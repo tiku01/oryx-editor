@@ -49,8 +49,8 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
         });
         
         ownPluginData.properties.each( function(property) {			
-			if (property.tbpm_recognition_service) {
-				this.tbpmImportServletURL = property.tbpm_recognition_service;
+			if (property.name == "tbpm_recognition_service") {
+				this.tbpmImportServletURL = property.value;
 			}
 		}.bind(this));
     },
@@ -115,8 +115,6 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
         this.dialog.show();        
     },
     uploadImage: function(button, event) {    	
-	  	
-    	var imageName = this.form.items.items[1].getValue().replace("png", "jpg");
 		this.form.form.submit({	
     				url: this.tbpmImportServletURL, 
     				clientValidation: true,
