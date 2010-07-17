@@ -188,7 +188,7 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
     	this.importShapes(model);
     	if (canvas.bounds.width() < width)
     		canvas.setSize({width: width + 50, height: canvas.bounds.height()});
-    	if (canvas.bounds.height() < obj.height)
+    	if (canvas.bounds.height() < height)
     		canvas.setSize({height: height + 50, width: canvas.bounds.width()});
     	// update the canvas
 		canvas.update();
