@@ -39,13 +39,23 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+/*
+import org.oryxeditor.server.diagram.Diagram;
+import org.oryxeditor.server.diagram.DiagramBuilder;
+
+import org.apache.commons.fileupload.*;
+import org.apache.commons.fileupload.disk.*;
+import org.apache.commons.fileupload.servlet.*;
+*/
+
 
 public class TBPMServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 199569859231394515L;
-	JSONObject response = null;
-
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException {
 
@@ -77,20 +87,23 @@ public class TBPMServlet extends HttpServlet {
 	    		printError(res, "No file with .png or .jpg extension uploaded.");
 	    		return ;
 	    	}
-			String json = this.processUploadedFile(fileItem);
-			System.out.println(json);
-			out.write(json);
+			JSONObject object = this.processUploadedFile(fileItem);
+			System.out.println(object.getString("model"));
+			object.write(out);
 
 		} catch (FileUploadException e1) {
 			e1.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private String processUploadedFile(FileItem item) {
+	private JSONObject processUploadedFile(FileItem item) {
 //		String fileName = item.getName();
 		String tmpPath = this.getServletContext().getRealPath("/")
 				+ File.separator + "tmp" + File.separator;
-
+		String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
+		JSONObject object = new JSONObject();	
 		// create tmp folder
 		File tmpFolder = new File(tmpPath);
 		if (!tmpFolder.exists()) {
@@ -110,7 +123,7 @@ public class TBPMServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return json;
+		return object;
 
 	}
 	

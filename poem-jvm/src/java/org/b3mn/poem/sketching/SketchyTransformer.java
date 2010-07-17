@@ -44,6 +44,7 @@ import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.util.XMLResourceDescriptor;
+
 import org.apache.fop.svg.PDFTranscoder;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
@@ -77,7 +78,6 @@ public class SketchyTransformer extends PDFTranscoder{
 			this.styleSheet = this.doc.createCDATASection("");
 			this.styleHandler = new CSSStyleHandler(this.styleSheet, this.ctx);
 			this.ctx.setStyleHandler(this.styleHandler);
-			
 
 		} catch (IOException e) {
 			// TODO: handle exception
@@ -151,7 +151,7 @@ public class SketchyTransformer extends PDFTranscoder{
 	}
 
 	public void transform() throws IOException, TranscoderException{
-		this.transformConnectors();
+		this.transformPaths();
 		this.transformRectangles();
 		this.transformEllipses();
 		this.setFont("PapaMano AOE", "18px");
@@ -246,7 +246,7 @@ public class SketchyTransformer extends PDFTranscoder{
 
 	}
 	
-	public void transformConnectors() {
+	public void transformPaths() {
 		NodeList paths = this.doc.getElementsByTagName("path");
 		for (int i = 0; i < paths.getLength(); i++) {
 			Element e = (Element) paths.item(i);
@@ -255,7 +255,12 @@ public class SketchyTransformer extends PDFTranscoder{
 					&& !((Element)e.getParentNode()).hasAttribute("oryx:anchors")) {
 				
 				SVGPath path = new SVGPath(e, this.doc, this.styleHandler);
-				path.transform();
+				try {
+					path.transform();
+				} catch (SketchyException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -266,9 +271,16 @@ public class SketchyTransformer extends PDFTranscoder{
 
 		for (int i = 0; i < rectangles.getLength(); i++) {
 			Element e = (Element) rectangles.item(i);
-			if (e.getAttribute("stroke").equals("none"))
+			SVGRectangle rect;
+			
+			if ( ((Element)e.getParentNode()).getAttribute("title").contains("Data Object") ){
+				rect = new SVGRectangle(e, this.doc, this.styleHandler, true);
+			}
+			else if (e.getAttribute("stroke").equals("none"))
 				continue;
-			SVGRectangle rect = new SVGRectangle(e, this.doc, this.styleHandler);
+			else {
+				rect = new SVGRectangle(e, this.doc, this.styleHandler, false);
+			}
 			replaceMap.put(e, rect.transform());
 		}
 

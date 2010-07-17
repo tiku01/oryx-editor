@@ -65,9 +65,6 @@ ORYX.CONFIG.JPDLEXPORTURL =				ORYX.CONFIG.ROOT_PATH + "jpdlexporter";
 ORYX.CONFIG.CPNTOOLSEXPORTER = 			ORYX.CONFIG.ROOT_PATH + "cpntoolsexporter";
 ORYX.CONFIG.CPNTOOLSIMPORTER = 			ORYX.CONFIG.ROOT_PATH + "cpntoolsimporter";
 ORYX.CONFIG.BPMN2XPDLPATH =				ORYX.CONFIG.ROOT_PATH + "bpmn2xpdl";
-ORYX.CONFIG.TBPMIMPORT =				ORYX.CONFIG.ROOT_PATH + "tbpmimport";
-
-
 
 	/* Namespaces */
 ORYX.CONFIG.NAMESPACE_ORYX =			"http://www.b3mn.org/oryx";
@@ -186,6 +183,8 @@ ORYX.CONFIG.EVENT_LAYOUT = 					"layout.dolayout";
 ORYX.CONFIG.EVENT_COLOR_CHANGE = 			"color.change";
 ORYX.CONFIG.EVENT_DOCKERDRAG = 				"dragTheDocker";	
 ORYX.CONFIG.EVENT_SHOW_PROPERTYWINDOW =		"propertywindow.show";
+
+ORYX.CONFIG.EVENT_TBPM_BACKGROUND_UPDATE =	"tbpm.background";
 ORYX.CONFIG.EVENT_MODEL_SAVED =				"model.saved";
 	
 	/* Selection Shapes Highlights */

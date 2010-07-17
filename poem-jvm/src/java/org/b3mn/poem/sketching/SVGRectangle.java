@@ -38,9 +38,10 @@ public class SVGRectangle {
 	private double height;
 	private double width;
 	private Document doc;
+	private Boolean isDataObject;
 	private static int DISTANCE = 30;
 	
-	public SVGRectangle(Element e, Document doc, CSSStyleHandler styleHandler){
+	public SVGRectangle(Element e, Document doc, CSSStyleHandler styleHandler, Boolean isDataObject){
 		java.util.Locale.setDefault(java.util.Locale.US);
 		
 		this.styleHandler 	= styleHandler;
@@ -50,9 +51,10 @@ public class SVGRectangle {
 		this.y 				= Double.parseDouble(e.getAttribute("y"));
 		this.height 		= Double.parseDouble(e.getAttribute("height"));
 		this.width 			= Double.parseDouble(e.getAttribute("width"));
+		this.isDataObject	= isDataObject;
 		
 	}
-	
+
 	public void changeColor(String color){
 		//this.rectangle.getAttributes().getNamedItem("fill").setNodeValue(color);
 		((Element) this.rectangle).setAttribute("fill", color);
@@ -147,6 +149,7 @@ public class SVGRectangle {
 		double destX	= this.width;
 		double refX		= this.width;
 		String d = "";
+		
 		for (double y = distY; y < (round ? this.height - radius : this.height); y += distY){
 			// less variance for destination than for the reference
 			destX 	+= (destX < this.width) ? Math.random() : -Math.random();
@@ -168,17 +171,24 @@ public class SVGRectangle {
 		double destY 	= 0;
 		double refY  	= 0;
 		String d = "";
-		for (double x = distX; x < (round ? this.width - radius : this.width); x += distX){
+		double x;
+		for (x = distX; x < (round ? this.width - radius : this.width); x += distX){
 			// less variance for destination than for the reference
 			destY 	+= (destY < 0) ? Math.random() : -Math.random();
 			refY 	+= (refY < 0) ? Math.random()*3 : -Math.random()*3;
-			
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", x - 15 + this.x, refY + this.y, x + this.x, destY + this.y);
 		}
 		if (round)
 			d += String.format("L %.2f, %.2f Q %.2f, %.2f, %.2f, %.2f", 
 					this.width + this.x - radius, this.y, this.width + this.x, this.y, this.width + this.x, this.y + radius);
-		else if (this.width < 30 || this.width > 200 || Math.random() < 0.3)	// crossing edge
+		else if (this.isDataObject) {
+			d += String.format("L %.2f, %.2f L %.2f, %.2f L %.2f, %.2f M %.2f, %.2f", 
+					this.width + this.x, this.y + 20,
+					x - distX, this.y + 20,
+					x - distX, this.y,
+					this.width + this.x, this.y + 20);
+			
+		} else if (this.width < 30 || this.width > 200 || Math.random() < 0.3)	// crossing edge
 			d += String.format("L %.2f, %.2f M %.2f %.2f ", this.width + this.x + 5, this.y, this.width + this.x, this.y - 5);
 		else //round edge
 			d += String.format("Q %.2f, %.2f, %.2f, %.2f ", this.width + this.x, this.y, this.width + this.x, this.y + 5);
@@ -195,6 +205,13 @@ public class SVGRectangle {
 		
 		if (path.getAttribute("display").equals(""))
 			path.removeAttribute("display");
+		
+		if (this.isDataObject){
+			NodeList polylines = ((Element)this.rectangle.getParentNode()).getElementsByTagName("polyline");
+			int size = polylines.getLength();
+			for (int i = 0; i < size; i++)
+				((Element)this.rectangle.getParentNode()).removeChild(polylines.item(0));
+		}
 	}
 
 	public CSSStyleHandler getStyleHandler() {
