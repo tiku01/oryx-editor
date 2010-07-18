@@ -10,17 +10,14 @@ import org.xmappr.RootElement;
 import java.util.Collections;
 
 /**
- * Additional information for edges: lineTos are used to create dockers
+ * Class for xmappr - xml to java mapping.
+ * 
  * @author Thamsen
- *
  */
 @RootElement("Geom")
 public class Geom {
-	
-	/**
-	 * Information abount edge's shaping: Used to create dockers
-	 */
-	@Element("LineTo") 
+
+	@Element("LineTo")
 	public List<LineTo> lineTos;
 
 	public List<LineTo> getLineTos() {
@@ -29,11 +26,13 @@ public class Geom {
 
 	public List<Point> getDockerPointsInRightOrder() {
 		if (lineTos != null) {
-			List<LineTo> dockerLineTos = getLineTos().subList(0, getLineTos().size() - 1); 
-			// last is from last docker to target shape's middle point, not necessary
+			List<LineTo> dockerLineTos = getLineTos().subList(0, getLineTos().size() - 1);
+			// Last element is the docker to target's middle point. Not
+			// necessary, because
+			// that's calculated for all edges anyway.
 			Collections.sort(dockerLineTos);
 			List<Point> dockerPoints = new ArrayList<Point>();
-			for(LineTo dockerLineTo : dockerLineTos) {
+			for (LineTo dockerLineTo : dockerLineTos) {
 				Point dockerPoint = new Point(dockerLineTo.getX(), dockerLineTo.getY());
 				dockerPoints.add(dockerPoint);
 			}
@@ -41,5 +40,5 @@ public class Geom {
 		}
 		return new ArrayList<Point>();
 	}
-	
+
 }

@@ -11,6 +11,20 @@ import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+/**
+ * Class for xmappr - xml to java mapping.
+ * A stencil on the visio canvas. Information are highly encapsulated because of the xml import mapping,
+ * so that all needed information are provided trough delegation...
+ * From xml imported information:
+ * 	- name (nameU) 	: stencil type
+ * 	- masterId 		: link to master (with correct stencilId)
+ * 	- xForm			: boundaries through width, height and central point + angle of the shape
+ * 	- xForm1D		: edges have in addition a startpoint and an endpoint (with correct direction)
+ * 	- label			: text label of the shape, used as condition exp., title or name in oryx
+ * 	- geom			: edges also have additional dockers
+ * 
+ * @author Thamsen
+ */
 @RootElement("Shape")
 public class Shape {
 
@@ -23,7 +37,7 @@ public class Shape {
 	private Shape source;
 
 	private String shapeId;
-	
+
 	@Attribute("NameU")
 	public String name;
 
@@ -38,7 +52,7 @@ public class Shape {
 
 	@Element("Text")
 	public Label label;
-	
+
 	@Element("Geom")
 	public Geom geom;
 
@@ -165,14 +179,13 @@ public class Shape {
 	}
 
 	public Bounds getBoundsOnPage(Page visioPage) {
-		Bounds bounds = new Bounds(xForm.getLowerRightPointForPage(visioPage),
-				xForm.getUpperLeftPointForPage(visioPage));
+		Bounds bounds = new Bounds(xForm.getLowerRightPointForPage(visioPage), xForm
+				.getUpperLeftPointForPage(visioPage));
 		return bounds;
 	}
 
 	public Bounds getVisioBounds() {
-		Bounds bounds = new Bounds(xForm.getLowerRightVisioPoint(), xForm
-				.getUpperLeftVisioPoint());
+		Bounds bounds = new Bounds(xForm.getLowerRightVisioPoint(), xForm.getUpperLeftVisioPoint());
 		return bounds;
 	}
 
@@ -227,12 +240,12 @@ public class Shape {
 			return null;
 		return this.getHeight() * this.getWidth();
 	}
-	
+
 	public List<Point> getDockerPoints() {
 		if (geom != null) {
-			 return geom.getDockerPointsInRightOrder();
+			return geom.getDockerPointsInRightOrder();
 		}
 		return new ArrayList<Point>();
-	}	
+	}
 
 }

@@ -9,10 +9,11 @@ import de.hpi.visio.data.Shape;
 import de.hpi.visio.data.VisioDocument;
 
 /**
- * In visio it's possible to create several pages within a .vdx-document,
- * each page can contain stencil-element.
- * Due to a direct import into the editor instead into the explorer or into
- * diagram-files, those pages are currently merged.
+ * In visio it's possible to create several pages within a .vdx-document, each
+ * page can contain stencil-element. Due to a direct import into the editor
+ * instead into the explorer or into diagram-files, those pages are currently
+ * merged into one page, that has the summed height and the max width.
+ * 
  * @author Thamsen
  */
 public class VisioPageMerger {
@@ -20,6 +21,7 @@ public class VisioPageMerger {
 	/**
 	 * Merges all pages of a visio-document to a single page of added size, so
 	 * that all shapes will imported into one model at oryx.
+	 * 
 	 * @return
 	 */
 	public VisioDocument mergeAllPages(VisioDocument visioData) {
@@ -44,11 +46,10 @@ public class VisioPageMerger {
 		singlePage.setWidth(maxWidth);
 		return singlePage;
 	}
-	
 
 	private void addAllPagesToSinglePage(List<Page> pages, Page singlePage) {
 		while (!pages.isEmpty()) {
-			Page lastPage = pages.get(pages.size()-1);
+			Page lastPage = pages.get(pages.size() - 1);
 			addAllShapesToSinglePage(lastPage.getShapes(), singlePage);
 			singlePage.setHeight(singlePage.getHeight() + lastPage.getHeight());
 			pages.remove(lastPage);
@@ -73,6 +74,5 @@ public class VisioPageMerger {
 		}
 		return max;
 	}
-
 
 }

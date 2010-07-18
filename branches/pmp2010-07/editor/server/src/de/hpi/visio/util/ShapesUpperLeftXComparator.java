@@ -4,6 +4,13 @@ import java.util.Comparator;
 
 import org.oryxeditor.server.diagram.Shape;
 
+/**
+ * Comparator for imported visio shapes that will be compared by the upper left
+ * point's x value. The shape with the lowest value will be first in a sorted
+ * list.
+ * 
+ * @author Thamsen
+ */
 public class ShapesUpperLeftXComparator implements Comparator<Shape> {
 
 	@Override

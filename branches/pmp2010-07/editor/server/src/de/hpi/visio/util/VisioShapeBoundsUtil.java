@@ -7,15 +7,15 @@ import de.hpi.visio.data.Page;
 import de.hpi.visio.data.Shape;
 
 /**
- * Utility class to convert the bounds and points of a visio shape
- * to oryx shapes. This also converts from a metric way to express sizes
- * to express them to pixel bounds.
+ * Utility class to convert the bounds and points of a visio shape to oryx
+ * shapes. This also converts from a metric way to express sizes to express them
+ * to pixel bounds.
  * 
  * Also gets dockers for these shapes.
  * 
- * Also there are differences between the canvas and what defines
- * bounds at visio and in oryx.
- * See end of class file for a sketch of this differences.
+ * Also there are differences between the canvas and what defines bounds at
+ * visio and in oryx. See end of class file for a sketch of this differences.
+ * 
  * @author Thamsen
  */
 public class VisioShapeBoundsUtil {
@@ -27,10 +27,10 @@ public class VisioShapeBoundsUtil {
 		this.importUtil = importUtil;
 		visioPointUnitFactor = Integer.valueOf(importUtil.getHeuristic("Unit_To_Pixel_Exchange"));
 	}
-	
+
 	/**
-	 * Returns shapes bounds as pixels, so that the returned bounds object can be used
-	 * with oryx shapes
+	 * Returns shapes bounds as pixels, so that the returned bounds object can
+	 * be used with oryx shapes
 	 */
 	public Bounds getCorrectOryxShapeBounds(Bounds bounds) {
 		Point correctedLowerRight = convertToOryxPoint(bounds.getLowerRight());
@@ -38,9 +38,10 @@ public class VisioShapeBoundsUtil {
 		Bounds result = new Bounds(correctedLowerRight, correctedUpperLeft);
 		return result;
 	}
-	
+
 	/**
-	 * Converts a point of the visio metric unit canvas to the oryx pixel canvas.
+	 * Converts a point of the visio metric unit canvas to the oryx pixel
+	 * canvas.
 	 */
 	public Point convertToOryxPoint(Point point) {
 		Point correctedPoint = new Point(point.getX() * visioPointUnitFactor, point.getY() * visioPointUnitFactor);
@@ -48,10 +49,11 @@ public class VisioShapeBoundsUtil {
 	}
 
 	/**
-	 *	Returns shape bounds to use as bounds in a oryx shape. Sizes will be in pixel and
-	 *	also resizing of bounds is done, according to the size-properties of that shape.
-	 *	Mind that there are shapes, that can be resized, that can be resized but have minimal
-	 *	size and some with completely fixed size. 
+	 * Returns shape bounds to use as bounds in a oryx shape. Sizes will be in
+	 * pixel and also resizing of bounds is done, according to the
+	 * size-properties of that shape. Mind that there are shapes, that can be
+	 * resized, that can be resized but have minimal size and some with
+	 * completely fixed size.
 	 */
 	public Bounds getCorrectOryxShapeBoundsWithResizing(Shape shape, Page page) {
 		Bounds correctedAndCheckedBounds = null;
@@ -142,7 +144,7 @@ public class VisioShapeBoundsUtil {
 		bounds.setLowerRight(new Point(bounds.getLowerRight().getX(), centralPinY + (minHeight / 2)));
 		bounds.setUpperLeft(new Point(bounds.getUpperLeft().getX(), centralPinY - (minHeight / 2)));
 	}
-	
+
 	private void resizeToMinimalWidth(Bounds bounds, Double minWidth) {
 		Double centralPinX = bounds.getUpperLeft().getX()
 				+ ((bounds.getLowerRight().getX() - bounds.getUpperLeft().getX()) / 2.0);

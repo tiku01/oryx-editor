@@ -6,7 +6,14 @@ import java.util.Map.Entry;
 
 import de.hpi.visio.data.Shape;
 
-public class DistanceToShapeComparator implements Comparator<Map.Entry<Shape,Double>>{
+/**
+ * Comparator for imported visio shapes with a given distance to some point or
+ * stencil. The shape with the lowest distance will be sorted to the head of the
+ * list.
+ * 
+ * @author Thamsen
+ */
+public class DistanceToShapeComparator implements Comparator<Map.Entry<Shape, Double>> {
 
 	@Override
 	public int compare(Entry<Shape, Double> o1, Entry<Shape, Double> o2) {

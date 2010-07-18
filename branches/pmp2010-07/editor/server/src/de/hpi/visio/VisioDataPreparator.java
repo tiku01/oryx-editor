@@ -13,18 +13,19 @@ import de.hpi.visio.util.VisioShapeDistanceUtil;
 
 /**
  * The VisioDataCleaner prepares the xmappr-generated Java classes to be mapped
- * to the Diagram Api of Oryx. 
- * - Resolves MasterIds, when in *.vdx-data the nameU (type) was only set by a reference to a master-shape.
- * - Checks diagrams and all shapes for bounds
- * - Merges markers and shapes to be oryx-conform shapes (e.g. task with a loop-marker)
- * - Sets properties from shape'S nameU values
+ * to the Diagram Api of Oryx. - Resolves MasterIds, when in *.vdx-data the
+ * nameU (type) was only set by a reference to a master-shape. - Checks diagrams
+ * and all shapes for bounds (only shapes with bounds will be added) - Merges
+ * markers and shapes to be oryx-conform shapes (e.g. task with a loop-marker) -
+ * Sets properties from shape'S nameU values
+ * 
  * @author Lauritz Thamsen
  */
 public class VisioDataPreparator {
-	
+
 	private ImportConfigurationUtil importUtil;
 	private VisioShapeDistanceUtil shapeUtil;
-	
+
 	public VisioDataPreparator(ImportConfigurationUtil importUtil, VisioShapeDistanceUtil shapeUtil) {
 		this.importUtil = importUtil;
 		this.shapeUtil = shapeUtil;
@@ -32,36 +33,67 @@ public class VisioDataPreparator {
 
 	public Page checkAndCleanVisioData(VisioDocument visioData) {
 		Page page = resolveMasterReferences(visioData);
-		Page checkedPage = checkPage(page);
-		Page checkedAndCleanedPage = cleanPage(checkedPage);
+		Page checkedPage = checkPageAndShapesForBounds(page);
+		Page pageWithNamedShapes = normalizeNames(checkedPage);
+		Page checkedAndCleanedPage = interpretStencilsOfPage(pageWithNamedShapes);
 		return checkedAndCleanedPage;
 	}
 
 	private Page resolveMasterReferences(VisioDocument visioData) {
-		Map<String, String>masterIdToNameMapping = visioData.getMasterIdToNameMapping();
+		Map<String, String> masterIdToNameMapping = visioData.getMasterIdToNameMapping();
 		Page firstPage = visioData.getFirstPage();
 		for (Shape shape : firstPage.getShapes()) {
 			if (shape.getMasterId() != null && !shape.getMasterId().equals("")) {
-				// master's nameUs seem to be more valid
 				String newName = masterIdToNameMapping.get(shape.getMasterId());
-				shape.setName(normalizeName(newName));
+				shape.setName(newName);
 			}
 		}
 		return firstPage;
 	}
 
-	private Page checkPage(Page visioPage) {
+	private Page checkPageAndShapesForBounds(Page visioPage) {
 		Page halfCheckedPage = checkDiagramForBounds(visioPage);
 		Page fullCheckedPage = checkAllShapesForBounds(halfCheckedPage);
 		return fullCheckedPage;
 	}
 
-	private Page cleanPage(Page visioPage) {
-		Page pageWithStandardShapes = normalizeNames(visioPage);
-		Page pageWithConvertedMarkers = convertMarkersToTypeWithProperties(pageWithStandardShapes);
-		Page pageWithConvertedProperties = convertSpecialTypesToTypesWithProperties(pageWithConvertedMarkers);
-		Page pageWithRealSubprocesses = convertTaskWithMarkerToSubprocesses(pageWithConvertedProperties);
-		return pageWithRealSubprocesses;
+	private Page interpretStencilsOfPage(Page visioPage) {
+		Page resultingPage = handleShapesWithoutNameAndWithoutLabel(visioPage); 
+		resultingPage = removeInvalidShapeNames(resultingPage);
+		resultingPage = convertMarkersToTypeWithProperties(resultingPage);
+		resultingPage = convertSpecialTypesToTypesWithProperties(resultingPage);
+		resultingPage = convertTaskWithMarkerToSubprocesses(resultingPage);
+		return resultingPage;
+	}
+	
+	private Page handleShapesWithoutNameAndWithoutLabel(Page visioPage) {
+		List<Shape> handledShapes = new ArrayList<Shape>();
+		Boolean shouldSkipUnnamedWithoutLabel = Boolean.valueOf(importUtil.getHeuristic("skipUnknownNameUAndWithoutLabel"));
+		String defaultTypeWithoutLabel = importUtil.getStencilSetConfig("unknownNameUAndWithoutLabelType");
+		for (Shape shape : visioPage.getShapes()) {
+			if ((shape.getName() == null || shape.getName().equals("")) &&
+					shape.getLabel() == null || shape.getLabel().equals("")) {
+				if (!shouldSkipUnnamedWithoutLabel) {
+					shape.setName(defaultTypeWithoutLabel);
+					handledShapes.add(shape);
+				}
+			} else {
+				handledShapes.add(shape);
+			}
+		}
+		visioPage.setShapes(handledShapes);
+		return visioPage;
+	}
+
+	private Page removeInvalidShapeNames(Page visioPage) {
+		List<Shape> shapesWithValidNames = new ArrayList<Shape>();
+		for (Shape shape : visioPage.getShapes()) {
+			if ("NOT_VALID_SHAPE_NAME".equalsIgnoreCase(shape.getName()))
+				shape.setName("");
+			shapesWithValidNames.add(shape);
+		}
+		visioPage.setShapes(shapesWithValidNames);
+		return visioPage;
 	}
 
 	private Page checkDiagramForBounds(Page visioPage) {
@@ -75,12 +107,12 @@ public class VisioDataPreparator {
 		}
 		return visioPage;
 	}
-	
+
 	private Page checkAllShapesForBounds(Page page) {
 		List<Shape> allShapes = page.getShapes();
 		List<Shape> shapesWithBounds = new ArrayList<Shape>();
 		for (Shape shape : allShapes) {
-			if (hasCompleteBoundaries(shape)) 
+			if (hasCompleteBoundaries(shape))
 				shapesWithBounds.add(shape);
 		}
 		page.setShapes(shapesWithBounds);
@@ -91,7 +123,7 @@ public class VisioDataPreparator {
 		List<Shape> shapes = visioPage.getShapes();
 		List<Shape> shapesWithNormalizedNames = new ArrayList<Shape>();
 		for (Shape shape : shapes) {
-			shape.setName(normalizeName(shape.getName())); 
+			shape.setName(normalizeName(shape.getName()));
 			shapesWithNormalizedNames.add(shape);
 		}
 		visioPage.setShapes(shapesWithNormalizedNames);
@@ -101,12 +133,12 @@ public class VisioDataPreparator {
 	private String normalizeName(String name) {
 		if (name != null && name.contains(".")) {
 			int end = name.indexOf(".");
-			String cleanedName = name.substring(0,end);
+			String cleanedName = name.substring(0, end);
 			return cleanedName;
 		}
 		return name;
 	}
-	
+
 	private Page convertMarkersToTypeWithProperties(Page page) {
 		String propertyElementsString = importUtil.getMappingConfig("areOnlyProperties");
 		if (propertyElementsString != null && !"".equals(propertyElementsString)) {
@@ -115,26 +147,30 @@ public class VisioDataPreparator {
 			for (String propertyElementName : propertyElements) {
 				List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
 				for (Shape propertyShape : propertyShapes) {
-					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
-					if  (containingShape == null) 
-						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
-					if  (containingShape == null) 
-						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
+					Shape containingShape = 
+						shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
+					if (containingShape == null)
+						containingShape = 
+							shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
+					if (containingShape == null)
+						containingShape = 
+							shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
 					if (containingShape != null) {
 						resultingShape = containingShape;
 					}
 					page.removeShape(propertyShape);
 					String propertyKey = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".key");
-					String propertyValue = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".value");
+					String propertyValue = importUtil.getMappingConfig("taskProperties." + propertyElementName
+							+ ".value");
 					if (resultingShape != null && propertyKey != null && propertyValue != null) {
 						resultingShape.putProperty(propertyKey, propertyValue);
 					}
 				}
-			}	
+			}
 		}
 		return page;
 	}
-	
+
 	private Page convertSpecialTypesToTypesWithProperties(Page page) {
 		String specialTypesString = importUtil.getMappingConfig("specialTypes");
 		if (specialTypesString != null && !"".equals(specialTypesString)) {
@@ -144,37 +180,36 @@ public class VisioDataPreparator {
 					if (specialType.equals(shape.getName())) {
 						String[] keys = importUtil.getMappingConfig(shape.getName() + ".keys").split(",");
 						String[] values = importUtil.getMappingConfig(shape.getName() + ".values").split(",");
-						for (int i=0; i<keys.length; i++) {
+						for (int i = 0; i < keys.length; i++) {
 							shape.putProperty(keys[i], values[i]);
-						} 
+						}
 					}
 				}
 			}
 		}
 		return page;
 	}
-	
+
 	private Page convertTaskWithMarkerToSubprocesses(Page page) {
 		List<Shape> subprocessMarkers = page.getShapesByName("Collapsed Subprocess Marker");
 		for (Shape marker : subprocessMarkers) {
-			Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), marker, "Task");
+			Shape containingShape = 
+				shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), marker, "Task");
 			if (containingShape != null) {
 				containingShape.setName(importUtil.getMappingConfig("taskWithSubprocessMarker"));
-			}	
+			}
 			page.removeShape(marker);
 		}
 		return page;
 	}
 
-
-
 	private boolean hasCompleteBoundaries(Shape shape) {
 		XForm xForm = shape.xForm;
-		if ( xForm.height != null && xForm.width != null && xForm.positionX != null && xForm.positionY != null) {
+		if (xForm.height != null && xForm.width != null && xForm.positionX != null && xForm.positionY != null) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 }

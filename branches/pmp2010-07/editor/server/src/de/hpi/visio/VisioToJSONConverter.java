@@ -8,34 +8,35 @@ import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.JSONBuilder;
 import org.xmappr.Xmappr;
 import de.hpi.visio.data.VisioDocument;
-   
+
 /**
- * Main class of Visio import:
- * Imports visio .vdx-models to orxy-json, that can be imported
- * through the json-import into the oryx-editor
+ * Main class of Visio import: Imports visio .vdx-models to orxy-json, that can
+ * be imported through the json-import into the oryx-editor
+ * 
  * @author Thamsen
  */
 public class VisioToJSONConverter {
-	
+
 	private String contextPath;
-	
+
 	public VisioToJSONConverter(String contextPath) {
 		this.contextPath = contextPath;
 	}
 
 	/**
 	 * Main method to import Visio files
+	 * 
 	 * @return
 	 */
 	public String importVisioData(String xml, String stencilSet) {
 		VisioXmlPreparator preparator = new VisioXmlPreparator();
 		String preparedXml = preparator.prepareXML(xml);
-		
+
 		VisioDocument visioDocument = getVisioDocumentFromXML(stencilSet, preparedXml);
-		
-		VisioDataTransformator transformator = new VisioDataTransformator(contextPath, visioDocument.getStencilSet());
-		Diagram diagram = transformator.createDiagramFromVisioData(visioDocument);
-		
+
+		VisioDataToDiagramTransformator transformator = new VisioDataToDiagramTransformator(contextPath, visioDocument.getStencilSet());
+		Diagram diagram = transformator.createDiagram(visioDocument);
+
 		return getJSONForDiagram(diagram);
 	}
 
@@ -52,8 +53,8 @@ public class VisioToJSONConverter {
 			return JSONBuilder.parseModeltoString(diagram);
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new IllegalStateException("Wasn't possible to get a json representation " +
-					"of the created diagram.", e);
+			throw new IllegalStateException(
+					"Wasn't possible to get a json representation " + "of the created diagram.", e);
 		}
 	}
 
