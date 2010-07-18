@@ -13,7 +13,7 @@ import de.hpi.diagram.OryxUUID;
 
 public abstract class AdonisStencil extends XMLConvertible {
 
-	public final static double CENTIMETERTOPIXEL = 20;
+	public final static double CENTIMETERTOPIXEL = 50;
 	
 	@Attribute(name="id")
 	protected String id;

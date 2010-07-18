@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:oryx="http://www.b3mn.org/oryx"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   version="1.0">
-  <defs></defs>
-  <g>
-    <polygon 
-	stroke="black" fill="black" 
-	stroke-width="1" 
-	points="0,0 0,590 9,599 799,599 799,9 790,0" 
-	stroke-linecap="butt" 
-	stroke-linejoin="miter" 
-	stroke-miterlimit="10" />
-    <rect 
-	id="diagramcanvas" 
-	x="0" 
-	y="0" 
-	width="790" 
-	height="590" 
-	stroke="black" 
-	stroke-width="2" 
-	fill="white"
-	oryx:resize="vertical horizontal"  />
-    <text 
-	font-size="22" 
-	id="diagramtext" 
-	x="400" 
-	y="25" 
-	oryx:align="top left" 
-	stroke="black"></text>
-  </g>
+		xmlns="http://www.w3.org/2000/svg"
+		xmlns:svg="http://www.w3.org/2000/svg"
+		xmlns:oryx="http://www.b3mn.org/oryx"
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		version="1.0">
+	<defs/>
+	<g>
+		<polygon 
+				stroke="black" fill="black" 
+				stroke-width="1" 
+				points="0,0 0,590 9,599 799,599 799,9 790,0" 
+				stroke-linecap="butt" 
+				stroke-linejoin="miter" 
+				stroke-miterlimit="10" />
+		<rect 
+				id="diagramcanvas" 
+				x="0" 
+				y="0" 
+				width="790" 
+				height="590" 
+				stroke="black" 
+				stroke-width="2" 
+				fill="white"
+				oryx:resize="vertical horizontal"  />
+		<text 
+				font-size="22" 
+				id="name" 
+				x="400" 
+				y="25" 
+				oryx:align="top left" 
+				stroke="black"/>
+	</g>
 </svg>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,15 +107,50 @@ public class AdonisModel extends AdonisStencil{
 			instance.setModel(this);
 		}
 		
+		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
+		
+		
 		for (AdonisConnector edge : getConnector()){
 			if ("is inside".equalsIgnoreCase(getOryxNameOf(edge.getStencilClass()))){
 				AdonisStencil child = getModelInstance().get(edge.getFrom().getInstance());
 				AdonisStencil parent = getModelInstance().get(edge.getTo().getInstance());
-				child.setParent(parent);
+				
+				Vector<AdonisStencil> parents = isInsideAssociations.get(child);
+				if (parents == null){
+					parents = new Vector<AdonisStencil>();
+					isInsideAssociations.put(child, parents);
+				} 
+				if (!parents.contains(parent)){
+					parents.add(parent);
+				}
 			}
 			edge.setModel(this);
 		}
-		System.err.println();
+		Set<AdonisStencil> removedParents = new HashSet<AdonisStencil>();
+		Set<AdonisStencil> removedKeys = new HashSet<AdonisStencil>();
+		
+		while (isInsideAssociations.size() > 0){
+			// take all child with only one parent
+			for (AdonisStencil key : isInsideAssociations.keySet()){
+				Vector<AdonisStencil> parents = isInsideAssociations.get(key); 
+				//in case there is only one, set it as parent to the object
+				if (parents.size() == 1){
+					AdonisStencil onlyParent = parents.elementAt(0); 
+					key.setParent(onlyParent);
+					removedParents.add(onlyParent);
+					removedKeys.add(key);
+				} 
+			}
+			for (AdonisStencil removedKey : removedKeys){
+				isInsideAssociations.remove(removedKey);
+			}
+			
+			for (Vector<AdonisStencil> otherParents : isInsideAssociations.values()){
+				otherParents.removeAll(removedParents);
+			}
+			removedKeys.clear();
+			removedParents.clear();
+		}
 	}
 	
 	private Double[] bounds = null;
@@ -200,7 +236,7 @@ public class AdonisModel extends AdonisStencil{
 		JSONObject properties = getJSONObject(json, "properties");
 //		XXX
 //		properties.put("id",getId());
-//		properties.put("name",getName());
+		properties.put("name",getName());
 //		properties.put("version",getVersion());
 //		properties.put("modeltype",getModeltype());
 //		properties.put("libtype",getLibtype());

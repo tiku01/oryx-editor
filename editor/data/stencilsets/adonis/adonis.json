@@ -13,7 +13,19 @@
 			"icon":			"container.diagram.png",
 			"roles":		[],
 			"properties":	[
-				
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"Model",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":false
+				}
+
 			]
 		},
 		{
@@ -29,7 +41,18 @@
 				"valueable",
 			],
 			"properties": [
-				
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"Process",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
 			]
 		},
 		{
@@ -45,6 +68,18 @@
 				"valueable"
 			],
 			"properties": [
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"Actor",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
 			]
 		},
 		{
@@ -60,6 +95,19 @@
 				"valueable"
 			],
 			"properties": [
+					{
+						"id":"name",
+						"type":"String", 
+						"title":"Name",
+						"value":"External partner",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"refToView":"name",
+						"wrapLines":true
+					}
+
 			]
 		},
 		{
@@ -74,7 +122,19 @@
 				"shape",
 			],
 			"properties": [
-				
+					{
+						"id":"text",
+						"type":"String", 
+						"title":"Text",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"refToView":"text",
+						"wrapLines":true
+					}
+
 			]
 		},
 		{
@@ -89,6 +149,18 @@
 				"shape"
 			],
 			"properties": [
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
 			]
 		},
 		{
@@ -103,9 +175,21 @@
 				"shape",
 				"container"
 			],
-			"properties": [
-			]
-		},
+			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"Aggregation",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
+			]		},
 		{
 			"type":			"node",
 			"id":			"performance",
@@ -118,8 +202,20 @@
 				"shape",
 				"valueable"
 			],
-			"properties": [
-				
+			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"Performance",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
 			]
 		},
 		{
@@ -134,6 +230,19 @@
 				"shape to shape"
 			],
 			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
 			]
 		},
 		{
@@ -148,6 +257,19 @@
 				"process to process"
 			],
 			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
 			]
 		},
 				{
@@ -159,6 +281,21 @@
 			"view":			"connector.has-note.svg",
 			"icon":			"connector.has-note.png",
 			"roles":		[
+			],
+			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
 			]
 		},
 		{
@@ -171,6 +308,21 @@
 			"icon":			"connector.value-flow.png",
 			"roles":		[
 				"value flow"
+			],
+			"properties":	[
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				}
+
 			]
 		},
 		{
@@ -184,7 +336,20 @@
 			"roles": 		[
 				"container"
 			],
-			"properties":	[]
+			"properties":	[
+					{
+						"id":"name",
+						"type":"String", 
+						"title":"Name",
+						"value":"Swimlane",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"refToView":"name",
+						"wrapLines":true
+					}
+]
 		},
 		{
 			"type": 		"node",
@@ -197,7 +362,20 @@
 			"roles": 		[
 				"container"
 			],
-			"properties":	[]
+			"properties":	[
+					{
+						"id":"name",
+						"type":"String", 
+						"title":"Name",
+						"value":"Swimlane",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"refToView":"name",
+						"wrapLines":true
+					}
+]
 		},
 		{
 			"type":			"node",
@@ -211,6 +389,19 @@
 				"shape"
 			],
 			"properties": [
+					{
+						"id":"name",
+						"type":"String", 
+						"title":"Name",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"refToView":"name",
+						"wrapLines":true
+					}
+
 			]
 		},
 		{

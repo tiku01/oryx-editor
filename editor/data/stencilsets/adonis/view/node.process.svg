@@ -10,19 +10,25 @@
   </oryx:magnets>
   <g>
 	<polygon 
-		id="processelement"
+		id="process"
 		points="0,0 68,0 80,30 68,60 0,60 12,30" 
 		fill="#AAAAFF" 
 		stroke="black" 
 		stroke-width="1"
-		oryx:anchor="top bottom left right"
 		oryx:resize="vertical horizontal" />
+	<rect
+		id="boundingBox"
+		x="12" y="0" width="56" height="60"
+		fill="none"
+		stroke-width="0"
+		oryx:resize="vertical horizontal"/>
 	<text
-		x="8" 
-		y="70" 
+		x="40" 
+		y="30" 
 		font-size="14" 
-		id="processtext" 
+		id="name" 
 		oryx:align="middle center"
+		oryx:fittoelem="boundingBox"
 		stroke="black"></text>
   </g>
 </svg>
