@@ -21,11 +21,12 @@ import java.util.Collections;
 
 /**
  * HeuristicOryxContainmentInterpreter is used to correct the containment
- * relations for newly imported visio shapes of diagram. - in BPMN: Pools that
- * are build by modeling pool head and pool body separately will be merged to a
- * single pool. - Container shapes (e.g. pools) can contain containable shapes
- * (tasks) and in oryx this relation is explicit, while visio does not care.
- * This relation is build from shapes type and graphical information.
+ * relations for newly imported visio shapes of diagram. 
+ * - in BPMN: Pools that are build by modeling pool head and pool body separately will be merged to a
+ * 		single pool. 
+ * - Container shapes (e.g. pools) can contain containable shapes (e.g. tasks) 
+ * 		and in oryx this relation is explicit, while visio does not care.
+ * 		This relation is build from shapes type and graphical information.
  * 
  * @author Thamsen
  */

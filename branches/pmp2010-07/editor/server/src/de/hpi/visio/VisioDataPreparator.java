@@ -13,11 +13,11 @@ import de.hpi.visio.util.VisioShapeDistanceUtil;
 
 /**
  * The VisioDataCleaner prepares the xmappr-generated Java classes to be mapped
- * to the Diagram Api of Oryx. - Resolves MasterIds, when in *.vdx-data the
- * nameU (type) was only set by a reference to a master-shape. - Checks diagrams
- * and all shapes for bounds (only shapes with bounds will be added) - Merges
- * markers and shapes to be oryx-conform shapes (e.g. task with a loop-marker) -
- * Sets properties from shape'S nameU values
+ * to the Diagram Api of Oryx. 
+ * - Resolves MasterIds, when in *.vdx-data the nameU (type) was only set by a reference to a master-shape. 
+ * - Checks diagrams and all shapes for bounds (only shapes with bounds will be added) 
+ * - Merges markers and shapes to be oryx-conform shapes (e.g. task with a loop-marker) 
+ * - Sets properties from shape'S nameU values
  * 
  * @author Lauritz Thamsen
  */
@@ -72,7 +72,7 @@ public class VisioDataPreparator {
 		String defaultTypeWithoutLabel = importUtil.getStencilSetConfig("unknownNameUAndWithoutLabelType");
 		for (Shape shape : visioPage.getShapes()) {
 			if ((shape.getName() == null || shape.getName().equals("")) &&
-					shape.getLabel() == null || shape.getLabel().equals("")) {
+					(shape.getLabel() == null || shape.getLabel().equals(""))) {
 				if (!shouldSkipUnnamedWithoutLabel) {
 					shape.setName(defaultTypeWithoutLabel);
 					handledShapes.add(shape);
@@ -147,21 +147,17 @@ public class VisioDataPreparator {
 			for (String propertyElementName : propertyElements) {
 				List<Shape> propertyShapes = page.getShapesByName(propertyElementName);
 				for (Shape propertyShape : propertyShapes) {
-					Shape containingShape = 
-						shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
+					Shape containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Task");
 					if (containingShape == null)
-						containingShape = 
-							shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "Subprocess");
 					if (containingShape == null)
-						containingShape = 
-							shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
+						containingShape = shapeUtil.getFirstShapeOfStencilThatContainsTheGivenShape(page.getShapes(), propertyShape, "CollapsedSubprocess");
 					if (containingShape != null) {
 						resultingShape = containingShape;
 					}
 					page.removeShape(propertyShape);
-					String propertyKey = importUtil.getMappingConfig("taskProperties." + propertyElementName + ".key");
-					String propertyValue = importUtil.getMappingConfig("taskProperties." + propertyElementName
-							+ ".value");
+					String propertyKey = importUtil.getMappingConfig("Properties." + propertyElementName + ".key");
+					String propertyValue = importUtil.getMappingConfig("Properties." + propertyElementName + ".value");
 					if (resultingShape != null && propertyKey != null && propertyValue != null) {
 						resultingShape.putProperty(propertyKey, propertyValue);
 					}

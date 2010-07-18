@@ -20,8 +20,7 @@ import de.hpi.visio.util.VisioShapeDockerUtil;
 /**
  * Transforms a given visio document (.vdx-xml file of a Visio diagram, that has
  * been parsed to java by xmappr) to a oryx-diagram that can be translated to
- * json automatically. The resulting json can be used to import it in the
- * editor.
+ * json automatically. The resulting json can be used to import it in the editor.
  * 
  * @author Thamsen
  */
@@ -43,11 +42,11 @@ public class VisioDataToDiagramTransformator {
 		VisioPageMerger merger = new VisioPageMerger();
 		visioData = merger.mergeAllPages(visioData);
 		
-		VisioDataPreparator cleaner = new VisioDataPreparator(importUtil, shapeDistanceUtil);
-		Page cleanedVisioPage = cleaner.checkAndCleanVisioData(visioData);
+		VisioDataPreparator preparator = new VisioDataPreparator(importUtil, shapeDistanceUtil);
+		Page preparedVisioPage = preparator.checkAndCleanVisioData(visioData);
 		
 		HeuristicVisioFreeTextInterpreter freeTextInterpreter = new HeuristicVisioFreeTextInterpreter(importUtil, shapeDistanceUtil);
-		Page interpretedPage = freeTextInterpreter.interpretShapes(cleanedVisioPage);
+		Page interpretedPage = freeTextInterpreter.interpretShapes(preparedVisioPage);
 		
 		HeuristicVisioHugeTaskInterpreter hugeTaskInterpreter = new HeuristicVisioHugeTaskInterpreter(importUtil);
 		Page interpretedPageWithSubprocesses = hugeTaskInterpreter.interpreteHugeTasksAsSubprocesses(interpretedPage);

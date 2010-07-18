@@ -47,12 +47,14 @@ public class VisioShapeDockerUtil {
 			Point sourceMiddlePoint = getCentralPinOfCorrectedBounds(correctedSourceBounds);
 			correctedDockers.add((sourceMiddlePoint));
 		}
-		for (Point dockerPoint : shape.getDockerPoints()) {
-			Point correctedDocker = boundsUtil.convertToOryxPoint(dockerPoint);
-			Point correctEdgeStartPoint = boundsUtil.convertToOryxPoint(shape.getStartPointForPage(page));
-			Double correctedAndFromSourceX = correctEdgeStartPoint.getX() + correctedDocker.getX();
-			Double correctedAndFromSourceY = correctEdgeStartPoint.getY() - correctedDocker.getY();
-			correctedDockers.add(new Point(correctedAndFromSourceX, correctedAndFromSourceY));
+		if (!isStraightException(shape)) {
+			for (Point dockerPoint : shape.getDockerPoints()) {
+				Point correctedDocker = boundsUtil.convertToOryxPoint(dockerPoint);
+				Point correctEdgeStartPoint = boundsUtil.convertToOryxPoint(shape.getStartPointForPage(page));
+				Double correctedAndFromSourceX = correctEdgeStartPoint.getX() + correctedDocker.getX();
+				Double correctedAndFromSourceY = correctEdgeStartPoint.getY() - correctedDocker.getY();
+				correctedDockers.add(new Point(correctedAndFromSourceX, correctedAndFromSourceY));
+			}
 		}
 		if (shape.getTarget() != null) {
 			Bounds correctedTargetBounds = boundsUtil.getCorrectOryxShapeBoundsWithResizing(shape.getTarget(), page);
@@ -60,6 +62,22 @@ public class VisioShapeDockerUtil {
 			correctedDockers.add((targetMiddlePoint));
 		}
 		return correctedDockers;
+	}
+
+	/**
+	 * 	In some stencils (e.g., visio epc) there is a weird docker, when the edge goes straight.
+	 * 	Also the edge should go straight in the xml too, it contains a docker
+	 * 	that is somewhat around 1.25 to the right or around 1.25 up and therefore the 
+	 * 	layout isn't quit right, then.
+	 */
+	private boolean isStraightException(Shape shape) {
+		if (shape.getStartPoint().getX().equals(shape.getEndPoint().getX()) ||
+				shape.getStartPoint().getY().equals(shape.getEndPoint().getY())) {
+			if (shape.getDockerPoints().size() == 1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private ArrayList<Point> getCorrectedCentralDockerAsList(Shape shape, Page page) {
