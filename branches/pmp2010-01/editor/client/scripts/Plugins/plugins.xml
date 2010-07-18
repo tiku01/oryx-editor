@@ -49,6 +49,9 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>	
 		</plugin>
 		
+		<!-- Pattern Plugin -->
+		<plugin source="patterns.js" name="ORYX.Plugins.Patterns"/>
+		
 		<!-- Colored Petri Nets -->		
 		<plugin source="cpntoolsSupport.js" name="ORYX.Plugins.CPNToolsSupport" >
 			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
