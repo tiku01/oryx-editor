@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Test Tool">
+        <Require feature="opensocial-0.8"></Require>
+        <Require feature="dynamic-height"></Require>
+		<Require feature="settitle"></Require>
+        <Require feature="rpc"></Require>
+    </ModulePrefs>
+    <Content type="html">
+        <![CDATA[
+
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/uploader/uploader-min.js"></script> 
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/container/assets/skins/sam/container.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/container/container-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/json/json-min.js"></script> 
+	
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/button/assets/skins/sam/button.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/container/assets/skins/sam/container.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/connection/connection-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/button/button-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/dragdrop/dragdrop-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/container/container-min.js"></script> 
+<!--begin custom header content for this example--> 
+<script type="text/javascript"> 
+document.documentElement.className = "yui-pe";
+</script> 
+ 
+<style type="text/css"> 
+#example {
+    height:30em;
+}
+ 
+label { 
+    display:block;
+    float:left;
+    width:45%;
+    clear:left;
+}
+ 
+.clear {
+    clear:both;
+}
+ 
+#resp {
+    margin:10px;
+    padding:5px;
+    border:1px solid #ccc;
+    background:#fff;
+}
+ 
+#resp li {
+    font-family:monospace
+}
+ 
+.yui-pe .yui-pe-content {
+    display:none;
+}
+
+			#connector {
+				background: transparent;
+			}
+			
+			div.yui-layout-bd {
+				background-color: transparent !important;
+				border-color: #D0D0D0 !important;
+			}
+			
+			.yui-layout-hd {
+				background: #A0A0A0 !important;
+				border-style: none !important;
+			}
+			
+			div.yui-layout-hd h2{
+				color: #FFFFFF !important;
+			}
+			
+			.checkbox { 
+			    display:block;
+			   	width:15%;
+				float:left;
+			    clear:left;
+			}
+			
+			label {
+				float:left;
+			}
+			
+			.clear {
+			    clear:both;
+				height:10px;
+			}
+			
+			#connections {
+				overflow:auto;
+				list-style: none;
+				margin: 15px;
+				cursor: pointer;
+				height: 250;
+			}
+			
+			.connection-item {
+				background-color: white;
+				color: #808080;
+				border: 1px #808080 solid;
+				-moz-border-radius: 15px; 
+				float: left;
+				width: 75%;
+				height: auto;
+				min-height: 20px;
+				padding-left: 15px;
+				margin-right: 15px;		
+			}
+			
+			div.connection-item:hover, .connection-item-active {
+				background-color: #A0A0A0;
+				color: white;
+				border-color: white;
+			}			
+			
+
+</style> 
+ 
+<!--end custom header content for this example--> 		
+		
+	<script type="text/javascript">		
+		var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js', 
+					'http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js',
+					'http://yui.yahooapis.com/2.8.1/build/connection/connection-min.js',
+					'http://yui.yahooapis.com/2.8.1/build/element/element-min.js',
+					'http://yui.yahooapis.com/2.8.1/build/button/button-min.js',
+					'http://yui.yahooapis.com/2.8.1/build/dragdrop/dragdrop-min.js',
+					'http://yui.yahooapis.com/2.8.1/build/container/container-min.js',
+					'http://yui.yahooapis.com/2.8.1/build/animation/animation-min.js',	
+					'http://yui.yahooapis.com/2.8.1/build/json/json-min.js',			
+					'/oryx/lib/prototype-1.5.1.js',
+					'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
+					'/gadgets/files/gadgets/correspondence/core.js'];
+	
+        for (var i = 0; i < externs.length; i++)
+			document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));
+		
+	</script>
+		
+		
+
+		<body class=" yui-skin-sam" id="connector">
+ 
+ 
+<div id="dialog1" class="yui-pe-content"> 
+<div class="hd">Please choose the models to compare</div> 
+<div class="bd"> 
+
+		<form method="POST" action="assets/post.php"> 
+
+			<label for="model1[]">Model1:</label> 
+			<select id="model1" multiple name="model1[]"> 
+			</select> 
+			
+			<label for="model2[]">Model2:</label> 
+			<select id="model2" multiple name="model2[]"> 
+			</select> 
+		 
+		</form>
+</div> 
+</div> 
+
+<div id="modelLoaderDialog" class="yui-pe-content"> 
+<div class="hd">Please choose a JSON for upload</div> 
+<div class="bd"> 
+
+		<form method="POST" action="assets/post.php"> 
+
+			<label for="form[file]">File:</label> 
+			<input id="modelUploader" type="file" name="form[file]" /> 
+			
+			
+			<label for="textarea">Text area:</label><textarea id="textarea" name="textarea"></textarea>
+		 
+		</form>
+</div> 
+</div> 
+
+
+ 
+<div>Loading...</div>						
+					
+					
+		<div id ="top">
+			<div style = "margin:3px;">
+				<fieldset id="button_group"></fieldset>
+			</div>
+		</div>
+		<div id="center"> 
+			<ul id="connections"></ul>
+		</div>
+		</body>
+		
+  ]]>
+    </Content>
+</Module>

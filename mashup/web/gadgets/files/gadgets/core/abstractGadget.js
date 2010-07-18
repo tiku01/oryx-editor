@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2009
- * Helen Kaltegaertner
+ * Copyright (c) 2010
+ * Helen Kaltegaertner, Uwe Hartmann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -294,6 +294,26 @@
 		},
 		
 		/*
+		 * request the whole viewer object of a specific viewer
+		 * 
+		 */
+		getViewer : function(viewer, callback, scope, args){
+			
+			var channel = "dispatcher." + viewer + ".getViewer";
+			
+			gadgets.rpc.call(
+				null,
+				channel,
+				function(reply){
+					var viewer = reply;//.evalJSON();
+					callback.call(scope? scope : this, viewer, args);
+				},
+				""
+			);
+			
+		},		
+		
+		/*
 		 * request resourceIds and labels of all selected nodes in a specific viewer
 		 */
 		sendSelection : function(viewer, callback, scope, args){
@@ -338,6 +358,23 @@
 		setSelectionMode: function(viewer, option){
 			var channel = "dispatcher." + viewer + ".setSelectionMode";
 			gadgets.rpc.call( null, channel, function(){return;}, option);	
+		},
+		
+		/*
+		 *  Set the MOVI selection object
+		 */
+		setSelection: function(viewer, selection){
+			var channel = "dispatcher." + viewer + ".setSelection";
+			gadgets.rpc.call( null, channel, function(){return;}, selection);	
+		},
+		
+		
+		/*
+		 *  Selects the the nodes with the given Ressource IDs
+		 */
+		setSelectedShapes: function(viewer, shapes){
+			var channel = "dispatcher." + viewer + ".setSelectedShapes";
+			gadgets.rpc.call( null, channel, function(){return;}, shapes);	
 		},
 		
 		/*
