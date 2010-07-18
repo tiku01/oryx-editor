@@ -400,7 +400,19 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	
 	findCentralPoint: function(shapeArray) {
 		
-		//hier sollte vllt. noch der mittelpunkt vom shape berechnet werden?
+		if(shapeArray.size() == 0) return;
+		
+		var initBounds = new ORYX.Core.Bounds(shapeArray[0].bounds.upperLeft, shapeArray[0].bounds.lowerRight);
+		
+		var shapeBounds = shapeArray.inject(initBounds, function(bounds, shape) {
+			var add = new ORYX.Core.Bounds(shape.bounds.upperLeft, shape.bounds.lowerRight);
+			bounds.include(add);
+			return bounds;
+		});
+		
+		return shapeBounds.center();
+		
+		/*//hier sollte vllt. noch der mittelpunkt vom shape berechnet werden?
 		var sumX = shapeArray.inject(0, function(acc, shape) {
 			return acc + shape.bounds.upperLeft.x;
 		});
@@ -415,7 +427,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		return {
 			x: meanX,
 			y: meanY
-		};
+		};*/
 		
 	},
 	
