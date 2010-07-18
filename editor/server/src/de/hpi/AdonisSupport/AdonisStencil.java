@@ -1,6 +1,7 @@
 package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -10,9 +11,9 @@ import org.xmappr.Attribute;
 
 import de.hpi.diagram.OryxUUID;
 
-public abstract class AdonisStencil extends AdonisBaseObject {
+public abstract class AdonisStencil extends XMLConvertible {
 
-	public final double CENTIMETERTOPIXEL = 25;
+	public final static double CENTIMETERTOPIXEL = 20;
 	
 	@Attribute(name="id")
 	protected String id;
@@ -26,28 +27,40 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 	
 	public void setId(String newId){id = newId;}
 	
+	/**
+	 * returns the name of the stencil (or the id if there is none)
+	 */
+	public String getName(){
+		return getId();
+	}
+	
 	public String getStencilClass(){return stencilClass;}
 	
 	public void setStencilClass(String newName){stencilClass = newName.toLowerCase();}
 	
 	
 	
-//	public boolean isModel(){
-//		return false;
-//	}
-//	public boolean isConnector(){
-//		return false;
-//	}
-//	public boolean isInstance(){
-//		return false;
-//	}
+	public String getResourceId(){
+		if (resourceId == null){
+			resourceId = OryxUUID.generate();
+		}
+		return resourceId;
+	}
 	
+	private Map<String,AdonisInstance> modelInstances = null;
 	
+	public void setModelInstances(Map<String,AdonisInstance> children){
+		modelInstances = children;
+	}
 	
-//	protected Map<String,AdonisStencil> idObjectMap;
-//	protected Map<String,String> idNameMap;
+	public Map<String,AdonisInstance> getModelInstance(){
+		if (modelInstances == null){
+			setModelInstances(new HashMap<String,AdonisInstance>());
+		}
+		return modelInstances;
+	}
 	
-	private  ArrayList<AdonisStencil> outgoingStencil = null;
+	private ArrayList<AdonisStencil> outgoingStencil = null;
 	
 	public void addOutgoing(AdonisStencil outgoing){
 		if (outgoingStencil == null) outgoingStencil = new ArrayList<AdonisStencil>();
@@ -63,19 +76,10 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 	 * @return a map of name and type
 	 */
 	public abstract Map<String,String> getEvaluatedAttributes();
-	/**
-	 * returns the name of the stencil (or the id if there is none)
-	 */
-	public abstract String getName();
+
+
 	
-//	public void prepareComputation(Map<String,String> idMap,Map<String,AdonisStencil> objectMap){
-//		if (!idMap.containsKey(getId())){
-//			idMap.put(getId(), getName());
-//			objectMap.put(getId(), this);
-//		}
-//		idNameMap = idMap;
-//		idObjectMap = objectMap;
-//	}
+	
 	
 	private AdonisModel model;
 	
@@ -87,15 +91,24 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 		return model;
 	}
 	
-	public String getResourceId(){
-		if (resourceId == null){
-			resourceId = OryxUUID.generate();
-		}
-		return resourceId;
+	private AdonisStencil parent;
+	
+	protected void setParent(AdonisStencil aStencil){
+		parent = aStencil;
 	}
 		
-
+	protected AdonisStencil getParent(){
+		if (parent == null){
+			return getModel();
+		}
+		return parent;
+	}
 	
+	protected abstract Double[] getBounds();
+	
+	protected Double[] getGlobalBounds(){
+		return getBounds();
+	}
 	
 	//*************************************************************************
 	//* JSON methods
@@ -113,7 +126,7 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 	 */
 	public void writeJSONstencil(JSONObject json) throws JSONException {
 		JSONObject stencil = getJSONObject(json,"stencil");
-		stencil.put("id", getStencilClass());
+		stencil.put("id", getOryxNameOf(getStencilClass()));
 		
 	}
 	/**
@@ -136,7 +149,19 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 	/**
 	 * write all childshapes to the diagram
 	 */
-	public abstract void writeJSONchildShapes(JSONObject json) throws JSONException;
+	public void writeJSONchildShapes(JSONObject json) throws JSONException {
+		JSONArray childShapes = getJSONArray(json,"childShapes");
+		JSONObject shape = null;
+		
+		for (AdonisInstance aInstance : getModelInstance().values()){
+			//write only my childshapes
+			if (aInstance.getParent() == this){
+				shape = new JSONObject();
+				aInstance.write(shape);
+				childShapes.put(shape);
+			}
+		}
+	}
 	/**
 	 * write the bounds of the object
 	 */
@@ -152,4 +177,18 @@ public abstract class AdonisStencil extends AdonisBaseObject {
 	public void writeJSONtarget(JSONObject json) throws JSONException {
 		getJSONObject(json,"target");
 	}
+	
+	
+	//*************************************************************************
+	//* Configurator access
+	//*************************************************************************
+	public String getOryxNameOf(String adonisName) throws JSONException{
+		return Configurator.translateToOryx(adonisName);
+	}
+
+	public JSONObject getJSONWithStandardAttributes(String adonisName) throws JSONException{
+		String oryxName = Configurator.translateToOryx(adonisName);
+		return Configurator.getStandard(oryxName);
+	}
+	
 }

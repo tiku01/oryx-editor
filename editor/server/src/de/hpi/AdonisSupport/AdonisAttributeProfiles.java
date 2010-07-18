@@ -10,7 +10,7 @@ import org.xmappr.RootElement;
 //<!ELEMENT ATTRIBUTEPROFILES (ATTRPROFDIR+ | ATTRIBUTEPROFILE+)>
 
 @RootElement("ATTRIBUTEPROFILES")
-public class AdonisAttributeProfiles extends AdonisBaseObject {
+public class AdonisAttributeProfiles extends XMLConvertible {
 
 
 	@Element(name="ATTRIBUTEPROFILE", targetType=AdonisAttributeProfile.class)

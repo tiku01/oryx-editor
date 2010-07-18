@@ -14,7 +14,7 @@ import org.xmappr.RootElement;
 //>
 
 @RootElement("RECORD")
-public class AdonisRecord extends AdonisBaseObject {
+public class AdonisRecord extends XMLConvertible {
 	@Attribute("name")
 	protected String name;
 	

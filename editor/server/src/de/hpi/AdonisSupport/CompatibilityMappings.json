@@ -1,0 +1,47 @@
+{
+"translation": {
+		"world area":{
+			"World area": ["en"],
+			"Weltkoordinaten": ["de"]
+		},
+		"process":{
+			"Prozeß": ["de"],
+			"Process": ["en","us"]
+		},
+		"performance indicator overview": {
+			"Performance indicator overview": ["en"]
+		},		
+		"performance": {
+			"Leistung": ["de"],
+			"Performance": ["end"]
+		},
+		"has process": {
+			"Has process": ["en"],
+			"Hat Prozeß": ["de"]
+		},
+		"has cross-reference": {
+			"Has cross-reference": ["en"],
+			"Hat Querverweis":["de"]
+		},
+		"is inside": {
+			"is inside":["en"],
+			"ist innerhalb": ["de"]
+		},
+		"swimlane (horizontal)": {
+			"Schwimmbahn (waagrecht)": ["de"]
+		},
+		"aggregation": {
+			"Aggregation": ["de","en"]
+		}
+	},
+	"standardValues": {
+		"performance": {
+			"w":3.26,
+			"h":1.40
+		},
+		"aggregation": {
+			"w":6.00,
+			"h":9.00
+		}
+	}
+}

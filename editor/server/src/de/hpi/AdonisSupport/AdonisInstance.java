@@ -67,57 +67,71 @@ public class AdonisInstance extends AdonisStencil {
 	//* methods for computation purposes
 	//*************************************************************************
 	
-	private Double[] bounds = null; 
-	
+	private String[] filterPositionString(String position){
+		String filteresPosition = position.replace("NODE ","");
+		filteresPosition = filteresPosition.replace("SWIMLANE ","");
+		filteresPosition = filteresPosition.replace("index:", "");
+		filteresPosition = filteresPosition.replace("x:", "");
+		filteresPosition = filteresPosition.replace("y:", "");
+		filteresPosition = filteresPosition.replace("w:", "");
+		filteresPosition = filteresPosition.replace("h:", "");
+		filteresPosition = filteresPosition.replace("cm","");
+		return filteresPosition.split(" ");
+	}
+
+	private Double[] globalBounds = null;
 	/**
 	 * get the bounds
 	 * @return upperLeft x,y lowerRight x,y
 	 */
-	protected Double[] getBounds(){
-		if (bounds != null){
-			return bounds;
+	protected Double[] getGlobalBounds(){
+		if (globalBounds != null){
+			return globalBounds;
 		}
-		bounds = new Double[4];
+		globalBounds = new Double[4];
 		//get the position and size which looks like 
 		//	NODE x:2.50cm y:7.00cm index:2 or
 		//	NODE x:1cm y:11.5cm w:.5cm h:.6cm index:8
 		for (AdonisAttribute aAttribute : getAttribute()){
 			if (aAttribute.getName().equalsIgnoreCase("Position")){
 				// extract the numbers out of the string
-				String area = aAttribute.getElement().replace("NODE ","");
-				area = area.replace("SWIMLANE ","");
-				area = area.replace("index:", "");
-				area = area.replace("x:", "");
-				area = area.replace("y:", "");
-				area = area.replace("w:", "");
-				area = area.replace("h:", "");
-				area = area.replace("cm","");
-				String[] position = area.split(" ");
-				
-				//upperLeft
-				bounds[0] = Double.parseDouble(position[0])*CENTIMETERTOPIXEL;
-				bounds[1] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
-				//lowerRight
-				//TODO look if there is variant with 3 space values (x y w or x y h)
+				String[] position = filterPositionString(aAttribute.getElement());
+				globalBounds[0] = Double.parseDouble(position[0])*CENTIMETERTOPIXEL;
+				globalBounds[1] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
 				if (position.length <= 3){
-					bounds[2] = (getStandardSize(true))*CENTIMETERTOPIXEL + bounds[0];
-					bounds[3] = (getStandardSize(false))*CENTIMETERTOPIXEL + bounds[1];
+					globalBounds[2] = (getStandardSize(true)*CENTIMETERTOPIXEL) + globalBounds[0];
+					globalBounds[3] = (getStandardSize(false)*CENTIMETERTOPIXEL) + globalBounds[1];
 				} else {
-					bounds[2] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL + bounds[0];
-					bounds[3] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + bounds[1];
+					globalBounds[2] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL + globalBounds[0];
+					globalBounds[3] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + globalBounds[1];
 				}
+				// adapt bounds to parent stencil (in case it is a model, the values doesn't change)
 				break;
 			}
 		}
-		return bounds;
+		return globalBounds;
+	}
+	
+	protected Double[] getBounds(){
+		Double[] localBounds = new Double[4];
+		if (globalBounds == null){
+			getGlobalBounds();
+		}
+		Log.v(getName()+"("+getStencilClass()+") global x1: "+globalBounds[0]+" y1: "+globalBounds[1]+" x2: "+globalBounds[2]+" y2: "+globalBounds[3]);
+		Log.v("\t\t("+getParent().getStencilClass()+") parent x1: "+getParent().getGlobalBounds()[0]+" y1: "+getParent().getGlobalBounds()[1]+" x2: "+getParent().getGlobalBounds()[2]+" y2: "+getParent().getGlobalBounds()[3]);
+		for (int i = 0; i < 4; i++){
+			localBounds[i] = globalBounds[i] - getParent().getGlobalBounds()[i%2];
+		}
+		Log.v("\t\t("+getStencilClass()+") local  x1: "+localBounds[0]+" y1: "+localBounds[1]+" x2: "+localBounds[2]+" x2: "+localBounds[3]);
+		return localBounds;
 	}
 	
 	
 	public Double[] getCenter(){
-		if (bounds == null){
-			getBounds(); 
+		if (globalBounds == null){
+			getGlobalBounds(); 
 		}
-		return new Double[]{(bounds[0] + bounds[2])/2, (bounds[1] + bounds[3])/2};   
+		return new Double[]{(globalBounds[0] + globalBounds[2])/2, (globalBounds[1] + globalBounds[3])/2};   
 	}
 	/**
 	 * these attributes have influences on the representation in oryx
@@ -137,11 +151,30 @@ public class AdonisInstance extends AdonisStencil {
 	 * returns the standard size of a stencil in cm (according to the used unit in the xml)
 	 * @param isVertical
 	 * @return
+	 * @throws JSONException 
 	 */
-	public double getStandardSize(boolean isVertical){
-		if (getStencilClass().equalsIgnoreCase("Process"))
-			return (isVertical ? 3.25 : 1.5); 
-		return (isVertical ? 3.25 : 1.5);
+	public Double getStandardSize(boolean isVertical){
+		Double value = null;
+		try {
+			JSONObject standard = getJSONWithStandardAttributes(getName());
+			if (standard != null){
+				if (isVertical){
+					value = standard.getDouble("w");
+				} else {
+					value = standard.getDouble("h");
+				}
+			}
+		} catch (JSONException e){
+			Log.e(e.getMessage());
+		}
+		if (value == null){
+			if (isVertical){
+				return 3.25;
+			} else {
+				return 1.5;
+			}
+		}
+		return value;
 	}
 
 	public boolean isInstance(){
@@ -154,11 +187,11 @@ public class AdonisInstance extends AdonisStencil {
 	//* write methods for JSON
 	//*************************************************************************
 
-	@Override
-	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-		getJSONArray(json,"childShapes");
-		
-	}
+//	@Override
+//	public void writeJSONchildShapes(JSONObject json) throws JSONException {
+//		getJSONArray(json,"childShapes");
+//		
+//	}
 
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
@@ -186,12 +219,12 @@ public class AdonisInstance extends AdonisStencil {
 		JSONObject bounds = getJSONObject(json,"bounds");
 		
 		JSONObject temp = getJSONObject(bounds,"upperLeft");
-		temp.put("x",(int)(double)getBounds()[0]);
-		temp.put("y",(int)(double)getBounds()[1]);
+		temp.put("x",getBounds()[0]);
+		temp.put("y",getBounds()[1]);
 		
 		temp = getJSONObject(bounds,"lowerRight");
-		temp.put("x",(int)(double)getBounds()[2]);
-		temp.put("y",(int)(double)getBounds()[3]);	
+		temp.put("x",getBounds()[2]);
+		temp.put("y",getBounds()[3]);	
 	}
 
 	@Override
@@ -206,6 +239,7 @@ public class AdonisInstance extends AdonisStencil {
 			}
 		}
 	}
+
 	
 
 	

@@ -20,7 +20,7 @@ import org.xmappr.RootElement;
 //>
 
 @RootElement("ADOXML")
-public class AdonisXML extends AdonisBaseObject {
+public class AdonisXML extends XMLConvertible {
 	
 	public AdonisXML(){
 		setAdoversion("Version 3.9");
