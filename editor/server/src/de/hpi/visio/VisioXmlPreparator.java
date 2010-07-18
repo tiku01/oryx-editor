@@ -2,9 +2,10 @@ package de.hpi.visio;
 
 /**
  * Prepares visio vdx-files (xml) for import to java through the xmappr-library:
- * - removes the namespaces of Visio 2010 - removes the xml-declaration -
- * removes all attributes from the root-element - removes all child-elements in
- * <Text></Text>-Elements
+ * - removes the namespaces of Visio 2010 
+ * - removes the xml-declaration 
+ * - removes all attributes from the root-element 
+ * - removes all child-elements in <Text></Text>-Elements
  * 
  * @author Thamsen
  */

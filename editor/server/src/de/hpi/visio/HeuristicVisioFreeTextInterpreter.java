@@ -17,8 +17,8 @@ import java.util.Collections;
 /**
  * HeuristicVisioFreeTextInterpreter interprets visio shapes, that do not have a
  * nameU (type) but a label and therefore are free-text that is on the visio
- * page and that must be handled to import this information to oryx. Depending
- * on the label's length, the distance to the next shape and the shapes type
+ * page and that must be handled to import this information to oryx. 
+ * Depending on the label's length, the distance to the next shape and the shapes type
  * this label will be the nearest shape's label, an associated annotation or a
  * dangling annotation.
  * 

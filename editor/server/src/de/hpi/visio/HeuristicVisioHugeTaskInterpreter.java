@@ -10,8 +10,8 @@ import de.hpi.visio.util.ImportConfigurationUtil;
 /**
  * HeuristicVisioHugeTaskInterpreter interprets tasks with a size that exceeds
  * given thresholds as a subprocess instead of a task, because there are visio
- * stencil sets without an extra shape for subprocess. Instead task size's just
- * increased to have a subprocess.
+ * stencil sets without an extra shape for subprocess. 
+ * Instead task size's just increased to have a subprocess.
  * 
  * @author Thamsen
  */

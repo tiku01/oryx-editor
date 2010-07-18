@@ -78,7 +78,8 @@
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Description">TextAnnotation</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Subprocess">Subprocess</entry>
 	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Dynamic connector">SequenceFlow</entry>	
-	
+	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.asdölk">IntermediateSignalEventThrowing</entry> <!-- That's really the chosen nameU... -->
+	<entry key="stencilsets.bpmn.BPTBPMN11.stencil.Intermediate Multiple">IntermediateMultipleEventThrowing</entry>		
 	
 	
 	<!--OMG: BPMN 0.9 Stencil Set of the Object Management Group (OMG): http://www.omg.org/bpmn/documents.htm-->
@@ -192,7 +193,7 @@
 	as specialTaskType that represents a property will cause failure-->
 	<!-- Markers (no real shapes but shapes to specialize other shapes (e.g., a + on a task is a collapsed subprocess)) -->
 	<!-- Make sure that all Properties.STENCIL key-value-pairs are included in .areOnlyProperties -->
-	<entry key="stencilsets.bpmn.config.areOnlyProperties">Activity Looping,Multiple Instances,Compensation,Transaction,Ad-Hoc</entry>
+	<entry key="stencilsets.bpmn.config.areOnlyProperties">Activity Looping,Multiple Instances,Compensation,Ad-Hoc</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Activity Looping.key">looptype</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Activity Looping.value">Standard</entry>
 	<entry key="stencilsets.bpmn.config.Properties.Multiple Instances.key">looptype</entry>
@@ -206,12 +207,7 @@
 	
 	<!-- special types of stencils, representing properties -->
 	<!-- make sure that all key-value-pairs that define the properties of an ordanary element are included in .specialTypes -->
-	<entry key="stencilsets.bpmn.config.specialTypes">Standard Loop Task,Activity looping,Collapsed sub-process 2,
-		Collapsed sub-process 3,Collapsed sub-process 4,Default Flow,Conditional Flow,Sequence Flow (Conditional),Sequence Flow (Default),
-		Multi-Instance Loop Task,Compensation Task,Standard Loop Collapsed Sub-Process,Multi-Instance Loop Collapsed Sub-Process,
-		Compensation Collapsed Sub-Process,Ad-Hoc Collapsed Sub-Process,Transaction Collapsed Sub-Process,Standard Loop Expanded Sub-Process,
-		Multi-Instance Loop Expanded Sub-Process,Compensation Expanded Sub-Process,Ad-Hoc Expanded Sub-Process,
-		Transaction Expanded Sub-Process,Transaction</entry>
+	<entry key="stencilsets.bpmn.config.specialTypes">Standard Loop Task,Activity looping,Collapsed sub-process 2,Collapsed sub-process 3,Collapsed sub-process 4,Default Flow,Conditional Flow,Sequence Flow (Conditional),Sequence Flow (Default),Multi-Instance Loop Task,Compensation Task,Standard Loop Collapsed Sub-Process,Multi-Instance Loop Collapsed Sub-Process,Compensation Collapsed Sub-Process,Ad-Hoc Collapsed Sub-Process,Transaction Collapsed Sub-Process,Standard Loop Expanded Sub-Process,Multi-Instance Loop Expanded Sub-Process,Compensation Expanded Sub-Process,Ad-Hoc Expanded Sub-Process,Transaction Expanded Sub-Process,Transaction</entry>
 	<entry key="stencilsets.bpmn.config.Standard Loop Task.keys">looptyp</entry>
 	<entry key="stencilsets.bpmn.config.Standard Loop Task.values">Standard</entry>
 	<entry key="stencilsets.bpmn.config.Activity looping.keys">looptype</entry>
