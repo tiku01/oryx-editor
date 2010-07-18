@@ -21,6 +21,13 @@ import org.xmappr.converters.Base64;
 
 
 public abstract class XMLConvertible {
+	
+	static public void writeError(Exception e){
+		//System.err.println(e.getMessage());
+		Log.e(e.getMessage());
+		e.printStackTrace();
+	}
+	
 	/**
 	 * buckets for unknown attributes and elements (+ accessors)
 	 */

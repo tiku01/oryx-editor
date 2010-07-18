@@ -15,7 +15,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("INTERREF")
-public class AdonisInterref extends AdonisBaseObject{
+public class AdonisInterref extends XMLConvertible{
 	
 	@Attribute("name")
 	protected String name;

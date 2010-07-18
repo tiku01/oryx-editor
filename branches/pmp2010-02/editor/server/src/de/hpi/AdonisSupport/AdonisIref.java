@@ -16,7 +16,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("IREF")
-public class AdonisIref extends AdonisBaseObject{
+public class AdonisIref extends XMLConvertible{
 	
 	@Attribute("type")
 	protected String type;

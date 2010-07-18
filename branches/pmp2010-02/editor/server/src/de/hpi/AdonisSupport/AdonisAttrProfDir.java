@@ -14,7 +14,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("ATTRPROFDIR")
-public class AdonisAttrProfDir extends AdonisBaseObject {
+public class AdonisAttrProfDir extends XMLConvertible {
 
 	@Attribute("name")
 	protected String name;

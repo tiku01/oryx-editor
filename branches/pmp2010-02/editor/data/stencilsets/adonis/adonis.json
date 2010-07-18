@@ -25,7 +25,7 @@
 			"view": 		"node.process.svg",
 			"icon":			"node.process.png",
 			"roles":		[
-				"all",
+				"shape",
 				"valueable",
 			],
 			"properties": [
@@ -41,7 +41,7 @@
 			"view": 		"node.actor.svg",
 			"icon":			"node.actor.png",
 			"roles":		[
-				"all",
+				"shape",
 				"valueable"
 			],
 			"properties": [
@@ -56,7 +56,7 @@
 			"view": 		"node.external-partner.svg",
 			"icon":			"node.external-partner.png",
 			"roles":		[
-				"all",
+				"shape",
 				"valueable"
 			],
 			"properties": [
@@ -71,7 +71,7 @@
 			"view": 		"node.note.svg",
 			"icon":			"node.note.png",
 			"roles":		[
-				"all",
+				"shape",
 			],
 			"properties": [
 				
@@ -86,7 +86,7 @@
 			"view":			"node.cross-reference.svg",
 			"icon":			"node.cross-reference.png",
 			"roles":		[
-				"all"
+				"shape"
 			],
 			"properties": [
 			]
@@ -100,7 +100,8 @@
 			"view":			"node.aggregation.svg",
 			"icon":			"node.aggregation.png",
 			"roles":		[
-				"all"
+				"shape",
+				"container"
 			],
 			"properties": [
 			]
@@ -114,7 +115,7 @@
 			"view": 		"node.performance.svg",
 			"icon":			"node.performance.png",
 			"roles":		[
-				"all",
+				"shape",
 				"valueable"
 			],
 			"properties": [
@@ -130,7 +131,7 @@
 			"view":			"connector.has-cross-reference.svg",
 			"icon":			"connector.has-cross-reference.png",
 			"roles":		[
-				"all to all"
+				"shape to shape"
 			],
 			"properties":	[
 			]
@@ -207,7 +208,7 @@
 			"view":			"node.performance-indicator.svg",
 			"icon":			"node.performance-indicator.png",
 			"roles":		[
-				"all"
+				"shape"
 			],
 			"properties": [
 			]
@@ -221,7 +222,7 @@
 			"view":			"node.performance-indicator-overview.svg",
 			"icon":			"node.performance-indicator-overview.png",
 			"roles":		[
-				"all"
+				"shape"
 			],
 			"properties": [
 			]
@@ -243,11 +244,11 @@
 	"rules":{
 		"connectionRules": [
 			{
-				"role":		"all to all",
+				"role":		"shape to shape",
 				"connects":	[
 					{
-						"from":	"all",
-						"to":	"all"
+						"from":	"shape",
+						"to":	"shape"
 					}
 				]
 			},
@@ -255,7 +256,7 @@
 				"role":		"has note",
 				"connects":	[
 					{
-						"from":	"all",
+						"from":	"shape",
 						"to":	"note"
 					}
 				]
@@ -264,7 +265,7 @@
 				"role":		"owns",
 				"connects":	[
 					{
-						"from":	"all",
+						"from":	"shape",
 						"to":	"performance indicator"
 					}
 				]
@@ -292,8 +293,14 @@
 			{
 				"role":		"diagram",
 				"contains": [
-							"all",
+							"shape",
 							"container"
+				]
+			},
+			{
+				"role":		"container",
+				"contains": [
+							"shape"
 				]
 			}
 		]

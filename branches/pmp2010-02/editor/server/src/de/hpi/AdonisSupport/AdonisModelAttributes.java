@@ -10,7 +10,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("MODELATTRIBUTES")
-public class AdonisModelAttributes extends AdonisBaseObject{
+public class AdonisModelAttributes extends XMLConvertible{
 
 	
 	

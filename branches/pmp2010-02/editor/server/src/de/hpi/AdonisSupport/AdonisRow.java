@@ -20,7 +20,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("ROW")
-public class AdonisRow extends AdonisBaseObject{
+public class AdonisRow extends XMLConvertible{
 
 	@Attributes({
 		@Attribute("id"),

@@ -14,7 +14,7 @@ import org.xmappr.Text;
 
 
 @RootElement("ATTRIBUTE")
-public class AdonisAttribute extends AdonisBaseObject{
+public class AdonisAttribute extends XMLConvertible{
 	
 	@Attribute(name="name")
 	protected String name;

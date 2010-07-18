@@ -100,14 +100,19 @@ public class AdonisConverter {
 	 */
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
-		String json = ac.importXML(importFromFile("D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml")); 
+		String json = ac.importXML(
+				importFromFile(
+//						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
+						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
+				)); 
 		System.out.println(json);
-		try {
-			System.out.println(ac.exportXML(json));
-		} catch (JSONException e){
-			System.err.println(e.getMessage());
-			e.printStackTrace();
-		}
+//		try {
+//			System.out.println(ac.exportXML(json));
+//		} catch (JSONException e){
+//			System.err.println(e.getMessage());
+//			e.printStackTrace();
+//		}
 
 	}
 	

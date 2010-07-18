@@ -3,7 +3,9 @@ package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,44 +81,83 @@ public class AdonisModel extends AdonisStencil{
 	public void setApplib(String value){applib = value;}
 	public String getApplib(){return applib;}
 	
-	public AdonisModelAttributes getModelAttributes(){
-		return modelAttributes;
-	}
+	public AdonisModelAttributes getModelAttributes(){return modelAttributes;}
 	
-	public void setModelAttributes(AdonisModelAttributes list){
-		modelAttributes = list;
-	}
+	public void setModelAttributes(AdonisModelAttributes list){	modelAttributes = list;}
 		
-	public ArrayList<AdonisInstance> getInstance(){
-		return instance;
-	}
+	public ArrayList<AdonisInstance> getInstance(){return instance;}
 	
-	public void setInstance(ArrayList<AdonisInstance> list){
-		instance = list;
-	}
+	public void setInstance(ArrayList<AdonisInstance> list){instance = list;}
 	
-	public ArrayList<AdonisConnector> getConnector(){
-		return connector;
-	}
+	public ArrayList<AdonisConnector> getConnector(){return connector;}
 	
-	public void setConnector(ArrayList<AdonisConnector> list){
-		connector = list;
-	}
+	public void setConnector(ArrayList<AdonisConnector> list){connector = list;}
 	
 	@Override
-	public Map<String,String> getEvaluatedAttributes(){
-		return evaluatedAttributes;
-	}
+	public Map<String,String> getEvaluatedAttributes(){return evaluatedAttributes;}
 
-	public void setInheritedProperties(HashMap<String, String> attributes) {
-		inheritedProperties = attributes;
+	public void setInheritedProperties(HashMap<String, String> attributes) {inheritedProperties = attributes;}
+	
+	public void distributeChildren() throws JSONException{
+		// put all stencils in the diagram in map ... all stencils have access to this map
+		for (AdonisInstance instance : getInstance()){
+			getModelInstance().put(instance.getName(),instance);
+			instance.setModelInstances(getModelInstance());
+			instance.setModel(this);
+		}
 		
+		for (AdonisConnector edge : getConnector()){
+			if ("is inside".equalsIgnoreCase(getOryxNameOf(edge.getStencilClass()))){
+				AdonisStencil child = getModelInstance().get(edge.getFrom().getInstance());
+				AdonisStencil parent = getModelInstance().get(edge.getTo().getInstance());
+				child.setParent(parent);
+			}
+			edge.setModel(this);
+		}
+		System.err.println();
 	}
 	
-//	@Override
-//	public boolean isModel(){
-//		return true;
-//	}
+	private Double[] bounds = null;
+	
+	private String[] filterArea(String area){
+		String filteredArea = area.replace("w:", "");
+		filteredArea = filteredArea.replace("h:", "");
+		filteredArea = filteredArea.replace("cm","");
+		return filteredArea.split(" ");
+	}
+	
+	public Double[] getBounds() {
+		if (bounds == null){
+			bounds = new Double[4];
+			try {
+				for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
+					if ("world area".equalsIgnoreCase(getOryxNameOf(aAttribute.getName()))){
+						// extract the numbers out of the string
+						if (aAttribute.getElement() != null){
+							String[] area = filterArea(aAttribute.getElement());
+				
+							// try to give the diagram a nice size
+							bounds[2] = Double.parseDouble(area[0])*CENTIMETERTOPIXEL;
+							bounds[3] = Double.parseDouble(area[1])*CENTIMETERTOPIXEL;
+						} else {
+							// a fallback solution
+							bounds[2] = 1485.0;
+							bounds[3] = 1050.0;
+						}
+						break;
+					}
+				}
+			} catch (JSONException e){
+				Log.e(e.getMessage());
+			}
+			bounds[0] = 0.0;
+			bounds[1] = 0.0;
+			if (bounds[2] == null) bounds[2] = 1485.0;
+			if (bounds[3] == null) bounds[3] = 1050.0;
+		}
+		return bounds;
+	}
+	
 	
 	//*************************************************************************
 	//* methods for creation of JSON representation
@@ -200,49 +241,31 @@ public class AdonisModel extends AdonisStencil{
 	public void writeJSONchildShapes(JSONObject json) throws JSONException {
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
-		for (AdonisInstance aInstance : getInstance()){
-			shape = new JSONObject();
-			aInstance.write(shape);
-			childShapes.put(shape);
-		}
+		
+		// writes all stencils - only connectors are missing
+		super.writeJSONchildShapes(json);
+		
 		for (AdonisConnector aConnector : getConnector()){
-			shape = new JSONObject();
-			aConnector.write(shape);
-			childShapes.put(shape);
+			if (!"is inside".equalsIgnoreCase(aConnector.getStencilClass())){
+				shape = new JSONObject();
+				aConnector.write(shape);
+				childShapes.put(shape);
+			}
 		}
 	}
+	
 	/**
 	 * write the bounds of the diagram
 	 */
 	@Override
 	public void writeJSONbounds(JSONObject json) throws JSONException {
-		
-		//get the world area which looks like w:12.01cm h:14.5cm
-		for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
-			if (aAttribute.getName().equalsIgnoreCase("world area")){
-				// extract the numbers out of the string
-				JSONObject bounds = getJSONObject(json,"bounds");
-				JSONObject temp = getJSONObject(bounds,"lowerRight");
-				if (aAttribute.getElement() != null){
-					String area = aAttribute.getElement().replace("w:", "");
-					area = area.replace("h:", "");
-					area = area.replace("cm","");
-		
-					// try to give the diagram a nice size
-					temp.put("x",(int)(double)Double.parseDouble(area.split(" ")[0])*CENTIMETERTOPIXEL);
-					temp.put("y",(int)(double)Double.parseDouble(area.split(" ")[1])*CENTIMETERTOPIXEL);
-				} else {
-					temp.put("x",1485);
-					temp.put("y",1050);
-				}
-				
-				temp = getJSONObject(bounds,"upperLeft");
-				temp.put("x",0);
-				temp.put("y",0);
-				break;
-			}
-		}
-		
+		JSONObject bounds = getJSONObject(json,"bounds");
+		JSONObject temp = getJSONObject(bounds,"upperLeft");
+		temp.put("x",getBounds()[0]);
+		temp.put("y",getBounds()[1]);
+		temp = getJSONObject(bounds,"lowerRight");
+		temp.put("x",getBounds()[2]);
+		temp.put("y",getBounds()[3]);
 	}
 	/**
 	 * a diagram has no dockers - no implementation needed
@@ -257,16 +280,8 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	@Override
 	public void write(JSONObject modelElement) throws JSONException {
+		distributeChildren();
 
-//		prepareComputation(new HashMap<String,String>(),new HashMap<String,AdonisStencil>());
-		for (AdonisInstance aInstance : getInstance()){
-//			aInstance.prepareComputation(idNameMap,idObjectMap);
-			aInstance.setModel(this);
-		}
-		for (AdonisConnector aConnector : getConnector()){
-//			aConnector.prepareComputation(idNameMap,idObjectMap);
-			aConnector.setModel(this);
-		}
 		super.write(modelElement);
 	}
 	/**

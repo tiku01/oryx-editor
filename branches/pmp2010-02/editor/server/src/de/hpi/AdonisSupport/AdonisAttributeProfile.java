@@ -17,7 +17,7 @@ import org.xmappr.RootElement;
 //>
 
 @RootElement("ATTRIBUTEPROFILE")
-public class AdonisAttributeProfile extends AdonisBaseObject{
+public class AdonisAttributeProfile extends XMLConvertible{
 	
 	@Attribute("class")
 	protected String aPClass;
@@ -43,13 +43,13 @@ public class AdonisAttributeProfile extends AdonisBaseObject{
 		@Element(name="INTERREF", targetType=AdonisInterref.class)
 		
 	})
-	protected ArrayList<AdonisBaseObject> children;
+	protected ArrayList<XMLConvertible> children;
 	
-	public ArrayList<AdonisBaseObject> getChildren(){
+	public ArrayList<XMLConvertible> getChildren(){
 		return children;
 	}
 	
-	public void setChildren(ArrayList<AdonisBaseObject> list){
+	public void setChildren(ArrayList<XMLConvertible> list){
 		children = list;
 	}
 	

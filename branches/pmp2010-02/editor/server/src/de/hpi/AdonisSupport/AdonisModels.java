@@ -11,7 +11,7 @@ import org.xmappr.RootElement;
 
 
 @RootElement("MODELS")
-public class AdonisModels extends AdonisBaseObject{
+public class AdonisModels extends XMLConvertible{
 	
 	@Element(name="MODEL", targetType=AdonisModel.class)
 	public ArrayList<AdonisModel> children;

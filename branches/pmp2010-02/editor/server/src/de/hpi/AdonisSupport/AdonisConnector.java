@@ -159,7 +159,7 @@ public class AdonisConnector extends AdonisStencil{
 		JSONArray dockers = getJSONArray(json, "dockers");
 		JSONObject temp = new JSONObject();
 
-		Double[] bounds = getAsInstance(getFrom()).getBounds(); 
+		Double[] bounds = getAsInstance(getFrom()).getGlobalBounds(); 
 		temp.put("x",(bounds[2]-bounds[0])/2);
 		temp.put("y",(bounds[3]-bounds[1])/2);
 		dockers.put(temp);
@@ -172,7 +172,7 @@ public class AdonisConnector extends AdonisStencil{
 			dockers.put(temp);
 		}
 		
-		bounds = getAsInstance(getTo()).getBounds();
+		bounds = getAsInstance(getTo()).getGlobalBounds();
 		temp = new JSONObject();
 		temp.put("x",(bounds[2]-bounds[0])/2);
 		temp.put("y",(bounds[3]-bounds[1])/2);
