@@ -295,13 +295,16 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var centralPoint = this.findCentralPoint(patternShapes);
 		
+		var patternShapes = this.transformPattern(patternShapes, centralPoint, pos);
+		
 		var commandClass = ORYX.Core.Command.extend({
-			construct : function(patternShapes, facade, centralPoint, pos){
+			construct : function(patternShapes, facade, centralPoint, pos, plugin){
 				this.patternShapes = patternShapes;
 				this.facade = facade;
 				this.centralPoint = centralPoint;
 				this.pos = pos;
 				this.shapes;
+				this.plugin = plugin;
 			},
 			
 			execute : function() {
@@ -309,7 +312,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 				//add the shapes
 				this.shapes = this.facade.getCanvas().addShapeObjects(this.patternShapes, this.facade.raiseEvent);
 
-				//calc difference in positions
+				/*//calc difference in positions
 				var transVector = {
 					x : this.pos.x - this.centralPoint.x,
 					y : this.pos.y - this.centralPoint.y
@@ -323,8 +326,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 					}.bind(this, transVector));
 				};
 
-				posChange(transVector, this.shapes);
+				posChange(transVector, this.shapes);*/
 				
+				this.plugin.doLayout(this.shapes);
 				
 				this.facade.setSelection(this.shapes);
 				this.facade.getCanvas().update();
@@ -348,31 +352,51 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 	//	var position = this.facade.eventCoordinates(event.browserEvent);
 		
-		var command = new commandClass(patternShapes, this.facade, centralPoint, pos);
+		var command = new commandClass(patternShapes, this.facade, centralPoint, pos, this);
 		
 		this.facade.executeCommands([command]);
 	},
 	
-/*	transformPattern: function(oldPos, newPos, patternShapes) {
+	transformPattern: function(patternShapes, oldPos, newPos) {
 		
 		var transVector = {
-			transX : newPos.x - oldPos.x,
-			transY : newPos.y - oldPos.y
+			x : newPos.x - oldPos.x,
+			y : newPos.y - oldPos.y
 		}
 		
 		
 		//recursively change the position		
 		var posChange = function(transVector, shapes) {
 			shapes.each(function(transVector, shape) {
-				shape.bounds.moveBy(transVector);
-				posChange(transVector, shape.getChildShapes);
+				shape.bounds.lowerRight.x += transVector.x;
+				shape.bounds.lowerRight.y += transVector.y;
+				shape.bounds.upperLeft.x += transVector.x;
+				shape.bounds.upperLeft.y += transVector.y;
+				
+				//except last and first docker all have relative positions.
+				var counter = 0;
+				var max = shape.dockers.size();
+				
+				for(var i=1; i<shape.dockers.size()-1; i++) {
+					shape.dockers[i].x += transVector.x;
+					shape.dockers[i].y += transVector.y;
+				}
+				
+/*				shape.dockers.each(function(transVector, counter, max, docker) {
+					counter++;
+					if (counter == 1 || counter == max) return;
+					docker.x += transVector.x;
+					docker.y += transVector.y;
+				}.bind(this, transVector, counter, max));
+*/				
+				posChange(transVector, shape.childShapes);
 			}.bind(this, transVector));
 		};
 		
-		posChange(transVector, shapes);
+		posChange(transVector, patternShapes);
 		
 		return patternShapes;
-	},*/
+	},
 	
 	findCentralPoint: function(shapeArray) {
 		
