@@ -19,7 +19,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		oryx:resize="vertical horizontal"/>
 	<text 
 		font-size="14" 
-		id="crossreferencetext" 
+		id="name" 
 		x="8" 
 		y="70" 
 		oryx:align="middle center"

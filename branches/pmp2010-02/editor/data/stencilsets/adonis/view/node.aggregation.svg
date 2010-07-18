@@ -76,10 +76,11 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		       	oryx:resize="vertical horizontal"/>
 	</g>
 	<text font-size="14" 
-		id="aggregationtext" 
-		x="4" 
-		y="14" 
-		oryx:align="top left"
+		id="name" 
+		x="20" 
+		y="0" 
+		oryx:align="top center"
+		oryx:fittoelem="aggregation"
 		stroke="black"></text>
 
   </g>

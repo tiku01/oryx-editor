@@ -9,7 +9,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
   </oryx:magnets>
   <g>
  	<rect 
-		id="noteelement" 
+		id="note" 
 		x="0" 
 		y="0" 
 		width="40" 
@@ -20,13 +20,13 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		oryx:anchor="top bottom left right"
 		oryx:resize="vertical horizontal" />
 	<text 	
-		id="notetext" 
+		id="text" 
 		x="0" 
 		y="15" 
 		font-size="14" 
 		stroke="black"
 		oryx:align="middle center"
-		oryx:fittoelem="noteelement"></text>
+		oryx:fittoelem="note"></text>
 
   </g>
 </svg>

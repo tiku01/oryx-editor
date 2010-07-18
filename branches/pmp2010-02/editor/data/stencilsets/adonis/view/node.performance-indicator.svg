@@ -30,5 +30,12 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		stroke-width="1" 
 		fill="orange" 
 		stroke="black"/>
+	<text 
+		font-size="14" 
+		id="name" 
+		x="2" 
+		y="50" 
+		oryx:align="top left"
+		stroke="black"></text>
   </g>
 </svg>

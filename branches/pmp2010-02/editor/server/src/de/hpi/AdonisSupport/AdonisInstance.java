@@ -198,7 +198,7 @@ public class AdonisInstance extends AdonisStencil {
 		JSONObject properties = getJSONObject(json,"properties");
 //		properties.put("id",getId());
 //		properties.put("class",getStencilClass());
-//		properties.put("name",getName());
+		properties.put("name",getName());
 		
 //		TODO sort out
 //		for (AdonisAttribute aAttribute : getAttribute()){

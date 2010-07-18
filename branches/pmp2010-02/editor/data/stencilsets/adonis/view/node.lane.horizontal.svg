@@ -12,18 +12,6 @@
 	<rect id="border" oryx:resize="vertical horizontal" x="0" y="0" width="600" height="250" stroke="black" stroke-width="1" fill="none" />
 	
 	<rect 
-		id="caption"
-		oryx:anchors="left top bottom"
-		x="0"
-		y="0"
-		width="30"
-		height="250"
-		stroke="black"
-		stroke-width="1"
-		fill="white"
-	/>
-	
-	<rect 
 		id="captionDisableAntialiasing"
 		oryx:anchors="left top bottom"
 		x="0"
@@ -40,7 +28,7 @@
 		y="125" 
 		oryx:rotate="270" 
 		font-size="14" 
-		id="text" 
+		id="name" 
 		oryx:align="middle center" 
 		oryx:anchors="left"
 		fill="black" 

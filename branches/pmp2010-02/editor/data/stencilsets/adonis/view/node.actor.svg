@@ -21,11 +21,10 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		stroke="#000000" 
 		d="m20,12 L11,12 L8,24 L12,24 L14,16 L14,24 L10,38 L15,38 L20,24 L25,38 L30,38 26,24 L26,16 L28,24 L32,24 L 29,12z" 
 		fill="white"
-		oryx:anchor="top bottom left right"
-	       	oryx:resize="vertical horizontal"/>
+       	oryx:resize="vertical horizontal"/>
 	<text 
 		font-size="14" 
-		id="actorname" 
+		id="name" 
 		x="2" 
 		y="50" 
 		oryx:align="top left"

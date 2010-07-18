@@ -46,7 +46,7 @@
 	       	oryx:resize="vertical horizontal"/>
 	<text 
 		font-size="14" 
-		id="externalpartnertext" 
+		id="name" 
 		x="2" 
 		y="54" 
 		oryx:align="bottom center"
