@@ -9,6 +9,17 @@
     <Content type="html">
         <![CDATA[
 		
+	<script type="text/javascript">		
+		var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js', 
+					'/oryx/lib/prototype-1.5.1.js',
+					'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
+					'/gadgets/files/gadgets/viewer/core.js'];
+	
+        for (var i = 0; i < externs.length; i++)
+			document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));
+		
+	</script>
+		
 	<style type="text/css">
 			
 			#container {
@@ -29,17 +40,17 @@
 				color: #FFFFFF !important;
 			}
 			
-			.viewer {
+			#viewer {
 				height: 100%;
 				width: 100%;
 			}
 			
-			.navigator {
+			#navigator {
 				position: relative;
-				width: 150px;
+				width: 250px;
 			}
 			
-			.zoomslider{
+			#zoomslider{
 				position: relative;
 			}
 			
@@ -49,16 +60,7 @@
 			}
 	</style>
 
-	<script type="text/javascript">		
-		var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js', 
-					'/oryx/lib/prototype-1.5.1.js',
-					'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
-					'/gadgets/files/gadgets/viewer/core.js'];
-	
-        for (var i = 0; i < externs.length; i++)
-			document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));
-		
-	</script>
+
 	<body id="container" class=" yui-skin-sam">
 	
 	<div id= "center">

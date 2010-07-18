@@ -65,7 +65,7 @@ Container.login = (function(){
 							'<img src="/backend/images/repository/getopenid.png" onclick="Container.login.changeOpenId(\'http://getopenid.com/username\', 21, 8)"/>'+
 						'</span>'+
 					'<input type="text" name="openid_identifier" id="openid_login_openid" class="text gray"'+
-						'value="getopenid.com/helen88"/>'+
+						'value="getopenid.com/uwehartmann"/>'+
 					'<input id="ext-gen436" type="submit" value="login"/>'+
 				'</form></div>';
 			

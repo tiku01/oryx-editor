@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2009
- * Helen Kaltegaertner
+ * Copyright (c) 2010
+ * Helen Kaltegaertner, Uwe Hartmann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -92,6 +92,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// TODO nodes rename (attributes)
 		this.registerRPC("sendShapes", "", "allNodes", this.rpcHandler.sendShapes, this.rpcHandler);
 		
+		this.registerRPC("setSelectedShapes", "", "allNodes", this.rpcHandler.setSelectedShapes, this.rpcHandler);
+		
+		
 		//send ressourceIDs and labels of all selected nodes		
 		this.registerRPC("sendSelection", "", "shapeResourceIds", this.rpcHandler.sendSelection, this.rpcHandler);
 		
@@ -116,6 +119,8 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// remove shadow from shapes (from all or just a subset)
 		this.registerRPC("undoGrey", "", "", this.rpcHandler.undoGrey, this.rpcHandler);
 	
+		//gets the modelviewer of the given viewer component		
+		this.registerRPC("getViewer", "", "allNodes", this.rpcHandler.getViewer, this.rpcHandler);
 	},
 	
 	// loads the model the user has defined via url into the viewer
@@ -171,7 +176,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		
 		var	navigator = new MOVI.widget.ModelNavigator("navigator", this.modelViewer);
 		$('navigator').className = "navigator";
-		
+		var viewer1 = MOVI.widget.ModelViewer.getInstance  (0);
+		var viewer2 = MOVI.widget.ModelViewer.getInstance  (1);
+
 		this.addToolbar(navigator);
 		this.enableMultiselect();
 		

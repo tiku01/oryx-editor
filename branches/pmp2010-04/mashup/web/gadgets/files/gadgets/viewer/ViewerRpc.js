@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2009
- * Helen Kaltegaertner
+ * Copyright (c) 2010
+ * Helen Kaltegaertner, Uwe Hartmann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -51,13 +51,39 @@
 			}
 		},
 		
-		setSelection: function(selection){
-			
+		setSelection: function(selection){			
 			if(! selection instanceof MOVI.util.ShapeSelect) {
 				throw new Error("No selection specified.", "error", "viewerRpc.js");
 				return false;
 			}
 			this.selection = selection;
+		},
+		
+		setSelectedShapes: function(shapes){			
+			/*if(! shapes instanceof MOVI.util.ShapeSelect) {
+				throw new Error("No selection specified.", "error", "viewerRpc.js");
+				return false;
+			}*/
+			//this.selection.select(shapes);;
+			
+			if (this.viewer){
+				if (!this.selection){
+					this.selection = new MOVI.util.ShapeSelect (
+						this.viewer.modelViewer,
+						this.viewer.modelViewer.canvas.getNodes(),
+						true
+					);
+					//if (args.icon) this.marker.addIcon("northwest", args.icon);
+					
+				}	
+					//var shapes = msg.evalJSON();
+					var translatedShapes = new Array();
+					for (var i = 0; i < shapes.length; i++){						
+						translatedShapes[shapes[i]] = (this.viewer.modelViewer.canvas.getShape(shapes[i]));					
+					}
+					this.selection.select(translatedShapes);
+			}	
+			return "";
 		},
 		
 		setUrl: function(url){
@@ -66,6 +92,8 @@
 		
 		setTitle: function(title){
 			this.title = title;
+			
+		
 		},
 		
 		// loads a model into the viewer, used from repository
@@ -135,15 +163,16 @@
 	
 		// sends all nodes with attributes ressouceId and label (name) 
 		// returns index;shapes (shapes in JSON)
-		sendShapes : function(msg){
+		getViewer : function(msg){
 	
-			var nodeInfo;
+			var modelViewer;
 			//gadgets.window.adjustHeight();
 			
 			if (this.viewer){
-				nodeInfo = this._stringify( this.viewer.modelViewer.canvas.getNodes() )
+				//modelViewer = this._stringify( this.viewer.modelViewer );
+				modelViewer = this.viewer.modelViewer;
 			}			
-			return this.viewer.index + ';' + nodeInfo;
+			return modelViewer;
 			
 		},
 		
@@ -176,7 +205,7 @@
 		// marks the specified shapes
 		// all nodes can be marked by sending the message "all" (probably never needed)
 		markShapes : function(args){
-	
+			
 			args = args.evalJSON();
 			
 			style = args.style || {"border": "2px solid blue"};
@@ -229,9 +258,12 @@
 	
 		//  throws event "selectionChanged" by calling the dedicated RPC
 		throwSelectionChanged : function(){
+			var selectedShapes = {
+					index : 	this.viewer.index,
+					selected : 		this.selection._selectedShapes					
+				}			
+			gadgets.rpc.call(null, "dispatcher.selectionChanged", function(reply){return;}, selectedShapes);			
 
-			var selectedShapes = this.viewer.index + ';' + this._stringify( this.selection._selectedShapes );
-			gadgets.rpc.call(null, "dispatcher.selectionChanged", function(reply){return;}, selectedShapes);
 		},
 		
 

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+
+
 	<Shindig> 
 	
 		<!-- to edit: path to Shindig base -->
-		<ShindigBase>http://localhost:8080/Shindig/</ShindigBase>
+		<ShindigBase>http://localhost:8080/shindig/</ShindigBase>
 		
 		<ShindigBase>http://localhost:8080/gadgets/files/container/rpc_relay.html</ShindigBase>
 		
@@ -29,6 +32,7 @@
 				<width>450</width>
 			</options>
 		</Gadget>
+
 		
 		<Gadget>
 			<url>/gadgets/files/gadgets/gadgetRepository/gadgetRepository.xml</url>
@@ -47,6 +51,16 @@
 				<top>50</top>
 				<left>200</left>
 				<height>300</height>
+				<width>470</width>
+			</options>
+		</Gadget>
+	
+		<Gadget>
+			<url>/gadgets/files/gadgets/correspondence/correspondence.xml</url>
+			<options>
+				<top>50</top>
+				<left>200</left>
+				<height>400</height>
 				<width>470</width>
 			</options>
 		</Gadget>
