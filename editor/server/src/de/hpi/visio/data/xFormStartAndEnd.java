@@ -4,18 +4,25 @@ import org.oryxeditor.server.diagram.Point;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+/**
+ * Class for xmappr - xml to java mapping. Additional graphical information for
+ * edges. Start and end points that can be used to calculate the source and
+ * target for a given edge and a page with several shapes.
+ * 
+ * @author Thamsen
+ */
 @RootElement("XForm1D")
 public class xFormStartAndEnd {
-	
+
 	@Element("BeginX")
 	public StartX startX;
-	
+
 	@Element("BeginY")
 	public StartY startY;
-	
+
 	@Element("EndX")
 	public EndX endX;
-	
+
 	@Element("EndY")
 	public EndY endY;
 
@@ -58,31 +65,31 @@ public class xFormStartAndEnd {
 			this.endY = new EndY();
 		this.endY.setY(endY);
 	}
-	
+
 	public Point getStartPoint() {
-		return new Point(startX.getX(),startY.getY());
+		return new Point(startX.getX(), startY.getY());
 	}
-	
+
 	public Point getEndPoint() {
-		return new Point(endX.getX(),endY.getY());
+		return new Point(endX.getX(), endY.getY());
 	}
 
 	public void setStartPoint(Point startPoint) {
 		setStartX(startPoint.getX());
 		setStartY(startPoint.getY());
 	}
-	
+
 	public void setEndPoint(Point endPoint) {
 		setEndX(endPoint.getX());
 		setEndY(endPoint.getY());
 	}
-	
+
 	public Point getStartPointForPage(Page visioPage) {
 		return new Point(getStartX(), visioPage.getHeight() - getStartY());
 	}
-	
+
 	public Point getEndPointForPage(Page visioPage) {
 		return new Point(getEndX(), visioPage.getHeight() - getEndY());
-	} 
+	}
 
 }
