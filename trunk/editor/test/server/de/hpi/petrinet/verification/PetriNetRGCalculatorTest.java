@@ -119,6 +119,7 @@ public class PetriNetRGCalculatorTest extends AbstractPetriNetTest {
 		createFlowRelationship(net, tC, p1);
 		
 		PetriNetRGCalculator rgCalc = new PetriNetRGCalculator(net, new PTNetInterpreter());
-		ReachabilityGraph<PetriNet, Transition, Marking> rg = rgCalc.calculate();
+//		ReachabilityGraph<PetriNet, Transition, Marking> rg = 
+			rgCalc.calculate();
 	}
 }

@@ -16,7 +16,7 @@ import org.junit.Test;
 import de.hpi.bpt.process.epc.IControlFlow;
 import de.hpi.bpt.process.epc.IFlowObject;
 import de.hpi.epc.AbstractEPCTest;
-
+@SuppressWarnings("unchecked")
 public class OryxParserTest extends AbstractEPCTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

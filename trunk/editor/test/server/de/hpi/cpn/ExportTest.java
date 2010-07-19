@@ -18,9 +18,8 @@ public class ExportTest
 	{
 		String json = getJSONNamed("JSON3.json");	
 		
-		CPNConverter trans = new CPNConverter();
 		
-		String xml = trans.convertToCPNFile(json);
+		String xml = CPNConverter.convertToCPNFile(json);
 		
 		System.out.println(xml);		
 	}

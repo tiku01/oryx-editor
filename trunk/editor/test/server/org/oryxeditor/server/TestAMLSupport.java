@@ -1,7 +1,5 @@
 package org.oryxeditor.server;
 
-import static org.junit.Assert.*;
-
 import org.apache.cactus.ServletTestCase;
 import org.apache.cactus.WebRequest;
 import org.junit.After;

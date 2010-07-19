@@ -15,7 +15,7 @@ import org.junit.Test;
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.epc.AbstractEPCTest;
 import de.hpi.epc.Marking;
-
+@SuppressWarnings("unchecked")
 public class ReachabilityGraphTest extends AbstractEPCTest {
 	static public EPCReachabilityGraph rg;
 	static public IEPC epc;

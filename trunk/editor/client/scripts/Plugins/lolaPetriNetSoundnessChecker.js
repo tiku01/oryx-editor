@@ -249,7 +249,8 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
         
         var LivenessNode = Ext.extend(CheckNode, {
             constructor: function(config) {
-                config.qtip = '<b>AGEF Criteria</b>: Makes sure that any process instance that starts in the initial state will eventually reach the final state.';
+//            config.qtip = '<b>AGEF Criteria</b>: Makes sure that any process instance that starts in the initial state will eventually reach the final state.';
+            config.qtip = '<b>Weak Termination</b>: Makes sure that from any state, reachable from the initial state, the final state well eventually be reached.';
                 // If any dead locks are detected, click to show one counter example.';            
                 LivenessNode.superclass.constructor.apply(this, arguments);
             },
@@ -260,7 +261,8 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
             update: function(res){
             	this.marking = res.counter?res.counter.split(","):[];
                 this.setIcon(res.liveness? CheckNode.OK_STATUS : CheckNode.ERROR_STATUS);
-                this.setText('The net is '+(res.liveness?  'not' : '')+' AGEF final place.');
+//                this.setText('The net is '+(res.liveness?  'not' : '')+' AGEF final place.');
+                this.setText('There is '+(res.liveness?  'no' : 'a')+' marking from which one cannot reach the final state.');
             }
         });
         
@@ -327,6 +329,10 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
             }
         });
         
+        var service_tech_site_banner = new Object;
+        service_tech_site_banner.html='<a href="http://www.service-technology.org/">'+
+        '<img src="images/service_tech_site_banner.png" width="400" style="position: relative; left: 35px;"/></a>';
+        
         this.checkerWindow = new Ext.Window({
             title: 'Soundness Checker powered by service-technology.org',
             autoScroll: true,
@@ -357,7 +363,14 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
             },
             check: function(renderAll){
                 this.prepareCheck(renderAll);
-                this.checkSyntax(this.checkSoundness.bind(this));
+                this.checkSyntax(this.checkSoundness.bind(this), this.reRender.bind(this));
+            },
+            reRender: function(){
+            	window.setTimeout(function(){
+            		this.getResizeEl().beforeAction();
+            		this.getResizeEl().sync(true);
+            	}.bind(this), 70); 
+
             },
             prepareCheck: function(renderAll){// call with renderAll=true if
 												// showing for the first time
@@ -374,15 +387,18 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
                     childNode.setIcon(CheckNode.LOADING_STATUS);
                 });
             },
-            checkSyntax: function(callback){
+            checkSyntax: function(callback, finshedCallback){
                 plugin.facade.raiseEvent({
                     type: ORYX.Plugins.SyntaxChecker.CHECK_FOR_ERRORS_EVENT,
                     onErrors: function(){
                         Ext.Msg.alert("Syntax Check", "Some syntax errors have been found, please correct them!")
                         this.turnLoadingIntoUnknownStatus();
+                        finshedCallback();
+
                     }.bind(this),
                     onNoErrors: function(){
                         callback();
+                        finshedCallback();
                     }
                 });
             },
@@ -639,14 +655,15 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
                         
                     }
                 }
-            })],
+            }),service_tech_site_banner],
             listeners: {
                 close: function(window){
                     this.checkerWindow.getTree().getRootNode().reset();
                 }.bind(this)
             }
         });
-        
+
+
         this.checkerWindow.show();
         this.checkerWindow.check(true);
     }

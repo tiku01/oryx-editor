@@ -23,6 +23,7 @@ import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.bpt.process.epc.IFlowObject;
 import de.hpi.epc.Marking.NodeNewMarkingPair;
 import de.hpi.epc.validation.EPCReachabilityGraph;
+@SuppressWarnings("unchecked")
 
 public class MarkingTest extends AbstractEPCTest {
 	@BeforeClass
