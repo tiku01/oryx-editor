@@ -34,7 +34,7 @@ public class PetriNetSoundnessCheckerTest extends AbstractPetriNetTest{
 		/**
 		 * A not relaxed sound petri net
 		 */
-		PetriNet net = this.openPetriNetFromFile("verification/notRelaxedSoundPetrinet.xml");
+		PetriNet net = PetriNetSoundnessCheckerTest.openPetriNetFromFile("verification/notRelaxedSoundPetrinet.xml");
 		PetriNetSoundnessChecker checker = new PetriNetSoundnessChecker(net);
 		
 		checker.calculateRG();
@@ -46,7 +46,7 @@ public class PetriNetSoundnessCheckerTest extends AbstractPetriNetTest{
 		/**
 		 * A relaxed sound petri net
 		 */
-		PetriNet net2 = this.openPetriNetFromFile("verification/relaxedSoundPetrinet.xml");
+		PetriNet net2 = PetriNetSoundnessCheckerTest.openPetriNetFromFile("verification/relaxedSoundPetrinet.xml");
 		PetriNetSoundnessChecker checker2 = new PetriNetSoundnessChecker(net2);
 		
 		checker2.calculateRG();
@@ -56,7 +56,7 @@ public class PetriNetSoundnessCheckerTest extends AbstractPetriNetTest{
 		/**
 		 * A not relaxed sound petri net (when there are 2 tokens in final place, this isn't a final state)
 		 */
-		PetriNet net3 = this.openPetriNetFromFile("verification/notRelaxedSound2.xml");
+		PetriNet net3 = PetriNetSoundnessCheckerTest.openPetriNetFromFile("verification/notRelaxedSound2.xml");
 		PetriNetSoundnessChecker checker3 = new PetriNetSoundnessChecker(net3);
 		
 		checker3.calculateRG();

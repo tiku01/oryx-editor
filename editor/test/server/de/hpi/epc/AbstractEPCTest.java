@@ -16,7 +16,7 @@ import de.hpi.bpt.process.epc.IControlFlow;
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.bpt.process.epc.IFlowObject;
 import de.hpi.bpt.process.epc.util.OryxParser;
-
+@SuppressWarnings("unchecked")
 public class AbstractEPCTest {
 	protected IEPC epc;
 

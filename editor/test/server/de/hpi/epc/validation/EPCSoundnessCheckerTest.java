@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import de.hpi.bpt.process.epc.IEPC;
 import de.hpi.epc.AbstractEPCTest;
-
+@SuppressWarnings("unchecked")
 public class EPCSoundnessCheckerTest extends AbstractEPCTest {
 	IEPC epc;
 	EPCSoundnessChecker soundnessChecker;

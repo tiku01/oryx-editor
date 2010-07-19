@@ -6,7 +6,6 @@ import de.hpi.bpmn.Node;
 import de.hpi.bpmn.Pool;
 import de.hpi.bpmn.XORDataBasedGateway;
 import de.hpi.bpmn.XOREventBasedGateway;
-import de.hpi.bpmn.validation.BPMNSyntaxChecker;
 import de.hpi.ibpmn.IBPMNDiagram;
 import de.hpi.ibpmn.IBPMNFactory;
 import de.hpi.ibpmn.OwnedXORDataBasedGateway;

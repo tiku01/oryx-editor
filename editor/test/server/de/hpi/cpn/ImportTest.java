@@ -2,11 +2,8 @@ package de.hpi.cpn;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 
 import org.junit.Test;
 
@@ -16,10 +13,8 @@ public class ImportTest
 {
 	@Test
 	public void Importglobbox() throws IOException
-	{
-		CPNConverter transformer = new CPNConverter();
-		
-		System.out.print(transformer.importFirstPage(getXMlNamed("cpn10.cpn")));
+	{		
+		System.out.print(CPNConverter.importFirstPage(getXMlNamed("cpn10.cpn")));
 	}
 	
 	private static String getXMlNamed(String filename) throws IOException
