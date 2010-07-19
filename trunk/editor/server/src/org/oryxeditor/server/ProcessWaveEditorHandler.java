@@ -23,16 +23,27 @@
 
 package org.oryxeditor.server;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProcessWaveEditorHandler extends EditorHandler {
-
+	final static String defaultSS= "/stencilsets/bpmn/bpmn.json";
 	private static final long serialVersionUID = 1L;
+	private static final Map<String,String> map = new HashMap<String, String>();
+	static{
+		map.put("bpmn2.0", "bpmn2.0");
+		map.put("epc", "epc");
+		map.put("petrinet", "petrinet");
+		map.put("uml2.2", "uml2.2");
+	}
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -45,6 +56,8 @@ public class ProcessWaveEditorHandler extends EditorHandler {
 		/*
 		 * stencilsets/bpmn1.1/bpmn1.1.json
 		 */
+		
+
 		String sset=request.getParameter("stencilset");
 		String json = request.getParameter("json");
 		String extString=request.getParameter("exts");
@@ -68,93 +81,28 @@ public class ProcessWaveEditorHandler extends EditorHandler {
 		
 		response.getWriter().println(this.getOryxModel("Oryx-Editor", 
 				content, this.getLanguageCode(request), 
-				this.getCountryCode(request)));
+				this.getCountryCode(request), profileName(sset)));
 		response.setStatus(200);
 		
 	}
-	protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode) {
-    	
-    	return getOryxModel(title, content, languageCode, countryCode, "");
-    }
+	private ArrayList<String> profileName(String stencilset) {
+		//FIXME resue mapping from backend or transfer mapping to editor site
+		ArrayList<String> list = new ArrayList<String>();
+		Pattern p = Pattern.compile("/([^/]+).json");
+		Matcher matcher = p.matcher(stencilset);
+		if(matcher.find()){
+			String name = map.get(matcher.group(1));
+			if(name!=null){
+				list.add(name);
+			}
+		}
+
+	if(list.size()<1)
+		list.add("default");
+		return list;
+	}
+	
+	
     
-    protected String getOryxModel(String title, String content, 
-    		String languageCode, String countryCode, String headExtentions) {
-    	
-    	String languageFiles = "";
-    	String profileFiles="";
-    	
-    	if (new File(this.getOryxRootDirectory() + oryx_path + "i18n/translation_"+languageCode+".js").exists()) {
-    		languageFiles += "<script src=\"" + oryx_path 
-    		+ "i18n/translation_"+languageCode+".js\" type=\"text/javascript\" />\n";
-    	}
-    	
-    	if (new File(this.getOryxRootDirectory() + oryx_path + "i18n/translation_" + languageCode+"_" + countryCode + ".js").exists()) {
-    		languageFiles += "<script src=\"" + oryx_path 
-    		+ "i18n/translation_" + languageCode+"_" + countryCode 
-    		+ ".js\" type=\"text/javascript\" />\n";
-    	}
-      	  	profileFiles=profileFiles+ "<script src=\"" + oryx_path+"oryx.js\" type=\"text/javascript\" />\n";
-
-    	
-    	String analytics = getServletContext().getInitParameter("ANALYTICS_SNIPPET");
-    	if (null == analytics) {
-    		analytics = "";
-    	}
-    	
-    	
-    	
-      	return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-      	    + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
-      	  	+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
-      	  	+ "xmlns:b3mn=\"http://b3mn.org/2007/b3mn\"\n"
-      	  	+ "xmlns:ext=\"http://b3mn.org/2007/ext\"\n"
-      	  	+ "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
-      	  	+ "xmlns:atom=\"http://b3mn.org/2007/atom+xhtml\">\n"
-      	  	+ "<head profile=\"http://purl.org/NET/erdf/profile\">\n"
-      	  	+ "<title>" + title + " - Oryx</title>\n"
-      	  	+ "<!-- libraries -->\n"
-      	  	+ "<script src=\"" + oryx_path + "lib/prototype-1.5.1.js\" type=\"text/javascript\" />\n"
-      	  	+ "<script src=\"" + oryx_path + "lib/path_parser.js\" type=\"text/javascript\" />\n"
-      	  	+ "<script src=\"" + oryx_path + "lib/ext-2.0.2/adapter/ext/ext-base.js\" type=\"text/javascript\" />\n"
-      	  	+ "<script src=\"" + oryx_path + "lib/ext-2.0.2/ext-all.js\" type=\"text/javascript\" />\n"
-      	  	+ "<script src=\"" + oryx_path + "lib/ext-2.0.2/color-field.js\" type=\"text/javascript\" />\n"
-      	  	+ "<style media=\"screen\" type=\"text/css\">\n"
-      	  	+ "@import url(\"" + oryx_path + "lib/ext-2.0.2/resources/css/ext-all.css\");\n"
-      	  	+ "@import url(\"" + oryx_path + "lib/ext-2.0.2/resources/css/xtheme-gray.css\");\n"
-      	  	+ "</style>\n"
-
-      	  	+ "<!-- oryx editor -->\n"
-      	  	// EN_US is default an base language
-      	  	+ "<!-- language files -->\n"
-      	  	+ "<script src=\"" + oryx_path + "i18n/translation_en_us.js\" type=\"text/javascript\" />\n"      	  	
-      	  	+ languageFiles
-      	  	// Handle different profiles
-      	  	+ "<script src=\"" + oryx_path + "profiles/oryx.core.js\" type=\"text/javascript\" />\n"
-      	  	+ profileFiles
-      	  	+ headExtentions
-      	  	
-      	  	+ "<link rel=\"Stylesheet\" media=\"screen\" href=\"" + oryx_path + "css/theme_norm.css\" type=\"text/css\" />\n"
-
-      	  	+ "<!-- erdf schemas -->\n"
-      	  	+ "<link rel=\"schema.dc\" href=\"http://purl.org/dc/elements/1.1/\" />\n"
-      	  	+ "<link rel=\"schema.dcTerms\" href=\"http://purl.org/dc/terms/\" />\n"
-      	  	+ "<link rel=\"schema.b3mn\" href=\"http://b3mn.org\" />\n"
-      	  	+ "<link rel=\"schema.oryx\" href=\"http://oryx-editor.org/\" />\n"
-      	  	+ "<link rel=\"schema.raziel\" href=\"http://raziel.org/\" />\n"
-      	  	
-      	    + content
-      	  	
-      	  	+ "</head>\n"
-      	  	
-      	  	+ "<body style=\"overflow:hidden;\"><div class='processdata' style='display:none'>\n"
-      	  	
-      	  	+ "\n"
-      	  	+ "</div>\n"
-      	  	
-      	  	+ analytics
-
-      	  	+ "</body>\n"
-      	  	+ "</html>";
-    }
+    
 }
