@@ -25,7 +25,12 @@ public class StencilSetUtil {
 		if (node != null) {
 			String type = getAttributeValue(getChild(node, "stencilset"), "rdf:resource");
 			if (type != null) {
-				return type.substring(type.lastIndexOf('/')+1);
+				type = type.substring(type.lastIndexOf('/')+1);
+				int versionIndex = type.indexOf("?version=");
+				if(versionIndex > 0) {
+					type = type.substring(0, versionIndex);
+				}
+				return type;
 			}
 		}
 		return null;
