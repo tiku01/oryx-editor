@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Vector;
@@ -63,6 +64,8 @@ public class AdonisConverter {
 		String filteredXML = filterXML(xml);
 		StringReader stringReader = new StringReader(filteredXML);
 		
+		Log.v("ImportXML: "+filteredXML);
+		
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
 		AdonisXML modelCollection = (AdonisXML) xmappr.fromXML(stringReader);
 		Log.v("mapping xml to java done");
@@ -104,7 +107,9 @@ public class AdonisConverter {
 				importFromFile(
 //						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
-						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
+						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
 				)); 
 		System.out.println(json);
 //		try {

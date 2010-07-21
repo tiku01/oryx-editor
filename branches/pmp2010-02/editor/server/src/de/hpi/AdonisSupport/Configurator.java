@@ -40,30 +40,60 @@ public class Configurator {
 		}
 	}
 	
-	public static String translateToOryx(String adonisName) throws JSONException{
+	
+	
+	public static String getLanguage(String adonisName){
 		if (configurationTree == null){
 			readInCompatibilityFile();
 		}
-		JSONObject translation = configurationTree.getJSONObject("translation");
-		JSONObject stencil = null;
-		String[] oryxNames = JSONObject.getNames(translation);
-		//get all translated identifiers - look up where the adonisName belongs to
-		for (String oryxName : oryxNames){
-			stencil = translation.getJSONObject(oryxName);
-			for (String key : JSONObject.getNames(stencil)){
-				if (key.equalsIgnoreCase(adonisName)){
-					return oryxName;
+		try {
+			JSONObject translation = configurationTree.getJSONObject("translation");
+			JSONObject stencil = null;
+			String[] oryxNames = JSONObject.getNames(translation);
+			//	get all translated identifiers - look up where the adonisName belongs to
+			for (String oryxName : oryxNames){
+				stencil = translation.getJSONObject(oryxName);
+				for (String key : JSONObject.getNames(stencil)){
+					if (key.equalsIgnoreCase(adonisName)){
+						return stencil.getString(key);
+					}
 				}
 			}
+		} catch (JSONException e ){
+			Log.e("Could not detect language for "+adonisName+"\n"+e.getMessage());
+		}
+		return "en";
+	}
+	
+	
+	public static String getTranslationToOryx(String adonisName){
+		if (configurationTree == null){
+			readInCompatibilityFile();
+		}
+		try {
+			JSONObject translation = configurationTree.getJSONObject("translation");
+			JSONObject stencil = null;
+			String[] oryxNames = JSONObject.getNames(translation);
+			//get all translated identifiers - look up where the adonisName belongs to
+			for (String oryxName : oryxNames){
+				stencil = translation.getJSONObject(oryxName);
+				for (String key : JSONObject.getNames(stencil)){
+					if (key.equalsIgnoreCase(adonisName)){
+						return oryxName;
+					}
+				}
+			}
+		} catch (JSONException e){
+			Log.e("Could not detect translation of "+adonisName+"\n"+e.getMessage());
 		}
 		return adonisName;	
 	}
 	
-	public static JSONObject getStandard(String oryxName) throws JSONException{
+	public static JSONObject getStencilConfiguration(String oryxName) throws JSONException{
 		if (configurationTree == null){
 			readInCompatibilityFile();
 		}
-		JSONObject standard = configurationTree.getJSONObject("standardValues");
+		JSONObject standard = configurationTree.getJSONObject("configuration");
 		return standard.getJSONObject(oryxName);
 	}
 

@@ -30,8 +30,6 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 	construct: function() {
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		Ext.Msg.alert("AdonisSupport constructed");
-		
 		this.facade.offer({
 			'name'				: ORYX.I18N.AdonisSupport.xmlExport,
 			'functionality'		: this.exportXML.bind(this),
@@ -127,7 +125,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 							Ext.Ajax.request({
 								url: url,
 								method: 'POST',
-								success: function(request){Ext.Msg.alert("Starting import"+request.responseText);Ext.Msg.alert(xmlString);this.facade.importJSON(request.responseText); loadMask.hide();dialog.hide()}.bind(this),
+								success: function(request){this.facade.importJSON(request.responseText); loadMask.hide();dialog.hide()}.bind(this),
 								failure: function() {loadMask.hide(); Ext.Msg.alert("Import failed");},
 								params: {data: xmlString,
 										 action: "Import"}

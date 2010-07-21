@@ -89,23 +89,35 @@ public class AdonisInstance extends AdonisStencil {
 			return globalBounds;
 		}
 		globalBounds = new Double[4];
+		
 		//get the position and size which looks like 
 		//	NODE x:2.50cm y:7.00cm index:2 or
 		//	NODE x:1cm y:11.5cm w:.5cm h:.6cm index:8
 		for (AdonisAttribute aAttribute : getAttribute()){
 			if (aAttribute.getName().equalsIgnoreCase("Position")){
 				// extract the numbers out of the string
+				
 				String[] position = filterPositionString(aAttribute.getElement());
-				globalBounds[0] = Double.parseDouble(position[0])*CENTIMETERTOPIXEL;
-				globalBounds[1] = Double.parseDouble(position[1])*CENTIMETERTOPIXEL;
+				Double x = Double.parseDouble(position[0]);
+				Double y = Double.parseDouble(position[1]);
+				Double w;
+				Double h;
 				if (position.length <= 3){
-					globalBounds[2] = (getStandardSize(true)*CENTIMETERTOPIXEL) + globalBounds[0];
-					globalBounds[3] = (getStandardSize(false)*CENTIMETERTOPIXEL) + globalBounds[1];
+					w = getStandardWidth();
+					h = getStandardHeigth();
 				} else {
-					globalBounds[2] = Double.parseDouble(position[2])*CENTIMETERTOPIXEL + globalBounds[0];
-					globalBounds[3] = Double.parseDouble(position[3])*CENTIMETERTOPIXEL + globalBounds[1];
+					w = Double.parseDouble(position[2]);
+					h = Double.parseDouble(position[3]);
 				}
-				// adapt bounds to parent stencil (in case it is a model, the values doesn't change)
+				// some stencils are positioned using a offset (in percentage)
+				Log.v(getOryxStencilClass()+" x "+x+" w "+w+" off "+getLeftOffset()+" - "+y+" h "+h+" off "+getTopOffset());
+				globalBounds[0] = x - (getLeftOffset() / 100 * w);
+				globalBounds[1] = y - (getTopOffset() / 100 * h);
+				globalBounds[2] = globalBounds[0] + ((100 - getLeftOffset()) / 100 * w);
+				globalBounds[3] = globalBounds[1] + ((100 - getTopOffset()) / 100 * h);
+				for (int i = 0; i < globalBounds.length; i++){
+					globalBounds[i] = globalBounds[i] * CENTIMETERTOPIXEL;
+				}
 				break;
 			}
 		}
@@ -117,12 +129,9 @@ public class AdonisInstance extends AdonisStencil {
 		if (globalBounds == null){
 			getGlobalBounds();
 		}
-		Log.v(getName()+"("+getStencilClass()+") global x1: "+globalBounds[0]+" y1: "+globalBounds[1]+" x2: "+globalBounds[2]+" y2: "+globalBounds[3]);
-		Log.v("\t\t("+getParent().getStencilClass()+") parent x1: "+getParent().getGlobalBounds()[0]+" y1: "+getParent().getGlobalBounds()[1]+" x2: "+getParent().getGlobalBounds()[2]+" y2: "+getParent().getGlobalBounds()[3]);
 		for (int i = 0; i < 4; i++){
 			localBounds[i] = globalBounds[i] - getParent().getGlobalBounds()[i%2];
 		}
-		Log.v("\t\t("+getStencilClass()+") local  x1: "+localBounds[0]+" y1: "+localBounds[1]+" x2: "+localBounds[2]+" x2: "+localBounds[3]);
 		return localBounds;
 	}
 	
@@ -141,7 +150,7 @@ public class AdonisInstance extends AdonisStencil {
 	public Map<String, String> getEvaluatedAttributes() {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("Position", "STRING");
-		if (getStencilClass().equalsIgnoreCase("")){
+		if (getOryxStencilClass().equalsIgnoreCase("")){
 			
 		}
 		return null;
@@ -153,28 +162,58 @@ public class AdonisInstance extends AdonisStencil {
 	 * @return
 	 * @throws JSONException 
 	 */
-	public Double getStandardSize(boolean isVertical){
-		Double value = null;
+	public Double getStandardWidth(){
 		try {
-			JSONObject standard = getJSONWithStandardAttributes(getName());
+			JSONObject standard = getStandardConfiguration();
 			if (standard != null){
-				if (isVertical){
-					value = standard.getDouble("w");
-				} else {
-					value = standard.getDouble("h");
-				}
+				return standard.getDouble("w");
 			}
 		} catch (JSONException e){
 			Log.e(e.getMessage());
 		}
-		if (value == null){
-			if (isVertical){
-				return 3.25;
-			} else {
-				return 1.5;
+		Log.v("No standard width values avaiable for: "+getOryxStencilClass());
+		return 3.25;
+			
+	}
+	
+	public Double getStandardHeigth(){
+		try {
+			JSONObject standard = getStandardConfiguration();
+			if (standard != null){
+				return standard.getDouble("h");
 			}
+		} catch (JSONException e){
+			Log.e(e.getMessage());
 		}
-		return value;
+		Log.v("No standard heigth values avaiable for: "+getOryxStencilClass());
+		return 1.4;
+			
+	}
+	
+	public Double getLeftOffset(){
+		try {
+			JSONObject standard = getStandardConfiguration();
+			if (standard != null){
+				return standard.getDouble("offsetPercentageX");
+			}
+		} catch (JSONException e){
+			Log.e(e.getMessage());
+		}
+		Log.v("No standard offset percentage from left avaiable for: "+getOryxStencilClass());
+		return 0.0;
+	}
+	
+	public Double getTopOffset(){
+		try {
+			JSONObject standard = getStandardConfiguration();
+			if (standard != null){
+				return standard.getDouble("offsetPercentageX");
+			}
+		} catch (JSONException e){
+			Log.e(e.getMessage());
+		}
+		Log.v("No standard offset percentage from top avaiable for: "+getOryxStencilClass());
+		return 0.0;
 	}
 
 	public boolean isInstance(){
@@ -232,7 +271,7 @@ public class AdonisInstance extends AdonisStencil {
 		JSONArray outgoing = getJSONArray(json,"outgoing");
 		JSONObject temp = null;
 		for (AdonisConnector connector : getModel().getConnector()){
-			if (connector.getFrom().getInstance().equals(getName())){
+			if (connector.getFrom().getInstance().equalsIgnoreCase((getName()))){
 				temp = new JSONObject();
 				temp.put("resourceId", connector.getResourceId());
 				outgoing.put(temp);

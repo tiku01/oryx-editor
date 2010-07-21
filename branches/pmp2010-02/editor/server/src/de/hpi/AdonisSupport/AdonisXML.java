@@ -121,7 +121,11 @@ public class AdonisXML extends XMLConvertible {
 		
 		return map;
 	}
-
+	/**
+	 * entry point for generating diagrams for Oryx
+	 * @return a collection of diagrams in JSON
+	 * @throws JSONException
+	 */
 	public Vector<JSONObject> writeDiagrams() throws JSONException{
 		Log.v("writeDiagrams");
 		HashMap<String,String> modelAttributes = new HashMap<String, String>();

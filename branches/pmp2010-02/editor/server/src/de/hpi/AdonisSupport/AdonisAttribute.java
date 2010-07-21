@@ -25,6 +25,10 @@ public class AdonisAttribute extends XMLConvertible{
 	@Text
 	protected String element;
 
+	private String oryxName;
+	
+	private String language;
+	
 	public String getName() {
 		return name;
 	}
@@ -46,6 +50,25 @@ public class AdonisAttribute extends XMLConvertible{
 
 	public void setElement(String value) {
 		element = value;
+	}
+	
+	private void setLanguage(String lang){
+		language = lang;
+	}
+	
+	public String getLanguage(){
+		if (language == null){
+			language = Configurator.getLanguage("model");
+		}
+		return language;
+	}
+	
+	public String getOryxName(){
+		if (oryxName == null){
+			setLanguage(Configurator.getLanguage(getName()));
+			oryxName = Configurator.getTranslationToOryx(getName());
+		}
+		return oryxName;
 	}
 	
 	@Override
