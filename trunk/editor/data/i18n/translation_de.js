@@ -661,7 +661,8 @@ ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_FUNCTION =  "Auf eine Funktion darf k
 ORYX.I18N.SyntaxChecker.EPC_EVENT_AFTER_EVENT =  "Auf ein Ereignis darf kein Ereignis folgen.";
 ORYX.I18N.SyntaxChecker.EPC_PI_AFTER_FUNCTION =  "Auf eine Funktion darf keine Prozessschnittstelle folgen.";
 ORYX.I18N.SyntaxChecker.EPC_FUNCTION_AFTER_PI =  "Auf eine Prozessschnittstelle darf keine Funktion folgen.";
-
+ORYX.I18N.SyntaxChecker.EPC_SOURCE_EQUALS_TARGET = "Eine Kante muss zwei verschiedene Knoten verbinden."
+	
 if(!ORYX.I18N.SyntaxChecker.PetriNet) ORYX.I18N.SyntaxChecker.PetriNet={};
 ORYX.I18N.SyntaxChecker.PetriNet_NOT_BIPARTITE = "Der Graph ist nicht bepartit.";
 ORYX.I18N.SyntaxChecker.PetriNet_NO_LABEL = "Bezeichnung für einen bezeichnete Transition ist nicht gesetzt.";
