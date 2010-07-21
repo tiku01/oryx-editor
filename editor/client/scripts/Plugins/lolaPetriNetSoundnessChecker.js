@@ -110,7 +110,7 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
             'functionality': this.showCheckerWindow.bind(this),
             'group': "Verification",
             'icon': ORYX.PATH + "images/soundness_checker/accept.png",
-            'description': "Checks current Petri net for different soundness criteria with lola.",
+            'description': "Checks current Petri net for different soundness criteria with LoLA.",
             'index': 3,
             'minShape': 0,
             'maxShape': 0
