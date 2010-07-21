@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpStatus;
 
 import de.hpi.AdonisSupport.AdonisConverter;
+import de.hpi.AdonisSupport.Log;
 
 /**
  * Copyright (c) 2010 Markus Goetz
@@ -46,13 +47,17 @@ public class AdonisSupportServlet extends HttpServlet {
 		if ("Export".equals(action)) {
 			converter = new AdonisConverter();
 			try {
-				res.getWriter().print(converter.exportXML(data));
+				String exportString = converter.exportXML(data);
+				Log.v("Export: "+exportString);
+				res.getWriter().print(exportString);
 			} catch (Exception e) {
 				res.setStatus(HttpStatus.SC_BAD_REQUEST);
 			}
 		} else if ("Import".equals(action)){
 			converter = new AdonisConverter();
-			res.getWriter().print(converter.importXML(data));
+			String importString = converter.importXML(data);
+			Log.v("Import: "+importString);
+			res.getWriter().print(importString);
 		} else {
 			res.setStatus(HttpStatus.SC_BAD_REQUEST);
 		}

@@ -16,23 +16,7 @@
 				points="10,5 0,10 0,0" 
 				fill="black" 
 				stroke-width="2"/>
-		</marker>
-		<marker 
-			id="center" 
-			refX="8" 
-			refY="8" 
-			markerUnits="userSpaceOnUse" 
-			markerWidth="16"
-			markerHeight="16">
-			<circle 
-				id="countelement" 
-				cx="8" 
-				cy="8" 
-				r="7" 
-				stroke-width="1" 
-				fill="white" 
-				stroke="black"/>
-		</marker>
+		</marker>		
 		<marker 
 			id="start" 
 			refX="5" 
@@ -50,20 +34,28 @@
 	<g id="edge">
 
 		<path
-			d="M50 50 L75 50 L100 50" 
+			d="M50 50 L100 50" 
 			stroke="black" 
 			fill="none" 
 			stroke-width="2" 
 			marker-start="url(#start)" 
-			marker-mid="url(#center)"
 			marker-end="url(#end)"
 			/>
+		<circle 
+			id="countelement" 
+			cx="75" 
+			cy="42" 
+			r="7" 
+			stroke-width="1" 
+			oryx:edgePosition="midtop"
+			fill="white"
+ 
+			stroke="black"/>
 		<text 
 			font-size="10"
 			x="0"
 			y="0"
 			id="valueflowtext" 
-			oryx:edgePosition="midBottom"
 			oryx:fittoelem="countelement"
 			stroke="black"></text>
 		

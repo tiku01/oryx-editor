@@ -164,7 +164,7 @@ public class AdonisConnector extends AdonisStencil{
 		temp.put("y",(bounds[3]-bounds[1])/2);
 		dockers.put(temp);
 		
-		if (getStencilClass().equalsIgnoreCase("value flow")){
+		if ("value flow".equalsIgnoreCase(getStencilClass())){
 			temp = new JSONObject();
 			bounds = getBounds();
 			temp.put("x",(bounds[0]+bounds[2])/2);

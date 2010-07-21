@@ -1,5 +1,5 @@
 {
-"translation": {
+	"translation": {
 		"world area":{
 			"World area": ["en"],
 			"Weltkoordinaten": ["de"]
@@ -34,14 +34,63 @@
 			"Aggregation": ["de","en"]
 		}
 	},
-	"standardValues": {
+	"configuration": {
+		"model": {
+			"language":"en"
+		},
 		"performance": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
 			"w":3.26,
 			"h":1.40
 		},
+		"process": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":3.25,
+			"h":1.40
+		},
 		"aggregation": {
+			"offsetPercentageX":"0",
+			"offsetPercentageY":"0",
 			"w":6.00,
 			"h":9.00
+		},
+		"actor": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":1.20,
+			"h":1.75
+		},
+		"external partner": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":1.00,
+			"h":1.39
+		},
+		"performance indicator": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":1.40,
+			"h":1.40
+		},
+		"performance indicator overview": {
+			"offsetPercentageX":"66",
+			"offsetPercentageY":"50",
+			"w":0.50,
+			"h":0.60
+		},
+		"cross reference": {
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":3.30,
+			"h":1.00
+		},
+		"note": {
+			"offsetPercentageX":"0",
+			"offsetPercentageY":"0",
+			"w":4.50,
+			"h":4.50
 		}
 	}
 }

@@ -99,6 +99,10 @@ public class AdonisModel extends AdonisStencil{
 
 	public void setInheritedProperties(HashMap<String, String> attributes) {inheritedProperties = attributes;}
 	
+	public ArrayList<AdonisAttribute> getAttribute(){
+		return getModelAttributes().getAttribute();
+	}
+	
 	public void distributeChildren() throws JSONException{
 		// put all stencils in the diagram in map ... all stencils have access to this map
 		for (AdonisInstance instance : getInstance()){
@@ -109,9 +113,8 @@ public class AdonisModel extends AdonisStencil{
 		
 		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
 		
-		
 		for (AdonisConnector edge : getConnector()){
-			if ("is inside".equalsIgnoreCase(getOryxNameOf(edge.getStencilClass()))){
+			if ("is inside".equalsIgnoreCase(edge.getOryxStencilClass())){
 				AdonisStencil child = getModelInstance().get(edge.getFrom().getInstance());
 				AdonisStencil parent = getModelInstance().get(edge.getTo().getInstance());
 				
@@ -165,26 +168,22 @@ public class AdonisModel extends AdonisStencil{
 	public Double[] getBounds() {
 		if (bounds == null){
 			bounds = new Double[4];
-			try {
-				for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
-					if ("world area".equalsIgnoreCase(getOryxNameOf(aAttribute.getName()))){
-						// extract the numbers out of the string
-						if (aAttribute.getElement() != null){
-							String[] area = filterArea(aAttribute.getElement());
+			for (AdonisAttribute aAttribute : getAttribute()){
+				if ("world area".equalsIgnoreCase(aAttribute.getOryxName())){
+					// extract the numbers out of the string
+					if (aAttribute.getElement() != null){
+						String[] area = filterArea(aAttribute.getElement());
 				
-							// try to give the diagram a nice size
-							bounds[2] = Double.parseDouble(area[0])*CENTIMETERTOPIXEL;
-							bounds[3] = Double.parseDouble(area[1])*CENTIMETERTOPIXEL;
+						// try to give the diagram a nice size
+						bounds[2] = Double.parseDouble(area[0])*CENTIMETERTOPIXEL;
+						bounds[3] = Double.parseDouble(area[1])*CENTIMETERTOPIXEL;
 						} else {
 							// a fallback solution
 							bounds[2] = 1485.0;
 							bounds[3] = 1050.0;
 						}
-						break;
-					}
+					break;
 				}
-			} catch (JSONException e){
-				Log.e(e.getMessage());
 			}
 			bounds[0] = 0.0;
 			bounds[1] = 0.0;
@@ -216,15 +215,13 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	@Override
 	public void writeJSONresourceId(JSONObject json) throws JSONException{
-		//XXX
 		json.put("resourceId","oryx-canvas123");
 	}
 	/**
 	 * write the stencil
 	 */
 	@Override
-	public void writeJSONstencil(JSONObject json) throws JSONException{
-		//XXX oryx-canvas123 vs diagram 
+	public void writeJSONstencil(JSONObject json) throws JSONException{ 
 		JSONObject stencil = getJSONObject(json,"stencil");
 		stencil.put("id","Diagram");
 	}
@@ -282,7 +279,7 @@ public class AdonisModel extends AdonisStencil{
 		super.writeJSONchildShapes(json);
 		
 		for (AdonisConnector aConnector : getConnector()){
-			if (!"is inside".equalsIgnoreCase(aConnector.getStencilClass())){
+			if (!"ist innerhalb".equalsIgnoreCase(aConnector.getStencilClass())){
 				shape = new JSONObject();
 				aConnector.write(shape);
 				childShapes.put(shape);
@@ -312,7 +309,7 @@ public class AdonisModel extends AdonisStencil{
 	}
 	
 	/**
-	 * overridden to make sure that every stencil is registered in the nameObjectMap 
+	 * overridden to make sure that every stencil has the right parent child association 
 	 */
 	@Override
 	public void write(JSONObject modelElement) throws JSONException {
