@@ -33,6 +33,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 */
 	private static final String NO_SOURCE = "EPC_NO_SOURCE";
 	private static final String NO_TARGET = "EPC_NO_TARGET";
+	private static final String SOURCE_EQUALS_TARGET = "EPC_SOURCE_EQUALS_TARGET";
 	private static final String NOT_CONNECTED = "EPC_NOT_CONNECTED";
 	private static final String NOT_CONNECTED_2 = "EPC_NOT_CONNECTED_2";
 	private static final String TOO_MANY_EDGES = "EPC_TOO_MANY_EDGES";
@@ -77,10 +78,15 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 	
 	protected void checkEdges() {
 		for (DiagramEdge edge: diagram.getEdges()) {
-			if (edge.getSource() == null)
+			DiagramNode source = edge.getSource();
+			DiagramNode target = edge.getTarget();
+			if (source == null)
 				addError(edge, NO_SOURCE);
-			if (edge.getTarget() == null) 
+			if (target == null) 
 				addError(edge, NO_TARGET);
+			if (source != null && target != null && source.getResourceId().equals(target.getResourceId())) {
+				addError(edge, SOURCE_EQUALS_TARGET);
+			}
 		}
 	}
 	
