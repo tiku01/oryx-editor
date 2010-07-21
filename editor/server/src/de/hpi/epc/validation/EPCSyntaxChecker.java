@@ -2,7 +2,9 @@ package de.hpi.epc.validation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.hpi.diagram.Diagram;
 import de.hpi.diagram.DiagramEdge;
@@ -179,23 +181,25 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 	
 	private List<DiagramNode>getNextEventsOrFunctions(DiagramNode startingPoint){
 		List<DiagramEdge> edges = new ArrayList<DiagramEdge>();
+		Set<String> seenNodeIds = new HashSet<String>();
 		List<DiagramNode> result = new ArrayList<DiagramNode>();
 		for (DiagramEdge edge : startingPoint.getOutgoingEdges()){
 			edges.add(edge);
 		}
-		return getNextEventsOrFunctions(startingPoint, edges, result);
+		seenNodeIds.add(startingPoint.getResourceId());
+		return getNextEventsOrFunctions(edges, result, seenNodeIds);
 	}
 	
-	private List<DiagramNode>getNextEventsOrFunctions(DiagramNode startingPoint, List<DiagramEdge> edges, List<DiagramNode> result){
+	private List<DiagramNode>getNextEventsOrFunctions(List<DiagramEdge> edges, List<DiagramNode> result, Set<String> seenNodeIds){
 		List<DiagramEdge> newEdges = new ArrayList<DiagramEdge>();
 		for (DiagramEdge edge : edges){
 			if ("ControlFlow".equals(edge.getType())){
 				DiagramNode target = edge.getTarget();
 				// In broken diagrams, target can be null. Therefore
 				// the syntax check shouldn't depend on control flow!!
-				if(target == null || startingPoint.getResourceId().equals(target.getResourceId()))
+				if(target == null || !seenNodeIds.add(target.getResourceId())) {
 					continue;
-				if ("Function".equals(target.getType()) || "Event".equals(target.getType()) || "ProcessInterface".equals(target.getType())){
+				} else if ("Function".equals(target.getType()) || "Event".equals(target.getType()) || "ProcessInterface".equals(target.getType())){
 					result.add(target);
 				} else {
 					newEdges.addAll(target.getOutgoingEdges());
@@ -203,7 +207,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 			}
 		}
 		if (newEdges.size() > 0){
-			return getNextEventsOrFunctions(startingPoint, newEdges, result);
+			return getNextEventsOrFunctions(newEdges, result, seenNodeIds);
 		}
 		return result;
 	}
