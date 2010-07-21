@@ -2,7 +2,9 @@ package de.hpi.epc.validation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.hpi.diagram.Diagram;
 import de.hpi.diagram.DiagramEdge;
@@ -31,6 +33,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 */
 	private static final String NO_SOURCE = "EPC_NO_SOURCE";
 	private static final String NO_TARGET = "EPC_NO_TARGET";
+	private static final String SOURCE_EQUALS_TARGET = "EPC_SOURCE_EQUALS_TARGET";
 	private static final String NOT_CONNECTED = "EPC_NOT_CONNECTED";
 	private static final String NOT_CONNECTED_2 = "EPC_NOT_CONNECTED_2";
 	private static final String TOO_MANY_EDGES = "EPC_TOO_MANY_EDGES";
@@ -75,10 +78,15 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 	
 	protected void checkEdges() {
 		for (DiagramEdge edge: diagram.getEdges()) {
-			if (edge.getSource() == null)
+			DiagramNode source = edge.getSource();
+			DiagramNode target = edge.getTarget();
+			if (source == null)
 				addError(edge, NO_SOURCE);
-			if (edge.getTarget() == null) 
+			if (target == null) 
 				addError(edge, NO_TARGET);
+			if (source != null && target != null && source.getResourceId().equals(target.getResourceId())) {
+				addError(edge, SOURCE_EQUALS_TARGET);
+			}
 		}
 	}
 	
@@ -99,7 +107,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 				//if (in == 1 && out == 0) endEvents.add(node);
 				if (in == 0 && out == 1) startEvents.add(node);
 				else if (in > 1 || out > 1) addError(node, TOO_MANY_EDGES);
-				for (DiagramNode next : getNextEventsOrFunctions(node.getOutgoingEdges())){
+				for (DiagramNode next : getNextEventsOrFunctions(node)){
 					if ("Event".equals(next.getType())) addError(next, EVENT_AFTER_EVENT);
 				}
 			}
@@ -109,7 +117,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 				}
 				else if (in > 1 || out > 1) addError(node, TOO_MANY_EDGES);
 				else if (in == 0 && out == 1) addError(node, NOT_CONNECTED_2);
-				for (DiagramNode next : getNextEventsOrFunctions(node.getOutgoingEdges())){
+				for (DiagramNode next : getNextEventsOrFunctions(node)){
 					if (checkFunctionFollowsFunction && "Function".equals(next.getType())) addError(next, FUNCTION_AFTER_FUNCTION);
 					if (checkFunctionFollowsFunction && "ProcessInterface".equals(next.getType())) addError(next, PI_AFTER_FUNCTION);
 				}
@@ -117,14 +125,14 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 			else if ("ProcessInterface".equals(node.getType())){
 				if (in > 1 || out > 1) addError(node, TOO_MANY_EDGES);
 				else if (in == 0 && out == 0) addError(node, NOT_CONNECTED_2);
-				for (DiagramNode next : getNextEventsOrFunctions(node.getOutgoingEdges())){
+				for (DiagramNode next : getNextEventsOrFunctions(node)){
 					if (checkFunctionFollowsFunction && "Function".equals(next.getType())) addError(next, FUNCTION_AFTER_PI);
 				}
 				
 			}
 			else if ("XorConnector".equals(node.getType()) || "OrConnector".equals(node.getType())){
 				if (in == 1 && out >= 2){
-					for (DiagramNode next : getNextEventsOrFunctions(node.getOutgoingEdges())){
+					for (DiagramNode next : getNextEventsOrFunctions(node)){
 						if ("Function".equals(next.getType())){
 							addError(node, FUNCTION_AFTER_OR);
 							break;
@@ -177,25 +185,27 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 		return result;
 	}
 	
-	private List<DiagramNode>getNextEventsOrFunctions(List<DiagramEdge> edges){
-		List<DiagramEdge> newEdges = new ArrayList<DiagramEdge>();
+	private List<DiagramNode>getNextEventsOrFunctions(DiagramNode startingPoint){
+		List<DiagramEdge> edges = new ArrayList<DiagramEdge>();
+		Set<String> seenNodeIds = new HashSet<String>();
 		List<DiagramNode> result = new ArrayList<DiagramNode>();
-		for (DiagramEdge edge : edges){
-			newEdges.add(edge);
+		for (DiagramEdge edge : startingPoint.getOutgoingEdges()){
+			edges.add(edge);
 		}
-		return getNextEventsOrFunctions(newEdges, result);
+		seenNodeIds.add(startingPoint.getResourceId());
+		return getNextEventsOrFunctions(edges, result, seenNodeIds);
 	}
 	
-	private List<DiagramNode>getNextEventsOrFunctions(List<DiagramEdge> edges, List<DiagramNode> result){
+	private List<DiagramNode>getNextEventsOrFunctions(List<DiagramEdge> edges, List<DiagramNode> result, Set<String> seenNodeIds){
 		List<DiagramEdge> newEdges = new ArrayList<DiagramEdge>();
 		for (DiagramEdge edge : edges){
 			if ("ControlFlow".equals(edge.getType())){
 				DiagramNode target = edge.getTarget();
 				// In broken diagrams, target can be null. Therefore
 				// the syntax check shouldn't depend on control flow!!
-				if(target == null)
-					break;
-				if ("Function".equals(target.getType()) || "Event".equals(target.getType()) || "ProcessInterface".equals(target.getType())){
+				if(target == null || !seenNodeIds.add(target.getResourceId())) {
+					continue;
+				} else if ("Function".equals(target.getType()) || "Event".equals(target.getType()) || "ProcessInterface".equals(target.getType())){
 					result.add(target);
 				} else {
 					newEdges.addAll(target.getOutgoingEdges());
@@ -203,7 +213,7 @@ public class EPCSyntaxChecker extends AbstractSyntaxChecker {
 			}
 		}
 		if (newEdges.size() > 0){
-			return getNextEventsOrFunctions(newEdges, result);
+			return getNextEventsOrFunctions(newEdges, result, seenNodeIds);
 		}
 		return result;
 	}
