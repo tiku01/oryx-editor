@@ -84,7 +84,9 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModelGroups getModelGroups(){
-		if (modelGroups == null) modelGroups = new AdonisModelGroups();
+		if (modelGroups == null){
+			modelGroups = new AdonisModelGroups();
+		}
 		return modelGroups;
 	}
 	
@@ -93,7 +95,9 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModels getModels(){
-		if (models == null) models = new AdonisModels();
+		if (models == null){
+			models = new AdonisModels();
+		}
 		return models;
 	}
 	
@@ -136,7 +140,7 @@ public class AdonisXML extends XMLConvertible {
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
 		JSONObject json = null;
 		
-		for (AdonisModel aModel : getModels().getChildren()){
+		for (AdonisModel aModel : getModels().getModel()){
 			//pass global information to models
 			aModel.setInheritedProperties(modelAttributes);
 			
@@ -148,5 +152,14 @@ public class AdonisXML extends XMLConvertible {
 		}
 		
 		return jsonDiagrams;
+	}
+	
+	@Override
+	public void parse(JSONObject json){
+		//it should be only one, but it may extended
+		AdonisModel diagram = new AdonisModel();
+		getModels().getModel().add(diagram);
+		diagram.parse(json);
+		
 	}
 }

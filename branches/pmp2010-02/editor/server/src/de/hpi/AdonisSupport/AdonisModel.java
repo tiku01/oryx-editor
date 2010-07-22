@@ -40,18 +40,7 @@ public class AdonisModel extends AdonisStencil{
 	@Attribute("applib")
 	protected String applib;
 		
-	protected Map<String,String> inheritedProperties;
-	
-	/**
-	 * these attributes have influences on the representation in oryx
-	 * so they are stored including the type
-	 */
-	protected static Map<String,String> evaluatedAttributes;
-	static { evaluatedAttributes = new HashMap<String,String>();
-		evaluatedAttributes.put("World area","STRING");
-//		evaluatedAttributes.put("Creation date","STRING");
-//		evaluatedAttributes.put("Date last changed","STRING");
-	};
+
 	
 	@Element(name="MODELATTRIBUTES")
 	protected AdonisModelAttributes modelAttributes;
@@ -62,7 +51,7 @@ public class AdonisModel extends AdonisStencil{
 	@Element(name="CONNECTOR")
 	protected ArrayList<AdonisConnector> connector;
 	
-	public String children;
+//	public String children;
 	
 	public String getId(){return id;}
 	public void setId(String newId){id = newId;}
@@ -82,17 +71,51 @@ public class AdonisModel extends AdonisStencil{
 	public void setApplib(String value){applib = value;}
 	public String getApplib(){return applib;}
 	
-	public AdonisModelAttributes getModelAttributes(){return modelAttributes;}
-	
+	public AdonisModelAttributes getModelAttributes(){
+		if (modelAttributes == null){
+			modelAttributes = new AdonisModelAttributes();
+		} 
+		return modelAttributes;
+	}
 	public void setModelAttributes(AdonisModelAttributes list){	modelAttributes = list;}
 		
-	public ArrayList<AdonisInstance> getInstance(){return instance;}
-	
+	public ArrayList<AdonisInstance> getInstance(){	
+		if (instance == null){
+			instance = new ArrayList<AdonisInstance>();
+		} 
+		return instance;
+	}
 	public void setInstance(ArrayList<AdonisInstance> list){instance = list;}
 	
-	public ArrayList<AdonisConnector> getConnector(){return connector;}
-	
+	public ArrayList<AdonisConnector> getConnector(){
+		if (connector == null){
+			connector = new ArrayList<AdonisConnector>();
+		} 
+		return connector;
+	}
 	public void setConnector(ArrayList<AdonisConnector> list){connector = list;}
+
+	
+	
+	protected Map<String,String> inheritedProperties;
+	
+	public AdonisModel(){
+		instance = new ArrayList<AdonisInstance>();
+		connector = new ArrayList<AdonisConnector>();
+		modelAttributes = new AdonisModelAttributes();
+	}
+	
+	
+	/**
+	 * these attributes have influences on the representation in oryx
+	 * so they are stored including the type
+	 */
+	protected static Map<String,String> evaluatedAttributes;
+	static { evaluatedAttributes = new HashMap<String,String>();
+		evaluatedAttributes.put("World area","STRING");
+//		evaluatedAttributes.put("Creation date","STRING");
+//		evaluatedAttributes.put("Date last changed","STRING");
+	};
 	
 	@Override
 	public Map<String,String> getEvaluatedAttributes(){return evaluatedAttributes;}
@@ -197,8 +220,6 @@ public class AdonisModel extends AdonisStencil{
 	//*************************************************************************
 	//* methods for creation of JSON representation
 	//*************************************************************************
-	
-
 	/**
 	 * write global attributes inherited from AdoXML 
 	 */
@@ -330,4 +351,39 @@ public class AdonisModel extends AdonisStencil{
 		// not used
 	}
 
+	//*************************************************************************
+	//* methods for reading of JSON representation
+	//*************************************************************************
+	
+	public void readJSONbounds(JSONObject json) throws JSONException{
+		JSONObject lowerRight = json.getJSONObject("bounds").getJSONObject("lowerRight");
+		Double width = lowerRight.getDouble("x") / CENTIMETERTOPIXEL;
+		Double hight = lowerRight.getDouble("y") / CENTIMETERTOPIXEL;
+		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+width+"cm h:"+hight+"cm"));
+	}
+	
+	public void readJSONproperties(JSONObject json) throws JSONException{
+		JSONObject properties = json.getJSONObject("properties"); 
+		setName(properties.getString("name"));
+	}
+	
+	public void readJSONresourceId(JSONObject json){
+		//TODO Adonis uses another id mechanism - try to reconstruct the original id
+	}
+	
+	public void readJSONchildShapes(JSONObject json){
+		//TODO consider childShapes
+	}
+	
+	public void readJSONssextensions(JSONObject json){
+		//TODO consider extensions
+	}
+	
+	public void readJSONstencilset(JSONObject json){
+		//TODO don't know if needed to export
+	}
+	
+	public void readJSONstencil(JSONObject json){
+		//TODO don't know if needed to export
+	}
 }

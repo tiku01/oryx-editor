@@ -46,11 +46,19 @@ public class AdonisConverter {
 	 * @return
 	 */
 	public String filterXML(String xml){
-//		<?xml version="1.0" encoding="UTF-8"?>
-//		<!DOCTYPE ADOXML SYSTEM "adoxml31.dtd">
+		if (xml.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") < 0
+				|| xml.indexOf("<!DOCTYPE ADOXML SYSTEM \"adoxml31.dtd\">") < 0){
+			Log.w("could not detect correct version - import could possibly fail");
+		}
 		String xmlWithoutXMLTag = xml.replaceFirst("<\\?xml[^\\?]*\\?>", "");
 		String xmlWithoutDoctype = xmlWithoutXMLTag.replaceFirst("<\\![^\\>]*>","");
 		return xmlWithoutDoctype;
+	}
+	
+	public String addXMLHeader(String body){
+		return	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n"
+			+ "<!DOCTYPE ADOXML SYSTEM \"adoxml31.dtd\">"
+			+ body;
 	}
 	
 	/**
@@ -92,10 +100,7 @@ public class AdonisConverter {
 		xmappr.setPrettyPrint(true);
 		xmappr.toXML(model,writer);
 		
-		return 
-			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
-			"<!DOCTYPE ADOXML SYSTEM \"adoxml31.dtd\">"+ 
-			writer.toString();
+		return addXMLHeader(writer.toString());
 	}
 	
 	/**
@@ -112,12 +117,12 @@ public class AdonisConverter {
 						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
 				)); 
 		System.out.println(json);
-//		try {
-//			System.out.println(ac.exportXML(json));
-//		} catch (JSONException e){
-//			System.err.println(e.getMessage());
-//			e.printStackTrace();
-//		}
+		try {
+			System.out.println(ac.exportXML(json));
+		} catch (JSONException e){
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
 
 	}
 	
