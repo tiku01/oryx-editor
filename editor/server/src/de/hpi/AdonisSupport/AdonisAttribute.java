@@ -52,6 +52,19 @@ public class AdonisAttribute extends XMLConvertible{
 		element = value;
 	}
 	
+	public AdonisAttribute(){
+		this.name = "";
+		this.type = "";
+		this.element = null;
+	}
+	
+	public AdonisAttribute(String name, String type, String element) {
+		this.name = name;
+		this.type = type;
+		this.element = element;
+	}
+	
+	
 	private void setLanguage(String lang){
 		language = lang;
 	}

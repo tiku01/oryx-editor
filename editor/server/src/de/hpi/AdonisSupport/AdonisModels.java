@@ -14,18 +14,21 @@ import org.xmappr.RootElement;
 public class AdonisModels extends XMLConvertible{
 	
 	@Element(name="MODEL", targetType=AdonisModel.class)
-	public ArrayList<AdonisModel> children;
+	public ArrayList<AdonisModel> model;
 
-	public ArrayList<AdonisModel> getChildren(){
-		return children;
+	public ArrayList<AdonisModel> getModel(){
+		if (model == null){
+			model = new ArrayList<AdonisModel>();
+		}
+		return model;
 	}
 	
-	public void setChildren(ArrayList<AdonisModel> list){
-		children = list;
+	public void setModel(ArrayList<AdonisModel> list){
+		model = list;
 	}
 	
 	public void writeJSON(JSONObject json) throws JSONException{
-		json.put("models",getChildren());
+		json.put("models",getModel());
 	}
 
 	@Override

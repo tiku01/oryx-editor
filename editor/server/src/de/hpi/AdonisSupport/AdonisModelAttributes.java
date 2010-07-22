@@ -29,7 +29,6 @@ public class AdonisModelAttributes extends XMLConvertible{
 		attribute = list;
 	}
 	
-	
 	public ArrayList<AdonisRecord> getRecord(){
 		if (record == null) {record = new ArrayList<AdonisRecord>();}
 		return record;
