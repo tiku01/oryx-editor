@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
@@ -36,9 +37,9 @@ public class AdonisModel extends AdonisStencil{
 	@Attribute("modeltype")
 	protected String modeltype;
 	@Attribute("libtype")
-	protected String libtype;
+	protected String libtype = "bp";
 	@Attribute("applib")
-	protected String applib;
+	protected String applib = "ADONIS:CE BPMS BP Library";
 		
 
 	
@@ -149,6 +150,7 @@ public class AdonisModel extends AdonisStencil{
 				if (!parents.contains(parent)){
 					parents.add(parent);
 				}
+				addUsedChild(edge);
 			}
 			edge.setModel(this);
 		}
@@ -205,6 +207,7 @@ public class AdonisModel extends AdonisStencil{
 							bounds[2] = 1485.0;
 							bounds[3] = 1050.0;
 						}
+					addUsedAttribute(aAttribute);
 					break;
 				}
 			}
@@ -216,6 +219,12 @@ public class AdonisModel extends AdonisStencil{
 		return bounds;
 	}
 	
+	public String getAdonisStencilClass(String language){
+		if (language == "" || language == null){
+			return Configurator.getTranslationToAdonis(modeltype, getLanguage());
+		} 
+		return Configurator.getTranslationToAdonis(modeltype, language);
+	}
 	
 	//*************************************************************************
 	//* methods for creation of JSON representation
@@ -351,9 +360,44 @@ public class AdonisModel extends AdonisStencil{
 		// not used
 	}
 
+	
+	public void writeJSONunusedAttributes(JSONObject json){
+		SerializableContainer<AdonisAttribute> unused = new SerializableContainer<AdonisAttribute>();
+		
+		for (AdonisAttribute aAttribute : getAttribute()){
+			if (getUsedAttributes().indexOf(aAttribute) < 0){
+				unused.getElements().add(aAttribute);
+			}
+		}
+		try {
+			json.put("unusedAttributes", makeStorable(unused));
+		} catch (JSONException e) {
+			Log.e("could not write unused elements and attributes\n"+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	//*************************************************************************
 	//* methods for reading of JSON representation
 	//*************************************************************************
+	
+	public void readJSONunusedAttributes(JSONObject json){
+		SerializableContainer<AdonisAttribute> unused; 
+		String stored;
+		try {
+			stored = json.getString("unusedAttributes");
+			if (stored != null){
+				unused = (SerializableContainer<AdonisAttribute>) fromStorable(stored);
+				for (AdonisAttribute aAttribute : unused.getElements()){
+					getAttribute().add(aAttribute);
+				}
+			}
+			
+		} catch (JSONException e){
+			Log.e("could not restore unused attributes");
+		}
+		
+	}
 	
 	public void readJSONbounds(JSONObject json) throws JSONException{
 		JSONObject lowerRight = json.getJSONObject("bounds").getJSONObject("lowerRight");
@@ -368,7 +412,10 @@ public class AdonisModel extends AdonisStencil{
 	}
 	
 	public void readJSONresourceId(JSONObject json){
-		//TODO Adonis uses another id mechanism - try to reconstruct the original id
+		Random random = new Random();
+		setId("mod."+random.nextInt(100000));
+		setVersion("");
+		//Adonis generates a own ID - so this is only pro to respect the format
 	}
 	
 	public void readJSONchildShapes(JSONObject json){
@@ -381,6 +428,8 @@ public class AdonisModel extends AdonisStencil{
 	
 	public void readJSONstencilset(JSONObject json){
 		//TODO don't know if needed to export
+		modeltype = "company map";
+		setModeltype(getAdonisStencilClass("en"));
 	}
 	
 	public void readJSONstencil(JSONObject json){

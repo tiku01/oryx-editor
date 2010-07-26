@@ -13,7 +13,7 @@
 		},		
 		"performance": {
 			"Leistung": ["de"],
-			"Performance": ["end"]
+			"Performance": ["en"]
 		},
 		"has process": {
 			"Has process": ["en"],
@@ -32,6 +32,10 @@
 		},
 		"aggregation": {
 			"Aggregation": ["de","en"]
+		},
+		"company map": {
+			"Company map": ["en"],
+			"Prozeßlandkarte": ["de"]
 		}
 	},
 	"configuration": {

@@ -113,8 +113,8 @@ public class AdonisConverter {
 //						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
-						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
+						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
 				)); 
 		System.out.println(json);
 		try {

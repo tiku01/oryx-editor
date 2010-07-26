@@ -110,7 +110,6 @@ public class AdonisInstance extends AdonisStencil {
 					h = Double.parseDouble(position[3]);
 				}
 				// some stencils are positioned using a offset (in percentage)
-				Log.v(getOryxStencilClass()+" x "+x+" w "+w+" off "+getLeftOffset()+" - "+y+" h "+h+" off "+getTopOffset());
 				globalBounds[0] = x - (getLeftOffset() / 100 * w);
 				globalBounds[1] = y - (getTopOffset() / 100 * h);
 				globalBounds[2] = globalBounds[0] + ((100 - getLeftOffset()) / 100 * w);

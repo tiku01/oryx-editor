@@ -1,5 +1,7 @@
 package de.hpi.AdonisSupport;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -14,7 +16,9 @@ import org.xmappr.Text;
 
 
 @RootElement("ATTRIBUTE")
-public class AdonisAttribute extends XMLConvertible{
+public class AdonisAttribute extends XMLConvertible implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Attribute(name="name")
 	protected String name;
@@ -42,10 +46,14 @@ public class AdonisAttribute extends XMLConvertible{
 
 	public void setName(String value) {
 		name = value;
+		if (type != null)
+			Configurator.setAttributeType(name, type);
 	}
 	
 	public void setType(String value) {
 		type = value;
+		if (name != null)
+			Configurator.setAttributeType(name, type);
 	}
 
 	public void setElement(String value) {
@@ -54,7 +62,7 @@ public class AdonisAttribute extends XMLConvertible{
 	
 	public AdonisAttribute(){
 		this.name = "";
-		this.type = "";
+		this.type = null;
 		this.element = null;
 	}
 	
@@ -69,12 +77,22 @@ public class AdonisAttribute extends XMLConvertible{
 		language = lang;
 	}
 	
+	private void setAdonisType(String type){
+		Configurator.setAttributeType(name, type);
+	}
+	
+	public String getAdonisType(){
+		return Configurator.getAttibuteType(name);
+	}
+	
 	public String getLanguage(){
 		if (language == null){
 			language = Configurator.getLanguage("model");
 		}
 		return language;
 	}
+	
+	
 	
 	public String getOryxName(){
 		if (oryxName == null){
@@ -87,7 +105,7 @@ public class AdonisAttribute extends XMLConvertible{
 	@Override
 	public void write(JSONObject json) throws JSONException {
 		JSONObject attribute = getJSONObject(json,getName());
-		attribute.putOpt("type", getType());
+		attribute.putOpt("type", getAdonisType());
 		attribute.putOpt("element", getElement());
 		
 	}
