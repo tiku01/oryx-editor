@@ -19,6 +19,9 @@ import org.xmappr.DomElement;
 import org.xmappr.Element;
 import org.xmappr.converters.Base64;
 
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 
 public abstract class XMLConvertible {
 	
@@ -80,10 +83,10 @@ public abstract class XMLConvertible {
 	public void readUnknowns(JSONObject modelElement, String key) {
 		String storedData = modelElement.optString(key);
 		if (storedData != null) {
-			XMLUnknownsContainer unknownContainer = (XMLUnknownsContainer) fromStorable(storedData);
+			SerializableContainer<DomElement> unknownContainer = (SerializableContainer<DomElement>) fromStorable(storedData);
 			
-			setUnknownAttributes(unknownContainer.getUnknownAttributes());
-			setUnknownChildren(unknownContainer.getUnknownElements());
+			setUnknownAttributes(unknownContainer.getAttributes());
+			setUnknownChildren(unknownContainer.getElements());
 		}
 	}
 
@@ -150,27 +153,46 @@ public abstract class XMLConvertible {
 	 */
 	public void write(JSONObject modelElement) throws JSONException {
 		Method[] methods = getClass().getMethods();
+		ArrayList<Method> unusedHandler = new ArrayList<Method>();
 		for (int i = 0; i < methods.length; i++) {
 			Method method = methods[i];
 			String methodName = method.getName();
 			if (methodName.startsWith("writeJSON")) {
-				try {
-					getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
-				} catch (Exception e) {
-					Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getStencilClass()+"\t"+methodName);
-					e.printStackTrace();
+				if (methodName.contains("unused")){
+					unusedHandler.add(method);
+				} else {
+					try {
+						getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
+					} catch (Exception e) {
+						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getStencilClass()+"\t"+methodName);
+						e.printStackTrace();
+					}
 				}
 			}
 		}
+		for (Method unusedMethod : unusedHandler){
+			String methodName = unusedMethod.getName();
+			try {
+				getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
+			} catch (Exception e) {
+				Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getStencilClass()+"\t"+methodName);
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void writeJSONunused(JSONObject json){
+		
 	}
 
 	public void writeUnknowns(JSONObject modelElement, String key) throws JSONException {
 		HashMap<String,String> unknownAttributes = getUnknownAttributes();
 		ArrayList<DomElement> unknownElements = getUnknownChildren();
 		if (!unknownAttributes.isEmpty() || unknownElements != null) {
-			XMLUnknownsContainer unknownsContainer = new XMLUnknownsContainer();
-			unknownsContainer.setUnknownAttributes(getUnknownAttributes());
-			unknownsContainer.setUnknownElements(getUnknownChildren());
+			SerializableContainer<DomElement> unknownsContainer = new SerializableContainer<DomElement>();
+			unknownsContainer.setAttributes(getUnknownAttributes());
+			unknownsContainer.setElements(getUnknownChildren());
 			
 			modelElement.put(key, makeStorable(unknownsContainer));
 		}
@@ -181,9 +203,11 @@ public abstract class XMLConvertible {
 	 */
 	
 	protected Object fromStorable(String stored) {
+		BASE64Decoder base64dec = new BASE64Decoder();
+		
 		try {
 			//Read Base64 String and decode them
-			byte[] decodedBytes = Base64.decode(stored);
+			byte[] decodedBytes = base64dec.decodeBuffer(stored);
 			ByteArrayInputStream byteStreamIn = new ByteArrayInputStream(decodedBytes);
 			//Restore the object
 			ObjectInputStream objectStreamIn = new ObjectInputStream(byteStreamIn);
@@ -203,8 +227,10 @@ public abstract class XMLConvertible {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		BASE64Encoder base64enc = new BASE64Encoder();
 		//Encode the byte stream with Base64 -> Readable characters for the JSONObject
-		return Base64.encode(byteStream.toByteArray());	
+		return base64enc.encode(byteStream.toByteArray());	
 	}
 	
 	

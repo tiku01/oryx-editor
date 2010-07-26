@@ -2,7 +2,9 @@ package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +32,32 @@ public abstract class AdonisStencil extends XMLConvertible {
 	private String language;
 	
 	private String oryxStencilClass;
+	
+	private ArrayList<AdonisAttribute> usedAttributes;
+	
+	private ArrayList<AdonisStencil> usedChildren;
+	
+	public ArrayList<AdonisAttribute> getUsedAttributes(){
+		if (usedAttributes == null){
+			usedAttributes = new ArrayList<AdonisAttribute>();
+		}
+		return usedAttributes;
+	}
+	
+	public void addUsedAttribute(AdonisAttribute aAttribute){
+		getUsedAttributes().add(aAttribute);
+	}
+	
+	public ArrayList<AdonisStencil> getUsedChildren(){
+		if (usedChildren == null){
+			usedChildren = new ArrayList<AdonisStencil>();
+		}
+		return usedChildren;
+	}
+	
+	public void addUsedChild(AdonisStencil aChild){
+		getUsedChildren().add(aChild);
+	}
 	
 	public String getLanguage(){
 		if (language == null || language == ""){
@@ -199,14 +227,17 @@ public abstract class AdonisStencil extends XMLConvertible {
 		getJSONObject(json,"target");
 	}
 	
+	
+	
 	//*************************************************************************
 	//* Configurator access
 	//*************************************************************************
 	public String getOryxStencilClass(){
 		if (oryxStencilClass == null){
-			for (AdonisAttribute attribute : getAttribute()){
-				if ("Name (english)".equals(attribute.getName()) && attribute.getElement() != null){
-					oryxStencilClass = attribute.getElement().toLowerCase();
+			for (AdonisAttribute aAttribute : getAttribute()){
+				if ("Name (english)".equals(aAttribute.getName()) && aAttribute.getElement() != null){
+					oryxStencilClass = aAttribute.getElement().toLowerCase();
+					addUsedAttribute(aAttribute);
 				}
 			}
 		}
@@ -215,6 +246,14 @@ public abstract class AdonisStencil extends XMLConvertible {
 			oryxStencilClass = Configurator.getTranslationToOryx(getStencilClass());
 		}
 		return oryxStencilClass;
+	}
+	
+	public String getAdonisStencilClass(String language){
+		if (language == "" || language == null){
+			return Configurator.getTranslationToAdonis(oryxStencilClass, getLanguage());
+		} 
+		// the language is known
+		return Configurator.getTranslationToAdonis(oryxStencilClass, language);
 	}
 
 	public JSONObject getStandardConfiguration(){
