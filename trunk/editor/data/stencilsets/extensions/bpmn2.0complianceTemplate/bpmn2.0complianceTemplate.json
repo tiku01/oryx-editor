@@ -95,6 +95,28 @@
 			
 		}
 	
+	], 
+		"properties": [
+		{
+			"roles": [
+				"Task"
+			],
+			"properties": [
+				{
+					"id":"membership",
+					"type":"String",
+					"title":"Compliance Scope Membership",
+					"title_de":"Zugehörigkeit zu Compliance Scopes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+                }
+            ]
+        }
 	]
 	
 }
