@@ -6,7 +6,7 @@ if (!ORYX.Config) {
 /*
  * http://oryx.processwave.org/gadget/oryx_stable.xml
  */
-ORYX.Config.WaveThisGadgetUri = " http://ddj0ahgq8zch6.cloudfront.net/gadget/oryx_stable.xml";
+ORYX.Config.WaveThisGadgetUri = "http://ddj0ahgq8zch6.cloudfront.net/gadget/oryx_stable.xml";
 ORYX.Plugins.WaveThis = Clazz.extend({
 	
 	/**
