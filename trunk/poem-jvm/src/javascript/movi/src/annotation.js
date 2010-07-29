@@ -312,6 +312,14 @@ MOVI.namespace("util");
 			this._marker = marker;
 			this._marker.onChanged(this._update, this);
 			this._update();
+		},
+		
+		/**
+	     * Returns the Marker instance this annotation is attached to
+	     * @method getMarker
+	     */
+		getMarker: function(marker) {
+			return this._marker;
 		}
 		
 	});

@@ -52,6 +52,7 @@ MOVI.namespace("model");
 		this.set("className", _CLASS_NAME);
 		
 		this.shapes = {};
+		this._resourceIds = [];
 		this._indexShapes();
 		
 		this._modelviewer.onZoomLevelChangeStart.subscribe(function() {
@@ -99,6 +100,7 @@ MOVI.namespace("model");
 				
 				var child = recShape.childShapes[key];
 				this.shapes[child.resourceId] = child;
+				this._resourceIds.push(child.resourceId);
 				this._indexShapes(child);
 			}
 		},
@@ -206,6 +208,15 @@ MOVI.namespace("model");
 					edges[key] = this.shapes[key];
 			}
 			return edges;
+		},
+		
+		/**
+		 * Returns an Array containing all resource IDs of all shapes
+		 * @method getResourceIds
+		 * @return {Array} An Array of resource IDs as Strings of all shapes of the model
+		 */
+		getResourceIds: function() {
+			return this._resourceIds;
 		}
 		
 	});
