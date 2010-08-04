@@ -437,6 +437,12 @@
 	</servlet>
 	
 	<!-- Gerardo's Posts finished -->
+	
+	<servlet>
+		<display-name>Pattern Ssving And Loading Support</display-name>
+		<servlet-name>PatternServlet</servlet-name>
+		<servlet-class>org.oryxeditor.server.PatternServlet</servlet-class>
+	</servlet>
 
     <!-- Servlet Mappings -->
 <!--	
@@ -710,6 +716,11 @@
 		<url-pattern>/cpntoolsimporter</url-pattern>
 	</servlet-mapping>
 	<!-- Gerardo's Mapping finished -->
+	
+	<servlet-mapping>
+		<servlet-name>PatternServlet</servlet-name>
+		<url-pattern>/pattern</url-pattern>
+	</servlet-mapping>
 	
 
 	<jsp-config>
