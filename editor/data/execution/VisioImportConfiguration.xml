@@ -6,7 +6,8 @@
 	<!-- Properties for the import of Microsoft Visio .vdx files (XML for
 		 Visio) These properties define mappings from specific Visio 2003
 		 stencil set identifiers (nameU attribute of Shape Elements) to BPMN2.0
-		 types. Also in algorithms used heuristics are defined.-->
+		 types. Also in algorithms used heuristics are defined.
+	-->
 
 
 
@@ -112,6 +113,7 @@
 	<entry key="stencilsets.bpmn.OMG09.stencil.End compensate">EndCompensationEvent</entry>
 	<entry key="stencilsets.bpmn.OMG09.stencil.Decision">Exclusive_Databased_Gateway</entry>
 	<entry key="stencilsets.bpmn.OMG09.stencil.Data object">DataObject</entry>
+	<entry key="stencilsets.bpmn.OMG09.stencil.Data Object">DataObject</entry> <!-- found both cases: upper O and lower o -->
 	<entry key="stencilsets.bpmn.OMG09.stencil.Collapsed sub-process">CollapsedSubprocess</entry>
 	<entry key="stencilsets.bpmn.OMG09.stencil.Annotation">TextAnnotation</entry>
 	<entry key="stencilsets.bpmn.OMG09.stencil.Activity looping">Task</entry>
@@ -303,7 +305,7 @@
 	<entry key="oryx.config.bpmn.DefaultLabelProperty">name</entry>
 	
 	<entry key="oryx.config.bpmn.HasContainingShapes">true</entry>
-	<entry key="oryx.config.bpmn.ContainerShapes">Pool,Lane,Subprocess,CollapsedSubprocess</entry>
+	<entry key="oryx.config.bpmn.ContainerShapes">Pool,Lane,Subprocess,CollapsedSubprocess,Task</entry> <!-- a task can't contain everything, but events: attached intermediate -->
 	<entry key="oryx.config.bpmn.NotContainableShapes">Pool,Group</entry>
 	<entry key="oryx.config.bpmn.FromFreeTextInterpretationExcludedStencils">Pool,Lane,Group</entry>
 	
@@ -445,7 +447,7 @@
 	<entry key="heuristics.skipUnknownNameUButWithLabel">false</entry>
 	
 	<!-- EMPTY: Interpretation of unnamed and empty shapes -->
-	<entry key="heuristics.skipUnknownNameUAndWithoutLabel">false</entry>
+	<entry key="heuristics.skipUnknownNameUAndWithoutLabel">true</entry>
 	
 	
 </properties>

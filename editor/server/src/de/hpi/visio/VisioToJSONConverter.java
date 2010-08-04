@@ -3,7 +3,6 @@ package de.hpi.visio;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.json.JSONException;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.JSONBuilder;
 import org.xmappr.Xmappr;
@@ -51,8 +50,7 @@ public class VisioToJSONConverter {
 	private String getJSONForDiagram(Diagram diagram) {
 		try {
 			return JSONBuilder.parseModeltoString(diagram);
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			throw new IllegalStateException(
 					"Wasn't possible to get a json representation " + "of the created diagram.", e);
 		}
