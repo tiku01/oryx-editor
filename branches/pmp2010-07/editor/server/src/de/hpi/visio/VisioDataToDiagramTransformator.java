@@ -48,13 +48,15 @@ public class VisioDataToDiagramTransformator {
 		HeuristicVisioFreeTextInterpreter freeTextInterpreter = new HeuristicVisioFreeTextInterpreter(importUtil, shapeDistanceUtil);
 		Page interpretedPage = freeTextInterpreter.interpretShapes(preparedVisioPage);
 		
+		interpretedPage = removeShapesWithoutStencilId(interpretedPage);
+		
 		HeuristicVisioHugeTaskInterpreter hugeTaskInterpreter = new HeuristicVisioHugeTaskInterpreter(importUtil);
 		Page interpretedPageWithSubprocesses = hugeTaskInterpreter.interpreteHugeTasksAsSubprocesses(interpretedPage);
-		
+				
 		HeuristicVisioEdgeInterpreter edgeInterpreter = new HeuristicVisioEdgeInterpreter(importUtil, shapeDistanceUtil);
 		Page interpretedPageWithEdges = edgeInterpreter.interpretEdges(interpretedPageWithSubprocesses);
 		
-		interpretedPageWithEdges.setShapes(removeShapesWithoutStencilId(interpretedPageWithEdges.getShapes()));
+		interpretedPageWithEdges.setShapes(interpretedPageWithEdges.getShapes());
 		assignShapeIds(interpretedPageWithEdges.getShapes());
 		
 		Diagram diagram = getNewDiagram();
@@ -116,16 +118,17 @@ public class VisioDataToDiagramTransformator {
 		return diagram;
 	}
 
-	private List<Shape> removeShapesWithoutStencilId(List<Shape> shapes) {
+	private Page removeShapesWithoutStencilId(Page page) {
 		List<Shape> shapesWithId = new ArrayList<Shape>();
-		for (Shape shape : shapes) {
+		for (Shape shape : page.getShapes()) {
 			String stencilID = importUtil.getStencilIdForName(shape.getName());
 			if (stencilID != null && !"".equals(stencilID)) {
 				// stencilId is required in oryx json
 				shapesWithId.add(shape);
 			}
 		}
-		return shapesWithId;
+		page.setShapes(shapesWithId);
+		return page;
 	}
 
 	private void assignShapeIds(List<Shape> shapes) {
