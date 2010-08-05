@@ -87,7 +87,7 @@ public class HeuristicVisioFreeTextInterpreter {
 				if (labelThresholdShapeList.get(i).getKey().getLabel() == null || "".equals(labelThresholdShapeList.get(i).getKey().getLabel())) {
 					labelThresholdShapeList.get(i).getKey().setLabel(freeTextShape.getLabel());
 					handled = true;
-					shapeUtil.getDistanceToShapeBorderFromPoint(labelThresholdShapeList.get(4).getKey(), freeTextShape.getCentralPin());
+					shapeUtil.getDistanceToShapeBorderFromPoint(labelThresholdShapeList.get(i).getKey(), freeTextShape.getCentralPin());
 				}
 			}
 		}
