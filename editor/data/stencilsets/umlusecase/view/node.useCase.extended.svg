@@ -6,6 +6,14 @@
    	width="200"
    	height= "120">
    	
+   	<oryx:magnets>
+    	<oryx:magnet oryx:cx="1" oryx:cy="60" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="100" oryx:cy="119" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="199" oryx:cy="60" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="100" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="100" oryx:cy="60" oryx:default="yes" />
+  	</oryx:magnets>
+   	
   	<g
      	oryx:minimumSize="60 30"
      	id="umlUseCaseExtended">
@@ -27,9 +35,10 @@
 			height="28"
 			stroke="none"
 	   		stroke-width="0"
-	   		fill="none"
+	   		fill="blue"
 			oryx:resize="horizontal vertical"/>
 		<line 
+			id="separator"
 			x1="20" 
 			x2="180" 
 			y1="50" 
@@ -50,13 +59,12 @@
 			id="extension_point_text_frame"
 			x="35"
 			y="68"
-			width="160"
+			width="130"
 			height="32"
-			oryx:resize="horizontal vertical"
 			stroke="none"
 	   		stroke-width="0"
-	   		fill="none">
-		</rect>
+	   		fill="blue"
+	   		oryx:resize="horizontal, vertical"/>
 		<text
 			id="text" 
 			font-size="12"  

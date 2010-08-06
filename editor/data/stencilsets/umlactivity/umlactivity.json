@@ -28,11 +28,23 @@
 				}
 			]
 		},
+		{
+			"type": "node",
+			"id":"ActivityRegionCanvas",
+			"title":"ActivityRegionCanvas",
+			"groups":[],
+			"description":"Just For Scripting",
+			"view":"node.activityRegion.canvas.svg",
+			"icon":"node.activityRegion.canvas.png",
+			"roles": ["diagramcontent"],
+			"properties": [],
+			"layout" : [{"type" : "layout.uml.activityRegion"}]
+		},
  		{
 			"type": "node",
 			"id":"umlAction",
 			"title":"Action",
-			"groups":[],
+			"groups":["Actions and Events"],
 			"description":"Action",
 			"view":"node.action.svg",
 			"icon":"node.action.png",
@@ -41,7 +53,8 @@
 				"annotatable",
 				"action",
 				"controlFlowElement",
-				"activityContent"
+				"activityContent",
+				"actionMorph"
 			],
 			"properties": [
 				{
@@ -68,14 +81,14 @@
                     "refToView":"actionrect",
                     "fill":true,
                     "stroke":false
-				},
+				}
 			]
 		},
 		{
 			"type": "node",
 			"id":"umlActivity",
 			"title":"Activity",
-			"groups":[],
+			"groups":["Actions and Events"],
 			"description":"Activity",
 			"view":"node.activity.svg",
 			"icon":"node.activity.png",
@@ -85,7 +98,8 @@
 				"action",
 				"controlFlowElement",
 				"activityContent",
-				"Activity"
+				"Activity",
+				"actionMorph"
 			],
 			"properties": [
 				{
@@ -119,7 +133,7 @@
 			"type": "node",
 			"id":"umlAnd",
 			"title":"And Split/Join",
-			"groups":[],
+			"groups":["Control Flow Nodes"],
 			"description":"And",
 			"view":"node.and.svg",
 			"icon":"node.and.png",
@@ -149,7 +163,7 @@
 			"type": "node",
 			"id":"umlOr",
 			"title":"Or Split/Join",
-			"groups":[],
+			"groups":["Control Flow Nodes"],
 			"description":"Or",
 			"view":"node.or.svg",
 			"icon":"node.or.png",
@@ -192,7 +206,7 @@
 			"type": "node",
 			"id":"umlInitialNode",
 			"title":"Initial Node",
-			"groups":[],
+			"groups":["Start and End"],
 			"description":"Initial Node",
 			"view":"node.initialNode.svg",
 			"icon":"node.initialNode.png",
@@ -221,7 +235,7 @@
 			"type": "node",
 			"id":"umlFlowFinalNode",
 			"title":"Flow Final Node",
-			"groups":[],
+			"groups":["Start and End"],
 			"description":"Flow Final Node",
 			"view":"node.flowFinalNode.svg",
 			"icon":"node.flowFinalNode.png",
@@ -264,7 +278,7 @@
 			"type": "node",
 			"id":"umlActivityFinalNode",
 			"title":"Activity Final Node",
-			"groups":[],
+			"groups":["Start and End"],
 			"description":"Activity Final Node",
 			"view":"node.activityFinalNode.svg",
 			"icon":"node.activityFinalNode.png",
@@ -307,7 +321,7 @@
 			"type": "node",
 			"id":"umlAcObject",
 			"title":"Object",
-			"groups":[],
+			"groups":["Object"],
 			"description":"A System",
 			"view":"node.object.svg",
 			"icon":"node.object.png",
@@ -348,7 +362,7 @@
 			"type": "node",
 			"id":"umlAcReceivingEvent",
 			"title":"Receiving Event",
-			"groups":[],
+			"groups":["Actions and Events"],
 			"description":"A System",
 			"view":"node.event.incoming.svg",
 			"icon":"node.event.incoming.png",
@@ -391,7 +405,7 @@
 			"type": "node",
 			"id":"umlAcSendingEvent",
 			"title":"Sending Event",
-			"groups":[],
+			"groups":["Actions and Events"],
 			"description":"A System",
 			"view":"node.event.outgoing.svg",
 			"icon":"node.event.outgoing.png",
@@ -433,7 +447,7 @@
 			"type": "node",
 			"id":"umlAcTimedEvent",
 			"title":"Timed Event",
-			"groups":[],
+			"groups":["Actions and Events"],
 			"description":"A System",
 			"view":"node.event.timed.svg",
 			"icon":"node.event.timed.png",
@@ -476,7 +490,7 @@
 			"type": "node",
 			"id":"umlAcInterruptableArea",
 			"title":"Interruptable Area",
-			"groups":[],
+			"groups":["Interrupt"],
 			"description":"A System",
 			"view":"node.interruptableArea.svg",
 			"icon":"node.interruptableArea.png",
@@ -518,7 +532,7 @@
 			"type": "node",
 			"id":"umlAcActivityRegion",
 			"title":"Activity Region",
-			"groups":[],
+			"groups":["Activity Region"],
 			"description":"A System",
 			"view":"node.activityRegion.vertical.svg",
 			"icon":"node.activityRegion.vertical.png",
@@ -541,13 +555,14 @@
 					"length":"",
 					"wrapLines":true
                 }
-			]
+			],
+			"layout" : [{"type" : "layout.uml.activityRegion"}]
 		},
 		{
 			"type": "node",
 			"id":"umlAcNote",
 			"title":"Note",
-			"groups":[],
+			"groups":["Annotation"],
 			"description":"A System",
 			"view":"node.note.svg",
 			"icon":"node.note.png",
@@ -597,7 +612,7 @@
 			"type": "edge",
 			"id":"umlAnnotationEdge",
 			"title":"Annotation Edge",
-			"groups":[],
+			"groups":["Annotation"],
 			"description":"Can connect annotatables with annotations.",
 			"view":"edge.annotation.svg",
 			"icon":"edge.annotation.png",
@@ -605,13 +620,13 @@
 				"diagramcontent",
 				"annotatable",
 				"activityContent"
-			],
+			]
 		},
 		{
 			"type": "edge",
-			"id":"umlControlFlow",
+			"id":"controlFlow",
 			"title":"Control Flow",
-			"groups":[],
+			"groups":["Control Flow"],
 			"description":"Can connect control flow elements.",
 			"view":"edge.controlFlow.svg",
 			"icon":"edge.controlFlow.png",
@@ -633,14 +648,14 @@
 					"refToView":"condition",
 					"length":"",
 					"wrapLines":true
-                },
+                }
 			]
 		},
 		{
 			"type": "edge",
 			"id":"umlObjectFlow",
 			"title":"Object Flow",
-			"groups":[],
+			"groups":["Object"],
 			"description":"Can connect objects with actions and the other way round.",
 			"view":"edge.objectFlow.svg",
 			"icon":"edge.objectFlow.png",
@@ -648,13 +663,13 @@
 				"diagramcontent",
 				"annotatable",
 				"activityContent"
-			],
+			]
 		},
 		{
 			"type": "edge",
 			"id":"umlInterrupt",
 			"title":"Interrupt Edge",
-			"groups":[],
+			"groups":["Interrupt"],
 			"description":"Connects Event with action.",
 			"view":"edge.interrupt.svg",
 			"icon":"edge.interrupt.png",
@@ -662,13 +677,20 @@
 				"diagramcontent",
 				"annotatable",
 				"activityContent"
-			],
+			]
 		}
 	],	
 	"rules": {
+	    
+		"morphingRules": [
+			{
+				"role" : "actionMorph",
+				"baseMorphs" : ["umlAction", "umlActivity"]
+			}
+		],
 		"connectionRules": [
 			{
-                "role":"umlControlFlow",
+                "role":"controlFlow",
                 "connects": [
                     {
                         "from":"controlFlowElement",
@@ -728,6 +750,21 @@
 				"contains": [
 					"activityContent"
 				]
+			},
+			{
+				"role":"ActivityRegionCanvas",
+				"contains": [
+					"umlAcActivityRegion"
+				]
+			}			
+		],
+		"layoutRules" : [
+			{
+				"role": "actionMorph",
+				"outs":[{"edgeRole":"controlFlow","t":1, "r":2, "b":1, "l":2},
+						{"t":2,"r":1,"b":2,"l":1}],
+				"ins": [{"edgeRole":"controlFlow","t":1, "r":2, "b":1, "l":2},
+						{"t":2, "r":1, "b":2, "l":1}]
 			}
 		]
 	}
