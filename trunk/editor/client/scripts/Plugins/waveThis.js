@@ -78,7 +78,7 @@ ORYX.Plugins.WaveThis = Clazz.extend({
 			submitForm.method = "POST";
 			win.document.write("</body></html>");
 			win.document.close();
-			submitForm.action= "https://wave.google.com/wave/wavethis";
+			submitForm.action= "https://wave.google.com/wave/wavethis?t=Oryx%20Model%20Export";
 			submitForm.submit();
 		}
 	}

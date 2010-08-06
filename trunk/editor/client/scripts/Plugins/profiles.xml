@@ -34,11 +34,6 @@
 		<plugin name="ORYX.Plugins.Save"/>
 		<plugin name="ORYX.Plugins.ContainerLayouter" />
 		<plugin name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-
-		
-				
-	</profile>
-	<profile name="wave" depends="bpmn2.0" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
 		<plugin name="ORYX.Plugins.WaveThis"/>
 	</profile>
 	<profile name="bpmn" depends="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
