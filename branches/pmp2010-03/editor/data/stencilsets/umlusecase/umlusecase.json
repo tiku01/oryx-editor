@@ -117,7 +117,8 @@
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"actor"
+				"actor",
+				"actorMorph"
 			],
 			"properties": [
 				{
@@ -141,19 +142,7 @@
                     "description":"",
                     "readonly":false,
                     "optional":true
-				},
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"background",
-                    "fill":true,
-                    "stroke":false
-				}
+				}             
 			]
 		},
 		{
@@ -167,7 +156,8 @@
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"actor"
+				"actor",
+				"actorMorph"
 			],
 			"properties": [
 				{
@@ -187,7 +177,7 @@
 					"id":"stereotype",
 					"type":"String",
 					"title":"Stereotype",
-					"value":"<<actor>>",
+					"value":"≪actor≫",
 					"description":"",
 					"tooltip":"",
 					"readonly":true,
@@ -213,7 +203,7 @@
                     "description":"",
                     "readonly":false,
                     "optional":true,
-                    "refToView":"actor",
+                    "refToView":"border",
                     "fill":true,
                     "stroke":false
 				}
@@ -252,7 +242,7 @@
 					"id":"stereotype",
 					"type":"String",
 					"title":"Stereotype",
-					"value":"<<>>",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
@@ -278,7 +268,7 @@
                     "description":"",
                     "readonly":false,
                     "optional":true,
-                    "refToView":"umlSystem",
+                    "refToView":"border",
                     "fill":true,
                     "stroke":false
 				}
@@ -346,7 +336,8 @@
 			"roles": [
 			    "usecase",
 				"systemcontent",
-				"annotatable"
+				"annotatable",
+				"useCaseMorph"
 			],
 			"properties": [
 				{
@@ -396,7 +387,8 @@
 			"roles": [
 			    "usecase",
 				"systemcontent",
-				"annotatable"
+				"annotatable",
+				"useCaseMorph"
 			],
 			"properties": [
 				{
@@ -459,8 +451,10 @@
                     "fill":true,
                     "stroke":false
 				}
-			]
+			],
+			"layout" : [{"type" : "layout.uml.useCaseExtended"}]
 		},
+		
 		{
 			"type": "edge",
 			"id":"umlUcUndirectedAssociation",
@@ -550,7 +544,7 @@
 					"id":"include",
 					"type":"String",
 					"title":"Title",
-					"value":"<<include>>",
+					"value":"≪include≫",
 					"description":"",
 					"tooltip":"",
 					"readonly":true,
@@ -579,7 +573,7 @@
 					"id":"extend",
 					"type":"String",
 					"title":"Title",
-					"value":"<<extend>>",
+					"value":"≪extend≫",
 					"description":"",
 					"tooltip":"",
 					"readonly":true,
@@ -605,6 +599,17 @@
 		},
 	],	
 	"rules": {
+	    
+		"morphingRules": [
+			{
+				"role" : "useCaseMorph",
+				"baseMorphs" : ["umlUseCase", "umlUseCaseExtended"]
+			},
+			{
+				"role" : "actorMorph",
+				"baseMorphs" : ["umlActor", "umlHumanActor"]
+			}
+		],
 		"connectionRules": [
 			{
                 "role":"Association",

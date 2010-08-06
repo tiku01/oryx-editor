@@ -28,11 +28,13 @@
 			markerWidth="40" 
 			markerHeight="21" 
 			orient="auto">
+			<!--
 		  	<path
 		  		d="M 20 20 L 40 20"
 		  		fill="none" 
 		  		stroke="white" 
 		  		stroke-width="2"/>
+		  	-->
 		  	<path 
 		  		d="M 20 20 L 0 0 L 40 20" 
 		  		fill="none" 
@@ -48,7 +50,7 @@
 	</defs>
   	<g id="interruptEdge">
   	<path 
-	 		d="M50 50 L100 50" 
+	 		d="M50 50 L80 50 M 100 50" 
 	 		stroke="black" 
 	 		fill="none" 
 	 		stroke-width="2"

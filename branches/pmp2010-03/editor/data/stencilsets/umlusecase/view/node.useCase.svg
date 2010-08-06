@@ -6,15 +6,11 @@
    	height="50"
    	version="1.0">
    	<oryx:magnets>
-    	<oryx:magnet oryx:cx="0" oryx:cy="10" oryx:anchors="left" />
-
-    	<oryx:magnet oryx:cx="10" oryx:cy="80" oryx:anchors="bottom" />
-
-    	<oryx:magnet oryx:cx="80" oryx:cy="10" oryx:anchors="right" />
-
-    	<oryx:magnet oryx:cx="10" oryx:cy="80" oryx:anchors="top" />
-
-    	<oryx:magnet oryx:cx="40" oryx:cy="40" oryx:default="yes" />
+    	<oryx:magnet oryx:cx="1" oryx:cy="25" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="50" oryx:cy="49" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="99" oryx:cy="25" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="50" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="50" oryx:cy="25" oryx:default="yes" />
   	</oryx:magnets>
   	<g
      	oryx:minimumSize="40 20"

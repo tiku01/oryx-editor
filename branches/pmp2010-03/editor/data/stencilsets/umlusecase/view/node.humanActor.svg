@@ -4,26 +4,22 @@
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	version="1.0">
 	<oryx:magnets>
-    	<oryx:magnet oryx:cx="0" oryx:cy="30" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="0" oryx:cy="45" oryx:anchors="left" />
     	<oryx:magnet oryx:cx="20" oryx:cy="80" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="40" oryx:cy="45" oryx:anchors="right" />
     	<oryx:magnet oryx:cx="20" oryx:cy="0" oryx:anchors="top" />
-    	<oryx:magnet oryx:cx="20" oryx:cy="30" oryx:default="yes" />
+    	<oryx:magnet oryx:cx="20" oryx:cy="45" oryx:default="yes" />
   	</oryx:magnets>
 	<g
-		oryx:minimumSize="20 40"
 		id="humanActor">
-		
 		<rect
 			id="background"
 			x="0"
 			y="0"
 			width="40"
-			height="80"
+			height="93"
 			stroke="none"
-			fill="white"
-			oryx:anchors="top bottom left right"
-			oryx:resize="horizontal vertical" />
+			fill="none"/>
 			
 		<circle
 			id="head"
@@ -32,9 +28,7 @@
 			r = "10"
 			fill="none"
 			stroke="black"
-			stroke-width="2"
-			oryx:anchors="top bottom left right"
-			oryx:resize="horizontal vertical"/>
+			stroke-width="2"/>
 	
 		<line
 			id="body"
@@ -44,8 +38,7 @@
 			y2="50"
 			stroke="black"
 			stroke-width="2"
-			stroke-linecap="round"
-			oryx:resize="horizontal vertical"/>
+			stroke-linecap="round"/>
 		
 		<line 
 			id="arms"
@@ -55,8 +48,7 @@
 			y2="30"
 			stroke="black"
 			stroke-width="2"
-			stroke-linecap="round"
-			oryx:resize="horizontal vertical"/>
+			stroke-linecap="round"/>
 		
 		<line 
 			id="rightleg"
@@ -66,8 +58,7 @@
 			y2="80"
 			stroke="black"
 			stroke-width="2"
-			stroke-linecap="round"
-			oryx:resize="horizontal vertical"/>
+			stroke-linecap="round"/>
 		
 		<line 
 			id="leftleg"
@@ -77,15 +68,14 @@
 			y2="50"
 			stroke="black"
 			stroke-width="2"
-			stroke-linecap="round"
-			oryx:resize="horizontal vertical"/>
+			stroke-linecap="round"/>
 		
 		<text
 			id="text" 
 			font-size="12" 
 			x="20" 
-			y="94" 
-			oryx:align="top center" 
+			y="92" 
+			oryx:align="bottom center" 
 			stroke="black">
 		</text>
 	</g>

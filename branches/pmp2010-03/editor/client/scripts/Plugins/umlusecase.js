@@ -48,11 +48,43 @@ ORYX.Plugins.UMLUseCase =
 	construct: function(facade) {
 		this.facade = facade;
 		this.facade.registerOnEvent('layout.uml.system', this.handleLayoutSystem.bind(this));
+		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtended.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.addStereotypeOnLoad.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
+	},
+	
+	handleUseCaseExtended : function(event) {
+		var shape= event.shape;
+		
+		alert("hello");
+		
 	},
 	
 	
+	
 	/**
-	 * Resizes the qualifier box of a qualified association according to its content.
+	 * Anpassen
+	 */
+	addStereotypeOnLoad : function(event) {
+		this.facade.getCanvas().nodes.each(function(shape){
+			if (shape._stencil.id().endsWith("umlUcSystem")) {
+				this.addStereotype(shape);
+			}
+		}.bind(this));
+	},
+	
+	handlePropertyChanged : function(event) {
+		var shape = event.elements.first();
+		alert(shape.id);
+		alert(shape._stencil.id());
+		if (shape._stencil.id().endsWith("umlUcSystem"))
+			alert("treffer");
+		if (event["key"] == "oryx-stereotype") {
+			this.addStereotype(shape);
+		}
+	},
+	/**
+	 * Anpassen
 	 */
 	handleLayoutSystem : function(event) {
 		var shape = event.shape;
@@ -68,8 +100,19 @@ ORYX.Plugins.UMLUseCase =
 		}else{
 			title.y = stereotype.y+14;
 			stereotype.show();
+			this.addStereotype(event.shape);
 		}
 	},
+	/**
+	 * Anpassen
+	 */
+	addStereotype : function(shape) {
+		var stereotype = shape.getLabels().find(
+					function(label) { return label.id == (shape.id + "stereotype") }
+				);
+		stereotype.text("≪" + shape.properties["oryx-stereotype"] + "≫");
+		stereotype.update();
+	}
 };
 
 ORYX.Plugins.UMLUseCase = Clazz.extend(ORYX.Plugins.UMLUseCase);
