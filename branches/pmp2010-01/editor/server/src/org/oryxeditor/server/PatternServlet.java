@@ -25,20 +25,36 @@ public class PatternServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		boolean delete = new Boolean(req.getParameter("delete"));
+		boolean modify = new Boolean(req.getParameter("modify"));
 		
 		if (delete) {
 			deletePattern(req, resp);
+		} else if (modify) {
+			modifyPatternDescription(req, resp);
 		} else {
 			saveNewPattern(req, resp);
 		}
 	}
 	
-	private void saveNewPattern(HttpServletRequest req, HttpServletResponse resp) {
-		String serPattern = req.getParameter("serPattern");
+	private void modifyPatternDescription(HttpServletRequest req,
+			HttpServletResponse resp) {
+		int id = new Integer(req.getParameter("id"));
+		String desc = req.getParameter("description");
 		String ssNameSpace = req.getParameter("ssNameSpace");
 		
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		repos.saveNewPattern(serPattern);
+		if (repos.changePatternDescription(id, desc) == null){
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);			
+		}
+	}
+
+	private void saveNewPattern(HttpServletRequest req, HttpServletResponse resp) {
+		String serPattern = req.getParameter("serPattern");
+		String ssNameSpace = req.getParameter("ssNameSpace");
+		String description = req.getParameter("description");
+		
+		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
+		repos.saveNewPattern(serPattern, description);
 		
 	}
 
@@ -52,24 +68,6 @@ public class PatternServlet extends HttpServlet {
 		repos.deletePattern(id);		
 	}
 
-	/**
-	 * just for testing purposes
-	 * TODO delete!
-	 */
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String serPattern = req.getParameter("serPattern");
-		String ssNameSpace = req.getParameter("ssNameSpace");
-		resp.getWriter().println("Sie haben '" + serPattern + "' als Pattern eingegeben.");
-		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		
-		int id = repos.saveNewPattern(serPattern);
-		
-		resp.getWriter().println(id);
-		
-		
-	}
 	
 	/**
 	 * Expects parameter ssNameSpace for the patterns of the desired namespace
@@ -81,6 +79,9 @@ public class PatternServlet extends HttpServlet {
 		String ssNameSpace = req.getParameter("ssNameSpace");
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
 		List<Pattern> patternList = repos.getPatterns();
+		
+		resp.setContentType("application/json");
+		
 		resp.getWriter().print(patternsToJson(patternList));
 	}
 
@@ -90,12 +91,7 @@ public class PatternServlet extends HttpServlet {
 		ListIterator<Pattern> it = patternList.listIterator();
 		
 		while(it.hasNext()) {
-			Pattern p = it.next();
-			
-			result += "{'id': " + p.getId() + ", ";
-			result += "'serPattern': '" + p.getSerPattern() + "', ";
-			result += "'imageUrl': '" + p.getImageUrl() + "'}";
-			
+			result += it.next().toJSONString();			
 			if (it.hasNext()) result += ", ";
 		}
 		

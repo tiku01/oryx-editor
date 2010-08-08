@@ -1,7 +1,28 @@
-//insert legal disclaimer!
+/**
+ * Copyright (c) 2010
+ * Kai Höwelmeyer
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ **/
 
 if(!ORYX.Plugins)
-	ORYX.Plugins = new Object();
+	ORYX.Plugins = {};
 	
 ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	
@@ -19,10 +40,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this._canContain = undefined;
 		this._canAttach = undefined;
 		
-		//test REMOVE
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
 		
-		//adding of "capture as pattern"-func   //I18N
+		//adding of "capture as pattern"-func   // TODO I18N
 		this.facade.offer({
 			name: "Selection as pattern",
 			functionality: this.selAsPattern.bind(this),
@@ -32,7 +52,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			icon: ORYX.PATH + "images/pattern_add.png"
 		});
 		
-		//create rootNode for patternrepository   //I18N
+		//create rootNode for patternrepository   // TODO I18N
 		this.patternRoot = new Ext.tree.TreeNode({
 			cls: 'headerShapeRep',
 			text: "Patterns",
@@ -68,8 +88,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		this.createPatternButton();
 		
-		//register on reload event for stencil sets! don't forget that!
-	
+		//TODO register on reload event for stencil sets! don't forget that!
+		this.loadAllPattern();
 		
 	},
 	
@@ -131,7 +151,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		var selection = this.facade.getSelection();
 		
 		//get bounds of selection
-		var bounds = undefined;
+		var bounds = null;
 		selection.each(function(shape) {
 			if(!bounds) {
 				bounds = shape.absoluteBounds();
@@ -197,24 +217,55 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		}.bind(this));
 		*/
 		
-		this.addPatternNode(jsonSel);	
+		this.addNewPattern(jsonSel);	
+		
+	},
+	
+	loadAllPattern: function() {
+		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes.bind(this)); //TODO initialize only one of the repos and make actually update possible!
 		
 	},
 	
 	/**
-	* Add the nodes for the patterns of the current stencilset to the pattern repository
+	* Adds a new pattern to the server for current stencilset and adds pattern node in pattern repository
 	*/
-	addPatternNode: function(serPattern) {
+	addNewPattern: function(serPattern) {
+		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+		var opt = {
+			serPattern: serPattern,
+			description: "New Pattern",
+			imageUrl: undefined,
+			id: undefined,
+			ssNameSpace: ssNameSpace
+		};
+		var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
+		
+		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes);
+		
+		repos.saveNewPattern(pattern);
+	},
+	
+	addPatternNodes: function(patternArray) {
+		patternArray.each(function(pattern){
+			this.addPatternNode(pattern);
+		}.bind(this));
+	},
+	
+	/**
+	* Add the nodes for the supplied pattern to pattern repository
+	*/
+	addPatternNode: function(pattern) {
 		//add the pattern subnode
 		var newNode = new Ext.tree.TreeNode({
 			leaf: true,
-			text: "New Pattern",  //I18N
+			text: pattern.description,  
 			iconCls: 'ShapeRepEntreeImg',
 			cls: 'ShapeRepEntree',
 			icon:  ORYX.PATH + "images/pattern_add.png",
 			allowDrag: false,
 			allowDrop: false,
-			attributes: serPattern
+			attributes: pattern
 		});
 		
 		this.patternRoot.appendChild(newNode);
@@ -231,15 +282,23 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			node: ui.node,
 			handles: [ui.elNode, ui.textNode].concat($A(ui.elNode.childNodes)), //has one undefined element! fix that!
 			isHandle: false,
-			type: "and-split"
+			type: "and-split" //this does not make sense!
 		});
 		
 		//make node editable
-		var treeEditor = new Ext.tree.TreeEditor(this.patternPanel);
+		var treeEditor = new Ext.tree.TreeEditor(this.patternPanel, {
+			constrain: true, //constrains editor to the viewport
+			completeOnEnter: true,
+			editDelay: 500, //number of max ms between to clicks of double click
+			ignoreNoChange: true
+		});
+		
+		treeEditor.on("beforecomplete", this.beforeComplete.bind(this));
+
 		this.patternPanel.on({
 			scope : this,
 			//beforeclick : this.beforeNodeClick.curry(treeEditor),
-			dblclick : this.onNodeDblClick.bind(this, treeEditor)
+			dblclick : this.onNodeDblClick.bind(this, treeEditor) //TODO fix after editing description has to be changed as well!
 		});
 		
 		this.patternRoot.expand();	
@@ -247,7 +306,12 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	
 	onNodeDblClick : function(treeEditor, node, e) {
 		e.stopEvent(); //why?
-		treeEditor.startEdit(node.ui.textNode);
+		treeEditor.triggerEdit(node);
+	},
+	
+	beforeComplete: function(editor, value, startValue) {
+		var pattern = editor.editNode.attributes.attributes;
+		return pattern.setDescription(value);
 	},
 	
 	afterDragDrop: function(dragZone, target, event, id) {
@@ -268,7 +332,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		//if(!this._currentParent) {return;}
 				
 		//save it elsewhere!
-		var templatePatternShapes = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes;
+		var templatePatternShapes = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes.serPattern;
 		
 		//renew resourceIds
 		var patternShapes = this.renewResourceIds(templatePatternShapes);
@@ -295,7 +359,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var centralPoint = this.findCentralPoint(patternShapes);
 		
-		var patternShapes = this.transformPattern(patternShapes, centralPoint, pos);
+		patternShapes = this.transformPattern(patternShapes, centralPoint, pos);
 		
 		var commandClass = ORYX.Core.Command.extend({
 			construct : function(patternShapes, facade, centralPoint, pos, plugin){
@@ -362,7 +426,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		var transVector = {
 			x : newPos.x - oldPos.x,
 			y : newPos.y - oldPos.y
-		}
+		};
 		
 		
 		//recursively change the position		
@@ -400,7 +464,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	
 	findCentralPoint: function(shapeArray) {
 		
-		if(shapeArray.size() == 0) return;
+		if(shapeArray.size() === 0) return;
 		
 		var initBounds = new ORYX.Core.Bounds(shapeArray[0].bounds.upperLeft, shapeArray[0].bounds.lowerRight);
 		
@@ -556,13 +620,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
             return shapes.collect(function(shape){
                 return collectResourceIds(shape.childShapes).concat(shape.resourceId);
             }).flatten();
-        }
+        };
         var resourceIds = collectResourceIds(jsonObjectArray);
 
         // Replace each resource id by a new one
         resourceIds.each(function(oldResourceId){
             var newResourceId = ORYX.Editor.provideId();
-            serJsonObjectArray = serJsonObjectArray.gsub('"'+oldResourceId+'"', '"'+newResourceId+'"')
+            serJsonObjectArray = serJsonObjectArray.gsub('"'+oldResourceId+'"', '"'+newResourceId+'"');
         });
 
         return Ext.decode(serJsonObjectArray);
@@ -605,4 +669,143 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		return result;
 	}
 
+});
+
+ORYX.Plugins.Patterns.Pattern = Clazz.extend({
+	serPattern : undefined,
+	id : undefined,
+	imageUrl : undefined,
+	description : undefined,
+	ssNameSpace: undefined,
+	
+	construct: function(opt) {
+		if(opt.serPattern != null) this.serPattern = opt.serPattern;
+		if(opt.id != null) this.id = opt.id;
+		if(opt.imageUrl != null) this.imageUrl = opt.imageUrl;
+		if(opt.description != null) this.description = opt.description;
+		if(ssNameSpace != null) this.ssNameSpace = opt.ssNameSpace;
+	},
+	
+	setDescription: function(desc) {
+		var params = {
+			modify: true,
+			ssNameSpace: this.ssNameSpace,
+			id: this.id,
+			description: desc
+		};
+		return this._sendRequest("POST", params);
+	},
+	
+	//Dopplung!
+	_sendRequest: function( method, params, successcallback, failedcallback ){
+
+		var suc = false;
+
+		new Ajax.Request(
+		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed
+		{
+           method			: method,
+           asynchronous		: false, 
+           parameters		: params,
+		   onSuccess		: function(transport) 
+		   {
+				suc = true;
+		
+				if(successcallback)
+				{
+					successcallback( transport.responseText.evalJSON(true) );	
+				}
+		
+		   }.bind(this),
+		   onFailure		: function(transport) 
+		   {
+				if(failedcallback)
+				{							
+					failedcallback();							
+				} 
+				else 
+				{
+					//this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+					ORYX.log.warn("Communication failed: " + transport.responseText);	
+				}					
+		   }.bind(this)		
+		});
+		
+		return suc;		
+	}
+	
+});
+
+ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
+	patternList : [],
+	ssNameSpace : undefined,
+	onUpdate : function(patternArray){}, //will be called, when new pattern are available
+	
+	construct: function(ssNameSpace, onUpdate) {
+		this.ssNameSpace = ssNameSpace;
+		this.loadPattern();
+		this.onUpdate = onUpdate;
+	},
+	
+	loadPattern: function() {
+		this._sendRequest("GET", {ssNameSpace: this.ssNameSpace}, function(resp) {
+			resp.each(function(opt) {
+				var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
+				pattern.ssNameSpace = this.ssNameSpace;
+				this.patternList.push(pattern);
+			}.bind(this));
+			this.onUpdate(this.patternList);
+		}.bind(this));
+	},
+	
+	getPatterns: function() {
+		return this.patternList;
+	},
+	
+	saveNewPattern: function(pattern) {
+		var params = {
+			description: pattern.description,
+			serPattern: pattern.serPattern,
+			ssNameSpace: pattern.ssNameSpace
+		};
+		
+		this._sendRequest("POST", params); //TODO reflect failed add with removing the node??
+	},
+	
+	_sendRequest: function( method, params, successcallback, failedcallback ){
+
+		var suc = false;
+
+		new Ajax.Request(
+		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed
+		{
+           method			: method,
+           asynchronous		: true, 
+           parameters		: params,
+		   onSuccess		: function(transport) 
+		   {
+				suc = true;
+		
+				if(successcallback)
+				{
+					successcallback( transport.responseText.evalJSON(true) );	
+				}
+		
+		   }.bind(this),
+		   onFailure		: function(transport) 
+		   {
+				if(failedcallback)
+				{							
+					failedcallback();							
+				} 
+				else 
+				{
+					//this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+					ORYX.log.warn("Communication failed: " + transport.responseText);	
+				}					
+		   }.bind(this)		
+		});
+		
+		return suc;		
+	}
 });

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.hpi.pattern.PatternPersistanceProvider;
-
 /**
- * Stores pattern in a simple file per stencilset. Not safe for multiple user interface, 
- * because Dirty Reads, Non-repeatable reads and alikes are all possible and not prevented.
+ * Stores pattern serialized in a simple file per stencilset. Not safe for multiple user environment, 
+ * because Dirty Reads, Non-repeatable reads and alike are all possible and not prevented.
  * This is a transitional implementation until database support is implemented.
  * 
  * @author Kai Höwelmeyer <kai.hoewelmeyer@student.hpi.uni-potsdam.de>
@@ -27,14 +24,12 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	
 	private final String ssNameSpace;
 	private File patternFile;
-	private final String baseDir;
 	private ArrayList<Pattern> patternList = new ArrayList<Pattern>();
 	
 	@SuppressWarnings("unchecked")
 	public PatternFilePersistance(String ssNameSpace, String baseDir) {
 		this.ssNameSpace = ssNameSpace;
-		this.baseDir = baseDir;
-		this.patternFile = new File(baseDir + "/" + this.ssNameSpace + ".patternStore");
+		this.patternFile = new File(baseDir + "/" + this.ssNameSpace.hashCode() + ".patternStore");
 		
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
@@ -42,10 +37,12 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			fis = new FileInputStream(this.patternFile);
 			ois = new ObjectInputStream(fis);
 			this.patternList = (ArrayList<Pattern>) ois.readObject();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (FileNotFoundException e) {
+			// do nothing
+		} catch (Exception e) { //TODO handle it better!
 			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			try {
 				if (ois != null) ois.close();
 				if (fis != null) fis.close();
@@ -81,13 +78,13 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	}
 
 	@Override
-	public int saveNewPattern(String serializedPattern) {
+	public Pattern saveNewPattern(String serializedPattern, String description) {
 		int id = generateId();
 		String imageUrl = generateImage(id, serializedPattern);
-		Pattern newPattern = new Pattern(id, serializedPattern, imageUrl);
+		Pattern newPattern = new Pattern(id, serializedPattern, imageUrl, description);
 		this.patternList.add(newPattern);
 		commit();
-		return id;
+		return newPattern;
 	}
 	
 	private String generateImage(int id, String serializedPattern) {
@@ -100,7 +97,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	}
 
 	public void commit() {
-		
+		//TODO maybe delete file before rewriting it?
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		
@@ -133,4 +130,19 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 		return this.patternList;
 	}
 
+	@Override
+	public Pattern changePatternDescription(int id, String newDescription) {
+		ListIterator<Pattern> it = this.getPatterns().listIterator();
+		
+		while(it.hasNext()) {
+			Pattern p = it.next();
+			if (p.getId() == id){
+				p.setDescription(newDescription);
+				this.commit();
+				return p;
+			}
+		}
+		
+		return null;
+	}
 }

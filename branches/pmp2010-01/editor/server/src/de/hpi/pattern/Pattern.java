@@ -2,7 +2,9 @@ package de.hpi.pattern;
 
 import java.io.Serializable;
 
-public class Pattern implements Serializable{
+import org.json.JSONString;
+
+public class Pattern implements Serializable, JSONString {
 	/**
 	 * Generated serialVersionUID
 	 */
@@ -11,11 +13,13 @@ public class Pattern implements Serializable{
 	private final String serPattern;
 	private final int id;
 	private final String imageUrl;
+	private String description;
 	
-	public Pattern(int id, String serPattern, String imageUrl) {
+	public Pattern(int id, String serPattern, String imageUrl, String description) {
 		this.id = id;
 		this.serPattern = serPattern;
 		this.imageUrl = imageUrl;
+		this.description = description;
 	}
 	
 	public String getSerPattern() {
@@ -26,5 +30,21 @@ public class Pattern implements Serializable{
 	}
 	public String getImageUrl() {
 		return imageUrl;
+	}
+
+	@Override
+	public String toJSONString() {
+		return 	"{\"id\": " + this.getId() + ", " +
+				"\"serPattern\": \"" + this.getSerPattern() + "\", " +
+				"\"imageUrl\": \"" + this.getImageUrl() + "\", " +
+				"\"description\": \"" + this.getDescription() + "\"}";
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
