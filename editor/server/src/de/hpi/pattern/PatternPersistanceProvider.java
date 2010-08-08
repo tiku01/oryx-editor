@@ -11,7 +11,7 @@ public interface PatternPersistanceProvider {
 	 * @param serializedPattern
 	 * @return the id of the pattern
 	 */
-	public int saveNewPattern(String serializedPattern);
+	public Pattern saveNewPattern(String serializedPattern, String description);
 	
 	/**
 	 * return the save pattern with the given id
@@ -33,4 +33,12 @@ public interface PatternPersistanceProvider {
 	 * @return list of patterns
 	 */
 	public List<Pattern> getPatterns();
+	
+	/**
+	 * Changes the description of the pattern matching the supplied id
+	 * @param id Id of the pattern to be changed
+	 * @param newDescription Description that substitutes the old description
+	 * @return the changed pattern or null if the pattern is not found
+	 */
+	public Pattern changePatternDescription(int id, String newDescription);
 }
