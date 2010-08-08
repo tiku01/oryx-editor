@@ -224,6 +224,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	loadAllPattern: function() {
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
 		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes.bind(this)); //TODO initialize only one of the repos and make actually update possible!
+		repos.loadPattern();
 		
 	},
 	
@@ -231,19 +232,21 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	* Adds a new pattern to the server for current stencilset and adds pattern node in pattern repository
 	*/
 	addNewPattern: function(serPattern) {
-		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+		
 		var opt = {
 			serPattern: serPattern,
 			description: "New Pattern",
 			imageUrl: undefined,
-			id: undefined,
-			ssNameSpace: ssNameSpace
+			id: undefined
 		};
+		
 		var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 		
 		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes);
 		
-		repos.saveNewPattern(pattern);
+		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+		
+		repos.saveNewPattern(pattern, ssNameSpace); //TODO take the new pattern with filled id, etc...
 	},
 	
 	addPatternNodes: function(patternArray) {
@@ -332,7 +335,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		//if(!this._currentParent) {return;}
 				
 		//save it elsewhere!
-		var templatePatternShapes = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes.serPattern;
+		var templatePatternShapesSer = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes.serPattern;
+		var templatePatternShapes = Ext.decode(templatePatternShapesSer);
 		
 		//renew resourceIds
 		var patternShapes = this.renewResourceIds(templatePatternShapes);
@@ -683,7 +687,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 		if(opt.id != null) this.id = opt.id;
 		if(opt.imageUrl != null) this.imageUrl = opt.imageUrl;
 		if(opt.description != null) this.description = opt.description;
-		if(ssNameSpace != null) this.ssNameSpace = opt.ssNameSpace;
+		if(opt.ssNameSpace != null) this.ssNameSpace = opt.ssNameSpace;
 	},
 	
 	setDescription: function(desc) {
@@ -743,13 +747,13 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 	
 	construct: function(ssNameSpace, onUpdate) {
 		this.ssNameSpace = ssNameSpace;
-		this.loadPattern();
 		this.onUpdate = onUpdate;
 	},
 	
 	loadPattern: function() {
 		this._sendRequest("GET", {ssNameSpace: this.ssNameSpace}, function(resp) {
-			resp.each(function(opt) {
+			var patterns = Ext.decode(resp);
+			patterns.each(function(opt) {
 				var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 				pattern.ssNameSpace = this.ssNameSpace;
 				this.patternList.push(pattern);
@@ -762,14 +766,15 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		return this.patternList;
 	},
 	
-	saveNewPattern: function(pattern) {
+	saveNewPattern: function(pattern, ssNameSpace) {
 		var params = {
-			description: pattern.description,
-			serPattern: pattern.serPattern,
-			ssNameSpace: pattern.ssNameSpace
+			pattern: Ext.encode(pattern),
+			ssNameSpace: ssNameSpace
 		};
 		
-		this._sendRequest("POST", params); //TODO reflect failed add with removing the node??
+		this._sendRequest("POST", params, function(resp){
+			//TODO adding of the node!!!
+		}); //TODO reflect failed add with removing the node??
 	},
 	
 	_sendRequest: function( method, params, successcallback, failedcallback ){
@@ -788,7 +793,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		
 				if(successcallback)
 				{
-					successcallback( transport.responseText.evalJSON(true) );	
+					successcallback( transport.responseText );	
 				}
 		
 		   }.bind(this),

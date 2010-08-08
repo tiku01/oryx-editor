@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.json.JSONArray;
+import org.json.JSONString;
+
 /**
  * Stores pattern serialized in a simple file per stencilset. Not safe for multiple user environment, 
  * because Dirty Reads, Non-repeatable reads and alike are all possible and not prevented.
@@ -19,7 +22,7 @@ import java.util.ListIterator;
  * @author Kai Höwelmeyer <kai.hoewelmeyer@student.hpi.uni-potsdam.de>
  *
  */
-public class PatternFilePersistance implements PatternPersistanceProvider {
+public class PatternFilePersistance implements PatternPersistanceProvider, JSONString {
 	private static int patternId = 0;
 	
 	private final String ssNameSpace;
@@ -31,6 +34,18 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 		this.ssNameSpace = ssNameSpace;
 		this.patternFile = new File(baseDir + "/" + this.ssNameSpace.hashCode() + ".patternStore");
 		
+		this.loadPattern();
+		this.correctPatternRepos();
+	}
+
+	private void correctPatternRepos() {
+		ListIterator<Pattern> it = this.patternList.listIterator();
+		while(it.hasNext()) {
+			it.next().setRepos(this);
+		}		
+	}
+
+	private void loadPattern() {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
@@ -41,8 +56,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			// do nothing
 		} catch (Exception e) { //TODO handle it better!
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			try {
 				if (ois != null) ois.close();
 				if (fis != null) fis.close();
@@ -54,11 +68,11 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	}
 	
 	@Override
-	public void deletePattern(int id) {
+	public void deletePattern(Pattern p) {
 		ListIterator<Pattern> it = this.patternList.listIterator();
 		while(it.hasNext()) {
-			Pattern p = it.next();
-			if(p.getId() == id) {
+			Pattern currentPattern = it.next();
+			if(currentPattern.getId() == p.getId()) { //TODO implement equals
 				it.remove();
 				break;
 			}
@@ -78,23 +92,43 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	}
 
 	@Override
-	public Pattern saveNewPattern(String serializedPattern, String description) {
-		int id = generateId();
-		String imageUrl = generateImage(id, serializedPattern);
-		Pattern newPattern = new Pattern(id, serializedPattern, imageUrl, description);
-		this.patternList.add(newPattern);
-		commit();
-		return newPattern;
+	public Pattern setPattern(Pattern p) {
+		if (p.isNew()) {
+			return this.addPattern(p);
+		} else {
+			return this.replacePattern(p); 
+		}
 	}
 	
+	private Pattern addPattern(Pattern p) {
+		this.patternList.add(p); //TODO clone to prevent influence from outside
+		p.setRepos(this);
+		this.commit();
+		return p;
+	}
+
+	private Pattern replacePattern(Pattern p) {
+		
+		ListIterator<Pattern> it = this.patternList.listIterator();
+		
+		while(it.hasNext()){
+			Pattern currentPattern = it.next();
+			if (currentPattern.getId() == p.getId()) { //implement equals in pattern
+				it.set(p);
+				p.setRepos(this);
+				this.commit();
+				break;
+			}
+		}
+		return p;
+		
+	}
+
 	private String generateImage(int id, String serializedPattern) {
 		// TODO Auto-generated method stub
 		return "/fakeimage.png";
 	}
 
-	private int generateId() {
-		return PatternFilePersistance.newPatternId();
-	}
 
 	public void commit() {
 		//TODO maybe delete file before rewriting it?
@@ -126,23 +160,19 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	}
 
 	@Override
-	public List<Pattern> getPatterns() {
+	public List<Pattern> getAll() {
 		return this.patternList;
 	}
 
 	@Override
-	public Pattern changePatternDescription(int id, String newDescription) {
-		ListIterator<Pattern> it = this.getPatterns().listIterator();
+	public String toJSONString() {
+		JSONArray ja = new JSONArray();
 		
+		ListIterator<Pattern> it = this.patternList.listIterator();
 		while(it.hasNext()) {
-			Pattern p = it.next();
-			if (p.getId() == id){
-				p.setDescription(newDescription);
-				this.commit();
-				return p;
-			}
+			ja.put(it.next().toJSONObject());
 		}
 		
-		return null;
+		return ja.toString();
 	}
 }

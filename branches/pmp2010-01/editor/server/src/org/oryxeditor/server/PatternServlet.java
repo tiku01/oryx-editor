@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import de.hpi.pattern.Pattern;
 import de.hpi.pattern.PatternFilePersistance;
 import de.hpi.pattern.PatternPersistanceProvider;
@@ -25,47 +27,30 @@ public class PatternServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		boolean delete = new Boolean(req.getParameter("delete"));
-		boolean modify = new Boolean(req.getParameter("modify"));
+		
+		String patternJSON = req.getParameter("pattern"); //TODO catch non existent parameter
+		Pattern pattern = Pattern.fromJSON(patternJSON);
+		
+		String ssNameSpace = req.getParameter("ssNameSpace");
 		
 		if (delete) {
-			deletePattern(req, resp);
-		} else if (modify) {
-			modifyPatternDescription(req, resp);
+			deletePattern(pattern, ssNameSpace);
 		} else {
-			saveNewPattern(req, resp);
-		}
-	}
-	
-	private void modifyPatternDescription(HttpServletRequest req,
-			HttpServletResponse resp) {
-		int id = new Integer(req.getParameter("id"));
-		String desc = req.getParameter("description");
-		String ssNameSpace = req.getParameter("ssNameSpace");
-		
-		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		if (repos.changePatternDescription(id, desc) == null){
-			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);			
+			resp.getWriter().println(this.savePattern(pattern, ssNameSpace).toJSONString());
 		}
 	}
 
-	private void saveNewPattern(HttpServletRequest req, HttpServletResponse resp) {
-		String serPattern = req.getParameter("serPattern");
-		String ssNameSpace = req.getParameter("ssNameSpace");
-		String description = req.getParameter("description");
+	private Pattern savePattern(Pattern p, String ssNameSpace) {
 		
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		repos.saveNewPattern(serPattern, description);
+		Pattern result = repos.setPattern(p);
 		
+		return result;
 	}
 
-	private void deletePattern(HttpServletRequest req, HttpServletResponse resp) {
-		String idString = req.getParameter("id");
-		//TODO get wrong number and parse error! Return appropriate error code!
-		int id = idString != null ? new Integer(req.getParameter("id")) : null;
-		String ssNameSpace = req.getParameter("ssNameSpace");
-		
+	private void deletePattern(Pattern p, String ssNameSpace) {
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		repos.deletePattern(id);		
+		repos.deletePattern(p);		
 	}
 
 	
@@ -78,7 +63,7 @@ public class PatternServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String ssNameSpace = req.getParameter("ssNameSpace");
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		List<Pattern> patternList = repos.getPatterns();
+		List<Pattern> patternList = repos.getAll();
 		
 		resp.setContentType("application/json");
 		

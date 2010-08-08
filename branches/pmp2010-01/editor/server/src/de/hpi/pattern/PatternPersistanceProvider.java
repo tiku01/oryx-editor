@@ -11,7 +11,7 @@ public interface PatternPersistanceProvider {
 	 * @param serializedPattern
 	 * @return the id of the pattern
 	 */
-	public Pattern saveNewPattern(String serializedPattern, String description);
+	public Pattern setPattern(Pattern p);
 	
 	/**
 	 * return the save pattern with the given id
@@ -24,21 +24,13 @@ public interface PatternPersistanceProvider {
 	
 	/**
 	 * deletes the specified pattern
-	 * @param id
+	 * @param p
 	 */
-	public void deletePattern(int id);
+	public void deletePattern(Pattern p);
 	
 	/**
 	 * returns all patterns for the stencilset
 	 * @return list of patterns
 	 */
-	public List<Pattern> getPatterns();
-	
-	/**
-	 * Changes the description of the pattern matching the supplied id
-	 * @param id Id of the pattern to be changed
-	 * @param newDescription Description that substitutes the old description
-	 * @return the changed pattern or null if the pattern is not found
-	 */
-	public Pattern changePatternDescription(int id, String newDescription);
+	public List<Pattern> getAll();
 }
