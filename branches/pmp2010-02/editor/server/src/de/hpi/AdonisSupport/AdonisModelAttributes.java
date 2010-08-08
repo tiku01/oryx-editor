@@ -11,13 +11,11 @@ import org.xmappr.RootElement;
 
 @RootElement("MODELATTRIBUTES")
 public class AdonisModelAttributes extends XMLConvertible{
-
 	
-	
-	@Element(name="ATTRIBUTE")//, targetType=AdonisAttribute.class)
+	@Element(name="ATTRIBUTE")
 	protected ArrayList<AdonisAttribute> attribute;
 	
-	@Element(name="RECORD")//, targetType=AdonisRecord.class)
+	@Element(name="RECORD")
 	protected ArrayList<AdonisRecord> record;
 	
 	public ArrayList<AdonisAttribute> getAttribute(){

@@ -15,6 +15,11 @@ import org.xmappr.RootElement;
 
 @RootElement("RECORD")
 public class AdonisRecord extends XMLConvertible {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9006289053085606498L;
+
 	@Attribute("name")
 	protected String name;
 	

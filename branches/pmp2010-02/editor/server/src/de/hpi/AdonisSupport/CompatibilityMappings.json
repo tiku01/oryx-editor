@@ -43,54 +43,63 @@
 			"language":"en"
 		},
 		"performance": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":3.26,
 			"h":1.40
 		},
 		"process": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":3.25,
 			"h":1.40
 		},
 		"aggregation": {
+			"type":"node",
 			"offsetPercentageX":"0",
 			"offsetPercentageY":"0",
 			"w":6.00,
 			"h":9.00
 		},
 		"actor": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":1.20,
 			"h":1.75
 		},
 		"external partner": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":1.00,
 			"h":1.39
 		},
 		"performance indicator": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":1.40,
 			"h":1.40
 		},
 		"performance indicator overview": {
+			"type":"node",
 			"offsetPercentageX":"66",
 			"offsetPercentageY":"50",
 			"w":0.50,
 			"h":0.60
 		},
 		"cross reference": {
+			"type":"node",
 			"offsetPercentageX":"50",
 			"offsetPercentageY":"50",
 			"w":3.30,
 			"h":1.00
 		},
 		"note": {
+			"type":"node",
 			"offsetPercentageX":"0",
 			"offsetPercentageY":"0",
 			"w":4.50,
