@@ -28,8 +28,9 @@ import org.xmappr.RootElement;
 
 @RootElement("MODEL")
 public class AdonisModel extends AdonisStencil{
-	@Attribute(name="id")
-	protected String id;
+	private static final long serialVersionUID = 4319867261926641608L;
+	
+	
 	@Attribute("name")
 	protected String name;
 	@Attribute("version")
@@ -40,37 +41,49 @@ public class AdonisModel extends AdonisStencil{
 	protected String libtype = "bp";
 	@Attribute("applib")
 	protected String applib = "ADONIS:CE BPMS BP Library";
-		
-
-	
 	@Element(name="MODELATTRIBUTES")
 	protected AdonisModelAttributes modelAttributes;
-	
 	@Element(name="INSTANCE")
 	protected ArrayList<AdonisInstance> instance;
-		
 	@Element(name="CONNECTOR")
 	protected ArrayList<AdonisConnector> connector;
 	
-//	public String children;
+	protected int indexCounter = 0;
 	
-	public String getId(){return id;}
-	public void setId(String newId){id = newId;}
+	public void setName(String value){
+		name = value;
+	}
+	public String getName(){
+		return name;
+	}
 	
-	public void setName(String value){name = value;}
-	public String getName(){return name;}
+	public void setVersion(String value){
+		version = value;
+	}
+	public String getVersion(){
+		return version;
+	}
 	
-	public void setVersion(String value){version = value;}
-	public String getVersion(){return version;}
+	public void setModeltype(String value){
+		modeltype = value;
+	}
+	public String getModeltype(){
+		return modeltype;
+	}
 	
-	public void setModeltype(String value){modeltype = value;}
-	public String getModeltype(){return modeltype;}
+	public void setLibtype(String value){
+		libtype = value;
+	}
+	public String getLibtype(){
+		return libtype;
+	}
 	
-	public void setLibtype(String value){libtype = value;}
-	public String getLibtype(){return libtype;}
-	
-	public void setApplib(String value){applib = value;}
-	public String getApplib(){return applib;}
+	public void setApplib(String value){
+		applib = value;
+	}
+	public String getApplib(){
+		return applib;
+	}
 	
 	public AdonisModelAttributes getModelAttributes(){
 		if (modelAttributes == null){
@@ -78,7 +91,9 @@ public class AdonisModel extends AdonisStencil{
 		} 
 		return modelAttributes;
 	}
-	public void setModelAttributes(AdonisModelAttributes list){	modelAttributes = list;}
+	public void setModelAttributes(AdonisModelAttributes list){	
+		modelAttributes = list;
+	}
 		
 	public ArrayList<AdonisInstance> getInstance(){	
 		if (instance == null){
@@ -86,7 +101,9 @@ public class AdonisModel extends AdonisStencil{
 		} 
 		return instance;
 	}
-	public void setInstance(ArrayList<AdonisInstance> list){instance = list;}
+	public void setInstance(ArrayList<AdonisInstance> list){
+		instance = list;
+	}
 	
 	public ArrayList<AdonisConnector> getConnector(){
 		if (connector == null){
@@ -94,11 +111,19 @@ public class AdonisModel extends AdonisStencil{
 		} 
 		return connector;
 	}
-	public void setConnector(ArrayList<AdonisConnector> list){connector = list;}
+	
+	public void setConnector(ArrayList<AdonisConnector> list){
+		connector = list;
+	}
+	
+	
+	
+	
 
-	
-	
 	protected Map<String,String> inheritedProperties;
+	
+	private Double[] oryxGlobalBounds = null;
+	private Double[] adonisGlobalBounds = null;
 	
 	public AdonisModel(){
 		instance = new ArrayList<AdonisInstance>();
@@ -106,35 +131,38 @@ public class AdonisModel extends AdonisStencil{
 		modelAttributes = new AdonisModelAttributes();
 	}
 	
-	
-	/**
-	 * these attributes have influences on the representation in oryx
-	 * so they are stored including the type
-	 */
-	protected static Map<String,String> evaluatedAttributes;
-	static { evaluatedAttributes = new HashMap<String,String>();
-		evaluatedAttributes.put("World area","STRING");
-//		evaluatedAttributes.put("Creation date","STRING");
-//		evaluatedAttributes.put("Date last changed","STRING");
-	};
-	
-	@Override
-	public Map<String,String> getEvaluatedAttributes(){return evaluatedAttributes;}
-
-	public void setInheritedProperties(HashMap<String, String> attributes) {inheritedProperties = attributes;}
-	
-	public ArrayList<AdonisAttribute> getAttribute(){
-		return getModelAttributes().getAttribute();
+	public int getNextStencilIndex(){
+		return indexCounter++;
 	}
 	
-	public void distributeChildren() throws JSONException{
-		// put all stencils in the diagram in map ... all stencils have access to this map
+	public void setInheritedProperties(HashMap<String, String> attributes) {
+		inheritedProperties = attributes;
+	}
+	
+	@Override
+	public AdonisAttribute getAttribute(String identifier){
+		for (AdonisAttribute anAttribute : getModelAttributes().getAttribute()){
+			if (identifier.equals(anAttribute.getOryxName()));
+				return anAttribute;
+		}
+		return null;
+	}
+	
+	/**
+	 * creates a map of instances for quick access in all instances
+	 */
+	private void distributeInstanceMap(){
 		for (AdonisInstance instance : getInstance()){
 			getModelInstance().put(instance.getName(),instance);
 			instance.setModelInstances(getModelInstance());
 			instance.setModel(this);
 		}
-		
+	}
+	
+	/**
+	 * resolves the "is inside" or equivalent connectors of adonis
+	 */
+	private void resolveParentChildRelations(){	
 		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
 		
 		for (AdonisConnector edge : getConnector()){
@@ -150,7 +178,7 @@ public class AdonisModel extends AdonisStencil{
 				if (!parents.contains(parent)){
 					parents.add(parent);
 				}
-				addUsedChild(edge);
+				addUsed(edge);
 			}
 			edge.setModel(this);
 		}
@@ -181,7 +209,14 @@ public class AdonisModel extends AdonisStencil{
 		}
 	}
 	
-	private Double[] bounds = null;
+	@Override
+	public void prepareAdonisToOryx() throws JSONException{
+		// put all stencils in the diagram in map ... all stencils have access to this map
+		distributeInstanceMap();
+		resolveParentChildRelations();
+	}
+	
+
 	
 	private String[] filterArea(String area){
 		String filteredArea = area.replace("w:", "");
@@ -190,33 +225,37 @@ public class AdonisModel extends AdonisStencil{
 		return filteredArea.split(" ");
 	}
 	
-	public Double[] getBounds() {
-		if (bounds == null){
-			bounds = new Double[4];
-			for (AdonisAttribute aAttribute : getAttribute()){
-				if ("world area".equalsIgnoreCase(aAttribute.getOryxName())){
-					// extract the numbers out of the string
-					if (aAttribute.getElement() != null){
-						String[] area = filterArea(aAttribute.getElement());
-				
-						// try to give the diagram a nice size
-						bounds[2] = Double.parseDouble(area[0])*CENTIMETERTOPIXEL;
-						bounds[3] = Double.parseDouble(area[1])*CENTIMETERTOPIXEL;
-						} else {
-							// a fallback solution
-							bounds[2] = 1485.0;
-							bounds[3] = 1050.0;
-						}
-					addUsedAttribute(aAttribute);
-					break;
-				}
-			}
-			bounds[0] = 0.0;
-			bounds[1] = 0.0;
-			if (bounds[2] == null) bounds[2] = 1485.0;
-			if (bounds[3] == null) bounds[3] = 1050.0;
+	
+	public Double[] getAdonisGlobalBounds(){
+		if (adonisGlobalBounds != null){
+			return adonisGlobalBounds;
 		}
-		return bounds;
+		adonisGlobalBounds = new Double[]{0.0, 0.0, null, null};
+		adonisGlobalBounds[2] = oryxGlobalBounds[2] / CENTIMETERTOPIXEL;
+		adonisGlobalBounds[3] = oryxGlobalBounds[3] / CENTIMETERTOPIXEL;
+		return adonisGlobalBounds;
+	}
+	
+	//@Override
+	//public Double[] getOryxGlobalBounds(){
+	//	Inherited from AdonisStencil
+	//}
+	
+	
+	public Double[] getOryxBounds() {
+		if (oryxGlobalBounds != null){
+			return oryxGlobalBounds;
+		}
+		oryxGlobalBounds = new Double[]{0.0, 0.0, 1485.0, 1050.0};
+		AdonisAttribute anAttribute = getAttribute("World area");
+		if (anAttribute != null && anAttribute.getElement() != null){
+			String[] area = filterArea(anAttribute.getElement());
+			// try to give the diagram a nice size
+			oryxGlobalBounds[2] = Double.parseDouble(area[0])*CENTIMETERTOPIXEL;
+			oryxGlobalBounds[3] = Double.parseDouble(area[1])*CENTIMETERTOPIXEL;
+			} 
+		addUsed(anAttribute);
+		return oryxGlobalBounds;
 	}
 	
 	public String getAdonisStencilClass(String language){
@@ -233,12 +272,8 @@ public class AdonisModel extends AdonisStencil{
 	 * write global attributes inherited from AdoXML 
 	 */
 	public void writeJSONinheritedProperties(JSONObject json) throws JSONException{
-		JSONObject properties = getJSONObject(json, "properties");
-		//XXX
-//		JSONObject inherited = getJSONObject(properties,"inheritedProperties");
-//		for (String key : inheritedProperties.keySet()){
-//			inherited.put(key, inheritedProperties.get(key));
-//		}
+		//JSONObject properties = getJSONObject(json, "properties");
+		
 	}
 	/**
 	 * write the resource id
@@ -260,22 +295,8 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException{
-		JSONObject properties = getJSONObject(json, "properties");
-//		XXX
-//		properties.put("id",getId());
-		properties.put("name",getName());
-//		properties.put("version",getVersion());
-//		properties.put("modeltype",getModeltype());
-//		properties.put("libtype",getLibtype());
-//		properties.put("applib",getApplib());
-		
-//		TODO sort out
-//		// store the unused attributes as triple in the properties
-//		for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
-//			if (!getEvaluatedAttributes().containsKey(aAttribute.getName())){
-//				aAttribute.write(properties);
-//			}
-//		}
+		//JSONObject properties = getJSONObject(json, "properties");
+
 	}
 	/**
 	 * write the used stencilsets to the file 
@@ -324,11 +345,11 @@ public class AdonisModel extends AdonisStencil{
 	public void writeJSONbounds(JSONObject json) throws JSONException {
 		JSONObject bounds = getJSONObject(json,"bounds");
 		JSONObject temp = getJSONObject(bounds,"upperLeft");
-		temp.put("x",getBounds()[0]);
-		temp.put("y",getBounds()[1]);
+		temp.put("x",getOryxBounds()[0]);
+		temp.put("y",getOryxBounds()[1]);
 		temp = getJSONObject(bounds,"lowerRight");
-		temp.put("x",getBounds()[2]);
-		temp.put("y",getBounds()[3]);
+		temp.put("x",getOryxBounds()[2]);
+		temp.put("y",getOryxBounds()[3]);
 	}
 	/**
 	 * a diagram has no dockers - no implementation needed
@@ -338,15 +359,6 @@ public class AdonisModel extends AdonisStencil{
 		// not needed
 	}
 	
-	/**
-	 * overridden to make sure that every stencil has the right parent child association 
-	 */
-	@Override
-	public void write(JSONObject modelElement) throws JSONException {
-		distributeChildren();
-
-		super.write(modelElement);
-	}
 	/**
 	 * a diagram has no outgoing edges
 	 */
@@ -361,16 +373,24 @@ public class AdonisModel extends AdonisStencil{
 	}
 
 	
-	public void writeJSONunusedAttributes(JSONObject json){
-		SerializableContainer<AdonisAttribute> unused = new SerializableContainer<AdonisAttribute>();
+	public void writeJSONunused(JSONObject json) throws JSONException{
+		//JSONObject unused = getJSONObject(json, "unused");
+		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
 		
-		for (AdonisAttribute aAttribute : getAttribute()){
-			if (getUsedAttributes().indexOf(aAttribute) < 0){
-				unused.getElements().add(aAttribute);
-			}
-		}
 		try {
-			json.put("unusedAttributes", makeStorable(unused));
+			for (AdonisAttribute aAttribute : getModelAttributes().getAttribute()){
+				if (getUsed().indexOf(aAttribute) < 0){
+					unused.getElements().add(aAttribute);
+				}
+			}
+			for (AdonisRecord aRecord : getModelAttributes().getRecord()){
+				if (getUsed().indexOf(aRecord) < 0){
+					unused.getElements().add(aRecord);
+				}
+			}
+		
+			//unused.put("attributes", makeStorable(unusedAttributes));
+			json.put("unused", makeStorable(unused));
 		} catch (JSONException e) {
 			Log.e("could not write unused elements and attributes\n"+e.getMessage());
 			e.printStackTrace();
@@ -381,18 +401,26 @@ public class AdonisModel extends AdonisStencil{
 	//* methods for reading of JSON representation
 	//*************************************************************************
 	
-	public void readJSONunusedAttributes(JSONObject json){
-		SerializableContainer<AdonisAttribute> unused; 
-		String stored;
+	public void completeOryxToAdonis(){
+		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+getAdonisGlobalBounds()[2]+"cm h:"+getAdonisGlobalBounds()[3]+"cm"));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void readJSONunused(JSONObject json){
+		SerializableContainer<XMLConvertible> unused;
+		String encodedString;
 		try {
-			stored = json.getString("unusedAttributes");
-			if (stored != null){
-				unused = (SerializableContainer<AdonisAttribute>) fromStorable(stored);
-				for (AdonisAttribute aAttribute : unused.getElements()){
-					getAttribute().add(aAttribute);
+			encodedString = json.getString("unused");
+			if (encodedString != null){
+				unused = (SerializableContainer<XMLConvertible>) fromStorable(encodedString);
+				for (XMLConvertible element : unused.getElements()){
+					if (element.getClass() == AdonisAttribute.class)
+						getModelAttributes().getAttribute().add((AdonisAttribute)element);
+					if (element.getClass() == AdonisRecord.class){
+						getModelAttributes().getRecord().add((AdonisRecord)element);
+					}
 				}
 			}
-			
 		} catch (JSONException e){
 			Log.e("could not restore unused attributes");
 		}
@@ -400,10 +428,9 @@ public class AdonisModel extends AdonisStencil{
 	}
 	
 	public void readJSONbounds(JSONObject json) throws JSONException{
-		JSONObject lowerRight = json.getJSONObject("bounds").getJSONObject("lowerRight");
-		Double width = lowerRight.getDouble("x") / CENTIMETERTOPIXEL;
-		Double hight = lowerRight.getDouble("y") / CENTIMETERTOPIXEL;
-		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+width+"cm h:"+hight+"cm"));
+		JSONObject bounds = json.getJSONObject("bounds");
+		JSONObject lowerRight = bounds.getJSONObject("lowerRight");
+		oryxGlobalBounds = new Double[]{0.0, 0.0, lowerRight.getDouble("x"), lowerRight.getDouble("y")};
 	}
 	
 	public void readJSONproperties(JSONObject json) throws JSONException{
@@ -415,11 +442,23 @@ public class AdonisModel extends AdonisStencil{
 		Random random = new Random();
 		setId("mod."+random.nextInt(100000));
 		setVersion("");
-		//Adonis generates a own ID - so this is only pro to respect the format
+		//Adonis generates a own ID - so this is only to respect the format
 	}
 	
-	public void readJSONchildShapes(JSONObject json){
-		//TODO consider childShapes
+	public void readJSONchildShapes(JSONObject json) throws JSONException{
+		readJSONbounds(json);
+		JSONArray childShapes = json.getJSONArray("childShapes");
+		JSONObject stencil = null;
+		for (int i = 0; i < childShapes.length(); i++){
+			stencil = childShapes.getJSONObject(i);
+			if (AdonisInstance.handleStencil(stencil.getJSONObject("stencil").getString("id"))){
+				AdonisInstance anInstance = new AdonisInstance();
+				anInstance.setModel(this);
+				anInstance.setParent(this);
+				anInstance.parse(stencil);
+				getInstance().add(anInstance);
+			}
+		}
 	}
 	
 	public void readJSONssextensions(JSONObject json){

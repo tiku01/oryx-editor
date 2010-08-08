@@ -1,9 +1,13 @@
 package de.hpi.AdonisSupport;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Vector;
@@ -111,18 +115,46 @@ public class AdonisConverter {
 		String json = ac.importXML(
 				importFromFile(
 //						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
+						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
-						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
 				)); 
-		System.out.println(json);
+		
 		try {
-			System.out.println(ac.exportXML(json));
-		} catch (JSONException e){
-			System.err.println(e.getMessage());
+			File file = new File("D:\\Desktop\\Eclipse Export.json");
+			FileWriter fileWriter = new FileWriter(file,false);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(json);
+			bufferedWriter.close();
+			fileWriter.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		try {
+			File file = new File("D:\\Desktop\\Eclipse Export.xml");
+			FileWriter fileWriter = new FileWriter(file,false);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(ac.exportXML(json));
+			bufferedWriter.close();
+			fileWriter.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
 	}
 	

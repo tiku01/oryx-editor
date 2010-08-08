@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-import sun.security.action.GetBooleanAction;
-
 //<!ELEMENT CONNECTOR (FROM, TO, (ATTRIBUTE | RECORD | INTERREF)*)>
 //<!ATTLIST CONNECTOR
 //  id    ID    #IMPLIED
@@ -21,6 +19,11 @@ import sun.security.action.GetBooleanAction;
 @RootElement("CONNECTOR")
 public class AdonisConnector extends AdonisStencil{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3850673995571310465L;
+
 	@Element(name="ATTRIBUTE", targetType=AdonisAttribute.class)
 	protected ArrayList<AdonisAttribute> attribute;
 		
@@ -87,8 +90,12 @@ public class AdonisConnector extends AdonisStencil{
 	}
 	
 	@Override
-	public Map<String, String> getEvaluatedAttributes() {
-		return evaluatedAttributes;
+	public AdonisAttribute getAttribute(String identifier){
+		for (AdonisAttribute anAttribute : getAttribute()){
+			if (identifier.equals(anAttribute.getOryxName()))
+				return anAttribute;
+		}
+		return null;
 	}
 	
 	public AdonisInstance getAsInstance(AdonisConnectionPoint target){
@@ -99,11 +106,19 @@ public class AdonisConnector extends AdonisStencil{
 		}
 		return null;
 	}
+	
+	@Override
+	protected Double[] getAdonisGlobalBounds() {
+		// TODO Auto-generated method stub
+		return new Double[]{0.0,0.0,0.0,0.0};
+	}
+	
+	
 	/**
 	 * upper left x,y | lower right x,y
 	 * @return
 	 */
-	public Double[] getBounds(){
+	public Double[] getOryxBounds(){
 		AdonisInstance source = getAsInstance(getFrom());
 		AdonisInstance target = getAsInstance(getTo());
 		
@@ -159,20 +174,20 @@ public class AdonisConnector extends AdonisStencil{
 		JSONArray dockers = getJSONArray(json, "dockers");
 		JSONObject temp = new JSONObject();
 
-		Double[] bounds = getAsInstance(getFrom()).getGlobalBounds(); 
+		Double[] bounds = getAsInstance(getFrom()).getOryxGlobalBounds(); 
 		temp.put("x",(bounds[2]-bounds[0])/2);
 		temp.put("y",(bounds[3]-bounds[1])/2);
 		dockers.put(temp);
 		
 		if ("value flow".equalsIgnoreCase(getStencilClass())){
 			temp = new JSONObject();
-			bounds = getBounds();
+			bounds = getOryxBounds();
 			temp.put("x",(bounds[0]+bounds[2])/2);
 			temp.put("y",(bounds[1]+bounds[3])/2);
 			dockers.put(temp);
 		}
 		
-		bounds = getAsInstance(getTo()).getGlobalBounds();
+		bounds = getAsInstance(getTo()).getOryxGlobalBounds();
 		temp = new JSONObject();
 		temp.put("x",(bounds[2]-bounds[0])/2);
 		temp.put("y",(bounds[3]-bounds[1])/2);
@@ -185,7 +200,7 @@ public class AdonisConnector extends AdonisStencil{
 		//	EDGE index:5
 		//	EDGE x:2.50cm y:7.00cm index:2 or
 		//	NODE x:1cm y:11.5cm w:.5cm h:.6cm index:8
-		Double[] boundingRect = getBounds();
+		Double[] boundingRect = getOryxBounds();
 		
 		JSONObject bounds = getJSONObject(json,"bounds");
 		
@@ -215,6 +230,7 @@ public class AdonisConnector extends AdonisStencil{
 		JSONObject target = getJSONObject(json,"target");		
 		target.putOpt("resourceId", getAsInstance(getTo()).getResourceId());
 	}
-	
+
+
 
 }

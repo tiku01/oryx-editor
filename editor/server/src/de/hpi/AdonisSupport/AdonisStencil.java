@@ -2,9 +2,7 @@ package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,51 +12,51 @@ import org.xmappr.Attribute;
 import de.hpi.diagram.OryxUUID;
 
 public abstract class AdonisStencil extends XMLConvertible {
+	private static final long serialVersionUID = 2925851400607788303L;
 
+	/**************************************************************************
+	 * constants
+	 *************************************************************************/
 	public final static double CENTIMETERTOPIXEL = 50;
 	
+	/**************************************************************************
+	 * common attributes from adonis
+	 *************************************************************************/
+
 	@Attribute(name="id")
 	protected String id;
-	
 	@Attribute(name="class")
 	protected String stencilClass;
 	
+	/**
+	 * gets the object id	
+	 * @return
+	 */
+	public String getId(){
+		return id;
+	}
+	
+	/**
+	 * set the object id
+	 * @param newId
+	 */
+	public void setId(String newId){
+		id = newId;
+	}
+	
+	/**************************************************************************
+	 * common attributes for oryx
+	 *************************************************************************/
+	
 	private String resourceId;
-	
-	public String getId(){return id;}
-	
-	public void setId(String newId){id = newId;}
-	
-	private String language;
-	
 	private String oryxStencilClass;
+	private String language;
+	private ArrayList<AdonisStencil> outgoingStencil = null;
 	
-	private ArrayList<AdonisAttribute> usedAttributes;
-	
-	private ArrayList<AdonisStencil> usedChildren;
-	
-	public ArrayList<AdonisAttribute> getUsedAttributes(){
-		if (usedAttributes == null){
-			usedAttributes = new ArrayList<AdonisAttribute>();
-		}
-		return usedAttributes;
-	}
-	
-	public void addUsedAttribute(AdonisAttribute aAttribute){
-		getUsedAttributes().add(aAttribute);
-	}
-	
-	public ArrayList<AdonisStencil> getUsedChildren(){
-		if (usedChildren == null){
-			usedChildren = new ArrayList<AdonisStencil>();
-		}
-		return usedChildren;
-	}
-	
-	public void addUsedChild(AdonisStencil aChild){
-		getUsedChildren().add(aChild);
-	}
-	
+	/**
+	 * tries to get the language in which the original stencil was created
+	 * @return the original or "en" if there was none found
+	 */
 	public String getLanguage(){
 		if (language == null || language == ""){
 			return "en";
@@ -66,6 +64,10 @@ public abstract class AdonisStencil extends XMLConvertible {
 		else return language;
 	}
 	
+	/**
+	 * sets the language
+	 * @param lang
+	 */
 	private void setLanguage(String lang){
 		language = lang;
 	}
@@ -77,16 +79,25 @@ public abstract class AdonisStencil extends XMLConvertible {
 		return getId();
 	}
 	
+	/**
+	 * @return the adonis stencil class
+	 */
 	public String getStencilClass(){
 		return stencilClass;
 	}
 	
+	/**
+	 * sets the adonis stencil class
+	 * @param newName
+	 */
 	public void setStencilClass(String newName){
 		stencilClass = newName;
 	}
 	
-	
-	
+	/**
+	 * generates a resource Id for Oryx if necessary
+	 * @return a id
+	 */
 	public String getResourceId(){
 		if (resourceId == null){
 			resourceId = OryxUUID.generate();
@@ -94,58 +105,107 @@ public abstract class AdonisStencil extends XMLConvertible {
 		return resourceId;
 	}
 	
-	public abstract ArrayList<AdonisAttribute> getAttribute(); 
+	/**
+	 * sets the outgoing stencils
+	 * @param outgoing
+	 */
+	public void addOutgoing(AdonisStencil outgoing){
+		if (outgoingStencil == null) outgoingStencil = new ArrayList<AdonisStencil>();
+		outgoingStencil.add(outgoing);
+	}
 	
+	/**
+	 * get all outgoing stencils or null if there is none
+	 * @return
+	 */
+	public ArrayList<AdonisStencil> getOutgoing(){
+		return outgoingStencil;
+	}
+	
+	
+	/**************************************************************************
+	 * computing helpers
+	 *************************************************************************/
+	
+	private AdonisStencil parent;
+	private AdonisModel model;
 	private Map<String,AdonisInstance> modelInstances = null;
+	private ArrayList<XMLConvertible> used;
 	
+	
+	
+	/**
+	 * @return a collection of already processed attributes
+	 */
+	public ArrayList<XMLConvertible> getUsed(){
+		if (used == null){
+			used = new ArrayList<XMLConvertible>();
+		}
+		return used;
+	}
+	
+	/**
+	 * add an attribute which is processed
+	 * @param element
+	 */
+	public void addUsed(XMLConvertible element){
+		getUsed().add(element);
+	}
+		
+	/**
+	 * generates a unique idenifier for each stencil
+	 * @return
+	 */
+	public int getIndex(){
+		return getModel().getNextStencilIndex();
+	}
+	
+	/**
+	 * sets a collection of all instances
+	 * @param children
+	 */
 	public void setModelInstances(Map<String,AdonisInstance> children){
 		modelInstances = children;
 	}
 	
+	/**
+	 * get all instances in the model
+	 * @return
+	 */
 	public Map<String,AdonisInstance> getModelInstance(){
 		if (modelInstances == null){
 			setModelInstances(new HashMap<String,AdonisInstance>());
 		}
 		return modelInstances;
 	}
-	
-	private ArrayList<AdonisStencil> outgoingStencil = null;
-	
-	public void addOutgoing(AdonisStencil outgoing){
-		if (outgoingStencil == null) outgoingStencil = new ArrayList<AdonisStencil>();
-		outgoingStencil.add(outgoing);
-	}
-	
-	public ArrayList<AdonisStencil> getOutgoing(){
-		return outgoingStencil;
-	}
-	
+		
 	/**
-	 * all attributes of the list which evaluated in a special way
-	 * @return a map of name and type
+	 * sets the parent model
+	 * @param aModel
 	 */
-	public abstract Map<String,String> getEvaluatedAttributes();
-
-
-	
-	
-	
-	private AdonisModel model;
-	
 	protected void setModel(AdonisModel aModel){
 		model = aModel;
 	}
 	
+	/**
+	 * @return the parent model
+	 */
 	protected AdonisModel getModel(){
 		return model;
-	}
+	}	
 	
-	private AdonisStencil parent;
-	
+	/**
+	 * sets a parent stencil if available
+	 * @param aStencil
+	 */
 	protected void setParent(AdonisStencil aStencil){
 		parent = aStencil;
 	}
-		
+	
+	/**
+	 * get the parent stencil (or the model if there is none)
+	 * @return
+	 */
 	protected AdonisStencil getParent(){
 		if (parent == null){
 			return getModel();
@@ -153,16 +213,72 @@ public abstract class AdonisStencil extends XMLConvertible {
 		return parent;
 	}
 	
-	protected abstract Double[] getBounds();
+	/**
+	 * get the bounds relative to the parent
+	 * @return upperLeft x,y lowerRight x,y
+	 */
+	protected abstract Double[] getOryxBounds();
 	
-	protected Double[] getGlobalBounds(){
-		return getBounds();
+	/**
+	 * get the oryx bounds in context to the whole model
+	 * @return upperLeft x,y lowerRight x,y
+	 */
+	protected Double[] getOryxGlobalBounds(){
+		return getOryxBounds();
+	}
+	
+	/**
+	 * get the adonis bounds - in general only the whole model context 
+	 * @return x,y (top left) and width height
+	 */
+	protected abstract Double[] getAdonisGlobalBounds();
+	
+	/**
+	 * returns a special attribute of a stencil
+	 * @return the requested attribute or null if there non matched
+	 */
+	public abstract AdonisAttribute getAttribute(String identifier); 
+	
+	/**
+	 * prepare transformation adonis to oryx - stub to be overwritten if needed
+	 * @throws JSONException 
+	 */
+	public void prepareAdonisToOryx() throws JSONException{
+		
+	}
+	
+	/**
+	 * complete transformation adonis to oryx - stub to be overwritten if needed
+	 * @throws JSONException 
+	 */
+	public void completeAdonisToOryx() throws JSONException{
+		
+	}
+	
+	/**
+	 * prepare transformation oryx to adonis - stub to be overwritten if needed
+	 */
+	public void prepareOryxToAdonis(){
+		
+	}
+	
+	/**
+	 * complete transformation oryx to adonis - stub to be overwritten if needed
+	 */
+	public void completeOryxToAdonis(){
+		
 	}
 	
 	//*************************************************************************
-	//* JSON methods
+	//* writeJSON methods
 	//*************************************************************************
 	
+	public void write(JSONObject json) throws JSONException{
+		prepareAdonisToOryx();
+		super.write(json);
+		completeAdonisToOryx();
+	}
+
 	/**
 	 * write the resource id
 	 */
@@ -195,6 +311,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 * write the properties (including not used ones and except special attributes with a representation in oryx)
 	 */
 	public abstract void writeJSONproperties(JSONObject json) throws JSONException;
+	
 	/**
 	 * write all childshapes to the diagram
 	 */
@@ -227,27 +344,46 @@ public abstract class AdonisStencil extends XMLConvertible {
 		getJSONObject(json,"target");
 	}
 	
+	//*************************************************************************
+	//* readJSON methods
+	//*************************************************************************
 	
+	public void parse(JSONObject json){
+		prepareOryxToAdonis();
+		super.parse(json);
+		completeOryxToAdonis();
+	}
 	
 	//*************************************************************************
 	//* Configurator access
 	//*************************************************************************
+	public void setOryxStencilClass(String oryxName){
+		oryxStencilClass = oryxName;
+	}
+	
+	/**
+	 * translates from a adonis stencil name to a oryx stencil name
+	 */
 	public String getOryxStencilClass(){
 		if (oryxStencilClass == null){
-			for (AdonisAttribute aAttribute : getAttribute()){
-				if ("Name (english)".equals(aAttribute.getName()) && aAttribute.getElement() != null){
-					oryxStencilClass = aAttribute.getElement().toLowerCase();
-					addUsedAttribute(aAttribute);
-				}
+			AdonisAttribute anAttribute = getAttribute("Name (english)");
+			if (anAttribute != null) {
+				oryxStencilClass = anAttribute.getElement().toLowerCase();
+				setLanguage("en");
+				addUsed(anAttribute);
+			} else {
+				setLanguage(Configurator.getLanguage(getStencilClass()));
+				oryxStencilClass = Configurator.getTranslationToOryx(getStencilClass());
 			}
-		}
-		if (oryxStencilClass == null){
-			setLanguage(Configurator.getLanguage(getStencilClass()));
-			oryxStencilClass = Configurator.getTranslationToOryx(getStencilClass());
 		}
 		return oryxStencilClass;
 	}
 	
+	/**
+	 * translates a oryx stencil name back to a adonis stencil name in the given language
+	 * @param language
+	 * @return
+	 */
 	public String getAdonisStencilClass(String language){
 		if (language == "" || language == null){
 			return Configurator.getTranslationToAdonis(oryxStencilClass, getLanguage());
@@ -256,6 +392,9 @@ public abstract class AdonisStencil extends XMLConvertible {
 		return Configurator.getTranslationToAdonis(oryxStencilClass, language);
 	}
 
+	/**
+	 * @return a JSONObject with all set standard values or null if there is none
+	 */
 	public JSONObject getStandardConfiguration(){
 		
 		try {

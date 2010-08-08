@@ -39,16 +39,4 @@ public class AdonisInterref extends XMLConvertible{
 	public void setChildren(ArrayList<AdonisIref> list){
 		children = list;
 	}
-
-	@Override
-	public void write(JSONObject json) throws JSONException {
-//		json.object();
-//		json.key("name").value(getName());
-//		json.key("interref_children").array();
-//		for (AdonisIref aIref : getChildren()){
-//			aIref.write(json);
-//		}
-//		json.endArray();
-//		json.endObject();
-	}
 }
