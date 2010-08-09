@@ -33,8 +33,11 @@ public class PatternServlet extends HttpServlet {
 		
 		String ssNameSpace = req.getParameter("ssNameSpace");
 		
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json");
+		
 		if (delete) {
-			deletePattern(pattern, ssNameSpace);
+			deletePattern(pattern, ssNameSpace);  //TODO what about a response here???
 		} else {
 			resp.getWriter().println(this.savePattern(pattern, ssNameSpace).toJSONString());
 		}
@@ -66,6 +69,7 @@ public class PatternServlet extends HttpServlet {
 		List<Pattern> patternList = repos.getAll();
 		
 		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
 		
 		resp.getWriter().print(patternsToJson(patternList));
 	}
