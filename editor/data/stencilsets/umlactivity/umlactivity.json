@@ -131,17 +131,49 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAnd",
+			"id":"umlAndHorizontal",
 			"title":"And Split/Join",
 			"groups":["Control Flow Nodes"],
 			"description":"And",
-			"view":"node.and.svg",
-			"icon":"node.and.png",
+			"view":"node.and.horizontal.svg",
+			"icon":"node.and.horizontal.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
 				"controlFlowElement",
-				"activityContent"
+				"activityContent",
+				"and"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"umlAndVertical",
+			"title":"And Split/Join",
+			"groups":["Control Flow Nodes"],
+			"description":"And",
+			"view":"node.and.vertical.svg",
+			"icon":"node.and.vertical.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"and"
 			],
 			"properties": [
 				{
@@ -663,6 +695,76 @@
 				"diagramcontent",
 				"annotatable",
 				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"condition",
+					"type":"String",
+					"title":"Condition",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"umlObjectFlowImplicit",
+			"title":"Object Flow With Pins",
+			"groups":["Object"],
+			"description":"Can connect objects with actions and the other way round.",
+			"view":"edge.objectFlow.implicit.svg",
+			"icon":"edge.objectFlow.implicit.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"pinStart",
+					"type":"String",
+					"title":"Startpin Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"pinStart",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"pinStop",
+					"type":"String",
+					"title":"Endpin Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"pinEnd",
+					"length":"",
+					"wrapLines":true
+                }
 			]
 		},
 		{
@@ -684,8 +786,8 @@
 	    
 		"morphingRules": [
 			{
-				"role" : "actionMorph",
-				"baseMorphs" : ["umlAction", "umlActivity"]
+				"role" : "and",
+				"baseMorphs" : ["umlAndHorizontal", "umlAndVertical"]
 			}
 		],
 		"connectionRules": [
@@ -712,6 +814,15 @@
                     {
                         "from":"object",
                         "to":["umlAcObject"]
+                    }
+                ]
+            },
+            {
+                "role":"umlObjectFlowImplicit",
+                "connects": [
+                    {
+                        "from":"action",
+                        "to":["action"]
                     }
                 ]
             },
@@ -753,6 +864,12 @@
 			},
 			{
 				"role":"ActivityRegionCanvas",
+				"contains": [
+					"umlAcActivityRegion"
+				]
+			},
+			{
+				"role":"umlAcActivityRegion",
 				"contains": [
 					"umlAcActivityRegion"
 				]

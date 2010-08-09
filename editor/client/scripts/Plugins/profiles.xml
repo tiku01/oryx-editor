@@ -12,7 +12,6 @@
 		<plugin name="ORYX.Plugins.ERDFSupport" />
 		<plugin name="ORYX.Plugins.JSONSupport"/>
 		<plugin name="ORYX.Plugins.RDFExport" />
-		<plugin name="ORYX.Plugins.Feedback" />
 		<plugin name="ORYX.Plugins.Undo" />		
 		<plugin name="ORYX.Plugins.Arrangement"/>	
 		<plugin name="ORYX.Plugins.Grouping"/>	

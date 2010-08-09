@@ -55,8 +55,42 @@ ORYX.Plugins.UMLUseCase =
 	
 	handleUseCaseExtended : function(event) {
 		var shape= event.shape;
+
+		var separator = shape._svgShapes.find(
+					function(element) { return element.element.id == (event.shape.id + "separator") }
+				).element;
+		var extensionPointTextFrame = shape._svgShapes.find(
+					function(element) { return element.element.id == (event.shape.id + "extension_point_text_frame") }
+				).element;
+		var extensionPointText = shape.getLabels().find(
+					function(label) { return label.id == (shape.id + "extensions") }
+				);
+		var extensionText = shape.getLabels().find(
+					function(label) { return label.id == (shape.id + "extensionpoint") }
+				);
+		//var extensionPointTextElement = shape._svgShapes.find(
+		//			function(element) { return element.element.id == (event.shape.id + "extensions") }
+		//		).element;
 		
-		alert("hello");
+		window.setTimeout(function(){
+			alert(""+extensionPointTextFrame.y.baseVal.value+"\n"
+					+extensionPointTextFrame.y.baseVal.value+"\n"
+					+separator.y1.baseVal.value+"\n"
+					+separator.y1.baseVal.value+"\n"
+					+extensionPointText.y);
+			//extensionPointTextFrame.setAttribute("y", separator.y1.baseVal.value+18);
+			extensionPointTextFrame.y.baseVal.value=separator.y1.baseVal.value+18;
+			extensionPointText.y= extensionText.y+16;
+			//extensionPointText.y= extensionText.y+
+			//extensionPointText.setAttribute("y", seperator.y1.baseVal.value+18);
+			alert(""+extensionPointTextFrame.y.baseVal.value+"\n"
+					+extensionPointTextFrame.y.baseVal.value+"\n"
+					+separator.y1.baseVal.value+"\n"
+					+separator.y1.baseVal.value+"\n"
+					+extensionPointText.y);
+			shape.update();
+			
+		},200)
 		
 	},
 	
@@ -67,6 +101,7 @@ ORYX.Plugins.UMLUseCase =
 	 */
 	addStereotypeOnLoad : function(event) {
 		this.facade.getCanvas().nodes.each(function(shape){
+		//shape.getStencil().id().toLowerCase()==
 			if (shape._stencil.id().endsWith("umlUcSystem")) {
 				this.addStereotype(shape);
 			}

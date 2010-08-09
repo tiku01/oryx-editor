@@ -50,11 +50,53 @@
 		this.facade.registerOnEvent('layout.uml.activityRegion', this.handleLayoutActivityRegion.bind(this));
 	},
 	
+	isActivityRegion: function(shape) {
+		return "http://b3mn.org/stencilset/umlactivity#umlAcActivityRegion".toLowerCase() == shape.getStencil().id().toLowerCase();
+	},
+
+	forceToUpdateActivityRegion: function(activityRegion){
+		
+		if (activityRegion.bounds.height() !== activityRegion._svgShapes[0].height) {	
+			activityRegion.isChanged = true;
+			activityRegion.isResized = true;
+			activityRegion._update();
+		}
+	},
+	
+	handleLayoutActivityRegion: function(event){
+		var existingActivityRegion= event.shape;
+		var selection = this.facade.getSelection();
+		var currentActivityRegion = selection.first();
+		
+		currentActivityRegion = currentActivityRegion || existingActivityRegion;
+		
+		if (! this.isActivityRegion(currentActivityRegion)){
+			return;
+		}
+		
+		
+		if(currentActivityRegion != existingActivityRegion){
+		
+			currentActivityRegion.a.x=existingActivityRegion.b.x;
+			currentActivityRegion.a.y=existingActivityRegion.a.y;
+			currentActivityRegion.b.x=existingActivityRegion.b.x+250;
+			currentActivityRegion.b.y=existingActivityRegion.a.y;
+			
+			this.forceToUpdateActivityRegion(existingActivityRegion);
+			this.forceToUpdateActivityRegion(currentActivityRegion);
+			
+		};
+		
+		
+		
+		
+		if (currentActivityRegion == existingActivityRegion){};
+	},
 	/**
 	 * Handler for layouting event 'layout.bpmn2_0.pool'
 	 * @param {Object} event
 	 */
-	handleLayoutActivityRegion: function(event){
+	handleLayoutActivityRegion2: function(event){
 		
 		var pool = event.shape;
 		var selection = this.facade.getSelection(); 
@@ -160,10 +202,7 @@
 
 		this.setDimensions(pool, width, height);
 		
-		
-		
-		// Update all dockers
-		this.updateDockers(allLanes, pool);
+		//hier standen mal die Docker
 		
 		this.hashedBounds[pool.resourceId] = {};
 		
