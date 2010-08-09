@@ -25,37 +25,6 @@
 			]
 		},
 		{
-			"name" : "directionProperty",
-			"properties" : [
-				{
-					"id" : "direction",
-					"type" : "Choice",
-					"title" : "Reading Direction",
-					"title_de" : "Leserichtung",
-					"items": [
-						{
-							"id":"c0",
-							"title":"none",
-							"title_de":"keine",
-							"value":" "
-						},
-						{
-							"id":"c1",
-							"title":"Left",
-							"title_de":"Links",
-							"value":"left"
-						},
-						{
-							"id":"c2",
-							"title":"Right",
-							"title_de":"Rechts",
-							"value":"right"
-						}
-					]
-				}
-			]
-		},
-		{
 			"name" : "edgeProperties",
 			"properties" : [
 				{
@@ -112,8 +81,8 @@
 			"title":"Human Actor",
 			"groups":["Nodes"],
 			"description":"An actor can use different use cases a system offers.",
-			"view":"node.humanActor.svg",
-			"icon":"node.humanActor.png",
+			"view":"node.Actor.human.svg",
+			"icon":"node.Actor.human.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -470,8 +439,7 @@
 			],
 			"propertyPackages" : [
 				"edgeProperties",
-				"cardinalityProperties",
-				"directionProperty"
+				"cardinalityProperties"
 			]
 		},
 		{
@@ -489,8 +457,7 @@
 			],
 			"propertyPackages" : [
 				"edgeProperties",
-				"cardinalityProperties",
-				"directionProperty"
+				"cardinalityProperties"
 			]
 		},
 		{
@@ -508,8 +475,7 @@
 			],
 			"propertyPackages" : [
 				"edgeProperties",
-				"cardinalityProperties",
-				"directionProperty"
+				"cardinalityProperties"
 			]
 		},
 		{
@@ -524,7 +490,7 @@
 				"Generalization",
 				"diagramcontent",
 				"annotatable"
-			],
+			]
 		},
 		{
 			"type": "edge",
@@ -552,7 +518,7 @@
 					"refToView":"include",
 					"length":"",
 					"wrapLines":false
-                },
+                }
 			]
 		},
 		{
@@ -581,7 +547,7 @@
 					"refToView":"extend",
 					"length":"",
 					"wrapLines":false
-                },
+                }
 			]
 		},
 		{
@@ -595,8 +561,8 @@
 			"roles": [
 				"diagramcontent",
 				"annotatable"
-			],
-		},
+			]
+		}
 	],	
 	"rules": {
 	    
@@ -608,6 +574,10 @@
 			{
 				"role" : "actorMorph",
 				"baseMorphs" : ["umlActor", "umlHumanActor"]
+			},
+			{
+				"role" : "association",
+				"baseMorphs" : ["umlUcUndirectedAssociation", "umlUcDirectedAssociation", "umlUcUnnavigableDirectedAssociation" ]
 			}
 		],
 		"connectionRules": [
@@ -657,7 +627,7 @@
 					    "to":["annotatable"]
 					}
 				]
-			},
+			}
 		],
 		"containmentRules": [
 			{
@@ -669,7 +639,7 @@
 			{
 			"role":"System",
 			"contains":["systemcontent"]
-			},
+			}
 		]
 	}
 }

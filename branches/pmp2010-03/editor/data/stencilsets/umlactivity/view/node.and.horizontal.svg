@@ -5,13 +5,15 @@
    	version="1.0">
   	<g
      	oryx:minimumSize="20 5"
+     	oryx:maximumSize="100 5"
      	id="and">
     	<rect
     		x="0"
     		y="0"
 			width= "40"
 			height= "10"
-			fill="black" />
+			fill="black" 
+			oryx:resize="horizontal"/>
 		<text
 			id="text" 
 			font-size="12" 
