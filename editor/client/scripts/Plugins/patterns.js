@@ -242,11 +242,11 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 		
-		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes);
-		
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+	
+		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes.bind(this), this.addPatternNode.bind(this));
 		
-		repos.saveNewPattern(pattern, ssNameSpace); //TODO take the new pattern with filled id, etc...
+		repos.saveNewPattern(pattern); //TODO take the new pattern with filled id, etc...
 	},
 	
 	addPatternNodes: function(patternArray) {
@@ -680,62 +680,20 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	id : undefined,
 	imageUrl : undefined,
 	description : undefined,
-	ssNameSpace: undefined,
+	repos: undefined,
 	
 	construct: function(opt) {
-		if(opt.serPattern != null) this.serPattern = opt.serPattern;
-		if(opt.id != null) this.id = opt.id;
-		if(opt.imageUrl != null) this.imageUrl = opt.imageUrl;
-		if(opt.description != null) this.description = opt.description;
-		if(opt.ssNameSpace != null) this.ssNameSpace = opt.ssNameSpace;
+		if(opt.serPattern !== null) this.serPattern = opt.serPattern; //refactor!!!
+		if(opt.id !== null) this.id = opt.id;
+		if(opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
+		if(opt.description !== null) this.description = opt.description;
 	},
 	
-	setDescription: function(desc) {
-		var params = {
-			modify: true,
-			ssNameSpace: this.ssNameSpace,
-			id: this.id,
-			description: desc
-		};
-		return this._sendRequest("POST", params);
-	},
-	
-	//Dopplung!
-	_sendRequest: function( method, params, successcallback, failedcallback ){
-
-		var suc = false;
-
-		new Ajax.Request(
-		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed
-		{
-           method			: method,
-           asynchronous		: false, 
-           parameters		: params,
-		   onSuccess		: function(transport) 
-		   {
-				suc = true;
+	setDescription: function(description) {
+		if (this.repos == null) return;
 		
-				if(successcallback)
-				{
-					successcallback( transport.responseText.evalJSON(true) );	
-				}
-		
-		   }.bind(this),
-		   onFailure		: function(transport) 
-		   {
-				if(failedcallback)
-				{							
-					failedcallback();							
-				} 
-				else 
-				{
-					//this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
-					ORYX.log.warn("Communication failed: " + transport.responseText);	
-				}					
-		   }.bind(this)		
-		});
-		
-		return suc;		
+		this.description = description;
+		this.repos.savePattern(this);
 	}
 	
 });
@@ -743,11 +701,13 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 	patternList : [],
 	ssNameSpace : undefined,
-	onUpdate : function(patternArray){}, //will be called, when new pattern are available
+	onUpdate: function(patternArray){}, //will be called, when new pattern are available
+	onPatternAdd: function(pattern){},
 	
-	construct: function(ssNameSpace, onUpdate) {
+	construct: function(ssNameSpace, onUpdate, onPatternAdd) {
 		this.ssNameSpace = ssNameSpace;
 		this.onUpdate = onUpdate;
+		this.onPatternAdd = onPatternAdd;
 	},
 	
 	loadPattern: function() {
@@ -755,7 +715,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 			var patterns = Ext.decode(resp);
 			patterns.each(function(opt) {
 				var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
-				pattern.ssNameSpace = this.ssNameSpace;
+				pattern.repos = this;
 				this.patternList.push(pattern);
 			}.bind(this));
 			this.onUpdate(this.patternList);
@@ -766,15 +726,21 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		return this.patternList;
 	},
 	
-	saveNewPattern: function(pattern, ssNameSpace) {
+	saveNewPattern: function(pattern) {
 		var params = {
 			pattern: Ext.encode(pattern),
-			ssNameSpace: ssNameSpace
+			ssNameSpace: this.ssNameSpace
 		};
 		
 		this._sendRequest("POST", params, function(resp){
-			//TODO adding of the node!!!
-		}); //TODO reflect failed add with removing the node??
+			var opt = Ext.decode(resp);
+			var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
+			this.onPatternAdd(pattern);
+		}.bind(this)); //TODO reflect failed add with removing the node??
+	},
+	
+	savePattern: function(pattern) {
+		this._sendRequest("POST", {pattern: Ext.encode(pattern), ssNameSpace: this.ssNameSpace}); //TODO use callbacks?
 	},
 	
 	_sendRequest: function( method, params, successcallback, failedcallback ){

@@ -115,7 +115,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 			Pattern currentPattern = it.next();
 			if (currentPattern.getId() == p.getId()) { //implement equals in pattern
 				it.set(p);
-				p.setRepos(this);
+				p.setRepos(this); //new pattern has repos == null
 				this.commit();
 				break;
 			}
