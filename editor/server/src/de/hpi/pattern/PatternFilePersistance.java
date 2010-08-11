@@ -68,7 +68,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 	}
 	
 	@Override
-	public void deletePattern(Pattern p) {
+	public void removePattern(Pattern p) {
 		ListIterator<Pattern> it = this.patternList.listIterator();
 		while(it.hasNext()) {
 			Pattern currentPattern = it.next();

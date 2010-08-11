@@ -63,6 +63,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		});
 				
 		//create Patternpanel as ext-tree-panel
+		//TODO implement treeloader! mix with patternRepository!
 		this.patternPanel = new Ext.tree.TreePanel({
 			iconCls: 'headerShapeRepImg',
 			cls:'shaperespository',
@@ -263,8 +264,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		var newNode = new Ext.tree.TreeNode({
 			leaf: true,
 			text: pattern.description,  
-			iconCls: 'ShapeRepEntreeImg',
-			cls: 'ShapeRepEntree',
+			iconCls: 'headerShapeRepImg',
+			cls: 'ShapeRepEntree PatternRepEntry',
 			icon:  ORYX.PATH + "images/pattern_add.png",
 			allowDrag: false,
 			allowDrop: false,
@@ -296,7 +297,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			ignoreNoChange: true
 		});
 		
-		treeEditor.on("beforecomplete", this.beforeComplete.bind(this));
+		treeEditor.on("complete", this.onComplete.bind(this));
 
 		this.patternPanel.on({
 			scope : this,
@@ -312,8 +313,16 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		treeEditor.triggerEdit(node);
 	},
 	
-	beforeComplete: function(editor, value, startValue) {
+	onComplete: function(editor, value, startValue) {  //TODO why being called two times???
 		var pattern = editor.editNode.attributes.attributes;
+	
+		if (value == 'delete') {
+			// editor.cancelEdit(false);
+			editor.editNode.remove();
+			pattern.remove();
+			return false;  //cancel the editing event! TODO double code!
+		}
+		
 		return pattern.setDescription(value);
 	},
 	
@@ -694,6 +703,10 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 		
 		this.description = description;
 		this.repos.savePattern(this);
+	},
+	
+	remove: function() {
+		this.repos.removePattern(this);
 	}
 	
 });
@@ -734,13 +747,23 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		
 		this._sendRequest("POST", params, function(resp){
 			var opt = Ext.decode(resp);
-			var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
+			var pattern = new ORYX.Plugins.Patterns.Pattern(opt);  //TODO implement constructor with repos!!!
+			pattern.repos = this;
 			this.onPatternAdd(pattern);
 		}.bind(this)); //TODO reflect failed add with removing the node??
 	},
 	
 	savePattern: function(pattern) {
 		this._sendRequest("POST", {pattern: Ext.encode(pattern), ssNameSpace: this.ssNameSpace}); //TODO use callbacks?
+	},
+	
+	removePattern: function(pattern) {
+		var params = {
+			pattern: Ext.encode(pattern), //TODO handle uniformly!
+			remove: true,
+			ssNameSpace: this.ssNameSpace
+		};
+		this._sendRequest("POST", params); // TODO handle success and failed callback
 	},
 	
 	_sendRequest: function( method, params, successcallback, failedcallback ){
@@ -772,7 +795,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 				else 
 				{
 					//this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
-					ORYX.log.warn("Communication failed: " + transport.responseText);	
+					ORYX.log.warn("Communication failed: " + transport.responseText);	//TODO warning ORYX.log is undefined
 				}					
 		   }.bind(this)		
 		});

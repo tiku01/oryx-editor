@@ -26,9 +26,9 @@ public class PatternServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		boolean delete = new Boolean(req.getParameter("delete"));
+		boolean remove = new Boolean(req.getParameter("remove"));
 		
-		String patternJSON = req.getParameter("pattern"); //TODO catch non existent parameter
+		String patternJSON = req.getParameter("pattern"); //TODO catch non existent parameters
 		Pattern pattern = Pattern.fromJSON(patternJSON);
 		
 		String ssNameSpace = req.getParameter("ssNameSpace");
@@ -36,8 +36,8 @@ public class PatternServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		
-		if (delete) {
-			deletePattern(pattern, ssNameSpace);  //TODO what about a response here???
+		if (remove) {
+			removePattern(pattern, ssNameSpace);  //TODO what about a response here???
 		} else {
 			resp.getWriter().println(this.savePattern(pattern, ssNameSpace).toJSONString());
 		}
@@ -51,9 +51,9 @@ public class PatternServlet extends HttpServlet {
 		return result;
 	}
 
-	private void deletePattern(Pattern p, String ssNameSpace) {
+	private void removePattern(Pattern p, String ssNameSpace) {
 		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		repos.deletePattern(p);		
+		repos.removePattern(p);		
 	}
 
 	
