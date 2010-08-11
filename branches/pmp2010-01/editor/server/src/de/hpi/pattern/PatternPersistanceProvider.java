@@ -26,7 +26,7 @@ public interface PatternPersistanceProvider {
 	 * deletes the specified pattern
 	 * @param p
 	 */
-	public void deletePattern(Pattern p);
+	public void removePattern(Pattern p);
 	
 	/**
 	 * returns all patterns for the stencilset

@@ -215,6 +215,11 @@ table-layout:fixed;
 	color:black;
 }
 
+.x-tree-node img.headerPatternRepImg, .PatternRepEntry .x-tree-ec-icon {
+	background: none;
+	width:0px;
+}
+
 .ShapeRepEntree{
 	margin:1px;
 	padding:5px 0px;
