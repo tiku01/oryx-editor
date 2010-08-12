@@ -23,11 +23,17 @@
 
 package org.oryxeditor.server;
 
-import java.io.File;
+import java.net.URLConnection;
+import java.net.URL;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileInputStream;
+import java.io.File;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,17 +45,20 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.FileRequestEntity;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*
-import org.oryxeditor.server.diagram.Diagram;
-import org.oryxeditor.server.diagram.DiagramBuilder;
-
-import org.apache.commons.fileupload.*;
-import org.apache.commons.fileupload.disk.*;
-import org.apache.commons.fileupload.servlet.*;
-*/
+import sun.misc.Perf.GetPerfAction;
 
 
 public class TBPMServlet extends HttpServlet {
@@ -61,7 +70,6 @@ public class TBPMServlet extends HttpServlet {
 
 		res.setContentType("text/html");
 		res.setStatus(200);
-		
 		PrintWriter out = null;
 		try {
 			out = res.getWriter();
@@ -87,44 +95,62 @@ public class TBPMServlet extends HttpServlet {
 	    		printError(res, "No file with .png or .jpg extension uploaded.");
 	    		return ;
 	    	}
-			JSONObject object = this.processUploadedFile(fileItem);
-			System.out.println(object.getString("model"));
-			object.write(out);
+			String response = this.processUploadedFile(fileItem);
+			System.out.println("final response: " + response);
+			out.write(response);
 
 		} catch (FileUploadException e1) {
 			e1.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 	}
 
-	private JSONObject processUploadedFile(FileItem item) {
-//		String fileName = item.getName();
+	private String processUploadedFile(FileItem item) {
+		String fileName = item.getName();
 		String tmpPath = this.getServletContext().getRealPath("/")
 				+ File.separator + "tmp" + File.separator;
 		String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
-		JSONObject object = new JSONObject();	
 		// create tmp folder
 		File tmpFolder = new File(tmpPath);
 		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
 		}
 
-//		File uploadedImage = new File(tmpFolder, fileName);
-		String json = "";
+		File uploadedImage = new File(tmpFolder, fileName);
+		String response = "";
 		try {
-//			item.write(uploadedImage);
-//			
-//			String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
-//			
-//			TBPM2BPMNConverter converter = new TBPM2BPMNConverter(tmpFolder + "\\"
-//					+ fileName, uploadedImage, rootDir);
-//			json = converter.convertImage();
+			item.write(uploadedImage);
+			response = this.sendRequest(uploadedImage, fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return object;
+		return response;
 
+	}
+	
+	private String sendRequest(File img, String fileName){
+		String url = "http://localhost:8080/tbpm/recognition";
+		HttpClient client = new HttpClient();
+		client.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 30000);
+		
+        PostMethod method = new PostMethod(url);
+        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
+        		new DefaultHttpMethodRetryHandler(3, false));
+        
+        System.out.println("File Length = " + img.length());
+        String response = "";
+        try {
+        	Part[] parts = {new FilePart(img.getName(), img)};
+            method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
+			int statusCode1 = client.executeMethod(method);
+        	response = method.getResponseBodyAsString();
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        method.releaseConnection();
+        return response;
 	}
 	
 	private void printError(HttpServletResponse res, String err){
@@ -143,56 +169,4 @@ public class TBPMServlet extends HttpServlet {
     		out.print("{success:false, content:'"+err+"'}");
     	}
     }
-
-	/**
-	 * Performs the generation of BPMN 2.0 XML and triggers the XSLT
-	 * transformation.
-	 * 
-	 * @param json
-	 *            The diagram in JSON format
-	 * @param writer
-	 *            The HTTP-response writer
-	 * @throws Exception
-	 *             Exception occurred while processing
-	 */
-	protected StringWriter performTransformationToDi(String json)
-			throws Exception {
-
-		// response.setContentType("image/jpeg");
-
-		StringWriter writer = new StringWriter();
-
-		/* Retrieve diagram model from JSON */
-
-//		Diagram diagram = DiagramBuilder.parseJson(json);
-
-		/*
-		 * Diagram2BpmnConverter converter = new Diagram2BpmnConverter(diagram);
-		 * Definitions bpmnDefinitions = converter.getDefinitionsFromDiagram();
-		 * 
-		 * 
-		 * JAXBContext context = JAXBContext.newInstance(Definitions.class);
-		 * Marshaller marshaller = context.createMarshaller();
-		 * marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-		 * Boolean.TRUE);
-		 * 
-		 * NamespacePrefixMapper nsp = new BPMNPrefixMapper();
-		 * marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-		 * nsp);
-		 * 
-		 * marshaller.marshal(bpmnDefinitions, writer);
-		 */
-
-		return writer;
-	}
-
-//	private static String escapeJSON(String json) {
-//		// escape (some) JSON special characters
-//		String res = json.replace("\"", "\\\"");
-//		res = res.replace("\n", "\\n");
-//		res = res.replace("\r", "\\r");
-//		res = res.replace("\t", "\\t");
-//		return res;
-//	}
-
 }
