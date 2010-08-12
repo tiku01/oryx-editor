@@ -60,8 +60,7 @@ public class HeuristicVisioFreeTextInterpreter {
 		return visioPage;
 	}
 
-	private void interpreteShapeWithoutNameButWithLabelHeuristic(Shape freeTextShape, Page visioPage,
-			List<Shape> shapesWithNames) {
+	private void interpreteShapeWithoutNameButWithLabelHeuristic(Shape freeTextShape, Page visioPage, List<Shape> shapesWithNames) {
 		Double isLabelThreshold = Double.valueOf(importUtil.getHeuristic("labelOnlyIsLabelForAnotherShapeThreshold"));
 		Double isAnnotationThreshold = Double.valueOf(importUtil.getHeuristic("labelOnlyIsAnnotationToAnotherShapeThreshold"));
 		String annotationType = importUtil.getStencilSetConfig("labelOnlyAnnotationType");
