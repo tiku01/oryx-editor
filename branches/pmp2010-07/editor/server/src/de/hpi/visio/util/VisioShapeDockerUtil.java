@@ -16,8 +16,8 @@ import de.hpi.visio.data.Shape;
  */
 public class VisioShapeDockerUtil {
 
-	public ImportConfigurationUtil importUtil;
-	public VisioShapeBoundsUtil boundsUtil;
+	private ImportConfigurationUtil importUtil;
+	private VisioShapeBoundsUtil boundsUtil;
 
 	public VisioShapeDockerUtil(ImportConfigurationUtil importUtil, VisioShapeBoundsUtil boundsUtil) {
 		this.importUtil = importUtil;

@@ -198,6 +198,8 @@ public class Shape {
 	}
 
 	public void setCentralPin(Point newPin) {
+		if (xForm == null)
+			xForm = new XForm();
 		xForm.setCentralPin(newPin);
 	}
 

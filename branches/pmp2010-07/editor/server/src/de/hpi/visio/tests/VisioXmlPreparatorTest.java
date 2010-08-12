@@ -7,7 +7,7 @@ import org.junit.Test;
 import de.hpi.visio.VisioXmlPreparator;
 
 /**
- * Test for the preparation - cleaning - of given visio .vdx-xml content. Tests
+ * Test for the preparation (cleaning) of given visio .vdx-xml content. Tests
  * that the xml declaration is removed and also all attributes of the root
  * element. Furthermore the v14 (office version 14 - 2010) namespace and that
  * all <text></text> elements are clean - containing no child-elements.
