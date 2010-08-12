@@ -53,8 +53,10 @@
 			"type": "node",
 			"id":"Diagram",
 			"title":"Diagram",
+			"title_de":"Diagramm",
 			"groups":[],
-			"description":"A Diagram",
+			"description":"A UML Use Case Diagram",
+			"description_de":"A UML Use Case Diagram",
 			"view":"node.diagram.svg",
 			"icon":"node.diagram.png",
 			"roles": [
@@ -77,14 +79,16 @@
 		},
  		{
 			"type": "node",
-			"id":"umlHumanActor",
+			"id":"humanActor",
 			"title":"Human Actor",
+			"title_de":"Menschlicher Akteur",
 			"groups":["Nodes"],
-			"description":"An actor can use different use cases a system offers.",
+			"description":"A human actor is placed outside any system and accesses different use cases",
+			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
 			"view":"node.Actor.human.svg",
 			"icon":"node.Actor.human.png",
 			"roles": [
-				"diagramcontent",
+				"diagramContent",
 				"annotatable",
 				"actor",
 				"actorMorph"
@@ -116,14 +120,16 @@
 		},
 		{
 			"type": "node",
-			"id":"umlActor",
+			"id":"simpleActor",
 			"title":"Actor",
+			"title_de":"Akteur",
 			"groups":["Nodes"],
-			"description":"An actor can use different use cases a system offers.",
+			"description":"A human actor is placed outside any system and accesses different use cases",
+			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
 			"view":"node.actor.svg",
 			"icon":"node.actor.png",
 			"roles": [
-				"diagramcontent",
+				"diagramContent",
 				"annotatable",
 				"actor",
 				"actorMorph"
@@ -181,16 +187,17 @@
 		
 		{
 			"type": "node",
-			"id":"umlUcSystem",
+			"id":"system",
 			"title":"System",
+			"title_de":"System",
 			"groups":["Nodes"],
-			"description":"A System",
+			"description":"A System contains use casese",
+			"description_de":"Ein System enthält Anwendungsfälle",
 			"view":"node.system.svg",
 			"icon":"node.system.png",
 			"roles": [
-				"diagramcontent",
-				"System",
-				"systemcontent",
+				"diagramContent",
+				"systemContent",
 				"annotatable"
 			],
 			"properties": [
@@ -246,15 +253,17 @@
 		},
 		{
 			"type": "node",
-			"id":"umlNote",
+			"id":"note",
 			"title":"Note",
+			"title_de":"Notiz",
 			"groups":["Nodes"],
-			"description":"A System",
+			"description":"Comment regarding a diagram element",
+			"description_de":"Kommentar mit Bezug zu einem Modellelement oder Diagramm",
 			"view":"node.note.svg",
 			"icon":"node.note.png",
 			"roles": [
-				"diagramcontent",
-				"systemcontent",
+				"diagramContent",
+				"systemContent",
 				"annotation"
 			],
 			"properties": [
@@ -296,15 +305,17 @@
 		},
 		{
 			"type": "node",
-			"id":"umlUseCase",
+			"id":"useCase",
 			"title":"Use Case",
+			"title_de":"Anwendungsfall",
 			"groups":["Nodes"],
-			"description":"A use case a system owns",
+			"description":"A use case is a set of actions a system performs to create observable result",
+			"description_de":"Ein Anwendungsfall ist eine Menge von Aktionen, die ein Sysem ausführt um ein sichtbares Ergebnis zu erzielen",
 			"view":"node.useCase.svg",
 			"icon":"node.useCase.png",
 			"roles": [
-			    "usecase",
-				"systemcontent",
+			    "useCaseRole",
+				"systemContent",
 				"annotatable",
 				"useCaseMorph"
 			],
@@ -347,15 +358,17 @@
 		},
 		{
 			"type": "node",
-			"id":"umlUseCaseExtended",
+			"id":"useCaseExtended",
 			"title":"Use Case Extended",
+			"title_de":"Erweiterter Anwendungsfall",
 			"groups":["Nodes"],
-			"description":"A use case a system owns",
+			"description":"Similiar to simple Use Case, but also has some optional extensions",
+			"description_de":"Ähnlich zu einfachem Anwendungsfall, enthält aber optionale Erweiterungen",
 			"view":"node.useCase.extended.svg",
 			"icon":"node.useCase.extended.png",
 			"roles": [
-			    "usecase",
-				"systemcontent",
+			    "useCaseRole",
+				"systemContent",
 				"annotatable",
 				"useCaseMorph"
 			],
@@ -426,15 +439,17 @@
 		
 		{
 			"type": "edge",
-			"id":"umlUcUndirectedAssociation",
-			"title":"Association",
+			"id":"undirectedAssociation",
+			"title" :"Undirected Association",
+			"title_de" :"Ungerichtete Assoziation",
 			"groups":["Connectors"],
-			"description":"Can connect Actors and Use Cases.",
+			"description" : "Association between actors and use cases without navigatability restrictions",
+			"description_de" : "Assoziation zwischen Akteuren und Anwendungsfällen ohne Angabe einer Navigationsrichtung",
 			"view":"edge.association.svg",
 			"icon":"edge.association.png",
 			"roles": [
 				"Association",
-				"diagramcontent",
+				"diagramContent",
 				"annotatable"
 			],
 			"propertyPackages" : [
@@ -444,15 +459,17 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlUcDirectedAssociation",
-			"title":"Directed Association",
+			"id":"directedAssociation",
+			"title" : "Directed Association",
+			"title_de" : "Gerichtete Assoziation",
 			"groups":["Connectors"],
-			"description":"Can connect Actors and Use Cases.",
+			"description" : "Association with a navigation direction",
+			"description_de" : "Assoziation mit Angabe einer Navigationsrichtung",
 			"view":"edge.directed_association.svg",
 			"icon":"edge.directed_association.png",
 			"roles": [
 				"Association",
-				"diagramcontent",
+				"diagramContent",
 				"annotatable"
 			],
 			"propertyPackages" : [
@@ -462,15 +479,17 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlUcUnnavigableDirectedAssociation",
-			"title":"Unnavigable Association",
+			"id":"unnavigableDirectedAssociation",
+			"title" : "Unnavigable Directed Association",
+			"title_de" : "Eingeschränkte gerichtete Assoziation",
 			"groups":["Connectors"],
-			"description":"Can connect Actors and Use Cases.",
+			"description" : "Directed Association restricted to one navigation direction",
+			"description_de" : "Gerichtete Assoziation mit Beschränkung auf eine Navigationsrichtung",
 			"view":"edge.unnavigable_directed_association.svg",
 			"icon":"edge.unnavigable_directed_association.png",
 			"roles": [
 				"Association",
-				"diagramcontent",
+				"diagramContent",
 				"annotatable"
 			],
 			"propertyPackages" : [
@@ -480,28 +499,32 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlUcGeneralization",
-			"title":"Generalization",
+			"id":"generalization",
+			"title" : "Generalization",
+			"title_de" : "Generalisierung",
 			"groups":["Connectors"],
-			"description":"Can connect Actors and Use Cases.",
+			"description" : "Generalization indicates inheritance relations between elements",
+			"description_de" : "Generalisierung gibt Ableitungsbeziehungen zwischen Elementen wieder",
 			"view":"edge.generalization.svg",
 			"icon":"edge.generalization.png",
 			"roles": [
 				"Generalization",
-				"diagramcontent",
+				"diagramContent",
 				"annotatable"
 			]
 		},
 		{
 			"type": "edge",
-			"id":"umlUcInclude",
+			"id":"include",
 			"title":"Include",
+			"title_de":"Einschließen",
 			"groups":["Connectors"],
-			"description":"Can connect Use Cases.",
+			"description":"A use case completely includes another use case",
+			"description_de":"Ein Anwendungsfall enthält komplett einen anderen",
 			"view":"edge.include.svg",
 			"icon":"edge.include.png",
 			"roles": [
-				"diagramcontent",
+				"diagramContent",
 				"annotatable",
 				"IncludeExtend"
 			],
@@ -523,14 +546,16 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlUcExtend",
+			"id":"extend",
 			"title":"Extend",
+			"title_de":"Erweitern",
 			"groups":["Connectors"],
-			"description":"Can connect Use Cases.",
+			"description":"A use case extends another use case if a condition is fulfilled",
+			"description_de":"Ein Anwendungsfall erweitert einen anderen Anwendungsfall, falls eine Bedingung erfüllt ist",
 			"view":"edge.extend.svg",
 			"icon":"edge.extend.png",
 			"roles": [
-				"diagramcontent",
+				"diagramContent",
 				"annotatable",
 				"IncludeExtend"
 			],
@@ -552,32 +577,35 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlUcAnnotationEdge",
-			"title":"Annotation Edge",
+			"id":"annotationEdge",
+			"title" : "Annotation Edge",
+			"title_de" : "Kommentarkante",
 			"groups":["Connectors"],
-			"description":"Can connect annotatables with annotations.",
+			"description" : "Connects a note with a model element",
+			"description_de" : "Verbindet eine Notiz mit einem Modellelement",
 			"view":"edge.annotation.svg",
 			"icon":"edge.annotation.png",
 			"roles": [
-				"diagramcontent",
+				"diagramContent",
 				"annotatable"
 			]
 		}
-	],	
+	],
+		
 	"rules": {
 	    
 		"morphingRules": [
 			{
 				"role" : "useCaseMorph",
-				"baseMorphs" : ["umlUseCase", "umlUseCaseExtended"]
+				"baseMorphs" : ["useCase", "useCaseExtended"]
 			},
 			{
 				"role" : "actorMorph",
-				"baseMorphs" : ["umlActor", "umlHumanActor"]
+				"baseMorphs" : ["simpleActor", "humanActor"]
 			},
 			{
 				"role" : "association",
-				"baseMorphs" : ["umlUcUndirectedAssociation", "umlUcDirectedAssociation", "umlUcUnnavigableDirectedAssociation" ]
+				"baseMorphs" : ["undirectedAssociation", "directedAssociation", "unnavigableDirectedAssociation" ]
 			}
 		],
 		"connectionRules": [
@@ -585,12 +613,12 @@
                 "role":"Association",
                 "connects": [
                     {
-                        "from":"usecase",
+                        "from":"useCaseRole",
                         "to":["actor"]
                     },
                     {
                         "from":"actor",
-                        "to":["usecase"]
+                        "to":["useCaseRole"]
                     }
                 ]
             },
@@ -602,8 +630,8 @@
                         "to":["actor"]
                     },
                     {
-                        "from":"usecase",
-                        "to":["usecase"]
+                        "from":"useCaseRole",
+                        "to":["useCaseRole"]
                     }
                 ]
             },
@@ -611,13 +639,13 @@
                 "role":"IncludeExtend",
                 "connects": [
                     {
-                        "from":"usecase",
-                        "to":["usecase"]
+                        "from":"useCaseRole",
+                        "to":["useCaseRole"]
                     }
                 ]
             },
             {
-				"role":"umlUcAnnotationEdge",
+				"role":"annotationEdge",
 				"connects":[
 					{ 
 					    "from":"annotatable",
@@ -633,12 +661,12 @@
 			{
 				"role":"Diagram",
 				"contains": [
-					"diagramcontent"
+					"diagramContent"
 				]
 			},
 			{
-			"role":"System",
-			"contains":["systemcontent"]
+			"role":"system",
+			"contains":["systemContent"]
 			}
 		]
 	}

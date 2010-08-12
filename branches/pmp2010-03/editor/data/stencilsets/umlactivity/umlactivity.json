@@ -7,8 +7,10 @@
 			"type": "node",
 			"id":"Diagram",
 			"title":"Diagram",
+			"title_de" :"Diagramm",
 			"groups":[],
-			"description":"A Diagram",
+			"description":"A UML Activity Diagram",
+			"description_de":"UML Aktivitätsdiagram",
 			"view":"node.diagram.svg",
 			"icon":"node.diagram.png",
 			"roles": [],
@@ -28,33 +30,22 @@
 				}
 			]
 		},
-		{
-			"type": "node",
-			"id":"ActivityRegionCanvas",
-			"title":"ActivityRegionCanvas",
-			"groups":[],
-			"description":"Just For Scripting",
-			"view":"node.activityRegion.canvas.svg",
-			"icon":"node.activityRegion.canvas.png",
-			"roles": ["diagramcontent"],
-			"properties": [],
-			"layout" : [{"type" : "layout.uml.activityRegion"}]
-		},
  		{
 			"type": "node",
-			"id":"umlAction",
+			"id":"action",
 			"title":"Action",
+			"title_de" : "Aktion",
 			"groups":["Actions and Events"],
-			"description":"Action",
+			"description":"Fundamental unit of behavior specification, which converts input to output.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten mit Ein- und Ausgabe.",
 			"view":"node.action.svg",
 			"icon":"node.action.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"action",
+				"actionRole",
 				"controlFlowElement",
-				"activityContent",
-				"actionMorph"
+				"activityContent"
 			],
 			"properties": [
 				{
@@ -86,20 +77,21 @@
 		},
 		{
 			"type": "node",
-			"id":"umlActivity",
+			"id":"activity",
 			"title":"Activity",
+			"title_de":"Aktivität",
 			"groups":["Actions and Events"],
-			"description":"Activity",
+			"description":"A unit which coordinates sequences and conditions of lower-level behavior",
+			"description_de":"Einheit, die Sequenzen und Bedingungen niedrigerer Ebene koordiniert.",
 			"view":"node.activity.svg",
 			"icon":"node.activity.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"action",
+				"actionRole",
 				"controlFlowElement",
 				"activityContent",
-				"Activity",
-				"actionMorph"
+				"activityRole"
 			],
 			"properties": [
 				{
@@ -131,10 +123,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAndHorizontal",
-			"title":"And Split/Join",
+			"id":"andHorizontal",
+			"title":"And Fork/Join",
+			"title_de":"Entscheidung/Gabelung",
 			"groups":["Control Flow Nodes"],
-			"description":"And",
+			"description":"A control node that splits a flow into multiple concurrent flows / A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt / Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
 			"view":"node.and.horizontal.svg",
 			"icon":"node.and.horizontal.png",
 			"roles": [
@@ -162,10 +156,11 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAndVertical",
-			"title":"And Split/Join",
+			"title":"And Fork/Join",
+			"title_de":"Gabelung/Vereinigung",
 			"groups":["Control Flow Nodes"],
-			"description":"And",
+			"description":"A control node that splits a flow into multiple concurrent flows / A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt / Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
 			"view":"node.and.vertical.svg",
 			"icon":"node.and.vertical.png",
 			"roles": [
@@ -193,10 +188,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlOr",
-			"title":"Or Split/Join",
+			"id":"orNode",
+			"title":"Decision/Merge",
+			"title_de":"Entscheidung/Kreuzung",
 			"groups":["Control Flow Nodes"],
-			"description":"Or",
+			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
 			"view":"node.or.svg",
 			"icon":"node.or.png",
 			"roles": [
@@ -236,10 +233,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlInitialNode",
+			"id":"initialNode",
 			"title":"Initial Node",
+			"title_de":"Startknoten",
 			"groups":["Start and End"],
-			"description":"Initial Node",
+			"description":"A control node at which flow starts when the activity is invoked.",
+			"description_de":"Kontrollknoten, bei dem der Ablauf anfängt, wenn eine Aktivität angestoßen wird.",
 			"view":"node.initialNode.svg",
 			"icon":"node.initialNode.png",
 			"roles": [
@@ -265,10 +264,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlFlowFinalNode",
+			"id":"flowFinalNode",
 			"title":"Flow Final Node",
+			"title_de":"Ablaufende",
 			"groups":["Start and End"],
-			"description":"Flow Final Node",
+			"description":"Final node that terminates a flow",
+			"description_de":"Endknoten, der einen Ablauf terminiert",
 			"view":"node.flowFinalNode.svg",
 			"icon":"node.flowFinalNode.png",
 			"roles": [
@@ -308,10 +309,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlActivityFinalNode",
+			"id":"activityFinalNode",
 			"title":"Activity Final Node",
+			"title_de":"Aktivitätsende",
 			"groups":["Start and End"],
-			"description":"Activity Final Node",
+			"description":"A final node that stops all flows in an activity",
+			"description_de":"Endknoten, der alle Abläufe in einer Aktivität beendet",
 			"view":"node.activityFinalNode.svg",
 			"icon":"node.activityFinalNode.png",
 			"roles": [
@@ -351,10 +354,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcObject",
+			"id":"object",
 			"title":"Object",
+			"title_de":"Objekt",
 			"groups":["Object"],
-			"description":"A System",
+			"description":"An object is part of the object flow in an activity",
+			"description_de":"Ein Objekt ist ein Teil des Objektflusses in Aktivitäten",
 			"view":"node.object.svg",
 			"icon":"node.object.png",
 			"roles": [
@@ -392,10 +397,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcReceivingEvent",
-			"title":"Receiving Event",
+			"id":"acceptEvent",
+			"title":"Accept Event",
+			"title_de":"Akzeptierendes Ereignis",
 			"groups":["Actions and Events"],
-			"description":"A System",
+			"description":"An action that waits for the occurrence of an event meeting specified condition",
+			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
 			"view":"node.event.incoming.svg",
 			"icon":"node.event.incoming.png",
 			"roles": [
@@ -435,10 +442,12 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcSendingEvent",
-			"title":"Sending Event",
+			"id":"sendEvent",
+			"title":"Send Event",
+			"title_de":"Sendendes Ereignis",
 			"groups":["Actions and Events"],
-			"description":"A System",
+			"description":"An action that creates a signal instance which is transmitted to a target object",
+			"description_de":"Aktion, die ein Signal erzeugt und zum Zielobjekt sendet",
 			"view":"node.event.outgoing.svg",
 			"icon":"node.event.outgoing.png",
 			"roles": [
@@ -477,12 +486,15 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcTimedEvent",
-			"title":"Timed Event",
+			"id":"timeEvent",
+			"title":"Time Event",
+			"title_de":"Timed Event",
 			"groups":["Actions and Events"],
-			"description":"A System",
-			"view":"node.event.timed.svg",
-			"icon":"node.event.timed.png",
+			"description":"An action that creates a signal instance when time condition is fulfilled",
+			"description_de":"Aktion, die ein Signal erzeugt wenn eine Zeitbedingung erfüllt ist",
+			"description_de":"A System",
+			"view":"node.event.time.svg",
+			"icon":"node.event.time.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
@@ -520,16 +532,18 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcInterruptableArea",
-			"title":"Interruptable Area",
+			"id":"interruptableRegion",
+			"title":"Interruptable Region",
+			"title_de":"Unterbrechungsbereich",
 			"groups":["Interrupt"],
-			"description":"A System",
-			"view":"node.interruptableArea.svg",
-			"icon":"node.interruptableArea.png",
+			"description":"An activity group that supports termination of tokens flowing in the portions of an activity.",
+			"description_de":"Aktivitätsgruppe, die die Terminierung von Tokens in ihr ermöglicht",
+			"view":"node.interruptableRegion.svg",
+			"icon":"node.interruptableRegion.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
-				"Activity",
+				"activityRole",
 				"annotatable"
 			],
 			"properties": [
@@ -562,15 +576,17 @@
 		},
 		{
 			"type": "node",
-			"id":"umlAcActivityRegion",
-			"title":"Activity Region",
+			"id":"activityPartition",
+			"title":"Activity Partition",
+			"title_de":"Aktivitätsbereich",
 			"groups":["Activity Region"],
-			"description":"A System",
-			"view":"node.activityRegion.vertical.svg",
-			"icon":"node.activityRegion.vertical.png",
+			"description":"Partitions divide the nodes and edges to constrain and show a view of the contained nodes",
+			"description_de":"Partitionen teilen Aktionen ein, um die Sicht auf diese zu verdeutlichen",
+			"view":"node.activityPartition.vertical.svg",
+			"icon":"node.activityPartition.vertical.png",
 			"roles": [
 				"diagramcontent",
-				"Activity"
+				"activityRole"
 				
 			],
 			"properties": [
@@ -588,14 +604,16 @@
 					"wrapLines":true
                 }
 			],
-			"layout" : [{"type" : "layout.uml.activityRegion"}]
+			"layout" : [{"type" : "layout.uml.activityPartition"}]
 		},
 		{
 			"type": "node",
-			"id":"umlAcNote",
+			"id":"note",
 			"title":"Note",
+			"title":"Notiz",
 			"groups":["Annotation"],
-			"description":"A System",
+			"description": "Comment regarding a diagram element",
+			"description_de": "Kommentar mit Bezug zu einem Modellelement oder Diagramm",
 			"view":"node.note.svg",
 			"icon":"node.note.png",
 			"roles": [
@@ -642,10 +660,12 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlAnnotationEdge",
-			"title":"Annotation Edge",
+			"id":"annotationEdge",
+			"title" : "Annotation Edge",
+			"title_de" : "Kommentarkante",
 			"groups":["Annotation"],
-			"description":"Can connect annotatables with annotations.",
+			"description" : "Connects a note with a model element",
+			"description_de" : "Verbindet eine Notiz mit einem Modellelement",
 			"view":"edge.annotation.svg",
 			"icon":"edge.annotation.png",
 			"roles": [
@@ -658,8 +678,10 @@
 			"type": "edge",
 			"id":"controlFlow",
 			"title":"Control Flow",
+			"title_de":"Kontrollfluss",
 			"groups":["Control Flow"],
-			"description":"Can connect control flow elements.",
+			"description":"Connects actions, activities and events",
+			"description":"Verbindet Aktionen, Aktivitäten und Ereignisse",
 			"view":"edge.controlFlow.svg",
 			"icon":"edge.controlFlow.png",
 			"roles": [
@@ -685,10 +707,12 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlObjectFlow",
+			"id":"objectFlow",
 			"title":"Object Flow",
+			"title_de":"Objektfluss",
 			"groups":["Object"],
-			"description":"Can connect objects with actions and the other way round.",
+			"description":"Connects objects with actions or actions with objects",
+			"description_de":"Verbindet Objekte mit Aktionen oder Aktionen mit Objekten",
 			"view":"edge.objectFlow.svg",
 			"icon":"edge.objectFlow.png",
 			"roles": [
@@ -714,10 +738,12 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlObjectFlowImplicit",
+			"id":"objectFlowImplicit",
 			"title":"Object Flow With Pins",
+			"title_de":"Objektfluss mit Pins",
 			"groups":["Object"],
-			"description":"Can connect objects with actions and the other way round.",
+			"description":"Connects two actions to indicate object flow",
+			"description_de":"Verbindet zwei Aktionen um Objektfluss darzustellen",
 			"view":"edge.objectFlow.implicit.svg",
 			"icon":"edge.objectFlow.implicit.png",
 			"roles": [
@@ -769,65 +795,82 @@
 		},
 		{
 			"type": "edge",
-			"id":"umlInterrupt",
+			"id":"interrupt",
 			"title":"Interrupt Edge",
+			"title_de":"Unterbrechungskante",
 			"groups":["Interrupt"],
-			"description":"Connects Event with action.",
+			"description":"Connects causing Event with any kind of action.",
+			"description":"Verbindet auslösendes Ereigniss mit Aktion",
 			"view":"edge.interrupt.svg",
 			"icon":"edge.interrupt.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
 				"activityContent"
+			],
+			"properties": [
+			    {
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }			    
 			]
 		}
 	],	
 	"rules": {
 	    
-		"morphingRules": [
+	    "morphingRules": [
 			{
-				"role" : "and",
-				"baseMorphs" : ["umlAndHorizontal", "umlAndVertical"]
+				"role":"and",
+				"baseMorphs" : ["andHorizontal", "andVertical"]
 			}
-		],
+		],	    
 		"connectionRules": [
 			{
                 "role":"controlFlow",
                 "connects": [
                     {
                         "from":"controlFlowElement",
-                        "to":["controlFlowElement","umlFlowFinalNode","umlActivityFinalNode"]
+                        "to":["controlFlowElement","flowFinalNode","activityFinalNode"]
                     },
                     {
-                        "from":"umlInitialNode",
+                        "from":"initialNode",
                         "to":["controlFlowElement"]
                     }
                 ]
             },
             {
-                "role":"umlObjectFlow",
+                "role":"objectFlow",
                 "connects": [
                     {
-                        "from":"action",
-                        "to":["umlAcObject"]
+                        "from":"actionRole",
+                        "to":["object"]
                     },
                     {
                         "from":"object",
-                        "to":["umlAcObject"]
+                        "to":["actionRole"]
                     }
                 ]
             },
             {
-                "role":"umlObjectFlowImplicit",
+                "role":"objectFlowImplicit",
                 "connects": [
                     {
-                        "from":"action",
-                        "to":["action"]
+                        "from":"actionRole",
+                        "to":["actionRole"]
                     }
                 ]
             },
             {
-				"role":"umlAnnotationEdge",
+				"role":"annotationEdge",
 				"connects":[
 					{ 
 					    "from":"annotatable",
@@ -840,15 +883,16 @@
 				]
 			},
 			{
-				"role":"umlInterrupt",
+				"role":"interrupt",
 				"connects":[
 					{ 
 					    "from":"causingEvent",
-					    "to":"action" 
+					    "to":"actionRole" 
 					}
 				]
 			}
 		],
+		
 		"containmentRules": [
 			{
 				"role":"Diagram",
@@ -857,32 +901,17 @@
 				]
 			},
 			{
-				"role":"Activity",
+				"role":"activityRole",
 				"contains": [
 					"activityContent"
 				]
 			},
 			{
-				"role":"ActivityRegionCanvas",
+				"role":"activityPartition",
 				"contains": [
-					"umlAcActivityRegion"
-				]
-			},
-			{
-				"role":"umlAcActivityRegion",
-				"contains": [
-					"umlAcActivityRegion"
+					"activityPartition"
 				]
 			}			
-		],
-		"layoutRules" : [
-			{
-				"role": "actionMorph",
-				"outs":[{"edgeRole":"controlFlow","t":1, "r":2, "b":1, "l":2},
-						{"t":2,"r":1,"b":2,"l":1}],
-				"ins": [{"edgeRole":"controlFlow","t":1, "r":2, "b":1, "l":2},
-						{"t":2, "r":1, "b":2, "l":1}]
-			}
 		]
 	}
 }

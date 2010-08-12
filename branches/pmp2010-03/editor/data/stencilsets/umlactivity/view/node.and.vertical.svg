@@ -4,9 +4,8 @@
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
   	<g
-     	oryx:minimumSize="5 20"
-     	oryx:maximumSize="5 100"
-     	id="and">
+     	oryx:minimumSize="10 20"
+     	oryx:maximumSize="10 100">
     	<rect
     		x="0"
     		y="0"

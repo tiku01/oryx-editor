@@ -6,54 +6,38 @@
    	<defs>
 		<marker 
 			id="end" 
-			refX="10" 
-			refY="5" 
+			refX="45" 
+			refY="15" 
 			markerUnits="userSpaceOnUse" 
-			markerWidth="10" 
-			markerHeight="10" 
+			markerWidth="45" 
+			markerHeight="20" 
 			orient="auto">
 		  	
 		  	<path 
-		  		d="M 0 10 L 10 5 L 0 0" 
+		  		d="M 0 5 L 25 10 L 15 0 L 40 5 L 33 0 M 40 5 L 32 7" 
+		  		fill="none" 
+		  		stroke="black" 
+		  		stroke-width="1"/>
+				
+			<path 
+		  		d="M 35 10 L 45 15 L 35 20" 
 		  		fill="none" 
 		  		stroke="black" 
 		  		stroke-width="2"/>
-	  	</marker>
-	  	
-	  	<marker 
-			id="flash" 
-			refX="40" 
-			refY="20" 
-			markerUnits="userSpaceOnUse" 
-			markerWidth="40" 
-			markerHeight="21" 
-			orient="auto">
-			<!--
-		  	<path
-		  		d="M 20 20 L 40 20"
-		  		fill="none" 
-		  		stroke="white" 
-		  		stroke-width="2"/>
-		  	-->
-		  	<path 
-		  		d="M 20 20 L 0 0 L 40 20" 
-		  		fill="none" 
-		  		stroke="black" 
-		  		stroke-width="2"/>
-		  	<path 
-		  		d="M 30 20 L 40 20 L 34 11" 
-		  		fill="none" 
-		  		stroke="black" 
-		  		stroke-width="2"/>
-		  		
+
 	  	</marker>
 	</defs>
   	<g id="interruptEdge">
   	<path 
-	 		d="M50 50 L80 50 M 100 50" 
-	 		stroke="black" 
-	 		fill="none" 
-	 		stroke-width="2"
-	 		marker-end="url(#flash)"/> 	
-  	</g>
+			d="M50 50 L100 50" 
+			stroke="black" 
+			fill="none" 
+			stroke-width="2" 
+			marker-end="url(#end)"/>
+	<text 
+			id="text" 
+			x="0" 
+			y="0" 
+			oryx:edgePosition="midTop"/>
+	</g>
 </svg>
