@@ -4,6 +4,7 @@
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
    	<oryx:magnets>
+   	
     	<oryx:magnet oryx:cx="1" oryx:cy="20" oryx:anchors="left" />
     	<oryx:magnet oryx:cx="1" oryx:cy="30" oryx:anchors="left" />
     	<oryx:magnet oryx:cx="1" oryx:cy="40" oryx:anchors="left" />
@@ -21,6 +22,7 @@
     	<oryx:magnet oryx:cx="100" oryx:cy="1" oryx:anchors="top" />
 
     	<oryx:magnet oryx:cx="60" oryx:cy="30" oryx:default="yes" />
+    	
   	</oryx:magnets>
   	<g
      	oryx:minimumSize="120 60"
@@ -40,11 +42,12 @@
       	<text 
       		id="text"
       		font-size="12" 
-      		x="25" 
-      		y="4" 
+      		x="10" 
+      		y="17" 
       		stroke="black"
       		oryx:align="top left"
-      		oryx:anchors="top left">
+      		oryx:anchors="top left"
+      		oryx:fittoelem="activityrect">
       	</text>
   </g>
 </svg>

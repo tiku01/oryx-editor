@@ -30,21 +30,10 @@
 			stroke="black"
 			stroke-width="2"/>
 		
-		<line 
-			id="leftleg"
-			x1="0" 
-			y1="80" 
-			x2="20" 
-			y2="50"
-			stroke="black"
-			stroke-width="2"
-			stroke-linecap="round"/>
-		
 		<path 
 			d="M 20 20 L 20 50 M 0 30 L 40 30 M 20 50 L 40 80 M 0 80 L 20 50"
 			stroke="black"
-			stroke-width="2"
-			stroke-linecap="round"/>
+			stroke-width="2"/>
 			
 		<text
 			id="text" 

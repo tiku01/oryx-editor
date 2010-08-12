@@ -43,8 +43,7 @@ new function(){
 						"http://b3mn.org/stencilset/bpmn2.0conversation#ConversationLink",
 						"http://b3mn.org/stencilset/epc#ControlFlow",
 						"http://www.signavio.com/stencilsets/processmap#ProcessLink",
-						"http://www.signavio.com/stencilsets/organigram#connection",
-						"http://b3mn.org/stencilset/umlactivity#controlFlow"],
+						"http://www.signavio.com/stencilsets/organigram#connection"],
 		
 		/**
 		 * Layout a set on edges
