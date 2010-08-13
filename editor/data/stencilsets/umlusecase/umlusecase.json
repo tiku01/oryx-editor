@@ -38,7 +38,7 @@
 					"id":"hideLabels",
 					"type":"Boolean",
 					"title":"Show Labels",
-					"title_de":"Labels sichtbar",
+					"title_de":"Beschriftung sichtbar",
 					"value":true,
 					"description":"",
 					"readonly":false,
@@ -63,9 +63,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -74,232 +75,6 @@
 					"refToView":"text",
 					"length":"",
 					"wrapLines":true
-				}
-			]
-		},
- 		{
-			"type": "node",
-			"id":"humanActor",
-			"title":"Human Actor",
-			"title_de":"Menschlicher Akteur",
-			"groups":["Nodes"],
-			"description":"A human actor is placed outside any system and accesses different use cases",
-			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
-			"view":"node.Actor.human.svg",
-			"icon":"node.Actor.human.png",
-			"roles": [
-				"diagramContent",
-				"annotatable",
-				"actor",
-				"actorMorph"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				}             
-			]
-		},
-		{
-			"type": "node",
-			"id":"simpleActor",
-			"title":"Actor",
-			"title_de":"Akteur",
-			"groups":["Nodes"],
-			"description":"A human actor is placed outside any system and accesses different use cases",
-			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
-			"view":"node.actor.svg",
-			"icon":"node.actor.png",
-			"roles": [
-				"diagramContent",
-				"annotatable",
-				"actor",
-				"actorMorph"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-					"id":"stereotype",
-					"type":"String",
-					"title":"Stereotype",
-					"value":"≪actor≫",
-					"description":"",
-					"tooltip":"",
-					"readonly":true,
-					"optional":false,
-					"refToView":"stereotype",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
-		
-		{
-			"type": "node",
-			"id":"system",
-			"title":"System",
-			"title_de":"System",
-			"groups":["Nodes"],
-			"description":"A System contains use casese",
-			"description_de":"Ein System enthält Anwendungsfälle",
-			"view":"node.system.svg",
-			"icon":"node.system.png",
-			"roles": [
-				"diagramContent",
-				"systemContent",
-				"annotatable"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-					"id":"stereotype",
-					"type":"String",
-					"title":"Stereotype",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"stereotype",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
-				}
-			],
-			"layout" : [{"type" : "layout.uml.system"}]
-		},
-		{
-			"type": "node",
-			"id":"note",
-			"title":"Note",
-			"title_de":"Notiz",
-			"groups":["Nodes"],
-			"description":"Comment regarding a diagram element",
-			"description_de":"Kommentar mit Bezug zu einem Modellelement oder Diagramm",
-			"view":"node.note.svg",
-			"icon":"node.note.png",
-			"roles": [
-				"diagramContent",
-				"systemContent",
-				"annotation"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-				{
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
 				}
 			]
 		},
@@ -321,9 +96,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -334,18 +110,10 @@
 					"wrapLines":true
                 },
                 {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-                {
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -374,9 +142,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -390,6 +159,7 @@
 					"id":"extensionPoint",
 					"type":"String",
 					"title":"Extension Points",
+					"title_de":"Erweiterungspunkte",
 					"value":"Extension Points",
 					"description":"",
 					"tooltip":"",
@@ -403,6 +173,7 @@
 					"id":"Extensions",
 					"type":"String",
 					"title":"Extensions",
+					"title_de":"Erweiterungen",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -413,18 +184,10 @@
 					"wrapLines":true
                 },
                 {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-                {
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -436,7 +199,205 @@
 			],
 			"layout" : [{"type" : "layout.uml.useCaseExtended"}]
 		},
+ 		{
+			"type": "node",
+			"id":"humanActor",
+			"title":"Human Actor",
+			"title_de":"Menschlicher Akteur",
+			"groups":["Nodes"],
+			"description":"A human actor is placed outside any system and accesses different use cases",
+			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
+			"view":"node.Actor.human.svg",
+			"icon":"node.Actor.human.png",
+			"roles": [
+				"diagramContent",
+				"annotatable",
+				"actor",
+				"actorMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }            
+			]
+		},
+		{
+			"type": "node",
+			"id":"simpleActor",
+			"title":"Actor",
+			"title_de":"Akteur",
+			"groups":["Nodes"],
+			"description":"A human actor is placed outside any system and accesses different use cases",
+			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
+			"view":"node.actor.svg",
+			"icon":"node.actor.png",
+			"roles": [
+				"diagramContent",
+				"annotatable",
+				"actor",
+				"actorMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"stereotype",
+					"type":"String",
+					"title":"Stereotype",
+					"title_de":"Stereotyp",
+					"value":"≪actor≫",
+					"description":"",
+					"tooltip":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"stereotype",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
 		
+		{
+			"type": "node",
+			"id":"system",
+			"title":"System",
+			"title_de":"System",
+			"groups":["Nodes"],
+			"description":"A System contains use casese",
+			"description_de":"Ein System enthält Anwendungsfälle",
+			"view":"node.system.svg",
+			"icon":"node.system.png",
+			"roles": [
+				"diagramContent",
+				"systemContent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"stereotype",
+					"type":"String",
+					"title":"Stereotype",
+					"title_de":"Stereotyp",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"stereotype",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			],
+			"layout" : [{"type" : "layout.uml.system"}]
+		},
+		{
+			"type": "node",
+			"id":"note",
+			"title":"Note",
+			"title_de":"Notiz",
+			"groups":["Nodes"],
+			"description":"Comment regarding a diagram element",
+			"description_de":"Kommentar mit Bezug zu einem Modellelement oder Diagramm",
+			"view":"node.note.svg",
+			"icon":"node.note.png",
+			"roles": [
+				"diagramContent",
+				"systemContent",
+				"annotation"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+				{
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
 		{
 			"type": "edge",
 			"id":"undirectedAssociation",
@@ -532,7 +493,8 @@
 			    {
 					"id":"include",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"≪include≫",
 					"description":"",
 					"tooltip":"",
@@ -563,7 +525,8 @@
 			    {
 					"id":"extend",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"≪extend≫",
 					"description":"",
 					"tooltip":"",

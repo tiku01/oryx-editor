@@ -16,9 +16,10 @@
 			"roles": [],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -49,9 +50,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -65,6 +67,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+					"title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -95,9 +98,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -111,6 +115,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -120,281 +125,7 @@
                     "stroke":false
 				}
 			]
-		},
-		{
-			"type": "node",
-			"id":"andHorizontal",
-			"title":"And Fork/Join",
-			"title_de":"Entscheidung/Gabelung",
-			"groups":["Control Flow Nodes"],
-			"description":"A control node that splits a flow into multiple concurrent flows / A control node that synchronizes multiple flows",
-			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt / Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
-			"view":"node.and.horizontal.svg",
-			"icon":"node.and.horizontal.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"controlFlowElement",
-				"activityContent",
-				"and"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"title":"And Fork/Join",
-			"title_de":"Gabelung/Vereinigung",
-			"groups":["Control Flow Nodes"],
-			"description":"A control node that splits a flow into multiple concurrent flows / A control node that synchronizes multiple flows",
-			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt / Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
-			"view":"node.and.vertical.svg",
-			"icon":"node.and.vertical.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"controlFlowElement",
-				"activityContent",
-				"and"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"orNode",
-			"title":"Decision/Merge",
-			"title_de":"Entscheidung/Kreuzung",
-			"groups":["Control Flow Nodes"],
-			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
-			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
-			"view":"node.or.svg",
-			"icon":"node.or.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"controlFlowElement",
-				"activityContent"
-			],
-			"properties": [
-                
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"initialNode",
-			"title":"Initial Node",
-			"title_de":"Startknoten",
-			"groups":["Start and End"],
-			"description":"A control node at which flow starts when the activity is invoked.",
-			"description_de":"Kontrollknoten, bei dem der Ablauf anfängt, wenn eine Aktivität angestoßen wird.",
-			"view":"node.initialNode.svg",
-			"icon":"node.initialNode.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"activityContent"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"flowFinalNode",
-			"title":"Flow Final Node",
-			"title_de":"Ablaufende",
-			"groups":["Start and End"],
-			"description":"Final node that terminates a flow",
-			"description_de":"Endknoten, der einen Ablauf terminiert",
-			"view":"node.flowFinalNode.svg",
-			"icon":"node.flowFinalNode.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"activityContent"
-			],
-			"properties": [
-			    
-               
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"outercircle",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"activityFinalNode",
-			"title":"Activity Final Node",
-			"title_de":"Aktivitätsende",
-			"groups":["Start and End"],
-			"description":"A final node that stops all flows in an activity",
-			"description_de":"Endknoten, der alle Abläufe in einer Aktivität beendet",
-			"view":"node.activityFinalNode.svg",
-			"icon":"node.activityFinalNode.png",
-			"roles": [
-				"diagramcontent",
-				"annotatable",
-				"activityContent"
-			],
-			"properties": [
-			    
-                
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"outercircle",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"object",
-			"title":"Object",
-			"title_de":"Objekt",
-			"groups":["Object"],
-			"description":"An object is part of the object flow in an activity",
-			"description_de":"Ein Objekt ist ein Teil des Objektflusses in Aktivitäten",
-			"view":"node.object.svg",
-			"icon":"node.object.png",
-			"roles": [
-				"diagramcontent",
-				"activityContent",
-				"annotatable"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
+		},		
 		{
 			"type": "node",
 			"id":"acceptEvent",
@@ -414,9 +145,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -430,6 +162,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -458,9 +191,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -474,6 +208,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -504,9 +239,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -520,6 +256,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -535,7 +272,7 @@
 			"id":"interruptableRegion",
 			"title":"Interruptable Region",
 			"title_de":"Unterbrechungsbereich",
-			"groups":["Interrupt"],
+			"groups":["Interrupt and Partition"],
 			"description":"An activity group that supports termination of tokens flowing in the portions of an activity.",
 			"description_de":"Aktivitätsgruppe, die die Terminierung von Tokens in ihr ermöglicht",
 			"view":"node.interruptableRegion.svg",
@@ -548,9 +285,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -564,6 +302,7 @@
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -579,7 +318,7 @@
 			"id":"activityPartition",
 			"title":"Activity Partition",
 			"title_de":"Aktivitätsbereich",
-			"groups":["Activity Region"],
+			"groups":["Interrupt and Partition"],
 			"description":"Partitions divide the nodes and edges to constrain and show a view of the contained nodes",
 			"description_de":"Partitionen teilen Aktionen ein, um die Sicht auf diese zu verdeutlichen",
 			"view":"node.activityPartition.vertical.svg",
@@ -591,9 +330,10 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -608,9 +348,54 @@
 		},
 		{
 			"type": "node",
+			"id":"object",
+			"title":"Object",
+			"title_de":"Objekt",
+			"groups":["Object"],
+			"description":"An object is part of the object flow in an activity",
+			"description_de":"Ein Objekt ist ein Teil des Objektflusses in Aktivitäten",
+			"view":"node.object.svg",
+			"icon":"node.object.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
 			"id":"note",
 			"title":"Note",
-			"title":"Notiz",
+			"title_de":"Notiz",
 			"groups":["Annotation"],
 			"description": "Comment regarding a diagram element",
 			"description_de": "Kommentar mit Bezug zu einem Modellelement oder Diagramm",
@@ -623,9 +408,89 @@
 			],
 			"properties": [
 				{
-					"id":"title",
+					"id":"name",
 					"type":"String",
-					"title":"Title",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+				{
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"initialNode",
+			"title":"Initial Node",
+			"title_de":"Startknoten",
+			"groups":["Control Flow"],
+			"description":"A control node at which flow starts when the activity is invoked.",
+			"description_de":"Kontrollknoten, bei dem der Ablauf anfängt, wenn eine Aktivität angestoßen wird.",
+			"view":"node.initialNode.svg",
+			"icon":"node.initialNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"flowFinalNode",
+			"title":"Flow Final Node",
+			"title_de":"Ablaufende",
+			"groups":["Control Flow"],
+			"description":"Final node that terminates a flow",
+			"description_de":"Endknoten, der einen Ablauf terminiert",
+			"view":"node.flowFinalNode.svg",
+			"icon":"node.flowFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+			    
+               
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -636,18 +501,172 @@
 					"wrapLines":true
                 },
                 {
-                    "id":"URL",
-                    "type":"Url",
-                    "title":"URL",
-                    "value":"",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true
-				},
-				{
                     "id":"color",
                     "type":"Color",
                     "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"activityFinalNode",
+			"title":"Activity Final Node",
+			"title_de":"Aktivitätsende",
+			"groups":["Control Flow"],
+			"description":"A final node that stops all flows in an activity",
+			"description_de":"Endknoten, der alle Abläufe in einer Aktivität beendet",
+			"view":"node.activityFinalNode.svg",
+			"icon":"node.activityFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"andHorizontal",
+			"title":"And Fork/Join",
+			"title_de":"Entscheidung/Gabelung",
+			"groups":["Control Flow"],
+			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
+			"view":"node.and.horizontal.svg",
+			"icon":"node.and.horizontal.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"and"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"andVertical",
+			"title":"And Fork/Join",
+			"title_de":"Gabelung/Vereinigung",
+			"groups":["Control Flow"],
+			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
+			"view":"node.and.vertical.svg",
+			"icon":"node.and.vertical.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"and"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"orNode",
+			"title":"Decision/Merge",
+			"title_de":"Entscheidung/Kreuzung",
+			"groups":["Control Flow"],
+			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
+			"view":"node.or.svg",
+			"icon":"node.or.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent"
+			],
+			"properties": [
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
                     "value": "#ffffff",
                     "description":"",
                     "readonly":false,
@@ -693,7 +712,8 @@
 			    {
 					"id":"condition",
 					"type":"String",
-					"title":"Condition",
+					"title":"Name/Condition",
+					"title_de":"Name/Bedingung",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -724,7 +744,8 @@
 			    {
 					"id":"condition",
 					"type":"String",
-					"title":"Condition",
+					"title":"Name/Condition",
+					"title_de":"Name/Bedingung",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -756,6 +777,7 @@
 					"id":"name",
 					"type":"String",
 					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -769,6 +791,7 @@
 					"id":"pinStart",
 					"type":"String",
 					"title":"Startpin Name",
+					"title_de":"Startpin Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -779,9 +802,10 @@
 					"wrapLines":true
                 },
                 {
-					"id":"pinStop",
+					"id":"pinEnd",
 					"type":"String",
 					"title":"Endpin Name",
+					"title_de":"Endepin Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -798,7 +822,7 @@
 			"id":"interrupt",
 			"title":"Interrupt Edge",
 			"title_de":"Unterbrechungskante",
-			"groups":["Interrupt"],
+			"groups":["Interrupt and Partition"],
 			"description":"Connects causing Event with any kind of action.",
 			"description":"Verbindet auslösendes Ereigniss mit Aktion",
 			"view":"edge.interrupt.svg",
@@ -813,6 +837,7 @@
 					"id":"name",
 					"type":"String",
 					"title":"Name",
+					"title_de":"Name",
 					"value":"",
 					"description":"",
 					"tooltip":"",
