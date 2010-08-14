@@ -227,7 +227,6 @@
 			"groups":["Actions and Events"],
 			"description":"An action that creates a signal instance when time condition is fulfilled",
 			"description_de":"Aktion, die ein Signal erzeugt wenn eine Zeitbedingung erfüllt ist",
-			"description_de":"A System",
 			"view":"node.event.time.svg",
 			"icon":"node.event.time.png",
 			"roles": [

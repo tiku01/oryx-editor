@@ -299,7 +299,7 @@
 			"title":"System",
 			"title_de":"System",
 			"groups":["Nodes"],
-			"description":"A System contains use casese",
+			"description":"A System contains use cases",
 			"description_de":"Ein System enthält Anwendungsfälle",
 			"view":"node.system.svg",
 			"icon":"node.system.png",
@@ -350,8 +350,7 @@
                     "fill":true,
                     "stroke":false
 				}
-			],
-			"layout" : [{"type" : "layout.uml.system"}]
+			]
 		},
 		{
 			"type": "node",
