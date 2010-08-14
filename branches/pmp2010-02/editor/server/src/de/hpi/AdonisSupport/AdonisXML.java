@@ -1,4 +1,6 @@
 package de.hpi.AdonisSupport;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -21,13 +23,8 @@ import org.xmappr.RootElement;
 
 @RootElement("ADOXML")
 public class AdonisXML extends XMLConvertible {
-	
-	public AdonisXML(){
-		setAdoversion("Version 3.9");
-		setDate("03.01.1959");
-		setTime("13:37");
-		setVersion("8.3");		
-	}
+
+	private static final long serialVersionUID = -2468830739359873363L;
 
 	@Attribute(name="adoversion")
 	protected String adoversion;
@@ -75,7 +72,7 @@ public class AdonisXML extends XMLConvertible {
 	protected AdonisApplicationModels applicationModels;
 
 	public AdonisApplicationModels getApplicationModels(){
-		if (applicationModels == null) applicationModels = new AdonisApplicationModels();
+		//	if (applicationModels == null) applicationModels = new AdonisApplicationModels();
 		return applicationModels;
 	}
 	
@@ -84,9 +81,9 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModelGroups getModelGroups(){
-		if (modelGroups == null){
-			modelGroups = new AdonisModelGroups();
-		}
+//		if (modelGroups == null){
+//			modelGroups = new AdonisModelGroups();
+//		}
 		return modelGroups;
 	}
 	
@@ -95,9 +92,9 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModels getModels(){
-		if (models == null){
-			models = new AdonisModels();
-		}
+//		if (models == null){
+//			models = new AdonisModels();
+//		}
 		return models;
 	}
 	
@@ -106,7 +103,7 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisAttributeProfiles getAttributeProfiles(){
-		if (attributeProfiles == null) attributeProfiles = new AdonisAttributeProfiles();
+		//if (attributeProfiles == null) attributeProfiles = new AdonisAttributeProfiles();
 		return attributeProfiles;
 	}
 	
@@ -114,17 +111,6 @@ public class AdonisXML extends XMLConvertible {
 		attributeProfiles = profiles;
 	}
 	
-	public Map<String,String> getAttributes(){
-	//  version    CDATA #REQUIRED
-	//  date       CDATA #REQUIRED
-	//  time       CDATA #REQUIRED
-	//  database   CDATA #IMPLIED
-	//  username   CDATA #IMPLIED
-	//  adoversion CDATA #REQUIRED
-		Map<String,String> map = new HashMap<String,String>();
-		
-		return map;
-	}
 	/**
 	 * entry point for generating diagrams for Oryx
 	 * @return a collection of diagrams in JSON
@@ -132,17 +118,21 @@ public class AdonisXML extends XMLConvertible {
 	 */
 	public Vector<JSONObject> writeDiagrams() throws JSONException{
 		Log.v("writeDiagrams");
-		HashMap<String,String> modelAttributes = new HashMap<String, String>();
-		modelAttributes.put("adoversion",getAdoversion());
-		modelAttributes.put("date",getDate());            
-		modelAttributes.put("time",getTime());            
+      
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
 		JSONObject json = null;
 		
+		Map<String,String> inheritedProperties = new HashMap<String,String>();
+		inheritedProperties.put("adoversion",getAdoversion());
+		inheritedProperties.put("database",getDatabase());            
+		inheritedProperties.put("username",getUsername());      
+		inheritedProperties.put("version",getVersion());
+		
 		for (AdonisModel aModel : getModels().getModel()){
 			//pass global information to models
-			aModel.setInheritedProperties(modelAttributes);
+			aModel.getInheritedProperties().putAll(inheritedProperties);
+			
 			
 			Log.v("write Model "+aModel.getName());
 			
@@ -158,8 +148,48 @@ public class AdonisXML extends XMLConvertible {
 	public void parse(JSONObject json){
 		//it should be only one, but it may extended
 		AdonisModel diagram = new AdonisModel();
+		if (getModels() == null){
+			setModels(new AdonisModels());
+		}
 		getModels().getModel().add(diagram);
 		diagram.parse(json);
+		Map<String,String> inheritedProperties = null;
+		for (AdonisModel model : getModels().getModel()){
+			inheritedProperties = model.getInheritedProperties(); 
+			if (inheritedProperties.containsKey("adoversion")){
+				setAdoversion(inheritedProperties.get("adoversion"));
+			}
+			if (inheritedProperties.containsKey("database")){
+				setDatabase(inheritedProperties.get("database"));
+			}
+			if (inheritedProperties.containsKey("username")){
+				setUsername(inheritedProperties.get("username"));
+			}
+			if (inheritedProperties.containsKey("version")){
+				setVersion(inheritedProperties.get("version"));
+			}
+		}
+		if (getAdoversion() == null){
+			Log.d("adoversion empty - set default");
+			setAdoversion("Version 3.9");
+		}
+		if (getDatabase() == null){
+			Log.d("database empty - set default");
+			setDatabase("unknown");
+		}
+		if (getUsername() == null){
+			Log.d("username empty - set default");
+			setUsername("Admin");
+		}
+		if (getVersion() == null){
+			Log.d("version empty - set default");
+			setVersion("3.1");
+		}
+		SimpleDateFormat formatter = new SimpleDateFormat();
+		formatter.applyPattern("dd.MM.yyyy");
+		setDate(formatter.format(new Date()));
+		formatter.applyPattern("hh:mm");
+		setTime(formatter.format(new Date()));
 		
 	}
 }

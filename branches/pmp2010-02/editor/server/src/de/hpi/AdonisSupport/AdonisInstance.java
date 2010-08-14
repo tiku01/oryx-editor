@@ -3,15 +3,13 @@ package de.hpi.AdonisSupport;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
@@ -29,6 +27,13 @@ import org.xmappr.RootElement;
 @RootElement("INSTANCE")
 public class AdonisInstance extends AdonisStencil { 	
 	private static final long serialVersionUID = -9220820981615621467L;
+	
+	public String toString(){
+		if (getName() == null || getId() == null){
+			return super.toString();
+		}
+		return "AdonisInstance "+getName()+" "+getId();
+	}
 	
 	public static boolean handleStencil(String oryxName){
 		Set<String> instances = new HashSet<String>();
@@ -137,21 +142,19 @@ public class AdonisInstance extends AdonisStencil {
 			return adonisGlobalBounds;
 		}
 		adonisGlobalBounds = new Double[4];
-		
 		Double left = oryxGlobalBounds[0];
 		Double top = oryxGlobalBounds[1];
 		Double width = oryxGlobalBounds[2] - left;
 		Double height = oryxGlobalBounds[3] - top;
+				
+		left = left + (getLeftOffset()) / 100 * width  + getParent().getOryxGlobalBounds()[0];
+		top = top + (getTopOffset()) / 100 * height + getParent().getOryxGlobalBounds()[1];
 		
-		left = width * getLeftOffset() / 100 + left + getParent().getOryxGlobalBounds()[0];
-		top = height * getTopOffset() / 100 + top + getParent().getOryxGlobalBounds()[1];
-		
-		adonisGlobalBounds[0] = left / CENTIMETERTOPIXEL/* + getParent().getAdonisGlobalBounds()[0]*/;
-		adonisGlobalBounds[1] = top / CENTIMETERTOPIXEL/* + getParent().getAdonisGlobalBounds()[1]*/;
+		adonisGlobalBounds[0] = left / CENTIMETERTOPIXEL;
+		adonisGlobalBounds[1] = top / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[2] = width / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[3] = height / CENTIMETERTOPIXEL;
 		//TODO move according the parent element - Adonis uses global positioning, oryx local
-		
 		return adonisGlobalBounds;
 	}
 	/**
@@ -172,22 +175,22 @@ public class AdonisInstance extends AdonisStencil {
 			// extract the numbers out of the string
 			addUsed(adonisPosition);
 			String[] position = filterPositionString(adonisPosition.getElement());
-			Double x = Double.parseDouble(position[0]);
-			Double y = Double.parseDouble(position[1]);
-			Double w;
-			Double h;
+			Double left = Double.parseDouble(position[0]);
+			Double top = Double.parseDouble(position[1]);
+			Double width;
+			Double height;
 			if (position.length <= 3){
-				w = getStandardWidth();
-				h = getStandardHeigth();
+				width = getStandardWidth();
+				height = getStandardHeigth();
 			} else {
-				w = Double.parseDouble(position[2]);
-				h = Double.parseDouble(position[3]);
+				width = Double.parseDouble(position[2]);
+				height = Double.parseDouble(position[3]);
 			}
 			// some stencils are positioned using a offset (in percentage)
-			oryxGlobalBounds[0] = x - (getLeftOffset() / 100 * w);
-			oryxGlobalBounds[1] = y - (getTopOffset() / 100 * h);
-			oryxGlobalBounds[2] = oryxGlobalBounds[0] + ((100 - getLeftOffset()) / 100 * w);
-			oryxGlobalBounds[3] = oryxGlobalBounds[1] + ((100 - getTopOffset()) / 100 * h);
+			oryxGlobalBounds[0] = left - (getLeftOffset() / 100 * width);
+			oryxGlobalBounds[1] = top - (getTopOffset() / 100 * height);
+			oryxGlobalBounds[2] = oryxGlobalBounds[0] + width;
+			oryxGlobalBounds[3] = oryxGlobalBounds[1] + height;
 			for (int i = 0; i < oryxGlobalBounds.length; i++){
 				oryxGlobalBounds[i] = oryxGlobalBounds[i] * CENTIMETERTOPIXEL;
 			}
@@ -284,23 +287,24 @@ public class AdonisInstance extends AdonisStencil {
 	//* write methods for JSON
 	//*************************************************************************
 
-//	@Override - this is handled by AdonisStencil
-//	/**
-//	 * write all childshapes to the diagram
-//	 */
-//	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-//		JSONArray childShapes = getJSONArray(json,"childShapes");
-//		JSONObject shape = null;
-//		
-//		for (AdonisInstance aInstance : getModelInstance().values()){
-//			//write only my childshapes
-//			if (aInstance.getParent() == this){
-//				shape = new JSONObject();
-//				aInstance.write(shape);
-//				childShapes.put(shape);
-//			}
-//		}
-//	}
+	
+	/**
+	 * write all childshapes of the stencil
+	 */
+	public void writeJSONchildShapes(JSONObject json) throws JSONException {
+		Log.w("ChildShapes called by "+getName()+"("+getStencilClass()+")");
+		JSONArray childShapes = getJSONArray(json,"childShapes");
+		JSONObject shape = null;
+		
+		for (AdonisStencil anInstance : getModelChildren().values()){
+			//write only my childshapes
+			if (anInstance.isInstance() && anInstance.getParent() == this){
+				shape = new JSONObject();
+				anInstance.write(shape);
+				childShapes.put(shape);
+			}
+		}
+	}
 
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
@@ -340,10 +344,11 @@ public class AdonisInstance extends AdonisStencil {
 	public void writeJSONoutgoing(JSONObject json) throws JSONException {
 		JSONArray outgoing = getJSONArray(json,"outgoing");
 		JSONObject temp = null;
-		for (AdonisConnector connector : getModel().getConnector()){
-			if (connector.getFrom().getInstance().equalsIgnoreCase((getName()))){
+		
+		for (AdonisStencil aStencil: getModelChildren().values()){
+			if (aStencil.isConnector() && ((AdonisConnector)aStencil).getFrom().getInstanceName().equals(getName())){
 				temp = new JSONObject();
-				temp.put("resourceId", connector.getResourceId());
+				temp.put("resourceId", aStencil.getResourceId());
 				outgoing.put(temp);
 			}
 		}
@@ -405,6 +410,39 @@ public class AdonisInstance extends AdonisStencil {
 		temp.setName("POSITION");
 		temp.setType("STRING");
 		getAttribute().add(temp);
+		
+		
+		Log.d("Created instance class "+getOryxStencilClass()+" - "+getName());
+		getModel().getInstance().add(this);
+	}
+	
+	private void createIsInsideConnector(AdonisInstance childShape){
+		//we need to save the father - child relation in a connector
+		AdonisConnector isInside = new AdonisConnector();
+		
+		
+		isInside.setStencilClass("Is inside");
+		isInside.getResourceId();
+		isInside.setModel(getModel());
+		
+		//set the target (to) to the father
+		AdonisConnectionPoint point = new AdonisConnectionPoint();
+		point.setInstance(this);
+		isInside.setTo(point);
+		//set the source (from) to the child
+		point = new AdonisConnectionPoint();
+		point.setInstance(childShape);
+		isInside.setFrom(point);
+		
+		AdonisAttribute attribute = new AdonisAttribute();
+		attribute.setName("AutoConnect");
+		attribute.setType("Is inside");
+		
+		ArrayList<AdonisAttribute> list =new ArrayList<AdonisAttribute>();
+		list.add(attribute);
+		isInside.setAttribute(list);
+		
+		getModel().getConnector().add(isInside);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -448,35 +486,83 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	public void readJSONchildShapes(JSONObject json) throws JSONException{
-		readJSONstencil(json);
-		readJSONbounds(json);
-		Log.d("read in ChildShapes of stencil: "+getOryxStencilClass()+" named: "+getName());
+		Log.d("read in ChildShapes of an instance");
 		JSONArray childShapes = json.getJSONArray("childShapes");
 		JSONObject stencil = null;
+		AdonisInstance instance = null;
+		
+		String stencilResourceId = null;
 		for (int i = 0; i < childShapes.length(); i++){
 			stencil = childShapes.getJSONObject(i);
+			stencilResourceId = stencil.getString("resourceId");
 			if (AdonisInstance.handleStencil(stencil.getJSONObject("stencil").getString("id"))){
-				AdonisInstance anInstance = new AdonisInstance();
-				Log.d("read in ChildShape of ("+getOryxStencilClass()+" - "+getName()+")"+stencil.getJSONObject("stencil").getString("id")+" named: "+stencil.getJSONObject("properties").getString("name"));
-				anInstance.setModel(getModel());
-				anInstance.setParent(this);
-				anInstance.parse(stencil);
-				getModel().getInstance().add(anInstance);
+				for (AdonisStencil aStencil : getModel().getModelChildren().values()){
+					Assert.assertNotNull(aStencil.resourceId);
+					if (aStencil.isInstance() && stencilResourceId.equals(aStencil.resourceId)){
+						instance = (AdonisInstance)aStencil;
+					}
+				}
+				if (instance == null){
+					instance = new AdonisInstance();
+					instance.setResourceId(stencilResourceId);
+					instance.setModel(getModel());
+					instance.setParent(this);
+				}
+				instance.parse(stencil);
+				
+				//we need to save the father - child relation in a connector
+				createIsInsideConnector(instance);
+				
+				instance = null;
+//				Log.d("read in ChildShape of ("+getOryxStencilClass()+" - "+getName()+")"+stencil.getJSONObject("stencil").getString("id")+" named: "+stencil.getJSONObject("properties").getString("name"));
+				
 			}
 		}
 	}
 	
-	public void readJSONoutgoing(JSONObject json){
+	public void readJSONoutgoing(JSONObject json) throws JSONException{
 		//TODO needs to be implemented
+		JSONArray outgoing = json.getJSONArray("outgoing");
+		
+		AdonisConnectionPoint connectionPoint = null;
+		
+		String connectorResourceId = null;
+		AdonisConnector connector = null;
+	
+		for (int i = 0; i < outgoing.length(); i++){
+			
+			connectionPoint = new AdonisConnectionPoint();
+			connectionPoint.setInstance(this);
+			connectorResourceId = outgoing.getJSONObject(i).getString("resourceId");
+			//look for an existing stencil with this resource id
+			connector = (AdonisConnector)getModelChildren().get(connectorResourceId);
+//			for (AdonisStencil aStencil : getModelChildren().values()){
+//				if (aStencil.isConnector() && aStencil.resourceId.equals(connectorResourceId)){
+//					connector = (AdonisConnector)aStencil;
+//					Log.d("reuse connector \""+connectorResourceId+"\"");
+//				}
+//			}
+			
+			if (connector != null){
+				//add this to existing connector
+				connector.setFrom(connectionPoint);
+				Log.d("complete connector \""+connectorResourceId+"\" source from  - "+getName());
+			} else {
+				//create a new connector with this as start point
+				connector = new AdonisConnector();
+				connector.setResourceId(connectorResourceId);
+				connector.setModel(getModel());
+				connector.setFrom(connectionPoint);
+				Log.d("create connector \""+connectorResourceId+"\" source from  - "+getName());
+			}
+			Assert.assertTrue(getModelChildren().containsValue(connector));
+			connector = null;
+		}
+		
 	}
 	
 	public void readJSONtarget(JSONObject json){
 		//XXX nothing to do for stencils?
-	}
-	
-	public void readJSONresourceId(JSONObject json){
-		Random random = new Random();
-		setId("obj."+random.nextInt(100000));
 	}
 	
 	public void readJSONbounds(JSONObject json) throws JSONException{
@@ -485,8 +571,8 @@ public class AdonisInstance extends AdonisStencil {
 		JSONObject lowerRight = bounds.getJSONObject("lowerRight");
 		
 		oryxGlobalBounds = new Double[4];
-		oryxGlobalBounds[0] = upperLeft.getDouble("y");
-		oryxGlobalBounds[1] = upperLeft.getDouble("x");
+		oryxGlobalBounds[0] = upperLeft.getDouble("x");
+		oryxGlobalBounds[1] = upperLeft.getDouble("y");
 		oryxGlobalBounds[2] = lowerRight.getDouble("x");
 		oryxGlobalBounds[3] = lowerRight.getDouble("y");
 	}
@@ -495,7 +581,7 @@ public class AdonisInstance extends AdonisStencil {
 		JSONObject properties = json.getJSONObject("properties");
 		if (getName() == null){
 			setName(properties.getString("name"));
-			Log.d("set name of stencil to: "+getName());
+			Log.d("read in Name of stencil : "+getName());
 		}
 	}
 }

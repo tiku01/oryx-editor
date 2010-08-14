@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,14 +18,19 @@ import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.DomElement;
 import org.xmappr.Element;
-import org.xmappr.converters.Base64;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 
-public abstract class XMLConvertible {
+public abstract class XMLConvertible implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 173231207049052166L;
+
+
 	static public void writeError(Exception e){
 		//System.err.println(e.getMessage());
 		Log.e(e.getMessage());
@@ -60,8 +66,9 @@ public abstract class XMLConvertible {
 	/**
 	 * methods to parse a JSON object tree and prepare them for xmappr
 	 * implicit interface for creating a JSON-Object (methods must start with "writeJSON")	  
+	 * @throws JSONException 
 	 */
-	public void parse(JSONObject modelElement) {
+	public void parse(JSONObject modelElement){
 		Iterator<?> jsonKeys = modelElement.keys();
 		while (jsonKeys.hasNext()) {
 			String key = (String) jsonKeys.next();
@@ -72,6 +79,11 @@ public abstract class XMLConvertible {
 						getClass().getMethod(readMethodName, JSONObject.class).invoke(this, modelElement);
 					}
 				} catch (Exception e) {
+					try {
+						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+readMethodName+"\n"+modelElement);
+					} catch (Exception e2){
+						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+readMethodName);
+					}
 					e.printStackTrace();
 				}
 			} else {
@@ -80,6 +92,7 @@ public abstract class XMLConvertible {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void readUnknowns(JSONObject modelElement, String key) {
 		String storedData = modelElement.optString(key);
 		if (storedData != null) {
@@ -164,7 +177,11 @@ public abstract class XMLConvertible {
 					try {
 						getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
 					} catch (Exception e) {
-						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getStencilClass()+"\t"+methodName);
+						try {
+							Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+methodName+"\n"+modelElement);
+						} catch (Exception e2){
+							Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+methodName);
+						}
 						e.printStackTrace();
 					}
 				}
@@ -182,7 +199,7 @@ public abstract class XMLConvertible {
 		
 	}
 	
-	public void writeJSONunused(JSONObject json){
+	public void writeJSONunused(JSONObject json) throws JSONException {
 		
 	}
 

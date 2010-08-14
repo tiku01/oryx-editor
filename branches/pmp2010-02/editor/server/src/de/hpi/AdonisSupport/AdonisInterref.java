@@ -16,7 +16,9 @@ import org.xmappr.RootElement;
 
 @RootElement("INTERREF")
 public class AdonisInterref extends XMLConvertible{
-	
+
+	private static final long serialVersionUID = 1673749394819513296L;
+
 	@Attribute("name")
 	protected String name;
 	
