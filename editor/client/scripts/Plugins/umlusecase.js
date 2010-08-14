@@ -29,9 +29,9 @@
 	ORYX.Plugins = new Object();
 
 /**
- * The UML plugin provides layout methods referring to the UML stencilset. 
+ * The UMLUseCase plugin provides layout methods referring to the UMLUseCase stencilset. 
  * 
- * @class ORYX.Plugins.UML
+ * @class ORYX.Plugins.UMLUseCase
  * @extends Clazz
  * @param {Object} facade The facade of the editor
  */
@@ -47,20 +47,113 @@ ORYX.Plugins.UMLUseCase =
 	 */
 	construct: function(facade) {
 		this.facade = facade;
-		this.facade.registerOnEvent('layout.uml.system', this.handleLayoutSystem.bind(this));
-		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtended.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.addStereotypeOnLoad.bind(this));
+		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtendedLayout.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.layoutDiagramOnLoad.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
 	},
 	
-	handleUseCaseExtended : function(event) {
-		var shape= event.shape;
-
-		var separator = shape._svgShapes.find(
-					function(element) { return element.element.id == (event.shape.id + "separator") }
-				).element;
+	/**
+	 * Handles the layouting after loading a diagram
+	 * This Function starts a recursion 
+	 * which layouts the stereotypes of all systems and
+	 * the UseCaseExtended.
+	 * 
+	 * @param {Object} event The event, that is fired after a Use Case diagram is loaded
+	 */
+	handleDiagramOnLoad : function(event) {
+		this.layoutAllSystems(this.facade.getCanvas());
+	},
+	
+	/**
+	* Recursivly layouts the system, 
+	* all child systems and the UseCasesExtended the system includes
+	*
+	* @param {Object} shape A system shape
+	*/
+	layoutAllSystems : function (shape){
+		
+		this.layoutAllUseCaseExtended(shape);
+		
+		var systems = shape.getChildNodes().findAll( function(child) {
+			if (this.isSystemNode(child)) return child;
+		}.bind(this));
+		
+		systems.each(function(systemNode){ 
+			this.layoutStereotype(systemNode);
+			this.layoutAllSystems(systemNode); //recursion
+		}.bind(this));
+	
+	},
+	
+	/**
+	* Layouts all UseCasesExtended contained in the system
+	*
+	* @param {Object} shape A system shape
+	*/
+	layoutAllUseCaseExtended : function (shape){
+		
+		var useCasesExtended = shape.getChildNodes().findAll(function(child) {
+			if (this.isUseCaseExtendedNode(child)) return child;
+		}.bind(this));
+		
+		useCasesExtended.each(function(useCaseExtendedNode){ 
+			this.layoutUseCaseExtended(useCaseExtendedNode);
+		}.bind(this));
+	
+	},
+	
+	/**
+	* This method is called when a UseCaseExtended shape is modified.
+	* It registers another handling method to the selection changed event, 
+	* since that event is fired late enough to do the needed layouting.
+	*
+	* The chain of called methods, to do the layouting:
+	* 	  handleUseCaseExtendedLayout(...) | layouting event fired
+	*	->handleUseCaseExtendedSelection(...) | selection event fired
+	*	->layoutUseCaseExtended(...) | simple method call
+	*
+	* @param {Object} event The event which is fired after the UseCaseExtended shape is modified
+	*/
+	handleUseCaseExtendedLayout : function(event) {
+		
+		var shape = event.shape;
+		if (shape.isResized){
+			this.SelectionEventFunction = this.handleUseCaseExtendedSelection.bind(this);
+			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.SelectionEventFunction);
+		}		
+	},
+	
+	/**
+	* This method is called after a UseCaseExtended shape is modified.
+	* It deregisters itself on the selection changed event, 
+	* since this event is fired late enough to do the needed layouting.
+	*
+	* First the method checks whether the event has a reference to a UseCaseExtended shape, 
+	* since there is no guarantee.
+	* 
+	* @param {Object} event The event which is fired after the UseCaseExtended is resized
+	*/
+	handleUseCaseExtendedSelection : function(event) {
+		
+		var shape = event.elements.first();
+		if (!this.isUseCaseExtendedNode(shape)) return;
+		
+		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.SelectionEventFunction);
+		this.layoutUseCaseExtended(shape);
+	},
+	
+	/**
+	* This method layouts the UseCaseExtended shape
+	* It places the textframe and text which describe the extensions directly underneath 
+	* the text "Extension Points"
+	* Neither the resize attribute nor the anchors attribute had the desired effect.
+	* 
+	* @param {Object} shape A UseCaseExtended shape
+	*/
+	layoutUseCaseExtended : function(shape){
+	
 		var extensionPointTextFrame = shape._svgShapes.find(
-					function(element) { return element.element.id == (event.shape.id + "extension_point_text_frame") }
+					function(element) { return element.element.id == (shape.id + "extension_point_text_frame") }
 				).element;
 		var extensionPointText = shape.getLabels().find(
 					function(label) { return label.id == (shape.id + "extensions") }
@@ -68,85 +161,90 @@ ORYX.Plugins.UMLUseCase =
 		var extensionText = shape.getLabels().find(
 					function(label) { return label.id == (shape.id + "extensionpoint") }
 				);
-		//var extensionPointTextElement = shape._svgShapes.find(
-		//			function(element) { return element.element.id == (event.shape.id + "extensions") }
-		//		).element;
-		
-		window.setTimeout(function(){
-			alert(""+extensionPointTextFrame.y.baseVal.value+"\n"
-					+extensionPointTextFrame.y.baseVal.value+"\n"
-					+separator.y1.baseVal.value+"\n"
-					+separator.y1.baseVal.value+"\n"
-					+extensionPointText.y);
-			//extensionPointTextFrame.setAttribute("y", separator.y1.baseVal.value+18);
-			extensionPointTextFrame.y.baseVal.value=separator.y1.baseVal.value+18;
-			extensionPointText.y= extensionText.y+16;
-			//extensionPointText.y= extensionText.y+
-			//extensionPointText.setAttribute("y", seperator.y1.baseVal.value+18);
-			alert(""+extensionPointTextFrame.y.baseVal.value+"\n"
-					+extensionPointTextFrame.y.baseVal.value+"\n"
-					+separator.y1.baseVal.value+"\n"
-					+separator.y1.baseVal.value+"\n"
-					+extensionPointText.y);
-			shape.update();
-			
-		},200)
-		
-	},
+		var verticalDifference = extensionPointTextFrame.y.baseVal.value - extensionText.y-16;
+		extensionPointTextFrame.y.baseVal.value= extensionText.y+16;
+		extensionPointText.y= extensionText.y+16;
+		extensionPointTextFrame.height.baseVal.value += verticalDifference;	
 	
-	
+	},	
+
 	
 	/**
-	 * Anpassen
-	 */
-	addStereotypeOnLoad : function(event) {
-		this.facade.getCanvas().nodes.each(function(shape){
-		//shape.getStencil().id().toLowerCase()==
-			if (shape._stencil.id().endsWith("umlUcSystem")) {
-				this.addStereotype(shape);
-			}
-		}.bind(this));
-	},
-	
+	* Initiates the Stereotype layout
+	* This method is called whenever a property of a shape is changed. 
+	* It filters the events, which belong to a System shape and are fired,
+	* when the stereotype or name is changed.
+	*
+	*@param {Object} event The event that is fired after changing a property of a shape.
+	*/
 	handlePropertyChanged : function(event) {
 		var shape = event.elements.first();
-		alert(shape.id);
-		alert(shape._stencil.id());
-		if (shape._stencil.id().endsWith("umlUcSystem"))
-			alert("treffer");
-		if (event["key"] == "oryx-stereotype") {
-			this.addStereotype(shape);
-		}
+		if (!this.isSystemNode(shape)) {return};
+		if (!(this.isStereotypeKeyEvent(event) || this.isNameKeyEvent(event))) {return};
+		this.layoutStereotype(shape);			
 	},
+	
 	/**
-	 * Anpassen
-	 */
-	handleLayoutSystem : function(event) {
-		var shape = event.shape;
+	* Layouts the stereotype and name properties of a System shape
+	* It places the stereotype and property of a System properly and hides the stereotype when necessary
+	*
+	*@param {Object} shape The System shape the user modified the stereotype/name from.
+	*/
+	layoutStereotype: function(shape) {
+	
 		var stereotype = shape.getLabels().find(
-					function(label) { return label.id == (event.shape.id + "stereotype") }
-				);
-		var title = shape.getLabels().find(
-				function(label) { return label.id == (event.shape.id + "text") }
-			);
+				function(label) { return label.id == (shape.id + "stereotype") }
+		);
+		var name = shape.getLabels().find(
+				function(label) { return label.id == (shape.id + "text") }
+		);
+		
 		if (stereotype.text().empty()){
-			title.y=stereotype.y;
-			stereotype.hide();
-		}else{
-			title.y = stereotype.y+14;
-			stereotype.show();
-			this.addStereotype(event.shape);
-		}
-	},
-	/**
-	 * Anpassen
-	 */
-	addStereotype : function(shape) {
-		var stereotype = shape.getLabels().find(
-					function(label) { return label.id == (shape.id + "stereotype") }
-				);
-		stereotype.text("≪" + shape.properties["oryx-stereotype"] + "≫");
+					name.y=stereotype.y;
+					stereotype.hide();
+				}else{
+					name.y = stereotype.y+14;
+					stereotype.show();
+					stereotype.text("≪" + shape.properties["oryx-stereotype"] + "≫");
+				}
+		name.update();
 		stereotype.update();
+	},
+	
+	/**
+	* Helper method, which returns true, if the received shape is an extended Use Case. 
+	*@param {Object} shape The shape that is checked for beeing an extended Use Case.
+	*@return {boolean} The result is true, if the shape is an extended Use Case.
+	*/
+	isUseCaseExtendedNode : function (shape) {
+		return "http://b3mn.org/stencilset/umlusecase#usecaseextended" == shape.getStencil().id().toLowerCase();
+	},
+	
+	/**
+	* Helper method, which returns true, if the received shape is a system. 
+	*@param {Object} shape The shape that is checked for beeing a system.
+	*@return {boolean} The result is true, if the shape is a system
+	*/
+	isSystemNode : function (shape) {
+		return "http://b3mn.org/stencilset/umlusecase#system" == shape.getStencil().id().toLowerCase();
+	},
+	
+	/**
+	* Helper method, which returns true, if the received event handles a stereotype. 
+	*@param {Object} event The event that is checked for handling an oryx-stereotype.
+	*@return {boolean} The result is true, if event handles a stereotype
+	*/
+	isStereotypeKeyEvent : function (event) {
+		return event["key"] == "oryx-stereotype";
+	},
+	
+	/**
+	* Helper method, which returns true, if the received event handles a name. 
+	*@param {Object} event The event that is checked for handling an oryx-name.
+	*@return {boolean} The result is true, if event handles a name
+	*/
+	isNameKeyEvent : function (event) {
+		return event["key"] == "oryx-name";
 	}
 };
 
