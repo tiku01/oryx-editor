@@ -1,12 +1,13 @@
 package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.util.Assert;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
@@ -24,12 +25,7 @@ public class AdonisConnector extends AdonisStencil{
 	 */
 	private static final long serialVersionUID = -3850673995571310465L;
 
-	@Element(name="ATTRIBUTE", targetType=AdonisAttribute.class)
-	protected ArrayList<AdonisAttribute> attribute;
-		
-	public ArrayList<AdonisAttribute> getAttribute(){return attribute;}
 	
-	public void setAttribute(ArrayList<AdonisAttribute> list){attribute = list;}
 	
 	@Element(name="FROM", targetType=AdonisFrom.class)
 	protected AdonisConnectionPoint from;
@@ -37,12 +33,23 @@ public class AdonisConnector extends AdonisStencil{
 	@Element(name="TO", targetType=AdonisTo.class)
 	protected AdonisConnectionPoint to;
 	
+	@Element(name="ATTRIBUTE", targetType=AdonisAttribute.class)
+	protected ArrayList<AdonisAttribute> attribute;
+	
+	@Element(name="RECORD")
+	protected ArrayList<AdonisRecord> record;
+	
+	@Element(name="INTERREF", targetType=AdonisInterref.class)
+	protected ArrayList<AdonisInterref> interref;
+	
 	public void setFrom(AdonisConnectionPoint e){
 		from = e;
+		e.setConnector(this);
 	}
 	
 	public void setTo(AdonisConnectionPoint e){
 		to = e;
+		e.setConnector(this);
 	}
 	public AdonisConnectionPoint getFrom(){
 		return from;
@@ -51,11 +58,13 @@ public class AdonisConnector extends AdonisStencil{
 		return to;
 	}
 	
-	@Element(name="RECORD")
-	protected ArrayList<AdonisRecord> record;
+	
 
 
 	public ArrayList<AdonisRecord> getRecord(){
+		if (record == null){
+			record = new ArrayList<AdonisRecord>();
+		}
 		return record;
 	}
 	
@@ -63,11 +72,13 @@ public class AdonisConnector extends AdonisStencil{
 		record = list;
 	}
 	
-	@Element(name="INTERREF", targetType=AdonisInterref.class)
-	protected ArrayList<AdonisInterref> interref;
+	
 
 
 	public ArrayList<AdonisInterref> getInterref(){
+		if (interref == null){
+			interref = new ArrayList<AdonisInterref>();
+		}
 		return interref;
 	}
 	
@@ -75,14 +86,33 @@ public class AdonisConnector extends AdonisStencil{
 		interref = list;
 	}
 
+	public ArrayList<AdonisAttribute> getAttribute(){
+		if (attribute == null){
+			attribute = new ArrayList<AdonisAttribute>();
+		}
+		return attribute;
+	}
+	
+	public void setAttribute(ArrayList<AdonisAttribute> list){
+		attribute = list;
+	}
+	
 	//*************************************************************************
 	//* methods for computing purposes
 	//**************************************************************************
 	
-	private static Map<String,String> evaluatedAttributes;
-	static {
-		evaluatedAttributes = new HashMap<String,String>();
-		evaluatedAttributes.put("Position","STRING");
+	public boolean isConnector(){
+		return true;
+	}
+	
+	public static boolean handleStencil(String oryxName){
+		Set<String> connectors = new HashSet<String>();
+		connectors.add("has process");
+		connectors.add("has cross-reference");
+		connectors.add("has note");
+		connectors.add("value flow");
+		connectors.add("owns");
+		return connectors.contains(oryxName);
 	}
 	
 	public String getName(){
@@ -100,7 +130,7 @@ public class AdonisConnector extends AdonisStencil{
 	
 	public AdonisInstance getAsInstance(AdonisConnectionPoint target){
 		for (AdonisInstance instance : getModel().getInstance()){
-			if (instance.getName().equals(target.getInstance())){
+			if (instance.getName().equals(target.getInstanceName())){
 				return instance;
 			}
 		}
@@ -140,10 +170,6 @@ public class AdonisConnector extends AdonisStencil{
 		return boundingRect;
 	}
 	
-//	public boolean isConnector(){
-//		return true;
-//	}
-	
 	//*************************************************************************
 	//* write methods for JSON
 	//**************************************************************************
@@ -156,7 +182,7 @@ public class AdonisConnector extends AdonisStencil{
 
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
-		JSONObject properties = getJSONObject(json,"properties");
+//		JSONObject properties = getJSONObject(json,"properties");
 //		properties.put("id",getId());
 //		properties.put("class",getStencilClass());
 		
@@ -230,7 +256,132 @@ public class AdonisConnector extends AdonisStencil{
 		JSONObject target = getJSONObject(json,"target");		
 		target.putOpt("resourceId", getAsInstance(getTo()).getResourceId());
 	}
+	
+	public void writeJSONunused(JSONObject json) throws JSONException{
+		//JSONObject unused = getJSONObject(json, "unused");
+		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
+		
+		try {
+			for (AdonisAttribute aAttribute : getAttribute()){
+				if (getUsed().indexOf(aAttribute) < 0){
+					unused.getElements().add(aAttribute);
+				}
+			}
+			for (AdonisRecord aRecord : getRecord()){
+				if (getUsed().indexOf(aRecord) < 0){
+					unused.getElements().add(aRecord);
+				}
+			}
+			for (AdonisInterref aInterref : getInterref()){
+				if (getUsed().indexOf(aInterref) < 0){
+					unused.getElements().add(aInterref);
+				}
+			}
+			//unused.put("attributes", makeStorable(unusedAttributes));
+			json.put("unused", makeStorable(unused));
+		} catch (JSONException e) {
+			Log.e("could not write unused elements and attributes\n"+e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
-
-
+	//*************************************************************************
+	//* write methods for JSON
+	//*************************************************************************
+	
+	public void completeOryxToAdonis(){
+		
+		Log.d("Created connector class "+getOryxStencilClass()+" - "+getName()+" - "+resourceId);
+		getModel().getConnector().add(this);
+	}
+	
+	public void readJSONstencil(JSONObject json) throws JSONException{
+		if (getStencilClass() == null){
+			JSONObject stencil = json.getJSONObject("stencil");
+			setOryxStencilClass(stencil.getString("id"));
+			setStencilClass(getAdonisStencilClass("en"));
+			Log.d("working on stencil: "+getOryxStencilClass()+" id "+resourceId);
+		}
+	}
+	
+	public void readJSONproperties(JSONObject json){
+		//XXX currently there are no properties in connectors
+	}
+	
+	public void readJSONchildShapes(JSONObject json){
+		Log.w("ChildShapes called by "+getName()+" - nothing done"/*+"("+getOryxStencilClass()+")"*/);
+		//XXX currently there are no childShapes in connectors
+	}
+	
+	public void readJSONbounds(JSONObject json){
+		//XXX bounds are not recognized by Adonis - not used
+	}
+	
+	public void readJSONdockers(JSONObject json){
+		//XXX currently only the startmarker and endmarker are recognized - they can be ignored
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void readJSONunused(JSONObject json){
+		SerializableContainer<XMLConvertible> unused;
+		String encodedString;
+		try {
+			encodedString = json.getString("unused");
+			if (encodedString != null){
+				unused = (SerializableContainer<XMLConvertible>) fromStorable(encodedString);
+				for (XMLConvertible element : unused.getElements()){
+					if (element.getClass() == AdonisAttribute.class){
+						getAttribute().add((AdonisAttribute)element);
+					}
+					if (element.getClass() == AdonisRecord.class){
+						getRecord().add((AdonisRecord)element);
+					}
+					if (element.getClass() == AdonisInterref.class){
+						getInterref().add((AdonisInterref)element);
+					}
+				}
+			}
+		} catch (JSONException e){
+			Log.e("could not restore unused attributes");
+		}
+		
+	}
+	
+	public void readJSONoutgoing(JSONObject json) throws JSONException{
+		//JSONArray outgoing = json.getJSONArray("outgoing");
+		//XXX currently not needed
+	}
+	
+	public void readJSONtarget(JSONObject json) throws JSONException{
+		JSONObject target = json.getJSONObject("target");
+		AdonisConnectionPoint connectionPoint = new AdonisConnectionPoint();
+		connectionPoint.setInstance(this);
+		
+		String instanceResourceId = null;
+		AdonisInstance instance = null;
+		
+		instanceResourceId = target.getString("resourceId");
+		
+		Assert.notNull(instanceResourceId,"ResourceId during export to Adonis null");
+		Assert.isTrue(getModelChildren().values().contains(this));
+		
+		instance = (AdonisInstance)getModelChildren().get(instanceResourceId);
+		
+//		for (AdonisStencil aStencil : getModelChildren().values()){
+//			if (aStencil.isInstance() && aStencil.resourceId.equals(instanceResourceId)){
+//				instance = (AdonisInstance)aStencil;
+//				Assert.isTrue(instance.resourceId.equals(instanceResourceId));
+//				Log.d("set connector target from  - "+instance.getName()+" - connector existing");
+//			}
+//		}
+		if (instance == null){
+			instance = new AdonisInstance();
+			instance.setResourceId(instanceResourceId);
+			instance.setModel(getModel());
+			Log.d("created new Instance from connector - "+instance.getName());
+		}
+		connectionPoint = new AdonisConnectionPoint();
+		connectionPoint.setInstance(instance);
+		setTo(connectionPoint);
+	}
 }

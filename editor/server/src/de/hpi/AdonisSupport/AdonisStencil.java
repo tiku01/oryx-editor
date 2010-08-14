@@ -3,7 +3,11 @@ package de.hpi.AdonisSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+import junit.framework.Assert;
+
+import org.hamcrest.core.IsInstanceOf;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +52,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 * common attributes for oryx
 	 *************************************************************************/
 	
-	private String resourceId;
+	protected String resourceId;
 	private String oryxStencilClass;
 	private String language;
 	private ArrayList<AdonisStencil> outgoingStencil = null;
@@ -100,9 +104,24 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 */
 	public String getResourceId(){
 		if (resourceId == null){
-			resourceId = OryxUUID.generate();
+			//Assert.assertFalse(AdonisConverter.export && (this.getClass() == AdonisConnector.class));
+			setResourceId(OryxUUID.generate());
+			
+			Log.w("Set resourceId to generated value in "+getClass()+ " "+ getName());
 		}
 		return resourceId;
+	}
+	
+	/**
+	 * sets a resource Id from an existing stencil
+	 * @param id
+	 */
+	public void setResourceId(String id){
+		if (resourceId == null){
+			resourceId = id;
+		} else {
+			Log.e("Tried to set resourceId from "+resourceId+" to "+id);
+		}
 	}
 	
 	/**
@@ -129,10 +148,19 @@ public abstract class AdonisStencil extends XMLConvertible {
 	
 	private AdonisStencil parent;
 	private AdonisModel model;
-	private Map<String,AdonisInstance> modelInstances = null;
 	private ArrayList<XMLConvertible> used;
 	
+	public boolean isModel(){
+		return false;
+	}
 	
+	public boolean isInstance(){
+		return false;
+	}
+	
+	public boolean isConnector(){
+		return false;
+	}
 	
 	/**
 	 * @return a collection of already processed attributes
@@ -161,30 +189,33 @@ public abstract class AdonisStencil extends XMLConvertible {
 	}
 	
 	/**
-	 * sets a collection of all instances
-	 * @param children
-	 */
-	public void setModelInstances(Map<String,AdonisInstance> children){
-		modelInstances = children;
-	}
-	
-	/**
 	 * get all instances in the model
 	 * @return
 	 */
-	public Map<String,AdonisInstance> getModelInstance(){
-		if (modelInstances == null){
-			setModelInstances(new HashMap<String,AdonisInstance>());
-		}
-		return modelInstances;
+	public Map<String,AdonisStencil> getModelChildren(){
+		return getModel().getModelChildren();
 	}
-		
+	
+	public void addModelChildren(String key, AdonisStencil stencil){
+		getModelChildren().put(key,stencil);
+	}
+	
 	/**
 	 * sets the parent model
 	 * @param aModel
 	 */
 	protected void setModel(AdonisModel aModel){
-		model = aModel;
+		if (model == null){
+			model = aModel;
+			if (resourceId == null && getName() != null){
+				model.addModelChildren(getName(),this);
+			} else if (resourceId != null && getName() == null){
+				model.addModelChildren(resourceId, this);
+			}
+			Log.d("set Model for "+getClass()+" - "+resourceId+" "+getName());
+		} else {
+			Log.d("tried to set Model for "+getClass()+" - "+resourceId+" "+getName());
+		}
 	}
 	
 	/**
@@ -269,6 +300,11 @@ public abstract class AdonisStencil extends XMLConvertible {
 		
 	}
 	
+	public static boolean handleStencil(String oryxName){
+		Log.e("handleStencil must be implemented - not done yet");
+		return false;
+	}
+	
 	//*************************************************************************
 	//* writeJSON methods
 	//*************************************************************************
@@ -297,7 +333,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	/**
 	 * write the outgoing edges
 	 */
-	public void writeJSONoutgoing(JSONObject json) throws JSONException{
+	public abstract void writeJSONoutgoing(JSONObject json) throws JSONException;/*{
 		JSONArray outgoing = getJSONArray(json,"outgoing");
 		JSONObject temp = null;
 		if (getOutgoing() != null){
@@ -306,7 +342,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 				outgoingStencil.writeJSONresourceId(temp);
 				outgoing.put(temp);			}
 		}
-	}
+	}*/
 	/**
 	 * write the properties (including not used ones and except special attributes with a representation in oryx)
 	 */
@@ -314,20 +350,9 @@ public abstract class AdonisStencil extends XMLConvertible {
 	
 	/**
 	 * write all childshapes to the diagram
+	 * @throws JSONException 
 	 */
-	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-		JSONArray childShapes = getJSONArray(json,"childShapes");
-		JSONObject shape = null;
-		
-		for (AdonisInstance aInstance : getModelInstance().values()){
-			//write only my childshapes
-			if (aInstance.getParent() == this){
-				shape = new JSONObject();
-				aInstance.write(shape);
-				childShapes.put(shape);
-			}
-		}
-	}
+	public abstract void writeJSONchildShapes(JSONObject json) throws JSONException;
 	/**
 	 * write the bounds of the object
 	 */
@@ -352,6 +377,11 @@ public abstract class AdonisStencil extends XMLConvertible {
 		prepareOryxToAdonis();
 		super.parse(json);
 		completeOryxToAdonis();
+	}
+	
+	public void readJSONresourceId(JSONObject json){
+		Random random = new Random();
+		setId("obj."+random.nextInt(100000));
 	}
 	
 	//*************************************************************************

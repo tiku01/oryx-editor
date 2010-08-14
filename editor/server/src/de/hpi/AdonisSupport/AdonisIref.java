@@ -15,9 +15,13 @@ import org.xmappr.RootElement;
 //>
 
 
+
+
 @RootElement("IREF")
 public class AdonisIref extends XMLConvertible{
-	
+
+	private static final long serialVersionUID = 4777979439718824214L;
+
 	@Attribute("type")
 	protected String type;
 	public void setType(String value){type = value;}
@@ -31,10 +35,10 @@ public class AdonisIref extends XMLConvertible{
 	public void setTmodelname(String value){tmodelname = value;}
 	public String getTmodelname(){return tmodelname;}
 	
-	@Attribute("tmodelver")
-	protected String tmodelver;
+	@Attribute(name="tmodelver")
+	protected String tmodelver = "fucking bullshit";
 	public void setTmodelver(String value){tmodelver = value;}
-	public String getTmodelver(){return tmodelver;}
+	public String getTmodelver(){if (tmodelver == null || tmodelver == "") return "fucking bullshit"; else return tmodelver;}
 	
 	@Attribute("tclassname")
 	protected String tclassname;

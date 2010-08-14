@@ -1,13 +1,12 @@
 package de.hpi.AdonisSupport;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Vector;
@@ -15,10 +14,33 @@ import java.util.Vector;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
+import org.xmappr.converters.ValueConverter;
 
 
 
 public class AdonisConverter {
+	public static boolean export = true;
+	
+	public static class EmptyStringConverter extends ValueConverter{
+		 // Indicates if this converter can convert given target type.
+	    // This is queried during Xmappr configuration.
+		public boolean canConvert(Class type) {
+	        return String.class.isAssignableFrom(type);
+	    }
+
+	    public Object fromValue(String value, String format, Class targetType, Object targetObject) {
+	        return (value == null || value.length() == 0) ? "" : value.intern();
+	    }
+
+	    public String toValue(Object object, String format) {
+	        return (object == null || ((String) object).length() == 0) ? "" : (String) object;
+	    }
+
+	    @Override
+	    public boolean convertsEmpty() {
+	        return false;
+	    }
+	}
 	
 	/**
 	 * helper to read a file
@@ -71,6 +93,7 @@ public class AdonisConverter {
 	 * @return
 	 */
 	public String importXML(String xml){
+		export = false;
 		Log.v("importXML");
 
 		String filteredXML = filterXML(xml);
@@ -95,16 +118,27 @@ public class AdonisConverter {
 	}
 	
 	public String exportXML(String json) throws JSONException {
+		export = true;
 		AdonisXML model = new AdonisXML();
 		JSONObject jsonModel = new JSONObject(json);
 		model.parse(jsonModel);
 		
 		StringWriter writer = new StringWriter();
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
+		xmappr.addConverter(new EmptyStringConverter());
 		xmappr.setPrettyPrint(true);
 		xmappr.toXML(model,writer);
+		//Workaround ... currently emtpy attributes are not written back
+		String[] xml = writer.toString().split("\\n");
+		String endXML = "";
+		for (int i = 0; i < xml.length; i++){
+			if (xml[i].contains("<IREF") && !xml[i].contains("tmodelver")){
+				xml[i] = "<IREF tmodelver=\"\" "+xml[i].replaceFirst("<IREF", "");
+			}
+			endXML += xml[i];
+		}
 		
-		return addXMLHeader(writer.toString());
+		return addXMLHeader(endXML);
 	}
 	
 	/**
