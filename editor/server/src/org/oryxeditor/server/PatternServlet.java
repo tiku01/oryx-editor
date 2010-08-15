@@ -1,18 +1,17 @@
 package org.oryxeditor.server;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ListIterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
+import org.json.JSONException;
 
 import de.hpi.pattern.Pattern;
 import de.hpi.pattern.PatternFilePersistance;
+import de.hpi.pattern.PatternPersistanceException;
 import de.hpi.pattern.PatternPersistanceProvider;
 
 public class PatternServlet extends HttpServlet {
@@ -20,42 +19,78 @@ public class PatternServlet extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6225767840683054466L;
+	private static final long serialVersionUID = 4767989831008935231L;
+	/**
+	 * 
+	 */
 	private static final String baseDir = "/Applications/apache-tomcat-6.0.26/webapps/oryx/pattern/";
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		boolean remove = new Boolean(req.getParameter("remove"));
 		
-		String patternJSON = req.getParameter("pattern"); //TODO catch non existent parameters
-		Pattern pattern = Pattern.fromJSON(patternJSON);
+		//get the requested http method
+		//prototype forwards puts and deletes as POSTS with _method parameter containing original requestmethod
+		String method = req.getParameterMap().containsKey("_method") ? 
+						req.getParameter("_method").toUpperCase() :
+						"POST";
+		
+		String patternJSON = req.getParameter("pattern");
+		//if parameter was not included in request
+		if (patternJSON == null) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "No pattern has been supplied!");
+			return; 
+		}
+		
+		Pattern pattern = null;
+		try {
+			pattern = Pattern.fromJSON(patternJSON);
+		} catch (JSONException e) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "JSON malformed!");
+		}
 		
 		String ssNameSpace = req.getParameter("ssNameSpace");
+		if (ssNameSpace == null) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "No ssNameSpace has been supplied!");
+			return; 
+		}
 		
 		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		
-		if (remove) {
-			removePattern(pattern, ssNameSpace);  //TODO what about a response here???
-		} else {
-			resp.getWriter().println(this.savePattern(pattern, ssNameSpace).toJSONString());
+		PatternPersistanceProvider repos = null;
+		try {
+			repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
+		} catch (PatternPersistanceException e) {
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+					"Pattern storage experienced problems."); //TODO I18N
+			return;
 		}
-	}
-
-	private Pattern savePattern(Pattern p, String ssNameSpace) {
 		
-		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		Pattern result = repos.setPattern(p);
+		Pattern savedPattern = pattern;
+		try {
+			if (method.equals("POST")) {
+				savedPattern = repos.replacePattern(pattern);
+			} else if (method.equals("PUT")) {
+				savedPattern = repos.addPattern(pattern);
+			} else if (method.equals("DELETE")) {
+				repos.removePattern(pattern);
+				return;
+			} else {
+				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"Unsupported _method!");
+				return;
+			}
+		} catch (PatternPersistanceException e) {
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Could not commit change!");
+		}
 		
-		return result;
+		//Response for POST and PUT. DELETE does not return anything.
+		resp.getWriter().println(savedPattern.toJSONString());
 	}
-
-	private void removePattern(Pattern p, String ssNameSpace) {
-		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		repos.removePattern(p);		
-	}
-
 	
 	/**
 	 * Expects parameter ssNameSpace for the patterns of the desired namespace
@@ -64,28 +99,25 @@ public class PatternServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
 		String ssNameSpace = req.getParameter("ssNameSpace");
-		PatternPersistanceProvider repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
-		List<Pattern> patternList = repos.getAll();
+		//if ssNameSpace has not been supplied
+		if (ssNameSpace == null) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ssNameSpace parameter missing!");
+			return;
+		}
+		
+		PatternPersistanceProvider repos = null;
+		try {
+			repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
+		} catch (PatternPersistanceException e) {
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+					"Pattern storage experienced problems."); //TODO I18N
+		}
 		
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		
-		resp.getWriter().print(patternsToJson(patternList));
-	}
-
-	private String patternsToJson(List<Pattern> patternList) {
-		String result = "[";
-		
-		ListIterator<Pattern> it = patternList.listIterator();
-		
-		while(it.hasNext()) {
-			result += it.next().toJSONString();			
-			if (it.hasNext()) result += ", ";
-		}
-		
-		result += "]";
-		
-		return result;
+		resp.getWriter().print(repos.toJSONString());  //TODO implement stencilset extension
 	}
 }

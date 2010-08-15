@@ -1,17 +1,21 @@
 package de.hpi.pattern;
 
-import java.util.Collection;
 import java.util.List;
 
-public interface PatternPersistanceProvider {
+import org.json.JSONString;
+
+public interface PatternPersistanceProvider extends JSONString{
 	
 	/**
-	 * Save the supplied serialized pattern.
+	 * Add the supplied serialized pattern.
 	 * 
 	 * @param serializedPattern
-	 * @return the id of the pattern
+	 * @return the pattern
+	 * @throws PatternPersistanceException 
 	 */
-	public Pattern setPattern(Pattern p);
+	public Pattern addPattern(Pattern p) throws PatternPersistanceException;
+	
+	public Pattern replacePattern(Pattern p) throws PatternPersistanceException; //TODO javadoc
 	
 	/**
 	 * return the save pattern with the given id
@@ -25,8 +29,9 @@ public interface PatternPersistanceProvider {
 	/**
 	 * deletes the specified pattern
 	 * @param p
+	 * @throws PatternPersistanceException 
 	 */
-	public void removePattern(Pattern p);
+	public void removePattern(Pattern p) throws PatternPersistanceException;
 	
 	/**
 	 * returns all patterns for the stencilset
