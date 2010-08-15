@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONString;
 
@@ -23,60 +24,65 @@ import org.json.JSONString;
  *
  */
 public class PatternFilePersistance implements PatternPersistanceProvider, JSONString {
-	private static int patternId = 0;
-	
-	private final String ssNameSpace;
 	private File patternFile;
-	private ArrayList<Pattern> patternList = new ArrayList<Pattern>();
+	private ArrayList<Pattern> patternList;
+	private int currentID;
+	private Logger log = Logger.getLogger(this.getClass());
 	
-	@SuppressWarnings("unchecked")
-	public PatternFilePersistance(String ssNameSpace, String baseDir) {
-		this.ssNameSpace = ssNameSpace;
-		this.patternFile = new File(baseDir + "/" + this.ssNameSpace.hashCode() + ".patternStore");
+	public PatternFilePersistance(String ssNameSpace, String baseDir) throws PatternPersistanceException {
+		this.patternFile = new File(baseDir + generatePatternFileName(ssNameSpace));
 		
 		this.loadPattern();
-		this.correctPatternRepos();
+		this.initPattern();
 	}
 
-	private void correctPatternRepos() {
+	private static String generatePatternFileName(String ssNameSpace) {
+		String fileName = new Integer(ssNameSpace.hashCode()).toString();
+		fileName = fileName.replace("-", "m"); //replaces leading "-" from negative integer
+		fileName += ".patternStore";
+		return fileName;
+	}
+
+	private void initPattern() {
 		ListIterator<Pattern> it = this.patternList.listIterator();
 		while(it.hasNext()) {
 			it.next().setRepos(this);
 		}		
 	}
 
-	private void loadPattern() {
+	@SuppressWarnings("unchecked")
+	private void loadPattern() throws PatternPersistanceException {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
 			fis = new FileInputStream(this.patternFile);
 			ois = new ObjectInputStream(fis);
+			this.currentID = ois.readInt();
 			this.patternList = (ArrayList<Pattern>) ois.readObject();
-		} catch (FileNotFoundException e) {
-			// do nothing
-		} catch (Exception e) { //TODO handle it better!
-			e.printStackTrace();
+		} catch (FileNotFoundException e) { //TODO what happens if the directory could not be found?? --> pattern repos is being initialized!
+			this.currentID = 0;
+			this.patternList = new ArrayList<Pattern>();
+		} catch (IOException e) {
+			this.log.error("Error while reading file " + this.patternFile, e);
+			throw new PatternPersistanceException("Could not read file.", e);
+		} catch (ClassNotFoundException e) {
+			this.log.error("Error while reading file " + this.patternFile + "\n" +
+					"Class could not be found!", e); //TODO appropriately logged??
+			throw new PatternPersistanceException("Could not read file.", e);
 		} finally {
 			try {
 				if (ois != null) ois.close();
 				if (fis != null) fis.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.log.error("Error while closing file " + this.patternFile, e); //TODO appropriately logged??
+				throw new PatternPersistanceException("Could not close file.", e);
 			}
 		}
 	}
 	
 	@Override
-	public void removePattern(Pattern p) {
-		ListIterator<Pattern> it = this.patternList.listIterator();
-		while(it.hasNext()) {
-			Pattern currentPattern = it.next();
-			if(currentPattern.getId() == p.getId()) { //TODO implement equals
-				it.remove();
-				break;
-			}
-		}
+	public void removePattern(Pattern p) throws PatternPersistanceException {
+		this.patternList.remove(p);
 		commit();
 	}
 	
@@ -90,30 +96,28 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		}
 		return null; //didn't find the pattern
 	}
-
-	@Override
-	public Pattern setPattern(Pattern p) {
-		if (p.isNew()) {
-			return this.addPattern(p);
-		} else {
-			return this.replacePattern(p); 
-		}
-	}
 	
-	private Pattern addPattern(Pattern p) {
-		this.patternList.add(p); //TODO clone to prevent influence from outside
+	@Override
+	public Pattern addPattern(Pattern p) throws PatternPersistanceException {
+		p.setId(this.generateNewId());
 		p.setRepos(this);
+		this.patternList.add(p); //TODO clone to prevent influence from outside
 		this.commit();
 		return p;
 	}
 
-	private Pattern replacePattern(Pattern p) {
+	private int generateNewId() {
+		return this.currentID++;
+	}
+
+	@Override
+	public Pattern replacePattern(Pattern p) throws PatternPersistanceException {
 		
 		ListIterator<Pattern> it = this.patternList.listIterator();
-		
+
 		while(it.hasNext()){
 			Pattern currentPattern = it.next();
-			if (currentPattern.getId() == p.getId()) { //implement equals in pattern
+			if (currentPattern.getId() == p.getId()) { //TODO implement equals in pattern
 				it.set(p);
 				p.setRepos(this); //new pattern has repos == null
 				this.commit();
@@ -124,13 +128,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		
 	}
 
-	private String generateImage(int id, String serializedPattern) {
-		// TODO Auto-generated method stub
-		return "/fakeimage.png";
-	}
-
-
-	public void commit() {
+	public void commit() throws PatternPersistanceException {
 		//TODO maybe delete file before rewriting it?
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
@@ -138,11 +136,11 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		try {
 			fos = new FileOutputStream(this.patternFile);
 			oos = new ObjectOutputStream(fos);
-			
+			oos.writeInt(this.currentID);
 			oos.writeObject(this.patternList);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error while writing file " + this.patternFile, e);
+			throw new PatternPersistanceException("Could not write file.", e);
 		} finally {
 			try {
 				if (oos != null) oos.close();
@@ -154,11 +152,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		}
 		
 	}
-	//TODO add serializable construct!
-	private static int newPatternId() {
-		return patternId++;
-	}
-
+	
 	@Override
 	public List<Pattern> getAll() {
 		return this.patternList;

@@ -29,6 +29,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	facade : undefined,
 	buttonVisible : false,
 	button : undefined,
+	patternRepos : undefined,
 	
 	construct: function(facade) {
 		
@@ -59,7 +60,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			iconCls: 'headerShapeRepImg',
 			expandable: true,
 			allowDrag: false,
-			allowDrop: false
+			allowDrop: false,
+			editable: false
 		});
 				
 		//create Patternpanel as ext-tree-panel
@@ -88,6 +90,12 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		}.bind(this);
 		
 		this.createPatternButton();
+		
+		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
+		this.patternRepos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, 
+																		this.addPatternNodes.bind(this), 
+																		this.addPatternNode.bind(this), 
+																		this.deletePatternNode.bind(this));
 		
 		//TODO register on reload event for stencil sets! don't forget that!
 		this.loadAllPattern();
@@ -223,9 +231,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	loadAllPattern: function() {
-		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
-		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes.bind(this)); //TODO initialize only one of the repos and make actually update possible!
-		repos.loadPattern();
+		this.patternRepos.loadPattern(); //TODO idempotency!
 		
 	},
 	
@@ -243,11 +249,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 		
-		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
-	
-		var repos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, this.addPatternNodes.bind(this), this.addPatternNode.bind(this));
-		
-		repos.saveNewPattern(pattern); //TODO take the new pattern with filled id, etc...
+		this.patternRepos.addPattern(pattern); //TODO take the new pattern with filled id, etc...
 	},
 	
 	addPatternNodes: function(patternArray) {
@@ -273,6 +275,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		// 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI
 		// 		});
 		var newNode = new ORYX.Plugins.Patterns.PatternNode(pattern);
+		
+		pattern.treeNode = newNode;
 				 	
 		this.patternRoot.appendChild(newNode);
 		newNode.render();	 //TODO really necessary?????
@@ -288,7 +292,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			node: ui.node,
 			handles: [ui.elNode, ui.textNode].concat($A(ui.elNode.childNodes)), //has one undefined element! fix that!
 			isHandle: false,
-			type: "and-split" //this does not make sense!
+			type: "and-split" //TODO this does not make sense!
 		});
 		
 		//make node editable
@@ -301,12 +305,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		treeEditor.on("complete", this.onComplete.bind(this));
 
-		this.patternPanel.on({
-			scope : this,
-			//beforeclick : this.beforeNodeClick.curry(treeEditor),
-			dblclick : this.onNodeDblClick.bind(this, treeEditor) //TODO fix after editing description has to be changed as well!
-		});
-		
 		this.patternRoot.expand();	
 		
 		/*var deleteButton = document.createElement("span");
@@ -322,25 +320,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		newNode.getUI().elNode.appendChild(deleteButton);*/
 	},
 	
-	onNodeDblClick : function(treeEditor, node, e) {
-		e.stopEvent(); //why?
-		treeEditor.triggerEdit(node);
-		this.addDeleteButton(node);
+	deletePatternNode: function(pattern) {
+		pattern.treeNode.remove();
 	},
 	
-/*	addDeleteButton: function(node) {
-		node.getUI().getAnchor().add
-	},*/
 	
 	onComplete: function(editor, value, startValue) {  //TODO why being called two times???
 		var pattern = editor.editNode.attributes.attributes;
-	
-		if (value == 'delete') {
-			// editor.cancelEdit(false);
-			editor.editNode.remove();
-			pattern.remove();
-			return false;  //cancel the editing event! TODO double code!
-		}
 		
 		return pattern.setDescription(value);
 	},
@@ -709,6 +695,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	imageUrl : undefined,
 	description : undefined,
 	repos: undefined,
+	treeNode: undefined, //saved the "viewer" tree node
 	
 	construct: function(opt) {
 		if(opt.serPattern !== null) this.serPattern = opt.serPattern; //refactor!!!
@@ -725,7 +712,16 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	},
 	
 	remove: function() {
-		this.repos.removePattern(this);
+		this.repos.removePattern(this); //toggles through callback removal of treenode!
+	},
+	
+	toJSONString: function() {
+		return Ext.encode({
+			id: this.id,
+			description: this.description,
+			serPattern: this.serPattern,
+			imageUrl: this.imageUrl
+		});
 	}
 	
 });
@@ -733,13 +729,15 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 	patternList : [],
 	ssNameSpace : undefined,
-	onUpdate: function(patternArray){}, //will be called, when new pattern are available
+	onPatternLoad: function(patternArray){}, //will be called, when new pattern are available
 	onPatternAdd: function(pattern){},
+	onPatternRemove: function(){},
 	
-	construct: function(ssNameSpace, onUpdate, onPatternAdd) {
+	construct: function(ssNameSpace, onPatternLoad, onPatternAdd, onPatternRemove) { //TODO refactor introduce object parameter for constructor
 		this.ssNameSpace = ssNameSpace;
-		this.onUpdate = onUpdate;
+		this.onPatternLoad = onPatternLoad;
 		this.onPatternAdd = onPatternAdd;
+		this.onPatternRemove = onPatternRemove;
 	},
 	
 	loadPattern: function() {
@@ -750,7 +748,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 				pattern.repos = this;
 				this.patternList.push(pattern);
 			}.bind(this));
-			this.onUpdate(this.patternList);
+			this.onPatternLoad(this.patternList);
 		}.bind(this));
 	},
 	
@@ -758,13 +756,13 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		return this.patternList;
 	},
 	
-	saveNewPattern: function(pattern) {
+	addPattern: function(pattern) {
 		var params = {
-			pattern: Ext.encode(pattern),
+			pattern: pattern.toJSONString(),
 			ssNameSpace: this.ssNameSpace
 		};
 		
-		this._sendRequest("POST", params, function(resp){
+		this._sendRequest("PUT", params, function(resp){
 			var opt = Ext.decode(resp);
 			var pattern = new ORYX.Plugins.Patterns.Pattern(opt);  //TODO implement constructor with repos!!!
 			pattern.repos = this;
@@ -773,16 +771,17 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 	},
 	
 	savePattern: function(pattern) {
-		this._sendRequest("POST", {pattern: Ext.encode(pattern), ssNameSpace: this.ssNameSpace}); //TODO use callbacks?
+		this._sendRequest("POST", {pattern: pattern.toJSONString(), ssNameSpace: this.ssNameSpace}); //TODO use callbacks?
 	},
 	
 	removePattern: function(pattern) {
 		var params = {
-			pattern: Ext.encode(pattern), //TODO handle uniformly!
-			remove: true,
+			pattern: pattern.toJSONString(), //TODO handle uniformly!
 			ssNameSpace: this.ssNameSpace
 		};
-		this._sendRequest("POST", params); // TODO handle success and failed callback
+		this._sendRequest("DELETE", params, function(resp) {  //onSuccess
+			this.onPatternRemove(pattern);
+		}.bind(this));
 	},
 	
 	_sendRequest: function( method, params, successcallback, failedcallback ){
@@ -813,13 +812,23 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 				} 
 				else 
 				{
-					//this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
-					ORYX.log.warn("Communication failed: " + transport.responseText);	//TODO warning ORYX.log is undefined
+					this._showErrorMessageBox("Pattern Repository", "Communication with server failed!"); //TODO I18N
+					ORYX.Log.warn("Communication failed: " + transport.responseText);	//TODO warning ORYX.log is undefined check if Log instead of log did the trick
 				}					
 		   }.bind(this)		
 		});
 		
 		return suc;		
+	},
+	
+	_showErrorMessageBox: function(title, msg)
+	{
+        Ext.MessageBox.show({
+           title: title,
+           msg: msg,
+           buttons: Ext.MessageBox.OK,
+           icon: Ext.MessageBox.ERROR
+       });
 	}
 });
 
@@ -841,6 +850,10 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
 			text: this.pattern.description,
 			attributes: this.pattern  //TODO still ncessary?
 		});
+	},
+	
+	beforeMove: function(tree, node, newParent, oldParent, index) {
+		node.getUI().deleteButton.hide();
 	}
 });
 
@@ -860,7 +873,6 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 			var deleteFunction = function() {
 				var pattern = this.node.attributes.attributes; //TODO use .pattern here!
 				pattern.remove();
-				this.node.remove(); //TODO handle this through the success function of the ajax request!
 			}
 			
 			this.deleteButton = new Ext.Button({
