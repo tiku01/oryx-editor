@@ -251,7 +251,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	addPatternNodes: function(patternArray) {
-		patternArray.each(function(pattern){
+		patternArray.each(function(pattern){  //TODO beautify with apply or map or something like that!
 			this.addPatternNode(pattern);
 		}.bind(this));
 	},
@@ -259,21 +259,23 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	/**
 	* Add the nodes for the supplied pattern to pattern repository
 	*/
-	addPatternNode: function(pattern) {
+	addPatternNode: function(pattern) {		
 		//add the pattern subnode
-		var newNode = new Ext.tree.TreeNode({
-			leaf: true,
-			text: pattern.description,  
-			iconCls: 'headerShapeRepImg',
-			cls: 'ShapeRepEntree PatternRepEntry',
-			icon:  ORYX.PATH + "images/pattern_add.png",
-			allowDrag: false,
-			allowDrop: false,
-			attributes: pattern
-		});
-		
+		// var newNode = new Ext.tree.TreeNode({
+		// 			leaf: true,
+		// 			text: pattern.description,  
+		// 			iconCls: 'headerShapeRepImg',
+		// 			cls: 'ShapeRepEntree PatternRepEntry',
+		// 			icon:  ORYX.PATH + "images/pattern_add.png",
+		// 			allowDrag: false,
+		// 			allowDrop: false,
+		// 			attributes: pattern,
+		// 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI
+		// 		});
+		var newNode = new ORYX.Plugins.Patterns.PatternNode(pattern);
+				 	
 		this.patternRoot.appendChild(newNode);
-		newNode.render();	
+		newNode.render();	 //TODO really necessary?????
 		
 		var ui = newNode.getUI();
 		
@@ -306,12 +308,29 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		});
 		
 		this.patternRoot.expand();	
+		
+		/*var deleteButton = document.createElement("span");
+		deleteButton.className = "PatternDeleteButton";
+		
+		var deleteButtonB = document.createElement("button");
+		deleteButtonB.down = function(){alert("Hello!")};
+		deleteButtonB.setAttribute("style", "background-image: url(\"" + ORYX.PATH + "/images/delete.png\");");
+		deleteButtonB.setAttribute("type", "button");
+		
+		deleteButton.appendChild(deleteButtonB);
+		
+		newNode.getUI().elNode.appendChild(deleteButton);*/
 	},
 	
 	onNodeDblClick : function(treeEditor, node, e) {
 		e.stopEvent(); //why?
 		treeEditor.triggerEdit(node);
+		this.addDeleteButton(node);
 	},
+	
+/*	addDeleteButton: function(node) {
+		node.getUI().getAnchor().add
+	},*/
 	
 	onComplete: function(editor, value, startValue) {  //TODO why being called two times???
 		var pattern = editor.editNode.attributes.attributes;
@@ -802,4 +821,78 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		
 		return suc;		
 	}
+});
+
+ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
+	
+	//no initComponent in TreeNode!
+	constructor: function(pattern) {
+		this.pattern = pattern;
+		
+		//call superclass constructor		
+		ORYX.Plugins.Patterns.PatternNode.superclass.constructor.call(this, {
+			leaf: true,
+			iconCls: 'headerShapeRepImg',
+			cls: 'ShapeRepEntree PatternRepEntry',
+			icon:  ORYX.PATH + "images/pattern_add.png", //necessary?
+			allowDrag: false,
+			allowDrop: false,
+			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI,
+			text: this.pattern.description,
+			attributes: this.pattern  //TODO still ncessary?
+		});
+	}
+});
+
+ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
+	
+		render: function(bulkRender) { 
+//			this.superclass.render.apply(this, arguments);
+			//onRender not properly implemented in used Ext Version!
+			if (this.rendered) return;
+			
+			ORYX.Plugins.Patterns.PatternNodeUI.superclass.render.apply(this, arguments);
+						
+			var span = document.createElement("span");
+			span.className = "PatternDeleteButton";
+			this.elNode.appendChild(span);
+			
+			var deleteFunction = function() {
+				var pattern = this.node.attributes.attributes; //TODO use .pattern here!
+				pattern.remove();
+				this.node.remove(); //TODO handle this through the success function of the ajax request!
+			}
+			
+			this.deleteButton = new Ext.Button({
+									icon: ORYX.PATH + "images/delete.png",
+									handler: deleteFunction.bind(this),
+									cls: "x-btn-icon",
+									renderTo: span
+								});
+								
+			//this.deleteButton.getEl().fadeOut();
+			this.deleteButton.hide();
+			
+		},
+		
+		onOver: function() {
+			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOver.apply(this, arguments);
+			
+			// //already visible? prohibits calling fade in for visible element.
+			// 			if (this.deleteButton.getEl().dom.style.visibility == "visible") return;
+			// 					
+			// 			this.deleteButton.getEl().fadeIn({block: true});
+			this.deleteButton.show();
+		},
+		
+		onOut: function() { //TODO maybe set a timer to prohibit continously fading in and out!
+ 			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOut.apply(this, arguments);
+			
+			// //already faded out --> not visible
+			// 			if (this.deleteButton.getEl().dom.style.visibility != "visible") return;
+			// 			
+			// 			this.deleteButton.getEl().fadeOut({block: true});
+			this.deleteButton.hide();
+		}
+			
 });
