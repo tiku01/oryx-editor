@@ -47,187 +47,118 @@
 	 */
 	construct: function(facade) {
 		this.facade = facade;
-		this.facade.registerOnEvent('layout.uml.activityRegion', this.handleLayoutActivityRegion.bind(this));
+		this.facade.registerOnEvent('layout.uml.activityPartition', this.handleLayoutActivityRegion.bind(this));
 	},
 	
-	isActivityRegion: function(shape) {
-		return "http://b3mn.org/stencilset/umlactivity#umlAcActivityRegion".toLowerCase() == shape.getStencil().id().toLowerCase();
-	},
-
-	forceToUpdateActivityRegion: function(activityRegion){
-		
-		if (activityRegion.bounds.height() !== activityRegion._svgShapes[0].height) {	
-			activityRegion.isChanged = true;
-			activityRegion.isResized = true;
-			activityRegion._update();
-		}
+	hashedBounds : {}, 
+	
+	/**
+	* Helper method, which returns true, if the received shape is an Activiy Partition. 
+	*@param {Object} shape The shape that is checked for beeing an Activiy Partition.
+	*@return {boolean} The result is true, if the shape is an Activiy Partition.
+	*/
+	isActivityPartitionNode : function (shape) {
+		return "http://b3mn.org/stencilset/umlactivity#activitypartition" == shape.getStencil().id().toLowerCase();
 	},
 	
-	handleLayoutActivityRegion: function(event){
-		var existingActivityRegion= event.shape;
-		var selection = this.facade.getSelection();
-		var currentActivityRegion = selection.first();
-		
-		currentActivityRegion = currentActivityRegion || existingActivityRegion;
-		
-		if (! this.isActivityRegion(currentActivityRegion)){
-			return;
-		}
-		
-		
-		if(currentActivityRegion != existingActivityRegion){
-		
-			currentActivityRegion.a.x=existingActivityRegion.b.x;
-			currentActivityRegion.a.y=existingActivityRegion.a.y;
-			currentActivityRegion.b.x=existingActivityRegion.b.x+250;
-			currentActivityRegion.b.y=existingActivityRegion.a.y;
-			
-			this.forceToUpdateActivityRegion(existingActivityRegion);
-			this.forceToUpdateActivityRegion(currentActivityRegion);
-			
-		};
-		
-		
-		
-		
-		if (currentActivityRegion == existingActivityRegion){};
-	},
 	/**
 	 * Handler for layouting event 'layout.bpmn2_0.pool'
 	 * @param {Object} event
 	 */
-	handleLayoutActivityRegion2: function(event){
+	handleLayoutActivityRegion: function(event){
 		
-		var pool = event.shape;
-		var selection = this.facade.getSelection(); 
-		var currentShape = selection.first();
+		var rootPartition = event.shape;
+		var directChildPartitions = this.getChildActivityPartitions(rootPartition, false);
 		
-		currentShape = currentShape || pool;
+		var currentShape = this.facade.getSelection().first(); 
+		currentShape = currentShape || rootPartition;
 		
-		this.currentPool = pool;
+		//Guards
+		if (this.isActivityPartitionNode(rootPartition.parent)) return;
+		if(!this.isActivityPartitionNode(rootPartition)) return;
+		if (!this.isActivityPartitionNode(currentShape)) return;
+		if (directChildPartitions.length <= 0) return;
 		
-		// Check if it is a pool or a lane
-		if (!(currentShape.getStencil().id().endsWith("umlAcActivityRegion") || currentShape.getStencil().id().endsWith("ActivityRegionCanvas"))) {
-			return;
+		this.currentRootPartition = rootPartition;
+		
+		if (!this.hashedBounds[rootPartition.resourceId]) {
+			this.hashedBounds[rootPartition.resourceId] = {};
 		}
-		
-		if (!this.hashedBounds[pool.resourceId]) {
-			this.hashedBounds[pool.resourceId] = {};
+				
+		var allChildPartitions = this.getChildActivityPartitions(rootPartition, true);
+		var addedPartitions = this.getAllAddedPartitions(allChildPartitions);
+		var deletedPartitions = this.getAllDeletedPartitions(allChildPartitions);
+				
+		if (addedPartitions.length > 0){
+			currentShape = addedPartitions.first();
 		}
-		
-		// Find all child lanes
-		var lanes = this.getLanes(pool);
-		
-		if (lanes.length <= 0) {
-			return
+	
+		var height, width; //future height and width of the rootPartition
+		if (deletedPartitions.length > 0 || addedPartitions.length > 0) {
+			this.resizeAfterAddorDeleteOfPartition(rootPartition, directChildPartitions);
 		}
-		
-		// Show/hide caption regarding the number of lanes
-		if (lanes.length === 1 && this.getLanes(lanes.first()).length <= 0) {
-			// TRUE if there is a caption
-			lanes.first().setProperty("oryx-showcaption", lanes.first().properties["oryx-name"].trim().length > 0);
-			var rect = lanes.first().node.getElementsByTagName("rect");
-			rect[0].setAttributeNS(null, "display", "none");
-		} else {
-			lanes.invoke("setProperty", "oryx-showcaption", true);
-			lanes.each(function(lane){
-				var rect = lane.node.getElementsByTagName("rect");
-				rect[0].removeAttributeNS(null, "display");
-			})
+		else if (rootPartition == currentShape) {
+			this.resizeAfterRootPartitionChangend ( rootPartition, directChildPartitions);
+		}	
+		else {
+			this.resizeAfterChildPartitionChanged ( rootPartition, directChildPartitions, currentShape);
 		}
-		
-		
-		
-		var allLanes = this.getLanes(pool, true);
-		
-		var deletedLanes = [];
-		var addedLanes = [];
-		
-		// Get all new lanes
-		var i=-1;
-		while (++i<allLanes.length) {
-			if (!this.hashedBounds[pool.resourceId][allLanes[i].resourceId]){
-				addedLanes.push(allLanes[i])
-			}
-		}
-		
-		if (addedLanes.length > 0){
-			currentShape = addedLanes.first();
-		}
-		
-		
-		// Get all deleted lanes
-		var resourceIds = $H(this.hashedBounds[pool.resourceId]).keys();
+				
+		this.cachePositions(rootPartition, allChildPartitions);
+	},
+	
+	cachePositions : function(rootPartition, allChildPartitions) {
+		this.hashedBounds[rootPartition.resourceId] = {};
+		allChildPartitions.each(function(partition){
+				this.hashedBounds[rootPartition.resourceId][partition.resourceId] = partition.absoluteBounds();
+				this.forceToUpdateActivityPartition(partition);
+			}.bind(this));
+	},
+	
+	resizeAfterAddorDeleteOfPartition : function (rootPartition, directChildPartitions){
+		width = this.updateActivityPartitionWidth(rootPartition);
+		height = this.adjustActivityPartitionHeight(directChildPartitions, rootPartition.bounds.height());	
+		rootPartition.update();
+		this.setActivityPartitionDimensions(rootPartition, width, height);
+	},
+	
+	resizeAfterRootPartitionChangend : function (rootPartition, directChildPartitions){
+		width = this.adjustActivityPartitionWidth(directChildPartitions, undefined, rootPartition.bounds.width());
+		height = this.adjustActivityPartitionHeight(directChildPartitions, rootPartition.bounds.height());
+		this.setActivityPartitionDimensions(rootPartition, width, height);
+	},
+	
+	resizeAfterChildPartitionChanged : function ( rootPartition, directChildPartitions, currentShape){
+			width = this.adjustActivityPartitionWidth(directChildPartitions, currentShape);
+			height = this.adjustActivityPartitionHeight(directChildPartitions, currentShape.bounds.height()+(this.getDepth(currentShape,rootPartition)*30));
+			this.setActivityPartitionDimensions(rootPartition, width, height);
+	},
+	
+	getAllAddedPartitions : function (allChildPartitions){
+			return allChildPartitions.findAll(function(shape) {
+					if (!this.hashedBounds[this.currentRootPartition.resourceId][shape.resourceId]) return shape
+					}.bind(this));
+	},
+	
+	getAllDeletedPartitions : function (allChildPartitions){
+	
+		var deletedPartitions = [];
+		var resourceIds = $H(this.hashedBounds[this.currentRootPartition.resourceId]).keys();
 		var i=-1;
 		while (++i<resourceIds.length) {
-			if (!allLanes.any(function(lane){ return lane.resourceId == resourceIds[i]})){
-				deletedLanes.push(this.hashedBounds[pool.resourceId][resourceIds[i]]);
-				selection = selection.without(function(r){ return r.resourceId == resourceIds[i] });
+			if (!allChildPartitions.any(function(partition){ return partition.resourceId == resourceIds[i]})){
+				deletedPartitions.push(this.hashedBounds[this.currentRootPartition.resourceId][resourceIds[i]]);
 			}
-		}		
-				
-		var height, width;
-		
-		if (deletedLanes.length > 0 || addedLanes.length > 0) {
-			
-			// Set height from the pool
-			height = this.updateHeight(pool);
-			// Set width from the pool
-			width = this.adjustWidth(lanes, pool.bounds.width());	
-			
-			pool.update();
 		}
-		
-		/**
-		 * Set width/height depending on the pool
-		 */
-		else if (pool == currentShape) {
-			
-			// Set height from the pool
-			height = this.adjustHeight(lanes, undefined, pool.bounds.height());
-			// Set width from the pool
-			width = this.adjustWidth(lanes, pool.bounds.width());		
-		}
-		
-		/**‚
-		 * Set width/height depending on containing lanes
-		 */		
-		else {
-			// Get height and adjust child heights
-			height = this.adjustHeight(lanes, currentShape);
-			// Set width from the current shape
-			width = this.adjustWidth(lanes, currentShape.bounds.width()+(this.getDepth(currentShape,pool)*30));
-		}
-		
-
-		this.setDimensions(pool, width, height);
-		
-		//hier standen mal die Docker
-		
-		this.hashedBounds[pool.resourceId] = {};
-		
-		var i=-1;
-		while (++i < allLanes.length) {
-			// Cache positions
-			this.hashedBounds[pool.resourceId][allLanes[i].resourceId] = allLanes[i].absoluteBounds();
-			
-			this.hashedLaneDepth[allLanes[i].resourceId] = this.getDepth(allLanes[i], pool);
-			
-			this.forceToUpdateLane(allLanes[i]);
-		}
-		
-		this.hashedPoolPositions[pool.resourceId] = pool.bounds.clone();
-		
-		
-		// Update selection
-		//this.facade.setSelection(selection);		
+		return deletedPartitions;
 	},
-	forceToUpdateLane: function(lane){
+	
+	forceToUpdateActivityPartition: function(partition){
 		
-		if (lane.bounds.height() !== lane._svgShapes[0].height) {	
-			lane.isChanged = true;
-			lane.isResized = true;
-			lane._update();
+		if (partition.bounds.width() !== partition._svgShapes[0].width) {	
+			partition.isChanged = true;
+			partition.isResized = true;
+			partition._update();
 		}
 	},
 	
@@ -241,170 +172,94 @@
 		return i;
 	},
 	
-	updateDepth: function(lane, fromDepth, toDepth){
+	setActivityPartitionDimensions: function (shape, width, height){
+		var isChildActivityPartition = this.isActivityPartitionNode(shape);
+		isChildActivityPartition = (isChildActivityPartition && this.isActivityPartitionNode(shape.parent))
+		shape.bounds.set(
+			shape.bounds.a.x,
+			isChildActivityPartition ? 30 : shape.bounds.a.y,
+			width ? shape.bounds.a.x + width : shape.bounds.b.x,
+			height ? shape.bounds.a.y + height - (isChildActivityPartition ? 30:0) : shape.bounds.b.y
+		);
+	},
+	
+	setActivityPartitionPosition: function(shape, x){
+		shape.bounds.moveTo(x, 30);
+	},
 		
-		var xOffset = (fromDepth - toDepth) * 30;
+	adjustActivityPartitionHeight: function(partitions, height) {
+		(partitions||[]).each(function(partition){
+			this.setActivityPartitionDimensions(partition, null, height);
+			this.adjustActivityPartitionHeight(this.getChildActivityPartitions(partition), height-30);
+		}.bind(this));
+		return height;
+	},
+	
+	adjustActivityPartitionWidth: function(activityPartitions, changedActivityPartition, propagateWidth){
 		
-		lane.getChildNodes().each(function(shape){
-			shape.bounds.moveBy(xOffset, 0);
+		var oldWidth = 0;
+		if (!changedActivityPartition && propagateWidth){
+			var i=-1;
+			while (++i<activityPartitions.length){	
+				oldWidth += activityPartitions[i].bounds.width();		
+			}
+		}
+		
+		var i=-1;
+		var width = 0;
+		
+		// Iterate trough every lane
+		while (++i<activityPartitions.length){
 			
-			[].concat(children[j].getIncomingShapes())
-					.concat(children[j].getOutgoingShapes())
-					
-		})
+			if (activityPartitions[i] === changedActivityPartition) {
+				// Propagate new height down to the children
+				
+				this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), undefined, activityPartitions[i].bounds.width());
+				activityPartitions[i].bounds.set({y:30, x:width}, {y:activityPartitions[i].bounds.height()+30, x:activityPartitions[i].bounds.width()+width})
+								
+			} else if (!changedActivityPartition && propagateWidth) {
+				
+				var tempWidth = (activityPartitions[i].bounds.width() * propagateWidth) / oldWidth;
+				// Propagate height
+				this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), undefined, tempWidth);
+				// Set height propotional to the propagated and old height
+				this.setActivityPartitionDimensions(activityPartitions[i],tempWidth, null);
+				this.setActivityPartitionPosition(activityPartitions[i], width);
+			} else {
+				// Get height from children
+				var tempWidth = this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), changedActivityPartition, propagateWidth);
+				if (!tempWidth) {
+					tempWidth = activityPartitions[i].bounds.width();
+				}
+				this.setActivityPartitionDimensions(activityPartitions[i], tempWidth, null);
+				this.setActivityPartitionPosition(activityPartitions[i], width);
+			}
+			
+			width += activityPartitions[i].bounds.width();
+		}
+		
+		return width;
 		
 	},
 	
-	setDimensions: function(shape, width, height){
-		var isLane = shape.getStencil().id().endsWith("Lane");
-		// Set the bounds
-		shape.bounds.set(
-				isLane ? 30 : shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				width	? shape.bounds.a.x + width - (isLane?30:0) : shape.bounds.b.x, 
-				height 	? shape.bounds.a.y + height : shape.bounds.b.y
-			);
-	},
-
-	setLanePosition: function(shape, y){
-		shape.bounds.moveTo(30, y);
-	},
+	updateActivityPartitionWidth: function(root){
+		var activityPartitions = this.getChildActivityPartitions(root);
+		if (activityPartitions.length == 0){
+			return root.bounds.width();
+		}
 		
-	adjustWidth: function(lanes, width) {
+		var width = 0;
+		var i=-1;
+		while (++i < activityPartitions.length) {
+			this.setActivityPartitionPosition(activityPartitions[i], width);
+			width += this.updateActivityPartitionWidth(activityPartitions[i]);
+		}
 		
-		// Set width to each lane
-		(lanes||[]).each(function(lane){
-			this.setDimensions(lane, width);
-			this.adjustWidth(this.getLanes(lane), width-30);
-		}.bind(this));
+		this.setActivityPartitionDimensions(root, width, null);
 		
 		return width;
 	},
-	
-	
-	adjustHeight: function(lanes, changedLane, propagateHeight){
-		
-		var oldHeight = 0;
-		if (!changedLane && propagateHeight){
-			var i=-1;
-			while (++i<lanes.length){	
-				oldHeight += lanes[i].bounds.height();		
-			}
-		}
-		
-		var i=-1;
-		var height = 0;
-		
-		// Iterate trough every lane
-		while (++i<lanes.length){
-			
-			if (lanes[i] === changedLane) {
-				// Propagate new height down to the children
-				this.adjustHeight(this.getLanes(lanes[i]), undefined, lanes[i].bounds.height());
-				
-				lanes[i].bounds.set({x:30, y:height}, {x:lanes[i].bounds.width()+30, y:lanes[i].bounds.height()+height})
-								
-			} else if (!changedLane && propagateHeight) {
-				
-				var tempHeight = (lanes[i].bounds.height() * propagateHeight) / oldHeight;
-				// Propagate height
-				this.adjustHeight(this.getLanes(lanes[i]), undefined, tempHeight);
-				// Set height propotional to the propagated and old height
-				this.setDimensions(lanes[i], null, tempHeight);
-				this.setLanePosition(lanes[i], height);
-			} else {
-				// Get height from children
-				var tempHeight = this.adjustHeight(this.getLanes(lanes[i]), changedLane, propagateHeight);
-				if (!tempHeight) {
-					tempHeight = lanes[i].bounds.height();
-				}
-				this.setDimensions(lanes[i], null, tempHeight);
-				this.setLanePosition(lanes[i], height);
-			}
-			
-			height += lanes[i].bounds.height();
-		}
-		
-		return height;
-		
-	},
-	
-	
-	updateHeight: function(root){
-		
-		var lanes = this.getLanes(root);
-		
-		if (lanes.length == 0){
-			return root.bounds.height();
-		}
-		
-		var height = 0;
-		var i=-1;
-		while (++i < lanes.length) {
-			this.setLanePosition(lanes[i], height);
-			height += this.updateHeight(lanes[i]);
-		}
-		
-		this.setDimensions(root, null, height);
-		
-		return height;
-	},
-	
-	getOffset: function(lane, includePool, pool){
-		
-		var offset = {x:0,y:0};
-		
-		
-		/*var parent = lane; 
-		 while(parent) {
-		 				
-			
-			var offParent = this.hashedBounds[pool.resourceId][parent.resourceId] ||(includePool === true ? this.hashedPoolPositions[parent.resourceId] : undefined);
-			if (offParent){
-				var ul = parent.bounds.upperLeft();
-				var ulo = offParent.upperLeft();
-				offset.x += ul.x-ulo.x;
-				offset.y += ul.y-ulo.y;
-			}
-			
-			if (parent.getStencil().id().endsWith("Pool")) {
-				break;
-			}
-			
-			parent = parent.parent;
-		}	*/
-		
-		var offset = lane.absoluteXY();
-		
-		var hashed = this.hashedBounds[pool.resourceId][lane.resourceId] ||(includePool === true ? this.hashedPoolPositions[lane.resourceId] : undefined);
-		if (hashed) {
-			offset.x -= hashed.upperLeft().x; 	
-			offset.y -= hashed.upperLeft().y;		
-		} else {
-			return {x:0,y:0}
-		}		
-		return offset;
-	},
-	
-	getNextLane: function(shape){
-		while(shape && !shape.getStencil().id().endsWith("Lane")){
-			if (shape instanceof ORYX.Core.Canvas) {
-				return null;
-			}
-			shape = shape.parent;
-		}
-		return shape;
-	},
-	
-	getParentPool: function(shape){
-		while(shape && !shape.getStencil().id().endsWith("Pool")){
-			if (shape instanceof ORYX.Core.Canvas) {
-				return null;
-			}
-			shape = shape.parent;
-		}
-		return shape;
-	},
+
 	moveBy: function(pos, offset){
 		pos.x += offset.x;
 		pos.y += offset.y;
@@ -412,7 +267,7 @@
 	},
 	
 	getHashedBounds: function(shape){
-		return this.currentPool && this.hashedBounds[this.currentPool.resourceId][shape.resourceId] ? this.hashedBounds[this.currentPool.resourceId][shape.resourceId] : shape.bounds.clone();
+		return this.currentRootPartition && this.hashedBounds[this.currentRootPartition.resourceId][shape.resourceId] ? this.hashedBounds[this.currentRootPartition.resourceId][shape.resourceId] : shape.bounds.clone();
 	},
 	
 	/**
@@ -421,21 +276,23 @@
 	 * @param {ORYX.Core.Shape} shape
 	 * @param {boolean} recursive
 	 */
-	getLanes: function(shape, recursive){
-		var lanes = shape.getChildNodes(recursive||false).findAll(function(node) { return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn2.0#Lane"); });
-		lanes = lanes.sort(function(a, b){
-					// Get y coordinate
-					var ay = Math.round(a.bounds.upperLeft().y);
-					var by = Math.round(b.bounds.upperLeft().y);
+		
+	getChildActivityPartitions: function(shape, recursive){
+		var activityPartitions = shape.getChildNodes(recursive||false).findAll(function(node) { 
+			if (this.isActivityPartitionNode(node)) return node;}.bind(this));
+		activityPartitions = activityPartitions.sort(function(a, b){
+					// Get x coordinate
+					var ax = Math.round(a.bounds.upperLeft().x);
+					var bx = Math.round(b.bounds.upperLeft().x);
 					
 					// If equal, than use the old one
-					if (ay == by) {
-						ay = Math.round(this.getHashedBounds(a).upperLeft().y);
-						by = Math.round(this.getHashedBounds(b).upperLeft().y);
+					if (ax == bx) {
+						ax = Math.round(this.getHashedBounds(a).upperLeft().x);
+						bx = Math.round(this.getHashedBounds(b).upperLeft().x);
 					}
-					return  ay < by ? -1 : (ay > by ? 1 : 0)
+					return  ax < bx ? -1 : (ax > bx ? 1 : 0)
 				}.bind(this))
-		return lanes;
+		return activityPartitions;
 	}
 };
 
