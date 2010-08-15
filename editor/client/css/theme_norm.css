@@ -705,3 +705,19 @@ input.text.disabled:hover, input.disabled:hover, select.disabled:hover, textarea
 	
 }
 
+/*** Plugin: Pattern Repository (Patterns) **/
+
+.PatternDeleteButton {
+    position: absolute;
+    right: 0;
+}
+
+.PatternDeleteButton .x-btn-left,
+.PatternDeleteButton .x-btn-center,
+.PatternDeleteButton .x-btn-right {
+    background-image: none;
+}
+
+.x-dd-drag-proxy .PatternDeleteButton {
+    display: none;
+}
