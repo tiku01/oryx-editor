@@ -1,14 +1,9 @@
 package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import junit.framework.Assert;
-
-import org.hamcrest.core.IsInstanceOf;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
@@ -270,13 +265,10 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 */
 	public abstract AdonisAttribute getAttribute(String identifier); 
 	
-	/**
-	 * prepare transformation adonis to oryx - stub to be overwritten if needed
-	 * @throws JSONException 
-	 */
-	public void prepareAdonisToOryx() throws JSONException{
-		
-	}
+	
+//	public void prepareAdonisToOryx() throws JSONException{
+//		
+//	}
 	
 	/**
 	 * complete transformation adonis to oryx - stub to be overwritten if needed
@@ -293,13 +285,6 @@ public abstract class AdonisStencil extends XMLConvertible {
 		
 	}
 	
-	/**
-	 * complete transformation oryx to adonis - stub to be overwritten if needed
-	 */
-	public void completeOryxToAdonis(){
-		
-	}
-	
 	public static boolean handleStencil(String oryxName){
 		Log.e("handleStencil must be implemented - not done yet");
 		return false;
@@ -308,6 +293,14 @@ public abstract class AdonisStencil extends XMLConvertible {
 	//*************************************************************************
 	//* writeJSON methods
 	//*************************************************************************
+	
+	/**
+	 * prepare transformation adonis to oryx - stub to be overwritten if needed
+	 * @throws JSONException 
+	 */
+	public void prepareAdonisToOryx() throws JSONException{
+		
+	}
 	
 	public void write(JSONObject json) throws JSONException{
 		prepareAdonisToOryx();
@@ -372,6 +365,12 @@ public abstract class AdonisStencil extends XMLConvertible {
 	//*************************************************************************
 	//* readJSON methods
 	//*************************************************************************
+	
+	/**
+	 * complete transformation oryx to adonis - stub to be overwritten if needed
+	 */
+	public void completeOryxToAdonis(){
+	}
 	
 	public void parse(JSONObject json){
 		prepareOryxToAdonis();

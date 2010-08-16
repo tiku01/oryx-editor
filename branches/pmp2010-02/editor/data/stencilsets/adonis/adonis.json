@@ -24,8 +24,95 @@
 					"length":"",
 					"refToView":"name",
 					"wrapLines":false
+				},
+				{
+					"id":"author",
+					"type":"String", 
+					"title":"Author",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"keywords",
+					"type":"String", 
+					"title":"Keywords",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"state",
+					"type":"Choice", 
+					"title":"State",
+					"value":"In process",
+					"items":[
+						{
+							"title":"Reviewed",
+							"value":"Reviewed"
+						},
+						{
+							"title":"In process",
+							"value":"In process"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"reviewed on",
+					"type":"Date",
+					"title":"Reviewed on",
+					"value":"20.04.2007",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":false,
+					"dateFormat":"d.m.Y"
+				},
+				{
+					"id":"reviewed by",
+					"type":"String", 
+					"title":"Reviewed by",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
 				}
-
+				
+				
 			]
 		},
 		{
@@ -51,6 +138,102 @@
 					"optional":true,
 					"length":"",
 					"refToView":"name",
+					"wrapLines":true
+				},
+				{
+					"id":"categories",
+					"type":"String", 
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String", 
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"order",
+					"type":"Integer", 
+					"title":"Order",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"order"
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"open questions",
+					"type":"String", 
+					"title":"Open questions",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"external process",
+					"type":"Choice", 
+					"title":"External process",
+					"value":"no",
+					"items":[
+						{
+							"title":"no",
+							"value":"no"
+						},
+						{
+							"title":"yes",
+							"value":"yes"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"subprocessname",
+					"type":"String", 
+					"title":"Subprocessname",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
 					"wrapLines":true
 				}
 			]
@@ -175,7 +358,7 @@
 				"shape",
 				"container"
 			],
-			"properties":	[
+			"properties": [
 				{
 					"id":"name",
 					"type":"String", 
@@ -187,9 +370,176 @@
 					"length":"",
 					"refToView":"name",
 					"wrapLines":true
+				},
+				{
+					"id":"display name",
+					"type":"Boolean", 
+					"title":"Display name",
+					"value":"true",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"name"
+				},
+				{
+					"id":"categories",
+					"type":"String", 
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String", 
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"representation",
+					"type":"Choice", 
+					"title":"Representation",
+					"value":"outside",
+					"items":[
+						{
+							"title":"Outside",
+							"value":"outside",
+							"refToView":"outside"
+						},
+						{
+							"title":"Inside",
+							"value":"inside",
+							"refToView":"inside"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"graphical representation",
+					"type":"Choice", 
+					"title":"Graphical representation",
+					"value":"Rectangle",
+					"items":[
+						{
+							"title":"Rectangle",
+							"value":"Rectangle",
+							"refToView":"rectangle"
+						},
+						{
+							"title":"Circle",
+							"value":"Circle",
+							"refToView":"circle"
+						},
+						{
+							"title":"Arrow right",
+							"value":"Arrow-right",
+							"refToView":"arrow-right"
+						},
+						{
+							"title":"Arrow left",
+							"value":"Arrow-left",
+							"refToView":"arrow-left"
+						},
+						{
+							"title":"Arrow upward",
+							"value":"Arrow-upward",
+							"refToView":"arrow-upward"
+						},
+						{
+							"title":"Arrow-downright",
+							"value":"Arrow-downright",
+							"refToView":"arrow-downright"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"order",
+					"type":"Integer", 
+					"title":"Order",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"order"
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"open questions",
+					"type":"String", 
+					"title":"Open questions",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"external process",
+					"type":"Choice", 
+					"title":"External process",
+					"value":"no",
+					"items":[
+						{
+							"title":"no",
+							"value":"no"
+						},
+						{
+							"title":"yes",
+							"value":"yes"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":false,
+				},
+				{
+					"id":"subprocessname",
+					"type":"String", 
+					"title":"Subprocessname",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
 				}
-
-			]		},
+			]		
+		},
 		{
 			"type":			"node",
 			"id":			"performance",

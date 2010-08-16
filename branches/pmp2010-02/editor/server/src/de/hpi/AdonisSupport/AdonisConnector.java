@@ -11,6 +11,9 @@ import org.springframework.util.Assert;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.layouting.model.LayoutingDockers;
+import de.hpi.layouting.model.LayoutingDockers.Point;
+
 //<!ELEMENT CONNECTOR (FROM, TO, (ATTRIBUTE | RECORD | INTERREF)*)>
 //<!ATTLIST CONNECTOR
 //  id    ID    #IMPLIED
@@ -170,6 +173,31 @@ public class AdonisConnector extends AdonisStencil{
 		return boundingRect;
 	}
 	
+	
+	
+	private LayoutingDockers filterDockerPoints(String list){
+		LayoutingDockers dockers = new LayoutingDockers();
+		//remove all unnecessary information like number of dockers, measuring unit or index
+		String[] filtered = list
+			.replaceAll("EDGE\\s\\d\\s", "")
+			.replaceAll("[xy]\\d\\:","")
+			.replaceAll("cm", "")
+			.replaceAll("index\\:\\d+","")
+			.replaceAll("\\s+", " ")
+			.trim().split(" ");
+		//the first number is the number of points - but we extract them according the existing points
+		if (filtered.length % 2 != 0){
+			Log.e("dockers of adonis connector are missing at least a coordinate");
+			return dockers;
+		}
+		for (int i = 0; i < filtered.length; i = i + 2){
+			dockers.addPoint(
+					Double.parseDouble(filtered[i]),
+					Double.parseDouble(filtered[i+1]));
+		}
+		return dockers;
+	}
+	
 	//*************************************************************************
 	//* write methods for JSON
 	//**************************************************************************
@@ -205,12 +233,21 @@ public class AdonisConnector extends AdonisStencil{
 		temp.put("y",(bounds[3]-bounds[1])/2);
 		dockers.put(temp);
 		
-		if ("value flow".equalsIgnoreCase(getStencilClass())){
-			temp = new JSONObject();
-			bounds = getOryxBounds();
-			temp.put("x",(bounds[0]+bounds[2])/2);
-			temp.put("y",(bounds[1]+bounds[3])/2);
-			dockers.put(temp);
+		//<ATTRIBUTE name="Positions" type="STRING">
+		//EDGE 3 x1:1.5cm y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
+		//EDGE 3 x1:2.5cm y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
+		//EDGE 3 x1:3cm   y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
+		//</ATTRIBUTE>
+		AdonisAttribute positions = getAttribute("Positions");
+		if (positions != null){
+			addUsed(positions);
+			LayoutingDockers points = filterDockerPoints(positions.getElement());
+			for (Point point : points.getPoints()){
+				temp = new JSONObject();
+				temp.put("x", point.x*CENTIMETERTOPIXEL);
+				temp.put("y", point.y*CENTIMETERTOPIXEL);
+				dockers.put(temp);
+			}
 		}
 		
 		bounds = getAsInstance(getTo()).getOryxGlobalBounds();
@@ -293,6 +330,7 @@ public class AdonisConnector extends AdonisStencil{
 		
 		Log.d("Created connector class "+getOryxStencilClass()+" - "+getName()+" - "+resourceId);
 		getModel().getConnector().add(this);
+		super.completeOryxToAdonis();
 	}
 	
 	public void readJSONstencil(JSONObject json) throws JSONException{
@@ -317,8 +355,27 @@ public class AdonisConnector extends AdonisStencil{
 		//XXX bounds are not recognized by Adonis - not used
 	}
 	
-	public void readJSONdockers(JSONObject json){
-		//XXX currently only the startmarker and endmarker are recognized - they can be ignored
+	public void readJSONdockers(JSONObject json) {
+		String positions = "EDGE ";
+		String points = "";
+		try {
+			JSONArray dockers = json.getJSONArray("dockers");
+			//Adonis saves the number of points
+			points += dockers.length() - 2;
+			JSONObject temp = null;
+			//the first and the last docker are in Adonis implicit
+			for (int i = 1; i < dockers.length() - 1; i++){
+				temp = dockers.getJSONObject(i);
+				points += " x"+i+":"+(temp.getDouble("x")/CENTIMETERTOPIXEL)+"cm"
+							+" y"+i+":"+(temp.getDouble("y")/CENTIMETERTOPIXEL)+"cm";
+			}
+		} catch (JSONException e){
+			Log.e("could not restore docker points",e);
+		}
+		
+		positions += points +" index:"+getModel().getNextStencilIndex();
+		
+		getAttribute().add(new AdonisAttribute("Positions","STRING",positions));
 	}
 	
 	@SuppressWarnings("unchecked")
