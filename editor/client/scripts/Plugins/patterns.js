@@ -423,12 +423,11 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 				//delete all shapes
 				this.shapes.each(function(shape, index){
 					this.facade.deleteShape(shape);
-					this.facade.setSelection(selection.without(shape));
+					selection = selection.without(shape);
 				}.bind(this));
 				
-				this.facade.getCanvas().update();
-				this.facade.updateSelection();
-				
+				this.facade.setSelection(selection);				
+				this.facade.getCanvas().update();				
 			}
 		});
 		
