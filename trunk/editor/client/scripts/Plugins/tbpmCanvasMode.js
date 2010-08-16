@@ -37,7 +37,7 @@ ORYX.Plugins.TBPMCanvasMode = ORYX.Plugins.AbstractPlugin.extend({
     construct: function(){
         // Call super class constructor
         arguments.callee.$.construct.apply(this, arguments);
-        
+        /*
         if ( $(this.canvasId).getStyle("backgroundImage") ){
         	this.background = $(this.canvasId).getStyle("background");
         }
@@ -45,6 +45,8 @@ ORYX.Plugins.TBPMCanvasMode = ORYX.Plugins.AbstractPlugin.extend({
         	this.background = null;
         
         this.background = $(this.canvasId).style.background;
+        
+        */
         this.facade.offer({
 			name:			ORYX.I18N.TBPMCanvasMode.name,
 			functionality: 	this.enableToggle.bind(this),
@@ -86,9 +88,7 @@ ORYX.Plugins.TBPMCanvasMode = ORYX.Plugins.AbstractPlugin.extend({
     enableToggle: function(button, pressed) {
 
     	if (pressed && $(this.canvasId).getStyle("backgroundImage")){
-    		if (!this.background){
-    			this.background = $(this.canvasId).getStyle("background");
-    		}
+    		
     		$(this.canvasId).style.background = "";
 			$A($$('rect')).each( 
 				function(rect) {
@@ -102,8 +102,9 @@ ORYX.Plugins.TBPMCanvasMode = ORYX.Plugins.AbstractPlugin.extend({
     		this.shapeTransform = false;
     		
     	}
-		else if (!pressed && this.background){
-			$(this.canvasId).style.background = this.background;
+		else if (!pressed && this.facade.getCanvas().properties["oryx-photo"]){
+			$(this.canvasId).style.background = 
+				"url(" + this.facade.getCanvas().properties["oryx-photo"] + ") no-repeat scroll 0% 0%";;
 			$A($$('rect')).each( 
 				function(rect) {
 					if (rect.id.endsWith("bg_frame")){

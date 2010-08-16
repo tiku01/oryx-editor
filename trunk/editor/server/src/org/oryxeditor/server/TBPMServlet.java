@@ -93,7 +93,6 @@ public class TBPMServlet extends HttpServlet {
 	    		return ;
 	    	}
 			String response = this.processUploadedFile(fileItem);
-			System.out.println("final response: " + response);
 			out.write(response);
 
 		} catch (FileUploadException e1) {
@@ -105,7 +104,6 @@ public class TBPMServlet extends HttpServlet {
 		String fileName = item.getName();
 		String tmpPath = this.getServletContext().getRealPath("/")
 				+ File.separator + "tmp" + File.separator;
-//		String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
 		// create tmp folder
 		File tmpFolder = new File(tmpPath);
 		if (!tmpFolder.exists()) {
@@ -125,17 +123,18 @@ public class TBPMServlet extends HttpServlet {
 	}
 	
 	private String sendRequest(File img, String fileName){
+
+		String url = "http://tbpm.hpi.uni-potsdam.de/tbpm/recognition";
 		HttpClient client = new HttpClient();
 		client.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 30000);
         PostMethod method = new PostMethod(TBPM_RECOGNITION_URL);
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
         		new DefaultHttpMethodRetryHandler(3, false));
-        
-//        System.out.println("File Length = " + img.length());
         String response = "";
         try {
         	Part[] parts = {new FilePart(img.getName(), img)};
             method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
+
 			client.executeMethod(method);
 			//TODO handle response status
         	response = method.getResponseBodyAsString();
