@@ -361,6 +361,15 @@ if(!ORYX.I18N.Loading) ORYX.I18N.Loading = {};
 
 ORYX.I18N.Loading.waiting ="Please wait...";
 
+if(!ORYX.I18N.Patterns) ORYX.I18N.Patterns = {};
+
+ORYX.I18N.Patterns.patternRepository = "Pattern Repository";
+ORYX.I18N.Patterns.comFailed = "Communication with server failed!";
+ORYX.I18N.Patterns.toolbarButtonText = "Take selection as pattern";
+ORYX.I18N.Patterns.toolbarButtonTooltip = "Captures the current selection as a pattern for reuse";
+ORYX.I18N.Patterns.rootNodeText = "Patterns";
+ORYX.I18N.Patterns.newPattern = "New Pattern";
+
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
 
 ORYX.I18N.Pnmlexport.group ="Export";

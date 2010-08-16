@@ -275,6 +275,15 @@ if(!ORYX.I18N.Loading) ORYX.I18N.Loading = {};
 
 ORYX.I18N.Loading.waiting ="Пожалуйста, подождите...";
 
+if(!ORYX.I18N.Patterns) ORYX.I18N.Patterns = {};
+
+ORYX.I18N.Patterns.patternRepository = "План кодов";
+ORYX.I18N.Patterns.comFailed = "Связь с сервером не удалось!";
+ORYX.I18N.Patterns.toolbarButtonText = "Возьмем в качестве выбора шаблона";
+ORYX.I18N.Patterns.toolbarButtonTooltip = "Фиксирует текущее выделение в качестве шаблона для повторного использования";
+ORYX.I18N.Patterns.rootNodeText = "Выкройки";
+ORYX.I18N.Patterns.newPattern = "Новый шаблон";
+
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
 
 //ORYX.I18N.Pnmlexport.group ="Экспорт";
