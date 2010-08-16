@@ -36,6 +36,14 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		//call superclass constructor
 		arguments.callee.$.construct.apply(this, arguments);
 		
+		//fix for double click behaviour of treeEditor (cf. http://www.sencha.com/forum/archive/index.php/t-34170.html)
+		Ext.override(Ext.tree.TreeEditor, {
+			beforeNodeClick : function(){},
+			onNodeDblClick : function(node, e){
+				this.triggerEdit(node);
+			}
+		});
+		
 		//todo remove the explicit this.facade.getCanvas(). is handled in beforeDragOver
 		this._currentParent /*= this.facade.getCanvas()*/;
 		this._canContain = undefined;
@@ -73,6 +81,15 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			lines: false,
 			rootVisible: true
 		});
+		
+		//make nodes editable
+		var treeEditor = new Ext.tree.TreeEditor(this.patternPanel, {
+			constrain: true, //constrains editor to the viewport
+			completeOnEnter: true,
+			ignoreNoChange: true
+		});
+		
+		treeEditor.on("complete", this.onComplete.bind(this));// TODO set in opt of new TreeEditor!
 		
 		//add pattern panel
 		var region = this.facade.addToRegion("West", this.patternPanel, null);
@@ -295,16 +312,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			type: "and-split" //TODO this does not make sense!
 		});
 		
-		//make node editable
-		var treeEditor = new Ext.tree.TreeEditor(this.patternPanel, {
-			constrain: true, //constrains editor to the viewport
-			completeOnEnter: true,
-			editDelay: 500, //number of max ms between to clicks of double click
-			ignoreNoChange: true
-		});
-		
-		treeEditor.on("complete", this.onComplete.bind(this));
-
 		this.patternRoot.expand();	
 		
 		/*var deleteButton = document.createElement("span");
@@ -839,6 +846,7 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
 		
 		//call superclass constructor		
 		ORYX.Plugins.Patterns.PatternNode.superclass.constructor.call(this, {
+			allowChildren: false,
 			leaf: true,
 			iconCls: 'headerShapeRepImg',
 			cls: 'ShapeRepEntree PatternRepEntry',
