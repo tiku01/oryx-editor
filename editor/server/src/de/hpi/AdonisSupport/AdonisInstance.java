@@ -9,10 +9,14 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
+import org.springframework.util.Assert;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
+
+
+
+
 
 //<!ELEMENT INSTANCE ((ATTRIBUTE | RECORD | INTERREF)*)>
 //<!ATTLIST INSTANCE
@@ -20,7 +24,6 @@ import org.xmappr.RootElement;
 //  class CDATA #REQUIRED
 //  name  CDATA #REQUIRED
 //>
-
 /**
  * represents an instance of a stencil in Adonis
  */
@@ -34,6 +37,9 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		return "AdonisInstance "+getName()+" "+getId();
 	}
+	
+	
+	
 	
 	public static boolean handleStencil(String oryxName){
 		Set<String> instances = new HashSet<String>();
@@ -154,7 +160,6 @@ public class AdonisInstance extends AdonisStencil {
 		adonisGlobalBounds[1] = top / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[2] = width / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[3] = height / CENTIMETERTOPIXEL;
-		//TODO move according the parent element - Adonis uses global positioning, oryx local
 		return adonisGlobalBounds;
 	}
 	/**
@@ -284,7 +289,7 @@ public class AdonisInstance extends AdonisStencil {
 	
 	
 	//*************************************************************************
-	//* write methods for JSON
+	//* Java -> JSON
 	//*************************************************************************
 
 	
@@ -309,14 +314,71 @@ public class AdonisInstance extends AdonisStencil {
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json,"properties");
-//		properties.put("id",getId());
-//		properties.put("class",getStencilClass());
 		properties.put("name",getName());
 		
-//		TODO sort out
-//		for (AdonisAttribute aAttribute : getAttribute()){
-//			aAttribute.write(properties);
-//		}
+		AdonisAttribute element = null;
+		
+		if (getOryxStencilClass().equals("process") || getOryxStencilClass().equals("aggregation")){
+			element = getAttribute("Subprocessname");
+			if (element != null && element.getElement() != null){
+				properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
+				addUsed(element);
+			}
+			element = getAttribute("Categories");
+			if (element != null && element.getElement() != null){
+				properties.put("categories", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Documentation");
+			if (element != null && element.getElement() != null){
+				properties.put("documentation", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Description");
+			if (element != null && element.getElement() != null){
+				properties.put("description", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Comment");
+			if (element != null && element.getElement() != null){
+				properties.put("Comment", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Open questions");
+			if (element != null && element.getElement() != null){
+				properties.put("open questions", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("External process");
+			if (element != null && element.getElement() != null){
+				properties.put("external process", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Order");
+			if (element != null && element.getElement() != null){
+				properties.put("order", element.getElement());
+				addUsed(element);
+			}
+		}
+		if (getOryxStencilClass().equals("aggregation")){
+			element = getAttribute("Representation");
+			if (element != null && element.getElement() != null){
+				properties.put("representation", element.getElement());
+				addUsed(element);
+			}
+			element = getAttribute("Display name");
+			if (element != null && element.getElement() != null){
+				properties.put("display name", element.getElement().equals("yes") ? true : false);
+				addUsed(element);
+			}
+			
+			element = getAttribute("Graphical representation");
+			if (element != null && element.getElement() != null){
+				properties.put("graphical representation", element.getElement());
+				addUsed(element);
+			}
+		}
+		
 	}
 
 	@Override
@@ -383,38 +445,8 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	//*************************************************************************
-	//* write methods for JSON
+	//* JSON -> Java
 	//*************************************************************************
-	@Override
-	public void completeOryxToAdonis(){
-		Log.d("read in Bounds of stencil: "+getOryxStencilClass()+" named: "+getName());
-		String type = null;
-		
-		
-		DecimalFormat f = new DecimalFormat("#.00");
-		DecimalFormatSymbols p = new DecimalFormatSymbols();
-		p.setDecimalSeparator('.');
-		f.setDecimalFormatSymbols(p);
-		
-		StringBuffer adonisBounds = new StringBuffer();
-		adonisBounds.append(type != null ? type : "NODE");
-		adonisBounds.append(" ");
-		adonisBounds.append("x:"+f.format(getAdonisGlobalBounds()[0]) +"cm ");
-		adonisBounds.append("y:"+f.format(getAdonisGlobalBounds()[1]) +"cm ");
-		adonisBounds.append("w:"+f.format(getAdonisGlobalBounds()[2]) +"cm ");
-		adonisBounds.append("h:"+f.format(getAdonisGlobalBounds()[3]) +"cm ");
-		adonisBounds.append("index:"+getIndex());
-		
-		AdonisAttribute temp = new AdonisAttribute();
-		temp.setElement(adonisBounds.toString());
-		temp.setName("POSITION");
-		temp.setType("STRING");
-		getAttribute().add(temp);
-		
-		
-		Log.d("Created instance class "+getOryxStencilClass()+" - "+getName());
-		getModel().getInstance().add(this);
-	}
 	
 	private void createIsInsideConnector(AdonisInstance childShape){
 		//we need to save the father - child relation in a connector
@@ -444,6 +476,40 @@ public class AdonisInstance extends AdonisStencil {
 		
 		getModel().getConnector().add(isInside);
 	}
+	
+	@Override
+	public void completeOryxToAdonis(){
+		Log.d("read in Bounds of stencil: "+getOryxStencilClass()+" named: "+getName());
+		String type = null;
+		
+		
+		DecimalFormat f = new DecimalFormat("#.00");
+		DecimalFormatSymbols p = new DecimalFormatSymbols();
+		p.setDecimalSeparator('.');
+		f.setDecimalFormatSymbols(p);
+		
+		StringBuffer adonisBounds = new StringBuffer();
+		adonisBounds.append(type != null ? type : "NODE");
+		adonisBounds.append(" ");
+		adonisBounds.append("x:"+f.format(getAdonisGlobalBounds()[0]) +"cm ");
+		adonisBounds.append("y:"+f.format(getAdonisGlobalBounds()[1]) +"cm ");
+		adonisBounds.append("w:"+f.format(getAdonisGlobalBounds()[2]) +"cm ");
+		adonisBounds.append("h:"+f.format(getAdonisGlobalBounds()[3]) +"cm ");
+		adonisBounds.append("index:"+getIndex());
+		
+		AdonisAttribute temp = new AdonisAttribute();
+		temp.setElement(adonisBounds.toString());
+		temp.setName("Position");
+		temp.setType("STRING");
+		getAttribute().add(temp);
+		
+		
+		Log.d("Created instance class "+getOryxStencilClass()+" - "+getName());
+		getModel().getInstance().add(this);
+		super.completeOryxToAdonis();
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	public void readJSONunused(JSONObject json){
@@ -497,7 +563,7 @@ public class AdonisInstance extends AdonisStencil {
 			stencilResourceId = stencil.getString("resourceId");
 			if (AdonisInstance.handleStencil(stencil.getJSONObject("stencil").getString("id"))){
 				for (AdonisStencil aStencil : getModel().getModelChildren().values()){
-					Assert.assertNotNull(aStencil.resourceId);
+					Assert.notNull(aStencil.resourceId);
 					if (aStencil.isInstance() && stencilResourceId.equals(aStencil.resourceId)){
 						instance = (AdonisInstance)aStencil;
 					}
@@ -521,7 +587,6 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	public void readJSONoutgoing(JSONObject json) throws JSONException{
-		//TODO needs to be implemented
 		JSONArray outgoing = json.getJSONArray("outgoing");
 		
 		AdonisConnectionPoint connectionPoint = null;
@@ -536,12 +601,6 @@ public class AdonisInstance extends AdonisStencil {
 			connectorResourceId = outgoing.getJSONObject(i).getString("resourceId");
 			//look for an existing stencil with this resource id
 			connector = (AdonisConnector)getModelChildren().get(connectorResourceId);
-//			for (AdonisStencil aStencil : getModelChildren().values()){
-//				if (aStencil.isConnector() && aStencil.resourceId.equals(connectorResourceId)){
-//					connector = (AdonisConnector)aStencil;
-//					Log.d("reuse connector \""+connectorResourceId+"\"");
-//				}
-//			}
 			
 			if (connector != null){
 				//add this to existing connector
@@ -555,7 +614,7 @@ public class AdonisInstance extends AdonisStencil {
 				connector.setFrom(connectionPoint);
 				Log.d("create connector \""+connectorResourceId+"\" source from  - "+getName());
 			}
-			Assert.assertTrue(getModelChildren().containsValue(connector));
+			Assert.isTrue(getModelChildren().containsValue(connector));
 			connector = null;
 		}
 		
@@ -576,12 +635,60 @@ public class AdonisInstance extends AdonisStencil {
 		oryxGlobalBounds[2] = lowerRight.getDouble("x");
 		oryxGlobalBounds[3] = lowerRight.getDouble("y");
 	}
-	
+		
 	public void readJSONproperties(JSONObject json) throws JSONException{
 		JSONObject properties = json.getJSONObject("properties");
 		if (getName() == null){
 			setName(properties.getString("name"));
 			Log.d("read in Name of stencil : "+getName());
+		}
+		
+		String stringAttribute = null;
+		Integer integerAttribute = null;
+		Boolean booleanAttribute = null;
+		stringAttribute = properties.optString("subprocessname");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Subprocessname","EXPRESSION",stringAttribute));
+		}
+		stringAttribute = properties.optString("categories");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Categories","STRING",stringAttribute));
+		}
+		stringAttribute = properties.optString("documentation");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Documentation","STRING",stringAttribute));
+		}
+		stringAttribute = properties.optString("description");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Description","STRING",stringAttribute));
+		}
+		stringAttribute = properties.optString("comment");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Comment","STRING",stringAttribute));
+		}
+		stringAttribute = properties.optString("open questions");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Open questions","STRING",stringAttribute));
+		}
+		integerAttribute = properties.optInt("order");
+		if (integerAttribute != null){
+			getAttribute().add(new AdonisAttribute("Order","INTEGER",integerAttribute.toString()));
+		}
+		stringAttribute = properties.optString("external process");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("External process","ENUMERATION",stringAttribute));
+		}
+		stringAttribute = properties.optString("representation");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",stringAttribute));
+		}
+		booleanAttribute = properties.optBoolean("display name");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",(booleanAttribute ? "yes" : "no")));
+		}
+		stringAttribute = properties.optString("graphical representation");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Graphical representation","ENUMERATION",stringAttribute));
 		}
 	}
 }

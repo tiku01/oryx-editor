@@ -7,75 +7,77 @@ xmlns:svg="http://www.w3.org/2000/svg"
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-	<oryx:magnet oryx:cx="20" oryx:cy="20" oryx:default="yes"/>
+	<oryx:magnet oryx:cx="20" oryx:cy="30" oryx:default="yes"/>
   </oryx:magnets>
   <g>
-	<g id="rectangle">
-	 	<rect 
-			id="aggregation" 
-			stroke="#000000" 
-			fill="#F0F0F0" 
-			stroke-width="1" 
-			x="0" 
-			y="0" 
-			width="40" 
-			height="40"
-	       	oryx:resize="vertical horizontal"/>
+  	<g id="inside">
+		<text font-size="14" 
+			id="name" 
+			x="20" 
+			y="10" 
+			oryx:align="top center"
+			oryx:fittoelem="aggregation"
+			stroke="black"/>
 	</g>
-	<g id="circle">
-		<circle 
-			id="aggregation" 
+	<g id="outside">
+		<text font-size="14" 
+			id="name" 
+			x="5" 
+			y="10" 
+			oryx:align="bottom left"
+			oryx:fittoelem="aggregation"
+			stroke="black"/>
+	</g>
+	<g id="aggregation">
+		<ellipse 
+			id="circle"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
 			cx="20" 
-			cy="20" 
-			r="20"
-	       	oryx:resize="vertical horizontal"/>
-	</g>
-	<g id="arrow-right">
-		<path 
-			id="aggregation" 
+			cy="30" 
+			rx="20"
+			ry="20"
+			oryx:resize="vertical horizontal"/>
+		<rect 
+			id="rectangle"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
-			d="M0 0 L33 0 L40 20 L33 40 L0 40z"
-	       	oryx:resize="vertical horizontal"/>
-	</g>
-	<g id="arrow-left">
+			x="0" 
+			y="10" 
+			width="40" 
+			height="40"
+			oryx:resize="vertical horizontal"/>
 		<path 
-			id="aggregation" 
+			id="arrow-right"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
-			d="M7 0 L40 0 L40 40 L7 40 L0 20z"
-	       	oryx:resize="vertical horizontal"/>
-	</g>
-	<g id="arrow-upward">
+			d="M0 10 L37 10 L40 30 L37 50 L0 50z"
+			oryx:resize="vertical horizontal"/>
+		<path 
+			id="arrow-left"
+			stroke="#000000" 
+			fill="#F0F0F0" 
+			stroke-width="1" 
+			d="M3 10 L40 10 L40 50 L3 50 L0 30z"
+			oryx:resize="vertical horizontal"/>
 		<path 	
-			id="aggregation" 
+			id="arrow-upward"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
-			d="M0 7 L20 0 L40 7 L40 40 L0 40z"
-	       	oryx:resize="vertical horizontal"/>
-	</g>
-	<g id="arrow-downright">
+			d="M0 17 L20 10 L40 17 L40 50 L0 50z"
+			oryx:resize="vertical horizontal"/>
 		<path 
-			id="aggregation" 
+			id="arrow-downright"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
-			d="M0 0 L40 0 L40 33 L20 40 L0 33z"
-	       	oryx:resize="vertical horizontal"/>
+			d="M0 10 L40 10 L40 43 L20 50 L0 43z"
+			oryx:resize="vertical horizontal"/>
 	</g>
-	<text font-size="14" 
-		id="name" 
-		x="20" 
-		y="0" 
-		oryx:align="top center"
-		oryx:fittoelem="aggregation"
-		stroke="black"></text>
 
   </g>
 </svg>

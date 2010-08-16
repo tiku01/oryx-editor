@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Vector;
@@ -14,34 +13,54 @@ import java.util.Vector;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
-import org.xmappr.converters.ValueConverter;
 
 
 
 public class AdonisConverter {
 	public static boolean export = true;
 	
-	public static class EmptyStringConverter extends ValueConverter{
-		 // Indicates if this converter can convert given target type.
-	    // This is queried during Xmappr configuration.
-		public boolean canConvert(Class type) {
-	        return String.class.isAssignableFrom(type);
-	    }
-
-	    public Object fromValue(String value, String format, Class targetType, Object targetObject) {
-	        return (value == null || value.length() == 0) ? "" : value.intern();
-	    }
-
-	    public String toValue(Object object, String format) {
-	        return (object == null || ((String) object).length() == 0) ? "" : (String) object;
-	    }
-
-	    @Override
-	    public boolean convertsEmpty() {
-	        return false;
-	    }
-	}
 	
+
+
+//	public class StringConverter extends ValueConverter {
+//
+//
+//	    public boolean canConvert(Class type) {
+//	        return String.class.isAssignableFrom(type);
+//	    }
+//
+//	    /**
+//	     * called in conversion from xml to java
+//	     */
+//	    public Object fromValue(String value, String format, Class targetType, Object targetObject) {
+//	    	Log.d("XMAPPRLOG from xml to java "+value+" - "+format);
+//	    	if (value != null && value.contains(">=")){
+//	    		value = value.replaceAll(">=", ">=");
+//	    		Log.d("XMAPPRLOG from xml to java ## "+value+" - "+format);
+//	    	}
+//	        return value.intern();
+//	    }
+//
+//	    /**
+//	     * called in conversion from java to xml
+//	     */
+//	    public String toValue(Object object, String format) {
+//	    	Log.d("XMAPPRLOG from java to xml "+(String) object+" - "+format);
+//	    	String value = (String)object;
+////	    	if (value != null && value.contains(">")){
+////	    		return value.replace(">", "&gt;").intern();
+////	    	}
+//	    	return value;
+//			
+//	    }
+//
+//
+//	    @Override
+//	    public boolean convertsEmpty() {
+//	        return true;
+//	    }
+//	}
+//	
 	/**
 	 * helper to read a file
 	 * @param filePath
@@ -56,7 +75,7 @@ public class AdonisConverter {
 			String line = null;
 			StringBuilder content = new StringBuilder();
 			while ((line = bufferedReader.readLine()) != null){
-				content.append(line);
+				content.append(line+"\r\n");
 			}
 			return content.toString();
 		} catch (IOException e){
@@ -102,6 +121,7 @@ public class AdonisConverter {
 		Log.v("ImportXML: "+filteredXML);
 		
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
+//		xmappr.addConverter(new StringConverter());
 		AdonisXML modelCollection = (AdonisXML) xmappr.fromXML(stringReader);
 		Log.v("mapping xml to java done");
 				
@@ -125,20 +145,11 @@ public class AdonisConverter {
 		
 		StringWriter writer = new StringWriter();
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
-		xmappr.addConverter(new EmptyStringConverter());
-		xmappr.setPrettyPrint(true);
+//		xmappr.addConverter(new StringConverter());
+		//xmappr.setPrettyPrint(true); //- can not be enabled due Adonis doesn't ignores newlines
 		xmappr.toXML(model,writer);
-		//Workaround ... currently emtpy attributes are not written back
-		String[] xml = writer.toString().split("\\n");
-		String endXML = "";
-		for (int i = 0; i < xml.length; i++){
-			if (xml[i].contains("<IREF") && !xml[i].contains("tmodelver")){
-				xml[i] = "<IREF tmodelver=\"\" "+xml[i].replaceFirst("<IREF", "");
-			}
-			endXML += xml[i];
-		}
 		
-		return addXMLHeader(endXML);
+		return addXMLHeader(writer.toString().replaceAll(">=", "&gt;="));
 	}
 	
 	/**
@@ -150,6 +161,7 @@ public class AdonisConverter {
 				importFromFile(
 //						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
 						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
+//						"D:\\Desktop\\Adonis\\Example Exports\\Minimal.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
 //						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
@@ -174,9 +186,11 @@ public class AdonisConverter {
 			File file = new File("D:\\Desktop\\Eclipse Export.xml");
 			FileWriter fileWriter = new FileWriter(file,false);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			bufferedWriter.write(ac.exportXML(json));
+			String out = ac.exportXML(json);
+			bufferedWriter.write(out);
 			bufferedWriter.close();
 			fileWriter.close();
+			System.err.println(out);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
