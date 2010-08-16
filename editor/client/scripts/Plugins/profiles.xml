@@ -79,6 +79,7 @@
 		<plugin name="ORYX.Plugins.BPMN2CONVERSATION"/>
 	</profile>
 	<profile name="tbpm" depends="default" stencilset="stencilsets/bpmn2.0/bpmn2.0.json">
+		<stencilsetextension namespace="http://oryx-editor.org/stencilsets/extensions/tbpm#"/>
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
 		<plugin name="ORYX.Plugins.BPMN2_0"/>
 		<plugin name="ORYX.Plugins.BPMN2_0Serialization"/>

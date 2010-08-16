@@ -199,6 +199,7 @@ ORYX.Plugins.TBPMSupport = ORYX.Plugins.AbstractPlugin.extend({
      * 
      */
     addImageLayer: function(imgUri){  
+    	this.facade.getCanvas().properties["oryx-photo"] = imgUri;
 		$(this.canvasId).style.background = "url(" + imgUri + ") no-repeat scroll 0% 0%";
     },
     

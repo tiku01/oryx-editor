@@ -57,6 +57,13 @@
 			"definition":"bpmn2.0eCHsubset/bpmn2.0eCHsubset.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		},
+		{
+			"title" : "t.BPM Extension for BPMN 2.0",
+			"namespace" : "http://oryx-editor.org/stencilsets/extensions/tbpm#",
+			"description":"Extension for t.BPM photo.",
+			"definition":"tbpm/tbpm-photo.json",
+			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+		},
         {
             "title":"BPMN Subset for Service Composition",
             "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset#",
