@@ -62,7 +62,7 @@
 	},
 	
 	/**
-	 * Handler for layouting event 'layout.bpmn2_0.pool'
+	 * Handler for layouting event 'layout.uml.activityPartition'
 	 * @param {Object} event
 	 */
 	handleLayoutActivityRegion: function(event){
@@ -94,6 +94,8 @@
 		}
 	
 		var height, width; //future height and width of the rootPartition
+		
+		// layouting 
 		if (deletedPartitions.length > 0 || addedPartitions.length > 0) {
 			this.resizeAfterAddorDeleteOfPartition(rootPartition, directChildPartitions);
 		}
@@ -142,15 +144,17 @@
 	
 	getAllDeletedPartitions : function (allChildPartitions){
 	
-		var deletedPartitions = [];
 		var resourceIds = $H(this.hashedBounds[this.currentRootPartition.resourceId]).keys();
-		var i=-1;
-		while (++i<resourceIds.length) {
-			if (!allChildPartitions.any(function(partition){ return partition.resourceId == resourceIds[i]})){
-				deletedPartitions.push(this.hashedBounds[this.currentRootPartition.resourceId][resourceIds[i]]);
-			}
-		}
+		
+		var deletedResourceIds = resourceIds.reject(function (resourceId){
+			return allChildPartitions.any(function(partition){ return partition.resourceId == resourceId})}); 
+		
+		var deletedPartitions = deletedResourceIds.findAll(function(resourceId) {
+			return this.hashedBounds[this.currentRootPartition.resourceId][resourceId];
+		}.bind(this));
+		
 		return deletedPartitions;
+		
 	},
 	
 	forceToUpdateActivityPartition: function(partition){
@@ -197,65 +201,65 @@
 	
 	adjustActivityPartitionWidth: function(activityPartitions, changedActivityPartition, propagateWidth){
 		
-		var oldWidth = 0;
-		if (!changedActivityPartition && propagateWidth){
-			var i=-1;
-			while (++i<activityPartitions.length){	
-				oldWidth += activityPartitions[i].bounds.width();		
-			}
-		}
+		// you cannot place oldWidth in the else if part even though the condition is the same, 
+		// because down there you are inside the inject part
+		var oldWidth = 0;	
+		if(!changedActivityPartition && propagateWidth){
+			oldWidth = activityPartitions.inject(0, function(widthAcc, partition) {
+				return widthAcc + partition.bounds.width();})
+		} 
 		
-		var i=-1;
-		var width = 0;
-		
-		// Iterate trough every lane
-		while (++i<activityPartitions.length){
-			
-			if (activityPartitions[i] === changedActivityPartition) {
-				// Propagate new height down to the children
+		var width = activityPartitions.inject(0, function (widthAcc, partition) {
 				
-				this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), undefined, activityPartitions[i].bounds.width());
-				activityPartitions[i].bounds.set({y:30, x:width}, {y:activityPartitions[i].bounds.height()+30, x:activityPartitions[i].bounds.width()+width})
-								
+			if (partition === changedActivityPartition) {
+				this.propagateWidthToChildren(partition, widthAcc); //recursive
 			} else if (!changedActivityPartition && propagateWidth) {
-				
-				var tempWidth = (activityPartitions[i].bounds.width() * propagateWidth) / oldWidth;
-				// Propagate height
-				this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), undefined, tempWidth);
-				// Set height propotional to the propagated and old height
-				this.setActivityPartitionDimensions(activityPartitions[i],tempWidth, null);
-				this.setActivityPartitionPosition(activityPartitions[i], width);
+				this.setChildWidthProportionallyToTheOldWidth(partition, widthAcc, propagateWidth, oldWidth); //recursive
 			} else {
-				// Get height from children
-				var tempWidth = this.adjustActivityPartitionWidth(this.getChildActivityPartitions(activityPartitions[i]), changedActivityPartition, propagateWidth);
-				if (!tempWidth) {
-					tempWidth = activityPartitions[i].bounds.width();
-				}
-				this.setActivityPartitionDimensions(activityPartitions[i], tempWidth, null);
-				this.setActivityPartitionPosition(activityPartitions[i], width);
-			}
-			
-			width += activityPartitions[i].bounds.width();
-		}
-		
+				this.getWidthFromChildPartitions(partition, widthAcc, propagateWidth, changedActivityPartition); //recursive
+			}				
+				return widthAcc + partition.bounds.width();
+			}.bind(this));
 		return width;
-		
 	},
 	
-	updateActivityPartitionWidth: function(root){
-		var activityPartitions = this.getChildActivityPartitions(root);
+	propagateWidthToChildren: function(partition, currentWidth){
+		this.adjustActivityPartitionWidth(this.getChildActivityPartitions(partition), undefined, partition.bounds.width()); //recursion
+		partition.bounds.set({y:30, x:currentWidth}, {y:partition.bounds.height()+30, x:partition.bounds.width()+currentWidth});
+	},
+	
+	setChildWidthProportionallyToTheOldWidth: function(partition, currentWidth, propagateWidth, oldWidth){
+				
+		var newWidth = (partition.bounds.width() * propagateWidth) / oldWidth;
+				this.adjustActivityPartitionWidth(this.getChildActivityPartitions(partition), undefined, newWidth); //recursion
+				this.setActivityPartitionDimensions(partition,newWidth, null);
+				this.setActivityPartitionPosition(partition, currentWidth);
+	},
+	
+	getWidthFromChildPartitions: function(partition, currentWidth, propagateWidth, changedActivityPartition){
+				var newWidth = this.adjustActivityPartitionWidth(this.getChildActivityPartitions(partition), changedActivityPartition, propagateWidth);//recursion
+				
+				if (!newWidth) {
+					newWidth = partition.bounds.width();
+				} //end of recursion
+				
+				this.setActivityPartitionDimensions(partition, newWidth, null);
+				this.setActivityPartitionPosition(partition, currentWidth);
+	},
+		
+	updateActivityPartitionWidth: function(rootPartition){
+		var activityPartitions = this.getChildActivityPartitions(rootPartition);
 		if (activityPartitions.length == 0){
-			return root.bounds.width();
+			return rootPartition.bounds.width();
 		}
 		
-		var width = 0;
-		var i=-1;
-		while (++i < activityPartitions.length) {
-			this.setActivityPartitionPosition(activityPartitions[i], width);
-			width += this.updateActivityPartitionWidth(activityPartitions[i]);
-		}
+		var width = activityPartitions.inject(0,function (widthAcc, partition){
+			this.setActivityPartitionPosition(partition, widthAcc);
+			return widthAcc + this.updateActivityPartitionWidth(partition);
+		}.bind(this));
 		
-		this.setActivityPartitionDimensions(root, width, null);
+		
+		this.setActivityPartitionDimensions(rootPartition, width, null);
 		
 		return width;
 	},
@@ -271,7 +275,7 @@
 	},
 	
 	/**
-	 * Returns a set on all child lanes for the given Shape. If recursive is TRUE, also indirect children will be returned (default is FALSE)
+	 * Returns a set on all child activityPartitions for the given Shape. If recursive is TRUE, also indirect children will be returned (default is FALSE)
 	 * The set is sorted with first child the lowest y-coordinate and the last one the highest.
 	 * @param {ORYX.Core.Shape} shape
 	 * @param {boolean} recursive
