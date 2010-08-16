@@ -23,17 +23,10 @@
 
 package org.oryxeditor.server;
 
-import java.net.URLConnection;
-import java.net.URL;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,23 +41,27 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import sun.misc.Perf.GetPerfAction;
 
 
 public class TBPMServlet extends HttpServlet {
 
+	private String TBPM_RECOGNITION_URL = "http://localhost:8080/tbpm/recognition";
 	private static final long serialVersionUID = 199569859231394515L;
 	
+	@Override
+	public void init() throws ServletException {
+		String url = getServletContext().getInitParameter("tbpmn-recognition-url");
+		if(url!=null){
+//			if an url is defined overwrite standard
+			TBPM_RECOGNITION_URL=url;
+		}
+		
+	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException {
 
@@ -108,7 +105,7 @@ public class TBPMServlet extends HttpServlet {
 		String fileName = item.getName();
 		String tmpPath = this.getServletContext().getRealPath("/")
 				+ File.separator + "tmp" + File.separator;
-		String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
+//		String rootDir = "/" + this.getServletContext().getServletContextName() + "/";
 		// create tmp folder
 		File tmpFolder = new File(tmpPath);
 		if (!tmpFolder.exists()) {
@@ -128,20 +125,19 @@ public class TBPMServlet extends HttpServlet {
 	}
 	
 	private String sendRequest(File img, String fileName){
-		String url = "http://localhost:8080/tbpm/recognition";
 		HttpClient client = new HttpClient();
 		client.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 30000);
-		
-        PostMethod method = new PostMethod(url);
+        PostMethod method = new PostMethod(TBPM_RECOGNITION_URL);
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
         		new DefaultHttpMethodRetryHandler(3, false));
         
-        System.out.println("File Length = " + img.length());
+//        System.out.println("File Length = " + img.length());
         String response = "";
         try {
         	Part[] parts = {new FilePart(img.getName(), img)};
             method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
-			int statusCode1 = client.executeMethod(method);
+			client.executeMethod(method);
+			//TODO handle response status
         	response = method.getResponseBodyAsString();
 		} catch (HttpException e) {
 			e.printStackTrace();
