@@ -55,16 +55,16 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.offer({
 			name: "Selection as pattern",
 			functionality: this.selAsPattern.bind(this),
-			group: "Patterns", 
-			description: "Captures the current selection as a pattern for reuse",
+			group: ORYX.I18N.Patterns.toolbarButtonText, 
+			description: ORYX.I18N.Patterns.toolbarButtonTooltip,
 			minShape: 2,
-			icon: ORYX.PATH + "images/pattern_add.png"
+			icon: ORYX.PATH + "images/pattern_add.png" //TODO externalize!!
 		});
 		
 		//create rootNode for patternrepository   // TODO I18N
 		this.patternRoot = new Ext.tree.TreeNode({
 			cls: 'headerShapeRep',
-			text: "Patterns",
+			text: ORYX.I18N.Patterns.rootNodeText,
 			iconCls: 'headerShapeRepImg',
 			expandable: true,
 			allowDrag: false,
@@ -124,7 +124,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.button = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", $(null),
 			['div', {'class': 'Oryx_button'}]);
 		
-		var imgOptions = {src: ORYX.PATH + "images/pattern_add.png"};
+		var imgOptions = {src: ORYX.PATH + "images/pattern_add.png"};  //TODO externalize!!
 		/*if(this.option.msg){
 			imgOptions.title = this.option.msg;
 		}*/
@@ -259,7 +259,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var opt = {
 			serPattern: serPattern,
-			description: "New Pattern",
+			description: ORYX.I18N.Patterns.newPattern,
 			imageUrl: undefined,
 			id: undefined
 		};
@@ -795,7 +795,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		var suc = false;
 
 		new Ajax.Request(
-		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed
+		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed  //TODO provide configuration????
 		{
            method			: method,
            asynchronous		: true, 
@@ -818,7 +818,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 				} 
 				else 
 				{
-					this._showErrorMessageBox("Pattern Repository", "Communication with server failed!"); //TODO I18N
+					this._showErrorMessageBox(ORYX.I18N.Patterns.patternRepository, ORYX.I18N.Patterns.comFailed);
 					ORYX.Log.warn("Communication failed: " + transport.responseText);	//TODO warning ORYX.log is undefined check if Log instead of log did the trick
 				}					
 		   }.bind(this)		
@@ -850,7 +850,7 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
 			leaf: true,
 			iconCls: 'headerShapeRepImg',
 			cls: 'ShapeRepEntree PatternRepEntry',
-			icon:  ORYX.PATH + "images/pattern_add.png", //necessary?
+			icon:  ORYX.PATH + "images/pattern_add.png",  //TODO externalize!
 			allowDrag: false,
 			allowDrop: false,
 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI,
@@ -883,7 +883,7 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 			}
 			
 			this.deleteButton = new Ext.Button({
-									icon: ORYX.PATH + "images/delete.png",
+									icon: ORYX.PATH + "images/delete.png", //TODO externalize!
 									handler: deleteFunction.bind(this),
 									cls: "x-btn-icon",
 									renderTo: span
