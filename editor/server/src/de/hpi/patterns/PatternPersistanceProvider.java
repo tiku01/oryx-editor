@@ -28,6 +28,14 @@ import java.util.List;
 
 import org.json.JSONString;
 
+/**
+ * Provides a consistent interface for classes that persist pattern.
+ * Each Class that wishes to provide means for the persistence of Patterns shall
+ * implement this interface.
+ * 
+ * @author Kai Höwelmeyer
+ *
+ */
 public interface PatternPersistanceProvider extends JSONString{
 	
 	/**
@@ -39,27 +47,41 @@ public interface PatternPersistanceProvider extends JSONString{
 	 */
 	public Pattern addPattern(Pattern p) throws PatternPersistanceException;
 	
-	public Pattern replacePattern(Pattern p) throws PatternPersistanceException; //TODO javadoc
+	/**
+	 * Updates the supplied pattern in the backend storage with the provided values. Missing values 
+	 * will be assumed empty.
+	 * @param p a pattern featuring the new values to be set
+	 * @return updated pattern as stored in backend storage
+	 * @throws PatternPersistanceException if saving was not possible
+	 */
+	public Pattern updatePattern(Pattern p) throws PatternPersistanceException;
 	
 	/**
-	 * return the save pattern with the given id
+	 * Return the saved pattern with the supplied id.
 	 * 
 	 * @param id
-	 * @return the saved pattern if exists
+	 * @return the saved pattern if exists null otherwise
 	 * 
 	 */
-	public Pattern getPattern(int id);
+	public Pattern getPattern(int id); //throw Exception???
 	
 	/**
-	 * deletes the specified pattern
-	 * @param p
+	 * Deletes the specified pattern.
+	 * @param p Pattern to be deleted.
 	 * @throws PatternPersistanceException 
 	 */
 	public void removePattern(Pattern p) throws PatternPersistanceException;
 	
 	/**
-	 * returns all patterns for the stencilset
-	 * @return list of patterns
+	 * Returns all patterns for the stencilset
+	 * @return List of patterns
 	 */
 	public List<Pattern> getAll();
+	
+	/**
+	 * Produces a JSON representation of all patterns
+	 * @return String JSON array of pattern in JSON format
+	 */
+	@Override
+	public String toJSONString();
 }

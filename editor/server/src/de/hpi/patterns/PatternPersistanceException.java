@@ -24,20 +24,34 @@
  **/
 package de.hpi.patterns;
 
-
+/**
+ * Represents a problem when saving to the backend storage of a PatterPersistanceProvider.
+ * @author Kai Höwelmeyer
+ *
+ */
 public class PatternPersistanceException extends Exception{
-
-	public PatternPersistanceException(Exception cause) {
-		super(cause);
-	}
 	
-	public PatternPersistanceException(String msg, Exception cause) {
-		super(msg, cause);
-	}
-
 	/**
-	 * 
+	 * Generated serialization id.
 	 */
 	private static final long serialVersionUID = -1621913261191969131L;
+
+	/**
+	 * Constructor allowing to specify a root cause.
+	 * This helps a client to inspect the cause of a problem in-depth.
+	 * @param rootCause which exception let to this exception?
+	 */
+	public PatternPersistanceException(Exception rootCause) {
+		super(rootCause);
+	}
+	
+	/**
+	 * Constructor allows to specify a message additionally to the root cause
+	 * @param msg Description of the erroneous situation
+	 * @param rootCause what exception let to this exception?
+	 */
+	public PatternPersistanceException(String msg, Exception rootCause) {
+		super(msg, rootCause);
+	}
 
 }

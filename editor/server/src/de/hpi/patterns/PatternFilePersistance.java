@@ -37,22 +37,42 @@ import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
-import org.json.JSONString;
 
 /**
- * Stores pattern serialized in a simple file per stencilset. Not safe for multiple user environment, 
- * because Dirty Reads, Non-repeatable reads and alike are all possible and not prevented.
- * This is a transitional implementation until database support is implemented.
+ * Stores pattern serialized in a simple file per stencilset. Not safe for multi-user environment, 
+ * because Dirty Reads, Non-repeatable reads, lost updates and alike are all possible and not prevented.
+ * This is a transitional implementation.
  * 
- * @author Kai Höwelmeyer <kai.hoewelmeyer@student.hpi.uni-potsdam.de>
+ * @author Kai Höwelmeyer
  *
  */
-public class PatternFilePersistance implements PatternPersistanceProvider, JSONString {
+public class PatternFilePersistance implements PatternPersistanceProvider {
+	/**
+	 * Filename of file used for saving the pattern. Is determined by stencilset namespace.
+	 */
 	private File patternFile;
+	
+	/**
+	 * All pattern that are read from the file
+	 */
 	private ArrayList<Pattern> patternList;
+	
+	/**
+	 * Next id for newly saved pattern
+	 */
 	private int currentID;
+	
+	/**
+	 * Logger
+	 */
 	private Logger log = Logger.getLogger(this.getClass());
 	
+	/**
+	 * Simple Constructor. Loads Pattern and sets their repository to this repository.
+	 * @param ssNameSpace namespace of the current stencil set in the editor
+	 * @param baseDir Directory in which all pattern files are stored
+	 * @throws PatternPersistanceException
+	 */
 	public PatternFilePersistance(String ssNameSpace, String baseDir) throws PatternPersistanceException {
 		this.patternFile = new File(baseDir + generatePatternFileName(ssNameSpace));
 		
@@ -60,6 +80,11 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		this.initPattern();
 	}
 
+	/**
+	 * Produces the filename corresponding to the current stencilset.
+	 * @param ssNameSpace Current stencilset
+	 * @return Filename for this stencilset
+	 */
 	private static String generatePatternFileName(String ssNameSpace) {
 		String fileName = new Integer(ssNameSpace.hashCode()).toString();
 		fileName = fileName.replace("-", "m"); //replaces leading "-" from negative integer
@@ -67,6 +92,9 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		return fileName;
 	}
 
+	/**
+	 * Sets this repository as repository in each pattern.
+	 */
 	private void initPattern() {
 		ListIterator<Pattern> it = this.patternList.listIterator();
 		while(it.hasNext()) {
@@ -74,6 +102,11 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		}		
 	}
 
+	/**
+	 * Loads the currentId as well as all pattern from the file using deserialization.
+	 * @throws PatternPersistanceException if file could not be read or is not valid 
+	 * serialization of pattern repository.
+	 */
 	@SuppressWarnings("unchecked")
 	private void loadPattern() throws PatternPersistanceException {
 		FileInputStream fis = null;
@@ -104,6 +137,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		}
 	}
 	
+	
 	@Override
 	public void removePattern(Pattern p) throws PatternPersistanceException {
 		this.patternList.remove(p);
@@ -118,7 +152,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 			if(p.getId() == id)
 				return p;  //found the matching pattern
 		}
-		return null; //didn't find the pattern
+		return null; //didn't find the pattern  //TODO use treemap or something internally! Faster!
 	}
 	
 	@Override
@@ -130,12 +164,16 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		return p;
 	}
 
+	/**
+	 * Returns unique IDs for new pattern.
+	 * @return Stencilset unique id
+	 */
 	private int generateNewId() {
 		return this.currentID++;
 	}
 
 	@Override
-	public Pattern replacePattern(Pattern p) throws PatternPersistanceException {
+	public Pattern updatePattern(Pattern p) throws PatternPersistanceException {
 		
 		ListIterator<Pattern> it = this.patternList.listIterator();
 
@@ -152,7 +190,12 @@ public class PatternFilePersistance implements PatternPersistanceProvider, JSONS
 		
 	}
 
-	public void commit() throws PatternPersistanceException {
+	/**
+	 * Writes the current pattern repository including the currentId and all patterns
+	 * to the file via serialization.
+	 * @throws PatternPersistanceException If the file could not be written to
+	 */
+	private void commit() throws PatternPersistanceException {
 		//TODO maybe delete file before rewriting it?
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;

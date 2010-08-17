@@ -259,7 +259,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 		var opt = {
 			serPattern: serPattern,
-			description: ORYX.I18N.Patterns.newPattern,
+			name: ORYX.I18N.Patterns.newPattern,
 			imageUrl: undefined,
 			id: undefined
 		};
@@ -335,7 +335,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	onComplete: function(editor, value, startValue) {  //TODO why being called two times???
 		var pattern = editor.editNode.attributes.attributes;
 		
-		return pattern.setDescription(value);
+		return pattern.setName(value);
 	},
 	
 	afterDragDrop: function(dragZone, target, event, id) {
@@ -699,7 +699,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	serPattern : undefined,
 	id : undefined,
 	imageUrl : undefined,
-	description : undefined,
+	name : undefined,
 	repos: undefined,
 	treeNode: undefined, //saved the "viewer" tree node
 	
@@ -707,13 +707,13 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 		if(opt.serPattern !== null) this.serPattern = opt.serPattern; //refactor!!!
 		if(opt.id !== null) this.id = opt.id;
 		if(opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
-		if(opt.description !== null) this.description = opt.description;
+		if(opt.name !== null) this.name = opt.name;
 	},
 	
-	setDescription: function(description) {
+	setName: function(name) {
 		if (this.repos == null) return;
 		
-		this.description = description;
+		this.name = name;
 		this.repos.savePattern(this);
 	},
 	
@@ -724,7 +724,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	toJSONString: function() {
 		return Ext.encode({
 			id: this.id,
-			description: this.description,
+			name: this.name,
 			serPattern: this.serPattern,
 			imageUrl: this.imageUrl
 		});
@@ -854,7 +854,7 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
 			allowDrag: false,
 			allowDrop: false,
 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI,
-			text: this.pattern.description,
+			text: this.pattern.name,
 			attributes: this.pattern  //TODO still ncessary?
 		});
 	},
