@@ -439,7 +439,7 @@
 	<!-- Gerardo's Posts finished -->
 	
 	<servlet>
-		<display-name>Pattern Ssving And Loading Support</display-name>
+		<display-name>Pattern Saving And Loading Support</display-name>
 		<servlet-name>PatternServlet</servlet-name>
 		<servlet-class>org.oryxeditor.server.PatternServlet</servlet-class>
 	</servlet>
