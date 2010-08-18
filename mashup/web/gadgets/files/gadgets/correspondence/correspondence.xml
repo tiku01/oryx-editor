@@ -179,11 +179,13 @@ label {
 		<form method="POST" action="assets/post.php"> 
 
 			<label for="form[file]">File:</label> 
+			<div>
 			<input id="modelUploader" type="file" name="form[file]" /> 
+			</div>
+			<div>
+			<textarea id="textarea" name="textarea" cols="50" rows="10"></textarea>
+		 	</div>
 			
-			
-			<label for="textarea">Text area:</label><textarea id="textarea" name="textarea"></textarea>
-		 
 		</form>
 </div> 
 </div> 
