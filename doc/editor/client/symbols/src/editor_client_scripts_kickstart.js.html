@@ -1,0 +1,88 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author martin.czuchra
+<span class='line'>  3</span>  */</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="NAME">XMLNS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">	</span><span class="NAME">ATOM</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">"http://www.w3.org/2005/Atom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">	</span><span class="NAME">XHTML</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">"http://www.w3.org/1999/xhtml"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">	</span><span class="NAME">ERDF</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">"http://purl.org/NET/erdf/profile"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">	</span><span class="NAME">RDFS</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">"http://www.w3.org/2000/01/rdf-schema#"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">	</span><span class="NAME">RDF</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">"http://www.w3.org/1999/02/22-rdf-syntax-ns#"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">	</span><span class="NAME">RAZIEL</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"http://b3mn.org/Raziel"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="NAME">SCHEMA</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="COMM">//TODO kann kickstart sich vielleicht auch um die erzeugung von paketen/</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="COMM">// namespaces k�mmern? z.b. requireNamespace("ORYX.Core.SVG");</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Kickstart</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT"> 	</span><span class="NAME">started</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="NAME">callbacks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="NAME">alreadyLoaded</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="NAME">PATH</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">Kickstart.kick</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">kick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="COMM">//console.profile("loading");</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">Kickstart.started</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">			</span><span class="NAME">Kickstart.started</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">			</span><span class="NAME">Kickstart.callbacks.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">				</span><span class="COMM">// call the registered callback asynchronously.</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">				</span><span class="NAME">window.setTimeout</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="NAME">register</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="COMM">//TODO Add some mutual exclusion between kick and register calls.</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">		</span><span class="KEYW">with</span><span class="PUNC">(</span><span class="NAME">Kickstart</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">started</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">window.setTimeout</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">Kickstart.callbacks.push</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 46</span> 	 * Loads a js, assuring that it has only been downloaded once.
+<span class='line'> 47</span> 	 * @param {String} url the script to load.
+<span class='line'> 48</span> 	 */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="NAME">require</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="COMM">// if not already loaded, include it.</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">Kickstart.alreadyLoaded.member</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Kickstart.include</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 57</span> 	 * Loads a js, regardless of whether it has only been already downloaded.
+<span class='line'> 58</span> 	 * @param {String} url the script to load.
+<span class='line'> 59</span> 	 */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">include</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">		</span><span class="COMM">// prepare a script tag and place it in html head.</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagNameNS</span><span class="PUNC">(</span><span class="NAME">XMLNS.XHTML</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'head'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElementNS</span><span class="PUNC">(</span><span class="NAME">XMLNS.XHTML</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"script"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">s.setAttributeNS</span><span class="PUNC">(</span><span class="NAME">XMLNS.XHTML</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'type'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'text/javascript'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	   	</span><span class="NAME">s.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Kickstart.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="COMM">//TODO macht es sinn, dass neue skript als letztes kind in den head</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="COMM">// einzubinden (stichwort reihenfolge der skript tags)?</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	   	</span><span class="NAME">head.appendChild</span><span class="PUNC">(</span><span class="NAME">s</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="COMM">// remember this url.</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="NAME">Kickstart.alreadyLoaded.push</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="COMM">// register kickstart as the new onload event listener on current window.</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="COMM">// previous listener(s) are triggered to launch with kickstart.</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="NAME">Event.observe</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'load'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Kickstart.load</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

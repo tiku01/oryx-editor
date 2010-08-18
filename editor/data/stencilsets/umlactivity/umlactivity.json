@@ -41,8 +41,8 @@
 			"groups_de":["Aktionen und Ereignisse"],
 			"description":"Fundamental unit of behavior specification, which converts input to output.",
 			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten mit Ein- und Ausgabe.",
-			"view":"node.action.svg",
-			"icon":"node.action.png",
+			"view":"ActionAndActivity/node.action.svg",
+			"icon":"ActionAndActivity/node.action.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -89,8 +89,8 @@
 			"groups_de":["Aktionen und Ereignisse"],
 			"description":"A unit which coordinates sequences and conditions of lower-level behavior",
 			"description_de":"Einheit, die Sequenzen und Bedingungen niedrigerer Ebene koordiniert.",
-			"view":"node.activity.svg",
-			"icon":"node.activity.png",
+			"view":"ActionAndActivity/node.activity.svg",
+			"icon":"ActionAndActivity/node.activity.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -138,8 +138,8 @@
 			"groups_de":["Aktionen und Ereignisse"],
 			"description":"An action that waits for the occurrence of an event meeting specified condition",
 			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
-			"view":"node.event.incoming.svg",
-			"icon":"node.event.incoming.png",
+			"view":"ActionAndActivity/node.event.incoming.svg",
+			"icon":"ActionAndActivity/node.event.incoming.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
@@ -186,8 +186,8 @@
 			"groups_de":["Aktionen und Ereignisse"],
 			"description":"An action that creates a signal instance which is transmitted to a target object",
 			"description_de":"Aktion, die ein Signal erzeugt und zum Zielobjekt sendet",
-			"view":"node.event.outgoing.svg",
-			"icon":"node.event.outgoing.png",
+			"view":"ActionAndActivity/node.event.outgoing.svg",
+			"icon":"ActionAndActivity/node.event.outgoing.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
@@ -233,60 +233,13 @@
 			"groups_de":["Aktionen und Ereignisse"],
 			"description":"An action that creates a signal instance when time condition is fulfilled",
 			"description_de":"Aktion, die ein Signal erzeugt wenn eine Zeitbedingung erfüllt ist",
-			"view":"node.event.time.svg",
-			"icon":"node.event.time.png",
+			"view":"ActionAndActivity/node.event.time.svg",
+			"icon":"ActionAndActivity/node.event.time.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
 				"controlFlowElement",
 				"causingEvent",
-				"annotatable"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "title_de":"Farbe",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"border",
-                    "fill":true,
-                    "stroke":false
-				}
-			]
-		},
-		{
-			"type": "node",
-			"id":"interruptableRegion",
-			"title":"Interruptable Region",
-			"title_de":"Unterbrechungsbereich",
-			"groups":["Interrupt and Partition"],
-			"groups_de":["Unterbrechung und Partition"],
-			"description":"An activity group that supports termination of tokens flowing in the portions of an activity.",
-			"description_de":"Aktivitätsgruppe, die die Terminierung von Tokens in ihr ermöglicht",
-			"view":"node.interruptableRegion.svg",
-			"icon":"node.interruptableRegion.png",
-			"roles": [
-				"diagramcontent",
-				"activityContent",
-				"activityRole",
 				"annotatable"
 			],
 			"properties": [
@@ -328,8 +281,8 @@
 			"groups_de":["Unterbrechung und Partition"],
 			"description":"Partitions divide the nodes and edges to constrain and show a view of the contained nodes",
 			"description_de":"Partitionen teilen Aktionen ein, um die Sicht auf diese zu verdeutlichen",
-			"view":"node.activityPartition.vertical.svg",
-			"icon":"node.activityPartition.vertical.png",
+			"view":"InterruptAndPartition/node.activityPartition.vertical.svg",
+			"icon":"InterruptAndPartition/node.activityPartition.vertical.png",
 			"roles": [
 				"diagramcontent",
 				"activityRole"
@@ -353,6 +306,54 @@
 			],
 			"layout" : [{"type" : "layout.uml.activityPartition"}]
 		},
+		
+		{
+			"type": "node",
+			"id":"interruptableRegion",
+			"title":"Interruptable Region",
+			"title_de":"Unterbrechungsbereich",
+			"groups":["Interrupt and Partition"],
+			"groups_de":["Unterbrechung und Partition"],
+			"description":"An activity group that supports termination of tokens flowing in the portions of an activity.",
+			"description_de":"Aktivitätsgruppe, die die Terminierung von Tokens in ihr ermöglicht",
+			"view":"InterruptAndPartition/node.interruptableRegion.svg",
+			"icon":"InterruptAndPartition/node.interruptableRegion.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"activityRole",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
 		{
 			"type": "node",
 			"id":"object",
@@ -362,8 +363,8 @@
 			"groups_de":["Objekt"],
 			"description":"An object is part of the object flow in an activity",
 			"description_de":"Ein Objekt ist ein Teil des Objektflusses in Aktivitäten",
-			"view":"node.object.svg",
-			"icon":"node.object.png",
+			"view":"Object/node.object.svg",
+			"icon":"Object/node.object.png",
 			"roles": [
 				"diagramcontent",
 				"activityContent",
@@ -408,8 +409,8 @@
 			"groups_de":["Anmerkung"],
 			"description": "Comment regarding a diagram element",
 			"description_de": "Kommentar mit Bezug zu einem Modellelement oder Diagramm",
-			"view":"node.note.svg",
-			"icon":"node.note.png",
+			"view":"Annotation/node.note.svg",
+			"icon":"Annotation/node.note.png",
 			"roles": [
 				"diagramcontent",
 				"annotation",
@@ -454,8 +455,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"A control node at which flow starts when the activity is invoked.",
 			"description_de":"Kontrollknoten, bei dem der Ablauf anfängt, wenn eine Aktivität angestoßen wird.",
-			"view":"node.initialNode.svg",
-			"icon":"node.initialNode.png",
+			"view":"ControlFlow/node.initialNode.svg",
+			"icon":"ControlFlow/node.initialNode.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -487,8 +488,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"Final node that terminates a flow",
 			"description_de":"Endknoten, der einen Ablauf terminiert",
-			"view":"node.flowFinalNode.svg",
-			"icon":"node.flowFinalNode.png",
+			"view":"ControlFlow/node.flowFinalNode.svg",
+			"icon":"ControlFlow/node.flowFinalNode.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -535,8 +536,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"A final node that stops all flows in an activity",
 			"description_de":"Endknoten, der alle Abläufe in einer Aktivität beendet",
-			"view":"node.activityFinalNode.svg",
-			"icon":"node.activityFinalNode.png",
+			"view":"ControlFlow/node.activityFinalNode.svg",
+			"icon":"ControlFlow/node.activityFinalNode.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -583,8 +584,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
 			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
-			"view":"node.and.horizontal.svg",
-			"icon":"node.and.horizontal.png",
+			"view":"ControlFlow/node.and.horizontal.svg",
+			"icon":"ControlFlow/node.and.horizontal.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -618,8 +619,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
 			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
-			"view":"node.and.vertical.svg",
-			"icon":"node.and.vertical.png",
+			"view":"ControlFlow/node.and.vertical.svg",
+			"icon":"ControlFlow/node.and.vertical.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -653,8 +654,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
 			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
-			"view":"node.or.svg",
-			"icon":"node.or.png",
+			"view":"ControlFlow/node.or.svg",
+			"icon":"ControlFlow/node.or.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -701,8 +702,8 @@
 			"groups_de":["Anmerkung"],
 			"description" : "Connects a note with a model element",
 			"description_de" : "Verbindet eine Notiz mit einem Modellelement",
-			"view":"edge.annotation.svg",
-			"icon":"edge.annotation.png",
+			"view":"Annotation/edge.annotation.svg",
+			"icon":"Annotation/edge.annotation.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -718,8 +719,8 @@
 			"groups_de":["Kontrollfluss"],
 			"description":"Connects actions, activities and events",
 			"description":"Verbindet Aktionen, Aktivitäten und Ereignisse",
-			"view":"edge.controlFlow.svg",
-			"icon":"edge.controlFlow.png",
+			"view":"ControlFlow/edge.controlFlow.svg",
+			"icon":"ControlFlow/edge.controlFlow.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -751,8 +752,8 @@
 			"groups_de":["Objekt"],
 			"description":"Connects objects with actions or actions with objects",
 			"description_de":"Verbindet Objekte mit Aktionen oder Aktionen mit Objekten",
-			"view":"edge.objectFlow.svg",
-			"icon":"edge.objectFlow.png",
+			"view":"Object/edge.objectFlow.svg",
+			"icon":"Object/edge.objectFlow.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -784,8 +785,8 @@
 			"groups_de":["Objekt"],
 			"description":"Connects two actions to indicate object flow",
 			"description_de":"Verbindet zwei Aktionen um Objektfluss darzustellen",
-			"view":"edge.objectFlow.implicit.svg",
-			"icon":"edge.objectFlow.implicit.png",
+			"view":"Object/edge.objectFlow.implicit.svg",
+			"icon":"Object/edge.objectFlow.implicit.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
@@ -845,8 +846,8 @@
 			"groups_de":["Unterbrechung und Partition"],
 			"description":"Connects causing Event with any kind of action.",
 			"description":"Verbindet auslösendes Ereignis mit Aktion",
-			"view":"edge.interrupt.svg",
-			"icon":"edge.interrupt.png",
+			"view":"InterruptAndPartition/edge.interrupt.svg",
+			"icon":"InterruptAndPartition/edge.interrupt.png",
 			"roles": [
 				"diagramcontent",
 				"annotatable",
