@@ -1,5 +1,6 @@
 /**
  * Copyright (c) 2010
+ *
  * Kai Höwelmeyer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -21,39 +22,61 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+/**
+ * @namespace Oryx name space for plugins
+ * @name ORYX.Plugins
+ */
 if(!ORYX.Plugins)
 	ORYX.Plugins = {};
 	
-ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
+/**
+ * Patterns plugin adds support for a pattern repository that contains composite shapes.
+ * @class ORYX.Plugins.Patterns
+ * @extends ORYX.Plugins.AbstractPlugin
+ * @param facade
+ */
+ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
+	/** @lends ORYX.Plugins.prototype */
+	{
 	
+	/**
+	 * facade that provides uniform access to core functions
+	 */
 	facade : undefined,
+	
+	/**
+	 * indicicates if the "make as pattern" button besides a selection is visible
+	 */
 	buttonVisible : false,
+	
+	/**
+	 * button that appears besides a selection of 2 or more shapes
+	 */
 	button : undefined,
+	
+	/**
+	 * repository of patterns for the current stencilset
+	 */
 	patternRepos : undefined,
 	
-	construct: function(facade) {
+	/**
+	 * @constructs
+	 */
+	construct: function(facade) {  //TODO split in construct and initialize phase!
 		
-		//call superclass constructor
+		/** call superclass constructor */
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		//fix for double click behaviour of treeEditor (cf. http://www.sencha.com/forum/archive/index.php/t-34170.html)
-		Ext.override(Ext.tree.TreeEditor, {
-			beforeNodeClick : function(){},
-			onNodeDblClick : function(node, e){
-				this.triggerEdit(node);
-			}
-		});
-		
 		//todo remove the explicit this.facade.getCanvas(). is handled in beforeDragOver
-		this._currentParent /*= this.facade.getCanvas()*/;
-		this._canContain = undefined;
-		this._canAttach = undefined;
+		this._currentParent /*= this.facade.getCanvas()*/; //TODO remove?
+		this._canContain = undefined; //TODO remove?
+		this._canAttach = undefined; //TODO remove?
 		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
 		
-		//adding of "capture as pattern"-func   // TODO I18N
+		//adding of "capture as pattern"-func   
 		this.facade.offer({
-			name: "Selection as pattern",
+			name: "Selection as pattern",  // TODO I18N ?? Where is this name used???
 			functionality: this.selAsPattern.bind(this),
 			group: ORYX.I18N.Patterns.toolbarButtonText, 
 			description: ORYX.I18N.Patterns.toolbarButtonTooltip,
@@ -61,8 +84,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			icon: ORYX.PATH + "images/pattern_add.png" //TODO externalize!!
 		});
 		
-		//create rootNode for patternrepository   // TODO I18N
-		this.patternRoot = new Ext.tree.TreeNode({
+		//create rootNode for patternrepository   
+		this.patternRoot = new Ext.tree.TreeNode({  //TODO create patterRoot this declaration below this.repos!!
 			cls: 'headerShapeRep',
 			text: ORYX.I18N.Patterns.rootNodeText,
 			iconCls: 'headerShapeRepImg',
@@ -73,8 +96,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		});
 				
 		//create Patternpanel as ext-tree-panel
-		//TODO implement treeloader! mix with patternRepository!
-		this.patternPanel = new Ext.tree.TreePanel({
+		this.patternPanel = new Ext.tree.TreePanel({ //TODO declare patternPanel!!!
 			iconCls: 'headerShapeRepImg',
 			cls:'shaperespository',
 			root: this.patternRoot,			
@@ -82,20 +104,26 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			rootVisible: true
 		});
 		
+		//fix double click behavior of treeEditor (cf. http://www.sencha.com/forum/archive/index.php/t-34170.html)
+		Ext.override(Ext.tree.TreeEditor, {
+			beforeNodeClick : function(){},
+			onNodeDblClick : function(node, e){
+				this.triggerEdit(node);
+			}
+		});
+		
 		//make nodes editable
 		var treeEditor = new Ext.tree.TreeEditor(this.patternPanel, {
 			constrain: true, //constrains editor to the viewport
 			completeOnEnter: true,
 			ignoreNoChange: true
-		});
-		
+		});		
 		treeEditor.on("complete", this.onComplete.bind(this));// TODO set in opt of new TreeEditor!
 		
 		//add pattern panel
-		var region = this.facade.addToRegion("West", this.patternPanel, null);
+		var region = this.facade.addToRegion("West", this.patternPanel, null); //TODO return value needed?
 			
 		//creating a dragzone
-		//analogous to shaperepository
 		var dragZone = new Ext.dd.DragZone(this.patternRoot.getUI().getEl(), {shadow: !Ext.isMac});
 		
 		//register drag and drop function, curry in the dragzone
@@ -106,8 +134,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			return true;
 		}.bind(this);
 		
-		this.createPatternButton();
+		this.createPatternButton(); //TODO move together with event creation. see above!
 		
+		//create patternRepos  //TODO rename pattern repos to pattern loader!
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
 		this.patternRepos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, 
 																		this.addPatternNodes.bind(this), 
@@ -119,13 +148,18 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 	},
 	
+	/**
+	 * Adds a div-element to the canvas that represents the "mark as pattern" button which appears
+	 * at the right side of the selection. 
+	 * Also adds the necessary event listeners for the button.
+	 */
 	createPatternButton: function() {
 		// graft the button.
 		this.button = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", $(null),
 			['div', {'class': 'Oryx_button'}]);
 		
 		var imgOptions = {src: ORYX.PATH + "images/pattern_add.png"};  //TODO externalize!!
-		/*if(this.option.msg){
+		/*if(this.option.msg){  //TODO remove???
 			imgOptions.title = this.option.msg;
 		}*/
 
@@ -133,7 +167,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		ORYX.Editor.graft("http://www.w3.org/1999/xhtml", this.button,
 				['img', imgOptions]);
 				
-		//maybe not the right container...
 		this.facade.getCanvas().getHTMLContainer().appendChild(this.button);
 		
 		this.hidePatternButton();
@@ -145,7 +178,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.button.addEventListener('click', this.buttonTrigger.bind(this), false);
 	},
 	
-	togglePatternButton: function(options) {
+	togglePatternButton: function(options) { //TODO remove parameter??
 		var selection = this.facade.getSelection();
 		
 		if (!this.buttonVisible) {
@@ -160,6 +193,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		}
 	},
 	
+	/**
+	 * Displays the pattern button
+	 */
 	showPatternButton: function() {
 		this.relocatePatternButton();
 		this.button.style.display = "";
@@ -167,12 +203,18 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.getCanvas().update();
 	},
 	
+	/**
+	 * Hides the pattern button
+	 */
 	hidePatternButton: function() {
 		this.button.style.display = "none";
 		this.buttonVisible = false;
 		this.facade.getCanvas().update();
 	},
 		
+	/**
+	 * Moves the pattern button to the upper right side of the current selection
+	 */
 	relocatePatternButton: function() {
 		var selection = this.facade.getSelection();
 		
@@ -197,22 +239,40 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 	},
 	
-	showButtonOpaque: function() {
+	/**
+	 * Renders the pattern button solid instead of transparent
+	 */
+	showButtonOpaque: function() { //TODO used??
 		this.button.style.opacity = 1.0;
 	},
 	
+	/**
+	 * Renders the pattern button half transparent instead of solid
+	 */
 	showButtonTransparent: function() {
 		this.button.style.opacity = 0.5;
 	},
 	
+	/**
+	 * Changes appearance of pattern button when clicked.
+	 * Add the css class Oryx_down
+	 */
 	buttonActivate: function() {
 		this.button.addClassName('Oryx_down');
 	},
 	
+	/**
+	 * Changes appearance of pattern button when mouse is over the button.
+	 * Adds the css class Oryx_hover
+	 */
 	buttonHover: function() {
 		this.button.addClassName('Oryx_hover');
 	},
 	
+	/**
+	 * Changes the the appearance when the mouse moves out of the button.
+	 * Removes the classes Oryx_down and Oryx_hover.
+	 */
 	buttonUnHover: function() {
 		if(this.button.hasClassName('Oryx_down'))
 			this.button.removeClassName('Oryx_down');
@@ -221,10 +281,16 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 			this.button.removeClassName('Oryx_hover');
 	},
 	
+	/**
+	 * Callback when clicking the button.
+	 */
 	buttonTrigger: function(evt) {
 		this.selAsPattern();
 	},
 			
+	/**
+	 * Callback for creating a new pattern from the current selection and saving it on the server.
+	 */
 	selAsPattern: function() {
 		var selection = this.facade.getSelection();
 		
@@ -237,7 +303,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		jsonSel = this.removeDanglingEdges(jsonSel);
 		jsonSel = this.removeObsoleteReferences(jsonSel);
 		
-		/*//delete all patterns
+		/*//delete all patterns  //TODO delete!
 		selection.each(function(element) {
 			this.facade.deleteShape(element);
 		}.bind(this));
@@ -247,13 +313,17 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 	},
 	
+	/**
+	 * Load all pattern from the server and display them in the pattern panel.
+	 */
 	loadAllPattern: function() {
-		this.patternRepos.loadPattern(); //TODO idempotency!
+		this.patternRepos.loadPattern(); //TODO idempotency! i.e. remove the pattern from the panel!
 		
 	},
 	
 	/**
-	* Adds a new pattern to the server for current stencilset and adds pattern node in pattern repository
+	* Adds a new pattern to the server and adds pattern node in pattern panel.
+	* @param {Array} serPattern raw (directly from canvas) serialized Shapes in JSON format
 	*/
 	addNewPattern: function(serPattern) {
 		
@@ -269,6 +339,10 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.patternRepos.addPattern(pattern); //TODO take the new pattern with filled id, etc...
 	},
 	
+	/**
+	 * Adds the pattern from the supplied array as tree nodes in the pattern panel
+	 * @param {Array} patternArray consists of ORYX.Plugins.Patterns.Pattern instances
+	 */
 	addPatternNodes: function(patternArray) {
 		patternArray.each(function(pattern){  //TODO beautify with apply or map or something like that!
 			this.addPatternNode(pattern);
@@ -276,10 +350,11 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	/**
-	* Add the nodes for the supplied pattern to pattern repository
+	* Add the nodes for the supplied pattern to pattern panel
+	* @param {ORYX.Plugins.Patterns.Pattern} pattern to be added pattern
 	*/
 	addPatternNode: function(pattern) {		
-		//add the pattern subnode
+		//add the pattern subnode    //TODO delete?
 		// var newNode = new Ext.tree.TreeNode({
 		// 			leaf: true,
 		// 			text: pattern.description,  
@@ -307,13 +382,14 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		//register the pattern on drag and drop
 		Ext.dd.Registry.register(ui.elNode, {
 			node: ui.node,
-			handles: [ui.elNode, ui.textNode].concat($A(ui.elNode.childNodes)), //has one undefined element! fix that!
+			handles: [ui.elNode, ui.textNode].concat($A(ui.elNode.childNodes)), //TODO has one undefined element! fix that!
 			isHandle: false,
 			type: "and-split" //TODO this does not make sense!
 		});
 		
 		this.patternRoot.expand();	
 		
+		//TODO delete?
 		/*var deleteButton = document.createElement("span");
 		deleteButton.className = "PatternDeleteButton";
 		
@@ -327,17 +403,34 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		newNode.getUI().elNode.appendChild(deleteButton);*/
 	},
 	
+	/**
+	 * Removes the node of a pattern from the pattern panel
+	 * @param {ORYX.Plugins.Patterns.Pattern} the server-side deleted pattern whose tree node representation
+	 * shall be deleted.
+	 */
 	deletePatternNode: function(pattern) {
 		pattern.treeNode.remove();
 	},
 	
-	
+	/**
+	 * Handles the event when the user finishes input for the name of a pattern in a pattern tree node.
+	 * @param {Ext.tree.TreeEditor} editor
+	 * @param {Mixed} value new value after editing the node
+	 * @param {Mixed} startValue value before editing the node  
+	 */
 	onComplete: function(editor, value, startValue) {  //TODO why being called two times???
 		var pattern = editor.editNode.attributes.attributes;
 		
 		return pattern.setName(value);
 	},
 	
+	/**
+	 * Inserts the dropped pattern from the pattern node in the canvas
+	 * @param {Ext.dd.DragZone} dragZone
+	 * @param {Ext.dd.DragDrop} target The drop target
+	 * @param {Event e} event The event object
+	 * @param {String} id The id of the dropped element
+	 */
 	afterDragDrop: function(dragZone, target, event, id) {
 		
 		this._lastOverElement = undefined;
@@ -445,6 +538,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.executeCommands([command]);
 	},
 	
+	/**
+	 * Moves the pattern relatively to an old position to the new position
+	 * @param {Array} patternShapes An Array of serialized oryx shapes
+	 * @param {Object} oldPos The old absolute position relatively to which the pattern will be moved. (Consists
+	 * of x and y parameter wrapped in anonymous object).
+	 * @param {Object} newPos The new absolute position to which the pattern shapes should be shifted 
+	 */
 	transformPattern: function(patternShapes, oldPos, newPos) {
 		
 		var transVector = {
@@ -486,6 +586,10 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		return patternShapes;
 	},
 	
+	/**
+	 * Determines the central point in an array of serialized shapes.
+	 * @param {Array} shapeArray Contains serialized shapes (not JSON Strings, but JSON representations). 
+	 */
 	findCentralPoint: function(shapeArray) {
 		
 		if(shapeArray.size() === 0) return;
@@ -519,7 +623,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		
 	},
 	
-	beforeDragOver: function(dragZone, target, event) {
+	beforeDragOver: function(dragZone, target, event) {  //TODO remove???
 		/*
 		var coord = this.facade.eventCoordinates(event.browserEvent);
 		var aShapes = this.facade.getCanvas().getAbstractShapesAtPosition( coord );
@@ -612,11 +716,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 	
 	
 	/**
-     * This method renew all resource Ids and according references.
-     * Warning: The implementation performs a substitution on the serialized object for
-     * easier implementation. This results in a low performance which is acceptable if this
-     * is only used when importing models.
-     * @param {Object|String} jsonObject
+     * This method renews all resource Ids and according references.
+     * @param {Object} jsonObject
      * @throws {SyntaxError} If the serialized json object contains syntax errors.
      * @return {Object} The jsonObject with renewed ids.
      * @private
@@ -633,7 +734,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
             }
         } else {
             var serJsonObject = Ext.encode(jsonObject);
-        } */
+        } */  //TODO remove
 
        var serJsonObjectArray = Ext.encode(jsonObjectArray);
 
@@ -656,8 +757,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
         return Ext.decode(serJsonObjectArray);
     },
 
-	/*
-	* removes all edges that reference non-existing (in the pattern) shapes.
+	/**
+	* Removes all edges that reference non-existing (in the pattern) shapes.
+	* @param {Array} jsonObjectArray JSONObjects of shapes
 	*/
 	removeDanglingEdges: function(jsonObjectArray) {
 		//recursion deep check???
@@ -671,12 +773,24 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 		return result;
 	},
 	
-	isTargetOfShapeInCollection: function(serShape, collection) {
+	/**
+	 * Tests if the target of a shapes is itself part of the supplied shape collection.
+	 * @param {Object} serShape JSONObject whose target should be tested
+	 * @param {Array} collection The collection of shapes that should be considered
+	 * @return {Boolean} True if the target of serShape is contained in the collection.
+	 */
+	isTargetOfShapeInCollection: function(serShape, collection) {  //TODO remove of in the name!
 		return collection.any(function(serShape, possibleTarget) {
 			return serShape.target.resourceId == possibleTarget.resourceId;
 		}.bind(this, serShape));
 	},
 	
+	/**
+	 * Removes all references of outgoing edges whose edges are not contained in the shape collection
+	 * from the collection of shapes.
+	 * @param {Array} jsonObjectArray all shapes whose outgoing edges should be checked for inclusion.
+	 * @returns Array of shapes with no dangling references to missing outgoing edges.  
+	 */
 	removeObsoleteReferences: function(jsonObjectArray) {
 		var result = jsonObjectArray;
 		
@@ -695,14 +809,48 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend({
 
 });
 
-ORYX.Plugins.Patterns.Pattern = Clazz.extend({
+/**
+ * Represents a pattern.
+ * @class ORYX.Plugins.Patterns.Pattern
+ * @extends Clazz
+ * @param {Object} opt Can contain the serPattern, id, imageUrl, name to be set in the new instance.
+ */
+ORYX.Plugins.Patterns.Pattern = Clazz.extend(
+	/** @lends ORYX.Plugins.Patterns.Pattern.prototype */
+	{
+	/**
+	 * Array of serialized pattern shapes, i.e. JSON objects.
+	 */
 	serPattern : undefined,
+	
+	/**
+	 * The ID of the pattern as set by the server
+	 */
 	id : undefined,
+	
+	/**
+	 * The URL of the thumbnail image of the pattern
+	 */
 	imageUrl : undefined,
+	
+	/**
+	 * The name of the pattern
+	 */
 	name : undefined,
+	
+	/**
+	 * The repository that saves the pattern
+	 */
 	repos: undefined,
+	
+	/**
+	 * The tree node that represents the pattern.
+	 */
 	treeNode: undefined, //saved the "viewer" tree node
 	
+	/**
+	 * @constructor
+	 */
 	construct: function(opt) {
 		if(opt.serPattern !== null) this.serPattern = opt.serPattern; //refactor!!!
 		if(opt.id !== null) this.id = opt.id;
@@ -710,6 +858,9 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 		if(opt.name !== null) this.name = opt.name;
 	},
 	
+	/**
+	 * Sets the name of the pattern and updates the server representation of this pattern.
+	 */
 	setName: function(name) {
 		if (this.repos == null) return;
 		
@@ -717,10 +868,16 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 		this.repos.savePattern(this);
 	},
 	
+	/**
+	 * Removes the pattern from the server.
+	 */
 	remove: function() {
 		this.repos.removePattern(this); //toggles through callback removal of treenode!
 	},
 	
+	/**
+	 * Creates a JSON representation of the pattern containing only the id, name, serPattern, imageUrl.
+	 */
 	toJSONString: function() {
 		return Ext.encode({
 			id: this.id,
@@ -732,13 +889,43 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend({
 	
 });
 
-ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
-	patternList : [],
-	ssNameSpace : undefined,
-	onPatternLoad: function(patternArray){}, //will be called, when new pattern are available
+/**
+ * Represents a loader for patterns for a specific stencilset.
+ * @class ORYX.Plugins.Patterns.PatternRepository
+ * @extends Clazz
+ * @param {String} ssNameSpace The namespace of the stencil for which this loader is intended.
+ * @param {function(Array patterns)} onPatternLoad Callback when a pattern are loaded from the server via loadPattern().
+ * @param {function(pattern)} onPatternAdd Callback when a pattern is added to the repository. Provides the pattern as received from server.
+ * @param {function()} onPatternRemove Callback when a pattern is deleted.
+ */
+ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
+	/** @lends ORYX.Plugins.Patterns.PatternRepository.prototype */
+	{
+	patternList : [], //TODO delete and remove from code or document!
+	
+	/**
+	 * The name space of the stencil set for which pattern can be maintained. 
+	 */
+	ssNameSpace : undefined, 
+	
+	/**
+	 * Callback when pattern are loaded.
+	 */
+	onPatternLoad: function(patternArray){}, 
+	
+	/**
+	 * Callback when a single pattern is added.
+	 */
 	onPatternAdd: function(pattern){},
+	
+	/**
+	 * Callback when a single pattern is deleted.
+	 */
 	onPatternRemove: function(){},
 	
+	/**
+	 * @constructor
+	 */
 	construct: function(ssNameSpace, onPatternLoad, onPatternAdd, onPatternRemove) { //TODO refactor introduce object parameter for constructor
 		this.ssNameSpace = ssNameSpace;
 		this.onPatternLoad = onPatternLoad;
@@ -746,6 +933,9 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		this.onPatternRemove = onPatternRemove;
 	},
 	
+	/**
+	 * Loads all pattern for set stencil set from server. Fires callback onPatternLoad. 
+	 */
 	loadPattern: function() {
 		this._sendRequest("GET", {ssNameSpace: this.ssNameSpace}, function(resp) {
 			var patterns = Ext.decode(resp);
@@ -758,10 +948,18 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		}.bind(this));
 	},
 	
+	/**
+	 * Gets all loaded pattern.
+	 * @returns An array of patterns of the type ORYX.Plugins.Patterns.Pattern
+	 */
 	getPatterns: function() {
 		return this.patternList;
 	},
 	
+	/**
+	 * Adds the supplied pattern to the server.
+	 * @param {ORYX.Plugins.Patterns.Pattern} pattern The pattern to be added to the server. 
+	 */
 	addPattern: function(pattern) {
 		var params = {
 			pattern: pattern.toJSONString(),
@@ -776,10 +974,19 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		}.bind(this)); //TODO reflect failed add with removing the node??
 	},
 	
+	/**
+	 * Updates a pattern that is already saved on the server with the supplied values. 
+	 * Not supplied values are overriden.
+	 * @param {ORYX.Plugins.Patterns.Pattern} pattern The pattern to be saved.
+	 */
 	savePattern: function(pattern) {
 		this._sendRequest("POST", {pattern: pattern.toJSONString(), ssNameSpace: this.ssNameSpace}); //TODO use callbacks?
 	},
 	
+	/**
+	 * Removes / Delete a pattern from the server.
+	 * @param {ORYX.Plugins.Patterns.Pattern} pattern The pattern to be deleted from the server.
+	 */
 	removePattern: function(pattern) {
 		var params = {
 			pattern: pattern.toJSONString(), //TODO handle uniformly!
@@ -790,6 +997,16 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		}.bind(this));
 	},
 	
+	/**
+	 * Sends an AJAX request to the server directed to rootpath + "/pattern"
+	 * @private
+	 * @param {String} method The used method to communicate with the server. GET and POST will be 
+	 * translated properly to HTTP METHODS. PUT and DELETED are sent as POSTS with the _method parameter
+	 * set accordingly.
+	 * @param {Object} params The parameters to be set in the request.
+	 * @param {function(responseText)} successcallback Will be called on success of the server request.
+	 * @param {function()} failedcallback Will be called if transport failed. 
+	 */
 	_sendRequest: function( method, params, successcallback, failedcallback ){
 
 		var suc = false;
@@ -827,6 +1044,12 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 		return suc;		
 	},
 	
+	/**
+	 * Displays a simple error message box in the middle of the screen.
+	 * @private
+	 * @params {String} title The title of the error message dialog.
+	 * @params {String} msg The message that should be displayed in the dialog.
+	 */
 	_showErrorMessageBox: function(title, msg)
 	{
         Ext.MessageBox.show({
@@ -838,10 +1061,27 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend({
 	}
 });
 
-ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
+/**
+ * Represents a tree node. Simplifies initialization of a tree node.
+ * @class ORYX.Plugins.Patterns.PatterNode
+ * @extends Ext.tree.TreeNode
+ * @params {ORYX.Plugins.Patterns.Pattern} pattern The pattern that should be displayed by the tree node.
+ */
+ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, 
+	/** @lends ORYX.Plugins.Patterns.PatternNode.prototype */
+	{
 	
-	//no initComponent in TreeNode!
+	/**
+	 * The pattern that is represented by this pattern tree node. {ORYX.Plugins.Patterns.Pattern}
+	 */
+	pattern: undefined, 
+	
+	/**
+	 * @constructor
+	 */
 	constructor: function(pattern) {
+		//normally ext uses initComponent for the following, but
+		//no initComponent protocoll in TreeNode, thus using constructor!
 		this.pattern = pattern;
 		
 		//call superclass constructor		
@@ -859,15 +1099,28 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode, {
 		});
 	},
 	
+	/**
+	 * Prevents that the delete button is shown in the Ghost Proxy of Drag and Drop of Ext.
+	 */
 	beforeMove: function(tree, node, newParent, oldParent, index) {
 		node.getUI().deleteButton.hide();
 	}
 });
 
-ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
-	
+/**
+ * Provides customized appearance of a tree node for the pattern node.
+ * @class ORYX.Plugins.Patterns.PatternNodeUI
+ * @extends Ext.tree.TreeNodeUI
+ */
+ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, 
+	/** @lends ORYX.Plugins.Patterns.PatternNodeUI.prototype */
+	{
+		/**
+		 * Renders the node and add the delete button.
+		 * @param render  (cf. Ext framework)
+		 */
 		render: function(bulkRender) { 
-//			this.superclass.render.apply(this, arguments);
+			//	this.superclass.render.apply(this, arguments);
 			//onRender not properly implemented in used Ext Version!
 			if (this.rendered) return;
 			
@@ -894,6 +1147,9 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 			
 		},
 		
+		/**
+		 * Displays the delete button when mouse is over the tree node
+		 */
 		onOver: function() {
 			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOver.apply(this, arguments);
 			
@@ -904,6 +1160,9 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 			this.deleteButton.show();
 		},
 		
+		/**
+		 * Hides the delete button when mouse is leaving the tree node.
+		 */
 		onOut: function() { //TODO maybe set a timer to prohibit continously fading in and out!
  			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOut.apply(this, arguments);
 			
