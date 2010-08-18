@@ -109,12 +109,8 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		autoConnectButton.setStyle("background", "url('" + this.GADGET_BASE + "correspondence/icons/wand.png') no-repeat center");
 		autoConnectButton.className ="button";
 
-
 		var el = document.createElement("li");
-		el.className = "connection";
-		
-
-		
+		el.className = "connection";		
 	},
 	
 	
@@ -406,10 +402,38 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 			}		
 		}
 		
+	},
+	
+	/*
+	 * 	Creates a grey overlay over the gadget, so that it cannot be edited anymore. 
+	 * 	Shows a message window with the title modename and shows message.
+	 *  If the user clicks done, the function onClose is executed.
+	 */
+	disable : function(modename, message, onClose) {
+		
+		var handleSubmit = function() {
+			onClose();
+			this.cancel();
+		};
+		
+		
+		var disableScreen =  new YAHOO.widget.Dialog("disableScreen",   
+	            { width:"240px",  
+	              fixedcenter:true,  
+	              close:false,  
+	              draggable:false,  
+	              zindex:4, 
+	              modal:true, 
+	              center: true,
+	              visible:false, 	              
+				  buttons : [ { text:"Done", handler:handleSubmit, isDefault:true } ]
+	            }  
+	        ); 
+
+		
+		disableScreen.setHeader(modename); 
+		disableScreen.setBody(message); 
+		disableScreen.render(document.body);
+		disableScreen.show();
 	}
-	
-
-	
-
-	
 });

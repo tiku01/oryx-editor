@@ -74,7 +74,7 @@ Container.addGadget = function(p_sType, p_aArgs, args) {
 	gadgets.container.addGadget(gadget);
 	gadgets.container.renderGadget(gadget);
 
-	console.log("*", widget.__gadget, gadget);
+	//console.log("*", widget.__gadget, gadget);
 	
 	gadgets.rpc.setRelayUrl(
 		gadget.getIframeId(), 
