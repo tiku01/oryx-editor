@@ -9,25 +9,10 @@
     <Content type="html">
         <![CDATA[
 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/uploader/uploader-min.js"></script> 
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/fonts/fonts-min.css" /> 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/container/assets/skins/sam/container.css" /> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/container/container-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/json/json-min.js"></script> 
-	
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/fonts/fonts-min.css" /> 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/button/assets/skins/sam/button.css" /> 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/container/assets/skins/sam/container.css" /> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/connection/connection-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/button/button-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/dragdrop/dragdrop-min.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/container/container-min.js"></script> 
+ 
+
+
 <!--begin custom header content for this example--> 
 <script type="text/javascript"> 
 document.documentElement.className = "yui-pe";

@@ -25,7 +25,6 @@ Connection = function(gadget, comment){
 	this.comment = comment;
 	this.gadget = gadget;
 	this.models = [];
-	this.editing = false;
 	this.elComment = null;
 	
 };
@@ -241,25 +240,19 @@ Connection.prototype = {
 	
 	stopEditing: function() {		
 		this.gadget.unregisterSelectionChanged();
-		this.editing = false;
 		this.clearModels();
 	},
 	
-	edit: function() {			
-		if (this.editing) {
-			this.stopEditing();
-			this.highlightInViewer();
-		} else {		
+	edit: function() {		
+			var onSuccess = function() {
+				this.stopEditing();
+				this.highlightInViewer();
+			}
 			this.editing = true;
-			//this.gadget.setSelectedShapes( 4, this.models[4].nodes );
-			//this.gadget.setSelectedShapes( 5, this.models[5].nodes );			
-			//this.highlightInViewer();
+			this.gadget.disable("Edit Mode", "Please select the desired shapes in the model viewers to edit the correspondence.", onSuccess.bind(this));
 			this.selectShapes();
 			this.gadget.registerSelectionChanged("all");
-			this.gadget.registerRPC("handleSelection", "", "", this.updateConnection, this);
-		}
-		
-		
+			this.gadget.registerRPC("handleSelection", "", "", this.updateConnection, this);	
 	},
 	
 	updateConnection: function(reply){
@@ -409,6 +402,7 @@ Connection.prototype = {
 		return Object.toJSON(obj);
 	}
 		
+	
 		
 		
 };

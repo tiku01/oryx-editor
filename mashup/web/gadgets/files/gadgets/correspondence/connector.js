@@ -23,8 +23,6 @@
 
 Connector = function(gadget){
 	this.gadget 	= gadget;
-	//STYLE 			= {"background-color" : "blue", "opacity" : "0.1"};
-	//ICON 			= this.gadget.GADGET_BASE + 'this.gadget/icons/connect.png';
 	this.selections = [];
 	this.init();
 }
@@ -136,6 +134,7 @@ Connector.prototype = {
 		
 		
 	}
+
 		
 }
 
