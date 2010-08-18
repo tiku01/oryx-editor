@@ -385,6 +385,11 @@ public class AdonisModel extends AdonisStencil{
 	 * write down the used stencilset extensions
 	 */
 	public void writeJSONssextensions(JSONObject json) throws JSONException{
+		AdonisAttribute type = getAttribute("Type");
+		if (type != null && type.getElement() != null){
+			//addUsed(type);
+			//TODO hier kommt das passende Stencilset rein
+		}
 		getJSONArray(json, "ssextensions");
 	}
 	/**
@@ -539,7 +544,7 @@ public class AdonisModel extends AdonisStencil{
 		String element;
 
 		element = properties.optString("author");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Author","STRING",element));
+		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Author","STRING",element.length()== 0 ? "Admin" : element));
 		
 		element = properties.optString("keywords");
 		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Keywords","STRING",element));
@@ -634,6 +639,7 @@ public class AdonisModel extends AdonisStencil{
 	
 	public void readJSONstencilset(JSONObject json){
 		//TODO don't know if needed to export
+		
 		modeltype = "company map";
 		setModeltype(getAdonisStencilClass("en"));
 	}

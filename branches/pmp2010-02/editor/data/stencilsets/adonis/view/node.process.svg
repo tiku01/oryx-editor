@@ -9,27 +9,33 @@
 	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes" />
   </oryx:magnets>
   <g>		
-	<polygon 
-		id="process"
-		points="0,0 68,0 80,30 68,60 0,60 12,30" 
-		fill="#AAAAFF" 
-		stroke="black" 
-		stroke-width="1"
-		oryx:resize="vertical horizontal" />
-	<rect
-		id="boundingBox"
-		x="12" y="0" width="56" height="60"
-		fill="none"
-		stroke-width="0"
-		oryx:resize="vertical horizontal"/>
-	<text
-		x="40" 
-		y="30" 
-		font-size="14" 
-		id="name" 
-		oryx:align="middle center"
-		oryx:fittoelem="boundingBox"
-		stroke="black"></text>
+	<g id="process">
+		<polygon 
+			id="internal"
+			points="0,0 68,0 80,30 68,60 0,60 12,30" 
+			fill="#AAAAFF" 
+			stroke="black" 
+			stroke-width="1"
+			oryx:resize="vertical horizontal" />
+		<polygon 
+			id="external"
+			points="0,0 68,0 80,30 68,60 0,60 12,30" 
+			fill="white" 
+			stroke="black" 
+			stroke-dasharray="4,4"
+			stroke-width="1"
+			oryx:resize="vertical horizontal" />	
+	</g>
+	<g id="centerText">
+		<text
+			x="40" 
+			y="30" 
+			font-size="14" 
+			id="name" 
+			oryx:align="middle center"
+			oryx:fittoelem="boundingBox"
+			stroke="black"/>
+	</g>
 	<text
 		x="60"
 		y="56"
@@ -45,6 +51,5 @@
 		id="reference"
 		oryx:align="top center"
 		oryx:stroke="black"/>
-		/>
   </g>
 </svg>

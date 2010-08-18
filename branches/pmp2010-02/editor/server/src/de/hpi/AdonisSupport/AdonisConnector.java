@@ -182,7 +182,7 @@ public class AdonisConnector extends AdonisStencil{
 			.replaceAll("EDGE\\s\\d\\s", "")
 			.replaceAll("[xy]\\d\\:","")
 			.replaceAll("cm", "")
-			.replaceAll("index\\:\\d+","")
+			.replaceAll("index\\:.+","")
 			.replaceAll("\\s+", " ")
 			.trim().split(" ");
 		//the first number is the number of points - but we extract them according the existing points
@@ -210,14 +210,11 @@ public class AdonisConnector extends AdonisStencil{
 
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
-//		JSONObject properties = getJSONObject(json,"properties");
-//		properties.put("id",getId());
-//		properties.put("class",getStencilClass());
-		
-//		TODO sort out
-//		for (AdonisAttribute aAttribute : getAttribute()){
-//			aAttribute.write(properties);
-//		}
+		JSONObject properties = getJSONObject(json, "properties");
+		if (getOryxStencilClass().equals("value flow")){
+			properties.put("name", getName());
+			
+		}
 	}
 
 	/**

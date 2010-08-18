@@ -32,32 +32,20 @@
 		</marker>
 	</defs>
 	<g id="edge">
-
-		<path
-			d="M50 50 L100 50" 
-			stroke="black" 
-			fill="none" 
-			stroke-width="2" 
-			marker-start="url(#start)" 
-			marker-end="url(#end)"
+		<path  
+			d="M0 50  L100 50"  
+			stroke="black"  
+			fill="none"  
+			stroke-width="2"
+			marker-start="url(#start)"
+			marker-end="url(#end)" 
 			/>
-		<circle 
-			id="countelement" 
-			cx="75" 
-			cy="42" 
-			r="7" 
-			stroke-width="1" 
-			oryx:edgePosition="midtop"
-			fill="white"
- 
-			stroke="black"/>
 		<text 
-			font-size="10"
-			x="0"
-			y="0"
-			id="valueflowtext" 
-			oryx:fittoelem="countelement"
-			stroke="black"></text>
-		
-		</g>
+			id="type" 
+			x="50" 
+			y="50" 
+			oryx:edgePosition="midTop" 
+			oryx:offsetTop="6" 
+			font-size="9"/>
+	</g>
 </svg>
