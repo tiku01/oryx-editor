@@ -208,8 +208,8 @@
 			"groups":[],
 			"description":"A human actor is placed outside any system and accesses different use cases",
 			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
-			"view":"node.Actor.human.svg",
-			"icon":"node.Actor.human.png",
+			"view":"node.actor.human.svg",
+			"icon":"node.actor.human.png",
 			"roles": [
 				"diagramContent",
 				"annotatable",

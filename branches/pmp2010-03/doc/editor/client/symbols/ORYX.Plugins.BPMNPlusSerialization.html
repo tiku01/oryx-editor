@@ -1,0 +1,2074 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - ORYX.Plugins.BPMNPlusSerialization</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/Array.html">Array</a></li>
+	
+	<li><a href="../symbols/Clazz.html">Clazz</a></li>
+	
+	<li><a href="../symbols/ORYX.html">ORYX</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.html">ORYX.Core</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.AbstractShape.html">ORYX.Core.AbstractShape</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.AbstractShape.JSONHelper.html">ORYX.Core.AbstractShape.JSONHelper</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Bounds.html">ORYX.Core.Bounds</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Canvas.html">ORYX.Core.Canvas</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Command.html">ORYX.Core.Command</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Edge.html">ORYX.Core.Edge</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Node.html">ORYX.Core.Node</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.Shape.html">ORYX.Core.Shape</a></li>
+	
+	<li><a href="../symbols/ORYX.Core.UIObject.html">ORYX.Core.UIObject</a></li>
+	
+	<li><a href="../symbols/ORYX.Editor.html">ORYX.Editor</a></li>
+	
+	<li><a href="../symbols/ORYX.Editor-DataManager.html">ORYX.Editor-DataManager</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.html">ORYX.Plugins</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.AbstractLayouter.html">ORYX.Plugins.AbstractLayouter</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.AbstractPlugin.html">ORYX.Plugins.AbstractPlugin</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.BPMNPlusLayout.html">ORYX.Plugins.BPMNPlusLayout</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html">ORYX.Plugins.BPMNPlusSerialization</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.StepThroughPlugin.html">ORYX.Plugins.StepThroughPlugin</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.SyntaxChecker.html">ORYX.Plugins.SyntaxChecker</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UML.html">ORYX.Plugins.UML</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UML%23construct.html">ORYX.Plugins.UML#construct</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UMLActivity.html">ORYX.Plugins.UMLActivity</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UMLActivity%23construct.html">ORYX.Plugins.UMLActivity#construct</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UMLUseCase.html">ORYX.Plugins.UMLUseCase</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.UMLUseCase%23construct.html">ORYX.Plugins.UMLUseCase#construct</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.View.html">ORYX.Plugins.View</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.XForms.html">ORYX.Plugins.XForms</a></li>
+	
+	<li><a href="../symbols/ORYX.Plugins.XForms%23construct.html">ORYX.Plugins.XForms#construct</a></li>
+	
+	<li><a href="../symbols/ORYX.Utils.html">ORYX.Utils</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class ORYX.Plugins.BPMNPlusSerialization
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				<br />Extends
+					<a href="../symbols/Clazz.html">Clazz</a>.<br />
+				
+			
+				ORYX.Plugins.BPMNPlus
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_bpmnplusSerialization.js.html">bpmnplusSerialization.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ORYX.Plugins.BPMNPlusSerialization.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html">ORYX.Plugins.BPMNPlusSerialization</a></b>(facade)
+							</div>
+							<div class="description">This plugin offers the serialize callbacks used in the BPMNplus stencil set.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ORYX.Plugins.BPMNPlusSerialization.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.dialogListeners">dialogListeners</a></b>
+								</div>
+								<div class="description">The listeners of the dialog.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.triggerClass">triggerClass</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				
+				</dl>
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ORYX.Plugins.BPMNPlusSerialization.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.afterDrag">afterDrag</a></b>()
+								</div>
+								<div class="description">Finished the Dragging</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.afterEdit">afterEdit</a></b>(option)
+								</div>
+								<div class="description">After a cell was edited the changes will be commited.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.beforeDrag">beforeDrag</a></b>()
+								</div>
+								<div class="description">Prepare the Dragging</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.beforeEdit">beforeEdit</a></b>(option)
+								</div>
+								<div class="description">Before a cell is edited it has to be checked if this 
+cell is disabled by another cell value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.buildColumnModel">buildColumnModel</a></b>(parent)
+								</div>
+								<div class="description">Builds up the column model of the grid.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.buildInitial">buildInitial</a></b>(recordType, items)
+								</div>
+								<div class="description">Builds up the initial values of the grid.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.buildValue">buildValue</a></b>()
+								</div>
+								<div class="description">Builds the JSON value from the data source of the grid in the dialog.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.checkRules">checkRules</a></b>(options)
+								</div>
+								<div class="description">Checks the containment and connection rules for the selected shapes.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b>construct</b>(Facade:)
+								</div>
+								<div class="description">Constructor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.dockerMoved">dockerMoved</a></b>(event)
+								</div>
+								<div class="description">Docker MouseMove Handler</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.dockerMovedFinished">dockerMovedFinished</a></b>(event)
+								</div>
+								<div class="description">Docker MouseUp Handler</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.doShowErrors">doShowErrors</a></b>(event, args)
+								</div>
+								<div class="description">Called on SHOW_ERRORS_EVENT.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.enableDeactivationHandler">enableDeactivationHandler</a></b>(Toolbar)
+								</div>
+								<div class="description">Registers handler for deactivating syntax checker as soon as somewhere is clicked.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.getFieldKey">getFieldKey</a></b>()
+								</div>
+								<div class="description">Returns the field key.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.getValue">getValue</a></b>()
+								</div>
+								<div class="description">Returns the actual value of the trigger field.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleDockerDrag">handleDockerDrag</a></b>(event, uiObj)
+								</div>
+								<div class="description">DockerDrag Handlerdelegates the uiEvent of the drag event to the mouseDown function</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleMouseDown">handleMouseDown</a></b>(event, uiObj)
+								</div>
+								<div class="description">MouseDown Handler</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleMouseMove">handleMouseMove</a></b>(event)
+								</div>
+								<div class="description">On Key Mouse Move</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleMouseOut">handleMouseOut</a></b>(event, uiObj)
+								</div>
+								<div class="description">MouseOut Handler</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleMouseOver">handleMouseOver</a></b>(event, uiObj)
+								</div>
+								<div class="description">MouseOver Handler</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.handleMouseUp">handleMouseUp</a></b>(event)
+								</div>
+								<div class="description">On Key Mouse Up</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.hideHighlight">hideHighlight</a></b>()
+								</div>
+								<div class="description">Hide the highlighting</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.keydownHandler">keydownHandler</a></b>(event)
+								</div>
+								<div class="description">Returns false.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.onResize">onResize</a></b>(bounds)
+								</div>
+								<div class="description">Callback for Resize</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.onSelectionChanged">onSelectionChanged</a></b>(event)
+								</div>
+								<div class="description">On the Selection-Changed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.onTriggerClick">onTriggerClick</a></b>()
+								</div>
+								<div class="description">If the trigger was clicked a dialog has to be opened
+to enter the values for the complex property.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.refreshSelectedShapes">refreshSelectedShapes</a></b>()
+								</div>
+								<div class="description">Redraw the selected Shapes.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.resizeRectangle">resizeRectangle</a></b>(bounds)
+								</div>
+								<div class="description">Redraw of the Rectangle of the SelectedArea</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.setActivated">setActivated</a></b>(Toolbar, activated)
+								</div>
+								<div class="description">Sets the activated state of the plugin</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.setValue">setValue</a></b>(value)
+								</div>
+								<div class="description">Sets the value of the trigger field.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.showAllLabels">showAllLabels</a></b>(shape)
+								</div>
+								<div class="description">Show all Labels at these shape</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.showHighlight">showHighlight</a></b>(uiObj, color)
+								</div>
+								<div class="description">Show the highlighting</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ORYX.Plugins.BPMNPlusSerialization.<b><a href="../symbols/ORYX.Plugins.BPMNPlusSerialization.html#.snapToGrid">snapToGrid</a></b>(position)
+								</div>
+								<div class="description">Adjust an Point to the Snap Points</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				
+				</dl>
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>ORYX.Plugins.BPMNPlusSerialization</b>(facade)
+				</div>
+				
+				<div class="description">
+					This plugin offers the serialize callbacks used in the BPMNplus stencil set.
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>facade</b>
+								
+							</dt>
+								<dd>The editor facade for plugins.</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".dialogListeners"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>dialogListeners</b>
+					
+					</div>
+					<div class="description">
+						The listeners of the dialog. 
+
+If the dialog is hidded, a dialogClosed event will be fired.
+This has to be used by the parent element of the trigger field
+to reenable the trigger field (focus gets lost when entering values
+in the dialog).
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".triggerClass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>triggerClass</b>
+					
+					</div>
+					<div class="description">
+						
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".afterDrag"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>afterDrag</b>()
+					
+					</div>
+					<div class="description">
+						Finished the Dragging
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".afterEdit"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>afterEdit</b>(option)
+					
+					</div>
+					<div class="description">
+						After a cell was edited the changes will be commited.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>option</b>
+									
+								</dt>
+								<dd>The option that was edited.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".beforeDrag"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>beforeDrag</b>()
+					
+					</div>
+					<div class="description">
+						Prepare the Dragging
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".beforeEdit"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>beforeEdit</b>(option)
+					
+					</div>
+					<div class="description">
+						Before a cell is edited it has to be checked if this 
+cell is disabled by another cell value. If so, the cell editor will
+be disabled.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>option</b>
+									
+								</dt>
+								<dd>The option to be edited.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".buildColumnModel"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>buildColumnModel</b>(parent)
+					
+					</div>
+					<div class="description">
+						Builds up the column model of the grid. The parent element of the
+grid.
+
+Sets up the editors for the grid columns depending on the 
+type of the items.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>parent</b>
+									
+								</dt>
+								<dd>The</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".buildInitial"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>buildInitial</b>(recordType, items)
+					
+					</div>
+					<div class="description">
+						Builds up the initial values of the grid.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>recordType</b>
+									
+								</dt>
+								<dd>The record type of the grid.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>items</b>
+									
+								</dt>
+								<dd>The initial items of the grid (columns)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".buildValue"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>buildValue</b>()
+					
+					</div>
+					<div class="description">
+						Builds the JSON value from the data source of the grid in the dialog.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".checkRules"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>checkRules</b>(options)
+					
+					</div>
+					<div class="description">
+						Checks the containment and connection rules for the selected shapes.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".construct"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>construct</b>(Facade:)
+					
+					</div>
+					<div class="description">
+						Constructor
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_shapeConnector.js.html">shapeConnector.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>Facade:</b>
+									
+								</dt>
+								<dd>The Facade of the Editor</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".dockerMoved"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>dockerMoved</b>(event)
+					
+					</div>
+					<div class="description">
+						Docker MouseMove Handler
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".dockerMovedFinished"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>dockerMovedFinished</b>(event)
+					
+					</div>
+					<div class="description">
+						Docker MouseUp Handler
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".doShowErrors"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>doShowErrors</b>(event, args)
+					
+					</div>
+					<div class="description">
+						Called on SHOW_ERRORS_EVENT.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_syntaxchecker.js.html">syntaxchecker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>args</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".enableDeactivationHandler"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>enableDeactivationHandler</b>(Toolbar)
+					
+					</div>
+					<div class="description">
+						Registers handler for deactivating syntax checker as soon as somewhere is clicked...
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_syntaxchecker.js.html">syntaxchecker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Ext.Button}</span> <b>Toolbar</b>
+									
+								</dt>
+								<dd>button</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getFieldKey"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>getFieldKey</b>()
+					
+					</div>
+					<div class="description">
+						Returns the field key.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getValue"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>getValue</b>()
+					
+					</div>
+					<div class="description">
+						Returns the actual value of the trigger field.
+If the table does not contain any values the empty
+string will be returned.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleDockerDrag"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleDockerDrag</b>(event, uiObj)
+					
+					</div>
+					<div class="description">
+						DockerDrag Handlerdelegates the uiEvent of the drag event to the mouseDown function
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>uiObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleMouseDown"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleMouseDown</b>(event, uiObj)
+					
+					</div>
+					<div class="description">
+						MouseDown Handler
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_shapeConnector.js.html">shapeConnector.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>uiObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleMouseMove"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleMouseMove</b>(event)
+					
+					</div>
+					<div class="description">
+						On Key Mouse Move
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleMouseOut"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleMouseOut</b>(event, uiObj)
+					
+					</div>
+					<div class="description">
+						MouseOut Handler
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>uiObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleMouseOver"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleMouseOver</b>(event, uiObj)
+					
+					</div>
+					<div class="description">
+						MouseOver Handler
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>uiObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleMouseUp"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>handleMouseUp</b>(event)
+					
+					</div>
+					<div class="description">
+						On Key Mouse Up
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".hideHighlight"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>hideHighlight</b>()
+					
+					</div>
+					<div class="description">
+						Hide the highlighting
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".keydownHandler"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>keydownHandler</b>(event)
+					
+					</div>
+					<div class="description">
+						Returns false. In this way key events will not be propagated
+to other elements.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>event</b>
+									
+								</dt>
+								<dd>The keydown event.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".onResize"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>onResize</b>(bounds)
+					
+					</div>
+					<div class="description">
+						Callback for Resize
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>bounds</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".onSelectionChanged"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>onSelectionChanged</b>(event)
+					
+					</div>
+					<div class="description">
+						On the Selection-Changed
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>event</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".onTriggerClick"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>onTriggerClick</b>()
+					
+					</div>
+					<div class="description">
+						If the trigger was clicked a dialog has to be opened
+to enter the values for the complex property.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".refreshSelectedShapes"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>refreshSelectedShapes</b>()
+					
+					</div>
+					<div class="description">
+						Redraw the selected Shapes.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".resizeRectangle"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>resizeRectangle</b>(bounds)
+					
+					</div>
+					<div class="description">
+						Redraw of the Rectangle of the SelectedArea
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>bounds</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".setActivated"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>setActivated</b>(Toolbar, activated)
+					
+					</div>
+					<div class="description">
+						Sets the activated state of the plugin
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_syntaxchecker.js.html">syntaxchecker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Ext.Button}</span> <b>Toolbar</b>
+									
+								</dt>
+								<dd>button</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>activated</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".setValue"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>setValue</b>(value)
+					
+					</div>
+					<div class="description">
+						Sets the value of the trigger field.
+In this case this sets the data that will be shown in
+the grid of the dialog.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_propertywindow.js.html">propertywindow.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>value</b>
+									
+								</dt>
+								<dd>The value to be set (JSON format or empty string)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".showAllLabels"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>showAllLabels</b>(shape)
+					
+					</div>
+					<div class="description">
+						Show all Labels at these shape
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>shape</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".showHighlight"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>showHighlight</b>(uiObj, color)
+					
+					</div>
+					<div class="description">
+						Show the highlighting
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragDocker.js.html">dragDocker.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>uiObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>color</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".snapToGrid"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ORYX.Plugins.BPMNPlusSerialization.</span><b>snapToGrid</b>(position)
+					
+					</div>
+					<div class="description">
+						Adjust an Point to the Snap Points
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/editor_client_scripts_Plugins_dragdropresize.js.html">dragdropresize.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>position</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.1.1 on Wed Aug 18 2010 17:41:41 GMT+0200 (MESZ)
+		</div>
+	</body>
+</html>

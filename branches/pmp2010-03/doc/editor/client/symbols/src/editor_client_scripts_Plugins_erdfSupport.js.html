@@ -1,0 +1,379 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Copyright (c) 2008
+<span class='line'>  3</span>  * Willi Tscheschner
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * Permission is hereby granted, free of charge, to any person obtaining a
+<span class='line'>  6</span>  * copy of this software and associated documentation files (the "Software"),
+<span class='line'>  7</span>  * to deal in the Software without restriction, including without limitation
+<span class='line'>  8</span>  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+<span class='line'>  9</span>  * and/or sell copies of the Software, and to permit persons to whom the
+<span class='line'> 10</span>  * Software is furnished to do so, subject to the following conditions:
+<span class='line'> 11</span>  *
+<span class='line'> 12</span>  * The above copyright notice and this permission notice shall be included in
+<span class='line'> 13</span>  * all copies or substantial portions of the Software.
+<span class='line'> 14</span>  *
+<span class='line'> 15</span>  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<span class='line'> 16</span>  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+<span class='line'> 17</span>  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+<span class='line'> 18</span>  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+<span class='line'> 19</span>  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+<span class='line'> 20</span>  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+<span class='line'> 21</span>  * DEALINGS IN THE SOFTWARE.
+<span class='line'> 22</span>  **/</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ORYX.Plugins</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">ORYX.Plugins</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Object</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * Supports EPCs by offering a syntax check and export and import ability..
+<span class='line'> 29</span>  * 
+<span class='line'> 30</span>  * 
+<span class='line'> 31</span>  */</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="NAME">ORYX.Plugins.ERDFSupport</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Clazz.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">facade</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="NAME">ERDFServletURL</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'/erdfsupport'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 39</span> 	 * Offers the plugin functionality:
+<span class='line'> 40</span> 	 * 
+<span class='line'> 41</span> 	 */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">construct</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">facade</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">this.facade</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">facade</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="NAME">this.facade.offer</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">			</span><span class="STRN">'name'</span><span class="PUNC">:</span><span class="WHIT">				</span><span class="NAME">ORYX.I18N.ERDFSupport.exp</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">			</span><span class="STRN">'functionality'</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NAME">this.exportERDF.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">			</span><span class="STRN">'group'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="STRN">'Export'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="NAME">dropDownGroupIcon</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ORYX.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"images/export2.png"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">			</span><span class="STRN">'icon'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="NAME">ORYX.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"images/erdf_export_icon.png"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">			</span><span class="STRN">'description'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.expDesc</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">			</span><span class="STRN">'index'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">			</span><span class="STRN">'minShape'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">			</span><span class="STRN">'maxShape'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="NAME">this.facade.offer</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">			</span><span class="STRN">'name'</span><span class="PUNC">:</span><span class="WHIT">				</span><span class="NAME">ORYX.I18N.ERDFSupport.imp</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">			</span><span class="STRN">'functionality'</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NAME">this.importERDF.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">			</span><span class="STRN">'group'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="STRN">'Export'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">            </span><span class="NAME">dropDownGroupIcon</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ORYX.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"images/import.png"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">			</span><span class="STRN">'icon'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="NAME">ORYX.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"images/erdf_import_icon.png"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">			</span><span class="STRN">'description'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.impDesc</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">			</span><span class="STRN">'index'</span><span class="PUNC">:</span><span class="WHIT"> 			</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">			</span><span class="STRN">'minShape'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">			</span><span class="STRN">'maxShape'</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 75</span> 	 * Imports an AML description
+<span class='line'> 76</span> 	 * 
+<span class='line'> 77</span> 	 */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="NAME">importERDF</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="NAME">this._showImportDialog</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 84</span> 	 * Imports an AML description
+<span class='line'> 85</span> 	 * 
+<span class='line'> 86</span> 	 */</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="NAME">exportERDF</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="COMM">// Show deprecation message</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">        </span><span class="NAME">Ext.Msg.show</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">           </span><span class="NAME">title</span><span class="PUNC">:</span><span class="NAME">ORYX.I18N.ERDFSupport.deprTitle</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">           </span><span class="NAME">msg</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ORYX.I18N.ERDFSupport.deprText</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">           </span><span class="NAME">buttons</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Ext.Msg.YESNO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">           </span><span class="NAME">fn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">buttonId</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">               </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">buttonId</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'yes'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT">   </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.facade.getERDF</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">                    </span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">                    </span><span class="COMM">//this.openXMLWindow( s );</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">                    </span><span class="NAME">this.openDownloadWindow</span><span class="PUNC">(</span><span class="NAME">window.document.title</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">".xml"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">               </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">           </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">           </span><span class="NAME">icon</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Ext.MessageBox.WARNING</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>106</span> 	 * 
+<span class='line'>107</span> 	 * 
+<span class='line'>108</span> 	 * @param {Object} url
+<span class='line'>109</span> 	 * @param {Object} params
+<span class='line'>110</span> 	 * @param {Object} successcallback
+<span class='line'>111</span> 	 */</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="NAME">sendRequest</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">successcallback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">failedcallback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">suc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ajax.Request</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">            </span><span class="NAME">method</span><span class="WHIT">			</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'POST'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">            </span><span class="NAME">asynchronous</span><span class="WHIT">	</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">            </span><span class="NAME">parameters</span><span class="WHIT">		</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">			</span><span class="NAME">onSuccess</span><span class="WHIT">		</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">transport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">				</span><span class="NAME">suc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">successcallback</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">					</span><span class="NAME">successcallback</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">transport.result</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">			</span><span class="NAME">onFailure</span><span class="WHIT">		</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">transport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">failedcallback</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">					</span><span class="NAME">failedcallback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">					</span><span class="NAME">Ext.Msg.alert</span><span class="PUNC">(</span><span class="NAME">ORYX.I18N.Oryx.title</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ORYX.I18N.ERDFSupport.impFailed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">					</span><span class="NAME">ORYX.log.warn</span><span class="PUNC">(</span><span class="STRN">"Import ERDF failed: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">transport.responseText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">suc</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">							</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="NAME">loadERDF</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">erdfString</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">success</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">failed</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> 	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">erdfString</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">		</span><span class="NAME">s</span><span class="WHIT"> 		</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">s.startsWith</span><span class="PUNC">(</span><span class="STRN">'&lt;?xml'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;?xml version="1.0" encoding="utf-8"?>'</span><span class="PUNC">+</span><span class="NAME">s</span><span class="PUNC">+</span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parser</span><span class="WHIT">	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">DOMParser</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> 	</span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">parser.parseFromString</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">,</span><span class="STRN">"text/xml"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">							</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">doc.firstChild.tagName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"parsererror"</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="WHIT">			</span><span class="NAME">Ext.MessageBox.show</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">					</span><span class="NAME">title</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.error</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT"> 					</span><span class="NAME">msg</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.impFailed2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">doc.firstChild.textContent.escapeHTML</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">					</span><span class="NAME">buttons</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NAME">Ext.MessageBox.OK</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">					</span><span class="NAME">icon</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">Ext.MessageBox.ERROR</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">																</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">failed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">				</span><span class="NAME">failed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.hasStencilSet</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">failed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">				</span><span class="NAME">failed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">			</span><span class="NAME">this.facade.importERDF</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">success</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">				</span><span class="NAME">success</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">hasStencilSet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">getElementsByClassNameFromDiv</span><span class="WHIT"> 	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$A</span><span class="PUNC">(</span><span class="NAME">doc.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'div'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">findAll</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">el</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$A</span><span class="PUNC">(</span><span class="NAME">el.attributes</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">any</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">attr</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">attr.nodeName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'class'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">attr.nodeValue</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>188</span> 
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="COMM">// Get Canvas Node</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">editorNode</span><span class="WHIT"> 		</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getElementsByClassNameFromDiv</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'-oryx-canvas'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">editorNode</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="NAME">this.throwWarning</span><span class="PUNC">(</span><span class="NAME">ORYX.I18N.ERDFSupport.noCanvas</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stencilSetNode</span><span class="WHIT"> 	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$A</span><span class="PUNC">(</span><span class="NAME">editorNode.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'a'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">find</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">'rel'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'oryx-stencilset'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> 
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">stencilSetNode</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">			</span><span class="NAME">this.throwWarning</span><span class="PUNC">(</span><span class="NAME">ORYX.I18N.ERDFSupport.noSS</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stencilSetUrl</span><span class="WHIT">	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">stencilSetNode.getAttribute</span><span class="PUNC">(</span><span class="STRN">'href'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">split</span><span class="PUNC">(</span><span class="STRN">"/"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="NAME">stencilSetUrl</span><span class="WHIT">		</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">stencilSetUrl</span><span class="PUNC">[</span><span class="NAME">stencilSetUrl.length</span><span class="PUNC">-</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">stencilSetUrl</span><span class="PUNC">[</span><span class="NAME">stencilSetUrl.length</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="COMM">//		var isLoaded = this.facade.getStencilSets().values().any(function(ss){ return ss.source().endsWith( stencilSetUrl ) })</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="COMM">//		if( !isLoaded ){</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="COMM">//			this.throwWarning(ORYX.I18N.ERDFSupport.wrongSS);</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="COMM">//			return false</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="COMM">//		}</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">	</span><span class="NAME">throwWarning</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="NAME">Ext.MessageBox.show</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">					</span><span class="NAME">title</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.Oryx.title</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT"> 					</span><span class="NAME">msg</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">					</span><span class="NAME">buttons</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NAME">Ext.MessageBox.OK</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">					</span><span class="NAME">icon</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">Ext.MessageBox.WARNING</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>226</span> 	 * Opens a new window that shows the given XML content.
+<span class='line'>227</span> 	 * 
+<span class='line'>228</span> 	 * @param {Object} content The XML content to be shown.
+<span class='line'>229</span> 	 */</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">	</span><span class="NAME">openXMLWindow</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">win</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.open</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">		   </span><span class="STRN">'data:application/xml,'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">encodeURIComponent</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		     </span><span class="NAME">content</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">		   </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		   </span><span class="STRN">'_blank'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"resizable=yes,width=600,height=600,toolbar=0,scrollbars=yes"</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>240</span> 	 * Opens a download window for downloading the given content.
+<span class='line'>241</span> 	 * 
+<span class='line'>242</span> 	 */</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">	</span><span class="NAME">openDownloadWindow</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">win</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.open</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">win</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="NAME">win.document.open</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">			</span><span class="NAME">win.document.write</span><span class="PUNC">(</span><span class="STRN">"&lt;html>&lt;body>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">submitForm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">win.document.createElement</span><span class="PUNC">(</span><span class="STRN">"form"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">			</span><span class="NAME">win.document.body.appendChild</span><span class="PUNC">(</span><span class="NAME">submitForm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">			</span><span class="NAME">submitForm.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">this.createHiddenElement</span><span class="PUNC">(</span><span class="STRN">"download"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">			</span><span class="NAME">submitForm.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">this.createHiddenElement</span><span class="PUNC">(</span><span class="STRN">"file"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">			</span><span class="NAME">submitForm.method</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"POST"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">			</span><span class="NAME">win.document.write</span><span class="PUNC">(</span><span class="STRN">"&lt;/body>&lt;/html>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">			</span><span class="NAME">win.document.close</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">			</span><span class="NAME">submitForm.action</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ORYX.PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/download"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">			</span><span class="NAME">submitForm.submit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>264</span> 	 * Creates a hidden form element to communicate parameter values.
+<span class='line'>265</span> 	 * 
+<span class='line'>266</span> 	 * @param {Object} name  The name of the hidden field
+<span class='line'>267</span> 	 * @param {Object} value The value of the hidden field
+<span class='line'>268</span> 	 */</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">	</span><span class="NAME">createHiddenElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"input"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">		</span><span class="NAME">newElement.name</span><span class="PUNC">=</span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">		</span><span class="NAME">newElement.type</span><span class="PUNC">=</span><span class="STRN">"hidden"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">		</span><span class="NAME">newElement.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">newElement</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>276</span> 
+<span class='line'>277</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>278</span> 	 * Opens a upload dialog.
+<span class='line'>279</span> 	 * 
+<span class='line'>280</span> 	 */</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">	</span><span class="NAME">_showImportDialog</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">successCallback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">	    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">form</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ext.form.FormPanel</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">			</span><span class="NAME">baseCls</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="STRN">'x-plain'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	        </span><span class="NAME">labelWidth</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NUMB">50</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">	        </span><span class="NAME">defaultType</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'textfield'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">	        </span><span class="NAME">items</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">	            </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.selectFile</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">				</span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'font-size:12px;margin-bottom:10px;display:block;'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">	            </span><span class="NAME">anchor</span><span class="PUNC">:</span><span class="WHIT">		</span><span class="STRN">'100%'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">				</span><span class="NAME">xtype</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'label'</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">	            </span><span class="NAME">fieldLabel</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ORYX.I18N.ERDFSupport.file</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">	            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="STRN">'subject'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">				</span><span class="NAME">inputType</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'file'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">				</span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'margin-bottom:10px;display:block;'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">				</span><span class="NAME">itemCls</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">	</span><span class="STRN">'ext_specific_window_overflow'</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">	            </span><span class="NAME">xtype</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">	            </span><span class="NAME">hideLabel</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">	            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'msg'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">	            </span><span class="NAME">anchor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'100% -63'</span><span class="WHIT">  </span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> 
+<span class='line'>306</span> 
+<span class='line'>307</span> 
+<span class='line'>308</span> </span><span class="WHIT">		</span><span class="COMM">// Create the panel</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ext.Window</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">			</span><span class="NAME">autoCreate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">			</span><span class="NAME">layout</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'fit'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">			</span><span class="NAME">plain</span><span class="PUNC">:</span><span class="WHIT">		</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">			</span><span class="NAME">bodyStyle</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="STRN">'padding:5px;'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">			</span><span class="NAME">title</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="NAME">ORYX.I18N.ERDFSupport.impERDF</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">			</span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="NUMB">350</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">			</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT">		</span><span class="NUMB">500</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">			</span><span class="NAME">modal</span><span class="PUNC">:</span><span class="WHIT">		</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">			</span><span class="NAME">fixedcenter</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">			</span><span class="NAME">shadow</span><span class="PUNC">:</span><span class="WHIT">		</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">			</span><span class="NAME">proxyDrag</span><span class="PUNC">:</span><span class="WHIT"> 	</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">			</span><span class="NAME">resizable</span><span class="PUNC">:</span><span class="WHIT">	</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">			</span><span class="NAME">items</span><span class="PUNC">:</span><span class="WHIT"> 		</span><span class="PUNC">[</span><span class="NAME">form</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">			</span><span class="NAME">buttons</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">					</span><span class="NAME">text</span><span class="PUNC">:</span><span class="NAME">ORYX.I18N.ERDFSupport.impBtn</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">					</span><span class="NAME">handler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">						</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loadMask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ext.LoadMask</span><span class="PUNC">(</span><span class="NAME">Ext.getBody</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">msg</span><span class="PUNC">:</span><span class="NAME">ORYX.I18N.ERDFSupport.impProgress</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">						</span><span class="NAME">loadMask.show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">						</span><span class="NAME">window.setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">							</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">							</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">erdfString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">form.items.items</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getValue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">							</span><span class="NAME">this.loadERDF</span><span class="PUNC">(</span><span class="NAME">erdfString</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">loadMask.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="NAME">dialog.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">loadMask.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">														</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">														</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">							</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">					</span><span class="NAME">text</span><span class="PUNC">:</span><span class="NAME">ORYX.I18N.ERDFSupport.close</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">					</span><span class="NAME">handler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">						</span><span class="NAME">dialog.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">			</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">		</span><span class="COMM">// Destroy the panel when hiding</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">		</span><span class="NAME">dialog.on</span><span class="PUNC">(</span><span class="STRN">'hide'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">			</span><span class="NAME">dialog.destroy</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">dialog</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> 
+<span class='line'>360</span> </span><span class="WHIT">		</span><span class="COMM">// Show the panel</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">		</span><span class="NAME">dialog.show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">		</span><span class="COMM">// Adds the change event handler to </span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">		</span><span class="NAME">form.items.items</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getEl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">dom.addEventListener</span><span class="PUNC">(</span><span class="STRN">'change'</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">evt.target.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getAsText</span><span class="PUNC">(</span><span class="STRN">'UTF-8'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">				</span><span class="NAME">form.items.items</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">setValue</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>369</span> 
+<span class='line'>370</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

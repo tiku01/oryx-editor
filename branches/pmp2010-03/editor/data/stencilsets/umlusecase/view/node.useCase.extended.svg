@@ -35,7 +35,7 @@
 			height="28"
 			stroke="none"
 	   		stroke-width="0"
-	   		fill="blue"
+	   		fill="none"
 			oryx:resize="horizontal vertical"/>
 		<line 
 			id="separator"
@@ -63,7 +63,7 @@
 			height="32"
 			stroke="none"
 	   		stroke-width="0"
-	   		fill="blue"
+	   		fill="none"
 	   		oryx:resize="horizontal, vertical"/>
 		<text
 			id="text" 
