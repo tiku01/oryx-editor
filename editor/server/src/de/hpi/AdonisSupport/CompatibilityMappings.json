@@ -27,8 +27,17 @@
 			"is inside":["en"],
 			"ist innerhalb": ["de"]
 		},
+		"swimlane (vertical)": {
+			"Schwimmbahn (senkrecht)":["de"]
+		},
 		"swimlane (horizontal)": {
-			"Schwimmbahn (waagrecht)": ["de"]
+			"Schwimmbahn (waagerecht)": ["de"]
+		},
+		"horizontal": {
+			"waagerecht": ["de"]
+		},
+		"vertical": {
+			"senkrecht": ["de"]
 		},
 		"aggregation": {
 			"Aggregation": ["de","en"]

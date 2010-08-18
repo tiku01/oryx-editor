@@ -10,13 +10,29 @@ xmlns:svg="http://www.w3.org/2000/svg"
   </oryx:magnets>
   <g>
 	<polygon 
-		id="crossreferemceelememt"
+		id="crossreferemce"
 		points="0,0 68,0 80,30 68,60 0,60" 
 		fill="#FF4444" 
 		stroke="black" 
 		stroke-width="1"
-		oryx:anchor="top bottom left right"
+		
 		oryx:resize="vertical horizontal"/>
+	<g>
+		<polygon
+			id="not defined"/>
+		<polygon
+			id="incoming"
+			points="3,3 17,3, 17,10"
+			fill="none"
+			stroke-width="1"
+			oryx:anchor="top left"/>
+		<polygon
+			id="incoming"
+			points="3,10 10,3, 17,10"
+			fill="none"
+			stroke-width="1"
+			oryx:anchor="top left"/>
+	</g>
 	<text 
 		font-size="14" 
 		id="name" 

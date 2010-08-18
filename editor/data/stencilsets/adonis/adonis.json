@@ -29,10 +29,10 @@
 					"id":"author",
 					"type":"String", 
 					"title":"Author",
-					"value":"",
+					"value":"Admin",
 					"description":"",
 					"readonly":false,
-					"optional":true,
+					"optional":false,
 					"length":"",
 					"wrapLines":false
 				},
@@ -166,10 +166,12 @@
 					"id":"order",
 					"type":"Integer", 
 					"title":"Order",
-					"value":"",
+					"value":"0",
 					"description":"",
 					"readonly":false,
-					"optional":true,
+					"optional":false,
+					"min":"0",
+					"max":"1000000000",
 					"refToView":"order"
 				},
 				{
@@ -186,7 +188,7 @@
 				{
 					"id":"comment",
 					"type":"String", 
-					"title":"comment",
+					"title":"Comment",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -213,11 +215,13 @@
 					"items":[
 						{
 							"title":"no",
-							"value":"no"
+							"value":"no",
+							"refToView":"internal"
 						},
 						{
 							"title":"yes",
-							"value":"yes"
+							"value":"yes",
+							"refToView":"external"
 						}
 					],
 					"description":"",
@@ -262,6 +266,39 @@
 					"length":"",
 					"refToView":"name",
 					"wrapLines":true
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"open questions",
+					"type":"String", 
+					"title":"Open questions",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
 				}
 			]
 		},
@@ -289,8 +326,29 @@
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
+					},
+					{
+						"id":"description",
+						"type":"String", 
+						"title":"Description",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":false
+					},
+					{
+						"id":"comment",
+						"type":"String", 
+						"title":"Comment",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":false
 					}
-
 			]
 		},
 		{
@@ -343,6 +401,54 @@
 					"length":"",
 					"refToView":"name",
 					"wrapLines":true
+				},
+				{
+					"id":"type",
+					"type":"Choice", 
+					"title":"Type",
+					"value":"not defined",
+					"items":[
+						{
+							"title":"",
+							"value":"not defined",
+							"refToView":"not defined"
+						},
+						{
+							"title":"Incoming",
+							"value":"incoming",
+							"refToView":"incoming"
+						},
+						{
+							"title":"Outgoing",
+							"value":"outgoing",
+							"refToView":"outgoing"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":true,
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
 				}
 			]
 		},
@@ -564,8 +670,61 @@
 					"length":"",
 					"refToView":"name",
 					"wrapLines":true
+				},
+				{
+					"id":"representation",
+					"type":"Choice", 
+					"title":"Representation",
+					"value":"horizontal",
+					"items":[
+						{
+							"title":"Horizontal",
+							"value":"horizontal",
+							"refToView":"horizontal"
+						},
+						{
+							"title":"Vertical",
+							"value":"vertical",
+							"refToView":"vertical"
+						}
+					],
+					"description":"",
+					"readonly":false,
+					"optional":false,
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"open questions",
+					"type":"String", 
+					"title":"Open questions",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
 				}
-
 			]
 		},
 		{
@@ -580,19 +739,6 @@
 				"shape to shape"
 			],
 			"properties":	[
-				{
-					"id":"name",
-					"type":"String", 
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":"",
-					"refToView":"name",
-					"wrapLines":true
-				}
-
 			]
 		},
 		{
@@ -633,19 +779,6 @@
 			"roles":		[
 			],
 			"properties":	[
-				{
-					"id":"name",
-					"type":"String", 
-					"title":"Name",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":"",
-					"refToView":"name",
-					"wrapLines":true
-				}
-
 			]
 		},
 		{
@@ -661,16 +794,28 @@
 			],
 			"properties":	[
 				{
-					"id":"name",
-					"type":"String", 
-					"title":"Name",
-					"value":"",
+					"id":"type",
+					"type":"Choice", 
+					"title":"Type",
+					"value":"value flow",
+					"items":[
+						{
+							"title":"Value flow",
+							"value":"value flow"
+						},
+						{
+							"title":"Matertial flow",
+							"value":"material flow"
+						},
+						{
+							"title":"Control flow",
+							"value":"control flow"
+						}
+					],
 					"description":"",
 					"readonly":false,
-					"optional":true,
-					"length":"",
-					"refToView":"name",
-					"wrapLines":true
+					"optional":false,
+					"refToView":"type"
 				}
 
 			]
@@ -678,13 +823,14 @@
 		{
 			"type": 		"node",
 			"id":			"swimlane (vertical)",
-			"title":		"Vertical swimlane",
+			"title":		"Swimlane (vertical)",
 			"groups":		["Swimlanes"],
-			"description":	"A vertical swimlane",
-			"view":			"node.lane.vertical.svg",
-			"icon":			"container.swimlane-vertical.png",
+			"description":	"A swimlane",
+			"view":			"node.swimlane.vertical.svg",
+			"icon":			"container.swimlane.png",
 			"roles": 		[
-				"container"
+				"container",
+				"transformSwimlane"
 			],
 			"properties":	[
 					{
@@ -698,19 +844,34 @@
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
+					},
+					{
+						"id":"display watermark",
+						"type":"Boolean",
+						"title":"Display watermark",
+						"value":false,
+						"description":"",
+						"readOnly":false,
+						"optional":true
 					}
-]
+				],
+			"layout" : 	[
+ 					{
+						"type" : "layout.adonis.swimlane.vertical"
+					}
+ 				]
 		},
 		{
 			"type": 		"node",
 			"id":			"swimlane (horizontal)",
-			"title":		"Horizontal swimlane",
+			"title":		"Swimlane (horizontal)",
 			"groups":		["Swimlanes"],
-			"description":	"A horizontal swimlane",
-			"view":			"node.lane.horizontal.svg",
-			"icon":			"container.swimlane-horizontal.png",
+			"description":	"A swimlane",
+			"view":			"node.swimlane.horizontal.svg",
+			"icon":			"container.swimlane.png",
 			"roles": 		[
-				"container"
+				"container",
+				"transformSwimlane"
 			],
 			"properties":	[
 					{
@@ -724,8 +885,22 @@
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
+					},
+					{
+						"id":"display watermark",
+						"type":"Boolean",
+						"title":"Display watermark",
+						"value":false,
+						"description":"",
+						"readOnly":false,
+						"optional":true
 					}
-]
+				],
+			"layout" : 	[
+ 					{
+						"type" : "layout.adonis.swimlane.vertical"
+					}
+ 				],
 		},
 		{
 			"type":			"node",
@@ -750,6 +925,55 @@
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
+					},
+					{
+						"id":"description",
+						"type":"String", 
+						"title":"Description",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":false
+					},
+					{
+						"id":"comment",
+						"type":"String", 
+						"title":"Comment",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":false
+					},
+					{	
+						"id":"display current value",
+						"type":"Boolean",
+						"title":"Display current value",
+						"value":false,
+						"description":"",
+						"readonly":false,
+						"optional":true,
+					},
+					{	
+						"id":"display periodicity",
+						"type":"Boolean",
+						"title":"Display periodicity",
+						"value":false,
+						"description":"",
+						"readonly":false,
+						"optional":true,
+					},
+					{	
+						"id":"display status",
+						"type":"Boolean",
+						"title":"Display status",
+						"value":false,
+						"description":"",
+						"readonly":false,
+						"optional":true,
 					}
 
 			]
@@ -766,6 +990,40 @@
 				"shape"
 			],
 			"properties": [
+				{
+					"id":"name",
+					"type":"String", 
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"name",
+					"wrapLines":true
+				},
+				{
+					"id":"description",
+					"type":"String", 
+					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"comment",
+					"type":"String", 
+					"title":"Comment",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				}
 			]
 		},
 		
@@ -790,6 +1048,14 @@
 					{
 						"from":	"shape",
 						"to":	"shape"
+					},
+					{
+						"from":	"swimlane",
+						"to":	"shape"
+					},
+					{
+						"from":	"shape",
+						"to":	"swimlane"
 					}
 				]
 			},
@@ -799,6 +1065,10 @@
 					{
 						"from":	"shape",
 						"to":	"note"
+					},
+					{
+						"from":	"swimlane",
+						"to":	"note"
 					}
 				]
 			},
@@ -807,6 +1077,10 @@
 				"connects":	[
 					{
 						"from":	"shape",
+						"to":	"performance indicator"
+					},
+					{	
+						"from": "swimlane",
 						"to":	"performance indicator"
 					}
 				]
@@ -843,6 +1117,12 @@
 				"contains": [
 							"shape"
 				]
+			}
+		],
+		"morphingRules": [
+			{
+				"role": "transfromSwimlane",
+				"baseMorphs": ["swimlane (vertical)","swimlane (horizontal)"]
 			}
 		]
 	}

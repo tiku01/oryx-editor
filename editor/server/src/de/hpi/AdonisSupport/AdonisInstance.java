@@ -314,70 +314,87 @@ public class AdonisInstance extends AdonisStencil {
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json,"properties");
+		
+		
 		properties.put("name",getName());
 		
 		AdonisAttribute element = null;
 		
-		if (getOryxStencilClass().equals("process") || getOryxStencilClass().equals("aggregation")){
-			element = getAttribute("Subprocessname");
-			if (element != null && element.getElement() != null){
-				properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
-				addUsed(element);
-			}
-			element = getAttribute("Categories");
-			if (element != null && element.getElement() != null){
-				properties.put("categories", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Documentation");
-			if (element != null && element.getElement() != null){
-				properties.put("documentation", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Description");
-			if (element != null && element.getElement() != null){
-				properties.put("description", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Comment");
-			if (element != null && element.getElement() != null){
-				properties.put("Comment", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Open questions");
-			if (element != null && element.getElement() != null){
-				properties.put("open questions", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("External process");
-			if (element != null && element.getElement() != null){
-				properties.put("external process", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Order");
-			if (element != null && element.getElement() != null){
-				properties.put("order", element.getElement());
-				addUsed(element);
-			}
+		element = getAttribute("Subprocess name");
+		if (element != null && element.getElement() != null){
+			properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
+			addUsed(element);
 		}
-		if (getOryxStencilClass().equals("aggregation")){
-			element = getAttribute("Representation");
-			if (element != null && element.getElement() != null){
-				properties.put("representation", element.getElement());
-				addUsed(element);
-			}
-			element = getAttribute("Display name");
-			if (element != null && element.getElement() != null){
-				properties.put("display name", element.getElement().equals("yes") ? true : false);
-				addUsed(element);
-			}
-			
-			element = getAttribute("Graphical representation");
-			if (element != null && element.getElement() != null){
-				properties.put("graphical representation", element.getElement());
-				addUsed(element);
-			}
+		element = getAttribute("Categories");
+		if (element != null && element.getElement() != null){
+			properties.put("categories", element.getElement());
+			addUsed(element);
 		}
+		element = getAttribute("Documentation");
+		if (element != null && element.getElement() != null){
+			properties.put("documentation", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("Description");
+		if (element != null && element.getElement() != null){
+			properties.put("description", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("Comment");
+		if (element != null && element.getElement() != null){
+			properties.put("Comment", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("Open questions");
+		if (element != null && element.getElement() != null){
+			properties.put("open questions", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("External process");
+		if (element != null && element.getElement() != null){
+			properties.put("external process", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("Order");
+		if (element != null && element.getElement() != null && getOryxStencilClass().equals("process")){
+			properties.put("order", element.getElement());
+			addUsed(element);
+		}
+		
+		element = getAttribute("Display water marks");
+		if (element != null){
+			if (element.getElement() != null){
+				properties.put("display watermark", element.getElement() == "yes" ? true : false);
+			} else {
+				properties.put("display watermark", false);
+			}
+			addUsed(element);
+		}
+		
+		element = getAttribute("Text");
+		if (element != null && element.getElement() != null){
+			properties.put("text", element.getElement());
+			addUsed(element);
+		}
+	
+	
+		element = getAttribute("Representation");
+		if (element != null && element.getElement() != null){
+			properties.put("representation", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("Display name");
+		if (element != null && element.getElement() != null){
+			properties.put("display name", element.getElement().equals("yes") ? true : false);
+			addUsed(element);
+		}
+		
+		element = getAttribute("Graphical representation");
+		if (element != null && element.getElement() != null){
+			properties.put("graphical representation", element.getElement());
+			addUsed(element);
+		}
+		
 		
 	}
 
@@ -648,7 +665,7 @@ public class AdonisInstance extends AdonisStencil {
 		Boolean booleanAttribute = null;
 		stringAttribute = properties.optString("subprocessname");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Subprocessname","EXPRESSION",stringAttribute));
+			getAttribute().add(new AdonisAttribute("Subprocess name","EXPRESSION","EXPR val:"+stringAttribute));
 		}
 		stringAttribute = properties.optString("categories");
 		if (stringAttribute != null){
