@@ -31,6 +31,7 @@ Correspondence = function(){
 	this.connectionMode 	= false;
 	this.discoveryMode		= false;
 	this.connector 			= null;
+	this.icon = this.GADGET_BASE + "icons/chart_line.png";
 	this.init();
 }
 
@@ -244,13 +245,18 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	loadConnections: function() {
 		var loadJSON = function(jsonText){
 			//first remove all current connection
+			loadingScreen.show();
 			this.connectionCollection.clear();
 			this.connectionCollection = new ConnectionCollection();
-			this.connectionCollection.load(jsonText,this);
+			this.connectionCollection.load(jsonText,this,this.onConnectionCollectionLoaded);
 		};
 		
 		var dialog = new ModelLoaderDialog(loadJSON.bind(this));
 		dialog.show();		
+	},
+	
+	onConnectionCollectionLoaded : function() {
+		loadingScreen.hide();
 	},
 	
 
@@ -322,21 +328,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	onModelChooserDialogClose : function(selectedViewers) {
 		
 		
-		loadingScreen =  
-	        new YAHOO.widget.Panel("wait",   
-	            { width:"240px",  
-	              fixedcenter:true,  
-	              close:false,  
-	              draggable:false,  
-	              zindex:4, 
-	              modal:true, 
-	              visible:false 
-	            }  
-	        ); 
-	 
-		loadingScreen.setHeader("Loading, please wait..."); 
-		loadingScreen.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />'); 
-		loadingScreen.render(document.body); 
+
 		
 		loadingScreen.show();
 		var mapping = this.connectionCollection.autoConnect(selectedViewers[0].viewer,selectedViewers[1].viewer);

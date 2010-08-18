@@ -77,25 +77,17 @@ ConnectionCollection.prototype = {
 			var filename = "Correspondences";
 			var l = this.connections[0].models.length;
 			//create a useful name for the file
-			for (var key in this.connections[0].models){				
-					filename = filename + "_" + this.connections[0].models[key].title;
+			for (var i=0; i<this.connections[0].models.length;i++){		
+				if (this.connections[0].models[i]) {
+					filename = filename + "_" + this.connections[0].models[i].title;
+				}
 								
 			}
-			var modelsBackup = [];
-			var gadgetsBackup = [];
-			for (var i=0;i<this.connections.length;i++) {
-				for (var j=0;j<this.connections[i].models.length;j++) {
-					if (this.connections[i].models[j]) {
-						//this.connections[i].models[j].nodes = null;
-					}
-				}				
-				this.connections[i].gadget = null;
-			}
-			var testCon = new ConnectionModel(null, "testURL", "otdeh");
+
 			var jsonString = this.connections.toJSON();
 		
 			
-			this.openDownloadWindow( "test" + ".cor",jsonString);
+			this.openDownloadWindow( filename + ".cor",jsonString);
 		},
 		
 
@@ -114,8 +106,9 @@ ConnectionCollection.prototype = {
 		
 
 		
-		load : function(jsonText, gadget) {					
+		load : function(jsonText, gadget, callback) {					
 			var loader = new correspondenceLoader();
+			loader.onLoadingComplete = callback;
 			loader.load(jsonText, gadget, this);
 			
 		},

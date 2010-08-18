@@ -88,13 +88,15 @@ Connection.prototype = {
 		elContainer.appendChild(this.elComment);
 		
 		var elDelete = document.createElement("img");
-		elDelete.src = this.gadget.GADGET_BASE + "multimodel/icons/delete.png";
+		elDelete.src = this.gadget.GADGET_BASE + "correspondence/icons/delete.png";
 		elDelete.onclick = this.remove.bind(this);
+		elDelete.title="delete correspondence";
 		el.appendChild(elDelete);
 		
 		var elEdit = document.createElement("img");
-		elEdit.src = this.gadget.GADGET_BASE + "correspondence/icons/chart_line.png";
+		elEdit.src = this.gadget.GADGET_BASE + "correspondence/icons/pencil.png";
 		elEdit.onclick = this.edit.bind(this);
+		elEdit.title="edit correspondence";
 		el.appendChild(elEdit);
 	
 		var elClear = document.createElement("div");
@@ -246,6 +248,7 @@ Connection.prototype = {
 	edit: function() {			
 		if (this.editing) {
 			this.stopEditing();
+			this.highlightInViewer();
 		} else {		
 			this.editing = true;
 			//this.gadget.setSelectedShapes( 4, this.models[4].nodes );
@@ -278,6 +281,7 @@ Connection.prototype = {
 			this.models[index].nodes = nodeArray;	
 			this.updateInfoString();
 		}
+		
 	},
 	
 	clearModels : function() {

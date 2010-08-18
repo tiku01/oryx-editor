@@ -20,6 +20,7 @@
 				<left>500</left>
 				<height>500</height>
 				<width>450</width>
+				<icon>/gadgets/files/container/icons/TheStructorr_magnifying_glass.png</icon>
 			</options>
 		</Gadget>
 		
@@ -30,6 +31,7 @@
 				<left>200</left>
 				<height>350</height>
 				<width>450</width>
+				<icon>/gadgets/files/container/icons/Anonymous_blue_folder.png</icon>				
 			</options>
 		</Gadget>
 
@@ -40,7 +42,7 @@
 				<top>50</top>
 				<left>50</left>
 				<height>430</height>
-				<width>350</width>
+				<width>350</width>				
 			</options>
 		</Gadget>
 		
@@ -52,6 +54,7 @@
 				<left>200</left>
 				<height>300</height>
 				<width>470</width>
+				<icon>/gadgets/files/container/icons/dtjohnnymonkey_Two_Tags_Overlapped.png</icon>
 			</options>
 		</Gadget>
 	
@@ -62,11 +65,15 @@
 				<left>200</left>
 				<height>400</height>
 				<width>470</width>
+				<icon>/gadgets/files/container/icons/molecules.png</icon>
 			</options>
 		</Gadget>
 		
 		<Gadget>
 			<url>/gadgets/files/gadgets/tools/tool.xml</url>
+			<options>		
+				<icon>/gadgets/files/container/icons/nicubunu_Tools.png</icon>
+			</options>
 		</Gadget>
 		
 	</Shindig>

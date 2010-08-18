@@ -64,7 +64,7 @@ YAHOO.lang.extend( GadgetRepository, AbstractGadget, {
 
 		//carousel to list the gadgets with small icons and their title
 		this.carousel = new YAHOO.widget.Carousel("container", {
-		  
+			animation: { speed: 0.5 },
 			// number of items ever added to the carousel
 			numItems: nGadgets
 		});
@@ -74,7 +74,7 @@ YAHOO.lang.extend( GadgetRepository, AbstractGadget, {
 		  
 			// if icon not specified, default icon wil be chosen
 			var imgSrc = this.gadgets[i].icon ? this.gadgets[i].icon : this.defaultIcon;
-			var item = "<img width='70' id='"+ this.gadgets[i].url +"' src='" + imgSrc + "'>"
+			var item = "<img height='70' id='"+ this.gadgets[i].url +"' src='" + imgSrc + "'>"
 							+ "<h3 class='item'>"+ this.gadgets[i].title + "</h3>";
 		
 			this.carousel.addItem(item);

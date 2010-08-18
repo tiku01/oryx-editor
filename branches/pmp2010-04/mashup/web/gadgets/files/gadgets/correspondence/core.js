@@ -85,7 +85,8 @@ getScripts = function(){
 	                         CORRESPONDENCE_DIR + "modelChooserDialog.js",
 	                         CORRESPONDENCE_DIR + "modelLoaderDialog.js",
 	                         CORRESPONDENCE_DIR + "connectionModel.js",
-	                         CORRESPONDENCE_DIR + "correspondenceLoader.js"
+	                         CORRESPONDENCE_DIR + "correspondenceLoader.js",
+	                         CORRESPONDENCE_DIR + "loadingScreen.js"
 	                       
 	                         //CORRESPONDENCE_DIR + "jsonSupport.js,"	                         	 
 	                         //CORRESPONDENCE_DIR + "abstractPlugin.js"
