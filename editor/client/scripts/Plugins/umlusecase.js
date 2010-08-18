@@ -36,7 +36,7 @@
  * @param {Object} facade The facade of the editor
  */
 ORYX.Plugins.UMLUseCase = 
-/** @lends ORYX.Plugins.UML.prototype */
+/** @lends ORYX.Plugins.UMLUseCase.prototype */
 {
 	/**
 	 * Creates a new instance of the UML plugin and registers it on the
@@ -48,7 +48,7 @@ ORYX.Plugins.UMLUseCase =
 	construct: function(facade) {
 		this.facade = facade;
 		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtendedLayout.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.layoutDiagramOnLoad.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.handleDiagramOnLoad.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
 	},
 	
@@ -57,7 +57,7 @@ ORYX.Plugins.UMLUseCase =
 	 * This Function starts a recursion 
 	 * which layouts the stereotypes of all systems and
 	 * the UseCaseExtended.
-	 * 
+	 *
 	 * @param {Object} event The event, that is fired after a Use Case diagram is loaded
 	 */
 	handleDiagramOnLoad : function(event) {
@@ -75,7 +75,8 @@ ORYX.Plugins.UMLUseCase =
 		this.layoutAllUseCaseExtended(shape);
 		
 		var systems = shape.getChildNodes().findAll( function(child) {
-			if (this.isSystemNode(child)) return child;
+			if (this.isSystemNode(child)) {
+				return child;}
 		}.bind(this));
 		
 		systems.each(function(systemNode){ 
@@ -88,12 +89,13 @@ ORYX.Plugins.UMLUseCase =
 	/**
 	* Layouts all UseCasesExtended contained in the system
 	*
-	* @param {Object} shape A system shape
+	* @param {Object} shape A UseCaseExtended shape
 	*/
 	layoutAllUseCaseExtended : function (shape){
 		
 		var useCasesExtended = shape.getChildNodes().findAll(function(child) {
-			if (this.isUseCaseExtendedNode(child)) return child;
+			if (this.isUseCaseExtendedNode(child)) {
+				return child;}
 		}.bind(this));
 		
 		useCasesExtended.each(function(useCaseExtendedNode){ 
@@ -108,9 +110,9 @@ ORYX.Plugins.UMLUseCase =
 	* since that event is fired late enough to do the needed layouting.
 	*
 	* The chain of called methods, to do the layouting:
-	* 	  handleUseCaseExtendedLayout(...) | layouting event fired
-	*	->handleUseCaseExtendedSelection(...) | selection event fired
-	*	->layoutUseCaseExtended(...) | simple method call
+	*		handleUseCaseExtendedLayout(...) | layouting event fired
+	*	->	handleUseCaseExtendedSelection(...) | selection event fired
+	*	->	layoutUseCaseExtended(...) | simple method call
 	*
 	* @param {Object} event The event which is fired after the UseCaseExtended shape is modified
 	*/
@@ -136,7 +138,7 @@ ORYX.Plugins.UMLUseCase =
 	handleUseCaseExtendedSelection : function(event) {
 		
 		var shape = event.elements.first();
-		if (!this.isUseCaseExtendedNode(shape)) return;
+		if (!this.isUseCaseExtendedNode(shape)) {return;}
 		
 		this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.SelectionEventFunction);
 		this.layoutUseCaseExtended(shape);
@@ -153,13 +155,13 @@ ORYX.Plugins.UMLUseCase =
 	layoutUseCaseExtended : function(shape){
 	
 		var extensionPointTextFrame = shape._svgShapes.find(
-					function(element) { return element.element.id == (shape.id + "extension_point_text_frame") }
+					function(element) { return element.element.id == (shape.id + "extension_point_text_frame"); }
 				).element;
 		var extensionPointText = shape.getLabels().find(
-					function(label) { return label.id == (shape.id + "extensions") }
+					function(label) { return label.id == (shape.id + "extensions"); }
 				);
 		var extensionText = shape.getLabels().find(
-					function(label) { return label.id == (shape.id + "extensionpoint") }
+					function(label) { return label.id == (shape.id + "extensionpoint"); }
 				);
 		var verticalDifference = extensionPointTextFrame.y.baseVal.value - extensionText.y-16;
 		extensionPointTextFrame.y.baseVal.value= extensionText.y+16;
@@ -179,8 +181,8 @@ ORYX.Plugins.UMLUseCase =
 	*/
 	handlePropertyChanged : function(event) {
 		var shape = event.elements.first();
-		if (!this.isSystemNode(shape)) {return};
-		if (!(this.isStereotypeKeyEvent(event) || this.isNameKeyEvent(event))) {return};
+		if (!this.isSystemNode(shape)) {return;}
+		if (!(this.isStereotypeKeyEvent(event) || this.isNameKeyEvent(event))) {return;}
 		this.layoutStereotype(shape);			
 	},
 	
@@ -193,10 +195,10 @@ ORYX.Plugins.UMLUseCase =
 	layoutStereotype: function(shape) {
 	
 		var stereotype = shape.getLabels().find(
-				function(label) { return label.id == (shape.id + "stereotype") }
+				function(label) { return label.id == (shape.id + "stereotype"); }
 		);
 		var name = shape.getLabels().find(
-				function(label) { return label.id == (shape.id + "text") }
+				function(label) { return label.id == (shape.id + "text"); }
 		);
 		
 		if (stereotype.text().empty()){
@@ -213,6 +215,7 @@ ORYX.Plugins.UMLUseCase =
 	
 	/**
 	* Helper method, which returns true, if the received shape is an extended Use Case. 
+	*@private
 	*@param {Object} shape The shape that is checked for beeing an extended Use Case.
 	*@return {boolean} The result is true, if the shape is an extended Use Case.
 	*/
@@ -222,6 +225,7 @@ ORYX.Plugins.UMLUseCase =
 	
 	/**
 	* Helper method, which returns true, if the received shape is a system. 
+	*@private
 	*@param {Object} shape The shape that is checked for beeing a system.
 	*@return {boolean} The result is true, if the shape is a system
 	*/
@@ -230,7 +234,8 @@ ORYX.Plugins.UMLUseCase =
 	},
 	
 	/**
-	* Helper method, which returns true, if the received event handles a stereotype. 
+	* Helper method, which returns true, if the received event handles a stereotype.
+	*@private 
 	*@param {Object} event The event that is checked for handling an oryx-stereotype.
 	*@return {boolean} The result is true, if event handles a stereotype
 	*/
@@ -239,7 +244,8 @@ ORYX.Plugins.UMLUseCase =
 	},
 	
 	/**
-	* Helper method, which returns true, if the received event handles a name. 
+	* Helper method, which returns true, if the received event handles a name.
+	*@private 
 	*@param {Object} event The event that is checked for handling an oryx-name.
 	*@return {boolean} The result is true, if event handles a name
 	*/
