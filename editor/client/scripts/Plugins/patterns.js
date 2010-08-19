@@ -322,8 +322,17 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * Load all pattern from the server and display them in the pattern panel.
 	 */
 	loadAllPattern: function() {
-		this.patternRepos.loadPattern(); //TODO idempotency! i.e. remove the pattern from the panel!
+		this.patternRepos.loadPattern();
 		
+	},
+	
+	/**
+	 * Removes all pattern nodes from the pattern panel without deleting them on the server
+	 */
+	resetPatternPanel: function() { 
+		while(this.patternRoot.firstChild) {
+		    this.patternRoot.removeChild(this.patternRoot.firstChild);
+		}
 	},
 	
 	/**
@@ -349,6 +358,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * @param {Array} patternArray consists of ORYX.Plugins.Patterns.Pattern instances
 	 */
 	addPatternNodes: function(patternArray) {
+
+		this.resetPatternPanel();
+		
 		patternArray.each(function(pattern){  //TODO beautify with apply or map or something like that!
 			this.addPatternNode(pattern);
 		}.bind(this));
