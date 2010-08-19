@@ -77,7 +77,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		/** call superclass constructor */
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
+		//create and register pattern button
+		this.createPatternButton();
 		
 		//adding of "capture as pattern"-func   
 		this.facade.offer({
@@ -133,13 +134,12 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		//register drag and drop function, curry in the dragzone
 		dragZone.afterDragDrop = this.afterDragDrop.bind(this, dragZone);
-		dragZone.beforeDragOver = this.beforeDragOver.bind(this, dragZone);
+		
+		//TODO necessary??
 		dragZone.beforeDragEnter = function(){
 			this._lastOverElement = false;
 			return true;
 		}.bind(this);
-		
-		this.createPatternButton(); //TODO move together with event creation. see above!
 		
 		//create patternRepos  //TODO rename pattern repos to pattern loader!
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
@@ -164,9 +164,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			['div', {'class': 'Oryx_button'}]);
 		
 		var imgOptions = {src: ORYX.CONFIG.PATTERN_ADD_ICON}; 
-		/*if(this.option.msg){  //TODO remove???
-			imgOptions.title = this.option.msg;
-		}*/
 
 		// graft and update icon (not in grafting for ns reasons).
 		ORYX.Editor.graft("http://www.w3.org/1999/xhtml", this.button,
@@ -176,11 +173,15 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		this.hidePatternButton();
 		
+		//handler for the button
 		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOVER, this.buttonHover.bind(this), false);
 		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOUT, this.buttonUnHover.bind(this), false);
 		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.buttonActivate.bind(this), false);
 		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEUP, this.buttonHover.bind(this), false);
 		this.button.addEventListener('click', this.buttonTrigger.bind(this), false);
+		
+		//add handler to trigger the visibility of the button
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
 	},
 	
 	togglePatternButton: function(options) { //TODO remove parameter??
@@ -307,13 +308,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//clean it up
 		jsonSel = this.removeDanglingEdges(jsonSel);
 		jsonSel = this.removeObsoleteReferences(jsonSel);
-		
-		/*//delete all patterns  //TODO delete!
-		selection.each(function(element) {
-			this.facade.deleteShape(element);
-		}.bind(this));
-		*/
-		
+				
 		this.addNewPattern(jsonSel);	
 		
 	},
@@ -371,18 +366,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	* @param {ORYX.Plugins.Patterns.Pattern} pattern to be added pattern
 	*/
 	addPatternNode: function(pattern) {		
-		//add the pattern subnode    //TODO delete?
-		// var newNode = new Ext.tree.TreeNode({
-		// 			leaf: true,
-		// 			text: pattern.description,  
-		// 			iconCls: 'headerShapeRepImg',
-		// 			cls: 'ShapeRepEntree PatternRepEntry',
-		// 			icon:  ORYX.CONFIG.PATTERN_ADD_ICON,
-		// 			allowDrag: false,
-		// 			allowDrop: false,
-		// 			attributes: pattern,
-		// 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI
-		// 		});
+
 		var newNode = new ORYX.Plugins.Patterns.PatternNode(pattern);
 		
 		pattern.treeNode = newNode;
@@ -406,18 +390,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		this.patternRoot.expand();	
 		
-		//TODO delete?
-		/*var deleteButton = document.createElement("span");
-		deleteButton.className = "PatternDeleteButton";
-		
-		var deleteButtonB = document.createElement("button");
-		deleteButtonB.down = function(){alert("Hello!")};
-		deleteButtonB.setAttribute("style", "background-image: url(\"" + ORYX.PATH + "/images/delete.png\");");
-		deleteButtonB.setAttribute("type", "button");
-		
-		deleteButton.appendChild(deleteButtonB);
-		
-		newNode.getUI().elNode.appendChild(deleteButton);*/
 	},
 	
 	/**
@@ -460,10 +432,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//Check if drop is allowed
 		var proxy = dragZone.getProxy();
 		if(proxy.dropStatus == proxy.dropNotAllowed) {return;}
-		
-		//check if there is a current Parent
-		//what do these lines do?
-		//if(!this._currentParent) {return;}
 				
 		//TODO use .pattern instead!
 		var templatePatternShapesSer = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes.serPattern;
@@ -485,11 +453,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		// Correcting the ScrollOffset
 		pos.x -= document.documentElement.scrollLeft;
 		pos.y -= document.documentElement.scrollTop;
-		// Correct position of parent  
-		// brauch ich das???
-		/*var parentAbs = this._currentParent.absoluteXY();
-		pos.x -= parentAbs.x;
-		pos.y -= parentAbs.y;*/
 		
 		
 		var centralPoint = this.findCentralPoint(patternShapes);
@@ -647,116 +610,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		return shapeBounds.center();
 		
-		/*//hier sollte vllt. noch der mittelpunkt vom shape berechnet werden?
-		var sumX = shapeArray.inject(0, function(acc, shape) {
-			return acc + shape.bounds.upperLeft.x;
-		});
-		
-		var sumY = shapeArray.inject(0, function(acc, shape) {
-			return acc + shape.bounds.upperLeft.y;
-		});
-		
-		var meanX = sumX / shapeArray.size();
-		var meanY = sumY / shapeArray.size();
-		
-		return {
-			x: meanX,
-			y: meanY
-		};*/
-		
 	},
-	
-	beforeDragOver: function(dragZone, target, event) {  //TODO remove???
-		/*
-		var coord = this.facade.eventCoordinates(event.browserEvent);
-		var aShapes = this.facade.getCanvas().getAbstractShapesAtPosition( coord );
-		
-		if(aShapes.length <= 0) {
-			var pr = dragZone.getProxy();
-			pr.setStatus(pr.dropNotAllowed);
-			pr.sync();
-			
-			return false;
-		}
-		
-		//get the topmost shape
-		var el = aShapes.last();
-		
-		//muss das hier length oder lenght heißen?
-		if(aShapes.length == 1 && aShapes[0] instanceof ORYX.Core.Canvas) {
-			return false;
-		} else {
-			//check containment rules for each shape of pattern
-			var option = Ext.dd.Registry.getHandle(target.DDM.currentTarget);
-			var pattern = this.retrievePattern(option.id);			
-			var stencilSet = this.facade.getStencilSets()[option.namespace];
-			
-			pattern.shapes.each(function(shape, index, stencilSet, coord){
-				var stencil = stencilSet.stencil(shape.type);
-				
-				if(stencil.type() === "node") {
-					
-					var parentCandidate = aShapes.reverse().find(function(candidate){
-						return (candidate instanceof ORYX.Core.Canvas
-							|| candidate instanceof ORYX.Core.Node
-							|| candidate instanceof ORYX.Core.Edge);
-					}); //gibt der nicht einfach any aus? das sind doch alle drei typen oder?
-					
-					if (parentCandidate !== this._lastOverElement){
-						
-						this._canAttach = undefined;
-						this._canContain = undefined;
-						
-					}
-					
-					if (parentCandidate) {
-						
-						//check containment rule
-						
-						if(!(parentCandidate instanceof ORYX.Core.Canvas) && parentCandidate.isPointOverOffset(coord.x, coord.y) && this._canAttach == undefined) {
-							
-							this._canAttach = this.facade.getRules().canConnect({
-								sourceShape: parentCandidate,
-								edgeStencil: stencil,
-								targetStencil: stencil
-							});
-							
-							if( this._canAttach ) {
-								//Show Highlight
-								this.facade.raiseEvent({
-									type: ORYX.CONFIG.EVENT_HIGHLIGHT_SHOW,
-									highlightId: "patternRepo.attached",
-									elements: [parentCandidate],
-									style: ORYX.CONFIG.SELECTION_HIGHLIGHT_STYLE_RECTANGLE,
-									color: ORYX.CONFIG.SELECTION_VALID_COLOR
-								});
-								
-								this.facade.raiseEvent({
-									type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE,
-									highlightId: "patternRepo.added"
-								});
-								
-								this._canContain = undefined;
-							}
-						}
-						
-						if(!(parentCandidate instanceof ORYX.Core.Canvas) && !(parentCandidate.isPointOverOffset(coord.x, coord.y))) {
-							this._canAttach = this._canAttach == false ? this._canAttach : undefined;
-						}
-						
-						if (!this._canContain == undefined && !this._canAttach) {
-							this._canContain = this.facade.getRules;
-						}
-					}
-				}
-				
-			}.bind(this, stencilSet, coord)); //curry in stencilset, coord
-		}*/
-	},
-	//copied from main
-	
-	//OBSOLETE COMMENT
-	
 	
 	/**
      * This method renews all resource Ids and according references.
@@ -766,19 +620,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
      * @private
      */
     renewResourceIds: function(jsonObjectArray){
-        // For renewing resource ids, a serialized and object version is needed
-        /*
-		if(Ext.type(jsonObjectCollection) === "string"){
-            try {
-                var serJsonObject = jsonObject;
-                jsonObject = Ext.decode(jsonObject);
-            } catch(error){
-                throw new SyntaxError(error.message);
-            }
-        } else {
-            var serJsonObject = Ext.encode(jsonObject);
-        } */  //TODO remove
-
+       
        var serJsonObjectArray = Ext.encode(jsonObjectArray);
 
 		// collect all resourceIds recursively
@@ -1196,23 +1038,15 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI,
 		onOver: function() {
 			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOver.apply(this, arguments);
 			
-			// //already visible? prohibits calling fade in for visible element.
-			// 			if (this.deleteButton.getEl().dom.style.visibility == "visible") return;
-			// 					
-			// 			this.deleteButton.getEl().fadeIn({block: true});
 			this.deleteButton.show();
 		},
 		
 		/**
 		 * Hides the delete button when mouse is leaving the tree node.
 		 */
-		onOut: function() { //TODO maybe set a timer to prohibit continously fading in and out!
+		onOut: function() { 
  			ORYX.Plugins.Patterns.PatternNodeUI.superclass.onOut.apply(this, arguments);
 			
-			// //already faded out --> not visible
-			// 			if (this.deleteButton.getEl().dom.style.visibility != "visible") return;
-			// 			
-			// 			this.deleteButton.getEl().fadeOut({block: true});
 			this.deleteButton.hide();
 		}
 			
