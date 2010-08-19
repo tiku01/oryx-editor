@@ -28,7 +28,7 @@
  */
 if(!ORYX.Plugins)
 	ORYX.Plugins = {};
-	
+		
 /**
  * Patterns plugin adds support for a pattern repository that contains composite shapes.
  * @class ORYX.Plugins.Patterns
@@ -81,7 +81,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			group: ORYX.I18N.Patterns.toolbarButtonText, 
 			description: ORYX.I18N.Patterns.toolbarButtonTooltip,
 			minShape: 2,
-			icon: ORYX.PATH + "images/pattern_add.png" //TODO externalize!!
+			icon: ORYX.CONFIG.PATTERN_ADD_ICON
 		});
 		
 		//create rootNode for patternrepository   
@@ -158,7 +158,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		this.button = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", $(null),
 			['div', {'class': 'Oryx_button'}]);
 		
-		var imgOptions = {src: ORYX.PATH + "images/pattern_add.png"};  //TODO externalize!!
+		var imgOptions = {src: ORYX.CONFIG.PATTERN_ADD_ICON}; 
 		/*if(this.option.msg){  //TODO remove???
 			imgOptions.title = this.option.msg;
 		}*/
@@ -360,7 +360,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		// 			text: pattern.description,  
 		// 			iconCls: 'headerShapeRepImg',
 		// 			cls: 'ShapeRepEntree PatternRepEntry',
-		// 			icon:  ORYX.PATH + "images/pattern_add.png",
+		// 			icon:  ORYX.CONFIG.PATTERN_ADD_ICON,
 		// 			allowDrag: false,
 		// 			allowDrop: false,
 		// 			attributes: pattern,
@@ -582,7 +582,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			}.bind(this, transVector));
 		};
 		
-		posChange(transVector, patternShapes);
+		posChange(transformVector, patternShapes);
 		
 		return patternShapes;
 	},
@@ -601,13 +601,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		};
 		
 		shapeArray.each(function(shape) {
-			if (shape.bounds.upperLeft.x < outerBounds.upperLeft.x) {
-				correctionVector.x = Math.max(correctionVector.x, outerBounds.upperLeft.x - shape.bounds.upperLeft.x);
+			if (shape.bounds.upperLeft.x < outerBounds.upperLeft().x) {
+				correctionVector.x = Math.max(correctionVector.x, outerBounds.upperLeft().x - shape.bounds.upperLeft.x);
 			}
-			if (shape.bounds.upperLeft.y < outerBounds.upperLeft.y) {
-				correctionVector.y = Math.max(correctionVector.y, outerBounds.upperLeft.y - shape.bounds.upperLeft.y);
+			if (shape.bounds.upperLeft.y < outerBounds.upperLeft().y) {
+				correctionVector.y = Math.max(correctionVector.y, outerBounds.upperLeft().y - shape.bounds.upperLeft.y);
 			}
-		})
+		});
 		
 		return correctionVector;
 	},
@@ -1116,7 +1116,7 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode,
 			leaf: true,
 			iconCls: 'headerShapeRepImg',
 			cls: 'ShapeRepEntree PatternRepEntry',
-			icon:  ORYX.PATH + "images/pattern_add.png",  //TODO externalize!
+			icon:  ORYX.CONFIG.PATTERN_ADD_ICON,
 			allowDrag: false,
 			allowDrop: false,
 			uiProvider: ORYX.Plugins.Patterns.PatternNodeUI,

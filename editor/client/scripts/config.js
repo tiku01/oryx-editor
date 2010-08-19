@@ -233,3 +233,7 @@ ORYX.CONFIG.META_KEY_SHIFT = 			"shift";
 ORYX.CONFIG.KEY_ACTION_DOWN = 			"down";
 ORYX.CONFIG.KEY_ACTION_UP = 			"up";
 
+/* Pattern Repository */
+
+ORYX.CONFIG.PATTERN_ADD_ICON = 			ORYX.CONFIG.ROOT_PATH + "images/pattern_add.png";
+
