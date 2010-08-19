@@ -366,6 +366,7 @@ ORYX.I18N.Patterns.toolbarButtonText = "Markierte Elemente als Muster";
 ORYX.I18N.Patterns.toolbarButtonTooltip = "Die aktuelle Auswahl als Muster speichern";
 ORYX.I18N.Patterns.rootNodeText = "Muster";
 ORYX.I18N.Patterns.newPattern = "Neues Muster";
+ORYX.I18N.Patterns.selectionAsPattern = "Auswahl als Muster";
 
 
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
