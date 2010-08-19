@@ -448,7 +448,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//what do these lines do?
 		//if(!this._currentParent) {return;}
 				
-		//save it elsewhere!
+		//TODO use .pattern instead!
 		var templatePatternShapesSer = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.attributes.attributes.serPattern;
 		var templatePatternShapes = Ext.decode(templatePatternShapesSer);
 		
@@ -477,7 +477,15 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		var centralPoint = this.findCentralPoint(patternShapes);
 		
-		patternShapes = this.transformPattern(patternShapes, centralPoint, pos);
+		var transformVector = {
+			x: pos.x - centralPoint.x,
+			y: pos.y - centralPoint.y
+		};
+		patternShapes = this.transformPattern(patternShapes, transformVector);
+		
+		//correct position of pattern if it leaves canvas to the left or right side of the canvas
+		transformVector = this.calculateCorrectionVector(this.facade.getCanvas().bounds, patternShapes);
+		patternShapes = this.transformPattern(patternShapes, transformVector);
 		
 		var commandClass = ORYX.Core.Command.extend({
 			construct : function(patternShapes, facade, centralPoint, pos, plugin){
@@ -541,17 +549,10 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	/**
 	 * Moves the pattern relatively to an old position to the new position
 	 * @param {Array} patternShapes An Array of serialized oryx shapes
-	 * @param {Object} oldPos The old absolute position relatively to which the pattern will be moved. (Consists
-	 * of x and y parameter wrapped in anonymous object).
-	 * @param {Object} newPos The new absolute position to which the pattern shapes should be shifted 
+	 * @param {Object} transformVector Object whose x and y coordinate describe the vector by which
+	 * all shapes in the pattern have to be moved.
 	 */
-	transformPattern: function(patternShapes, oldPos, newPos) {
-		
-		var transVector = {
-			x : newPos.x - oldPos.x,
-			y : newPos.y - oldPos.y
-		};
-		
+	transformPattern: function(patternShapes, transformVector) {	
 		
 		//recursively change the position		
 		var posChange = function(transVector, shapes) {
@@ -584,6 +585,31 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		posChange(transVector, patternShapes);
 		
 		return patternShapes;
+	},
+	
+	/**
+	* Calculates the vector by which the pattern has to be moved in order not to leave
+	* the supplied bounds in the upper left corner.
+	* @param {ORYX.Core.Bounds} outerBounds Bounds that shapes have to fit in
+	* @param {Array} shapeArray The Shapes that have to fit into the bounds
+	* @returns The correction vector
+	*/
+	calculateCorrectionVector: function(outerBounds, shapeArray) {
+		var correctionVector = {
+			x: 0,
+			y: 0
+		};
+		
+		shapeArray.each(function(shape) {
+			if (shape.bounds.upperLeft.x < outerBounds.upperLeft.x) {
+				correctionVector.x = Math.max(correctionVector.x, outerBounds.upperLeft.x - shape.bounds.upperLeft.x);
+			}
+			if (shape.bounds.upperLeft.y < outerBounds.upperLeft.y) {
+				correctionVector.y = Math.max(correctionVector.y, outerBounds.upperLeft.y - shape.bounds.upperLeft.y);
+			}
+		})
+		
+		return correctionVector;
 	},
 	
 	/**
