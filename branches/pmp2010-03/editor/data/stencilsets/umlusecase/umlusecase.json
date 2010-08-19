@@ -439,7 +439,8 @@
 			"roles": [
 				"Association",
 				"diagramContent",
-				"annotatable"
+				"annotatable",
+				"associationMorph"
 			],
 			"propertyPackages" : [
 				"edgeProperties",
@@ -459,7 +460,8 @@
 			"roles": [
 				"Association",
 				"diagramContent",
-				"annotatable"
+				"annotatable",
+				"associationMorph"
 			],
 			"propertyPackages" : [
 				"edgeProperties",
@@ -480,7 +482,8 @@
 			"roles": [
 				"Association",
 				"diagramContent",
-				"annotatable"
+				"annotatable",
+				"associationMorph"
 			],
 			"propertyPackages" : [
 				"edgeProperties",
@@ -602,7 +605,7 @@
 				"baseMorphs" : ["simpleActor", "humanActor"]
 			},
 			{
-				"role" : "association",
+				"role" : "associationMorph",
 				"baseMorphs" : ["undirectedAssociation", "directedAssociation", "unnavigableDirectedAssociation" ]
 			}
 		],
