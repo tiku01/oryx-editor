@@ -50,7 +50,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	buttonVisible : false,
 	
 	/**
-	 * button that appears besides a selection of 2 or more shapes
+	 * button that appears besides a selection of 2 or more shapes {ORYX.Plugins.Patterns.PatternButton}
 	 */
 	button : undefined,
 	
@@ -72,13 +72,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	/**
 	 * @constructs
 	 */
-	construct: function(facade) {  //TODO split in construct and initialize phase!
+	construct: function(facade) { 
 		
 		/** call superclass constructor */
 		arguments.callee.$.construct.apply(this, arguments);
 		
 		//create and register pattern button
-		this.createPatternButton();
+		this.button = new ORYX.Plugins.Patterns.PatternButton(this.facade, this.selAsPattern.bind(this));
 		
 		//adding of "capture as pattern"-func   
 		this.facade.offer({
@@ -136,10 +136,10 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		dragZone.afterDragDrop = this.afterDragDrop.bind(this, dragZone);
 		
 		//TODO necessary??
-		dragZone.beforeDragEnter = function(){
+		/*dragZone.beforeDragEnter = function(){
 			this._lastOverElement = false;
 			return true;
-		}.bind(this);
+		}.bind(this);*/
 		
 		//reload pattern / reinitialize plugin when stencilset changes.
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_STENCIL_SET_LOADED, this.initialize.bind(this));
@@ -154,7 +154,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 */
 	initialize : function() {
 		
-		//create patternRepos  //TODO rename pattern repos to pattern loader!
+		//create patternRepos
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
 		this.patternRepos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, 
 																		this.addPatternNodes.bind(this), 
@@ -164,146 +164,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 	},
 	
-	/**
-	 * Adds a div-element to the canvas that represents the "mark as pattern" button which appears
-	 * at the right side of the selection. 
-	 * Also adds the necessary event listeners for the button.
-	 */
-	createPatternButton: function() {
-		// graft the button.
-		this.button = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", $(null),
-			['div', {'class': 'Oryx_button'}]);
-		
-		var imgOptions = {src: ORYX.CONFIG.PATTERN_ADD_ICON}; 
-
-		// graft and update icon (not in grafting for ns reasons).
-		ORYX.Editor.graft("http://www.w3.org/1999/xhtml", this.button,
-				['img', imgOptions]);
-				
-		this.facade.getCanvas().getHTMLContainer().appendChild(this.button);
-		
-		this.hidePatternButton();
-		
-		//handler for the button
-		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOVER, this.buttonHover.bind(this), false);
-		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOUT, this.buttonUnHover.bind(this), false);
-		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.buttonActivate.bind(this), false);
-		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEUP, this.buttonHover.bind(this), false);
-		this.button.addEventListener('click', this.buttonTrigger.bind(this), false);
-		
-		//add handler to trigger the visibility of the button
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
-	},
-	
-	togglePatternButton: function(options) { //TODO remove parameter??
-		var selection = this.facade.getSelection();
-		
-		if (!this.buttonVisible) {
-			//remove magic number!
-			if(selection.size() >= 2) this.showPatternButton();
-		} else {
-			if(selection.size() >= 2) {
-				this.relocatePatternButton();
-			} else {
-				this.hidePatternButton();
-			}
-		}
-	},
-	
-	/**
-	 * Displays the pattern button
-	 */
-	showPatternButton: function() {
-		this.relocatePatternButton();
-		this.button.style.display = "";
-		this.buttonVisible = true;
-		this.facade.getCanvas().update();
-	},
-	
-	/**
-	 * Hides the pattern button
-	 */
-	hidePatternButton: function() {
-		this.button.style.display = "none";
-		this.buttonVisible = false;
-		this.facade.getCanvas().update();
-	},
-		
-	/**
-	 * Moves the pattern button to the upper right side of the current selection
-	 */
-	relocatePatternButton: function() {
-		var selection = this.facade.getSelection();
-		
-		//get bounds of selection
-		var bounds = null;
-		selection.each(function(shape) {
-			if(!bounds) {
-				bounds = shape.absoluteBounds();
-			} else {
-				bounds.include(shape.absoluteBounds());
-			}
-		});
-		
-		//position for button
-		var buttonPos = {
-			x: bounds.upperLeft().x + bounds.width() + ORYX.CONFIG.SELECTED_AREA_PADDING,
-			y: bounds.upperLeft().y
-		};
-		
-		this.button.style.left = buttonPos.x + "px";
-		this.button.style.top = buttonPos.y + "px";
-		
-	},
-	
-	/**
-	 * Renders the pattern button solid instead of transparent
-	 */
-	showButtonOpaque: function() { //TODO used??
-		this.button.style.opacity = 1.0;
-	},
-	
-	/**
-	 * Renders the pattern button half transparent instead of solid
-	 */
-	showButtonTransparent: function() {
-		this.button.style.opacity = 0.5;
-	},
-	
-	/**
-	 * Changes appearance of pattern button when clicked.
-	 * Add the css class Oryx_down
-	 */
-	buttonActivate: function() {
-		this.button.addClassName('Oryx_down');
-	},
-	
-	/**
-	 * Changes appearance of pattern button when mouse is over the button.
-	 * Adds the css class Oryx_hover
-	 */
-	buttonHover: function() {
-		this.button.addClassName('Oryx_hover');
-	},
-	
-	/**
-	 * Changes the the appearance when the mouse moves out of the button.
-	 * Removes the classes Oryx_down and Oryx_hover.
-	 */
-	buttonUnHover: function() {
-		if(this.button.hasClassName('Oryx_down'))
-			this.button.removeClassName('Oryx_down');
-
-		if(this.button.hasClassName('Oryx_hover'))
-			this.button.removeClassName('Oryx_hover');
-	},
-	
-	/**
-	 * Callback when clicking the button.
-	 */
-	buttonTrigger: function(evt) {
-		this.selAsPattern();
-	},
 			
 	/**
 	 * Callback for creating a new pattern from the current selection and saving it on the server.
@@ -1063,3 +923,184 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI,
 		}
 			
 });
+
+/**
+ * Represents the shape menu like button used to add a pattern.
+ * The button is only shown when there are more than two elements selected.
+ * @class ORYX.Plugins.Patterns.PatternButton
+ * @extends Clazz
+ * @param facade The standard plugin facade.
+ * @param onClick Callback that is called when the button is triggered.
+ */
+ORYX.Plugins.Patterns.PatternButton = Clazz.extend(
+	/** @lends ORYX.Plugins.Patterns.PatternButton.prototype */
+	{
+	
+	/**
+	 * The HTML node representing the button itself
+	 */
+	button : undefined,
+	
+	/**
+	 * standard plugin facade
+	 */
+	facade : undefined,
+	
+	/**
+	 * Callback, when the button is clicked
+	 */
+	onClick: function(){},
+	
+	
+	/**
+	 * @constructor
+	 */
+	construct: function(facade, onClick) {
+		
+		this.facade = facade;		
+		this.onClick = onClick;
+		this.initialize();
+		
+	},
+	
+	/**
+	 * Adds a div-element to the canvas that represents the "mark as pattern" button which appears
+	 * at the right side of the selection. 
+	 * Also adds the necessary event listeners for the button.
+	 */
+	initialize : function() {
+		// graft the button.
+		this.button = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", $(null),
+			['div', {'class': 'Oryx_button'}]);
+		
+		var imgOptions = {src: ORYX.CONFIG.PATTERN_ADD_ICON}; 
+
+		// graft and update icon (not in grafting for ns reasons).
+		ORYX.Editor.graft("http://www.w3.org/1999/xhtml", this.button,
+				['img', imgOptions]);
+				
+		this.facade.getCanvas().getHTMLContainer().appendChild(this.button);
+		
+		this.hidePatternButton();
+		
+		//handler for the button
+		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOVER, this.buttonHover.bind(this), false);
+		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEOUT, this.buttonUnHover.bind(this), false);
+		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.buttonActivate.bind(this), false);
+		this.button.addEventListener(ORYX.CONFIG.EVENT_MOUSEUP, this.buttonHover.bind(this), false);
+		this.button.addEventListener('click', this.buttonTrigger.bind(this), false);
+		
+		//add handler to trigger the visibility of the button
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
+	},
+	
+	togglePatternButton: function() {
+		var selection = this.facade.getSelection();
+		
+		if (!this.buttonVisible) {
+			//remove magic number!
+			if(selection.size() >= 2) this.showPatternButton();
+		} else {
+			if(selection.size() >= 2) {
+				this.relocatePatternButton();
+			} else {
+				this.hidePatternButton();
+			}
+		}
+	},
+	
+	/**
+	 * Displays the pattern button
+	 */
+	showPatternButton: function() {
+		this.relocatePatternButton();
+		this.button.style.display = "";
+		this.buttonVisible = true;
+		this.facade.getCanvas().update();
+	},
+	
+	/**
+	 * Hides the pattern button
+	 */
+	hidePatternButton: function() {
+		this.button.style.display = "none";
+		this.buttonVisible = false;
+		this.facade.getCanvas().update();
+	},
+		
+	/**
+	 * Moves the pattern button to the upper right side of the current selection
+	 */
+	relocatePatternButton: function() {
+		var selection = this.facade.getSelection();
+		
+		//get bounds of selection
+		var bounds = null;
+		selection.each(function(shape) {
+			if(!bounds) {
+				bounds = shape.absoluteBounds();
+			} else {
+				bounds.include(shape.absoluteBounds());
+			}
+		});
+		
+		//position for button
+		var buttonPos = {
+			x: bounds.upperLeft().x + bounds.width() + ORYX.CONFIG.SELECTED_AREA_PADDING,
+			y: bounds.upperLeft().y
+		};
+		
+		this.button.style.left = buttonPos.x + "px";
+		this.button.style.top = buttonPos.y + "px";
+		
+	},
+	
+	/**
+	 * Renders the pattern button solid instead of transparent
+	 */
+	showButtonOpaque: function() { //TODO used??
+		this.button.style.opacity = 1.0;
+	},
+	
+	/**
+	 * Renders the pattern button half transparent instead of solid
+	 */
+	showButtonTransparent: function() {
+		this.button.style.opacity = 0.5;
+	},
+	
+	/**
+	 * Changes appearance of pattern button when clicked.
+	 * Add the css class Oryx_down
+	 */
+	buttonActivate: function() {
+		this.button.addClassName('Oryx_down');
+	},
+	
+	/**
+	 * Changes appearance of pattern button when mouse is over the button.
+	 * Adds the css class Oryx_hover
+	 */
+	buttonHover: function() {
+		this.button.addClassName('Oryx_hover');
+	},
+	
+	/**
+	 * Changes the the appearance when the mouse moves out of the button.
+	 * Removes the classes Oryx_down and Oryx_hover.
+	 */
+	buttonUnHover: function() {
+		if(this.button.hasClassName('Oryx_down'))
+			this.button.removeClassName('Oryx_down');
+
+		if(this.button.hasClassName('Oryx_hover'))
+			this.button.removeClassName('Oryx_hover');
+	},
+	
+	/**
+	 * Callback when clicking the button.
+	 */
+	buttonTrigger: function(evt) {
+		this.onClick();
+	}
+})
