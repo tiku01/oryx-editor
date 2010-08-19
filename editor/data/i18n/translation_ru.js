@@ -283,6 +283,7 @@ ORYX.I18N.Patterns.toolbarButtonText = "Возьмем в качестве вы�
 ORYX.I18N.Patterns.toolbarButtonTooltip = "Фиксирует текущее выделение в качестве шаблона для повторного использования";
 ORYX.I18N.Patterns.rootNodeText = "Выкройки";
 ORYX.I18N.Patterns.newPattern = "Новый шаблон";
+ORYX.I18N.Patterns.selectionAsPattern = "Выбор образца";
 
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
 

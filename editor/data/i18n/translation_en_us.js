@@ -369,6 +369,7 @@ ORYX.I18N.Patterns.toolbarButtonText = "Take selection as pattern";
 ORYX.I18N.Patterns.toolbarButtonTooltip = "Captures the current selection as a pattern for reuse";
 ORYX.I18N.Patterns.rootNodeText = "Patterns";
 ORYX.I18N.Patterns.newPattern = "New Pattern";
+ORYX.I18N.Patterns.selectionAsPattern = "Selection as pattern";
 
 if(!ORYX.I18N.Pnmlexport) ORYX.I18N.Pnmlexport = {};
 

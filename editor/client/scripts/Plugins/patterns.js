@@ -55,9 +55,19 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	button : undefined,
 	
 	/**
-	 * repository of patterns for the current stencilset
+	 * repository of patterns for the current stencilset (ORYX.Plugins.Patterns.PatternRepository)
 	 */
 	patternRepos : undefined,
+	
+	/**
+	 * Ext.tree.TreeNode that represents the root of the pattern repository / panel.
+	 */
+	patternRoot : undefined,
+	
+	/**
+	 * Ext.tree.TreePanel that represents the pattern panel / pattern repository in the west region.
+	 */
+	patternPanel : undefined,
 	
 	/**
 	 * @constructs
@@ -67,16 +77,11 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		/** call superclass constructor */
 		arguments.callee.$.construct.apply(this, arguments);
 		
-		//todo remove the explicit this.facade.getCanvas(). is handled in beforeDragOver
-		this._currentParent /*= this.facade.getCanvas()*/; //TODO remove?
-		this._canContain = undefined; //TODO remove?
-		this._canAttach = undefined; //TODO remove?
-		
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SELECTION_CHANGED, this.togglePatternButton.bind(this));
 		
 		//adding of "capture as pattern"-func   
 		this.facade.offer({
-			name: "Selection as pattern",  // TODO I18N ?? Where is this name used???
+			name: ORYX.I18N.Patterns.selectionAsPattern, 
 			functionality: this.selAsPattern.bind(this),
 			group: ORYX.I18N.Patterns.toolbarButtonText, 
 			description: ORYX.I18N.Patterns.toolbarButtonTooltip,
@@ -85,7 +90,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		});
 		
 		//create rootNode for patternrepository   
-		this.patternRoot = new Ext.tree.TreeNode({  //TODO create patterRoot this declaration below this.repos!!
+		this.patternRoot = new Ext.tree.TreeNode({ 
 			cls: 'headerShapeRep',
 			text: ORYX.I18N.Patterns.rootNodeText,
 			iconCls: 'headerShapeRepImg',
@@ -96,7 +101,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		});
 				
 		//create Patternpanel as ext-tree-panel
-		this.patternPanel = new Ext.tree.TreePanel({ //TODO declare patternPanel!!!
+		this.patternPanel = new Ext.tree.TreePanel({ 
 			iconCls: 'headerShapeRepImg',
 			cls:'shaperespository',
 			root: this.patternRoot,			
@@ -104,7 +109,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			rootVisible: true
 		});
 		
-		//fix double click behavior of treeEditor (cf. http://www.sencha.com/forum/archive/index.php/t-34170.html)
+		//fixes double click behavior of treeEditor (cf. http://www.sencha.com/forum/archive/index.php/t-34170.html)
 		Ext.override(Ext.tree.TreeEditor, {
 			beforeNodeClick : function(){},
 			onNodeDblClick : function(node, e){
@@ -118,10 +123,10 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			completeOnEnter: true,
 			ignoreNoChange: true
 		});		
-		treeEditor.on("complete", this.onComplete.bind(this));// TODO set in opt of new TreeEditor!
-		
+		treeEditor.on("complete", this.onComplete.bind(this));
+				
 		//add pattern panel
-		var region = this.facade.addToRegion("West", this.patternPanel, null); //TODO return value needed?
+		this.facade.addToRegion("West", this.patternPanel, null);
 			
 		//creating a dragzone
 		var dragZone = new Ext.dd.DragZone(this.patternRoot.getUI().getEl(), {shadow: !Ext.isMac});
