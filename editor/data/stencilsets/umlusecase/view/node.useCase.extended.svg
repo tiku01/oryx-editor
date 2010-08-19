@@ -69,7 +69,7 @@
 			id="text" 
 			font-size="12"  
 			x="100" 
-			y="47" 
+			y="46" 
 			oryx:align="bottom center"
 			oryx:fittoelem="text_frame" 
 			stroke="black">

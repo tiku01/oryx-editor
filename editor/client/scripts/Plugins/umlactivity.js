@@ -162,6 +162,7 @@
 	 * @private
 	 * @param {ORYX.Core.Node} rootPartition This parameter a an activityPartition, whose parent is not an activityPartition
 	 * @param {ORYX.Core.Node[]} directChildPartitions This parameter is an array of all direct child partitions of the rootPartition
+	 * @param {ORYX.Core.Node} currentShape This parameter is the shape that caused the event
 	 */
 	resizeAfterChildPartitionChanged : function ( rootPartition, directChildPartitions, currentShape){
 		var width, height;
@@ -244,25 +245,25 @@
 	/**
 	 * Sets the bounds and therefore the size of an ActivityPartition
 	 * @private
-	 * @param {ORYX.Core.Node} shape This parameter is an Partition which gets new bounds
+	 * @param {ORYX.Core.Node} partition This parameter is an Partition which gets new bounds
 	 * @param {number} width The new width of the Partition
 	 * @param {number} height The new height of the Partition
 	 */
-	setActivityPartitionDimensions: function (shape, width, height){
-		var isChildActivityPartition = this.isActivityPartitionNode(shape);
-		isChildActivityPartition = (isChildActivityPartition && this.isActivityPartitionNode(shape.parent));
-		shape.bounds.set(
-			shape.bounds.a.x,
-			isChildActivityPartition ? 30 : shape.bounds.a.y,
-			width ? shape.bounds.a.x + width : shape.bounds.b.x,
-			height ? shape.bounds.a.y + height - (isChildActivityPartition ? 30:0) : shape.bounds.b.y
+	setActivityPartitionDimensions: function (partition, width, height){
+		var isChildActivityPartition = this.isActivityPartitionNode(partition);
+		isChildActivityPartition = (isChildActivityPartition && this.isActivityPartitionNode(partition.parent));
+		partition.bounds.set(
+				partition.bounds.a.x,
+			isChildActivityPartition ? 30 : partition.bounds.a.y,
+			width ? partition.bounds.a.x + width : partition.bounds.b.x,
+			height ? partition.bounds.a.y + height - (isChildActivityPartition ? 30:0) : partition.bounds.b.y
 		);
 	},
 	
 	/**
 	 * Lowers an ActivityPartition, so that the head of the parent partition is visible
 	 * @private
-	 * @param {ORYX.Core.Node} shape This parameter is an Partition which gets new bounds
+	 * @param {ORYX.Core.Node} shape This parameter is a shape which gets new position
 	 * @param {number} x The new relative Offset to the left edge of parent partition 
 	 */
 	setActivityPartitionPosition: function(shape, x){
@@ -390,25 +391,25 @@
 	},
 	
 	/**
-	 * Returns the hashed bounds of the shape if they are available
-	 * otherwise a copy of the shape's bounds.
+	 * Returns the hashed bounds of the partition if they are available
+	 * otherwise a copy of the partition's bounds.
 	 * @private
-	 * @param {ORYX.Core.Node} shape The shape for which there are hashed bounds if it is an activityPartition
-	 * @return {ORYX.Core.Bounds} The hashed bounds or a copy of the shape's bounds
+	 * @param {ORYX.Core.Node} partition The partition for which there are hashed bounds if it is an activityPartition
+	 * @return {ORYX.Core.Bounds} The hashed bounds or a copy of the partition's bounds
 	 */
-	getHashedBounds: function(shape){
-		return this.currentRootPartition && this.hashedBounds[this.currentRootPartition.resourceId][shape.resourceId] ? this.hashedBounds[this.currentRootPartition.resourceId][shape.resourceId] : shape.bounds.clone();
+	getHashedBounds: function(partition){
+		return this.currentRootPartition && this.hashedBounds[this.currentRootPartition.resourceId][partition.resourceId] ? this.hashedBounds[this.currentRootPartition.resourceId][partition.resourceId] : partition.bounds.clone();
 	},
 	
 	/**
-	 * Returns a sorted set on all child activityPartitions for the given Shape. If recursive is TRUE, also indirect children will be returned (default is FALSE)
+	 * Returns a sorted set on all child activityPartitions for the given partition. If recursive is TRUE, also indirect children will be returned (default is FALSE)
 	 * The set is sorted with the first child the lowest x-coordinate and the last one the highest.
-	 * @param {ORYX.Core.Node} shape The partition the direct/all children were asked for
+	 * @param {ORYX.Core.Node} partition The partition the direct/all children were asked for
 	 * @param {boolean} recursive Specifies, whether the you receive the direct or all children (default is FALSE = direct children)
 	 * @return {ORYX.Core.Node[]} An ordered set of the child nodes with the first child the lowest x-coordinate and the last one the highest
 	 */
-	getChildActivityPartitions: function(shape, recursive){
-		var activityPartitions = shape.getChildNodes(recursive||false).findAll(function(node) { 
+	getChildActivityPartitions: function(partition, recursive){
+		var activityPartitions = partition.getChildNodes(recursive||false).findAll(function(node) { 
 			if (this.isActivityPartitionNode(node)) {
 				return node;}
 			}.bind(this));
