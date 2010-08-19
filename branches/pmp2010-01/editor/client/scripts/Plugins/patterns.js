@@ -135,12 +135,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//register drag and drop function, curry in the dragzone
 		dragZone.afterDragDrop = this.afterDragDrop.bind(this, dragZone);
 		
-		//TODO necessary??
-		/*dragZone.beforeDragEnter = function(){
-			this._lastOverElement = false;
-			return true;
-		}.bind(this);*/
-		
 		//reload pattern / reinitialize plugin when stencilset changes.
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_STENCIL_SET_LOADED, this.initialize.bind(this));
 		
@@ -227,7 +221,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 
 		this.resetPatternPanel();
 		
-		patternArray.each(function(pattern){  //TODO beautify with apply or map or something like that!
+		patternArray.each(function(pattern){ 
 			this.addPatternNode(pattern);
 		}.bind(this));
 	},
@@ -292,8 +286,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * @param {String} id The id of the dropped element
 	 */
 	afterDragDrop: function(dragZone, target, event, id) {
-		
-		this._lastOverElement = undefined;
 		
 		//Hide the highlighting
 		//do i really need this???????
