@@ -141,15 +141,26 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			return true;
 		}.bind(this);
 		
+		//reload pattern / reinitialize plugin when stencilset changes.
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_STENCIL_SET_LOADED, this.initialize.bind(this));
+		
+		this.initialize();
+
+		
+	},
+	
+	/**
+	 *	Initializes the plugin, i.e. creates new local repository, loads pattern, etc. Can safely be called when stencilset changes.
+	 */
+	initialize : function() {
+		
 		//create patternRepos  //TODO rename pattern repos to pattern loader!
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
 		this.patternRepos = new ORYX.Plugins.Patterns.PatternRepository(ssNameSpace, 
 																		this.addPatternNodes.bind(this), 
 																		this.addPatternNode.bind(this), 
-																		this.deletePatternNode.bind(this));
-		
-		//TODO register on reload event for stencil sets! don't forget that!
-		this.loadAllPattern();
+																		this.deletePatternNode.bind(this));	
+		this.loadAllPattern();	
 		
 	},
 	
@@ -812,6 +823,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	 * @constructor
 	 */
 	construct: function(ssNameSpace, onPatternLoad, onPatternAdd, onPatternRemove) { //TODO refactor introduce object parameter for constructor
+		this.patternList = [];
 		this.ssNameSpace = ssNameSpace;
 		this.onPatternLoad = onPatternLoad;
 		this.onPatternAdd = onPatternAdd;
