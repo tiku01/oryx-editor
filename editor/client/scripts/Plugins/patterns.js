@@ -739,7 +739,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 		var suc = false;
 
 		new Ajax.Request(
-		ORYX.CONFIG.PATTERN_SERVER_ROOT, //url is fixed 
+		ORYX.CONFIG.PATTERNS, //url is fixed 
 		{
            method			: method,
            asynchronous		: true, 
