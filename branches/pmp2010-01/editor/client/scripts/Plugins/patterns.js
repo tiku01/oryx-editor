@@ -124,7 +124,13 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			completeOnEnter: true,
 			ignoreNoChange: true
 		});		
-		treeEditor.on("complete", this.onComplete.bind(this));
+		
+		//register callback to handle change of label
+		treeEditor.on("complete", function(editor, value, startValue) { 
+			var pattern = editor.editNode.pattern;
+
+			return pattern.setName(value);
+		});
 				
 		//add pattern panel
 		this.facade.addToRegion("West", this.patternPanel, null);
@@ -151,6 +157,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//create patternRepos
 		var ssNameSpace = $A(this.facade.getStencilSets()).flatten().flatten()[0];
 		
+		//options for pattern repository
 		var opt = {
 			ssNameSpace: ssNameSpace,                              
 			onPatternLoad: this.addPatternNodes.bind(this),        
@@ -158,6 +165,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			onPatternRemove: this.deletePatternNode.bind(this)
 		};    
 		
+		//create pattern repository and load all pattern for current stencil set
+		//nodes are created through onPatternLoad callback
 		this.patternRepos = new ORYX.Plugins.Patterns.PatternRepository(opt);	
 		this.loadAllPattern();	
 		
@@ -168,6 +177,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * Callback for creating a new pattern from the current selection and saving it on the server.
 	 */
 	selAsPattern: function() {
+		
 		var selection = this.facade.getSelection();
 		
 		//json everything
@@ -244,10 +254,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		var ui = newNode.getUI();
 		
-		/*//Set the tooltip
-		//Warum NS nutzen, wenn dann kein NS übergeben wird?!?!
-		ui.elNode.setAttributeNS(null, "title", "Testdescription");*/
-		
 		//register the pattern on drag and drop
 		Ext.dd.Registry.register(ui.elNode, {
 			node: ui.node,
@@ -266,18 +272,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 */
 	deletePatternNode: function(pattern) {
 		pattern.treeNode.remove();
-	},
-	
-	/**
-	 * Handles the event when the user finishes input for the name of a pattern in a pattern tree node.
-	 * @param {Ext.tree.TreeEditor} editor
-	 * @param {Mixed} value new value after editing the node
-	 * @param {Mixed} startValue value before editing the node  
-	 */
-	onComplete: function(editor, value, startValue) { 
-		var pattern = editor.editNode.pattern;
-		
-		return pattern.setName(value);
 	},
 	
 	/**
@@ -328,9 +322,11 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		patternShapes = this.transformPattern(patternShapes, transformVector);
 		
 		//correct position of pattern if it leaves canvas to the left or right side of the canvas
+		//transform vector is {x:0, y:0} if no correction is necessary
 		transformVector = this.calculateCorrectionVector(this.facade.getCanvas().bounds, patternShapes);
 		patternShapes = this.transformPattern(patternShapes, transformVector);
 		
+		//construct instance of command class to support undo and redo.
 		var commandClass = ORYX.Core.Command.extend({
 			construct : function(patternShapes, facade, centralPoint, pos, plugin){
 				this.patternShapes = patternShapes;
@@ -345,22 +341,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 				
 				//add the shapes
 				this.shapes = this.facade.getCanvas().addShapeObjects(this.patternShapes, this.facade.raiseEvent);
-
-				/*//calc difference in positions
-				var transVector = {
-					x : this.pos.x - this.centralPoint.x,
-					y : this.pos.y - this.centralPoint.y
-				};
-
-				//recursively change the position		
-				var posChange = function(transVector, shapes) {
-					shapes.each(function(transVector, shape) {
-						shape.bounds.moveBy(transVector);
-						posChange(transVector, shape.getChildren());
-					}.bind(this, transVector));
-				};
-
-				posChange(transVector, this.shapes);*/
 				
 				this.plugin.doLayout(this.shapes);
 				
@@ -383,8 +363,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			}
 		});
 		
-	//	var position = this.facade.eventCoordinates(event.browserEvent);
-		
 		var command = new commandClass(patternShapes, this.facade, centralPoint, pos, this);
 		
 		this.facade.executeCommands([command]);
@@ -397,6 +375,9 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * all shapes in the pattern have to be moved.
 	 */
 	transformPattern: function(patternShapes, transformVector) {	
+		
+		//no transformation necessary? (Guarding clause)
+		if (transformVector.x === 0 && transformVector.y === 0) return patternShapes;
 		
 		//recursively change the position		
 		var posChange = function(transVector, shapes) {
@@ -415,13 +396,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 					shape.dockers[i].y += transVector.y;
 				}
 				
-/*				shape.dockers.each(function(transVector, counter, max, docker) {
-					counter++;
-					if (counter == 1 || counter == max) return;
-					docker.x += transVector.x;
-					docker.y += transVector.y;
-				}.bind(this, transVector, counter, max));
-*/				
+				//recursion
 				posChange(transVector, shape.childShapes);
 			}.bind(this, transVector));
 		};
@@ -601,7 +576,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	 * @constructor
 	 */
 	construct: function(opt) {
-		if(opt.serPattern !== null) this.serPattern = opt.serPattern; //refactor!!!
+		if(opt.serPattern !== null) this.serPattern = opt.serPattern;
 		if(opt.id !== null) this.id = opt.id;
 		if(opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
 		if(opt.name !== null) this.name = opt.name;
@@ -621,11 +596,12 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	 * Removes the pattern from the server.
 	 */
 	remove: function() {
-		this.repos.removePattern(this); //toggles through callback removal of treenode!
+		this.repos.removePattern(this); //toggles through removal callback of treenode!
 	},
 	
 	/**
 	 * Creates a JSON representation of the pattern containing only the id, name, serPattern, imageUrl.
+	 * @returns {Object} JSON representation of this pattern
 	 */
 	toJSONString: function() {
 		return Ext.encode({
@@ -749,7 +725,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	},
 	
 	/**
-	 * Sends an AJAX request to the server directed to rootpath + "/pattern"
+	 * Sends an AJAX request to the server directed to the set path in ORYX.CONFIG.PATTERN_SERVER_ROOT
 	 * @private
 	 * @param {String} method The used method to communicate with the server. GET and POST will be 
 	 * translated properly to HTTP METHODS. PUT and DELETED are sent as POSTS with the _method parameter
@@ -835,7 +811,7 @@ ORYX.Plugins.Patterns.PatternNode = Ext.extend(Ext.tree.TreeNode,
 		//no initComponent protocoll in TreeNode, thus using constructor!
 		this.pattern = pattern;
 		
-		//call superclass constructor		
+		//calling superclass constructor		
 		ORYX.Plugins.Patterns.PatternNode.superclass.constructor.call(this, {
 			allowChildren: false,
 			leaf: true,
