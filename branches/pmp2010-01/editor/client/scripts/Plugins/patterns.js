@@ -675,11 +675,17 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	/**
 	 * @constructor
 	 */
-	construct: function(opt) {  //TODO make listeners optional
+	construct: function(opt) { 
 		this.ssNameSpace = opt.ssNameSpace;
-		this.onPatternLoad = opt.onPatternLoad;
-		this.onPatternAdd = opt.onPatternAdd;
-		this.onPatternRemove = opt.onPatternRemove;
+		if (opt.onPatternLoad) {
+			this.onPatternLoad = opt.onPatternLoad;
+		}
+		if (opt.onPatternAdd) {
+			this.onPatternAdd = opt.onPatternAdd;
+		}
+		if (opt.onPatternRemove) {
+			this.onPatternRemove = opt.onPatternRemove;			
+		}
 	},
 	
 	/**
@@ -757,7 +763,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 		var suc = false;
 
 		new Ajax.Request(
-		ORYX.CONFIG.ROOT_PATH + "/pattern", //url is fixed  //TODO provide configuration????
+		ORYX.CONFIG.PATTERN_SERVER_ROOT, //url is fixed 
 		{
            method			: method,
            asynchronous		: true, 
@@ -1047,7 +1053,7 @@ ORYX.Plugins.Patterns.PatternButton = Clazz.extend(
 	/**
 	 * Renders the pattern button solid instead of transparent
 	 */
-	showButtonOpaque: function() { //TODO used??
+	showButtonOpaque: function() {
 		this.button.style.opacity = 1.0;
 	},
 	
