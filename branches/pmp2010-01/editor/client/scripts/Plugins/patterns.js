@@ -651,7 +651,6 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	/** @lends ORYX.Plugins.Patterns.PatternRepository.prototype */
 	{
-	patternList : [], //TODO delete and remove from code or document!
 	
 	/**
 	 * The name space of the stencil set for which pattern can be maintained. 
@@ -676,8 +675,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	/**
 	 * @constructor
 	 */
-	construct: function(opt) {
-		this.patternList = [];
+	construct: function(opt) {  //TODO make listeners optional
 		this.ssNameSpace = opt.ssNameSpace;
 		this.onPatternLoad = opt.onPatternLoad;
 		this.onPatternAdd = opt.onPatternAdd;
@@ -685,28 +683,24 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	},
 	
 	/**
-	 * Loads all pattern for set stencil set from server. Fires callback onPatternLoad. 
+	 * Loads all pattern for set stencil set from server. Fires callback onPatternLoad and provides callback with array of pattern.
+	 * @returns {Array} An array containing all the loaded pattern.
 	 */
 	loadPattern: function() {
+		var patternArray = [];
 		this._sendRequest("GET", {ssNameSpace: this.ssNameSpace}, function(resp) {
 			var patterns = Ext.decode(resp);
 			patterns.each(function(opt) {
 				var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 				pattern.repos = this;
-				this.patternList.push(pattern);
+				patternArray.push(pattern);
 			}.bind(this));
-			this.onPatternLoad(this.patternList);
+			this.onPatternLoad(patternArray);
 		}.bind(this));
+		
+		return patternArray;
 	},
-	
-	/**
-	 * Gets all loaded pattern.
-	 * @returns An array of patterns of the type ORYX.Plugins.Patterns.Pattern
-	 */
-	getPatterns: function() {
-		return this.patternList;
-	},
-	
+		
 	/**
 	 * Adds the supplied pattern to the server.
 	 * @param {ORYX.Plugins.Patterns.Pattern} pattern The pattern to be added to the server. 
