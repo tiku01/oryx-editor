@@ -857,7 +857,7 @@
 				],
 			"layout" : 	[
  					{
-						"type" : "layout.adonis.swimlane.vertical"
+						"type" : "layout.adonis.swimlane"
 					}
  				]
 		},
@@ -898,7 +898,7 @@
 				],
 			"layout" : 	[
  					{
-						"type" : "layout.adonis.swimlane.vertical"
+						"type" : "layout.adonis.swimlane"
 					}
  				],
 		},
