@@ -236,4 +236,5 @@ ORYX.CONFIG.KEY_ACTION_UP = 			"up";
 /* Pattern Repository */
 
 ORYX.CONFIG.PATTERN_ADD_ICON = 			ORYX.CONFIG.ROOT_PATH + "images/pattern_add.png";
+ORYX.CONFIG.PATTERN_DELETE_ICON = 		ORYX.CONFIG.ROOT_PATH + "images/delete.png";
 
