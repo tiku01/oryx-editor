@@ -26,8 +26,9 @@
  * @namespace Oryx name space for plugins
  * @name ORYX.Plugins
  */
-if(!ORYX.Plugins)
+if (!ORYX.Plugins) {
 	ORYX.Plugins = {};
+}
 		
 /**
  * Patterns plugin adds support for a pattern repository that contains composite shapes.
@@ -104,7 +105,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//create Patternpanel as ext-tree-panel
 		this.patternPanel = new Ext.tree.TreePanel({ 
 			iconCls: 'headerShapeRepImg',
-			cls:'shaperespository',
+			cls: 'shaperespository',
 			root: this.patternRoot,			
 			lines: false,
 			rootVisible: true
@@ -206,7 +207,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 */
 	resetPatternPanel: function() { 
 		while(this.patternRoot.firstChild) {
-		    this.patternRoot.removeChild(this.patternRoot.firstChild);
+			this.patternRoot.removeChild(this.patternRoot.firstChild);
 		}
 	},
 	
@@ -248,7 +249,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	addPatternNode: function(pattern) {		
 
 		var newNode = new ORYX.Plugins.Patterns.PatternNode(pattern);
-				 	
+		
 		this.patternRoot.appendChild(newNode);
 		newNode.render();
 		
@@ -285,12 +286,12 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		//Hide the highlighting
 		//do i really need this???????
-		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'patternRepo.added'});
-		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'patternRepo.attached'});
+		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.added'});
+		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.attached'});
 		
 		//Check if drop is allowed
 		var proxy = dragZone.getProxy();
-		if(proxy.dropStatus == proxy.dropNotAllowed) {return;}
+		if (proxy.dropStatus == proxy.dropNotAllowed) {return;}
 				
 		var templatePatternShapesSer = Ext.dd.Registry.getHandle(target.DDM.currentTarget).node.pattern.serPattern;
 		var templatePatternShapes = Ext.decode(templatePatternShapesSer);
@@ -327,13 +328,19 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		patternShapes = this.transformPattern(patternShapes, transformVector);
 		
 		//construct instance of command class to support undo and redo.
-		var commandClass = ORYX.Core.Command.extend({
+		var CommandClass = ORYX.Core.Command.extend({
+			patternShapes : [],
+			facade : undefined,
+			centralPoint : undefined,
+			pos : undefined,
+			shapes : undefined,
+			plugins : undefined,
+			
 			construct : function(patternShapes, facade, centralPoint, pos, plugin){
 				this.patternShapes = patternShapes;
 				this.facade = facade;
 				this.centralPoint = centralPoint;
 				this.pos = pos;
-				this.shapes;
 				this.plugin = plugin;
 			},
 			
@@ -363,7 +370,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 			}
 		});
 		
-		var command = new commandClass(patternShapes, this.facade, centralPoint, pos, this);
+		var command = new CommandClass(patternShapes, this.facade, centralPoint, pos, this);
 		
 		this.facade.executeCommands([command]);
 	},
@@ -379,7 +386,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		//no transformation necessary? (Guarding clause)
 		if (transformVector.x === 0 && transformVector.y === 0) return patternShapes;
 		
-		//recursively change the position		
+		//recursively change the position  //recursion may be unnecessary		
 		var posChange = function(transVector, shapes) {
 			shapes.each(function(transVector, shape) {
 				shape.bounds.lowerRight.x += transVector.x;
@@ -387,11 +394,8 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 				shape.bounds.upperLeft.x += transVector.x;
 				shape.bounds.upperLeft.y += transVector.y;
 				
-				//except last and first docker all have relative positions.
-				var counter = 0;
-				var max = shape.dockers.size();
-				
-				for(var i=1; i<shape.dockers.size()-1; i++) {
+				//except last and first docker all have relative positions.				
+				for(var i=1; i<shape.dockers.size()-1; i++) { 
 					shape.dockers[i].x += transVector.x;
 					shape.dockers[i].y += transVector.y;
 				}
@@ -464,7 +468,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 
 		// collect all resourceIds recursively
         var collectResourceIds = function(shapes){
-            if(!shapes) return [];
+            if (!shapes) return [];
 
             return shapes.collect(function(shape){
                 return collectResourceIds(shape.childShapes).concat(shape.resourceId);
@@ -576,17 +580,17 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	 * @constructor
 	 */
 	construct: function(opt) {
-		if(opt.serPattern !== null) this.serPattern = opt.serPattern;
-		if(opt.id !== null) this.id = opt.id;
-		if(opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
-		if(opt.name !== null) this.name = opt.name;
+		if (opt.serPattern !== null) this.serPattern = opt.serPattern;
+		if (opt.id !== null) this.id = opt.id;
+		if (opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
+		if (opt.name !== null) this.name = opt.name;
 	},
 	
 	/**
 	 * Sets the name of the pattern and updates the server representation of this pattern.
 	 */
 	setName: function(name) {
-		if (this.repos == null) return;
+		if (this.repos === null) return;
 		
 		this.name = name;
 		this.repos.savePattern(this);
@@ -1061,10 +1065,10 @@ ORYX.Plugins.Patterns.PatternButton = Clazz.extend(
 	 * Removes the classes Oryx_down and Oryx_hover.
 	 */
 	buttonUnHover: function() {
-		if(this.button.hasClassName('Oryx_down'))
+		if (this.button.hasClassName('Oryx_down'))
 			this.button.removeClassName('Oryx_down');
 
-		if(this.button.hasClassName('Oryx_hover'))
+		if (this.button.hasClassName('Oryx_hover'))
 			this.button.removeClassName('Oryx_hover');
 	},
 	
