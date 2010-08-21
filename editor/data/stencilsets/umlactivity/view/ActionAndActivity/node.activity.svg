@@ -6,20 +6,20 @@
    	<oryx:magnets>
    	
     	<oryx:magnet oryx:cx="1" oryx:cy="20" oryx:anchors="left" />
-    	<oryx:magnet oryx:cx="1" oryx:cy="30" oryx:anchors="left" />
-    	<oryx:magnet oryx:cx="1" oryx:cy="40" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="1" oryx:cy="50" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="1" oryx:cy="80" oryx:anchors="left" />
 
-    	<oryx:magnet oryx:cx="20" oryx:cy="59" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="60" oryx:cy="59" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="100" oryx:cy="59" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="30" oryx:cy="99" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="100" oryx:cy="99" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="170" oryx:cy="99" oryx:anchors="bottom" />
 
-    	<oryx:magnet oryx:cx="119" oryx:cy="20" oryx:anchors="right" />
-    	<oryx:magnet oryx:cx="119" oryx:cy="30" oryx:anchors="right" />
-    	<oryx:magnet oryx:cx="119" oryx:cy="40" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="199" oryx:cy="20" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="199" oryx:cy="50" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="199" oryx:cy="80" oryx:anchors="right" />
 
-    	<oryx:magnet oryx:cx="20" oryx:cy="1" oryx:anchors="top" />
-    	<oryx:magnet oryx:cx="60" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="30" oryx:cy="1" oryx:anchors="top" />
     	<oryx:magnet oryx:cx="100" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="170" oryx:cy="1" oryx:anchors="top" />
 
     	<oryx:magnet oryx:cx="60" oryx:cy="30" oryx:default="yes" />
     	
