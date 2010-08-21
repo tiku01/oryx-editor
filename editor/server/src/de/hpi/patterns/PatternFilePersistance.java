@@ -182,10 +182,10 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			if (currentPattern.getId() == p.getId()) { //TODO implement equals in pattern
 				it.set(p);
 				p.setRepos(this); //new pattern has repos == null
-				this.commit();
 				break;
 			}
 		}
+		this.commit();
 		return p;
 		
 	}
