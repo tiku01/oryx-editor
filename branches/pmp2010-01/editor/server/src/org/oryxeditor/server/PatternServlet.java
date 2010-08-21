@@ -110,15 +110,15 @@ public class PatternServlet extends HttpServlet {
 		Pattern savedPattern = pattern;
 		try {
 			if (method.equals("POST")) {
-				savedPattern = repos.updatePattern(pattern);
-			} else if (method.equals("PUT")) {
 				savedPattern = repos.addPattern(pattern);
+			} else if (method.equals("PUT")) {
+				savedPattern = repos.updatePattern(pattern);
 			} else if (method.equals("DELETE")) {
 				repos.removePattern(pattern);
 				return;
 			} else {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Unsupported _method!");
+														"Unsupported _method!");
 				return;
 			}
 		} catch (PatternPersistanceException e) {

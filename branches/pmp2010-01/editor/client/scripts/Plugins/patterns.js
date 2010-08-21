@@ -693,7 +693,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 			ssNameSpace: this.ssNameSpace
 		};
 		
-		this._sendRequest("PUT", params, function(resp){
+		this._sendRequest("POST", params, function(resp){
 			var opt = Ext.decode(resp);
 			var pattern = new ORYX.Plugins.Patterns.Pattern(opt);
 			pattern.repos = this;
@@ -707,7 +707,7 @@ ORYX.Plugins.Patterns.PatternRepository = Clazz.extend(
 	 * @param {ORYX.Plugins.Patterns.Pattern} pattern The pattern to be saved.
 	 */
 	savePattern: function(pattern) {
-		this._sendRequest("POST", {pattern: pattern.toJSONString(), ssNameSpace: this.ssNameSpace});
+		this._sendRequest("PUT", {pattern: pattern.toJSONString(), ssNameSpace: this.ssNameSpace});
 	},
 	
 	/**
