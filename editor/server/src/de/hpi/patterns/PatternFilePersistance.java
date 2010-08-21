@@ -116,22 +116,22 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			ois = new ObjectInputStream(fis);
 			this.currentID = ois.readInt();
 			this.patternList = (ArrayList<Pattern>) ois.readObject();
-		} catch (FileNotFoundException e) { //TODO what happens if the directory could not be found?? --> pattern repos is being initialized!
-			this.currentID = 0;
+		} catch (FileNotFoundException e) { //if directory could not be found
+			this.currentID = 0;				// pattern repos is initialized anyway and will fail on add.
 			this.patternList = new ArrayList<Pattern>();
 		} catch (IOException e) {
 			this.log.error("Error while reading file " + this.patternFile, e);
 			throw new PatternPersistanceException("Could not read file.", e);
 		} catch (ClassNotFoundException e) {
 			this.log.error("Error while reading file " + this.patternFile + "\n" +
-					"Class could not be found!", e); //TODO appropriately logged??
+					"Class could not be found!", e);
 			throw new PatternPersistanceException("Could not read file.", e);
 		} finally {
 			try {
 				if (ois != null) ois.close();
 				if (fis != null) fis.close();
 			} catch (IOException e) {
-				this.log.error("Error while closing file " + this.patternFile, e); //TODO appropriately logged??
+				this.log.error("Error while closing file " + this.patternFile, e);
 				throw new PatternPersistanceException("Could not close file.", e);
 			}
 		}
@@ -152,14 +152,14 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			if(p.getId() == id)
 				return p;  //found the matching pattern
 		}
-		return null; //didn't find the pattern  //TODO use treemap or something internally! Faster!
+		return null; //didn't find the pattern
 	}
 	
 	@Override
 	public Pattern addPattern(Pattern p) throws PatternPersistanceException {
 		p.setId(this.generateNewId());
 		p.setRepos(this);
-		this.patternList.add(p); //TODO clone to prevent influence from outside
+		this.patternList.add(p);
 		this.commit();
 		return p;
 	}
@@ -179,7 +179,7 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 
 		while(it.hasNext()){
 			Pattern currentPattern = it.next();
-			if (currentPattern.getId() == p.getId()) { //TODO implement equals in pattern
+			if (currentPattern.equals(p)) {
 				it.set(p);
 				p.setRepos(this); //new pattern has repos == null
 				break;
@@ -196,7 +196,6 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 	 * @throws PatternPersistanceException If the file could not be written to
 	 */
 	private void commit() throws PatternPersistanceException {
-		//TODO maybe delete file before rewriting it?
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		
@@ -206,15 +205,15 @@ public class PatternFilePersistance implements PatternPersistanceProvider {
 			oos.writeInt(this.currentID);
 			oos.writeObject(this.patternList);
 		} catch (IOException e) {
-			log.error("Error while writing file " + this.patternFile, e);
+			this.log.error("Error while writing file " + this.patternFile, e);
 			throw new PatternPersistanceException("Could not write file.", e);
 		} finally {
 			try {
 				if (oos != null) oos.close();
 				if (fos != null) fos.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.log.error("Error while closing file " + this.patternFile, e);
+				throw new PatternPersistanceException("Could not close file.", e);
 			}
 		}
 		

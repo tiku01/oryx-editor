@@ -53,9 +53,13 @@ public class PatternServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 4767989831008935231L;
 	
-	//TODO externalize!
-	private static final String baseDir = "/Applications/apache-tomcat-6.0.26/webapps/oryx/pattern/";
+	private static String baseDir;
 
+	@Override
+	public void init() {
+		this.baseDir = this.getServletConfig().getInitParameter("baseDir");
+	}
+	
 	/**
 	 * Responds logically to POST, PUT, DELETE as JS Prototype send PUT and DELETE via POST
 	 * and sets the parameter _method accordingly.
@@ -103,7 +107,7 @@ public class PatternServlet extends HttpServlet {
 			repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
 		} catch (PatternPersistanceException e) {
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-					"Pattern storage experienced problems."); //TODO I18N
+					"Pattern storage experienced problems.");
 			return;
 		}
 		
@@ -149,12 +153,12 @@ public class PatternServlet extends HttpServlet {
 			repos = new PatternFilePersistance(ssNameSpace, PatternServlet.baseDir);
 		} catch (PatternPersistanceException e) {
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-					"Pattern storage experienced problems."); //TODO I18N
+					"Pattern storage experienced problems.");
 		}
 		
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		
-		resp.getWriter().print(repos.toJSONString());  //TODO implement stencilset extension
+		resp.getWriter().print(repos.toJSONString());
 	}
 }

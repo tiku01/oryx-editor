@@ -442,6 +442,10 @@
 		<display-name>Pattern Saving And Loading Support</display-name>
 		<servlet-name>PatternServlet</servlet-name>
 		<servlet-class>org.oryxeditor.server.PatternServlet</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/Applications/apache-tomcat-6.0.26/webapps/oryx/pattern/</param-value>
+		</init-param>
 	</servlet>
 
     <!-- Servlet Mappings -->
