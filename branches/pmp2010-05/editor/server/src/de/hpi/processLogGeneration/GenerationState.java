@@ -6,23 +6,65 @@ import java.util.List;
 import de.hpi.petrinet.Marking;
 
 /**
- * represents a pair of a Petrinet-marking and a Trace and therefore is the
- * current state of creating a trace
+ * represents a state in generating a Process-Log
+ * 
+ * @author Thomas Milde
  * */
 class GenerationState {
+	/**
+	 * The current marking
+	 * */
 	private Marking marking;
+	
+	/**
+	 * The trace, that is being generated.
+	 * */
 	private Trace trace;
+	
+	/**
+	 * The multiplicity of the trace (i.e. the number of traces it actually 
+	 * represents)
+	 * */
 	private int multiplicity;
+	
+	/**
+	 * The history of this state, i.e. the markings, that occured on the way from
+	 * the beginning to the current marking.
+	 * */
 	private List<Marking> occuredMarkings;
 	
+	/**
+	 * Creates a new instance of GenerationState.
+	 * 
+	 * @param marking The current marking
+	 * @param trace The trace, that is being generated.
+	 * */
 	public GenerationState(Marking marking, Trace trace) {
 		this(marking, trace,1);
 	}
 	
+	/**
+	 * Creates a new instance of GenerationState.
+	 * 
+	 * @param marking The current marking
+	 * @param trace The trace, that is being generated.
+	 * @param multiplicity The multiplicity of the trace (i.e. the number of 
+	 * traces it actually represents)
+	 * */
 	public GenerationState(Marking marking, Trace trace, int multiplicity) {
 		this(marking, trace, multiplicity, new LinkedList<Marking>());
 	}
 	
+	/**
+	 * Creates a new instance of GenerationState.
+	 * 
+	 * @param marking The current marking
+	 * @param trace The trace, that is being generated.
+	 * @param multiplicity The multiplicity of the trace (i.e. the number of 
+	 * traces it actually represents)
+	 * @param occuredMarkings The history of this state, i.e. the markings, that
+	 * occured on the way from the beginning to the current marking.
+	 * */
 	public GenerationState(Marking marking, Trace trace, int multiplicity,
 			List<Marking> occuredMarkings) {
 		this.marking = marking;
@@ -59,6 +101,12 @@ class GenerationState {
 		occuredMarkings.add(marking);
 	}
 	
+	/**
+	 * counts, how often a marking occured in the history of this state.
+	 * 
+	 * @param marking the marking, which's occurences should be counted
+	 * @return the number of occurences of marking in occuredMarkings
+	 * */
 	public int occurenceCount(Marking marking) {
 		int count = 0;
 		for (Marking occuredMarking : occuredMarkings) {

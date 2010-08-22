@@ -4,6 +4,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
+/**
+ * Enhancement of the PTNetRDFImporter, that allows reading the properties
+ * time (execution time ) and probability. Most code is copied from the superclass
+ * */
 public class PTNetRDFImporter extends de.hpi.PTnet.serialization.PTNetRDFImporter {
 
 	public PTNetRDFImporter(Document doc) {
@@ -24,10 +28,10 @@ public class PTNetRDFImporter extends de.hpi.PTnet.serialization.PTNetRDFImporte
 				t.setLabel(getContent(n));
 			} else if (attribute.equals("outgoing")) {
 				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
-			} else if (attribute.equals("propability")) {
+			} else if (attribute.equals("propability")) {//not copied
 				String content = getContent(n);
 				if (content != null) t.setPropability(Integer.parseInt(content));
-			} else if (attribute.equals("time")) {
+			} else if (attribute.equals("time")) {//not copied
 				String content = getContent(n);
 				if (content != null) t.setTime(Integer.parseInt(content));
 			}
@@ -47,7 +51,7 @@ public class PTNetRDFImporter extends de.hpi.PTnet.serialization.PTNetRDFImporte
 			
 			if (attribute.equals("outgoing")) {
 				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
-			} else if (attribute.equals("propability")) {
+			} else if (attribute.equals("propability")) {//not copied
 				String content = getContent(n);
 				if (content != null) t.setPropability(Integer.parseInt(content));
 			}

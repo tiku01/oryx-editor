@@ -8,7 +8,15 @@ import java.util.HashSet;
 import java.util.Map;
 import de.hpi.petrinet.Transition;
 
+/**
+ * Represents a ProcessLog, i.e. a collection of multiple traces.
+ * 
+ * @author Thomas Milde
+ * */
 public class ProcessLog {
+	/**
+	 * the traces, which this log consists of.
+	 * */
 	Collection<Trace> traces = new HashSet<Trace>();
 	
 	//constants for serialization:
@@ -22,12 +30,18 @@ public class ProcessLog {
 		traces.add(trace);
 	}
 	
+	/**
+	 * @return a new trace, that already has been added to this log.
+	 * */
 	public Trace newTrace() {
 		Trace trace = new Trace(this);
 		traces.add(trace);
 		return trace;
 	}
 	
+	/**
+	 * serializes this log to MXML-format
+	 * */
 	public String serialize() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(xmlDeclaration);
@@ -41,16 +55,29 @@ public class ProcessLog {
 		return builder.toString();
 	}
 	
+	/**
+	 * removes a trace from this log.
+	 * */
 	public void remove(Trace trace) {
 		traces.remove(trace);
 	}
 	
+	/**
+	 * generates noise of the desired degree.
+	 * 
+	 * @param degreeOfNoise a percentage from 0 to 100 
+	 * */
 	public void generateNoise(int degreeOfNoise) {
 		for(Trace trace : traces) {
 			trace.generateNoise(degreeOfNoise);
 		}
 	}
 	
+	/**
+	 * duplicates a number of traces, so that this log contains at least the
+	 * desired number of traces. The traces, which should be duplicated will be
+	 * chosen according to their probabilities.
+	 * */
 	public void duplicateToMinimumTraceCount(int traceCount) {
 		Map<Trace, Double> propabilities = new HashMap<Trace, Double>();
 		int propabilitySum = 0;
@@ -68,6 +95,10 @@ public class ProcessLog {
 		}
 	}
 	
+	/**
+	 * calculates timestamps for the traces, such that every minute one trace 
+	 * starts, beginning at the current time.
+	 * */
 	public void calculateTimes() {
 		Calendar calendar = new GregorianCalendar();
 		for (Trace trace : traces) {
@@ -76,6 +107,10 @@ public class ProcessLog {
 		}
 	}
 	
+	/**
+	 * checks, whether there is at least one trace, in which second directly
+	 * succeeds first.
+	 * */
 	public boolean containsDirectSuccession(Transition first, Transition second) {
 		for (Trace trace : traces) {
 			if (trace.containsDirectSuccession(first, second)) {

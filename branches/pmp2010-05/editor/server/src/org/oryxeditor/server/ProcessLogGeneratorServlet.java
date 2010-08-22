@@ -68,7 +68,7 @@ public class ProcessLogGeneratorServlet extends HttpServlet{
 	}
 
 	/**
-	 * 
+	 * extracts the model from an HttpServletRequest.
 	 * */
 	private Document modelOf(HttpServletRequest req) throws SAXException,
 			IOException, ParserConfigurationException {
@@ -81,6 +81,18 @@ public class ProcessLogGeneratorServlet extends HttpServlet{
 		return document;
 	}
 
+	/**
+	 * Uses the ProcessLogGenerator to generate a ProcessLog with the supplied
+	 * options for the supplied model, which it first converts to a PetriNet using
+	 * the PetriNetRDFImporter and writes the result to the output
+	 * 
+	 * @param model the Document, which contains the petrinet, from which a
+	 * log should be generated
+	 * @param completenessOption None, Trace- or Ordering-completeness
+	 * @param noise the degree of noise (0 to 100)
+	 * @param traceCount the desired number of traces
+	 * @param output the PrintWriter on which to write the serialized log
+	 * */
 	private void processDocument(Document model, String completenessOption, 
 			int noise, int traceCount, PrintWriter output)
 			throws NumberFormatException, IllegalArgumentException{
