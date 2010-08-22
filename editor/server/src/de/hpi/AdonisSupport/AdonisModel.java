@@ -32,6 +32,7 @@ import org.xmappr.RootElement;
 public class AdonisModel extends AdonisStencil{
 	private static final long serialVersionUID = 4319867261926641608L;
 	
+// X M a p p r   -   m a p p  i n g   a t t r i b u t e s 
 	
 	@Attribute("name")
 	protected String name;
@@ -118,17 +119,33 @@ public class AdonisModel extends AdonisStencil{
 		connector = list;
 	}
 	
+// h e l p e r
+	
+	private Map<String,AdonisStencil> modelChildren = null;
+	protected Map<String,String> inheritedProperties;
+	
+	private Double[] oryxGlobalBounds = null;
+	private Double[] adonisGlobalBounds = null;
+
+	public AdonisModel(){
+		instance = new ArrayList<AdonisInstance>();
+		connector = new ArrayList<AdonisConnector>();
+		modelAttributes = new AdonisModelAttributes();
+	}
+	
 	@Override
 	protected AdonisModel getModel() {
 		return this;
 	}
+	
 	@Override
 	protected void setModel(AdonisModel aModel) {
 		//nothing to do - no nested models possible
 	}
-
-	private Map<String,AdonisStencil> modelChildren = null;
 	
+	/**
+	 * returns all children of the model 
+	 */
 	@Override
 	public Map<String, AdonisStencil> getModelChildren() {
 		if (modelChildren == null){
@@ -136,26 +153,18 @@ public class AdonisModel extends AdonisStencil{
 		}
 		return modelChildren;
 	}
-
-
-
-
-
-	protected Map<String,String> inheritedProperties;
 	
-	private Double[] oryxGlobalBounds = null;
-	private Double[] adonisGlobalBounds = null;
-	
-	public AdonisModel(){
-		instance = new ArrayList<AdonisInstance>();
-		connector = new ArrayList<AdonisConnector>();
-		modelAttributes = new AdonisModelAttributes();
-	}
-	
+	/**
+	 * in adonis the stencils are counted ("index:" in Position attribute)
+	 * @return the next index
+	 */
 	public int getNextStencilIndex(){
 		return indexCounter++;
 	}
 	
+	/**
+	 * @return attributes which should be distributed form global to model level
+	 */
 	public Map<String, String> getInheritedProperties(){
 		if (inheritedProperties == null){
 			inheritedProperties = new HashMap<String, String>(); 
@@ -163,6 +172,9 @@ public class AdonisModel extends AdonisStencil{
 		return inheritedProperties;
 	}
 	
+	/**
+	 * indicates the type
+	 */
 	public boolean isModel(){
 		return true;
 	}
@@ -245,10 +257,9 @@ public class AdonisModel extends AdonisStencil{
 		}
 	}
 	
-	
-	
-
-	
+	/**
+	 * removes unnecessary elements of world area string
+	 */
 	private String[] filterArea(String area){
 		String filteredArea = area.replace("w:", "");
 		filteredArea = filteredArea.replace("h:", "");
@@ -256,7 +267,10 @@ public class AdonisModel extends AdonisStencil{
 		return filteredArea.split(" ");
 	}
 	
-	
+	/**
+	 * translates the oryx bounds to adonis bounds
+	 * @return array with [x,y,width,heigth] 
+	 */
 	public Double[] getAdonisGlobalBounds(){
 		if (adonisGlobalBounds != null){
 			return adonisGlobalBounds;
@@ -267,6 +281,10 @@ public class AdonisModel extends AdonisStencil{
 		return adonisGlobalBounds;
 	}
 	
+	/**
+	 * translates the adonis bounds to oryx bounds
+	 * @return array with [topLeft x,topLeft y,bottomRight x, bottomRight y]
+	 */
 	public Double[] getOryxBounds() {
 		if (oryxGlobalBounds != null){
 			return oryxGlobalBounds;
@@ -292,9 +310,9 @@ public class AdonisModel extends AdonisStencil{
 		return Configurator.getTranslationToAdonis(modeltype, language);
 	}
 	
-	//*************************************************************************
-	//* methods for creation of JSON representation
-	//*************************************************************************
+//*************************************************************************
+//* JAVA -> JSON
+//*************************************************************************
 	
 	@Override
 	public void prepareAdonisToOryx() throws JSONException{
@@ -454,7 +472,9 @@ public class AdonisModel extends AdonisStencil{
 		// not used
 	}
 
-	
+	/**
+	 * store unused
+	 */
 	public void writeJSONunused(JSONObject json) throws JSONException{
 		//JSONObject unused = getJSONObject(json, "unused");
 		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
@@ -479,9 +499,9 @@ public class AdonisModel extends AdonisStencil{
 		}
 	}
 	
-	//*************************************************************************
-	//* methods for reading of JSON representation
-	//*************************************************************************
+//*************************************************************************
+//* JSON -> Java
+//*************************************************************************
 	
 	public void completeOryxToAdonis(){
 		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+getAdonisGlobalBounds()[2]+"cm h:"+getAdonisGlobalBounds()[3]+"cm"));

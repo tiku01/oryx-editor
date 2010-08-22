@@ -21,6 +21,11 @@ import org.xmappr.RootElement;
 //  adoversion CDATA #REQUIRED
 //>
 
+/**
+ * this class maps the outmost container of the adonis xml file which contains
+ * information to the used adonis version, database, ... and several elements like
+ * attribute profiles (not read) and models
+ */
 @RootElement("ADOXML")
 public class AdonisXML extends XMLConvertible {
 
@@ -144,6 +149,9 @@ public class AdonisXML extends XMLConvertible {
 		return jsonDiagrams;
 	}
 	
+	/**
+	 * overriden to restore a valid xml file 
+	 */
 	@Override
 	public void parse(JSONObject json){
 		//it should be only one, but it may extended

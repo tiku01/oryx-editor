@@ -394,7 +394,7 @@
 					"id":"name",
 					"type":"String", 
 					"title":"Name",
-					"value":"",
+					"value":"Cross reference",
 					"description":"",
 					"readonly":false,
 					"optional":true,
@@ -472,7 +472,7 @@
 					"value":"Aggregation",
 					"description":"",
 					"readonly":false,
-					"optional":true,
+					"optional":false,
 					"length":"",
 					"refToView":"name",
 					"wrapLines":true
@@ -485,7 +485,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"name"
+					"refToView":"show"
 				},
 				{
 					"id":"categories",
@@ -539,32 +539,32 @@
 						{
 							"title":"Rectangle",
 							"value":"Rectangle",
-							"refToView":"rectangle"
+							"refToView":"Rectangle"
 						},
 						{
 							"title":"Circle",
 							"value":"Circle",
-							"refToView":"circle"
+							"refToView":"Circle"
 						},
 						{
-							"title":"Arrow right",
-							"value":"Arrow-right",
-							"refToView":"arrow-right"
+							"title":"Right arrow",
+							"value":"Right arrow",
+							"refToView":"Right arrow"
 						},
 						{
-							"title":"Arrow left",
-							"value":"Arrow-left",
-							"refToView":"arrow-left"
+							"title":"Left arrow",
+							"value":"Left arrow",
+							"refToView":"Left arrow"
 						},
 						{
-							"title":"Arrow upward",
-							"value":"Arrow-upward",
-							"refToView":"arrow-upward"
+							"title":"Upward arrow",
+							"value":"Upward arrow",
+							"refToView":"Upward arrow"
 						},
 						{
-							"title":"Arrow-downright",
-							"value":"Arrow-downright",
-							"refToView":"arrow-downright"
+							"title":"Downward arrow",
+							"value":"Downward arrow",
+							"refToView":"Downward arrow"
 						}
 					],
 					"description":"",
@@ -614,36 +614,6 @@
 					"length":"",
 					"wrapLines":false
 				},
-				{
-					"id":"external process",
-					"type":"Choice", 
-					"title":"External process",
-					"value":"no",
-					"items":[
-						{
-							"title":"no",
-							"value":"no"
-						},
-						{
-							"title":"yes",
-							"value":"yes"
-						}
-					],
-					"description":"",
-					"readonly":false,
-					"optional":false,
-				},
-				{
-					"id":"subprocessname",
-					"type":"String", 
-					"title":"Subprocessname",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":"",
-					"wrapLines":true
-				}
 			]		
 		},
 		{
@@ -840,7 +810,7 @@
 						"value":"Swimlane",
 						"description":"",
 						"readonly":false,
-						"optional":true,
+						"optional":false,
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
@@ -881,7 +851,7 @@
 						"value":"Swimlane",
 						"description":"",
 						"readonly":false,
-						"optional":true,
+						"optional":false,
 						"length":"",
 						"refToView":"name",
 						"wrapLines":true
@@ -918,7 +888,7 @@
 						"id":"name",
 						"type":"String", 
 						"title":"Name",
-						"value":"",
+						"value":"Performance indicator",
 						"description":"",
 						"readonly":false,
 						"optional":true,
@@ -994,7 +964,7 @@
 					"id":"name",
 					"type":"String", 
 					"title":"Name",
-					"value":"",
+					"value":"Performance indicator overview",
 					"description":"",
 					"readonly":false,
 					"optional":true,

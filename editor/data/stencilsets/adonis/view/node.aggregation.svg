@@ -10,27 +10,29 @@ xmlns:svg="http://www.w3.org/2000/svg"
 	<oryx:magnet oryx:cx="20" oryx:cy="30" oryx:default="yes"/>
   </oryx:magnets>
   <g>
-  	<g id="inside">
-		<text font-size="14" 
-			id="name" 
-			x="20" 
-			y="10" 
-			oryx:align="top center"
-			oryx:fittoelem="aggregation"
-			stroke="black"/>
-	</g>
-	<g id="outside">
-		<text font-size="14" 
-			id="name" 
-			x="5" 
-			y="10" 
-			oryx:align="bottom left"
-			oryx:fittoelem="aggregation"
-			stroke="black"/>
+	<g id="show">
+		<g id="inside">
+			<text font-size="14" 
+				id="name" 
+				x="20" 
+				y="10" 
+				oryx:align="top center"
+				oryx:fittoelem="aggregation"
+				stroke="black"/>
+		</g>
+		<g id="outside">
+			<text font-size="14" 
+				id="name" 
+				x="5" 
+				y="10" 
+				oryx:align="bottom left"
+				oryx:fittoelem="aggregation"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="aggregation">
 		<ellipse 
-			id="circle"
+			id="Circle"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
@@ -40,7 +42,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			ry="20"
 			oryx:resize="vertical horizontal"/>
 		<rect 
-			id="rectangle"
+			id="Rectangle"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
@@ -50,28 +52,28 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			height="40"
 			oryx:resize="vertical horizontal"/>
 		<path 
-			id="arrow-right"
+			id="Right arrow"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
 			d="M0 10 L37 10 L40 30 L37 50 L0 50z"
 			oryx:resize="vertical horizontal"/>
 		<path 
-			id="arrow-left"
+			id="Left arrow"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
 			d="M3 10 L40 10 L40 50 L3 50 L0 30z"
 			oryx:resize="vertical horizontal"/>
 		<path 	
-			id="arrow-upward"
+			id="Upward arrow"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 
 			d="M0 17 L20 10 L40 17 L40 50 L0 50z"
 			oryx:resize="vertical horizontal"/>
 		<path 
-			id="arrow-downright"
+			id="Downward arrow"
 			stroke="#000000" 
 			fill="#F0F0F0" 
 			stroke-width="1" 

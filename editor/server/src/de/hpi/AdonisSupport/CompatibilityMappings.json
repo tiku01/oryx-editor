@@ -8,6 +8,12 @@
 			"Prozeß": ["de"],
 			"Process": ["en","us"]
 		},
+		"note":{
+			"Note": ["en"]
+		},
+		"actor":{
+			"actor": ["en"]
+		},
 		"performance indicator overview": {
 			"Performance indicator overview": ["en"]
 		},		
@@ -19,6 +25,12 @@
 			"Has process": ["en"],
 			"Hat Prozeß": ["de"]
 		},
+		"has note": {
+			"has Note": ["en"]
+		},
+		"value flow": {
+			"Value flow": ["en"]
+		},
 		"has cross-reference": {
 			"Has cross-reference": ["en"],
 			"Hat Querverweis":["de"]
@@ -28,20 +40,19 @@
 			"ist innerhalb": ["de"]
 		},
 		"swimlane (vertical)": {
-			"Schwimmbahn (senkrecht)":["de"]
+			"Schwimmbahn (senkrecht)":["de"],
+			"Swimlane (vertical)":["en"]
 		},
 		"swimlane (horizontal)": {
-			"Schwimmbahn (waagerecht)": ["de"]
-		},
-		"horizontal": {
-			"waagerecht": ["de"]
-		},
-		"vertical": {
-			"senkrecht": ["de"]
+			"Schwimmbahn (waagerecht)": ["de"],
+			"Swimlane (horizontal)":["en"]
 		},
 		"aggregation": {
 			"Aggregation": ["de","en"]
 		},
+		"external partner": {
+			"External partner": ["en"]
+		},		
 		"company map": {
 			"Company map": ["en"],
 			"Prozeßlandkarte": ["de"]
@@ -78,6 +89,23 @@
 			"offsetPercentageY":"50",
 			"w":1.20,
 			"h":1.75
+		},
+		"external partner": {
+			"type":"node",
+			"offsetPercentageX":"50",
+			"offsetPercentageY":"50",
+			"w":1.20,
+			"h":1.75
+		},
+		"swimlane (horizontal)": {
+			"type":"node",
+			"offsetPercentageX":"0",
+			"offsetPercentageY":"0",
+		},
+		"swimlane (vertical)": {
+			"type":"node",
+			"offsetPercentageX":"0",
+			"offsetPercentageY":"0",
 		},
 		"external partner": {
 			"type":"node",

@@ -21,11 +21,11 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		oryx:resize="vertical horizontal" />
 	<text 	
 		id="text" 
-		x="0" 
-		y="15" 
+		x="5" 
+		y="5" 
 		font-size="14" 
 		stroke="black"
-		oryx:align="middle center"
+		oryx:align="top left"
 		oryx:fittoelem="note"></text>
 
   </g>

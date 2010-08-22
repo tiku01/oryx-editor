@@ -158,14 +158,7 @@ public class AdonisConverter {
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
 		String json = ac.importXML(
-				importFromFile(
-//						"D:\\Desktop\\Adonis\\Example Exports\\nestedContainer.xml"
-						"D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\Minimal.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"
-//						"D:\\Desktop\\Adonis\\Example Exports\\minmalNestedContainer.xml"
-				)); 
+				importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
 		
 		try {
 			File file = new File("D:\\Desktop\\Eclipse Export.json");
