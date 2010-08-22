@@ -25,7 +25,12 @@
 
 
 
-
+/**
+ * This class is responsible for loading a Connection Collection from a file,
+ * determines viewers already opened and loads required viewers and displays them
+ * @class correspondenceLoader
+ * @constructor
+ */
 correspondenceLoader = function(){
 	this.loadedConnectionCollection = null;
 	this.urls = [];
@@ -36,7 +41,13 @@ correspondenceLoader = function(){
 };
 
 correspondenceLoader.prototype = {
-
+		
+		/**
+		 * Loads a jsonText into a connection Collection
+		 * @param {String} jsonText The JSON to load from
+		 * @param {Correspondence} gadget The gadget the connection should belong to
+		 * @param {ConnectionCollection} connectionCollection The connectionCollection to load to data in.
+		 */
 		load : function(jsonText, gadget, connectionCollection) {	
 	
 			var contains = function(array, element) {
@@ -50,36 +61,27 @@ correspondenceLoader.prototype = {
 			this.gadget = gadget;
 			this.data = YAHOO.lang.JSON.parse(jsonText);			
 			//determine required models
-			for (var i=0;i<this.data.length;i++) {
-				for (var j=0;j<this.data[i].models.length;j++) {
-					var currentUrl = this.data[i].models[j].url;
-					if (!contains(this.urls,currentUrl))
-						this.urls.push(currentUrl);						
+			if (this.data!==null) {
+				for (var i=0;i<this.data.length;i++) {
+					if (this.data[i]!==null) {
+						for (var j=0;j<this.data[i].models.length;j++) {
+							if (this.data[i].models[j]!==null) {
+								var currentUrl = this.data[i].models[j].url;
+								if (!contains(this.urls,currentUrl))
+									this.urls.push(currentUrl);	
+							}
+						}
+					}
 				}
 			}
-			this.gadget.executeWithAllViewers(this.loadRequiredModels.bind(this));
-				
-				
-				/*
-				var comment = data[i].comment;				
-				var newConnection = new Connection(gadget, comment);
-				this.loadedConnectionCollection.addModel()
-				data[i].gadget = gadget;				
-				data[i].editing = false;
-				data[i].elComment = null;
-				//determine all involved models
-				for (var j=0;j<data[i].models.length;j++) {
-					var currentUrl = data[i].models[j].url;
-					if (!contains(urls,currentUrl))
-						urls.push(currentUrl);					
-				}
-			
-			
-			gadget.executeWithAllViewers(this.waitUntilRequiredViewersAreAvailable);	
-				 	*/
+			this.gadget.executeWithAllViewers(this.loadRequiredModels.bind(this));			
+
 			
 		},
-		
+		/**
+		 * Loads a viewer and displays it in the mashup
+		 * @param {String} args The URL of the viewer to load plus job e.g. url + '.JOB_1'		 * 
+		 */
 		loadViewer: function(args){ 
 			
 			gadgets.rpc.call(
@@ -89,6 +91,10 @@ correspondenceLoader.prototype = {
 				args );
 	    },
 	    
+	    /**
+	     * Checks whether element in contained in array
+	     * @return {boolean}
+	     */
 	    containsUri : function(array, element) {
 			for (var k=0;k<array.length;k++) {
 				if (array[k].viewer.getModelUri()==element)
@@ -97,6 +103,9 @@ correspondenceLoader.prototype = {
 			return false;
 		},
 		
+		/**
+		 * Loads the viewer which are required to display the connection
+		 */
 		loadRequiredModels : function() {
 		    	
 	    	for (var i=0;i<this.urls.length;i++) {	    		
@@ -108,15 +117,24 @@ correspondenceLoader.prototype = {
 	    	
 		},
 		
+		/**
+		 * waits and Checks whether all required models have completed loading
+		 */
 		waitForLoadingComplete : function() {
 			this.timeWaited = this.timeWaited + 1500;
 			setTimeout(this.getAllViewersAndCheckLoadingComplete.bind(this),1500);						
 		},
 		
+		/**
+		 * tests whether all viewers completed loading
+		 */
 		getAllViewersAndCheckLoadingComplete : function() {			
 			this.gadget.executeWithAllViewers(this.testLoadingComplete.bind(this));			
 		},
 		
+		/**
+		 * Checks whether all required viewers are contained in local array
+		 */
 		allViewersAvailable : function() {
 	    	for (var i=0;i<this.urls.length;i++) {	    		
 	    		if (!this.containsUri(this.gadget.availableModelViewers,this.urls[i]))
@@ -138,7 +156,9 @@ correspondenceLoader.prototype = {
 			}		
 		},
 		
-		//determine modelviewer index by searching for URL of Model
+		/**
+		 * determine modelviewer index by searching for URL of Model
+		 */
 		getIndexByURL : function(url) {
 			for (var i=0;i<this.gadget.availableModelViewers.length;i++) {
 				if (this.gadget.availableModelViewers[i].viewer.getModelUri()==url) {
@@ -148,6 +168,12 @@ correspondenceLoader.prototype = {
 			alert("Loading failed, viewer not found.")
 		},
 		
+		/**
+		 * Get the Nodes Object by using their Resssource IDs
+		 * @param {Array of Integer}resourceIDs The resourceIDs of the nodes to load
+		 * @param {viewerIndex}  The Index of the Viewer to load the Nodes from
+		 * @return an Array with the requested Nodes
+		 */
 		getNodesByResourceIDs : function(resourceIDs, viewerIndex) {
 			for (var i=0;i<this.gadget.availableModelViewers.length;i++) {
 				if (this.gadget.availableModelViewers[i].index==viewerIndex) {
@@ -167,21 +193,37 @@ correspondenceLoader.prototype = {
 			}
 			return resultNodes;
 		},
-		
-		createConnectionCollection : function() {			
-			for (var i=0;i<this.data.length;i++) {
-				var comment = this.data[i].comment;
-				var connection = new Connection(this.gadget,comment);				
-				for (var j=0;j<this.data[i].models.length;j++) {
-					var currentUrl = this.data[i].models[j].url;
-					var title = this.data[i].models[j].title;
-					var index = this.getIndexByURL(currentUrl);
-					var nodes = this.getNodesByResourceIDs(this.data[i].models[j].nodes, index);
-					connection.addModel(index, title, currentUrl, nodes);								
+		/**
+		 * assemebles the ConnectionCollection
+		 */
+		createConnectionCollection : function() {	
+			var hasContent = false;
+			if (this.data!==null) {
+				for (var i=0;i<this.data.length;i++) {
+					if (this.data[i]!==null) {
+						var comment = this.data[i].comment;
+						var connection = new Connection(this.gadget,comment);				
+						for (var j=0;j<this.data[i].models.length;j++) {
+							if (this.data[i].models[j]!==null) {
+								var currentUrl = this.data[i].models[j].url;
+								var title = this.data[i].models[j].title;
+								var index = this.getIndexByURL(currentUrl);
+								var nodes = this.getNodesByResourceIDs(this.data[i].models[j].nodes, index);
+								if (index!==null && currentUrl!==null) {
+									connection.addModel(index, title, currentUrl, nodes);
+									hasContent = true;
+								}							
+							}
+						}	
+						if (hasContent) {
+							this.loadedConnectionCollection.addConnection(connection);
+						}	
+						hasContent = false;
+					}
 				}
-				this.loadedConnectionCollection.addConnection(connection);
 			}
-			if (this.onLoadingComplete!=null) {
+			this.gadget.connectionCollection = this.loadedConnectionCollection;			
+			if (this.onLoadingComplete!==null) {
 				this.onLoadingComplete(this.loadedConnectionCollection);
 			}
 		}

@@ -21,19 +21,20 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-
-
-		loadingScreen =  new YAHOO.widget.Panel("wait",   
-	            { width:"240px",  
-	              fixedcenter:true,  
-	              close:false,  
-	              draggable:false,  
-	              zindex:4, 
-	              modal:true, 
-	              visible:false 
-	            }  
-	        ); 
-	 
-		loadingScreen.setHeader("Loading, please wait..."); 
-		loadingScreen.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />'); 
-		loadingScreen.render(document.body);
+/**
+ * A generic loading Screen.
+ */
+loadingScreen =  new YAHOO.widget.Panel("wait",   
+        { width:"240px",  
+              fixedcenter:true,  
+              close:false,  
+              draggable:false,  
+              zindex:4, 
+              modal:true, 
+              visible:false 
+            }  
+        ); 
+ 
+loadingScreen.setHeader("Loading, please wait..."); 
+loadingScreen.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />'); 
+loadingScreen.render(document.body);

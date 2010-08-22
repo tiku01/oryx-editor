@@ -21,6 +21,12 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+/**
+ * Handles the displaying of connections in the viewers
+ * @class Discovery
+ * @constructor
+ */
+
 Discovery = function(gadget){
 	this.gadget 	= gadget;
 	this.currentViewer = null;
@@ -47,9 +53,10 @@ Discovery.prototype = {
 		
 	},
 
-	/*
+	/**
 	 * deselct previously selected shape and remove all markers
 	 * and show connections associated with the recently chosen one
+	 * @param {String} reply JSON of the selected shapes, separated by ;
 	 */
 	showConnections: function(reply){
 		
@@ -89,8 +96,8 @@ Discovery.prototype = {
 	},
 	
 	
-	/*
-	 * removeselection and markers associated shapes
+	/**
+	 * remove selection and markers associated shapes
 	 */
 	stopDiscoveryMode : function(){
 		

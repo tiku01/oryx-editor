@@ -99,14 +99,14 @@ AutoConnector.prototype = {
 		},
 		
 		
-		/*
+		/**
 		 * used to sort openPairs ascending by similarity
 		 */
 		sortSimilarity : function(a,b) {
 			return  a.similarity - b.similarity;
 		},
 		
-		/*
+		/**
 		 * //assumes openPairs is sorted by sortSimilarity
 		 */
 		maximalSimilarity : function(openPairs) {
@@ -124,7 +124,7 @@ AutoConnector.prototype = {
 			}
 		},
 		
-		/*
+		/**
 		 * implements an adaption of the Greedy Algorithm 
 		 */
 		optimalNodeMapping : function(openPairs) {
@@ -158,7 +158,7 @@ AutoConnector.prototype = {
 	    	
 	    },
 	    
-		/*
+		/**
 		 * Calculates a value between 0 and 1 representing the difference of two Graphs
 		 */
 		graphEditDistance : function(totalNumberNodes, map, mapDissimilarity, newPair) {
@@ -209,7 +209,7 @@ AutoConnector.prototype = {
 			}
 		},
 		
-		/*
+		/**
 		 * Considers the similarity of directly preceding and succeeding nodes, if they are more similar
 		 * the nodes itself will be more similar
 		 */
