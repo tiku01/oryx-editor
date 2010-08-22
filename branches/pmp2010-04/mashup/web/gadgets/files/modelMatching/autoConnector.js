@@ -47,7 +47,15 @@ AutoConnector = function(){
 };
 
 AutoConnector.prototype = {
-		
+		/**
+		 * This is the essential method and the interface to the outside world.
+		 * It has to be changed when a custom algorithm is required.
+		 * It takes as input two ModelViewer and returns a mapping of nodes
+		 * between them. It is used in ConnectionCollection.autoConnect().
+		 * @param {ModelViewer} viewerA This is a ModelViewer as defined in the MOVI api
+		 * @param {ModelViewer} viewerB This is a ModelViewer as defined in the MOVI api
+		 * @return It returns an array of openPairs.  
+		 */
 		autoConnect : function(viewerA, viewerB){			
 			this.shapesA = viewerA.canvas.shapes;
 			this.shapesB = viewerB.canvas.shapes;	
@@ -55,7 +63,13 @@ AutoConnector.prototype = {
 			return this.autoConnectNodes(viewerA.canvas.getNodes(), viewerB.canvas.getNodes());
 		},
 		
-		
+		/**
+		 * Does the mapping. It takes two objects of Nodes which are returned by canvas.getNodes()
+		 * and returns a mapping(Array of openPairs) 		
+		 * @param {Nodes} nodesA This is an Object as returned by canvas.getNodes() of the MOVI api
+		 * @param {Nodes} nodesB This is an Object as returned by canvas.getNodes() of the MOVI api
+		 * @return It returns an array of openPairs.  
+		 */		
 		autoConnectNodes : function(nodesA, nodesB){
 			
 			var isFunction = function isFunction(obj){				
@@ -83,7 +97,7 @@ AutoConnector.prototype = {
 			this.NumberOfNodesInB = getArrayLength(this.nodesB);
 			for (var keyA in this.nodesA) {	
 				for (var keyB in this.nodesB) {
-					//getNodes() of the MOVI api is broken, it uses Array as base class for an simulated associative array/hashmap instead of Object
+					//getNodes() of the MOVI api is bad, it uses Array as base class for an simulated associative array/hashmap instead of Object
 					//read more why this is bad e.g.: http://andrewdupont.net/2006/05/18/javascript-associative-arrays-considered-harmful/
 					//thus I use a kind of workaround to avoid iterating over functions
 					if(this.nodesA.hasOwnProperty(keyA) && !isFunction(nodesA[keyA]) && this.nodesB.hasOwnProperty(keyB) && !isFunction(nodesB[keyB])) {					
@@ -109,22 +123,34 @@ AutoConnector.prototype = {
 		
 		/**
 		 * used to sort openPairs ascending by similarity
+		 * @param {OpenPair} a
+		 * @param {OpenPair} b
+		 * @return a negative number if a is less simlar
 		 */
 		sortSimilarity : function(a,b) {
 			return  a.similarity - b.similarity;
 		},
 		
 		/**
-		 * //assumes openPairs is sorted by sortSimilarity
+		 * Returns the highest Similarity of the given openPairs
+		 * assumes openPairs is sorted by sortSimilarity
+		 * @param {Array of openPair} openPairs
+		 * @return maximum Similarity as a number
 		 */
 		maximalSimilarity : function(openPairs) {
 			return openPairs[openPairs.length-1].similarity;
 		},
 		
+		/**
+		 * Removes the OpenPairs from pairs which either contain node1 or node2
+		 * @param {Array of OpenPairs} pairs
+		 * @param {Node} node1
+		 * @param {Node} node2
+		 */
 		removePairsContaining : function(pairs, node1, node2) {
 			var i = 0;
 			while (i<pairs.length) {
-				if ((pairs[i].node1.resourceId==node1.resourceId) || (pairs[i].node2.resourceId==node2.resourceId)) {
+				if ((pairs[i].nodes[0].resourceId==node1.resourceId) || (pairs[i].nodes[1].resourceId==node2.resourceId)) {
 					pairs.splice(i,1);
 					i--;
 				}
@@ -134,6 +160,9 @@ AutoConnector.prototype = {
 		
 		/**
 		 * implements an adaption of the Greedy Algorithm 
+		 * To speed it up I just considered the highest Similarity from a sorted list in each step.
+		 * @param {Array of OpenPairs} openPairs (with similarity)
+		 * @return an Array of OpenPairs with high similarities and each node occurs only once
 		 */
 		optimalNodeMapping : function(openPairs) {
 			// sort open pairs by Similarity
@@ -158,7 +187,7 @@ AutoConnector.prototype = {
 				if (newDistance<=lastDistance) {
 					mapDistance = mapDistance + 1.0 - choosenPair.similarity;
 					map.push(choosenPair);
-					this.removePairsContaining(openPairs,choosenPair.node1,choosenPair.node2);
+					this.removePairsContaining(openPairs,choosenPair.nodes[0],choosenPair.nodes[1]);
 				}				
 			} while (newDistance<lastDistance)
 			this.graphEditSimilarity = 1.00 - lastDistance;
@@ -168,6 +197,12 @@ AutoConnector.prototype = {
 	    
 		/**
 		 * Calculates a value between 0 and 1 representing the difference of two Graphs
+		 * @param {Integer} totalNumberNodes The sum of nodes contained in both graphs
+		 * @param {Array of OpenPairs} map A partial mapping
+		 * @param {Float}mapDissimilarity Between 0..1 represents the distance of the already given partial mapping
+		 * @param {OpenPair} newPair The pair will be added to the existing partial mapping as a test and the similarity is calculated with it
+		 * @return the similarity of the given mapping plus the new pair, betwenn 0..1
+		 * 
 		 */
 		graphEditDistance : function(totalNumberNodes, map, mapDissimilarity, newPair) {
 	    	//two times because there are two nodes in each connection
@@ -177,6 +212,11 @@ AutoConnector.prototype = {
 	    	/(WEIGHT_SKIPPED_NODES + WEIGHT_SUBSTITUTED_NODES);
 	    },
 		
+	    /**
+	     * Gets the nodes directly following the given Node
+	     * @param {Node} node The given Node
+	     * @param {Array of Shapes} originShapes all other shapes contained in the model of node
+	     */
 		getOutgoingNodes : function(node, originShapes) {
 			result = [];
 			if (node.isNode()) {
@@ -191,6 +231,11 @@ AutoConnector.prototype = {
 			
 		},
 		
+	    /**
+	     * Gets the nodes directly preceding the given Node
+	     * @param {Node} node The given Node
+	     * @param {Array of Shapes} originShapes all other shapes contained in the model of node
+	     */		
 		getIncommingNodes : function(node, originShapes) {
 			
 			var getIncommingObjects = function(object, originShapes) {
@@ -220,6 +265,9 @@ AutoConnector.prototype = {
 		/**
 		 * Considers the similarity of directly preceding and succeeding nodes, if they are more similar
 		 * the nodes itself will be more similar
+		 * @param {node} node1
+		 * @param {node} node2
+		 * @param {Float} contextSimilarity of the two nodes
 		 */
 		contextSimilarity : function(node1, node2) {
 			var outgoingNode1 = this.getOutgoingNodes(node1, this.shapesA);
