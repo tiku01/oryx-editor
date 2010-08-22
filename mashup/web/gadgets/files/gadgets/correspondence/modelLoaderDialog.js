@@ -67,8 +67,13 @@ YAHOO.util.Event.onDOMReady(function () {
 	var handleSubmit = function() {
 		var textEdit = document.getElementById("textarea");
 		var text = textEdit.innerText;
+		
 		modelLoaderDialog.cancel();
-		modelLoaderDialog.callback(text);
+		if (text!=''){
+			modelLoaderDialog.callback(text);
+		} else {
+			alert("Invalid Input!");
+		}
 		
 	};
 	var handleCancel = function() {

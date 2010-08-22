@@ -21,21 +21,35 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-DIFFERENT_TYPE_PENALTY = 0.5;
-SEMI_DIFFERENT_TYPE_PENALTY = 0.25;
-WEIGHT_STRUCTURAL_SIMILARITY = 1;
+DIFFERENT_TYPE_PENALTY = 0.5; //the penalty given to the similarity of two nodes if their types are different
+SEMI_DIFFERENT_TYPE_PENALTY = 0.25; //the penalty given to the similarity of two nodes if their types are different, but somehow similar (e.g. events in BPMN)
+WEIGHT_STRUCTURAL_SIMILARITY = 1; 
 WEIGHT_SYNTACTIC_SIMILARITY = 0.75;
 
+/**
+* This class constitutes a container for two Nodes.
+* It calculates their similarity by using only information available in this two nodes
+* AutoConnector uses methods where information about the whole graph is required e.g. for context similarity
+* @class OpenPair
+* @constructor
+* @param {Node} node1
+* @param {Node} node2
+*/
 OpenPair = function(node1, node2){
-	this.node1 = node1;
-	this.node2 = node2;
+	//this.node1 = node1; 
+	//this.node2 = node2;
 	this.nodes = new Array(node1, node2);
 	this.similarity = this.similarity(node1, node2);
 
 };
 
 OpenPair.prototype = {
-	
+	/**
+	 * Calculates the Similarity of two nodes 
+	 * @param {Node} node1
+	 * @param {Node} node2
+	 * @return float value between 0..1	 
+	 */
 	similarity : function(node1, node2) {
 		var typeSimilarity = this.typeSimilarity(node1, node2);
 		var label1 = this.preprocessLabel(node1.properties.name);
@@ -47,7 +61,11 @@ OpenPair.prototype = {
 	},
 
 	/**
-	 * implements Damerau-Levenshtein-Distance 
+	 * Calculates similarity between two strings
+	 * implements Damerau-Levenshtein-Distance
+	 * @param {String} label1
+	 * @param {String} label2
+	 * @return float value between 0..1	 
 	 */		
 	syntacticSimilarity : function(label1, label2) {
 		
@@ -92,21 +110,20 @@ OpenPair.prototype = {
 	
 	/**
 	 * normalizes labels to prepare them for optimal comparison
-	 * gets rid of artifacts: trims the label, translates all laters to lower case,
-	 * removes special characters 
+	 * gets rid of artifacts that do not contribute to meaning: translates all laters to lower case	
 	 */
 	preprocessLabel : function(label) {
 	    label = label.toLowerCase();
-	    //label = label.trim();
-	    /*for (var i=0;i<label.length;i++)
-	        if(!Character.isLetter(label.charAt(i)))
-	        	label.deleteCharAt(i);*/
+	    //more to add... remove common words like "the", remove special charachters
 	    return label;
 	},
 	
 	/**
 	 * Considers the type of a node, e.g. two nodes with the same type are more likely to match than 
 	 * nodes with different types
+	 * @param {Node} node1
+	 * @param {Node} node2
+	 * @return float value between 0..1	 
 	 */
 	typeSimilarity : function(node1, node2) {
 		var type1 = node1.stencil.id;
