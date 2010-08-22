@@ -12,45 +12,43 @@ import de.hpi.diagram.OryxUUID;
 
 public abstract class AdonisStencil extends XMLConvertible {
 	private static final long serialVersionUID = 2925851400607788303L;
-
-	/**************************************************************************
-	 * constants
-	 *************************************************************************/
+	
+	public static boolean handleStencil(String oryxName){
+		Log.e("handleStencil must be implemented - not done yet");
+		return false;
+	}
+	
+// C O N S T A N T S
+	 
 	public final static double CENTIMETERTOPIXEL = 50;
 	
-	/**************************************************************************
-	 * common attributes from adonis
-	 *************************************************************************/
+// C o m m o n   a t t r i b u t e s   f r o m   a d o n i s
+
 
 	@Attribute(name="id")
 	protected String id;
 	@Attribute(name="class")
 	protected String stencilClass;
 	
-	/**
-	 * gets the object id	
-	 * @return
-	 */
 	public String getId(){
 		return id;
 	}
 	
-	/**
-	 * set the object id
-	 * @param newId
-	 */
 	public void setId(String newId){
 		id = newId;
 	}
 	
-	/**************************************************************************
-	 * common attributes for oryx
-	 *************************************************************************/
+// H e l p e r s
+	
 	
 	protected String resourceId;
 	private String oryxStencilClass;
 	private String language;
 	private ArrayList<AdonisStencil> outgoingStencil = null;
+	
+	private AdonisStencil parent;
+	private AdonisModel model;
+	private ArrayList<XMLConvertible> used;
 	
 	/**
 	 * tries to get the language in which the original stencil was created
@@ -137,13 +135,6 @@ public abstract class AdonisStencil extends XMLConvertible {
 	}
 	
 	
-	/**************************************************************************
-	 * computing helpers
-	 *************************************************************************/
-	
-	private AdonisStencil parent;
-	private AdonisModel model;
-	private ArrayList<XMLConvertible> used;
 	
 	public boolean isModel(){
 		return false;
@@ -266,39 +257,25 @@ public abstract class AdonisStencil extends XMLConvertible {
 	public abstract AdonisAttribute getAttribute(String identifier); 
 	
 	
-//	public void prepareAdonisToOryx() throws JSONException{
-//		
-//	}
 	
-	/**
-	 * complete transformation adonis to oryx - stub to be overwritten if needed
-	 * @throws JSONException 
-	 */
-	public void completeAdonisToOryx() throws JSONException{
-		
-	}
 	
-	/**
-	 * prepare transformation oryx to adonis - stub to be overwritten if needed
-	 */
-	public void prepareOryxToAdonis(){
-		
-	}
-	
-	public static boolean handleStencil(String oryxName){
-		Log.e("handleStencil must be implemented - not done yet");
-		return false;
-	}
-	
-	//*************************************************************************
-	//* writeJSON methods
-	//*************************************************************************
+//*************************************************************************
+//* Java -> JSON
+//*************************************************************************
 	
 	/**
 	 * prepare transformation adonis to oryx - stub to be overwritten if needed
 	 * @throws JSONException 
 	 */
 	public void prepareAdonisToOryx() throws JSONException{
+		
+	}
+	
+	/**
+	 * operations to be done after reading in json to complete transformation
+	 * @throws JSONException 
+	 */
+	public void completeAdonisToOryx() throws JSONException{
 		
 	}
 	
@@ -326,16 +303,8 @@ public abstract class AdonisStencil extends XMLConvertible {
 	/**
 	 * write the outgoing edges
 	 */
-	public abstract void writeJSONoutgoing(JSONObject json) throws JSONException;/*{
-		JSONArray outgoing = getJSONArray(json,"outgoing");
-		JSONObject temp = null;
-		if (getOutgoing() != null){
-			for (AdonisStencil outgoingStencil : getOutgoing()){
-				temp = new JSONObject();
-				outgoingStencil.writeJSONresourceId(temp);
-				outgoing.put(temp);			}
-		}
-	}*/
+	public abstract void writeJSONoutgoing(JSONObject json) throws JSONException;
+
 	/**
 	 * write the properties (including not used ones and except special attributes with a representation in oryx)
 	 */
@@ -362,9 +331,11 @@ public abstract class AdonisStencil extends XMLConvertible {
 		getJSONObject(json,"target");
 	}
 	
-	//*************************************************************************
-	//* readJSON methods
-	//*************************************************************************
+//*************************************************************************
+//* JSON -> Java
+//*************************************************************************
+	
+	
 	
 	/**
 	 * complete transformation oryx to adonis - stub to be overwritten if needed
@@ -373,7 +344,6 @@ public abstract class AdonisStencil extends XMLConvertible {
 	}
 	
 	public void parse(JSONObject json){
-		prepareOryxToAdonis();
 		super.parse(json);
 		completeOryxToAdonis();
 	}
@@ -383,9 +353,10 @@ public abstract class AdonisStencil extends XMLConvertible {
 		setId("obj."+random.nextInt(100000));
 	}
 	
-	//*************************************************************************
-	//* Configurator access
-	//*************************************************************************
+//*************************************************************************
+//* Configurator access TODO needs overhauling
+//*************************************************************************
+	
 	public void setOryxStencilClass(String oryxName){
 		oryxStencilClass = oryxName;
 	}

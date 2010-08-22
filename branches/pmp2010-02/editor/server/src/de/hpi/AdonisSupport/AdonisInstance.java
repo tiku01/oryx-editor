@@ -14,10 +14,6 @@ import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-
-
-
-
 //<!ELEMENT INSTANCE ((ATTRIBUTE | RECORD | INTERREF)*)>
 //<!ATTLIST INSTANCE
 //  id    ID    #IMPLIED
@@ -30,17 +26,12 @@ import org.xmappr.RootElement;
 @RootElement("INSTANCE")
 public class AdonisInstance extends AdonisStencil { 	
 	private static final long serialVersionUID = -9220820981615621467L;
-	
-	public String toString(){
-		if (getName() == null || getId() == null){
-			return super.toString();
-		}
-		return "AdonisInstance "+getName()+" "+getId();
-	}
-	
-	
-	
-	
+		
+	/**
+	 * list of stencils which are represented by an (adonis) instance
+	 * @param oryxName - the name of the stencil in oryx
+	 * @return true if the stencil is represented as instance
+	 */
 	public static boolean handleStencil(String oryxName){
 		Set<String> instances = new HashSet<String>();
 		instances.add("process");
@@ -53,13 +44,32 @@ public class AdonisInstance extends AdonisStencil {
 		instances.add("cross reference");
 		instances.add("note");
 		instances.add("swimlane (horizontal)");
+		instances.add("swimlane (vertical)");
 		return instances.contains(oryxName);
 		
 	}
 	
+// X M a p p r   -   M a p p i n g   a t t r i b u t e s
+	
+	@Attribute(name="name")
+	protected String name;
 	
 	@Element(name="ATTRIBUTE")
 	protected ArrayList<AdonisAttribute> attribute;
+	
+	@Element(name="INTERREF")
+	protected ArrayList<AdonisInterref> interref;
+	
+	@Element(name="RECORD")
+	protected ArrayList<AdonisRecord> record;
+
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String newName){
+		name = newName;
+	}
 		
 	public ArrayList<AdonisAttribute> getAttribute(){
 		if (attribute == null){
@@ -68,25 +78,9 @@ public class AdonisInstance extends AdonisStencil {
 		return attribute;
 	}
 	
+	
 	public void setAttribute(ArrayList<AdonisAttribute> list){
 		attribute = list;
-	}
-	
-	@Attribute(name="name")
-	protected String name;
-
-	@Element(name="INTERREF")
-	protected ArrayList<AdonisInterref> interref;
-	
-	@Element(name="RECORD")
-	protected ArrayList<AdonisRecord> record;
-	
-	public String getName(){
-		return name;
-	}
-	
-	public void setName(String newName){
-		name = newName;
 	}
 	
 	public ArrayList<AdonisInterref> getInterref(){
@@ -110,6 +104,8 @@ public class AdonisInstance extends AdonisStencil {
 		record = list;
 	}
 	
+// h e l p e r
+	
 	public AdonisAttribute getAttribute(String identifier){
 		for (AdonisAttribute anAttribute : getAttribute()){
 			if (identifier.equals(anAttribute.getOryxName()))
@@ -118,10 +114,27 @@ public class AdonisInstance extends AdonisStencil {
 		return null;
 	}
 	
-	//*************************************************************************
-	//* methods for computation purposes
-	//*************************************************************************
+	/**
+	 * overriden for readability of objects
+	 */
+	public String toString(){
+		if (getName() == null || getId() == null){
+			return super.toString();
+		}
+		return "AdonisInstance "+getName()+" "+getId()+" >>> "+super.toString();
+	}
 	
+// f o r   c o m p u t a t i o n   p u r p o s e s
+	
+	private Double[] oryxGlobalBounds = null;
+	private Double[] adonisGlobalBounds = null;
+	
+	/**
+	 * remove unnecessary information of position string
+	 * (NODE, SWIMLANE, index information, measuring units 
+	 * @param position
+	 * @return array containing [x,y,width,height]
+	 */
 	private String[] filterPositionString(String position){
 		String filteresPosition = position.replace("NODE ","");
 		filteresPosition = filteresPosition.replace("SWIMLANE ","");
@@ -134,8 +147,7 @@ public class AdonisInstance extends AdonisStencil {
 		return filteresPosition.split(" ");
 	}
 
-	private Double[] oryxGlobalBounds = null;
-	private Double[] adonisGlobalBounds = null;
+	
 	
 	/**
 	 * the bounds formated for Adonis
@@ -242,6 +254,7 @@ public class AdonisInstance extends AdonisStencil {
 			
 	}
 	
+	// s t a n d a r d   v a l u e s
 	public Double getStandardHeigth(){
 		try {
 			JSONObject standard = getStandardConfiguration();
@@ -287,10 +300,9 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	
-	
-	//*************************************************************************
-	//* Java -> JSON
-	//*************************************************************************
+//*************************************************************************
+//* Java -> JSON
+//*************************************************************************
 
 	
 	/**
@@ -311,6 +323,10 @@ public class AdonisInstance extends AdonisStencil {
 		}
 	}
 
+	/**
+	 * extract all mapped properties of stencil and try integrate them to oryx
+	 * if mapping successful, mark attribute as used 
+	 */
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json,"properties");
@@ -364,7 +380,7 @@ public class AdonisInstance extends AdonisStencil {
 		element = getAttribute("Display water marks");
 		if (element != null){
 			if (element.getElement() != null){
-				properties.put("display watermark", element.getElement() == "yes" ? true : false);
+				properties.put("display watermark", element.getElement() == "Yes" ? true : false);
 			} else {
 				properties.put("display watermark", false);
 			}
@@ -385,7 +401,7 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		element = getAttribute("Display name");
 		if (element != null && element.getElement() != null){
-			properties.put("display name", element.getElement().equals("yes") ? true : false);
+			properties.put("display name", element.getElement().equals("Yes") ? true : false);
 			addUsed(element);
 		}
 		
@@ -395,16 +411,18 @@ public class AdonisInstance extends AdonisStencil {
 			addUsed(element);
 		}
 		
-		
 	}
 
 	@Override
 	public void writeJSONdockers(JSONObject json) throws JSONException {
-		// TODO currently I have no idea what should be in this^^
+		// not needed?
 		getJSONArray(json, "dockers");
 		
 	}
 
+	/**
+	 * write transformed bounds
+	 */
 	@Override
 	public void writeJSONbounds(JSONObject json) throws JSONException {
 		// try to give the node a nice size
@@ -419,6 +437,9 @@ public class AdonisInstance extends AdonisStencil {
 		lowerRight.put("y",getOryxBounds()[3]);	
 	}
 
+	/**
+	 * write outgoing edges
+	 */
 	@Override
 	public void writeJSONoutgoing(JSONObject json) throws JSONException {
 		JSONArray outgoing = getJSONArray(json,"outgoing");
@@ -432,7 +453,10 @@ public class AdonisInstance extends AdonisStencil {
 			}
 		}
 	}
-
+	
+	/**
+	 * store unused attributes, records, interrefs in container to restore them in export
+	 */
 	public void writeJSONunused(JSONObject json) throws JSONException{
 		//JSONObject unused = getJSONObject(json, "unused");
 		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
@@ -461,10 +485,14 @@ public class AdonisInstance extends AdonisStencil {
 		}
 	}
 	
-	//*************************************************************************
-	//* JSON -> Java
-	//*************************************************************************
+//*************************************************************************
+//* JSON -> Java
+//*************************************************************************
 	
+	/**
+	 * "is inside" connectors are not displayed connectors of adonis to
+	 * mark parent - child relations -> these must be create explicit
+	 */
 	private void createIsInsideConnector(AdonisInstance childShape){
 		//we need to save the father - child relation in a connector
 		AdonisConnector isInside = new AdonisConnector();
@@ -494,6 +522,11 @@ public class AdonisInstance extends AdonisStencil {
 		getModel().getConnector().add(isInside);
 	}
 	
+	/**
+	 * post read in
+	 * write attributes like bounds which depend on knowledge of the parent
+	 * add yourself to created model
+	 */
 	@Override
 	public void completeOryxToAdonis(){
 		Log.d("read in Bounds of stencil: "+getOryxStencilClass()+" named: "+getName());
@@ -527,7 +560,11 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	
-	
+	/**
+	 * extract unused attributes etc. from stencil in hope they are not conflicting with
+	 * edited ones
+	 * @param json
+	 */
 	@SuppressWarnings("unchecked")
 	public void readJSONunused(JSONObject json){
 		SerializableContainer<XMLConvertible> unused;
@@ -554,7 +591,11 @@ public class AdonisInstance extends AdonisStencil {
 		
 	}
 	
-	
+	/**
+	 * read in stencil and set related attributes
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void readJSONstencil(JSONObject json) throws JSONException{
 		if (getStencilClass() == null){
 			JSONObject stencil = json.getJSONObject("stencil");
@@ -565,9 +606,14 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	public void readJSONdockers(JSONObject json){
-		//XXX currently nothing
+		//not needed?
 	}
 	
+	/**
+	 * read in the childshapes and trigger read in for them
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void readJSONchildShapes(JSONObject json) throws JSONException{
 		Log.d("read in ChildShapes of an instance");
 		JSONArray childShapes = json.getJSONArray("childShapes");
@@ -603,6 +649,11 @@ public class AdonisInstance extends AdonisStencil {
 		}
 	}
 	
+	/**
+	 * read in the connections and create or complete connectors  
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void readJSONoutgoing(JSONObject json) throws JSONException{
 		JSONArray outgoing = json.getJSONArray("outgoing");
 		
@@ -638,9 +689,14 @@ public class AdonisInstance extends AdonisStencil {
 	}
 	
 	public void readJSONtarget(JSONObject json){
-		//XXX nothing to do for stencils?
+		//not needed?
 	}
 	
+	/**
+	 * prepares bounds for post processing
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void readJSONbounds(JSONObject json) throws JSONException{
 		JSONObject bounds = json.getJSONObject("bounds");
 		JSONObject upperLeft = bounds.getJSONObject("upperLeft");
@@ -653,6 +709,12 @@ public class AdonisInstance extends AdonisStencil {
 		oryxGlobalBounds[3] = lowerRight.getDouble("y");
 	}
 		
+	/**
+	 * read in properties of stencil and store them in AdonisAttributes
+	 * TODO currently a lot of attributes are hardcoded for the english version
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void readJSONproperties(JSONObject json) throws JSONException{
 		JSONObject properties = json.getJSONObject("properties");
 		if (getName() == null){
@@ -701,7 +763,7 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		booleanAttribute = properties.optBoolean("display name");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",(booleanAttribute ? "yes" : "no")));
+			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",(booleanAttribute ? "Yes" : "No")));
 		}
 		stringAttribute = properties.optString("graphical representation");
 		if (stringAttribute != null){

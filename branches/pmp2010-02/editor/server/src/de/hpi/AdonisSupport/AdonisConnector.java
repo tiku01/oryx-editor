@@ -186,6 +186,9 @@ public class AdonisConnector extends AdonisStencil{
 			.replaceAll("\\s+", " ")
 			.trim().split(" ");
 		//the first number is the number of points - but we extract them according the existing points
+		if (filtered.length == 1 && filtered[0].length() == 0){
+			return dockers;
+		}
 		if (filtered.length % 2 != 0){
 			Log.e("dockers of adonis connector are missing at least a coordinate");
 			return dockers;
@@ -213,7 +216,14 @@ public class AdonisConnector extends AdonisStencil{
 		JSONObject properties = getJSONObject(json, "properties");
 		if (getOryxStencilClass().equals("value flow")){
 			properties.put("name", getName());
-			
+		}
+		
+		AdonisAttribute element = null;
+		
+		element = getAttribute("Type");
+		if (element != null && element.getElement() != null){
+			properties.put("type", element.getElement());
+			addUsed(element);
 		}
 	}
 

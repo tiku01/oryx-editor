@@ -22,17 +22,20 @@ import org.xmappr.Element;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-
+/**
+ * base class for all elements which should be read
+ * it provides</br> 
+ * a facility to store unused attributes or elements
+ * in a String which can be exported if necessary</br>
+ * the basic mechanism to read in and write the json model for/from adonis
+ *
+ */
 public abstract class XMLConvertible implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 173231207049052166L;
 
 
 	static public void writeError(Exception e){
-		//System.err.println(e.getMessage());
 		Log.e(e.getMessage());
 		e.printStackTrace();
 	}
@@ -103,11 +106,17 @@ public abstract class XMLConvertible implements Serializable{
 		}
 	}
 
+	/**
+	 * responsible for writing error messages 
+	 * @param modelElement
+	 * @param key
+	 */
 	public void readJSONunknownkey(JSONObject modelElement, String key) {
-		System.err.println( "Unknown JSON-key: " + key + "\n" +
+		Log.e( "Unknown JSON-key: " + key + "\n" +
 							"in JSON-Object: " + modelElement + "\n" +
 							"while parsing in: " + getClass() + "\n");
 	}
+	
 	
 	protected boolean keyNotEmpty(JSONObject modelElement, String key) {
 		try {
@@ -160,8 +169,8 @@ public abstract class XMLConvertible implements Serializable{
 	}
 	
 	/**
-	 * methods to create a json object tree out of the xmappr generated values	 * 
-	 * @throws JSONException 
+	 * parses the class and looks for methods starting with writeJSON
+	 * these methods are executed in the current context with the json object as base 
 	 * @throws JSONException 
 	 */
 	public void write(JSONObject modelElement) throws JSONException {
@@ -199,10 +208,21 @@ public abstract class XMLConvertible implements Serializable{
 		
 	}
 	
+	/**
+	 * write unused attributes to the json file
+	 * @param json
+	 * @throws JSONException
+	 */
 	public void writeJSONunused(JSONObject json) throws JSONException {
 		
 	}
 
+	/**
+	 * stores not known elements in a container to conserve them
+	 * @param modelElement
+	 * @param key
+	 * @throws JSONException
+	 */
 	public void writeUnknowns(JSONObject modelElement, String key) throws JSONException {
 		HashMap<String,String> unknownAttributes = getUnknownAttributes();
 		ArrayList<DomElement> unknownElements = getUnknownChildren();
@@ -215,9 +235,7 @@ public abstract class XMLConvertible implements Serializable{
 		}
 	}
 
-	/**
-	 * helper methods (Stream enconding and decoding)
-	 */
+// h e l p e r   m e t h o d s   (Stream enconding and decoding)
 	
 	protected Object fromStorable(String stored) {
 		BASE64Decoder base64dec = new BASE64Decoder();
