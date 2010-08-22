@@ -220,7 +220,6 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		var opt = {
 			serPattern: serPattern,
 			name: ORYX.I18N.Patterns.newPattern,
-			imageUrl: undefined,
 			id: undefined
 		};
 		
@@ -286,6 +285,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		
 		//Hide the highlighting
 		//do i really need this???????
+		//TODO
 		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.added'});
 		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.attached'});
 		
@@ -541,7 +541,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
  * Represents a pattern.
  * @class ORYX.Plugins.Patterns.Pattern
  * @extends Clazz
- * @param {Object} opt Can contain the serPattern, id, imageUrl, name to be set in the new instance.
+ * @param {Object} opt Can contain the serPattern, id, and name to be set in the new instance.
  */
 ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	/** @lends ORYX.Plugins.Patterns.Pattern.prototype */
@@ -555,12 +555,7 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	 * The ID of the pattern as set by the server
 	 */
 	id : undefined,
-	
-	/**
-	 * The URL of the thumbnail image of the pattern
-	 */
-	imageUrl : undefined,
-	
+		
 	/**
 	 * The name of the pattern
 	 */
@@ -582,7 +577,6 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	construct: function(opt) {
 		if (opt.serPattern !== null) this.serPattern = opt.serPattern;
 		if (opt.id !== null) this.id = opt.id;
-		if (opt.imageUrl !== null) this.imageUrl = opt.imageUrl;
 		if (opt.name !== null) this.name = opt.name;
 	},
 	
@@ -604,15 +598,14 @@ ORYX.Plugins.Patterns.Pattern = Clazz.extend(
 	},
 	
 	/**
-	 * Creates a JSON representation of the pattern containing only the id, name, serPattern, imageUrl.
+	 * Creates a JSON representation of the pattern containing only the id, name, and serPattern.
 	 * @returns {Object} JSON representation of this pattern
 	 */
 	toJSONString: function() {
 		return Ext.encode({
 			id: this.id,
 			name: this.name,
-			serPattern: this.serPattern,
-			imageUrl: this.imageUrl
+			serPattern: this.serPattern
 		});
 	}
 	

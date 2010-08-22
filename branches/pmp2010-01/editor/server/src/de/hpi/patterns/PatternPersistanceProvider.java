@@ -63,7 +63,7 @@ public interface PatternPersistanceProvider extends JSONString{
 	 * @return the saved pattern if exists null otherwise
 	 * 
 	 */
-	public Pattern getPattern(int id); //throw Exception???
+	public Pattern getPattern(int id);
 	
 	/**
 	 * Deletes the specified pattern.
