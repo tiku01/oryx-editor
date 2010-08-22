@@ -120,7 +120,8 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		autoConnectButton.className ="button";
 
 		var el = document.createElement("li");
-		el.className = "connection";		
+		el.className = "connection";
+		this.enterDiscoveryMode();
 	},
 	
 	
@@ -211,25 +212,23 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	createConnection: function(){
 		
 		// leave discovery mode if currently active
-		if ( this.discoveryMode ){
-			this.discoveryMode = false;
-			this.discovery = null;	
-		}
+		this.stopDiscoveryMode();
 		
 
 		
-		else {
-			for (var i = 0; i < this.connectionCollection.connections.length; i++){
-				if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive )
-					this.connectionCollection.connections[i].deselect();
-			}
-			var stopSelection = function() {
-				this.connector.stopSelectionMode();
-			}
-			//this.connectionMode = true;			
-			this.disable("Add Connection", "Please select the nodes in the viewers to associate them with each other.", stopSelection.bind(this));
-			this.connector = new Connector(this);
+		
+		for (var i = 0; i < this.connectionCollection.connections.length; i++){
+			if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive )
+				this.connectionCollection.connections[i].deselect();
 		}
+		var stopSelection = function() {
+			this.connector.stopSelectionMode();
+			this.enterDiscoveryMode();
+		}
+		//this.connectionMode = true;			
+		this.disable("Add Connection", "Please select the nodes in the viewers to associate them with each other.", stopSelection.bind(this));
+		this.connector = new Connector(this);
+		
 
 	},
 	
@@ -271,6 +270,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	 */
 	onConnectionCollectionLoaded : function() {
 		loadingScreen.hide();
+		this.enterDiscoveryMode();
 	},
 	
 
@@ -293,25 +293,26 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	enterDiscoveryMode : function(){
 		
 		// leave connection mode if currently active
-		if ( this.connectionMode ){
+		/*if ( this.connectionMode ){
 			this.connectionMode = false;
 			this.connector = null;	
-		}
+		}*/
 		
 		this.resetModels();
 		
-		if ( this.discoveryMode ){
+		//if ( !this.discoveryMode ){
+			this.discoveryMode = true;
+			this.discovery = new Discovery(this);
+		//}
+		
+	},
+	
+	stopDiscoveryMode : function() {
+		//if ( this.discoveryMode ){
 			this.discoveryMode = false;
 			this.discovery.stopDiscoveryMode();
 			this.discovery = null;
-			
-		}
-		
-		else {
-			this.discoveryMode = true;
-			this.discovery = new Discovery(this);
-		}
-		
+		//}
 	},
 	
 	/**
@@ -345,6 +346,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		loadingScreen.show();	
 		this.connectionCollection.autoConnect(selectedViewers, this);
 		loadingScreen.hide();
+		this.enterDiscoveryMode();
 		
 	},
 	

@@ -42,34 +42,39 @@ Discovery.prototype = {
 		this.gadget.registerRPC("handleSelection", "", "", this.showConnections, this);
 		
 		// switch single-select mode in all viewers
-		var setSingleSelect = function(viewers) {
+		/*var setSingleSelect = function(viewers) {
 			for (var i = 0; i < viewers.length; i++){
 				var index = viewers[i];
-				this.gadget.setSelectionMode(index, "multi");
+				this.gadget.setSelectionMode(index, "single");
 			}
-		};
+		};*/
 		
-		this.gadget.sendViewers( setSingleSelect, this);
+		//this.gadget.sendViewers( setSingleSelect, this);
 		
 	},
 
 	/**
 	 * deselct previously selected shape and remove all markers
 	 * and show connections associated with the recently chosen one
-	 * @param {String} reply JSON of the selected shapes, separated by ;
+	 * @param {{index[Node]}} reply [Node] are the selected Nodes, Index the Viewer index
 	 */
 	showConnections: function(reply){
 		
-		var selectedShapes = reply.split(";");
-		var viewer = selectedShapes.shift();
+		var selectedShapes = reply.selected;
+		var viewer = reply.index;
 		
 		// those events caused by reseting the selection of the previously selected shape must be filtered out
-		if (selectedShapes[0].evalJSON(true).length > 0){ 	
+		/*if (selectedShapes[0].evalJSON(true).length > 0){ */	
 			var oldViewer = this.currentViewer;
 			var oldShape = this.currentShape;
 	
-			this.currentViewer = viewer
-			this.currentShape = selectedShapes[0].evalJSON(true)[0];
+			this.currentViewer = viewer;
+			for (var s in reply.selected) {
+				this.currentShape = s;
+			}
+
+			
+			
 			
 			// deselct previously selected shape
 		/*	if (oldViewer && oldViewer != this.currentViewer){
@@ -85,13 +90,23 @@ Discovery.prototype = {
 				}
 				
 				var connections = this.gadget.connectionCollection.connections;
+				var firstFound = true;
 				for ( var i = 0; i < connections.length; i++){
-					if (connections[i] && connections[i].includesShape(this.currentViewer, this.currentShape.resourceId))
-						connections[i].markShapes(false);
+					if (connections[i]) {
+						connections[i].clearModels();
+						connections[i].deselect();
+					}
+				}
+				for ( var i = 0; i < connections.length; i++){
+					if (connections[i] && connections[i].includesShape(this.currentViewer, this.currentShape)) {
+						connections[i].markShapes(firstFound);
+						connections[i].select();
+						firstFound = false;
+					}
 				}
 			};
 			this.gadget.sendViewers( showAssociations, this);
-		}
+		
 		
 	},
 	
@@ -100,6 +115,14 @@ Discovery.prototype = {
 	 * remove selection and markers associated shapes
 	 */
 	stopDiscoveryMode : function(){
+		var setMultiSelect = function(viewers) {
+			for (var i = 0; i < viewers.length; i++){
+				var index = viewers[i];
+				this.gadget.setSelectionMode(index, "multi");
+			}
+		};
+		
+		this.gadget.sendViewers( setMultiSelect, this);
 		
 		this.gadget.resetModels();
 		

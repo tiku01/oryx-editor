@@ -187,7 +187,7 @@ Connection.prototype = {
 	 */
 	stopEditing: function() {		
 		this.gadget.unregisterSelectionChanged();
-		this.clearModels();
+		this.clearModels();		
 	},
 	
 	
@@ -201,8 +201,11 @@ Connection.prototype = {
 			this.updateInfoString();
 			this.stopEditing();
 			this.highlightInViewer();
+			this.gadget.enterDiscoveryMode();
 
 		};
+		//this.gadget.stopDiscoveryMode();
+		this.select();
 		this.editing = true;
 		this.gadget.disable("Edit Mode", '<div> Please select the desired shapes in the model viewers to edit the correspondence. </div>  <label for="Comment">Comment:</label><input id="commentTextBox" type="textbox" name="Comment" />', onSuccess.bind(this));
 		document.getElementById("commentTextBox").value = this.comment;
@@ -237,7 +240,7 @@ Connection.prototype = {
 		
 	},
 	/**
-	 *  Removes all models and nodes from this connection.
+	 *  Removes all markers and selections from the involved models.
 	 */
 	clearModels : function() {
 		var resetModels = function(viewers){			

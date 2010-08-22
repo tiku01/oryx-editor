@@ -21,10 +21,18 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-MIN_SIMILARITY = 0.0;
-WEIGHT_SKIPPED_NODES = 1.0;
-WEIGHT_SUBSTITUTED_NODES = 1.0;
-WEIGHT_CONTEXT_SIMILARITY = 0.5;
+MIN_SIMILARITY = 0.4; // nodes that are less similar than that are not even considered
+WEIGHT_SKIPPED_NODES = 1.0; //The weight of the penalty if a node cannot find a partner
+WEIGHT_SUBSTITUTED_NODES = 1.0; //The weight of worth given when a node is assozaited with another (works with WEIGHT_SKIPPED_NODES)
+WEIGHT_CONTEXT_SIMILARITY = 0.5; //The weight the context similarity algorithm contributes to overall similarity
+
+/**
+ * This class is the most important class for the automatic correspondence finding.
+ * If you want to substitute it with your own algorithm you have to change the method 
+ * autoConnect. This is the only method interfacing with the outer world. 
+ * @class AutoConnector
+ * @constructor
+ */
 
 AutoConnector = function(){
 	this.nodesA = null;
