@@ -52,11 +52,6 @@ public class Pattern implements Serializable, JSONString {
 	private int id;
 	
 	/**
-	 * Url of the thumbnail image of the pattern (not yet implemented)
-	 */
-	private final String imageUrl;
-	
-	/**
 	 * Name of the pattern as displayed in pattern repository
 	 */
 	private String name;
@@ -71,14 +66,12 @@ public class Pattern implements Serializable, JSONString {
 	 * Constructor for pattern. Usually instances are created by means of @see fromJSON(String).
 	 * @param id unique id for each pattern in each stencilset
 	 * @param serPattern serialized array of oryx shapes
-	 * @param imageUrl url of the thumbnail image of the pattern
 	 * @param name as shown in pattern repository
 	 */
-	public Pattern(int id, String serPattern, String imageUrl, String name) {
+	public Pattern(int id, String serPattern, String name) {
 		
 		this.id = id;		
 		this.serPattern = serPattern;
-		this.imageUrl = imageUrl;
 		this.name = name;
 	}
 	
@@ -108,15 +101,7 @@ public class Pattern implements Serializable, JSONString {
 	}
 	
 	/**
-	 * gets the url of the thumbnail image of the pattern (not yet implemented)
-	 * @return url of thumbnail
-	 */
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	/**
-	 * Returns a JSON representation of this pattern containing id, serPattern, imageUrl, and name.
+	 * Returns a JSON representation of this pattern containing id, serPattern, and name.
 	 * The representation includes the serialized pattern as well. One might consider to
 	 * exclude the serPattern from the representation but this yields greater architectural
 	 * ramifications. Hence serPattern is included.
@@ -153,10 +138,9 @@ public class Pattern implements Serializable, JSONString {
 		JSONObject jsonObject = new JSONObject(jsonString);
 		int id = jsonObject.optInt("id");
 		String serPattern = jsonObject.getString("serPattern");
-		String imageUrl = jsonObject.optString("imageUrl");
 		String name = jsonObject.optString("name");
 			
-		return new Pattern(id, serPattern, imageUrl, name);
+		return new Pattern(id, serPattern, name);
 	}
 
 	/**
@@ -178,7 +162,7 @@ public class Pattern implements Serializable, JSONString {
 	}
 	
 	/**
-	 * Constructs a JSONObject containing id, serPattern, imageUrl, and name of the current pattern.
+	 * Constructs a JSONObject containing id, serPattern, and name of the current pattern.
 	 * @return JSONObject of current pattern
 	 */
 	public JSONObject toJSONObject() {
@@ -187,7 +171,6 @@ public class Pattern implements Serializable, JSONString {
 		try {
 			jo.put("id", this.getId());
 			jo.put("serPattern", this.getSerPattern());
-			jo.put("imageUrl", this.getImageUrl());
 			jo.put("name", this.getName());
 		} catch (JSONException e) {
 			e.printStackTrace(); //can be ignored safely:
