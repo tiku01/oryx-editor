@@ -79,12 +79,12 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 		arguments.callee.$.construct.apply(this, arguments);
 		
 		//create and register pattern button
-		this.button = new ORYX.Plugins.Patterns.PatternButton(this.facade, this.selAsPattern.bind(this));
+		this.button = new ORYX.Plugins.Patterns.PatternButton(this.facade, this.selectionAsPattern.bind(this));
 		
 		//adding of "capture as pattern"-func   
 		this.facade.offer({
 			name: ORYX.I18N.Patterns.selectionAsPattern, 
-			functionality: this.selAsPattern.bind(this),
+			functionality: this.selectionAsPattern.bind(this),
 			group: ORYX.I18N.Patterns.toolbarButtonText, 
 			description: ORYX.I18N.Patterns.toolbarButtonTooltip,
 			minShape: 2,
@@ -177,7 +177,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	/**
 	 * Callback for creating a new pattern from the current selection and saving it on the server.
 	 */
-	selAsPattern: function() {
+	selectionAsPattern: function() {
 		
 		var selection = this.facade.getSelection();
 		
