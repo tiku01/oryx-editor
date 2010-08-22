@@ -607,7 +607,12 @@
 			{
 				"role" : "associationMorph",
 				"baseMorphs" : ["undirectedAssociation", "directedAssociation", "unnavigableDirectedAssociation" ]
+			},
+			{
+			    "role" : "note",
+			    "baseMorphs" : ["note"]
 			}
+			
 		],
 		"connectionRules": [
 			{

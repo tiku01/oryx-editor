@@ -68,15 +68,16 @@ ORYX.Plugins.UMLUseCase =
 	* Recursivly layouts the system, 
 	* all child systems and the UseCasesExtended the system includes
 	*
-	* @param {Object} shape A system shape
+	* @param {ORYX.Core.Node} system A system shape
 	*/
-	layoutAllSystems : function (shape){
+	layoutAllSystems : function(system){
 		
-		this.layoutAllUseCaseExtended(shape);
+		this.layoutAllUseCaseExtended(system);
 		
-		var systems = shape.getChildNodes().findAll( function(child) {
+		var systems = system.getChildNodes().findAll( function(child) {
 			if (this.isSystemNode(child)) {
-				return child;}
+				return child;
+			}
 		}.bind(this));
 		
 		systems.each(function(systemNode){ 
@@ -89,13 +90,14 @@ ORYX.Plugins.UMLUseCase =
 	/**
 	* Layouts all UseCasesExtended contained in the system
 	*
-	* @param {Object} shape A UseCaseExtended shape
+	* @param {ORYX.Core.Node} system A system shape
 	*/
-	layoutAllUseCaseExtended : function (shape){
+	layoutAllUseCaseExtended : function(system){
 		
-		var useCasesExtended = shape.getChildNodes().findAll(function(child) {
+		var useCasesExtended = system.getChildNodes().findAll(function(child) {
 			if (this.isUseCaseExtendedNode(child)) {
-				return child;}
+				return child;
+			}
 		}.bind(this));
 		
 		useCasesExtended.each(function(useCaseExtendedNode){ 
@@ -150,19 +152,19 @@ ORYX.Plugins.UMLUseCase =
 	* the text "Extension Points"
 	* Neither the resize attribute nor the anchors attribute had the desired effect.
 	* 
-	* @param {Object} shape A UseCaseExtended shape
+	* @param {ORYX.Core.Node} useCaseExtended A UseCaseExtended shape
 	*/
-	layoutUseCaseExtended : function(shape){
+	layoutUseCaseExtended : function(useCaseExtended){
 	
-		var extensionPointTextFrame = shape._svgShapes.find(
-					function(element) { return element.element.id == (shape.id + "extension_point_text_frame"); }
-				).element;
-		var extensionPointText = shape.getLabels().find(
-					function(label) { return label.id == (shape.id + "extensions"); }
-				);
-		var extensionText = shape.getLabels().find(
-					function(label) { return label.id == (shape.id + "extensionpoint"); }
-				);
+		var extensionPointTextFrame = useCaseExtended._svgShapes.find(
+				function(element) { return element.element.id == (useCaseExtended.id + "extension_point_text_frame"); 
+			}).element;
+		var extensionPointText = useCaseExtended.getLabels().find(
+				function(label) { return label.id == (useCaseExtended.id + "extensions"); 
+			});
+		var extensionText = useCaseExtended.getLabels().find(
+				function(label) { return label.id == (useCaseExtended.id + "extensionpoint"); 
+			});
 		var verticalDifference = extensionPointTextFrame.y.baseVal.value - extensionText.y-16;
 		extensionPointTextFrame.y.baseVal.value= extensionText.y+16;
 		extensionPointText.y= extensionText.y+16;
@@ -190,16 +192,16 @@ ORYX.Plugins.UMLUseCase =
 	* Layouts the stereotype and name properties of a System shape
 	* It places the stereotype and property of a System properly and hides the stereotype when necessary
 	*
-	*@param {Object} shape The System shape the user modified the stereotype/name from.
+	*@param {ORYX.Core.Node} system The System shape the user modified the stereotype/name from.
 	*/
-	layoutStereotype: function(shape) {
+	layoutStereotype: function(system) {
 	
-		var stereotype = shape.getLabels().find(
-				function(label) { return label.id == (shape.id + "stereotype"); }
-		);
-		var name = shape.getLabels().find(
-				function(label) { return label.id == (shape.id + "text"); }
-		);
+		var stereotype = system.getLabels().find(
+				function(label) { return label.id == (system.id + "stereotype"); 
+			});
+		var name = system.getLabels().find(
+				function(label) { return label.id == (system.id + "text"); 
+			});
 		
 		if (stereotype.text().empty()){
 					name.y=stereotype.y;
@@ -207,7 +209,7 @@ ORYX.Plugins.UMLUseCase =
 				}else{
 					name.y = stereotype.y+14;
 					stereotype.show();
-					stereotype.text("≪" + shape.properties["oryx-stereotype"] + "≫");
+					stereotype.text("≪" + system.properties["oryx-stereotype"] + "≫");
 				}
 		name.update();
 		stereotype.update();
@@ -219,7 +221,7 @@ ORYX.Plugins.UMLUseCase =
 	*@param {Object} shape The shape that is checked for beeing an extended Use Case.
 	*@return {boolean} The result is true, if the shape is an extended Use Case.
 	*/
-	isUseCaseExtendedNode : function (shape) {
+	isUseCaseExtendedNode : function(shape) {
 		return "http://b3mn.org/stencilset/umlusecase#usecaseextended" == shape.getStencil().id().toLowerCase();
 	},
 	
@@ -229,7 +231,7 @@ ORYX.Plugins.UMLUseCase =
 	*@param {Object} shape The shape that is checked for beeing a system.
 	*@return {boolean} The result is true, if the shape is a system
 	*/
-	isSystemNode : function (shape) {
+	isSystemNode : function(shape) {
 		return "http://b3mn.org/stencilset/umlusecase#system" == shape.getStencil().id().toLowerCase();
 	},
 	
@@ -239,7 +241,7 @@ ORYX.Plugins.UMLUseCase =
 	*@param {Object} event The event that is checked for handling an oryx-stereotype.
 	*@return {boolean} The result is true, if event handles a stereotype
 	*/
-	isStereotypeKeyEvent : function (event) {
+	isStereotypeKeyEvent : function(event) {
 		return event["key"] == "oryx-stereotype";
 	},
 	
@@ -249,7 +251,7 @@ ORYX.Plugins.UMLUseCase =
 	*@param {Object} event The event that is checked for handling an oryx-name.
 	*@return {boolean} The result is true, if event handles a name
 	*/
-	isNameKeyEvent : function (event) {
+	isNameKeyEvent : function(event) {
 		return event["key"] == "oryx-name";
 	}
 };

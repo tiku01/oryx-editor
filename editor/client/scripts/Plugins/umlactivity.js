@@ -57,16 +57,6 @@
 	hashedBounds : {}, 
 	
 	/**
-	* Helper method, which returns true, if the received shape is an Activiy Partition. 
-	*@private
-	*@param {Object} shape The shape that is checked for being an Activiy Partition.
-	*@return {boolean} The result is true, if the shape is an Activiy Partition.
-	*/
-	isActivityPartitionNode : function (shape) {
-		return "http://b3mn.org/stencilset/umlactivity#activitypartition" == shape.getStencil().id().toLowerCase();
-	},
-	
-	/**
 	 * Handler for layouting event 'layout.uml.activityPartition'
 	 * Initiates also the layouting and hashing of the bounds of all activityPartitions
 	 * @param {Object} event This event is fired when an activityPartition Node is moved/resized/edited
@@ -118,6 +108,7 @@
 	 * @private
 	 * @param {ORYX.Core.Node} rootPartition This parameter a an activityPartition, whose parent is not an activityPartition
 	 * @param {ORYX.Core.Node[]} allChildPartitions This parameter is an array of all child partitions of the rootPartition
+	 * 
 	 */
 	cachePositions : function(rootPartition, allChildPartitions) {
 		this.hashedBounds[rootPartition.resourceId] = {};
@@ -198,8 +189,9 @@
 		var resourceIds = $H(this.hashedBounds[this.currentRootPartition.resourceId]).keys();
 		
 		var deletedResourceIds = resourceIds.reject(function (resourceId){
-			return allChildPartitions.any(function(partition){ return partition.resourceId == resourceId;});
-			}); 
+			return allChildPartitions.any(function(partition){ 
+				return partition.resourceId == resourceId;
+		});}); 
 		
 		var deletedPartitions = deletedResourceIds.findAll(function(resourceId) {
 			return this.hashedBounds[this.currentRootPartition.resourceId][resourceId];
@@ -253,7 +245,7 @@
 		var isChildActivityPartition = this.isActivityPartitionNode(partition);
 		isChildActivityPartition = (isChildActivityPartition && this.isActivityPartitionNode(partition.parent));
 		partition.bounds.set(
-				partition.bounds.a.x,
+			partition.bounds.a.x,
 			isChildActivityPartition ? 30 : partition.bounds.a.y,
 			width ? partition.bounds.a.x + width : partition.bounds.b.x,
 			height ? partition.bounds.a.y + height - (isChildActivityPartition ? 30:0) : partition.bounds.b.y
@@ -402,6 +394,16 @@
 	},
 	
 	/**
+	* Helper method, which returns true, if the received shape is an Activiy Partition. 
+	*@private
+	*@param {ORYX.Core.Node} shape The shape that is checked for being an Activiy Partition.
+	*@return {boolean} The result is true, if the shape is an Activiy Partition.
+	*/
+	isActivityPartitionNode : function (shape) {
+		return "http://b3mn.org/stencilset/umlactivity#activitypartition" == shape.getStencil().id().toLowerCase();
+	},
+	
+	/**
 	 * Returns a sorted set on all child activityPartitions for the given partition. If recursive is TRUE, also indirect children will be returned (default is FALSE)
 	 * The set is sorted with the first child the lowest x-coordinate and the last one the highest.
 	 * @param {ORYX.Core.Node} partition The partition the direct/all children were asked for
@@ -411,20 +413,20 @@
 	getChildActivityPartitions: function(partition, recursive){
 		var activityPartitions = partition.getChildNodes(recursive||false).findAll(function(node) { 
 			if (this.isActivityPartitionNode(node)) {
-				return node;}
-			}.bind(this));
+				return node;
+			}}.bind(this));
 		activityPartitions = activityPartitions.sort(function(a, b){
-					// Get x coordinate
-					var ax = Math.round(a.bounds.upperLeft().x);
-					var bx = Math.round(b.bounds.upperLeft().x);
+			// Get x coordinate
+			var ax = Math.round(a.bounds.upperLeft().x);
+			var bx = Math.round(b.bounds.upperLeft().x);
 					
-					// If equal, than use the old one
-					if (ax == bx) {
-						ax = Math.round(this.getHashedBounds(a).upperLeft().x);
-						bx = Math.round(this.getHashedBounds(b).upperLeft().x);
-					}
-					return  ax < bx ? -1 : (ax > bx ? 1 : 0);
-				}.bind(this));
+			// If equal, than use the old one
+			if (ax == bx) {
+				ax = Math.round(this.getHashedBounds(a).upperLeft().x);
+				bx = Math.round(this.getHashedBounds(b).upperLeft().x);
+			}
+				return  ax < bx ? -1 : (ax > bx ? 1 : 0);
+			}.bind(this));
 		return activityPartitions;
 	}
 };

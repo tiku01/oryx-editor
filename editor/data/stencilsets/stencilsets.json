@@ -119,6 +119,14 @@
             "uri":"/umlactivity/umlactivity.json",
             "icon_url":"/umlactivity/umlactivity.png",
             "visible":true
+        },
+        {
+            "title":"Video",
+            "namespace":"http://b3mn.org/stencilset/video#",
+            "description":"Video",
+            "uri":"/video/video.json",
+            "icon_url":"/video/video.png",
+            "visible":true
         }
 		
 ]
