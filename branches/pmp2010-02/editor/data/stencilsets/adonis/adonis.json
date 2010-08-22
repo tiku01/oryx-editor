@@ -767,19 +767,19 @@
 					"id":"type",
 					"type":"Choice", 
 					"title":"Type",
-					"value":"value flow",
+					"value":"Information flow",
 					"items":[
 						{
-							"title":"Value flow",
-							"value":"value flow"
+							"title":"Information flow",
+							"value":"Information flow"
 						},
 						{
-							"title":"Matertial flow",
-							"value":"material flow"
+							"title":"Material flow",
+							"value":"Material flow"
 						},
 						{
 							"title":"Control flow",
-							"value":"control flow"
+							"value":"Control flow"
 						}
 					],
 					"description":"",

@@ -64,6 +64,9 @@ public class AdonisInstance extends AdonisStencil {
 	protected ArrayList<AdonisRecord> record;
 
 	public String getName(){
+		if (name == null){
+			name = getId();
+		}
 		return name;
 	}
 	

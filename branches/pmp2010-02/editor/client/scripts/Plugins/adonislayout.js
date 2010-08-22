@@ -75,7 +75,7 @@ ORYX.Plugins.AdonisLayout= {
 	 * @param {String} standardValue : the standardValue
 	 */
 	unique: function(shape,property,standardValue){
-		var sameClassStencils = this.facade.getCanvas().getChildNodes().findAll(
+		var sameClassStencils = this.facade.getCanvas().getChildNodes(true).findAll(
 			function(childShape){
 				return (childShape.resourceId != shape.resourceId
 						&& childShape.getStencil().id() == shape.getStencil().id());
