@@ -134,9 +134,31 @@ OpenPair.prototype = {
 		if (type1.search("Event")!=-1 && type2.search("Event")!=-1) return 1.00 - SEMI_DIFFERENT_TYPE_PENALTY;
 		return 1.00 - DIFFERENT_TYPE_PENALTY;
 		
-	}
+	},
 
+	//Tests
 	
+	 testsyntacticSimilarity : function() {
+		  var sim1 = this.syntacticSimilarity("Schuh","Schule");
+		  var sim2 = this.syntacticSimilarity("Schuh","Schuhe");
+		  assert(sim1<sim2);		 
+	},
+	
+	testpreprocessLabel  : function() {
+		var l1 = this.preprocessLabel("Schuh");
+		assert(l1=="schuh")
+	},
+	
+	testtypeSimilarity : function() {
+		var type1 = node1.stencil.id;
+		var type2 = node2.stencil.id;
+		//same types
+		if (type1==type2) return 1.00;
+		//both subtype of event -> lower penalty 
+		if (type1.search("Event")!=-1 && type2.search("Event")!=-1) return 1.00 - SEMI_DIFFERENT_TYPE_PENALTY;
+		return 1.00 - DIFFERENT_TYPE_PENALTY;
+		
+	}
 	
 	
 	

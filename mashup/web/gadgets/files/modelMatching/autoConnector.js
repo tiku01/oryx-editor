@@ -288,6 +288,33 @@ AutoConnector.prototype = {
 			similarity = similarity/2.00
 			return similarity;
 			
+		},
+		
+		//Tests
+		
+		
+		testRemovePairsContaining : function(pairs, node1, node2) {
+			var n1 = {resourceId : "abc"};
+			var n2 = {resourceId : "abc"};
+			var n3 = {resourceId : "abcd"};
+			var n4 = {resourceId : "abce"};
+			var n5 = {resourceId : "abcf"};
+			var n6 = {resourceId : "abcg"};
+			var a = new Array(n1, n3);
+			var b = new Array(n4, n2);
+			var c = new Array(n5, n6);
+			var p = new Array(a,b,c);
+			var pairs = {nodes : p};
+			this.removePairsContaining(pairs, n1, n3);
+			assert(pairs.length==1);
+			assert(pairs[0]==c);			
+		},
+		
+		testSortSimilarity : function() {
+			var a = {similarity : 0.5};
+			var b = {similarity : 0.7};
+			var res = this.sortSimilarity(a,b);
+			assert (res<0.0);			
 		}
 	    
 	    
