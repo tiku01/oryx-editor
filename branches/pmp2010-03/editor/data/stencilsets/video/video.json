@@ -1,0 +1,83 @@
+{
+	"title":"UML Use Case Diagram",
+	"namespace":"http://b3mn.org/stencilset/video#",
+	"description":"UML Use Case Diagram",
+	"description_de":"UML Anwendungsfalldiagramm",
+	"description_ru":"Диаграмма прецедентов",
+ 	
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"title_de":"Diagramm",
+			"title_ru" :"Диаграмма",
+			"groups":[],
+			"description":"A UML Use Case Diagram",
+			"description_de":"A UML Use Case Diagram",
+			"view":"node.diagram.svg",
+			"icon":"node.diagram.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"humanActor",
+			"title":"Human Actor",
+			"title_de":"Menschlicher Akteur",
+			"groups":[],
+			"description":"A human actor is placed outside any system and accesses different use cases",
+			"description_de":"Ein menschlicher Akteur steht außerhalb eines Systems und nutzt verschiedene Anwendungsfälle",
+			"view":"node.actor.human.svg",
+			"icon":"node.actor.human.png",
+			"roles": [
+				"diagramContent"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }            
+			]
+		}
+	],
+		
+	"rules": {
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramContent"
+				]
+			}
+		]
+	}
+}

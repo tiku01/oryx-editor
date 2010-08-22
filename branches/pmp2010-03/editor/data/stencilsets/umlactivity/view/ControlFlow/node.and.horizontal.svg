@@ -3,6 +3,25 @@
    	xmlns="http://www.w3.org/2000/svg"
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
+   	
+   	<oryx:magnets>
+   	
+    	<oryx:magnet oryx:cx="1" oryx:cy="5" oryx:anchors="left" />
+
+    	<oryx:magnet oryx:cx="5" oryx:cy="9" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="20" oryx:cy="9" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="35" oryx:cy="9" oryx:anchors="bottom" />
+
+    	<oryx:magnet oryx:cx="39" oryx:cy="5" oryx:anchors="right" />
+
+    	<oryx:magnet oryx:cx="5" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="20" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="35" oryx:cy="1" oryx:anchors="top" />
+
+    	<oryx:magnet oryx:cx="20" oryx:cy="5" oryx:default="yes" />
+    	
+  	</oryx:magnets>
+  	
   	<g
      	oryx:minimumSize="20 10"
      	oryx:maximumSize="100 10">

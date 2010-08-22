@@ -946,14 +946,7 @@
 			]
 		}
 	],	
-	"rules": {
-	    
-	    "morphingRules": [
-			{
-				"role":"and",
-				"baseMorphs" : ["andHorizontal", "andVertical"]
-			}
-		],	    
+	"rules": {    
 		"connectionRules": [
 			{
                 "role":"controlFlow",
@@ -1008,7 +1001,7 @@
 				"connects":[
 					{ 
 					    "from":"causingEvent",
-					    "to":"actionRole" 
+					    "to":["actionRole","flowFinalNode", "activityFinalNode"] 
 					}
 				]
 			}

@@ -21,7 +21,7 @@
     	<oryx:magnet oryx:cx="100" oryx:cy="1" oryx:anchors="top" />
     	<oryx:magnet oryx:cx="170" oryx:cy="1" oryx:anchors="top" />
 
-    	<oryx:magnet oryx:cx="60" oryx:cy="30" oryx:default="yes" />
+    	<oryx:magnet oryx:cx="100" oryx:cy="50" oryx:default="yes" />
     	
   	</oryx:magnets>
   	<g
