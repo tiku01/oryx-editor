@@ -112,7 +112,8 @@
 			"roles": [
 				"transition",
 				"fromtoall",
-				"TransitionMorph"
+				"TransitionMorph",
+				"labeledtransition"
 			],
 			"properties": [
 				{
