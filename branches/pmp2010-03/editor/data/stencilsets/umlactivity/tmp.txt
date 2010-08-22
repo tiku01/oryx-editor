@@ -1,6 +1,0 @@
-"morphingRules": [
-			{
-				"role":"and",
-				"baseMorphs" : ["andHorizontal", "andVertical"]
-			}
-		],

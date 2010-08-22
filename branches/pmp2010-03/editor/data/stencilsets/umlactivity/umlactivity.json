@@ -536,7 +536,8 @@
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"activityContent"
+				"activityContent",
+				"finalNode"
 			],
 			"properties": [
 			    
@@ -588,7 +589,8 @@
 			"roles": [
 				"diagramcontent",
 				"annotatable",
-				"activityContent"
+				"activityContent",
+				"finalNode"
 			],
 			"properties": [
 			    
@@ -642,7 +644,7 @@
 				"annotatable",
 				"controlFlowElement",
 				"activityContent",
-				"and"
+				"andOr"
 			],
 			"properties": [
 				{
@@ -680,7 +682,7 @@
 				"annotatable",
 				"controlFlowElement",
 				"activityContent",
-				"and"
+				"andOr"
 			],
 			"properties": [
 				{
@@ -717,7 +719,8 @@
 				"diagramcontent",
 				"annotatable",
 				"controlFlowElement",
-				"activityContent"
+				"activityContent",
+				"andOr"
 			],
 			"properties": [
                 
@@ -946,14 +949,58 @@
 			]
 		}
 	],	
-	"rules": {    
+	"rules": {
+	    
+	    "morphingRules": [
+			{
+				"role":"andOr",
+				"baseMorphs" : ["andHorizontal", "andVertical", "orNode"]
+			},
+			{
+			   	"role":"action",
+				"baseMorphs" : ["action"] 
+			},
+			{
+			   	"role":"activity",
+				"baseMorphs" : ["activity"] 
+			},
+			{
+			   	"role":"acceptEvent",
+				"baseMorphs" : ["acceptEvent"] 
+			},
+			{
+			   	"role":"sendEvent",
+				"baseMorphs" : ["sendEvent"] 
+			},
+			{
+			   	"role":"timeEvent",
+				"baseMorphs" : ["timeEvent"] 
+			},
+			{
+			   	"role":"object",
+				"baseMorphs" : ["object"] 
+			},
+			{
+			   	"role":"note",
+				"baseMorphs" : ["note"] 
+			},
+			{
+			   	"role":"initialNode",
+				"baseMorphs" : ["initialNode"] 
+			},
+			{
+			   	"role":"finalNode",
+				"baseMorphs" : ["flowFinalNode", "activityFinalNode"] 
+			}			
+		],
+	    
 		"connectionRules": [
 			{
                 "role":"controlFlow",
                 "connects": [
                     {
                         "from":"controlFlowElement",
-                        "to":["controlFlowElement","flowFinalNode","activityFinalNode"]
+                        "to":["controlFlowElement","finalNode"]
                     },
                     {
                         "from":"initialNode",
@@ -1001,7 +1048,7 @@
 				"connects":[
 					{ 
 					    "from":"causingEvent",
-					    "to":["actionRole","flowFinalNode", "activityFinalNode"] 
+					    "to":["actionRole","finalNode"] 
 					}
 				]
 			}
