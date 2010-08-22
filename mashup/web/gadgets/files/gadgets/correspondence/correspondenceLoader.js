@@ -217,10 +217,13 @@ correspondenceLoader.prototype = {
 						}	
 						if (hasContent) {
 							this.loadedConnectionCollection.addConnection(connection);
-						}	
+						}							
 						hasContent = false;
 					}
 				}
+			}
+			if (this.loadedConnectionCollection.connections.size===0) {
+				alert("Input File in wrong format.")
 			}
 			this.gadget.connectionCollection = this.loadedConnectionCollection;			
 			if (this.onLoadingComplete!==null) {

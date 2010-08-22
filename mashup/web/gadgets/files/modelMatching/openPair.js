@@ -36,8 +36,6 @@ WEIGHT_SYNTACTIC_SIMILARITY = 0.75;
 * @param {Node} node2
 */
 OpenPair = function(node1, node2){
-	//this.node1 = node1; 
-	//this.node2 = node2;
 	this.nodes = new Array(node1, node2);
 	this.similarity = this.similarity(node1, node2);
 
@@ -138,7 +136,7 @@ OpenPair.prototype = {
 
 	//Tests
 	
-	 testsyntacticSimilarity : function() {
+	testsyntacticSimilarity : function() {
 		  var sim1 = this.syntacticSimilarity("Schuh","Schule");
 		  var sim2 = this.syntacticSimilarity("Schuh","Schuhe");
 		  assert(sim1<sim2);		 
@@ -146,18 +144,14 @@ OpenPair.prototype = {
 	
 	testpreprocessLabel  : function() {
 		var l1 = this.preprocessLabel("Schuh");
-		assert(l1=="schuh")
+		assert(l1=="schuh");
 	},
 	
 	testtypeSimilarity : function() {
-		var type1 = node1.stencil.id;
-		var type2 = node2.stencil.id;
-		//same types
-		if (type1==type2) return 1.00;
-		//both subtype of event -> lower penalty 
-		if (type1.search("Event")!=-1 && type2.search("Event")!=-1) return 1.00 - SEMI_DIFFERENT_TYPE_PENALTY;
-		return 1.00 - DIFFERENT_TYPE_PENALTY;
-		
+		var n1 = {stencil : {id : "Event"}};
+		var n2 = {stencil : {id : "Task"}};
+		assert(this.typeSimilarity(n1, n2)==(1.00 - DIFFERENT_TYPE_PENALTY));
+				
 	}
 	
 	
