@@ -43,7 +43,7 @@ ModelChooserDialog.prototype = {
 			}
 		}
 
-}
+};
 
 
 
@@ -65,20 +65,7 @@ YAHOO.util.Event.onDOMReady(function () {
 	var handleCancel = function() {
 		this.cancel();
 	};
-	/*
-	var handleSuccess = function(o) {
-		var response = o.responseText;
-		response = response.split("<!")[0];
-		document.getElementById("resp").innerHTML = response;
-	};
-	var handleFailure = function(o) {			
-			var selectedViewers = [];
-			var model1=document.getElementById("model1");
-			selectedViewers.push(dialog1.modelChooserDialog.getViewer(model1.value));	
-			var model2=document.getElementById("model2");
-			selectedViewers.push(dialog1.modelChooserDialog.getViewer(model2.value));	
-			dialog1.modelChooserDialog.caller.onModelChooserDialogClose(selectedViewers);
-	};*/
+
  
     // Remove progressively enhanced content class, just before creating the module
     YAHOO.util.Dom.removeClass("dialog1", "yui-pe-content");
@@ -94,16 +81,6 @@ YAHOO.util.Event.onDOMReady(function () {
 							  effect:[{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5}, 
 								      {effect:YAHOO.widget.ContainerEffect.SLIDE,duration:0.5}] } ); 
  
-	// Validate the entries in the form to require that both first and last name are entered
-	dialog1.validate = function() {
-		var data = this.getData();
-		if (data.firstname == "" || data.lastname == "") {
-			alert("Please enter your first and last names.");
-			return false;
-		} else {
-			return true;
-		}
-	};
 	
 	dialog1.setViewers = function(viewers) {		
 		dialog1.populateSelector(viewers, "model1",0);
@@ -128,14 +105,12 @@ YAHOO.util.Event.onDOMReady(function () {
 
 	};	
  
-	// Wire up the success and failure handlers
-	/*dialog1.callback = { success: handleSuccess,
-						     failure: handleFailure };*/
+
 	
 	// Render the Dialog
 	dialog1.render();
  
 	YAHOO.util.Event.addListener("show", "click", dialog1.show, dialog1, true);
 	YAHOO.util.Event.addListener("hide", "click", dialog1.hide, dialog1, true);
-})
+});
 

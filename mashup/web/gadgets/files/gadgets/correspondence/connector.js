@@ -21,6 +21,13 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+
+/**
+ * This class takes care of the selection process e.g. when adding a new connection 
+ * @class Connector
+ * @constructor
+ * @param {Correspondence} gadget The assoziated gadget.
+*/
 Connector = function(gadget){
 	this.gadget 	= gadget;
 	this.selections = [];
@@ -45,9 +52,9 @@ Connector.prototype = {
 		this.gadget.registerRPC("handleSelection", "", "", this.updateSelection, this);
 	},
 
-	/*
+	/**
 	 * save currently selected shapes of the viewer that caused the event
-	 * 
+	 * @param {Interger {Selection}} reply Index and Selection of Nodes
 	 */
 	updateSelection: function(reply){
 		
@@ -70,7 +77,7 @@ Connector.prototype = {
 		}	
 	},
 	
-	/*
+	/**
 	 * add a new viewer to the collection of viewers with selected shapes
 	 * save the selected shapes and title and url of the model
 	 * 
@@ -85,7 +92,7 @@ Connector.prototype = {
 		};
 	},
 	
-	/*
+	/**
 	 * create a new connection, mark all selected shapes and remove shadows 
 	 */
 	stopSelectionMode : function(){

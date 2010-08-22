@@ -26,6 +26,7 @@ GADGET_DIR = "/gadgets/files/gadgets/core/"
 CORRESPONDENCE_DIR = "/gadgets/files/gadgets/correspondence/"
 REPOSITORY_DIR = "/gadgets/files/gadgets/repository/"
 MODELMATCHING_DIR = "/gadgets/files/modelMatching/"
+MULTIMODEL_DIR = "/gadgets/files/gadgets/multimodel/"
 	
 var correspondence = null;
 	
@@ -74,7 +75,9 @@ getScripts = function(){
 	
 
 
-	YAHOO.util.Get.script([  GADGET_DIR + "abstractGadget.js",	                         	                         
+	YAHOO.util.Get.script([  GADGET_DIR + "abstractGadget.js",	 
+	                         MULTIMODEL_DIR + "multimodel.js",
+	                         MULTIMODEL_DIR + "connection.js",
 	                         CORRESPONDENCE_DIR + "correspondence.js", 
 	                         CORRESPONDENCE_DIR + "connector.js",
 	                         CORRESPONDENCE_DIR + "connection.js",	
@@ -86,7 +89,8 @@ getScripts = function(){
 	                         CORRESPONDENCE_DIR + "modelLoaderDialog.js",
 	                         CORRESPONDENCE_DIR + "connectionModel.js",
 	                         CORRESPONDENCE_DIR + "correspondenceLoader.js",
-	                         CORRESPONDENCE_DIR + "loadingScreen.js"    
+	                         CORRESPONDENCE_DIR + "loadingScreen.js"  
+	                         
 
 	                         ],
 			{

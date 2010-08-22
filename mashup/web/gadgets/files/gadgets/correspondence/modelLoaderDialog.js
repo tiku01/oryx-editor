@@ -32,14 +32,13 @@ ModelLoaderDialog.prototype = {
 			var uploader = document.getElementById("modelUploader");
 			if (!isFirefox) {
 				uploader.disable();
+				var textEle = document.getElementById("textarea");
+				textEle.value =  "Your browser does not support the upload. Please enter the File Content in JSON format in this Text Field."
+				
 			}
 			modelLoaderDialog.show();	
 			var uploader = document.getElementById("modelUploader");
-			
-	        /*form.items.items[1].getEl().dom.addEventListener('change', function(evt){
-	            var text = evt.target.files[0].getAsText('UTF-8');
-	            form.items.items[2].setValue(text);
-	        }, true)*/
+
 			uploader.addEventListener('change', function(evt){
 				var textEdit = document.getElementById("textarea");
 	            var text = evt.target.files[0].getAsText('UTF-8');
@@ -98,16 +97,6 @@ YAHOO.util.Event.onDOMReady(function () {
 							  effect:[{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5}, 
 								      {effect:YAHOO.widget.ContainerEffect.SLIDE,duration:0.5}] } ); 
  
-	// Validate the entries in the form to require that both first and last name are entered
-	modelLoaderDialog.validate = function() {
-		var data = this.getData();
-		if (data.firstname == "" || data.lastname == "") {
-			alert("Please enter your first and last names.");
-			return false;
-		} else {
-			return true;
-		}
-	};
 	
 	modelLoaderDialog.setViewers = function(viewers) {		
 		modelLoaderDialog.populateSelector(viewers, "model1",0);

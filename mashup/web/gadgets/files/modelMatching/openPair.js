@@ -37,16 +37,16 @@ OpenPair = function(node1, node2){
 OpenPair.prototype = {
 	
 	similarity : function(node1, node2) {
-		var structuralSimilarity = this.structuralSimilarity(node1, node2);
+		var typeSimilarity = this.typeSimilarity(node1, node2);
 		var label1 = this.preprocessLabel(node1.properties.name);
 		var label2 = this.preprocessLabel(node2.properties.name);
 		var syntacticSimilarity = this.syntacticSimilarity(label1, label2);
-		return (structuralSimilarity*WEIGHT_STRUCTURAL_SIMILARITY
+		return (typeSimilarity*WEIGHT_STRUCTURAL_SIMILARITY
 				+ syntacticSimilarity*WEIGHT_SYNTACTIC_SIMILARITY) 
 				/(WEIGHT_STRUCTURAL_SIMILARITY+WEIGHT_SYNTACTIC_SIMILARITY)
 	},
 
-	/*
+	/**
 	 * implements Damerau-Levenshtein-Distance 
 	 */		
 	syntacticSimilarity : function(label1, label2) {
@@ -90,7 +90,7 @@ OpenPair.prototype = {
 				
 	},
 	
-	/*
+	/**
 	 * normalizes labels to prepare them for optimal comparison
 	 * gets rid of artifacts: trims the label, translates all laters to lower case,
 	 * removes special characters 
@@ -104,11 +104,11 @@ OpenPair.prototype = {
 	    return label;
 	},
 	
-	/*
+	/**
 	 * Considers the type of a node, e.g. two nodes with the same type are more likely to match than 
 	 * nodes with different types
 	 */
-	structuralSimilarity : function(node1, node2) {
+	typeSimilarity : function(node1, node2) {
 		var type1 = node1.stencil.id;
 		var type2 = node2.stencil.id;
 		//same types
@@ -118,41 +118,7 @@ OpenPair.prototype = {
 		return 1.00 - DIFFERENT_TYPE_PENALTY;
 		
 	}
-	/*
-	 * 
-	 *   private double groupSimilarity (List<ProcessObject> mod1 , List<ProcessObject> mod2) {
-        int s1=mod1.size();
-        int s2=mod2.size();
-        if (s1==0 && s2==0) return 0.25;
-        if (s1==0 || s2==0) return 0.00;
-        Mapping startMapping = new Mapping(mod1, mod2);
-        startMapping.optimalMapping();
-        double editDistance = startMapping.getGraphEditDistance();
-        return editDistance/(4*Math.sqrt(s1)*(double)Math.sqrt(s2));
-    }
 
-    public double ContextSimilarity(ProcessModel ModelA, ProcessModel ModelB) {
-
-        List<ProcessEdge>incommingEdges1 = ModelA.getIncomingEdges(ProcessEdge.class,(ProcessNode) object1);
-        List<ProcessEdge>incommingEdges2 = ModelB.getIncomingEdges(ProcessEdge.class,(ProcessNode) object2);
-        List<ProcessEdge>outgoingingEdges1 = ModelA.getOutgoingEdges(ProcessEdge.class,(ProcessNode) object1);
-        List<ProcessEdge>outgoingingEdges2 = ModelB.getOutgoingEdges(ProcessEdge.class,(ProcessNode) object2);
-
-        List<ProcessNode>succeedingNodes1 = ModelA.getSuccessors((ProcessNode) object1);
-        List<ProcessNode>succeedingNodes2 = ModelB.getSuccessors((ProcessNode) object2);
-        List<ProcessNode>precedingNodes1 = ModelA.getPredecessors((ProcessNode) object1);
-        List<ProcessNode>precedingNodes2 = ModelB.getPredecessors((ProcessNode) object2);
-
-        double simInEdges = groupSimilarity(new LinkedList<ProcessObject>(incommingEdges1), new LinkedList<ProcessObject>(incommingEdges2));
-        double simOutEdges = groupSimilarity(new LinkedList<ProcessObject>(outgoingingEdges1), new LinkedList<ProcessObject>(outgoingingEdges2));
-        double simOutNodes = groupSimilarity(new LinkedList<ProcessObject>(succeedingNodes1), new LinkedList<ProcessObject>(succeedingNodes2));
-        double simInNodes = groupSimilarity(new LinkedList<ProcessObject>(precedingNodes1), new LinkedList<ProcessObject>(precedingNodes2));
-
-
-     return simOutNodes+simInNodes+simOutEdges+simInEdges;
-
-    }
-	 */
 	
 	
 	

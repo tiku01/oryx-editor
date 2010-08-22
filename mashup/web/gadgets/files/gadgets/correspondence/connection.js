@@ -21,6 +21,14 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+	/**
+     * Associates process nodes in a number of process models.    
+     * @class Connection
+     * @constructor
+	 * @param {Correspondence} gadget The Correspondence gadget in which the connection should be displayed.
+	 * @param {String} comment The comment that will be show with the connection.
+     */
+
 Connection = function(gadget, comment){
 	this.comment = comment;
 	this.gadget = gadget;
@@ -30,13 +38,22 @@ Connection = function(gadget, comment){
 };
 
 Connection.prototype = {
+		
+	/**
+	 * Adds a new Processmodel including url and some of its nodes to the connection	
+	 * @param {integer} index The index of the Viewer gadget currently displayed on the screen, which contains the model
+	 * @param {ModelViewer} model The model containing nodes
+	 * @param {String} url The URL to load the the ModelViewer
+	 * @param {Node Array} nodes An Array of the nodes which should be part of the connection and are contained in the given model
+	 */
 	
 	addModel : function(index, model, url, nodes){		
 		this.models[index] = new ConnectionModel (model, url, nodes);		
 	},
 	
-	/*
-	 * creates a human readable explanation of the connection for the ui
+	/**
+	 * Returns a human readable explanation of the connection for the UI.
+	 * @return The description of the connection as a String
 	 */
 	getInfoString : function() {
 		var result = this.comment + ': '
@@ -61,15 +78,17 @@ Connection.prototype = {
 		return result;
 	},
 	
-	
+	/**
+	 * Refreshes the InfoString in the UI.	 
+	 */
 	updateInfoString : function() {
 		this.elComment.innerHTML = this.getInfoString();
 	},
 	
 	
 	
-	/*
-	 * add connection button in multimodel gadget
+	/**
+	 * Adds the connection in correspondece gadget and displays it.
 	 */
 	display : function(){
 		
@@ -118,6 +137,11 @@ Connection.prototype = {
 
 	},
 	
+	/**
+	 * Returns a name of an ID of a node, depending on what is available.
+	 * @param {Node | {name}} A node to get the name.
+	 * @return Returns a name of an ID of a node, depending on what is available.
+	 */
 	humanReadableName : function(node){	
 		if (node.properties) {
 			if (node.properties.name!='') return node.properties.name;
@@ -127,89 +151,9 @@ Connection.prototype = {
 		} else return 'not a node';
 	},
 
-	/*
-	 * add connection button in multimodel gadget
+	/**
+	 * Removes this connection form the gadget.
 	 */
-	display_old : function(){
-		/*
-		var el = document.createElement("li");
-		el.className = "connection";
-		
-		var elContainer = document.createElement("div");
-		elContainer.className = "connection-item";
-		elContainer.onclick = this.highlightInViewer.bind(this);
-		el.appendChild(elContainer);
-		for (var i = 0; i < (this.models.length); i++){ 
-			var resourceIds = [];
-			if (this.models[i]) {
-			for (var j = 0; j < (this.models[i].nodes.length); j++){
-				resourceIds.push(this.models[i].nodes[j].resourceId)
-			}
-			for (var j = 0; j < (resourceIds.length); j++){
-				this.comment = this.comment +" ; " + resourceIds[j]
-			}
-			}
-		}		
-		*/
-		var ressourceIDLists = [];
-		var modelNumber = 0;
-		for (var i = 0; i < (this.models.length); i++){ 
-			var resourceIds = [];
-			if (this.models[i]) {
-				for (var j = 0; j < (this.models[i].nodes.length); j++){
-					resourceIds.push(this.models[i].nodes[j].resourceId)
-				}
-				ressourceIDLists[modelNumber] = "";
-				for (var j = 0; j < (resourceIds.length); j++){
-					ressourceIDLists[modelNumber] = ressourceIDLists[modelNumber] + resourceIds[j] + " ; ";
-				}
-				if (ressourceIDLists[modelNumber] != "") {
-					modelNumber++;
-				}
-			}
-		}	
-		var row = {	modelA : 			ressourceIDLists[0], 
-				modelB : 		ressourceIDLists[1], 
-				farm: "",
-				comment : this.comment
-				};
-		this.gadget.table.addRow(row);
-		this.associatedRow = this.gadget.table.getRecordSet().getLength();
-		
-	
-		/*
-		var elComment = document.createElement("p");
-		elComment.innerHTML = this.comment;
-		elContainer.appendChild(elComment);
-		
-		// delete picture
-		var elDelete = document.createElement("img");
-		elDelete.src = this.gadget.GADGET_BASE + "multimodel/icons/delete.png";
-		elDelete.onclick = this.remove.bind(this);
-		el.appendChild(elDelete);
-	
-		var elClear = document.createElement("div");
-		elClear.className = "clear";
-		el.appendChild(elClear);
-
-		$("connections").appendChild(el);
-		
-		this.connectionEl = elContainer;
-		*/
-		
-		// deselect currently active connection and select the new one
-		var connections = this.gadget.connections;
-		
-		for (var i = 0; i < connections.length; i++){
-			if (connections[i] && connections[i].isActive ){
-				connections[i].deselect();
-			}	
-		}
-		this.select();
-		
-
-	},
-	
 	remove: function(){
 		
 		if (this.isActive){
@@ -238,23 +182,39 @@ Connection.prototype = {
 		
 	},
 	
+	/**
+	 *  Stops the editing mode. Resets all the markings in the viewers.
+	 */
 	stopEditing: function() {		
 		this.gadget.unregisterSelectionChanged();
 		this.clearModels();
 	},
 	
-	edit: function() {		
-			var onSuccess = function() {
-				this.stopEditing();
-				this.highlightInViewer();
-			}
-			this.editing = true;
-			this.gadget.disable("Edit Mode", "Please select the desired shapes in the model viewers to edit the correspondence.", onSuccess.bind(this));
-			this.selectShapes();
-			this.gadget.registerSelectionChanged("all");
-			this.gadget.registerRPC("handleSelection", "", "", this.updateConnection, this);	
+	
+	/**
+	 * Starts the edit Mode. Disables the gadget, marks the viewers accordingly.
+	 */
+	edit: function() {
+		var onSuccess = function() {
+			var commentTextBox = document.getElementById("commentTextBox");
+			this.comment = commentTextBox.value;
+			this.updateInfoString();
+			this.stopEditing();
+			this.highlightInViewer();
+
+		};
+		this.editing = true;
+		this.gadget.disable("Edit Mode", '<div> Please select the desired shapes in the model viewers to edit the correspondence. </div>  <label for="Comment">Comment:</label><input id="commentTextBox" type="textbox" name="Comment" />', onSuccess.bind(this));
+		document.getElementById("commentTextBox").value = this.comment;
+		this.selectShapes();
+		this.gadget.registerSelectionChanged("all");
+		this.gadget.registerRPC("handleSelection", "", "", this.updateConnection, this);
 	},
 	
+	/**
+	 * Updates the selection of nodes if now one were selected.
+	 * @param {{Integer,[Node]}}
+	 */
 	updateConnection: function(reply){
 		
 		var index = reply.index;		
@@ -276,7 +236,9 @@ Connection.prototype = {
 		}
 		
 	},
-	
+	/**
+	 *  Removes all models and nodes from this connection.
+	 */
 	clearModels : function() {
 		var resetModels = function(viewers){			
 			for (var i = 0; i < viewers.length; i++){
@@ -291,7 +253,7 @@ Connection.prototype = {
 	},
 	
 	
-	/*
+	/**
 	 * mark all shapes in viewers that belong to the connection
 	 */
 	highlightInViewer : function(){
@@ -315,19 +277,25 @@ Connection.prototype = {
 		this.select();
 	},
 	
+	/**
+	 * Deselects this connection in the UI.
+	 */
 	deselect : function(){
 		this.isActive = false;
 		this.connectionEl.removeClassName("connection-item-active");
 	},
 	
+	/**
+	 * Selects this connection in the UI.
+	 */	
 	select : function(){
 		this.isActive = true;
 		this.connectionEl.addClassName("connection-item-active");
 	},
 	
-	/*
+	/**
 	 * in all models that belong to the connection mark the included shapes
-	 * if reset is true remove all other markers and shadows
+	 * @param {Boolean} reset If reset is true remove all other markers and shadows
 	 */
 	markShapes : function(reset){
 		
@@ -351,10 +319,10 @@ Connection.prototype = {
 		
 	},
 	
-	/*
-	 * in all models that belong to the connection select the included shapes
-	 * if reset is true remove all other markers and shadows
+	/**
+	 * in all models that belong to the connection select the included shapes	 
 	 * the difference to markShapes is that selected shapes can be removed with one click
+	 * @param {Boolean} reset If reset is true remove all other markers and shadows
 	 */
 	selectShapes : function(reset){
 		
@@ -378,8 +346,10 @@ Connection.prototype = {
 		
 	},
 	
-	/*
+	/**
 	 * checks whether a shape specified by its resourceId and the viewer belongs to the connection
+	 * @param {Integer} viewer The index of the Viewer gadget
+	 * @param {String} resourceId The resourceId of the shape to test.
 	 */
 	includesShape: function(viewer, resourceId){
 		if (this.models[viewer]){
@@ -392,8 +362,11 @@ Connection.prototype = {
 		
 	},
 	
+	/**
+	 * Returns a JSON Representation of the connection
+	 * @return {String} Returns a JSON Representation of the connection
+	 */
 	toJSON: function() {
-
 		var obj = {
 			comment : this.comment,
 			models	: this.models

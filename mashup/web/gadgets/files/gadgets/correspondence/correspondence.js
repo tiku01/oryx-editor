@@ -21,6 +21,13 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+
+
+/**
+ * This is the gadget in the mashup responsible for creating Correspondence between process models.
+ * @class Correspondence
+ * @constructor
+ */
 Correspondence = function(){
 	
 	Correspondence.superclass.constructor.call(this, "Correspondence");
@@ -39,6 +46,9 @@ Correspondence = function(){
 
 YAHOO.lang.extend( Correspondence, AbstractGadget, {	
 	
+	/**
+	 * Draws and initializes the UI
+	 */
 	init: function() {
 	
 		var layout = new YAHOO.widget.Layout({ 
@@ -114,7 +124,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	},
 	
 	
-	/*
+	/**
 	 * render table in which associations will be displayed
 	 * 
 	 */
@@ -194,7 +204,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 
 	
 	
-	/*
+	/**
 	 * show dialog to configure new connection
 	 * 
 	 */
@@ -206,29 +216,31 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 			this.discovery = null;	
 		}
 		
-		if ( this.connectionMode ){
-			this.connectionMode = false;
-			this.connector.stopSelectionMode();
-			this.connector = null;
-			
-		}
+
 		
 		else {
 			for (var i = 0; i < this.connectionCollection.connections.length; i++){
 				if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive )
 					this.connectionCollection.connections[i].deselect();
 			}
-			this.connectionMode = true;
+			var stopSelection = function() {
+				this.connector.stopSelectionMode();
+			}
+			//this.connectionMode = true;			
+			this.disable("Add Connection", "Please select the nodes in the viewers to associate them with each other.", stopSelection.bind(this));
 			this.connector = new Connector(this);
 		}
 
 	},
-
+	
+	/**
+	 * Adds a connection between models to represent a corresspondence 
+	 */
 	addConnection : function(connection){
 		this.connectionCollection.addConnection(connection);
 	},
 	
-	/*
+	/**
 	 * store connections permanently
 	 * 
 	 */
@@ -238,6 +250,9 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		
 	},
 	
+	/**
+	 * loads Connections from a file
+	 */	
 	loadConnections: function() {
 		var loadJSON = function(jsonText){
 			//first remove all current connection
@@ -251,28 +266,30 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		dialog.show();		
 	},
 	
+	/**
+	 * Function executed after having loaded a file, hides the loading screen
+	 */
 	onConnectionCollectionLoaded : function() {
 		loadingScreen.hide();
 	},
 	
 
 	
-	/*
+	/**
 	 * remove all connections
 	 */
 	resetConnections: function(){
-		this.connectionConnections.connections.clear();
-		this.connectionConnections.connections = [];
+		this.connectionCollection.connections.clear();
+		this.connectionCollection.connections = [];
 		$("connections").innerHTML = "";
 	
 		this.resetModels();
 		
 	},
 	
-	/*
+	/**
 	 * reset markers and selections to enter the discovery Mode
-	 */
-	
+	 */	
 	enterDiscoveryMode : function(){
 		
 		// leave connection mode if currently active
@@ -297,7 +314,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		
 	},
 	
-	/*
+	/**
 	 * remove shadows, markers and selections from all viewers
 	 */
 	resetModels : function(){
@@ -318,35 +335,20 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	openAutoConnectDialog : function(){
 		var dialog = new ModelChooserDialog(this.availableModelViewers, this);
 		dialog.show();
-
 	},	
 	
-	onModelChooserDialogClose : function(selectedViewers) {
-		
-		
-
-		
-		loadingScreen.show();
-		var mapping = this.connectionCollection.autoConnect(selectedViewers[0].viewer,selectedViewers[1].viewer);
-		var newConnection;
-		for (var i=0;i<mapping.length;i++) {
-			newConnection = new Connection(this, "generated");
-			
-			for (var j=0;j<2;j++) {
-				var nodes = [];
-				nodes[0] = mapping[i].nodes[j];		
-				var index = selectedViewers[j].index;
-				var url = selectedViewers[j].viewer.getModelUri();
-				var title = url.substring(url.lastIndexOf("/")+1,url.length);		
-				newConnection.addModel(index, title , url, nodes);
-			}
-			this.connectionCollection.addConnection(newConnection);
-		}
+	/**
+	 * Executes the auto connector when the viewers were selected
+	 * @param {Array of {Integer, ModelViewer}} selectedViewers
+	 */
+	onModelChooserDialogClose : function(selectedViewers) {	
+		loadingScreen.show();	
+		this.connectionCollection.autoConnect(selectedViewers, this);
 		loadingScreen.hide();
 		
 	},
 	
-	/*
+	/**
 	 * creates connections between all viewers on the screen automatically 
 	 */
 	autoConnect : function() {
@@ -354,7 +356,9 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	},
 	
 	
-
+	/**
+	 * Executes aFunction with arguments in the context of all viewers currently displayed on the screen
+	 */
 	executeWithAllViewers : function (aFunction, arguments) {	
 		
 		this.availableModelViewers = [];
@@ -404,10 +408,13 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		
 	},
 	
-	/*
+	/**
 	 * 	Creates a grey overlay over the gadget, so that it cannot be edited anymore. 
 	 * 	Shows a message window with the title modename and shows message.
 	 *  If the user clicks done, the function onClose is executed.
+	 *  @param {String} modename displayed in the popup header
+	 *  @param {String} message 
+	 *  @param {Function} onClose will be executed when closing this window
 	 */
 	disable : function(modename, message, onClose) {
 		
