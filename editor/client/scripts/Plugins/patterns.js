@@ -282,13 +282,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	 * @param {String} id The id of the dropped element
 	 */
 	afterDragDrop: function(dragZone, target, event, id) {
-		
-		//Hide the highlighting
-		//do i really need this???????
-		//TODO
-		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.added'});
-		this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId: 'patternRepo.attached'});
-		
+			
 		//Check if drop is allowed
 		var proxy = dragZone.getProxy();
 		if (proxy.dropStatus == proxy.dropNotAllowed) {return;}
@@ -490,7 +484,7 @@ ORYX.Plugins.Patterns = ORYX.Plugins.AbstractPlugin.extend(
 	* @param {Array} jsonObjectArray JSONObjects of shapes
 	*/
 	removeDanglingEdges: function(jsonObjectArray) {
-		//recursion deep check???
+		
 		var result = jsonObjectArray.select(function(jsonObjectArray, serShape) {
 			if(!serShape.target) { //is node?
 				return true;
@@ -867,7 +861,6 @@ ORYX.Plugins.Patterns.PatternNodeUI = Ext.extend(Ext.tree.TreeNodeUI,
 									renderTo: span
 								});
 								
-			//this.deleteButton.getEl().fadeOut();
 			this.deleteButton.hide();
 			
 		},
@@ -966,7 +959,6 @@ ORYX.Plugins.Patterns.PatternButton = Clazz.extend(
 		var selection = this.facade.getSelection();
 		
 		if (!this.buttonVisible) {
-			//remove magic number!
 			if(selection.size() >= 2) this.showPatternButton();
 		} else {
 			if(selection.size() >= 2) {
