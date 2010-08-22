@@ -875,9 +875,10 @@ ORYX.I18N.ProcessLogGenerator.completeness.Trace = "Trace Completeness";//"Trace
 ORYX.I18N.ProcessLogGenerator.completeness.Ordering = "Ordering Completeness";//"Ordering-Completeness Required";
 
 ORYX.I18N.ProcessLogGenerator.degreeOfNoise = "Percentage of noise";
-ORYX.I18N.ProcessLogGenerator.respectPropabilities = "Respect propabilities of choices";
+ORYX.I18N.ProcessLogGenerator.respectPropabilities = "Respect probabilities of choices";
 ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle = "Log Generating Preferences";
 ORYX.I18N.ProcessLogGenerator.generateButton = "Generate";
 ORYX.I18N.ProcessLogGenerator.cancelButton = "Cancel";
 ORYX.I18N.ProcessLogGenerator.completenessSelect = "Type of completeness";
 ORYX.I18N.ProcessLogGenerator.pleaseSelect = "Please select a type";
+ORYX.I18N.ProcessLogGenerator.numberOfTraces = "Desired number of traces in the log";

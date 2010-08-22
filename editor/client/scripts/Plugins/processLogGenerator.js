@@ -20,244 +20,278 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
+/*global ORYX, Ext, Ajax*/ //for JSLint
 
-if(!ORYX.Plugins)
-	ORYX.Plugins = new Object();
+if (!ORYX.Plugins) {
+    ORYX.Plugins = {};
+}
 
+/**
+ * A Plugin for generating Process-Logs from Petrinets. This plugin uses a
+ * server-side plugin to actually generate the log. This client-side plugin
+ * only shows an options-dialog, sends the log-generation-request to the server
+ * and offers the generated log for download. 
+ * 
+ * @class
+ * @author Thomas Milde
+ * */
 ORYX.Plugins.ProcessLogGenerator = ORYX.Plugins.AbstractPlugin.extend({
-	
-	processLogGeneratorHandleURL: ORYX.PATH + "processloggenerator",
-	
-	construct: function(facade) {
-	
-		// Call super class constructor
-    	arguments.callee.$.construct.apply(this, arguments);
-		//this.facade = facade;
-	
-		this.facade.offer({
-			'name'				: ORYX.I18N.ProcessLogGenerator.generate,
-			'functionality'		: this.showOptionsDialog.bind(this),
-			'description'		: ORYX.I18N.ProcessLogGenerator.generateDescription,
-			'icon'				: ORYX.PATH + "images/processLogGeneratorIcon.png",
-			'index'				: 0,
-			'minShape'			: 0,
-			'maxShape'			: 0
-		});	
-	},
-	
-	perform: function() {
-		var options = JSON.stringify(this.showOptionsDialog());
-		//var log = this.generateLog(options);
-		//this.openDownloadWindow("generated_log.mxml", log);
-		this.generateLogAsynchronously(options);
-	},
-	
-	showOptionsDialog: function() {			
-		/*var dialog = new Ext.XTemplate(		
-			'<form class="oryx_repository_edit_model" action="#" id="LogGenerationPreferences" onsubmit="return false;">',					
-				'<fieldset>',
-					'<p class="description">' + ORYX.I18N.ProcessLogGenerator.dialogDescription + '</p>',
-					'<input type="hidden" name="namespace" value="{namespace}" />',
-					//'<p><label for="requireNoCompleteness">' + ORYX.I18N.ProcessLogGenerator.requireNoCompleteness + '</label><input type="radio" class="radio" name="completeness" value="none" id="requireNoCompleteness" checked="true"/></p>',
-					//'<p><label for="requireTraceCompleteness">' + ORYX.I18N.ProcessLogGenerator.requireTraceCompleteness + '</label><input type="radio" class="radio" name="completeness" value="trace" id="requireTraceCompleteness"/></p>',
-					//'<p><label for="requireOrderingCompleteness">' + ORYX.I18N.ProcessLogGenerator.requireOrderingCompleteness + '</label><input type="radio" class="radio" name="completeness" value="ordering" id="requireOrderingCompleteness"/></p>',
-					'<p><label for="completeness">' + ORYX.I18N.ProcessLogGenerator.completenessSelect + '</label><select class="select" name="completeness" id="completeness"><option value="none">'+ ORYX.I18N.ProcessLogGenerator.requireNoCompleteness +'</option><option value="trace">'+ ORYX.I18N.ProcessLogGenerator.requireTraceCompleteness +'</option><option value="ordering">'+ ORYX.I18N.ProcessLogGenerator.requireOrderingCompleteness +'</option></select>',
-					'<p><label for="degreeOfNoise">' + ORYX.I18N.ProcessLogGenerator.degreeOfNoise + '</label><input type="text" class="text num-field invalid" name="noise" value="0" id="degreeOfNoise"/></p>',
-					'<p><label for="respectPropabilities">' + ORYX.I18N.ProcessLogGenerator.respectPropabilities + '</label><input type="checkbox" name="respectPropabilities" class="checkbox" checked="true" id="respectPropabilities" /></p>',
-				'</fieldset>',
-			'</form>')
-		
-		// Create the callback for the template
-		callback = function(form){
-					
-			var completeness			= form.elements["completeness"].value.strip();
-			var noise 					= form.elements["degreeOfNoise"].value.strip();
-			if(!(0 <= noise && noise <= 100)) return;
-			var respectPropabilities 	= form.elements["respectPropabilities"].value.strip();
-			
-			win.destroy();
-			
-			// Send the request out
-			this.generateLogAsynchronously({'completeness': completeness,
-				'noise': noise,
-				'respectPropabilities': respectPropabilities});
-			
-		}.bind(this);
-		
-		// Create a new window				
-		win = new Ext.Window({
-			id:		'GeneratePreferencesWindow',
-	        width:	'auto',
-	        height:	'auto',
-	        title:	ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle,
-	        modal:	true,
-			bodyStyle: 'background:#FFFFFF',
-	        html: 	dialog,
-			buttons:[{
-				text: ORYX.I18N.ProcessLogGenerator.generateButton,
-				handler: function(){
-					callback( $('LogGenerationPreferences') )					
-				}
-			},{
-            	text: ORYX.I18N.ProcessLogGenerator.cancelButton,
-            	handler: function(){
-	               this.facade.raiseEvent({
-	                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
-	                });						
-                	win.destroy();
-            	}.bind(this)
-			}]
-	    });
-				      
-		win.show();*/
-		
-		var completenessOptions = [['None'], ['Trace'], ['Ordering']];
-		
-		var dataStore = new Ext.data.SimpleStore({
-			fields	: ['value'],
-		    data 	: completenessOptions
-		});
-		
-		var completenessSelector = new Ext.form.ComboBox({
-			fieldLabel: ORYX.I18N.ProcessLogGenerator.completenessSelect,
-	        store: dataStore,
-	        displayField:'value',
-			valueField: 'value',
-	        typeAhead: true,
-	        mode: 'local',
-	        triggerAction: 'all',
-	        selectOnFocus:true,
-	        forceSelection: true,
-	        emptyText: ORYX.I18N.ProcessLogGenerator.pleaseSelect
-		});
-
-		/*var completenessOptions = [ORYX.I18N.ProcessLogGenerator.completeness.None, 
-		           				ORYX.I18N.ProcessLogGenerator.completeness.Trace, 
-		        				ORYX.I18N.ProcessLogGenerator.completeness.Ordering];*/
-			
-		/*var completenessSelector = new Ext.form.ComboBox({
-			//tpl: '<tpl for="."><div class="x-combo-list-item">{[(values.icon) ? "<img src=\'" + values.icon + "\' />" : ""]} {title}</div></tpl>',
-	        store: store,
-	        displayField:'value',
-			valueField: 'value',
-	        typeAhead: true,
-	        mode: 'local',
-	        triggerAction: 'all',
-	        selectOnFocus:true
-	    });*/
-		
-		var noiseField = new Ext.form.NumberField({
-			fieldLabel		: ORYX.I18N.ProcessLogGenerator.degreeOfNoise,
-			allowBlank		: false,
-			allowDecimals	: false,
-			minValue		: 0,
-			maxValue		: 100
-		});
-		
-		var propabilityCheckbox = new Ext.form.Checkbox({
-			fieldLabel		: ORYX.I18N.ProcessLogGenerator.respectPropabilities
-		});
-		
-		var form = new Ext.form.FormPanel({
-			frame : false,
-			defaultType : 'textfield',
-		 	waitMsgTarget : true,
-		  	labelAlign : 'left',
-		  	buttonAlign: 'right',
-		  	enctype : 'multipart/form-data',
-		  	style: 'font-size:12px;',
-		  	items : [
-		  	         completenessSelector,
-		  	         noiseField,
-		  	         propabilityCheckbox]
-		});
-		
-		var errorMsg = new Ext.Panel({style: 'font-size:12px;', autoScroll: true});
-		
-		var dialog = new Ext.Window({ 
-			autoCreate: true, 
-			title: ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle, 
-			height: 240, 
-			width: 400, 
-			modal:true,
-			collapsible:false,
-			fixedcenter: true, 
-			shadow:true, 
-		  	style: 'font-size:12px;',
-			proxyDrag: true,
-			resizable:true,
-			items: [
-			        new Ext.form.Label({
-			        	text: ORYX.I18N.ProcessLogGenerator.dialogDescription, 
-			        	style: 'font-size:12px;'}),
-			        form,
-			        errorMsg
-			        ],
-			buttons:[{
-				text:"Submit",
-				handler: function() {
-					this.generateLogAsynchronously({completeness: completenessSelector.value,
-						noise: noiseField.value,
-						respectPropabilities: propabilityCheckbox.checked});
-					dialog.hide();
-				}.bind(this)
-			}]
-		});
-		dialog.on('hide', function(){
-			dialog.destroy(true);
-			delete dialog;
-		});
-		dialog.show();
-	},
-	
-	generateLog: function(options) {
-		var loadMask = new Ext.LoadMask(Ext.getBody(), {msg: ORYX.I18N.ProcessLogGenerator.waitText});
-		loadMask.show();
-		
-		var erdf = this.getRDFFromDOM();
-		var success = false;
-		var response = null;
-
-		new Ajax.Request(this.processLogGeneratorHandleURL, {
-           method			: 'POST',
-           asynchronous		: false,
-           parameters		: { 'model'		: erdf,
-				  				'options' 	: options },
-		   onSuccess		: function(ajaxResponse) {
-				success = true;
-				response = ajaxResponse.responseText;
-			}.bind(this),
-			
-			onFailure 		: function(ajaxResponse) {
-				Ext.Msg.alert(ORYX.I18N.Oryx.title, ORYX.I18N.ProcessLogGenerator.failed + ajaxResponse.responseText);
-				ORYX.log.warn("Generating a Process Log failed: " + ajaxResponse.responseText);					
-			}.bind(this)		
-		});
-		loadMask.hide();
-		
-		return response;
-	},
-	
-	generateLogAsynchronously: function(options) {
-		this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_ENABLE, text: ORYX.I18N.ProcessLogGenerator.shortWaitText});
-		var erdf = this.getRDFFromDOM();
-		var optionsString = JSON.stringify(options);
-		new Ajax.Request(this.processLogGeneratorHandleURL, {
-            method: 'POST',
-            parameters: {
-				'options'	: optionsString,
-				'model'		: erdf
-            },
-            onSuccess: (function(request){
-            	this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_DISABLE});
-            	this.openDownloadWindow("generated_log.mxml", request.responseText);
-            }).bind(this),
-            
-			onFailure: (function(){
-				this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_LOADING_DISABLE});
-				Ext.Msg.alert(ORYX.I18N.Oryx.title, ORYX.I18N.ProcessLogGenerator.failed);
-			}).bind(this)
+    
+    /**
+     * The URL, that handles Requests for creating a Process-Log
+     * @constant
+     * @private
+     * @fieldof ORYX.Plugins.ProcessLogGenerator#
+     * */
+    processLogGeneratorHandleURL: ORYX.PATH + "processloggenerator",
+    
+    /**
+     * Creates a new instance of the Process-Log-Generation plugin and registers
+     * it at the supplied facade.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @param {Facade} facade The plugin facade (interface between
+     * plugin and editor)
+     * */
+    construct: function (facade) {
+    
+        arguments.callee.$.construct.apply(this, arguments);
+        // Call super class constructor
+    
+        this.facade.offer({
+            'name'          : ORYX.I18N.ProcessLogGenerator.generate,
+            'functionality' : this.perform.bind(this),
+            'description'   : ORYX.I18N.ProcessLogGenerator.generateDescription,
+            'icon'          : ORYX.PATH + "images/processLogGeneratorIcon.png",
+            'index'         : 0,
+            'minShape'      : 0,
+            'maxShape'      : 0
+        });    
+    },
+    
+    /**
+     * Perform the plugin's action, i.e. open a Properties-window and send a
+     * request for creating a log to the server, when the form was submitted.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * */
+    perform: function () {
+        var completenessSelector = this.createCompletenessSelector(),
+            //the select-(drop-down-list) field for choosing, whether some kind
+            //of completeness is desired.
+            noiseField = this.createNoiseField(),
+            //the input-field for choosing the degree of noise (percentage) in
+            //the generated log
+            traceCountField = this.createTraceCountField(),
+            //the input-field for selecting, how many traces should be generated
+            dialog = this.createDialog();
+            //the dialog-window, which will present all those fields
+        
+        this.addFormPanelToWindow(
+                completenessSelector, noiseField, traceCountField, dialog);
+        //generate a FormPanel with the three fields and add it to the dialog
+        
+        dialog.show();
+    },
+    
+    /**
+     * Creates a ComboBox, that allows selecting, whether Trace-Completeness,
+     * Ordering-Completeness or no completeness is required.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @return {Ext.form.ComboBox} the new ComboBox
+     * */
+    createCompletenessSelector: function () {
+        var completenessOptions = [['None'], ['Trace'], ['Ordering']],
+            dataStore = new Ext.data.SimpleStore({
+                fields    : ['value'],
+                data    : completenessOptions
+            });
+        //dataStore is necessary, because a ComboBox cannot be directly provided
+        //with an array.
+        
+        return new Ext.form.ComboBox({
+            fieldLabel: ORYX.I18N.ProcessLogGenerator.completenessSelect,
+            store: dataStore,
+            displayField: 'value',
+            valueField: 'value',
+            typeAhead: true,
+            mode: 'local',
+            triggerAction: 'all',
+            selectOnFocus: true,
+            forceSelection: true,
+            emptyText: ORYX.I18N.ProcessLogGenerator.pleaseSelect
         });
-	}
-	
+    },
+    
+    /**
+     * Creates an input-field, that allows entering a number from 0
+     * to 100 (percentage), that specifies the degree of noise in the generated
+     * log.
+     * 
+     *  @methodof ORYX.Plugins.ProcessLogGenerator#
+     *  @return {Ext.form.NumberField} the new input-field
+     * */
+    createNoiseField: function () {
+        return new Ext.form.NumberField({
+            fieldLabel        : ORYX.I18N.ProcessLogGenerator.degreeOfNoise,
+            allowBlank        : false,
+            allowDecimals    : false,
+            minValue        : 0,
+            maxValue        : 100
+        });
+    },
+    
+    /**
+     * Creates an input-field for a number from 1 to 10,000 specifying the
+     * number of traces, that the generated log should contain.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @return {Ext.form.NumberField} the new input-field
+     * */
+    createTraceCountField: function () {
+        return new Ext.form.NumberField({
+            fieldLabel        : ORYX.I18N.ProcessLogGenerator.numberOfTraces,
+            allowBlank        : false,
+            allowDecimals    : false,
+            minValue        : 1,
+            maxValue        : 10000
+        });
+    },
+    
+    /**
+     * Creates a new dialog-window carrying the title and having the size needed
+     * for displaying the configuration-options for log-generation.
+     *  
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @return {Ext.Window} the new dialog-window.
+     * */
+    createDialog: function () {
+        var dialog = new Ext.Window({ 
+            autoCreate: true, 
+            title: ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle, 
+            height: 240, 
+            width: 400, 
+            modal: true,
+            collapsible: false,
+            fixedcenter: true, 
+            shadow: true, 
+            style: 'font-size:12px;',
+            proxyDrag: true,
+            resizable: true,
+            items: [
+                new Ext.form.Label({
+                    text: ORYX.I18N.ProcessLogGenerator.dialogDescription, 
+                    style: 'font-size:12px;'
+                })//this is the title of the dialog. the content is not added
+                  //in this method.
+            ]
+        });
+        
+        dialog.on('hide', function () {
+            dialog.destroy(true);
+        });
+        
+        return dialog;
+    },
+    
+    /**
+     * Creates a new FormPanel with the first three parameters (
+     * completenessSelector, noiseField and traceCountField) as its elements
+     * and adds the new FormPanel to the window, which is the fourth parameter.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @param {Ext.form.ComboBox} completenessSelector the ComboBox, that allows
+     * selecting the type of completeness and will be the first field in the 
+     * Form.
+     * @param {Ext.form.NumberField} noiseField the input-field, which allows
+     * selecting the percentage of noise in the generated log and will be the 
+     * second field of the Form.
+     * @param {Ext.form.NumberField} tracecountField the input-field, which
+     * allows selecting the desired number of traces and will be the last entry
+     * in the Form.
+     * @param {Ext.Window} window the dialog-window, which the form should be 
+     * added to.
+     * */
+    addFormPanelToWindow: function (
+            completenessSelector, noiseField, traceCountField, window) {
+        var panel = new Ext.form.FormPanel({
+            frame : false,
+            defaultType : 'textfield',
+            waitMsgTarget : true,
+            labelAlign : 'left',
+            buttonAlign: 'right',
+            enctype : 'multipart/form-data',
+            style: 'font-size:12px;',
+            monitorValid: true,
+            items : [
+                completenessSelector,
+                noiseField,
+                traceCountField
+            ],
+            buttons: [{
+                text: "Submit",
+                formBind: true,//ensures, that the button can only be clicked,
+                //when the form's constraints are met (e.g. all fields are 
+                handler: function () {
+                    this.generateLog({
+                        completeness: completenessSelector.getValue(),
+                        noise: noiseField.getValue(),
+                        traceCount: traceCountField.getValue()
+                    });//this will send a request to the server for generating
+                    //a log with the desired options (->parameter)
+                    window.hide();//will destroy the dialog
+                }.bind(this)
+            }]
+        });
+        window.add(panel);
+    },
+    
+    /**
+     * Sends a Request for creating a log with the desired parameters from the
+     * current model to the server and opens a new window for downloading the 
+     * log, when generating is completed.
+     * 
+     * @methodof ORYX.Plugins.ProcessLogGenerator#
+     * @param {Object} options The options for generating the log. This object
+     * must have the fields completeness, noise and traceCount. completeness is
+     * "None", "Trace" or "Ordering"; noise is a number from 0 to 100
+     * (percentage of noise in the generated log); traceCount is a number from
+     * 1 to 10,000 (number of traces in the generated log).
+     * */
+    generateLog: function (options) {
+        var erdf = this.getRDFFromDOM(),
+            optionsString = JSON.stringify(options);
+        this.facade.raiseEvent({
+            type: ORYX.CONFIG.EVENT_LOADING_ENABLE,
+            text: ORYX.I18N.ProcessLogGenerator.shortWaitText
+        });//will show a "please wait"-style message in the editor's topleft
+        //corner (like the one for "Saving")
+        new Ajax.Request(this.processLogGeneratorHandleURL, {
+                method: 'POST',
+                parameters: {
+                    'options'    : optionsString,
+                    'model'        : erdf
+            },
+            onSuccess: function (request) {
+                this.facade.raiseEvent({
+                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
+                });//remove the "please wait"-message
+                this.openDownloadWindow("generated_log.mxml",
+                        request.responseText);//request.responseText contains
+                //the log, which will be offered as a file
+                //named generated_log.mxml
+            }.bind(this),
+            
+            onFailure: function () {
+                this.facade.raiseEvent({
+                    type: ORYX.CONFIG.EVENT_LOADING_DISABLE
+                });//remove the "please wait"-message
+                Ext.Msg.alert(ORYX.I18N.Oryx.title,
+                        ORYX.I18N.ProcessLogGenerator.failed);
+                //shows an error-message
+            }.bind(this)
+        });
+    }
+    
 });

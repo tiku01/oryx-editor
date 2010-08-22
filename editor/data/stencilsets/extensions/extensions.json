@@ -111,6 +111,13 @@
 			"description":"Adds support for a basic subset of Choreography-Diagrams to BPMN 2.0.",
 			"definition":"bpmn2.0basicsubset/bpmn2.0basicsubset.choreography.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+		},
+		{
+			"title":"Petrinet Time and Propability Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/petrinettimeandpropability#",
+			"description":"Petrinet extension for adding an execution time and propability to transitions",
+			"definition":"petrinettimeandpropability/petrinettimeandpropability.json",
+			"extends":"http://b3mn.org/stencilset/petrinet#"
 		}
 	],
 	"perspectives": [

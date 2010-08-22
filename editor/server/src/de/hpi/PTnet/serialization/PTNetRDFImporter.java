@@ -26,9 +26,9 @@ public class PTNetRDFImporter {
 	protected PTNetFactory factory;
 	
 	protected class ImportContext {
-		PTNet net;
-		Map<String,de.hpi.petrinet.Node> objects; // key = resource id, value = diagram object
-		Map<String,de.hpi.petrinet.Node> connections; // key = to resource id, value = from node
+		public PTNet net;
+		public Map<String,de.hpi.petrinet.Node> objects; // key = resource id, value = diagram object
+		public Map<String,de.hpi.petrinet.Node> connections; // key = to resource id, value = from node
 	}
 	
 	public PTNetRDFImporter(Document doc) {

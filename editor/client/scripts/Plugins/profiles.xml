@@ -183,7 +183,8 @@
 		<plugin name="ORYX.Plugins.LabelLayout"/>
 	</profile>
 	
-	<profile name="processlogs" depends="signavio" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
+	<profile name="processlogs" depends="signavio" stencilset="stencilsets/extensions/petrinettimeandpropabilities/petrinettimeandpropabilities.json">
 	 	<plugin name="ORYX.Plugins.ProcessLogGenerator"/> 
+	 	<plugin name="ORYX.Plugins.PetriNet" />
 	</profile>
 </profiles>

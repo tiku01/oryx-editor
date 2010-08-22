@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -15,52 +16,77 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import de.hpi.processLogGeneration.petrinetTimeAndPropability.PTNetRDFImporter;
 import de.hpi.petrinet.PetriNet;
-import de.hpi.petrinet.serialization.erdf.PetriNeteRDFParser;
 import de.hpi.processLogGeneration.CompletenessOption;
 import de.hpi.processLogGeneration.ProcessLogGenerator;
 
+/**
+ * This servlet acts as the interface for generating ProcessLogs from Petrinets.
+ * @author Thomas Milde
+ * */
 public class ProcessLogGeneratorServlet extends HttpServlet{
 	private static final long serialVersionUID = -4916834400403412632L;
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	protected void doPost(HttpServletRequest requsest, HttpServletResponse response)
+			throws IOException {
 		try {
-			res.setContentType("application/xml");
-			JSONObject options = new JSONObject(req.getParameter("options"));
-			processDocument(modelOf(req),
+			response.setContentType("application/xml");
+			response.setCharacterEncoding("utf-8");
+			JSONObject options =
+				new JSONObject(requsest.getParameter("options"));
+			processDocument(modelOf(requsest),//extracts the model from the request
 					(String)options.get("completeness"),
-					(String)options.get("noise"),
-					(Boolean)options.get("respectPropabilities"),
-					res.getWriter());
+					(Integer)options.get("noise"),
+					(Integer)options.get("traceCount"),
+					response.getWriter());
 			
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace(res.getWriter());
-			res.setStatus(400);
+			reportError(e,response);
 		} catch (SAXException e) {
-			e.printStackTrace(res.getWriter());
-			res.setStatus(400);
+			reportError(e,response);
 		} catch (JSONException e) {
-			e.printStackTrace(res.getWriter());
-			res.setStatus(400);
+			reportError(e,response);
 		} catch (ClassCastException e) {
-			e.printStackTrace(res.getWriter());
-			res.setStatus(400);
+			reportError(e,response);
+		}  catch (IllegalArgumentException e) {
+			reportError(e,response);
 		}
 	}
+	
+	/**
+	 * This will print an exception's stacktrace to the content of the response
+	 * and set the response-status to 400. The status is 400, because the
+	 * exceptions, which are handled by this function only occur due to illegal
+	 * requests.
+	 * @throws IOException if writing to the Response-object fails.
+	 * */
+	private void reportError(Exception exception, HttpServletResponse response)
+			throws IOException {
+		exception.printStackTrace(response.getWriter());
+		response.setStatus(400);
+	}
 
+	/**
+	 * 
+	 * */
 	private Document modelOf(HttpServletRequest req) throws SAXException,
 			IOException, ParserConfigurationException {
-		return DocumentBuilderFactory.newInstance().newDocumentBuilder().
-			parse(new ByteArrayInputStream(
-					req.getParameter("model").getBytes("UTF-8")));
+		String rdf =req.getParameter("model");
+		DocumentBuilder builder;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		builder = factory.newDocumentBuilder();
+		byte[] bytes = rdf.getBytes();
+		Document document = builder.parse(new ByteArrayInputStream(bytes));
+		return document;
 	}
 
 	private void processDocument(Document model, String completenessOption, 
-			String noiseOption, boolean respectProbalities, PrintWriter output) {
-		PetriNet net = new PetriNeteRDFParser(model).parse();
+			int noise, int traceCount, PrintWriter output)
+			throws NumberFormatException, IllegalArgumentException{
+		PetriNet net = new PTNetRDFImporter(model).loadPTNet();
 		CompletenessOption completeness = CompletenessOption.fromString(completenessOption);
-		int noise = Integer.parseInt(noiseOption);
-		ProcessLogGenerator generator = new ProcessLogGenerator(net, completeness, noise, respectProbalities);
+		ProcessLogGenerator generator = new ProcessLogGenerator(net, completeness, noise, traceCount);
 		output.write(generator.getSerializedLog());
 	}
 }
