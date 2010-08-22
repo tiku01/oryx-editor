@@ -31,16 +31,16 @@
 Correspondence = function(){
 	
 	Correspondence.superclass.constructor.call(this, "Correspondence");
-	this.table 				= null;
-	this.connectionCollection	= new ConnectionCollection();
-	this.selectedViewers	= [];	
-	this.availableModelViewers	= [];
-	this.connectionMode 	= false;
-	this.discoveryMode		= false;
-	this.connector 			= null;
+	this.table = null;
+	this.connectionCollection = new ConnectionCollection();
+	this.selectedViewers = [];	
+	this.availableModelViewers = [];
+	this.connectionMode = false;
+	this.discoveryMode = false;
+	this.connector = null;
 	this.icon = this.GADGET_BASE + "icons/chart_line.png";
 	this.init();
-}
+};
 
 
 
@@ -124,84 +124,6 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		this.enterDiscoveryMode();
 	},
 	
-	
-	/**
-	 * render table in which associations will be displayed
-	 * 
-	 */
-	initTable: function(){
-		
-		var sortComments = function(a, b, desc) {
-            // deal with empty values
-            if(!YAHOO.lang.isValue(a)) {
-                return (!YAHOO.lang.isValue(b)) ? 0 : 1;
-            }
-            else if(!YAHOO.lang.isValue(b)) {
-                return -1;
-            }
-
-            // first compare by comment
-            var comp = YAHOO.util.Sort.compare;
-            var compState = comp(a.getData("comment"), b.getData("comment"), desc);
-
-            // If titles are equal, then compare by url
-            return (compState !== 0) ? compState : comp(a.getData("modelA"), b.getData("modelB"), desc);
-        };
-        
-        var expansionFormatter  = function(elCell, oRecord, oColumn, oData) { 
-        	var cell_element    = elCell.parentNode; 
-
-        	//Set trigger 
-        	//if( oData ){		// Row is closed 
-        		cell_element.innerHTML = '<img src= "/gadgets/files/gadgets/correspondence/icons/bullet_delete.png" onclick=""/>';
-        		"<a href='#' onclick=" + 'Correspondence.resetConnections.bind("' + this + '")'
-			
-        		//YAHOO.util.Dom.addClass( cell_element, 
-                //	"yui-dt-expandablerow-trigger" ); 
-        	//}
-        }.bind(this); 
-        
-		var formatUrl = function(elCell, oRecord, oColumn, sData) { 
-			
-			var args = this.SERVER_BASE + this.REPOSITORY_BASE + oRecord.getData('url') 
-							+ '.' + oRecord.getData('comment').replace(/\s/g, "_");
-			
-        	elCell.innerHTML = "<a href='#' onclick=" + 'correspondence.saveConnections();' + ">" + '<img src="/gadgets/files/gadgets/correspondence/icons/delete.png" />' + "</a>";
-        }.bind(this); 
-        
-        
-        var columnDefs = [
-            {key:"modelA", label: 'modelA', width:90, resizeable:true, sortable:true},
-            {key:"modelB", label: 'modelB', width:90, resizeable:true, sortable:true},
-            {key:"comment", label: "comment", width:90, resizeable: true, editor:"textbox", sortable: true, 
-                    sortOptions:{sortFunction:sortComments}},
-            {key:"farm", label: 'farm', width:90, resizeable:true, formatter: formatUrl}
-        ];
-
-        var data = new YAHOO.util.DataSource([])
-        data.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        data.responseSchema = {
-            fields: ["modelA","modelB","comment","farm"]
-        };
-		
-        var configs = {
-            sortedBy:{key:"comment",dir:"asc"},
-            paginator: new YAHOO.widget.Paginator({
-                rowsPerPage: 5,
-                template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-                rowsPerPageOptions: [5,10],
-                pageLinks: 3
-            }),
-            draggableColumns:false
-        }
-
-        this.table = new YAHOO.widget.DataTable("table", columnDefs, data, configs);
-        
-        //enable row selection
-        this.table.subscribe("rowClickEvent", this.table.onEventSelectRow);
-        this.table.subscribe("rowClickEvent", this.markActiveConnection);
-		this.table.subscribe("cellDblclickEvent",this.table.onEventShowCellEditor);
-	},
 
 	
 	
@@ -218,13 +140,14 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		
 		
 		for (var i = 0; i < this.connectionCollection.connections.length; i++){
-			if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive )
+			if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive ) {
 				this.connectionCollection.connections[i].deselect();
+			}
 		}
 		var stopSelection = function() {
 			this.connector.stopSelectionMode();
 			this.enterDiscoveryMode();
-		}
+		};
 		//this.connectionMode = true;			
 		this.disable("Add Connection", "Please select the nodes in the viewers to associate them with each other.", stopSelection.bind(this));
 		this.connector = new Connector(this);
@@ -290,29 +213,18 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	/**
 	 * reset markers and selections to enter the discovery Mode
 	 */	
-	enterDiscoveryMode : function(){
-		
-		// leave connection mode if currently active
-		/*if ( this.connectionMode ){
-			this.connectionMode = false;
-			this.connector = null;	
-		}*/
-		
+	enterDiscoveryMode : function(){		
 		this.resetModels();
-		
-		//if ( !this.discoveryMode ){
-			this.discoveryMode = true;
-			this.discovery = new Discovery(this);
-		//}
+		this.discoveryMode = true;
+		this.discovery = new Discovery(this);
 		
 	},
 	
-	stopDiscoveryMode : function() {
-		//if ( this.discoveryMode ){
+	stopDiscoveryMode : function() {		
 			this.discoveryMode = false;
 			this.discovery.stopDiscoveryMode();
 			this.discovery = null;
-		//}
+		
 	},
 	
 	/**
@@ -320,8 +232,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	 */
 	resetModels : function(){
 		
-		var clearViewers = function(viewers){
-			
+		var clearViewers = function(viewers){			
 			for (var i = 0; i < viewers.length; i++){
 				this.removeMarker(viewers[i], "all");
 				this.resetSelection(viewers[i]);
@@ -334,8 +245,12 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	},
 	
 	openAutoConnectDialog : function(){
-		var dialog = new ModelChooserDialog(this.availableModelViewers, this);
-		dialog.show();
+		if (this.availableModelViewers.length>=2) {
+			var dialog = new ModelChooserDialog(this.availableModelViewers, this);
+			dialog.show();
+		} else {
+			alert("You need to open at least two viewers to connect them automatically.");
+		}
 	},	
 	
 	/**
@@ -361,25 +276,26 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	/**
 	 * Executes aFunction with arguments in the context of all viewers currently displayed on the screen
 	 */
-	executeWithAllViewers : function (aFunction, arguments) {	
+	executeWithAllViewers : function (aFunction, argums) {	
 		
 		this.availableModelViewers = [];
 		var getViewers = function(viewers){
-			if (viewers.length!=0) {
+			var args = [];
+			if (viewers.length!==0) {
 				for (var i = 0; i < viewers.length; i++){
-					var args = [];
+					args = [];
 					args.push(viewers[i]);  
 					args.push(viewers.length);
 					args.push(aFunction);
-					args.push(arguments);
+					args.push(argums);
 					this.getViewer(viewers[i],this.addViewer,this,args);
 				}	
 			} else {
-				var args = [];
+				args = [];
 				args.push(null);  
 				args.push(viewers.length);
 				args.push(aFunction);
-				args.push(arguments);
+				args.push(argums);
 				this.addViewer(null,args)
 			}
 		};	

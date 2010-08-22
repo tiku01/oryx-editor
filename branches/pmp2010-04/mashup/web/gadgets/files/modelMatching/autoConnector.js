@@ -74,7 +74,7 @@ AutoConnector.prototype = {
 			
 			var isFunction = function isFunction(obj){				
 				return Object.prototype.toString.call(obj) === "[object Function]";
-			}
+			};
 	
 			var getArrayLength = function (array) {
 				var result = 0;
@@ -84,7 +84,7 @@ AutoConnector.prototype = {
 					}
 				}
 				return result;
-			}			
+			};			
 			
 			this.nodesA = nodesA;
 			this.nodesB = nodesB;
@@ -101,14 +101,16 @@ AutoConnector.prototype = {
 					//read more why this is bad e.g.: http://andrewdupont.net/2006/05/18/javascript-associative-arrays-considered-harmful/
 					//thus I use a kind of workaround to avoid iterating over functions
 					if(this.nodesA.hasOwnProperty(keyA) && !isFunction(nodesA[keyA]) && this.nodesB.hasOwnProperty(keyB) && !isFunction(nodesB[keyB])) {					
-						if (this.NumberOfNodesInA!=0 && this.NumberOfNodesInB!=0) {					
+						if (this.NumberOfNodesInA!==0 && this.NumberOfNodesInB!==0) {					
 							currentPair = new OpenPair(this.nodesA[keyA],this.nodesB[keyB]);
 							if (this.useContextSimilarity) {
 								var contextSimilarity = this.contextSimilarity(currentPair.nodes[0], currentPair.nodes[1]);								
 								currentPair.similarity = (currentPair.similarity + contextSimilarity*WEIGHT_CONTEXT_SIMILARITY)/
 															(1+WEIGHT_CONTEXT_SIMILARITY);
 							}
-							if (currentPair.similarity > MIN_SIMILARITY) openPairs.push(currentPair);
+							if (currentPair.similarity > MIN_SIMILARITY) {
+								openPairs.push(currentPair);
+							}
 						}
 					}
 				}
@@ -166,9 +168,6 @@ AutoConnector.prototype = {
 		 */
 		optimalNodeMapping : function(openPairs) {
 			// sort open pairs by Similarity
-			if (this.useContextSimilarity) {
-				var map = [];
-			}
 			var map = [];
 			openPairs.sort(this.sortSimilarity);
 			var totalNumberNodes = this.NumberOfNodesInA + this.NumberOfNodesInB;
@@ -178,7 +177,7 @@ AutoConnector.prototype = {
 			do {				
 				var choosenPair = openPairs.pop();
 				if (!choosenPair) {					
-					if (this.NumberOfNodesInA==0 && this.NumberOfNodesInB==0)
+					if (this.NumberOfNodesInA===0 && this.NumberOfNodesInB===0)
 						lastDistance = 0;
 					break;						
 				}
@@ -189,7 +188,7 @@ AutoConnector.prototype = {
 					map.push(choosenPair);
 					this.removePairsContaining(openPairs,choosenPair.nodes[0],choosenPair.nodes[1]);
 				}				
-			} while (newDistance<lastDistance)
+			} while (newDistance<lastDistance);
 			this.graphEditSimilarity = 1.00 - lastDistance;
 			return map;
 	    	
@@ -208,8 +207,8 @@ AutoConnector.prototype = {
 	    	//two times because there are two nodes in each connection
 	    	var fractionSkippedNodes = (totalNumberNodes-2*(map.length+1))/totalNumberNodes;
 	    	var fractionSubstitutedNodes = (mapDissimilarity + 1.0 - newPair.similarity)/(map.length+1);
-	    	return (fractionSkippedNodes*WEIGHT_SKIPPED_NODES + fractionSubstitutedNodes*WEIGHT_SUBSTITUTED_NODES)
-	    	/(WEIGHT_SKIPPED_NODES + WEIGHT_SUBSTITUTED_NODES);
+	    	return (fractionSkippedNodes*WEIGHT_SKIPPED_NODES + fractionSubstitutedNodes*WEIGHT_SUBSTITUTED_NODES)/
+	    	(WEIGHT_SKIPPED_NODES + WEIGHT_SUBSTITUTED_NODES);
 	    },
 		
 	    /**
@@ -222,9 +221,10 @@ AutoConnector.prototype = {
 			if (node.isNode()) {
 				for (var i=0;i<node.outgoing.length;i++) {
 					var currentEdge = originShapes[node.outgoing[i].resourceId];
-					var currentNode = originShapes[currentEdge.outgoing[0].resourceId]
-					if (currentNode)
+					var currentNode = originShapes[currentEdge.outgoing[0].resourceId];
+					if (currentNode) {
 						result.push(currentNode);
+					}
 				}
 				return result;
 			}
@@ -242,8 +242,9 @@ AutoConnector.prototype = {
 				result = [];
 				for (var key in originShapes) {
 					for (var i=0;i<originShapes[key].outgoing.length;i++) {				
-						if (originShapes[key].outgoing[i].resourceId==object.resourceId)
+						if (originShapes[key].outgoing[i].resourceId==object.resourceId) {
 							result.push(originShapes[key]);
+						}
 					}
 				}
 				return result;		
@@ -285,7 +286,7 @@ AutoConnector.prototype = {
 			outgoingAutoConnector.autoConnectNodes(outgoingNode1, outgoingNode2);
 			
 			var similarity = incommingAutoConnector.graphEditSimilarity + outgoingAutoConnector.graphEditSimilarity;
-			similarity = similarity/2.00
+			similarity = similarity/2.00;
 			return similarity;
 			
 		},
