@@ -364,6 +364,16 @@
 			],
 			"properties": [
 					{
+						"id":"name",
+						"type":"String",
+						"title":"Note",
+						"value":"Note",
+						"description":"",
+						"readonly":true,
+						"optional":false,
+						"wrapLines":true
+					},
+					{
 						"id":"text",
 						"type":"String", 
 						"title":"Text",

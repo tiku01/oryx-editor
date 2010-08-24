@@ -64,9 +64,6 @@ public class AdonisInstance extends AdonisStencil {
 	protected ArrayList<AdonisRecord> record;
 
 	public String getName(){
-		if (name == null){
-			name = getId();
-		}
 		return name;
 	}
 	
@@ -766,7 +763,7 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		booleanAttribute = properties.optBoolean("display name");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",(booleanAttribute ? "Yes" : "No")));
+			getAttribute().add(new AdonisAttribute("Display name","ENUMERATION",(booleanAttribute ? "Yes" : "No")));
 		}
 		stringAttribute = properties.optString("graphical representation");
 		if (stringAttribute != null){

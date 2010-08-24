@@ -157,29 +157,29 @@ public class AdonisConverter {
 	 */
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
-		String json = ac.importXML(
-				importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
-		
-		try {
-			File file = new File("D:\\Desktop\\Eclipse Export.json");
-			FileWriter fileWriter = new FileWriter(file,false);
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			bufferedWriter.write(json);
-			bufferedWriter.close();
-			fileWriter.close();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		String json = ac.importXML(
+//				importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
+//		
+//		try {
+//			File file = new File("D:\\Desktop\\Eclipse Export.json");
+//			FileWriter fileWriter = new FileWriter(file,false);
+//			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//			bufferedWriter.write(json);
+//			bufferedWriter.close();
+//			fileWriter.close();
+//		} catch (FileNotFoundException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		try {
 			File file = new File("D:\\Desktop\\Eclipse Export.xml");
 			FileWriter fileWriter = new FileWriter(file,false);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			String out = ac.exportXML(json);
+			String out = ac.exportXML("{\"resourceId\":\"oryx-canvas123\",\"properties\":{\"name\":\"Model\",\"author\":\"Admin\",\"keywords\":\"\",\"comment\":\"\",\"description\":\"\",\"state\":\"In process\",\"reviewed on\":\"20.04.2007\",\"reviewed by\":\"\"},\"stencil\":{\"id\":\"diagram\"},\"childShapes\":[{\"resourceId\":\"oryx_B17C0CF1-5C0F-4F6B-8149-33741E3ABAF4\",\"properties\":{\"name\":\"Note\",\"text\":\"\"},\"stencil\":{\"id\":\"note\"},\"childShapes\":[],\"outgoing\":[],\"bounds\":{\"lowerRight\":{\"x\":186,\"y\":187},\"upperLeft\":{\"x\":146,\"y\":147}},\"dockers\":[]},{\"resourceId\":\"oryx_12BCC8DE-55ED-4617-BC45-8C185B4E5BD4\",\"properties\":{\"name\":\"Note (1)\",\"text\":\"\"},\"stencil\":{\"id\":\"note\"},\"childShapes\":[],\"outgoing\":[],\"bounds\":{\"lowerRight\":{\"x\":472,\"y\":191},\"upperLeft\":{\"x\":432,\"y\":151}},\"dockers\":[]},{\"resourceId\":\"oryx_DFC355EF-54DD-4C75-BED4-9C0A9EEA2949\",\"properties\":{\"name\":\"Process\",\"categories\":\"\",\"documentation\":\"\",\"order\":\"0\",\"description\":\"\",\"comment\":\"\",\"open questions\":\"\",\"external process\":\"no\",\"subprocessname\":\"\"},\"stencil\":{\"id\":\"process\"},\"childShapes\":[],\"outgoing\":[{\"resourceId\":\"oryx_CF02FE22-B149-4954-A02F-7CD45C8B174C\"}],\"bounds\":{\"lowerRight\":{\"x\":342,\"y\":292},\"upperLeft\":{\"x\":262,\"y\":232}},\"dockers\":[]},{\"resourceId\":\"oryx_CF02FE22-B149-4954-A02F-7CD45C8B174C\",\"properties\":{},\"stencil\":{\"id\":\"has note\"},\"childShapes\":[],\"outgoing\":[{\"resourceId\":\"oryx_B17C0CF1-5C0F-4F6B-8149-33741E3ABAF4\"}],\"bounds\":{\"lowerRight\":{\"x\":262.930202096759,\"y\":234.7085970528831},\"upperLeft\":{\"x\":186.476047903241,\"y\":181.3031216971169}},\"dockers\":[{\"x\":40,\"y\":30},{\"x\":20,\"y\":20}],\"target\":{\"resourceId\":\"oryx_B17C0CF1-5C0F-4F6B-8149-33741E3ABAF4\"}}],\"bounds\":{\"lowerRight\":{\"x\":1485,\"y\":1050},\"upperLeft\":{\"x\":0,\"y\":0}},\"stencilset\":{\"url\":\"/oryx//stencilsets/adonis/adonis.json\",\"namespace\":\"http://b3mn.org/stencilset/adonis#\"},\"ssextensions\":[]}");
 			bufferedWriter.write(out);
 			bufferedWriter.close();
 			fileWriter.close();
