@@ -2,6 +2,8 @@ package de.hpi.AdonisSupport;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -511,6 +513,45 @@ public class AdonisModel extends AdonisStencil{
 		}
 		
 		Log.e("Created "+getInstance().size()+" Instances and "+getConnector().size()+" Connectors");
+		
+		ArrayList<AdonisInstance> swimlanes = new ArrayList<AdonisInstance>();
+		int index = 1;
+		for (AdonisInstance aStencil : getInstance()){
+			if (aStencil.getOryxStencilClass().contains("swimlane")){
+				swimlanes.add(aStencil);
+			}
+		}
+		AdonisInstance[] sortedSwimlanes = swimlanes.toArray(new AdonisInstance[0]);
+		Arrays.sort(sortedSwimlanes,new Comparator<AdonisInstance>(){
+
+			@Override
+			public int compare(AdonisInstance lhs, AdonisInstance rhs) {
+				double lx = lhs.getAdonisGlobalBounds()[0];
+				double ly = lhs.getAdonisGlobalBounds()[1];
+				double rx = rhs.getAdonisGlobalBounds()[0];
+				double ry = rhs.getAdonisGlobalBounds()[1];
+				if (lx < rx || ly < ry) return -1;
+				if (lx == rx && ly == ry) return 0;
+				return 1;
+			}
+			
+		});
+		for (AdonisInstance aSwimlane : sortedSwimlanes){
+			AdonisAttribute position = aSwimlane.getAttribute("Position");
+			position.setElement(position.getElement()+"index:"+(++index));
+		}
+		for (AdonisInstance anIntance : getInstance()){
+			AdonisAttribute position = anIntance.getAttribute("Position"); 
+			if (!position.getElement().contains("index")){
+				position.setElement(position.getElement()+"index"+(++index));
+			}
+		}
+		for (AdonisConnector aConnector : getConnector()){
+			AdonisAttribute position = aConnector.getAttribute("Position"); 
+			if (position != null && !position.getElement().contains("index")){
+				position.setElement(position.getElement()+"index"+(++index));
+			}
+		}
 		super.completeOryxToAdonis();
 	}
 	

@@ -380,7 +380,7 @@ public class AdonisConnector extends AdonisStencil{
 			Log.e("could not restore docker points",e);
 		}
 		
-		positions += points +" index:"+getModel().getNextStencilIndex();
+		positions += points +" ";
 		
 		getAttribute().add(new AdonisAttribute("Positions","STRING",positions));
 	}
