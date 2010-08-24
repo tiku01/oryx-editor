@@ -62,7 +62,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 			method: 'POST',
 			success: function(request) {
 				this.openDownloadWindow(window.document.title + ".xml", request.responseText);}.bind(this),
-			failure: function() {Ext.Msg.alert("Conversion failed");},
+			failure: function() {Ext.Msg.alert("Export failed");},
 			params: {data: json,
 					 action: "Export"}
 		})

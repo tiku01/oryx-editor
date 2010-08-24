@@ -530,8 +530,7 @@ public class AdonisInstance extends AdonisStencil {
 	@Override
 	public void completeOryxToAdonis(){
 		Log.d("read in Bounds of stencil: "+getOryxStencilClass()+" named: "+getName());
-		String type = null;
-		
+		String type = getOryxStencilClass().contains("swimlane") ? "SWIMLANE" : "NODE";
 		
 		DecimalFormat f = new DecimalFormat("#.00");
 		DecimalFormatSymbols p = new DecimalFormatSymbols();
@@ -539,13 +538,12 @@ public class AdonisInstance extends AdonisStencil {
 		f.setDecimalFormatSymbols(p);
 		
 		StringBuffer adonisBounds = new StringBuffer();
-		adonisBounds.append(type != null ? type : "NODE");
+		adonisBounds.append(type);
 		adonisBounds.append(" ");
 		adonisBounds.append("x:"+f.format(getAdonisGlobalBounds()[0]) +"cm ");
 		adonisBounds.append("y:"+f.format(getAdonisGlobalBounds()[1]) +"cm ");
 		adonisBounds.append("w:"+f.format(getAdonisGlobalBounds()[2]) +"cm ");
 		adonisBounds.append("h:"+f.format(getAdonisGlobalBounds()[3]) +"cm ");
-		adonisBounds.append("index:"+getIndex());
 		
 		AdonisAttribute temp = new AdonisAttribute();
 		temp.setElement(adonisBounds.toString());
@@ -764,6 +762,11 @@ public class AdonisInstance extends AdonisStencil {
 		booleanAttribute = properties.optBoolean("display name");
 		if (stringAttribute != null){
 			getAttribute().add(new AdonisAttribute("Display name","ENUMERATION",(booleanAttribute ? "Yes" : "No")));
+		}
+		
+		stringAttribute = properties.optString("display watermark");
+		if (stringAttribute != null){
+			getAttribute().add(new AdonisAttribute("Display water marks","ENUMERATION",(booleanAttribute ? "yes" : "no")));
 		}
 		stringAttribute = properties.optString("graphical representation");
 		if (stringAttribute != null){
