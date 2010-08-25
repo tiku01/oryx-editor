@@ -1,0 +1,298 @@
+{
+	/* models */
+	"company map": {
+		"translation":{
+			"en":"Company map",
+			"de":"Prozeßlandkarte"
+		}
+	},
+	/* Connectors */
+	"is inside": {
+		"translation": {
+			"en":"is inside",
+			"de":"ist innerhalb"
+		}
+	},
+	"has cross-reference": {
+		"translation": {
+			"en":"Has cross-reference",
+			"de":"Hat Querverweis"
+		}
+	},
+	"value flow": {
+		"translation":{
+			"en":"Value flow"
+		}
+	},
+	"has note": {
+		"translation":{
+			"en":"has Note"
+		}
+	},	
+	"has process": {
+		"translation":{
+			"en":"Has process",
+			"de":"Hat Prozeß"
+		}
+	},
+	/* instances */
+	"performance": {
+		"translation":{
+			"de":"Leistung",
+			"en":"Performance"            
+		},
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":3.26,
+		"h":1.40
+	},
+	"process": {
+		"translation":{
+			"de":"Prozeß",
+			"en":"Process"            
+		},
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":3.25,
+		"h":1.40
+	},
+	"aggregation": {
+		"translation":{
+			"en":"Aggregation",
+			"de":"Aggregation"
+		},
+		"type":"node",
+		"offsetPercentageX":"0",
+		"offsetPercentageY":"0",
+		"w":6.00,
+		"h":9.00
+	},
+	"actor": {
+		"translation":{
+			"en":"Actor"
+		},
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":1.20,
+		"h":1.75
+	},
+	"swimlane (horizontal)": {
+		"translation":{
+			"de":"Schwimmbahn (waagerecht)",
+			"en":"Swimlane (horizontal)"
+		},
+		"type":"node",
+		"offsetPercentageX":"0",
+		"offsetPercentageY":"0"
+	},
+	"swimlane (vertical)": {
+		"translation":{
+			"de":"Schwimmbahn (senkrecht)",
+			"en":"Swimlane (vertical)"
+		},
+		"type":"node",
+		"offsetPercentageX":"0",
+		"offsetPercentageY":"0"
+	},
+	"external partner": {
+		"translation":{
+			"en":"External partner"
+		},
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":1.00,
+		"h":1.39
+	},
+	"performance indicator": {
+		"translation":{
+			"en":"Performance indicator"
+		},
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":1.40,
+		"h":1.40
+	},
+	"performance indicator overview": {
+		"translation":{
+			"en":"Performance indicator overview"
+		},
+		"type":"node",
+		"offsetPercentageX":"66",
+		"offsetPercentageY":"50",
+		"w":0.50,
+		"h":0.60
+	},
+	"cross reference": {
+		
+		"type":"node",
+		"offsetPercentageX":"50",
+		"offsetPercentageY":"50",
+		"w":3.30,
+		"h":1.00
+	},
+	"note": {
+		"translation":{
+			"en":"Note"
+		},
+		"type":"node",
+		"offsetPercentageX":"0",
+		"offsetPercentageY":"0",
+		"w":4.50,
+		"h":4.50
+	},
+	
+	/* attributes */
+	"world area":{
+		"translation":{
+			"en":"World area",
+			"de":"Weltkoordinaten"
+		},
+		"type":"STRING"
+	},
+	"comment":{
+		"translation":{
+			"en":"Comment",
+			"de":"Kommentar"
+		},
+		"type":"STRING"
+	},
+	"open questions":{
+		"translation":{
+			"en":"Open questions",
+			"de":"Offene Fragen"
+		},
+		"type":"STRING"
+	},
+	"author":{
+		"translation":{
+			"en":"Author",
+			"de":"Autor"
+		},
+		"type":"STRING"
+	},
+	"version number":{
+		"translation":{
+			"en":"Version number",
+			"de":"Versionsnummer"
+		},
+		"type":"STRING"
+	},
+	"reviewed by":{
+		"translation":{
+			"en":"Reviewed by",
+			"de":"Abgenommen von"
+		},
+		"type":"STRING"
+	},
+	"reviewed on":{
+		"translation":{
+			"en":"Reviewed on"
+		},
+		"type":"STRING"
+	},
+	"viewable area":{
+		"translation":{
+			"en":"Viewable area",
+			"de":"Sichtbarer bereich"
+		},
+		"type":"STRING"
+	},
+	"keywords":{
+		"translation":{
+			"en":"Keywords",
+			"de":"Schlagworte"
+		},
+		"type":"STRING"
+	},
+	"external process":{
+		"translation":{
+			"en":"External process",
+			"de":"Externer Prozeß"
+		},
+		"type":"ENUMERATION"
+	},
+	"display watermark":{
+		"translation":{
+			"en":"Display water marks",
+			"de":"Wasserzeichen anzeigen"
+		},
+		"type":"ENUMERATION"
+	},
+	"position":{
+		"translation":{
+			"en":"Position"
+		},
+		"type":"STRING"
+	},
+	"state":{
+		"translation":{
+			"en":"State",
+			"de":"Status"
+		},
+		"type":"ENUMERATION"
+	},
+	"modeltype":{
+		"translation":{
+			"en":"Model type",
+			"de":"Modeltyp"
+		},
+		"type":"ENUMERATION"
+	},
+	"is inside":{
+		"translation":{
+			"en":"Is inside",
+			"de":"Ist innen"
+		}
+	},
+	"description":{
+		"translation":{
+			"en":"Description",
+			"de":"Beschreibung"
+		},
+		"type":"STRING"
+	},
+	"graphical representation":{
+		"translation":{
+			"en":"Graphical representation",
+			"de":"Darstellungsform"
+		},
+		"type":"ENUMERATION"
+	},
+	"representation":{
+		"translation":{
+			"en":"Representation",
+			"de":"Darstellung"
+		},
+		"type":"ENUMERATION"
+	},
+	"subprocessname":{
+		"translation":{
+			"en":"Subprocessname"
+		},
+		"type":"EXPRESSION"
+	},
+	"order":{
+		"translation":{
+			"en":"Order"
+		},
+		"type":"INTEGER"
+	},
+	"categories":{
+		"translation":{
+			"en":"Categories"
+		},
+		"type":"STRING"
+	},
+	"display name":{
+		"translation":{
+			"en":"Display name",
+			"de":"Namen anzeigen"
+		},
+		"type":"ENUMERATION"
+	}
+}

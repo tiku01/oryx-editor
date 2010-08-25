@@ -214,13 +214,13 @@ public class AdonisConnector extends AdonisStencil{
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json, "properties");
-		if (getOryxStencilClass().equals("value flow")){
+		if (getOryxIndentifier().equals("value flow")){
 			properties.put("name", getName());
 		}
 		
 		AdonisAttribute element = null;
 		
-		element = getAttribute("Type");
+		element = getAttribute("type");
 		if (element != null && element.getElement() != null){
 			properties.put("type", element.getElement());
 			addUsed(element);
@@ -245,7 +245,7 @@ public class AdonisConnector extends AdonisStencil{
 		//EDGE 3 x1:2.5cm y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//EDGE 3 x1:3cm   y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//</ATTRIBUTE>
-		AdonisAttribute positions = getAttribute("Positions");
+		AdonisAttribute positions = getAttribute("positions");
 		if (positions != null){
 			addUsed(positions);
 			LayoutingDockers points = filterDockerPoints(positions.getElement());
@@ -335,17 +335,17 @@ public class AdonisConnector extends AdonisStencil{
 	
 	public void completeOryxToAdonis(){
 		
-		Log.d("Created connector class "+getOryxStencilClass()+" - "+getName()+" - "+resourceId);
+		Log.d("Created connector class "+getOryxIndentifier()+" - "+getName()+" - "+resourceId);
 		getModel().getConnector().add(this);
 		super.completeOryxToAdonis();
 	}
 	
 	public void readJSONstencil(JSONObject json) throws JSONException{
-		if (getStencilClass() == null){
+		if (getAdonisIndentifier() == null){
 			JSONObject stencil = json.getJSONObject("stencil");
-			setOryxStencilClass(stencil.getString("id"));
-			setStencilClass(getAdonisStencilClass("en"));
-			Log.d("working on stencil: "+getOryxStencilClass()+" id "+resourceId);
+			setOryxIndentifier(stencil.getString("id"));
+			setAdonisIndentifier(getAdonisStencilClass("en"));
+			Log.d("working on stencil: "+getOryxIndentifier()+" id "+resourceId);
 		}
 	}
 	
@@ -431,13 +431,6 @@ public class AdonisConnector extends AdonisStencil{
 		
 		instance = (AdonisInstance)getModelChildren().get(instanceResourceId);
 		
-//		for (AdonisStencil aStencil : getModelChildren().values()){
-//			if (aStencil.isInstance() && aStencil.resourceId.equals(instanceResourceId)){
-//				instance = (AdonisInstance)aStencil;
-//				Assert.isTrue(instance.resourceId.equals(instanceResourceId));
-//				Log.d("set connector target from  - "+instance.getName()+" - connector existing");
-//			}
-//		}
 		if (instance == null){
 			instance = new AdonisInstance();
 			instance.setResourceId(instanceResourceId);
