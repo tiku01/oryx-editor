@@ -134,6 +134,8 @@ public class User extends BusinessObject {
 		response.addCookie(newCookie("languagecode", languagecode));
 		response.addCookie(newCookie("countrycode", countrycode));
 		response.addCookie(newCookie("identifier", this.getOpenId()));
+		response.addCookie(newCookie("user_name", this.getName()));
+
 	}
 	private Cookie newCookie(String name, String value){
 		Cookie c=new Cookie(name, value);
@@ -225,6 +227,9 @@ public class User extends BusinessObject {
 	
 	public String getOpenId() {
 		return this.identity.getUri();
+	}
+	public String getName(){
+		return this.subject.getFullname();
 	}
 	
 	public Collection<Model> getModels() {

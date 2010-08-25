@@ -74,6 +74,24 @@ public class LoginHandler extends HandlerBase {
 		
 		ServletContext context = getServletContext();
 		
+		setupProxy(context);
+		
+        try {
+			this.manager = new ConsumerManager();
+	        manager.setAssociations(new InMemoryConsumerAssociationStore());
+	        manager.setNonceVerifier(new InMemoryNonceVerifier(5000));
+		} catch (ConsumerException e) {
+			// TODO implement error handling
+		}
+
+	}
+
+	/**
+	 * @param context
+	 * @throws NumberFormatException
+	 */
+	protected void setupProxy(ServletContext context)
+			throws NumberFormatException {
 		// --- Forward proxy setup (only if needed) --- 
 		if (context != null) {
 			String proxyHostName = context.getInitParameter("proxy-host-name");
@@ -85,20 +103,20 @@ public class LoginHandler extends HandlerBase {
 				HttpClientFactory.setProxyProperties(proxyProps);
 			}
 		}
-		
-        try {
-			this.manager = new ConsumerManager();
-	        manager.setAssociations(new InMemoryConsumerAssociationStore());
-	        manager.setNonceVerifier(new InMemoryNonceVerifier(5000));
-		} catch (ConsumerException e) {
-			// TODO implement error handling
-		}
-
 	}
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res, Identity subject, Identity object) throws Exception {
-    	doPost(req, res, subject, object);
+		
+		
+		doPost(req, res, subject, object);
+		
+		
+		
+		
+		
+		
+		
 	}
 	
     @Override
@@ -117,6 +135,7 @@ public class LoginHandler extends HandlerBase {
     		if(openid != null && openid != "" && openid != getPublicUser()) {
     			User user = new User(openid);
     			user.removeAuthenticationAttributes(this.getServletContext(), req, res);
+    			FacebookLogin.removeAuthInformation(req,res);
     			User publicUser = new User(getPublicUser());
     			publicUser.login(req, res);
     		}

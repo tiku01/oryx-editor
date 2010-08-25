@@ -34,12 +34,14 @@ import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.b3mn.poem.business.Model;
 import org.b3mn.poem.business.User;
+import org.b3mn.poem.handler.FacebookLogin;
 import org.b3mn.poem.handler.HandlerBase;
 import org.b3mn.poem.util.AccessRight;
 import org.b3mn.poem.util.ExportInfo;
@@ -329,12 +331,15 @@ public class Dispatcher extends HttpServlet {
 //			}
 			
 			// Retrieve open id from session
-			String openId =  (String) request.getSession().getAttribute("openid"); 
-			
-			User user = (User) request.getAttribute("user");
-			
+			String openId =  (String) request.getSession().getAttribute("openid");
+			User user=null;
+			if(publicUser.equals(openId)){
+				user = FacebookLogin.getFBUserFromCookies(request.getCookies());
+			}
+			if(user==null){
+			 user= (User) request.getAttribute("user");
+			}
 			String requestMethod = request.getMethod();
-			
 			HandlerInfo handlerInfo = this.knownHandlers.get(handlerUri); // Get meta information of the requested handler
 
 			if (handlerInfo == null) throw new Exception("Dispatching failed: The requested handler doesn't exist.");

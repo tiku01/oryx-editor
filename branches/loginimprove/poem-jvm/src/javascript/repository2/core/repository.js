@@ -37,6 +37,7 @@ Repository.Core.Repository = {
 
 			arguments.callee.$.construct.apply(this, arguments); // call super class constructor
 			this._currentUser = decodeURI( Repository.currentUser );
+			this._currentUserName = decodeURI( Repository.currentUserName );
 			this._publicUser = 'public';
 			this._modelCache = new Repository.Core.DataCache();
 
@@ -671,7 +672,7 @@ Repository.Core.Repository = {
 										border : true,
 										items :[{ // Header with logo and login
 									                region: 'north',
-									                html: Repository.Templates.login.apply({currentUser : this._currentUser, isPublicUser : this._currentUser=='public'}),
+									                html: Repository.Templates.login.apply({currentUser : (!this._currentUserName?this._currentUser:this._currentUserName), isPublicUser : this._currentUser=='public'}),
 									                height: 30
 									           },
 									           this._controls.toolbar

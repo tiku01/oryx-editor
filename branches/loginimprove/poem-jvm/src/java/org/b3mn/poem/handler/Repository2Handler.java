@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.b3mn.poem.Identity;
+import org.b3mn.poem.business.User;
 import org.b3mn.poem.util.HandlerWithoutModelContext;
 
 @HandlerWithoutModelContext(uri="/repository")
@@ -83,7 +84,7 @@ public class Repository2Handler extends  HandlerBase {
     	
     	
     	out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-    	out.println("<html>");
+    	out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" >");
     	out.println("<head>");
     	out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
     	// This prevents no caching of the repository site for IE
@@ -92,20 +93,26 @@ public class Repository2Handler extends  HandlerBase {
     	
     	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/ext-all.css\">");
     	out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ext_path + "resources/css/xtheme-gray.css\">");     	  	
-    	/*out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/prototype.js\"></script>");
-    	out.println("<script type=\"text/javascript\" src=\"" + ext_path + "adapter/ext/ext-base.js\"></script>");
-    	//out.println("<script type=\"text/javascript\" src=\"" + ext_path + "ext-all.js\"></script>");
-    	out.println("<script type=\"text/javascript\" src=\"" + ext_path + "ext-all-debug.js\"></script>");
-    	for (String include : java_script_includes) {	
-    		out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/" + include + ".js\"></script>");
-    	}*/
-    	out.println("<script type=\"text/javascript\">if(!Repository) var Repository = {}; Repository.currentUser='" + subject.getUri() + "';</script>");  
+    	String uri=subject.getUri();
+    	User user = new User(subject);
+    	String username = user==null?"public":user.getName();
+    	out.println("<script type=\"text/javascript\">if(!Repository) var Repository = {}; " +
+    			"Repository.currentUser='" + 
+    			uri + "';" +
+    			"Repository.currentUserName=" +
+    			(username==null?"null":("'"+ username +	"'")) +
+    			";"+
+    			"Repository.FacebookLoginURI='"+FacebookLogin.Facebook.getLoginRedirectURL()+"'+(window.location+'').split('repository')[0]+'"+FacebookLogin.Facebook.getUriExt()+"';"+
+    			" </script>");  
     	out.println("<script type=\"text/javascript\" src=\"" + backend_path + "/repository2/repository2.js\"></script>");
     	out.println("<script src=\"" + backend_path + "/i18n/translation_en_us.js\" type=\"text/javascript\" ></script>\n"); 
     	out.println(languageFiles);
     	for (String stylesheet : stylesheet_links) {
     		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + backend_path + "/css/" + stylesheet + ".css\">");
     	}
+    	
+
+    	
 
     	// Added a css-fix for IE
     	out.println("<!--[if IE]>");
@@ -113,8 +120,6 @@ public class Repository2Handler extends  HandlerBase {
     	out.println("@import url(" + backend_path + "/css/" + stylesheet_ie_fix + ".css);");
     	out.println("</style>");
     	out.println("<![endif]-->");
-
-    	//out.println("<script type=\"text/javascript\">Ext.onReady(function(){new Repository.Core.Repository(\"" + subject.getUri() + "\");});</script>");  
     	out.println("<title>ORYX - Repository 2.0 (BETA)</title>");
     	out.println("</head>");
     	out.println("<body>");
@@ -123,7 +128,6 @@ public class Repository2Handler extends  HandlerBase {
     	if (null != analytics) {
     		out.println(analytics);
     	}
-    	
     	out.println("</body>");
     	out.println("</html>");
 	}
