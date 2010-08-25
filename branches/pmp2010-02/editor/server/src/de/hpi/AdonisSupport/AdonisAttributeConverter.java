@@ -18,7 +18,7 @@ public class AdonisAttributeConverter {
 	public static String[] getArea(AdonisAttribute input){
 		String[] rawBounds = null;
 		String[] result = new String[4];
-		if (input.getName().equalsIgnoreCase("world area")){
+		if (input.getAdonisName().equalsIgnoreCase("world area")){
 			//w:12.01cm h:14.5cm
 			rawBounds = input.getElement().replaceAll("[a-zA-Z:]", "").split(" ");
 			result[0] = "0";
@@ -26,7 +26,7 @@ public class AdonisAttributeConverter {
 			result[2] = "" + (int)(Float.parseFloat(rawBounds[0]) * CentimeterToPixel);
 			result[3] = "" + (int)(Float.parseFloat(rawBounds[1]) * CentimeterToPixel);
 		}
-		if (input.getName().equalsIgnoreCase("viewable area")){
+		if (input.getAdonisName().equalsIgnoreCase("viewable area")){
 			//VIEW representation:graphic 
 			//GRAPHIC x:-16 y:-16 w:904 h:891
 			//TABLE "Process"

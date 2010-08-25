@@ -21,7 +21,9 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Attribute(name="name")
-	protected String name;
+	protected String adonisName;
+	
+	private String oryxName;
 
 	@Attribute(name="type")	
 	protected String type;
@@ -29,12 +31,11 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 	@Text
 	protected String element;
 
-	private String oryxName;
-	
+	@SuppressWarnings("unused")
 	private String language;
 	
-	public String getName() {
-		return name;
+	public String getAdonisName() {
+		return adonisName;
 	}
 	public String getType() {
 		return type;
@@ -44,16 +45,12 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 		return element;
 	}
 
-	public void setName(String value) {
-		name = value;
-		if (type != null)
-			Configurator.setAttributeType(name, type);
+	public void setAdonisName(String value) {
+		adonisName = value;
 	}
 	
 	public void setType(String value) {
 		type = value;
-		if (name != null)
-			Configurator.setAttributeType(name, type);
 	}
 
 	public void setElement(String value) {
@@ -61,50 +58,39 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 	}
 	
 	public AdonisAttribute(){
-		this.name = "";
+		this.adonisName = "";
 		this.type = null;
 		this.element = null;
 	}
 	
 	public AdonisAttribute(String name, String type, String element) {
-		this.name = name;
+		this.adonisName = name;
 		this.type = type;
 		this.element = element;
 	}
 	
 	
-	private void setLanguage(String lang){
-		language = lang;
-	}
-	
-	private void setAdonisType(String type){
-		Configurator.setAttributeType(name, type);
+	public void getLanguage(String language){
+		this.language = language;
 	}
 	
 	public String getAdonisType(){
-		return Configurator.getAttibuteType(name);
+		return Configurator.getStandardValue(
+				Configurator.getOryxIdentifier(getAdonisName()), 
+				"type",
+				"STRING");
 	}
-	
-	public String getLanguage(){
-		if (language == null){
-			language = Configurator.getLanguage("model");
-		}
-		return language;
-	}
-	
-	
 	
 	public String getOryxName(){
 		if (oryxName == null){
-			setLanguage(Configurator.getLanguage(getName()));
-			oryxName = Configurator.getTranslationToOryx(getName());
+			oryxName = Configurator.getOryxIdentifier(getAdonisName());
 		}
 		return oryxName;
 	}
-	
+		
 	@Override
 	public void write(JSONObject json) throws JSONException {
-		JSONObject attribute = getJSONObject(json,getName());
+		JSONObject attribute = getJSONObject(json,getAdonisName());
 		attribute.putOpt("type", getAdonisType());
 		attribute.putOpt("element", getElement());
 		

@@ -285,6 +285,7 @@
         <copy todir='${editor-build-root}/classes'>
             <fileset dir="${editor-src-root}/etc">
                 <include name="*.properties"/>
+            	<include name="*.data"/>
             </fileset>
             <!-- velocity templates -->
             <fileset dir="${editor-src-server}/src">

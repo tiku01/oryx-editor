@@ -201,7 +201,7 @@ public abstract class XMLConvertible implements Serializable{
 			try {
 				getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
 			} catch (Exception e) {
-				Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getStencilClass()+"\t"+methodName);
+				Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getAdonisIndentifier()+"\t"+methodName);
 				e.printStackTrace();
 			}
 		}

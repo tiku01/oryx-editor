@@ -191,6 +191,19 @@ public class AdonisModel extends AdonisStencil{
 	}
 	
 	/**
+	 * add a attriute to the model attributes - determine type by using configurator
+	 * @param oryxIdentifier
+	 * @param language
+	 * @param element
+	 */
+	private void addAttribute(String oryxIdentifier,String language,String element){
+		getModelAttributes().getAttribute().add(new AdonisAttribute(
+				Configurator.getAdonisIdentifier(oryxIdentifier,language),
+				Configurator.getStandardValue(oryxIdentifier, "type", "STRING"),
+				element));
+	}
+	
+	/**
 	 * creates a map of instances and connectors for quick access in all instances
 	 */
 	private void distributeChildMap(){
@@ -200,7 +213,7 @@ public class AdonisModel extends AdonisStencil{
 			
 		}
 		for (AdonisStencil stencil : getConnector()){
-			if (!"is inside".equalsIgnoreCase(stencil.getStencilClass())){
+			if (!"is inside".equalsIgnoreCase(stencil.getAdonisIndentifier())){
 				stencil.setModel(this);			
 			} else {
 				Log.d("is inside ignored");
@@ -217,7 +230,7 @@ public class AdonisModel extends AdonisStencil{
 	private void resolveParentChildRelations(){	
 		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
 		for (AdonisConnector edge : getConnector()){
-			if (edge.getOryxStencilClass().equals("is inside")){
+			if (edge.getOryxIndentifier().equals("is inside")){
 				AdonisStencil child = getModelChildren().get(edge.getFrom().getInstanceName());
 				AdonisStencil parent = getModelChildren().get(edge.getTo().getInstanceName());
 				
@@ -307,9 +320,9 @@ public class AdonisModel extends AdonisStencil{
 	
 	public String getAdonisStencilClass(String language){
 		if (language == "" || language == null){
-			return Configurator.getTranslationToAdonis(modeltype, getLanguage());
+			return Configurator.getAdonisIdentifier(modeltype, getLanguage());
 		} 
-		return Configurator.getTranslationToAdonis(modeltype, language);
+		return Configurator.getAdonisIdentifier(modeltype, language);
 	}
 	
 //*************************************************************************
@@ -355,35 +368,35 @@ public class AdonisModel extends AdonisStencil{
 		JSONObject properties = getJSONObject(json, "properties");
 		properties.put("name",getName());
 		
-		AdonisAttribute author = getAttribute("Author");
+		AdonisAttribute author = getAttribute("author");
 		addUsed(author);
 		properties.put("author", author.getElement() == null ? "" : author.getElement());
 
-		AdonisAttribute keywords = getAttribute("Keywords");
+		AdonisAttribute keywords = getAttribute("keywords");
 		addUsed(keywords);
 		properties.put("keywords", keywords.getElement() == null ? "" : keywords.getElement());
 		
-		AdonisAttribute comment = getAttribute("Comment");
+		AdonisAttribute comment = getAttribute("comment");
 		addUsed(comment);
 		properties.put("comment", comment.getElement() == null ? "" : comment.getElement());
 		
-		AdonisAttribute description = getAttribute("Description");
+		AdonisAttribute description = getAttribute("description");
 		addUsed(description);
 		properties.put("description", description.getElement() == null ? "" : description.getElement());
 		
-		AdonisAttribute reviewed = getAttribute("State");
+		AdonisAttribute reviewed = getAttribute("state");
 		addUsed(reviewed);
-		if (reviewed.getElement() == "Reviewed"){
+		if (reviewed.getElement() == "reviewed"){
 			properties.put("reviewed", reviewed.getElement());
 		}
 		
-		AdonisAttribute reviewedOn = getAttribute("Reviewed on");
+		AdonisAttribute reviewedOn = getAttribute("reviewed on");
 		addUsed(reviewedOn);
 		if (reviewedOn.getElement() != null){
 			properties.put("reviewedOn", reviewedOn.getElement());
 		}
 		
-		AdonisAttribute reviewedBy = getAttribute("Reviewed by");
+		AdonisAttribute reviewedBy = getAttribute("reviewed by");
 		addUsed(reviewedBy);
 		properties.put("reviewedBy", reviewedBy.getElement() == null ? "" : reviewedBy.getElement());
 	}
@@ -417,7 +430,7 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	@Override
 	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-		Log.w("ChildShapes called by "+getName()+"("+getStencilClass()+")");
+		Log.w("ChildShapes called by "+getName()+"("+getAdonisIndentifier()+")");
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
 		// writes all stencils - only connectors are missing
@@ -428,8 +441,8 @@ public class AdonisModel extends AdonisStencil{
 				aStencil.write(shape);
 				childShapes.put(shape);
 			} else if (aStencil.isConnector()){
-				if (!"Is inside".equalsIgnoreCase(aStencil.getStencilClass())) {
-					Log.d("Connector "+getStencilClass());
+				if (!"Is inside".equalsIgnoreCase(aStencil.getAdonisIndentifier())) {
+					Log.d("Connector "+getAdonisIndentifier());
 					shape = new JSONObject();
 					aStencil.write(shape);
 					childShapes.put(shape);
@@ -517,7 +530,7 @@ public class AdonisModel extends AdonisStencil{
 		ArrayList<AdonisInstance> swimlanes = new ArrayList<AdonisInstance>();
 		int index = 1;
 		for (AdonisInstance aStencil : getInstance()){
-			if (aStencil.getOryxStencilClass().contains("swimlane")){
+			if (aStencil.getOryxIndentifier().contains("swimlane")){
 				swimlanes.add(aStencil);
 			}
 		}
@@ -537,17 +550,17 @@ public class AdonisModel extends AdonisStencil{
 			
 		});
 		for (AdonisInstance aSwimlane : sortedSwimlanes){
-			AdonisAttribute position = aSwimlane.getAttribute("Position");
+			AdonisAttribute position = aSwimlane.getAttribute("position");
 			position.setElement(position.getElement()+"index:"+(++index));
 		}
 		for (AdonisInstance anIntance : getInstance()){
-			AdonisAttribute position = anIntance.getAttribute("Position"); 
+			AdonisAttribute position = anIntance.getAttribute("position"); 
 			if (!position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index"+(++index));
 			}
 		}
 		for (AdonisConnector aConnector : getConnector()){
-			AdonisAttribute position = aConnector.getAttribute("Position"); 
+			AdonisAttribute position = aConnector.getAttribute("position"); 
 			if (position != null && !position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index"+(++index));
 			}
@@ -597,6 +610,8 @@ public class AdonisModel extends AdonisStencil{
 		oryxGlobalBounds = new Double[]{0.0, 0.0, lowerRight.getDouble("x"), lowerRight.getDouble("y")};
 	}
 	
+	
+	
 	public void readJSONproperties(JSONObject json) throws JSONException{
 		JSONObject properties = json.getJSONObject("properties"); 
 		setName(properties.getString("name"));
@@ -605,25 +620,25 @@ public class AdonisModel extends AdonisStencil{
 		String element;
 
 		element = properties.optString("author");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Author","STRING",element.length()== 0 ? "Admin" : element));
+		if (element != null) addAttribute("author","en",element.length()== 0 ? "Admin" : element);
 		
 		element = properties.optString("keywords");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Keywords","STRING",element));
+		if (element != null) addAttribute("keywords","en",element);
 		
 		element = properties.optString("comment");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Comment","STRING",element));
+		if (element != null) addAttribute("comment","en",element);
 		
 		element = properties.optString("description");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Description","STRING",element));
+		if (element != null) addAttribute("description","en",element);
 		
 		element = properties.optString("reviewed");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("State","ENUMERATION",element));
+		if (element != null) addAttribute("state","en",element);
 		
 		element = properties.optString("reviewedOn");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Reviewed On","STRING",element));
+		if (element != null) addAttribute("reviewed on","en",element);
 		
 		element = properties.optString("reviewedBy");
-		if (element != null) getModelAttributes().getAttribute().add(new AdonisAttribute("Reviewed By","STRING",element));		
+		if (element != null) addAttribute("reviewed by","en",element);		
 	}
 	
 	public void readJSONresourceId(JSONObject json){

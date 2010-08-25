@@ -28,7 +28,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	@Attribute(name="id")
 	protected String id;
 	@Attribute(name="class")
-	protected String stencilClass;
+	protected String adonisIndentifier;
 	
 	public String getId(){
 		return id;
@@ -42,7 +42,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	
 	
 	protected String resourceId;
-	private String oryxStencilClass;
+	private String oryxIndentifier;
 	private String language;
 	private ArrayList<AdonisStencil> outgoingStencil = null;
 	
@@ -79,16 +79,16 @@ public abstract class AdonisStencil extends XMLConvertible {
 	/**
 	 * @return the adonis stencil class
 	 */
-	public String getStencilClass(){
-		return stencilClass;
+	public String getAdonisIndentifier(){
+		return adonisIndentifier;
 	}
 	
 	/**
 	 * sets the adonis stencil class
 	 * @param newName
 	 */
-	public void setStencilClass(String newName){
-		stencilClass = newName;
+	public void setAdonisIndentifier(String newName){
+		adonisIndentifier = newName;
 	}
 	
 	/**
@@ -297,7 +297,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 */
 	public void writeJSONstencil(JSONObject json) throws JSONException {
 		JSONObject stencil = getJSONObject(json,"stencil");
-		stencil.put("id", getOryxStencilClass());
+		stencil.put("id", getOryxIndentifier());
 		
 	}
 	/**
@@ -357,26 +357,26 @@ public abstract class AdonisStencil extends XMLConvertible {
 //* Configurator access TODO needs overhauling
 //*************************************************************************
 	
-	public void setOryxStencilClass(String oryxName){
-		oryxStencilClass = oryxName;
+	public void setOryxIndentifier(String oryxName){
+		oryxIndentifier = oryxName;
 	}
 	
 	/**
 	 * translates from a adonis stencil name to a oryx stencil name
 	 */
-	public String getOryxStencilClass(){
-		if (oryxStencilClass == null){
+	public String getOryxIndentifier(){
+		if (oryxIndentifier == null){
 			AdonisAttribute anAttribute = getAttribute("Name (english)");
 			if (anAttribute != null) {
-				oryxStencilClass = anAttribute.getElement().toLowerCase();
+				oryxIndentifier = anAttribute.getElement().toLowerCase();
 				setLanguage("en");
 				addUsed(anAttribute);
 			} else {
-				setLanguage(Configurator.getLanguage(getStencilClass()));
-				oryxStencilClass = Configurator.getTranslationToOryx(getStencilClass());
+				setLanguage(Configurator.getLanguage(getAdonisIndentifier()));
+				oryxIndentifier = Configurator.getOryxIdentifier(getAdonisIndentifier());
 			}
 		}
-		return oryxStencilClass;
+		return oryxIndentifier;
 	}
 	
 	/**
@@ -386,27 +386,10 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 */
 	public String getAdonisStencilClass(String language){
 		if (language == "" || language == null){
-			return Configurator.getTranslationToAdonis(oryxStencilClass, getLanguage());
+			return Configurator.getAdonisIdentifier(oryxIndentifier, getLanguage());
 		} 
 		// the language is known
-		return Configurator.getTranslationToAdonis(oryxStencilClass, language);
-	}
-
-	/**
-	 * @return a JSONObject with all set standard values or null if there is none
-	 */
-	public JSONObject getStandardConfiguration(){
-		
-		try {
-			JSONObject config = Configurator.getStencilConfiguration(getOryxStencilClass()); 
-			if (config == null) {
-				Log.d("No config available for "+getOryxStencilClass());
-			}
-			return config; 
-		} catch (JSONException e){
-			Log.d("Error during getting config of stencil class - no config available?\n"+e.getMessage());
-			return null;
-		}
+		return Configurator.getAdonisIdentifier(oryxIndentifier, language);
 	}
 	
 }

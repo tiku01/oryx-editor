@@ -114,6 +114,13 @@ public class AdonisInstance extends AdonisStencil {
 		return null;
 	}
 	
+	private void addAttribute(String oryxIdentifier,String language, String element){
+		getAttribute().add(new AdonisAttribute(
+				Configurator.getAdonisIdentifier(oryxIdentifier,language),
+				Configurator.getStandardValue(oryxIdentifier, "type", "STRING"),
+				element));
+	}
+	
 	/**
 	 * overriden for readability of objects
 	 */
@@ -164,9 +171,10 @@ public class AdonisInstance extends AdonisStencil {
 		Double top = oryxGlobalBounds[1];
 		Double width = oryxGlobalBounds[2] - left;
 		Double height = oryxGlobalBounds[3] - top;
-				
-		left = left + (getLeftOffset()) / 100 * width  + getParent().getOryxGlobalBounds()[0];
-		top = top + (getTopOffset()) / 100 * height + getParent().getOryxGlobalBounds()[1];
+		Double leftOffset = Double.parseDouble(getStandard("offsetPercentageX", "0.0"));
+		Double topOffset = Double.parseDouble(getStandard("offsetPercentageY", "0.0"));
+		left = left + leftOffset / 100 * width  + getParent().getOryxGlobalBounds()[0];
+		top = top + topOffset / 100 * height + getParent().getOryxGlobalBounds()[1];
 		
 		adonisGlobalBounds[0] = left / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[1] = top / CENTIMETERTOPIXEL;
@@ -187,7 +195,7 @@ public class AdonisInstance extends AdonisStencil {
 		//get the position and size which looks like 
 		//	NODE x:2.50cm y:7.00cm index:2 or
 		//	NODE x:1cm y:11.5cm w:.5cm h:.6cm index:8
-		AdonisAttribute adonisPosition = getAttribute("Position"); 
+		AdonisAttribute adonisPosition = getAttribute("position"); 
 		if (adonisPosition != null){
 			// extract the numbers out of the string
 			addUsed(adonisPosition);
@@ -197,15 +205,17 @@ public class AdonisInstance extends AdonisStencil {
 			Double width;
 			Double height;
 			if (position.length <= 3){
-				width = getStandardWidth();
-				height = getStandardHeigth();
+				width = Double.parseDouble(getStandard("w","3.25"));
+				height = Double.parseDouble(getStandard("h","1.4"));
 			} else {
 				width = Double.parseDouble(position[2]);
 				height = Double.parseDouble(position[3]);
 			}
+			Double leftOffset = Double.parseDouble(getStandard("offsetPercentageX", "0.0"));
+			Double topOffset = Double.parseDouble(getStandard("offsetPercentageY", "0.0"));
 			// some stencils are positioned using a offset (in percentage)
-			oryxGlobalBounds[0] = left - (getLeftOffset() / 100 * width);
-			oryxGlobalBounds[1] = top - (getTopOffset() / 100 * height);
+			oryxGlobalBounds[0] = left - (leftOffset / 100 * width);
+			oryxGlobalBounds[1] = top - (topOffset / 100 * height);
 			oryxGlobalBounds[2] = oryxGlobalBounds[0] + width;
 			oryxGlobalBounds[3] = oryxGlobalBounds[1] + height;
 			for (int i = 0; i < oryxGlobalBounds.length; i++){
@@ -233,66 +243,19 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		return new Double[]{(oryxGlobalBounds[0] + oryxGlobalBounds[2])/2, (oryxGlobalBounds[1] + oryxGlobalBounds[3])/2};   
 	}
+
 	
+	// s t a n d a r d   v a l u e s
+
 	/**
-	 * returns the standard size of a stencil in cm (according to the used unit in the xml)
-	 * @param isVertical
+	 * returns a standard value of the stored values if available or the default 
+	 * @param attribute 
 	 * @return
 	 * @throws JSONException 
 	 */
-	public Double getStandardWidth(){
-		try {
-			JSONObject standard = getStandardConfiguration();
-			if (standard != null){
-				return standard.getDouble("w");
-			}
-		} catch (JSONException e){
-			Log.e(e.getMessage());
-		}
-		Log.v("No standard width values avaiable for: "+getOryxStencilClass());
-		return 3.25;
+	public String getStandard(String attribute, String defaultValue){
+		return Configurator.getStandardValue(getOryxIndentifier(), attribute, defaultValue);
 			
-	}
-	
-	// s t a n d a r d   v a l u e s
-	public Double getStandardHeigth(){
-		try {
-			JSONObject standard = getStandardConfiguration();
-			if (standard != null){
-				return standard.getDouble("h");
-			}
-		} catch (JSONException e){
-			Log.e(e.getMessage());
-		}
-		Log.v("No standard heigth values avaiable for: "+getOryxStencilClass());
-		return 1.4;
-			
-	}
-	
-	public Double getLeftOffset(){
-		try {
-			JSONObject standard = getStandardConfiguration();
-			if (standard != null){
-				return standard.getDouble("offsetPercentageX");
-			}
-		} catch (JSONException e){
-			Log.e(e.getMessage());
-		}
-		Log.v("No standard offset percentage from left avaiable for: "+getOryxStencilClass());
-		return 0.0;
-	}
-	
-	public Double getTopOffset(){
-		try {
-			JSONObject standard = getStandardConfiguration();
-			if (standard != null){
-				return standard.getDouble("offsetPercentageY");
-			}
-		} catch (JSONException e){
-			Log.e(e.getMessage());
-		}
-		Log.v("No standard offset percentage from top avaiable for: "+getOryxStencilClass());
-		return 0.0;
 	}
 
 	public boolean isInstance(){
@@ -309,7 +272,7 @@ public class AdonisInstance extends AdonisStencil {
 	 * write all childshapes of the stencil
 	 */
 	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-		Log.w("ChildShapes called by "+getName()+"("+getStencilClass()+")");
+		Log.w("ChildShapes called by "+getName()+"("+getAdonisIndentifier()+")");
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
 		
@@ -336,48 +299,48 @@ public class AdonisInstance extends AdonisStencil {
 		
 		AdonisAttribute element = null;
 		
-		element = getAttribute("Subprocess name");
+		element = getAttribute("subprocessname");
 		if (element != null && element.getElement() != null){
 			properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
 			addUsed(element);
 		}
-		element = getAttribute("Categories");
+		element = getAttribute("categories");
 		if (element != null && element.getElement() != null){
 			properties.put("categories", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Documentation");
+		element = getAttribute("documentation");
 		if (element != null && element.getElement() != null){
 			properties.put("documentation", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Description");
+		element = getAttribute("description");
 		if (element != null && element.getElement() != null){
 			properties.put("description", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Comment");
+		element = getAttribute("comment");
 		if (element != null && element.getElement() != null){
 			properties.put("Comment", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Open questions");
+		element = getAttribute("open questions");
 		if (element != null && element.getElement() != null){
 			properties.put("open questions", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("External process");
+		element = getAttribute("external process");
 		if (element != null && element.getElement() != null){
 			properties.put("external process", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Order");
-		if (element != null && element.getElement() != null && getOryxStencilClass().equals("process")){
+		element = getAttribute("order");
+		if (element != null && element.getElement() != null && getOryxIndentifier().equals("process")){
 			properties.put("order", element.getElement());
 			addUsed(element);
 		}
 		
-		element = getAttribute("Display water marks");
+		element = getAttribute("display watermark");
 		if (element != null){
 			if (element.getElement() != null){
 				properties.put("display watermark", element.getElement() == "Yes" ? true : false);
@@ -387,25 +350,25 @@ public class AdonisInstance extends AdonisStencil {
 			addUsed(element);
 		}
 		
-		element = getAttribute("Text");
+		element = getAttribute("text");
 		if (element != null && element.getElement() != null){
 			properties.put("text", element.getElement());
 			addUsed(element);
 		}
 	
 	
-		element = getAttribute("Representation");
+		element = getAttribute("representation");
 		if (element != null && element.getElement() != null){
 			properties.put("representation", element.getElement());
 			addUsed(element);
 		}
-		element = getAttribute("Display name");
+		element = getAttribute("display name");
 		if (element != null && element.getElement() != null){
-			properties.put("display name", element.getElement().equals("Yes") ? true : false);
+			properties.put("display name", element.getElement().equalsIgnoreCase("yes") ? true : false);
 			addUsed(element);
 		}
 		
-		element = getAttribute("Graphical representation");
+		element = getAttribute("graphical representation");
 		if (element != null && element.getElement() != null){
 			properties.put("graphical representation", element.getElement());
 			addUsed(element);
@@ -498,7 +461,7 @@ public class AdonisInstance extends AdonisStencil {
 		AdonisConnector isInside = new AdonisConnector();
 		
 		
-		isInside.setStencilClass("Is inside");
+		isInside.setAdonisIndentifier(Configurator.getAdonisIdentifier("is inside", "en"));
 		isInside.getResourceId();
 		isInside.setModel(getModel());
 		
@@ -512,8 +475,8 @@ public class AdonisInstance extends AdonisStencil {
 		isInside.setFrom(point);
 		
 		AdonisAttribute attribute = new AdonisAttribute();
-		attribute.setName("AutoConnect");
-		attribute.setType("Is inside");
+		attribute.setAdonisName("AutoConnect");
+		attribute.setType("STRING");
 		
 		ArrayList<AdonisAttribute> list =new ArrayList<AdonisAttribute>();
 		list.add(attribute);
@@ -529,8 +492,8 @@ public class AdonisInstance extends AdonisStencil {
 	 */
 	@Override
 	public void completeOryxToAdonis(){
-		Log.d("read in Bounds of stencil: "+getOryxStencilClass()+" named: "+getName());
-		String type = getOryxStencilClass().contains("swimlane") ? "SWIMLANE" : "NODE";
+		Log.d("read in Bounds of stencil: "+getOryxIndentifier()+" named: "+getName());
+		String type = getOryxIndentifier().contains("swimlane") ? "SWIMLANE" : "NODE";
 		
 		DecimalFormat f = new DecimalFormat("#.00");
 		DecimalFormatSymbols p = new DecimalFormatSymbols();
@@ -547,12 +510,12 @@ public class AdonisInstance extends AdonisStencil {
 		
 		AdonisAttribute temp = new AdonisAttribute();
 		temp.setElement(adonisBounds.toString());
-		temp.setName("Position");
+		temp.setAdonisName("Position");
 		temp.setType("STRING");
 		getAttribute().add(temp);
 		
 		
-		Log.d("Created instance class "+getOryxStencilClass()+" - "+getName());
+		Log.d("Created instance class "+getOryxIndentifier()+" - "+getName());
 		getModel().getInstance().add(this);
 		super.completeOryxToAdonis();
 	}
@@ -595,11 +558,11 @@ public class AdonisInstance extends AdonisStencil {
 	 * @throws JSONException
 	 */
 	public void readJSONstencil(JSONObject json) throws JSONException{
-		if (getStencilClass() == null){
+		if (getAdonisIndentifier() == null){
 			JSONObject stencil = json.getJSONObject("stencil");
-			setOryxStencilClass(stencil.getString("id"));
-			setStencilClass(getAdonisStencilClass("en"));
-			Log.d("working on stencil: "+getOryxStencilClass());
+			setOryxIndentifier(stencil.getString("id"));
+			setAdonisIndentifier(getAdonisStencilClass("en"));
+			Log.d("working on stencil: "+getOryxIndentifier());
 		}
 	}
 	
@@ -706,7 +669,9 @@ public class AdonisInstance extends AdonisStencil {
 		oryxGlobalBounds[2] = lowerRight.getDouble("x");
 		oryxGlobalBounds[3] = lowerRight.getDouble("y");
 	}
-		
+	
+
+	
 	/**
 	 * read in properties of stencil and store them in AdonisAttributes
 	 * TODO currently a lot of attributes are hardcoded for the english version
@@ -725,52 +690,51 @@ public class AdonisInstance extends AdonisStencil {
 		Boolean booleanAttribute = null;
 		stringAttribute = properties.optString("subprocessname");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Subprocess name","EXPRESSION","EXPR val:"+stringAttribute));
+			addAttribute("subprocessname","en","EXPR val:"+stringAttribute);
 		}
 		stringAttribute = properties.optString("categories");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Categories","STRING",stringAttribute));
+			addAttribute("categories", "en", stringAttribute);
 		}
 		stringAttribute = properties.optString("documentation");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Documentation","STRING",stringAttribute));
+			addAttribute("documentation", "en", stringAttribute);
 		}
 		stringAttribute = properties.optString("description");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Description","STRING",stringAttribute));
+			addAttribute("description", "en", stringAttribute);
 		}
 		stringAttribute = properties.optString("comment");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Comment","STRING",stringAttribute));
+			addAttribute("comment", "en", stringAttribute);
 		}
 		stringAttribute = properties.optString("open questions");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Open questions","STRING",stringAttribute));
+			addAttribute("open questions", "en", stringAttribute);
 		}
 		integerAttribute = properties.optInt("order");
 		if (integerAttribute != null){
-			getAttribute().add(new AdonisAttribute("Order","INTEGER",integerAttribute.toString()));
+			addAttribute("order", "en", integerAttribute.toString());
 		}
 		stringAttribute = properties.optString("external process");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("External process","ENUMERATION",stringAttribute));
+			addAttribute("external process", "en", stringAttribute);
 		}
 		stringAttribute = properties.optString("representation");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Representation","ENUMERATION",stringAttribute));
+			addAttribute("representation", "en", stringAttribute);
 		}
 		booleanAttribute = properties.optBoolean("display name");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Display name","ENUMERATION",(booleanAttribute ? "Yes" : "No")));
+			addAttribute("display name", "en", (booleanAttribute ? "Yes" : "No"));
 		}
-		
 		stringAttribute = properties.optString("display watermark");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Display water marks","ENUMERATION",(booleanAttribute ? "yes" : "no")));
+			addAttribute("display watermark", "en", (booleanAttribute ? "yes" : "no"));
 		}
 		stringAttribute = properties.optString("graphical representation");
 		if (stringAttribute != null){
-			getAttribute().add(new AdonisAttribute("Graphical representation","ENUMERATION",stringAttribute));
+			addAttribute("graphical representation", "en", stringAttribute);
 		}
 	}
 }
