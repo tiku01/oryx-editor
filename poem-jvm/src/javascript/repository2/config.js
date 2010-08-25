@@ -22,6 +22,7 @@ Repository.Config.STENCILSET_URI	= "/oryx/stencilsets/stencilsets.json"
 Repository.Config.PATH 				= '/backend/repository2/'
 Repository.Config.PLUGIN_PATH 		= 'plugins/'
 Repository.Config.PLUGIN_CONFIG 	= 'plugins.xml'
+Repository.Config.HOMEPAGE			='http://oryx-project.org/research'
 
 
 Repository.Config.SORT_DESC 		= 'desc'
