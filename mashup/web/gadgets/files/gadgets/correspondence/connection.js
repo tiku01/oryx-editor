@@ -187,7 +187,7 @@ Connection.prototype = {
 	 */
 	stopEditing: function() {		
 		this.gadget.unregisterSelectionChanged();
-		this.clearModels();		
+		this.gadget.resetModels();		
 	},
 	
 	
@@ -215,7 +215,7 @@ Connection.prototype = {
 	},
 	
 	/**
-	 * Updates the selection of nodes if now one were selected.
+	 * Updates the selection of nodes 
 	 * @param {{Integer,[Node]}}
 	 */
 	updateConnection: function(reply){
@@ -240,7 +240,7 @@ Connection.prototype = {
 		
 	},
 	/**
-	 *  Removes all markers and selections from the involved models.
+	 *  Removes all markers and selections from all other models.
 	 */
 	clearModels : function() {
 		var resetModels = function(viewers){			
@@ -266,17 +266,6 @@ Connection.prototype = {
 		// remove all markers and shadows in all models covered by the connection 
 		// and mark shapes belonging to the connection
 		this.markShapes(true);
-		
-		// remove all shadows, selections and markers in all other viewers
-		this.stopEditing();
-		
-		var connections = this.gadget.connectionCollection.connections;
-		
-		for (var i = 0; i < connections.length; i++){
-			if (connections[i] && connections[i].isActive ){
-				connections[i].deselect();
-			}	
-		}
 		this.select();
 	},
 	
@@ -292,6 +281,12 @@ Connection.prototype = {
 	 * Selects this connection in the UI.
 	 */	
 	select : function(){
+		var connections = this.gadget.connectionCollection.connections;	
+		for (var i = 0; i < connections.length; i++){
+			if (connections[i] && connections[i].isActive ){
+				connections[i].deselect();
+			}	
+		}
 		this.isActive = true;
 		this.connectionEl.addClassName("connection-item-active");
 	},

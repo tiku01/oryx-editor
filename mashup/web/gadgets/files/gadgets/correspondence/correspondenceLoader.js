@@ -23,7 +23,7 @@
 
 
 
-
+CONNECTION_TIMEOUT = 10000; //Maximum time in milliseconds to wait for models to load
 
 /**
  * This class is responsible for loading a Connection Collection from a file,
@@ -57,9 +57,18 @@ correspondenceLoader.prototype = {
 				}
 				return false;
 			};
+			this.timeWaited = 0;
 			this.loadedConnectionCollection = connectionCollection;
 			this.gadget = gadget;
-			this.data = YAHOO.lang.JSON.parse(jsonText);			
+			try {
+				this.data = YAHOO.lang.JSON.parse(jsonText);		
+			} catch(err) {
+				alert("You have not provided a valid JSON File");
+				if (this.onLoadingComplete!==null) {
+					this.onLoadingComplete(null);
+				}
+				return;
+			}
 			//determine required models
 			if (this.data!==null) {
 				for (var i=0;i<this.data.length;i++) {
@@ -147,10 +156,14 @@ correspondenceLoader.prototype = {
 			if (this.allViewersAvailable()) {
 				this.createConnectionCollection()
 			} else {
-				if (this.timeWaited<15000) {
+				if (this.timeWaited<CONNECTION_TIMEOUT) {
 					this.waitForLoadingComplete();
 				} else {
-					alert("Could not load required Models")
+					alert("Could not load required Models");
+					if (this.onLoadingComplete!==null) {
+						this.onLoadingComplete(this.loadedConnectionCollection);
+					}
+					return;
 				}				
 
 			}		
@@ -165,7 +178,7 @@ correspondenceLoader.prototype = {
 					return this.gadget.availableModelViewers[i].index;
 				}				
 			}
-			alert("Loading failed, viewer not found.")
+			alert("Loading failed, viewer not found.");
 		},
 		
 		/**
@@ -175,10 +188,15 @@ correspondenceLoader.prototype = {
 		 * @return an Array with the requested Nodes
 		 */
 		getNodesByResourceIDs : function(resourceIDs, viewerIndex) {
+			var nodes = [];
 			for (var i=0;i<this.gadget.availableModelViewers.length;i++) {
 				if (this.gadget.availableModelViewers[i].index==viewerIndex) {
-					var nodes = this.gadget.availableModelViewers[i].viewer.canvas.getNodes();
-					break;
+					if (this.gadget.availableModelViewers[i].viewer.canvas.getNodes) {
+						if (YAHOO.lang.isFunction(this.gadget.availableModelViewers[i].viewer.canvas.getNodes)){
+							nodes = this.gadget.availableModelViewers[i].viewer.canvas.getNodes();
+							break;
+						}
+					}
 				}
 			}			
 			var resultNodes = [];
@@ -222,7 +240,7 @@ correspondenceLoader.prototype = {
 					}
 				}
 			}
-			if (this.loadedConnectionCollection.connections.size===0) {
+			if (!this.loadedConnectionCollection || !this.loadedConnectionCollection.connections || this.loadedConnectionCollection.connections.size===0) {
 				alert("Input File in wrong format.")
 			}
 			this.gadget.connectionCollection = this.loadedConnectionCollection;			

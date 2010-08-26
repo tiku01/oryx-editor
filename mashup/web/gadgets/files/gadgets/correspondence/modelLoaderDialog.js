@@ -41,8 +41,10 @@ ModelLoaderDialog.prototype = {
 
 			uploader.addEventListener('change', function(evt){
 				var textEdit = document.getElementById("textarea");
-	            var text = evt.target.files[0].getAsText('UTF-8');
-	            textEdit.innerText =text;
+				if (evt.target && evt.target.files[0]) {
+					var text = evt.target.files[0].getAsText('UTF-8');
+				}
+	            if (text) textEdit.value = text;
 			}, true)
 		},
 		
@@ -61,32 +63,31 @@ ModelLoaderDialog.prototype = {
 
 
 YAHOO.util.Event.onDOMReady(function () {
-		
-	
-	// Define various event handlers for Dialog
-	var handleSubmit = function() {
+	var processForm = function() {
 		var textEdit = document.getElementById("textarea");
-		var text = textEdit.innerText;
+		var text = textEdit.value;
 		
-		modelLoaderDialog.cancel();
-		if (text!=''){
+		
+		if (text && text!=''){
 			modelLoaderDialog.callback(text);
 		} else {
 			alert("Invalid Input!");
 		}
-		
+
+	}
+	
+	// Define various event handlers for Dialog
+	var handleSubmit = function() {
+		this.submit(); 		
+		processForm(); 
+		this.cancelAndClean();
 	};
+	
 	var handleCancel = function() {
-		modelLoaderDialog.cancel();
+		this.cancelAndClean();
 	};
-	var handleSuccess = function(o) {
-		modelLoaderDialog.callback();  
-	};
-	var handleFailure = function(o) {	
-		var textEdit = document.getElementById("textarea");
-		var text = textEdit.innerText;
-		modelLoaderDialog.callback(text);
-	};
+
+	
  
     // Remove progressively enhanced content class, just before creating the module
     YAHOO.util.Dom.removeClass("modelLoaderDialog", "yui-pe-content");
@@ -95,13 +96,20 @@ YAHOO.util.Event.onDOMReady(function () {
 	modelLoaderDialog = new YAHOO.widget.Dialog("modelLoaderDialog", 
 							{ width : "30em",
 							  fixedcenter : true,
-							  visible : false, 
+							  visible : false, 							
 							  constraintoviewport : true,
 							  buttons : [ { text:"Submit", handler:handleSubmit, isDefault:true },
 								      { text:"Cancel", handler:handleCancel } ],
 							  effect:[{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5}, 
 								      {effect:YAHOO.widget.ContainerEffect.SLIDE,duration:0.5}] } ); 
  
+	modelLoaderDialog.cancelAndClean = function() {
+		modelLoaderDialog.cancel();
+		var textEdit = document.getElementById("textarea");
+		textEdit.value = "";
+		var uploader = document.getElementById("modelUploader");
+		uploader.clear();
+	};
 	
 	modelLoaderDialog.setViewers = function(viewers) {		
 		modelLoaderDialog.populateSelector(viewers, "model1",0);
@@ -126,9 +134,7 @@ YAHOO.util.Event.onDOMReady(function () {
 
 	};	
  
-	// Wire up the success and failure handlers
-	modelLoaderDialog.callback = { success: handleSuccess,
-						     failure: handleFailure };
+
 	
 	// Render the Dialog
 	modelLoaderDialog.render();
