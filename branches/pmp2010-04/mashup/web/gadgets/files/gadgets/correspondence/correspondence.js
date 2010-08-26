@@ -34,8 +34,7 @@ Correspondence = function(){
 	this.table = null;
 	this.connectionCollection = new ConnectionCollection();
 	this.selectedViewers = [];	
-	this.availableModelViewers = [];
-	this.connectionMode = false;
+	this.availableModelViewers = [];	
 	this.discoveryMode = false;
 	this.connector = null;
 	this.icon = this.GADGET_BASE + "icons/chart_line.png";
@@ -134,10 +133,7 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	createConnection: function(){
 		
 		// leave discovery mode if currently active
-		this.stopDiscoveryMode();
-		
-
-		
+		this.stopDiscoveryMode();		
 		
 		for (var i = 0; i < this.connectionCollection.connections.length; i++){
 			if (this.connectionCollection.connections[i] && this.connectionCollection.connections[i].isActive ) {
@@ -156,7 +152,8 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	},
 	
 	/**
-	 * Adds a connection between models to represent a corresspondence 
+	 * Adds a connection between models to represent a correspondence 
+	 * @param {Connection} connection
 	 */
 	addConnection : function(connection){
 		this.connectionCollection.addConnection(connection);
@@ -178,10 +175,10 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 	loadConnections: function() {
 		var loadJSON = function(jsonText){
 			//first remove all current connection
-			loadingScreen.show();
+			loadingScreen.show();			
 			this.connectionCollection.clear();
 			this.connectionCollection = new ConnectionCollection();
-			this.connectionCollection.load(jsonText,this,this.onConnectionCollectionLoaded);
+			this.connectionCollection.load(jsonText,this,this.onConnectionCollectionLoaded.bind(this));
 		};
 		
 		var dialog = new ModelLoaderDialog(loadJSON.bind(this));
@@ -226,21 +223,26 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 			this.discovery = null;
 		
 	},
+	/**
+	 * Clears all selections ,markers etc. from the given viewers
+	 * @param {Array of Viewer} viewers
+	 */
+	clearViewers : function(viewers){			
+		for (var i = 0; i < viewers.length; i++){
+			this.removeMarker(viewers[i], "all");
+			this.resetSelection(viewers[i]);
+			this.undoGrey(viewers[i], "all");
+		}
+	},
 	
 	/**
 	 * remove shadows, markers and selections from all viewers
 	 */
 	resetModels : function(){
 		
-		var clearViewers = function(viewers){			
-			for (var i = 0; i < viewers.length; i++){
-				this.removeMarker(viewers[i], "all");
-				this.resetSelection(viewers[i]);
-				this.undoGrey(viewers[i], "all");
-			}
-		};
+
 	
-		this.sendViewers(clearViewers, this);
+		this.sendViewers(this.clearViewers, this);
 		
 	},
 	

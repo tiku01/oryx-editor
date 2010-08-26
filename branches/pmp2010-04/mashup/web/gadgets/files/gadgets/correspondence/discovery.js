@@ -39,22 +39,13 @@ Discovery.prototype = {
 	init : function(){
 	
 		this.gadget.registerSelectionChanged("all");
-		this.gadget.registerRPC("handleSelection", "", "", this.showConnections, this);
-		
-		// switch single-select mode in all viewers
-		/*var setSingleSelect = function(viewers) {
-			for (var i = 0; i < viewers.length; i++){
-				var index = viewers[i];
-				this.gadget.setSelectionMode(index, "single");
-			}
-		};*/
-		
-		//this.gadget.sendViewers( setSingleSelect, this);
+		this.gadget.registerRPC("handleSelection", "", "", this.showConnections, this);		
+
 		
 	},
 
 	/**
-	 * deselct previously selected shape and remove all markers
+	 * deselect previously selected shape and remove all markers
 	 * and show connections associated with the recently chosen one
 	 * @param {{index[Node]}} reply [Node] are the selected Nodes, Index the Viewer index
 	 */
@@ -62,51 +53,49 @@ Discovery.prototype = {
 		
 		var selectedShapes = reply.selected;
 		var viewer = reply.index;
-		
+		if (!viewer) {
+			return;
+		}
+		this.currentViewer = viewer;
 		// those events caused by reseting the selection of the previously selected shape must be filtered out
-		/*if (selectedShapes[0].evalJSON(true).length > 0){ */	
-			var oldViewer = this.currentViewer;
-			var oldShape = this.currentShape;
-	
-			this.currentViewer = viewer;
-			for (var s in reply.selected) {
-				this.currentShape = s;
-			}
-
-			
-			
-			
-			// deselct previously selected shape
-		/*	if (oldViewer && oldViewer != this.currentViewer){
-				this.gadget.resetSelection(oldViewer);
-			}*/
-			
-			// remove all markers (associations belonging to previously selected shape)
-			// mark all shapes associated to the recently selected
-			var showAssociations = function(viewers) {
-				
-				for (var i = 0; i < viewers.length; i++){
-					this.gadget.removeMarker(viewers[i], "all");
-				}
-				
-				var connections = this.gadget.connectionCollection.connections;
-				var firstFound = true;
-				for ( var i = 0; i < connections.length; i++){
-					if (connections[i]) {
-						connections[i].clearModels();
-						connections[i].deselect();
-					}
-				}
-				for ( var i = 0; i < connections.length; i++){
-					if (connections[i] && connections[i].includesShape(this.currentViewer, this.currentShape)) {
-						connections[i].markShapes(firstFound);
-						connections[i].select();
-						firstFound = false;
-					}
-				}
-			};
-			this.gadget.sendViewers( showAssociations, this);
 		
+		for (var s in reply.selected) {
+			this.currentShape = s;
+		}
+		if (!this.currentShape) {
+			return;
+		}
+		
+		
+		// remove all markers (associations belonging to previously selected shape)
+		// mark all shapes associated to the recently selected
+		var showAssociations = function(viewers) {
+			/*
+			for (var i = 0; i < viewers.length; i++){
+				this.gadget.removeMarker(viewers[i], "all");
+			}
+			*/
+			this.gadget.clearViewers(viewers);
+			
+			var connections = this.gadget.connectionCollection.connections;
+			var firstFound = true;
+			/*
+			for ( var i = 0; i < connections.length; i++){
+				if (connections[i]) {
+					connections[i].clearModels();
+					connections[i].deselect();
+				}
+			}
+			*/
+			for ( var i = 0; i < connections.length; i++){
+				if (connections[i] && connections[i].includesShape(this.currentViewer, this.currentShape)) {
+					connections[i].markShapes(firstFound);
+					connections[i].select();
+					firstFound = false;
+				}
+			}
+		};
+		this.gadget.sendViewers( showAssociations, this);		
 		
 	},
 	
