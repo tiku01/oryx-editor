@@ -50,8 +50,10 @@ OpenPair.prototype = {
 	 */
 	similarity : function(node1, node2) {
 		var typeSimilarity = this.typeSimilarity(node1, node2);
-		var label1 = this.preprocessLabel(node1.properties.name);
-		var label2 = this.preprocessLabel(node2.properties.name);
+		var label1 = this.getNameForNode(node1);
+		var label2 = this.getNameForNode(node2);		
+		label1 = this.preprocessLabel(label1);
+		label2 = this.preprocessLabel(label2);
 		var syntacticSimilarity = this.syntacticSimilarity(label1, label2);
 		return (typeSimilarity*WEIGHT_STRUCTURAL_SIMILARITY
 				+ syntacticSimilarity*WEIGHT_SYNTACTIC_SIMILARITY) 
@@ -130,9 +132,32 @@ OpenPair.prototype = {
 		if (type1==type2) return 1.00;
 		//both subtype of event -> lower penalty 
 		if (type1.search("Event")!=-1 && type2.search("Event")!=-1) return 1.00 - SEMI_DIFFERENT_TYPE_PENALTY;
-		return 1.00 - DIFFERENT_TYPE_PENALTY;
+		return 1.00 - DIFFERENT_TYPE_PENALTY * this.syntacticSimilarity(type1, type2);
 		
 	},
+	/**
+	 * Trys to determine the attribute that contains the name of this node
+	 * @param {Node} node the given Node which can belong to a BPMN, EPC model or petri net and possbily more
+	 * @return the name of the node
+	 */
+	getNameForNode : function (node) {
+		if (node.properties.name || node.properties.name=="") {
+			return node.properties.name;
+		} else if (node.properties.title || node.properties.title==""){
+			return node.properties.title;
+		} else if (node.properties.caption || node.properties.caption==""){
+			return node.properties.caption;
+		} else if (node.name || node.name=="") {
+			return node.name;
+		} else if (node.title || node.name=="") {
+			return node.title;
+		} else if (node.caption || node.caption=="") {
+			return node.caption;
+		} else if (node.resourceId || node.resourceId=="") {
+			return node.resourceId;
+		} else return "unknown";
+	},
+	
 
 	//Tests
 	

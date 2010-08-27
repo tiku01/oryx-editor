@@ -143,12 +143,21 @@ Connection.prototype = {
 	 * @return Returns a name of an ID of a node, depending on what is available.
 	 */
 	humanReadableName : function(node){	
-		if (node.properties) {
-			if (node.properties.name!='') return node.properties.name;
-			return node.stencil.id;
-		} else if (node.name) {
+		if (node.properties.name || node.properties.name=="") {
+			return node.properties.name;
+		} else if (node.properties.title || node.properties.title==""){
+			return node.properties.title;
+		} else if (node.properties.caption || node.properties.caption==""){
+			return node.properties.caption;
+		} else if (node.name || node.name=="") {
 			return node.name;
-		} else return 'not a node';
+		} else if (node.title || node.name=="") {
+			return node.title;
+		} else if (node.caption || node.caption=="") {
+			return node.caption;
+		} else if (node.resourceId || node.resourceId=="") {
+			return node.resourceId;
+		} else return "unknown";
 	},
 
 	/**
