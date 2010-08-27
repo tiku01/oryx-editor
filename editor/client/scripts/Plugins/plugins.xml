@@ -4,7 +4,7 @@
 		<plugin source="toolbar.js" name="ORYX.Plugins.Toolbar" core="true" />
 		<!-- <plugin source="toolbar2.js" name="ORYX.Plugins.Toolbar2" />-->
 		
-		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" core="true" />
+		<plugin source="shapemenu.js" name="ORYX.Plugins.ShapeMenuPlugin" core="true"/>
 		<plugin source="selectssperspective.js" name="ORYX.Plugins.SelectStencilSetPerspective"/>
 		<plugin source="shaperepository.js" name="ORYX.Plugins.ShapeRepository" />
 		<plugin source="propertywindow.js" name="ORYX.Plugins.PropertyWindow" />

@@ -50,6 +50,69 @@ ORYX.Plugins.UMLUseCase =
 		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtendedLayout.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.handleDiagramOnLoad.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPE_MORPHED, this.handleMorphed.bind(this));
+	},
+	
+	handleMorphed : function(event){
+		var shape = event.shape;
+		if (this.isIncludeEdge(shape)|| this.isExtendEdge(shape)){
+			this.toggleDirection(shape);
+		}
+	},
+	
+	toggleDirection : function (edge){
+		var incomingUseCase = edge.incoming.find(function (shape){
+			return this.isUseCaseNode(shape) || this.isUseCaseExtendedNode(shape);
+		}.bind(this));
+		
+		var outgoingUseCase = edge.outgoing.find(function (shape){
+			return this.isUseCaseNode(shape) || this.isUseCaseExtendedNode(shape);
+		}.bind(this));
+		
+		
+		edge.incoming = edge.incoming.reject(function (shape){
+			return shape === incomingUseCase;
+		}.bind(this));
+		
+		edge.incoming.push(outgoingUseCase);
+		
+		edge.outgoing = edge.outgoing.reject(function (shape){
+			return shape === outgoingUseCase;
+		}.bind(this));
+		
+		edge.outgoing.push(incomingUseCase);
+		
+		this.setInOutIncoming(incomingUseCase, edge);
+		this.setInOutOutgoing(outgoingUseCase, edge);
+		this.changeEdgeBounds(edge);
+		edge.changed = true;
+		edge.update();	
+		this.facade.getCanvas().update();
+		edge.update();	
+	},
+	
+	changeEdgeBounds: function (edge){
+		var b = edge.bounds.b;
+		edge.bounds.b = edge.bounds.a;
+		edge.bounds.a = b;
+	},
+
+	
+	setInOutIncoming: function(incomingUseCase, edge){
+		incomingUseCase.outgoing = incomingUseCase.outgoing.reject(function (shape){
+			return shape === edge;
+		}.bind(this));
+						
+		incomingUseCase.incoming.push(edge);
+
+	},
+	setInOutOutgoing: function(outgoingUseCase, edge){
+		outgoingUseCase.incoming = outgoingUseCase.incoming.reject(function (shape){
+			return shape === edge;
+		}.bind(this));
+						
+		outgoingUseCase.outgoing.push(edge);
+
 	},
 	
 	/**
@@ -226,6 +289,17 @@ ORYX.Plugins.UMLUseCase =
 	},
 	
 	/**
+	* Helper method, which returns true, if the received shape is an  Use Case. 
+	*@private
+	*@param {Object} shape The shape that is checked for beeing an  Use Case.
+	*@return {boolean} The result is true, if the shape is an  Use Case.
+	*/
+	isUseCaseNode : function(shape) {
+		return "http://b3mn.org/stencilset/umlusecase#usecase" == shape.getStencil().id().toLowerCase();
+	},
+
+	
+	/**
 	* Helper method, which returns true, if the received shape is a system. 
 	*@private
 	*@param {Object} shape The shape that is checked for beeing a system.
@@ -233,6 +307,26 @@ ORYX.Plugins.UMLUseCase =
 	*/
 	isSystemNode : function(shape) {
 		return "http://b3mn.org/stencilset/umlusecase#system" == shape.getStencil().id().toLowerCase();
+	},
+	
+	/**
+	* Helper method, which returns true, if the received shape is an include edge. 
+	*@private
+	*@param {Object} shape The shape that is checked for beeing an include edge.
+	*@return {boolean} The result is true, if the shape is an include edge
+	*/
+	isIncludeEdge : function(shape) {
+		return "http://b3mn.org/stencilset/umlusecase#include" == shape.getStencil().id().toLowerCase();
+	},
+	
+	/**
+	* Helper method, which returns true, if the received shape is an extend edge. 
+	*@private
+	*@param {Object} shape The shape that is checked for beeing an extend edge.
+	*@return {boolean} The result is true, if the shape is an extend edge
+	*/
+	isExtendEdge : function(shape) {
+		return "http://b3mn.org/stencilset/umlusecase#extend" == shape.getStencil().id().toLowerCase();
 	},
 	
 	/**

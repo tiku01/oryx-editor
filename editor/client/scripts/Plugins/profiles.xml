@@ -28,8 +28,6 @@
 		<plugin name="ORYX.Plugins.KeysMove"/>	
 		<plugin name="ORYX.Plugins.RowLayouting"/>	
 		<plugin name="ORYX.Plugins.PluginLoader"/>
-		<plugin name="ORYX.Plugins.UMLUseCase"/>
-		<plugin name="ORYX.Plugins.UMLActivity"/>
 		
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>

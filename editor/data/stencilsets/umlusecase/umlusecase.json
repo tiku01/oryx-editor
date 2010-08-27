@@ -521,6 +521,7 @@
 			"roles": [
 				"diagramContent",
 				"annotatable",
+				"IncludeExtendMorph",
 				"IncludeExtend"
 			],
 			"properties": [
@@ -555,6 +556,7 @@
 			"roles": [
 				"diagramContent",
 				"annotatable",
+				"IncludeExtendMorph",
 				"IncludeExtend"
 			],
 			"properties": [
@@ -611,7 +613,11 @@
 			{
 			    "role" : "note",
 			    "baseMorphs" : ["note"]
-			}
+			},
+			{
+			    "role" : "IncludeExtendMorph",
+			    "baseMorphs" : ["extend", "include" ]
+			}			
 			
 		],
 		"connectionRules": [
