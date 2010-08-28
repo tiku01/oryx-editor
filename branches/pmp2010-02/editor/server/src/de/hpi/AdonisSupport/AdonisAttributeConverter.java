@@ -8,7 +8,7 @@ import java.util.Date;
 public class AdonisAttributeConverter {
 
 //TODO	Position (Type node, type connector)
-	public static int CentimeterToPixel = 100;
+	public static int CentimeterToPixel = 75;
 	
 	/**
 	 * convert a area tag in Adonis to a useable format in Oryx 

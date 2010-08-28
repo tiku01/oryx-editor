@@ -18,49 +18,11 @@ import org.xmappr.Xmappr;
 
 public class AdonisConverter {
 	public static boolean export = true;
-	
-	
 
-
-//	public class StringConverter extends ValueConverter {
-//
-//
-//	    public boolean canConvert(Class type) {
-//	        return String.class.isAssignableFrom(type);
-//	    }
-//
-//	    /**
-//	     * called in conversion from xml to java
-//	     */
-//	    public Object fromValue(String value, String format, Class targetType, Object targetObject) {
-//	    	Log.d("XMAPPRLOG from xml to java "+value+" - "+format);
-//	    	if (value != null && value.contains(">=")){
-//	    		value = value.replaceAll(">=", ">=");
-//	    		Log.d("XMAPPRLOG from xml to java ## "+value+" - "+format);
-//	    	}
-//	        return value.intern();
-//	    }
-//
-//	    /**
-//	     * called in conversion from java to xml
-//	     */
-//	    public String toValue(Object object, String format) {
-//	    	Log.d("XMAPPRLOG from java to xml "+(String) object+" - "+format);
-//	    	String value = (String)object;
-////	    	if (value != null && value.contains(">")){
-////	    		return value.replace(">", "&gt;").intern();
-////	    	}
-//	    	return value;
-//			
-//	    }
-//
-//
-//	    @Override
-//	    public boolean convertsEmpty() {
-//	        return true;
-//	    }
-//	}
-//	
+	public void printData(String test){
+		Log.e(test);
+	}
+	
 	/**
 	 * helper to read a file
 	 * @param filePath
@@ -118,7 +80,7 @@ public class AdonisConverter {
 		String filteredXML = filterXML(xml);
 		StringReader stringReader = new StringReader(filteredXML);
 		
-		Log.v("ImportXML: "+filteredXML);
+		//Log.v("ImportXML: "+filteredXML);
 		
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
 //		xmappr.addConverter(new StringConverter());
@@ -157,8 +119,10 @@ public class AdonisConverter {
 	 */
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
+		ac.printData("local");
 		String json = ac.importXML(
-				importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
+				//importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
+				importFromFile("D:\\Desktop\\Adonis\\Example exports\\Is inside.xml"));
 		
 		try {
 			File file = new File("D:\\Desktop\\Eclipse Export.json");
@@ -194,7 +158,8 @@ public class AdonisConverter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		Log.printSummary();
+		Log.reset();
 		
 
 	}

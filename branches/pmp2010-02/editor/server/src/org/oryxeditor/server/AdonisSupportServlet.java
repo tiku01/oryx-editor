@@ -1,5 +1,6 @@
 package org.oryxeditor.server;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -41,22 +42,33 @@ public class AdonisSupportServlet extends HttpServlet {
 
 		res.setContentType("text/xml");
 		String data = req.getParameter("data");
+		String debug = "";
+		if (new File("adonisStandards.data").exists())
+			debug = "direct";
+		else if (new File("classes\\"+"adonisStandards.data").exists())
+			debug = "classes\\";
+			else if (new File("WEB-INF\\classes\\"+"adonisStandards.data").exists())
+				debug = "WEB-INF\\classes";
+				else if (new File("oryx\\WEB-INF\\classes\\"+"adonisStandards.data").exists())
+					debug = "oryx\\WEB-INF\\classes";
 		
 		String action = req.getParameter("action");
 		AdonisConverter converter = null;
 		if ("Export".equals(action)) {
 			converter = new AdonisConverter();
+			converter.printData(debug);
 			try {
 				String exportString = converter.exportXML(data);
-				Log.v("Export: "+exportString);
+				//Log.v("Export: "+exportString);
 				res.getWriter().print(exportString);
 			} catch (Exception e) {
 				res.setStatus(HttpStatus.SC_BAD_REQUEST);
 			}
 		} else if ("Import".equals(action)){
 			converter = new AdonisConverter();
+			converter.printData(debug);
 			String importString = converter.importXML(data);
-			Log.v("Import: "+importString);
+			//Log.v("Import: "+importString);
 			res.getWriter().print(importString);
 		} else {
 			res.setStatus(HttpStatus.SC_BAD_REQUEST);

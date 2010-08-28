@@ -213,14 +213,14 @@ public class AdonisModel extends AdonisStencil{
 			
 		}
 		for (AdonisStencil stencil : getConnector()){
-			if (!"is inside".equalsIgnoreCase(stencil.getAdonisIndentifier())){
+			if (!"is inside".equals(stencil.getOryxIndentifier())){
 				stencil.setModel(this);			
 			} else {
 				Log.d("is inside ignored");
 			}
 		}
 		for (AdonisStencil stencil : getModelChildren().values()){
-			Assert.isTrue(!stencil.getName().contains("inside"));
+			Assert.isTrue(!stencil.getOryxIndentifier().equals("is inside"));
 		}
 	}
 	
@@ -368,37 +368,46 @@ public class AdonisModel extends AdonisStencil{
 		JSONObject properties = getJSONObject(json, "properties");
 		properties.put("name",getName());
 		
-		AdonisAttribute author = getAttribute("author");
-		addUsed(author);
-		properties.put("author", author.getElement() == null ? "" : author.getElement());
+		AdonisAttribute attribute = null;
+		
+		attribute = getAttribute("author");
+		addUsed(attribute);
+		properties.put("author", attribute.getElement() == null ? "" : attribute.getElement());
 
-		AdonisAttribute keywords = getAttribute("keywords");
-		addUsed(keywords);
-		properties.put("keywords", keywords.getElement() == null ? "" : keywords.getElement());
+		attribute = getAttribute("keywords");
+		addUsed(attribute);
+		properties.put("keywords", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		AdonisAttribute comment = getAttribute("comment");
-		addUsed(comment);
-		properties.put("comment", comment.getElement() == null ? "" : comment.getElement());
+		attribute = getAttribute("comment");
+		addUsed(attribute);
+		properties.put("comment", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		AdonisAttribute description = getAttribute("description");
-		addUsed(description);
-		properties.put("description", description.getElement() == null ? "" : description.getElement());
+		attribute = getAttribute("description");
+		addUsed(attribute);
+		properties.put("description", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		AdonisAttribute reviewed = getAttribute("state");
-		addUsed(reviewed);
-		if (reviewed.getElement() == "reviewed"){
-			properties.put("reviewed", reviewed.getElement());
+		attribute = getAttribute("state");
+		addUsed(attribute);
+		if (attribute.getElement() != null){
+			properties.put("state", attribute.getElement());
 		}
 		
-		AdonisAttribute reviewedOn = getAttribute("reviewed on");
-		addUsed(reviewedOn);
-		if (reviewedOn.getElement() != null){
-			properties.put("reviewedOn", reviewedOn.getElement());
+		attribute = getAttribute("reviewed on");
+		addUsed(attribute);
+		if (attribute.getElement() != null){
+			properties.put("reviewed on", attribute.getElement());
 		}
 		
-		AdonisAttribute reviewedBy = getAttribute("reviewed by");
-		addUsed(reviewedBy);
-		properties.put("reviewedBy", reviewedBy.getElement() == null ? "" : reviewedBy.getElement());
+		attribute = getAttribute("reviewed by");
+		addUsed(attribute);
+		properties.put("reviewed by", attribute.getElement() == null ? "" : attribute.getElement());
+		
+		attribute = getAttribute("version number");
+		addUsed(attribute);
+		if (attribute.getElement() != null){
+			properties.put("version number", attribute.getElement());
+		}
+		
 	}
 	/**
 	 * write the used stencilsets to the file 
@@ -517,16 +526,11 @@ public class AdonisModel extends AdonisStencil{
 //*************************************************************************
 //* JSON -> Java
 //*************************************************************************
-	
-	public void completeOryxToAdonis(){
-		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+getAdonisGlobalBounds()[2]+"cm h:"+getAdonisGlobalBounds()[3]+"cm"));
-		for (AdonisConnector aConnector : getConnector()){
-			aConnector.getTo().distributeValues();
-			aConnector.getFrom().distributeValues();
-		}
-		
-		Log.e("Created "+getInstance().size()+" Instances and "+getConnector().size()+" Connectors");
-		
+	/**
+	 * adonis need uses indices to place the swimlanes (instead of using the coordinates)</br>
+	 * this method ensures the right order and sets unique indices for all shapes 
+	 */
+	private void addIndicesToShapes(){
 		ArrayList<AdonisInstance> swimlanes = new ArrayList<AdonisInstance>();
 		int index = 1;
 		for (AdonisInstance aStencil : getInstance()){
@@ -556,15 +560,58 @@ public class AdonisModel extends AdonisStencil{
 		for (AdonisInstance anIntance : getInstance()){
 			AdonisAttribute position = anIntance.getAttribute("position"); 
 			if (!position.getElement().contains("index")){
-				position.setElement(position.getElement()+"index"+(++index));
+				position.setElement(position.getElement()+"index:"+(++index));
 			}
 		}
 		for (AdonisConnector aConnector : getConnector()){
 			AdonisAttribute position = aConnector.getAttribute("position"); 
 			if (position != null && !position.getElement().contains("index")){
-				position.setElement(position.getElement()+"index"+(++index));
+				position.setElement(position.getElement()+"index:"+(++index));
 			}
 		}
+	}
+	
+	public void calculateAdonisPosition(){
+		Set<AdonisStencil> ready = new HashSet<AdonisStencil>();
+		ready.add(this);
+		while (ready.size() < getInstance().size()){
+			for (AdonisInstance anInstance : getInstance()){
+				if (ready.contains(anInstance.getParent())
+					&& !ready.contains(anInstance)){
+					anInstance.calculateAdonisPosition();
+					ready.add(anInstance);
+				}
+			}
+		}		
+	}
+	
+	private void correctParentChildRelations(){
+		for (AdonisInstance anInstance : getInstance()){
+			if (anInstance.getOryxIndentifier().equals("aggregation")){
+				//the aggregation top left corner is outside the parents bounds 
+				//-> adonis needs for aggregations the top left corner for "is inside" relations 
+				if (anInstance.getAdonisGlobalBounds()[0] < 0 || anInstance.getAdonisGlobalBounds()[1] < 0){
+					
+				}
+				
+			}
+		}
+		
+		
+	}
+	
+	public void completeOryxToAdonis(){
+		getModelAttributes().getAttribute().add(new AdonisAttribute("World area","STRING","w:"+getAdonisGlobalBounds()[2]+"cm h:"+getAdonisGlobalBounds()[3]+"cm"));
+		for (AdonisConnector aConnector : getConnector()){
+			aConnector.getTo().distributeValues();
+			aConnector.getFrom().distributeValues();
+		}
+		
+		Log.e("Created "+getInstance().size()+" Instances and "+getConnector().size()+" Connectors");
+		
+		calculateAdonisPosition();
+		addIndicesToShapes();	
+		
 		super.completeOryxToAdonis();
 	}
 	
@@ -631,13 +678,13 @@ public class AdonisModel extends AdonisStencil{
 		element = properties.optString("description");
 		if (element != null) addAttribute("description","en",element);
 		
-		element = properties.optString("reviewed");
+		element = properties.optString("state");
 		if (element != null) addAttribute("state","en",element);
 		
-		element = properties.optString("reviewedOn");
+		element = properties.optString("reviewed on");
 		if (element != null) addAttribute("reviewed on","en",element);
 		
-		element = properties.optString("reviewedBy");
+		element = properties.optString("reviewed by");
 		if (element != null) addAttribute("reviewed by","en",element);		
 	}
 	

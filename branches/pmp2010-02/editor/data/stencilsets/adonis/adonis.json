@@ -26,6 +26,17 @@
 					"wrapLines":false
 				},
 				{
+					"id":"version number",
+					"type":"Integer", 
+					"title":"Version number",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"min":"0"
+				},
+				{
 					"id":"author",
 					"type":"String", 
 					"title":"Author",
@@ -82,6 +93,11 @@
 						{
 							"title":"In process",
 							"value":"In process"
+						},
+						{
+							"title":"Ready",
+							"value":"Ready"
+						
 						}
 					],
 					"description":"",
