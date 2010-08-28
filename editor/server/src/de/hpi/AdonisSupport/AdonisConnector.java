@@ -23,12 +23,41 @@ import de.hpi.layouting.model.LayoutingDockers.Point;
 @RootElement("CONNECTOR")
 public class AdonisConnector extends AdonisStencil{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3850673995571310465L;
 
-	
+	/**
+	 * creates the special kind of "is inside" relation -> is needed by Adonis, but not by Oryx
+	 * @param model - the model of father and child
+	 * @param father 
+	 * @param child 
+	 * @return an isInside Connector
+	 */
+	public static AdonisConnector insideRelation(AdonisModel model,AdonisInstance father, AdonisInstance child){
+		AdonisConnector isInside = new AdonisConnector();
+		
+		isInside.setAdonisIndentifier(Configurator.getAdonisIdentifier("is inside", "en"));
+		isInside.getResourceId();
+		isInside.setModel(model);
+		
+		//set the target (to) to the father
+		AdonisConnectionPoint point = new AdonisConnectionPoint();
+		point.setInstance(father);
+		isInside.setTo(point);
+		//set the source (from) to the child
+		point = new AdonisConnectionPoint();
+		point.setInstance(child);
+		isInside.setFrom(point);
+		
+		AdonisAttribute attribute = new AdonisAttribute();
+		attribute.setAdonisName("AutoConnect");
+		attribute.setType("STRING");
+		
+		ArrayList<AdonisAttribute> list =new ArrayList<AdonisAttribute>();
+		list.add(attribute);
+		isInside.setAttribute(list);
+		
+		return isInside;
+	}
 	
 	@Element(name="FROM", targetType=AdonisFrom.class)
 	protected AdonisConnectionPoint from;
@@ -382,7 +411,7 @@ public class AdonisConnector extends AdonisStencil{
 		
 		positions += points +" ";
 		
-		getAttribute().add(new AdonisAttribute("Positions","STRING",positions));
+		getAttribute().add(new AdonisAttribute("positions","STRING",positions));
 	}
 	
 	@SuppressWarnings("unchecked")

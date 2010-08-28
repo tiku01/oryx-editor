@@ -3,7 +3,9 @@ package de.hpi.AdonisSupport;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -167,14 +169,18 @@ public class AdonisInstance extends AdonisStencil {
 			return adonisGlobalBounds;
 		}
 		adonisGlobalBounds = new Double[4];
-		Double left = oryxGlobalBounds[0];
-		Double top = oryxGlobalBounds[1];
-		Double width = oryxGlobalBounds[2] - left;
-		Double height = oryxGlobalBounds[3] - top;
+		Double width = oryxGlobalBounds[2] - oryxGlobalBounds[0];
+		Double height = oryxGlobalBounds[3] - oryxGlobalBounds[1];
 		Double leftOffset = Double.parseDouble(getStandard("offsetPercentageX", "0.0"));
 		Double topOffset = Double.parseDouble(getStandard("offsetPercentageY", "0.0"));
-		left = left + leftOffset / 100 * width  + getParent().getOryxGlobalBounds()[0];
-		top = top + topOffset / 100 * height + getParent().getOryxGlobalBounds()[1];
+		
+		//initial the global bounds are set to the local bounds - calculate the global ones
+		for (int i = 0; i < oryxGlobalBounds.length; i++){
+			oryxGlobalBounds[i] += getParent().getOryxGlobalBounds()[i%2];
+		}
+				
+		Double left = oryxGlobalBounds[0] + leftOffset / 100 * width;
+		Double top = oryxGlobalBounds[1]+ topOffset / 100 * height;
 		
 		adonisGlobalBounds[0] = left / CENTIMETERTOPIXEL;
 		adonisGlobalBounds[1] = top / CENTIMETERTOPIXEL;
@@ -453,46 +459,10 @@ public class AdonisInstance extends AdonisStencil {
 //*************************************************************************
 	
 	/**
-	 * "is inside" connectors are not displayed connectors of adonis to
-	 * mark parent - child relations -> these must be create explicit
+	 * this method is called after everything is read to consider parent child 
+	 * relations
 	 */
-	private void createIsInsideConnector(AdonisInstance childShape){
-		//we need to save the father - child relation in a connector
-		AdonisConnector isInside = new AdonisConnector();
-		
-		
-		isInside.setAdonisIndentifier(Configurator.getAdonisIdentifier("is inside", "en"));
-		isInside.getResourceId();
-		isInside.setModel(getModel());
-		
-		//set the target (to) to the father
-		AdonisConnectionPoint point = new AdonisConnectionPoint();
-		point.setInstance(this);
-		isInside.setTo(point);
-		//set the source (from) to the child
-		point = new AdonisConnectionPoint();
-		point.setInstance(childShape);
-		isInside.setFrom(point);
-		
-		AdonisAttribute attribute = new AdonisAttribute();
-		attribute.setAdonisName("AutoConnect");
-		attribute.setType("STRING");
-		
-		ArrayList<AdonisAttribute> list =new ArrayList<AdonisAttribute>();
-		list.add(attribute);
-		isInside.setAttribute(list);
-		
-		getModel().getConnector().add(isInside);
-	}
-	
-	/**
-	 * post read in
-	 * write attributes like bounds which depend on knowledge of the parent
-	 * add yourself to created model
-	 */
-	@Override
-	public void completeOryxToAdonis(){
-		Log.d("read in Bounds of stencil: "+getOryxIndentifier()+" named: "+getName());
+	public void calculateAdonisPosition(){
 		String type = getOryxIndentifier().contains("swimlane") ? "SWIMLANE" : "NODE";
 		
 		DecimalFormat f = new DecimalFormat("#.00");
@@ -510,9 +480,20 @@ public class AdonisInstance extends AdonisStencil {
 		
 		AdonisAttribute temp = new AdonisAttribute();
 		temp.setElement(adonisBounds.toString());
-		temp.setAdonisName("Position");
-		temp.setType("STRING");
+		temp.setAdonisName(Configurator.getAdonisIdentifier("position","en"));
+		temp.setType(Configurator.getStandardValue("position", "type", "STRING"));
 		getAttribute().add(temp);
+	}
+	
+	/**
+	 * post read in
+	 * write attributes like bounds which depend on knowledge of the parent
+	 * add yourself to created model
+	 */
+	@Override
+	public void completeOryxToAdonis(){
+		Log.d("read in Bounds of stencil: "+getOryxIndentifier()+" named: "+getName());
+		
 		
 		
 		Log.d("Created instance class "+getOryxIndentifier()+" - "+getName());
@@ -601,7 +582,11 @@ public class AdonisInstance extends AdonisStencil {
 				instance.parse(stencil);
 				
 				//we need to save the father - child relation in a connector
-				createIsInsideConnector(instance);
+				getModel().getConnector().add(
+						AdonisConnector.insideRelation(
+								getModel(), 
+								this, 
+								instance));
 				
 				instance = null;
 //				Log.d("read in ChildShape of ("+getOryxStencilClass()+" - "+getName()+")"+stencil.getJSONObject("stencil").getString("id")+" named: "+stencil.getJSONObject("properties").getString("name"));
@@ -678,63 +663,78 @@ public class AdonisInstance extends AdonisStencil {
 	 * @param json
 	 * @throws JSONException
 	 */
+	@SuppressWarnings("unchecked")
 	public void readJSONproperties(JSONObject json) throws JSONException{
-		JSONObject properties = json.getJSONObject("properties");
+		JSONObject propertyObject = json.getJSONObject("properties");
+		if (propertyObject == null){
+			return;
+		}
+		
+		
+		String attribute = null;
+		HashMap<String,String> properties = new HashMap<String,String>();
+		Iterator<String> keyIterator = propertyObject.keys();
+		String key = null;
+		while(keyIterator.hasNext()){
+			key = keyIterator.next();
+			properties.put(key,propertyObject.getString(key));
+//			Log.v("Properties "+key+" | "+properties.get(key));
+		}
+		
+
+		attribute = properties.get("name");
 		if (getName() == null){
-			setName(properties.getString("name"));
+			setName(attribute);
 			Log.d("read in Name of stencil : "+getName());
 		}
 		
-		String stringAttribute = null;
-		Integer integerAttribute = null;
-		Boolean booleanAttribute = null;
-		stringAttribute = properties.optString("subprocessname");
-		if (stringAttribute != null){
-			addAttribute("subprocessname","en","EXPR val:"+stringAttribute);
+		attribute = properties.get("subprocessname");
+		if (attribute != null){
+			addAttribute("subprocessname","en","EXPR val:"+attribute);
 		}
-		stringAttribute = properties.optString("categories");
-		if (stringAttribute != null){
-			addAttribute("categories", "en", stringAttribute);
+		attribute = properties.get("categories");
+		if (attribute != null){
+			addAttribute("categories", "en", attribute);
 		}
-		stringAttribute = properties.optString("documentation");
-		if (stringAttribute != null){
-			addAttribute("documentation", "en", stringAttribute);
+		attribute = properties.get("documentation");
+		if (attribute != null){
+			addAttribute("documentation", "en", attribute);
 		}
-		stringAttribute = properties.optString("description");
-		if (stringAttribute != null){
-			addAttribute("description", "en", stringAttribute);
+		attribute = properties.get("description");
+		if (attribute != null){
+			addAttribute("description", "en", attribute);
 		}
-		stringAttribute = properties.optString("comment");
-		if (stringAttribute != null){
-			addAttribute("comment", "en", stringAttribute);
+		attribute = properties.get("comment");
+		if (attribute != null){
+			addAttribute("comment", "en", attribute);
 		}
-		stringAttribute = properties.optString("open questions");
-		if (stringAttribute != null){
-			addAttribute("open questions", "en", stringAttribute);
+		attribute = properties.get("open questions");
+		if (attribute != null){
+			addAttribute("open questions", "en", attribute);
 		}
-		integerAttribute = properties.optInt("order");
-		if (integerAttribute != null){
-			addAttribute("order", "en", integerAttribute.toString());
+		attribute = properties.get("order");
+		if (attribute != null){
+			addAttribute("order", "en", attribute);
 		}
-		stringAttribute = properties.optString("external process");
-		if (stringAttribute != null){
-			addAttribute("external process", "en", stringAttribute);
+		attribute = properties.get("external process");
+		if (attribute != null){
+			addAttribute("external process", "en", attribute);
 		}
-		stringAttribute = properties.optString("representation");
-		if (stringAttribute != null){
-			addAttribute("representation", "en", stringAttribute);
+		attribute = properties.get("representation");
+		if (attribute != null){
+			addAttribute("representation", "en", attribute);
 		}
-		booleanAttribute = properties.optBoolean("display name");
-		if (stringAttribute != null){
-			addAttribute("display name", "en", (booleanAttribute ? "Yes" : "No"));
+		attribute = properties.get("display name");
+		if (attribute != null){
+			addAttribute("display name", "en", Boolean.parseBoolean(attribute) ? "Yes" : "No");
 		}
-		stringAttribute = properties.optString("display watermark");
-		if (stringAttribute != null){
-			addAttribute("display watermark", "en", (booleanAttribute ? "yes" : "no"));
+		attribute = properties.get("display watermark");
+		if (attribute != null){
+			addAttribute("display watermark", "en", Boolean.parseBoolean(attribute) ? "Yes" : "No");
 		}
-		stringAttribute = properties.optString("graphical representation");
-		if (stringAttribute != null){
-			addAttribute("graphical representation", "en", stringAttribute);
+		attribute = properties.get("graphical representation");
+		if (attribute != null){
+			addAttribute("graphical representation", "en", attribute);
 		}
 	}
 }

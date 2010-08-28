@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,23 +40,36 @@ class Translation {
 public class Configurator {
 	//local path is only needed for development
 	private static String localPath = "D:\\Development\\Eclipse Oryx\\Oryx\\editor\\etc\\";
+	private static String serverPath = "oryx\\WEB-INF\\classes\\";
 	private static String configFile = "adonisStandards.data";
 	
 	
 	private static ArrayList<Translation> shapeTranslations;
 	private static Map<String,Map<String,String>> shapeStandards;
-		
+	
+	private static InputStream loadServerFile() throws IOException {
+		ClassLoader loader = Configurator.class.getClassLoader();
+        if(loader==null)
+          loader = ClassLoader.getSystemClassLoader();
+        java.net.URL url = loader.getResource(configFile);
+        if (url == null){
+        	throw new IOException("File not found or no access rights");
+        }
+        return url.openStream();
+	}
+	
 	private static JSONObject readConfigurations(){
-		FileInputStream fileStream = null;
+		InputStream fileStream = null;
 		InputStreamReader fileStreamReader  = null;
 		BufferedReader bufferedReader  = null;
 		JSONObject values = new JSONObject();
 		try {
 			try {
-				fileStream = new FileInputStream(configFile);
+				fileStream = loadServerFile();
 			} catch (FileNotFoundException e){
 				String path = localPath+configFile;
-				Log.w("configfile not found on filesystem, trying local path\n"+path,e);
+				Log.w("configfile not found on filesystem, trying local path\n"+path/*,e*/);
+				//TODO Remove - this is only a fallback for local development
 				fileStream = new FileInputStream(path);
 			}
 			fileStreamReader = new InputStreamReader(fileStream,"UTF-8");
@@ -106,9 +120,10 @@ public class Configurator {
 	 * @throws JSONException
 	 */
 	public static void initializeMappingTables() {
-		if (shapeTranslations != null){
-			return;
-		}
+//		TODO remove to initialize the mapping only once
+//		if (shapeTranslations != null){
+//			return;
+//		}
 		shapeTranslations = new ArrayList<Translation>();
 		shapeStandards = new HashMap<String,Map<String,String>>();
 		
@@ -162,7 +177,7 @@ public class Configurator {
 				return triple.language;
 			}
 		}
-		Log.e("could not find a (oryx) translation for "+adonisIdentifier+" use fall back");
+		Log.w("could not find a (oryx) language for "+adonisIdentifier+" use fall back");
 		return "en";
 	}
 	
@@ -178,7 +193,7 @@ public class Configurator {
 				return triple.oryxName;
 			}
 		}
-		Log.e("could not find a (oryx) translation for "+adonisIdentifier+" use fall back");
+		Log.w("could not find a (oryx) translation for "+adonisIdentifier+" use fall back");
 		return adonisIdentifier.toLowerCase();
 	}
 	
@@ -196,7 +211,7 @@ public class Configurator {
 				return triple.adonisName;
 			}
 		}
-		Log.e("could not find a (adonis) translation for "+oryxIdentifier+" in language "+lang+" - use fallback");
+		Log.w("could not find a (adonis) translation for "+oryxIdentifier+" in language "+lang+" - use fallback");
 		//adonis mostly uses word starting with upper case
 		return oryxIdentifier.substring(0, 0).toUpperCase() + oryxIdentifier.substring(1);
 	}
@@ -204,11 +219,14 @@ public class Configurator {
 
 	public static String getStandardValue(String oryxName, String attribute, String defaultValue) {
 		initializeMappingTables();
-		String value = shapeStandards.get(oryxName).get(attribute);
-		if (value != null){
-			return value;
+		String value;
+		if (shapeStandards.get(oryxName) != null){
+			value = shapeStandards.get(oryxName).get(attribute);
+			if (value != null){
+				return value;
+			}
 		}
-		Log.e("could not get attribute "+attribute+" of "+oryxName+", use hardcoded value "+defaultValue);
+		Log.w("could not get attribute "+attribute+" of "+oryxName+", use hardcoded value "+defaultValue);
 		return defaultValue;
 	}
 

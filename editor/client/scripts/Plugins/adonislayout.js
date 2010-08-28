@@ -342,8 +342,7 @@ ORYX.Plugins.AdonisLayout= {
 		this.facade.getCanvas().getChildNodes().each(
 			function(shape){
 				if (shape !== lane
-					&& lane.bounds.isIncluded(shape.bounds.upperLeft())
-					&& lane.bounds.isIncluded(shape.bounds.lowerRight())
+					&& lane.bounds.isIncluded(shape.bounds.center())
 					&& shape.getParentShape() === this.facade.getCanvas()){
 					lane.add(shape);
 				}

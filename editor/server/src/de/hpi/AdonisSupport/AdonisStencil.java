@@ -335,8 +335,6 @@ public abstract class AdonisStencil extends XMLConvertible {
 //* JSON -> Java
 //*************************************************************************
 	
-	
-	
 	/**
 	 * complete transformation oryx to adonis - stub to be overwritten if needed
 	 */
