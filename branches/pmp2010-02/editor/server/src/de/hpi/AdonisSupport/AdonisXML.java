@@ -142,7 +142,7 @@ public class AdonisXML extends XMLConvertible {
 			Log.v("write Model "+aModel.getName());
 			
 			json = new JSONObject();
-			aModel.write(json);
+			aModel.writeJSON(json);
 			jsonDiagrams.add(json);
 		}
 		
@@ -153,14 +153,14 @@ public class AdonisXML extends XMLConvertible {
 	 * overriden to restore a valid xml file 
 	 */
 	@Override
-	public void parse(JSONObject json){
+	public void readJSON(JSONObject json){
 		//it should be only one, but it may extended
 		AdonisModel diagram = new AdonisModel();
 		if (getModels() == null){
 			setModels(new AdonisModels());
 		}
 		getModels().getModel().add(diagram);
-		diagram.parse(json);
+		diagram.readJSON(json);
 		Map<String,String> inheritedProperties = null;
 		for (AdonisModel model : getModels().getModel()){
 			inheritedProperties = model.getInheritedProperties(); 

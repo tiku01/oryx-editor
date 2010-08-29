@@ -213,7 +213,7 @@ public class Configurator {
 		}
 		Log.w("could not find a (adonis) translation for "+oryxIdentifier+" in language "+lang+" - use fallback");
 		//adonis mostly uses word starting with upper case
-		return oryxIdentifier.substring(0, 0).toUpperCase() + oryxIdentifier.substring(1);
+		return oryxIdentifier.substring(0, 1).toUpperCase() + oryxIdentifier.substring(1);
 	}
 	
 

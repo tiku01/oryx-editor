@@ -26,6 +26,17 @@
 					"wrapLines":false
 				},
 				{
+					"id":"base name",
+					"type":"String", 
+					"title":"Base name",
+					"value":"",
+					"description":"",
+					"readonly":true,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
 					"id":"version number",
 					"type":"Integer", 
 					"title":"Version number",
@@ -48,6 +59,39 @@
 					"wrapLines":false
 				},
 				{
+					"id":"creation date",
+					"type":"Date",
+					"title":"Creation date",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"d.m.Y, i:H"
+				},
+				{
+					"id":"last user",
+					"type":"String", 
+					"title":"Last user",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false
+				},
+				{
+					"id":"date last changed",
+					"type":"Date",
+					"title":"Date last changed",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"d.m.Y, i:H"
+				},
+				{
 					"id":"keywords",
 					"type":"String", 
 					"title":"Keywords",
@@ -67,12 +111,34 @@
 					"readonly":false,
 					"optional":true,
 					"length":"",
-					"wrapLines":false
+					"wrapLines":true
 				},
 				{
 					"id":"description",
 					"type":"String", 
 					"title":"Description",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"context of version",
+					"type":"String", 
+					"title":"Context of version",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"contact person",
+					"type":"String", 
+					"title":"Contact person",
 					"value":"",
 					"description":"",
 					"readonly":false,
@@ -88,15 +154,15 @@
 					"items":[
 						{
 							"title":"Reviewed",
-							"value":"Reviewed"
+							"value":"reviewed"
 						},
 						{
 							"title":"In process",
-							"value":"In process"
+							"value":"in process"
 						},
 						{
 							"title":"Ready",
-							"value":"Ready"
+							"value":"ready"
 						
 						}
 					],
@@ -109,12 +175,12 @@
 					"id":"reviewed on",
 					"type":"Date",
 					"title":"Reviewed on",
-					"value":"20.04.2007",
+					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":false,
-					"dateFormat":"d.m.Y"
+					"dateFormat":"d.m.Y, i:H"
 				},
 				{
 					"id":"reviewed by",
@@ -244,17 +310,6 @@
 					"readonly":false,
 					"optional":false,
 					"length":""
-				},
-				{
-					"id":"subprocessname",
-					"type":"String", 
-					"title":"Subprocessname",
-					"value":"",
-					"description":"",
-					"readonly":false,
-					"optional":true,
-					"length":"",
-					"wrapLines":true
 				}
 			]
 		},
@@ -382,12 +437,12 @@
 					{
 						"id":"name",
 						"type":"String",
-						"title":"Note",
+						"title":"Name",
 						"value":"Note",
 						"description":"",
 						"readonly":true,
 						"optional":false,
-						"wrapLines":true
+						"wrapLines":false
 					},
 					{
 						"id":"text",
@@ -842,12 +897,33 @@
 						"wrapLines":true
 					},
 					{
-						"id":"display watermark",
-						"type":"Boolean",
-						"title":"Display watermark",
-						"value":false,
+						"id":"role",
+						"type":"String", 
+						"title":"Role",
+						"value":"",
 						"description":"",
-						"readOnly":false,
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":true
+					},
+					{
+						"id":"display watermark",
+						"type":"Choice", 
+						"title":"Display watermark",
+						"value":"no",
+						"items":[
+							{
+								"title":"no",
+								"value":"no"
+							},
+							{
+								"title":"yes",
+								"value":"yes"
+							}
+						],
+						"description":"",
+						"readonly":false,
 						"optional":true
 					}
 				],
@@ -883,12 +959,44 @@
 						"wrapLines":true
 					},
 					{
-						"id":"display watermark",
-						"type":"Boolean",
-						"title":"Display watermark",
-						"value":false,
+						"id":"role",
+						"type":"String", 
+						"title":"Role",
+						"value":"",
 						"description":"",
-						"readOnly":false,
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":true
+					},
+					{
+						"id":"entity",
+						"type":"String", 
+						"title":"Entity",
+						"value":"",
+						"description":"",
+						"readonly":false,
+						"optional":true,
+						"length":"",
+						"wrapLines":true
+					},
+					{
+						"id":"display watermark",
+						"type":"Choice", 
+						"title":"Display watermark",
+						"value":"no",
+						"items":[
+							{
+								"title":"no",
+								"value":"no"
+							},
+							{
+								"title":"yes",
+								"value":"yes"
+							}
+						],
+						"description":"",
+						"readonly":false,
 						"optional":true
 					}
 				],

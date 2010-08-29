@@ -49,7 +49,7 @@ public class AdonisAttributeProfiles extends XMLConvertible {
 //	}
 
 	@Override
-	public void write(JSONObject json) throws JSONException {
+	public void writeJSON(JSONObject json) throws JSONException {
 		
 	}
 }

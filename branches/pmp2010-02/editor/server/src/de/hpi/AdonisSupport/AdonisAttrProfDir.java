@@ -49,7 +49,7 @@ public class AdonisAttrProfDir extends XMLConvertible {
 		return name;
 	}
 
-	public void write(JSONObject json) throws JSONException {
+	public void writeJSON(JSONObject json) throws JSONException {
 		JSONObject tempJSON = new JSONObject();
 		tempJSON.put("name",getName());
 		json.put("attrProfDir", tempJSON);

@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONWriter;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
@@ -12,6 +11,8 @@ import org.xmappr.RootElement;
 
 @RootElement("MODELS")
 public class AdonisModels extends XMLConvertible{
+	
+	private static final long serialVersionUID = 615356126580445563L;
 	
 	@Element(name="MODEL", targetType=AdonisModel.class)
 	public ArrayList<AdonisModel> model;
@@ -27,12 +28,12 @@ public class AdonisModels extends XMLConvertible{
 		model = list;
 	}
 	
-	public void writeJSON(JSONObject json) throws JSONException{
-		json.put("models",getModel());
-	}
+//	public void writeJSON(JSONObject json) throws JSONException{
+//		json.put("models",getModel());
+//	}
 
 	@Override
-	public void write(JSONObject json) throws JSONException {
+	public void writeJSON(JSONObject json) throws JSONException {
 		// do nothing -> is not part of the JSON-Diagram
 	}
 }

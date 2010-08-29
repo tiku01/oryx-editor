@@ -19,10 +19,6 @@ import org.xmappr.Xmappr;
 public class AdonisConverter {
 	public static boolean export = true;
 
-	public void printData(String test){
-		Log.e(test);
-	}
-	
 	/**
 	 * helper to read a file
 	 * @param filePath
@@ -103,7 +99,7 @@ public class AdonisConverter {
 		export = true;
 		AdonisXML model = new AdonisXML();
 		JSONObject jsonModel = new JSONObject(json);
-		model.parse(jsonModel);
+		model.readJSON(jsonModel);
 		
 		StringWriter writer = new StringWriter();
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
@@ -119,7 +115,6 @@ public class AdonisConverter {
 	 */
 	public static void main(String[] args) {
 		AdonisConverter ac = new AdonisConverter();
-		ac.printData("local");
 		String json = ac.importXML(
 				//importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
 				importFromFile("D:\\Desktop\\Adonis\\Example exports\\Is inside.xml"));

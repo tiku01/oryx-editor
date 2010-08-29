@@ -51,7 +51,7 @@ public class AdonisIref extends XMLConvertible{
 	public String getTobjname(){return tobjname;}
 	
 	@Override
-	public void write(JSONObject json) throws JSONException {
+	public void writeJSON(JSONObject json) throws JSONException {
 //		json.object();
 //		json.key("type").value(getType());
 //		json.key("tmodeltype").value(getTmodeltype());
