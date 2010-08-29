@@ -235,6 +235,13 @@ public class AdonisConnector extends AdonisStencil{
 	//**************************************************************************
 	
 	@Override
+	public void prepareAdonisToOryx() throws JSONException{
+		super.prepareAdonisToOryx();
+		// this attribute is created during export
+		addUsed(getAttribute("connector number"));
+	}
+	
+	@Override
 	public void writeJSONchildShapes(JSONObject json) throws JSONException {
 		getJSONArray(json,"childShapes");
 		
@@ -411,7 +418,11 @@ public class AdonisConnector extends AdonisStencil{
 		
 		positions += points +" ";
 		
-		getAttribute().add(new AdonisAttribute("positions","STRING",positions));
+		getAttribute().add(new AdonisAttribute(
+				"en",
+				"positions",
+				"STRING",
+				positions));
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -118,8 +118,9 @@ public class AdonisInstance extends AdonisStencil {
 	
 	private void addAttribute(String oryxIdentifier,String language, String element){
 		getAttribute().add(new AdonisAttribute(
-				Configurator.getAdonisIdentifier(oryxIdentifier,language),
-				Configurator.getStandardValue(oryxIdentifier, "type", "STRING"),
+				language,
+				oryxIdentifier,
+				"STRING",
 				element));
 	}
 	
@@ -286,7 +287,7 @@ public class AdonisInstance extends AdonisStencil {
 			//write only my childshapes
 			if (anInstance.isInstance() && anInstance.getParent() == this){
 				shape = new JSONObject();
-				anInstance.write(shape);
+				anInstance.writeJSON(shape);
 				childShapes.put(shape);
 			}
 		}
@@ -305,11 +306,11 @@ public class AdonisInstance extends AdonisStencil {
 		
 		AdonisAttribute element = null;
 		
-		element = getAttribute("subprocessname");
-		if (element != null && element.getElement() != null){
-			properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
-			addUsed(element);
-		}
+//		element = getAttribute("subprocessname");
+//		if (element != null && element.getElement() != null){
+//			properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
+//			addUsed(element);
+//		}
 		element = getAttribute("categories");
 		if (element != null && element.getElement() != null){
 			properties.put("categories", element.getElement());
@@ -327,7 +328,17 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		element = getAttribute("comment");
 		if (element != null && element.getElement() != null){
-			properties.put("Comment", element.getElement());
+			properties.put("comment", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("role");
+		if (element != null && element.getElement() != null){
+			properties.put("role", element.getElement());
+			addUsed(element);
+		}
+		element = getAttribute("entity");
+		if (element != null && element.getElement() != null){
+			properties.put("entity", element.getElement());
 			addUsed(element);
 		}
 		element = getAttribute("open questions");
@@ -337,7 +348,7 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		element = getAttribute("external process");
 		if (element != null && element.getElement() != null){
-			properties.put("external process", element.getElement());
+			properties.put("external process", Configurator.getOryxIdentifier(element.getElement()));
 			addUsed(element);
 		}
 		element = getAttribute("order");
@@ -349,9 +360,7 @@ public class AdonisInstance extends AdonisStencil {
 		element = getAttribute("display watermark");
 		if (element != null){
 			if (element.getElement() != null){
-				properties.put("display watermark", element.getElement() == "Yes" ? true : false);
-			} else {
-				properties.put("display watermark", false);
+				properties.put("display watermark", Configurator.getOryxIdentifier(element.getElement()));
 			}
 			addUsed(element);
 		}
@@ -478,11 +487,12 @@ public class AdonisInstance extends AdonisStencil {
 		adonisBounds.append("w:"+f.format(getAdonisGlobalBounds()[2]) +"cm ");
 		adonisBounds.append("h:"+f.format(getAdonisGlobalBounds()[3]) +"cm ");
 		
-		AdonisAttribute temp = new AdonisAttribute();
-		temp.setElement(adonisBounds.toString());
-		temp.setAdonisName(Configurator.getAdonisIdentifier("position","en"));
-		temp.setType(Configurator.getStandardValue("position", "type", "STRING"));
-		getAttribute().add(temp);
+		getAttribute().add(
+				new AdonisAttribute(
+					"en",
+					"position",
+					"STRING",
+					adonisBounds.toString()));
 	}
 	
 	/**
@@ -579,7 +589,7 @@ public class AdonisInstance extends AdonisStencil {
 					instance.setModel(getModel());
 					instance.setParent(this);
 				}
-				instance.parse(stencil);
+				instance.readJSON(stencil);
 				
 				//we need to save the father - child relation in a connector
 				getModel().getConnector().add(
@@ -678,7 +688,6 @@ public class AdonisInstance extends AdonisStencil {
 		while(keyIterator.hasNext()){
 			key = keyIterator.next();
 			properties.put(key,propertyObject.getString(key));
-//			Log.v("Properties "+key+" | "+properties.get(key));
 		}
 		
 
@@ -688,10 +697,10 @@ public class AdonisInstance extends AdonisStencil {
 			Log.d("read in Name of stencil : "+getName());
 		}
 		
-		attribute = properties.get("subprocessname");
-		if (attribute != null){
-			addAttribute("subprocessname","en","EXPR val:"+attribute);
-		}
+//		attribute = properties.get("subprocessname");
+//		if (attribute != null){
+//			addAttribute("subprocessname","en","EXPR val:"+attribute);
+//		}
 		attribute = properties.get("categories");
 		if (attribute != null){
 			addAttribute("categories", "en", attribute);
@@ -708,6 +717,14 @@ public class AdonisInstance extends AdonisStencil {
 		if (attribute != null){
 			addAttribute("comment", "en", attribute);
 		}
+		attribute = properties.get("role");
+		if (attribute != null){
+			addAttribute("role", "en", attribute);
+		}
+		attribute = properties.get("entity");
+		if (attribute != null){
+			addAttribute("entity", "en", attribute);
+		}
 		attribute = properties.get("open questions");
 		if (attribute != null){
 			addAttribute("open questions", "en", attribute);
@@ -718,7 +735,7 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		attribute = properties.get("external process");
 		if (attribute != null){
-			addAttribute("external process", "en", attribute);
+			addAttribute("external process", "en", Configurator.getAdonisIdentifier(attribute,"en"));
 		}
 		attribute = properties.get("representation");
 		if (attribute != null){
@@ -726,11 +743,12 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		attribute = properties.get("display name");
 		if (attribute != null){
-			addAttribute("display name", "en", Boolean.parseBoolean(attribute) ? "Yes" : "No");
+			addAttribute("display name", "en", Boolean.parseBoolean(attribute) ? 
+					Configurator.getAdonisIdentifier("yes","en") :	Configurator.getAdonisIdentifier("no","en"));
 		}
 		attribute = properties.get("display watermark");
 		if (attribute != null){
-			addAttribute("display watermark", "en", Boolean.parseBoolean(attribute) ? "Yes" : "No");
+			addAttribute("display watermark", "en", Configurator.getLanguage(attribute));
 		}
 		attribute = properties.get("graphical representation");
 		if (attribute != null){

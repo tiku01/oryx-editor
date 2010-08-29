@@ -146,11 +146,99 @@
 		"h":4.50
 	},
 	
+	/* attribute values */
+	"reviewed":{
+		"translation":{
+			"en":"Reviewed"
+		}
+	},
+	"in process":{
+		"translation":{
+			"en":"In process"
+		}
+	},
+	"ready":{
+		"translation":{
+			"en":"Ready"
+		}
+	},
+	"yes":{
+		"translation":{
+			"en":"Yes",
+			"de":"ja"
+		}
+	},
+	"no":{
+		"translation":{
+			"en":"No",
+			"de":"nein"
+		}
+	},
 	/* attributes */
 	"world area":{
 		"translation":{
 			"en":"World area",
 			"de":"Weltkoordinaten"
+		},
+		"type":"STRING"
+	},
+	"base name":{
+		"translaton":{
+			"en":"Base name"
+		},
+		"type":"STRING"
+	},
+	"number of objects and relations":{
+		"translation":{
+			"en":"Number of objects and relations"
+		},
+		"type":"INTEGER"
+	},
+	"role":{
+		"translation":{
+			"en":"Role"
+		},
+		"type":"STRING"
+	},
+	"connector number":{
+		"translation":{
+			"en":"Connector number"
+		},
+		"type":"INTEGER"
+	},
+	"entity":{
+		"translation":{
+			"en":"Entity"
+		},
+		"type":"STRING"
+	},
+	"context of version":{
+		"translation":{
+			"en":"Context of version"
+		},
+		"type":"STRING"
+	},
+	"contact persion":{
+		"translation":{
+			"en":"Contact person"
+		},
+		"type":"STRING"
+	},
+	"number of objects and relations":{
+		"translation":{
+			"en":"Number of objects and relations"
+		},
+		"type":"INTEGER"
+	},
+	"last user":{
+		"translation":{
+			"en":"Last user"
+		},
+		"type":"STRING"
+	},
+	"documentation":{
+		"translation":{
+			"en":"Documentation"
 		},
 		"type":"STRING"
 	},
@@ -287,6 +375,18 @@
 			"en":"Order"
 		},
 		"type":"INTEGER"
+	},
+	"creation date":{
+		"translation":{
+			"en":"Creation date"
+		},
+		"type":"STRING"
+	},
+	"date last changed":{
+		"translation":{
+			"en":"Date last changed"
+		},
+		"type":"STRING"
 	},
 	"categories":{
 		"translation":{

@@ -51,7 +51,7 @@ public class AdonisRow extends XMLConvertible{
 	}
 
 	@Override
-	public void write(JSONObject json) throws JSONException {
+	public void writeJSON(JSONObject json) throws JSONException {
 		// TODO Auto-generated method stub
 		
 	}

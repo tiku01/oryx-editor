@@ -2,8 +2,6 @@ package de.hpi.AdonisSupport;
 
 import java.io.Serializable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 import org.xmappr.Text;
@@ -63,9 +61,9 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 		this.element = null;
 	}
 	
-	public AdonisAttribute(String name, String type, String element) {
-		this.adonisName = name;
-		this.type = type;
+	public AdonisAttribute(String language, String oryxName, String defaultType, String element) {
+		this.adonisName = Configurator.getAdonisIdentifier(oryxName,language);
+		this.type = Configurator.getStandardValue(oryxName, "type", defaultType);
 		this.element = element;
 	}
 	
@@ -86,14 +84,5 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 			oryxName = Configurator.getOryxIdentifier(getAdonisName());
 		}
 		return oryxName;
-	}
-		
-	@Override
-	public void write(JSONObject json) throws JSONException {
-		JSONObject attribute = getJSONObject(json,getAdonisName());
-		attribute.putOpt("type", getAdonisType());
-		attribute.putOpt("element", getElement());
-		
-	}
-	
+	}	
 }

@@ -279,9 +279,9 @@ public abstract class AdonisStencil extends XMLConvertible {
 		
 	}
 	
-	public void write(JSONObject json) throws JSONException{
+	public void writeJSON(JSONObject json) throws JSONException{
 		prepareAdonisToOryx();
-		super.write(json);
+		super.writeJSON(json);
 		completeAdonisToOryx();
 	}
 
@@ -341,8 +341,8 @@ public abstract class AdonisStencil extends XMLConvertible {
 	public void completeOryxToAdonis(){
 	}
 	
-	public void parse(JSONObject json){
-		super.parse(json);
+	public void readJSON(JSONObject json){
+		super.readJSON(json);
 		completeOryxToAdonis();
 	}
 	

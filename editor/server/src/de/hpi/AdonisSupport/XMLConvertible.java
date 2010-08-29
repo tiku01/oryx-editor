@@ -71,12 +71,12 @@ public abstract class XMLConvertible implements Serializable{
 	 * implicit interface for creating a JSON-Object (methods must start with "writeJSON")	  
 	 * @throws JSONException 
 	 */
-	public void parse(JSONObject modelElement){
+	public void readJSON(JSONObject modelElement){
 		Iterator<?> jsonKeys = modelElement.keys();
 		while (jsonKeys.hasNext()) {
 			String key = (String) jsonKeys.next();
 			String readMethodName = "readJSON" + key;
-			if (hasJSONMethod(readMethodName)) {
+			if (key.length() > 0 && hasJSONMethod(readMethodName)) {
 				try {
 					if (keyNotEmpty(modelElement, key)) {
 						getClass().getMethod(readMethodName, JSONObject.class).invoke(this, modelElement);
@@ -173,13 +173,13 @@ public abstract class XMLConvertible implements Serializable{
 	 * these methods are executed in the current context with the json object as base 
 	 * @throws JSONException 
 	 */
-	public void write(JSONObject modelElement) throws JSONException {
+	public void writeJSON(JSONObject modelElement) throws JSONException {
 		Method[] methods = getClass().getMethods();
 		ArrayList<Method> unusedHandler = new ArrayList<Method>();
 		for (int i = 0; i < methods.length; i++) {
 			Method method = methods[i];
 			String methodName = method.getName();
-			if (methodName.startsWith("writeJSON")) {
+			if (methodName.startsWith("writeJSON") && !methodName.endsWith("writeJSON")) {
 				if (methodName.contains("unused")){
 					unusedHandler.add(method);
 				} else {
