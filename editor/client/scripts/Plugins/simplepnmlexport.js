@@ -42,10 +42,21 @@ ORYX.Plugins.SimplePnmlexport = ORYX.Plugins.AbstractPlugin.extend({
             'minShape': 0,
             'maxShape': 0
         });
+        this.facade.offer({
+            'name': "PNML For LOLA",
+            'functionality': this.exportIt.bind(this,true),
+            'group': ORYX.I18N.SimplePnmlexport.group,
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'icon': ORYX.PATH + "images/page_white_gear.png",
+            'description': ORYX.I18N.SimplePnmlexport.desc,
+            'index': 1,
+            'minShape': 0,
+            'maxShape': 0
+        });
         
     },
 
-    exportIt: function(){
+    exportIt: function(lola){
 
 		// raise loading enable event
         this.facade.raiseEvent({
@@ -56,7 +67,7 @@ ORYX.Plugins.SimplePnmlexport = ORYX.Plugins.AbstractPlugin.extend({
         window.setTimeout((function(){
 			
 			// ... save synchronously
-            this.exportSynchronously();
+            this.exportSynchronously(lola);
 			
 			// raise loading disable event.
             this.facade.raiseEvent({
@@ -68,10 +79,13 @@ ORYX.Plugins.SimplePnmlexport = ORYX.Plugins.AbstractPlugin.extend({
 		return true;
     },
 
-    exportSynchronously: function() {
+    exportSynchronously: function(lola) {
 
         var resource = location.href;
-		
+		var tool = "none";
+		if(lola){
+			tool = "lola";
+		}
 		
 		try {
 			var serialized_rdf = this.getRDFFromDOM();
@@ -84,7 +98,8 @@ ORYX.Plugins.SimplePnmlexport = ORYX.Plugins.AbstractPlugin.extend({
 				asynchronous: false,
 				parameters: {
 					resource: resource,
-					data: serialized_rdf
+					data: serialized_rdf,
+					tool: tool
 				},
 				onSuccess: function(request){
 					this.openDownloadWindow(window.document.title+".xml",request.responseText);
