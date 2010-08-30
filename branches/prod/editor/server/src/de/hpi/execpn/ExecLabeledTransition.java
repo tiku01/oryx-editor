@@ -1,7 +1,7 @@
 package de.hpi.execpn;
 
+import de.hpi.petrinet.CommunicationType;
 import de.hpi.petrinet.LabeledTransition;
-import de.hpi.petrinet.LabeledTransitionImpl;
 import de.hpi.petrinet.Node;
 
 /**
@@ -54,6 +54,30 @@ public class ExecLabeledTransition extends ExecTransition implements LabeledTran
 		if (this.getAction() != null)
 			clone.setAction(new String(this.getAction()));
 		return clone;
+	}
+
+	@Override
+	public String getCommunicationChannel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CommunicationType getCommunicationType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCommunicationChannel(String channel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCommunicationType(CommunicationType type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -102,8 +102,8 @@
 			]
 		},
  		{
-			"type": "node",
 			"id":"Transition",
+			"type": "node",
 			"title":"Transition",
 			"groups":[],
 			"description":"A transition",
@@ -210,7 +210,53 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}															
+				},
+				{
+					"id":"communicationchannel",
+					"type":"String",
+					"title":"Communication Channel",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"communicationtype",
+					"type":"Choice",
+					"title":"Communication type",
+					"value":"Default",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"default",
+							"title":"Default",
+							"value":"Default",
+							"refToView":""
+						},
+						{
+							"id":"sync",
+							"title":"Synchron",
+							"value":"Synchron",
+							"refToView":""
+						},
+						{
+							"id":"asyncin",
+							"title":"Asynchronous Input",
+							"value":"Asynchronous Input",
+							"refToView":""
+						},
+						{
+							"id":"asyncout",
+							"title":"Asynchronous Output",
+							"value":"Asynchronous Output",
+							"refToView":""
+						},
+					]
+				},				
 			]
 		},
  		{

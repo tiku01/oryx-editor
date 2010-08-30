@@ -106,7 +106,7 @@ public class PTNetRDFImporter {
 					}}
 			} else if (attribute.equals("outgoing")) {
 				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), p);
-			}
+			} 
 		}
 		if (p.getId() == null)
 			p.setId(getResourceId(node));
@@ -125,6 +125,23 @@ public class PTNetRDFImporter {
 				t.setLabel(getContent(n));
 			} else if (attribute.equals("outgoing")) {
 				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
+			}else if (attribute.equals("communicationchannel")){
+				String channel = getContent(n);
+				if (channel != null)
+					t.setCommunicationChannel(channel);
+			} else if (attribute.equals("communicationtype")){
+				String type = getContent(n);
+				if (type != null){
+					if(type.equals("Default"))
+						t.setCommunicationType(CommunicationType.DEFAULT);
+					else if (type.equals("Synchron")) {
+						t.setCommunicationType(CommunicationType.SYNCHRON);
+					}else if (type.equals("Asynchronous Input")) {
+						t.setCommunicationType(CommunicationType.ASYNCH_INPUT);
+					}else if (type.equals("Asynchronous Output")) {
+						t.setCommunicationType(CommunicationType.ASYNCH_OUTPUT);
+					}
+				}
 			}
 		}
 		if (t.getId() == null)
