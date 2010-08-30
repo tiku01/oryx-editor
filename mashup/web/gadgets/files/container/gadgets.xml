@@ -3,13 +3,13 @@
 	<Shindig> 
 	
 		<!-- to edit: path to Shindig base -->
-		<ShindigBase>http://localhost:8080/Shindig/</ShindigBase>
+		<ShindigBase>/shindig/</ShindigBase>
 		
-		<ShindigBase>http://localhost:8080/gadgets/files/container/rpc_relay.html</ShindigBase>
+		<ShindigBase>http://localhost:8080/shindig/gadgets/files/container/rpc_relay.html</ShindigBase>
 		
 		<!-- urls and options of available gadgetes -->
 		<Gadget>
-			<url>/gadgets/files/gadgets/viewer/viewer.xml</url>
+			<url>/mashup/gadgets/files/gadgets/viewer/viewer.xml</url>
 			<options>
 				<minHeight>300</minHeight>
 				<minWidth>450</minWidth>
@@ -21,7 +21,7 @@
 		</Gadget>
 		
 		<Gadget>
-			<url>/gadgets/files/gadgets/repository/repository.xml</url>
+			<url>/mashup/gadgets/files/gadgets/repository/repository.xml</url>
 			<options>
 				<top>50</top>
 				<left>200</left>
@@ -31,7 +31,7 @@
 		</Gadget>
 		
 		<Gadget>
-			<url>/gadgets/files/gadgets/gadgetRepository/gadgetRepository.xml</url>
+			<url>/mashup/gadgets/files/gadgets/gadgetRepository/gadgetRepository.xml</url>
 			<options>
 				<top>50</top>
 				<left>50</left>
@@ -40,9 +40,20 @@
 			</options>
 		</Gadget>
 		
-		
 		<Gadget>
-			<url>/gadgets/files/gadgets/multimodel/multimodel.xml</url>
+			<url>/mashup/gadgets/files/gadgets/correspondence/correspondence.xml</url>
+			<options>
+				<top>50</top>
+				<left>200</left>
+				<height>400</height>
+				<width>470</width>
+			</options>
+		</Gadget>
+		
+		
+<!--		
+		<Gadget>
+			<url>/mashup/gadgets/files/gadgets/multimodel/multimodel.xml</url>
 			<options>
 				<top>50</top>
 				<left>200</left>
@@ -50,9 +61,10 @@
 				<width>470</width>
 			</options>
 		</Gadget>
-		
+-->
+<!--		
 		<Gadget>
-			<url>/gadgets/files/gadgets/tools/tool.xml</url>
+			<url>/mashup/gadgets/files/gadgets/tools/tool.xml</url>
 		</Gadget>
-		
+-->		
 	</Shindig>

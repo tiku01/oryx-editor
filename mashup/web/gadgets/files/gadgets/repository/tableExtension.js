@@ -4,7 +4,7 @@
 
 var Dom = YAHOO.util.Dom,
 
-	REPOSITORY_LOCAL  = "/gadgets/files/gadgets/repository",
+	REPOSITORY_LOCAL  = "/mashup/gadgets/files/gadgets/repository",
     STRING_STATENAME  = 'yui_dt_state',
 
     CLASS_EXPANDED    = 'yui-dt-expanded',

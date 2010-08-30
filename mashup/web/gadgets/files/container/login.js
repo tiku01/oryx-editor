@@ -37,6 +37,8 @@ Container.login = (function(){
 					method			: "post",
 					asynchronous 	: false,
 					onSuccess		: function(response){
+
+						Container.login.currentUser = response.responseText;
 						
 						if ( response.responseText.match(/public/) ) {
 							Container.login.showLogin();
@@ -44,8 +46,6 @@ Container.login = (function(){
 						else {
 							Container.login.showLogout();
 						}
-
-						Container.login.currentUser = response.responseText;
 						
 					},
 					onFailure		: function(){
@@ -58,7 +58,7 @@ Container.login = (function(){
 		
 		showLogin: function(){
 			$("login").innerHTML = 
-				'<div><form action="http://localhost:8080/backend/poem/login?redirect=/gadgets/files/container/home.html"'+ 
+				'<div><form action="/backend/poem/login?redirect=/mashup/gadgets/files/container/home.html"'+ 
 						'method="post" id="openid_login" >'+
 						'<span>'+
 							'<img src="/backend/images/repository/hpi.png" onclick="Container.login.changeOpenId(\'https://openid.hpi.uni-potsdam.de/user/username\' , 39, 8)"/>'+
@@ -66,7 +66,7 @@ Container.login = (function(){
 							'<img src="/backend/images/repository/getopenid.png" onclick="Container.login.changeOpenId(\'http://getopenid.com/username\', 21, 8)"/>'+
 						'</span>'+
 					'<input type="text" name="openid_identifier" id="openid_login_openid" class="text gray"'+
-						'value="getopenid.com/helen88"/>'+
+						'value="OpenID"/>'+
 					'<input id="ext-gen436" type="submit" value="login"/>'+
 				'</form></div>';
 			
@@ -74,7 +74,7 @@ Container.login = (function(){
 		
 		showLogout: function(){
 			$("login").innerHTML = 
-				'<form action="http://localhost:8080/backend/poem/login?logout=true&redirect=/gadgets/files/container/home.html"'+ 
+				'<form action="/backend/poem/login?logout=true&redirect=/mashup/gadgets/files/container/home.html"'+ 
 						'method="post" id="openid_login">'+
 				'<div>'+
 				'<div style="display:inline;" class="login_name">Hi, '+ Container.login.currentUser +'</div>' +

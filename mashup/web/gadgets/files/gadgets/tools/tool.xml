@@ -10,16 +10,16 @@
         <![CDATA[
 		
 		<script type="text/javascript">
-	        var externs = ['http://localhost:8080/oryx/lib/prototype-1.5.1.js',
-						'http://localhost:8080/gadgets/files/gadgets/tools/toolRpc.js',
-						'http://localhost:8080/gadgets/files/gadgets/tools/tool.js'];
+	        var externs = ['/oryx/lib/prototype-1.5.1.js',
+						'/mashup/gadgets/files/gadgets/tools/toolRpc.js',
+						'/mashup/gadgets/files/gadgets/tools/tool.js'];
 	
 	        for (var i = 0; i < externs.length; i++)
 	                document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));
 		</script>
 		
 		<br>
-		<input type="text" id="msg" value="http://oryx-editor.org/backend/poem/model/" size="45"></input><br>
+		<input type="text" id="msg" value="/backend/poem/model/" size="45"></input><br>
 		<a href="#" onclick= "mark(document.getElementById('msg').value, {} ); return false;"> mark </a><br>
 		<a href="#" onclick="undoMark();">undo mark</a><br>
 		<a href="#" onclick="greyModel(document.getElementById('msg').value);">grey</a><br>

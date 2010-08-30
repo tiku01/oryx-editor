@@ -22,8 +22,8 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-GADGET_DIR = "/gadgets/files/gadgets/core/"
-GADGET_REPOSITORY_DIR = "/gadgets/files/gadgets/gadgetRepository/"
+GADGET_DIR = "/mashup/gadgets/files/gadgets/core/"
+GADGET_REPOSITORY_DIR = "/mashup/gadgets/files/gadgets/gadgetRepository/"
 	
 var gadgetRepository = null;
 	
