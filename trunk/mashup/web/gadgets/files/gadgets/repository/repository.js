@@ -21,15 +21,18 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+
 Repository = function(){
 	
 	Repository.superclass.constructor.call(this, "repository");
 	
-	this.user =				"getopenid.com/helen88";
+	//TODO: Get correct user ID
+//	this.user =				"getopenid.com/helen88";
 	this.publicModels =		false;
 	this.filteredModels = 	new Array();
-	this.currentSort =		(this.user == "public") ? "rating" : "lastChange";
-	this.currentSortDir =	null;
+//	this.currentSort =		(this.user == "public") ? "rating" : "lastChange";
+	this.currentSort =		"lastChange";
+	this.currentSortDir =	"dsc";
 	this.busyHandler = 		{ start: new EventHandler(), end: new EventHandler() };
 	this.table =			null;
 	
@@ -57,8 +60,8 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 		
 		var publicButton = new YAHOO.widget.Button({ label:"public", value:"public", type: "radio"});
 		var userButton = new YAHOO.widget.Button({ label:"user", value:"user", type:"radio", checked : true});
-		publicButton.on("click", this.filterModels.bind(this));
-		userButton.on("click", this.filterModels.bind(this));
+		publicButton.on("click", this.filterPublicModels.bind(this));
+		userButton.on("click", this.filterPrivateModels.bind(this));
 		
 		buttonGroup.addButton(publicButton);
 		buttonGroup.addButton(userButton);
@@ -66,11 +69,22 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 		layout.render();
 		this.filterModels();
 	},
+
+	filterPublicModels : function() {
+		this.publicModels = true;
+		this.filterModels();
+	},
+	
+	filterPrivateModels : function() {
+		this.publicModels = false;
+		this.filterModels();
+	},
 	
 	filterModels: function(){
 		
 		this.initTable();
 		
+		/*
 		var params = ( this.user == "public" || this.publicModels ) 
 							? new Hash() : new Hash({access:'owner,read,write',
 														sort: this.currentSort});
@@ -80,6 +94,10 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			{ this.publicModels = false; }
 		else 
 			{ this.publicModels = true; }
+		*/
+		var params = (this.publicModels ) 
+							? new Hash({access:'public,read,write', sort: this.currentSort}) : 
+							new Hash({access:'owner,read,write', sort: this.currentSort});
 		
 		this.doRequest(
 			"/backend/poem/filter", 
@@ -248,9 +266,9 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
             sortedBy :			{key:"title",dir:"asc"},
             // 3 rows per page, can be changed to 6 or 9
             paginator: 			new YAHOO.widget.Paginator({
-		                			rowsPerPage : 			3,
+		                			rowsPerPage : 			10,
 		                			template : 				YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-		                			rowsPerPageOptions	: 	[3,6,9],
+		                			rowsPerPageOptions	: 	[10,20,30],
 		                			pageLinks : 			3 }),
             draggableColumns :	false
         };

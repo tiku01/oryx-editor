@@ -33,7 +33,7 @@
 
 	AbstractGadget = function(type){
 		
-		this.GADGET_BASE = "/gadgets/files/gadgets/";
+		this.GADGET_BASE = "/mashup/gadgets/files/gadgets/";
 		this.SERVER_BASE = "http://localhost:8080";
 		this.REPOSITORY_BASE =	"/backend/poem" ;
 		this.index = null;

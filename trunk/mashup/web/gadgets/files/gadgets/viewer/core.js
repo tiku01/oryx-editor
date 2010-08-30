@@ -22,9 +22,9 @@
  **/
 
 // parent directory for all local gadgets
-GADGET_DIR = "/gadgets/files/gadgets/core/"
+GADGET_DIR = "/mashup/gadgets/files/gadgets/core/"
 // subdirectory for specific viewer gadget
-VIEWER_DIR = "/gadgets/files/gadgets/viewer/"
+VIEWER_DIR = "/mashup/gadgets/files/gadgets/viewer/"
 var viewer = null;
 	
 // load MOVI files
