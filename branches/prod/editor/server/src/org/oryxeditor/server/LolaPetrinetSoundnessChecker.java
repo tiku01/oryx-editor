@@ -76,7 +76,7 @@ public class LolaPetrinetSoundnessChecker extends HttpServlet {
 //	private static final String PNML 			= "pnml";
 //	private static final String INPUT			= "input";
 //	private static final String TEXT			= "text";
-	private static final String LOLA_URI 		= "http://service-technology.org/lola4oryx/lola.php";
+	private static final String LOLA_URI 		= "http://esla.informatik.uni-rostock.de/service-tech/.lola/lola.php";
 	private static final long serialVersionUID = 6150856095430348410L;
 	private Tool tool;
 	public Tool getTool() {
