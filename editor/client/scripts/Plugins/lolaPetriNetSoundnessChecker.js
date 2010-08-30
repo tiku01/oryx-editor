@@ -331,7 +331,7 @@ ORYX.Plugins.LolaPetriNetSoundnessChecker = ORYX.Plugins.AbstractPlugin.extend({
         
         var service_tech_site_banner = new Object;
         service_tech_site_banner.html='<a href="http://www.service-technology.org/">'+
-        '<img src="images/service_tech_site_banner.png" width="400" style="position: relative; left: 35px;"/></a>';
+        '<img src="' + ORYX.CONFIG.ROOT_PATH + '/images/service_tech_site_banner.png" width="400" style="position: relative; left: 35px;"/></a>';
         
         this.checkerWindow = new Ext.Window({
             title: 'Soundness Checker powered by service-technology.org',
