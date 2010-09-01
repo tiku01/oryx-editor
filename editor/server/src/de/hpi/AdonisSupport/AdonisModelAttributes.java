@@ -12,6 +12,8 @@ import org.xmappr.RootElement;
 @RootElement("MODELATTRIBUTES")
 public class AdonisModelAttributes extends XMLConvertible{
 	
+	private static final long serialVersionUID = -1100799795170972825L;
+
 	@Element(name="ATTRIBUTE")
 	protected ArrayList<AdonisAttribute> attribute;
 	

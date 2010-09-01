@@ -8,7 +8,8 @@
 	},
 	"business process model": {
 		"translation":{
-			"en":"Business process model"
+			"en":"Business process model",
+			"de":"Geschäftsprozeßmodell"
 		}
 	},
 	/* Connectors */
@@ -21,12 +22,13 @@
 	"has cross-reference": {
 		"translation": {
 			"en":"Has cross-reference",
-			"de":"Hat Querverweis"
+			"de":"hat Querverweis"
 		}
 	},
 	"value flow": {
 		"translation":{
-			"en":"Value flow"
+			"en":"Value flow",
+			"de":"Leistungsfluß"
 		}
 	},
 	"has note": {
@@ -37,7 +39,7 @@
 	"has process": {
 		"translation":{
 			"en":"Has process",
-			"de":"Hat Prozeß"
+			"de":"hat Prozeß"
 		}
 	},
 	/* instances */
@@ -86,7 +88,7 @@
 	},
 	"swimlane (horizontal)": {
 		"translation":{
-			"de":"Schwimmbahn (waagerecht)",
+			"de":"Schwimmbahn (waagrecht)",
 			"en":"Swimlane (horizontal)"
 		},
 		"type":"node",
@@ -179,8 +181,54 @@
 			"de":"nein"
 		}
 	},
-	
-	
+	"inside":{
+		"translation":{
+			"en":"inside",
+			"de":"innerhalb"
+		}
+	},
+	"outside":{
+		"translation":{
+			"en":"outside",
+			"de":"außerhalb"
+		}
+	},
+	"rectangle":{
+		"translation":{
+			"en":"Rectangle",
+			"de":"Rechteck"
+		}
+	},
+	"circle":{
+		"translation":{
+			"en":"Circle",
+			"de":"Kreis"
+		}
+	},
+	"right arrow":{
+		"translation":{
+			"en":"Right arrow",
+			"de":"Pfeil rechts"
+		}
+	},
+	"left arrow":{
+		"translation":{
+			"en":"Left arrow",
+			"de":"Pfeil links"
+		}
+	},
+	"upward arrow":{
+		"translation":{
+			"en":"Upward arrow",
+			"de":"Pfeil aufwärts"
+		}
+	},
+	"downward arrow":{
+		"translation":{
+			"en":"Downward arrow",
+			"de":"Pfeil abwärts"
+		}
+	},
 	/* interrefs */
 	"referenced process":{
 		"translation":{
@@ -192,7 +240,22 @@
 			"en":"Reference"
 		}
 	},
-	
+	"information flow":{
+		"translation":{
+			"en":"Information flow"
+		}
+	},
+	"control flow":{
+		"translation":{
+			"en":"Control flow",
+			"de":"Kontrollfluß"
+		}
+	},
+	"material flow":{
+		"translation":{
+			"en":"Material flow"
+		}
+	},
 	/* attributes */
 	"world area":{
 		"translation":{
@@ -203,13 +266,15 @@
 	},
 	"base name":{
 		"translation":{
-			"en":"Base name"
+			"en":"Base name",
+			"de":"Basisname"
 		},
 		"type":"STRING"
 	},
 	"number of objects and relations":{
 		"translation":{
-			"en":"Number of objects and relations"
+			"en":"Number of objects and relations",
+			"de":"Anzahl der Objekte und Beziehungen"
 		},
 		"type":"INTEGER"
 	},
@@ -233,25 +298,22 @@
 	},
 	"context of version":{
 		"translation":{
-			"en":"Context of version"
+			"en":"Context of version",
+			"de":"Versionskontext"
 		},
 		"type":"STRING"
 	},
 	"contact person":{
 		"translation":{
-			"en":"Contact person"
+			"en":"Contact person",
+			"de":"Ansprechpartner"
 		},
 		"type":"STRING"
 	},
-	"number of objects and relations":{
-		"translation":{
-			"en":"Number of objects and relations"
-		},
-		"type":"INTEGER"
-	},
 	"last user":{
 		"translation":{
-			"en":"Last user"
+			"en":"Last user",
+			"de":"Letzter Bearbeiter"
 		},
 		"type":"STRING"
 	},
@@ -298,7 +360,8 @@
 	},
 	"reviewed on":{
 		"translation":{
-			"en":"Reviewed on"
+			"en":"Reviewed on",
+			"de":"Abgenommen am"
 		},
 		"type":"STRING"
 	},
@@ -332,13 +395,15 @@
 	},
 	"position":{
 		"translation":{
-			"en":"Position"
+			"en":"Position",
+			"de":"Position"
 		},
 		"type":"STRING"
 	},
 	"positions":{
 		"translation":{
-			"en":"Positions"
+			"en":"Positions",
+			"de":"Positions"
 		},
 		"type":"STRING"
 	},
@@ -379,19 +444,13 @@
 		},
 		"type":"EXPRESSION"
 	},
-	"modeltype":{
+	/*"modeltype":{
 		"translation":{
 			"en":"Model type",
 			"de":"Modeltyp"
 		},
 		"type":"ENUMERATION"
-	},
-	"is inside":{
-		"translation":{
-			"en":"Is inside",
-			"de":"Ist innen"
-		}
-	},
+	},*/
 	"description":{
 		"translation":{
 			"en":"Description",
@@ -413,27 +472,30 @@
 		},
 		"type":"ENUMERATION"
 	},
-	"subprocessname":{
+	/*"subprocessname":{
 		"translation":{
 			"en":"Subprocessname"
 		},
 		"type":"EXPRESSION"
-	},
+	},*/
 	"order":{
 		"translation":{
-			"en":"Order"
+			"en":"Order",
+			"de":"Reihenfolge"
 		},
 		"type":"INTEGER"
 	},
 	"creation date":{
 		"translation":{
-			"en":"Creation date"
+			"en":"Creation date",
+			"de":"Angelegt am"
 		},
 		"type":"STRING"
 	},
 	"date last changed":{
 		"translation":{
-			"en":"Date last changed"
+			"en":"Date last changed",
+			"de":"Letzte Änderung am"
 		},
 		"type":"STRING"
 	},
@@ -447,6 +509,13 @@
 		"translation":{
 			"en":"Display name",
 			"de":"Namen anzeigen"
+		},
+		"type":"ENUMERATION"
+	},
+	"display name and reference":{
+		"translation":{
+			"en":"Display name and reference",
+			"de":"Name und Referenze anzeigen"
 		},
 		"type":"ENUMERATION"
 	}

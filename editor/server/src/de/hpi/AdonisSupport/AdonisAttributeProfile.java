@@ -19,22 +19,39 @@ import org.xmappr.RootElement;
 @RootElement("ATTRIBUTEPROFILE")
 public class AdonisAttributeProfile extends XMLConvertible{
 	
+	private static final long serialVersionUID = 6821670381807014090L;
 	@Attribute("class")
 	protected String aPClass;
-	public void setAPClass(String value){ aPClass = value;}
-	public String getAPClass(){return aPClass;}
+	public void setAPClass(String value){ 
+		aPClass = value;
+	}
+	public String getAPClass(){
+		return aPClass;
+	}
 	@Attribute("name")
 	protected String name;
-	public void setName(String value){ name = value;}
-	public String getName(){return name;}
+	public void setName(String value){ 
+		name = value;
+	}
+	public String getName(){
+		return name;
+	}
 	@Attribute("version")
 	protected String version;
-	public void setVersion(String value){ version = value;}
-	public String getVersion(){return version;}
+	public void setVersion(String value){ 
+		version = value;
+	}
+	public String getVersion(){
+		return version;
+	}
 	@Attribute("applib")
 	protected String applib;
-	public void setApplib(String value){ applib = value;}
-	public String getApplib(){return applib;}
+	public void setApplib(String value){ 
+		applib = value;
+	}
+	public String getApplib(){
+		return applib;
+	}
 
 	
 	@Elements({
@@ -53,32 +70,9 @@ public class AdonisAttributeProfile extends XMLConvertible{
 		children = list;
 	}
 	
-	public void writeJSONAttributes(JSONObject json) throws JSONException{
-		
-	}
-	public void writeJSONChildren(JSONObject json) throws JSONException{
-		json.put("attributeProfile", getChildren());
-	}
-	
-//	public void write(JSONObject json) throws JSONException{
-//		super.write(json);
-//		for (AdonisBaseObject aBaseObject : getChildren()){
-//			aBaseObject.write(json);
-//		}
-//	}
 	@Override
 	public void writeJSON(JSONObject json) throws JSONException {
-//		json.object();
-//			json.key("class").value(getAPClass());
-//			json.key("name").value(getName());
-//			json.key("version").value(getVersion());
-//			json.key("applib").value(getApplib());
-//			json.key("attributeProfile_children").array();
-//			for (AdonisBaseObject aBaseObject : getChildren()){
-//				aBaseObject.write(json);
-//			}
-//			json.endArray();
-//		json.endObject();		
+		
 	}
 }
 

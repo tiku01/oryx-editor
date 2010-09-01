@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpStatus;
 
 import de.hpi.AdonisSupport.AdonisConverter;
-import de.hpi.AdonisSupport.Log;
+import de.hpi.AdonisSupport.Logger;
 
 /**
  * Copyright (c) 2010 Markus Goetz

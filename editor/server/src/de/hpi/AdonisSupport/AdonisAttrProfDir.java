@@ -16,6 +16,8 @@ import org.xmappr.RootElement;
 @RootElement("ATTRPROFDIR")
 public class AdonisAttrProfDir extends XMLConvertible {
 
+	private static final long serialVersionUID = -7501442084178668626L;
+
 	@Attribute("name")
 	protected String name;
 	

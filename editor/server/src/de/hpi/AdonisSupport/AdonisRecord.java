@@ -44,7 +44,7 @@ public class AdonisRecord extends XMLConvertible {
 	
 	public static AdonisRecord create(String name,String language){
 		AdonisRecord record = new AdonisRecord();
-		record.setName(Configurator.getAdonisIdentifier(name,language));
+		record.setName(Unifier.getAdonisIdentifier(name,language));
 		record.setRow(new ArrayList<AdonisRow>());
 		return record;
 	}

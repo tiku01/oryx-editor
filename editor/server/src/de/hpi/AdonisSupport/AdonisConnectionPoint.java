@@ -67,9 +67,9 @@ public class AdonisConnectionPoint {
 	}
 	
 	public void distributeValues(){
-		Log.d("ConnectionPoint setName()"+instance.getName());
+		Logger.d("ConnectionPoint setName()"+instance.getName());
 		setInstanceName(instance.getName());
-		setStencilClass(instance.getAdonisStencilClass("en"));
+		setStencilClass(instance.getAdonisIdentifier());
 	}
 
 	

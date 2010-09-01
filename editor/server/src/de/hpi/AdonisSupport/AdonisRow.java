@@ -2,7 +2,6 @@ package de.hpi.AdonisSupport;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +68,7 @@ public class AdonisRow extends XMLConvertible{
 	public static AdonisRow create(Integer number){
 		AdonisRow row = new AdonisRow();
 		row.setNumber(number);
-		row.setId("row."+new Random().nextInt(999999));
+		row.setId(Helper.generateId("row."));
 		row.setAttribute(new ArrayList<AdonisAttribute>());
 		row.setInterref(new ArrayList<AdonisInterref>());
 		return row;
@@ -77,7 +76,7 @@ public class AdonisRow extends XMLConvertible{
 	
 	public AdonisAttribute getAttribute(String identifier,String lang){
 		for (AdonisAttribute anAttribute : getAttribute()){
-			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),lang)))
+			if (identifier.equals(Unifier.getOryxIdentifier(anAttribute.getAdonisName(),lang)))
 				return anAttribute;
 		}
 		return null;
@@ -85,7 +84,7 @@ public class AdonisRow extends XMLConvertible{
 	
 	public AdonisInterref getInterref(String identifier,String lang){
 		for (AdonisInterref anInterref : getInterref()){
-			if (identifier.equals(Configurator.getOryxIdentifier(anInterref.getName(),lang)))
+			if (identifier.equals(Unifier.getOryxIdentifier(anInterref.getName(),lang)))
 				return anInterref;
 		}
 		return null;

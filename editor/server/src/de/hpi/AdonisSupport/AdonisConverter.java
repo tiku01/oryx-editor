@@ -51,7 +51,7 @@ public class AdonisConverter {
 	public String filterXML(String xml){
 		if (xml.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") < 0
 				|| xml.indexOf("<!DOCTYPE ADOXML SYSTEM \"adoxml31.dtd\">") < 0){
-			Log.w("could not detect correct version - import could possibly fail");
+			Logger.w("could not detect correct version - import could possibly fail");
 		}
 		String xmlWithoutXMLTag = xml.replaceFirst("<\\?xml[^\\?]*\\?>", "");
 		String xmlWithoutDoctype = xmlWithoutXMLTag.replaceFirst("<\\![^\\>]*>","");
@@ -71,7 +71,7 @@ public class AdonisConverter {
 	 */
 	public String importXML(String xml){
 		export = false;
-		Log.v("importXML");
+		Logger.i("importXML");
 
 		String filteredXML = filterXML(xml);
 		StringReader stringReader = new StringReader(filteredXML);
@@ -81,22 +81,22 @@ public class AdonisConverter {
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
 //		xmappr.addConverter(new StringConverter());
 		AdonisXML modelCollection = (AdonisXML) xmappr.fromXML(stringReader);
-		Log.v("mapping xml to java done");
+		Logger.i("mapping xml to java done");
 				
 		Vector<JSONObject> models = null;
 		try {
 			models = modelCollection.writeDiagrams();
 		} catch (JSONException e) {
-			Log.e("E importXML",e);
+			Logger.e("E importXML",e);
 			e.printStackTrace();
 		}
-		Log.v("mapping java to json done");
-		Log.v("result: "+models.elementAt(0).toString());
+		Logger.i("mapping java to json done");
+		Logger.i("result: "+models.elementAt(0).toString());
 		return models.elementAt(0).toString();
 	}
 	
 	public String exportXML(String json) throws JSONException {
-		Log.v("EXPORT: "+json);
+		Logger.i("EXPORT: "+json);
 		export = true;
 		AdonisXML model = new AdonisXML();
 		JSONObject jsonModel = new JSONObject(json);
@@ -119,7 +119,10 @@ public class AdonisConverter {
 		String json = ac.importXML(
 				//importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
 				//importFromFile("D:\\Desktop\\Adonis\\Example exports\\Is inside.xml"));
-				importFromFile("D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"));
+				//importFromFile("D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"));
+				//importFromFile("D:\\Desktop\\Adonis\\Example Exports\\einzelhaendler.xml"));
+				//importFromFile("D:\\Desktop\\Adonis\\Example Exports\\small.xml"));
+				importFromFile("D:\\Desktop\\Adonis\\Example Exports\\architekt.xml"));
 		
 		try {
 			File file = new File("D:\\Desktop\\Eclipse Export.json");
@@ -155,8 +158,8 @@ public class AdonisConverter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.printSummary();
-		Log.reset();
+		Logger.printSummary();
+		Logger.reset();
 		
 
 	}

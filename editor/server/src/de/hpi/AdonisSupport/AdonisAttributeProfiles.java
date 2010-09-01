@@ -12,6 +12,7 @@ import org.xmappr.RootElement;
 @RootElement("ATTRIBUTEPROFILES")
 public class AdonisAttributeProfiles extends XMLConvertible {
 
+	private static final long serialVersionUID = 3117929462237059936L;
 
 	@Element(name="ATTRIBUTEPROFILE", targetType=AdonisAttributeProfile.class)
 	protected ArrayList<AdonisAttributeProfile> attributeProfile;

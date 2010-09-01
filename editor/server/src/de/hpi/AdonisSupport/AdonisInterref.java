@@ -42,7 +42,7 @@ public class AdonisInterref extends XMLConvertible{
 	
 	public static AdonisInterref createInterref(String name,String language){
 		AdonisInterref interref = new AdonisInterref();
-		interref.setName(Configurator.getAdonisIdentifier(name,language));
+		interref.setName(Unifier.getAdonisIdentifier(name,language));
 		interref.setIref(new ArrayList<AdonisIref>());
 		return interref;
 	}	

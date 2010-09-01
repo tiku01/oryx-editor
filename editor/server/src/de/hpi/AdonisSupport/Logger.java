@@ -1,32 +1,44 @@
 package de.hpi.AdonisSupport;
 
 import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 import org.apache.log4j.SimpleLayout;
 
-public class Log {
-	private static Logger logger = null;
-	private static Integer[] counter = {/*ERROR*/0,/*WARNING*/0,/*INFO*/0,/*DEBUG*/0,/*VERBOSE*/0};
+public class Logger {
+	private static org.apache.log4j.Logger logger = null;
+	private static Level logLevel = Level.ALL;
+	private static Integer[] counter = {
+		/*ERROR*/	0,
+		/*WARNING*/	0,
+		/*INFO*/	0,
+		/*DEBUG*/	0,
+		/*VERBOSE*/	0};
 	static {
-		logger = Logger.getRootLogger();
-		logger .addAppender(new ConsoleAppender(new SimpleLayout()));
-		logger .debug("Logger initialized");
+		logger = org.apache.log4j.Logger.getRootLogger();
+		logger.addAppender(new ConsoleAppender(new SimpleLayout()));
+		logger.debug("Logger initialized");
+		logger.setLevel(logLevel);
 	}
 	
 	public static void reset(){
-		counter = new Integer[]{/*ERROR*/0,/*WARNING*/0,/*INFO*/0,/*DEBUG*/0,/*VERBOSE*/0};
+		counter = new Integer[]{
+				/*ERROR*/	0,
+				/*WARNING*/	0,
+				/*INFO*/	0,
+				/*DEBUG*/	0,
+				/*VERBOSE*/	0};
 	}
 	
 	public static void printSummary(){
 		logger.info("ERRORS:   "+counter[0]+"\nWARNINGS: "+counter[1]+"\nINFO:     "+counter[2]+"\nDEBUG:    "+counter[3]+"\nVERBOSE:  "+counter[4]);
 	}
 	
-	public static void v(String message){
+	public static void i(String message){
 		logger.info(message);
 		counter[4]++;
 	}
 	
-	public static void v(String message, Throwable e){
+	public static void i(String message, Throwable e){
 		logger.info(message,e);
 		counter[4]++;
 	}
