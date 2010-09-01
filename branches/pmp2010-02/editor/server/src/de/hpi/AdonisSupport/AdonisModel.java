@@ -8,14 +8,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.util.Assert;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
@@ -123,12 +121,14 @@ public class AdonisModel extends AdonisStencil{
 	
 // h e l p e r
 	
+	private String language;
+	
 	private Map<String,AdonisStencil> modelChildren = null;
 	protected Map<String,String> inheritedProperties;
 	
 	private Double[] oryxGlobalBounds = null;
 	private Double[] adonisGlobalBounds = null;
-
+	
 	public AdonisModel(){
 		instance = new ArrayList<AdonisInstance>();
 		connector = new ArrayList<AdonisConnector>();
@@ -154,6 +154,18 @@ public class AdonisModel extends AdonisStencil{
 			modelChildren = new HashMap<String,AdonisStencil>();
 		}
 		return modelChildren;
+	}
+	
+	public void setLanguage(String language){
+		this.language = language;
+	}
+	
+	public String getLanguage(){
+		if (language == null){
+			//TODO remove fallback
+			return "en";
+		}
+		return language;
 	}
 	
 	/**
@@ -184,7 +196,7 @@ public class AdonisModel extends AdonisStencil{
 	@Override
 	public AdonisAttribute getAttribute(String identifier, String lang){
 		for (AdonisAttribute anAttribute : getModelAttributes().getAttribute()){
-			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),"en")))
+			if (identifier.equals(Unifier.getOryxIdentifier(anAttribute.getAdonisName(),getLanguage())))
 				return anAttribute;
 		}
 		return null;
@@ -209,21 +221,14 @@ public class AdonisModel extends AdonisStencil{
 	 * creates a map of instances and connectors for quick access in all instances
 	 */
 	private void distributeChildMap(){
-		Log.d("distribute Childs of map");
+		Logger.d("distribute Childs of map");
 		for (AdonisStencil stencil : getInstance()){
 			stencil.setModel(this);
-			
 		}
 		for (AdonisStencil stencil : getConnector()){
-			if (!"is inside".equals(stencil.getOryxIndentifier())){
-				stencil.setModel(this);			
-			} else {
-				Log.d("is inside ignored");
-			}
+			stencil.setModel(this);
 		}
-		for (AdonisStencil stencil : getModelChildren().values()){
-			Assert.isTrue(!stencil.getOryxIndentifier().equals("is inside"));
-		}
+		System.out.println();
 	}
 	
 	
@@ -234,7 +239,7 @@ public class AdonisModel extends AdonisStencil{
 	private void resolveParentChildRelations(){	
 		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
 		for (AdonisConnector edge : getConnector()){
-			if (edge.getOryxIndentifier().equals("is inside")){
+			if (edge.getOryxIdentifier().equals("is inside")){
 				AdonisStencil child = getModelChildren().get(edge.getFrom().getInstanceName());
 				AdonisStencil parent = getModelChildren().get(edge.getTo().getInstanceName());
 				
@@ -247,6 +252,7 @@ public class AdonisModel extends AdonisStencil{
 					parents.add(parent);
 				}
 				addUsed(edge);
+				getModelChildren().remove(edge);
 			}
 		}
 		Set<AdonisStencil> removedParents = new HashSet<AdonisStencil>();
@@ -309,7 +315,7 @@ public class AdonisModel extends AdonisStencil{
 			return oryxGlobalBounds;
 		}
 		oryxGlobalBounds = new Double[]{0.0, 0.0, 1485.0, 1050.0};
-		AdonisAttribute anAttribute = getAttribute("world area","en");
+		AdonisAttribute anAttribute = getAttribute("world area",getLanguage());
 		if (anAttribute != null && anAttribute.getElement() != null){
 			String[] area = filterArea(anAttribute.getElement());
 			// try to give the diagram a nice size
@@ -324,9 +330,9 @@ public class AdonisModel extends AdonisStencil{
 	
 	public String getAdonisStencilClass(String language){
 		if (language == "" || language == null){
-			return Configurator.getAdonisIdentifier(modeltype, getLanguage());
+			return Unifier.getAdonisIdentifier(modeltype, getLanguage());
 		} 
-		return Configurator.getAdonisIdentifier(modeltype, language);
+		return Unifier.getAdonisIdentifier(modeltype, language);
 	}
 	
 //*************************************************************************
@@ -338,12 +344,14 @@ public class AdonisModel extends AdonisStencil{
 		super.completeAdonisToOryx();
 		
 		//this attribute is added while export dynamically
-		addUsed(getAttribute("number of objects and relations","en"));
+		addUsed(getAttribute("number of objects and relations",getLanguage()));
 		
 	}
 	
 	@Override
 	public void prepareAdonisToOryx() throws JSONException{
+		setLanguage(Unifier.getLanguage(getModeltype()));
+		Logger.i("Modellanguage = "+getLanguage());
 		super.prepareAdonisToOryx();
 		// put all stencils in the diagram in map ... all stencils have access to this map
 		distributeChildMap();
@@ -383,37 +391,37 @@ public class AdonisModel extends AdonisStencil{
 		
 		AdonisAttribute attribute = null;
 		
-		attribute = getAttribute("author","en");
+		attribute = getAttribute("author",getLanguage());
 		addUsed(attribute);
 		properties.put("author", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("base name","en");
+		attribute = getAttribute("base name",getLanguage());
 		if (attribute != null && attribute.getElement() != null && attribute.getElement().length() > 0){
 			properties.put("base name", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("last user","en");
+		attribute = getAttribute("last user",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("last user", attribute.getElement());
 			addUsed(attribute);
 		}
 
-		attribute = getAttribute("keywords","en");
+		attribute = getAttribute("keywords",getLanguage());
 		addUsed(attribute);
 		properties.put("keywords", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("comment","en");
+		attribute = getAttribute("comment",getLanguage());
 		addUsed(attribute);
 		properties.put("comment", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("description","en");
+		attribute = getAttribute("description",getLanguage());
 		addUsed(attribute);
 		properties.put("description", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("state","en");
+		attribute = getAttribute("state",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
-			properties.put("state", Configurator.getOryxIdentifier(attribute.getElement(),"en"));
+			properties.put("state", Unifier.getOryxIdentifier(attribute.getElement(),getLanguage()));
 			addUsed(attribute);
 		}
 		
@@ -424,43 +432,43 @@ public class AdonisModel extends AdonisStencil{
 //		</ATTRIBUTE>
 
 		
-		attribute = getAttribute("reviewed on","en");
+		attribute = getAttribute("reviewed on",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("reviewed on", Helper.dateAdonisToOryx(attribute.getElement(),false));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("date last changed","en");
+		attribute = getAttribute("date last changed",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("date last changed", Helper.dateAdonisToOryx(attribute.getElement(),true));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("creation date","en");
+		attribute = getAttribute("creation date",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("creation date", Helper.dateAdonisToOryx(attribute.getElement(),true));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("reviewed by","en");
+		attribute = getAttribute("reviewed by",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("reviewed by", attribute.getElement() == null ? "" : attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("version number","en");
+		attribute = getAttribute("version number",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("version number", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("context of version","en");
+		attribute = getAttribute("context of version",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("context of version", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("contact person","en");
+		attribute = getAttribute("contact person",getLanguage());
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("contact person", attribute.getElement());
 			addUsed(attribute);
@@ -485,7 +493,7 @@ public class AdonisModel extends AdonisStencil{
 	 * write down the used stencilset extensions
 	 */
 	public void writeJSONssextensions(JSONObject json) throws JSONException{
-		AdonisAttribute type = getAttribute("type","en");
+		AdonisAttribute type = getAttribute("type",getLanguage());
 		if (type != null && type.getElement() != null){
 			addUsed(type);
 			//TODO hier kommt das passende Stencilset rein
@@ -497,7 +505,7 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	@Override
 	public void writeJSONchildShapes(JSONObject json) throws JSONException {
-		Log.w("ChildShapes called by "+getName()+"("+getAdonisIndentifier()+")");
+		Logger.d("ChildShapes called by "+getName()+"("+getAdonisIdentifier()+")");
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
 		// writes all stencils - only connectors are missing
@@ -508,13 +516,13 @@ public class AdonisModel extends AdonisStencil{
 				aStencil.writeJSON(shape);
 				childShapes.put(shape);
 			} else if (aStencil.isConnector()){
-				if (!"Is inside".equalsIgnoreCase(aStencil.getAdonisIndentifier())) {
-					Log.d("Connector "+getAdonisIndentifier());
+				if (!"Is inside".equalsIgnoreCase(aStencil.getAdonisIdentifier())) {
+					Logger.d("Connector "+getAdonisIdentifier());
 					shape = new JSONObject();
 					aStencil.writeJSON(shape);
 					childShapes.put(shape);
 				} else {
-					Log.d("\"is inside\" detected");
+					Logger.d("\"is inside\" detected");
 				}
 			} 
 		}
@@ -558,6 +566,9 @@ public class AdonisModel extends AdonisStencil{
 	 * store unused
 	 */
 	public void writeJSONunused(JSONObject json) throws JSONException{
+		//TODO for development - remove
+		if (true)
+			return;
 		//JSONObject unused = getJSONObject(json, "unused");
 		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
 		
@@ -576,8 +587,7 @@ public class AdonisModel extends AdonisStencil{
 			//unused.put("attributes", makeStorable(unusedAttributes));
 			json.put("unused", makeStorable(unused));
 		} catch (JSONException e) {
-			Log.e("could not write unused elements and attributes\n"+e.getMessage());
-			e.printStackTrace();
+			Logger.e("could not write unused elements and attributes",e);
 		}
 	}
 	
@@ -592,7 +602,7 @@ public class AdonisModel extends AdonisStencil{
 		ArrayList<AdonisInstance> swimlanes = new ArrayList<AdonisInstance>();
 		int index = 1;
 		for (AdonisInstance aStencil : getInstance()){
-			if (aStencil.getOryxIndentifier().contains("swimlane")){
+			if (aStencil.getOryxIdentifier().contains("swimlane")){
 				swimlanes.add(aStencil);
 			}
 		}
@@ -612,17 +622,17 @@ public class AdonisModel extends AdonisStencil{
 			
 		});
 		for (AdonisInstance aSwimlane : sortedSwimlanes){
-			AdonisAttribute position = aSwimlane.getAttribute("position","en");
+			AdonisAttribute position = aSwimlane.getAttribute("position",getLanguage());
 			position.setElement(position.getElement()+"index:"+(++index));
 		}
 		for (AdonisInstance anIntance : getInstance()){
-			AdonisAttribute position = anIntance.getAttribute("position","en"); 
+			AdonisAttribute position = anIntance.getAttribute("position",getLanguage()); 
 			if (!position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index:"+(++index));
 			}
 		}
 		for (AdonisConnector aConnector : getConnector()){
-			AdonisAttribute position = aConnector.getAttribute("positions","en"); 
+			AdonisAttribute position = aConnector.getAttribute("positions",getLanguage()); 
 			if (position != null && !position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index:"+(++index));
 			}
@@ -650,7 +660,7 @@ public class AdonisModel extends AdonisStencil{
 	public void generateObjectCounterAttribute(){
 		getModelAttributes().getAttribute().add(
 				AdonisAttribute.create(
-						"en",
+						getLanguage(),
 						"number of objects and relations",
 						"INTEGER",
 						""+(getInstance().size()+getConnector().size())));
@@ -659,7 +669,7 @@ public class AdonisModel extends AdonisStencil{
 	public void completeOryxToAdonis(){
 		getModelAttributes().getAttribute().add(
 				AdonisAttribute.create(
-						"en",
+						getLanguage(),
 						"world area",
 						"STRING",
 						"w:"+getAdonisGlobalBounds()[2]+"cm h:"+getAdonisGlobalBounds()[3]+"cm"));
@@ -667,17 +677,17 @@ public class AdonisModel extends AdonisStencil{
 		for (AdonisConnector aConnector : getConnector()){
 			aConnector.getTo().distributeValues();
 			aConnector.getFrom().distributeValues();
-			if (!aConnector.getOryxIndentifier().equals("is inside")){
+			if (!aConnector.getOryxIdentifier().equals("is inside")){
 				aConnector.getAttribute().add(
 						AdonisAttribute.create(
-								"en",
+								getLanguage(),
 								"connector number",
 								"INTEGER",
 								""+(++connectorNumber)));
 			}
 		}
 		
-		Log.e("Created "+getInstance().size()+" Instances and "+getConnector().size()+" Connectors");
+		Logger.i("Created "+getInstance().size()+" Instances and "+getConnector().size()+" Connectors");
 		
 		calculateAdonisPosition();
 		addIndicesToShapes();	
@@ -696,7 +706,7 @@ public class AdonisModel extends AdonisStencil{
 				getInheritedProperties().put(key,inheritedProperties.getString(key));
 			}
 		}
-		Log.d("");
+		Logger.d("");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -716,7 +726,7 @@ public class AdonisModel extends AdonisStencil{
 				}
 			}
 		} catch (JSONException e){
-			Log.e("could not restore unused attributes");
+			Logger.e("could not restore unused attributes",e);
 		}
 		
 	}
@@ -750,58 +760,57 @@ public class AdonisModel extends AdonisStencil{
 		setName(properties.get("name"));
 		
 		element = properties.get("author");
-		if (element != null) addAttribute("author","en",element.length()== 0 ? "Admin" : element);
+		if (element != null) addAttribute("author",getLanguage(),element.length()== 0 ? "Admin" : element);
 		
 		element = properties.get("last user");
-		if (element != null && element.length() > 0) addAttribute("last user","en",element);
+		if (element != null && element.length() > 0) addAttribute("last user",getLanguage(),element);
 		
 		element = properties.get("base name");
-		if (element != null && element.length() > 0) addAttribute("base name","en",element);
+		if (element != null && element.length() > 0) addAttribute("base name",getLanguage(),element);
 		
 		element = properties.get("keywords");
-		if (element != null) addAttribute("keywords","en",element);
+		if (element != null) addAttribute("keywords",getLanguage(),element);
 		
 		element = properties.get("comment");
-		if (element != null) addAttribute("comment","en",element);
+		if (element != null) addAttribute("comment",getLanguage(),element);
 		
 		element = properties.get("description");
-		if (element != null) addAttribute("description","en",element);
+		if (element != null) addAttribute("description",getLanguage(),element);
 		
 		element = properties.get("state");
-		if (element != null) addAttribute("state","en",Configurator.getAdonisIdentifier(element,"en"));
+		if (element != null) addAttribute("state",getLanguage(),Unifier.getAdonisIdentifier(element,getLanguage()));
 		
 		element = properties.get("reviewed on");
-		if (element != null) addAttribute("reviewed on","en",Helper.dateOryxToAdonis(element,false));
+		if (element != null) addAttribute("reviewed on",getLanguage(),Helper.dateOryxToAdonis(element,false));
 		
 		element = properties.get("date last changed");
-		if (element != null && element.length() > 0) addAttribute("date last changed","en",Helper.dateOryxToAdonis(element,true));
+		if (element != null && element.length() > 0) addAttribute("date last changed",getLanguage(),Helper.dateOryxToAdonis(element,true));
 		
 		element = properties.get("creation date");
-		if (element != null && element.length() > 0) addAttribute("creation date","en",Helper.dateOryxToAdonis(element,true));
+		if (element != null && element.length() > 0) addAttribute("creation date",getLanguage(),Helper.dateOryxToAdonis(element,true));
 		
 		element = properties.get("reviewed by");
-		if (element != null) addAttribute("reviewed by","en",element);		
+		if (element != null) addAttribute("reviewed by",getLanguage(),element);		
 		
 		element = properties.get("version number");
-		if (element != null) addAttribute("version number","en",element);
+		if (element != null) addAttribute("version number",getLanguage(),element);
 		
 		element = properties.get("context of version");
-		if (element != null) addAttribute("context of version","en",element);
+		if (element != null) addAttribute("context of version",getLanguage(),element);
 		
 		element = properties.get("contact person");
-		if (element != null) addAttribute("contact person","en",element);
+		if (element != null) addAttribute("contact person",getLanguage(),element);
 	}
 	
 	public void readJSONresourceId(JSONObject json){
 		super.readJSONresourceId(json);
-		Random random = new Random();
-		setId("mod."+random.nextInt(100000));
+		setId(Helper.generateId("mod."));
 		setVersion("");
 		//Adonis generates a own ID - so this is only to respect the format
 	}
 	
 	public void readJSONchildShapes(JSONObject json) throws JSONException{
-		Log.d("Read in ChildShapes of a model");
+		Logger.d("Read in ChildShapes of a model");
 		//readJSONbounds(json);
 		JSONArray childShapes = json.getJSONArray("childShapes");
 		JSONObject stencil = null;
@@ -833,7 +842,7 @@ public class AdonisModel extends AdonisStencil{
 			}
 		}
 		
-		Log.w("Stencils: "+getInstance().size()+"  Connectors: "+getConnector().size());
+		Logger.i("Stencils: "+getInstance().size()+"  Connectors: "+getConnector().size());
 		for (int i = 0; i < childShapes.length(); i++){
 			stencil = childShapes.getJSONObject(i);
 			stencilName = stencil.getJSONObject("stencil").getString("id");
@@ -854,28 +863,28 @@ public class AdonisModel extends AdonisStencil{
 		if (getConnector().size()+getInstance().size() != childShapes.length()){
 			//Log.e("Could not convert "+stencilName+" to Connector or Instance\n"+stencil);
 			for (String unhandledStencil : unhandled.keySet()){
-				Log.w("Unhandled Stencil "+unhandledStencil);
+				Logger.w("Unhandled Stencil "+unhandledStencil);
 			}
 		}
-		Log.d("Stencils: "+getInstance().size()+"  Connectors: "+getConnector().size());
+		Logger.d("Stencils: "+getInstance().size()+"  Connectors: "+getConnector().size());
 	}
 	//TODO needs dynamically load/unload
 	public void readJSONssextensions(JSONObject json) throws JSONException{
 		json.getJSONObject("ssextensions");
 		getModelAttributes().getAttribute().add(
 				AdonisAttribute.create(
-						"en",
+						getLanguage(),
 						"type",
 						"ENUMERATION",
 						/*TODO remove hardcoding*/ 
-						Configurator.getAdonisIdentifier("company map", "en")));
+						Unifier.getAdonisIdentifier("company map", getLanguage())));
 	}
 	
 	public void readJSONstencilset(JSONObject json){
 		//TODO don't know if needed to export
 		
 		modeltype = "company map";
-		setModeltype(getAdonisStencilClass("en"));
+		setModeltype(getAdonisIdentifier());
 	}
 	
 	public void readJSONstencil(JSONObject json){

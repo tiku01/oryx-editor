@@ -629,32 +629,32 @@
 					"items":[
 						{
 							"title":"Rectangle",
-							"value":"Rectangle",
+							"value":"rectangle",
 							"refToView":"Rectangle"
 						},
 						{
 							"title":"Circle",
-							"value":"Circle",
+							"value":"circle",
 							"refToView":"Circle"
 						},
 						{
 							"title":"Right arrow",
-							"value":"Right arrow",
+							"value":"right arrow",
 							"refToView":"Right arrow"
 						},
 						{
 							"title":"Left arrow",
-							"value":"Left arrow",
+							"value":"left arrow",
 							"refToView":"Left arrow"
 						},
 						{
 							"title":"Upward arrow",
-							"value":"Upward arrow",
+							"value":"upward arrow",
 							"refToView":"Upward arrow"
 						},
 						{
 							"title":"Downward arrow",
-							"value":"Downward arrow",
+							"value":"downward arrow",
 							"refToView":"Downward arrow"
 						}
 					],

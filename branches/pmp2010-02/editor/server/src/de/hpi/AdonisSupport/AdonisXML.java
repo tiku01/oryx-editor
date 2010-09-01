@@ -122,7 +122,7 @@ public class AdonisXML extends XMLConvertible {
 	 * @throws JSONException
 	 */
 	public Vector<JSONObject> writeDiagrams() throws JSONException{
-		Log.v("writeDiagrams");
+		Logger.i("writeDiagrams");
       
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
@@ -139,7 +139,7 @@ public class AdonisXML extends XMLConvertible {
 			aModel.getInheritedProperties().putAll(inheritedProperties);
 			
 			
-			Log.v("write Model "+aModel.getName());
+			Logger.i("write Model "+aModel.getName());
 			
 			json = new JSONObject();
 			aModel.writeJSON(json);
@@ -178,19 +178,19 @@ public class AdonisXML extends XMLConvertible {
 			}
 		}
 		if (getAdoversion() == null){
-			Log.d("adoversion empty - set default");
+			Logger.d("adoversion empty - set default");
 			setAdoversion("Version 3.9");
 		}
 		if (getDatabase() == null){
-			Log.d("database empty - set default");
+			Logger.d("database empty - set default");
 			setDatabase("unknown");
 		}
 		if (getUsername() == null){
-			Log.d("username empty - set default");
+			Logger.d("username empty - set default");
 			setUsername("Admin");
 		}
 		if (getVersion() == null){
-			Log.d("version empty - set default");
+			Logger.d("version empty - set default");
 			setVersion("3.1");
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat();

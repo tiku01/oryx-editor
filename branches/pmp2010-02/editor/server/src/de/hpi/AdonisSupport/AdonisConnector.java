@@ -32,10 +32,10 @@ public class AdonisConnector extends AdonisStencil{
 	 * @param child 
 	 * @return an isInside Connector
 	 */
-	public static AdonisConnector insideRelation(AdonisModel model,AdonisInstance father, AdonisInstance child){
+	public static AdonisConnector insideRelation(String language, AdonisModel model,AdonisInstance father, AdonisInstance child){
 		AdonisConnector isInside = new AdonisConnector();
 		
-		isInside.setAdonisIndentifier(Configurator.getAdonisIdentifier("is inside", "en"));
+		isInside.setAdonisIdentifier(Unifier.getAdonisIdentifier("is inside", language));
 		isInside.getResourceId();
 		isInside.setModel(model);
 		
@@ -154,7 +154,7 @@ public class AdonisConnector extends AdonisStencil{
 	@Override
 	public AdonisAttribute getAttribute(String identifier, String lang){
 		for (AdonisAttribute anAttribute : getAttribute()){
-			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),"en")))
+			if (identifier.equals(Unifier.getOryxIdentifier(anAttribute.getAdonisName(),getLanguage())))
 				return anAttribute;
 		}
 		return null;
@@ -219,7 +219,7 @@ public class AdonisConnector extends AdonisStencil{
 			return dockers;
 		}
 		if (filtered.length % 2 != 0){
-			Log.e("dockers of adonis connector are missing at least a coordinate");
+			Logger.e("dockers of adonis connector are missing at least a coordinate");
 			return dockers;
 		}
 		for (int i = 0; i < filtered.length; i = i + 2){
@@ -238,7 +238,7 @@ public class AdonisConnector extends AdonisStencil{
 	public void prepareAdonisToOryx() throws JSONException{
 		super.prepareAdonisToOryx();
 		// this attribute is created during export
-		addUsed(getAttribute("connector number","en"));
+		addUsed(getAttribute("connector number",getLanguage()));
 	}
 	
 	@Override
@@ -250,15 +250,15 @@ public class AdonisConnector extends AdonisStencil{
 	@Override
 	public void writeJSONproperties(JSONObject json) throws JSONException {
 		JSONObject properties = getJSONObject(json, "properties");
-		if (getOryxIndentifier().equals("value flow")){
+		if (getOryxIdentifier().equals("value flow")){
 			properties.put("name", getName());
 		}
 		
 		AdonisAttribute element = null;
 		
-		element = getAttribute("type","en");
+		element = getAttribute("type",getLanguage());
 		if (element != null && element.getElement() != null){
-			properties.put("type", element.getElement());
+			properties.put("type", Unifier.getOryxIdentifier(element.getElement(),getLanguage()));
 			addUsed(element);
 		}
 	}
@@ -281,7 +281,7 @@ public class AdonisConnector extends AdonisStencil{
 		//EDGE 3 x1:2.5cm y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//EDGE 3 x1:3cm   y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//</ATTRIBUTE>
-		AdonisAttribute positions = getAttribute("positions","en");
+		AdonisAttribute positions = getAttribute("positions",getLanguage());
 		if (positions != null){
 			addUsed(positions);
 			LayoutingDockers points = filterDockerPoints(positions.getElement());
@@ -338,6 +338,9 @@ public class AdonisConnector extends AdonisStencil{
 	}
 	
 	public void writeJSONunused(JSONObject json) throws JSONException{
+		//TODO for development - remove
+		if (true)
+			return;
 		//JSONObject unused = getJSONObject(json, "unused");
 		SerializableContainer<XMLConvertible> unused = new SerializableContainer<XMLConvertible>();
 		
@@ -360,8 +363,7 @@ public class AdonisConnector extends AdonisStencil{
 			//unused.put("attributes", makeStorable(unusedAttributes));
 			json.put("unused", makeStorable(unused));
 		} catch (JSONException e) {
-			Log.e("could not write unused elements and attributes\n"+e.getMessage());
-			e.printStackTrace();
+			Logger.e("could not write unused elements and attributes",e);
 		}
 	}
 
@@ -371,26 +373,33 @@ public class AdonisConnector extends AdonisStencil{
 	
 	public void completeOryxToAdonis(){
 		
-		Log.d("Created connector class "+getOryxIndentifier()+" - "+getName()+" - "+resourceId);
+		Logger.d("Created connector class "+getOryxIdentifier()+" - "+getName()+" - "+resourceId);
 		getModel().getConnector().add(this);
 		super.completeOryxToAdonis();
 	}
 	
 	public void readJSONstencil(JSONObject json) throws JSONException{
-		if (getAdonisIndentifier() == null){
+		if (getAdonisIdentifier() == null){
 			JSONObject stencil = json.getJSONObject("stencil");
 			setOryxIndentifier(stencil.getString("id"));
-			setAdonisIndentifier(getAdonisStencilClass("en"));
-			Log.d("working on stencil: "+getOryxIndentifier()+" id "+resourceId);
+//			setAdonisIndentifier(getAdonisIdentifier());
+			Logger.d("working on stencil: "+getOryxIdentifier()+" id "+resourceId);
 		}
 	}
 	
-	public void readJSONproperties(JSONObject json){
-		//XXX currently there are no properties in connectors
+	public void readJSONproperties(JSONObject json) throws JSONException{
+		JSONObject properties = json.getJSONObject("properties");
+		String type = properties.optString("type");
+		if (type != null){
+			getAttribute().add(AdonisAttribute.create(
+					getLanguage(), 
+					"type", 
+					"STRING", 
+					Unifier.getOryxIdentifier(type,getLanguage())));
+		}
 	}
 	
 	public void readJSONchildShapes(JSONObject json){
-		Log.w("ChildShapes called by "+getName()+" - nothing done"/*+"("+getOryxStencilClass()+")"*/);
 		//XXX currently there are no childShapes in connectors
 	}
 	
@@ -413,13 +422,14 @@ public class AdonisConnector extends AdonisStencil{
 							+" y"+i+":"+(temp.getDouble("y")/CENTIMETERTOPIXEL)+"cm";
 			}
 		} catch (JSONException e){
-			Log.e("could not restore docker points",e);
+			Logger.e("could not restore docker points",e);
+			points = "0";
 		}
 		
 		positions += points +" ";
 		
 		getAttribute().add(AdonisAttribute.create(
-				"en",
+				getLanguage(),
 				"positions",
 				"STRING",
 				positions));
@@ -446,7 +456,7 @@ public class AdonisConnector extends AdonisStencil{
 				}
 			}
 		} catch (JSONException e){
-			Log.e("could not restore unused attributes");
+			Logger.e("could not restore unused attributes",e);
 		}
 		
 	}
@@ -475,7 +485,7 @@ public class AdonisConnector extends AdonisStencil{
 			instance = new AdonisInstance();
 			instance.setResourceId(instanceResourceId);
 			instance.setModel(getModel());
-			Log.d("created new Instance from connector - "+instance.getName());
+			Logger.d("created new Instance from connector - "+instance.getName());
 		}
 		connectionPoint = new AdonisConnectionPoint();
 		connectionPoint.setInstance(instance);

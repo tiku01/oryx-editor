@@ -36,19 +36,18 @@ class Translation {
 	}
 }
 
-@SuppressWarnings("unused")
-public class Configurator {
+public class Unifier {
 	//local path is only needed for development
 	private static String localPath = "D:\\Development\\Eclipse Oryx\\Oryx\\editor\\etc\\";
-	private static String serverPath = "oryx\\WEB-INF\\classes\\";
 	private static String configFile = "adonisStandards.data";
+	
 	
 	
 	private static ArrayList<Translation> shapeTranslations;
 	private static Map<String,Map<String,String>> shapeStandards;
 	
 	private static InputStream loadServerFile() throws IOException {
-		ClassLoader loader = Configurator.class.getClassLoader();
+		ClassLoader loader = Unifier.class.getClassLoader();
         if(loader==null)
           loader = ClassLoader.getSystemClassLoader();
         java.net.URL url = loader.getResource(configFile);
@@ -68,7 +67,7 @@ public class Configurator {
 				fileStream = loadServerFile();
 			} catch (IOException e){
 				String path = localPath+configFile;
-				Log.w("configfile not found on filesystem, trying local path\n"+path/*,e*/);
+				Logger.w("configfile not found on filesystem, trying local path\n"+path,e);
 				//TODO Remove - this is only a fallback for local development
 				fileStream = new FileInputStream(path);
 			}
@@ -89,8 +88,7 @@ public class Configurator {
 			fileStream.close();
 		
 		} catch (Exception e){
-			Log.e("Could not initialize config file for Adonis compatibility");
-			e.printStackTrace();
+			Logger.e("Could not initialize config file for Adonis compatibility",e);
 			if (bufferedReader != null)
 				try {
 					bufferedReader.close();
@@ -112,7 +110,6 @@ public class Configurator {
 		}
 		return values;
 	}
-	
 
 	
 	/**
@@ -127,7 +124,6 @@ public class Configurator {
 		shapeTranslations = new ArrayList<Translation>();
 		shapeStandards = new HashMap<String,Map<String,String>>();
 		
-		ArrayList<Translation> locals = null;
 		Map<String,String> standards = null;
 		JSONObject translations = null;
 		JSONObject shape = null;
@@ -166,9 +162,10 @@ public class Configurator {
 				
 			}
 		} catch (JSONException e){
-			Log.e("could not create mapping table",e);
+			Logger.e("could not create mapping table",e);
 		}
 	}
+	
 	
 	public static String getLanguage(String adonisIdentifier){
 		initializeMappingTables();
@@ -177,7 +174,7 @@ public class Configurator {
 				return triple.language;
 			}
 		}
-		Log.w("could not find a (oryx) language for "+adonisIdentifier+" use fall back");
+		Logger.i("could not find a language for adonisIdentifier: \""+adonisIdentifier+"\" - use fall back");
 		return "en";
 	}
 	
@@ -194,7 +191,7 @@ public class Configurator {
 				return triple.oryxName;
 			}
 		}
-		Log.w("could not find a (oryx) translation for "+adonisIdentifier+" use fall back");
+		Logger.i("could not find oryx identifier for \""+adonisIdentifier+"\" ["+lang+"] use fall back");
 		return adonisIdentifier.toLowerCase();
 	}
 	
@@ -212,9 +209,9 @@ public class Configurator {
 				return triple.adonisName;
 			}
 		}
-		Log.w("could not find a (adonis) translation for "+oryxIdentifier+" in language "+lang+" - use fallback");
+		Logger.i("could not find a adonis identifier ["+lang+"] \""+oryxIdentifier+"\" - use fallback");
 		//adonis mostly uses word starting with upper case
-		return oryxIdentifier.substring(0, 1).toUpperCase() + oryxIdentifier.substring(1);
+		return oryxIdentifier;
 	}
 	
 
@@ -227,12 +224,7 @@ public class Configurator {
 				return value;
 			}
 		}
-		Log.w("could not get attribute "+attribute+" of "+oryxName+", use hardcoded value "+defaultValue);
+		Logger.i("could not get attribute "+attribute+" of "+oryxName+", use hardcoded value "+defaultValue);
 		return defaultValue;
 	}
-
-	
-	
-
-
 }

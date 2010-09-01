@@ -79,7 +79,7 @@ public class AdonisIref extends XMLConvertible{
 	public static AdonisIref create(String language, String type, String oryxModeltype, String modelname, String modelver){
 		AdonisIref iref = new AdonisIref();
 		iref.type = type;
-		iref.tmodeltype = Configurator.getAdonisIdentifier(oryxModeltype, language);
+		iref.tmodeltype = Unifier.getAdonisIdentifier(oryxModeltype, language);
 		iref.tmodelname = modelname;
 		iref.tmodelver = modelver;
 		return iref;

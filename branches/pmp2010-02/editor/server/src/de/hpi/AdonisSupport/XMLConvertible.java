@@ -33,13 +33,6 @@ import sun.misc.BASE64Encoder;
 public abstract class XMLConvertible implements Serializable{
 	
 	private static final long serialVersionUID = 173231207049052166L;
-
-
-	static public void writeError(Exception e){
-		Log.e(e.getMessage());
-		e.printStackTrace();
-	}
-	
 	/**
 	 * buckets for unknown attributes and elements (+ accessors)
 	 */
@@ -83,9 +76,9 @@ public abstract class XMLConvertible implements Serializable{
 					}
 				} catch (Exception e) {
 					try {
-						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+readMethodName+"\n"+modelElement);
+						Logger.e(this.getClass()+"\t"+readMethodName+"\n"+modelElement,e);
 					} catch (Exception e2){
-						Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+readMethodName);
+						Logger.e(this.getClass()+"\t"+readMethodName,e);
 					}
 					e.printStackTrace();
 				}
@@ -112,7 +105,7 @@ public abstract class XMLConvertible implements Serializable{
 	 * @param key
 	 */
 	public void readJSONunknownkey(JSONObject modelElement, String key) {
-		Log.e( "Unknown JSON-key: " + key + "\n" +
+		Logger.e( "Unknown JSON-key: " + key + "\n" +
 							"in JSON-Object: " + modelElement + "\n" +
 							"while parsing in: " + getClass() + "\n");
 	}
@@ -187,11 +180,10 @@ public abstract class XMLConvertible implements Serializable{
 						getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
 					} catch (Exception e) {
 						try {
-							Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+methodName+"\n"+modelElement);
+							Logger.e(this.getClass()+"\t"+methodName+"\n"+modelElement,e);
 						} catch (Exception e2){
-							Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+methodName);
+							Logger.e(this.getClass()+"\t"+methodName,e);
 						}
-						e.printStackTrace();
 					}
 				}
 			}
@@ -201,7 +193,7 @@ public abstract class XMLConvertible implements Serializable{
 			try {
 				getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
 			} catch (Exception e) {
-				Log.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getAdonisIndentifier()+"\t"+methodName);
+				Logger.e(e.getMessage()+"\t"+this.getClass()+"\t"+((AdonisStencil)this).getAdonisIdentifier()+"\t"+methodName);
 				e.printStackTrace();
 			}
 		}
@@ -241,7 +233,7 @@ public abstract class XMLConvertible implements Serializable{
 			ObjectInputStream objectStreamIn = new ObjectInputStream(byteStreamIn);
 			return objectStreamIn.readObject();
 		} catch (Exception e) {
-			Log.e("could not recover encoded elements",e);
+			Logger.e("could not recover encoded elements",e);
 			e.printStackTrace();
 		}
 		return null;
@@ -254,7 +246,7 @@ public abstract class XMLConvertible implements Serializable{
 			ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 			objectStream.writeObject(objectToStore);
 		} catch (IOException e) {
-			Log.e("could not encoded elements "+objectToStore,e);
+			Logger.e("could not encoded elements "+objectToStore,e);
 			e.printStackTrace();
 		}
 		
