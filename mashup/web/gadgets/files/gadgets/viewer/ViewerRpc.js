@@ -186,7 +186,9 @@
 		},
 		
 		resetSelection: function(){
-			this.selection.reset();
+			if (this.selection) {
+				this.selection.reset();
+			}
 		},
 		
 		/*

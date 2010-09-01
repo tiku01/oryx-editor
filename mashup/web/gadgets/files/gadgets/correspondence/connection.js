@@ -52,6 +52,17 @@ Connection.prototype = {
 	},
 	
 	/**
+	 * This function does the same as addModel, plus it displays automatically. However it takes the parameters
+	 * differently. This is a convenience function for the use with the sendInfo RPC.
+	 * @param {{model, url}} info The name of the model
+	 * @param
+	 */
+	addModelFromRPC : function(info, args){
+		this.addModel(args.index, info.model, info.url, args.nodes)
+		this.updateInfoString();
+	},
+	
+	/**
 	 * Returns a human readable explanation of the connection for the UI.
 	 * @return The description of the connection as a String
 	 */
@@ -138,26 +149,20 @@ Connection.prototype = {
 	},
 	
 	/**
-	 * Returns a name of an ID of a node, depending on what is available.
+	 * Returns a name or an ID of a node, depending on what is available.
 	 * @param {Node | {name}} A node to get the name.
 	 * @return Returns a name of an ID of a node, depending on what is available.
 	 */
 	humanReadableName : function(node){	
-		if (node.properties.name || node.properties.name=="") {
+		if (node.properties.name) {
 			return node.properties.name;
-		} else if (node.properties.title || node.properties.title==""){
+		} else if (node.properties.title){
 			return node.properties.title;
-		} else if (node.properties.caption || node.properties.caption==""){
-			return node.properties.caption;
-		} else if (node.name || node.name=="") {
-			return node.name;
-		} else if (node.title || node.name=="") {
-			return node.title;
-		} else if (node.caption || node.caption=="") {
-			return node.caption;
-		} else if (node.resourceId || node.resourceId=="") {
+		} else if (node.stencil.id) {
+			return node.stencil.id;
+		} else if (node.resourceId) {
 			return node.resourceId;
-		} else return "unknown";
+		} else return "(no caption)";
 	},
 
 	/**
