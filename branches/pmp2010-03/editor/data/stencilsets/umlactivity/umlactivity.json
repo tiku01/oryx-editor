@@ -53,7 +53,8 @@
 				"annotatable",
 				"actionRole",
 				"controlFlowElement",
-				"activityContent"
+				"activityContent",
+				"actionMorph"
 			],
 			"properties": [
 				{
@@ -106,7 +107,8 @@
 				"actionRole",
 				"controlFlowElement",
 				"activityContent",
-				"activityRole"
+				"activityRole",
+				"actionMorph"
 			],
 			"properties": [
 				{
@@ -158,7 +160,8 @@
 				"activityContent",
 				"controlFlowElement",
 				"causingEvent",
-				"annotatable"
+				"annotatable",
+				"eventMorph"
 			],
 			"properties": [
 				{
@@ -209,7 +212,8 @@
 				"diagramcontent",
 				"activityContent",
 				"controlFlowElement",
-				"annotatable"
+				"annotatable",
+				"eventMorph"
 			],
 			"properties": [
 				{
@@ -261,7 +265,8 @@
 				"activityContent",
 				"controlFlowElement",
 				"causingEvent",
-				"annotatable"
+				"annotatable",
+				"eventMorph"
 			],
 			"properties": [
 				{
@@ -957,24 +962,12 @@
 				"baseMorphs" : ["andHorizontal", "andVertical", "orNode"]
 			},
 			{
-			   	"role":"action",
-				"baseMorphs" : ["action"] 
+			   	"role":"actionMorph",
+				"baseMorphs" : ["action", "activity"] 
 			},
 			{
-			   	"role":"activity",
-				"baseMorphs" : ["activity"] 
-			},
-			{
-			   	"role":"acceptEvent",
-				"baseMorphs" : ["acceptEvent"] 
-			},
-			{
-			   	"role":"sendEvent",
-				"baseMorphs" : ["sendEvent"] 
-			},
-			{
-			   	"role":"timeEvent",
-				"baseMorphs" : ["timeEvent"] 
+			   	"role":"eventMorph",
+				"baseMorphs" : ["sendEvent, timeEvent, acceptEvent"] 
 			},
 			{
 			   	"role":"object",

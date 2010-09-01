@@ -69,7 +69,8 @@ ORYX.Plugins.UMLUseCase =
 			return this.isUseCaseNode(shape) || this.isUseCaseExtendedNode(shape);
 		}.bind(this));
 		
-		
+		this.changeEdgeBounds(edge);	
+	
 		edge.incoming = edge.incoming.reject(function (shape){
 			return shape === incomingUseCase;
 		}.bind(this));
@@ -84,13 +85,28 @@ ORYX.Plugins.UMLUseCase =
 		
 		this.setInOutIncoming(incomingUseCase, edge);
 		this.setInOutOutgoing(outgoingUseCase, edge);
-		this.changeEdgeBounds(edge);
-		edge.changed = true;
-		edge.update();	
+		
+		this.changeDockers(edge);
+		
+		//edge.isChanged = true;
+		//edge.update();		
+		//edge.changed = true;
+		//edge.update();	
 		this.facade.getCanvas().update();
 		edge.update();	
 	},
 	
+	
+	changeDockers: function (edge){
+		var dockers = edge.dockers.reverse();
+		dockers.each(function (docker) {
+			edge.removeDocker(docker);
+		}.bind(this));
+		dockers.each(function (docker) {
+			edge.addDocker(docker);
+		}.bind(this));	
+	},
+
 	changeEdgeBounds: function (edge){
 		var b = edge.bounds.b;
 		edge.bounds.b = edge.bounds.a;
