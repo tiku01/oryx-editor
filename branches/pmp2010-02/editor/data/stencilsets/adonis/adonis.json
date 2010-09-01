@@ -310,6 +310,16 @@
 					"readonly":false,
 					"optional":false,
 					"length":""
+				},
+				{
+					"id":"modelreference",
+					"type":"String", 
+					"title":"Modelreference",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
 				}
 			]
 		},
@@ -1127,6 +1137,18 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":false
+				},
+				{
+					"id":"indicators",
+					"type":"String", 
+					"title":"Indicators",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"indicators",
+					"wrapLines":true
 				}
 			]
 		},

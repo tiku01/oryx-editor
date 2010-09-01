@@ -254,7 +254,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 * returns a special attribute of a stencil
 	 * @return the requested attribute or null if there non matched
 	 */
-	public abstract AdonisAttribute getAttribute(String identifier); 
+	public abstract AdonisAttribute getAttribute(String identifier, String language); 
 	
 	
 	
@@ -364,14 +364,14 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 */
 	public String getOryxIndentifier(){
 		if (oryxIndentifier == null){
-			AdonisAttribute anAttribute = getAttribute("Name (english)");
+			AdonisAttribute anAttribute = getAttribute("Name (english)","en");
 			if (anAttribute != null) {
 				oryxIndentifier = anAttribute.getElement().toLowerCase();
 				setLanguage("en");
 				addUsed(anAttribute);
 			} else {
 				setLanguage(Configurator.getLanguage(getAdonisIndentifier()));
-				oryxIndentifier = Configurator.getOryxIdentifier(getAdonisIndentifier());
+				oryxIndentifier = Configurator.getOryxIdentifier(getAdonisIndentifier(),"en");
 			}
 		}
 		return oryxIndentifier;

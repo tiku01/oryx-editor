@@ -55,16 +55,18 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 		element = value;
 	}
 	
-	public AdonisAttribute(){
-		this.adonisName = "";
-		this.type = null;
-		this.element = null;
-	}
+//	public AdonisAttribute(){
+//		this.adonisName = "";
+//		this.type = null;
+//		this.element = null;
+//	}
 	
-	public AdonisAttribute(String language, String oryxName, String defaultType, String element) {
-		this.adonisName = Configurator.getAdonisIdentifier(oryxName,language);
-		this.type = Configurator.getStandardValue(oryxName, "type", defaultType);
-		this.element = element;
+	public static AdonisAttribute create(String language, String oryxName, String defaultType, String element) {
+		AdonisAttribute attribute = new AdonisAttribute();
+		attribute.adonisName = Configurator.getAdonisIdentifier(oryxName,language);
+		attribute.type = Configurator.getStandardValue(oryxName, "type", defaultType);
+		attribute.element = element;
+		return attribute;
 	}
 	
 	
@@ -74,14 +76,14 @@ public class AdonisAttribute extends XMLConvertible implements Serializable{
 	
 	public String getAdonisType(){
 		return Configurator.getStandardValue(
-				Configurator.getOryxIdentifier(getAdonisName()), 
+				Configurator.getOryxIdentifier(getAdonisName(),"en"), 
 				"type",
 				"STRING");
 	}
 	
 	public String getOryxName(){
 		if (oryxName == null){
-			oryxName = Configurator.getOryxIdentifier(getAdonisName());
+			oryxName = Configurator.getOryxIdentifier(getAdonisName(),"en");
 		}
 		return oryxName;
 	}	

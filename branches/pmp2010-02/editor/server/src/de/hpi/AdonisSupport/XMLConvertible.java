@@ -68,7 +68,7 @@ public abstract class XMLConvertible implements Serializable{
 	
 	/**
 	 * methods to parse a JSON object tree and prepare them for xmappr
-	 * implicit interface for creating a JSON-Object (methods must start with "writeJSON")	  
+	 * implicit interface for creating a JSON-Object (methods must start with "readJSON")	  
 	 * @throws JSONException 
 	 */
 	public void readJSON(JSONObject modelElement){
@@ -179,7 +179,7 @@ public abstract class XMLConvertible implements Serializable{
 		for (int i = 0; i < methods.length; i++) {
 			Method method = methods[i];
 			String methodName = method.getName();
-			if (methodName.startsWith("writeJSON") && !methodName.endsWith("writeJSON")) {
+			if (methodName.startsWith("writeJSON") && methodName.length() != 9) {
 				if (methodName.contains("unused")){
 					unusedHandler.add(method);
 				} else {
@@ -208,14 +208,7 @@ public abstract class XMLConvertible implements Serializable{
 		
 	}
 	
-	/**
-	 * write unused attributes to the json file
-	 * @param json
-	 * @throws JSONException
-	 */
-	public void writeJSONunused(JSONObject json) throws JSONException {
-		
-	}
+	
 
 	/**
 	 * stores not known elements in a container to conserve them
@@ -248,6 +241,7 @@ public abstract class XMLConvertible implements Serializable{
 			ObjectInputStream objectStreamIn = new ObjectInputStream(byteStreamIn);
 			return objectStreamIn.readObject();
 		} catch (Exception e) {
+			Log.e("could not recover encoded elements",e);
 			e.printStackTrace();
 		}
 		return null;
@@ -260,6 +254,7 @@ public abstract class XMLConvertible implements Serializable{
 			ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 			objectStream.writeObject(objectToStore);
 		} catch (IOException e) {
+			Log.e("could not encoded elements "+objectToStore,e);
 			e.printStackTrace();
 		}
 		

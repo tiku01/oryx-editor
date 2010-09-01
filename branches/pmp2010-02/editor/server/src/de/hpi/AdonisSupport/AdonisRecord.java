@@ -24,7 +24,7 @@ public class AdonisRecord extends XMLConvertible {
 	protected String name;
 	
 	@Element(name="ROW", targetType=AdonisRow.class)
-	protected ArrayList<AdonisRow> children;
+	protected ArrayList<AdonisRow> row;
 	
 	public String getName(){
 		return name;
@@ -34,12 +34,19 @@ public class AdonisRecord extends XMLConvertible {
 		name = value;
 	}
 	
-	public void setChildren(ArrayList<AdonisRow> list){
-		children = list;
+	public void setRow(ArrayList<AdonisRow> list){
+		row = list;
 	}
 	
-	public ArrayList<AdonisRow> getChildren(){
-		return children;
+	public ArrayList<AdonisRow> getRow(){
+		return row;
+	}
+	
+	public static AdonisRecord create(String name,String language){
+		AdonisRecord record = new AdonisRecord();
+		record.setName(Configurator.getAdonisIdentifier(name,language));
+		record.setRow(new ArrayList<AdonisRow>());
+		return record;
 	}
 
 	@Override

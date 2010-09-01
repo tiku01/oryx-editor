@@ -13,6 +13,12 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		stroke="black"
 		fill="blue" 
 		stroke-width="2"/>
-
+	<text 	
+		id="indicators" 
+		x="32" 
+		y="15" 
+		font-size="10" 
+		stroke="black"
+		oryx:align="middle left">test</text>
   </g>
 </svg>

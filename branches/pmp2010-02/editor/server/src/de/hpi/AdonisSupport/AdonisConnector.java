@@ -152,9 +152,9 @@ public class AdonisConnector extends AdonisStencil{
 	}
 	
 	@Override
-	public AdonisAttribute getAttribute(String identifier){
+	public AdonisAttribute getAttribute(String identifier, String lang){
 		for (AdonisAttribute anAttribute : getAttribute()){
-			if (identifier.equals(anAttribute.getOryxName()))
+			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),"en")))
 				return anAttribute;
 		}
 		return null;
@@ -231,14 +231,14 @@ public class AdonisConnector extends AdonisStencil{
 	}
 	
 	//*************************************************************************
-	//* write methods for JSON
+	//* Java -> JSON
 	//**************************************************************************
 	
 	@Override
 	public void prepareAdonisToOryx() throws JSONException{
 		super.prepareAdonisToOryx();
 		// this attribute is created during export
-		addUsed(getAttribute("connector number"));
+		addUsed(getAttribute("connector number","en"));
 	}
 	
 	@Override
@@ -256,7 +256,7 @@ public class AdonisConnector extends AdonisStencil{
 		
 		AdonisAttribute element = null;
 		
-		element = getAttribute("type");
+		element = getAttribute("type","en");
 		if (element != null && element.getElement() != null){
 			properties.put("type", element.getElement());
 			addUsed(element);
@@ -281,7 +281,7 @@ public class AdonisConnector extends AdonisStencil{
 		//EDGE 3 x1:2.5cm y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//EDGE 3 x1:3cm   y1:5.5cm x2:4cm y2:5.5cm x3:4cm y3:3cm index:7
 		//</ATTRIBUTE>
-		AdonisAttribute positions = getAttribute("positions");
+		AdonisAttribute positions = getAttribute("positions","en");
 		if (positions != null){
 			addUsed(positions);
 			LayoutingDockers points = filterDockerPoints(positions.getElement());
@@ -366,7 +366,7 @@ public class AdonisConnector extends AdonisStencil{
 	}
 
 	//*************************************************************************
-	//* write methods for JSON
+	//* JSON -> Java
 	//*************************************************************************
 	
 	public void completeOryxToAdonis(){
@@ -418,7 +418,7 @@ public class AdonisConnector extends AdonisStencil{
 		
 		positions += points +" ";
 		
-		getAttribute().add(new AdonisAttribute(
+		getAttribute().add(AdonisAttribute.create(
 				"en",
 				"positions",
 				"STRING",
