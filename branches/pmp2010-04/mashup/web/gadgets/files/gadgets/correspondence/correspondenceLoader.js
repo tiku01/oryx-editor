@@ -159,7 +159,7 @@ correspondenceLoader.prototype = {
 				if (this.timeWaited<CONNECTION_TIMEOUT) {
 					this.waitForLoadingComplete();
 				} else {
-					alert("Could not load required Models");
+					alert("Could not load required Models. Maybe you do not have sufficient permissions.");
 					if (this.onLoadingComplete!==null) {
 						this.onLoadingComplete(this.loadedConnectionCollection);
 					}

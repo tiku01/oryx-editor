@@ -57,8 +57,13 @@ AutoConnector.prototype = {
 		 * @return It returns an array of openPairs.  
 		 */
 		autoConnect : function(viewerA, viewerB){			
-			this.shapesA = viewerA.canvas.shapes;
-			this.shapesB = viewerB.canvas.shapes;	
+			this.shapesA = this.getShapes(viewerA);
+			this.shapesB = this.getShapes(viewerB);	
+			//if (this.shapesA==null || this.shapesB==null) {
+			if (!this.hasValidFormat(viewerA)) {
+				alert("Sorry, the choosen model is currently not supported");
+				return [];
+			}
 			this.useContextSimilarity = true;
 			return this.autoConnectNodes(viewerA.canvas.getNodes(), viewerB.canvas.getNodes());
 		},
@@ -289,6 +294,36 @@ AutoConnector.prototype = {
 			similarity = similarity/2.00;
 			return similarity;
 			
+		},
+		
+		/**
+		 * Abstracts from the different names of the shapes attribute for different process models. 
+		 * @param {ModelViewer} viewer
+		 * @return an Array of Shapes or null if no attribure is found
+		 */
+		getShapes : function(viewer) {
+			if (viewer.canvas.shapes) {
+				return viewer.canvas.shapes;
+			} else if (viewer.canvas.childShapes) {
+				return viewer.canvas.childShapes;
+			} else {
+				return null;
+			}
+		},
+		
+		/**
+		 * 
+		 */
+		
+		hasValidFormat : function(viewer) {
+			correct = this.getShapes(viewer)!=null;
+			correct = correct && viewer.canvas.getNodes();
+			return correct;
+		},
+		
+		nodeValid : function(node) {			
+			correct = correct && node.outgoing;
+			return correct;
 		},
 		
 		//Tests

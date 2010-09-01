@@ -51,29 +51,36 @@ ConnectionCollection.prototype = {
 			connection.display();
 		},
 		
+	
+		
 		/**
 		 * Populates this ConnectionCollection with automatically created connections
 		 * @param {Array of {Integer, ModelViewer}} viewers
 		 */
-		autoConnect : function(viewers, gadget) {
-			this.clear();
-			this.autoConnector = new AutoConnector();	
-			//functionality of autoConnector currently limited to 2 models
-			var mapping = this.autoConnector.autoConnect(viewers[0].viewer, viewers[1].viewer);			
-			var newConnection;
-			for (var i=0;i<mapping.length;i++) {
-				newConnection = new Connection(gadget, "generated");				
-				for (var j=0;j<2;j++) {
-					var nodes = [];
-					nodes[0] = mapping[i].nodes[j];		
-					var index = viewers[j].index;
-					var url = viewers[j].viewer.getModelUri();
-					var title = url.substring(url.lastIndexOf("/")+1,url.length);		
-					newConnection.addModel(index, title , url, nodes);
+		autoConnect : function(viewers, gadget) {			
+			try {
+				this.clear();
+				this.autoConnector = new AutoConnector();	
+				//functionality of autoConnector currently limited to 2 models
+				var mapping = this.autoConnector.autoConnect(viewers[0].viewer, viewers[1].viewer);			
+				var newConnection;
+				for (var i=0;i<mapping.length;i++) {
+					newConnection = new Connection(gadget, "generated");				
+					for (var j=0;j<2;j++) {
+						var nodes = [];
+						nodes[0] = mapping[i].nodes[j];		
+						var index = viewers[j].index;
+						gadget.sendInfo(index, newConnection.addModelFromRPC, newConnection, {index: index, nodes: nodes} )
+					}				
+					this.addConnection(newConnection);
 				}
-				this.addConnection(newConnection);
-			}
-			gadget.connectionCollection = this;			
+				gadget.connectionCollection = this;	
+		
+			} catch(err) {
+				alert("AutoConnect does not work with the given models");
+				return;
+			}		
+		
 		},
 		
 	
@@ -91,15 +98,6 @@ ConnectionCollection.prototype = {
 		 */
 		save : function() {			
 			var filename = "Correspondences";
-			var l = this.connections[0].models.length;
-			//create a useful name for the file
-			/*
-			for (var i=0; i<this.connections[0].models.length;i++){		
-				if (this.connections[0].models[i]) {
-					filename = filename + "_" + this.connections[0].models[i].title;
-				}
-								
-			}*/
 			//prompt for filename
 			filename = prompt("Filename: ");
 			var jsonString = this.connections.toJSON();			
@@ -131,10 +129,15 @@ ConnectionCollection.prototype = {
 		 * @param {Correspondence} gadget The gadget the connections should belong to
 		 * @param {Function} callback The function to execute after loading completed
 		 */
-		load : function(jsonText, gadget, callback) {					
-			var loader = new correspondenceLoader();
-			loader.onLoadingComplete = callback;
-			loader.load(jsonText, gadget, this);
+		load : function(jsonText, gadget, callback) {	
+			try {
+				var loader = new correspondenceLoader();
+				loader.onLoadingComplete = callback;
+				loader.load(jsonText, gadget, this);
+			} catch(err) {
+				alert("Could not Load the file");
+				return;
+			}	
 			
 		},
 		

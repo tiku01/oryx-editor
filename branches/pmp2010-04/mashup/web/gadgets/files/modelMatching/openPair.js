@@ -135,6 +135,7 @@ OpenPair.prototype = {
 		return 1.00 - DIFFERENT_TYPE_PENALTY * this.syntacticSimilarity(type1, type2);
 		
 	},
+	
 	/**
 	 * Trys to determine the attribute that contains the name of this node
 	 * @param {Node} node the given Node which can belong to a BPMN, EPC model or petri net and possbily more
@@ -147,6 +148,8 @@ OpenPair.prototype = {
 			return node.properties.title;
 		} else if (node.properties.caption || node.properties.caption==""){
 			return node.properties.caption;
+		} else if (node.properties.classname || node.properties.caption==""){
+			return node.properties.classname;
 		} else if (node.name || node.name=="") {
 			return node.name;
 		} else if (node.title || node.name=="") {
