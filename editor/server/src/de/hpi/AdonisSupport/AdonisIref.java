@@ -24,31 +24,66 @@ public class AdonisIref extends XMLConvertible{
 
 	@Attribute("type")
 	protected String type;
-	public void setType(String value){type = value;}
-	public String getType(){return type;}
+	public void setType(String value){
+		type = value;
+	}
+	public String getType(){
+		return type;
+	}
 	@Attribute("tmodeltype")
 	protected String tmodeltype;
-	public void setTmodeltype(String value){tmodeltype = value;}
-	public String getTmodeltype(){return tmodeltype;}
+	public void setTmodeltype(String value){
+		tmodeltype = value;
+	}
+	public String getTmodeltype(){
+		return tmodeltype;
+	}
 	@Attribute("tmodelname")
 	protected String tmodelname;
-	public void setTmodelname(String value){tmodelname = value;}
-	public String getTmodelname(){return tmodelname;}
+	public void setTmodelname(String value){
+		tmodelname = value;
+	}
+	public String getTmodelname(){
+		return tmodelname;
+	}
 	
 	@Attribute(name="tmodelver")
-	protected String tmodelver = "fucking bullshit";
-	public void setTmodelver(String value){tmodelver = value;}
-	public String getTmodelver(){if (tmodelver == null || tmodelver == "") return "fucking bullshit"; else return tmodelver;}
+	protected String tmodelver;
+	public void setTmodelver(String value){
+		tmodelver = value;
+	}
+	public String getTmodelver(){
+		if (tmodelver == null) 
+			return ""; 
+		return tmodelver;
+	}
 	
 	@Attribute("tclassname")
 	protected String tclassname;
-	public void setTclassname(String value){tclassname = value;}
-	public String getTclassname(){return tclassname;}
+	public void setTclassname(String value){
+		tclassname = value;
+	}
+	public String getTclassname(){
+		return tclassname;
+	}
 	
 	@Attribute("tobjname")
 	protected String tobjname;
-	public void setTobjname(String value){tobjname = value;}
-	public String getTobjname(){return tobjname;}
+	public void setTobjname(String value){
+		tobjname = value;
+	}
+	public String getTobjname(){
+		return tobjname;
+	}
+	
+	public static AdonisIref create(String language, String type, String oryxModeltype, String modelname, String modelver){
+		AdonisIref iref = new AdonisIref();
+		iref.type = type;
+		iref.tmodeltype = Configurator.getAdonisIdentifier(oryxModeltype, language);
+		iref.tmodelname = modelname;
+		iref.tmodelver = modelver;
+		return iref;
+	}
 	
 	@Override
 	public void writeJSON(JSONObject json) throws JSONException {

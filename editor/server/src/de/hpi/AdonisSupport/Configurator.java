@@ -31,7 +31,7 @@ class Translation {
 	}
 	
 	public String toString(){
-		return "Translation oN "+oryxName+" - aN "+adonisName+" ("+language+")";
+		return "Translation OryxName "+oryxName+" - AdonisName "+adonisName+" ("+language+")";
 		
 	}
 }
@@ -53,7 +53,7 @@ public class Configurator {
           loader = ClassLoader.getSystemClassLoader();
         java.net.URL url = loader.getResource(configFile);
         if (url == null){
-        	throw new IOException("File not found or no access rights");
+        	throw new FileNotFoundException("File not found or no access rights");
         }
         return url.openStream();
 	}
@@ -66,7 +66,7 @@ public class Configurator {
 		try {
 			try {
 				fileStream = loadServerFile();
-			} catch (FileNotFoundException e){
+			} catch (IOException e){
 				String path = localPath+configFile;
 				Log.w("configfile not found on filesystem, trying local path\n"+path/*,e*/);
 				//TODO Remove - this is only a fallback for local development
@@ -120,10 +120,10 @@ public class Configurator {
 	 * @throws JSONException
 	 */
 	public static void initializeMappingTables() {
-//		TODO remove to initialize the mapping only once
-//		if (shapeTranslations != null){
-//			return;
-//		}
+		//XXX remove to initialize the mapping only once
+		if (shapeTranslations != null){
+			return;
+		}
 		shapeTranslations = new ArrayList<Translation>();
 		shapeStandards = new HashMap<String,Map<String,String>>();
 		
@@ -186,10 +186,11 @@ public class Configurator {
 	 * @param adonisIdentifier
 	 * @return
 	 */
-	public static String getOryxIdentifier(String adonisIdentifier) {
+	public static String getOryxIdentifier(String adonisIdentifier, String lang) {
 		initializeMappingTables();
 		for (Translation triple : shapeTranslations){
-			if (triple.adonisName.equals(adonisIdentifier)){
+			if (triple.adonisName.equals(adonisIdentifier) 
+					&& triple.language.equalsIgnoreCase(lang)){
 				return triple.oryxName;
 			}
 		}

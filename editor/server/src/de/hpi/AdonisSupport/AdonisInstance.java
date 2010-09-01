@@ -3,6 +3,8 @@ package de.hpi.AdonisSupport;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -108,16 +110,34 @@ public class AdonisInstance extends AdonisStencil {
 	
 // h e l p e r
 	
-	public AdonisAttribute getAttribute(String identifier){
+	public AdonisAttribute getAttribute(String identifier, String lang){
 		for (AdonisAttribute anAttribute : getAttribute()){
-			if (identifier.equals(anAttribute.getOryxName()))
+			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),lang)))
 				return anAttribute;
 		}
 		return null;
 	}
 	
+	public AdonisInterref getInterref(String identifier, String lang){
+		for (AdonisInterref anInterref : getInterref()){
+			if (identifier.equals(Configurator.getOryxIdentifier(anInterref.getName(), lang))){
+				return anInterref;
+			}
+		}
+		return null;
+	}
+	
+	public AdonisRecord getRecord(String identifier, String lang){
+		for (AdonisRecord aRecord : getRecord()){
+			if (identifier.equals(Configurator.getOryxIdentifier(aRecord.getName(), lang))){
+				return aRecord;
+			}
+		}
+		return null;
+	}
+	
 	private void addAttribute(String oryxIdentifier,String language, String element){
-		getAttribute().add(new AdonisAttribute(
+		getAttribute().add(AdonisAttribute.create(
 				language,
 				oryxIdentifier,
 				"STRING",
@@ -202,7 +222,7 @@ public class AdonisInstance extends AdonisStencil {
 		//get the position and size which looks like 
 		//	NODE x:2.50cm y:7.00cm index:2 or
 		//	NODE x:1cm y:11.5cm w:.5cm h:.6cm index:8
-		AdonisAttribute adonisPosition = getAttribute("position"); 
+		AdonisAttribute adonisPosition = getAttribute("position","en"); 
 		if (adonisPosition != null){
 			// extract the numbers out of the string
 			addUsed(adonisPosition);
@@ -293,6 +313,24 @@ public class AdonisInstance extends AdonisStencil {
 		}
 	}
 
+	private void putProperty(JSONObject json, String identifier) throws JSONException{
+		AdonisAttribute attribute = getAttribute(identifier,"en");
+		if (attribute != null && attribute.getElement() != null){
+			String value = attribute.getElement();
+			if (attribute.getType().equals("BOOLEAN") 
+					|| attribute.getType().equals("ENUMERATION")){
+				value = Configurator.getOryxIdentifier(attribute.getElement(),"en");
+			} else if (!attribute.getType().equals("STRING") 
+						&& !attribute.getType().equals("INTEGER")){
+				Log.w("possibly not considered attribute type "+attribute.getType());
+			}
+			json.put(identifier, value);
+			addUsed(attribute);
+		}
+		
+		
+	}
+	
 	/**
 	 * extract all mapped properties of stencil and try integrate them to oryx
 	 * if mapping successful, mark attribute as used 
@@ -311,84 +349,101 @@ public class AdonisInstance extends AdonisStencil {
 //			properties.put("subprocessname", element.getElement().replace("EXPR val:", "").replace("\"", ""));
 //			addUsed(element);
 //		}
-		element = getAttribute("categories");
-		if (element != null && element.getElement() != null){
-			properties.put("categories", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("documentation");
-		if (element != null && element.getElement() != null){
-			properties.put("documentation", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("description");
-		if (element != null && element.getElement() != null){
-			properties.put("description", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("comment");
-		if (element != null && element.getElement() != null){
-			properties.put("comment", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("role");
-		if (element != null && element.getElement() != null){
-			properties.put("role", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("entity");
-		if (element != null && element.getElement() != null){
-			properties.put("entity", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("open questions");
-		if (element != null && element.getElement() != null){
-			properties.put("open questions", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("external process");
-		if (element != null && element.getElement() != null){
-			properties.put("external process", Configurator.getOryxIdentifier(element.getElement()));
-			addUsed(element);
-		}
-		element = getAttribute("order");
-		if (element != null && element.getElement() != null && getOryxIndentifier().equals("process")){
-			properties.put("order", element.getElement());
-			addUsed(element);
-		}
 		
-		element = getAttribute("display watermark");
-		if (element != null){
-			if (element.getElement() != null){
-				properties.put("display watermark", Configurator.getOryxIdentifier(element.getElement()));
-			}
-			addUsed(element);
-		}
+		putProperty(properties, "categories");
+		putProperty(properties, "documentation");
+		putProperty(properties, "description");
+		putProperty(properties, "comment");
+		putProperty(properties, "role");
+		putProperty(properties, "entity");
+		putProperty(properties, "open questions");
+		putProperty(properties, "external process");
+		putProperty(properties, "order");
+		putProperty(properties, "display watermark");
+		putProperty(properties, "text");
+		putProperty(properties, "representation");
+		putProperty(properties, "graphical representation");
 		
-		element = getAttribute("text");
-		if (element != null && element.getElement() != null){
-			properties.put("text", element.getElement());
-			addUsed(element);
-		}
-	
-	
-		element = getAttribute("representation");
-		if (element != null && element.getElement() != null){
-			properties.put("representation", element.getElement());
-			addUsed(element);
-		}
-		element = getAttribute("display name");
+		element = getAttribute("display name","en");
 		if (element != null && element.getElement() != null){
 			properties.put("display name", element.getElement().equalsIgnoreCase("yes") ? true : false);
 			addUsed(element);
 		}
 		
-		element = getAttribute("graphical representation");
-		if (element != null && element.getElement() != null){
-			properties.put("graphical representation", element.getElement());
-			addUsed(element);
+		
+		AdonisInterref modelReferences = getInterref("referenced process","en");
+		
+		if (modelReferences != null && modelReferences.getIref() != null){
+			int counter = 0;
+			for (AdonisIref reference : modelReferences.getIref()){
+				if (Configurator.getOryxIdentifier(reference.getType(),"en").equals("modelreference")){
+					counter++;
+					properties.put(
+							"modelreference", 
+							reference.getTmodelname()
+								+" #"+reference.getTmodelver()
+								+" ["+Configurator.getOryxIdentifier(reference.getTmodeltype(),"en")+"]");
+					addUsed(reference);
+					Log.v("added modelrerference from instance "+reference.getTmodelname()+" #"+reference.getTmodelver()+" ["+Configurator.getOryxIdentifier(reference.getTmodeltype(),"en")+"]");
+				} else {
+					Log.v("ignored reference from instance ");
+				}
+			}
+			// there should be only one reference
+			Assert.isTrue(counter <= 1);
 		}
 		
+		
+		AdonisRecord performanceIndicatorOverview = getRecord("performance indicator overview","en");
+		if (performanceIndicatorOverview != null){
+			String value = "";
+			AdonisRow[] rows = performanceIndicatorOverview.getRow().toArray(new AdonisRow[0]);
+			Arrays.sort(rows,new Comparator<AdonisRow>(){
+				@Override
+				public int compare(AdonisRow lhs, AdonisRow rhs) {
+					return rhs.getNumber() - lhs.getNumber(); 
+				} 
+			});
+			AdonisAttribute attribute = null;
+			AdonisInterref interref = null;
+			for (int i = 0; i < rows.length; i++){
+				AdonisRow row = rows[i];
+				attribute = row.getAttribute("status","en");
+				value += Helper.removeExpressionTags(attribute.getElement());
+				value += " : ";
+				interref = row.getInterref("reference", "en");
+				//there should only be one reference at all
+				AdonisIref reference = interref.getIref().get(0);
+				value += reference.getTobjname();
+				value += " [ ";
+				value += reference.getTmodelname();
+				value += " | ";
+				value += reference.getTmodelver();
+				value += " | ";
+				value += reference.getTclassname();
+				value += " | ";
+				value += Configurator.getOryxIdentifier(reference.getTmodeltype(),"en");
+				value += " ] ";
+				//TODO not all attributes which are necessary to restore are considered
+				value += " Current value: ";
+				attribute = row.getAttribute("current value", "en");
+				value += Helper.removeExpressionTags(attribute.getElement());
+				value += " | Score: ";
+				attribute = row.getAttribute("score", "en");
+				value += Helper.removeExpressionTags(attribute.getElement());
+				value += " | Target value: ";
+				attribute = row.getAttribute("target value", "en");
+				value += Helper.removeExpressionTags(attribute.getElement());
+				value += " | Updated: ";
+				attribute = row.getAttribute("updated", "en");
+				value += Helper.removeExpressionTags(attribute.getElement());
+				if (i < rows.length-1){
+					value += "\n";
+				}
+			}
+			Assert.doesNotContain(value, "EXPR");
+			properties.put("indicators",value);
+		}
 	}
 
 	@Override
@@ -488,7 +543,7 @@ public class AdonisInstance extends AdonisStencil {
 		adonisBounds.append("h:"+f.format(getAdonisGlobalBounds()[3]) +"cm ");
 		
 		getAttribute().add(
-				new AdonisAttribute(
+				AdonisAttribute.create(
 					"en",
 					"position",
 					"STRING",
@@ -748,11 +803,94 @@ public class AdonisInstance extends AdonisStencil {
 		}
 		attribute = properties.get("display watermark");
 		if (attribute != null){
-			addAttribute("display watermark", "en", Configurator.getLanguage(attribute));
+			addAttribute("display watermark", "en", Configurator.getAdonisIdentifier(attribute,"en"));
 		}
 		attribute = properties.get("graphical representation");
 		if (attribute != null){
 			addAttribute("graphical representation", "en", attribute);
+		}
+		
+		attribute = properties.get("modelreference");
+		if (attribute != null && attribute.length() > 7){
+			int versionStart = attribute.lastIndexOf('#');
+			int versionEnd = attribute.substring(versionStart).indexOf(' ')+versionStart;
+			int modeltypeStart = attribute.lastIndexOf('[')+1;
+			int modeltypeEnd = attribute.lastIndexOf(']');
+			String modelver = "";
+			String modeltype = "";
+			if (modeltypeStart < modeltypeEnd){
+				modelver = attribute.substring(
+						versionStart,
+						versionEnd < versionStart ? attribute.length()-1 : versionEnd).replaceAll("\\D", "");
+				try {
+					modelver = ""+Integer.parseInt(modelver);
+				} catch (NumberFormatException e){
+					Log.v("wrong version number format",e);
+					modelver = "";
+				}
+				modeltype = attribute.substring(modeltypeStart, modeltypeEnd);
+				
+			}
+			AdonisInterref modelReference = getInterref("modelreference","en");
+			if (modelReference == null){
+				modelReference = AdonisInterref.createInterref("modelreference","en");
+				getInterref().add(modelReference);
+			}
+			modelReference.getIref().add(
+					AdonisIref.create(
+						"en",
+						"modelreference",
+						modeltype,
+						attribute.substring(0,modeltypeStart).trim(),
+						modelver));
+				
+		}
+		
+		attribute = properties.get("indicators");
+		if (attribute != null && attribute != ""){
+			String[] indicators = attribute.split("\n");
+			if (indicators.length > 0){
+				AdonisRecord performanceIndicatorOverview = AdonisRecord.create("performance indicator overview","en");
+				getRecord().add(performanceIndicatorOverview);
+				for (int i = 0; i < indicators.length; i++){
+					String indicator = indicators[i];
+					
+					int endStatus = indicator.indexOf(":");
+					int endObjectName = indicator.indexOf("[",endStatus+1);
+					int endModelName = indicator.indexOf("|", endObjectName+1);
+					int endModelVersion = indicator.indexOf("|", endModelName+1);
+					int endClassName = indicator.indexOf("|", endModelVersion+1);
+					int endModelType = indicator.indexOf("]",endClassName+1);
+					int endCurrentValue = indicator.indexOf("|",endModelType+1);
+					int endScore = indicator.indexOf("|", endCurrentValue+1);
+					int endTargetValue = indicator.indexOf("|", endScore+1);
+					String status = indicator.substring(0, endStatus).trim();
+					String objectName = indicator.substring(endStatus+1, endObjectName).trim();
+					String modelName = indicator.substring(endObjectName+1, endModelName).trim();
+					String modelVersion = indicator.substring(endModelName+1, endModelVersion).trim();
+					String className = indicator.substring(endModelVersion+1, endClassName).trim();
+					String modelType = indicator.substring(endClassName+1, endModelType).trim();
+					String currentValue = indicator.substring(endModelType+1, endCurrentValue).replaceFirst("Current value\\:","").trim();
+					String score = indicator.substring(endCurrentValue+1, endScore).replaceFirst("Score\\:","").trim();
+					String targetValue = indicator.substring(endScore+1, endTargetValue).replaceFirst("Target value\\:","").trim();
+					String updated = indicator.substring(endTargetValue+1, indicator.length()).replaceFirst("Updated\\:","").trim();
+					AdonisRow row = AdonisRow.create(i+1);
+					row.getAttribute().add(AdonisAttribute.create("en", "status", "EXPRESSION", "EXPR val:\""+status+"\""));
+					row.getAttribute().add(AdonisAttribute.create("en", "current value", "EXPRESSION", "EXPR val:\""+currentValue+"\""));
+					row.getAttribute().add(AdonisAttribute.create("en", "score", "EXPRESSION", "EXPR val:\""+score+"\""));
+					row.getAttribute().add(AdonisAttribute.create("en", "target value", "EXPRESSION", "EXPR val:\""+targetValue+"\""));
+					row.getAttribute().add(AdonisAttribute.create("en", "updated", "EXPRESSION", "EXPR val:\""+updated+"\""));
+					AdonisInterref reference = AdonisInterref.createInterref("reference","en");
+					AdonisIref iref = AdonisIref.create("en","objectreference", modelType, modelName, modelVersion);
+					iref.setTclassname(className);
+					iref.setTobjname(objectName);
+					reference.getIref().add(iref);
+					
+					row.getInterref().add(reference);
+					performanceIndicatorOverview.getRow().add(row);
+				}
+				
+			}
 		}
 	}
 }

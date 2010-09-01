@@ -6,6 +6,11 @@
 			"de":"Prozeßlandkarte"
 		}
 	},
+	"business process model": {
+		"translation":{
+			"en":"Business process model"
+		}
+	},
 	/* Connectors */
 	"is inside": {
 		"translation": {
@@ -174,6 +179,20 @@
 			"de":"nein"
 		}
 	},
+	
+	
+	/* interrefs */
+	"referenced process":{
+		"translation":{
+			"en":"Referenced process"
+		}
+	},
+	"reference":{
+		"translation":{
+			"en":"Reference"
+		}
+	},
+	
 	/* attributes */
 	"world area":{
 		"translation":{
@@ -183,7 +202,7 @@
 		"type":"STRING"
 	},
 	"base name":{
-		"translaton":{
+		"translation":{
 			"en":"Base name"
 		},
 		"type":"STRING"
@@ -218,7 +237,7 @@
 		},
 		"type":"STRING"
 	},
-	"contact persion":{
+	"contact person":{
 		"translation":{
 			"en":"Contact person"
 		},
@@ -329,6 +348,36 @@
 			"de":"Status"
 		},
 		"type":"ENUMERATION"
+	},
+	"status":{
+		"translation":{
+			"en":"Status"
+		},
+		"type":"EXPRESSION"
+	},
+	"current value":{
+		"translation":{
+			"en":"Current value"
+		},
+		"type":"EXPRESSION"
+	},
+	"score":{
+		"translation":{
+			"en":"Score"
+		},
+		"type":"EXPRESSION"
+	},
+	"target value":{
+		"translation":{
+			"en":"Target value"
+		},
+		"type":"EXPRESSION"
+	},
+	"updated":{
+		"translation":{
+			"en":"Updated"
+		},
+		"type":"EXPRESSION"
 	},
 	"modeltype":{
 		"translation":{

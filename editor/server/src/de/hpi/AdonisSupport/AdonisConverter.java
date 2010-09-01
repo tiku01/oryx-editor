@@ -96,6 +96,7 @@ public class AdonisConverter {
 	}
 	
 	public String exportXML(String json) throws JSONException {
+		Log.v("EXPORT: "+json);
 		export = true;
 		AdonisXML model = new AdonisXML();
 		JSONObject jsonModel = new JSONObject(json);
@@ -117,7 +118,8 @@ public class AdonisConverter {
 		AdonisConverter ac = new AdonisConverter();
 		String json = ac.importXML(
 				//importFromFile("D:\\Desktop\\Adonis\\Demo\\demo.xml"));
-				importFromFile("D:\\Desktop\\Adonis\\Example exports\\Is inside.xml"));
+				//importFromFile("D:\\Desktop\\Adonis\\Example exports\\Is inside.xml"));
+				importFromFile("D:\\Desktop\\Adonis\\Example Exports\\CompanyMap.xml"));
 		
 		try {
 			File file = new File("D:\\Desktop\\Eclipse Export.json");

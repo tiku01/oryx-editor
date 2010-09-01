@@ -26,27 +26,23 @@
 			stroke-width="1"
 			oryx:resize="vertical horizontal" />	
 	</g>
-	<g id="centerText">
-		<text
-			x="40" 
-			y="30" 
-			font-size="14" 
-			id="name" 
-			oryx:align="middle center"
-			oryx:fittoelem="boundingBox"
-			stroke="black"/>
-	</g>
+	<text
+		x="40" 
+		y="62" 
+		font-size="12" 
+		id="name" 
+		oryx:align="top center"
+		stroke="black"/>
 	<text
 		x="60"
 		y="56"
-		font-size="14"
+		font-size="10"
 		id="order"
 		oryx:align="bottom right"
-		oryx:fittoelem="boundingBox"
 		oryx:stroke="white"/>
 	<text
 		x="40"
-		y="62"
+		y="78"
 		font-size="10"
 		id="reference"
 		oryx:align="top center"

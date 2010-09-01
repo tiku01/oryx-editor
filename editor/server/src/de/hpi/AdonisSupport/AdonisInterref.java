@@ -2,8 +2,6 @@ package de.hpi.AdonisSupport;
 
 import java.util.ArrayList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
@@ -22,8 +20,8 @@ public class AdonisInterref extends XMLConvertible{
 	@Attribute("name")
 	protected String name;
 	
-	@Element("iref")
-	protected ArrayList<AdonisIref> children;
+	@Element(name="IREF", targetType=AdonisIref.class)
+	protected ArrayList<AdonisIref> iref;
 
 	
 	public String getName(){
@@ -34,11 +32,18 @@ public class AdonisInterref extends XMLConvertible{
 		name = value;
 	}
 	
-	public ArrayList<AdonisIref> getChildren(){
-		return children;
+	public ArrayList<AdonisIref> getIref(){
+		return iref;
 	}
 	
-	public void setChildren(ArrayList<AdonisIref> list){
-		children = list;
+	public void setIref(ArrayList<AdonisIref> list){
+		iref = list;
 	}
+	
+	public static AdonisInterref createInterref(String name,String language){
+		AdonisInterref interref = new AdonisInterref();
+		interref.setName(Configurator.getAdonisIdentifier(name,language));
+		interref.setIref(new ArrayList<AdonisIref>());
+		return interref;
+	}	
 }

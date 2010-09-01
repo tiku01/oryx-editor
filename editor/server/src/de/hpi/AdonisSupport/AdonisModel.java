@@ -1,11 +1,9 @@
 package de.hpi.AdonisSupport;
 
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,8 +19,6 @@ import org.springframework.util.Assert;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 //<!ELEMENT MODEL (MODELATTRIBUTES, INSTANCE*, CONNECTOR*)>
 //<!ATTLIST MODEL
@@ -186,9 +182,9 @@ public class AdonisModel extends AdonisStencil{
 	}
 	
 	@Override
-	public AdonisAttribute getAttribute(String identifier){
+	public AdonisAttribute getAttribute(String identifier, String lang){
 		for (AdonisAttribute anAttribute : getModelAttributes().getAttribute()){
-			if (identifier.equals(anAttribute.getOryxName()))
+			if (identifier.equals(Configurator.getOryxIdentifier(anAttribute.getAdonisName(),"en")))
 				return anAttribute;
 		}
 		return null;
@@ -202,7 +198,7 @@ public class AdonisModel extends AdonisStencil{
 	 */
 	private void addAttribute(String oryxIdentifier,String language,String element){
 		getModelAttributes().getAttribute().add(
-				new AdonisAttribute(
+				AdonisAttribute.create(
 						language,
 						oryxIdentifier,
 						"STRING",
@@ -313,7 +309,7 @@ public class AdonisModel extends AdonisStencil{
 			return oryxGlobalBounds;
 		}
 		oryxGlobalBounds = new Double[]{0.0, 0.0, 1485.0, 1050.0};
-		AdonisAttribute anAttribute = getAttribute("World area");
+		AdonisAttribute anAttribute = getAttribute("world area","en");
 		if (anAttribute != null && anAttribute.getElement() != null){
 			String[] area = filterArea(anAttribute.getElement());
 			// try to give the diagram a nice size
@@ -342,7 +338,7 @@ public class AdonisModel extends AdonisStencil{
 		super.completeAdonisToOryx();
 		
 		//this attribute is added while export dynamically
-		addUsed(getAttribute("number of objects and relations"));
+		addUsed(getAttribute("number of objects and relations","en"));
 		
 	}
 	
@@ -387,37 +383,37 @@ public class AdonisModel extends AdonisStencil{
 		
 		AdonisAttribute attribute = null;
 		
-		attribute = getAttribute("author");
+		attribute = getAttribute("author","en");
 		addUsed(attribute);
 		properties.put("author", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("base name");
+		attribute = getAttribute("base name","en");
 		if (attribute != null && attribute.getElement() != null && attribute.getElement().length() > 0){
 			properties.put("base name", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("last user");
+		attribute = getAttribute("last user","en");
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("last user", attribute.getElement());
 			addUsed(attribute);
 		}
 
-		attribute = getAttribute("keywords");
+		attribute = getAttribute("keywords","en");
 		addUsed(attribute);
 		properties.put("keywords", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("comment");
+		attribute = getAttribute("comment","en");
 		addUsed(attribute);
 		properties.put("comment", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("description");
+		attribute = getAttribute("description","en");
 		addUsed(attribute);
 		properties.put("description", attribute.getElement() == null ? "" : attribute.getElement());
 		
-		attribute = getAttribute("state");
+		attribute = getAttribute("state","en");
 		if (attribute != null && attribute.getElement() != null){
-			properties.put("state", Configurator.getOryxIdentifier(attribute.getElement()));
+			properties.put("state", Configurator.getOryxIdentifier(attribute.getElement(),"en"));
 			addUsed(attribute);
 		}
 		
@@ -428,43 +424,43 @@ public class AdonisModel extends AdonisStencil{
 //		</ATTRIBUTE>
 
 		
-		attribute = getAttribute("reviewed on");
+		attribute = getAttribute("reviewed on","en");
 		if (attribute != null && attribute.getElement() != null){
-			properties.put("reviewed on", formatDate(attribute.getElement(),false));
+			properties.put("reviewed on", Helper.dateAdonisToOryx(attribute.getElement(),false));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("date last changed");
+		attribute = getAttribute("date last changed","en");
 		if (attribute != null && attribute.getElement() != null){
-			properties.put("date last changed", formatDate(attribute.getElement(),false));
+			properties.put("date last changed", Helper.dateAdonisToOryx(attribute.getElement(),true));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("creation date");
+		attribute = getAttribute("creation date","en");
 		if (attribute != null && attribute.getElement() != null){
-			properties.put("creation date", formatDate(attribute.getElement(),false));
+			properties.put("creation date", Helper.dateAdonisToOryx(attribute.getElement(),true));
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("reviewed by");
+		attribute = getAttribute("reviewed by","en");
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("reviewed by", attribute.getElement() == null ? "" : attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("version number");
+		attribute = getAttribute("version number","en");
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("version number", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("context of version");
+		attribute = getAttribute("context of version","en");
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("context of version", attribute.getElement());
 			addUsed(attribute);
 		}
 		
-		attribute = getAttribute("contact person");
+		attribute = getAttribute("contact person","en");
 		if (attribute != null && attribute.getElement() != null){
 			properties.put("contact person", attribute.getElement());
 			addUsed(attribute);
@@ -489,7 +485,7 @@ public class AdonisModel extends AdonisStencil{
 	 * write down the used stencilset extensions
 	 */
 	public void writeJSONssextensions(JSONObject json) throws JSONException{
-		AdonisAttribute type = getAttribute("type");
+		AdonisAttribute type = getAttribute("type","en");
 		if (type != null && type.getElement() != null){
 			addUsed(type);
 			//TODO hier kommt das passende Stencilset rein
@@ -585,27 +581,6 @@ public class AdonisModel extends AdonisStencil{
 		}
 	}
 	
-	private static String formatDate(String date, boolean oryxToAdonis){
-		SimpleDateFormat adonisFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
-		SimpleDateFormat oryxFormat = new SimpleDateFormat("MM/dd/yy");
-		
-		if (oryxToAdonis){
-			try {
-				return adonisFormat.format(oryxFormat.parse(date));
-			} catch (ParseException e) {
-				Log.e("wrong date format of "+date+" for export to Adonis",e);
-				return adonisFormat.format(new Date(System.currentTimeMillis()));
-			}
-		} else {
-			try {
-				return oryxFormat.format(adonisFormat.parse(date));
-			} catch (ParseException e) {
-				Log.e("wrong date format of "+date+" for import from Adonis",e);
-				return oryxFormat.format(new Date(System.currentTimeMillis()));
-			}
-		}
-	}
-	
 //*************************************************************************
 //* JSON -> Java
 //*************************************************************************
@@ -637,17 +612,17 @@ public class AdonisModel extends AdonisStencil{
 			
 		});
 		for (AdonisInstance aSwimlane : sortedSwimlanes){
-			AdonisAttribute position = aSwimlane.getAttribute("position");
+			AdonisAttribute position = aSwimlane.getAttribute("position","en");
 			position.setElement(position.getElement()+"index:"+(++index));
 		}
 		for (AdonisInstance anIntance : getInstance()){
-			AdonisAttribute position = anIntance.getAttribute("position"); 
+			AdonisAttribute position = anIntance.getAttribute("position","en"); 
 			if (!position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index:"+(++index));
 			}
 		}
 		for (AdonisConnector aConnector : getConnector()){
-			AdonisAttribute position = aConnector.getAttribute("position"); 
+			AdonisAttribute position = aConnector.getAttribute("positions","en"); 
 			if (position != null && !position.getElement().contains("index")){
 				position.setElement(position.getElement()+"index:"+(++index));
 			}
@@ -674,7 +649,7 @@ public class AdonisModel extends AdonisStencil{
 	
 	public void generateObjectCounterAttribute(){
 		getModelAttributes().getAttribute().add(
-				new AdonisAttribute(
+				AdonisAttribute.create(
 						"en",
 						"number of objects and relations",
 						"INTEGER",
@@ -683,7 +658,7 @@ public class AdonisModel extends AdonisStencil{
 	
 	public void completeOryxToAdonis(){
 		getModelAttributes().getAttribute().add(
-				new AdonisAttribute(
+				AdonisAttribute.create(
 						"en",
 						"world area",
 						"STRING",
@@ -694,7 +669,7 @@ public class AdonisModel extends AdonisStencil{
 			aConnector.getFrom().distributeValues();
 			if (!aConnector.getOryxIndentifier().equals("is inside")){
 				aConnector.getAttribute().add(
-						new AdonisAttribute(
+						AdonisAttribute.create(
 								"en",
 								"connector number",
 								"INTEGER",
@@ -796,13 +771,13 @@ public class AdonisModel extends AdonisStencil{
 		if (element != null) addAttribute("state","en",Configurator.getAdonisIdentifier(element,"en"));
 		
 		element = properties.get("reviewed on");
-		if (element != null) addAttribute("reviewed on","en",formatDate(element, true));
+		if (element != null) addAttribute("reviewed on","en",Helper.dateOryxToAdonis(element,false));
 		
 		element = properties.get("date last changed");
-		if (element != null && element.length() > 0) addAttribute("date last changed","en",formatDate(element, true));
+		if (element != null && element.length() > 0) addAttribute("date last changed","en",Helper.dateOryxToAdonis(element,true));
 		
 		element = properties.get("creation date");
-		if (element != null && element.length() > 0) addAttribute("creation date","en",formatDate(element, true));
+		if (element != null && element.length() > 0) addAttribute("creation date","en",Helper.dateOryxToAdonis(element,true));
 		
 		element = properties.get("reviewed by");
 		if (element != null) addAttribute("reviewed by","en",element);		
@@ -888,7 +863,7 @@ public class AdonisModel extends AdonisStencil{
 	public void readJSONssextensions(JSONObject json) throws JSONException{
 		json.getJSONObject("ssextensions");
 		getModelAttributes().getAttribute().add(
-				new AdonisAttribute(
+				AdonisAttribute.create(
 						"en",
 						"type",
 						"ENUMERATION",
