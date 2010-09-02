@@ -858,7 +858,7 @@ ORYX.I18N.cpntoolsSupport.exportProgress = "Exporting ...";
 ORYX.I18N.cpntoolsSupport.exportDescription = "Export to CPN Tools";
 ORYX.I18N.cpntoolsSupport.importDescription = "Import from CPN Tools";
 
-/** Adonis Support */
+/** Adonis Support - New Language Properties 02.09.2010 */
 if(!ORYX.I18N.AdonisSupport) ORYX.I18N.AdonisSupport = {};
 ORYX.I18N.AdonisSupport.group = "Export";
 ORYX.I18N.AdonisSupport.xmlExport = "Export to Adonis XML";
@@ -867,7 +867,13 @@ ORYX.I18N.AdonisSupport.importGroup = "Import";
 ORYX.I18N.AdonisSupport.selectFile = "Select a Adonis Model (.xml file) to import it!";
 ORYX.I18N.AdonisSupport.file = "File";
 ORYX.I18N.AdonisSupport.impXml = "Import Adonis XML";
+ORYX.I18N.AdonisSupport.expXml = "Export Adonis XML";
 ORYX.I18N.AdonisSupport.impBtn = "Import";
+ORYX.I18N.AdonisSupport.expBtn = "Export";
+ORYX.I18N.AdonisSupport.languageSelect = "Select target language";
+ORYX.I18N.AdonisSupport.languageSelectEmpty = "Choose a language!";
+ORYX.I18N.AdonisSupport.exportLanguages =  [["de","German"],["en","English"]];
 ORYX.I18N.AdonisSupport.impProgress = "Importing...";
+ORYX.I18N.AdonisSupport.expProgress = "Exporting...";
 ORYX.I18N.AdonisSupport.close = "Close";
 

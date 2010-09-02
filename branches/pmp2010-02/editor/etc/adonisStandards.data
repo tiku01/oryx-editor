@@ -21,7 +21,7 @@
 	},
 	"has cross-reference": {
 		"translation": {
-			"en":"Has cross-reference",
+			"en":"has Cross-reference",
 			"de":"hat Querverweis"
 		}
 	},
@@ -156,17 +156,20 @@
 	/* attribute values */
 	"reviewed":{
 		"translation":{
-			"en":"Reviewed"
+			"en":"Reviewed",
+			"de":"Abgenommen"
 		}
 	},
 	"in process":{
 		"translation":{
-			"en":"In process"
+			"en":"In process",
+			"de":"In Bearbeitung"
 		}
 	},
 	"ready":{
 		"translation":{
-			"en":"Ready"
+			"en":"Ready",
+			"de":"Fertig"
 		}
 	},
 	"yes":{

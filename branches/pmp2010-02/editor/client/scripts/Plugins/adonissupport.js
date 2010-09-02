@@ -53,19 +53,100 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'maxShape'			: 0});	
 	},
 
-	exportXML: function() {
+	exportXML: function( successCallback ){
 		var url = ORYX.CONFIG.ADONISSUPPORT;
 		var json = this.facade.getSerializedJSON();
+		var form = new Ext.form.FormPanel({
+			baseCls:		'x-plain',
+			labelWidth:		100,
+			defaultType:	'textfield',
+			items: [
+				{
+					xtype: 'combo',
+					id: 'selectLanguage',
+					fieldLabel: ORYX.I18N.AdonisSupport.languageSelect,
+					hiddenName: 'hiddenSelect',
+					emptyText: ORYX.I18N.AdonisSupport.languageSelectEmpty,
+					store: new Ext.data.SimpleStore({
+						fields: ['languageCode','language'],
+						data:	ORYX.I18N.AdonisSupport.exportLanguages
+					}),
+					displayField: 'language',
+					valueField: 'languageCode',
+					selectOnFocus: true,
+					mode: 'local',
+					typeAhead: true,
+					editable: false,
+					triggerAction: 'all',
+					value: 'en'
+				}
+			]
+		});
+		var dialog = new Ext.Window({ 
+			autoCreate: true, 
+			layout: 	'fit',
+			plain:		true,
+			bodyStyle: 	'padding:5px;',
+			title: 		ORYX.I18N.AdonisSupport.expXml, 
+			height: 	200, 
+			width:		350,
+			modal:		true,
+			fixedcenter:true, 
+			shadow:		true, 
+			proxyDrag: 	true,
+			resizable:	true,
+			items: 		[form],
+			buttons:[
+				{
+					text:ORYX.I18N.AdonisSupport.expBtn,
+					handler:function(){
+
+						var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.AdonisSupport.expProgress});
+						loadMask.show();
+						
+						window.setTimeout(function(){
+					
+							var exportLanguage =  form.items.items[0].getValue();
+							Ext.Ajax.request({
+								url: url,
+								method: 'POST',
+								success: function(request) {
+									loadMask.hide();
+									this.openDownloadWindow(window.document.title + ".xml", request.responseText);
+									dialog.hide();
+								}.bind(this),
+								failure: function() {
+									Ext.Msg.alert("Export failed");
+									loadMask.hide();
+								}.bind(this),
+								params: {
+									data: json,
+									action: "Export",
+									language: exportLanguage
+								}
+							});
+						}.bind(this), 100);
+					}.bind(this)
+				},{
+					text:ORYX.I18N.AdonisSupport.close,
+					handler:function(){
+						
+						dialog.hide();
+					
+					}.bind(this)
+				}
+			]
+		});
 		
-		Ext.Ajax.request({
-			url: url,
-			method: 'POST',
-			success: function(request) {
-				this.openDownloadWindow(window.document.title + ".xml", request.responseText);}.bind(this),
-			failure: function() {Ext.Msg.alert("Export failed");},
-			params: {data: json,
-					 action: "Export"}
-		})
+		// Destroy the panel when hiding
+		dialog.on('hide', function(){
+			dialog.destroy(true);
+			delete dialog;
+		});
+
+
+		// Show the panel
+		dialog.show();
 	},
 	
 	importXML: function( successCallback ){
@@ -92,9 +173,6 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 	            anchor: '100% -63'  
 	        }]
 	    });
-
-
-
 		// Create the panel
 		var dialog = new Ext.Window({ 
 			autoCreate: true, 
@@ -164,5 +242,6 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 
 	}
 });
+
 
 

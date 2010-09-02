@@ -17,7 +17,6 @@ import org.xmappr.Xmappr;
 
 
 public class AdonisConverter {
-	public static boolean export = true;
 
 	/**
 	 * helper to read a file
@@ -70,7 +69,6 @@ public class AdonisConverter {
 	 * @return
 	 */
 	public String importXML(String xml){
-		export = false;
 		Logger.i("importXML");
 
 		String filteredXML = filterXML(xml);
@@ -85,7 +83,7 @@ public class AdonisConverter {
 				
 		Vector<JSONObject> models = null;
 		try {
-			models = modelCollection.writeDiagrams();
+			models = modelCollection.writeJSON();
 		} catch (JSONException e) {
 			Logger.e("E importXML",e);
 			e.printStackTrace();
@@ -95,16 +93,17 @@ public class AdonisConverter {
 		return models.elementAt(0).toString();
 	}
 	
-	public String exportXML(String json) throws JSONException {
+	public String exportXML(String json,String language) throws JSONException {
 		Logger.i("EXPORT: "+json);
-		export = true;
+		Logger.i("Export model to language "+language);
+
 		AdonisXML model = new AdonisXML();
 		JSONObject jsonModel = new JSONObject(json);
-		model.readJSON(jsonModel);
+		
+		model.readJSON(jsonModel,language);
 		
 		StringWriter writer = new StringWriter();
 		Xmappr xmappr = new Xmappr(AdonisXML.class);
-//		xmappr.addConverter(new StringConverter());
 		//xmappr.setPrettyPrint(true); //- can not be enabled due Adonis doesn't ignores newlines
 		xmappr.toXML(model,writer);
 		
@@ -143,7 +142,7 @@ public class AdonisConverter {
 			File file = new File("D:\\Desktop\\Eclipse Export.xml");
 			FileWriter fileWriter = new FileWriter(file,false);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			String out = ac.exportXML(json);
+			String out = ac.exportXML(json,"en");
 			bufferedWriter.write(out);
 			bufferedWriter.close();
 			fileWriter.close();
