@@ -33,36 +33,60 @@ public class AdonisXML extends XMLConvertible {
 
 	@Attribute(name="adoversion")
 	protected String adoversion;
-	public String getAdoversion(){return adoversion;}
-	public void setAdoversion(String value){adoversion = value;}
+	public String getAdoversion(){
+		return adoversion;
+	}
+	public void setAdoversion(String value){
+		adoversion = value;
+	}
 
 	
 	@Attribute(name="username")
 	protected String username;
-	public String getUsername(){return username;}
-	public void setUsername(String value){username = value;}
+	public String getUsername(){
+		return username;
+	}
+	public void setUsername(String value){
+		username = value;
+	}
 
 	
 	@Attribute(name="database")
 	protected String database;
-	public String getDatabase(){return database;}
-	public void setDatabase(String value){database = value;}
+	public String getDatabase(){
+		return database;
+	}
+	public void setDatabase(String value){
+		database = value;
+	}
 
 	
 	@Attribute(name="time")
 	protected String time;
-	public String getTime(){return time;}
-	public void setTime(String value){time = value;}
+	public String getTime(){
+		return time;
+	}
+	public void setTime(String value){
+		time = value;
+	}
 	
 	@Attribute(name="version")
 	protected String version;
-	public String getVersion(){return version;}
-	public void setVersion(String value){version = value;}
+	public String getVersion(){
+		return version;
+	}
+	public void setVersion(String value){
+		version = value;
+	}
 	
 	@Attribute(name="date")
 	protected String date;
-	public String getDate(){return date;}
-	public void setDate(String value){date = value;}
+	public String getDate(){
+		return date;
+	}
+	public void setDate(String value){
+		date = value;
+	}
 	
 	@Element(name="ATTRIBUTEPROFILES", targetType=AdonisAttributeProfiles.class)
 	protected AdonisAttributeProfiles attributeProfiles;
@@ -77,7 +101,6 @@ public class AdonisXML extends XMLConvertible {
 	protected AdonisApplicationModels applicationModels;
 
 	public AdonisApplicationModels getApplicationModels(){
-		//	if (applicationModels == null) applicationModels = new AdonisApplicationModels();
 		return applicationModels;
 	}
 	
@@ -86,9 +109,6 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModelGroups getModelGroups(){
-//		if (modelGroups == null){
-//			modelGroups = new AdonisModelGroups();
-//		}
 		return modelGroups;
 	}
 	
@@ -97,9 +117,6 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisModels getModels(){
-//		if (models == null){
-//			models = new AdonisModels();
-//		}
 		return models;
 	}
 	
@@ -108,7 +125,6 @@ public class AdonisXML extends XMLConvertible {
 	}
 	
 	public AdonisAttributeProfiles getAttributeProfiles(){
-		//if (attributeProfiles == null) attributeProfiles = new AdonisAttributeProfiles();
 		return attributeProfiles;
 	}
 	
@@ -116,12 +132,17 @@ public class AdonisXML extends XMLConvertible {
 		attributeProfiles = profiles;
 	}
 	
+	@Override
+	public void writeJSON(JSONObject json){
+		//nothing to do
+	}
+	
 	/**
 	 * entry point for generating diagrams for Oryx
 	 * @return a collection of diagrams in JSON
 	 * @throws JSONException
 	 */
-	public Vector<JSONObject> writeDiagrams() throws JSONException{
+	public Vector<JSONObject> writeJSON() throws JSONException{
 		Logger.i("writeDiagrams");
       
 		
@@ -142,6 +163,8 @@ public class AdonisXML extends XMLConvertible {
 			Logger.i("write Model "+aModel.getName());
 			
 			json = new JSONObject();
+			//set the appropriate language to translate correctly
+			aModel.setLanguage(Unifier.getLanguage(aModel.getModeltype()));
 			aModel.writeJSON(json);
 			jsonDiagrams.add(json);
 		}
@@ -149,17 +172,22 @@ public class AdonisXML extends XMLConvertible {
 		return jsonDiagrams;
 	}
 	
+	@Override
+	public void readJSON(JSONObject json){
+		//nothing to do
+	}
+	
 	/**
 	 * overriden to restore a valid xml file 
 	 */
-	@Override
-	public void readJSON(JSONObject json){
+	public void readJSON(JSONObject json, String language){
 		//it should be only one, but it may extended
 		AdonisModel diagram = new AdonisModel();
 		if (getModels() == null){
 			setModels(new AdonisModels());
 		}
 		getModels().getModel().add(diagram);
+		diagram.setLanguage(language);
 		diagram.readJSON(json);
 		Map<String,String> inheritedProperties = null;
 		for (AdonisModel model : getModels().getModel()){

@@ -38,6 +38,7 @@ public class AdonisConnector extends AdonisStencil{
 		isInside.setAdonisIdentifier(Unifier.getAdonisIdentifier("is inside", language));
 		isInside.getResourceId();
 		isInside.setModel(model);
+		isInside.setId(Helper.generateId("con."));
 		
 		//set the target (to) to the father
 		AdonisConnectionPoint point = new AdonisConnectionPoint();

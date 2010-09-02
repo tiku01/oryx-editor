@@ -1,6 +1,5 @@
 package org.oryxeditor.server;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpStatus;
 
 import de.hpi.AdonisSupport.AdonisConverter;
-import de.hpi.AdonisSupport.Logger;
 
 /**
  * Copyright (c) 2010 Markus Goetz
@@ -44,12 +42,15 @@ public class AdonisSupportServlet extends HttpServlet {
 		String data = req.getParameter("data");
 		
 		String action = req.getParameter("action");
+		String language = req.getParameter("language");
+		if (language == null || language.equals("")){
+			language = "en";
+		}
 		AdonisConverter converter = null;
 		if ("Export".equals(action)) {
 			converter = new AdonisConverter();
 			try {
-				String exportString = converter.exportXML(data);
-				//Log.v("Export: "+exportString);
+				String exportString = converter.exportXML(data,language);
 				res.getWriter().print(exportString);
 			} catch (Exception e) {
 				res.setStatus(HttpStatus.SC_BAD_REQUEST);
@@ -57,7 +58,6 @@ public class AdonisSupportServlet extends HttpServlet {
 		} else if ("Import".equals(action)){
 			converter = new AdonisConverter();
 			String importString = converter.importXML(data);
-			//Log.v("Import: "+importString);
 			res.getWriter().print(importString);
 		} else {
 			res.setStatus(HttpStatus.SC_BAD_REQUEST);

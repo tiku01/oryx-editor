@@ -12,7 +12,7 @@ public class Helper {
 	private static Random randomGenerator = new Random();
 	
 	public static String generateId(String prefix){
-		return prefix+randomGenerator.nextInt();
+		return prefix+Math.abs(randomGenerator.nextInt());
 	}
 	
 	/**
@@ -22,6 +22,9 @@ public class Helper {
 	 * @return
 	 */
 	public static String dateAdonisToOryx(String adonisDate, boolean withTime){
+		if (adonisDate.equals("")){
+			return "";
+		}
 		Date date = null;
 		try {
 			date = withTime ? adonisDateTimeFormat.parse(adonisDate) : adonisDateFormat.parse(adonisDate);			
@@ -33,12 +36,14 @@ public class Helper {
 	}
 	
 	public static String dateOryxToAdonis(String oryxDate,boolean withTime){
+		if (oryxDate.equals("")){
+			return "";
+		}
 		Date date = null;
 		try {
 			date = oryxDateFormat.parse(oryxDate);
 		} catch (ParseException e){
 			Logger.e("wrong date format of "+date+" for import from Adonis",e);
-			date = new Date(System.currentTimeMillis());
 		}
 		return withTime ? adonisDateTimeFormat.format(date) : adonisDateFormat.format(date);
 	}

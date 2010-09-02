@@ -755,7 +755,7 @@ ORYX.I18N.SyntaxChecker.MESSAGEFLOW_START_MUST_BE_PARTICIPANT = "Die Nachrichten
 ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "Das Nachrichtenflussziel muss ein Teilnehmer sein.";
 ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "Der Konversationslink muss eine Kommunikation oder Sub-Konversation mit einem Teilnehmer verbinden.";
 
-/** Adonis Support */
+/** Adonis Support - New Language Properties 02.09.2010 */
 if(!ORYX.I18N.AdonisSupport) ORYX.I18N.AdonisSupport = {};
 ORYX.I18N.AdonisSupport.group = "Export";
 ORYX.I18N.AdonisSupport.xmlExport = "Exportieren zu XML";
@@ -763,8 +763,29 @@ ORYX.I18N.AdonisSupport.xmlImport = "Importieren aus XML";
 ORYX.I18N.AdonisSupport.importGroup = "Import";
 ORYX.I18N.AdonisSupport.selectFile = "Wähle ein Adonis Model (.xml) aus oder gibt den Pfad ein, um es zu importieren!";
 ORYX.I18N.AdonisSupport.file = "Datei";
-ORYX.I18N.AdonisSupport.impXml = "Importiere xML";
-ORYX.I18N.AdonisSupport.impBtn = "Importiere";
+ORYX.I18N.AdonisSupport.impXml = "Importiere Adonis XML";
+ORYX.I18N.AdonisSupport.expXml = "Exportiere Adonis XML";
+ORYX.I18N.AdonisSupport.impBtn = "Import";
+ORYX.I18N.AdonisSupport.expBtn = "Export";
 ORYX.I18N.AdonisSupport.impProgress = "Importiere...";
+ORYX.I18N.AdonisSupport.expProgress = "Exportiere...";
+ORYX.I18N.AdonisSupport.languageSelect = "Wähle eine Sprachversion";
+ORYX.I18N.AdonisSupport.languageSelectEmpty = "Zielsprache auswählen!";
+ORYX.I18N.AdonisSupport.exportLanguages =  [["de","Deutsch"],["en","Englisch"]];
 ORYX.I18N.AdonisSupport.close = "Schließen";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

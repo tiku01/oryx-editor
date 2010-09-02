@@ -350,7 +350,6 @@ public class AdonisModel extends AdonisStencil{
 	
 	@Override
 	public void prepareAdonisToOryx() throws JSONException{
-		setLanguage(Unifier.getLanguage(getModeltype()));
 		Logger.i("Modellanguage = "+getLanguage());
 		super.prepareAdonisToOryx();
 		// put all stencils in the diagram in map ... all stencils have access to this map
@@ -882,9 +881,7 @@ public class AdonisModel extends AdonisStencil{
 	
 	public void readJSONstencilset(JSONObject json){
 		//TODO don't know if needed to export
-		
-		modeltype = "company map";
-		setModeltype(getAdonisIdentifier());
+		setModeltype(Unifier.getAdonisIdentifier("company map", getLanguage()));
 	}
 	
 	public void readJSONstencil(JSONObject json){
