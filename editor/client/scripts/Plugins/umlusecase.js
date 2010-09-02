@@ -2,6 +2,7 @@
  * Copyright (c) 2010
  * Ralf Diestelkaemper
  *
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation
@@ -50,85 +51,6 @@ ORYX.Plugins.UMLUseCase =
 		this.facade.registerOnEvent('layout.uml.useCaseExtended', this.handleUseCaseExtendedLayout.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.handleDiagramOnLoad.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPE_MORPHED, this.handleMorphed.bind(this));
-	},
-	
-	handleMorphed : function(event){
-		var shape = event.shape;
-		if (this.isIncludeEdge(shape)|| this.isExtendEdge(shape)){
-			this.toggleDirection(shape);
-		}
-	},
-	
-	toggleDirection : function (edge){
-		var incomingUseCase = edge.incoming.find(function (shape){
-			return this.isUseCaseNode(shape) || this.isUseCaseExtendedNode(shape);
-		}.bind(this));
-		
-		var outgoingUseCase = edge.outgoing.find(function (shape){
-			return this.isUseCaseNode(shape) || this.isUseCaseExtendedNode(shape);
-		}.bind(this));
-		
-		this.changeEdgeBounds(edge);	
-	
-		edge.incoming = edge.incoming.reject(function (shape){
-			return shape === incomingUseCase;
-		}.bind(this));
-		
-		edge.incoming.push(outgoingUseCase);
-		
-		edge.outgoing = edge.outgoing.reject(function (shape){
-			return shape === outgoingUseCase;
-		}.bind(this));
-		
-		edge.outgoing.push(incomingUseCase);
-		
-		this.setInOutIncoming(incomingUseCase, edge);
-		this.setInOutOutgoing(outgoingUseCase, edge);
-		
-		this.changeDockers(edge);
-		
-		//edge.isChanged = true;
-		//edge.update();		
-		//edge.changed = true;
-		//edge.update();	
-		this.facade.getCanvas().update();
-		edge.update();	
-	},
-	
-	
-	changeDockers: function (edge){
-		var dockers = edge.dockers.reverse();
-		dockers.each(function (docker) {
-			edge.removeDocker(docker);
-		}.bind(this));
-		dockers.each(function (docker) {
-			edge.addDocker(docker);
-		}.bind(this));	
-	},
-
-	changeEdgeBounds: function (edge){
-		var b = edge.bounds.b;
-		edge.bounds.b = edge.bounds.a;
-		edge.bounds.a = b;
-	},
-
-	
-	setInOutIncoming: function(incomingUseCase, edge){
-		incomingUseCase.outgoing = incomingUseCase.outgoing.reject(function (shape){
-			return shape === edge;
-		}.bind(this));
-						
-		incomingUseCase.incoming.push(edge);
-
-	},
-	setInOutOutgoing: function(outgoingUseCase, edge){
-		outgoingUseCase.incoming = outgoingUseCase.incoming.reject(function (shape){
-			return shape === edge;
-		}.bind(this));
-						
-		outgoingUseCase.outgoing.push(edge);
-
 	},
 	
 	/**
@@ -367,3 +289,4 @@ ORYX.Plugins.UMLUseCase =
 };
 
 ORYX.Plugins.UMLUseCase = Clazz.extend(ORYX.Plugins.UMLUseCase);
+
