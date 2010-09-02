@@ -34,7 +34,7 @@
 		font-size="14" 
 		id="name" 
 		oryx:align="middle center" 
-		oryx:anchors="left top right"
+		oryx:anchors="top"
 		oryx:fittoelem="caption"
 		fill="black" 
 		stroke="black"/>

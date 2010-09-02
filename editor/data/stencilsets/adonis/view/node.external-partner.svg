@@ -49,10 +49,10 @@
 	<text 
 		font-size="14" 
 		id="name" 
-		x="2" 
+		x="20" 
 		y="54" 
-		oryx:align="bottom center"
-		oryx:fittoelem="external partner"
+		oryx:align="top center"
+		
 		stroke="black"></text>
 
   </g>

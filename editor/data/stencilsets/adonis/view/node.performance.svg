@@ -4,55 +4,42 @@
    xmlns:oryx="http://www.b3mn.org/oryx"
   xmlns:svg="http://www.w3.org/2000/svg"
    version="0.1">
-  <defs></defs>
-  <oryx:magnets>
-	<oryx:magnet oryx:cx="30" oryx:cy="30" oryx:default="yes" />
-  </oryx:magnets>
-  <g>
-	<g id="horizontal">
+	<defs/>
+	<oryx:magnets>
+		<oryx:magnet oryx:cx="60" oryx:cy="60" oryx:default="yes" />
+	</oryx:magnets>
+	<g>
 		<polygon
-			points="0,30 6,0 6,8 54,8 54,0 60,30 54,60 54,52 6,52 6,60" 
+			id="horizontal"
+			points="0,60 16,0 16,16, 104,16 104,0 120,60 104,120 104,104 16,104 16,120"
 			fill="#C5C5CF" 
 			stroke="black" 
 			stroke-width="1"
 			oryx:resize="vertical horizontal"/>
-		<rect
-			id="boundingBox"
-			x="6"
-			y="8"
-			width="48"
-			height="44"
-			stroke="none"
-			stroke-width="0"
-			fill="none"
-			oryx:resize="vertical horizontal"/>
-	</g>
-	<g id="vertical">
 		<polygon
 			id="vertical" 
-			points="30,0 0,6 8,6 8,56 0,56 30,60 60,56 52,56 52,6 60,6"
+			points="60,0 0,16 16,16, 16,104 0,104 60,120 120,104 104,104 104,16 120,16"
 			fill="#C5C5CF" 
 			stroke="black" 
 			stroke-width="1"
 			oryx:resize="vertical horizontal"/>
 		<rect
-			id="boundingBox"
-			x="6"
-			y="8"
-			width="48"
-			height="44"
+			id="textFrame"
+			x="16"
+			y="16"
+			width="88"
+			height="88"
 			stroke="none"
 			stroke-width="0"
 			fill="none"
 			oryx:resize="vertical horizontal"/>
+		<text 
+			font-size="12" 
+			id="name" 
+			x="60" 
+			y="60" 
+			oryx:align="middle center"
+			oryx:fittoelem="textFrame"
+			stroke="black"/>
 	</g>
-	<text 
-		font-size="14" 
-		id="name" 
-		x="30" 
-		y="30" 
-		oryx:align="middle center"
-		oryx:fittoelem="boundingBox"
-		stroke="black"/>
-  </g>
 </svg>
