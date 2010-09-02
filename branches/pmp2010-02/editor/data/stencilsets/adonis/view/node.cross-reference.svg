@@ -18,27 +18,29 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		
 		oryx:resize="vertical horizontal"/>
 	<g>
-		<polygon
-			id="not defined"/>
-		<polygon
-			id="incoming"
-			points="3,3 17,3, 17,10"
-			fill="none"
-			stroke-width="1"
-			oryx:anchor="top left"/>
-		<polygon
-			id="incoming"
-			points="3,10 10,3, 17,10"
-			fill="none"
-			stroke-width="1"
-			oryx:anchor="top left"/>
+		<g id="not defined"/>
+		
+		<g id="incoming">
+			<polygon
+				points="3,3 17,3, 10,10"
+				fill="none"
+				stroke-width="1"
+				oryx:anchor="top left"/>
+		</g>
+		<g id="outgoing">
+			<polygon
+				points="3,10 10,3, 17,10"
+				fill="none"
+				stroke-width="1"
+				oryx:anchor="top left"/>
+		</g>
 	</g>
 	<text 
 		font-size="14" 
 		id="name" 
-		x="8" 
+		x="40" 
 		y="70" 
-		oryx:align="middle center"
+		oryx:align="top center"
 		stroke="black"></text>
   </g>
 </svg>

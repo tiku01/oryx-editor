@@ -500,7 +500,7 @@
 					"value":"not defined",
 					"items":[
 						{
-							"title":"",
+							"title":"Not defined",
 							"value":"not defined",
 							"refToView":"not defined"
 						},
@@ -565,7 +565,15 @@
 					"readonly":false,
 					"optional":false,
 					"length":"",
-					"refToView":"name",
+					"refToView":[
+						"name_outside",
+						"name_circle",
+						"name_rectangle",
+						"name_right",
+						"name_left",
+						"name_upward",
+						"name_down"
+					],
 					"wrapLines":true
 				},
 				{
@@ -609,12 +617,19 @@
 						{
 							"title":"Outside",
 							"value":"outside",
-							"refToView":"outside"
+							"refToView":"name_outside"
 						},
 						{
 							"title":"Inside",
 							"value":"inside",
-							"refToView":"inside"
+							"refToView":[
+								"name_circle",
+								"name_rectangle",
+								"name_right",
+								"name_left",
+								"name_upward",
+								"name_down"
+							]
 						}
 					],
 					"description":"",
@@ -625,37 +640,37 @@
 					"id":"graphical representation",
 					"type":"Choice", 
 					"title":"Graphical representation",
-					"value":"Rectangle",
+					"value":"rectangle",
 					"items":[
 						{
 							"title":"Rectangle",
 							"value":"rectangle",
-							"refToView":"Rectangle"
+							"refToView":"rectangle"
 						},
 						{
 							"title":"Circle",
 							"value":"circle",
-							"refToView":"Circle"
+							"refToView":"circle"
 						},
 						{
 							"title":"Right arrow",
 							"value":"right arrow",
-							"refToView":"Right arrow"
+							"refToView":"right arrow"
 						},
 						{
 							"title":"Left arrow",
 							"value":"left arrow",
-							"refToView":"Left arrow"
+							"refToView":"left arrow"
 						},
 						{
 							"title":"Upward arrow",
 							"value":"upward arrow",
-							"refToView":"Upward arrow"
+							"refToView":"upward arrow"
 						},
 						{
 							"title":"Downward arrow",
 							"value":"downward arrow",
-							"refToView":"Downward arrow"
+							"refToView":"downward arrow"
 						}
 					],
 					"description":"",

@@ -31,11 +31,11 @@ xmlns:svg="http://www.w3.org/2000/svg"
 		fill="orange" 
 		stroke="black"/>
 	<text 
-		font-size="14" 
+		font-size="12" 
 		id="name" 
-		x="2" 
+		x="20" 
 		y="50" 
-		oryx:align="top left"
+		oryx:align="top center"
 		stroke="black"></text>
   </g>
 </svg>
