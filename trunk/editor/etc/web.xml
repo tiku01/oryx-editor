@@ -228,7 +228,21 @@
 		<url-pattern>/query</url-pattern>
 	</servlet-mapping>
 	<!-- End of Added by Ahmed Awad -->
-	
+	<!-- Added by Ahmed Awad -->
+		<servlet>
+			<display-name>
+				Oryx query variant evaluator servlet
+			</display-name>
+			<servlet-name>QueryVariantsEval</servlet-name>
+			<servlet-class>
+				org.oryxeditor.server.QueryVariantsEvalServlet
+			</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>QueryVariantsEval</servlet-name>
+			<url-pattern>/queryvarianteval</url-pattern>
+		</servlet-mapping>
+	<!-- End of Added by Ahmed Awad -->
 	<servlet>
 		<display-name>
 			Oryx Validator
