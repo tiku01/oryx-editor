@@ -117,7 +117,10 @@ YAHOO.lang.extend( Correspondence, AbstractGadget, {
 		autoConnectButton.on("click", this.autoConnect.bind(this));
 		autoConnectButton.setStyle("background", "url('" + this.GADGET_BASE + "correspondence/icons/wand.png') no-repeat center");
 		autoConnectButton.className ="button";
-
+		
+		
+		var closeButton = document.getElementById("closeGadgetButton");
+		
 		var el = document.createElement("li");
 		el.className = "connection";
 		this.enterDiscoveryMode();

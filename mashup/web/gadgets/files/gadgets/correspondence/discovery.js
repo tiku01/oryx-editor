@@ -110,7 +110,7 @@ Discovery.prototype = {
 				this.gadget.setSelectionMode(index, "multi");
 			}
 		};
-		
+		//this.gadget.unregisterSelectionChanged();
 		this.gadget.sendViewers( setMultiSelect, this);
 		
 		this.gadget.resetModels();
