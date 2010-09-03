@@ -105,6 +105,7 @@ var dashboard = (function(){
 			
 			var delete_button = document.createElement("img");
 			delete_button.src = "icons/delete.png";
+			delete_button.id = "closeGadgetButton";
 			title_el.appendChild(delete_button);
 			
 			var minimize_button = document.createElement("img");
@@ -222,7 +223,7 @@ var dashboard = (function(){
 									&&  Dom.getY( allGadgets[j]) >  Dom.getY(el)){
 								 Dom.setY( allGadgets[j],  Dom.getY(allGadgets[j]) - el.clientHeight - 5 );
 							}
-						}
+						}						
 						dispatcher.deleteGadget(gadgets[i].gadget);
 						el.remove();
 					}

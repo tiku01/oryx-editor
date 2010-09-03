@@ -116,12 +116,14 @@
 		 * 
 		 */
 		greyModel : function() {
-			var nodes = this.viewer.modelViewer.canvas.getNodes();
-			var prefix = "movi_0-"
-			for (var key in nodes){
-				if (nodes[key].properties.activitytype){
-					var element = $( prefix + key)
-					element.addClassName(this.GREY_CLASS);
+			if (this.viewer.modelViewer) {
+				var nodes = this.viewer.modelViewer.canvas.getNodes();
+				var prefix = "movi_0-"
+				for (var key in nodes){
+					if (nodes[key].properties.activitytype){
+						var element = $( prefix + key)
+						element.addClassName(this.GREY_CLASS);
+					}
 				}
 			}
 		},
@@ -195,12 +197,14 @@
 		 * change to the specified selection mode
 		 */
 		setSelectionMode: function(args){
-			if (args == "single"){
-				this.selection._allowMultiselect = false;
-			}else if (args == "multi"){
-				this.selection._allowMultiselect = true;
+			if (this.selection) {
+				if (args == "single"){
+					this.selection._allowMultiselect = false;
+				}else if (args == "multi"){
+					this.selection._allowMultiselect = true;
+				}
+				return "";
 			}
-			return "";
 				
 		},
 	
