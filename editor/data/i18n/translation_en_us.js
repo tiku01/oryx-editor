@@ -464,6 +464,14 @@ ORYX.I18N.QueryEvaluator.desc = "Evaluate query";
 ORYX.I18N.QueryEvaluator.noResult = "Query resulted in no match.";
 ORYX.I18N.QueryEvaluator.invalidResponse = "Invalid answer from server.";
 
+if(!ORYX.I18N.QueryVariant) ORYX.I18N.QueryVariant = {};
+
+ORYX.I18N.QueryVariant.name = "Query Variant Evaluator";
+ORYX.I18N.QueryVariant.group = "Verification";
+ORYX.I18N.QueryVariant.desc = "Evaluate query";
+ORYX.I18N.QueryVariant.noResult = "Query resulted in no match.";
+ORYX.I18N.QueryVariant.invalidResponse = "Invalid answer from server.";
+
 // if(!ORYX.I18N.QueryResultHighlighter) ORYX.I18N.QueryResultHighlighter = {};
 // 
 // ORYX.I18N.QueryResultHighlighter.name = "Query Result Highlighter";

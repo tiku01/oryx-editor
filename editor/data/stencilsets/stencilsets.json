@@ -103,6 +103,15 @@
             "uri":"/uml2.2/uml2.2.json",
             "icon_url":"/uml2.2/uml2.2class.png",
             "visible":true
+
+        },
+        {
+	            "title":"BPMNQ-Variants",
+	            "namespace":"http://b3mn.org/stencilset/bpmnqvar#",
+	            "description":"BPMN-Q Variants",
+	            "uri":"/bpmnqvar/bpmnqvar.json",
+	            "icon_url":"/bpmnqvar/bpmnqvar.png",
+	            "visible":true
         },
         {
 			"title":"Time Line",
@@ -112,4 +121,5 @@
 			"icon_url":"/timeline/timeline.png",
 			"visible":false
 		}
+
 ]
