@@ -184,12 +184,44 @@ public abstract class AdonisStencil extends XMLConvertible {
 	 * get all instances in the model
 	 * @return
 	 */
-	public Map<String,AdonisStencil> getModelChildren(){
+	public ArrayList<AdonisStencil> getModelChildren(){
 		return getModel().getModelChildren();
 	}
 	
-	public void addModelChildren(String key, AdonisStencil stencil){
-		getModelChildren().put(key,stencil);
+	public AdonisStencil getModelChildByResourceId(String resourceId){
+		for (AdonisStencil stencil : getModelChildren()){
+			if (resourceId.equals(stencil.resourceId)){
+				return stencil;
+			}
+		}
+		return null;
+	}
+	
+	public AdonisStencil getModelChildByNameAndType(String name, String oryxIdentifier){
+		for (AdonisStencil stencil : getModelChildren()){
+			if (name.equals(stencil.getName()) 
+					&& oryxIdentifier.equals(stencil.getOryxIdentifier())){
+				return stencil;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<AdonisStencil> getModelChildrenByParent(AdonisStencil parent){
+		ArrayList<AdonisStencil> children = new ArrayList<AdonisStencil>();
+		for (AdonisStencil stencil : getModelChildren()){
+			if (stencil.getParent() == parent){
+				children.add(stencil);
+			}
+		}
+		return children;
+	}
+	
+	public void addModelChildren(AdonisStencil stencil){
+		if (!getModelChildren().contains(stencil)){
+			getModelChildren().add(stencil);
+		}
+		
 	}
 	
 	/**
@@ -199,14 +231,7 @@ public abstract class AdonisStencil extends XMLConvertible {
 	protected void setModel(AdonisModel aModel){
 		if (model == null){
 			model = aModel;
-			if (resourceId == null && getName() != null){
-				model.addModelChildren(getName(),this);
-			} else if (resourceId != null && getName() == null){
-				model.addModelChildren(resourceId, this);
-			}
-			Logger.d("set Model for "+getClass()+" - "+resourceId+" "+getName());
-		} else {
-			Logger.d("tried to set Model for "+getClass()+" - "+resourceId+" "+getName());
+			addModelChildren(this);
 		}
 	}
 	

@@ -1,8 +1,8 @@
 [
 		 {
-            "title":"ADONIS",
+            "title":"Adonis",
             "namespace":"http://b3mn.org/stencilset/adonis#",
-            "description":"ADONIS stencil set specification.",
+            "description":"ADONIS stencil set.",
             "uri":"/adonis/adonis.json",
             "visible":true
         },

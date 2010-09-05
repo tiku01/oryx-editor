@@ -580,11 +580,19 @@
 					"id":"display name",
 					"type":"Boolean", 
 					"title":"Display name",
-					"value":"true",
+					"value":true,
 					"description":"",
 					"readonly":false,
 					"optional":false,
-					"refToView":"show"
+					"refToView":[
+						"show_name_outside",
+						"show_name_circle",
+						"show_name_rectangle",
+						"show_name_right",
+						"show_name_left",
+						"show_name_upward",
+						"show_name_down"
+					]
 				},
 				{
 					"id":"categories",

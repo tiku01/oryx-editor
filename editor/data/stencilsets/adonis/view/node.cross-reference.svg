@@ -4,42 +4,53 @@
    xmlns:oryx="http://www.b3mn.org/oryx"
 xmlns:svg="http://www.w3.org/2000/svg"
    version="1.0">
-  <defs></defs>
+  <defs>
+	
+  </defs>
   <oryx:magnets>
-  	<oryx:magnet oryx:cx="40" oryx:cy="30" oryx:default="yes"/>
+  	<oryx:magnet oryx:cx="50" oryx:cy="25" oryx:default="yes"/>
   </oryx:magnets>
   <g>
 	<polygon 
-		id="crossreferemce"
-		points="0,0 68,0 80,30 68,60 0,60" 
-		fill="#FF4444" 
-		stroke="black" 
-		stroke-width="1"
-		
+		id="not defined"
+		points="0,0 84,0 100,25 84,50 0,50"
+		fill="#ff4444"
+		stroke="#AA4444" 
+		stroke-width="2"
 		oryx:resize="vertical horizontal"/>
-	<g>
-		<g id="not defined"/>
-		
-		<g id="incoming">
-			<polygon
-				points="3,3 17,3, 10,10"
-				fill="none"
-				stroke-width="1"
-				oryx:anchor="top left"/>
-		</g>
-		<g id="outgoing">
-			<polygon
-				points="3,10 10,3, 17,10"
-				fill="none"
-				stroke-width="1"
-				oryx:anchor="top left"/>
-		</g>
+	<g id="incoming">
+		<defs>
+			<linearGradient id="backgroundIncoming" x1="0%" y1="0%" x2="100%" y2="50%">
+				<stop offset="5%" stop-color="#ffAAAA" stop-opacity="1"/>
+				<stop id="fill_el" offset="100%" stop-color="#ff4444" stop-opacity="1"/>
+			</linearGradient>
+		</defs>	
+		<polygon 
+			points="0,0 84,0 100,25 84,50 0,50"
+			fill="url(#backgroundIncoming) #ff2222"
+			stroke="#aa4444" 
+			stroke-width="2"
+			oryx:resize="vertical horizontal"/>
+	</g>
+	<g id="outgoing">
+		<defs>	
+			<linearGradient id="backgroundOutgoing" x1="0%" y1="0%" x2="100%" y2="50%">
+				<stop offset="5%" stop-color="#ff4444" stop-opacity="1"/>
+				<stop id="fill_el" offset="100%" stop-color="#ffaaaa" stop-opacity="1"/>
+			</linearGradient>
+		</defs>
+		<polygon
+			points="0,0 84,0 100,25 84,50 0,50"
+			fill="url(#backgroundOutgoing) #aa4444"
+			stroke="#aa4444" 
+			stroke-width="2"
+			oryx:resize="vertical horizontal"/>
 	</g>
 	<text 
 		font-size="14" 
 		id="name" 
-		x="40" 
-		y="70" 
+		x="50" 
+		y="53" 
 		oryx:align="top center"
 		stroke="black"></text>
   </g>

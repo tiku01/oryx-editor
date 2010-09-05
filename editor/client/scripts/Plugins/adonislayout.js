@@ -129,6 +129,9 @@ ORYX.Plugins.AdonisLayout= {
 	 * @return {Integer} -1 if not found, the index else
 	 */
 	indexInLanePosition: function(lane){
+		if (!this.lanePositions){
+			this.lanePositions = [];
+		}
 		for (var i = 0; i < this.lanePositions.length; i++){
 			if (this.lanePositions[i].id == lane.resourceId){
 				return i;
@@ -184,7 +187,7 @@ ORYX.Plugins.AdonisLayout= {
 		for (var i = 0; i < this.getLanes().length; i++){
 			debugString = debugString + " - " + this.getLanes()[i];
 		}
-		console.log("Adonis "+debugString);
+		//console.log("Adonis "+debugString);
 	},
 	
 	/**
@@ -240,8 +243,8 @@ ORYX.Plugins.AdonisLayout= {
 			y: (0 - lane.bounds.upperLeft().y) * orientation.y
 		});
 		//extend to the canvas bottom
-		console.log("Adonis      Canvas "+this.facade.getCanvas().bounds);
-		console.log("Adonis      Orientation "+orientation.x + " | "+ orientation.y);
+		//console.log("Adonis      Canvas "+this.facade.getCanvas().bounds);
+		//console.log("Adonis      Orientation "+orientation.x + " | "+ orientation.y);
 		lane.bounds.extend({
 			x: (this.facade.getCanvas().bounds.lowerRight().x - lane.bounds.lowerRight().x) * orientation.x,
 			y: (this.facade.getCanvas().bounds.lowerRight().y - lane.bounds.lowerRight().y) * orientation.y
@@ -422,7 +425,7 @@ ORYX.Plugins.AdonisLayout= {
 				//lane did't move
 				return;
 			} else if (direction > 0){
-				console.log("Adonis resize to right")
+				//console.log("Adonis resize to right")
 				//the lane was resized to bottom right
 				this.resizedRight(eventLane);
 				//it is possible that stencils are under the lane 
@@ -431,14 +434,14 @@ ORYX.Plugins.AdonisLayout= {
 				this.updateLaneStore();
 				return;
 			} else if (direction < 0){
-				console.log("Adonis resize to left")
+				//console.log("Adonis resize to left")
 				//the lane was resized to top left
 				this.resizedLeft(eventLane);
 				this.updateLaneStore();
 				return;
 			 } 
 		}
-		console.log("Adonis drag drop")
+		//console.log("Adonis drag drop")
 		this.moveForDragDrop(eventLane);
 		this.liftUnderlyingStencils(eventLane);
 		this.updateLaneStore();

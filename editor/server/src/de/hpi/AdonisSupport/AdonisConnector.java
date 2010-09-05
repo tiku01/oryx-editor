@@ -163,7 +163,9 @@ public class AdonisConnector extends AdonisStencil{
 	
 	public AdonisInstance getAsInstance(AdonisConnectionPoint target){
 		for (AdonisInstance instance : getModel().getInstance()){
-			if (instance.getName().equals(target.getInstanceName())){
+			if (instance.getName().equals(target.getInstanceName())
+					&& instance.getOryxIdentifier().equals(
+							Unifier.getOryxIdentifier(target.getAdonisIdentifier(),getLanguage()))){
 				return instance;
 			}
 		}
@@ -478,9 +480,9 @@ public class AdonisConnector extends AdonisStencil{
 		instanceResourceId = target.getString("resourceId");
 		
 		Assert.notNull(instanceResourceId,"ResourceId during export to Adonis null");
-		Assert.isTrue(getModelChildren().values().contains(this));
+		Assert.isTrue(getModelChildren().contains(this));
 		
-		instance = (AdonisInstance)getModelChildren().get(instanceResourceId);
+		instance = (AdonisInstance)getModelChildByResourceId(instanceResourceId);
 		
 		if (instance == null){
 			instance = new AdonisInstance();

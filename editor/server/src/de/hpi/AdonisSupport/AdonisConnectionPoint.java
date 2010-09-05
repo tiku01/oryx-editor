@@ -20,7 +20,7 @@ public class AdonisConnectionPoint {
 	protected String instanceName;
 	
 	@Attribute(name="class")
-	protected String stencilClass;
+	protected String adonisIdentifier;
 
 	private AdonisStencil instance;
 	private String instanceResourceId;
@@ -50,12 +50,16 @@ public class AdonisConnectionPoint {
 		instanceName = value;
 	}
 	
-	public String getStencilClass(){
-		return stencilClass;
+	public String getAdonisIdentifier(){
+		return adonisIdentifier;
 	}
 	
-	public void setStencilClass(String value){
-		stencilClass = value;
+	public void setAdonisIdentifier(String value){
+		adonisIdentifier = value;
+	}
+	
+	public String getOryxIdentifier(String language){
+		return Unifier.getOryxIdentifier(getAdonisIdentifier(), language);
 	}
 
 	public void setInstance(AdonisStencil adonisInstance) {
@@ -69,7 +73,7 @@ public class AdonisConnectionPoint {
 	public void distributeValues(){
 		Logger.d("ConnectionPoint setName()"+instance.getName());
 		setInstanceName(instance.getName());
-		setStencilClass(instance.getAdonisIdentifier());
+		setAdonisIdentifier(instance.getAdonisIdentifier());
 	}
 
 	

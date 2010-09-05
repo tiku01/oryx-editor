@@ -28,6 +28,7 @@ import org.xmappr.RootElement;
 //  applib    CDATA #REQUIRED
 //>
 
+
 @RootElement("MODEL")
 public class AdonisModel extends AdonisStencil{
 	private static final long serialVersionUID = 4319867261926641608L;
@@ -123,7 +124,7 @@ public class AdonisModel extends AdonisStencil{
 	
 	private String language;
 	
-	private Map<String,AdonisStencil> modelChildren = null;
+	private ArrayList<AdonisStencil> modelChildren = null;
 	protected Map<String,String> inheritedProperties;
 	
 	private Double[] oryxGlobalBounds = null;
@@ -149,9 +150,9 @@ public class AdonisModel extends AdonisStencil{
 	 * returns all children of the model 
 	 */
 	@Override
-	public Map<String, AdonisStencil> getModelChildren() {
+	public ArrayList<AdonisStencil> getModelChildren() {
 		if (modelChildren == null){
-			modelChildren = new HashMap<String,AdonisStencil>();
+			modelChildren = new ArrayList<AdonisStencil>();
 		}
 		return modelChildren;
 	}
@@ -240,8 +241,12 @@ public class AdonisModel extends AdonisStencil{
 		Map<AdonisStencil,Vector<AdonisStencil>> isInsideAssociations = new HashMap<AdonisStencil,Vector<AdonisStencil>>();
 		for (AdonisConnector edge : getConnector()){
 			if (edge.getOryxIdentifier().equals("is inside")){
-				AdonisStencil child = getModelChildren().get(edge.getFrom().getInstanceName());
-				AdonisStencil parent = getModelChildren().get(edge.getTo().getInstanceName());
+				AdonisStencil child = getModelChildByNameAndType(
+						edge.getFrom().getInstanceName(),
+						edge.getFrom().getOryxIdentifier(getLanguage()));
+				AdonisStencil parent = getModelChildByNameAndType(
+						edge.getTo().getInstanceName(),
+						edge.getTo().getOryxIdentifier(getLanguage()));
 				
 				Vector<AdonisStencil> parents = isInsideAssociations.get(child);
 				if (parents == null){
@@ -508,9 +513,9 @@ public class AdonisModel extends AdonisStencil{
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
 		// writes all stencils - only connectors are missing
-		for (AdonisStencil aStencil : getModelChildren().values()){
+		for (AdonisStencil aStencil : getModelChildrenByParent(this)){
 			//write only my childshapes
-			if (aStencil.isInstance() && aStencil.getParent() == this){
+			if (aStencil.isInstance()){
 				shape = new JSONObject();
 				aStencil.writeJSON(shape);
 				childShapes.put(shape);
@@ -827,7 +832,7 @@ public class AdonisModel extends AdonisStencil{
 			stencilName = stencil.getJSONObject("stencil").getString("id");
 			stencilResourceId = stencil.getString("resourceId");
 			if (AdonisInstance.handleStencil(stencilName)){	
-				anInstance = (AdonisInstance)getModelChildren().get(stencilResourceId);
+				anInstance = (AdonisInstance)getModelChildByResourceId(stencilResourceId);
 				if (anInstance == null){
 					anInstance = new AdonisInstance();
 					anInstance.setResourceId(stencilResourceId);
@@ -847,7 +852,7 @@ public class AdonisModel extends AdonisStencil{
 			stencilName = stencil.getJSONObject("stencil").getString("id");
 			stencilResourceId = stencil.getString("resourceId");
 			if (AdonisConnector.handleStencil(stencilName)){
-				aConnector = (AdonisConnector)getModelChildren().get(stencilResourceId);
+				aConnector = (AdonisConnector)getModelChildByResourceId(stencilResourceId);
 				if (aConnector == null){
 					aConnector = new AdonisConnector();
 					aConnector.setResourceId(stencilResourceId);

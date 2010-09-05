@@ -9,18 +9,24 @@
 		<oryx:magnet oryx:cx="60" oryx:cy="60" oryx:default="yes" />
 	</oryx:magnets>
 	<g>
+		<defs>
+			<linearGradient id="background" x1="0%" y1="0%" x2="100%" y2="50%">
+				<stop offset="5%" stop-color="#CCCCCC" stop-opacity="1"/>
+				<stop id="fill_el" offset="100%" stop-color="#777777" stop-opacity="1"/>
+			</linearGradient>
+		</defs>	
 		<polygon
 			id="horizontal"
 			points="0,60 16,0 16,16, 104,16 104,0 120,60 104,120 104,104 16,104 16,120"
-			fill="#C5C5CF" 
-			stroke="black" 
+			fill="url(#background) #C5C5CF" 
+			stroke="#444444" 
 			stroke-width="1"
 			oryx:resize="vertical horizontal"/>
 		<polygon
 			id="vertical" 
 			points="60,0 0,16 16,16, 16,104 0,104 60,120 120,104 104,104 104,16 120,16"
-			fill="#C5C5CF" 
-			stroke="black" 
+			fill="url(#background) #C5C5CF" 
+			stroke="#444444" 
 			stroke-width="1"
 			oryx:resize="vertical horizontal"/>
 		<rect
