@@ -11,13 +11,15 @@ xmlns:svg="http://www.w3.org/2000/svg"
   </oryx:magnets>
   <g>
 	<g id="outside">
-		<text font-size="14" 
-			id="name_outside" 
-			x="5" 
-			y="-4" 
-			oryx:align="bottom left"
-			oryx:anchor="top left"
-			stroke="black"/>
+		<g id="show_name_outside">
+			<text font-size="14" 
+				id="name_outside" 
+				x="5" 
+				y="-4" 
+				oryx:align="bottom left"
+				oryx:anchor="top left"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="circle">
 		<ellipse 
@@ -30,14 +32,16 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			rx="50"
 			ry="50"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_circle" 
-			x="50" 
-			y="50" 
-			oryx:align="middle center"
-			oryx:fittoelem="circleFrame"
-			oryx:anchor="top"
-			stroke="black"/>
+		<g id="show_name_circle">
+			<text font-size="14" 
+				id="name_circle" 
+				x="50" 
+				y="50" 
+				oryx:align="middle center"
+				oryx:fittoelem="circleFrame"
+				oryx:anchor="top"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="rectangle">	
 		<rect 
@@ -50,14 +54,16 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			width="100" 
 			height="100"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_rectangle" 
-			x="5" 
-			y="5" 
-			oryx:align="top left"
-			oryx:fittoelem="rectangleFrame"
-			oryx:anchor="top left"
-			stroke="black"/>
+		<g id="show_name_rectangle">
+			<text font-size="14" 
+				id="name_rectangle" 
+				x="5" 
+				y="5" 
+				oryx:align="top left"
+				oryx:fittoelem="rectangleFrame"
+				oryx:anchor="top left"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="right arrow">
 		<path 
@@ -67,14 +73,16 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			stroke-width="1" 
 			d="M0 0 L80 00 L100 50 L80 100 L0 100z"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_right" 
-			x="5" 
-			y="5" 
-			oryx:align="top left"
-			oryx:fittoelem="rightArrowFrame"
-			oryx:anchor="top left"
-			stroke="black"/>
+		<g id="show_name_right">
+			<text font-size="14" 
+				id="name_right" 
+				x="5" 
+				y="5" 
+				oryx:align="top left"
+				oryx:fittoelem="rightArrowFrame"
+				oryx:anchor="top left"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="left arrow">
 		<path 
@@ -84,14 +92,16 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			stroke-width="1" 
 			d="M20 0 L100 0 L100 100 L20 100 L0 50z"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_left" 
-			x="25" 
-			y="5" 
-			oryx:align="top left"
-			oryx:fittoelem="leftArrowFrame"
-			oryx:anchor="top"
-			stroke="black"/>
+		<g id="show_name_left">
+			<text font-size="14" 
+				id="name_left" 
+				x="25" 
+				y="5" 
+				oryx:align="top left"
+				oryx:fittoelem="leftArrowFrame"
+				oryx:anchor="top"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="upward arrow">
 		<path 	
@@ -101,13 +111,15 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			stroke-width="1" 
 			d="M0 20 L50 0 L100 20 L100 100 L0 100z"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_upward" 
-			x="50" 
-			y="10" 
-			oryx:align="top center"
-			oryx:fittoelem="upwardArrowFrame"
-			stroke="black"/>
+		<g id="show_name_upward">
+			<text font-size="14" 
+				id="name_upward" 
+				x="50" 
+				y="10" 
+				oryx:align="top center"
+				oryx:fittoelem="upwardArrowFrame"
+				stroke="black"/>
+		</g>
 	</g>
 	<g id="downward arrow">
 		<path 
@@ -117,14 +129,16 @@ xmlns:svg="http://www.w3.org/2000/svg"
 			stroke-width="1" 
 			d="M0 0 L100 0 L100 80 L50 100 L0 80z"
 			oryx:resize="vertical horizontal"/>
-		<text font-size="14" 
-			id="name_down" 
-			x="5" 
-			y="5" 
-			oryx:align="top left"
-			oryx:fittoelem="downwardArrowFrame"
-			oryx:anchor="top left"
-			stroke="black"/>
+		<g id="show_name_down">
+			<text font-size="14" 
+				id="name_down" 
+				x="5" 
+				y="5" 
+				oryx:align="top left"
+				oryx:fittoelem="downwardArrowFrame"
+				oryx:anchor="top left"
+				stroke="black"/>
+		</g>
 	</g>
 
   </g>

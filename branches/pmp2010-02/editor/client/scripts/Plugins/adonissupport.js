@@ -1,7 +1,6 @@
 /**
  * Copyright (c) 2010
- * Markus Goetz
- * Adapted for Adonis by Christian Kieschnick
+ * Christian Kieschnick
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

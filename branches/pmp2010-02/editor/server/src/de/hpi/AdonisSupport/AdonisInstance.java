@@ -303,9 +303,9 @@ public class AdonisInstance extends AdonisStencil {
 		JSONArray childShapes = getJSONArray(json,"childShapes");
 		JSONObject shape = null;
 		
-		for (AdonisStencil anInstance : getModelChildren().values()){
+		for (AdonisStencil anInstance : getModelChildrenByParent(this)){
 			//write only my childshapes
-			if (anInstance.isInstance() && anInstance.getParent() == this){
+			if (anInstance.isInstance()){
 				shape = new JSONObject();
 				anInstance.writeJSON(shape);
 				childShapes.put(shape);
@@ -353,7 +353,7 @@ public class AdonisInstance extends AdonisStencil {
 		AdonisAttribute element = null;
 		element = getAttribute("display name",getLanguage());
 		if (element != null && element.getElement() != null){
-			properties.put("display name", element.getElement().equalsIgnoreCase("yes") ? true : false);
+			properties.put("display name", element.getElement().equalsIgnoreCase("yes") ? "true" : "false");
 			addUsed(element);
 		}
 		
@@ -465,7 +465,7 @@ public class AdonisInstance extends AdonisStencil {
 		JSONArray outgoing = getJSONArray(json,"outgoing");
 		JSONObject temp = null;
 		
-		for (AdonisStencil aStencil: getModelChildren().values()){
+		for (AdonisStencil aStencil: getModelChildren()){
 			if (aStencil.isConnector() && ((AdonisConnector)aStencil).getFrom().getInstanceName().equals(getName())){
 				temp = new JSONObject();
 				temp.put("resourceId", aStencil.getResourceId());
@@ -621,12 +621,14 @@ public class AdonisInstance extends AdonisStencil {
 			stencil = childShapes.getJSONObject(i);
 			stencilResourceId = stencil.getString("resourceId");
 			if (AdonisInstance.handleStencil(stencil.getJSONObject("stencil").getString("id"))){
-				for (AdonisStencil aStencil : getModel().getModelChildren().values()){
-					Assert.notNull(aStencil.resourceId);
-					if (aStencil.isInstance() && stencilResourceId.equals(aStencil.resourceId)){
-						instance = (AdonisInstance)aStencil;
-					}
-				}
+				instance = (AdonisInstance) getModelChildByResourceId(stencilResourceId);
+//				TODO REMOVE IF WORKING
+//				for (AdonisStencil aStencil : getModel().getModelChildren()){
+//					Assert.notNull(aStencil.resourceId);
+//					if (aStencil.isInstance() && stencilResourceId.equals(aStencil.resourceId)){
+//						instance = (AdonisInstance)aStencil;
+//					}
+//				}
 				if (instance == null){
 					instance = new AdonisInstance();
 					instance.setResourceId(stencilResourceId);
@@ -669,12 +671,13 @@ public class AdonisInstance extends AdonisStencil {
 			connectionPoint.setInstance(this);
 			connectorResourceId = outgoing.getJSONObject(i).getString("resourceId");
 			//look for an existing stencil with this resource id
-			connector = (AdonisConnector)getModelChildren().get(connectorResourceId);
+			connector = (AdonisConnector)getModelChildByResourceId(connectorResourceId);
 			
 			if (connector != null){
 				//add this to existing connector
 				connector.setFrom(connectionPoint);
-				Logger.d("complete connector \""+connectorResourceId+"\" source from  - "+getName());
+				Logger.d("complete connector \""+connectorResourceId+"\" sourc:-*" +
+						"e from  - "+getName());
 			} else {
 				//create a new connector with this as start point
 				connector = new AdonisConnector();
@@ -683,7 +686,7 @@ public class AdonisInstance extends AdonisStencil {
 				connector.setFrom(connectionPoint);
 				Logger.d("create connector \""+connectorResourceId+"\" source from  - "+getName());
 			}
-			Assert.isTrue(getModelChildren().containsValue(connector));
+			Assert.isTrue(getModelChildren().contains(connector));
 			connector = null;
 		}
 		
