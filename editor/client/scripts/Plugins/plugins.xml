@@ -21,7 +21,7 @@
 		</plugin>
 		<plugin source="rdfExport.js" name="ORYX.Plugins.RDFExport" />
 		<plugin source="undo.js" name="ORYX.Plugins.Undo" />
-
+		
 		<plugin source="epcSupport.js" name="ORYX.Plugins.EPCSupport">
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>	 
 		</plugin>	
@@ -38,18 +38,17 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
 		
-
 		<plugin source="bpmn2bpel.js" name="ORYX.Plugins.BPMN2BPEL">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
 			
 		<plugin source="processLink.js" name="ORYX.Plugins.ProcessLink">
-			<requires namespace="http://b3mn.org/stencilset/epc#"/>
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
-		</plugin>
-
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+		</plugin>	
+				
 		<plugin source="adHocCC.js" name="ORYX.Plugins.AdHocCC">
-			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>	
 		</plugin>
 		
 		<!-- Colored Petri Nets -->		
@@ -57,55 +56,53 @@
 			<requires namespace="http://b3mn.org/stencilset/coloredpetrinet#" />
 		</plugin> 
 		
-
 		<!-- following plugins don't require Ext -->
 		<plugin source="arrangement.js" name="ORYX.Plugins.Arrangement">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#"/>
 		</plugin>
 		<plugin source="file.js" name="ORYX.Plugins.File"/>
 		<plugin source="file.js" name="ORYX.Plugins.Save"/>
-
+		
 		<plugin source="view.js" name="ORYX.Plugins.View">
 			<property zoomLevel="2" maxFitToScreenLevel="1.24" />
 		</plugin>
 		<plugin source="dragdropresize.js" name="ORYX.Plugins.DragDropResize" />
 		<plugin source="grouping.js" name="ORYX.Plugins.Grouping">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
-		</plugin>
+		</plugin>	
 		<plugin source="shapeHighlighting.js" name="ORYX.Plugins.HighlightingSelectedShapes" />
 		<plugin source="dragDocker.js" name="ORYX.Plugins.DragDocker">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
-		</plugin>
+		</plugin>		
 		<plugin source="addDocker.js" name="ORYX.Plugins.AddDocker">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
-		</plugin>
+		</plugin>	
 		<plugin source="addssextension.js" name="ORYX.Plugins.SSExtensionLoader" />
 		
 		<plugin source="selectionframe.js" name="ORYX.Plugins.SelectionFrame">
 			<notUsesIn namespace="http://b3mn.org/stencilset/xforms#" />
 		</plugin>
 		<plugin source="shapeHighlighting.js" name="ORYX.Plugins.ShapeHighlighting" />
-		<plugin source="overlay.js" name="ORYX.Plugins.Overlay" />
+		<plugin source="overlay.js" name="ORYX.Plugins.Overlay" />		
 		<plugin source="edit.js" name="ORYX.Plugins.Edit" />
 		<plugin source="keysMove.js" name="ORYX.Plugins.KeysMove" />
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 
 		<!-- plugin for PNML export and deployment -->
 		<plugin source="pnmlexport.js" name="ORYX.Plugins.Pnmlexport">
-			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
-		</plugin>
+			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>	
+		</plugin>		
 		<plugin source="simplepnmlexport.js" name="ORYX.Plugins.SimplePnmlexport">
 			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
-			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
-			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 			<requires namespace="http://b3mn.org/stencilset/petrinet#"/>
 		</plugin>	
 
-
 		<plugin source="desynchronizabilityOverlay.js" name="ORYX.Plugins.DesynchronizabilityOverlay">
-			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/ibpmn#"/>	
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 		</plugin>
 		
@@ -114,7 +111,7 @@
 			<requires namespace="http://b3mn.org/stencilset/interactionpetrinets#"/>
 		</plugin>
 		<plugin source="ibpmn2bpmn.js" name="ORYX.Plugins.IBPMN2BPMN">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
 		<plugin source="syntaxchecker.js" name="ORYX.Plugins.SyntaxChecker">
 			<requires namespace="http://b3mn.org/stencilset/bpmnexec#"/>
@@ -136,7 +133,7 @@
         <plugin source="validator.js" name="ORYX.Plugins.EPCValidator">
             <requires namespace="http://b3mn.org/stencilset/epc#"/>
         </plugin>
-
+		
 		<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.StepThroughPlugin">
 			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
@@ -145,41 +142,33 @@
 		<plugin source="stepThroughPlugin.js" name="ORYX.Plugins.PetriNetStepThroughPlugin">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
-
-		<!-- plugins for XForms editor -->
-		<!--  These Plugins are disbaled by Ahmed
+		
+		<!-- plugins for XForms editor --> 
 		<plugin source="xformsexport.js" name="ORYX.Plugins.XFormsExport">
-<<<<<<< .mine
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>
-		</plugin>
-		-->
-<!--
-=======
 			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
 		</plugin>	
->>>>>>> .r3727
 		<plugin source="xformsexportorbeon.js" name="ORYX.Plugins.XFormsExportOrbeon">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>
-		</plugin>
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
+		</plugin>	
 		
-	<!--  These Plugins are disbaled by Ahmed
+		
 		<plugin source="xformsimport.js" name="ORYX.Plugins.XFormsImport">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
 		</plugin>
 
 		<plugin source="rowlayouting.js" name="ORYX.Plugins.RowLayouting">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
 		</plugin>
-
+		
 		<plugin source="xforms.js" name="ORYX.Plugins.XForms">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>
+			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
 		</plugin>
- -->
+		
 		<!-- BPMN1.1 specific plugins -->
 		<plugin source="bpmn11.js" name="ORYX.Plugins.BPMN11">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
-
+		
 		<plugin source="bpmnLayouter.js" name="ORYX.Plugins.BpmnLayouter">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
@@ -234,51 +223,49 @@
 		
 		<!-- plugin for BPMN+ to BPEL4Chor transformation -->
 		<plugin source="bpmnplus2bpel4chor.js" name="ORYX.Plugins.Bpel4ChorTransformation">
-			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>	
 		</plugin>
-
+		
 		<!-- BPMN+ specific plugins -->
 		<plugin source="bpmnplusLayout.js" name="ORYX.Plugins.BPMNPlusLayout">
-			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>	
 		</plugin>
-
+		
 		<plugin source="bpmnplusSerialization.js" name="ORYX.Plugins.BPMNPlusSerialization">
-			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>	
 		</plugin>
-
-		<!-- plugin for BPEL and BPEL4Chor editor -->
+				
+		<!-- plugin for BPEL and BPEL4Chor editor --> 
 		<plugin source="bpelSupport.js" name="ORYX.Plugins.BPELSupport">
-			<requires namespace="http://b3mn.org/stencilset/bpel#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
 		</plugin>
-
+		
 		<plugin source="bpel4chorSupport.js" name="ORYX.Plugins.BPEL4ChorSupport">
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
-
+		
 		<plugin source="bpel4chor2bpelSupport.js" name="ORYX.Plugins.BPEL4Chor2BPELSupport">
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
 		
 		<plugin source="bpelLayout.js" name="ORYX.Plugins.BPELLayouting">
-			<requires namespace="http://b3mn.org/stencilset/bpel#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpel#"/>	
 			<requires namespace="http://b3mn.org/stencilset/bpel4chor#"/>
 		</plugin>
-
+        
 		<!-- plugin for workflownets -->
 		<plugin source="workflownets.js" name="ORYX.Plugins.Workflownets">
-			<requires namespace="http://www.example.org/workflownets#"/>
+			<requires namespace="http://www.example.org/workflownets#"/>	
 		</plugin>
-
+		
         <plugin source="bpmn2pn.js" name="ORYX.Plugins.BPMNImport">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
-
 		
 		<plugin source="bpmn2yawl.js" name="ORYX.Plugins.BPMN2YAWLMapper">
             <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
         </plugin>
         
-
         <plugin source="petriNetSoundnessChecker.js" name="ORYX.Plugins.PetriNetSoundnessChecker">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
@@ -286,78 +273,66 @@
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         
-
         <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
         
         <plugin source="bpmn2pn.js" name="ORYX.Plugins.PNExport">
-            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/> 
             <requires namespace="http://b3mn.org/stencilset/bpmn#"/>
         </plugin>
 
         <plugin source="bpel2bpmn.js" name="ORYX.Plugins.BPEL2BPMN">
-            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+            <requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/> 
             <requires namespace="http://b3mn.org/stencilset/bpmn#"/>
         </plugin>
-
+		
 		<!-- Replaced by BPMN2XPDL 2.0 
 		<plugin source="bpmn2xpdl.js" name="ORYX.Plugins.BPMN2XPDL">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
-
 		 -->
 		
-
 		<plugin source="bpmn2xhtml.js" name="ORYX.Plugins.BPMN2XHTML">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
-
+		
 		<plugin source="bpmn2dtrp-xmi.js" name="ORYX.Plugins.BPMN2DTRPXMI">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
 		<!-- Added by Ahmed Awad on behalf of Steffen Ryll -->
 		<!-- Plugin for BPMN-Q querying support -->
 		<plugin source="queryevaluator.js" name="ORYX.Plugins.QueryEvaluator">
 			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
 		</plugin>
-		<!-- Added by Ahmed Awad -->
-		<!-- Plugin for BPMN-Q Variant querying support -->
-		<plugin source="QueryVariants.js" name="ORYX.Plugins.QueryVariant">
-			<!-- requires namespace="http://b3mn.org/stencilset/bpmnqvar#"/ -->
-		</plugin>
 		<plugin source="queryResultHighlighter.js" name="ORYX.Plugins.QueryResultHighlighter">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
-		</plugin>
-		<plugin source="CreateProcessVariant.js" name="ORYX.Plugins.CreateProcessVariant" core="true">
-		   <!-- requires namespace="http://b3mn.org/stencilset/bpmnqvar#"/ -->
-  		</plugin>
-		<!-- End of Added by Ahmed Awad -->
+		</plugin>	
+		<!-- End of Added by Ahmed Awad -->	
 		<!-- Resource Perspective -->
 		<plugin source="bpmnResourcesSoDAdd.js" name="ORYX.Plugins.ResourcesSoDAdd">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
 		<plugin source="bpmnResourcesSoDShow.js" name="ORYX.Plugins.ResourcesSoDShow">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
 		<plugin source="bpmnResourcesBoDAdd.js" name="ORYX.Plugins.ResourcesBoDAdd">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
 		<plugin source="bpmnResourcesBoDShow.js" name="ORYX.Plugins.ResourcesBoDShow">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
 		<plugin source="bpmnResourceAssignment.js" name="ORYX.Plugins.ResourceAssignment">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
 		<plugin source="bpmnClearSodBodHighlights.js" name="ORYX.Plugins.ClearSodBodHighlights">
-			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.2resources#"/>	
 		</plugin>
-
+				
 		<!-- Following Plugins are examples to demonstrate certain functionality -->
 		
-
 		<plugin source="epc2bpmn.js" name="ORYX.Plugins.EPC2BPMN">
-			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>
+			<requires namespace="http://b3mn.org/stencilset/bpmn#"/>	
 		</plugin>
 		
 		<plugin source="uml.js" name="ORYX.Plugins.UML">
@@ -400,13 +375,13 @@
 			<requires namespace="http://matthias-kunze.info/oryx/stencilsets/timeline#"/>
 		</plugin>
 	</plugins>
-
+	
 	
 	<properties>
 		<property group="File" index="1" />
-		<property group="Edit" index="2" />
+		<property group="Edit" index="2" />	
 		<property group="Undo" index="3" />
         <!-- ZZZZ assures that it is always at the end Feedback Plugin, ... -->
-        <property group="Help" index="ZZZZZZ" />
+        <property group="Help" index="ZZZZZZ" /> 	
 	</properties>
 </config>
