@@ -102,14 +102,18 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 		this.doRequest(
 			"/backend/poem/filter", 
 			function(transport) {
-				this.filteredModels = eval(transport.responseText);
+				var modelsInResponse = eval(transport.responseText);
+				for (var i = 0; i < modelsInResponse.length; i++){
+					if (this.filteredModels.indexOf(modelsInResponse[i]) === -1)
+						this.filteredModels.push(modelsInResponse[i]);
+				}
 				if( this.currentSortDir == "asc")
 					this.filteredModels.reverse();								
 				this.displayModels();
 			}.bind(this), 
 			params, 
 			'get', 
-			false 
+			true 
 		)
 		
 	},
@@ -140,29 +144,16 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			params = null;
 		}				
 
-		if( !asynchronous ){
-			new Ajax.Request(url, 
-				 {
-					method			: "get",
-					asynchronous 	: false,
-					onSuccess		: callback,
-					onFailure		: function(){
-						alert('Server communication failed!')
-					},
-					parameters 		: params
-				});
-		} else {
-			// Send request	
-			new Ajax.Request({				    
-					url		: url,
-				    method	: method,
-				    params	: params,
-				    success	: callback,
-					failure	: function(){
-						alert('Server communication failed!')
-					}
-				});			
-		}
+		new Ajax.Request(url, 
+			 {
+				method			: method,
+				asynchronous 	: asynchronous,
+				onSuccess		: callback,
+				onFailure		: function(){
+					alert('Server communication failed!')
+				},
+				parameters 		: params
+			});
 	},
 	
 	displayModels: function(){
