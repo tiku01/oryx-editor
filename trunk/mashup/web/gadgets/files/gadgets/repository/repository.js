@@ -108,7 +108,7 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 						this.filteredModels.push(modelsInResponse[i]);
 				}
 				if( this.currentSortDir == "asc")
-					this.filteredModels.reverse();								
+					this.filteredModels.reverse();
 				this.displayModels();
 			}.bind(this), 
 			params, 
@@ -164,13 +164,13 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			new Ajax.Request(requestUrl, 
 					 {
 						method			: "get",
-						asynchronous 	: false,
+						asynchronous 	: true,
 						onSuccess		: function(response){
 							var metaData = response.responseText.evalJSON();
 							var row = {	farm : 			metaData.thumbnailUri, 
 										title : 		metaData.title, 
 										last_modified : metaData.lastUpdate, 
-										url : 			this.filteredModels[i], 
+										url : 			metaData.thumbnailUri.substring(metaData.thumbnailUri.indexOf("model") - 1, metaData.thumbnailUri.indexOf("thumbnail") - 1),
 										author : 		metaData.author };
 							this.table.addRow(row);
 						}.bind(this),
@@ -238,7 +238,7 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
         var columnDefs = [
             {key:"farm", label:"", formatter: expansionFormatter}, 
             {key:"title", label:"Title", width:90, resizeable:true, sortable:true},
-			{key:"last_modified", label:"last modiefied", width:150, resizeable:true, sortable:true},
+			{key:"last_modified", label:"last modified", width:150, resizeable:true, sortable:true},
             {key:"url", label:"URL", width:60, resizeable:true, sortable:true, formatter: formatUrl, 
                     sortOptions:{sortFunction:sortTitles}}
         ];
@@ -257,9 +257,9 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
             sortedBy :			{key:"title",dir:"asc"},
             // 3 rows per page, can be changed to 6 or 9
             paginator: 			new YAHOO.widget.Paginator({
-		                			rowsPerPage : 			10,
+		                			rowsPerPage : 			5,
 		                			template : 				YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-		                			rowsPerPageOptions	: 	[10,20,30],
+		                			rowsPerPageOptions	: 	[5,10,20],
 		                			pageLinks : 			3 }),
             draggableColumns :	false
         };
