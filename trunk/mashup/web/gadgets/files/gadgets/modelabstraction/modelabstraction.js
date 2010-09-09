@@ -29,6 +29,7 @@ var ModelAbstraction = function() {
 	this.groups = [];
 	this.buttons = {};	
 	this.selectionMode = false;
+	this.msg = null;
 	this.init();
 }
 
@@ -98,36 +99,70 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		abstractButton.className ="button";
 		
 		if (this.model != null) {
-			document.getElementById("model").innerHTML = this.model.url.gsub(this.SERVER_BASE, '').gsub(this.REPOSITORY_BASE, '');
+			this.showModelLink();
 		} else { 
 			this.resetModel();
 		}
+		
+		this.msg = new YAHOO.widget.Panel("msgpanel", {
+			width: 300,
+			close: false,
+			visible: false,
+			draggable: false,
+			y: 100,
+			x: 50
+		});
+		this.msg.render();
 	},
 	
 	/*
-	 *
+	 * Handles the click on the create button.
+	 * Creates a new group and 
+	 * starts the selection mode if it isn't already running.
 	 */
 	createGroup : function() {
 		if (!this.selectionMode) {
-			this.selectionMode = true;
-			this.buttons['save'].removeClass('hide');
-			this.buttons['new'].addClass('hide');
-			this.selector = new Selector(this, this.viewer, null);
+			var group = new Group(this, prompt("Enter a name for the new group:"));
+			if (this.addGroup(group)) {
+				this.buttons['save'].removeClass('hide');
+				this.buttons['new'].addClass('hide');
+				this.selectionMode = true;
+				this.selector = new Selector(this, group, this.viewer);
+			} else {
+				this.showMessage("Please choose a unique group name!");
+			}
 		}
 	},
 	
 	/*
-	 *
+	 * Adds a group to the internal list if it has a unique name.
+	 * Returns true if the group was added successfully.
 	 */
 	addGroup : function(group) {
-		this.groups.push(group);
-		if (group.model == null && this.model != null)
-			group.setModel(this.model);
-		group.display();
+		if (group.name != null && group.name != "") {
+			var exists = false;
+			// compare the name of the group with all already exiting groups
+			for (var i = 0; i < this.groups.length; i++) {
+				if (this.groups[i].name == group.name) {
+					exists = true;
+					break;
+				}
+			}
+			if (!exists) {
+				// the name is unique
+				this.groups.push(group);
+				if (group.model == null && this.model != null)
+					group.setModel(this.model);
+				group.display();
+				return true;
+			}
+		}
+		return false;
 	}, 
 	
 	/*
-	 *
+	 * Removes the group from the internal list. 
+	 * Returns true if it was successfully removed.
 	 */
 	removeGroup : function(group) {
 		var i = 0;
@@ -140,37 +175,56 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		}
 		if (found) {
 			this.groups.splice(i, 1);
+			if (this.selectionMode && this.selector.group == group) 
+				this.abortSelection();
 		}
 		return found;
 	}, 
 	
 	/*
-	 *
+	 * Returns an integer which can be used as an id.
+	 * Is used to give every group a unique id.
 	 */
 	getId : function() {
 		return this.counter++;
 	},
 	
 	/*
-	 *
+	 * Handles the click on the save button.
+	 * Simply calls stopSelection if the selection mode is active.
 	 */
 	saveGroup : function() {
-		if (this.selectionMode) {
-			this.buttons['save'].addClass('hide');
-			this.buttons['new'].removeClass('hide');
-			this.buttons['edit'].removeClass('hide');
-			
-			this.selector.stopSelection();
-			this.selector = null;
-			this.selectionMode = false;
-		}
+		if (this.selectionMode)
+			this.stopSelection(false);
 	},
 	
 	/*
-	 *
+	 * Aborts the selection mode if it is running.
+	 */
+	abortSelection : function() {
+		if (this.selectionMode)
+			this.stopSelection(true);
+	},
+	
+	/*
+	 * Stops the selection mode and changes the appearance of the buttons accordingly.
+	 * The boolean parameter abort indicates whether the selection was aborted (or successful).
+	 */
+	stopSelection : function(abort) {
+		this.buttons['save'].addClass('hide');
+		this.buttons['new'].removeClass('hide');
+		this.buttons['edit'].removeClass('hide');
+		this.selector.stopSelection(abort);
+		this.selector = null;
+		this.selectionMode = false;
+	},
+	
+	/*
+	 * Handles the click on the edit button.
+	 * Enables the selection mode for the current active group again.
 	 */
 	editGroup : function() {
-		if (!this.selectionMode && this.viewer != null && this.groups.length > 0) {
+		if (!this.selectionMode &&  this.groups.length > 0) { //this.viewer != null &&
 			this.selectionMode = true;
 			this.buttons['edit'].addClass('hide');
 			this.buttons['save'].removeClass('hide');
@@ -181,17 +235,17 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 					break;
 				}
 			}
-			this.selector = new Selector(this, this.viewer, activeGroup);
+			this.selector = new Selector(this, activeGroup, this.viewer);
 		}
 		
 	},
 	
 	/*
+	 * Handles the click on the reset button.
 	 * Resets all groupings and the chosen model.
 	 */
 	resetGroups : function() {
 		if (this.viewer != null) {
-			this.undoGrey(this.viewer, "all");
 			this.removeMarker(this.viewer, "all");
 		}
 		this.viewer = null;
@@ -200,12 +254,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		this.groups = [];
 		this.counter = 0;
 		if (this.selectionMode) {
-			this.buttons['save'].addClass('hide');
-			this.buttons['new'].removeClass('hide');
-			this.buttons['edit'].removeClass('hide');
-			this.selector.stopSelection();
-			this.selector = null;
-			this.selectionMode = false;
+			this.stopSelection(true);
 		}
 	},
 	
@@ -225,17 +274,13 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			};
 			console.log('Abstraction Groups: ');
 			console.log(result);
+			// TODO: send groups to the server and handle the response
+			// therefore open a viewer with the returned model link
+			// or show the according error message
 		} else {
-			console.log("abstraction does not work here");
-			console.log(gadgets);
-			console.log(gadgets.MiniMessage);
-			console.log(__MODULE_ID__);
-			msg = new gadgets.MiniMessage(__MODULE_ID__);
-			msg.createTimerMessage("There is nothing to abstract!", 3);
-		}
-		// TODO: send groups to the server and handle the response
-		// therefore open a viewer with the returned model link
-		// or show the according error message
+			// show error message
+			this.showMessage("Can't do abstraction!");
+		}	
 	},
 	
 	/*
@@ -251,10 +296,37 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 */ 
 	setModel : function(model) {
 		this.model = model;
-		document.getElementById("model").innerHTML = this.model.url.gsub(this.SERVER_BASE, '').gsub(this.REPOSITORY_BASE, '');
+		this.showModelLink();
+	},
+	
+	showModelLink : function() {
+		document.getElementById("model").innerHTML = '<a href="#" onClick="modelabstraction.displayModel();">' 
+			+ this.model.url.gsub(this.SERVER_BASE, '').gsub(this.REPOSITORY_BASE, '') + '</a>' ;
+	},
+	
+	// TODO: find a way to retrieve the according viewer for the opened model
+	displayModel : function() {
+		if (this.model != null) {
+			gadgets.rpc.call("..", 
+				'dispatcher.displayModel', 
+				function(reply){return}, 
+				this.model.url + "." + this.model.title);
+		}
+		return false;
 	},
 	
 	setViewer : function(viewer) {
 		this.viewer = viewer;
+	},
+	
+	/*
+	 * Shows a panel with the given message for 1.5 seconds.
+	 */
+	showMessage : function(msg) {
+		this.msg.setBody(msg);
+		this.msg.show();
+		window.setTimeout(function(){
+				this.msg.hide();
+			}.bind(this), 1500);
 	}
 });

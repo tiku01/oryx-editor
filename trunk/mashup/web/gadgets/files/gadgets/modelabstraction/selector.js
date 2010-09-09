@@ -20,27 +20,30 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-var Selector = function(gadget, viewer, group) {
+/*
+ * viewer can be null
+ */
+var Selector = function(gadget, group, viewer) {
 	this.gadget = gadget;
-	this.viewer = viewer;
 	this.group = group;
+	this.viewer = viewer;
 	this.init();
 }
 
 Selector.prototype = {
 	init : function() {
 		if (this.viewer) {
+			// just grey the specific viewer
 			this.gadget.resetSelection(this.viewer);
 			this.gadget.removeMarker(this.viewer, "all");
 			this.gadget.greyModel(this.viewer);
-			if (this.group != null) {
-				this.gadget.undoGrey(this.viewer, this.group.shapes);
-				this.gadget.selectShapes(this.viewer, this.group.shapes);
-			}
+			// select the shapes of the group in the viewer
+			this.gadget.undoGrey(this.viewer, this.group.shapes);
+			this.gadget.selectShapes(this.viewer, this.group.shapes);
 			this.gadget.registerSelectionChanged(this.viewer);
 		} else {
+			// no viewer is selected yet, so grey all viewers
 			var greyModels = function(viewers){
-			
 				for (var i = 0; i < viewers.length; i++){
 					this.gadget.resetSelection(viewers[i]);
 					this.gadget.removeMarker(viewers[i], "all");
@@ -52,10 +55,6 @@ Selector.prototype = {
 			this.gadget.registerSelectionChanged("all");
 		}
 		this.gadget.registerRPC("handleSelection", "", "", this.updateSelection, this);
-		if (this.group == null) {
-			this.group = new Group(this.gadget, prompt("Enter a name for the new group:"));
-			this.gadget.addGroup(this.group);
-		}
 	},
 	
 	/*
@@ -88,6 +87,10 @@ Selector.prototype = {
 		return result;
 	},
 	
+	/*
+	 * Just called the first time a viewer is selected.
+	 * The selector now focuses just on the events of this viewer.
+	 */
 	setViewer : function(viewer) {
 		this.gadget.unregisterSelectionChanged();
 		this.viewer = viewer;
@@ -110,7 +113,10 @@ Selector.prototype = {
 		this.gadget.sendInfo(viewer, setModelInfo, this);
 	},
 	
-	stopSelection : function() {
+	/*
+	 * Stops the selection mode and ungreys everything.
+	 */
+	stopSelection : function(abort) {
 		this.gadget.unregisterSelectionChanged();
 		var undoGreyModels = function(viewers){
 			for (var i = 0; i < viewers.length; i++){
@@ -121,7 +127,7 @@ Selector.prototype = {
 		this.gadget.sendViewers(undoGreyModels, this);
 		if (this.viewer != null)
 			this.gadget.resetSelection(this.viewer);
-		if (this.group != null) 
+		if (!abort) 
 			this.group.highlightInViewer();
 	}
 }
