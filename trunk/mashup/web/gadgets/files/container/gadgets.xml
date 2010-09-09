@@ -54,4 +54,14 @@
 			<url>/mashup/gadgets/files/gadgets/tools/tool.xml</url>
 		</Gadget>
 
+		<Gadget>
+			<url>/mashup/gadgets/files/gadgets/modelabstraction/modelabstraction.xml</url>
+			<options>
+				<top>50</top>
+				<left>200</left>
+				<height>300</height>
+				<width>470</width>
+			</options>
+		</Gadget>
+		
 	</Shindig>

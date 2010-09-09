@@ -83,6 +83,33 @@
 			return false;
 			
 		},
+		
+		/*
+		 * select the shapes with the given resourceId(s)
+		 * -> can be a single resourceId or an array with multiple resourceIds
+		 * if shapeIds is set to "all", all shapes of the model are selected
+		 */
+		select : function(shapeIds) {
+			shapeIds = shapeIds.evalJSON();
+			var nodes = this.viewer.modelViewer.canvas.getNodes();
+			var shapes = [];
+			if (shapeIds == "all") {
+				for (var i in nodes) {
+					shapes.push(nodes[i]);
+				}
+			} else {
+				// check if it is just a single id
+				if (!(shapeIds instanceof Array))
+					shapeIds = [shapeIds]
+				for (var i = 0; i < shapeIds.length; i++) {
+					if (nodes[shapeIds[i]] != null)
+					shapes.push(nodes[shapeIds[i]])
+				}
+			}
+			this.selection.reset();
+			this.selection.select(shapes);
+		},
+		
 		/*
 		 * grey overlay to visualize selection mode for multimodel gadget
 		 * 
