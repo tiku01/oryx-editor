@@ -85,10 +85,20 @@
 			.hide {
 				display: none !important;
 			}
+			
+			#msgpanel.yui-panel .bd {
+				background-color: #FFD700;
+				font-weight: bold;
+				border: 2px solid #000000;
+			}
 		</style>
 		
 		<body class=" yui-skin-sam" id="abstractor">
-					
+		<div id="msgpanel">
+			<!--div class="hd"></div-->
+			<div class="bd"></div>
+			<!--div class="ft"></div-->
+		</div>			
 		<div id ="top">
 			<div style = "margin:3px;">
 				<fieldset id="button_group"></fieldset>
