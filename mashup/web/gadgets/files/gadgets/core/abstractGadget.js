@@ -197,6 +197,17 @@
 		},
 		
 		/*
+		 * select shapes in the specified viewer
+		 *
+		 */
+		selectShapes : function(viewer, toSelect) {
+			toSelect = toSelect || "all";
+			
+			var channel = "dispatcher." + viewer + ".select";
+			gadgets.rpc.call(null, channel, function(){return;}, Object.toJSON(toSelect));
+		},
+		
+		/*
 		 * mark shapes in the specified viewer
 		 * shapes are specified by their resourceId
 		 * 

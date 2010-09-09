@@ -98,6 +98,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// remove selection
 		this.registerRPC("resetSelection", "", "", this.rpcHandler.resetSelection, this.rpcHandler);
 		
+		// select the shapes with the given resourceIds
+		this.registerRPC("select", "shapeResourceIds", "", this.rpcHandler.select, this.rpcHandler);
+		
 		// set selection mode (multi or single)
 		this.registerRPC("setSelectionMode", "mode", "", this.rpcHandler.setSelectionMode, this.rpcHandler);
 		
