@@ -50,7 +50,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 
 public class TBPMServlet extends HttpServlet {
 
-	private String TBPM_RECOGNITION_URL = "http://localhost:8080/tbpm/recognition";
+	private String TBPM_RECOGNITION_URL = "http://tbpm.oryx-project.org/tbpm/recognition";
+	
 	private static final long serialVersionUID = 199569859231394515L;
 	
 	@Override
@@ -124,7 +125,6 @@ public class TBPMServlet extends HttpServlet {
 	
 	private String sendRequest(File img, String fileName){
 
-		String url = "http://tbpm.hpi.uni-potsdam.de/tbpm/recognition";
 		HttpClient client = new HttpClient();
 		client.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 30000);
         PostMethod method = new PostMethod(TBPM_RECOGNITION_URL);
