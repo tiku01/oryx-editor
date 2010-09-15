@@ -90,7 +90,7 @@ public class AdonisConverter {
 		}
 		Logger.i("mapping java to json done");
 		Logger.i("result: "+models.elementAt(0).toString());
-		return models.elementAt(0).toString();
+		return models.toString();
 	}
 	
 	public String exportXML(String json,String language) throws JSONException {
