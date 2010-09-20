@@ -24,6 +24,11 @@
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
+
+//TODO Remove - only temporary for local testing
+ORYX.Config.SignavioFileRepositoryModelHandler = "/signavio/p/model/"; 
+
+
 ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 	
 	construct: function() {
@@ -392,7 +397,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 		form.items.items[1].getEl().dom.addEventListener('change',function(evt){
 				var text = evt.target.files[0].getAsText('UTF-8');
 				form.items.items[2].setValue( text );
-			}, true)
+			}, true);
 
 	},
 	
@@ -405,7 +410,44 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 		loadMask.show();
 		importModels.each(function(item){
 			
-			requestSuccessful = true;
+			var modelData = {
+				name : item.title,
+				description : '',
+				comment : '',
+				namespace : item.model.stencilset.namespace,
+				json_xml : Ext.encode(item.model),
+				parent : Ext.urlDecode(location.search.substring(1))["directory"],
+				svg_xml : '',
+				type: item.model.stencilset.namespace
+			};
+							
+			this.facade.raiseEvent({
+	            type: ORYX.CONFIG.EVENT_LOADING_ENABLE,
+				text: ORYX.I18N.Save.saving
+	        });
+				
+			new Ajax.Request(ORYX.Config.SignavioFileRepositoryModelHandler, {
+				method: "POST",
+				parameters: modelData,
+				asynchronous: true,
+				onSuccess: function success(transport){
+					this.facade.raiseEvent({
+						type:ORYX.CONFIG.EVENT_LOADING_STATUS,
+						text:ORYX.I18N.Save.saved
+					});
+				}.bind(this),
+				onFailure: function failure(){
+					alert("fail");
+				}.bind(this),
+				on403: function function403(){
+					alert("403");
+				}.bind(this)
+				
+			});
+		
+			/*requestSuccessful = true;
+			
+			
 			
 			//generate dummy data for each model
 			var stencilset = item.model.stencilset.url.replace('/oryx/','');
@@ -437,9 +479,9 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 			
 			if (!requestSuccessful){
 				Ext.Msg.alert('Processing of model '+item.title+' not possible\nAn error occured');
-			}
-			//this.facade.importJSON(importModels[i]); 
-		}.bind(this));
+			}*/
+			
+		/*}.bind(this));
 		
 		loadedModels.each(function(item){
 			
@@ -453,7 +495,7 @@ ORYX.Plugins.AdonisSupport = ORYX.Plugins.AbstractPlugin.extend({
 			if (!this.sendRequest(url,parameter)){
 				Ext.Msg.alert('Could not send model '+item.title+' to server\nAn error occured');
 			}
-			
+			*/
 		}.bind(this));
 		
 		loadMask.hide();
