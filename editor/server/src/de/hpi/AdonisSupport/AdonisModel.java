@@ -383,7 +383,7 @@ public class AdonisModel extends AdonisStencil{
 	@Override
 	public void writeJSONstencil(JSONObject json) throws JSONException{ 
 		JSONObject stencil = getJSONObject(json,"stencil");
-		stencil.put("id","Diagram");
+		stencil.put("id","diagram");
 	}
 	/**
 	 * write the properties (including not used ones and except special attributes with a representation in oryx)
