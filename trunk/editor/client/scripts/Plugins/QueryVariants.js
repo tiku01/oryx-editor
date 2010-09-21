@@ -37,8 +37,8 @@ ORYX.Plugins.QueryVariant = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.QueryVariant.name,
             'functionality': this.showOverlay.bind(this),
             'group': ORYX.I18N.QueryVariant.group,
-            'icon': ORYX.PATH + "images/xforms_export.png",
-            'description': ORYX.I18N.QueryVariant.desc,
+            'icon': ORYX.PATH + "stencilsets/bpmnqvar/bpmnqvar.png",
+            'description': ORYX.I18N.QueryVariant.tooltip,
             'index': 0,
 			'toggle': false,
             'minShape': 0,
@@ -51,13 +51,6 @@ ORYX.Plugins.QueryVariant = ORYX.Plugins.AbstractPlugin.extend({
 
 		if (!pressed) {
 			
-/*			this.raisedEventIds.each(function(id){
-				this.facade.raiseEvent({
-						type: 	ORYX.CONFIG.EVENT_OVERLAY_HIDE,
-						id: 	id
-					});
-			}.bind(this))
-*/
 			this.raisedEventIds = [];
 			this.active 		= !this.active;
 			
@@ -67,148 +60,12 @@ ORYX.Plugins.QueryVariant = ORYX.Plugins.AbstractPlugin.extend({
 		var options = {
 			command : 'undef'
 		}
-	/*	
-		var optionsPopup = new Ext.Window({
-			layout      : 'fit',
-            width       : 500,
-            height      : 350,
-            closable	: true,
-            plain       : true,
-			modal		: true,
-			id			: 'optionsPopup',
-			
-			buttons: [{
-				text	: 'Submit',
-				handler	: function(){
-					// set options
-					options = formPanel.getForm().getValues(false);
-					
-					optionsPopup.close();
-					this.issueQuery(options);
-				}.bind(this)
-			}, {
-                text     : 'Abort',
-                handler  : function(){
-                    optionsPopup.close();
-                }.bind(this)
-            }]
-
-		})
-		
-		var modelIdField = new Ext.form.TextField({
-			fieldLabel	: 'Model ID',
-			name		: 'modelID',
-			grow		: true,
-//			hideLabel	: true
-		});
-		modelIdField.hide();
-		
-		var checkListener = function(field, checked){
-			// keep checked states of all relevant fields in this array 
-			if (!this.fieldStates) {
-				this.fieldStates = [];
-			}
-			var found = false;
-			var mustShowField = false;
-			var i, f;
-			for (i = 0; i < this.fieldStates.length; i++){
-				f =  this.fieldStates[i];
-				// update field entry
-				if (f.field === field) {
-					found = true;
-					f.checked = checked;
-				}
-				// and at the same time check whether at least one field is checked
-				mustShowField = mustShowField || f.checked;
-			}
-			if (!found) {
-				// was not used before, so add to array
-				this.fieldStates.push({
-					field	: field,
-					checked	: checked
-				});
-				mustShowField = true;
-			}
-			// change field visibility, if necessary
-			if (mustShowField){
-				modelIdField.show();
-			} else {
-				modelIdField.hide();
-			}
-		}
-		
-		var formPanel = new Ext.form.FormPanel({
-			frame		: true,
-			title		: 'Query options',
-			bodyStyle	: 'padding:0 10px 0;',
-			items		: [{
-				// create a radio button group
-				xtype		: 'fieldset',
-            	autoHeight	: true,
-				columns		: 1,
-				allowBlank	: false,
-				defaultType	: 'radio',
-				items		: [
-                    {
-						boxLabel	: 'Process query', 
-						fieldLabel	: 'Query Type', 
-						name		: 'command', 
-						inputValue	: 'processQuery', 
-						checked: true},
-					{
-					// this is edited by Ahmed Awad on 28.07.09 to reflect compliance checking in the Oryx editor
-						boxLabel	: 'Process Compliance Query', 
-						labelSeparator: '', 
-						name		: 'command', 
-						inputValue	: 'processComplianceQuery', 
-						//listeners	: {
-						//	'check': checkListener.bind(this)
-						//} 
-					},
-                    {
-						boxLabel	: 'Run query against specific model', 
-						labelSeparator: '',
-						name		: 'command',
-						inputValue	: 'runQueryAgainstModel',
-						listeners	: {
-							'check': checkListener.bind(this)
-						}
-					},
-					{
-						boxLabel	: 'Run compliance query against specific model', 
-						labelSeparator: '',
-						name		: 'command',
-						inputValue	: 'runComplianceQueryAgainstModel',
-						listeners	: {
-							'check': checkListener.bind(this)
-						}
-					},
- //                   {
-//						boxLabel	: 'Process MultiQuery', 
-//						labelSeparator: '', 
-//						name		: 'command', 
-//						inputValue	: 'processMultiQuery'},
-					{
-						xtype		: 'checkbox',
-						fieldLabel	: 'Stop after first match in a model was found',
-						name		: 'stopAtFirstMatch',
-						checked		: true,
-					}
-                ]
-			}]
-		});
-		formPanel.add(modelIdField);
-		
-		optionsPopup.add(formPanel);
-		optionsPopup.show();
-		
-		button.toggle();
-	*/
+	
 		this.issueQuery(options);
 	},
 	
 	issueQuery : function(options){
-		//alert("HEllo");
+		
 		try {
 			var serialized_rdf = this.getRDFFromDOM();
 //			serialized_rdf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf;
@@ -241,48 +98,10 @@ ORYX.Plugins.QueryVariant = ORYX.Plugins.AbstractPlugin.extend({
 			
 					var uri = "http://localhost:8080/backend/poem/new?stencilset=/stencilsets/bpmn1.1/bpmn1.1.json";
 					editor = window.open( uri );
-					editor.creator1234 = self;
-					editor.creator1234.variant=respXML;
+					editor.oryxCreator1283772618640 = self;
+					editor.oryxCreator1283772618640.variant=respXML;
 					
-					/*
-                    var root = respXML.firstChild;
-    
-                    var processList = new Array();
-                    var nodecnt, graph;
-                    var pchildren = root.getElementsByTagName("ProcessGraph");
-    
-                    // puts all matching process models into array processList with model ID 
-                    // and model elements
-					for (nodecnt = 0; nodecnt < pchildren.length; nodecnt++) {
-                        graph = pchildren.item(nodecnt);
-//                        var graphID = graph.getAttributeNode("modelID").nodeValue;
-                        
-//                        processList.push({
-//							id 			: graphID,
-//							elements 	: this.processResultGraph(graph)
-//						});
-						 var elementsAsJson = Ext.encode(this.processResultGraph(graph));
-						 var encodedJson = encodeURIComponent(elementsAsJson);
-						 
-						 var uri = "http://localhost:8080/backend/poem/new?stencilset=/stencilsets/bpmn1.1/bpmn1.1.json&objects="+encodedJson;
-						 Ext.Msg.alert(uri);
-						 var editor = window.open( uri );
-						 
-		                 window.setTimeout(
-	                           function() {
-                                         if(!editor || !editor.opener || editor.closed) {
-                                             Ext.MessageBox.alert(ORYX.I18N.Oryx.title, ORYX.I18N.Oryx.editorOpenTimeout).setIcon(Ext.MessageBox.QUESTION);
-                                                                                         }
-                                	        }, 5000);	
-                                	        
-                        
-                    }
-                    */
-//					try {
-//						this.processProcessList(processList);
-//					} catch (error) {
-//						Ext.Msg.alert(ORYX.I18N.Oryx.title, error);
-//					}
+					
                 }.bind(this),
 				
 				onFailure: function(response){
