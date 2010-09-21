@@ -2,7 +2,7 @@
  * Copyright (c) 2010 Emilian Pascalau and Ahmed Awad
 
  * 
- * WARNING THIS IS ONLY TO PROVE CONCEPT!!!! NOT TO BE USED IN PRODUCTION
+ * WARNING THIS IS ONLY TO PROVE A CONCEPT!!!! NOT TO BE USED IN PRODUCTION
  * ENVIRONMENT!!!!
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,283 +36,448 @@ ORYX.Plugins.CreateProcessVariant = ORYX.Plugins.AbstractPlugin.extend({
 		
         this.facade = facade;
         
-		this.active 		= false;
-		this.raisedEventIds = [];
+        this.active 		= false;
+        this.raisedEventIds = [];
 		
 				
-		this.createModel();
+        this.createModel();
 		
     },
     
-	createModel:function(){
+    createModel:function(){
     	
-    		function test(){}
-    	
-    	
-    		if(creator1234){
+    	   	
+        if(oryxCreator1283772618640){
     			
-
-    			
-    			// alert("creator 1234 exists");
-    			var respXML=creator1234.variant;
+            var respXML=oryxCreator1283772618640.variant;
     				
-    			var root=respXML.firstChild;
-                var pg=root.getElementsByTagName("ProcessGraph");
-                var processGraphElements=pg.item(0).childNodes;
+            var root=respXML.firstChild;
+            var pg=root.getElementsByTagName("ProcessGraph");
+            var processGraphElements=pg.item(0).childNodes;
                 
-                var posx=-30;
-                var processGraphXML=new Array();
-                var processGraphShape=new Array();
+            var posx=-30;
+            var processGraphXML=new Array();
+            var processGraphShape=new Array();
                 
-                for(var i=0;i<processGraphElements.length;i++){
+            for(var i=0;i<processGraphElements.length;i++){
                 
-                	var ce=processGraphElements[i];
-                	if(ce.nodeName=="Activity" || ce.nodeName=="Gateway" || ce.nodeName=="Event" ){
-                	 posx=posx+150;	                		
+                var ce=processGraphElements[i];
+                if(ce.nodeName=="Activity" || ce.nodeName=="Gateway" || ce.nodeName=="Event" ){
+                    posx=posx+150;
                 	
-                	 var shape=this.drawNode(ce,posx);
-                	 processGraphXML.push(ce);
-                	 processGraphShape.push(shape);
-                	} 
-                	
-                	//it is assumed that all sequenceFlows are at the end
-                	if(ce.nodeName=="SequenceFlow"){
-                		var fId=this.getSequenceFlowFrom(ce);
-                		
-                		var from=this.getShapeById(fId,processGraphShape);
-//                		alert(from);
-//                		
-                		
-                		var tId=this.getSequenceFlowTo(ce);
-                		
-                		var to=this.getShapeById(tId,processGraphShape);
-//                		alert(to);
-                		
-                		shape=this.drawSequenceFlow(from,to);
-                		
-                		processGraphXML.push(ce);
-                		processGraphShape.push(shape);               		
-                		
-                	}
-                	
+                    var shape=this.drawNode(ce,posx);
+                    processGraphXML.push(ce);
+                    processGraphShape.push(shape);
                 }
+                	
+                //it is assumed that all sequenceFlows are at the end
+                if(ce.nodeName=="SequenceFlow"){
+                    var fId=this.getSequenceFlowFrom(ce);
+                		
+                    var from=this.getShapeById(fId,processGraphXML,processGraphShape);
+                    //                		alert(from);
+                    //
+                		
+                    var tId=this.getSequenceFlowTo(ce);
+                		
+                    var to=this.getShapeById(tId,processGraphXML,processGraphShape);
+                    //                		alert(to);
+                		
+                    shape=this.drawSequenceFlow(from,to);
+                		
+                    processGraphXML.push(ce);
+                    processGraphShape.push(shape);
+                		
+                }
+                	
+            }
                 
-               // alert(processGraphXML.length);
-               // alert(processGraphShape.length);               
+        // alert(processGraphXML.length);
+        // alert(processGraphShape.length);
                 
     
 
-            // this.drawShape();
+        // this.drawShape();
                 
- 		}
+        }
     	
     },
     
     drawNode:function(element, posX){
 
-    	var parentShape=this.facade.getCanvas();
-    	var newShape;
+        var parentShape=this.facade.getCanvas();
+        var newShape;
     	
     	
-    	var pos={};
-    	pos['x']=posX;
-    	pos['y']=0;
+        var pos={};
+        pos['x']=posX;
+        pos['y']=0;
     	
-    	if(element.nodeName=="Activity"){
+        var ssn 	= this.facade.getStencilSets().keys()[0];
+        var stencil;
+        if(element.nodeName=="Activity"){
     	
-    	var option = {
-				type:"http://b3mn.org/stencilset/bpmn1.1#Task",
-				position:pos,
-				namespace:parentShape.getStencil().namespace(),
-				parent:parentShape				
-		};
-    	newShape=this.facade.createShape(option);
-    	newShape.resourceId=element.getAttributeNode("id").nodeValue;
-    	var label=element.getAttributeNode("label").nodeValue;
-    	// alert(label);
+    							
+            stencil = ORYX.Core.StencilSet.stencil(ssn + "Task");
+    		
+            //    	var option = {
+            //				type:"http://b3mn.org/stencilset/bpmn1.1#Task",
+            //				position:pos,
+            //				namespace:parentShape.getStencil().namespace(),
+            //				parent:parentShape
+            //		};
+            //newShape=this.facade.createShape(option);
+    	
+            newShape=new ORYX.Core.Node({
+                'eventHandlerCallback':this.facade.raiseEvent
+            },stencil);
+    	
+            //    	newShape.resourceId=element.getAttributeNode("id").nodeValue;
+            var label=element.getAttributeNode("label").nodeValue;
+            // alert(label);
     
-    	newShape.setProperty("oryx-name",label);
+            newShape.setProperty("oryx-name",label);
+            this.facade.getCanvas().add(newShape);
+        //this.facade.getCanvas().update();
+        }
     	
-		this.facade.getCanvas().update();
-    	}
-    	
-    	// deal with Events
-    	if(element.nodeName=="Event"){
+        // deal with Events
+        if(element.nodeName=="Event"){
         	
-    		var type2=element.getAttributeNode("type2").nodeValue;
-    		var type2LastChar=type2[type2.length-1];
+            var type2=element.getAttributeNode("type2").nodeValue;
+            var type2LastChar=type2[type2.length-1];
+            var eventType=type2.substring(0,type2.length-1);
+            
+//            alert("eventType "+eventType);
+
+            
     		
+            if(type2LastChar==1){
     		
-    		if(type2LastChar==1){
+                if(eventType=="MessageEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartMessageEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }
+                else
+                if(eventType=="TimerEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartTimerEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="ConditionalEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartConditionalEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="SignalEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartSignalEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="MultipleEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartMultipleEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                {
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "StartEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }
+            }
     		
-        	var option = {
-    				type:"http://b3mn.org/stencilset/bpmn1.1#StartEvent",
-    				position:pos,
-    				namespace:parentShape.getStencil().namespace(),
-    				parent:parentShape				
-    		};
-        	newShape=this.facade.createShape(option);
-    		}
+            if(type2LastChar==2){
+
+               
+                if(eventType=="MessageEventCatching"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateMessageEventCatching");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="MessageEventThrowing"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateMessageEventThrowing");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="TimerEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateTimerEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="ErrorEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateErrorEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="CancelEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateCancelEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="CompensationEventCatching"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateCompensationEventCatching");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="CompensationEventThrowing"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateCompensationEventThrowing");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="ConditionalEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateConditionalEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="SignalEventCatching"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateSignalEventCatching");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="SignalEventThrowing"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateSignalEventThrowing");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="MultipleEventCatching"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateMultipleEventCatching");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="MultipleEventThrowing"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateMultipleEventThrowing");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="LinkEventCatching"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateLinkEventCatching");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="LinkEventThrowing"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateLinkEventThrowing");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                {
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "IntermediateEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }
+
+                
+            }
     		
-    		if(type2LastChar==2){
-        		
-            	var option = {
-        				type:"http://b3mn.org/stencilset/bpmn1.1#IntermediateEvent",
-        				position:pos,
-        				namespace:parentShape.getStencil().namespace(),
-        				parent:parentShape				
-        		};
-            	newShape=this.facade.createShape(option);
-        		}
+            if(type2LastChar==3){
+
+              
+                if(eventType=="MessageEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndMessageEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="ErrorEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndErrorEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="CancelEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndCancelEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="CompensationEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndCompensationEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="SignalEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndSignalEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="MultipleEvent"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndMultipleEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                if(eventType=="Terminate"){
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndTerminateEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);
+                }else
+                {
+                    stencil = ORYX.Core.StencilSet.stencil(ssn + "EndEvent");
+                    newShape=new ORYX.Core.Node({
+                        'eventHandlerCallback':this.facade.raiseEvent
+                    },stencil);                    
+                }              
+            	
+            }  		
     		
-    		if(type2LastChar==3){
-        		
-            	var option = {
-        				type:"http://b3mn.org/stencilset/bpmn1.1#EndEvent",
-        				position:pos,
-        				namespace:parentShape.getStencil().namespace(),
-        				parent:parentShape				
-        		};
-            	newShape=this.facade.createShape(option);
-        		}
+            // var label=element.getAttributeNode("label").nodeValue;
+            // newShape.setProperty("oryx-name",label);
+            this.facade.getCanvas().add(newShape);
     		
-        	newShape.resourceId=element.getAttributeNode("id").nodeValue;
-        	// var label=element.getAttributeNode("label").nodeValue;
-        	// newShape.setProperty("oryx-name",label);
-        	
-    		this.facade.getCanvas().update();
-        	}
+        }
     	
-    	// deal with gateways
-    	if(element.nodeName=="Gateway"){
-    		var type2=element.getAttributeNode("type2").nodeValue;
+        // deal with gateways
+        if(element.nodeName=="Gateway"){
+            var type2=element.getAttributeNode("type2").nodeValue;
     		
     		
     		
-    		if(type2.indexOf("XOR")>=0){
-        		
-            	var option = {
-        				type:"http://b3mn.org/stencilset/bpmn1.1#Exclusive_Databased_Gateway",
-        				position:pos,
-        				namespace:parentShape.getStencil().namespace(),
-        				parent:parentShape				
-        		};
-            	newShape=this.facade.createShape(option);
-        		}
+            if(type2.indexOf("XOR")>=0){
+   		
+                stencil = ORYX.Core.StencilSet.stencil(ssn + "Exclusive_Databased_Gateway");
+                newShape=new ORYX.Core.Node({
+                    'eventHandlerCallback':this.facade.raiseEvent
+                },stencil);
+            	
+            }
     	
 
-    		if(type2.indexOf("OR")>=0 && type2.indexOf("XOR")==-1){
+            if(type2.indexOf("OR")>=0 && type2.indexOf("XOR")==-1){
         		
-            	var option = {
-        				type:"http://b3mn.org/stencilset/bpmn1.1#OR_Gateway",
-        				position:pos,
-        				namespace:parentShape.getStencil().namespace(),
-        				parent:parentShape				
-        		};
-            	newShape=this.facade.createShape(option);
-        		}
+            	
+                stencil = ORYX.Core.StencilSet.stencil(ssn + "OR_Gateway");
+                newShape=new ORYX.Core.Node({
+                    'eventHandlerCallback':this.facade.raiseEvent
+                },stencil);
+            	
+            }
     		
-    		if(type2.indexOf("AND")>=0 ){
-        		
-            	var option = {
-        				type:"http://b3mn.org/stencilset/bpmn1.1#AND_Gateway",
-        				position:pos,
-        				namespace:parentShape.getStencil().namespace(),
-        				parent:parentShape				
-        		};
-            	newShape=this.facade.createShape(option);
-        		}
+            if(type2.indexOf("AND")>=0 ){
+        		          	
+                stencil = ORYX.Core.StencilSet.stencil(ssn + "AND_Gateway");
+                newShape=new ORYX.Core.Node({
+                    'eventHandlerCallback':this.facade.raiseEvent
+                },stencil);
+            	
+            }
     		
-    		newShape.resourceId=element.getAttributeNode("id").nodeValue;
-        	// var label=element.getAttributeNode("label").nodeValue;
-        	// newShape.setProperty("oryx-name",label);
-        	
-    		this.facade.getCanvas().update();
+            // var label=element.getAttributeNode("label").nodeValue;
+            // newShape.setProperty("oryx-name",label);
+            this.facade.getCanvas().add(newShape);
     		
-    	}	
+        }
     	
    	
-    	return newShape;
+        return newShape;
     	
     },
     
     getSequenceFlowFrom:function(sequenceFlow){
-    	var efrom=sequenceFlow.getAttributeNode("from").nodeValue;
+        var efrom=sequenceFlow.getAttributeNode("from").nodeValue;
     	
-    	var pos=efrom.indexOf("#");
-    	var type=efrom.substring(0,pos);
+        var pos=efrom.indexOf("#");
+        var type=efrom.substring(0,pos);
         var shapeId=efrom.substring(pos,efrom.length);
     	
-    	var from={};
-    	from['type']=type;
-    	from['shapeId']=shapeId;    	
+        var from={};
+        from['type']=type;
+        from['shapeId']=shapeId;
     	
-//    	return from;
-    	return shapeId;
+        //    	return from;
+        return shapeId;
     },
     
     getSequenceFlowTo:function(sequenceFlow){
-    	var eto=sequenceFlow.getAttributeNode("to").nodeValue;;
+        var eto=sequenceFlow.getAttributeNode("to").nodeValue;
+        ;
     	
-    	var pos=eto.indexOf("#");
-    	var type=eto.substring(0,pos);
+        var pos=eto.indexOf("#");
+        var type=eto.substring(0,pos);
         var shapeId=eto.substring(pos,eto.length);
     	
-    	var to={};
-    	to['type']=type;
-    	to['shapeId']=shapeId;    	
+        var to={};
+        to['type']=type;
+        to['shapeId']=shapeId;
     	
-//    	return to;
-    	return shapeId;
+        //    	return to;
+        return shapeId;
     	
     },
     
-    getShapeById:function(id,processGraphShape){
-    	var pos=-1;
+    getShapeById:function(id,processGraphXML,processGraphShape){
+        var pos=-1;
     	
-    	for(var k=0;k<processGraphShape.length;k++){
-    		var ce=processGraphShape[k];
-    		var ok=false;
-    		if (ce.resourceId==id){
-    			pos=k;
-    			ok=true;
-    		}
-    		if(ok) break;
+        for(var k=0;k<processGraphXML.length;k++){
+            var ce=processGraphXML[k];
+            var ok=false;
+            var ceId=ce.getAttributeNode("id").nodeValue;
+            if (ceId==id){
+                pos=k;
+                ok=true;
+            }
+            if(ok) break;
     		
-    	}
-    	return processGraphShape[pos];
+        }
+        return processGraphShape[pos];
     },
     
     //from and to are shapes
     drawSequenceFlow:function(from,to){
     	
-//    	alert(from);
-//    	alert(to);
+        //    	alert(from);
+        //    	alert(to);
     	
-    	var newSequenceFlow;
-    	var parentShape=this.facade.getCanvas();
+        var newSequenceFlow;
+        var parentShape=this.facade.getCanvas();
     	
-    	var pos={};
-    	pos['x']=0;
-    	pos['y']=0;
+        var ssn 	= this.facade.getStencilSets().keys()[0];
+        var stencil = ORYX.Core.StencilSet.stencil(ssn + "SequenceFlow");
+   	
+        newSequenceFlow=new ORYX.Core.Edge({
+            'eventHandlerCallback':this.facade.raiseEvent
+        },stencil);
+        ;
     	
-    	var option = {
-				type:"http://b3mn.org/stencilset/bpmn1.1#SequenceFlow",
-				//position:pos,
-				namespace:parentShape.getStencil().namespace(),
-				parent:parentShape				
-		};
-    	newSequenceFlow=this.facade.createShape(option);
+        // Set the docker
+        newSequenceFlow.dockers.first().setDockedShape( from );
+        newSequenceFlow.dockers.first().setReferencePoint({
+            x: from.bounds.width() / 2.0,
+            y: from.bounds.height() / 2.0
+        });
     	
-    	// Set the docker
-    	newSequenceFlow.dockers.first().setDockedShape( from );
-    	newSequenceFlow.dockers.first().setReferencePoint({x: from.bounds.width() / 2.0, y: from.bounds.height() / 2.0});
-    	
-    	newSequenceFlow.dockers.last().setDockedShape( to );
-    	newSequenceFlow.dockers.last().setReferencePoint({x: to.bounds.width() / 2.0, y: to.bounds.height() / 2.0});
+        newSequenceFlow.dockers.last().setDockedShape( to );
+        newSequenceFlow.dockers.last().setReferencePoint({
+            x: to.bounds.width() / 2.0,
+            y: to.bounds.height() / 2.0
+        });
 		
-    	this.facade.getCanvas().update();
-    	return newSequenceFlow;
+        //
+        this.facade.getCanvas().add(newSequenceFlow);
+        return newSequenceFlow;
     }
     
     
