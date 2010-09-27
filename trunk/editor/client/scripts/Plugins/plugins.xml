@@ -344,6 +344,15 @@
 		<plugin source="uml.js" name="ORYX.Plugins.UML">
 			<requires namespace="http://b3mn.org/stencilset/UML2.2Class#"/>
 		</plugin>
+		
+				
+		<plugin source="umlusecase.js" name="ORYX.Plugins.UMLUseCase">
+			<requires namespace="http://b3mn.org/stencilset/umlusecase#"/>	
+		</plugin>
+		
+		<plugin source="umlactivity.js" name="ORYX.Plugins.UMLActivity">
+			<requires namespace="http://b3mn.org/stencilset/umlactivity#"/>	
+		</plugin>
 
 		<!-- only enable autolayouter if ruby is active -->
 		<!--<plugin source="autoLayout.js" name="ORYX.Plugins.AutoLayout" />-->

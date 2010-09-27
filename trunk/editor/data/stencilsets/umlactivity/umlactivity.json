@@ -1,0 +1,1071 @@
+{
+	"title":"UML Activity Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlactivity#",
+	"description":"UML Activity Diagram",
+	"description_de":"UML Aktivitätsdiagramm",
+	"description_ru":"Диаграмма деятельности",
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"title_de" :"Diagramm",
+			"title_ru" :"Диаграмма",
+			"groups":[],
+			"description":"A UML Activity Diagram",
+			"description_de":"UML Aktivitätsdiagram",
+			"view":"node.diagram.svg",
+			"icon":"node.diagram.png",
+			"roles": [],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"action",
+			"title":"Action",
+			"title_de" :"Aktion",
+			"title_ru" :"Действие",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"Fundamental unit of behavior specification, which converts input to output.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten mit Ein- und Ausgabe.",
+			"view":"ActionAndActivity/node.action.svg",
+			"icon":"ActionAndActivity/node.action.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"actionRole",
+				"controlFlowElement",
+				"activityContent",
+				"actionMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+					"title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"activity",
+			"title":"Activity",
+			"title_de":"Aktivität",
+			"title_ru":"Деятельность",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"A unit which coordinates sequences and conditions of lower-level behavior",
+			"description_de":"Einheit, die Sequenzen und Bedingungen niedrigerer Ebene koordiniert.",
+			"view":"ActionAndActivity/node.activity.svg",
+			"icon":"ActionAndActivity/node.activity.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"actionRole",
+				"controlFlowElement",
+				"activityContent",
+				"activityRole",
+				"actionMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"activityrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},		
+		{
+			"type": "node",
+			"id":"acceptEvent",
+			"title":"Accept Event",
+			"title_de":"Akzeptierendes Ereignis",
+			"title_ru":"Принятие события",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"An action that waits for the occurrence of an event meeting specified condition",
+			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
+			"view":"ActionAndActivity/node.event.incoming.svg",
+			"icon":"ActionAndActivity/node.event.incoming.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"causingEvent",
+				"annotatable",
+				"eventMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"sendEvent",
+			"title":"Send Event",
+			"title_de":"Sendendes Ereignis",
+			"title_ru":"Посылка сигнала",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"An action that creates a signal instance which is transmitted to a target object",
+			"description_de":"Aktion, die ein Signal erzeugt und zum Zielobjekt sendet",
+			"view":"ActionAndActivity/node.event.outgoing.svg",
+			"icon":"ActionAndActivity/node.event.outgoing.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"annotatable",
+				"eventMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"timeEvent",
+			"title":"Time Event",
+			"title_de":"Zeitereignis",
+			"title_ru":"Событие времени",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"An action that creates a signal instance when time condition is fulfilled",
+			"description_de":"Aktion, die ein Signal erzeugt wenn eine Zeitbedingung erfüllt ist",
+			"view":"ActionAndActivity/node.event.time.svg",
+			"icon":"ActionAndActivity/node.event.time.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"controlFlowElement",
+				"causingEvent",
+				"annotatable",
+				"eventMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"activityPartition",
+			"title":"Activity Partition",
+			"title_de":"Aktivitätsbereich",
+			"title_ru":"диапазон деятельности",
+			"groups":["Interrupt and Partition"],
+			"groups_de":["Unterbrechung und Partition"],
+			"groups_ru":["Прерывание и раздел"],
+			"description":"Partitions divide the nodes and edges to constrain and show a view of the contained nodes",
+			"description_de":"Partitionen teilen Aktionen ein, um die Sicht auf diese zu verdeutlichen",
+			"view":"InterruptAndPartition/node.activityPartition.vertical.svg",
+			"icon":"InterruptAndPartition/node.activityPartition.vertical.png",
+			"roles": [
+				"diagramcontent",
+				"activityRole"
+				
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			],
+			"layout" : [{"type" : "layout.uml.activityPartition"}]
+		},
+		
+		{
+			"type": "node",
+			"id":"interruptableRegion",
+			"title":"Interruptable Region",
+			"title_de":"Unterbrechungsbereich",
+			"title_ru":"Oбласть с прерываемым выполнением действий",
+			"groups":["Interrupt and Partition"],
+			"groups_de":["Unterbrechung und Partition"],
+			"groups_ru":["Прерывание и раздел"],
+			"description":"An activity group that supports termination of tokens flowing in the portions of an activity.",
+			"description_de":"Aktivitätsgruppe, die die Terminierung von Tokens in ihr ermöglicht",
+			"view":"InterruptAndPartition/node.interruptableRegion.svg",
+			"icon":"InterruptAndPartition/node.interruptableRegion.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"activityRole",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"object",
+			"title":"Object",
+			"title_de":"Objekt",
+			"title_ru":"Объект",
+			"groups":["Object"],
+			"groups_de":["Objekt"],
+			"groups_ru":["Объект"],
+			"description":"An object is part of the object flow in an activity",
+			"description_de":"Ein Objekt ist ein Teil des Objektflusses in Aktivitäten",
+			"view":"Object/node.object.svg",
+			"icon":"Object/node.object.png",
+			"roles": [
+				"diagramcontent",
+				"activityContent",
+				"annotatable"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"note",
+			"title":"Note",
+			"title_de":"Notiz",
+			"title_ru":"Комментарий",
+			"groups":["Annotation"],
+			"groups_de":["Anmerkung"],
+			"groups_ru":["Примечание"],
+			"description": "Comment regarding a diagram element",
+			"description_de": "Kommentar mit Bezug zu einem Modellelement oder Diagramm",
+			"view":"Annotation/node.note.svg",
+			"icon":"Annotation/node.note.png",
+			"roles": [
+				"diagramcontent",
+				"annotation",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+				{
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"initialNode",
+			"title":"Initial Node",
+			"title_de":"Startknoten",
+			"title_ru":"Начальный узел",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"A control node at which flow starts when the activity is invoked.",
+			"description_de":"Kontrollknoten, bei dem der Ablauf anfängt, wenn eine Aktivität angestoßen wird.",
+			"view":"ControlFlow/node.initialNode.svg",
+			"icon":"ControlFlow/node.initialNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"flowFinalNode",
+			"title":"Flow Final Node",
+			"title_de":"Ablaufende",
+			"title_ru":"Конечный узел потока",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"Final node that terminates a flow",
+			"description_de":"Endknoten, der einen Ablauf terminiert",
+			"view":"ControlFlow/node.flowFinalNode.svg",
+			"icon":"ControlFlow/node.flowFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent",
+				"finalNode"
+			],
+			"properties": [
+			    
+               
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"activityFinalNode",
+			"title":"Activity Final Node",
+			"title_de":"Aktivitätsende",
+			"title_ru":"Конечный узел деятельности",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"A final node that stops all flows in an activity",
+			"description_de":"Endknoten, der alle Abläufe in einer Aktivität beendet",
+			"view":"ControlFlow/node.activityFinalNode.svg",
+			"icon":"ControlFlow/node.activityFinalNode.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent",
+				"finalNode"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"andHorizontal",
+			"title":"And Fork/Join",
+			"title_de":"Entscheidung/Gabelung",
+			"title_ru":"Узел объединения / Узел объединения",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
+			"view":"ControlFlow/node.and.horizontal.svg",
+			"icon":"ControlFlow/node.and.horizontal.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"andOr"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"andVertical",
+			"title":"And Fork/Join",
+			"title_de":"Gabelung/Vereinigung",
+			"title_ru":"Узел объединения / Узел объединения",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"A control node that splits a flow into multiple concurrent flows; A control node that synchronizes multiple flows",
+			"description_de":"Kontrollknoten, der den Ablauf in mehrere parallele Abläufe aufteilt; Kontrollknoten, der mehrere parallele Abläufe zusammenführt",
+			"view":"ControlFlow/node.and.vertical.svg",
+			"icon":"ControlFlow/node.and.vertical.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"andOr"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"orNode",
+			"title":"Decision/Merge",
+			"title_de":"Entscheidung/Kreuzung",
+			"title_ru":"Узел слияния / Узел слияния",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
+			"view":"ControlFlow/node.or.svg",
+			"icon":"ControlFlow/node.or.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"controlFlowElement",
+				"activityContent",
+				"andOr"
+			],
+			"properties": [
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "title_ru":"Цвет",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"annotationEdge",
+			"title" :"Annotation Edge",
+			"title_de" :"Kommentarkante",
+			"title_ru" :"Ребро примечания",
+			"groups":["Annotation"],
+			"groups_de":["Anmerkung"],
+			"groups_ru":["Примечание"],
+			"description" : "Connects a note with a model element",
+			"description_de" : "Verbindet eine Notiz mit einem Modellelement",
+			"view":"Annotation/edge.annotation.svg",
+			"icon":"Annotation/edge.annotation.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			]
+		},
+		{
+			"type": "edge",
+			"id":"controlFlow",
+			"title":"Control Flow",
+			"title_de":"Kontrollfluss",
+			"title_ru":"Поток управления",
+			"groups":["Control Flow"],
+			"groups_de":["Kontrollfluss"],
+			"groups_ru":["Поток управления"],
+			"description":"Connects actions, activities and events",
+			"description":"Verbindet Aktionen, Aktivitäten und Ereignisse",
+			"view":"ControlFlow/edge.controlFlow.svg",
+			"icon":"ControlFlow/edge.controlFlow.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"condition",
+					"type":"String",
+					"title":"Name/Condition",
+					"title_de":"Name/Bedingung",
+					"title_ru":"Имя / Условие",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"objectFlow",
+			"title":"Object Flow",
+			"title_de":"Objektfluss",
+			"title_ru":"Поток объектов",
+			"groups":["Object"],
+			"groups_de":["Objekt"],
+			"groups_ru":["Объект"],
+			"description":"Connects objects with actions or actions with objects",
+			"description_de":"Verbindet Objekte mit Aktionen oder Aktionen mit Objekten",
+			"view":"Object/edge.objectFlow.svg",
+			"icon":"Object/edge.objectFlow.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"condition",
+					"type":"String",
+					"title":"Name/Condition",
+					"title_de":"Name/Bedingung",
+					"title_ru":"Имя / Условие",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"objectFlowImplicit",
+			"title":"Object Flow With Pins",
+			"title_de":"Objektfluss mit Pins",
+			"title_ru":"Поток объектов",
+			"groups":["Object"],
+			"groups_de":["Objekt"],
+			"groups_ru":["Объект"],
+			"description":"Connects two actions to indicate object flow",
+			"description_de":"Verbindet zwei Aktionen um Objektfluss darzustellen",
+			"view":"Object/edge.objectFlow.implicit.svg",
+			"icon":"Object/edge.objectFlow.implicit.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties":[
+			    {
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"pinStart",
+					"type":"String",
+					"title":"Startpin Name",
+					"title_de":"Startpin Name",
+					"title_ru":"взлёт контактного имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"pinStart",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"pinEnd",
+					"type":"String",
+					"title":"Endpin Name",
+					"title_de":"Endepin Name",
+					"title_ru":"Конец контактного имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"pinEnd",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"interrupt",
+			"title":"Interrupt Edge",
+			"title_de":"Unterbrechungskante",
+			"title_ru":"Прерывающее ребро",
+			"groups":["Interrupt and Partition"],
+			"groups_de":["Unterbrechung und Partition"],
+			"groups_ru":["Прерывание и раздел"],
+			"description":"Connects causing Event with any kind of action.",
+			"description":"Verbindet auslösendes Ereignis mit Aktion",
+			"view":"InterruptAndPartition/edge.interrupt.svg",
+			"icon":"InterruptAndPartition/edge.interrupt.png",
+			"roles": [
+				"diagramcontent",
+				"annotatable",
+				"activityContent"
+			],
+			"properties": [
+			    {
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }			    
+			]
+		}
+	],	
+	"rules": {
+	    
+	    "morphingRules": [
+			{
+				"role":"andOr",
+				"baseMorphs" : ["andHorizontal", "andVertical", "orNode"]
+			},
+			{
+			   	"role":"actionMorph",
+				"baseMorphs" : ["action", "activity"] 
+			},
+			{
+			   	"role":"eventMorph",
+				"baseMorphs" : ["sendEvent, timeEvent, acceptEvent"] 
+			},
+			{
+			   	"role":"object",
+				"baseMorphs" : ["object"] 
+			},
+			{
+			   	"role":"note",
+				"baseMorphs" : ["note"] 
+			},
+			{
+			   	"role":"initialNode",
+				"baseMorphs" : ["initialNode"] 
+			},
+			{
+			   	"role":"finalNode",
+				"baseMorphs" : ["flowFinalNode", "activityFinalNode"] 
+			}			
+		],
+	    
+		"connectionRules": [
+			{
+                "role":"controlFlow",
+                "connects": [
+                    {
+                        "from":"controlFlowElement",
+                        "to":["controlFlowElement","finalNode"]
+                    },
+                    {
+                        "from":"initialNode",
+                        "to":["controlFlowElement"]
+                    }
+                ]
+            },
+            {
+                "role":"objectFlow",
+                "connects": [
+                    {
+                        "from":"actionRole",
+                        "to":["object"]
+                    },
+                    {
+                        "from":"object",
+                        "to":["actionRole"]
+                    }
+                ]
+            },
+            {
+                "role":"objectFlowImplicit",
+                "connects": [
+                    {
+                        "from":"actionRole",
+                        "to":["actionRole"]
+                    }
+                ]
+            },
+            {
+				"role":"annotationEdge",
+				"connects":[
+					{ 
+					    "from":"annotatable",
+					    "to":"annotation" 
+					},
+					{ 
+					    "from":"annotation",
+					    "to":"annotatable" 
+					}
+				]
+			},
+			{
+				"role":"interrupt",
+				"connects":[
+					{ 
+					    "from":"causingEvent",
+					    "to":["actionRole","finalNode"] 
+					}
+				]
+			}
+		],
+		
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+				"role":"activityRole",
+				"contains": [
+					"activityContent"
+				]
+			},
+			{
+				"role":"activityPartition",
+				"contains": [
+					"activityPartition"
+				]
+			}			
+		]
+	}
+}

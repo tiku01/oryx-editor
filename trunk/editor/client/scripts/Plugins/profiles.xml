@@ -131,6 +131,15 @@
 	<profile name="uml2.2" depends="default" stencilset="stencilsets/uml2.2/uml2.2.json">
 		<plugin name="ORYX.Plugins.UML"/>
 	</profile>
+	
+	<profile name="umlusecase" depends="default" stencilset="stencilsets/umlusecase/umlusecase.json">
+		<plugin name="ORYX.Plugins.UMLUseCase"/>
+	</profile>
+	
+	<profile name="umlactivity" depends="default" stencilset="stencilsets/umlactivity/umlactivity.json">
+		<plugin name="ORYX.Plugins.UMLActivity"/>
+	</profile>
+	
 	<profile name="labelbeta" depends="bpmn" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
 		<plugin name="ORYX.Plugins.OverlayExample"/>
 		<plugin name="ORYX.Plugins.LabelLayout"/>
