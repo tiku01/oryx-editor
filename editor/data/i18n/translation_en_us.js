@@ -907,3 +907,16 @@ ORYX.I18N.ProcessLogGenerator.cancelButton = "Cancel";
 ORYX.I18N.ProcessLogGenerator.completenessSelect = "Type of completeness";
 ORYX.I18N.ProcessLogGenerator.pleaseSelect = "Please select a type";
 ORYX.I18N.ProcessLogGenerator.numberOfTraces = "Desired number of traces in the log";
+
+/** New Language Properties from Visio Import by Lauritz Thamsen */
+if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioImport = {};
+ORYX.I18N.VisioImport.BPMNName = "Import from Visio BPMN";
+ORYX.I18N.VisioImport.EPCName = "Import from Visio EPC";
+ORYX.I18N.VisioImport.Label = 'Visio Import';
+ORYX.I18N.VisioImport.UploadButton = 'Upload vdx';
+ORYX.I18N.VisioImport.PleaseSelect = "Please select the .vdx-file to be imported.";
+ORYX.I18N.VisioImport.ImportWait = "Please wait while your diagrams are being uploaded.";
+ORYX.I18N.VisioImport.ImportStart = "The import started successfully";
+ORYX.I18N.VisioImport.ImportDescription = "The vdx import is running. This might take a while."
+ORYX.I18N.VisioImport.ImportFailure = "Error while importing Visio diagram";
+ORYX.I18N.VisioImport.ImportFailureDescription = "Please ensure connection and that the visio stencil is supported. Currently only a few selected sample stencil sets are supported.";
