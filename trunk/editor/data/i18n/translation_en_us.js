@@ -886,3 +886,24 @@ ORYX.I18N.WaveThis.group = "Export";
 ORYX.I18N.WaveThis.name = 'ProcessWave This!';
 ORYX.I18N.WaveThis.desc = 'Opens the model in the processWave editor';
 ORYX.I18N.WaveThis.failUnsaved ="Only saved models can be exported";
+
+if(!ORYX.I18N.ProcessLogGenerator) ORYX.I18N.ProcessLogGenerator = {};
+ORYX.I18N.ProcessLogGenerator.generate = "Generate Process Log";
+ORYX.I18N.ProcessLogGenerator.generateDescription = "Generates a Process Log in MXML-format from the currently active diagram and offers it for download.";
+ORYX.I18N.ProcessLogGenerator.waitText = "Please wait. The Process Log is being generated";
+ORYX.I18N.ProcessLogGenerator.failed = "Generating a log failed: ";
+ORYX.I18N.ProcessLogGenerator.shortWaitText = "Generating Process Log";
+ORYX.I18N.ProcessLogGenerator.dialogDescription = "Please specify some preferences for the Process Log";
+
+if(!ORYX.I18N.ProcessLogGenerator.completeness) ORYX.I18N.ProcessLogGenerator.completeness ={};
+ORYX.I18N.ProcessLogGenerator.completeness.None = "None";//"No completeness necessary";
+ORYX.I18N.ProcessLogGenerator.completeness.Trace = "Trace Completeness";//"Trace-Completeness Required";
+ORYX.I18N.ProcessLogGenerator.completeness.Ordering = "Ordering Completeness";//"Ordering-Completeness Required";
+ORYX.I18N.ProcessLogGenerator.degreeOfNoise = "Percentage of noise";
+ORYX.I18N.ProcessLogGenerator.respectPropabilities = "Respect probabilities of choices";
+ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle = "Log Generating Preferences";
+ORYX.I18N.ProcessLogGenerator.generateButton = "Generate";
+ORYX.I18N.ProcessLogGenerator.cancelButton = "Cancel";
+ORYX.I18N.ProcessLogGenerator.completenessSelect = "Type of completeness";
+ORYX.I18N.ProcessLogGenerator.pleaseSelect = "Please select a type";
+ORYX.I18N.ProcessLogGenerator.numberOfTraces = "Desired number of traces in the log";

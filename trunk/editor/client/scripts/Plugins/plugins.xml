@@ -389,6 +389,9 @@
 		<plugin source="timeline.js" name="ORYX.Plugins.Timeline">
 			<requires namespace="http://matthias-kunze.info/oryx/stencilsets/timeline#"/>
 		</plugin>
+		
+		<plugin source="processLogGenerator.js" name="ORYX.Plugins.ProcessLogGenerator" />
+		
 	</plugins>
 
 	
