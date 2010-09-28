@@ -471,7 +471,6 @@
 		</servlet-class>
 	</servlet>
 	
-	<!-- Gerardo's Posts for CPNTools Support --> 
 	<servlet>
 		<display-name>Colored Petri Net to CPN Tools</display-name>
 		<servlet-name>CPNToolsExporter</servlet-name>
@@ -484,13 +483,17 @@
 		<servlet-class>org.oryxeditor.server.CPNToolsImporter</servlet-class>
 	</servlet>
 	
-	<!-- Gerardo's Posts finished -->
 	<servlet>
 		<display-name>Petrinet to Process Log</display-name>
 		<servlet-name>ProcessLogGenerator</servlet-name>
 		<servlet-class>org.oryxeditor.server.ProcessLogGeneratorServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<display-name>Visio</display-name>
+		<servlet-name>VisioImporter</servlet-name>
+		<servlet-class>org.oryxeditor.server.VisioImporter</servlet-class>
+	</servlet>
 
     <!-- Servlet Mappings -->
 <!--	
@@ -770,8 +773,6 @@
 		<url-pattern>/tbpmimport</url-pattern>
 	</servlet-mapping>
 	
-
-	<!-- Gerardo's Mapping for CPNTool support -->
 	<servlet-mapping>
 		<servlet-name>CPNToolsExporter</servlet-name>
 		<url-pattern>/cpntoolsexporter</url-pattern>
@@ -781,11 +782,15 @@
 		<servlet-name>CPNToolsImporter</servlet-name>
 		<url-pattern>/cpntoolsimporter</url-pattern>
 	</servlet-mapping>
-	<!-- Gerardo's Mapping finished -->
 	
 	<servlet-mapping>
 		<servlet-name>ProcessLogGenerator</servlet-name>
 		<url-pattern>/processloggenerator</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>VisioImporter</servlet-name>
+		<url-pattern>/visioimport</url-pattern>
 	</servlet-mapping>
 	
 	<jsp-config>

@@ -755,3 +755,17 @@ ORYX.I18N.SyntaxChecker.COMMUNICATION_AT_LEAST_TWO_PARTICIPANTS = "Die Kommunika
 ORYX.I18N.SyntaxChecker.MESSAGEFLOW_START_MUST_BE_PARTICIPANT = "Die Nachrichtenflussquelle muss ein Teilnehmer sein.";
 ORYX.I18N.SyntaxChecker.MESSAGEFLOW_END_MUST_BE_PARTICIPANT = "Das Nachrichtenflussziel muss ein Teilnehmer sein.";
 ORYX.I18N.SyntaxChecker.CONV_LINK_CANNOT_CONNECT_CONV_NODES = "Der Konversationslink muss eine Kommunikation oder Sub-Konversation mit einem Teilnehmer verbinden.";
+
+/** New Language Properties from Visio Import by Lauritz Thamsen */
+if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioImport = {};
+
+ORYX.I18N.VisioImport.BPMNName = "Visio BPMN importieren";
+ORYX.I18N.VisioImport.EPCName = "Visio EPK importieren";
+ORYX.I18N.VisioImport.Label = 'Visio Import';
+ORYX.I18N.VisioImport.UploadButton = 'VDX laden';
+ORYX.I18N.VisioImport.PleaseSelect = "Bitte wählen Sie die .vdx-Datei für den Import";
+ORYX.I18N.VisioImport.ImportWait = "Das Modell wird geladen. Das kann einen Moment dauern.";
+ORYX.I18N.VisioImport.ImportStart = "Import wurde erfolgreich gestartet.";
+ORYX.I18N.VisioImport.ImportDescription = "Das Visio-Modell wird geladen. Bitte warten."
+ORYX.I18N.VisioImport.ImportFailure = "Visio-Modell konnte nicht importiert werden.";
+ORYX.I18N.VisioImport.ImportFailureDescription = "Bitte prüfen Sie die Verbindung und ob die Schablonen des Modells unterstützt werden.";

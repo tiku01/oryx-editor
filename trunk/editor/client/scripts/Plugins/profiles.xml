@@ -60,6 +60,7 @@
 		<plugin name="ORYX.Plugins.BPMN2_0"/>
 		<plugin name="ORYX.Plugins.BPMN2_0Serialization"/>
 		<plugin name="ORYX.Plugins.Bpmn2_0Choreography"/>
+		<plugin name="ORYX.Plugins.VisioBPMNImport"/>	
 		<!--
 		<plugin name="ORYX.Plugins.TBPMShapeConnector"/>
 		<plugin name="ORYX.Plugins.TBPMCanvasMode"/>
@@ -95,7 +96,9 @@
 		<plugin name="ORYX.Plugins.EPCValidator"/>
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
 		<plugin name="ORYX.Plugins.StepThroughPlugin"/>
+		<plugin name="ORYX.Plugins.VisioEPCImport"/>	
 	</profile>
+	
 	<profile name="petrinet" depends="default" stencilset="stencilsets/petrinets/petrinet.json">
 		<plugin name="ORYX.Plugins.PetriNet" />
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>

@@ -391,6 +391,15 @@
 		</plugin>
 		
 		<plugin source="processLogGenerator.js" name="ORYX.Plugins.ProcessLogGenerator" />
+
+		<plugin source="visioBPMNImport.js" name="ORYX.Plugins.VisioBPMNImport">
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
+		</plugin>
+		
+		<plugin source="visioEPCImport.js" name="ORYX.Plugins.VisioEPCImport">
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>
+		</plugin>
+		
 		
 	</plugins>
 
