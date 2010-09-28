@@ -105,6 +105,7 @@
 		<plugin name="ORYX.Plugins.PetriNetStepThroughPlugin"/>
 		<plugin name="ORYX.Plugins.PetrinetSyntaxChecker"/>
 		<plugin name="ORYX.Plugins.LolaPetriNetSoundnessChecker"/>
+		<plugin name="ORYX.Plugins.ProcessLogGenerator"/>
 	</profile>
 	<profile name="xforms" depends="default" stencilset="stencilsets/xforms/xforms.json">
 		<plugin name="ORYX.Plugins.XFormsExportOrbeon"/>
@@ -151,10 +152,16 @@
 	</profile>
 
 	<profile name="timeline" depends="default" stencilset="stencilsets/timeline/timeline.json">
-
 		<plugin name="ORYX.Plugins.Timeline" />
 	</profile>
+
 	<profile name="bpmnqvar" depends="default" stencilset="stencilsets/bpmnqvar/bpmnqvar.json">
 	  <plugin name="ORYX.Plugins.QueryVariant"/>
 	</profile>
+	
+	<profile name="processlogs" depends="petrinet" stencilset="stencilsets/petrinets/petrinet.json">
+	 	<stencilsetextension namespace="http://oryx-editor.org/stencilsets/extensions/petrinettimeandpropability#"/>
+	 	<plugin name="ORYX.Plugins.ProcessLogGenerator"/> 
+	</profile>
+	
 </profiles>

@@ -26,9 +26,29 @@ public class PTNetRDFImporter {
 	protected PTNetFactory factory;
 	
 	protected class ImportContext {
-		PTNet net;
-		Map<String,de.hpi.petrinet.Node> objects; // key = resource id, value = diagram object
-		Map<String,de.hpi.petrinet.Node> connections; // key = to resource id, value = from node
+		private PTNet net;
+		private Map<String,de.hpi.petrinet.Node> objects; // key = resource id, value = diagram object
+		private Map<String,de.hpi.petrinet.Node> connections; // key = to resource id, value = from node
+		
+		// generated getters and setters
+		protected void setNet(PTNet net) {
+			this.net = net;
+		}
+		public PTNet getNet() {
+			return net;
+		}
+		protected void setObjects(Map<String,de.hpi.petrinet.Node> objects) {
+			this.objects = objects;
+		}
+		public Map<String,de.hpi.petrinet.Node> getObjects() {
+			return objects;
+		}
+		protected void setConnections(Map<String,de.hpi.petrinet.Node> connections) {
+			this.connections = connections;
+		}
+		public Map<String,de.hpi.petrinet.Node> getConnections() {
+			return connections;
+		}
 	}
 	
 	public PTNetRDFImporter(Document doc) {
@@ -43,10 +63,10 @@ public class PTNetRDFImporter {
 		factory = new PTNetFactory();
 		
 		ImportContext c = new ImportContext();
-		c.net = factory.createPetriNet();
+		c.setNet(factory.createPetriNet());
 //		Map map = new HashMap();		
-		c.objects = new HashMap(); // key = resource id, value = node
-		c.connections = new HashMap(); // key = to resource id, value = from node
+		c.setObjects(new HashMap()); // key = resource id, value = node
+		c.setConnections(new HashMap()); // key = to resource id, value = from node
 		
 		List<Node> edges = new ArrayList();
 		
@@ -75,13 +95,13 @@ public class PTNetRDFImporter {
 			addArc(node, c);
 		}
 		
-		return c.net;
+		return c.getNet();
 	}
 	
 	protected void addPlace(Node node, ImportContext c) {
 		Place p = factory.createPlace();
-		c.net.getPlaces().add(p);
-		c.objects.put(getResourceId(node), p);
+		c.getNet().getPlaces().add(p);
+		c.getObjects().put(getResourceId(node), p);
 		
 		for (Node n=node.getFirstChild(); n != null; n=n.getNextSibling()) {
 			if (n instanceof Text) continue;
@@ -95,17 +115,17 @@ public class PTNetRDFImporter {
 				p.setLabel(getContent(n));
 			} else if (attribute.equals("marked")) {
 				if ("true".equals(getContent(n)))
-					c.net.getInitialMarking().addToken(p);
+					c.getNet().getInitialMarking().addToken(p);
 			} else if (attribute.equals("numberoftokens")) {
 				//FIX for empty nodes
 				String nbr=getContent(n);
 				if(nbr!=null){
 					int number_of_tokens = Integer.parseInt(nbr);
 					for (int i=0; i < number_of_tokens; i++) {
-						c.net.getInitialMarking().addToken(p);
+						c.getNet().getInitialMarking().addToken(p);
 					}}
 			} else if (attribute.equals("outgoing")) {
-				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), p);
+				c.getConnections().put(getResourceId(getAttributeValue(n, "rdf:resource")), p);
 			} 
 		}
 		if (p.getId() == null)
@@ -114,8 +134,8 @@ public class PTNetRDFImporter {
 
 	protected void addTransition(Node node, ImportContext c) {
 		LabeledTransition t = factory.createLabeledTransition();
-		c.net.getTransitions().add(t);
-		c.objects.put(getResourceId(node), t);
+		c.getNet().getTransitions().add(t);
+		c.getObjects().put(getResourceId(node), t);
 		
 		for (Node n=node.getFirstChild(); n != null; n=n.getNextSibling()) {
 			if (n instanceof Text) continue;
@@ -124,7 +144,7 @@ public class PTNetRDFImporter {
 			if (attribute.equals("title")) {
 				t.setLabel(getContent(n));
 			} else if (attribute.equals("outgoing")) {
-				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
+				c.getConnections().put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
 			}else if (attribute.equals("communicationchannel")){
 				String channel = getContent(n);
 				if (channel != null)
@@ -150,15 +170,15 @@ public class PTNetRDFImporter {
 
 	protected void addSilentTransition(Node node, ImportContext c) {
 		SilentTransition t = factory.createSilentTransition();
-		c.net.getTransitions().add(t);
-		c.objects.put(getResourceId(node), t);
+		c.getNet().getTransitions().add(t);
+		c.getObjects().put(getResourceId(node), t);
 		
 		for (Node n=node.getFirstChild(); n != null; n=n.getNextSibling()) {
 			if (n instanceof Text) continue;
 			String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':')+1);
 			
 			if (attribute.equals("outgoing")) {
-				c.connections.put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
+				c.getConnections().put(getResourceId(getAttributeValue(n, "rdf:resource")), t);
 			}
 		}
 		if (t.getId() == null)
@@ -167,7 +187,7 @@ public class PTNetRDFImporter {
 
 	protected void addArc(Node node, ImportContext c) {
 		FlowRelationship arc = factory.createFlowRelationship();
-		c.net.getFlowRelationships().add(arc);
+		c.getNet().getFlowRelationships().add(arc);
 		setConnections(arc, node, c);
 		
 		for (Node n=node.getFirstChild(); n != null; n=n.getNextSibling()) {
@@ -188,7 +208,7 @@ public class PTNetRDFImporter {
 			String attribute = n.getNodeName().substring(n.getNodeName().indexOf(':')+1);
 			
 			if (attribute.equals("outgoing")) {
-				arc.setTarget(c.objects.get(getResourceId(getAttributeValue(n, "rdf:resource"))));
+				arc.setTarget(c.getObjects().get(getResourceId(getAttributeValue(n, "rdf:resource"))));
 			}
 		}
 	}
