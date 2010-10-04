@@ -65,6 +65,7 @@ _Unfortunately, we experienced severe problems running PostgreSQL with PL/Python
   * createuser –U postgres –-echo –-pwprompt –-encrypted poem
   * createdb –U postgres –-echo –-encoding utf8 –-owner poem poem
   * psql –U postgres –-dbname poem –-file db_schema.sql
+   * If the command above does not work try the following: psql poem < db_schema.sql postgres
 *ANT*
   * It is also possibile to use the build-target create-db
   * Therefore fill in your postgres installation credentials to the build.properties and run the create-db target 
