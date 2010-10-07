@@ -319,6 +319,18 @@ ORYX.Core.AbstractShape = ORYX.Core.UIObject.extend(
 	},
 	
 	/**
+	 * Calculate if the point has an object on it (for any children)
+	 * @param {Point}
+	 */
+	isPointAllocated: function(pointX, pointY){
+		var allchildren = this.getChildNodes(true);
+		for(var i = 0; i < allchildren.length; i++) {
+			if (allchildren[i].isPointIncluded(pointX,pointY)) return true;
+		}
+		return false;
+	},
+	
+	/**
 	 * Get the serialized object
 	 * return Array with hash-entrees (prefix, name, value)
 	 * Following values will given:

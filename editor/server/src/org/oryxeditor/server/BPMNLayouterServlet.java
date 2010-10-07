@@ -76,6 +76,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 		// String eRDF = request.getParameter("data");
 
 		String jsonmodel = request.getParameter("data");
+		String output = request.getParameter("output");
 		// String eRDF = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<div
 		// class=\"processdata\">"
 		// + jsonToErdf(jsonmodel) + "\n</div>";
@@ -115,7 +116,7 @@ public class BPMNLayouterServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/xhtml");
 
-		if(request.getParameter("output") != null && request.getParameter("output").equals("coordinatesonly")){
+		if(output != null && output.equals("coordinatesonly")){
 			JSONArray json = new JSONArray();
 	
 			try {
@@ -253,7 +254,8 @@ public class BPMNLayouterServlet extends HttpServlet {
 		for (LayoutingElement c : this.diagram.getChildElementsOf(parent)) {
 			BPMNElement child = (BPMNElement) c;			
 			String childType = child.getType();
-			if (childType.equals(BPMNType.Subprocess)) {
+			if (BPMNType.isSubprocess(childType) ||
+					!this.diagram.getChildElementsOf(child).isEmpty()) {
 				subprocessOrder.add(child);
 				processChilds(child);
 			}

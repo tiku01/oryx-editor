@@ -1,0 +1,629 @@
+{
+	"title":"EAM Cartesian Map",
+	"namespace":"http://b3mn.org/stencilset/eamcartesian#",
+	"description":"EAM Cartesian Maps according to EAM Viewpoint Building Blocks of TU Munich.",
+	"description_de":"Kartesische Diagramme nach dem Standard von EAM Viewpoint Building Blocks of TU Muenchen.",
+ 	"stencils" : [
+ 		{
+			"type":				"node",
+			"id":				"EAMCartesianDiagram",
+			"title":			"EAM-Cartesian-Diagram",
+			"title_de":			"EAM-Cartesian-Diagramm",
+			"groups":			["Diagram"],
+			"description":		"An EAM Cartesian Diagram.",
+			"view":				"node.diagram.svg",
+			"icon":				"new_diagram.png",
+			"mayBeRoot":		true,
+			"hide":				true,
+			"roles":			[],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Name is an attribute that is text description of the Diagram.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"diagramtext",
+					"wrapLines":true
+				},
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"English",
+					"description":"This holds the name of the language in which text is written.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"modificationDate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"The modeler may add optional text documentation about the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},			
+ 		{
+			"type": "node",
+			"id":"XAxisSlot",
+			"title":"Slot (X-Axis)",
+			"groups":["Slots"],
+			"description":"A slot type for X-Axis Objects.",
+			"view":"node.group.svg",
+			"icon":"new_group.png",
+			"roles": [
+				"slots"
+			],
+			"layout": [{ "type": 'layout.table', "changeid":"XAxisSlot" }],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"xcoord",
+					"type":"Integer",
+					"title":"X Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ycoord",
+					"type":"Integer",
+					"title":"Y Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"YAxisSlot",
+			"title":"Slot (Y-Axis)",
+			"groups":["Slots"],
+			"description":"A slot type for Y-Axis Objects.",
+			"view":"node.group.svg",
+			"icon":"new_group.png",
+			"roles": [
+				"slots"
+			],
+			"layout": [{ "type": 'layout.table', "changeid":"YAxisSlot" }],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"xcoord",
+					"type":"Integer",
+					"title":"X Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ycoord",
+					"type":"Integer",
+					"title":"Y Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"CellSlot",
+			"title":"Slot (Cell)",
+			"groups":["Slots"],
+			"description":"A slot type for Cell Objects.",
+			"view":"node.group.svg",
+			"icon":"new_group.png",
+			"roles": [
+				"slots"
+			],
+			"layout": [{ "type": 'layout.table', "changeid":"CellSlot" }],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"xcoord",
+					"type":"Integer",
+					"title":"X Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"ycoord",
+					"type":"Integer",
+					"title":"Y Coordinate",
+					"value":"0",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"XAxisRect",
+			"title":"Header Rectangle for X-Axis",
+			"groups":["Rectangles"],
+			"description":"A rectangle.",
+			"view":"node.chevron.svg",
+			"icon":"new_task.png",
+			"roles": [
+				"xaxisobjects",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"acttext",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"YAxisRect",
+			"title":"Header Rectangle for Y-Axis",
+			"groups":["Rectangles"],
+			"description":"A rectangle.",
+			"view":"node.cylinder.svg",
+			"icon":"new_task.png",
+			"roles": [
+				"yaxisobjects",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"acttext",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"CellRect",
+			"title":"Header Rectangle for the Cells",
+			"groups":["Rectangles"],
+			"description":"A rectangle.",
+			"view":"node.rect.svg",
+			"icon":"new_task.png",
+			"roles": [
+				"cellobjects",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"acttext",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"TextAnnotation",
+			"title":"Text Annotation",
+			"groups":["Artifacts"],
+			"description":"A text annotation",
+			"view":"node.text.annotation.svg",
+			"icon":"new_text_annotation.png",
+			"roles": [
+				"from_artifact",
+				"to_artifact",
+				"artifacts"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"value":"Annotation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"text",
+					"type":"String",
+					"title":"Text",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Undirected",
+			"title":"Association Undirected",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection.association.undirected.svg",
+			"icon":"new_association_undirected.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"direction",
+					"type":"String",
+					"title":"Direction",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			]
+		}
+	],
+	
+	"rules": {
+		"connectionRules": [
+			{
+				"role":"Association_Undirected",
+				"connects": [
+					{
+						"from":"TextAnnotation",
+						"to":["fromtoall"]
+					},
+					{
+						"from":"fromtoall",
+						"to":["TextAnnotation"]
+					}
+				]
+			}
+		],
+		"cardinalityRules": [
+		],
+		"containmentRules": [
+			{
+				"role":"EAMCartesianDiagram",
+				"contains": [
+					"slots",
+					"artifacts"
+				]
+			},
+			{
+				"role":"XAxisSlot",
+				"contains": [
+					"xaxisobjects"
+				]
+			},
+			{
+				"role":"YAxisSlot",
+				"contains": [
+					"yaxisobjects"
+				]
+			},
+			{
+				"role":"CellSlot",
+				"contains": [
+					"cellobjects"
+				]
+			}
+		]
+	}
+}

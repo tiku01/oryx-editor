@@ -1,11 +1,43 @@
 [
         {
+            "title":"EAM Sequence",
+            "namespace":"http://b3mn.org/stencilset/eamsequence#",
+            "description":"Sequence Diagram Types of EAM Viewpoint Building Blocks.",
+            "uri":"/eamsequence/eamsequence.json",
+            "icon_url":"/eamsequence/eamsequence.png",
+            "visible":true
+        },
+        {
+            "title":"EAM Cluster",
+            "namespace":"http://b3mn.org/stencilset/eamcluster#",
+            "description":"Cluster Map Types of EAM Viewpoint Building Blocks.",
+            "uri":"/eamcluster/eamcluster.json",
+            "icon_url":"/eamcluster/eamcluster.png",
+            "visible":true
+        },
+        {
+            "title":"EAM Cartesian",
+            "namespace":"http://b3mn.org/stencilset/eamcartesian#",
+            "description":"Cartesian Map Types of EAM Viewpoint Building Blocks.",
+            "uri":"/eamcartesian/eamcartesian.json",
+            "icon_url":"/eamcartesian/eamcartesian.png",
+            "visible":true
+        },
+        {
             "title":"BPMN 1.0",
             "namespace":"http://b3mn.org/stencilset/bpmn#",
             "description":"BPMN 1.0 stencil set specification.",
             "uri":"/bpmn/bpmn.json",
             "icon_url":"/bpmn/bpmn.png",
             "visible":false
+        },
+        {
+            "title":"BPMN 1.1",
+            "namespace":"http://b3mn.org/stencilset/bpmn1.1#",
+            "description":"BPMN 1.1 stencil set specification.",
+            "uri":"/bpmn1.1/bpmn1.1.json",
+            "icon_url":"/bpmn1.1/bpmn1.1.png",
+            "visible":true
         },
 		{
             "title":"BPMN 2.0 Processes",
