@@ -1,0 +1,918 @@
+{
+	"title":"EAM Sequence Diagram",
+	"namespace":"http://b3mn.org/stencilset/eamsequence#",
+	"description":"EAM Sequences according to EAM Viewpoint Building Blocks of TU Munich.",
+	"description_de":"Sequenzdiagramme nach dem Standard von EAM Viewpoint Building Blocks of TU Muenchen.",
+ 	"stencils" : [
+ 		{
+			"type":				"node",
+			"id":				"EAMSequenceDiagram",
+			"title":			"EAM-Sequence-Diagram",
+			"title_de":			"EAM-Sequence-Diagramm",
+			"groups":			["Diagram"],
+			"description":		"An EAM Sequence Diagram.",
+			"view":				"node.diagram.svg",
+			"icon":				"new_diagram.png",
+			"mayBeRoot":		true,
+			"hide":				true,
+			"roles":			["fromtoall"],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Name is an attribute that is text description of the Diagram.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"diagramtext",
+					"wrapLines":true
+				},
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"English",
+					"description":"This holds the name of the language in which text is written.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"modificationDate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"The modeler may add optional text documentation about the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},			
+ 		{
+			"type": "node",
+			"id":"Task",
+			"title":"Process",
+			"groups":["Processes"],
+			"description":"A company process.",
+			"view":"node.rect.svg",
+			"icon":"new_task.png",
+			"roles": [
+				"sequence_start",
+				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"acttext",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"assignments",
+					"type":"String",
+					"title":"Assignments",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"wrapLines":true
+				},
+				{
+					"id":"properties",
+					"type":"String",
+					"title":"Properties",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"wrapLines":true
+				},
+				{
+					"id":"Performers",
+					"type":"String",
+					"title":"Performers",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"taskrect",
+					"fill":true,
+					"stroke":false
+				}				
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"Subprocess",
+			"title":"Sub-Process",
+			"groups":["Processes"],
+			"description":"A subprocess.",
+			"view":"node.subprocess.svg",
+			"icon":"new_subprocess.png",
+			"roles": [
+				"sequence_start",
+				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"tc",
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"acttext",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					id: "subProcessType",
+					type: "Choice",
+					title: "subProcessType",
+					value: "Embedded",
+					description: "SubProcessType is an attribute that defines whether the Sub-Process details are embedded within the higher level Process or refers to another, re-usable Process. The default is Embedded.",
+					optional: false,
+					refToView: "",
+					items: [
+						{
+							id: "choice1",
+							title:"embedded",
+							value:"Embedded",
+							refToView: "None"
+						},
+						{
+							id: "choice2",
+							title: "independent",
+							value: "Independent",
+							refToView: "None"
+						},
+						{
+							id: "choice3",
+							title: "reference",
+							value: "Reference",
+							refToView: "None"
+						}
+					]
+				}
+			]
+		},
+ 		{
+			"type": "node",
+			"id":"TextAnnotation",
+			"title":"Text Annotation",
+			"groups":["Artifacts"],
+			"description":"A text annotation",
+			"view":"node.text.annotation.svg",
+			"icon":"new_text_annotation.png",
+			"roles": [
+				"from_artifact",
+				"to_artifact",
+				"tc"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"value":"Annotation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"text",
+					"type":"String",
+					"title":"Text",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"DataObject",
+			"title":"Data Object",
+			"description":"A data object",
+			"groups":["Artifacts"],
+			"view":"node.data.object.svg",
+			"icon":"new_data_object.png",
+			"roles": [
+				"from_artifact",
+				"to_artifact",
+				"fromtoall",
+				"tc"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"artifactType",
+					"type":"String",
+					"title":"ArtifactType",
+					"value":"DataObject",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Text description",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"state",
+					"type":"String",
+					"title":"State",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"properties",
+					"type":"String",
+					"title":"Properties",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":undefined,
+					"wrapLines":true
+				},
+				{
+					"id":"requiredForStart",
+					"type":"Boolean",
+					"title":"Required for start",
+					"value":true,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+				},
+				{
+					"id":"producedAtCompletion",
+					"type":"Boolean",
+					"title":"Produced at completion",
+					"value":true,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+				},				
+				{
+					"id":"bgColor",
+					"type":"Color",
+					"title":"BackgroundColor",
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"frame",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"SequenceFlow",
+			"title":"Sequence Flow",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection.sequenceflow.normal.svg",
+			"icon":"new_sequenceflow.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Undirected",
+			"title":"Association Undirected",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection.association.undirected.svg",
+			"icon":"new_association_undirected.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"direction",
+					"type":"String",
+					"title":"Direction",
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Unidirectional",
+			"title":"Association Unidirectional",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection.association.unidirectional.svg",
+			"icon":"new_association_unidirectional.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"direction",
+					"type":"String",
+					"title":"Direction",
+					"value":"To",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Bidirectional",
+			"title":"Association Bidirectional",
+			"description":"",
+			"groups":["Connecting Objects"],
+			"view":"connection.association.bidirectional.svg",
+			"icon":"new_association_bidirectional.png",
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"direction",
+					"type":"String",
+					"title":"Direction",
+					"value":"Both",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			]
+		}
+	],
+	
+	"rules": {
+		"connectionRules": [
+			{
+				"role":"SequenceFlow",
+				"connects": [
+					{
+						"from":"sequence_start",
+						"to":["sequence_end"]
+					}
+				]
+			},
+			{
+				"role":"Association_Unidirectional",
+				"connects": [
+					{
+						"from":"from_task_event",
+						"to":["DataObject"]
+					},
+					{
+						"from":"DataObject",
+						"to":["to_task_event"]
+					},
+				]
+			},
+			{
+				"role":"Association_Bidirectional",
+				"connects": [
+					{
+						"from":"from_task_event",
+						"to":["DataObject"]
+					},
+					{
+						"from":"DataObject",
+						"to":["to_task_event"]
+					},
+				]
+			},
+			{
+				"role":"Association_Undirected",
+				"connects": [
+					{
+						"from":"SequenceFlow",
+						"to":["DataObject"]
+					},
+					{
+						"from":"DataObject",
+						"to":["SequenceFlow"]
+					},
+					{
+						"from":"MessageFlow",
+						"to":["DataObject"]
+					},
+					{
+						"from":"DataObject",
+						"to":["MessageFlow"]
+					},
+					{
+						"from":"fromtoall",
+						"to":["TextAnnotation"]
+					},
+					{
+						"from":"TextAnnotation",
+						"to":["fromtoall"]
+					}
+				]
+			},
+		],
+		"cardinalityRules": [
+		],
+		"containmentRules": [
+			{
+				"role":"EAMSequenceDiagram",
+				"contains": [
+					"tc"
+				]
+			},
+			{
+				role: "Subprocess",
+				contains: [
+					"tc"
+				]
+			}
+		]
+	}
+}

@@ -35,5 +35,57 @@ ORYX.Utils = {
 				stop.setAttributeNS(null, "stop-color", col);
 			})
 		}
+	},
+    
+	contains: function(array, object){
+		for(var i = 0; i < array.length; i++) {
+		    if(this.equals(array[i],object)){
+		      return true;
+		    }
+		}
+	  return false;
+	},
+	
+	equals: function(object1,object2)
+	{
+	    for(p in object1)
+	    {
+	        switch(typeof(object1[p]))
+	        {
+	                case 'object':
+	                		break;
+	                case 'function':
+	                        if (typeof(object2[p])=='undefined' || (object1[p].toString() != object2[p].toString())) { return false; }; break;
+	                default:
+	                        if (object1[p] != object2[p]) { return false; }
+	        }
+	    }
+
+	    return true;
+	},
+	
+	deepEquals: function(object1,object2)
+	{
+	    for(p in object1)
+	    {
+	        switch(typeof(object1[p]))
+	        {
+	                case 'object':
+	                		if (!this.equals(object1[p],object2[p])) { return false }; break;
+	                case 'function':
+	                        if (typeof(object2[p])=='undefined' || (object1[p].toString() != object2[p].toString())) { return false; }; break;
+	                default:
+	                        if (object1[p] != object2[p]) { return false; }
+	        }
+	    }
+
+	    for(p in object2)
+	    {
+	        if(typeof(object1[p])=='undefined') {return false;}
+	    }
+
+	    return true;
 	}
 }
+
+

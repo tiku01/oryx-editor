@@ -382,7 +382,6 @@
 		</servlet-class>
 	</servlet>
 	
-	
 	<servlet>
 		<display-name>BPMN 2 Exporter</display-name>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>
@@ -671,6 +670,20 @@
 		<url-pattern>/epclayouter</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>BPMNLayouterServlet</servlet-name>
+		<url-pattern>/eamsequencelayouter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPMNLayouterServlet</servlet-name>
+		<url-pattern>/eamclusterlayouter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BPMNLayouterServlet</servlet-name>
+		<url-pattern>/eamcartesianlayouter</url-pattern>
+	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>Bpmn2_0Servlet</servlet-name>

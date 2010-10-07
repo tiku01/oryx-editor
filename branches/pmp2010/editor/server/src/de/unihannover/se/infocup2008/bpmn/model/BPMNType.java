@@ -46,7 +46,12 @@ public class BPMNType {
 
 	public static boolean isAActivity(String type) {
 		return type.equals(Task) || type.equals(CollapsedSubprocess)
-				|| type.equals(Subprocess);
+				|| type.equals(Subprocess) || type.contains("Rect");
+	}
+	
+	public static boolean isSubprocess(String type)
+	{
+		return type.equals(Subprocess) || type.contains("Slot");		
 	}
 
 	// Artifacts

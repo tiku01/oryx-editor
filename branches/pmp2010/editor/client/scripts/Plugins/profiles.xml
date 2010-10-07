@@ -29,10 +29,13 @@
 		<plugin name="ORYX.Plugins.KeysMove"/>	
 		<plugin name="ORYX.Plugins.RowLayouting"/>	
 		<plugin name="ORYX.Plugins.PluginLoader"/>
-		
+
+		<plugin source="eamSequenceLayouter.js" name="ORYX.Plugins.EAMSequenceLayouter"/>		
+		<plugin source="eamClusterLayouter.js" name="ORYX.Plugins.EAMClusterLayouter"/>		
+		<plugin source="eamCartesianLayouter.js" name="ORYX.Plugins.EAMCartesianLayouter"/>		
+
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-		
 				
 	</profile>
 
@@ -70,6 +73,9 @@
 		<plugin source="Layouter/containerLayouter.js" name="ORYX.Plugins.ContainerLayouter" />
 		<plugin source="Layouter/edgeLayouter.js" name="ORYX.Plugins.Layouter.EdgeLayouter"/>
 		
+		<plugin source="eamSequenceLayouter.js" name="ORYX.Plugins.EAMSequenceLayouter"/>		
+		<plugin source="eamClusterLayouter.js" name="ORYX.Plugins.EAMClusterLayouter"/>		
+		<plugin source="eamCartesianLayouter.js" name="ORYX.Plugins.EAMCartesianLayouter"/>		
 				
 	</profile>
 	<profile name="bpmn" depends="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
@@ -80,7 +86,6 @@
 		<plugin name="ORYX.Plugins.SyntaxChecker"/>
 		<plugin name="ORYX.Plugins.BPMNValidator"/>
 		<plugin name="ORYX.Plugins.StepThroughPlugin"/>
-		<plugin name="ORYX.Plugins.BPMN11"/>
 		<plugin name="ORYX.Plugins.BPMN"/>
 		<plugin name="ORYX.Plugins.QueryResultHighlighter"/>
 		<plugin name="ORYX.Plugins.BpmnLayouter"/>

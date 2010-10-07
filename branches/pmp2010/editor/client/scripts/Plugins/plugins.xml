@@ -165,6 +165,10 @@
 			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
 		</plugin>
 		
+		<!-- <plugin source="eamcarthesian.js" name="ORYX.Plugins.EAMCartesian">
+			<requires namespace="http://b3mn.org/stencilset/eamcartesian#"/>					
+		</plugin> -->
+				
 		<!-- BPMN1.1 specific plugins -->
 		<plugin source="bpmn11.js" name="ORYX.Plugins.BPMN11">
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
@@ -203,6 +207,22 @@
 		<plugin source="epcLayouter.js" name="ORYX.Plugins.EPCLayouter">
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
 		</plugin>
+
+		<plugin source="eamSequenceLayouter.js" name="ORYX.Plugins.EAMSequenceLayouter">
+			<requires namespace="http://b3mn.org/stencilset/eamsequence#"/>	
+		</plugin>
+		
+		<plugin source="eamClusterLayouter.js" name="ORYX.Plugins.EAMClusterLayouter">
+			<requires namespace="http://b3mn.org/stencilset/eamcluster#"/>	
+		</plugin>
+		
+		<plugin source="eamCartesianLayouter.js" name="ORYX.Plugins.EAMCartesianLayouter">
+			<requires namespace="http://b3mn.org/stencilset/eamcartesian#"/>	
+		</plugin>
+		
+		<!-- <plugin source="eamTableLayoutHandler.js" name="ORYX.Plugins.EAMTableLayoutHandler">
+			<requires namespace="http://b3mn.org/stencilset/eamcartesian#"/>			
+		</plugin> -->
 		
 		<plugin source="transformationDownloadDialog.js" name="ORYX.Plugins.TransformationDownloadDialog">
 			<requires namespace="http://b3mn.org/stencilset/bpmnplus#"/>

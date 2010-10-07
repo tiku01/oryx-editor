@@ -630,29 +630,37 @@ public class LeftToRightGridLayouter implements Layouter {
 	 */
 	private void calcGeometry(SuperGrid<BPMNElement> grids) {
 		grids.pack();
-		heightOfRow = new double[grids.getHeight()];
-		widthOfColumn = new double[grids.getWidth()];
-		// initialize with standard values
-		Arrays.fill(heightOfRow, CELL_HEIGHT);
-		Arrays.fill(widthOfColumn, CELL_WIDTH);
-		// find biggest
-		int row = 0;
-		int column = 0;
-		for (Row<BPMNElement> r : grids) {
-			column = 0;
-			for (Cell<BPMNElement> c : r) {
-				if (c.isFilled()) {
-					BPMNElement elem = c.getValue();
-					LayoutingBounds geom = elem.getGeometry();
-					widthOfColumn[column] = Math.max(widthOfColumn[column],
-							geom.getWidth() + CELL_MARGIN);
-					heightOfRow[row] = Math.max(heightOfRow[row], geom
-							.getHeight()
-							+ CELL_MARGIN);
+		if (grids.getHeight()==-1 || grids.getWidth()==-1)
+		{
+			heightOfRow = new double[]{Math.max(0,this.parent.getGeometry().getHeight())};
+			widthOfColumn = new double[]{Math.max(0,this.parent.getGeometry().getWidth())};
+		}
+		else
+		{
+			heightOfRow = new double[grids.getHeight()];
+			widthOfColumn = new double[grids.getWidth()];
+			// initialize with standard values
+			Arrays.fill(heightOfRow, CELL_HEIGHT);
+			Arrays.fill(widthOfColumn, CELL_WIDTH);
+			// find biggest
+			int row = 0;
+			int column = 0;
+			for (Row<BPMNElement> r : grids) {
+				column = 0;
+				for (Cell<BPMNElement> c : r) {
+					if (c.isFilled()) {
+						BPMNElement elem = c.getValue();
+						LayoutingBounds geom = elem.getGeometry();
+						widthOfColumn[column] = Math.max(widthOfColumn[column],
+								geom.getWidth() + CELL_MARGIN);
+						heightOfRow[row] = Math.max(heightOfRow[row], geom
+								.getHeight()
+								+ CELL_MARGIN);
+					}
+					column++;
 				}
-				column++;
+				row++;
 			}
-			row++;
 		}
 
 		// calc width / height
