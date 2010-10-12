@@ -252,7 +252,20 @@
 		},
 		
 		/*
-		 * remove shadowy from shapes
+		 * add shadows to shapes
+		 * either all shapes are specified ("all") or just a collection of resourceIds
+		 * 
+		 */		
+		doGrey : function(viewer, option){
+			 if (option != "all")
+					option = Object.toJSON(option);
+				
+			var channel = "dispatcher." + viewer + ".doGrey";
+			gadgets.rpc.call(null, channel, function(){return;}, option);
+		},
+		
+		/*
+		 * remove shadows from shapes
 		 * either all shapes are specified ("all") or just a collection of resourceIds
 		 * 
 		 */
@@ -304,6 +317,26 @@
 			
 		},
 		
+        /*
+         * request the whole viewer object of a specific viewer
+         * 
+         */
+        getViewer : function(viewer, callback, scope, args){
+                
+                var channel = "dispatcher." + viewer + ".getViewer";
+                
+                gadgets.rpc.call(
+                        null,
+                        channel,
+                        function(reply){
+                                var viewer = reply;//.evalJSON();
+                                callback.call(scope? scope : this, viewer, args);
+                        },
+                        ""
+                );
+                
+        },      
+		
 		/*
 		 * request resourceIds and labels of all selected nodes in a specific viewer
 		 */
@@ -350,7 +383,24 @@
 			var channel = "dispatcher." + viewer + ".setSelectionMode";
 			gadgets.rpc.call( null, channel, function(){return;}, option);	
 		},
-		
+        
+        /*
+         *  Set the MOVI selection object
+         */
+        setSelection: function(viewer, selection){
+                var channel = "dispatcher." + viewer + ".setSelection";
+                gadgets.rpc.call( null, channel, function(){return;}, selection);       
+        },
+        
+        
+        /*
+         *  Selects the the nodes with the given Ressource IDs
+         */
+        setSelectedShapes: function(viewer, shapes){
+                var channel = "dispatcher." + viewer + ".setSelectedShapes";
+                gadgets.rpc.call( null, channel, function(){return;}, shapes);  
+        },
+        
 		/*
 		 * request meta information about a model
 		 * 

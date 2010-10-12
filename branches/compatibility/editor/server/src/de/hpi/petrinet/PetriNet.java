@@ -48,6 +48,8 @@ public class PetriNet implements Cloneable {
 
 	protected TransitiveClosure transitiveClosure;
 	
+	protected String id;
+	
 	public List<FlowRelationship> getFlowRelationships() {
 		if (flowRelationships == null)
 			flowRelationships = new MyFlowRelationshipList();
@@ -65,12 +67,26 @@ public class PetriNet implements Cloneable {
 			transitions = new ArrayList<Transition>();
 		return transitions;
 	}
+	
+	public List<Node> getLabeledTransitions() {
+		List<Node> result = new ArrayList<Node>();
+		for(Transition t : getTransitions())
+			if (t instanceof LabeledTransition)
+				result.add((LabeledTransition)t);
+		return result;
+	}
 
 	public List<Node> getNodes() {
 		List<Node> nodes = new ArrayList<Node>();
 		nodes.addAll(getPlaces());
 		nodes.addAll(getTransitions());
 		return nodes;
+	}
+	
+	public Transition getTransitionByResourceId(String resourceId) {
+		for(Transition transition : getTransitions())
+			if(transition.getResourceId().equals(resourceId)) return transition;
+		return null;
 	}
 	
 	public SyntaxChecker getSyntaxChecker() {
@@ -217,6 +233,11 @@ public class PetriNet implements Cloneable {
 	public Place getInitialPlace(){
 		return this.getInitialPlaces().get(0);
 	}
+	
+	public void clearInitialAndFinalPlaces() {
+		this.initialPlaces = null;
+		this.finalPlaces = null;
+	}
 
 	/**
 	 * Checks whether the net is a free choice net.
@@ -345,5 +366,12 @@ public class PetriNet implements Cloneable {
 		this.transitiveClosure = transitiveClosure;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 }

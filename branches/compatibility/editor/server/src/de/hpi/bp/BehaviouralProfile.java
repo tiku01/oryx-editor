@@ -23,21 +23,25 @@ package de.hpi.bp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import de.hpi.PTnet.PTNet;
 import de.hpi.petrinet.Node;
-import de.hpi.petrinet.TransitiveClosure;
 
 public class BehaviouralProfile {
 	
 	public enum CharacteristicRelationType {
-		StrictOrder,ReversedStrictOrder,Concurrency,Exclusive
+		StrictOrder,ReversedStrictOrder,Concurrency,Exclusive,None
 	}
 
 	protected PTNet pn;
 	
+	protected List<Node> nodes;
+	
 	protected CharacteristicRelationType[][] matrix;
 
+	protected TrueConcurrencyRelation concurrencyMatrix;
+	
 	public CharacteristicRelationType[][] getMatrix() {
 		return matrix;
 	}
@@ -46,124 +50,69 @@ public class BehaviouralProfile {
 		this.matrix = matrix;
 	}
 
-	protected TrueConcurrencyRelation trueConcurrency;
-	
-	public BehaviouralProfile(PTNet pn) {
+	public List<Node> getNodes() {
+		return this.nodes;
+	}
+	public BehaviouralProfile(PTNet pn, List<Node> nodes) {
 		this.pn = pn;
-		this.matrix = null;
-		deriveBehaviouralProfile();
+		this.nodes = nodes;
+		this.matrix = new CharacteristicRelationType[this.nodes.size()][this.nodes.size()];
+	}
+	
+	public BehaviouralProfile(int size) {
+		this.matrix = new CharacteristicRelationType[size][size];
 	}
 	
 	public PTNet getNet() {
 		return this.pn;
 	}
-	
-	public TrueConcurrencyRelation getTrueConcurrency() {
-		return this.trueConcurrency;
-	}
-	
-	protected void deriveBehaviouralProfile() {
-		this.matrix = new CharacteristicRelationType[this.pn.getNodes().size()][this.pn.getNodes().size()];
-
-		TransitiveClosure closure = new TransitiveClosure(this.pn);
-		trueConcurrency = new TrueConcurrencyRelation(this.pn);
 		
-		for(Node n1 : this.pn.getNodes()) {
-			int index1 = this.pn.getNodes().indexOf(n1);
-			for(Node n2 : this.pn.getNodes()) {
-				int index2 = this.pn.getNodes().indexOf(n2);
-				/*
-				 * The matrix is symmetric. Therefore, we need to traverse only 
-				 * half of the entries.
-				 */
-				if (index2 > index1)
-					continue;
-				/*
-				 * What about the relation of a node to itself?
-				 */
-				if (index1 == index2) {
-					if (closure.isPath(index1, index1)) {
-						this.matrix[index1][index1] = CharacteristicRelationType.Concurrency;
-					} else {
-						this.matrix[index1][index1] = CharacteristicRelationType.Exclusive;
-					}
-				}
-				else if (closure.isPath(index1, index2) && closure.isPath(index2, index1)) {
-					setMatrixEntry(index1,index2,CharacteristicRelationType.Concurrency);
-				}
-				else if (trueConcurrency.areTrueConcurrent(index1,index2)) {
-					setMatrixEntry(index1,index2,CharacteristicRelationType.Concurrency);
-				}
-				else if (!trueConcurrency.areTrueConcurrent(index1,index2) && !closure.isPath(index1, index2) && !closure.isPath(index2, index1)) {
-					setMatrixEntry(index1,index2,CharacteristicRelationType.Exclusive);
-				}
-				else if (closure.isPath(index1, index2) && !closure.isPath(index2, index1)) {
-					setMatrixEntryOrder(index1,index2);
-				}
-				else if (closure.isPath(index2, index1) && !closure.isPath(index1, index2)) {
-					setMatrixEntryOrder(index2,index1);
-				}
-			}
-		}
-	}
-	
-	/**
-	 * As the matrix of the behavioral profile is symmetric for
-	 * the exclusive and concurrency relation, we use this procedure 
-	 * to set these dependency between two nodes.
-	 * 
-	 * @param i
-	 * @param j
-	 * @param type
-	 */
-	protected void setMatrixEntry(int i, int j, CharacteristicRelationType type) {
-		assert(type.equals(CharacteristicRelationType.Concurrency)||type.equals(CharacteristicRelationType.Exclusive));
-		this.matrix[i][j] = type;
-		this.matrix[j][i] = type;
-	}
-	
-	protected void setMatrixEntryOrder(int from, int to) {
-		this.matrix[from][to] = CharacteristicRelationType.StrictOrder;
-		this.matrix[to][from] = CharacteristicRelationType.ReversedStrictOrder;
-	}
-	
 	public boolean areConcurrent(Node n1, Node n2) {
-		if (matrix == null)
-			deriveBehaviouralProfile();
-		int index1 = this.pn.getNodes().indexOf(n1);
-		int index2 = this.pn.getNodes().indexOf(n2);
+		int index1 = this.nodes.indexOf(n1);
+		int index2 = this.nodes.indexOf(n2);
 		return matrix[index1][index2].equals(CharacteristicRelationType.Concurrency);
 	}
-	
+
+	public boolean areExclusive(Node n1, Node n2) {
+		int index1 = this.nodes.indexOf(n1);
+		int index2 = this.nodes.indexOf(n2);
+		return matrix[index1][index2].equals(CharacteristicRelationType.Exclusive);
+	}
+
+	public boolean areInStrictOrder(Node n1, Node n2) {
+		int index1 = this.nodes.indexOf(n1);
+		int index2 = this.nodes.indexOf(n2);
+		return matrix[index1][index2].equals(CharacteristicRelationType.StrictOrder);
+	}
+
 	public CharacteristicRelationType getRelationForNodes(Node n1, Node n2) {
-		if (matrix == null)
-			deriveBehaviouralProfile();
-		int index1 = this.pn.getNodes().indexOf(n1);
-		int index2 = this.pn.getNodes().indexOf(n2);
+		int index1 = this.nodes.indexOf(n1);
+		int index2 = this.nodes.indexOf(n2);
 		return matrix[index1][index2];
 	}
 	
+	public CharacteristicRelationType getRelationForIndex(int index1, int index2) {
+		return matrix[index1][index2];
+	}
+
+	
 	public Collection<Node> getNodesInRelation(Node n, CharacteristicRelationType relationType) {
-		if (matrix == null)
-			deriveBehaviouralProfile();
 		Collection<Node> nodes = new ArrayList<Node>();
-		int index = this.pn.getNodes().indexOf(n);
+		int index = this.nodes.indexOf(n);
 		
 		for (int i = 0; i < matrix.length; i++) {
 			if (matrix[index][i].equals(relationType)) {
-				nodes.add(this.pn.getNodes().get(i));
+				nodes.add(this.nodes.get(i));
 			}
 		}
 		return nodes;
 	}
 	
 	public void printAllNodes(CharacteristicRelationType relationType) {
-		if (matrix == null)
-			deriveBehaviouralProfile();
-		for(Node n1 : this.pn.getNodes()) {
-			int index1 = this.pn.getNodes().indexOf(n1);
-			for(Node n2 : this.pn.getNodes()) {
-				int index2 = this.pn.getNodes().indexOf(n2);
+		for(Node n1 : this.nodes) {
+			int index1 = this.nodes.indexOf(n1);
+			for(Node n2 : this.nodes) {
+				int index2 = this.nodes.indexOf(n2);
 				if (index2 > index1)
 					continue;
 				if (matrix[index1][index2].equals(relationType))
@@ -173,8 +122,6 @@ public class BehaviouralProfile {
 	}
 	
 	public String toString(){
-		if (matrix == null)
-			deriveBehaviouralProfile();
 		StringBuilder sb = new StringBuilder();
 		sb.append("------------------------------------------\n");
 		sb.append("Behavioural Profile Matrix\n");
@@ -204,12 +151,20 @@ public class BehaviouralProfile {
 		
 		boolean equal = true;
 		
-		for(Node n1 : this.pn.getNodes()) {
-			for(Node n2 : this.pn.getNodes()) {
+		for(Node n1 : this.nodes) {
+			for(Node n2 : this.nodes) {
 				equal &= this.getRelationForNodes(n1, n2).equals(profile.getRelationForNodes(n1, n2));
 			}
 		}
 		return equal;
+	}
+
+	public TrueConcurrencyRelation getConcurrencyMatrix() {
+		return concurrencyMatrix;
+	}
+
+	public void setConcurrencyMatrix(TrueConcurrencyRelation concurrencyMatrix) {
+		this.concurrencyMatrix = concurrencyMatrix;
 	}
 
 }

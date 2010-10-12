@@ -48,7 +48,7 @@ Discovery.prototype = {
 	},
 
 	/*
-	 * deselct previously selected shape and remove all markers
+	 * deselect previously selected shape and remove all markers
 	 * and show connections associated with the recently chosen one
 	 */
 	showConnections: function(reply){
@@ -64,7 +64,7 @@ Discovery.prototype = {
 			this.currentViewer = viewer
 			this.currentShape = selectedShapes[0].evalJSON(true)[0];
 			
-			// deselct previously selected shape
+			// deselect previously selected shape
 			if (oldViewer && oldViewer != this.currentViewer){
 				this.gadget.resetSelection(oldViewer);
 			}
@@ -85,12 +85,11 @@ Discovery.prototype = {
 			};
 			this.gadget.sendViewers( showAssociations, this);
 		}
-		
 	},
 	
 	
 	/*
-	 * removeselection and markers associated shapes
+	 * remove selection and markers associated shapes
 	 */
 	stopDiscoveryMode : function(){
 		

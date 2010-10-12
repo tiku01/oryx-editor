@@ -108,6 +108,10 @@ public class Repository {
 		return getBaseUrl(req) + "oryx/";
 	}
 	
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+	
 	public String getOryxUrl() {
 		return baseUrl + "oryx/";
 	}

@@ -14,7 +14,7 @@
 	<import file="mashup/build.xml"/>
     
     <!-- (RE)BUILD EDITOR AND BACKEND -->
-    <target name="build-all" depends="build-editor, build-backend, generate-build-dependcy-graph" />
+    <target name="build-all" depends="build-editor, build-backend" />
     <target name="rebuild-all" depends="clean-editor, build-editor, clean-backend, build-backend" />
     
     <!-- CLEAN EDITOR AND BACKEND -->

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2009
- * Helen Kaltegaertner
+ * Helen Kaltegaertner, Ole Eckermann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,7 @@ Connector.prototype = {
 			for (var i = 0; i < viewers.length; i++){
 				this.gadget.resetSelection(viewers[i]);
 				this.gadget.removeMarker(viewers[i], "all");
-				this.gadget.greyModel(viewers[i]);
+				this.gadget.doGrey(viewers[i], "all");
 			}
 		};
 	
@@ -53,22 +53,25 @@ Connector.prototype = {
 	 */
 	updateSelection: function(reply){
 		
-		var selectedShapes = reply.split(";");
-		var index = selectedShapes.shift();
-		
-		var nodes = selectedShapes[0].evalJSON(true);
+		var index = reply.index;                
+		var nodes = reply.selected;
+		var nodeArray = [];
 		
 		var resourceIds = [];
-		for (var i = 0; i < nodes.length; i++)
-			resourceIds.push(nodes[i].resourceId);
+		for (var key in nodes) {
+			resourceIds.push(key);
+			nodeArray.push(nodes[key]);
+		}
 		
-		// remove shadow
+		// update shadows
+		this.gadget.doGrey(index, "all");
 		this.gadget.undoGrey(index, resourceIds);
 		
+		// save selection
 		if (!this.selections[index]){
-			this.gadget.sendInfo(index, this.addSelection, this, {index: index, nodes: nodes} )	
+			this.gadget.sendInfo(index, this.addSelection, this, {index: index, nodes: nodeArray} ) 
 		} else {
-			this.selections[index].shapes = nodes;	
+			this.selections[index].shapes = nodeArray;      
 		}	
 	},
 	
@@ -95,34 +98,37 @@ Connector.prototype = {
 		this.gadget.unregisterSelectionChanged();
 		
 		// remove shadows
-		var undoGreyModels = function(viewers){
+		var removeShadows = function(viewers){
 			for (var i = 0; i < viewers.length; i++){
 				this.gadget.undoGrey(viewers[i], "all");
 			}
 		};
-		
-		this.gadget.sendViewers(undoGreyModels, this);
+		this.gadget.sendViewers(removeShadows, this);
 		
 		var exitSelectionMode = function(viewers){
 			
-			// no shapes selected
-			if (viewers.length == 0) return;
-			
-			var connection = new Connection( this.gadget,  prompt("comment: ") );
-			
-			// mark selected shapes and reset selection
-			// create connection object with information about selected models and shapes
+			// create new connection object
+			var connection = new Connection( this.gadget, "no title" );
+			var validViewers = 0;
 			for (var i = 0; i < viewers.length; i++){
-
-				var resourceIds = [];
-				for (var j = 0; j < this.selections[ viewers[i] ].shapes.length; j++)
-					resourceIds.push(this.selections[ viewers[i] ].shapes[j].resourceId);
-				this.gadget.markShapes( viewers[i] , resourceIds );
-				this.gadget.resetSelection( viewers[i] );
-				
+				// check if the viewer is valid, i.e. it contains selected shapes
+				if (this.selections[ viewers[i] ].shapes.length == 0) {
+					continue;
+				}
+				validViewers = validViewers + 1;
 				connection.addModel(viewers[i], this.selections[ viewers[i] ].model, this.selections[ viewers[i] ].url, this.selections[ viewers[i] ].shapes);
+				this.gadget.resetSelection( viewers[i] );
 			}
-			this.gadget.addConnection(connection);
+			
+			// Connection is saved, if it contains shapes from at least two models
+			if(validViewers > 1) {
+				connection.setComment( prompt("Description: ") );
+				connection.markShapes(false);
+				this.gadget.addConnection( connection );
+			
+			} else {
+				alert("You have to select shapes from at least two models");
+			}
 		};
 		
 		// collection of indices of all models that were selected during selection mode

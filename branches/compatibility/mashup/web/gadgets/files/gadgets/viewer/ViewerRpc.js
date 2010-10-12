@@ -60,6 +60,33 @@
 			this.selection = selection;
 		},
 		
+		setSelectedShapes: function(shapes){                    
+		    /*if(! shapes instanceof MOVI.util.ShapeSelect) {
+		            throw new Error("No selection specified.", "error", "viewerRpc.js");
+		            return false;
+		    }*/
+		    //this.selection.select(shapes);;
+		    
+		    if (this.viewer){
+		            if (!this.selection){
+		                    this.selection = new MOVI.util.ShapeSelect (
+		                            this.viewer.modelViewer,
+		                            this.viewer.modelViewer.canvas.getNodes(),
+		                            true
+		                    );
+		                    //if (args.icon) this.marker.addIcon("northwest", args.icon);
+		                    
+		            }       
+		                    //var shapes = msg.evalJSON();
+		                    var translatedShapes = new Array();
+		                    for (var i = 0; i < shapes.length; i++){                                                
+		                            translatedShapes[shapes[i]] = (this.viewer.modelViewer.canvas.getShape(shapes[i]));                                     
+		                    }
+		                    this.selection.select(translatedShapes);
+		    }       
+		    return "";
+		},
+		
 		setUrl: function(url){
 			this.url = url;
 		},
@@ -112,15 +139,34 @@
 		
 		/*
 		 * grey overlay to visualize selection mode for multimodel gadget
-		 * 
+		 * This works for bpmn activities only!
 		 */
 		greyModel : function() {
-			var nodes = this.viewer.modelViewer.canvas.getNodes();
-			var prefix = "movi_0-"
-			for (var key in nodes){
-				if (nodes[key].properties.activitytype){
-					var element = $( prefix + key)
-					element.addClassName(this.GREY_CLASS);
+			if (this.viewer.modelViewer) {
+				var nodes = this.viewer.modelViewer.canvas.getNodes();
+				var prefix = "movi_0-"
+				for (var key in nodes){
+					if (nodes[key].properties.activitytype){
+						var element = $( prefix + key)
+						element.addClassName(this.GREY_CLASS);
+					}
+				}
+			}
+		},
+		
+		/*
+		 * add shadow to shapes
+		 * args can be "all" to add shadows to all shapes
+		 * or a collection of resourceIds
+		 */
+		doGrey : function( args ) {
+			if (this.viewer.modelViewer) {
+				var prefix = "movi_0-";
+				var shapes;
+				args == "all" ? shapes = this.viewer.modelViewer.canvas.getNodes() : shapes = args.evalJSON();	
+				for (var i in shapes){
+					var shape = $( prefix + i);
+					shape.addClassName(this.GREY_CLASS);
 				}
 			}
 		},
@@ -136,16 +182,13 @@
 				for (var i = 0; i < shapes.length; i++){
 					shapes[i].removeClassName(this.GREY_CLASS);
 				} 
-			}
-			
-			else {
+			} else {
 				var prefix = "movi_0-";
 				var shapes = args.evalJSON();
 				for (var i = 0; i < shapes.length; i++){
-					var element = $( prefix + shapes[i]);
-					element.removeClassName(this.GREY_CLASS);
+					var shape = $( prefix + shapes[i]);
+					shape.removeClassName(this.GREY_CLASS);
 				}
-				
 			}
 		},
 		
@@ -162,15 +205,16 @@
 	
 		// sends all nodes with attributes ressouceId and label (name) 
 		// returns index;shapes (shapes in JSON)
-		sendShapes : function(msg){
+		getViewer : function(msg){
 	
-			var nodeInfo;
+			var modelViewer;
 			//gadgets.window.adjustHeight();
 			
 			if (this.viewer){
-				nodeInfo = this._stringify( this.viewer.modelViewer.canvas.getNodes() )
+				//modelViewer = this._stringify( this.viewer.modelViewer );
+				modelViewer = this.viewer.modelViewer;
 			}			
-			return this.viewer.index + ';' + nodeInfo;
+			return modelViewer;
 			
 		},
 		
@@ -184,20 +228,23 @@
 		},
 		
 		resetSelection: function(){
-			this.selection.reset();
+			if (this.selection) {
+				this.selection.reset();
+			}
 		},
 		
 		/*
 		 * change to the specified selection mode
 		 */
 		setSelectionMode: function(args){
-			if (args == "single"){
-				this.selection._allowMultiselect = false;
-			}else if (args == "multi"){
-				this.selection._allowMultiselect = true;
+			if (this.selection) {
+				if (args == "single"){
+					this.selection._allowMultiselect = false;
+				}else if (args == "multi"){
+					this.selection._allowMultiselect = true;
+				}
+				return "";
 			}
-			return "";
-				
 		},
 	
 		// marks the specified shapes
@@ -256,9 +303,11 @@
 	
 		//  throws event "selectionChanged" by calling the dedicated RPC
 		throwSelectionChanged : function(){
-
-			var selectedShapes = this.viewer.index + ';' + this._stringify( this.selection._selectedShapes );
-			gadgets.rpc.call(null, "dispatcher.selectionChanged", function(reply){return;}, selectedShapes);
+			var selectedShapes = {
+				index :	this.viewer.index,
+				selected : this.selection._selectedShapes                                  
+			}                       
+		    gadgets.rpc.call(null, "dispatcher.selectionChanged", function(reply){return;}, selectedShapes);                        		
 		},
 		
 
