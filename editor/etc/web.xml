@@ -482,11 +482,16 @@
 		<servlet-name>CPNToolsImporter</servlet-name>
 		<servlet-class>org.oryxeditor.server.CPNToolsImporter</servlet-class>
 	</servlet>
-	
 	<servlet>
 		<display-name>Petrinet to Process Log</display-name>
 		<servlet-name>ProcessLogGenerator</servlet-name>
 		<servlet-class>org.oryxeditor.server.ProcessLogGeneratorServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<display-name>Compatibility Checker</display-name>
+		<servlet-name>CompatibilityChecker</servlet-name>
+		<servlet-class>org.oryxeditor.server.CompatibilityChecker</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -781,6 +786,11 @@
 	<servlet-mapping>
 		<servlet-name>CPNToolsImporter</servlet-name>
 		<url-pattern>/cpntoolsimporter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>CompatibilityChecker</servlet-name>
+		<url-pattern>/compatibility</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

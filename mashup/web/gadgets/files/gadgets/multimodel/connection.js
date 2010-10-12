@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2009
- * Helen Kaltegaertner
+ * Helen Kaltegaertner, Ole Eckermann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,10 @@ Connection.prototype = {
 		
 	},
 	
+	setComment : function( comment ) {
+		this.comment = comment;
+	},
+	
 	/*
 	 * add connection button in multimodel gadget
 	 */
@@ -68,7 +72,7 @@ Connection.prototype = {
 		
 		this.connectionEl = elContainer;
 		
-		// deselct currently active connection and select the new one
+		// deselect currently active connection and select the new one
 		var connections = this.gadget.connections;
 		
 		for (var i = 0; i < connections.length; i++){
@@ -120,18 +124,17 @@ Connection.prototype = {
 		this.markShapes(true);
 		
 		// remove all shadows, selections and markers in all other viewers
-		var resetModels = function(viewers){
-			
+		var clearViewers = function(viewers){
 			for (var i = 0; i < viewers.length; i++){
 				if ( ! this.models[ viewers[i] ] ){
 					this.gadget.removeMarker(viewers[i], "all");
-					this.gadget.undoGrey(viewers[i], "all");
 					this.gadget.resetSelection( viewers[i] );
+					this.gadget.undoGrey(viewers[i], "all");
 				}
 			}
 		};
 	
-		this.gadget.sendViewers(resetModels, this);
+		this.gadget.sendViewers(clearViewers, this);
 		
 		var connections = this.gadget.connections;
 		
@@ -155,7 +158,7 @@ Connection.prototype = {
 	
 	/*
 	 * in all models that belong to the connection mark the included shapes
-	 * if reset is treu remove all other markers and shadows
+	 * if reset is true remove all other markers and shadows
 	 */
 	markShapes : function(reset){
 		

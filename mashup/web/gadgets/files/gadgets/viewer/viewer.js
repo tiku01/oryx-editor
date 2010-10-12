@@ -92,6 +92,8 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// TODO nodes rename (attributes)
 		this.registerRPC("sendShapes", "", "allNodes", this.rpcHandler.sendShapes, this.rpcHandler);
 		
+		this.registerRPC("setSelectedShapes", "", "allNodes", this.rpcHandler.setSelectedShapes, this.rpcHandler);
+		
 		//send ressourceIDs and labels of all selected nodes		
 		this.registerRPC("sendSelection", "", "shapeResourceIds", this.rpcHandler.sendSelection, this.rpcHandler);
 		
@@ -115,10 +117,15 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		
 		// cover all shapes with a grey shadow
 		this.registerRPC("greyModel", "", "", this.rpcHandler.greyModel, this.rpcHandler);
+	
+		// add shadows to shapes (from all or just a subset)
+		this.registerRPC("doGrey", "", "", this.rpcHandler.doGrey, this.rpcHandler);
 		
 		// remove shadow from shapes (from all or just a subset)
 		this.registerRPC("undoGrey", "", "", this.rpcHandler.undoGrey, this.rpcHandler);
-	
+		
+		//gets the model viewer of the given viewer component
+		this.registerRPC("getViewer", "", "allNodes", this.rpcHandler.getViewer, this.rpcHandler);
 	},
 	
 	// loads the model the user has defined via url into the viewer
@@ -169,7 +176,7 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		} );
 	},
 	
-	// navigator for modelviewer in toolbar
+	// navigator for model viewer in tool-bar
 	addNavigator: function(){
 		
 		var	navigator = new MOVI.widget.ModelNavigator("navigator", this.modelViewer);
@@ -180,13 +187,13 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		
 	},
 	
-	// toolbar below modelviewer (footer)
+	// tool-bar below model viewer (footer)
 	addToolbar: function(navigator){
 		
-		// toolbar below navigator
+		// tool-bar below navigator
 		var toolbar = new MOVI.widget.Toolbar("toolbar", this.modelViewer);
 	
-		// button for fullscreen
+		// button for full-screen
 		var fullscreenViewer = new MOVI.widget.FullscreenViewer(this.modelViewer);
 		
 		var viewerHome = this.GADGET_BASE + "viewer";
@@ -264,7 +271,7 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		
 	},
 	
-	// initially multiselect-mode in activated
+	// initially multi-select mode in activated
 	enableMultiselect: function(){
 		
 		var selection = new MOVI.util.ShapeSelect(this.modelViewer, true);

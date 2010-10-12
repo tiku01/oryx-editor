@@ -298,7 +298,19 @@ var dispatcher = (function(){
 			for (var i = 1; i < currentViewer.listeners.length; i++){
 				if (currentViewer.listeners[i]){
 					var listener = currentViewer.listeners[i];
-					gadgets.rpc.call(listener, "handleSelection", function(reply){return;}, args);
+					//check whether listener still exists
+                    var wasFound = false;
+                    for (var j = 0; j < _gadgets.length; j++) {
+                            if (_gadgets[j] && _gadgets[j].gadget == listener) {
+                                    gadgets.rpc.call(listener, "handleSelection", function(reply){return;}, args);
+                                    wasFound = true;
+                                    break;
+                            }
+                    }
+                    //if the listener does not exist anymore, remove it from list of listeners
+                    if (!wasFound) {
+                            currentViewer.listeners[i] = null;
+                    }
 				}
 			}
 	});

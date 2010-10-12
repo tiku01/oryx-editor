@@ -130,6 +130,7 @@ public class PTNetRDFImporter {
 		}
 		if (p.getId() == null)
 			p.setId(getResourceId(node));
+		p.setResourceId(getResourceId(node));
 	}
 
 	protected void addTransition(Node node, ImportContext c) {
@@ -166,6 +167,7 @@ public class PTNetRDFImporter {
 		}
 		if (t.getId() == null)
 			t.setId(getResourceId(node));
+		t.setResourceId(getResourceId(node));
 	}
 
 	protected void addSilentTransition(Node node, ImportContext c) {
@@ -183,6 +185,7 @@ public class PTNetRDFImporter {
 		}
 		if (t.getId() == null)
 			t.setId(getResourceId(node));
+		t.setResourceId(getResourceId(node));
 	}
 
 	protected void addArc(Node node, ImportContext c) {
@@ -198,6 +201,7 @@ public class PTNetRDFImporter {
 				arc.setLabel(getContent(n));
 			}
 		}
+		arc.setResourceId(getResourceId(node));
 	}
 
 	protected void setConnections(FlowRelationship arc, Node node, ImportContext c) {

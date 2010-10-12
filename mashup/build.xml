@@ -3,7 +3,7 @@
 <project name="MashUp" default="war" basedir="..">
 	
 	<property name="oryx.project" value="oryx"/>
-	<property name="deployment.dir" value="C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps"/>
+	<property name="deployment.dir" value="/Users/oleeckermann/Documents/Tomcat6/webapps"/>
 	<property name="build.dir" value="mashup\build"/>
 	<property name="conf.dir" value="mashup\etc"/>
 	<property name="web.content" value="mashup\web"/>
