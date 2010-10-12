@@ -56,7 +56,7 @@ public class TBPMServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
-		String url = getServletContext().getInitParameter("tbpmn-recognition-url");
+		String url = getServletContext().getInitParameter("tbpm-recognition-url");
 		if(url!=null){
 //			if an url is defined overwrite standard
 			TBPM_RECOGNITION_URL=url;
