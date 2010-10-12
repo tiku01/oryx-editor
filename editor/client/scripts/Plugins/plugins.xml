@@ -191,7 +191,7 @@
 		</plugin>
 
 		<plugin source="tbpmsupport.js" name="ORYX.Plugins.TBPMSupport">
-			<requires namespace="http://tbpm.oryx-project.org/stencilset/bpmn2.0#" />
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#" />
 			<!--<property name="tbpm_recognition_service" value="/tbpm/recognition"/>-->
 			<property name="tbpm_recognition_service" value="/oryx/tbpmimport"/>
 		</plugin>
