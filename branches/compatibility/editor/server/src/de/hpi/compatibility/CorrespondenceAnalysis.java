@@ -19,13 +19,14 @@ import de.hpi.petrinet.Place;
 import de.hpi.petrinet.Transition;
 
 public class CorrespondenceAnalysis {
-	
-	protected BehaviouralProfile profile1 = null; 
-	protected BehaviouralProfile profile2 = null; 
+	private static boolean DEBUG = true;
+
+	protected BehaviouralProfile profile1 = null;
+	protected BehaviouralProfile profile2 = null;
 	protected List<TwoTransitionSets> correspondences = null;
 
-	protected Map<String,Boolean> compatibilityResults = new HashMap<String, Boolean>();
-	
+	protected Map<String, Boolean> compatibilityResults = new HashMap<String, Boolean>();
+
 	protected int nrComplexCorrespondences = 0;
 	protected int nrSimpleCompatible = 0;
 	protected int nrComplexCompatible = 0;
@@ -38,35 +39,48 @@ public class CorrespondenceAnalysis {
 	protected int nrSimpleProtocolIncompatible = 0;
 	protected int nrComplexProtocolIncompatible = 0;
 
-	
-	public CorrespondenceAnalysis(BehaviouralProfile profile1, BehaviouralProfile profile2, Set<TwoTransitionSets> correspondences) {
+	public CorrespondenceAnalysis(BehaviouralProfile profile1, BehaviouralProfile profile2,
+			Set<TwoTransitionSets> correspondences) {
 		this.profile1 = profile1;
 		this.profile2 = profile2;
 		this.correspondences = new ArrayList<TwoTransitionSets>(correspondences);
 	}
-	
-	public boolean isComplex(TwoTransitionSets tts){
+
+	public boolean isComplex(TwoTransitionSets tts) {
 		return (tts.s1.size() > 1) || (tts.s2.size() > 1);
 	}
-	
+
 	public void checkCompatibility() {
 		/*
 		 * Projection Compatibility
 		 */
-//		for (int i = 0; i < correspondences.size(); i++) {
-//			TwoTransitionSets c1 = correspondences.get(i);
-//			if (isComplex(c1)) nrComplexCorrespondences++;
-//			for (int j = i+1; j < correspondences.size(); j++) {
-//				TwoTransitionSets c2 = correspondences.get(j);
-//				boolean areCompatible = correspondencesAreCompatible(c1,c2,profile1,profile2);
-//				if (areCompatible){
-//					if (isComplex(c1) || isComplex(c2)) nrComplexCompatible++; else nrSimpleCompatible++;
-//				}else{
-//					if (isComplex(c1) || isComplex(c2)) nrComplexIncompatible++; else nrSimpleIncompatible++;					
-//				}
-//				compatibilityResults.put(c1.toString() + " - " + c2.toString(), areCompatible);
-//			}
-//		}
+		long start = System.currentTimeMillis();
+
+		for (int i = 0; i < correspondences.size(); i++) {
+			TwoTransitionSets c1 = correspondences.get(i);
+			if (isComplex(c1))
+				nrComplexCorrespondences++;
+			for (int j = i + 1; j < correspondences.size(); j++) {
+				TwoTransitionSets c2 = correspondences.get(j);
+				boolean areCompatible = correspondencesAreCompatible(c1, c2, profile1, profile2);
+				if (areCompatible) {
+					if (isComplex(c1) || isComplex(c2))
+						nrComplexCompatible++;
+					else
+						nrSimpleCompatible++;
+				} else {
+					if (isComplex(c1) || isComplex(c2))
+						nrComplexIncompatible++;
+					else
+						nrSimpleIncompatible++;
+				}
+				compatibilityResults.put(c1.toString() + " - " + c2.toString(), areCompatible);
+			}
+		}
+		long stop = System.currentTimeMillis();
+		if (DEBUG)
+			System.out.println("Proj time: " + (stop - start) + " ms.");
+
 		/*
 		 * Derive encapsulated nets
 		 */
@@ -76,9 +90,9 @@ public class CorrespondenceAnalysis {
 			alignedInNet1.addAll(c.s1);
 			alignedInNet2.addAll(c.s2);
 		}
-		PTNet encapNet1 = deriveEncapNet(profile1.getNet(),alignedInNet1);
-		PTNet encapNet2 = deriveEncapNet(profile2.getNet(),alignedInNet2);
-		
+		PTNet encapNet1 = deriveEncapNet(profile1.getNet(), alignedInNet1);
+		PTNet encapNet2 = deriveEncapNet(profile2.getNet(), alignedInNet2);
+
 		if (encapNet1.isWorkflowNet() && encapNet2.isWorkflowNet()) {
 			/*
 			 * Protocol Compatibility
@@ -88,63 +102,78 @@ public class CorrespondenceAnalysis {
 
 			for (int i = 0; i < correspondences.size(); i++) {
 				TwoTransitionSets c1 = correspondences.get(i);
-				if (!allTransitionsInNets(profileEncap1,profileEncap2,c1))
+				if (!allTransitionsInNets(profileEncap1, profileEncap2, c1))
 					continue;
-				if (isComplex(c1)) nrComplexProtocolCorrespondences++;
-				for (int j = i+1; j < correspondences.size(); j++) {
+				if (isComplex(c1))
+					nrComplexProtocolCorrespondences++;
+				for (int j = i + 1; j < correspondences.size(); j++) {
 					TwoTransitionSets c2 = correspondences.get(j);
-					if (!allTransitionsInNets(profileEncap1,profileEncap2,c2))
+					if (!allTransitionsInNets(profileEncap1, profileEncap2, c2))
 						continue;
-					TwoTransitionSets c1a = new TwoTransitionSets(adaptSet(profileEncap1.getNet(), c1.s1), adaptSet(profileEncap2.getNet(), c1.s2));
-					TwoTransitionSets c2a = new TwoTransitionSets(adaptSet(profileEncap1.getNet(), c2.s1), adaptSet(profileEncap2.getNet(), c2.s2));
-					
-					boolean areCompatible = correspondencesAreCompatible(c1a,c2a,profileEncap1,profileEncap2);
-					if (areCompatible){
-						if (isComplex(c1) || isComplex(c2)) nrComplexProtocolCompatible++; else nrSimpleProtocolCompatible++;
-					}else{
-						if (isComplex(c1) || isComplex(c2)) nrComplexProtocolIncompatible++; else nrSimpleProtocolIncompatible++;
+					TwoTransitionSets c1a = new TwoTransitionSets(adaptSet(profileEncap1.getNet(), c1.s1), adaptSet(
+							profileEncap2.getNet(), c1.s2));
+					TwoTransitionSets c2a = new TwoTransitionSets(adaptSet(profileEncap1.getNet(), c2.s1), adaptSet(
+							profileEncap2.getNet(), c2.s2));
+
+					boolean areCompatible = correspondencesAreCompatible(c1a, c2a, profileEncap1, profileEncap2);
+					if (areCompatible) {
+						if (isComplex(c1) || isComplex(c2))
+							nrComplexProtocolCompatible++;
+						else
+							nrSimpleProtocolCompatible++;
+					} else {
+						if (isComplex(c1) || isComplex(c2))
+							nrComplexProtocolIncompatible++;
+						else
+							nrSimpleProtocolIncompatible++;
 					}
 				}
 			}
 		}
+		stop = System.currentTimeMillis();
+		if (DEBUG)
+			System.out.println("Prot time: " + (stop - start) + " ms.");
+
 	}
-	
+
 	protected boolean allTransitionsInNets(BehaviouralProfile profile1, BehaviouralProfile profile2, TwoTransitionSets c) {
-		return profile1.getNet().getTransitions().containsAll(adaptSet(profile1.getNet(),c.s1)) && profile2.getNet().getTransitions().containsAll(adaptSet(profile2.getNet(),c.s2));
+		return profile1.getNet().getTransitions().containsAll(adaptSet(profile1.getNet(), c.s1))
+				&& profile2.getNet().getTransitions().containsAll(adaptSet(profile2.getNet(), c.s2));
 	}
-	
+
 	protected PTNet deriveEncapNet(PTNet origNet, Set<Node> nodesToKeep) {
 		PTNet net = null;
-		
+
 		Place i = null;
 		Place o = null;
-		
+
 		try {
-			net = (PTNet)origNet.clone();
+			net = (PTNet) origNet.clone();
 			Set<Transition> tToRemove = new HashSet<Transition>();
 			for (Node n : net.getNodes()) {
 				if (n.getId().equals(origNet.getInitialPlace().getId()))
 					i = (Place) n;
 				if (n.getId().equals(origNet.getFinalPlace().getId()))
 					o = (Place) n;
-				
+
 				boolean found = false;
 				for (Node toKeep : nodesToKeep) {
 					if (n.getId().equals(toKeep.getId()))
 						found = true;
 				}
-				// 
 				if ((!(found)) && (n instanceof LabeledTransition)) {
-					if (!((LabeledTransition)n).getLabel().equals("tau")) {
-						if (!((LabeledTransition)n).getLabel().matches("t\\d+")) {
-							tToRemove.add((Transition)n);
+					if (!((LabeledTransition) n).getLabel().equals("tau")) {
+						if (!((LabeledTransition) n).getLabel().matches("t\\d+")) {
+							if (DEBUG)
+								System.out.println("Remove transition: " + n);
+							tToRemove.add((Transition) n);
 						}
 					}
 				}
 			}
 
 			Set<FlowRelationship> fToRemove = new HashSet<FlowRelationship>();
-			for(FlowRelationship f : net.getFlowRelationships()) {
+			for (FlowRelationship f : net.getFlowRelationships()) {
 				if (tToRemove.contains(f.getSource()) || tToRemove.contains(f.getTarget()))
 					fToRemove.add(f);
 			}
@@ -154,9 +183,10 @@ public class CorrespondenceAnalysis {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		/*
-		 * Remove everything that is not consistent with the definition of a workflow net
+		 * Remove everything that is not consistent with the definition of a
+		 * workflow net
 		 */
 		Set<Transition> tToRemove = new HashSet<Transition>();
 		Set<Place> pToRemove = new HashSet<Place>();
@@ -165,16 +195,15 @@ public class CorrespondenceAnalysis {
 				continue;
 			if ((!(net.getTransitiveClosure().isPath(i, n))) || (!(net.getTransitiveClosure().isPath(n, o)))) {
 				if (n instanceof Transition) {
-					tToRemove.add((Transition)n);
-				}
-				else {
-					pToRemove.add((Place)n);
+					tToRemove.add((Transition) n);
+				} else {
+					pToRemove.add((Place) n);
 				}
 			}
 		}
 
 		Set<FlowRelationship> fToRemove = new HashSet<FlowRelationship>();
-		for(FlowRelationship f : net.getFlowRelationships()) {
+		for (FlowRelationship f : net.getFlowRelationships()) {
 			if (tToRemove.contains(f.getSource()) || tToRemove.contains(f.getTarget()))
 				fToRemove.add(f);
 			if (pToRemove.contains(f.getSource()) || pToRemove.contains(f.getTarget()))
@@ -184,12 +213,12 @@ public class CorrespondenceAnalysis {
 		net.getPlaces().removeAll(pToRemove);
 		net.getTransitions().removeAll(tToRemove);
 		net.getFlowRelationships().removeAll(fToRemove);
-		
+
 		net.setTransitiveClosure(null);
-		
+
 		return net;
 	}
-	
+
 	public String getResult() {
 		String result = "\nNR CORRESPONDENCES:" + correspondences.size();
 		result += "\nNR PROTOCOL COMPLEX CORRESPONDENCES:" + nrComplexProtocolCorrespondences;
@@ -197,57 +226,59 @@ public class CorrespondenceAnalysis {
 		result += "\nNR PROTOCOL SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolIncompatible;
 		result += "\nNR PROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible;
 		result += "\nNR PROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible;
-		
-		for (Map.Entry<String,Boolean> cr: compatibilityResults.entrySet()){
+
+		for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
 			result += "\n" + cr.getKey() + ", " + cr.getValue();
 		}
-		
+
 		return result;
 	}
-	
+
 	public void printResults(PrintStream outfile) {
 		outfile.println("\tNR CORRESPONDENCES:" + correspondences.size());
-//		outfile.println("\tNR COMPLEX CORRESPONDENCES:" + nrComplexCorrespondences);
-//		outfile.println("\tNR SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleCompatible);
-//		outfile.println("\tNR SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleIncompatible);
-//		outfile.println("\tNR COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexCompatible);
-//		outfile.println("\tNR COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexIncompatible);
-		
+		outfile.println("\tNR COMPLEX CORRESPONDENCES:" + nrComplexCorrespondences);
+		outfile.println("\tNR SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleCompatible);
+		outfile.println("\tNR SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleIncompatible);
+		outfile.println("\tNR COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexCompatible);
+		outfile.println("\tNR COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexIncompatible);
+
 		outfile.println("\tNR PROTOCOL COMPLEX CORRESPONDENCES:" + nrComplexProtocolCorrespondences);
 		outfile.println("\tNR PROTOCOL SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolCompatible);
 		outfile.println("\tNR PROTOCOL SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolIncompatible);
 		outfile.println("\tNR PROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible);
 		outfile.println("\tNR PROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible);
-		
-		for (Map.Entry<String,Boolean> cr: compatibilityResults.entrySet()){
+
+		for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
 			outfile.println("\t" + cr.getKey() + ", " + cr.getValue());
 		}
 	}
 
 	/**
-	 * Clones the net and removes all nodes given for the original net from the clone.
+	 * Clones the net and removes all nodes given for the original net from the
+	 * clone.
 	 */
 	protected PTNet getSubnetOfClone(PTNet originalNet, Set<Node> nodesToRemove) {
 		PTNet net = null;
 		try {
 			net = (PTNet) originalNet.clone();
-			
+
 			Set<Place> pToRemove = new HashSet<Place>();
 			Set<Transition> tToRemove = new HashSet<Transition>();
 			for (Node n : net.getNodes()) {
 				for (Node toRemove : nodesToRemove) {
 					if (n.getId().equals(toRemove.getId())) {
 						if (n instanceof Place)
-							pToRemove.add((Place)n);
+							pToRemove.add((Place) n);
 						else
-							tToRemove.add((Transition)n);
+							tToRemove.add((Transition) n);
 					}
 				}
 			}
 
 			Set<FlowRelationship> fToRemove = new HashSet<FlowRelationship>();
-			for(FlowRelationship f : net.getFlowRelationships()) {
-				if (pToRemove.contains(f.getSource()) || pToRemove.contains(f.getTarget()) || tToRemove.contains(f.getSource()) || tToRemove.contains(f.getTarget()))
+			for (FlowRelationship f : net.getFlowRelationships()) {
+				if (pToRemove.contains(f.getSource()) || pToRemove.contains(f.getTarget())
+						|| tToRemove.contains(f.getSource()) || tToRemove.contains(f.getTarget()))
 					fToRemove.add(f);
 			}
 
@@ -257,9 +288,9 @@ public class CorrespondenceAnalysis {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return net;		
+		return net;
 	}
-	
+
 	protected Set<Transition> adaptSet(PTNet newNet, Set<Transition> transitions) {
 		Set<Transition> result = new HashSet<Transition>();
 		for (Transition t : transitions) {
@@ -268,98 +299,78 @@ public class CorrespondenceAnalysis {
 					result.add(t2);
 			}
 		}
-		
+
 		return result;
 	}
-	
-	protected boolean correspondencesAreCompatible(TwoTransitionSets c1, TwoTransitionSets c2, BehaviouralProfile profile1, BehaviouralProfile profile2) {
+
+	protected boolean correspondencesAreCompatible(TwoTransitionSets c1, TwoTransitionSets c2,
+			BehaviouralProfile profile1, BehaviouralProfile profile2) {
 		boolean result = true;
-		
-	
+
 		/*
 		 * Do preprocessing
 		 */
 		PTNet preProcessedNet1 = getSubnetOfClone(profile1.getNet(), getPreProcessingNodes(profile1, c1.s1, c2.s1));
 		PTNet preProcessedNet2 = getSubnetOfClone(profile2.getNet(), getPreProcessingNodes(profile2, c1.s2, c2.s2));
 
-//		Set<Node> nodesToRemoveInNet1 = getPreProcessingNodes(profile1, c1.s1, c2.s1);
-//		Set<Node> nodesToRemoveInNet2 = getPreProcessingNodes(profile2, c1.s2, c2.s2);
-//		if ((nodesToRemoveInNet1.size() > 0) || (nodesToRemoveInNet2.size() > 0)) {
-//			System.out.println("BREAK");
-//			System.out.println(preProcessedNet2);
-//		}
-		
 		if (!preProcessedNet1.isWorkflowNet())
 			System.err.println("Preprocessed net1 is not WF!");
 		if (!preProcessedNet2.isWorkflowNet())
 			System.err.println("Preprocessed net2 is not WF!");
-		
+
 		/*
 		 * Extract interleaving transitions
 		 */
-		Set<Transition> interleavingInNet1 = adaptSet(preProcessedNet1, getInterleavingTransitions(profile1, c1.s1, c2.s1));
-		Set<Transition> interleavingInNet2 = adaptSet(preProcessedNet2, getInterleavingTransitions(profile2, c1.s2, c2.s2));
-		
-//		if ((interleavingInNet1.size() > 0) || (interleavingInNet2.size() > 0)) {
-//			System.out.println("BREAK");
-//		}
+		Set<Transition> interleavingInNet1 = adaptSet(preProcessedNet1,
+				getInterleavingTransitions(profile1, c1.s1, c2.s1));
+		Set<Transition> interleavingInNet2 = adaptSet(preProcessedNet2,
+				getInterleavingTransitions(profile2, c1.s2, c2.s2));
 
 		/*
-		 * Derive non-interleaving 
+		 * Derive non-interleaving
 		 */
-		Set<Transition> nonInterleavingC1InNet1 = new HashSet<Transition>(adaptSet(preProcessedNet1,c1.s1));
+		Set<Transition> nonInterleavingC1InNet1 = new HashSet<Transition>(adaptSet(preProcessedNet1, c1.s1));
 		nonInterleavingC1InNet1.removeAll(interleavingInNet1);
-		Set<Transition> nonInterleavingC2InNet1 = new HashSet<Transition>(adaptSet(preProcessedNet1,c2.s1));
+		Set<Transition> nonInterleavingC2InNet1 = new HashSet<Transition>(adaptSet(preProcessedNet1, c2.s1));
 		nonInterleavingC2InNet1.removeAll(interleavingInNet1);
-		
-		Set<Transition> nonInterleavingC1InNet2 = new HashSet<Transition>(adaptSet(preProcessedNet2,c1.s2));
+
+		Set<Transition> nonInterleavingC1InNet2 = new HashSet<Transition>(adaptSet(preProcessedNet2, c1.s2));
 		nonInterleavingC1InNet2.removeAll(interleavingInNet2);
-		Set<Transition> nonInterleavingC2InNet2 = new HashSet<Transition>(adaptSet(preProcessedNet2,c2.s2));
+		Set<Transition> nonInterleavingC2InNet2 = new HashSet<Transition>(adaptSet(preProcessedNet2, c2.s2));
 		nonInterleavingC2InNet2.removeAll(interleavingInNet2);
 
 		/*
 		 * Check both directions
 		 */
-		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet1, preProcessedNet2, 
-				nonInterleavingC1InNet1,
-				nonInterleavingC2InNet1,
-				interleavingInNet1,
-				nonInterleavingC1InNet2,
-				nonInterleavingC2InNet2,
-				interleavingInNet2);
+		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet1, preProcessedNet2,
+				nonInterleavingC1InNet1, nonInterleavingC2InNet1, interleavingInNet1, nonInterleavingC1InNet2,
+				nonInterleavingC2InNet2, interleavingInNet2);
 
-		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet2, preProcessedNet1, 
-				nonInterleavingC1InNet2,
-				nonInterleavingC2InNet2,
-				interleavingInNet2,
-				nonInterleavingC1InNet1,
-				nonInterleavingC2InNet1,
-				interleavingInNet1);
+		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet2, preProcessedNet1,
+				nonInterleavingC1InNet2, nonInterleavingC2InNet2, interleavingInNet2, nonInterleavingC1InNet1,
+				nonInterleavingC2InNet1, interleavingInNet1);
 
 		return result;
 	}
 
-	protected Set<Node> getNextNodesWithDifferentMode(Node current,
-			Set<Transition> nonInterleavingC1,
-			Set<Transition> nonInterleavingC2,
-			Set<Transition> interleaving) {
-		int mode = getModeForNode(current, nonInterleavingC1, nonInterleavingC2, interleaving);
+	protected Set<Node> getNextNodesWithDifferentMode(int mode, Node current, Set<Transition> nonInterleavingC1,
+			Set<Transition> nonInterleavingC2, Set<Transition> interleaving) {
+
 		Set<Node> result = new HashSet<Node>();
-		
+
 		Set<Node> visited = new HashSet<Node>();
 		visited.add(current);
-		
+
 		List<Node> sucNodes = new ArrayList<Node>();
 		sucNodes.addAll(current.getSucceedingNodes());
-		
-		while(!(sucNodes.isEmpty())) {
+
+		while (!(sucNodes.isEmpty())) {
 			Node suc = sucNodes.remove(0);
 			visited.add(suc);
 			int sucMode = getModeForNode(suc, nonInterleavingC1, nonInterleavingC2, interleaving);
 			if (sucMode != -1 && sucMode != mode) {
 				result.add(suc);
-			}
-			else {
+			} else {
 				for (Node n : suc.getSucceedingNodes()) {
 					if (!(visited.contains(n))) {
 						sucNodes.add(n);
@@ -369,57 +380,56 @@ public class CorrespondenceAnalysis {
 		}
 		return result;
 	}
-	
-	protected boolean correspondencesAreCompatibleInOneDirection(PTNet net1, PTNet net2, 
-			Set<Transition> nonInterleavingC1InNet1,
-			Set<Transition> nonInterleavingC2InNet1,
-			Set<Transition> interleavingInNet1,
-			Set<Transition> nonInterleavingC1InNet2,
-			Set<Transition> nonInterleavingC2InNet2,
-			Set<Transition> interleavingInNet2){
-		
-		/*
-		 * Partitioning mode
-		 * -1 not aligned
-		 * 0 init
-		 * 1 c1
-		 * 2 c2
-		 * 3 interleaving
-		 * 4 final
-		 */
-	
+
+	/**
+	 * Partitioning mode 
+	 * -1 not aligned 
+	 * 0 init 
+	 * 1 c1 
+	 * 2 c2 
+	 * 3 interleaving 
+	 * 4 final
+	 */
+	protected boolean correspondencesAreCompatibleInOneDirection(PTNet net1, PTNet net2,
+			Set<Transition> nonInterleavingC1InNet1, Set<Transition> nonInterleavingC2InNet1,
+			Set<Transition> interleavingInNet1, Set<Transition> nonInterleavingC1InNet2,
+			Set<Transition> nonInterleavingC2InNet2, Set<Transition> interleavingInNet2) {
+
 		boolean result = true;
-		
+
 		Set<Transition> cTransitionsInNet1 = new HashSet<Transition>(nonInterleavingC1InNet1);
 		cTransitionsInNet1.addAll(nonInterleavingC2InNet1);
 		cTransitionsInNet1.addAll(interleavingInNet1);
 
-		Map<Node,Set<Node>> goodMatches = new HashMap<Node, Set<Node>>();
+		Map<Node, Set<Node>> goodMatches = new HashMap<Node, Set<Node>>();
 		Set<Node> s = new HashSet<Node>();
 		s.add(net2.getInitialPlace());
 		goodMatches.put(net1.getInitialPlace(), s);
-		
+
 		List<Node> toCheck = new ArrayList<Node>();
 		toCheck.add(net1.getInitialPlace());
-		
+
 		while (!(toCheck.isEmpty())) {
 			Node current = toCheck.remove(0);
-			Set<Node> nextNodes = getNextNodesWithDifferentMode(current, nonInterleavingC1InNet1, nonInterleavingC2InNet1, interleavingInNet1);
+			int pMode = getModeForNode(current, nonInterleavingC1InNet1, nonInterleavingC2InNet1, interleavingInNet1);
+			Set<Node> nextNodes = getNextNodesWithDifferentMode(pMode, current, nonInterleavingC1InNet1,
+					nonInterleavingC2InNet1, interleavingInNet1);
 			for (Node nextNode : nextNodes) {
 				if (goodMatches.containsKey(nextNode))
 					continue;
-				int modeNextNode = getModeForNode(nextNode, nonInterleavingC1InNet1, nonInterleavingC2InNet1, interleavingInNet1);
+				int modeNextNode = getModeForNode(nextNode, nonInterleavingC1InNet1, nonInterleavingC2InNet1,
+						interleavingInNet1);
 				boolean foundGoodNodeForNextNode = false;
 				Set<Node> goodNodesForNextNode = new HashSet<Node>();
 				for (Node goodNode : goodMatches.get(current)) {
-					Set<Node> candidateNodes = getNextNodesWithDifferentMode(goodNode, nonInterleavingC1InNet2, nonInterleavingC2InNet2, interleavingInNet2);
+					Set<Node> candidateNodes = getNextNodesWithDifferentMode(pMode, goodNode, nonInterleavingC1InNet2,
+							nonInterleavingC2InNet2, interleavingInNet2);
 					for (Node candidateNode : candidateNodes) {
-						int modeCandidateNode = getModeForNode(candidateNode, nonInterleavingC1InNet2, nonInterleavingC2InNet2, interleavingInNet2);
+						int modeCandidateNode = getModeForNode(candidateNode, nonInterleavingC1InNet2,
+								nonInterleavingC2InNet2, interleavingInNet2);
 						if (modeNextNode == modeCandidateNode) {
 							foundGoodNodeForNextNode = true;
 							goodNodesForNextNode.add(candidateNode);
-						} else {
-							System.out.println(modeNextNode + ";" + modeCandidateNode + "|" + nextNode + candidateNode);
 						}
 					}
 				}
@@ -430,16 +440,15 @@ public class CorrespondenceAnalysis {
 				goodMatches.put(nextNode, goodNodesForNextNode);
 				if (!(nextNode.getSucceedingNodes().isEmpty()))
 					toCheck.add(nextNode);
+
 			}
 		}
-		
-//		System.out.println(nonInterleavingC1InNet1 + "  --- " + nonInterleavingC2InNet1);
-//		System.out.println(result);
 
 		return result;
 	}
 
-	protected int getModeForNode(Node n, Set<Transition> nonInterleavingC1, Set<Transition> nonInterleavingC2, Set<Transition> interleaving) {
+	protected int getModeForNode(Node n, Set<Transition> nonInterleavingC1, Set<Transition> nonInterleavingC2,
+			Set<Transition> interleaving) {
 		if (n.getPrecedingNodes().isEmpty())
 			return 0;
 		if (n.getSucceedingNodes().isEmpty())
@@ -452,10 +461,10 @@ public class CorrespondenceAnalysis {
 			return 3;
 		return -1;
 	}
-	
+
 	protected Set<Transition> getInterleavingTransitions(BehaviouralProfile bp, Set<Transition> c1, Set<Transition> c2) {
 		Set<Transition> result = new HashSet<Transition>();
-		
+
 		for (Transition t1 : c1) {
 			for (Transition t2 : c2) {
 				if (bp.getConcurrencyMatrix().areTrueConcurrent(t1, t2)) {
@@ -464,36 +473,37 @@ public class CorrespondenceAnalysis {
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	protected Set<Node> getPreProcessingNodes(BehaviouralProfile bp, Set<Transition> c1, Set<Transition> c2) {
 		Set<Node> result = new HashSet<Node>();
-		
+
 		Set<Transition> cTransitions = new HashSet<Transition>(c1);
 		cTransitions.addAll(c2);
-		
+
 		for (Node n : bp.getNet().getNodes()) {
 			if (cTransitions.contains(n))
 				continue;
 			for (Transition t1 : cTransitions) {
 				if (bp.getConcurrencyMatrix().areTrueConcurrent(n, t1)) {
+					boolean toRemove = true;
 					for (Transition t2 : cTransitions) {
 						if (bp.getConcurrencyMatrix().areTrueConcurrent(t1, t2)) {
-							if (bp.getConcurrencyMatrix().areTrueConcurrent(n, t2))
-								result.add(n);
-							else if (bp.areExclusive(n, t2))
-								result.add(n);
+							toRemove &= (bp.getConcurrencyMatrix().areTrueConcurrent(n, t2) || bp.areExclusive(n, t2));
 						}
+					}
+					if (toRemove) {
+						result.add(n);
 					}
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	@Override
 	public String toString() {
 		return profile1.getNet().getId() + " - " + profile2.getNet().getId() + "\n" + correspondences;

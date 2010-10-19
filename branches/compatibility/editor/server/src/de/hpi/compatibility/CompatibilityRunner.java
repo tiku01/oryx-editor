@@ -27,11 +27,11 @@ import de.hpi.petrinet.serialization.XMLFileLoaderSaver;
 
 public class CompatibilityRunner {
 
-	private static String prefix = "models/taskpairs/";
-	private static String outfilename = "results.txt";
-	private static String[] pairs = {"_pair04","_pair06","_pair08","_pair10","_pair11","_pair12","_pair16","_pair17","_pair18","_pair19"};
+	private static String prefix = "models/test/";
+	private static String outfilename = "results_test.txt";
+//	private static String[] pairs = {"_pair04","_pair06","_pair08","_pair10","_pair11","_pair12","_pair16","_pair17","_pair18","_pair19"};
 //	private static String[] pairs = {"_pair16","_pair17","_pair18"};
-//	private static String[] pairs = {"_pair18"};
+	private static String[] pairs = {"_pair04"};
 	
 	private static PTNetPNMLImporter pnmlImporter = new PTNetPNMLImporter();
 	private static XMLFileLoaderSaver fileLoader = new XMLFileLoaderSaver();
