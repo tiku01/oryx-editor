@@ -73,7 +73,7 @@ public class CompatibilityRunner {
 			int pair = 0;
 			for (CorrespondenceAnalysis a : analysisPairs) {
 				filestream.println("PAIR: " + pairs[pair]);
-				a.printResults(filestream);
+				filestream.println(a.getResult());
 				filestream.println();
 				pair++;
 			}

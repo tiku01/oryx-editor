@@ -23,5 +23,9 @@ public class TwoTransitionSets {
 	public int hashCode(){
 		return s1.hashCode() + s2.hashCode();
 	}
+	
+	public boolean isComplex() {
+		return (s1.size() > 1) || (s2.size() > 1);
+	}
 
 }

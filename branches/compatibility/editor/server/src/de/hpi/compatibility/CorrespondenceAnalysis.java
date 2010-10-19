@@ -1,6 +1,5 @@
 package de.hpi.compatibility;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -210,10 +209,6 @@ public class CorrespondenceAnalysis {
 
 	public String getResult() {
 		return statistics.getResult(correspondences);
-	}
-
-	public void printResults(PrintStream outfile) {
-		statistics.printResults(correspondences, outfile);
 	}
 
 	@Override
