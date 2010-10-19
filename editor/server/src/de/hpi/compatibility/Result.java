@@ -1,6 +1,5 @@
 package de.hpi.compatibility;
 
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,14 +74,10 @@ public class Result {
 		result += "\nNR PROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible;
 		result += "\nNR PROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible;
 
-		for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
+		/*for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
 			result += "\n" + cr.getKey() + ", " + cr.getValue();
-		}
+		}*/
 
 		return result;
-	}
-
-	public void printResults(List<TwoTransitionSets> correspondences, PrintStream outfile) {
-		outfile.println(getResult(correspondences));
 	}
 }

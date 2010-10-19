@@ -21,15 +21,9 @@
  */
 package org.oryxeditor.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,22 +33,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.bpmnq.AbstractQueryProcessor;
-import com.bpmnq.FileFormatException;
-import com.bpmnq.GraphBuilder;
-import com.bpmnq.Match;
-
 import com.bpmnq.ORYXModelXMLParser;
 import com.bpmnq.OryxMemoryQueryProcessor;
 import com.bpmnq.PartialProcessModel;
 import com.bpmnq.ProcessGraph;
-import com.bpmnq.QueryGraph;
-import com.bpmnq.QueryGraphBuilderRDF;
 import com.bpmnq.Utilities;
-import com.bpmnq.AbstractQueryProcessor.ProcessorCommand;
-import com.bpmnq.QueryGraphBuilderRDF.RdfSyntax;
-import com.bpmnq.compliancechecker.ComplianceViolationExplanator;
-import com.bpmnq.compliancechecker.ModelChecker;
-import com.bpmnq.compliancechecker.TemporalQueryGraph;
 
 public class QueryVariantsEvalServlet extends HttpServlet {
     private static final long serialVersionUID = -7946509291423453168L;
@@ -82,7 +65,7 @@ public class QueryVariantsEvalServlet extends HttpServlet {
         
         // initialize BPMNQ processor
         try {
-            Utilities util = Utilities.getInstance();
+//            Utilities util = Utilities.getInstance();
             if (useDataBaseConnection && !Utilities.isConnectionOpen()) {
                 Utilities.openConnection();
                 System.out.println(" +++++++++++++++ DB Connection has been opened ++++++++++++");
