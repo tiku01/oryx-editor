@@ -25,10 +25,10 @@ public class CompatibilityCheck {
 		NetNormalizer.getInstance().normalizeNet(pn2);
 		BehaviouralProfile bp2 = BPCreatorNet.getInstance().deriveBehaviouralProfile(pn2);
 		
-		CorrespondenceAnalysis analysis = new CorrespondenceAnalysis(bp1, bp2, correspondences);
+		CorrespondenceAnalysis analysis = new VerticalCorrespondenceAnalysis(bp1, bp2, correspondences);
 		analysis.checkCompatibility();
 		
-		return analysis.getResult();
+		return analysis.getResult().toString();
 	}
 	
 }
