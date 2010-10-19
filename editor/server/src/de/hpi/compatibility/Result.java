@@ -1,8 +1,10 @@
 package de.hpi.compatibility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nl.tue.tm.is.graph.TwoTransitionSets;
 
@@ -21,6 +23,11 @@ public class Result {
 	private int nrComplexProtocolIncompatible = 0;
 	
 	private Map<String, Boolean> compatibilityResults = new HashMap<String, Boolean>();
+	private List<TwoTransitionSets> correspondences = null;
+	
+	public Result(Set<TwoTransitionSets> correspondences) {
+		this.correspondences = new ArrayList<TwoTransitionSets>(correspondences);
+	}
 	
 	public void addProjectionCorrespondenceResult(TwoTransitionSets c1, TwoTransitionSets c2, boolean areCompatible) {
 		if (areCompatible) {
@@ -59,24 +66,26 @@ public class Result {
 		nrComplexProtocolCorrespondences++;
 	}
 	
-	public String getResult(List<TwoTransitionSets> correspondences) {
+	@Override
+	public String toString() {
 		String result = "\nNR CORRESPONDENCES:" + correspondences.size();
 
-		result += "\nNR PROJECTION COMPLEX CORRESPONDENCES:" + nrComplexProjectionCorrespondences;
-		result += "\nNR PROJECTION SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleProjectionCompatible;
-		result += "\nNR PROJECTION SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProjectionIncompatible;
-		result += "\nNR PROJECTION COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProjectionCompatible;
-		result += "\nNR PROJECTION COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProjectionIncompatible;
-		
-		result += "\nNR PROTOCOL COMPLEX CORRESPONDENCES:" + nrComplexProtocolCorrespondences;
-		result += "\nNR PROTOCOL SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolCompatible;
-		result += "\nNR PROTOCOL SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolIncompatible;
-		result += "\nNR PROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible;
-		result += "\nNR PROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible;
+		result += "\nPROJECTION COMPLEX CORRESPONDENCES:" + nrComplexProjectionCorrespondences;
+		result += "\nPROJECTION SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleProjectionCompatible;
+		result += "\nPROJECTION SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProjectionIncompatible;
+		result += "\nPROJECTION COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProjectionCompatible;
+		result += "\nPROJECTION COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProjectionIncompatible;
+		result += "\n";
+		result += "\nPROTOCOL COMPLEX CORRESPONDENCES:" + nrComplexProtocolCorrespondences;
+		result += "\nPROTOCOL SIMPLE COMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolCompatible;
+		result += "\nPROTOCOL SIMPLE INCOMPATIBLE CORRESPONDENCES:" + nrSimpleProtocolIncompatible;
+		result += "\nPROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible;
+		result += "\nPROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible;
 
-		/*for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
-			result += "\n" + cr.getKey() + ", " + cr.getValue();
-		}*/
+		for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
+			if(!cr.getValue())
+				result += "\n" + cr.getKey();
+		}
 
 		return result;
 	}

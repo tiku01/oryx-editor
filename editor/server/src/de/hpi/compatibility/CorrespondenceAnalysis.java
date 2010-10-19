@@ -21,14 +21,14 @@ public class CorrespondenceAnalysis {
 	protected BehaviouralProfile profile1 = null;
 	protected BehaviouralProfile profile2 = null;
 	protected List<TwoTransitionSets> correspondences = null;
-
-	protected Result statistics = new Result();
+	protected Result statistics = null;
 
 	public CorrespondenceAnalysis(BehaviouralProfile profile1, BehaviouralProfile profile2,
 			Set<TwoTransitionSets> correspondences) {
 		this.profile1 = profile1;
 		this.profile2 = profile2;
 		this.correspondences = new ArrayList<TwoTransitionSets>(correspondences);
+		this.statistics = new Result(correspondences);
 	}
 
 	public void checkCompatibility() {
@@ -101,7 +101,6 @@ public class CorrespondenceAnalysis {
 
 	protected boolean correspondencesAreCompatible(TwoTransitionSets c1, TwoTransitionSets c2,
 			BehaviouralProfile profile1, BehaviouralProfile profile2) {
-		boolean result = true;
 
 		/*
 		 * Do preprocessing
@@ -137,21 +136,27 @@ public class CorrespondenceAnalysis {
 		Set<Transition> nonInterleavingC2InNet2 = new HashSet<Transition>(Util.adaptSet(preProcessedNet2, c2.s2));
 		nonInterleavingC2InNet2.removeAll(interleavingInNet2);
 
-		/*
-		 * Check both directions
-		 */
-		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet1, preProcessedNet2,
-				nonInterleavingC1InNet1, nonInterleavingC2InNet1, interleavingInNet1, nonInterleavingC1InNet2,
-				nonInterleavingC2InNet2, interleavingInNet2);
+		return check(preProcessedNet1, preProcessedNet2, interleavingInNet1, interleavingInNet2,
+				nonInterleavingC1InNet1, nonInterleavingC2InNet1, nonInterleavingC1InNet2, nonInterleavingC2InNet2);
+	}
 
-		result &= correspondencesAreCompatibleInOneDirection(preProcessedNet2, preProcessedNet1,
-				nonInterleavingC1InNet2, nonInterleavingC2InNet2, interleavingInNet2, nonInterleavingC1InNet1,
-				nonInterleavingC2InNet1, interleavingInNet1);
+	protected boolean check(PTNet net1, PTNet net2, Set<Transition> interleavingInNet1,
+			Set<Transition> interleavingInNet2, Set<Transition> nonInterleavingC1InNet1,
+			Set<Transition> nonInterleavingC2InNet1, Set<Transition> nonInterleavingC1InNet2,
+			Set<Transition> nonInterleavingC2InNet2) {
 
+		boolean result = true;
+		result &= correspondencesAreCompatibleInOneDirection(net1, net2, nonInterleavingC1InNet1,
+				nonInterleavingC2InNet1, interleavingInNet1, nonInterleavingC1InNet2, nonInterleavingC2InNet2,
+				interleavingInNet2);
+
+		result &= correspondencesAreCompatibleInOneDirection(net2, net1, nonInterleavingC1InNet2,
+				nonInterleavingC2InNet2, interleavingInNet2, nonInterleavingC1InNet1, nonInterleavingC2InNet1,
+				interleavingInNet1);
 		return result;
 	}
 
-	protected boolean correspondencesAreCompatibleInOneDirection(PTNet net1, PTNet net2,
+	private boolean correspondencesAreCompatibleInOneDirection(PTNet net1, PTNet net2,
 			Set<Transition> nonInterleavingC1InNet1, Set<Transition> nonInterleavingC2InNet1,
 			Set<Transition> interleavingInNet1, Set<Transition> nonInterleavingC1InNet2,
 			Set<Transition> nonInterleavingC2InNet2, Set<Transition> interleavingInNet2) {
@@ -207,8 +212,8 @@ public class CorrespondenceAnalysis {
 		return result;
 	}
 
-	public String getResult() {
-		return statistics.getResult(correspondences);
+	public Result getResult() {
+		return statistics;
 	}
 
 	@Override
