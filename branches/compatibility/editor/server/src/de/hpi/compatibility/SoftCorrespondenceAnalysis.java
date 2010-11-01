@@ -12,9 +12,6 @@ import de.hpi.petrinet.Transition;
 
 public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 
-	private PTNetCapsule parent;
-	private PTNetCapsule child;
-
 	public SoftCorrespondenceAnalysis(BehaviouralProfile profile1, BehaviouralProfile profile2,
 			Set<TwoTransitionSets> correspondences) {
 		super(profile1, profile2, correspondences);
@@ -27,8 +24,8 @@ public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 			Set<Transition> c1InNet2, Set<Transition> c2InNet2) {
 
 		// Prepare service classes for both models
-		parent = new PTNetCapsule(net1, interleavingInNet1, c1InNet1, c2InNet1);
-		child = new PTNetCapsule(net2, interleavingInNet2, c1InNet2, c2InNet2);
+		PTNetCapsule parent = new PTNetCapsule(net1, interleavingInNet1, c1InNet1, c2InNet1);
+		PTNetCapsule child = new PTNetCapsule(net2, interleavingInNet2, c1InNet2, c2InNet2);
 
 		Set<PathInfo> parentPaths = getPathInfos(parent);
 		Set<PathInfo> childPaths = getPathInfos(child);
@@ -50,13 +47,11 @@ public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 
 	private static void getEndings(Node node, PTNetCapsule net, Set<PathInfo> paths, Node startNode) {
 		for (Node succeedingNode : net.getNextNodesWithDifferentMode(node)) {
-			// If (startNode is followed by finalNode) path is exclusive or
-			// complete interleaving
+			// If (startNode is followed by finalNode)
+			// path is exclusive or complete interleaving
 			if (node.equals(startNode) && net.getMode(succeedingNode) == PartitioningMode.Final) {
 				paths.add(new PathInfo(net.getMode(startNode)));
-			}
-
-			else if (net.getMode(succeedingNode) == PartitioningMode.Final) {
+			} else if (net.getMode(succeedingNode) == PartitioningMode.Final) {
 				paths.add(new PathInfo(net.getMode(startNode), net.getMode(node)));
 			}
 			// if succeedingNode != finalNode, inspect its succeeding nodes.
