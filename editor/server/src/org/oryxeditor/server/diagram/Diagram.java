@@ -95,10 +95,4 @@ public class Diagram extends Shape {
 	public Shape getParent(){
 		return null;
 	}
-	
-	// TODO: implement
-	public String getJSON() {
-		return "not yet implemented";
-	}
-	
 }
