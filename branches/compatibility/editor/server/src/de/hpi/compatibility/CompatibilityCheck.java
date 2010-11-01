@@ -21,11 +21,11 @@ public class CompatibilityCheck {
 	public String run() {
 		
 		NetNormalizer.getInstance().normalizeNet(pn1);
-		BehaviouralProfile bp1 = BPCreatorNet.getInstance().deriveBehaviouralProfile(pn1);
+		BehaviouralProfile parent = BPCreatorNet.getInstance().deriveBehaviouralProfile(pn1);
 		NetNormalizer.getInstance().normalizeNet(pn2);
-		BehaviouralProfile bp2 = BPCreatorNet.getInstance().deriveBehaviouralProfile(pn2);
+		BehaviouralProfile child = BPCreatorNet.getInstance().deriveBehaviouralProfile(pn2);
 		
-		CorrespondenceAnalysis analysis = new VerticalCorrespondenceAnalysis(bp1, bp2, correspondences);
+		CorrespondenceAnalysis analysis = new SoftCorrespondenceAnalysis(parent, child, correspondences);
 		analysis.checkCompatibility();
 		
 		return analysis.getResult().toString();

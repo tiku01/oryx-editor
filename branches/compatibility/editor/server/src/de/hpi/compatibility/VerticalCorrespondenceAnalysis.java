@@ -45,7 +45,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 		return check();
 	}
 
-	protected boolean check() {
+	private boolean check() {
 		boolean result = true;
 		while (!status.toCheck()) {
 			Node currentNode = status.getCurrentNode();
@@ -73,11 +73,12 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 			PartitioningMode modeCurrentNodeNet2 = model2.getMode(currentNodeNet2);
 
 			Set<Node> nextNodesNet2 = model2.getNextNodesWithDifferentMode(currentNodeNet2);
-
+			
+			// check for equal trace partitioning
 			for (Node nextNodeNet2 : nextNodesNet2)
 				if (haveSameMode(nextNode, nextNodeNet2))
 					matches.add(nextNodeNet2);
-
+			
 			if (modeCurrentNode == modeCurrentNodeNet2) {
 				matches.addAll(checkForParallelizations(modeCurrentNode, nextNode, nextNodesNet2));
 				matches.addAll(checkForSequencings(modeCurrentNode, nextNode, nextNodesNet2));
@@ -124,8 +125,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 	}
 
 	/**
-	 * match (A, interleaving) -> (A, B) optional: extend to (A, interleaving,
-	 * B) -> (A, B)
+	 * match (A, interleaving) -> (A, B) optional: extend to (A, interleaving, B) -> (A, B)
 	 */
 	private Set<Node> checkForSequencings(PartitioningMode modeCurrentNode, Node nextNode, Set<Node> nextNodesNet2) {
 		Set<Node> matches = new HashSet<Node>();
@@ -136,7 +136,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 			for (Node nextNodeNet2 : nextNodesNet2) {
 				PartitioningMode modeNextNodeNet2 = model2.getMode(nextNodeNet2);
 				if (modeNextNodeNet2 != PartitioningMode.Interleaving && modeNextNodeNet2 != PartitioningMode.Final) {
-					// all goodNextNodes have the same mode (c1 || c2)
+					// all goodNextNodes have the same mode, either c1 or c2
 					if (refForExtension == null)
 						refForExtension = modeNextNodeNet2;
 					matches.add(nextNodeNet2);
@@ -147,7 +147,6 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 				Set<Node> nextNextNodes = model1.getNextNodesWithDifferentMode(nextNode);
 				for (Node nextNextNode : nextNextNodes) {
 					PartitioningMode modeNextNextNode = model1.getMode(nextNextNode);
-					// TODO refactor: need all matches
 					if (modeNextNextNode == refForExtension) {
 						status.addMatch(nextNextNode, matches);
 					}

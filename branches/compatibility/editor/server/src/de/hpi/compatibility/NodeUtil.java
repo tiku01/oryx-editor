@@ -11,11 +11,11 @@ import de.hpi.petrinet.Transition;
 public class NodeUtil {
 
 	public enum PartitioningMode {
-		NotAligned,Init,Final,Interleaving,C1,C2
+		NotAligned, Init, Final, Interleaving, C1, C2
 	}
-	
-	public static PartitioningMode getMode(Node n, Set<Transition> nonInterleavingC1, Set<Transition> nonInterleavingC2,
-			Set<Transition> interleaving) {
+
+	public static PartitioningMode getMode(Node n, Set<Transition> nonInterleavingC1,
+			Set<Transition> nonInterleavingC2, Set<Transition> interleaving) {
 		if (n.getPrecedingNodes().isEmpty())
 			return PartitioningMode.Init;
 		if (n.getSucceedingNodes().isEmpty())
@@ -33,13 +33,11 @@ public class NodeUtil {
 			Set<Transition> nonInterleavingC2, Set<Transition> interleaving) {
 
 		Set<Node> result = new HashSet<Node>();
-
 		Set<Node> visited = new HashSet<Node>();
 		visited.add(current);
 
 		List<Node> sucNodes = new ArrayList<Node>();
 		sucNodes.addAll(current.getSucceedingNodes());
-
 		PartitioningMode mode = NodeUtil.getMode(current, nonInterleavingC1, nonInterleavingC2, interleaving);
 
 		while (!(sucNodes.isEmpty())) {
