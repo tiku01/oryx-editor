@@ -187,7 +187,7 @@ ORYX.CONFIG.EVENT_COLOR_CHANGE = 			"color.change";
 ORYX.CONFIG.EVENT_DOCKERDRAG = 				"dragTheDocker";	
 ORYX.CONFIG.EVENT_SHOW_PROPERTYWINDOW =		"propertywindow.show";
 ORYX.CONFIG.EVENT_SHAPE_MORPHED =			"shapemorphed";
-
+ORYX.CONFIG.EVENT_WINDOW_FOCUS =            "window.focus";  // raised by plugin toolbar.js
 ORYX.CONFIG.EVENT_TBPM_BACKGROUND_UPDATE =	"tbpm.background";
 ORYX.CONFIG.EVENT_MODEL_SAVED =				"model.saved";
 	
