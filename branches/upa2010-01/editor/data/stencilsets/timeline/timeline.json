@@ -1,0 +1,191 @@
+{
+	"title":"Time Line",
+	"namespace":"http://matthias-kunze.info/oryx/stencilsets/timeline#",
+	"description":"Stencil Set to create Time Line graphs",
+ 	"stencils" : [
+  		{
+			"type"		: "node",
+			"id"		: "Diagram",
+			"title"		: "Diagram",
+			"groups"	: ["Time Line Graph"],
+			"description":"The Time Line Diagram",
+			"view"		: "node.diagram.svg",
+			"icon"		: "new_diagram.png",
+			"mayBeRoot"	: true,
+			"roles"		: [],
+			"properties": [
+				{
+					"id"		: "title",
+					"type"		: "String",
+					"title"		: "Title",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"refToView"	: "",
+					"length"	: "",
+					"wrapLines"	: true
+				}			
+			]
+		},		
+		{
+			"type"		: "node",
+			"id"		: "event",
+			"title"		: "Event",
+			"groups"	: ["Time Line Graph"],
+			"description":"event",
+			"view"		:"node.event.svg",
+			"icon"		:"node.event.png",
+			"intersectionType":"ellipse",			
+			"roles"		: [
+							"node"
+							],
+			"properties": [		
+				{
+					"id"		: "title",
+					"type"		: "String",
+					"title"		: "Title",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"refToView"	: "text",
+					"length"	: ""
+				}			,
+				{
+					"id"		: "description",
+					"type"		: "String",
+					"title"		: "Description",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"length"	: "",
+					"wrapLines"	:true
+				},
+				{
+					"id"		: "date",
+					"type"		: "String",
+					"title"		: "Date",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"refToView"	: "date",
+					"length"	: ""
+				},
+				{
+					"id"		: "cites",
+					"type"		: "String",
+					"title"		: "Cite (Bibtex ids)",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"length"	: "",
+					"wrapLines"	:true
+				}
+			]
+		},
+		{
+			"type"		: "edge",
+			"id"		: "cause",
+			"title"		: "Cause",
+			"description":"causal relationship",
+			"groups"	: ["Time Line Graph"],
+			"view"		: "connection.cause.svg",
+			"icon"		: "connection.cause.png",
+			"roles": [
+						"edge",
+						"cause"
+						],
+			"properties": [				
+				{
+					"id"		: "label",
+					"type"		: "String",
+					"title"		: "Label",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"refToView"	: "text",
+					"length"	: ""
+				}							
+			]
+		},
+		{
+			"type"		: "edge",
+			"id"		: "influence",
+			"title"		: "Influence",
+			"description":"influential relationship",
+			"groups"	: ["Time Line Graph"],
+			"view"		: "connection.influence.svg",
+			"icon"		: "connection.influence.png",
+			"roles": [
+						"edge",
+						"influence"
+						],
+			"properties": [				
+				{
+					"id"		: "label",
+					"type"		: "String",
+					"title"		: "Label",
+					"value"		: "",
+					"description":"",
+					"tooltip"	: "",
+					"readonly"	: false,
+					"optional"	: true,
+					"refToView"	: "text",
+					"length"	: ""
+				}							
+			]
+		}
+	],	
+	"rules": {
+			"cardinalityRules": [ 
+				{ 
+					"role"		: "node", 
+					"outgoingEdges": [ 
+										{ 
+											"role":"edge" //, "maximum":2 
+										},
+									],					
+					"incomingEdges": [ 
+										{ 
+											"role":"cause",
+											"maximum":1 
+										},
+										{ 
+											"role":"influence"
+										}  
+									] 
+				}
+			],
+			"connectionRules": [
+				{
+					"role":"edge",
+					"connects": [
+						{
+							"from":"node",
+							"to":["node"]
+						}
+					]
+				}	
+			],
+			"containmentRules": [
+				{
+					"role":"Diagram",
+					"contains": [
+						"edge",
+						"node"
+					]
+				}
+			]
+	}
+}
