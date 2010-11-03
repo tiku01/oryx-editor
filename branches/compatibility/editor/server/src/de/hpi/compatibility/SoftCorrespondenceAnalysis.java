@@ -7,6 +7,7 @@ import nl.tue.tm.is.graph.TwoTransitionSets;
 import de.hpi.PTnet.PTNet;
 import de.hpi.bp.BehaviouralProfile;
 import de.hpi.compatibility.NodeUtil.PartitioningMode;
+import de.hpi.compatibility.PathInfo.Part;
 import de.hpi.petrinet.Node;
 import de.hpi.petrinet.Transition;
 
@@ -69,7 +70,9 @@ public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 		// (1) exclusive path -> child must have an equal path
 		// (2) full interleaving -> child must have an equal path
 		// (3) ordered starts -> child must have a path with ordered starts
+		//     end must equal or interleaving
 		// (4) ordered ends -> child must have a path with ordered ends
+		//     start must be equal or interleaving
 		// (5) ordered starts and ends -> child must have a path with
 		// either ordered start or end
 
@@ -98,8 +101,11 @@ public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 		boolean found = false;
 		for (PathInfo childPath : childPaths) {
 			if (childPath.getStartPart() == parentPath.getStartPart()) {
-				found = true;
-				break;
+				if (childPath.getFinalPart() == parentPath.getFinalPart()
+						|| childPath.getFinalPart() == Part.Interleaving) {
+					found = true;
+					break;
+				}
 			}
 		}
 		return found;
@@ -109,8 +115,11 @@ public class SoftCorrespondenceAnalysis extends CorrespondenceAnalysis {
 		boolean found = false;
 		for (PathInfo childPath : childPaths) {
 			if (childPath.getFinalPart() == parentPath.getFinalPart()) {
-				found = true;
-				break;
+				if (childPath.getStartPart() == parentPath.getStartPart()
+						|| childPath.getStartPart() == Part.Interleaving) {
+					found = true;
+					break;
+				}
 			}
 		}
 		return found;
