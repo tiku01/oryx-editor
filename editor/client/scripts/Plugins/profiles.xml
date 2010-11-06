@@ -168,7 +168,7 @@
 	</profile>
 	
 	
-	<profile name="signavio" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
+	<profile name="signavio" stencilset="stencilsets/picture/picture.json">
 	    <plugin name="ORYX.Plugins.FileRepositorySave" />
 		<plugin name="ORYX.Plugins.ShapeRepository"/>
 		<plugin name="ORYX.Plugins.PropertyWindow"/>

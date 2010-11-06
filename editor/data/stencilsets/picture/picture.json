@@ -1,0 +1,178 @@
+{
+	"title":"Picture",
+	"namespace":"http://b3mn.org/stencilset/picture#",
+	"description":"This is the Picture implementation.",
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"node.diagram.svg",
+			"icon":"new_diagram.png",
+			"mayBeRoot": true,
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"English",
+					"description":"This holds the name of the language in which text is written.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"creationdate",
+					"type":"Date",
+					"title":"CreationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was created.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationdate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"The modeler may add optional text documentation about the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},				
+			]
+		},
+ 		{
+			"id":"createnewdocument",
+			"type": "node",
+			"title":"Neues Dokument/Information erstellen",
+			"groups":["Dokumentation"],
+			"description":"Ein neues Dokument/eine Information wird erstellt.",
+			"view":"node.block.svg",
+			"icon":"new_block.png",
+			"roles": [
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				},
+			]
+		},
+        {
+			"id":"capturedata",
+			"type": "node",
+			"title":"Erfassen/Registrieren",
+			"groups":["Dokumentation"],
+			"description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
+			"view":"node.block.svg",
+			"icon":"new_block.png",
+			"roles": [
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				},
+			]
+		},
+        {
+			"id":"incomingdocument",
+			"type": "node",
+			"title":"Dokument/Information geht ein",
+			"groups":["Informationsfluss"],
+			"description":"Ein neues Dokument/eine Information wird erstellt.",
+			"view":"node.block.svg",
+			"icon":"new_block.png",
+			"roles": [
+				"fromtoall"
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				},
+			]
+		}
+	],	
+	"rules": {
+		"connectionRules": [],
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"fromtoall"
+                ]
+			}
+		],
+		"morphingRules": []
+	}
+}
