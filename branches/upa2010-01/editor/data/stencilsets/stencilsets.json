@@ -139,6 +139,14 @@
 			"uri":"/timeline/timeline.json",
 			"icon_url":"/timeline/timeline.png",
 			"visible":false
+		},
+		{
+			"title":"Picture",
+			"namespace":"http://b3mn.org/stencilset/picture#",
+			"description":"This is the PICTURE modeling notation.",
+			"uri":"/picture/picture.json",
+			"icon_url":"/picture/picture.png",
+			"visible":true
 		}
 
 ]
