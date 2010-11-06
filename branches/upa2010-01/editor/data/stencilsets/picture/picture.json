@@ -1,178 +1,811 @@
 {
-	"title":"Picture",
-	"namespace":"http://b3mn.org/stencilset/picture#",
-	"description":"This is the Picture implementation.",
- 	"stencils" : [
-  		{
-			"type": "node",
-			"id":"Diagram",
-			"title":"Diagram",
-			"groups":[],
-			"description":"A Diagram",
-			"view":"node.diagram.svg",
-			"icon":"new_diagram.png",
-			"mayBeRoot": true,
-			"roles": [
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"",
-					"length":"",
-					"wrapLines":true
-				},
-				{
-					"id":"author",
-					"type":"String",
-					"title":"Author",
-					"value":"",
-					"description":"This holds the name of the author of the Diagram.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"language",
-					"type":"String",
-					"title":"Language",
-					"value":"English",
-					"description":"This holds the name of the language in which text is written.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"creationdate",
-					"type":"Date",
-					"title":"CreationDate",
-					"value":"10/07/07",
-					"description":"This defines the date on which the Diagram was created.",
-					"readonly":false,
-					"optional":true,
-					"dateFormat":"j/m/y"
-				},
-				{
-					"id":"modificationdate",
-					"type":"Date",
-					"title":"ModificationDate",
-					"value":"10/07/07",
-					"description":"This defines the date on which the Diagram was last modified.",
-					"readonly":false,
-					"optional":true,
-					"dateFormat":"j/m/y"
-				},
-				{
-					"id":"documentation",
-					"type":"String",
-					"title":"Documentation",
-					"value":"",
-					"description":"The modeler may add optional text documentation about the Diagram.",
-					"readonly":false,
-					"optional":true,
-					"length":"",
-					"wrapLines":true
-				},				
-			]
-		},
- 		{
-			"id":"createnewdocument",
-			"type": "node",
-			"title":"Neues Dokument/Information erstellen",
-			"groups":["Dokumentation"],
-			"description":"Ein neues Dokument/eine Information wird erstellt.",
-			"view":"node.block.svg",
-			"icon":"new_block.png",
-			"roles": [
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-				},
-			]
-		},
+  "title":"Picture",
+  "namespace":"http://b3mn.org/stencilset/picture#",
+  "description":"This is the Picture implementation.",
+   "stencils" : [
+      {
+      "type": "node",
+      "id":"Diagram",
+      "title":"Diagram",
+      "groups":[],
+      "description":"A Diagram",
+      "view":"node.diagram.svg",
+      "icon":"new_diagram.png",
+      "mayBeRoot": true,
+      "roles": [
+      ],
+      "properties": [
         {
-			"id":"capturedata",
-			"type": "node",
-			"title":"Erfassen/Registrieren",
-			"groups":["Dokumentation"],
-			"description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
-			"view":"node.block.svg",
-			"icon":"new_block.png",
-			"roles": [
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-				},
-			]
-		},
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"",
+          "length":"",
+          "wrapLines":true
+        },
         {
-			"id":"incomingdocument",
-			"type": "node",
-			"title":"Dokument/Information geht ein",
-			"groups":["Informationsfluss"],
-			"description":"Ein neues Dokument/eine Information wird erstellt.",
-			"view":"node.block.svg",
-			"icon":"new_block.png",
-			"roles": [
-				"fromtoall"
-			],
-			"properties": [
-				{
-					"id":"title",
-					"type":"String",
-					"title":"Title",
-					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-				},
-			]
-		}
-	],	
-	"rules": {
-		"connectionRules": [],
-		"containmentRules": [
-			{
-				"role":"Diagram",
-				"contains": [
-					"fromtoall"
+          "id":"author",
+          "type":"String",
+          "title":"Author",
+          "value":"",
+          "description":"This holds the name of the author of the Diagram.",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        },
+        {
+          "id":"language",
+          "type":"String",
+          "title":"Language",
+          "value":"English",
+          "description":"This holds the name of the language in which text is written.",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        },
+        {
+          "id":"creationdate",
+          "type":"Date",
+          "title":"CreationDate",
+          "value":"10/07/07",
+          "description":"This defines the date on which the Diagram was created.",
+          "readonly":false,
+          "optional":true,
+          "dateFormat":"j/m/y"
+        },
+        {
+          "id":"modificationdate",
+          "type":"Date",
+          "title":"ModificationDate",
+          "value":"10/07/07",
+          "description":"This defines the date on which the Diagram was last modified.",
+          "readonly":false,
+          "optional":true,
+          "dateFormat":"j/m/y"
+        },
+        {
+          "id":"documentation",
+          "type":"String",
+          "title":"Documentation",
+          "value":"",
+          "description":"The modeler may add optional text documentation about the Diagram.",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true
+        }        
+      ]
+    },
+    {
+      "id":"createnewdocument",
+      "type": "node",
+      "title":"Neues Dokument/Information erstellen",
+      "groups":["Dokumentation"],
+      "description":"Ein neues Dokument/eine Information wird erstellt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"capturedata",
+      "type": "node",
+      "title":"Erfassen/Registrieren",
+      "groups":["Dokumentation"],
+      "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },    
+    {
+      "id":"editdocument",
+      "type": "node",
+      "title":"Erfassen/Registrieren",
+      "groups":["Dokumentation"],
+      "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"archivedocument",
+      "type": "node",
+      "title":"Dokument archivieren",
+      "groups":["Dokumentation"],
+      "description":"Verwendete Dokumente werden archiviert/abgelegt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"incomingdocument",
+      "type": "node",
+      "title":"Dokument/Information geht ein",
+      "groups":["Informationsfluss"],
+      "description":"Ein neues Dokument/eine Information wird erstellt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"forwarddocument",
+      "type": "node",
+      "title":"Dokument/Information weiterleiten",
+      "groups":["Informationsfluss"],
+      "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"outgoingdocument",
+      "type": "node",
+      "title":"Dokument/Information geht aus",
+      "groups":["Informationsfluss"],
+      "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"pauseediting",
+      "type": "node",
+      "title":"Bearbeitungsunterbrechung",
+      "groups":["Informationsfluss"],
+      "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"reviewdocument",
+      "type": "node",
+      "title":"Dokument/Information sichten",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"checkdocumentformal",
+      "type": "node",
+      "title":"Formelle Prüfung vornehmen",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"checkdocumentcontent",
+      "type": "node",
+      "title":"Inhaltliche Prüfung vornehmen",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"docalculation",
+      "type": "node",
+      "title":"Berechnung durchführen",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"getmoney",
+      "type": "node",
+      "title":"Kassieren/Einzahlung entgegennehmen",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"paymoney",
+      "type": "node",
+      "title":"Auszahlung durchführen",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"changelocation",
+      "type": "node",
+      "title":"Bearbeitungsort wechseln",
+      "groups":["inhaltliche Arbeit"],
+      "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"edvinput",
+      "type": "node",
+      "title":"Dateneingabe in die EDV",
+      "groups":["Medienwechsel"],
+      "description":"Daten werden manuell in ein EDV-System eingegeben.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"scan",
+      "type": "node",
+      "title":"Scannen",
+      "groups":["Medienwechsel"],
+      "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"print",
+      "type": "node",
+      "title":"Drucken",
+      "groups":["Medienwechsel"],
+      "description":"Ein elektronisches Dokument wird ausgedruckt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"savetovolume",
+      "type": "node",
+      "title":"Datenträger bespielen",
+      "groups":["Medienwechsel"],
+      "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"copy",
+      "type": "node",
+      "title":"Dokument vervielvältigen/Kopieren",
+      "groups":["Medienwechsel"],
+      "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"doresearch",
+      "type": "node",
+      "title":"Recherche durchführen",
+      "groups":["Informationsbeschaffung"],
+      "description":"Die notwendigen Informationen werden recherchiert.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"dorequest",
+      "type": "node",
+      "title":"Rückfrage durchführen",
+      "groups":["Informationsbeschaffung"],
+      "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"settleagreement",
+      "type": "node",
+      "title":"Absprache/Vereinbarung treffen",
+      "groups":["Informationsbeschaffung"],
+      "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"doconsulting",
+      "type": "node",
+      "title":"Beratung durchführen",
+      "groups":["Informationsbeschaffung"],
+      "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"process",
+      "type": "node",
+      "title":"Prozess",
+      "groups":["Organisation"],
+      "description":"Äußere Struktur für einen ausführbaren Prozess.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"subprocess",
+      "type": "node",
+      "title":"Teilprozess",
+      "groups":["Organisation"],
+      "description":"Ausführungsumgebung für einen Teilprozess.",
+      "view":"node.block.svg",
+      "icon":"new_block.png",
+      "roles": [
+        "fromtoall"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+  ],  
+  "rules": {
+    "connectionRules": [],
+    "containmentRules": [
+      {
+        "role":"Diagram",
+        "contains": [
+          "fromtoall"
                 ]
-			}
-		],
-		"morphingRules": []
-	}
+      },
+      {
+        "role":"process",
+        "contains":[
+          "subprocess"
+                ]
+      },
+      {
+        "role":"subprocess",
+        "contains":[
+          "fromtoall"
+                ]
+      },
+    ],
+    "morphingRules": []
+  }
 }
