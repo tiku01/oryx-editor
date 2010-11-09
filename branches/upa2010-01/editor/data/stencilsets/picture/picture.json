@@ -9,8 +9,8 @@
       "title":"Diagram",
       "groups":[],
       "description":"A Diagram",
-      "view":"node.diagram.svg",
-      "icon":"new_diagram.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"800\"    height=\"600\"    version=\"1.0\">   <defs></defs>   <g pointer-events=\"fill\" >     <polygon stroke=\"black\" fill=\"black\" stroke-width=\"1\" points=\"0,0 0,590 9,599 799,599 799,9 790,0\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"10\" />     <rect id=\"diagramcanvas\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"790\" height=\"590\" stroke=\"black\" stroke-width=\"2\" fill=\"white\" />      <text font-size=\"22\" id=\"diagramtext\" x=\"400\" y=\"25\" oryx:align=\"top center\" stroke=\"black\"></text>   </g> </svg> ",
+      "icon":"diagram.png",
       "mayBeRoot": true,
       "roles": [
       ],
@@ -81,16 +81,20 @@
         }        
       ]
     },
+    
+    //Verschriftlichung und Dokumentation
+    
     {
       "id":"createnewdocument",
       "type": "node",
       "title":"Neues Dokument/Information erstellen",
       "groups":["Dokumentation"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -114,10 +118,11 @@
       "title":"Erfassen/Registrieren",
       "groups":["Dokumentation"],
       "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -141,10 +146,11 @@
       "title":"Erfassen/Registrieren",
       "groups":["Dokumentation"],
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -168,10 +174,11 @@
       "title":"Dokument archivieren",
       "groups":["Dokumentation"],
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -189,16 +196,20 @@
         }
       ]
     },
+    
+    //Informationsfluss
+    
     {
       "id":"incomingdocument",
       "type": "node",
       "title":"Dokument/Information geht ein",
       "groups":["Informationsfluss"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -222,10 +233,11 @@
       "title":"Dokument/Information weiterleiten",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -249,10 +261,11 @@
       "title":"Dokument/Information geht aus",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -276,10 +289,11 @@
       "title":"Bearbeitungsunterbrechung",
       "groups":["Informationsfluss"],
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -297,16 +311,20 @@
         }
       ]
     },
+    
+    //inhaltliche Verwaltungsarbeit
+    
     {
       "id":"reviewdocument",
       "type": "node",
       "title":"Dokument/Information sichten",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -330,10 +348,11 @@
       "title":"Formelle Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -357,10 +376,11 @@
       "title":"Inhaltliche Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -384,10 +404,11 @@
       "title":"Berechnung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -411,10 +432,11 @@
       "title":"Kassieren/Einzahlung entgegennehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -438,10 +460,11 @@
       "title":"Auszahlung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -465,10 +488,11 @@
       "title":"Bearbeitungsort wechseln",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -486,16 +510,20 @@
         }
       ]
     },
+    
+    //Medienwechsel
+    
     {
       "id":"edvinput",
       "type": "node",
       "title":"Dateneingabe in die EDV",
       "groups":["Medienwechsel"],
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -519,10 +547,11 @@
       "title":"Scannen",
       "groups":["Medienwechsel"],
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -546,10 +575,11 @@
       "title":"Drucken",
       "groups":["Medienwechsel"],
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -573,10 +603,11 @@
       "title":"Datenträger bespielen",
       "groups":["Medienwechsel"],
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -600,10 +631,11 @@
       "title":"Dokument vervielvältigen/Kopieren",
       "groups":["Medienwechsel"],
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -621,16 +653,20 @@
         }
       ]
     },
+    
+    //Koordination und Informationsbeschaffung
+    
     {
       "id":"doresearch",
       "type": "node",
       "title":"Recherche durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Die notwendigen Informationen werden recherchiert.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -654,10 +690,11 @@
       "title":"Rückfrage durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -681,10 +718,11 @@
       "title":"Absprache/Vereinbarung treffen",
       "groups":["Informationsbeschaffung"],
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -708,10 +746,11 @@
       "title":"Beratung durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"102\"    height=\"82\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"1\" oryx:cy=\"20\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"39\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"39\" oryx:cy=\"20\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"20\" oryx:cy=\"1\" oryx:anchors=\"top\" />  <oryx:magnet oryx:cx=\"20\" oryx:cy=\"20\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"fill\" oryx:minimumSize=\"10 10\" oryx:maximumSize=\"160 160\" >     <rect id=\"taskrect\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"40\" height=\"40\" stroke=\"black\" stroke-width=\"1\" fill=\"white\" />      <text font-size=\"12\" id=\"text\" x=\"20\" y=\"18\" oryx:align=\"middle center\" stroke=\"black\" oryx:fittoelem=\"taskrect\"></text>   </g> </svg> ",
+      "icon":"block.png",
       "roles": [
-        "fromtoall"
+        "all", 
+        "node"
       ],
       "properties": [
         {
@@ -729,16 +768,19 @@
         }
       ]
     },
+    
+    //Organisation
+    
     {
       "id":"process",
       "type": "node",
       "title":"Prozess",
       "groups":["Organisation"],
       "description":"Äußere Struktur für einen ausführbaren Prozess.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"600\"    height=\"250\"    version=\"1.0\">   <defs></defs>   <oryx:magnets>    <oryx:magnet oryx:cx=\"0\" oryx:cy=\"124\" oryx:anchors=\"left\" />    <oryx:magnet oryx:cx=\"299\" oryx:cy=\"249\" oryx:anchors=\"bottom\" />    <oryx:magnet oryx:cx=\"599\" oryx:cy=\"124\" oryx:anchors=\"right\" />    <oryx:magnet oryx:cx=\"299\" oryx:cy=\"0\" oryx:anchors=\"top\" />    <oryx:magnet oryx:cx=\"299\" oryx:cy=\"124\" oryx:default=\"yes\" />   </oryx:magnets>   <g pointer-events=\"painted\" >      <defs>   <radialGradient id=\"background\" cx=\"0%\" cy=\"10%\" r=\"100%\" fx=\"20%\" fy=\"10%\">    <stop offset=\"0%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>    <stop id=\"fill_el\" offset=\"100%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>   </radialGradient>  </defs>         <rect id=\"border\" class=\"stripable-element-force\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" fill=\"none\" stroke-width=\"9\" stroke=\"white\" visibility=\"hidden\"/>     <rect id=\"c\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" stroke=\"black\" fill=\"none\" />       <rect    id=\"caption\"   oryx:anchors=\"left top bottom\"   x=\"0\"   y=\"0\"   width=\"30\"   height=\"250\"   stroke=\"black\"   stroke-width=\"1\"   fill=\"white\"  />    <rect    id=\"captionDisableAntialiasing\"   oryx:anchors=\"left top bottom\"   x=\"0\"   y=\"0\"   width=\"30\"   height=\"250\"   stroke=\"black\"   stroke-width=\"1\"   fill=\"url(#background) white\"  />       <text x=\"10\" y=\"125\" font-size=\"14\" id=\"text_name\" oryx:fittoelem=\"caption\" oryx:align=\"middle center\" oryx:anchors=\"left\" oryx:rotate=\"270\" fill=\"black\" stroke=\"black\"></text>    <g id=\"multiInstance\">   <path oryx:anchors=\"bottom\" fill=\"none\" stroke=\"black\" d=\"M296 240 v8 M300 240 v8 M304 240 v8\" stroke-width=\"2\" />  </g>   </g> </svg> ",
+      "icon":"process.png",
       "roles": [
-        "fromtoall"
+        "all"
       ],
       "properties": [
         {
@@ -762,10 +804,10 @@
       "title":"Teilprozess",
       "groups":["Organisation"],
       "description":"Ausführungsumgebung für einen Teilprozess.",
-      "view":"node.block.svg",
-      "icon":"new_block.png",
+      "view":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> <svg    xmlns=\"http://www.w3.org/2000/svg\"    xmlns:svg=\"http://www.w3.org/2000/svg\"    xmlns:oryx=\"http://www.b3mn.org/oryx\"    xmlns:xlink=\"http://www.w3.org/1999/xlink\"    width=\"600\"    height=\"250\"    version=\"1.0\">   <defs></defs>   <g pointer-events=\"painted\" >         <defs>   <radialGradient id=\"background\" cx=\"0%\" cy=\"10%\" r=\"100%\" fx=\"20%\" fy=\"10%\">    <stop offset=\"0%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>    <stop id=\"fill_el\" offset=\"100%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>   </radialGradient>  </defs>      <rect id=\"border_invisible\" class=\"stripable-element-force\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" fill=\"none\" stroke-width=\"10\" stroke=\"white\" visibility=\"hidden\"/>  <rect id=\"border\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" stroke=\"black\" stroke-width=\"1\" fill=\"none\" />    <rect    id=\"caption\"   oryx:anchors=\"left top bottom\"   x=\"0\"   y=\"1\"   width=\"30\"   height=\"248\"   stroke=\"black\"   stroke-width=\"0\"   fill=\"white\"   visibility=\"hidden\"   class=\"stripable-element-force\"  />    <path          style=\"fill:none;stroke:#000000;stroke-width:1\"          d=\"M 0,0 L 0,250\"          oryx:anchors=\"left top bottom\"          id=\"captionDisableAntialiasing\" />    <!--rect    id=\"captionDisableAntialiasing\"   oryx:anchors=\"left top bottom\"   x=\"0\"   y=\"0\"   width=\"30\"   height=\"250\"   stroke=\"black\"   stroke-width=\"1\"   fill=\"url(#background) white\"  /-->       <text    x=\"13\"   y=\"125\"    oryx:rotate=\"270\"    font-size=\"14\"    id=\"text_name\"    oryx:align=\"middle center\"    oryx:anchors=\"left\"   oryx:fittoelem=\"caption\"   fill=\"black\"    stroke=\"black\">  </text>   </g> </svg> ",
+      "icon":"subprocess.png",
       "roles": [
-        "fromtoall"
+        ""
       ],
       "properties": [
         {
@@ -783,26 +825,111 @@
         }
       ]
     },
+    
+    //Attribute  (Mittlere Bearbeitungszeit) (Ermessensspielraum) (Aufbewahrungsfrist in Jahren) (Art der Aufbewahrung) (Eingangskanäle) (Verbundene Verfügungen) (Weiterleitungskanäle) (Mittlere Transportzeit) (Ausgangskanäle) (Mittlere Unterbrechungsdauer) (Grund für Wartezeit) (Prüfergebnisse) (Prüfbestandteile) (Beschreibung) (Durchschnittliche Höhe der Einzahlung) (Verfahren der Einzahlung) (Durchschnittliche Höhe der Auszahlung) (Verfahren der Auszahlung) (Wartezeit bis zum Ortswechsel) (Zeit für den Ortswechsel) (Ort der Bearbeitung) (Grund des Ortswechsels) (Sonderformate) (Mittlere Anzahl Seiten) (Typ des Datenträgers) (Art der Vervielfältigung) (Mittlere Zustellzeit)
+    
+    {
+      "id":"clockwork",
+      "type": "node",
+      "title":"Mittlere Bearbeitungszeit",
+      "groups":["Attribute"],
+      "description":"",
+      "view":"clock_template.svg",
+      "icon":"clock_work.png",
+      "roles": [
+        "all", "node"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"clockpause",
+      "type": "node",
+      "title":"Mittlere Unterbrechungsdauer",
+      "groups":["Attribute"],
+      "description":"",
+      "view":"clock_template.svg",
+      "icon":"clock_pause.png",
+      "roles": [
+        "all", "node"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    },
+    {
+      "id":"clocktransport",
+      "type": "node",
+      "title":"Mittlere Transportzeit",
+      "groups":["Attribute"],
+      "description":"",
+      "view":"clock_template.svg",
+      "icon":"clock_transport.png",
+      "roles": [
+        "all", "node"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        }
+      ]
+    }
   ],  
   "rules": {
     "connectionRules": [],
     "containmentRules": [
       {
         "role":"Diagram",
-        "contains": [
-          "fromtoall"
-                ]
+        "contains": [ "all", 
+        "node" ]
       },
       {
         "role":"process",
         "contains":[
-          "subprocess"
+          "subprocess",
+          "node"
                 ]
       },
       {
         "role":"subprocess",
         "contains":[
-          "fromtoall"
+          "all", 
+        "node"
                 ]
       },
     ],
