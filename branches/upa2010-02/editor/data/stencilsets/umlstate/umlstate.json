@@ -1,0 +1,221 @@
+{
+	"title":"UML State Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlstate#",
+	"description":"UML State Diagram",
+	"description_de":"UML Zustandsdiagramm",
+	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"title_de" :"Diagramm",
+			"groups":[],
+			"description":"A UML State Diagram",
+			"description_de":"UML Zustandsdiagram",
+			"view":"diagram.svg",
+			"icon":"diagram.png",
+			"roles": [],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"initialState",
+			"title":"Initial State",
+			"title_de":"Startzustand",
+			"groups":[],
+			"groups_de":[],
+			"description":"A state at which flow of control starts.",
+			"description_de":"Startzustand bei dem der Kontrollfluss anfängt.",
+			"view":"node.initialState.svg",
+			"icon":"node.initialState.png",
+			"roles": [
+				"diagramcontent",
+				"initialState"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"state",
+			"title":"State",
+			"title_de" :"Aktion",
+			"groups":[],
+			"description":"Fundamental unit of behavior specification, which does something.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, in der etwas geschieht.",
+			"view":"node.state.svg",
+			"icon":"node.state.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"finalState",
+			"title":"Final State",
+			"title_de":"Endzustand",
+			"groups":[],
+			"groups_de":[],
+			"description":"A final node that stops all flows in a state diagram",
+			"description_de":"Enzustand, der alle Abläufe in einem Zustandsdiagramm beendet",
+			"view":"node.finalState.svg",
+			"icon":"node.finalState.png",
+			"roles": [
+				"diagramcontent",
+				"finalNode"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"controlFlow",
+			"title":"Control Flow",
+			"title_de":"Kontrollfluss",
+			"groups":[],
+			"groups_de":[],
+			"description":"Connects states and events",
+			"description":"Verbindet Aktionen, Aktivitäten und Ereignisse",
+			"view":"edge.controlFlow.svg",
+			"icon":"edge.controlFlow.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlow"
+			],
+			"properties":[
+			    {
+					"id":"condition",
+					"type":"String",
+					"title":"Name/Condition",
+					"title_de":"Name/Bedingung",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		}
+	],	
+	"rules": {
+	    
+	    "morphingRules": [],
+	    
+		"connectionRules": [
+			{
+                "role":"controlFlow",
+                "connects": [
+                    {
+                        "from":"controlFlowElement",
+                        "to":["controlFlowElement","finalNode"]
+                    },
+                    {
+                        "from":"initialState",
+                        "to":["controlFlowElement"]
+                    }
+                ]
+            }
+		],
+		
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			}	
+		]
+	}
+}

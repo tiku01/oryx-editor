@@ -139,6 +139,15 @@
 			"uri":"/timeline/timeline.json",
 			"icon_url":"/timeline/timeline.png",
 			"visible":false
+		},
+		
+		{
+			"title":"UML State Diagram",
+			"namespace":"http://b3mn.org/stencilset/umlstate#",
+			"description":"Stencil Set to create UML 2.2 state diagrams",
+			"uri":"/umlstate/umlstate.json",
+			"icon_url":"/umlstate/umlstate.png",
+			"visible":true
 		}
 
 ]
