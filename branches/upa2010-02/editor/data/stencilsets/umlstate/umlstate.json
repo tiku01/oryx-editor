@@ -111,6 +111,233 @@
 		},
 		{
 			"type": "node",
+			"id":"acceptEvent",
+			"title":"Accept Event",
+			"title_de":"Akzeptierendes Ereignis",
+			"title_ru":"Принятие события",
+			"groups":["Actions and Events"],
+			"groups_de":["Aktionen und Ereignisse"],
+			"groups_ru":["Действие и Событие"],
+			"description":"An action that waits for the occurrence of an event meeting specified condition",
+			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
+			"view":"node.event.incoming.svg",
+			"icon":"node.event.incoming.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"sendEvent",
+			"title":"Send Event",
+			"title_de":"Sendendes Ereignis",
+			"groups":[],
+			"groups_de":[],
+			"description":"An action that creates a signal instance which is transmitted to a target object",
+			"description_de":"Aktion, die ein Signal erzeugt und zum Zielobjekt sendet",
+			"view":"node.event.outgoing.svg",
+			"icon":"node.event.outgoing.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"orNode",
+			"title":"Decision/Merge",
+			"title_de":"Entscheidung/Kreuzung",
+			"groups":[],
+			"groups_de":[],
+			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
+			"view":"node.or.svg",
+			"icon":"node.or.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"andOr"
+			],
+			"properties": [
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"shallowHistory",
+			"title":"Shallow History",
+			"title_de" :"Flache Historie",
+			"groups":[],
+			"description":"Entry through shallow history.",
+			"description_de":"Eintritt durch flache Historie",
+			"view":"node.shallowHistory.svg",
+			"icon":"node.shallowHistory.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"deepHistory",
+			"title":"Deep History",
+			"title_de" :"Tiege Historie",
+			"groups":[],
+			"description":"Entry through deep history.",
+			"description_de":"Eintritt durch tiefe Historie",
+			"view":"node.deepHistory.svg",
+			"icon":"node.deepHistory.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
 			"id":"finalState",
 			"title":"Final State",
 			"title_de":"Endzustand",
