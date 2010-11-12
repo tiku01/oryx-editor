@@ -20,6 +20,30 @@
           "refToView":"text_name_description",
           "length":"",
           "wrapLines":true
+        },
+        {
+          "id":"name",
+          "type":"String",
+          "title":"Name",
+          "value":"",
+          "description":"Bezeichnung des BPMN-Elementes.",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines" : true
+        },
+        {
+          "id":"documentation",
+          "type":"Text",
+          "title":"Documentation",
+          "title_de":"Dokumentation",
+          "value":"",
+          "description":"This attribute is used to annotate the BPMN element, such as descriptions and other documentation.",
+          "description_de":"Der Modellierer kann weiteren Text zur Dokumentation des BPMN-Elementes einfügen.",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true
         }
       ]
     }
@@ -108,6 +132,7 @@
       "icon":"dokumentation/erstellen.png",
       "roles": [
         "all", 
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -137,6 +162,7 @@
       "icon":"dokumentation/erfassen.png",
       "roles": [
         "all", 
+        "fromtoall", 
         "node"
       ],
       "properties": [
@@ -166,6 +192,7 @@
       "icon":"dokumentation/bearbeiten.png",
       "roles": [
         "all", 
+        "fromtoall", 
         "node"
       ],
       "properties": [
@@ -195,6 +222,7 @@
       "icon":"dokumentation/archivieren.png",
       "roles": [
         "all", 
+        "fromtoall", 
         "node"
       ],
       "properties": [
@@ -227,6 +255,7 @@
       "icon":"informationsfluss/eingehend.png",
       "roles": [
         "all", 
+        "fromtoall", 
         "node"
       ],
       "properties": [
@@ -255,7 +284,8 @@
       "view":"informationsfluss/weiterleiten.svg",
       "icon":"informationsfluss/weiterleiten.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -284,7 +314,8 @@
       "view":"informationsfluss/ausgehend.svg",
       "icon":"informationsfluss/ausgehend.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -313,7 +344,8 @@
       "view":"informationsfluss/unterbrechung.svg",
       "icon":"informationsfluss/unterbrechung.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -345,7 +377,8 @@
       "view":"inhaltsarbeit/sichten.svg",
       "icon":"inhaltsarbeit/sichten.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -374,7 +407,8 @@
       "view":"inhaltsarbeit/formell.svg",
       "icon":"inhaltsarbeit/formell.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -403,7 +437,8 @@
       "view":"inhaltsarbeit/inhaltlich.svg",
       "icon":"inhaltsarbeit/inhaltlich.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -432,7 +467,8 @@
       "view":"inhaltsarbeit/berechnen.svg",
       "icon":"inhaltsarbeit/berechnen.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -461,7 +497,8 @@
       "view":"inhaltsarbeit/kassieren.svg",
       "icon":"inhaltsarbeit/kassieren.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -490,7 +527,8 @@
       "view":"inhaltsarbeit/auszahlen.svg",
       "icon":"inhaltsarbeit/auszahlen.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -519,7 +557,8 @@
       "view":"inhaltsarbeit/ortswechsel.svg",
       "icon":"inhaltsarbeit/ortswechsel.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -551,7 +590,8 @@
       "view":"medienwechsel/eingabe.svg",
       "icon":"medienwechsel/eingabe.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -580,7 +620,8 @@
       "view":"medienwechsel/scannen.svg",
       "icon":"medienwechsel/scannen.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -609,7 +650,8 @@
       "view":"medienwechsel/drucken.svg",
       "icon":"medienwechsel/drucken.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -638,7 +680,8 @@
       "view":"medienwechsel/medium.svg",
       "icon":"medienwechsel/medium.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -667,7 +710,8 @@
       "view":"medienwechsel/kopieren.svg",
       "icon":"medienwechsel/kopieren.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -699,7 +743,8 @@
       "view":"informationsbeschaffung/recherche.svg",
       "icon":"informationsbeschaffung/recherche.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -728,7 +773,8 @@
       "view":"informationsbeschaffung/rueckfrage.svg",
       "icon":"informationsbeschaffung/rueckfrage.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -757,7 +803,8 @@
       "view":"informationsbeschaffung/absprache.svg",
       "icon":"informationsbeschaffung/absprache.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -786,7 +833,8 @@
       "view":"informationsbeschaffung/beratung.svg",
       "icon":"informationsbeschaffung/beratung.png",
       "roles": [
-        "all", 
+        "all",  
+        "fromtoall",
         "node"
       ],
       "properties": [
@@ -818,7 +866,8 @@
       "view":"organisation/prozess.svg",
       "icon":"organisation/prozess.png",
       "roles": [
-        "all"
+        "processTypes",
+        "fromtoall",
       ],
       "properties": [
         {
@@ -865,6 +914,33 @@
       ],
       "propertyPackages": ["baseAttributes"],
     },
+    {
+      "id":"detailprocess",
+      "type": "node",
+      "title":"detaillierter Prozess",
+      "groups":["Organisation"],
+      "description":"Äußere Struktur für einen ausführbaren Prozess.",
+      "view":"organisation/prozess_gross.svg",
+      "icon":"organisation/prozess_gross.png",
+      "roles": [
+        "processTypes"
+      ],
+      "properties": [
+        {
+          "id":"title",
+          "type":"String",
+          "title":"Title",
+          "value":"",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":false,
+          "length":"",
+          "wrapLines":true
+        }
+      ],
+      "propertyPackages": ["baseAttributes"],
+    },
     
     //Attribute  (Mittlere Bearbeitungszeit) (Ermessensspielraum) (Aufbewahrungsfrist in Jahren) (Art der Aufbewahrung) (Eingangskanäle) (Verbundene Verfügungen) (Weiterleitungskanäle) (Mittlere Transportzeit) (Ausgangskanäle) (Mittlere Unterbrechungsdauer) (Grund für Wartezeit) (Prüfergebnisse) (Prüfbestandteile) (Beschreibung) (Durchschnittliche Höhe der Einzahlung) (Verfahren der Einzahlung) (Durchschnittliche Höhe der Auszahlung) (Verfahren der Auszahlung) (Wartezeit bis zum Ortswechsel) (Zeit für den Ortswechsel) (Ort der Bearbeitung) (Grund des Ortswechsels) (Sonderformate) (Mittlere Anzahl Seiten) (Typ des Datenträgers) (Art der Vervielfältigung) (Mittlere Zustellzeit)
     
@@ -877,7 +953,8 @@
       "view":"attribute/bearbeitungszeit.svg",
       "icon":"attribute/bearbeitungszeit.png",
       "roles": [
-        "all", "node"
+        "fromtoall",
+        "attribute"
       ],
       "properties": [
         {
@@ -915,7 +992,8 @@
       "view":"attribute/unterbrechung.svg",
       "icon":"attribute/unterbrechung.png",
       "roles": [
-        "all", "node"
+        "fromtoall",
+        "attribute"
       ],
       "properties": [
         {
@@ -953,7 +1031,8 @@
       "view":"attribute/transportzeit.svg",
       "icon":"attribute/transportzeit.png",
       "roles": [
-        "all", "node"
+        "fromtoall",
+        "attribute"
       ],
       "properties": [
         {
@@ -981,31 +1060,184 @@
           "refToView":"text_name_description"
         }
       ]
+    },
+    
+    //Artefakte
+    
+    {
+      "id":"TextAnnotation",
+      "type":"node",
+      "title":"Text Annotation",
+      "groups":["Artefakte"],
+      "description":"Jedes Objekt kann durch eine Text-Anmerkung kommentiert werden.",
+      "view":"artefakte/text_annotation.svg",
+      "icon":"artefakte/text_annotation.png",
+      "propertyPackages": [
+        "baseAttributes"
+      ],
+      "roles": [
+        "all",
+        "TextAnnotationMorph"
+      ],
+      "properties": [
+        {
+          "id":"text",
+          "type":"String",
+          "title":"Text",
+          "value":"",
+          "description":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"text",
+          "length":"",
+          "wrapLines":true
+        },
+        {
+          "id":"artifacttype",
+          "type":"String",
+          "title":"ArtifactType",
+          "title_de":"Artefakttyp",
+          "value":"Annotation",
+          "description":"",
+          "readonly":true,
+          "optional":false,
+          "length":""
+        }
+      ]
+    },
+    {
+      "id":"Group",
+      "type":"node",
+      "title":"Gruppe",
+      "groups":["Artefakte"],
+      "description" :   "Mehrere Objekte, die logisch in Verbindung stehen, können in einer Gruppe zusammengefasst werden.",
+      "view":"artefakte/gruppe.svg",
+      "icon":"artefakte/gruppe.png",
+      "roles": [
+        "all",
+        "fromtoall"
+      ],
+      "propertyPackages": [
+        "baseAttributes",
+      ],
+      "properties" : [
+        {
+          "id":"artifacttype",
+          "type":"String",
+          "title":"ArtifactType",
+          "title_de":"Artefakttyp",
+          "value":"Group",
+          "description":"",
+          "readonly":true,
+          "optional":false,
+          "length":""
+        }
+      ]
+    },
+    
+    // Edges
+    
+    {
+      "id":"sequenceflow",
+      "type": "edge",
+      "title":"Sequenzfluss",
+      "description":"Ein Sequenzfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
+      "groups":["Konnektoren"],
+      "view":"konnektoren/sequenzfluss.svg",
+      "icon":"konnektoren/sequenzfluss.png",
+      "roles": [
+        "all",
+        "ConnectingObjectsMorph"
+      ],
+      "propertyPackages":[
+        "baseAttributes"
+      ]
+    },
+    {
+      "id":"associationundirected",
+      "type":"edge",
+      "title":"Ungerichtete Assoziation",
+      "description":"Die Zuordnung eines Datenobjekts zu einem Sequenzfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
+      "groups":["Konnektoren"],
+      "view":"konnektoren/assoziation_ungerichtet.svg",
+      "icon":"konnektoren/assoziation_ungerichtet.png",
+      "roles": [
+        "all",
+        "ConnectingObjectsMorph"
+      ]
     }
   ],  
   "rules": {
-    "connectionRules": [],
+    "connectionRules": [
+      {
+        "role" : "associationundirected",
+        "connects" : [
+          {
+            "from" : "fromtoall",
+            "to" : ["TextAnnotation"]
+          },
+          {
+            "from" : "TextAnnotation",
+            "to" : ["fromtoall"]
+          },
+          {
+            "from" : "node",
+            "to" : ["attribute"]
+          },
+          {
+            "from" : "attribute",
+            "to" : ["node"]
+          }
+        ]
+      },
+      {
+        "role" : "sequenceflow",
+        "connects" : [
+          {
+            "from" : "node",
+            "to" : ["node"]
+          }
+        ]
+      }
+    ],
     "containmentRules": [
       {
         "role":"Diagram",
-        "contains": [ "all", 
-        "node" ]
+        "contains": [ 
+        "all",
+        "processTypes"
+                ]
       },
       {
         "role":"process",
         "contains":[
           "subprocess",
-          "node"
+          "all",
+          "attribute"
+                ]
+      },
+      {
+        "role":"detailprocess",
+        "contains":[
+          "all",
+          "attribute"
                 ]
       },
       {
         "role":"subprocess",
         "contains":[
           "all", 
-        "node"
+          "attribute"
                 ]
       },
-    ],
-    "morphingRules": []
+      {
+        "role":"Group",
+        "contains":[
+          "all", 
+          "attribute",
+          "processType"
+                ]
+      }
+    ]
   }
 }
