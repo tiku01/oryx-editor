@@ -20,25 +20,28 @@
 	  </defs>
     
  	  <rect id="main_frame" x="0" y="0" width="80" height="60" rx="0" ry="0" stroke="black" stroke-width="1" fill="url(#background)" />
-    <rect id="text_frame" x="30" y="30" width="49" height="30" rx="0" ry="0" stroke="none" stroke-width="3" fill="none" />
-    <rect id="text_frame" x="0" y="0" width="30" height="60" rx="0" ry="0" stroke="none" stroke-width="3" fill="black" />
+    <rect id="text_frame_description" x="30" y="30" width="49" height="30" rx="0" ry="0" stroke="none" stroke-width="3" fill="none" />
+    <rect id="text_frame_title" x="0" y="0" width="30" height="60" rx="0" ry="0" stroke="none" stroke-width="3" fill="black" />
 	
  		<text 
-			font-size="12"  
+			font-size="12" 
+			id="text_name_title"
 			x="25" 
 			y="50" 
 			stroke="white"
 			fill="white"
-			oryx:rotate="270">Dauer
+			oryx:fittoelem="text_frame_title"			
+			oryx:rotate="270">
 		</text>
 
 		<text 
 			font-size="12" 
-			id="text_name" 
+			id="text_name_description" 
 			x="55" 
 			y="50" 
-			oryx:align="bottom center"
-			stroke="black">3min
+			oryx:align="middle center"
+			oryx:fittoelem="text_frame_description"
+			stroke="black">
 		</text>
     
     <circle fill="url(#background)" cx="55" cy="18" r="15"/>
