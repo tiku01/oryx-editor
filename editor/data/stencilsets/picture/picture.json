@@ -120,7 +120,7 @@
       ]
     },
     
-    //Verschriftlichung und Dokumentation
+    //documentation
     
     {
       "id":"createnewdocument",
@@ -128,8 +128,8 @@
       "title":"Neues Dokument/Information erstellen",
       "groups":["Dokumentation"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"dokumentation/erstellen.svg",
-      "icon":"dokumentation/erstellen.png",
+      "view":"documentation/create.svg",
+      "icon":"documentation/create.png",
       "roles": [
         "all", 
         "fromtoall",
@@ -158,8 +158,8 @@
       "title":"Erfassen/Registrieren",
       "groups":["Dokumentation"],
       "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
-      "view":"dokumentation/erfassen.svg",
-      "icon":"dokumentation/erfassen.png",
+      "view":"documentation/capture.svg",
+      "icon":"documentation/capture.png",
       "roles": [
         "all", 
         "fromtoall", 
@@ -188,8 +188,8 @@
       "title":"Dokument/ Information bearbeiten",
       "groups":["Dokumentation"],
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
-      "view":"dokumentation/bearbeiten.svg",
-      "icon":"dokumentation/bearbeiten.png",
+      "view":"documentation/edit.svg",
+      "icon":"documentation/edit.png",
       "roles": [
         "all", 
         "fromtoall", 
@@ -218,8 +218,8 @@
       "title":"Dokument archivieren",
       "groups":["Dokumentation"],
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
-      "view":"dokumentation/archivieren.svg",
-      "icon":"dokumentation/archivieren.png",
+      "view":"documentation/archive.svg",
+      "icon":"documentation/archive.png",
       "roles": [
         "all", 
         "fromtoall", 
@@ -243,7 +243,7 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //Informationsfluss
+    //information flow
     
     {
       "id":"incomingdocument",
@@ -251,8 +251,8 @@
       "title":"Dokument/Information geht ein",
       "groups":["Informationsfluss"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"informationsfluss/eingehend.svg",
-      "icon":"informationsfluss/eingehend.png",
+      "view":"information_flow/incoming.svg",
+      "icon":"information_flow/incoming.png",
       "roles": [
         "all", 
         "fromtoall", 
@@ -281,8 +281,8 @@
       "title":"Dokument/Information weiterleiten",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
-      "view":"informationsfluss/weiterleiten.svg",
-      "icon":"informationsfluss/weiterleiten.png",
+      "view":"information_flow/forward.svg",
+      "icon":"information_flow/forward.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -311,8 +311,8 @@
       "title":"Dokument/Information geht aus",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
-      "view":"informationsfluss/ausgehend.svg",
-      "icon":"informationsfluss/ausgehend.png",
+      "view":"information_flow/outgoing.svg",
+      "icon":"information_flow/outgoing.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -341,8 +341,8 @@
       "title":"Bearbeitungsunterbrechung",
       "groups":["Informationsfluss"],
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
-      "view":"informationsfluss/unterbrechung.svg",
-      "icon":"informationsfluss/unterbrechung.png",
+      "view":"information_flow/pause.svg",
+      "icon":"information_flow/pause.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -366,7 +366,7 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //inhaltliche Verwaltungsarbeit
+    //content work
     
     {
       "id":"reviewdocument",
@@ -374,8 +374,8 @@
       "title":"Dokument/Information sichten",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
-      "view":"inhaltsarbeit/sichten.svg",
-      "icon":"inhaltsarbeit/sichten.png",
+      "view":"content_work/review.svg",
+      "icon":"content_work/review.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -399,13 +399,13 @@
       "propertyPackages": ["baseAttributes"],
     },
     {
-      "id":"checkdocumentformal",
+      "id":"checkdocumentformally",
       "type": "node",
       "title":"Formelle Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
-      "view":"inhaltsarbeit/formell.svg",
-      "icon":"inhaltsarbeit/formell.png",
+      "view":"content_work/formally.svg",
+      "icon":"content_work/formally.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -434,8 +434,8 @@
       "title":"Inhaltliche Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
-      "view":"inhaltsarbeit/inhaltlich.svg",
-      "icon":"inhaltsarbeit/inhaltlich.png",
+      "view":"content_work/content.svg",
+      "icon":"content_work/content.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -464,8 +464,8 @@
       "title":"Berechnung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
-      "view":"inhaltsarbeit/berechnen.svg",
-      "icon":"inhaltsarbeit/berechnen.png",
+      "view":"content_work/calculate.svg",
+      "icon":"content_work/calculate.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -489,13 +489,13 @@
       "propertyPackages": ["baseAttributes"],
     },
     {
-      "id":"getmoney",
+      "id":"collectmoney",
       "type": "node",
       "title":"Kassieren/Einzahlung entgegennehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"inhaltsarbeit/kassieren.svg",
-      "icon":"inhaltsarbeit/kassieren.png",
+      "view":"content_work/collect.svg",
+      "icon":"content_work/collect.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -524,8 +524,8 @@
       "title":"Auszahlung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"inhaltsarbeit/auszahlen.svg",
-      "icon":"inhaltsarbeit/auszahlen.png",
+      "view":"content_work/pay.svg",
+      "icon":"content_work/pay.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -549,13 +549,13 @@
       "propertyPackages": ["baseAttributes"],
     },
     {
-      "id":"changelocation",
+      "id":"relocate",
       "type": "node",
       "title":"Bearbeitungsort wechseln",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
-      "view":"inhaltsarbeit/ortswechsel.svg",
-      "icon":"inhaltsarbeit/ortswechsel.png",
+      "view":"content_work/relocation.svg",
+      "icon":"content_work/relocation.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -579,7 +579,7 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //Medienwechsel
+    //change of medium
     
     {
       "id":"edvinput",
@@ -587,8 +587,8 @@
       "title":"Dateneingabe in die EDV",
       "groups":["Medienwechsel"],
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
-      "view":"medienwechsel/eingabe.svg",
-      "icon":"medienwechsel/eingabe.png",
+      "view":"change_medium/edv_input.svg",
+      "icon":"change_medium/edv_input.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -617,8 +617,8 @@
       "title":"Scannen",
       "groups":["Medienwechsel"],
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
-      "view":"medienwechsel/scannen.svg",
-      "icon":"medienwechsel/scannen.png",
+      "view":"change_medium/scan.svg",
+      "icon":"change_medium/scan.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -647,8 +647,8 @@
       "title":"Drucken",
       "groups":["Medienwechsel"],
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
-      "view":"medienwechsel/drucken.svg",
-      "icon":"medienwechsel/drucken.png",
+      "view":"change_medium/print.svg",
+      "icon":"change_medium/print.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -677,8 +677,8 @@
       "title":"Datenträger bespielen",
       "groups":["Medienwechsel"],
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
-      "view":"medienwechsel/medium.svg",
-      "icon":"medienwechsel/medium.png",
+      "view":"change_medium/save_to_volume.svg",
+      "icon":"change_medium/save_to_volume.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -707,8 +707,8 @@
       "title":"Dokument vervielvältigen/Kopieren",
       "groups":["Medienwechsel"],
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
-      "view":"medienwechsel/kopieren.svg",
-      "icon":"medienwechsel/kopieren.png",
+      "view":"change_medium/copy.svg",
+      "icon":"change_medium/copy.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -732,7 +732,7 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //Koordination und Informationsbeschaffung
+    //coordination und information retrieval
     
     {
       "id":"doresearch",
@@ -740,8 +740,8 @@
       "title":"Recherche durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Die notwendigen Informationen werden recherchiert.",
-      "view":"informationsbeschaffung/recherche.svg",
-      "icon":"informationsbeschaffung/recherche.png",
+      "view":"information_retrieval/research.svg",
+      "icon":"information_retrieval/research.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -770,8 +770,8 @@
       "title":"Rückfrage durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
-      "view":"informationsbeschaffung/rueckfrage.svg",
-      "icon":"informationsbeschaffung/rueckfrage.png",
+      "view":"information_retrieval/request.svg",
+      "icon":"information_retrieval/request.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -800,8 +800,8 @@
       "title":"Absprache/Vereinbarung treffen",
       "groups":["Informationsbeschaffung"],
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
-      "view":"informationsbeschaffung/absprache.svg",
-      "icon":"informationsbeschaffung/absprache.png",
+      "view":"information_retrieval/agreement.svg",
+      "icon":"information_retrieval/agreement.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -830,8 +830,8 @@
       "title":"Beratung durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
-      "view":"informationsbeschaffung/beratung.svg",
-      "icon":"informationsbeschaffung/beratung.png",
+      "view":"information_retrieval/consulting.svg",
+      "icon":"information_retrieval/consulting.png",
       "roles": [
         "all",  
         "fromtoall",
@@ -855,7 +855,7 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //Organisation
+    //organisation
     
     {
       "id":"process",
@@ -863,8 +863,8 @@
       "title":"Prozess",
       "groups":["Organisation"],
       "description":"Äußere Struktur für einen ausführbaren Prozess.",
-      "view":"organisation/prozess.svg",
-      "icon":"organisation/prozess.png",
+      "view":"organisation/process.svg",
+      "icon":"organisation/process.png",
       "roles": [
         "processTypes",
         "fromtoall",
@@ -892,8 +892,8 @@
       "title":"Teilprozess",
       "groups":["Organisation"],
       "description":"Ausführungsumgebung für einen Teilprozess.",
-      "view":"organisation/teilprozess.svg",
-      "icon":"organisation/teilprozess.png",
+      "view":"organisation/subprocess.svg",
+      "icon":"organisation/subprocess.png",
       "roles": [
         ""
       ],
@@ -920,8 +920,8 @@
       "title":"detaillierter Prozess",
       "groups":["Organisation"],
       "description":"Äußere Struktur für einen ausführbaren Prozess.",
-      "view":"organisation/prozess_gross.svg",
-      "icon":"organisation/prozess_gross.png",
+      "view":"organisation/process_detail.svg",
+      "icon":"organisation/process_detail.png",
       "roles": [
         "processTypes"
       ],
@@ -942,7 +942,14 @@
       "propertyPackages": ["baseAttributes"],
     },
     
-    //Attribute  (Mittlere Bearbeitungszeit) (Ermessensspielraum) (Aufbewahrungsfrist in Jahren) (Art der Aufbewahrung) (Eingangskanäle) (Verbundene Verfügungen) (Weiterleitungskanäle) (Mittlere Transportzeit) (Ausgangskanäle) (Mittlere Unterbrechungsdauer) (Grund für Wartezeit) (Prüfergebnisse) (Prüfbestandteile) (Beschreibung) (Durchschnittliche Höhe der Einzahlung) (Verfahren der Einzahlung) (Durchschnittliche Höhe der Auszahlung) (Verfahren der Auszahlung) (Wartezeit bis zum Ortswechsel) (Zeit für den Ortswechsel) (Ort der Bearbeitung) (Grund des Ortswechsels) (Sonderformate) (Mittlere Anzahl Seiten) (Typ des Datenträgers) (Art der Vervielfältigung) (Mittlere Zustellzeit)
+    // attributes (Mittlere Bearbeitungszeit) (Ermessensspielraum) (Aufbewahrungsfrist in Jahren) 
+    // (Art der Aufbewahrung) (Eingangskanäle) (Verbundene Verfügungen) (Weiterleitungskanäle) 
+    // (Mittlere Transportzeit) (Ausgangskanäle) (Mittlere Unterbrechungsdauer) (Grund für Wartezeit) 
+    // (Prüfergebnisse) (Prüfbestandteile) (Beschreibung) (Durchschnittliche Höhe der Einzahlung) 
+    // (Verfahren der Einzahlung) (Durchschnittliche Höhe der Auszahlung) (Verfahren der Auszahlung) 
+    // (Wartezeit bis zum Ortswechsel) (Zeit für den Ortswechsel) (Ort der Bearbeitung) 
+    // (Grund des Ortswechsels) (Sonderformate) (Mittlere Anzahl Seiten) (Typ des Datenträgers) 
+    // (Art der Vervielfältigung) (Mittlere Zustellzeit)
     
     {
       "id":"clockwork",
@@ -950,8 +957,8 @@
       "title":"Mittlere Bearbeitungszeit",
       "groups":["Attribute"],
       "description":"",
-      "view":"attribute/bearbeitungszeit.svg",
-      "icon":"attribute/bearbeitungszeit.png",
+      "view":"attributes/clock_work.svg",
+      "icon":"attributes/clock_work.png",
       "roles": [
         "fromtoall",
         "attribute"
@@ -989,8 +996,8 @@
       "title":"Mittlere Unterbrechungsdauer",
       "groups":["Attribute"],
       "description":"",
-      "view":"attribute/unterbrechung.svg",
-      "icon":"attribute/unterbrechung.png",
+      "view":"attributes/clock_pause.svg",
+      "icon":"attributes/clock_pause.png",
       "roles": [
         "fromtoall",
         "attribute"
@@ -1028,8 +1035,8 @@
       "title":"Mittlere Transportzeit",
       "groups":["Attribute"],
       "description":"",
-      "view":"attribute/transportzeit.svg",
-      "icon":"attribute/transportzeit.png",
+      "view":"attributes/clock_transport.svg",
+      "icon":"attributes/clock_transport.png",
       "roles": [
         "fromtoall",
         "attribute"
@@ -1062,7 +1069,7 @@
       ]
     },
     
-    //Artefakte
+    //artifacts
     
     {
       "id":"TextAnnotation",
@@ -1070,8 +1077,8 @@
       "title":"Text Annotation",
       "groups":["Artefakte"],
       "description":"Jedes Objekt kann durch eine Text-Anmerkung kommentiert werden.",
-      "view":"artefakte/text_annotation.svg",
-      "icon":"artefakte/text_annotation.png",
+      "view":"artifacts/text_annotation.svg",
+      "icon":"artifacts/text_annotation.png",
       "propertyPackages": [
         "baseAttributes"
       ],
@@ -1111,8 +1118,8 @@
       "title":"Gruppe",
       "groups":["Artefakte"],
       "description" :   "Mehrere Objekte, die logisch in Verbindung stehen, können in einer Gruppe zusammengefasst werden.",
-      "view":"artefakte/gruppe.svg",
-      "icon":"artefakte/gruppe.png",
+      "view":"artifacts/group.svg",
+      "icon":"artifacts/group.png",
       "roles": [
         "all",
         "fromtoall"
@@ -1135,7 +1142,7 @@
       ]
     },
     
-    // Edges
+    // connectors
     
     {
       "id":"sequenceflow",
@@ -1143,8 +1150,8 @@
       "title":"Sequenzfluss",
       "description":"Ein Sequenzfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
       "groups":["Konnektoren"],
-      "view":"konnektoren/sequenzfluss.svg",
-      "icon":"konnektoren/sequenzfluss.png",
+      "view":"connectors/sequence_flow.svg",
+      "icon":"connectors/sequence_flow.png",
       "roles": [
         "all",
         "ConnectingObjectsMorph"
@@ -1159,8 +1166,8 @@
       "title":"Ungerichtete Assoziation",
       "description":"Die Zuordnung eines Datenobjekts zu einem Sequenzfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
       "groups":["Konnektoren"],
-      "view":"konnektoren/assoziation_ungerichtet.svg",
-      "icon":"konnektoren/assoziation_ungerichtet.png",
+      "view":"connectors/association_undirected.svg",
+      "icon":"connectors/association_undirected.png",
       "roles": [
         "all",
         "ConnectingObjectsMorph"
