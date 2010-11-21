@@ -3,9 +3,13 @@
    	xmlns="http://www.w3.org/2000/svg"
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
+	<oryx:magnets>
+  	<oryx:magnet oryx:cx="10" oryx:cy="10" oryx:default="yes" />
+  </oryx:magnets>
+  <oryx:docker oryx:cx="10" oryx:cy="10" />
   	<g
      	oryx:minimumSize="20 20"
-     	id="umlflowfinalnode">
+     	id="umlexitpoint">
     	<circle
     		id="outercircle"
        		cx="10"
