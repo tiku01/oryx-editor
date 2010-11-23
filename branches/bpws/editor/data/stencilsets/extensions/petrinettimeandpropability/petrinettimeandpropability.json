@@ -1,0 +1,42 @@
+{
+	"title":"Petrinet Time and Propability Extension",
+	"namespace":"http://oryx-editor.org/stencilsets/extensions/petrinettimeandpropability#",
+	"description":"Petrinet extension for adding an execution time and propability to transitions",
+	"extends":"http://b3mn.org/stencilset/petrinet#",
+	"stencils":[],
+	"properties": [
+		{
+			"roles": [
+				"transition"
+			],
+			"properties": [
+				{
+					"id":"propability",
+					"type":"Integer",
+					"title":"Propability",
+					"description":"Propability of this transition to fire when activated in %",
+					"readonly":false,
+					"optional":true,
+					"min":0,
+					"max":100
+				}
+			]
+		},
+		{
+			"roles": [
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"time",
+					"type":"Integer",
+					"title":"Time",
+					"description":"Time for executing this transition (in seconds)",
+					"readonly":false,
+					"optional":true,
+					"min":0
+				}
+			]
+		}
+	]
+}
