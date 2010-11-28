@@ -12,14 +12,16 @@
       		x2="27" 
       		y2="27" 
       		stroke-width="2" 
-      		stroke="black"/>
+      		stroke="black">
+	</line>
       	<line 
       		x1="3" 
       		y1="27" 
       		x2="27" 
       		y2="3" 
       		stroke-width="2" 
-      		stroke="black"/>
+      		stroke="black">
+	</line>
       	<text
 			id="text" 
 			font-size="12" 

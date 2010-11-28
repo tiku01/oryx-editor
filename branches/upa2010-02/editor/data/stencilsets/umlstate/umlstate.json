@@ -68,12 +68,102 @@
 			"type": "node",
 			"id":"state",
 			"title":"State",
-			"title_de" :"Aktion",
+			"title_de" :"Zustand",
 			"groups":[],
-			"description":"Fundamental unit of behavior specification, which does something.",
-			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, in der etwas geschieht.",
+			"description":"Fundamental unit of behavior specification, in which a specifical condition (invariant) holds true.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, während der eine spezielle Invariante gilt.",
 			"view":"node.state.svg",
 			"icon":"node.state.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"action",
+			"title":"Action",
+			"title_de" :"Aktion",
+			"groups":[],
+			"description":"An elementary action to be performed.",
+			"description_de":"Eine grundlegende Aktion, die ausgeführt wird.",
+			"view":"node.action.svg",
+			"icon":"node.action.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositeState",
+			"title":"Composite State",
+			"title_de" :"zusammengesetzter Zustand",
+			"groups":[],
+			"description":"A state which itself contains other states.",
+			"description_de":"Ein Zustand, der aus mehreren anderen Zuständen zusammengesetzt ist.",
+			"view":"node.compositeState.svg",
+			"icon":"node.compositeState.png",
 			"roles": [
 				"diagramcontent",
 				"controlFlowElement",
@@ -114,10 +204,9 @@
 			"id":"acceptEvent",
 			"title":"Accept Event",
 			"title_de":"Akzeptierendes Ereignis",
-			"title_ru":"Принятие события",
-			"groups":["Actions and Events"],
-			"groups_de":["Aktionen und Ereignisse"],
-			"groups_ru":["Действие и Событие"],
+			"groups":[],
+			"groups_de":[],
+			"groups_ru":[],
 			"description":"An action that waits for the occurrence of an event meeting specified condition",
 			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
 			"view":"node.event.incoming.svg",
@@ -645,6 +734,12 @@
 				"contains": [
 					"diagramcontent"
 				]
+			},
+			{
+			    "role":"compositeState",
+			    "contains": [
+			    "diagramcontent"
+			    ]
 			}	
 		]
 	}
