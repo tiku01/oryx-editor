@@ -4,8 +4,8 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="350"
-   height="650"
+   width="620"
+   height="320"
    version="1.0">
   
   <defs></defs>
@@ -32,8 +32,8 @@
     oryx:resize="vertical horizontal" 
     x="0" 
     y="0" 
-    width="300" 
-    height="600" 
+    width="600" 
+    height="300" 
     fill="none" 
     stroke-width="9" 
     stroke="white" 
@@ -44,8 +44,8 @@
     oryx:resize="vertical horizontal" 
     x="0" 
     y="0" 
-    width="300" 
-    height="600" 
+    width="600" 
+    height="300" 
     stroke="black" 
     fill="none" />
     
@@ -54,7 +54,7 @@
     oryx:anchors="left top right"
     x="0"
     y="0"
-    width="300"
+    width="600"
     height="40"
     stroke="black"
     stroke-width="1"
@@ -62,9 +62,9 @@
     />
   
     <text 
-    x="150" 
+    x="300" 
     y="5" 
-    font-size="14" 
+    font-size="16" 
     id="text_name_title" 
     oryx:fittoelem="caption" 
     oryx:align="top center"
