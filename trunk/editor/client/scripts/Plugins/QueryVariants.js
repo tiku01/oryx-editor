@@ -95,8 +95,9 @@ ORYX.Plugins.QueryVariant = ORYX.Plugins.AbstractPlugin.extend({
 
                     var root=respXML.firstChild;
                     var pg=root.getElementsByTagName("ProcessGraph");
-			
-					var uri = "http://localhost:8080/backend/poem/new?stencilset=/stencilsets/bpmn1.1/bpmn1.1.json";
+					var source = location.href.substring(0,location.href.substring(8).indexOf("/")+8);
+					//alert(source);
+					var uri = source+"/backend/poem/new?stencilset=/stencilsets/bpmn1.1/bpmn1.1.json";
 					editor = window.open( uri );
 					editor.oryxCreator1283772618640 = self;
 					editor.oryxCreator1283772618640.variant=respXML;
