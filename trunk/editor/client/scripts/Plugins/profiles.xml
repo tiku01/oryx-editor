@@ -119,6 +119,14 @@
 	</profile>
 	<profile name="bpmnq" depends="default" stencilset="stencilsets/bpmnq/bpmnq.json">
 		<plugin name="ORYX.Plugins.QueryEvaluator"/>
+		<plugin name="ORYX.Plugins.GlobalPresencePattern"/>
+		<plugin name="ORYX.Plugins.GlobalAbsencePattern"/>
+		<plugin name="ORYX.Plugins.BeforePresencePattern"/>
+		<plugin name="ORYX.Plugins.BeforeAbsencePattern"/>
+		<plugin name="ORYX.Plugins.AfterPresencePattern"/>
+		<plugin name="ORYX.Plugins.AfterAbsencePattern"/>
+		<plugin name="ORYX.Plugins.BetweenAbsenceTypeIPattern"/>
+		<plugin name="ORYX.Plugins.BetweenAbsenceTypeIIPattern"/>
 	</profile>
 	<profile name="interactionpetrinets" depends="default" stencilset="stencilsets/interactionpetrinets/interactionpetrinets.json">
 		<plugin name="ORYX.Plugins.SimplePnmlexport"/>
