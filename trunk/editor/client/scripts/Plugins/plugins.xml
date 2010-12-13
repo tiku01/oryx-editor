@@ -389,6 +389,34 @@
 		<plugin source="timeline.js" name="ORYX.Plugins.Timeline">
 			<requires namespace="http://matthias-kunze.info/oryx/stencilsets/timeline#"/>
 		</plugin>
+
+		
+		<plugin source="GlobalPresencePattern.js" name="ORYX.Plugins.GlobalPresencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		<plugin source="GlobalAbsencePattern.js" name="ORYX.Plugins.GlobalAbsencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		<plugin source="BeforePresencePattern.js" name="ORYX.Plugins.BeforePresencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		<plugin source="BeforeAbsencePattern.js" name="ORYX.Plugins.BeforeAbsencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		<plugin source="AfterPresencePattern.js" name="ORYX.Plugins.AfterPresencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+
+		<plugin source="AfterAbsencePattern.js" name="ORYX.Plugins.AfterAbsencePattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		
+		<plugin source="BetweenAbsenceTypeIPattern.js" name="ORYX.Plugins.BetweenAbsenceTypeIPattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
+		<plugin source="BetweenAbsenceTypeIIPattern.js" name="ORYX.Plugins.BetweenAbsenceTypeIIPattern">
+			<requires namespace="http://b3mn.org/stencilset/bpmnq#"/>
+		</plugin>
 		
 		<plugin source="processLogGenerator.js" name="ORYX.Plugins.ProcessLogGenerator" />
 
@@ -396,6 +424,7 @@
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
 		</plugin>
 		
+
 		<plugin source="visioEPCImport.js" name="ORYX.Plugins.VisioEPCImport">
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>
 		</plugin>
