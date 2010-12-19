@@ -400,6 +400,9 @@
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>
 		</plugin>
 		
+		<plugin source="picturesupport.js" name="ORYX.Plugins.PictureSupport">
+			<requires namespace="http://b3mn.org/stencilset/picture#"/>
+		</plugin>
 		
 	</plugins>
 

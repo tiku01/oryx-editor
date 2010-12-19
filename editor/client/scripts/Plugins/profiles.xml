@@ -196,7 +196,7 @@
 		<plugin name="ORYX.Plugins.PluginLoader"/>
 		<plugin name="ORYX.Plugins.ContainerLayouter" />
 		<plugin name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-		<plugin name="ORYX.Plugins.WaveThis"/>
+		<plugin name="ORYX.Plugins.PictureSupport"/>
 	</profile>
 	
 </profiles>

@@ -9,6 +9,17 @@
       "name":"baseAttributes",
       "properties": [
         {
+          "id":"name",
+          "type":"String",
+          "title":"Name",
+          "value":"",
+          "description":"Bezeichnung des BPMN-Elementes.",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines" :true
+		},
+		{
           "id":"description",
           "type":"String",
           "title":"Beschreibung",
@@ -19,17 +30,6 @@
           "optional":true,
           "length":"",
           "wrapLines":true
-        },
-        {
-          "id":"name",
-          "type":"String",
-          "title":"Name",
-          "value":"",
-          "description":"Bezeichnung des BPMN-Elementes.",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines" : true
         },
         {
           "id":"documentation",
@@ -44,7 +44,78 @@
           "wrapLines":true
         }
       ]
-    }
+    },
+    {
+	  "name":"clock_work_attributes",
+	  "properties": [
+	    {
+          "id":"has_attribute_clock_work",
+          "type":"Boolean",
+		  "title":"benötigt Bearbeitungszeit",
+		  "value":false,
+		  "description":"",
+		  "readonly":false,
+		  "optional":true,
+		  "refToView":"attribute_clock_work"
+        },
+		{
+          "id":"work_time",
+          "type":"String",
+          "title":"Bearbeitungszeit",
+          "value":"min",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "refToView":"work_time",
+          "length":"",
+          "wrapLines":true
+        }
+	  ]
+	},
+	
+    /* 
+	 all atribute pictures are in the one SVG for the nodes, so basically by the following package every attribute picture is hidden by default.
+	 the "visible" tag hides the property in the property panel, so users can't edit it and pictures stay hidden.
+	 nodes can "overwrite" specific properties if inside of "propertyPackages" the "overwriting" happens by putting the new package BEHIND this package here.
+	 for an example look at package "clock_work_attributes" and "pictureAttributes" at the node "createnewdocument".
+	 a different way for overwriting properties:
+		
+		{"id":"mynode"
+		 "type":"node"
+		 ...
+		 "properties":[
+		   {
+			 //this property overwrites the property of a package
+		     "id":"propertyToBeOverwritten"
+			 ...
+		   },
+		   ...
+		 ],
+		 "propertyPackages":[
+		   "packageThatContainsTheProperty:'propertyToBeOverwritten'",
+		   ...
+		 ],
+		 ...
+		}
+	*/
+		
+	{
+	  "name":"pictureAttributes",
+	  "properties": [
+	    {
+          "id":"has_attribute_clock_work",
+          "type":"Boolean",
+		  "title":"benötigt Bearbeitungszeit",
+		  "value":false,
+		  "description":"",
+		  "readonly":false,
+		  "optional":true,
+		  "refToView":"attribute_clock_work",
+		  "visible":false
+        }		
+	  ]
+	}
   ],
   
   //Stencils  
@@ -62,18 +133,6 @@
       "roles": [],
       "propertyPackages": ["baseAttributes"],
       "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Name",
-          "value":"",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true
-        },
         {
           "id":"author",
           "type":"String",
@@ -126,7 +185,7 @@
       "title":"Neues Dokument/Information erstellen",
       "groups":["Dokumentation"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"documentation/create.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/create.png",
       "roles": [
         "all", 
@@ -148,7 +207,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"]
+      "propertyPackages": [
+		"baseAttributes",
+		"pictureAttributes",
+		"clock_work_attributes"
+      ]
     },
     {
       "id":"capturedata",
@@ -176,32 +239,13 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        },
-        {
-          "id":"has_attribute_clock_work",
-          "type":"Boolean",
-		  "title":"benötigt Bearbeitungszeit",
-		  "value":false,
-		  "description":"",
-		  "readonly":false,
-		  "optional":true,
-		  "refToView":"attribute_clock_work"          
-        },
-        {
-          "id":"work_time",
-          "type":"String",
-          "title":"Bearbeitungszeit",
-          "value":"min",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "refToView":"work_time",
-          "length":"",
-          "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"]
+      "propertyPackages": [        
+	    "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes",
+      ]
     },    
     {
       "id":"editdocument",
@@ -209,7 +253,7 @@
       "title":"Dokument/ Information bearbeiten",
       "groups":["Dokumentation"],
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
-      "view":"documentation/edit.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/edit.png",
       "roles": [
         "all", 
@@ -231,7 +275,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+	    "baseAttributes",
+		"pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"archivedocument",
@@ -239,7 +287,7 @@
       "title":"Dokument archivieren",
       "groups":["Dokumentation"],
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
-      "view":"documentation/archive.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/archive.png",
       "roles": [
         "all", 
@@ -261,7 +309,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     
     //information flow
@@ -272,7 +324,7 @@
       "title":"Dokument/Information geht ein",
       "groups":["Informationsfluss"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"information_flow/incoming.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/incoming.png",
       "roles": [
         "all", 
@@ -294,7 +346,10 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+        "pictureAttributes"
+      ],
     },
     {
       "id":"forwarddocument",
@@ -302,7 +357,7 @@
       "title":"Dokument/Information weiterleiten",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
-      "view":"information_flow/forward.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/forward.png",
       "roles": [
         "all",  
@@ -324,7 +379,10 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+        "pictureAttributes"
+      ],
     },
     {
       "id":"outgoingdocument",
@@ -332,7 +390,7 @@
       "title":"Dokument/Information geht aus",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
-      "view":"information_flow/outgoing.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/outgoing.png",
       "roles": [
         "all",  
@@ -354,7 +412,10 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+        "pictureAttributes"
+      ],
     },
     {
       "id":"pauseediting",
@@ -362,7 +423,7 @@
       "title":"Bearbeitungsunterbrechung",
       "groups":["Informationsfluss"],
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
-      "view":"information_flow/pause.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/pause.png",
       "roles": [
         "all",  
@@ -384,7 +445,10 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+        "pictureAttributes"
+      ],
     },
     
     //content work
@@ -395,7 +459,7 @@
       "title":"Dokument/Information sichten",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
-      "view":"content_work/review.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/review.png",
       "roles": [
         "all",  
@@ -417,7 +481,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"checkdocumentformally",
@@ -425,7 +493,7 @@
       "title":"Formelle Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
-      "view":"content_work/formally.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/formally.png",
       "roles": [
         "all",  
@@ -447,7 +515,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"checkdocumentcontent",
@@ -455,7 +527,7 @@
       "title":"Inhaltliche Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
-      "view":"content_work/content.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/content.png",
       "roles": [
         "all",  
@@ -477,7 +549,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"docalculation",
@@ -485,7 +561,7 @@
       "title":"Berechnung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
-      "view":"content_work/calculate.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/calculate.png",
       "roles": [
         "all",  
@@ -507,7 +583,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"collectmoney",
@@ -515,7 +595,7 @@
       "title":"Kassieren/Einzahlung entgegennehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"content_work/collect.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/collect.png",
       "roles": [
         "all",  
@@ -537,7 +617,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"paymoney",
@@ -545,7 +629,7 @@
       "title":"Auszahlung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"content_work/pay.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/pay.png",
       "roles": [
         "all",  
@@ -567,7 +651,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"relocate",
@@ -575,7 +663,7 @@
       "title":"Bearbeitungsort wechseln",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
-      "view":"content_work/relocation.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/relocation.png",
       "roles": [
         "all",  
@@ -597,7 +685,10 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+        "pictureAttributes"
+      ],
     },
     
     //change of medium
@@ -608,7 +699,7 @@
       "title":"Dateneingabe in die EDV",
       "groups":["Medienwechsel"],
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
-      "view":"change_medium/edv_input.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/edv_input.png",
       "roles": [
         "all",  
@@ -630,7 +721,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"scan",
@@ -638,7 +733,7 @@
       "title":"Scannen",
       "groups":["Medienwechsel"],
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
-      "view":"change_medium/scan.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/scan.png",
       "roles": [
         "all",  
@@ -660,7 +755,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"print",
@@ -668,7 +767,7 @@
       "title":"Drucken",
       "groups":["Medienwechsel"],
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
-      "view":"change_medium/print.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/print.png",
       "roles": [
         "all",  
@@ -690,7 +789,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"savetovolume",
@@ -698,7 +801,7 @@
       "title":"Datenträger bespielen",
       "groups":["Medienwechsel"],
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
-      "view":"change_medium/save_to_volume.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/save_to_volume.png",
       "roles": [
         "all",  
@@ -720,7 +823,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"copy",
@@ -728,7 +835,7 @@
       "title":"Dokument vervielvältigen/Kopieren",
       "groups":["Medienwechsel"],
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
-      "view":"change_medium/copy.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/copy.png",
       "roles": [
         "all",  
@@ -750,7 +857,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     
     //coordination und information retrieval
@@ -761,7 +872,7 @@
       "title":"Recherche durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Die notwendigen Informationen werden recherchiert.",
-      "view":"information_retrieval/research.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/research.png",
       "roles": [
         "all",  
@@ -783,7 +894,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"dorequest",
@@ -791,7 +906,7 @@
       "title":"Rückfrage durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
-      "view":"information_retrieval/request.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/request.png",
       "roles": [
         "all",  
@@ -813,7 +928,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"settleagreement",
@@ -821,7 +940,7 @@
       "title":"Absprache/Vereinbarung treffen",
       "groups":["Informationsbeschaffung"],
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
-      "view":"information_retrieval/agreement.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/agreement.png",
       "roles": [
         "all",  
@@ -843,7 +962,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     {
       "id":"doconsulting",
@@ -851,7 +974,7 @@
       "title":"Beratung durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
-      "view":"information_retrieval/consulting.svg",
+      "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/consulting.png",
       "roles": [
         "all",  
@@ -873,7 +996,11 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [
+        "baseAttributes",
+	    "pictureAttributes",
+		"clock_work_attributes"
+      ],
     },
     
     //organisation
@@ -895,7 +1022,7 @@
           "id":"title",
           "type":"String",
           "title":"Title",
-          "value":"",
+          "value":"Editorfeld",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -961,133 +1088,6 @@
         }
       ],
       "propertyPackages": ["baseAttributes"],
-    },
-    
-    // attributes (Mittlere Bearbeitungszeit) (Ermessensspielraum) (Aufbewahrungsfrist in Jahren) 
-    // (Art der Aufbewahrung) (Eingangskanäle) (Verbundene Verfügungen) (Weiterleitungskanäle) 
-    // (Mittlere Transportzeit) (Ausgangskanäle) (Mittlere Unterbrechungsdauer) (Grund für Wartezeit) 
-    // (Prüfergebnisse) (Prüfbestandteile) (Beschreibung) (Durchschnittliche Höhe der Einzahlung) 
-    // (Verfahren der Einzahlung) (Durchschnittliche Höhe der Auszahlung) (Verfahren der Auszahlung) 
-    // (Wartezeit bis zum Ortswechsel) (Zeit für den Ortswechsel) (Ort der Bearbeitung) 
-    // (Grund des Ortswechsels) (Sonderformate) (Mittlere Anzahl Seiten) (Typ des Datenträgers) 
-    // (Art der Vervielfältigung) (Mittlere Zustellzeit)
-    
-    {
-      "id":"clockwork",
-      "type": "node",
-      "title":"Mittlere Bearbeitungszeit",
-      "groups":["Attribute"],
-      "description":"",
-      "view":"attributes/clock_work.svg",
-      "icon":"attributes/clock_work.png",
-      "roles": [
-        "fromtoall",
-        "attribute"
-      ],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"Dauer",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        },
-        {
-          "id":"duration",
-          "type":"String",
-          "title":"Bearbeitungszeit",
-          "value":"min",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_description"
-        }
-      ]
-    },
-    {
-      "id":"clockpause",
-      "type": "node",
-      "title":"Mittlere Unterbrechungsdauer",
-      "groups":["Attribute"],
-      "description":"",
-      "view":"attributes/clock_pause.svg",
-      "icon":"attributes/clock_pause.png",
-      "roles": [
-        "fromtoall",
-        "attribute"
-      ],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"Dauer",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        },
-        {
-          "id":"duration",
-          "type":"String",
-          "title":"Unterbrechungsdauer",
-          "value":"min",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_description"
-        }
-      ]
-    },
-    {
-      "id":"clocktransport",
-      "type": "node",
-      "title":"Mittlere Transportzeit",
-      "groups":["Attribute"],
-      "description":"",
-      "view":"attributes/clock_transport.svg",
-      "icon":"attributes/clock_transport.png",
-      "roles": [
-        "fromtoall",
-        "attribute"
-      ],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"Dauer",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        },
-        {
-          "id":"duration",
-          "type":"String",
-          "title":"Transportzeit",
-          "value":"min",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_description"
-        }
-      ]
     },
     
     //artifacts
@@ -1207,14 +1207,6 @@
           {
             "from" : "TextAnnotation",
             "to" : ["fromtoall"]
-          },
-          {
-            "from" : "node",
-            "to" : ["attribute"]
-          },
-          {
-            "from" : "attribute",
-            "to" : ["node"]
           }
         ]
       },
@@ -1240,29 +1232,25 @@
         "role":"process",
         "contains":[
           "subprocess",
-          "all",
-          "attribute"
+          "all"
                 ]
       },
       {
         "role":"detailprocess",
         "contains":[
-          "all",
-          "attribute"
+          "all"
                 ]
       },
       {
         "role":"subprocess",
         "contains":[
-          "all", 
-          "attribute"
+          "all"
                 ]
       },
       {
         "role":"Group",
         "contains":[
-          "all", 
-          "attribute",
+          "all",
           "processType"
                 ]
       }
