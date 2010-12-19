@@ -6,8 +6,8 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	 
-	width="420px" 
-	height="120px">
+	width="620px" 
+	height="60px">
 
 	<defs></defs>
  
@@ -22,41 +22,41 @@
     
  	<rect id="main_frame" 
  	x="0" y="0" 
- 	width="400" height="100" 
+ 	width="600" height="40" 
  	stroke="none" 
  	stroke-width="1" 
  	fill="none" />
  	
     <rect id="text_frame_title" 
     x="80" y="0" 
-    width="320" height="60" 
+    width="320" height="40" 
     stroke="black" 
     stroke-width="1" 
     fill="url(#background)" />
     	
     <rect id="image_frame" 
     x="0" y="0" 
-    width="80" height="100" 
+    width="80" height="40" 
 	stroke="black" 
 	stroke-width="1" 
 	fill="url(#background)" />
 	
     <rect id="attributes_frame" 
-    x="80" y="60" 
-    width="320" height="40" 
+    x="400" y="0" 
+    width="200" height="40" 
     stroke="black" 
     stroke-width="1" 
     fill="url(#background)" />
 
 	<text id="text_name_title"  
 	font-size="12" 
-	x="240" y="30" 
+	x="240" y="20" 
 	oryx:align="middle center"
 	oryx:fittoelem="text_frame_title"
 	stroke="black">
 	</text>
 	
-	<g id="attribute_clock_work" transform="translate(60,60) scale(0.8)">
+	<g id="attribute_clock_work" transform="translate(380,0) scale(0.8)">
 		<circle fill="url(#background)" cx="55" cy="18" r="15"/>
 	    <path d="	
 	        M 55 4 L 55 8
