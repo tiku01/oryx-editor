@@ -29,7 +29,6 @@
     <rect 
     id="border_invisible" 
     class="stripable-element-force" 
-    oryx:resize="vertical horizontal" 
     x="0" 
     y="0" 
     width="600" 
@@ -41,7 +40,8 @@
     
     <rect 
     id="border" 
-    oryx:resize="vertical horizontal" 
+    oryx:resize="vertical"
+	oryx:anchors="left top"
     x="0" 
     y="0" 
     width="600" 
@@ -51,7 +51,7 @@
     
     <rect 
     id="caption"
-    oryx:anchors="left top right"
+    oryx:anchors="left top"
     x="0"
     y="0"
     width="600"
