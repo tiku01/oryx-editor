@@ -189,9 +189,9 @@
       "description":"Ein neues Dokument/eine Information wird erstellt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/create.png",
+      "defaultAlign":"south",
       "roles": [
-        "all", 
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -223,9 +223,9 @@
       "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/capture.png",
+      "defaultAlign":"south",
       "roles": [
-        "all", 
-        "fromtoall", 
+        "canBeAnnotated", 
         "node"
       ],
       "properties": [
@@ -257,9 +257,9 @@
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/edit.png",
+      "defaultAlign":"south",
       "roles": [
-        "all", 
-        "fromtoall", 
+        "canBeAnnotated", 
         "node"
       ],
       "properties": [
@@ -291,9 +291,9 @@
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/archive.png",
+      "defaultAlign":"south",
       "roles": [
-        "all", 
-        "fromtoall", 
+        "canBeAnnotated", 
         "node"
       ],
       "properties": [
@@ -328,9 +328,9 @@
       "description":"Ein neues Dokument/eine Information wird erstellt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/incoming.png",
+      "defaultAlign":"south",
       "roles": [
-        "all", 
-        "fromtoall", 
+        "canBeAnnotated", 
         "node"
       ],
       "properties": [
@@ -361,9 +361,9 @@
       "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/forward.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -394,9 +394,9 @@
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/outgoing.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -427,9 +427,9 @@
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/pause.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -463,9 +463,9 @@
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/review.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -497,9 +497,9 @@
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/formally.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -531,9 +531,9 @@
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/content.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -565,9 +565,9 @@
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/calculate.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -599,9 +599,9 @@
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/collect.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -633,9 +633,9 @@
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/pay.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -667,9 +667,9 @@
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/relocation.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -703,9 +703,9 @@
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/edv_input.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -737,9 +737,9 @@
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/scan.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -771,9 +771,9 @@
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/print.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -805,9 +805,9 @@
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/save_to_volume.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -839,9 +839,9 @@
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/copy.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -867,7 +867,6 @@
     },
     
     //coordination und information retrieval
-    
     {
       "id":"doresearch",
       "type": "node",
@@ -876,9 +875,9 @@
       "description":"Die notwendigen Informationen werden recherchiert.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/research.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -910,9 +909,9 @@
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/request.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -944,9 +943,9 @@
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/agreement.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -978,9 +977,9 @@
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/consulting.png",
+      "defaultAlign":"south",
       "roles": [
-        "all",  
-        "fromtoall",
+        "canBeAnnotated",
         "node"
       ],
       "properties": [
@@ -1016,16 +1015,16 @@
       "view":"organisation/process.svg",
       "icon":"organisation/process.png",
       "roles": [
-        "processTypes",
-        "fromtoall",
+        "processType",
+        "canBeAnnotated",
       ],
 	  "layout": [
 		{
 		  "type":"layout.rows",
 		  "marginTop":50,
-		  "marginLeft":50,
+		  "marginLeft":0,
 		  "spacingX":30,
-		  "spacingY":30,
+		  "spacingY":20,
 		  "verticalLayout":true
 		}
 	  ],
@@ -1054,9 +1053,7 @@
       "description":"Ausführungsumgebung für einen Teilprozess.",
       "view":"organisation/subprocess.svg",
       "icon":"organisation/subprocess.png",
-      "roles": [
-        ""
-      ],
+      "roles": ["canBeAnnotated"],
       "properties": [
         {
           "id":"title",
@@ -1088,9 +1085,9 @@
       "propertyPackages": [
         "baseAttributes"
       ],
+      "defaultAlign":"east",
       "roles": [
-        "all",
-        "TextAnnotationMorph"
+        "annotationType"
       ],
       "properties": [
         {
@@ -1104,68 +1101,11 @@
           "refToView":"text",
           "length":"",
           "wrapLines":true
-        },
-        {
-          "id":"artifacttype",
-          "type":"String",
-          "title":"ArtifactType",
-          "title_de":"Artefakttyp",
-          "value":"Annotation",
-          "description":"",
-          "readonly":true,
-          "optional":false,
-          "length":""
-        }
-      ]
-    },
-    {
-      "id":"Group",
-      "type":"node",
-      "title":"Gruppe",
-      "groups":["Artefakte"],
-      "description" :   "Mehrere Objekte, die logisch in Verbindung stehen, können in einer Gruppe zusammengefasst werden.",
-      "view":"artifacts/group.svg",
-      "icon":"artifacts/group.png",
-      "roles": [
-        "all",
-        "fromtoall"
-      ],
-      "propertyPackages": [
-        "baseAttributes",
-      ],
-      "properties" : [
-        {
-          "id":"artifacttype",
-          "type":"String",
-          "title":"ArtifactType",
-          "title_de":"Artefakttyp",
-          "value":"Group",
-          "description":"",
-          "readonly":true,
-          "optional":false,
-          "length":""
         }
       ]
     },
     
     // connectors
-    
-    {
-      "id":"sequenceflow",
-      "type": "edge",
-      "title":"Sequenzfluss",
-      "description":"Ein Sequenzfluss definiert die Reihenfolge der Ausführung von Aktivitäten.",
-      "groups":["Konnektoren"],
-      "view":"connectors/sequence_flow.svg",
-      "icon":"connectors/sequence_flow.png",
-      "roles": [
-        "all",
-        "ConnectingObjectsMorph"
-      ],
-      "propertyPackages":[
-        "baseAttributes"
-      ]
-    },
     {
       "id":"associationundirected",
       "type":"edge",
@@ -1175,8 +1115,7 @@
       "view":"connectors/association_undirected.svg",
       "icon":"connectors/association_undirected.png",
       "roles": [
-        "all",
-        "ConnectingObjectsMorph"
+        "connectorType"
       ]
     }
   ],  
@@ -1186,17 +1125,17 @@
         "role" : "associationundirected",
         "connects" : [
           {
-            "from" : "fromtoall",
+            "from" : "canBeAnnotated",
             "to" : ["TextAnnotation"]
           },
           {
             "from" : "TextAnnotation",
-            "to" : ["fromtoall"]
+            "to" : ["canBeAnnotated"]
           }
         ]
       },
-      {
-        "role" : "sequenceflow",
+	  {
+        "role" : "associationundirected",
         "connects" : [
           {
             "from" : "node",
@@ -1209,35 +1148,23 @@
       {
         "role":"Diagram",
         "contains": [ 
-        "all",
-        "processTypes"
-                ]
+          "processType",
+		  "annotationType",
+		  "connectorType"
+		]
       },
       {
         "role":"process",
         "contains":[
           "subprocess",
-          "all"
-                ]
-      },
-      {
-        "role":"detailprocess",
-        "contains":[
-          "all"
-                ]
+          "node"
+        ]
       },
       {
         "role":"subprocess",
         "contains":[
-          "all"
-                ]
-      },
-      {
-        "role":"Group",
-        "contains":[
-          "all",
-          "processType"
-                ]
+          "node"
+        ]
       }
     ]
   }

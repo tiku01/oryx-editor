@@ -44,7 +44,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         // Call super class constructor
         arguments.callee.$.construct.apply(this, arguments);
         
-        // build a button in the toolbar
+        // build a button in the tool bar
         this.facade.offer({
             'name': ORYX.I18N.PictureSupport.imp.name,
             'functionality': this.importPicture.bind(this),
@@ -68,16 +68,17 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	onSelectionChange: function(){},
  	
  	handleShape: function(event){
-		ORYX.Log.info(this.facade.getCanvas());
-		//create a process lane directly after editor is loaded		
- 		var mynamespace = "http://b3mn.org/stencilset/picture#";
-		var mytype = "http://b3mn.org/stencilset/picture#process";
+ 		//create a process lane if the canvas is empty
+		if(this.facade.getCanvas().children.length == 0){		
+			var mynamespace = "http://b3mn.org/stencilset/picture#";
+			var mytype = "http://b3mn.org/stencilset/picture#process";
 		
-		this.facade.createShape({
-			type: mytype,
-			namespace: mynamespace,
-			position: {x: 0, y: 0}
-		}).refresh();
+			this.facade.createShape({
+				type: mytype,
+				namespace: mynamespace,
+				position: {x: 0, y: 0}
+			}).refresh();
+		}
 	}
  	
  });
