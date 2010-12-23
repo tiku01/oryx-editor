@@ -155,8 +155,7 @@
 			<requires namespace="http://b3mn.org/stencilset/xforms#"/>	
 		</plugin>
 
-		<plugin source="rowlayouting.js" name="ORYX.Plugins.RowLayouting">
-			<requires namespace="http://b3mn.org/stencilset/xforms#"/>					
+		<plugin source="rowlayouting.js" name="ORYX.Plugins.RowLayouting">				
 		</plugin>
 		
 		<plugin source="xforms.js" name="ORYX.Plugins.XForms">

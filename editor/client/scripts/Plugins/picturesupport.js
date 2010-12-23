@@ -68,6 +68,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	onSelectionChange: function(){},
  	
  	handleShape: function(event){
+		ORYX.Log.info(this.facade.getCanvas());
 		//create a process lane directly after editor is loaded		
  		var mynamespace = "http://b3mn.org/stencilset/picture#";
 		var mytype = "http://b3mn.org/stencilset/picture#process";
