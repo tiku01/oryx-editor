@@ -180,6 +180,8 @@
     //documentation
     
     {
+	  
+	  "defaultAlign":"south",
       "id":"createnewdocument",
       "type": "node",
       "title":"Neues Dokument/Information erstellen",
@@ -1017,6 +1019,16 @@
         "processTypes",
         "fromtoall",
       ],
+	  "layout": [
+		{
+		  "type":"layout.rows",
+		  "marginTop":50,
+		  "marginLeft":50,
+		  "spacingX":30,
+		  "spacingY":30,
+		  "verticalLayout":true
+		}
+	  ],
       "properties": [
         {
           "id":"title",
@@ -1056,33 +1068,6 @@
           "readonly":false,
           "optional":false,
           "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        }
-      ],
-      "propertyPackages": ["baseAttributes"],
-    },
-    {
-      "id":"detailprocess",
-      "type": "node",
-      "title":"detaillierter Prozess",
-      "groups":["Organisation"],
-      "description":"Äußere Struktur für einen ausführbaren Prozess.",
-      "view":"organisation/process_detail.svg",
-      "icon":"organisation/process_detail.png",
-      "roles": [
-        "processTypes"
-      ],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
           "length":"",
           "wrapLines":true
         }
