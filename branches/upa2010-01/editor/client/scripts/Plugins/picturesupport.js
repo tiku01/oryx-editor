@@ -57,6 +57,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
             'maxShape': 0
         });
         
+        ORYX.CONFIG.SHAPEMENU_RIGHT = ORYX.CONFIG.SHAPEMENU_BOTTOM;
+        ORYX.CONFIG.SHAPEMENU_BUTTONS_PER_LEVEL_BOTTOM = 6;
+        
         //catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.handleShape.bind(this));
  	},
