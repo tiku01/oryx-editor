@@ -148,6 +148,15 @@
 			"uri":"/umlstate/umlstate.json",
 			"icon_url":"/umlstate/umlstate.png",
 			"visible":true
+		},
+		
+		{
+			"title":"UML Sequence Diagram",
+			"namespace":"http://b3mn.org/stencilset/umlsequence#",
+			"description":"Stencil Set to create UML 2.2 sequence diagrams",
+			"uri":"/umlsequence/umlsequence.json",
+			"icon_url":"/umlsequence/umlsequence.png",
+			"visible":true
 		}
 
 ]
