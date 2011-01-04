@@ -2,7 +2,7 @@
 <project name="Oryx Main Build Script" basedir="./">
 	
     <!-- Load additional properties -->
-    <property file="build.properties"/>
+    <property file="props/build.properties"/>
 	<property name="build-dir" value="build" />
 	<property name="target-dir" value="dist" />
     

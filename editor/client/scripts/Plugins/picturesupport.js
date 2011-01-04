@@ -57,10 +57,11 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
             'maxShape': 0
         });
         
+        // change the shape menu's alignment
         ORYX.CONFIG.SHAPEMENU_RIGHT = ORYX.CONFIG.SHAPEMENU_BOTTOM;
         ORYX.CONFIG.SHAPEMENU_BUTTONS_PER_LEVEL_BOTTOM = 6;
         
-        //catch occurring events
+        // catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.handleShape.bind(this));
  	},
  	
