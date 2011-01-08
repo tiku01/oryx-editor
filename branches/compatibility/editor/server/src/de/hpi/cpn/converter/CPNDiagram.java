@@ -266,11 +266,8 @@ public class CPNDiagram
 	}
 	
 	public static Shape getaToken(String resourceId)
-	{
-		// "properties":{"initialmarking":"\"Gerardo\"","quantity":"1","color":""}
-		
+	{	
 		StencilType stencil = new StencilType("Token");
-		
 		Shape token = new Shape(resourceId, stencil);
 		
 		token.getProperties().put("initialmarking", "");

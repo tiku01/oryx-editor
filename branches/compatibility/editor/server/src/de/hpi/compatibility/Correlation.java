@@ -23,6 +23,8 @@ import de.hpi.petrinet.Transition;
 public class Correlation {
 	private PTNet firstModel;
 	private PTNet secondModel;
+	private String urlFirstModel;
+	private String urlSecondModel;
 	private Set<TwoTransitionSets> correspondences;
 
 	public Correlation() {
@@ -35,9 +37,9 @@ public class Correlation {
 			ParserConfigurationException, SAXException, IOException {
 		// Create petri net models from urls given in first correspondence
 		JSONObject firstCorrespondence = correlation.getJSONObject(0);
-		String urlFirstModel = firstCorrespondence.getJSONArray("models").getJSONObject(0).getString("url");
+		urlFirstModel = firstCorrespondence.getJSONArray("models").getJSONObject(0).getString("url");
 		firstModel = getPTnet(urlFirstModel);
-		String urlSecondModel = firstCorrespondence.getJSONArray("models").getJSONObject(1).getString("url");
+		urlSecondModel = firstCorrespondence.getJSONArray("models").getJSONObject(1).getString("url");
 		secondModel = getPTnet(urlSecondModel);
 
 		// Create all correspondences given
@@ -49,7 +51,18 @@ public class Correlation {
 
 	public String check() {
 		CompatibilityCheck check = new CompatibilityCheck(firstModel, secondModel, correspondences);
-		return check.run();
+		JSONArray incompatibeCorrespondences = check.run();
+		// add model url's to result
+		JSONObject result = new JSONObject();
+		try {
+			result.put("firstModel", urlFirstModel);
+			result.put("secondModel", urlSecondModel);
+			result.put("incompatibleCorrespondences", incompatibeCorrespondences);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return result.toString();
 	}
 
 	private static PTNet getPTnet(String url) throws ParserConfigurationException, SAXException, IOException {

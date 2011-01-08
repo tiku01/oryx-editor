@@ -8,6 +8,10 @@ import java.util.Set;
 
 import nl.tue.tm.is.graph.TwoTransitionSets;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Result {
 
 	private int nrComplexProjectionCorrespondences = 0;
@@ -22,7 +26,7 @@ public class Result {
 	private int nrSimpleProtocolIncompatible = 0;
 	private int nrComplexProtocolIncompatible = 0;
 	
-	private Map<String, Boolean> compatibilityResults = new HashMap<String, Boolean>();
+	private Map<JSONObject, Boolean> compatibilityResults = new HashMap<JSONObject, Boolean>();
 	private List<TwoTransitionSets> correspondences = null;
 	
 	public Result(Set<TwoTransitionSets> correspondences) {
@@ -41,7 +45,14 @@ public class Result {
 			else
 				nrSimpleProjectionIncompatible++;
 		}
-		compatibilityResults.put(c1.toString() + " - " + c2.toString(), areCompatible);
+		JSONObject correspondencePair = new JSONObject();
+		try {
+			correspondencePair.put("c1", c1.toJson());
+			correspondencePair.put("c2", c2.toJson());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		compatibilityResults.put(correspondencePair, areCompatible);
 	}
 	
 	public void addProtocolCorrespondenceResult(TwoTransitionSets c1, TwoTransitionSets c2, boolean areCompatible) {
@@ -82,11 +93,22 @@ public class Result {
 		result += "\nPROTOCOL COMPLEX COMPATIBLE CORRESPONDENCES:" + nrComplexProtocolCompatible;
 		result += "\nPROTOCOL COMPLEX INCOMPATIBLE CORRESPONDENCES:" + nrComplexProtocolIncompatible;
 
-		for (Map.Entry<String, Boolean> cr : compatibilityResults.entrySet()) {
+		for (Map.Entry<JSONObject, Boolean> cr : compatibilityResults.entrySet()) {
 			if(!cr.getValue())
 				result += "\n" + cr.getKey();
 		}
 
 		return result;
+	}
+	
+	public JSONArray toJson() {
+		JSONArray incomaptibleCorrespondences = new JSONArray();
+		
+		for (Map.Entry<JSONObject, Boolean> cr : compatibilityResults.entrySet()) {
+			if(!cr.getValue()) {
+				incomaptibleCorrespondences.put(cr.getKey());
+			}
+		}
+		return incomaptibleCorrespondences;
 	}
 }
