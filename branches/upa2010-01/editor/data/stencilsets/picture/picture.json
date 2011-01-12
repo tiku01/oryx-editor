@@ -48,16 +48,6 @@
     {
 	  "name":"clock_work_attributes",
 	  "properties": [
-	    {
-          "id":"has_attribute_clock_work",
-          "type":"Boolean",
-		  "title":"benötigt Bearbeitungszeit",
-		  "value":false,
-		  "description":"",
-		  "readonly":false,
-		  "optional":true,
-		  "refToView":"attribute_clock_work"
-        },
 		{
           "id":"work_time",
           "type":"String",
@@ -102,18 +92,7 @@
 		
 	{
 	  "name":"pictureAttributes",
-	  "properties": [
-	    {
-          "id":"has_attribute_clock_work",
-          "type":"Boolean",
-		  "title":"benötigt Bearbeitungszeit",
-		  "value":false,
-		  "description":"",
-		  "readonly":false,
-		  "optional":true,
-		  "refToView":"attribute_clock_work",
-		  "visible":false
-        }		
+	  "properties": [	
 	  ]
 	}
   ],
@@ -180,8 +159,6 @@
     //documentation
     
     {
-	  
-	  "defaultAlign":"south",
       "id":"createnewdocument",
       "type": "node",
       "title":"Neues Dokument/Information erstellen",
@@ -1045,65 +1022,6 @@
       ],
       "propertyPackages": ["baseAttributes"],
     },
-    {
-      "id":"subprocess",
-      "type": "node",
-      "title":"Teilprozess",
-      "groups":["Organisation"],
-      "description":"Ausführungsumgebung für einen Teilprozess.",
-      "view":"organisation/subprocess.svg",
-      "icon":"organisation/subprocess.png",
-      "roles": ["canBeAnnotated"],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        }
-      ],
-      "propertyPackages": ["baseAttributes"],
-    },
-    
-    //artifacts
-    
-    {
-      "id":"TextAnnotation",
-      "type":"node",
-      "title":"Text Annotation",
-      "groups":["Artefakte"],
-      "description":"Jedes Objekt kann durch eine Text-Anmerkung kommentiert werden.",
-      "view":"artifacts/text_annotation.svg",
-      "icon":"artifacts/text_annotation.png",
-      "propertyPackages": [
-        "baseAttributes"
-      ],
-      "defaultAlign":"east",
-      "roles": [
-        "annotationType"
-      ],
-      "properties": [
-        {
-          "id":"text",
-          "type":"String",
-          "title":"Text",
-          "value":"",
-          "description":"",
-          "readonly":false,
-          "optional":true,
-          "refToView":"text",
-          "length":"",
-          "wrapLines":true
-        }
-      ]
-    },
     
     // connectors
     {
@@ -1111,7 +1029,7 @@
       "type":"edge",
       "title":"Ungerichtete Assoziation",
       "description":"Die Zuordnung eines Datenobjekts zu einem Sequenzfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
-      "groups":["Konnektoren"],
+      "groups":[],
       "view":"connectors/association_undirected.svg",
       "icon":"connectors/association_undirected.png",
       "roles": [
@@ -1121,19 +1039,6 @@
   ],  
   "rules": {
     "connectionRules": [
-      {
-        "role" : "associationundirected",
-        "connects" : [
-          {
-            "from" : "canBeAnnotated",
-            "to" : ["TextAnnotation"]
-          },
-          {
-            "from" : "TextAnnotation",
-            "to" : ["canBeAnnotated"]
-          }
-        ]
-      },
 	  {
         "role" : "associationundirected",
         "connects" : [
@@ -1149,19 +1054,11 @@
         "role":"Diagram",
         "contains": [ 
           "processType",
-		  "annotationType",
 		  "connectorType"
 		]
       },
       {
         "role":"process",
-        "contains":[
-          "subprocess",
-          "node"
-        ]
-      },
-      {
-        "role":"subprocess",
         "contains":[
           "node"
         ]
