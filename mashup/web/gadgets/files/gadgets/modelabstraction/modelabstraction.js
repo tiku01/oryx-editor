@@ -299,15 +299,36 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			 {
 				method			: "post",
 				onSuccess		: function(response){
-					console.log(response);
-				},
+					this.saveModel(response.responseText);
+				}.bind(this),
 				onFailure		: function(){
 					alert('Server communication failed!');
 				},
 				parameters 		: result
 			});
 	},
-	
+		
+	saveModel : function(data) {
+		var content = {
+			'data' : data,
+			'summary' : 'This model was derived from another model.',
+			'svg' : '',
+			'title' : 'generated',
+			'type' : 'http://b3mn.org/stencilset/petrinet#',
+		};
+		new Ajax.Request("/backend/poem/new?stencilset=/stencilsets/petrinets/petrinet.json", 
+			 {
+				method			: "post",
+				onSuccess		: function(response){
+					console.log(response);
+				},
+				onFailure		: function(){
+					alert('Server communication failed!');
+				},
+				parameters 		: content
+			});
+	},
+		
 	/*
 	 * Resets the model attribute and changes the label in the menu to the default value.
 	 */

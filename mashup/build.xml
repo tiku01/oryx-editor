@@ -84,13 +84,8 @@
 		</war>
 	</target>
 	
-	<!-- deletes mashup directory in webapps" -->
-	<target name="delete_webapps/mashup" depends="war">
-		<delete dir="${deployment.dir}\mashup"/>
-	</target>
-	
 	<!-- copies war-file to tomcat webapplication folder -->
-    <target name="move" depends="delete_webapps/mashup">
+    <target name="move" depends="war">
     	<echo> Moving to Tomcat </echo>
         <copy todir="${deploymentdir}" overwrite="true">
             <fileset dir="${dist.dir}">
@@ -98,5 +93,10 @@
             </fileset>
         </copy>
     </target>
+	
+	<!-- deletes mashup directory in webapps" -->
+	<target name="delete_webapps/mashup" depends="move">
+		<delete dir="${deploymentdir}\mashup"/>
+	</target>
 	
 </project>
