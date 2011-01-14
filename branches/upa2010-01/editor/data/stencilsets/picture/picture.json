@@ -45,30 +45,11 @@
         }
       ]
     },
-    {
-	  "name":"clock_work_attributes",
-	  "properties": [
-		{
-          "id":"work_time",
-          "type":"String",
-          "title":"Bearbeitungszeit",
-          "value":"min",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "refToView":"work_time",
-          "length":"",
-          "wrapLines":true
-        }
-	  ]
-	},
 	
     /* 
 	 all atribute pictures are in the one SVG for the nodes, so basically by the following package every attribute picture is hidden by default.
 	 the "visible" tag hides the property in the property panel, so users can't edit it and pictures stay hidden.
 	 nodes can "overwrite" specific properties if inside of "propertyPackages" the "overwriting" happens by putting the new package BEHIND this package here.
-	 for an example look at package "clock_work_attributes" and "pictureAttributes" at the node "createnewdocument".
 	 a different way for overwriting properties:
 		
 		{"id":"mynode"
@@ -92,7 +73,270 @@
 		
 	{
 	  "name":"pictureAttributes",
-	  "properties": [	
+	  "properties": [
+		{
+		  "id":"showproperties",
+          "type":"Boolean",
+          "title":"zeige Eigenschaften",
+          "value":false,
+          "description":"",
+          "readonly":false,
+          "optional":true,
+		  "refToView":"properties_frame"
+		},
+		{
+		  "id":"hasimagecopy",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"copy_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageedv",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"edv_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageprint",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagesave",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"save_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagescan",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"scan_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagecalc",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"calculate_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagecollect",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"collect_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagecontent",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"content_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageformally",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"formally_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagepay",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"pay_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagerelocation",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"relocation_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagereview",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"review_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageagreement",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"agreement_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagearchive",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"archive_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagecapture",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"capture_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagecreate",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"create_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageedit",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"edit_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageincoming",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"incoming_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageoutgoing",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"outgoing_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagepause",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"pause_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimagerequest",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"request_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageconsulting",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"consulting_image",
+		  "visible":false
+		},
+		{
+		  "id":"hasimageresearch",
+          "type":"Boolean",
+          "title":"",
+          "value":false,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"research_image",
+		  "visible":false
+		}
 	  ]
 	}
   ],
@@ -184,12 +428,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecreate",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"create_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
 		"baseAttributes",
-		"pictureAttributes",
-		"clock_work_attributes"
+		"pictureAttributes"
       ]
     },
     {
@@ -218,12 +472,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecapture",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"capture_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [        
 	    "baseAttributes",
 	    "pictureAttributes",
-		"clock_work_attributes",
       ]
     },    
     {
@@ -252,12 +516,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageedit",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"edit_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
 	    "baseAttributes",
-		"pictureAttributes",
-		"clock_work_attributes"
+		"pictureAttributes"
       ],
     },
     {
@@ -286,12 +560,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagearchive",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"archive_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     
@@ -323,40 +607,18 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
-      ],
-      "propertyPackages": [
-        "baseAttributes",
-        "pictureAttributes"
-      ],
-    },
-    {
-      "id":"forwarddocument",
-      "type": "node",
-      "title":"Dokument/Information weiterleiten",
-      "groups":["Informationsfluss"],
-      "description":"Ein Dokument/eine Information wird an eine andere Organisationseinheit innerhalb der Verwaltung weitergeleitet.",
-      "view":"block_template_integrated_attributes.svg",
-      "icon":"information_flow/forward.png",
-      "defaultAlign":"south",
-      "roles": [
-        "canBeAnnotated",
-        "node"
-      ],
-      "properties": [
-        {
-          "id":"title",
-          "type":"String",
-          "title":"Title",
-          "value":"Dokument/ Information weiterleiten",
+        },
+		{
+		  "id":"hasimageincoming",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
           "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":false,
-          "refToView":"text_name_title",
-          "length":"",
-          "wrapLines":true
-        }
+          "readonly":true,
+          "optional":true,
+		  "refToView":"incoming_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -389,7 +651,18 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageoutgoing",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"outgoing_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -422,7 +695,18 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagepause",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"pause_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -458,12 +742,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagereview",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"review_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -492,12 +786,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageformally",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"formally_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -526,12 +830,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecontent",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_content",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -560,12 +874,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecalc",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_calculation",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -594,12 +918,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecollect",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_collect",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -628,12 +962,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagepay",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"pay_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -662,7 +1006,18 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagerelocation",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"relocate_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -698,12 +1053,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageedv",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_edv",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -732,12 +1097,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagescan",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"scan_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -766,12 +1141,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageprint",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"print_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -800,12 +1185,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagesave",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"save_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -834,12 +1229,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagecopy",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"copy_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     
@@ -870,12 +1275,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageresearch",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"research_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -904,12 +1319,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimagerequest",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"request_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -938,12 +1363,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageagreement",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"agreement_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     {
@@ -972,12 +1407,22 @@
           "refToView":"text_name_title",
           "length":"",
           "wrapLines":true
-        }
+        },
+		{
+		  "id":"hasimageconsulting",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"consulting_image",
+		  "visible":false
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
-		"clock_work_attributes"
+	    "pictureAttributes"
       ],
     },
     

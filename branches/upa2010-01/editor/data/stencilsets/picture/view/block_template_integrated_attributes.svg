@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<svg 
-	version="1.0" 
-	
- 	xmlns="http://www.w3.org/2000/svg" 
-	xmlns:xlink="http://www.w3.org/1999/xlink" 
-	xmlns:oryx="http://www.b3mn.org/oryx"
-	 
-	width="620px" 
-	height="60px">
-
-	<defs></defs>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:oryx="http://www.b3mn.org/oryx" width="602px" height="62px">
  
   <g>
   
@@ -18,44 +8,159 @@
 		<stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
 		<stop id="fill_el" offset="100%" stop-color="#ffffff" stop-opacity="1"/>
 	  </radialGradient>
+	  <!-- for every unique pic a pattern is needed -->
+	  <pattern id="image_copy" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/copy.png" />
+      </pattern>
+      <pattern id="image_edv" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/edv_input.png" />
+      </pattern>
+      <pattern id="image_print" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/print.png" />
+      </pattern>
+      <pattern id="image_save" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/save_to_volume.png" />
+      </pattern>
+      <pattern id="image_scan" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/scan.png" />
+      </pattern>
+      <pattern id="image_calculate" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/calculate.png" />
+      </pattern>
+      <pattern id="image_collect" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/collect.png" />
+      </pattern>
+      <pattern id="image_content" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/content.png" />
+      </pattern>
+      <pattern id="image_formally" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/formally.png" />
+      </pattern>
+      <pattern id="image_pay" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/pay.png" />
+      </pattern>
+      <pattern id="image_relocation" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/relocation.png" />
+      </pattern>
+      <pattern id="image_review" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/review.png" />
+      </pattern>
+	  <pattern id="image_archive" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/archive.png" />
+      </pattern>
+      <pattern id="image_capture" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/capture.png" />
+      </pattern>
+      <pattern id="image_create" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/create.png" />
+      </pattern>
+      <pattern id="image_edit" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/edit.png" />
+      </pattern>
+      <pattern id="image_incoming" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/incoming.png" />
+      </pattern>
+      <pattern id="image_outgoing" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/outgoing.png" />
+      </pattern>
+      <pattern id="image_pause" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/pause.png" />
+      </pattern>
+      <pattern id="image_agreement" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/agreement.png" />
+      </pattern>
+      <pattern id="image_research" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/research.png" />
+      </pattern>
+      <pattern id="image_request" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/request.png" />
+      </pattern>
+      <pattern id="image_consulting" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/consulting.png" />
+      </pattern>
 	</defs>
     
- 	<rect id="main_frame" 
- 	x="0" y="0" 
- 	width="600" height="40" 
- 	stroke="none" 
- 	stroke-width="1" 
- 	fill="none" />
+ 	<rect 
+		id="main_frame" 
+		x="0" y="0" 
+		width="600" height="60" 
+		stroke="none" 
+		stroke-width="1" 
+		fill="none" 
+		oryx:anchors="top"
+	/>
  	
-    <rect id="text_frame_title" 
-    x="80" y="0" 
-    width="320" height="40" 
-    stroke="black" 
-    stroke-width="1" 
-    fill="url(#background)" />
-    	
-    <rect id="image_frame" 
-    x="0" y="0" 
-    width="80" height="40" 
-	stroke="black" 
-	stroke-width="1" 
-	fill="url(#background)" />
-	
-    <rect id="attributes_frame" 
-    x="400" y="0" 
-    width="200" height="40" 
-    stroke="black" 
-    stroke-width="1" 
-    fill="url(#background)" />
+    <rect 
+		id="text_frame_title" 
+		x="60" y="0" 
+		width="540" height="60" 
+		stroke="black" 
+		stroke-width="1" 
+		fill="url(#background)" 
+		oryx:anchors="top"
+	/>
 
-	<text id="text_name_title"  
-	font-size="12" 
-	x="240" y="20" 
-	oryx:align="middle center"
-	oryx:fittoelem="text_frame_title"
-	stroke="black">
-	</text>
+	<text 
+		id="text_name_title"  
+		font-size="12" 
+		x="330" y="30" 
+		oryx:align="middle center"
+		oryx:fittoelem="text_frame_title"
+		stroke="black"
+		oryx:anchors="top"
+	/>
 	
+	<g id="copy_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_copy)" oryx:anchors="top"/> </g>
+	<g id="edv_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edv)" oryx:anchors="top"/> </g>
+	<g id="print_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_print)" oryx:anchors="top"/> </g>
+	<g id="save_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_save)" oryx:anchors="top"/> </g>
+	<g id="scan_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_scan)" oryx:anchors="top"/> </g>
+	<g id="calculate_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_calculate)" oryx:anchors="top"/> </g>
+	<g id="collect_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_collect)" oryx:anchors="top"/> </g>
+	<g id="content_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_content)" oryx:anchors="top"/> </g>
+	<g id="formally_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_formally)" oryx:anchors="top"/> </g>
+	<g id="pay_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pay)" oryx:anchors="top"/> </g>
+	<g id="relocation_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_relocation)" oryx:anchors="top"/> </g>
+	<g id="review_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_review)" oryx:anchors="top"/> </g>
+	<g id="archive_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_archive)" oryx:anchors="top"/> </g>
+	<g id="capture_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_capture)" oryx:anchors="top"/> </g>
+	<g id="create_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_create)" oryx:anchors="top"/> </g>
+	<g id="edit_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edit)" oryx:anchors="top"/> </g>
+	<g id="incoming_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_incoming)" oryx:anchors="top"/> </g>
+	<g id="outgoing_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_outgoing)" oryx:anchors="top"/> </g>
+	<g id="pause_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pause)" oryx:anchors="top"/> </g>
+	<g id="agreement_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_agreement)" oryx:anchors="top"/> </g>
+	<g id="research_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_research)" oryx:anchors="top"/> </g>
+	<g id="request_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_request)" oryx:anchors="top"/> </g>
+	<g id="consulting_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top"/> </g>
+
+	
+	<rect 
+		id="properties_frame"
+		x="60" y="60" 
+		width="540" height="60" 
+		stroke="black" 
+		stroke-width="1" 
+		fill="url(#background)">
+		
+		<text id="properties"
+			x="60" y="60" 
+			width="540" height="30" 
+			stroke="black" 
+			stroke-width="1" 
+			fill="url(#background)" 
+		/>
+		
+		<text id="attributes"
+			x="60" y="90" 
+			width="540" height="30" 
+			stroke="black" 
+			stroke-width="1" 
+			fill="url(#background)"
+		/>
+	</rect>
+	
+	<!--
 	<g id="attribute_clock_work" transform="translate(380,0) scale(0.8)">
 		<circle fill="url(#background)" cx="55" cy="18" r="15"/>
 	    <path d="	
@@ -79,7 +184,8 @@
 		  stroke="black">
 		</text>
 		
-     </g>
+    </g> 
+	-->
      		
   </g>  
   
