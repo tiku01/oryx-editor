@@ -264,23 +264,48 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 */ 
 	abstract : function() {
 		if (this.model != null && this.groups.length > 0) {
-			var groups = [];
-			for (var i=0; i < this.groups.length; i++) {
-				groups.push(this.groups[i].toJSON());
-			}
-			var result = {
-				'model'	: this.model.url,
-				'groups': groups
-			};
-			console.log('Abstraction Groups: ');
-			console.log(result);
 			// TODO: send groups to the server and handle the response
 			// therefore open a viewer with the returned model link
 			// or show the according error message
+			new Ajax.Request(this.model.url + "/json", 
+				{
+					method 			: "get",
+					onSuccess		: function(response) {
+						this.runAbstraction(response.responseText);
+					}.bind(this),
+					onFailure		: function(response) {
+						console.log(response);
+					}
+				});
+			
 		} else {
 			// show error message
 			this.showMessage("Can't do abstraction!");
 		}	
+	},
+	
+	runAbstraction : function(data) {
+		var groups = [];
+		for (var i=0; i < this.groups.length; i++) {
+			groups.push(this.groups[i].toJSON());
+		}
+		var result = {
+			'model'	: data,
+			'groups': groups.toJSON()
+		};
+		console.log('Abstraction Groups: ');
+		console.log(result);
+		new Ajax.Request("/mashup/generate", 
+			 {
+				method			: "post",
+				onSuccess		: function(response){
+					console.log(response);
+				},
+				onFailure		: function(){
+					alert('Server communication failed!');
+				},
+				parameters 		: result
+			});
 	},
 	
 	/*
