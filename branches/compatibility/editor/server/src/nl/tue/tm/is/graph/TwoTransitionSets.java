@@ -1,6 +1,11 @@
 package nl.tue.tm.is.graph;
 
 import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import de.hpi.petrinet.Transition;
 
 public class TwoTransitionSets {
@@ -14,6 +19,28 @@ public class TwoTransitionSets {
 
 	public String toString(){
 		return "("+s1+","+s2+")";
+	}
+	
+	public JSONObject toJson() throws JSONException {
+		JSONObject twoTransitionSets = new JSONObject();
+		JSONArray models = new JSONArray();
+		JSONObject model1 = new JSONObject();
+		JSONObject model2 = new JSONObject();
+		JSONArray nodesModel1 = new JSONArray();
+		JSONArray nodesModel2 = new JSONArray();
+		for(Transition t : s1) {
+			nodesModel1.put(t.getResourceId());
+		}
+		for(Transition t : s2) {
+			nodesModel2.put(t.getResourceId());
+		}
+		model1.put("nodes", nodesModel1);
+		model2.put("nodes", nodesModel2);
+		
+		models.put(model1);
+		models.put(model2);
+		twoTransitionSets.put("models", models);
+		return twoTransitionSets;
 	}
 
 	public boolean equals(Object pair2){

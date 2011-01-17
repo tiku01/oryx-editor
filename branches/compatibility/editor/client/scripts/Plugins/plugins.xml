@@ -271,7 +271,10 @@
         <plugin source="lolaPetriNetSoundnessChecker.js" name="ORYX.Plugins.LolaPetriNetSoundnessChecker">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>
-
+        <plugin source="olc2cpn.js" name="ORYX.Plugins.OLC2CPN">
+            <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
+        </plugin>
+        
         <plugin source="petrinet.js" name="ORYX.Plugins.PetriNet">
             <requires namespace="http://b3mn.org/stencilset/petrinet#"/>
         </plugin>

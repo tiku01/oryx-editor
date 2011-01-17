@@ -2,6 +2,7 @@ package org.oryxeditor.server.diagram;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -188,7 +189,7 @@ public class Shape implements Stencil, Bounded{
 	/** Gives the point list of dockers for a shape, dockers usually appears on edges
 	 * @return the dockers, a list of points
 	 */
-	public ArrayList<Point> getDockers() {
+	public List<Point> getDockers() {
 		if(this.dockers==null)
 			this.dockers=new ArrayList<Point>();
 		return dockers;
@@ -197,8 +198,8 @@ public class Shape implements Stencil, Bounded{
 	 * A docker is a point on the canvas
 	 * @param dockers the list of points to set
 	 */
-	public void setDockers(ArrayList<Point> dockers) {
-		this.dockers = dockers;
+	public void setDockers(List<Point> dockers) {
+		this.dockers = new ArrayList<Point>(dockers);
 	}
 	/** Gives the target of shape, which defined another associated shape
 	 * @return the target shape
