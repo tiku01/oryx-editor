@@ -25,6 +25,7 @@ package org.oryxeditor.server.diagram;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,7 +130,7 @@ public class JSONBuilder {
 	 * @return
 	 * @throws JSONException
 	 */
-	private static JSONArray parseDockers(ArrayList<Point> dockers) throws JSONException {
+	private static JSONArray parseDockers(List<Point> dockers) throws JSONException {
 		if(dockers != null) {
 			JSONArray dockersArray = new JSONArray();
 			

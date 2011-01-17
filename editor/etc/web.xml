@@ -495,6 +495,12 @@
 	</servlet>
 
 	<servlet>
+		<display-name>OLC 2 CPN</display-name>
+		<servlet-name>OLC2CPNServlet</servlet-name>
+		<servlet-class>org.oryxeditor.server.OLC2CPNServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<display-name>Visio</display-name>
 		<servlet-name>VisioImporter</servlet-name>
 		<servlet-class>org.oryxeditor.server.VisioImporter</servlet-class>
@@ -791,6 +797,11 @@
 	<servlet-mapping>
 		<servlet-name>CompatibilityChecker</servlet-name>
 		<url-pattern>/compatibility</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>OLC2CPNServlet</servlet-name>
+		<url-pattern>/olc2cpn</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

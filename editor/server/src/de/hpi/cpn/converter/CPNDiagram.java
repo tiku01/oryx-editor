@@ -109,7 +109,8 @@ public class CPNDiagram
 		Diagram diagram = new Diagram(resourceId, type, stencilSet);
 		
 		diagram.setProperties(getDiagramProperties());
-		
+		diagram.setShapes(new ArrayList<Shape>());
+		diagram.setSsextensions(new ArrayList<String>());
 		return diagram;
 	}
 	
