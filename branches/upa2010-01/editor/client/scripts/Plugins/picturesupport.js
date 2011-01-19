@@ -64,47 +64,47 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         // catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.pictureInstantiation.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handleProperties.bind(this));
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPEADDED, this.handleAddedShape.bind(this));
 		
  	},
 	
-	handleProperties: function(event){
-		var shape = event.elements.first();
-		var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
-		var image_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "image_frame") });
-		var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
-		
-		// if properties shall be hidden, delete them from HTML  
-		if(event["key"]=="oryx-showproperties" && event["value"]==false){
-			//TODO replace "lastElementChild" by specific HTML tag id
-			text_frame.element.parentNode.removeChild(text_frame.element.parentNode.lastElementChild);
-			//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
-			shape._oldBounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
-				shape.bounds.a.y + 60);
-			shape.bounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
-				shape.bounds.a.y + 60);	
-		};
-		
-		if(event["key"]=="oryx-showproperties" && event["value"]==true){
-			//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
-			//TODO insert properties HTML rectangle (@properties.element) back into DOM 
+	handleAddedShape: function(event){
+		// do not handle magnets or process lanes 
+		if(event.shape.toString().substr(0,6) != "Magnet" && event.shape.toString().substr(0,7) != "Prozess"){
+			this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, elements: [event.shape], key: "oryx-showproperties", value: false});
+		}
+	},
+	
+	handleProperties: function(event){		
+		// if properties shall be hidden, delete them from HTML
+		if(event["key"]=="oryx-showproperties"){
+			var shape = event.elements.first();
+			var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
+			var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id == (shape.id + "image_frame") });
+			var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
+			var propHeight = 0;
+			
+			if(event["value"]==true){				
+				//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
+				
+				propHeight = properties.height;
+			}
 			
 			//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
-			shape.bounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
-				shape.bounds.a.y + 60 + properties.height);
 			shape._oldBounds.set(
 				shape.bounds.a.x, 
 				shape.bounds.a.y, 
 				shape.bounds.b.x, 
-				shape.bounds.a.y + 60 + properties.height);
+				shape.bounds.a.y + 60 + propHeight);
+			shape.bounds.set(
+				shape.bounds.a.x, 
+				shape.bounds.a.y, 
+				shape.bounds.b.x, 
+				shape.bounds.a.y + 60 + propHeight);
+			image_frames.each(function(frame){
+				frame.height = shape.bounds.height();
+				frame.element.setAttribute("height",shape.bounds.height())
+			});
 		};
 	},
 	
