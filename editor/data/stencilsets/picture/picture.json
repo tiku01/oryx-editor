@@ -70,11 +70,10 @@
 		 ...
 		}
 	*/
-		
 	{
-	  "name":"pictureAttributes",
+	  "name":"generalProperties",
 	  "properties": [
-		{
+	    {
 		  "id":"showproperties",
           "type":"Boolean",
           "title":"zeige Eigenschaften",
@@ -83,7 +82,12 @@
           "readonly":false,
           "optional":true,
 		  "refToView":"properties_frame"
-		},
+		}
+	  ]
+	},	
+	{
+	  "name":"pictureAttributes",
+	  "properties": [
 		{
 		  "id":"hasimagecopy",
           "type":"Boolean",
