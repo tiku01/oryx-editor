@@ -49,7 +49,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
             'name': ORYX.I18N.PictureSupport.imp.name,
             'functionality': this.importPicture.bind(this),
             'group': ORYX.I18N.PictureSupport.imp.group,
-            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+            'dropDownGroupIcon': ORYX.PATH + "images/import.png",
 			'icon': ORYX.PATH + "images/page_white_javascript.png",
             'description': ORYX.I18N.PictureSupport.imp.description,
             'index': 0,
@@ -66,32 +66,49 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handleProperties.bind(this));
 		
  	},
- 	
- 	importPicture: function(){
- 		
- 	},
 	
 	handleProperties: function(event){
 		var shape = event.elements.first();
 		var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
+		var image_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "image_frame") });
+		var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
 		
+		// if properties shall be hidden, delete them from HTML  
 		if(event["key"]=="oryx-showproperties" && event["value"]==false){
-			shape.bounds.set(
+			//TODO replace "lastElementChild" by specific HTML tag id
+			text_frame.element.parentNode.removeChild(text_frame.element.parentNode.lastElementChild);
+			//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
+			shape._oldBounds.set(
 				shape.bounds.a.x, 
 				shape.bounds.a.y, 
 				shape.bounds.b.x, 
 				shape.bounds.a.y + 60);
+			shape.bounds.set(
+				shape.bounds.a.x, 
+				shape.bounds.a.y, 
+				shape.bounds.b.x, 
+				shape.bounds.a.y + 60);	
 		};
 		
 		if(event["key"]=="oryx-showproperties" && event["value"]==true){
+			//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
+			//TODO insert properties HTML rectangle (@properties.element) back into DOM 
+			
+			//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
 			shape.bounds.set(
 				shape.bounds.a.x, 
 				shape.bounds.a.y, 
 				shape.bounds.b.x, 
 				shape.bounds.a.y + 60 + properties.height);
-			properties.y = 60;
+			shape._oldBounds.set(
+				shape.bounds.a.x, 
+				shape.bounds.a.y, 
+				shape.bounds.b.x, 
+				shape.bounds.a.y + 60 + properties.height);
 		};
 	},
+	
+	importPicture: function(){},
  	
  	onSelectionChange: function(){},
  	
