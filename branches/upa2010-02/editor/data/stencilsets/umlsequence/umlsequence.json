@@ -94,6 +94,38 @@
 			]
 		},
 		{
+			"type": "node",
+			"id":"activeLine",
+			"title":"activeLine",
+			"title_de":"Aktivitätslinie",
+			"groups":[],
+			"groups_de":[],
+			"description":"Shows that a participant is active.",
+			"description_de":"Zeigt, dass ein Teilnehmer aktiv ist.",
+			"view":"node.activeline.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"boundaryPoint"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
 			"type": "edge",
 			"id":"asynchronousMessage",
 			"title":"asynchronous Message",
@@ -204,7 +236,16 @@
                         "to":["controlFlowElement"]
                     }
                 ]
-            }
+            },
+            {
+				"role":"boundaryPoint",
+				"connects": [
+					{
+						"from":"acontrolFlowElement",
+						"to":["boundaryPoint"]
+					}
+				]
+			}
 		],
 		
 		"containmentRules": [
