@@ -79,16 +79,6 @@
         <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/consulting.png" />
       </pattern>
 	</defs>
-    
- 	<rect 
-		id="main_frame" 
-		x="0" y="0" 
-		width="600" height="60" 
-		stroke="none" 
-		stroke-width="1" 
-		fill="none" 
-		oryx:anchors="top"
-	/>
  	
     <rect 
 		id="text_frame_title" 
