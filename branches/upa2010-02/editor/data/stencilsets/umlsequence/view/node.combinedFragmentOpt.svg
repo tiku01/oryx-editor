@@ -26,17 +26,8 @@
 			x="7" 
 			y="14"
 			stroke="black">
-	</text>
-	<text 
-	  		id="stereotype"
-	  		font-size="12"  
-	  		x="40" 
-	  		y="4"
-	  		stroke="black"
-	  		oryx:anchors="top" 
-	  		oryx:align="top center"
-	  		oryx:fittoelem="border">
-	</text>	   
+			opt
+	</text>	  
       	<text 
       		id="text" 
       		font-size="12" 
@@ -44,7 +35,7 @@
       		y="18"
       		stroke="black"
       		oryx:anchors="top" 
-      		oryx:align="top center"
+      		oryx:align="top left"
       		oryx:fittoelem="border">
       	</text>
   	</g>

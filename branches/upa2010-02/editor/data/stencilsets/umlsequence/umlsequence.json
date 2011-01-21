@@ -37,8 +37,8 @@
 			"id":"humanActor",
 			"title":"Human Actor",
 			"title_de":"menschlicher Teilnehmer",
-			"groups":[],
-			"groups_de":[],
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
 			"description":"A human participant of a sequence diagram.",
 			"description_de":"Ein menschlicher Teilnehmer eines Sequenzdiagramms.",
 			"view":"node.humanActor.svg",
@@ -67,8 +67,8 @@
 			"id":"actorWithLifeline",
 			"title":"Life",
 			"title_de":"menschlicher Teilnehmer",
-			"groups":[],
-			"groups_de":[],
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
 			"description":"A human participant of a sequence diagram.",
 			"description_de":"Ein menschlicher Teilnehmer eines Sequenzdiagramms.",
 			"view":"node.actorWithLifeline.svg",
@@ -97,17 +97,48 @@
 			"type": "node",
 			"id":"activeLine",
 			"title":"activeLine",
-			"title_de":"Aktivitätslinie",
-			"groups":[],
-			"groups_de":[],
+			"title_de":"Aktivitaetslinie",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
 			"description":"Shows that a participant is active.",
 			"description_de":"Zeigt, dass ein Teilnehmer aktiv ist.",
 			"view":"node.activeline.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlowElement",
-				"boundaryPoint"
+				"boundaryPoint",
+				"controlFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"CombinedFragmentOpt",
+			"title":"Option",
+			"title_de":"Option",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The sequenceflow within this Combined Fragment is optional.",
+			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist optional.",
+			"view":"node.CombinedFragmentOpt.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"CombinedFragment",
 			],
 			"properties": [
 				{
@@ -130,15 +161,16 @@
 			"id":"asynchronousMessage",
 			"title":"asynchronous Message",
 			"title_de":"asynchrone Nachricht",
-			"groups":[],
-			"groups_de":[],
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
 			"description":"A message, that doesn't wait for an answer.",
 			"description":"Eine Nachricht, die nicht auf eine Antwort wartet.",
 			"view":"edge.asynchronousMessage.svg",
 			"icon":"edge.asynchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow"
+				"controlFlow",
+				"Message"
 			],
 			"properties":[
 			    {
@@ -162,15 +194,16 @@
 			"id":"synchronousMessage",
 			"title":"synchronous Message",
 			"title_de":"synchrone Nachricht",
-			"groups":[],
-			"groups_de":[],
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
 			"description":"A message, that waits for an answer.",
 			"description":"Eine Nachricht, die auf eine Antwort wartet.",
 			"view":"edge.synchronousMessage.svg",
 			"icon":"edge.synchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow"
+				"controlFlow",
+				"Message"
 			],
 			"properties":[
 			    {
@@ -194,15 +227,16 @@
 			"id":"synchronousAnswer",
 			"title":"synchronous Answer",
 			"title_de":"synchrone Antwort",
-			"groups":[],
-			"groups_de":[],
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
 			"description":"The answer to a synchronoues message.",
 			"description":"Die Antwort zu einer synchronen Nachricht.",
 			"view":"edge.synchronousAnswer.svg",
 			"icon":"edge.synchronousAnswer.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow"
+				"controlFlow",
+				"Message"
 			],
 			"properties":[
 			    {
@@ -241,7 +275,7 @@
 				"role":"boundaryPoint",
 				"connects": [
 					{
-						"from":"acontrolFlowElement",
+						"from":"controlFlowElement",
 						"to":["boundaryPoint"]
 					}
 				]
