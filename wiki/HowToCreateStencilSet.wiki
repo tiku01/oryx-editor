@@ -58,6 +58,7 @@ Our background `node.diagram.svg` only consists of a square with a stroke and fi
 So that’s all, your first stencil is ready. Besides the SVG file you have to create a picture file for each stencil. It is recommended to use a size of 32 to 32 pixels and a common format for pictures on the web such as JPEG, PNG or BMP. To create picture files from SVG files use Inkscape for example and save them in the icon folder.
 
 For Oryx we add the attribute “anchors” to the rect element. With these anchors the rectangle is fixed to all four sides so that it will always have the same distance to the border of the stencil. The border of a stencil is defined by the smallest rectangle aligned along the axes that includes all SVG shapes of the stencil.
+Oryx anchors may also be used to pin an Element like the BPMN 2.0 Usertask symbol to the top left corner of a task. This can be done with the addition of the attribute oryx:anchors="top left" to the path representing the user task. This way it always stays there and doesn't get misplaced when the size of the task is changed.
 
 Let’s take a look at the current result inside the oryx-editor. But therefore you have to define a kind of description for rules and additional attributes. To do this edit the JSON file. The basic structure of our Let’s Dance modeling language description is shown below:
 
