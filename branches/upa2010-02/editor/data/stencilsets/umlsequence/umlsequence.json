@@ -106,8 +106,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"boundaryPoint",
-				"controlFlowElement"
+				"boundaryPoint"
 			],
 			"properties": [
 				{

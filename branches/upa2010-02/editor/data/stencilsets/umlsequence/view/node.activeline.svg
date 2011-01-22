@@ -3,16 +3,15 @@
    	xmlns="http://www.w3.org/2000/svg"
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
-   	<oryx:magnets>
-	
-	<oryx:magnet oryx:cx="5" oryx:cy="0" oryx:anchors="middle" />
-	<oryx:magnet oryx:cx="5" oryx:cy="10" oryx:anchors="middle" />
-	<oryx:magnet oryx:cx="5" oryx:cy="20" oryx:anchors="middle" />
-    	<oryx:magnet oryx:cx="5" oryx:cy="30" oryx:anchors="middle" />
-	<oryx:magnet oryx:cx="5" oryx:cy="40" oryx:anchors="middle" />
-	<oryx:magnet oryx:cx="5" oryx:cy="20" oryx:default="yes" />
-		
+   	<oryx:magnets>	
+        <oryx:magnet oryx:cx="5" oryx:cy="0" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="10" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="20" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="30" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="40" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="20" oryx:default="yes" />		
   	</oryx:magnets>
+    <oryx:docker oryx:cx="5" oryx:cy="20" />
   	<g
      	oryx:minimumSize="4 10"
      	id="actor">
