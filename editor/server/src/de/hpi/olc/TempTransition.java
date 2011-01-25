@@ -22,6 +22,10 @@ public class TempTransition {
 		transformations.put(input, output);
 	}
 
+	public String getLabel() {
+		return this.label;
+	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
@@ -30,19 +34,22 @@ public class TempTransition {
 		transformations.put(input, output);
 	}
 
-	// TODO: Ensure valid expressions for exclusive decisions
+	/**
+	 * Extracts precondition(state) and post-condition (state) for the given
+	 * transition from olc 
+	 * precondition = precedingPlace.name 
+	 * postcondition = succeedingPlace.name 
+	 */
 	public void addTransformation(LabeledTransition t) {
 		String input = t.getIncomingFlowRelationships().get(0).getSource().getId();
 		String output = t.getOutgoingFlowRelationships().get(0).getTarget().getId();
+		// Handle merge of XOR transitions
 		if (transformations.containsKey(input)) {
 			String out = transformations.get(input);
+			// TODO: Ensure valid expressions for exclusive decisions
 			output = out + " | " + output;
 		}
 		transformations.put(input, output);
-	}
-
-	public String getLabel() {
-		return this.label;
 	}
 
 	/**

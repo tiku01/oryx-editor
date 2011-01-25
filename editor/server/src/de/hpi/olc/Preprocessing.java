@@ -20,11 +20,25 @@ public class Preprocessing {
 	}
 
 	/**
+	 * Creates unique names for places. Places with the same source transition
+	 * get equal names
+	 */
+	public void createStateNames(PTNet net) {
+		net.getInitialPlace().setId("s_init");
+		int stateId = 0;
+		for (Transition transition : net.getTransitions()) {
+			stateId++;
+			for (Node place : transition.getSucceedingNodes())
+					place.setId("s_" + stateId);
+		}
+	}
+
+	/**
 	 * This transformation creates additional places and transitions to split
 	 * each parallel join into pairwise joins independent from the original join
 	 * transition
 	 */
-	public PTNet decomposeJoinTransitions(PTNet net) {
+	public void decomposeJoinTransitions(PTNet net) {
 		List<LabeledTransition> newTransitions = new ArrayList<LabeledTransition>();
 		List<Place> newPlaces = new ArrayList<Place>();
 		List<FlowRelationship> newArcs = new ArrayList<FlowRelationship>();
@@ -37,29 +51,26 @@ public class Preprocessing {
 		net.getTransitions().addAll(newTransitions);
 		net.getPlaces().addAll(newPlaces);
 		net.getFlowRelationships().addAll(newArcs);
-		return net;
 	}
 
 	/**
 	 * This transformation creates additional places and transitions to
 	 * translate exclusive decisions into explicit tasks
 	 */
-	public PTNet extractXors(PTNet net) {
+	public void extractXors(PTNet net) {
 		List<LabeledTransition> newTransitions = new ArrayList<LabeledTransition>();
 		List<Place> newPlaces = new ArrayList<Place>();
 		List<FlowRelationship> newArcs = new ArrayList<FlowRelationship>();
 		int index = 0;
-		
+
 		for (Place place : net.getPlaces())
 			if (place.getSucceedingNodes().size() > 1)
 				decomposeXor(place, newTransitions, newPlaces, newArcs, index++);
-
 
 		// Add all new Nodes and Arcs to the lists of the net
 		net.getTransitions().addAll(newTransitions);
 		net.getPlaces().addAll(newPlaces);
 		net.getFlowRelationships().addAll(newArcs);
-		return net;
 	}
 
 	private void decomposeJoinTransition(Transition transition, List<LabeledTransition> newTransitions,
@@ -99,18 +110,18 @@ public class Preprocessing {
 
 	private void decomposeXor(Place place, List<LabeledTransition> newTransitions, List<Place> newPlaces,
 			List<FlowRelationship> newArcs, int index) {
-		
+
 		for (FlowRelationship fr : place.getOutgoingFlowRelationships()) {
-			
+
 			// create xor
 			LabeledTransition xor = factory.createLabeledTransition();
 			newTransitions.add(xor);
 			xor.setLabel("xor_" + index);
-			
+
 			// create new sub-state
 			Place state = factory.createPlace();
 			newPlaces.add(state);
-			
+
 			// connect xor and state
 			FlowRelationship arc = factory.createFlowRelationship();
 			newArcs.add(arc);
