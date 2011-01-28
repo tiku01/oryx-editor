@@ -7,7 +7,8 @@
 	<g
      	oryx:minimumSize="20 600"
      	id="actor">
-    	
-	<path d="M10,1 L10,600" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" />
-  	</g>
+    	<rect x="0" y="0" width="40" height="600" fill="white">
+  	</rect>
+	<path d="M20,1 L20,600" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" />
+	</g>
 </svg>

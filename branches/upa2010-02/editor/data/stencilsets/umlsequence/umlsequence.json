@@ -416,7 +416,6 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"boundaryPoint",
 				"controlFlowElement"
 			],
 			"properties": [
