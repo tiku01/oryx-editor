@@ -137,7 +137,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -168,7 +168,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -199,7 +199,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -230,7 +230,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -261,7 +261,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -292,7 +292,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -323,7 +323,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
 			],
 			"properties": [
 				{
@@ -354,7 +354,70 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment",
+				"CombinedFragment"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"actor",
+			"title":"Actor",
+			"title_de":"Teilnehmer",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
+			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
+			"view":"node.actor.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"lifeline",
+			"title":"Life",
+			"title_de":"Lebenslinie",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
+			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
+			"view":"node.lifeline.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"boundaryPoint",
+				"controlFlowElement"
 			],
 			"properties": [
 				{
