@@ -9,35 +9,12 @@
       "name":"baseAttributes",
       "properties": [
         {
-          "id":"name",
+          "id":"basic-description",
           "type":"String",
-          "title":"Name",
-          "value":"",
-          "description":"Bezeichnung des BPMN-Elementes.",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines" :true
-		},
-		{
-          "id":"description",
-          "type":"String",
-          "title":"Beschreibung",
+          "title":"Grundlegend - Beschreibung",
           "value":"",
           "description":"",
           "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true
-        },
-        {
-          "id":"documentation",
-          "type":"Text",
-          "title":"Documentation",
-          "title_de":"Dokumentation",
-          "value":"",
-          "description":"Der Modellierer kann weiteren Text zur Dokumentation des BPMN-Elementes einfügen.",
           "readonly":false,
           "optional":true,
           "length":"",
@@ -70,279 +47,36 @@
 		 ...
 		}
 	*/
-	{
-	  "name":"generalProperties",
-	  "properties": [
-	    {
-		  "id":"showproperties",
-          "type":"Boolean",
-          "title":"zeige Eigenschaften",
-          "value":false,
-          "description":"",
-          "readonly":false,
-          "optional":true,
-		  "refToView":"properties_frame"
-		}
-	  ]
-	},	
+		
 	{
 	  "name":"pictureAttributes",
 	  "properties": [
 		{
-		  "id":"hasimagecopy",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
+          "id":"realisation-executing_position",
+          "type":"String",
+          "title":"Durchführung - ausführende Stelle",
+          "value":"",
+		  "refToView":"realisation",
           "description":"",
-          "readonly":true,
+          "tooltip":"",
+          "readonly":false,
           "optional":true,
-		  "refToView":"copy_image",
-		  "visible":false
-		},
+          "length":"",
+          "wrapLines":true
+        },
 		{
-		  "id":"hasimageedv",
+		  "id":"basic-show_properties",
           "type":"Boolean",
-          "title":"",
+          "title":"Grundlegend - zeige Eigenschaften",
           "value":false,
           "description":"",
-          "readonly":true,
+          "readonly":false,
           "optional":true,
-		  "refToView":"edv_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageprint",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"print_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagesave",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"save_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagescan",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"scan_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagecalc",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"calculate_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagecollect",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"collect_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagecontent",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"content_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageformally",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"formally_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagepay",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"pay_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagerelocation",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"relocation_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagereview",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"review_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageagreement",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"agreement_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagearchive",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"archive_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagecapture",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"capture_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagecreate",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"create_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageedit",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"edit_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageincoming",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"incoming_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageoutgoing",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"outgoing_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagepause",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"pause_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimagerequest",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"request_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageconsulting",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"consulting_image",
-		  "visible":false
-		},
-		{
-		  "id":"hasimageresearch",
-          "type":"Boolean",
-          "title":"",
-          "value":false,
-          "description":"",
-          "readonly":true,
-          "optional":true,
-		  "refToView":"research_image",
-		  "visible":false
+		  "refToView":"properties"
 		}
 	  ]
-	}
+	},
+	
   ],
   
   //Stencils  
@@ -358,7 +92,6 @@
       "icon":"diagram.png",
       "mayBeRoot": true,
       "roles": [],
-      "propertyPackages": ["baseAttributes"],
       "properties": [
         {
           "id":"author",
@@ -414,16 +147,20 @@
       "description":"Ein neues Dokument/eine Information wird erstellt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/create.png",
-      "defaultAlign":"south",
+	  "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Neues Dokument/ Information erstellen",
           "description":"",
           "tooltip":"",
@@ -443,7 +180,7 @@
           "optional":true,
 		  "refToView":"create_image",
 		  "visible":false
-		}
+		},
       ],
       "propertyPackages": [
 		"baseAttributes",
@@ -458,16 +195,20 @@
       "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/capture.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated", 
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Erfassen/ Registrieren",
           "description":"",
           "tooltip":"",
@@ -502,16 +243,20 @@
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/edit.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated", 
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument/ Information bearbeiten",
           "description":"",
           "tooltip":"",
@@ -546,16 +291,20 @@
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"documentation/archive.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated", 
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument archivieren",
           "description":"",
           "tooltip":"",
@@ -593,16 +342,20 @@
       "description":"Ein neues Dokument/eine Information wird erstellt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/incoming.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated", 
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument/ Information geht ein",
           "description":"",
           "tooltip":"",
@@ -637,16 +390,20 @@
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/outgoing.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument/ Information geht aus",
           "description":"",
           "tooltip":"",
@@ -681,16 +438,20 @@
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_flow/pause.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Bearbeitungs- unterbrechung",
           "description":"",
           "tooltip":"",
@@ -728,16 +489,20 @@
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/review.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument/ Information sichten",
           "description":"",
           "tooltip":"",
@@ -772,16 +537,20 @@
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/formally.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Formelle Prüfung vornehmen",
           "description":"",
           "tooltip":"",
@@ -816,16 +585,20 @@
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/content.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Inhaltliche Prüfung vornehmen",
           "description":"",
           "tooltip":"",
@@ -843,7 +616,7 @@
           "description":"",
           "readonly":true,
           "optional":true,
-		  "refToView":"print_content",
+		  "refToView":"content_image",
 		  "visible":false
 		}
       ],
@@ -860,16 +633,20 @@
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/calculate.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Berechnung durchführen",
           "description":"",
           "tooltip":"",
@@ -887,7 +664,7 @@
           "description":"",
           "readonly":true,
           "optional":true,
-		  "refToView":"print_calculation",
+		  "refToView":"calculate_image",
 		  "visible":false
 		}
       ],
@@ -904,16 +681,20 @@
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/collect.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Kassieren/ Einzahlung entgegennehmen",
           "description":"",
           "tooltip":"",
@@ -931,7 +712,7 @@
           "description":"",
           "readonly":true,
           "optional":true,
-		  "refToView":"print_collect",
+		  "refToView":"collect_image",
 		  "visible":false
 		}
       ],
@@ -948,16 +729,20 @@
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/pay.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Auszahlung durchführen",
           "description":"",
           "tooltip":"",
@@ -992,16 +777,20 @@
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"content_work/relocation.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Bearbeitungsort wechseln",
           "description":"",
           "tooltip":"",
@@ -1039,16 +828,20 @@
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/edv_input.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dateneingabe in die EDV",
           "description":"",
           "tooltip":"",
@@ -1066,7 +859,7 @@
           "description":"",
           "readonly":true,
           "optional":true,
-		  "refToView":"print_edv",
+		  "refToView":"edv_image",
 		  "visible":false
 		}
       ],
@@ -1083,16 +876,20 @@
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/scan.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Scannen",
           "description":"",
           "tooltip":"",
@@ -1127,16 +924,20 @@
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/print.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Drucken",
           "description":"",
           "tooltip":"",
@@ -1171,16 +972,20 @@
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/save_to_volume.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Datenträger bespielen",
           "description":"",
           "tooltip":"",
@@ -1215,16 +1020,20 @@
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"change_medium/copy.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Dokument vervielvältigen/ Kopieren",
           "description":"",
           "tooltip":"",
@@ -1261,16 +1070,20 @@
       "description":"Die notwendigen Informationen werden recherchiert.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/research.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Recherche durchführen",
           "description":"",
           "tooltip":"",
@@ -1305,16 +1118,20 @@
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/request.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Rückfrage durchführen",
           "description":"",
           "tooltip":"",
@@ -1349,16 +1166,20 @@
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/agreement.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Absprache/ Vereinbarung treffen",
           "description":"",
           "tooltip":"",
@@ -1393,16 +1214,20 @@
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
       "view":"block_template_integrated_attributes.svg",
       "icon":"information_retrieval/consulting.png",
-      "defaultAlign":"south",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
       "roles": [
         "canBeAnnotated",
         "node"
       ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Beratung durchführen",
           "description":"",
           "tooltip":"",
@@ -1438,7 +1263,7 @@
       "title":"Prozess",
       "groups":["Organisation"],
       "description":"Äußere Struktur für einen ausführbaren Prozess.",
-      "view":"organisation/process.svg",
+      "view":"process.svg",
       "icon":"organisation/process.png",
       "roles": [
         "processType",
@@ -1456,9 +1281,9 @@
 	  ],
       "properties": [
         {
-          "id":"title",
+          "id":"basic-title",
           "type":"String",
-          "title":"Title",
+          "title":"Grundlegend - Titel",
           "value":"Editorfeld",
           "description":"",
           "tooltip":"",
@@ -1470,40 +1295,15 @@
         }
       ],
       "propertyPackages": ["baseAttributes"],
-    },
-    
-    // connectors
-    {
-      "id":"associationundirected",
-      "type":"edge",
-      "title":"Ungerichtete Assoziation",
-      "description":"Die Zuordnung eines Datenobjekts zu einem Sequenzfluss über eine ungerichtete Assoziation weist auf eine Informationsübergabe zwischen den Aktivitäten hin.",
-      "groups":[],
-      "view":"connectors/association_undirected.svg",
-      "icon":"connectors/association_undirected.png",
-      "roles": [
-        "connectorType"
-      ]
     }
   ],  
   "rules": {
-    "connectionRules": [
-	  {
-        "role" : "associationundirected",
-        "connects" : [
-          {
-            "from" : "node",
-            "to" : ["node"]
-          }
-        ]
-      }
-    ],
+    "connectionRules": [],
     "containmentRules": [
       {
         "role":"Diagram",
         "contains": [ 
-          "processType",
-		  "connectorType"
+          "processType"
 		]
       },
       {
