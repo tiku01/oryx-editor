@@ -80,103 +80,43 @@
       </pattern>
 	</defs>
  	
-    <rect 
-		id="text_frame_title" 
-		x="60" y="0" 
-		width="540" height="60" 
-		stroke="black" 
-		stroke-width="1" 
-		fill="url(#background)" 
-		oryx:anchors="top"
-	/>
+    <rect id="text_frame_title" x="60" y="0" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)" oryx:anchors="top" />
+	<text id="text_name_title" font-size="12" x="330" y="30" oryx:align="middle center"	oryx:fittoelem="text_frame_title" stroke="black" oryx:anchors="top"	/>
+	
+	<rect id="copy_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_copy)" oryx:anchors="top" display="none"/>
+	<rect id="edv_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edv)" oryx:anchors="top" display="none"/> 
+	<rect id="print_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_print)" oryx:anchors="top" display="none"/> 
+	<rect id="save_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_save)" oryx:anchors="top" display="none"/> 
+	<rect id="scan_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_scan)" oryx:anchors="top" display="none"/>
+	<rect id="calculate_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_calculate)" oryx:anchors="top" display="none"/>
+	<rect id="collect_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_collect)" oryx:anchors="top" display="none"/> 
+	<rect id="content_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_content)" oryx:anchors="top" display="none"/> 
+	<rect id="formally_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_formally)" oryx:anchors="top" display="none"/> 
+	<rect id="pay_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pay)" oryx:anchors="top" display="none"/>
+	<rect id="relocate_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_relocation)" oryx:anchors="top" display="none"/> 
+	<rect id="review_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_review)" oryx:anchors="top" display="none"/> 
+	<rect id="archive_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_archive)" oryx:anchors="top" display="none"/>
+	<rect id="capture_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_capture)" oryx:anchors="top" display="none"/> 
+	<rect id="create_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_create)" oryx:anchors="top" display="none"/> 
+	<rect id="edit_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edit)" oryx:anchors="top" display="none"/> 
+	<rect id="incoming_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_incoming)" oryx:anchors="top" display="none"/> 
+	<rect id="outgoing_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_outgoing)" oryx:anchors="top" display="none"/> 
+	<rect id="pause_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pause)" oryx:anchors="top" display="none"/>
+	<rect id="agreement_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_agreement)" oryx:anchors="top" display="none"/> 
+	<rect id="research_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_research)" oryx:anchors="top" display="none"/> 
+	<rect id="request_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_request)" oryx:anchors="top" display="none"/> 
+	<rect id="consulting_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top" display="none"/> 
 
-	<text 
-		id="text_name_title"  
-		font-size="12" 
-		x="330" y="30" 
-		oryx:align="middle center"
-		oryx:fittoelem="text_frame_title"
-		stroke="black"
-		oryx:anchors="top"
-	/>
-	
-	<g id="copy_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_copy)" oryx:anchors="top"/> </g>
-	<g id="edv_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edv)" oryx:anchors="top"/> </g>
-	<g id="print_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_print)" oryx:anchors="top"/> </g>
-	<g id="save_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_save)" oryx:anchors="top"/> </g>
-	<g id="scan_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_scan)" oryx:anchors="top"/> </g>
-	<g id="calculate_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_calculate)" oryx:anchors="top"/> </g>
-	<g id="collect_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_collect)" oryx:anchors="top"/> </g>
-	<g id="content_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_content)" oryx:anchors="top"/> </g>
-	<g id="formally_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_formally)" oryx:anchors="top"/> </g>
-	<g id="pay_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pay)" oryx:anchors="top"/> </g>
-	<g id="relocation_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_relocation)" oryx:anchors="top"/> </g>
-	<g id="review_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_review)" oryx:anchors="top"/> </g>
-	<g id="archive_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_archive)" oryx:anchors="top"/> </g>
-	<g id="capture_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_capture)" oryx:anchors="top"/> </g>
-	<g id="create_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_create)" oryx:anchors="top"/> </g>
-	<g id="edit_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edit)" oryx:anchors="top"/> </g>
-	<g id="incoming_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_incoming)" oryx:anchors="top"/> </g>
-	<g id="outgoing_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_outgoing)" oryx:anchors="top"/> </g>
-	<g id="pause_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_pause)" oryx:anchors="top"/> </g>
-	<g id="agreement_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_agreement)" oryx:anchors="top"/> </g>
-	<g id="research_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_research)" oryx:anchors="top"/> </g>
-	<g id="request_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_request)" oryx:anchors="top"/> </g>
-	<g id="consulting_image"> <rect id="image_frame" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top"/> </g>
-
-	
-	<rect 
-		id="properties_frame"
-		x="60" y="60" 
-		width="540" height="60" 
-		stroke="black" 
-		stroke-width="1" 
-		fill="url(#background)">
-		
-		<text id="properties"
-			x="60" y="60" 
-			width="540" height="30" 
-			stroke="black" 
-			stroke-width="1" 
-			fill="url(#background)" 
-		/>
-		
-		<text id="attributes"
-			x="60" y="90" 
-			width="540" height="30" 
-			stroke="black" 
-			stroke-width="1" 
-			fill="url(#background)"
-		/>
-	</rect>
-	
-	<!--
-	<g id="attribute_clock_work" transform="translate(380,0) scale(0.8)">
-		<circle fill="url(#background)" cx="55" cy="18" r="15"/>
-	    <path d="	
-	        M 55 4 L 55 8
-	    		M 40 18 L 44 18
-	    		M 55 33 L 55 29
-	    		M 70 18 L 66 18
-	    		M 53 9 L 55 18 L 58 21" 
-	    		fill="none" stroke="black" />
-		<path transform="scale(2) translate(-20,-15)"
-	       style="fill:#4d4d4d;stroke:#000000;stroke-width:0.30632811999999998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:1.32200000000000010"
-	       d="m 42.227475,21.543097 c -0.209466,-0.0799 -0.420499,-0.15693 -0.644459,-0.20276 -0.252964,-0.0518 -0.514768,-0.0682 -0.78204,-0.0724 l -0.325851,1.20927 c -0.238806,0.0203 -0.468281,0.0648 -0.687905,0.13758 l -0.7748,-0.98479 c -0.221367,0.0994 -0.438116,0.21306 -0.637218,0.34757 -0.202647,0.13691 -0.389368,0.29426 -0.564807,0.46343 l 0.622736,1.08617 c -0.150875,0.17849 -0.277333,0.37602 -0.383779,0.58653 l -1.23823,-0.14482 c -0.08101,0.21144 -0.156453,0.42545 -0.202752,0.6517 -0.05129,0.25066 -0.07507,0.51007 -0.07965,0.7748 l 1.209266,0.32585 c 0.02017,0.23836 0.06509,0.47588 0.137581,0.69515 l -0.97755,0.76755 c 0.09933,0.22125 0.205893,0.43822 0.340332,0.63722 0.138817,0.20548 0.298712,0.39458 0.470673,0.57205 l 1.078926,-0.62274 c 0.179174,0.15152 0.382326,0.27706 0.593771,0.38378 l -0.144822,1.23823 c 0.209466,0.0799 0.420499,0.15693 0.644459,0.20276 0.250839,0.0513 0.517113,0.0678 0.78204,0.0724 l 0.325851,-1.20927 c 0.239223,-0.0202 0.467919,-0.0646 0.687905,-0.13758 l 0.7748,0.98479 c 0.221368,-0.0994 0.438116,-0.21306 0.637218,-0.34757 0.202648,-0.13691 0.389368,-0.29426 0.564807,-0.46343 l -0.622736,-1.08617 c 0.150875,-0.17849 0.277333,-0.37602 0.383779,-0.58653 l 1.23823,0.14482 c 0.08101,-0.21144 0.156454,-0.42545 0.202752,-0.6517 0.05129,-0.25066 0.07507,-0.51007 0.07965,-0.7748 l -1.209266,-0.32585 c -0.02017,-0.23835 -0.06509,-0.47588 -0.137581,-0.69515 l 0.97755,-0.76755 c -0.09933,-0.22124 -0.205893,-0.43822 -0.340332,-0.63722 -0.138817,-0.20548 -0.298711,-0.39458 -0.470673,-0.57205 l -1.078926,0.62274 c -0.180272,-0.15245 -0.380855,-0.27671 -0.593771,-0.38378 l 0.144822,-1.23823 z"/>
-	    <path transform="scale(2) translate(-20,-15)"
-	       d="m 46.741149,27.349467 c -0.152464,-0.05816 -0.306068,-0.114224 -0.469082,-0.147583 -0.184125,-0.0377 -0.374684,-0.04964 -0.569223,-0.0527 l -0.237177,0.88019 c -0.17382,0.01478 -0.340847,0.04717 -0.500705,0.100141 l -0.563953,-0.716799 c -0.161127,0.07235 -0.318892,0.15508 -0.463812,0.252986 -0.147501,0.09965 -0.283409,0.214183 -0.411106,0.337316 l 0.453271,0.79059 c -0.109818,0.129918 -0.201862,0.273694 -0.279341,0.426918 l -0.90127,-0.10541 c -0.05897,0.1539 -0.113878,0.309672 -0.147577,0.474352 -0.03733,0.182448 -0.05464,0.371265 -0.05798,0.563954 l 0.880188,0.237176 c 0.01468,0.173495 0.04738,0.346378 0.100141,0.505978 l -0.711529,0.558677 c 0.0723,0.161041 0.149863,0.318967 0.247717,0.463813 0.101041,0.149562 0.217424,0.287203 0.342589,0.416378 l 0.785317,-0.453274 c 0.130416,0.110287 0.278284,0.201664 0.432188,0.279342 l -0.105411,0.90127 c 0.152464,0.05816 0.306068,0.114224 0.469082,0.147583 0.182578,0.03734 0.376391,0.04935 0.569223,0.0527 l 0.237177,-0.88019 c 0.174123,-0.0147 0.340584,-0.04702 0.500705,-0.100141 l 0.563953,0.716799 c 0.161127,-0.07235 0.318892,-0.15508 0.463812,-0.252986 0.147501,-0.09965 0.283409,-0.214183 0.411106,-0.337316 l -0.453271,-0.79059 c 0.109818,-0.129918 0.201862,-0.273694 0.279341,-0.426918 l 0.90127,0.10541 c 0.05897,-0.1539 0.113878,-0.309672 0.147577,-0.474352 0.03733,-0.182448 0.05464,-0.371265 0.05797,-0.563954 l -0.880188,-0.237176 c -0.01468,-0.173488 -0.04738,-0.346378 -0.100141,-0.505978 l 0.711529,-0.558677 c -0.0723,-0.161034 -0.149863,-0.318967 -0.247717,-0.463813 -0.101041,-0.149562 -0.217423,-0.287203 -0.342589,-0.416378 l -0.785317,0.453274 C 46.936711,28.419115 46.790713,28.32867 46.635738,28.250737 l 0.105411,-0.90127 z"
-	       style="fill:#999999;stroke:#000000;stroke-width:0.22296692000000001;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:1.32200000000000010" />
-	    
-	    <text id="work_time"  
-		  font-size="12" 
-		  x="55" y="40" 
-		  oryx:align="middle center"
-		  stroke="black">
-		</text>
-		
-    </g> 
-	-->
-     		
+	<g id="properties">
+	<rect id="properties_frame" x="60" y="60" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)"/>		
+	<text id="realisation" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
+	<text id="incoming" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
+	<text id="outgoing" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
+	<text id="communication" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
+	<text id="payment" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
+	<text id="resource" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />
+	<text id="comment" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />
+	</g>
   </g>  
   
 </svg>

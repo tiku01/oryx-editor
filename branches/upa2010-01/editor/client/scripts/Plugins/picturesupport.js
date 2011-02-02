@@ -63,49 +63,86 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         
         // catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.pictureInstantiation.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handleProperties.bind(this));
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPEADDED, this.handleAddedShape.bind(this));
+		this.facade.registerOnEvent('layout.picture.node', this.handleProperties.bind(this));
 		
  	},
 	
-	handleAddedShape: function(event){
-		// do not handle magnets or process lanes 
-		if(event.shape.toString().substr(0,6) != "Magnet" && event.shape.toString().substr(0,7) != "Prozess"){
-			this.facade.raiseEvent({type: ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, elements: [event.shape], key: "oryx-showproperties", value: false});
-		}
+	calculateLabelHeight: function (labelElement, labelValue) {
+		var fontSize = labelElement.getFontSize();
+		var newlineOccurences = 0;
+		
+		labelValue.scan('\n', function() { newlineOccurences += 1; });
+		
+		return newlineOccurences * fontSize;
+	},
+	
+	findLabelValue: function(shape,string){
+		var value = "";
+		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) == string});
+		properties.each(function(element){value += shape.properties[element]});
+		return value;
 	},
 	
 	handleProperties: function(event){		
-		// if properties shall be hidden, delete them from HTML
-		if(event["key"]=="oryx-showproperties"){
-			var shape = event.elements.first();
-			var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
-			var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id == (shape.id + "image_frame") });
-			var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
-			var propHeight = 0;
+
+		var shape = event.shape;
+		var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
+		var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id.substr(element.element.id.length-5,5) == "image" });
+		var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
+		var propHeight = 0;
+		
+		// before showing the properties the correct height of the node needs to be calculated
+		if(shape.properties["oryx-basic-show_properties"]==true){
+			// get all chapters and their content
+			var realisation = shape.getLabels().find(function(label) { return label.id == (shape.id + "realisation") });
+			var realisationValue = this.findLabelValue(shape,"realisation");
+			var incoming = shape.getLabels().find(function(label) { return label.id == (shape.id + "incoming") });
+			var incomingValue = this.findLabelValue(shape,"incoming");
+			var outgoing = shape.getLabels().find(function(label) { return label.id == (shape.id + "outgoing") });
+			var outgoingValue = this.findLabelValue(shape,"outgoing");
+			var communication = shape.getLabels().find(function(label) { return label.id == (shape.id + "communication") });
+			var communicationValue = this.findLabelValue(shape,"communication");
+			var payment = shape.getLabels().find(function(label) { return label.id == (shape.id + "payment") });
+			var paymentValue = this.findLabelValue(shape,"payment");
+			var resource = shape.getLabels().find(function(label) { return label.id == (shape.id + "resource") });
+			var resourceValue = this.findLabelValue(shape,"resource");
+			var comment = shape.getLabels().find(function(label) { return label.id == (shape.id + "comment") });
+			var commentValue = this.findLabelValue(shape,"comment");
+			//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
 			
-			if(event["value"]==true){				
-				//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
-				
-				propHeight = properties.height;
-			}
+			//TODO set the chapter labels if chapter not empty
 			
-			//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
-			shape._oldBounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
-				shape.bounds.a.y + 60 + propHeight);
-			shape.bounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
-				shape.bounds.a.y + 60 + propHeight);
-			image_frames.each(function(frame){
-				frame.height = shape.bounds.height();
-				frame.element.setAttribute("height",shape.bounds.height())
-			});
-		};
+			// calculate heights of all chapters
+			var realisationHeight = this.calculateLabelHeight(realisation,realisationValue);
+			var incomingHeight = this.calculateLabelHeight(incoming,incomingValue);
+			var outgoingHeight = this.calculateLabelHeight(outgoing,outgoingValue);
+			var communicationHeight = this.calculateLabelHeight(communication,communicationValue);
+			var paymentHeight = this.calculateLabelHeight(payment,paymentValue);
+			var resourceHeight = this.calculateLabelHeight(resource,resourceValue);
+			var commentHeight = this.calculateLabelHeight(comment,commentValue);
+			
+			// set the properties' and the chapters' heights according to content
+			
+			propHeight = properties.height;
+		}
+		
+		//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
+		shape._oldBounds.set(
+			shape.bounds.a.x, 
+			shape.bounds.a.y, 
+			shape.bounds.b.x, 
+			shape.bounds.a.y + 60 + propHeight);
+		shape.bounds.set(
+			shape.bounds.a.x, 
+			shape.bounds.a.y, 
+			shape.bounds.b.x, 
+			shape.bounds.a.y + 60 + propHeight);
+		//resize the image frames on the left according to shape's bounds
+		image_frames.each(function(frame){
+			frame.height = shape.bounds.height();
+			frame.element.setAttribute("height",shape.bounds.height());
+			
+		});
 	},
 	
 	importPicture: function(){},
@@ -114,13 +151,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	
  	pictureInstantiation: function(event){
  		//create a process lane if the canvas is empty
-		if(this.facade.getCanvas().children.length == 0){		
-			var mynamespace = "http://b3mn.org/stencilset/picture#";
-			var mytype = "http://b3mn.org/stencilset/picture#process";
-		
+		if(this.facade.getCanvas().children.length == 0){				
 			this.facade.createShape({
-				type: mytype,
-				namespace: mynamespace,
+				type: "http://b3mn.org/stencilset/picture#process",
+				namespace: "http://b3mn.org/stencilset/picture#",
 				position: {x: 0, y: 0}
 			}).refresh();
 		}

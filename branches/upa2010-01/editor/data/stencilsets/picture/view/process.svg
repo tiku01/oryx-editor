@@ -5,10 +5,9 @@
    xmlns:oryx="http://www.b3mn.org/oryx"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    width="620"
-   height="320"
+   height="180"
    version="1.0">
-  
-  <defs></defs>
+
   <oryx:magnets>
     <oryx:magnet oryx:cx="0" oryx:cy="124" oryx:anchors="left" />
     <oryx:magnet oryx:cx="299" oryx:cy="249" oryx:anchors="bottom" />
@@ -32,7 +31,7 @@
     x="0" 
     y="0" 
     width="600" 
-    height="300" 
+    height="160" 
     fill="none" 
     stroke-width="9" 
     stroke="white" 
@@ -45,7 +44,7 @@
     x="0" 
     y="0" 
     width="600" 
-    height="300" 
+    height="160" 
     stroke="black" 
     fill="none" />
     
@@ -61,16 +60,16 @@
     fill="black"
     />
   
-    <text 
-    x="300" 
-    y="5" 
-    font-size="16" 
-    id="text_name_title" 
-    oryx:fittoelem="caption" 
-    oryx:align="top center"
-    oryx:anchors="left"  
-    fill="white" 
-    stroke="white">
-    </text>
+	<text 
+	x="300" 
+	y="5" 
+	font-size="16" 
+	id="text_name_title" 
+	oryx:fittoelem="caption" 
+	oryx:align="top center"
+	oryx:anchors="left"  
+	fill="white" 
+	stroke="white">
+	</text>
   </g>
 </svg>
