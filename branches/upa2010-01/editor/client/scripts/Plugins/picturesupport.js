@@ -68,12 +68,14 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	},
 	
 	calculateLabelHeight: function (labelElement, labelValue) {
+		if(labelValue == ""){return 0};
+		
 		var fontSize = labelElement.getFontSize();
-		var newlineOccurences = 0;
+		var newlineOccurences = 1;
 		
 		labelValue.scan('\n', function() { newlineOccurences += 1; });
 		
-		return newlineOccurences * fontSize;
+		return newlineOccurences * fontSize + 7;
 	},
 	
 	findLabelValue: function(shape,string){
@@ -94,6 +96,8 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		// before showing the properties the correct height of the node needs to be calculated
 		if(shape.properties["oryx-basic-show_properties"]==true){
 			// get all chapters and their content
+			var description = shape.getLabels().find(function(label) { return label.id == (shape.id + "description") });
+			var descriptionValue = this.findLabelValue(shape,"description");
 			var realisation = shape.getLabels().find(function(label) { return label.id == (shape.id + "realisation") });
 			var realisationValue = this.findLabelValue(shape,"realisation");
 			var incoming = shape.getLabels().find(function(label) { return label.id == (shape.id + "incoming") });
@@ -107,12 +111,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			var resource = shape.getLabels().find(function(label) { return label.id == (shape.id + "resource") });
 			var resourceValue = this.findLabelValue(shape,"resource");
 			var comment = shape.getLabels().find(function(label) { return label.id == (shape.id + "comment") });
-			var commentValue = this.findLabelValue(shape,"comment");
-			//TODO resize properties and its HTML rectangle (@properties.element) and children according to content
-			
-			//TODO set the chapter labels if chapter not empty
+			var commentValue = this.findLabelValue(shape,"comment");			
 			
 			// calculate heights of all chapters
+			var descriptionHeight = this.calculateLabelHeight(description,descriptionValue);
 			var realisationHeight = this.calculateLabelHeight(realisation,realisationValue);
 			var incomingHeight = this.calculateLabelHeight(incoming,incomingValue);
 			var outgoingHeight = this.calculateLabelHeight(outgoing,outgoingValue);
@@ -121,7 +123,34 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			var resourceHeight = this.calculateLabelHeight(resource,resourceValue);
 			var commentHeight = this.calculateLabelHeight(comment,commentValue);
 			
-			// set the properties' and the chapters' heights according to content
+			// set the order of the chapters
+			var distanceTilRealisation = 60 + descriptionHeight;
+			var distanceTilIncoming = distanceTilRealisation + realisationHeight;
+			var distanceTilOutgoing = distanceTilIncoming + incomingHeight;
+			var distanceTilCommunication = distanceTilOutgoing + outgoingHeight;
+			var distanceTilPayment = distanceTilCommunication + communicationHeight;
+			var distanceTilResource = distanceTilPayment + paymentHeight;
+			var distanceTilComment = distanceTilResource + resourceHeight;
+			var distanceTilBottom = distanceTilComment + commentHeight - 60;
+			
+			// set the chapters' and the properties' heights according to their content
+			realisation.y = distanceTilRealisation;
+			realisation.node.setAttribute("y", distanceTilRealisation);
+			incoming.y = distanceTilIncoming;
+			incoming.node.setAttribute("y", distanceTilIncoming);
+			outgoing.y = distanceTilOutgoing;
+			outgoing.node.setAttribute("y", distanceTilOutgoing);
+			communication.y = distanceTilCommunication;
+			communication.node.setAttribute("y", distanceTilCommunication);
+			payment.y = distanceTilPayment;
+			payment.node.setAttribute("y", distanceTilPayment);
+			resource.y = distanceTilResource;
+			resource.node.setAttribute("y", distanceTilResource);
+			comment.y = distanceTilComment;
+			comment.node.setAttribute("y", distanceTilComment);
+			
+			properties.height = distanceTilBottom;
+			properties.element.setAttribute("height", distanceTilBottom);
 			
 			propHeight = properties.height;
 		}
@@ -137,6 +166,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			shape.bounds.a.y, 
 			shape.bounds.b.x, 
 			shape.bounds.a.y + 60 + propHeight);
+		
 		//resize the image frames on the left according to shape's bounds
 		image_frames.each(function(frame){
 			frame.height = shape.bounds.height();

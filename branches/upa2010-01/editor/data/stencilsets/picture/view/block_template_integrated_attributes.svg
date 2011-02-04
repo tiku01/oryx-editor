@@ -108,7 +108,8 @@
 	<rect id="consulting_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top" display="none"/> 
 
 	<g id="properties">
-	<rect id="properties_frame" x="60" y="60" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)"/>		
+	<rect id="properties_frame" x="60" y="60" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)"/>
+	<text id="description" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
 	<text id="realisation" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
 	<text id="incoming" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
 	<text id="outgoing" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
