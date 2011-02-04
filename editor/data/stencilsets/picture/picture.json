@@ -9,16 +9,17 @@
       "name":"baseAttributes",
       "properties": [
         {
-          "id":"basic-description",
+          "id":"description",
           "type":"String",
-          "title":"Grundlegend - Beschreibung",
-          "value":"",
+          "title":"Beschreibung",
+          "value":"Beschreibung der Tätigkeit",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
+		  "refToView":"description",
           "length":"",
-          "wrapLines":true
+          "wrapLines":false
         }
       ]
     },
@@ -52,10 +53,10 @@
 	  "name":"pictureAttributes",
 	  "properties": [
 		{
-          "id":"realisation-executing_position",
+          "id":"realisation",
           "type":"String",
-          "title":"Durchführung - ausführende Stelle",
-          "value":"",
+          "title":"Durchführung",
+          "value":"Durchführung\nausführende Stelle\nKenntnisse\nErgebnisse",
 		  "refToView":"realisation",
           "description":"",
           "tooltip":"",
@@ -67,13 +68,52 @@
 		{
 		  "id":"basic-show_properties",
           "type":"Boolean",
-          "title":"Grundlegend - zeige Eigenschaften",
+          "title":"zeige Eigenschaften",
           "value":false,
           "description":"",
           "readonly":false,
           "optional":true,
 		  "refToView":"properties"
-		}
+		},
+		{
+          "id":"incoming",
+          "type":"String",
+          "title":"Eingangkanal",
+          "value":"Eingangkanal\nKanäle",
+		  "refToView":"incoming",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true
+        },
+		{
+          "id":"resources",
+          "type":"String",
+          "title":"Ressourcen",
+          "value":"Ressourcen\nDokumente\nIT Verfahren",
+		  "refToView":"resource",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true
+        },
+		{
+          "id":"comment",
+          "type":"String",
+          "title":"Anmerkung",
+          "value":"Anmerkung\nAnmerkungen",
+		  "refToView":"comment",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true
+        },
 	  ]
 	},
 	
@@ -160,7 +200,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Neues Dokument/ Information erstellen",
           "description":"",
           "tooltip":"",
