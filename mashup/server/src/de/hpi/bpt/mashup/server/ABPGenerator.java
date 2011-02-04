@@ -1,6 +1,11 @@
 package de.hpi.bpt.mashup.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +35,8 @@ public class ABPGenerator extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static final String SVG_PATH = "/extensions/svg";  
+	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) {
 		if ((req.getParameter("model") != null) && (req.getParameter("groups") != null)) {
 			try {
@@ -53,7 +60,12 @@ public class ABPGenerator extends HttpServlet {
 				// convert the PTNet back to a diagram and serialize it to JSON
 				Diagram newDiagram = PTNet2Diagram.convert(derived, diagram.getStencilset(), diagram.getStencil());
 				JSONObject model = JSONBuilder.parseModel(newDiagram);
-				res.getOutputStream().print(model.toString());
+				JSONObject result = new JSONObject();
+				result.put("model", model);
+				// generate the SVG
+				result.put("svg", getSVG(model.toString(), getSVGAddress(req)));
+				
+				res.getOutputStream().print(result.toString());
 				res.setStatus(200);
 			} catch (IOException e) {
 				try {
@@ -70,6 +82,42 @@ public class ABPGenerator extends HttpServlet {
 			}
 		}
 		// TODO: send error status
+	}
+	
+	private String getSVGAddress(HttpServletRequest req) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(req.getProtocol()).append("://");
+		buffer.append(req.getLocalName());
+		buffer.append(":").append(req.getLocalPort());
+		buffer.append(SVG_PATH);
+		return buffer.toString();
+	}
+	
+	private String getSVG(String model, String address) {
+		try {
+			URL url = new URL(address);
+	        URLConnection conn = url.openConnection();
+	        conn.setDoOutput(true);
+	        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+	    
+	        // send model
+	        writer.write("model=" + model);
+	        writer.flush();
+	        
+	        // Get the response
+	        StringBuffer answer = new StringBuffer();
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            answer.append(line);
+	        }
+	        writer.close();
+	        reader.close();
+	        return answer.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	private Node getNodeForId(String id, PTNet net) {

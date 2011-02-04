@@ -126,6 +126,24 @@
 		},
 		
 		/*
+		 * add shadow to shapes
+		 * args can be "all" to add shadows to all shapes
+		 * or a collection of resourceIds
+		 */
+		doGrey : function( args ) {
+			if (this.viewer.modelViewer) {
+				var prefix = "movi_0-";
+				var shapes;
+				args == "all" ? shapes = this.viewer.modelViewer.canvas.getNodes() : shapes = args.evalJSON();  
+				for (var i in shapes){
+					var shape = $( prefix + i);
+					shape.addClassName(this.GREY_CLASS);
+				}
+			}
+		},
+	 
+		
+		/*
 		 * remove shadow from shapes
 		 * args can be "all" to remove all shadows
 		 * or a collection of resourceIds

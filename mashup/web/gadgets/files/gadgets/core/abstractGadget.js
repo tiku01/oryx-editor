@@ -252,6 +252,17 @@
 		},
 		
 		/*
+		 * add shadow to shapes 
+		 * either "all" or a list resourceIds
+		 */
+		doGrey : function(viewer, option) {
+			if (option != "all")
+					option = Object.toJSON(option);
+			var channel = "dispatcher." + viewer + ".doGrey";
+			gadgets.rpc.call(null, channel, function(){return;}, option);
+		},
+		
+		/*
 		 * remove shadowy from shapes
 		 * either all shapes are specified ("all") or just a collection of resourceIds
 		 * 

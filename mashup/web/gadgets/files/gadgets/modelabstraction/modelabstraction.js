@@ -30,6 +30,7 @@ var ModelAbstraction = function() {
 	this.buttons = {};	
 	this.selectionMode = false;
 	this.msg = null;
+	this._modelLinks = []
 	this.init();
 }
 
@@ -259,14 +260,17 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	},
 	
 	/*
-	 * Sends the groupings to server which does the abstraction and opens a viewer with the abstracted model. 
+	 * Sends the groupings and the original model (JSON) 
+	 * to the server, where a new model is derived. Afterwards the new 
+	 * model will be stored again in the oryx backend and opened in a viewer gadget.
+	 *
+	 * This is the first step, which simply loads the JSON representation of 
+	 * the model from the oryx backend
+	 *
 	 * Does only work if a model is chosen and at least one grouping exists.
 	 */ 
 	abstract : function() {
 		if (this.model != null && this.groups.length > 0) {
-			// TODO: send groups to the server and handle the response
-			// therefore open a viewer with the returned model link
-			// or show the according error message
 			new Ajax.Request(this.model.url + "/json", 
 				{
 					method 			: "get",
@@ -274,7 +278,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 						this.runAbstraction(response.responseText);
 					}.bind(this),
 					onFailure		: function(response) {
-						console.log(response);
+						alert('Server communication failed!');
 					}
 				});
 			
@@ -284,6 +288,10 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		}	
 	},
 	
+	/*
+	 * Second step, sends the loaded model JSON to the 
+	 * mashup server, where the real abstraction is processed.
+	 */
 	runAbstraction : function(data) {
 		var groups = [];
 		for (var i=0; i < this.groups.length; i++) {
@@ -293,13 +301,19 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			'model'	: data,
 			'groups': groups.toJSON()
 		};
-		console.log('Abstraction Groups: ');
-		console.log(result);
 		new Ajax.Request("/mashup/generate", 
 			 {
 				method			: "post",
 				onSuccess		: function(response){
-					this.saveModel(response.responseText);
+					var foo = response; // necessary to keep the value in the scope
+					// fetch an store the current list of models to check
+					// which one was newly created afterwards
+					var callback = function(modelLinks) {
+						this._modelLinks = modelLinks;
+						this.saveModel(foo.responseText);
+					}.bind(this);
+					
+					this.fetchModelLinks(callback);
 				}.bind(this),
 				onFailure		: function(){
 					alert('Server communication failed!');
@@ -308,20 +322,55 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			});
 	},
 		
+	/*
+	 * Fetches the list of private models of the user 
+	 * and hands them over to the given callback.
+	 */
+	fetchModelLinks : function(callback) {
+		var params = {access:'owner,read,write'};
+		new Ajax.Request("/backend/poem/filter", 
+			{
+				method			: "get",
+				parameters		: params,
+				onSuccess		: function(response) {
+					callback.call(this, response.responseText.evalJSON());
+				},
+				onFailure		: function(){
+					alert('Server communication failed!');
+				}
+			});
+	},	
+		
+	/*
+	 * Last abstraction step. Takes the generated model and stores it
+	 * in the oryx backend. Afterwards a new is opened with the according model.
+	 */
 	saveModel : function(data) {
+		var container = data.evalJSON();
 		var content = {
-			'data' : data,
-			'summary' : 'This model was derived from another model.',
-			'svg' : '',
-			'title' : 'generated',
-			'type' : 'http://b3mn.org/stencilset/petrinet#',
+			'data' : Object.toJSON(container.model),
+			'summary' : 'This model was derived from: '.concat(this.model.title),
+			'svg' : container.svg,
+			'title' : 'Abstracted '.concat(this.model.title),
+			'type' : container.model.stencilset.namespace,
 		};
-		new Ajax.Request("/backend/poem/new?stencilset=/stencilsets/petrinets/petrinet.json", 
+		var stencilSet = container.model.stencilset.url.match(/\/?stencilsets\/.*/);
+		if (stencilSet.indexOf("/") != 0)
+			stencilSet = "/".concat(stencilSet);
+		new Ajax.Request("/backend/poem/new?stencilset=".concat(stencilSet), 
 			 {
 				method			: "post",
 				onSuccess		: function(response){
-					console.log(response);
-				},
+					// fetch the list of models again, after the new model was stored
+					// this way we can identify the new model easily
+					var callback = function(links) {
+						for (var i = 0; i < links.length; i++) {
+							if (this._modelLinks.indexOf(links[i]) == -1)
+								this.openViewer(this.SERVER_BASE.concat(this.REPOSITORY_BASE, links[i]));
+						}
+					}.bind(this);
+					this.fetchModelLinks(callback);
+				}.bind(this),
 				onFailure		: function(){
 					alert('Server communication failed!');
 				},
@@ -345,6 +394,9 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		this.showModelLink();
 	},
 	
+	/*
+	 * Renders a link in the menu with the model id.
+	 */
 	showModelLink : function() {
 		document.getElementById("model").innerHTML = '<a href="#" onClick="modelabstraction.displayModel();">' 
 			+ this.model.url.gsub(this.SERVER_BASE, '').gsub(this.REPOSITORY_BASE, '') + '</a>' ;
@@ -359,6 +411,16 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 				this.model.url + "." + this.model.title);
 		}
 		return false;
+	},
+	
+	/*
+	 * Opens a new viewer for the given model url.
+	 */
+	openViewer : function(url) {
+		gadgets.rpc.call("..",
+			"dispatcher.displayModel",
+			function(reply) {return},
+			url.concat(".-"));
 	},
 	
 	setViewer : function(viewer) {

@@ -116,6 +116,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// cover all shapes with a grey shadow
 		this.registerRPC("greyModel", "", "", this.rpcHandler.greyModel, this.rpcHandler);
 		
+		// cover specific shapes wit a grey shadow
+		this.registerRPC("doGrey", "", "", this.rpcHandler.doGrey, this.rpcHandler);
+		
 		// remove shadow from shapes (from all or just a subset)
 		this.registerRPC("undoGrey", "", "", this.rpcHandler.undoGrey, this.rpcHandler);
 	
