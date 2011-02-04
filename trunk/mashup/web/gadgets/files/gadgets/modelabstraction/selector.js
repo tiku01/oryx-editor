@@ -36,7 +36,7 @@ Selector.prototype = {
 			// just grey the specific viewer
 			this.gadget.resetSelection(this.viewer);
 			this.gadget.removeMarker(this.viewer, "all");
-			this.gadget.greyModel(this.viewer);
+			this.gadget.doGrey(this.viewer, "all");
 			// select the shapes of the group in the viewer
 			this.gadget.undoGrey(this.viewer, this.group.shapes);
 			this.gadget.selectShapes(this.viewer, this.group.shapes);
@@ -47,7 +47,7 @@ Selector.prototype = {
 				for (var i = 0; i < viewers.length; i++){
 					this.gadget.resetSelection(viewers[i]);
 					this.gadget.removeMarker(viewers[i], "all");
-					this.gadget.greyModel(viewers[i]);
+					this.gadget.doGrey(viewers[i], "all");
 				}
 			};
 	
@@ -66,7 +66,7 @@ Selector.prototype = {
 			this.setViewer(parts[0]);
 		}
 		var result = this.group.syncShapes(this.returnShapeIds(parts[1]));
-		this.gadget.greyModel(this.viewer);
+		this.gadget.doGrey(this.viewer, "all");
 		this.gadget.undoGrey(this.viewer, this.group.shapes);
 		//this.gadget.removeMarker(this.viewer, result['removed']);
 		//this.gadget.markShapes(this.viewer, result['added']);
