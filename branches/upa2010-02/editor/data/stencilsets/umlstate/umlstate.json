@@ -260,6 +260,109 @@
 		},
 		{
 			"type": "node",
+			"id":"parallelAreaContainer",
+			"title":"State with parallel areas",
+			"title_de" :"Zustand mit parallel ausgeführten Bereichen",
+			"groups":[],
+			"description":"A state which contains parallel areas.",
+			"description_de":"Ein Zustand, der parallel auszuführende Bereiche beinhaltet",
+			"view":"node.parallelAreaContainer.svg",
+			"icon":"node.parallelAreaContainer.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"container"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"parallelArea",
+			"title":"A parallel area",
+			"title_de" :"Ein parallel auszuführender Bereich",
+			"groups":[],
+			"description":"An area which can be put into a state with parallel areas, symbolizing that all these areas should be executed in parallel.",
+			"description_de":"Ein Bereich der in einen Bereich aus dem Zustand mit parallel auszuführenden Bereichen darstellt.",
+			"view":"node.parallelArea.svg",
+			"icon":"node.parallelArea.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"area",
+				"compositeState"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"parentstate",
+					"type":"String",
+					"title":"ParentState",
+					"title_de":"Elternzustand",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
 			"id":"acceptEvent",
 			"title":"Accept Event",
 			"title_de":"Akzeptierendes Ereignis",
@@ -799,6 +902,12 @@
 			    "contains": [
 			    "diagramcontent"
 			    ]
+			},
+			{
+				"role" : "container",
+				"contains" : [
+					"area"
+				]
 			}	
 		]
 	}
