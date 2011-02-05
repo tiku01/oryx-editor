@@ -111,6 +111,51 @@
 		},
 		{
 			"type": "node",
+			"id":"stateWithActions",
+			"title":"State with actions",
+			"title_de" :"Zustand mit Aktionen",
+			"groups":[],
+			"description":"Fundamental unit of behavior specification, in which a specifical condition (invariant) holds true. It has optional entry, do and exit actions.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, während der eine spezielle Invariante gilt. Es hat optional entry, do und exit Aktionen.",
+			"view":"node.stateWithActions.svg",
+			"icon":"node.state.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
 			"id":"action",
 			"title":"Action",
 			"title_de" :"Aktion",
