@@ -25,21 +25,21 @@
 	   		stroke-width="2"
 	   		fill="white"
        		oryx:resize="horizontal vertical" />  
-	<line x1="0" y1="20" x2="120" y2="20" style="stroke:black;stroke-width:2;fill:none" />
+	<line x1="0" y1="20" x2="120" y2="20" style="stroke:black;stroke-width:2;fill:none" oryx:anchors="top left right" />
       	<text 
       		font-size="12" 
-      		id="Name" 
+      		id="name" 
       		x="60" 
-      		y="18"
+      		y="2"
       		stroke="black" 
       		oryx:align="top center" 
       		oryx:fittoelem="actionrect">
       	</text>
 	<text 
       		font-size="12" 
-      		id="Actions" 
-      		x="5" 
-      		y="30"
+      		id="actions" 
+      		x="8" 
+      		y="35"
       		stroke="black" 
       		oryx:align="middle left" 
       		oryx:fittoelem="actionrect">

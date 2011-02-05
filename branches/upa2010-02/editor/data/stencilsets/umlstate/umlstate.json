@@ -135,7 +135,21 @@
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"text",
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"actions",
+					"type":"String",
+					"title":"Actions",
+					"title_de":"Aktionen",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"actions",
 					"length":"",
 					"wrapLines":true
                 },
