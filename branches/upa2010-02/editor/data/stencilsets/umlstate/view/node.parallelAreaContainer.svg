@@ -24,37 +24,9 @@
 		</radialGradient>
 	</defs>
 	  	
-  	<rect id="border" class="stripable-element-force" oryx:resize="vertical horizontal" x="0" y="0" width="600" height="250" fill="none" stroke-width="9" stroke="white" visibility="hidden"/>
+    <rect id="border" class="stripable-element-force" oryx:resize="vertical horizontal" x="0" y="0" width="600" height="250" fill="none" stroke-width="9" stroke="white" visibility="hidden"/>
     <rect id="c" oryx:resize="vertical horizontal" x="0" y="0" width="600" height="250" stroke="black" fill="none" />
-    
-	<rect 
-		id="caption"
-		oryx:anchors="left top bottom"
-		x="0"
-		y="0"
-		width="30"
-		height="250"
-		stroke="black"
-		stroke-width="1"
-		fill="white"
-	/>
-	
-	<rect 
-		id="captionDisableAntialiasing"
-		oryx:anchors="left top bottom"
-		x="0"
-		y="0"
-		width="30"
-		height="250"
-		stroke="black"
-		stroke-width="1"
-		fill="url(#background) white"
-	/>
 	
     <text x="10" y="125" font-size="14" id="text_name" oryx:fittoelem="caption" oryx:align="middle center" oryx:anchors="left" oryx:rotate="270" fill="black" stroke="black"></text>
-	
-	<g id="multiInstance">
-		<path oryx:anchors="bottom" fill="none" stroke="black" d="M296 240 v8 M300 240 v8 M304 240 v8" stroke-width="2" />
-	</g>
   </g>
 </svg>
