@@ -33,7 +33,7 @@ ORYX.I18N.PictureSupport = {
 		group: "import"
 		// ...
 	}
-}
+};
 
 // just for logging
 ORYX_LOGLEVEL = 3;
@@ -67,10 +67,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.pictureInstantiation.bind(this));
 		this.facade.registerOnEvent('layout.picture.node', this.handleProperties.bind(this));
 		
- 	},
+	},
 	
 	calculateLabelHeight: function (labelElement, labelValue) {
-		if(labelValue == ""){return 0};
+		if(labelValue === ""){return 0;}
 		
 		var fontSize = labelElement.getFontSize();
 		var newlineOccurences = 1;
@@ -82,37 +82,36 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	
 	findLabelValue: function(shape,string){
 		var value = "";
-		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) == string});
-		properties.each(function(element){value += shape.properties[element]});
+		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) === string;});
+		properties.each(function(element){value += shape.properties[element];});
 		return value;
 	},
 	
 	handleProperties: function(event){		
 
 		var shape = event.shape;
-		var properties = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "properties_frame") });
-		var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id.substr(element.element.id.length-5,5) == "image" });
-		var text_frame = shape._svgShapes.find(function(element) { return element.element.id == (shape.id + "text_frame_title") });
+		var properties = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "properties_frame"); });
+		var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id.substr(element.element.id.length-5,5) === "image"; });
 		var propHeight = 0;
 		
 		// before showing the properties the correct height of the node needs to be calculated
-		if(shape.properties["oryx-basic-show_properties"]==true){
+		if(shape.properties["oryx-basic-show_properties"]===true){
 			// get all chapters and their content
-			var description = shape.getLabels().find(function(label) { return label.id == (shape.id + "description") });
+			var description = shape.getLabels().find(function(label) { return label.id === (shape.id + "description"); });
 			var descriptionValue = this.findLabelValue(shape,"description");
-			var realisation = shape.getLabels().find(function(label) { return label.id == (shape.id + "realisation") });
+			var realisation = shape.getLabels().find(function(label) { return label.id === (shape.id + "realisation"); });
 			var realisationValue = this.findLabelValue(shape,"realisation");
-			var incoming = shape.getLabels().find(function(label) { return label.id == (shape.id + "incoming") });
+			var incoming = shape.getLabels().find(function(label) { return label.id === (shape.id + "incoming"); });
 			var incomingValue = this.findLabelValue(shape,"incoming");
-			var outgoing = shape.getLabels().find(function(label) { return label.id == (shape.id + "outgoing") });
+			var outgoing = shape.getLabels().find(function(label) { return label.id === (shape.id + "outgoing"); });
 			var outgoingValue = this.findLabelValue(shape,"outgoing");
-			var communication = shape.getLabels().find(function(label) { return label.id == (shape.id + "communication") });
+			var communication = shape.getLabels().find(function(label) { return label.id === (shape.id + "communication"); });
 			var communicationValue = this.findLabelValue(shape,"communication");
-			var payment = shape.getLabels().find(function(label) { return label.id == (shape.id + "payment") });
+			var payment = shape.getLabels().find(function(label) { return label.id === (shape.id + "payment"); });
 			var paymentValue = this.findLabelValue(shape,"payment");
-			var resource = shape.getLabels().find(function(label) { return label.id == (shape.id + "resource") });
+			var resource = shape.getLabels().find(function(label) { return label.id === (shape.id + "resource"); });
 			var resourceValue = this.findLabelValue(shape,"resource");
-			var comment = shape.getLabels().find(function(label) { return label.id == (shape.id + "comment") });
+			var comment = shape.getLabels().find(function(label) { return label.id === (shape.id + "comment"); });
 			var commentValue = this.findLabelValue(shape,"comment");			
 			
 			// calculate heights of all chapters
@@ -185,7 +184,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	
  	pictureInstantiation: function(event){
  		//create a process lane if the canvas is empty
-		if(this.facade.getCanvas().children.length == 0){				
+		if(this.facade.getCanvas().children.length === 0){				
 			this.facade.createShape({
 				type: "http://b3mn.org/stencilset/picture#process",
 				namespace: "http://b3mn.org/stencilset/picture#",
@@ -285,12 +284,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		
 				
 		// Adds the change event handler to 
-		form.items.items[1].getEl().dom.addEventListener('change',function(evt)
-			{
-				var text = evt.target.files[0].getAsText('UTF-8');
-				form.items.items[2].setValue( text );
-			}, true)
-
+		form.items.items[1].getEl().dom.addEventListener('change',function(evt){ var text = evt.target.files[0].getAsText('UTF-8'); form.items.items[2].setValue(text); }, true);
 	},
 	
 	_getAllPages: function(pictureXML, loadMask)
@@ -299,17 +293,15 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var xmlDoc = parser.parseFromString(pictureXML,"application/xml");
 		var allPages = xmlDoc.getElementsByTagName("process");
 		
-		// If there are no pages then it is propably that pictureXML is not a picture - File
-		if (allPages.length == 0)
+		// If there are no pages then it is propably that pictureXML is not a picture-File
+		if (allPages.length === 0)
 		{
 			loadMask.hide();
 			this._showErrorMessageBox(ORYX.I18N.cpntoolsSupport.title, ORYX.I18N.cpntoolsSupport.wrongCPNFile);
-			
 			return;
 		}
 		
-		
-		if (allPages.length == 1)
+		if (allPages.length === 1)
 		{
 			pageAttr = allPages[0].children[0];
 			pageName = pageAttr.attributes[0].nodeValue;
@@ -379,22 +371,23 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			});
 		
 	    var grid2 = new Ext.grid.GridPanel({
-	    		store: new Ext.data.Store({
-		            reader: reader,
-		            data: data
-		        	}),
-		        cm: new Ext.grid.ColumnModel([
-		            {
-		            	id:'name',
-		            	width:200,
-		            	sortable: true, 
-		            	dataIndex: 'name'
-		            },
-					sm]),
+    		store: new Ext.data.Store({
+	            reader: reader,
+	            data: data
+	        }),
+	        cm: new Ext.grid.ColumnModel([
+	            {
+	            	id:'name',
+	            	width:200,
+	            	sortable: true, 
+	            	dataIndex: 'name'
+	            },
+				sm
+			]),
 			sm: sm,
-	        frame:true,
+			frame:true,
 			hideHeaders:true,
-	        iconCls:'icon-grid',
+			iconCls:'icon-grid',
 			listeners : {
 				render: function() {
 					var recs=[];
@@ -411,7 +404,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			}
 	    });
 	    
-	 // Create a new Panel
+	    // Create a new Panel
         var panel = new Ext.Panel({
             items: [{
                 xtype: 'label',
@@ -419,7 +412,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
                 style: 'margin:10px;display:block'
             }, grid2],
             frame: true
-        })
+        });
         
         // Create a new Window
         var window = new Ext.Window({
@@ -444,9 +437,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 						chosenRecs = rec.data.name;						
 					}.bind(this));
             		
-            		var strLen = chosenRecs.length; 
-            		
-            		if (chosenRecs.length == 0)
+            		if (chosenRecs.length === 0)
             		{
             			alert(ORYX.I18N.PictureSupport.noPageSelection);
             			return;
@@ -492,7 +483,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
                     window.hide();
                 }.bind(this)
             }]
-        })
+        });
         
         // Show the window
         window.show();
