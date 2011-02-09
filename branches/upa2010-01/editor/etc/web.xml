@@ -494,6 +494,12 @@
 		<servlet-name>VisioImporter</servlet-name>
 		<servlet-class>org.oryxeditor.server.VisioImporter</servlet-class>
 	</servlet>
+  
+    <servlet>
+      <display-name>PictureXML to PictureJSON</display-name>
+      <servlet-name>PictureImporter</servlet-name>
+      <servlet-class>org.oryxeditor.server.PictureImporter</servlet-class>
+    </servlet>
 
     <!-- Servlet Mappings -->
 <!--	

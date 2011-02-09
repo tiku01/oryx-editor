@@ -27,7 +27,7 @@ if(!ORYX.Plugins) {
 
 //TODO language support
 ORYX.I18N.PictureSupport = {
-	imp: {
+	importPicture: {
 		name: "Import",
 		description: "Import ...",
 		group: "import"
@@ -46,20 +46,22 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         
         // build a button in the tool bar
         this.facade.offer({
-            'name': ORYX.I18N.PictureSupport.imp.name,
+            'name': ORYX.I18N.PictureSupport.importPicture.name,
             'functionality': this.importPicture.bind(this),
-            'group': ORYX.I18N.PictureSupport.imp.group,
+            'group': ORYX.I18N.PictureSupport.importPicture.group,
             'dropDownGroupIcon': ORYX.PATH + "images/import.png",
 			'icon': ORYX.PATH + "images/page_white_javascript.png",
-            'description': ORYX.I18N.PictureSupport.imp.description,
+            'description': ORYX.I18N.PictureSupport.importPicture.description,
             'index': 0,
             'minShape': 0,
             'maxShape': 0
         });
         
+        /* ATM unused
         // change the shape menu's alignment
         ORYX.CONFIG.SHAPEMENU_RIGHT = ORYX.CONFIG.SHAPEMENU_BOTTOM;
         ORYX.CONFIG.SHAPEMENU_BUTTONS_PER_LEVEL_BOTTOM = 6;
+        */
         
         // catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.pictureInstantiation.bind(this));
@@ -175,7 +177,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		});
 	},
 	
-	importPicture: function(){},
+	importPicture: function(){
+		this._doImport();
+	},
  	
  	onSelectionChange: function(){},
  	
@@ -188,6 +192,310 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 				position: {x: 0, y: 0}
 			}).refresh();
 		}
-	}
+	},
+ 	
+ 	//--------------------------------- AJAX Land ---------------------------------
+	 
+	_doImport: function( successCallback )
+	{
+		// Define the form panel
+	    var form = new Ext.form.FormPanel({
+			baseCls: 		'x-plain',
+	        labelWidth: 	50,
+	        defaultType: 	'textfield',
+	        items: 
+	        [
+	         {
+	            text : 		ORYX.I18N.PictureSupport.importTask, 
+				style : 	'font-size:12px;margin-bottom:10px;display:block;',
+	            anchor:		'100%',
+				xtype : 	'label' 
+	         },
+	         {
+	            fieldLabel: ORYX.I18N.PictureSupport.File,
+	            name: 		'subject',
+				inputType : 'file',
+				style : 	'margin-bottom:10px;display:block;',
+				itemCls :	'ext_specific_window_overflow'
+	         }, 
+	         {
+	            xtype: 'textarea',
+	            hideLabel: true,
+	            name: 'msg',
+	            anchor: '100% -63'  
+	         }
+	        ]
+	    });
+
+		// Create the panel
+		var dialog = new Ext.Window({ 
+			autoCreate: true, 
+			layout: 	'fit',
+			plain:		true,
+			bodyStyle: 	'padding:5px;',
+			title: 		ORYX.I18N.PictureSupport.cpn, 
+			height: 	350, 
+			width:		500,
+			modal:		true,
+			fixedcenter:true, 
+			shadow:		true, 
+			proxyDrag: 	true,
+			resizable:	true,
+			items: 		[form],
+			buttons:[
+				{
+					text: ORYX.I18N.PictureSupport.importLable,
+					handler:function(){
+						
+						var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.jPDLSupport.impProgress});
+						loadMask.show();
+						
+						window.setTimeout(function()
+						{					
+							// Get the text which is in the text field
+							var pictureToImport =  form.items.items[2].getValue();							
+							this._getAllPages(pictureToImport, loadMask);
+
+						}.bind(this), 100);
+
+						dialog.hide();
+						
+					}.bind(this)
+					
+				},
+				{
+					text: ORYX.I18N.PictureSupport.close,
+					handler:function()
+					{						
+						dialog.hide();					
+					}.bind(this)
+				}
+			]
+		});
+		
+		// Destroy the panel when hiding
+		dialog.on('hide', function()
+		{
+			dialog.destroy(true);
+			delete dialog;
+		});
+
+		// Show the panel
+		dialog.show();
+		
+				
+		// Adds the change event handler to 
+		form.items.items[1].getEl().dom.addEventListener('change',function(evt)
+			{
+				var text = evt.target.files[0].getAsText('UTF-8');
+				form.items.items[2].setValue( text );
+			}, true)
+
+	},
+	
+	_getAllPages: function(pictureXML, loadMask)
+	{		
+		var parser = new DOMParser();
+		var xmlDoc = parser.parseFromString(pictureXML,"application/xml");
+		var allPages = xmlDoc.getElementsByTagName("process");
+		
+		// If there are no pages then it is propably that pictureXML is not a picture - File
+		if (allPages.length == 0)
+		{
+			loadMask.hide();
+			this._showErrorMessageBox(ORYX.I18N.cpntoolsSupport.title, ORYX.I18N.cpntoolsSupport.wrongCPNFile);
+			
+			return;
+		}
+		
+		
+		if (allPages.length == 1)
+		{
+			pageAttr = allPages[0].children[0];
+			pageName = pageAttr.attributes[0].nodeValue;
+			
+			this._sendRequest(
+					ORYX.CONFIG.PICTUREIMPORTER,
+					'POST',
+					{ 
+						'pagesToImport': pageName,
+						'data' : pictureXML 
+					},
+					function( arg )
+					{
+						if (arg.startsWith("error:"))
+						{
+							this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
+							loadMask.hide();
+						}
+						else
+						{
+							this.facade.importJSON(arg); 
+							loadMask.hide();							
+						}
+					}.bind(this),
+					function()
+					{
+						loadMask.hide();
+						this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+					}.bind(this)
+				);
+			
+			return;
+		}
+		
+		var i, pageName, data = [];
+		for (i = 0; i < allPages.length; i++)
+		{
+			pageAttr = allPages[i].children[0];
+			pageName = pageAttr.attributes[0].nodeValue;
+			data.push([pageName]);
+		}
+		
+		loadMask.hide();
+		this.showPageDialog(data, pictureXML);		
+	},
+	
+	_showErrorMessageBox: function(title, msg)
+	{
+        Ext.MessageBox.show({
+           title: title,
+           msg: msg,
+           buttons: Ext.MessageBox.OK,
+           icon: Ext.MessageBox.ERROR
+       });
+	},
+	
+	
+	showPageDialog: function(data, pictureXML)
+	{
+		var reader = new Ext.data.ArrayReader(
+				{}, 
+				[ {name: 'name'} ]);
+		
+		var sm = new Ext.grid.CheckboxSelectionModel(
+			{
+				singleSelect: true
+			});
+		
+	    var grid2 = new Ext.grid.GridPanel({
+	    		store: new Ext.data.Store({
+		            reader: reader,
+		            data: data
+		        	}),
+		        cm: new Ext.grid.ColumnModel([
+		            {
+		            	id:'name',
+		            	width:200,
+		            	sortable: true, 
+		            	dataIndex: 'name'
+		            },
+					sm]),
+			sm: sm,
+	        frame:true,
+			hideHeaders:true,
+	        iconCls:'icon-grid',
+			listeners : {
+				render: function() {
+					var recs=[];
+					this.grid.getStore().each(function(rec)
+					{
+						if(rec.data.engaged){
+							recs.push(rec);
+						}
+					}.bind(this));
+					this.suspendEvents();
+					this.selectRecords(recs);
+					this.resumeEvents();
+				}.bind(sm)
+			}
+	    });
+	    
+	 // Create a new Panel
+        var panel = new Ext.Panel({
+            items: [{
+                xtype: 'label',
+                text: 'Picture Page',
+                style: 'margin:10px;display:block'
+            }, grid2],
+            frame: true
+        })
+        
+        // Create a new Window
+        var window = new Ext.Window({
+            id: 'oryx_new_page_selection',
+            autoWidth: true,
+            title: ORYX.I18N.PictureSupport.title,
+            floating: true,
+            shim: true,
+            modal: true,
+            resizable: true,
+            autoHeight: true,
+            items: [panel],
+            buttons: [{
+                text: ORYX.I18N.PictureSupport.importLable,
+                handler: function()
+                {
+            		var chosenRecs = "";
+
+            		// Actually it doesn't matter because it's one
+            		sm.getSelections().each(function(rec)
+            		{
+						chosenRecs = rec.data.name;						
+					}.bind(this));
+            		
+            		var strLen = chosenRecs.length; 
+            		
+            		if (chosenRecs.length == 0)
+            		{
+            			alert(ORYX.I18N.PictureSupport.noPageSelection);
+            			return;
+            		}
+            		
+            		var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.PictureSupport.importProgress});
+					loadMask.show();
+					
+            		window.hide();
+            		
+        			pageName = chosenRecs;
+        			this._sendRequest(
+        					ORYX.CONFIG.PICTUREIMPORTER,
+        					'POST',
+        					{ 
+        						'pagesToImport': pageName,
+        						'data' : pictureXML 
+        					},
+        					function( arg )
+        					{
+								if (arg.startsWith("error:"))
+								{
+									this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
+									loadMask.hide();
+								}
+								else
+								{
+									this.facade.importJSON(arg); 
+									loadMask.hide();							
+								}
+							}.bind(this),
+        					function()
+        					{
+								loadMask.hide();
+								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+							}.bind(this)
+        				);
+                }.bind(this)
+            }, 
+            {
+                text: ORYX.I18N.cpntoolsSupport.close,
+                handler: function(){
+                    window.hide();
+                }.bind(this)
+            }]
+        })
+        
+        // Show the window
+        window.show();
+	}		
  	
  });
