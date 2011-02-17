@@ -18,14 +18,16 @@ import de.hpi.util.Bounds;
 public class Diagram2PTNet {
 
 	private static PTNetFactory factory = PTNetFactory.eINSTANCE;
-	
+	private static final String NAMESPACE = "http://b3mn.org/stencilset/petrinet#";
 	/**
 	 * Transforms a given generic Diagram into a PTNet.
 	 * @param the Diagram to transform
 	 * @return a PTNet instance
+	 * @throws TransformationException 
 	 */
-	public static PTNet convert(Diagram diagram) {
-		// TODO: check the StencilSet if it is a petrinet
+	public static PTNet convert(Diagram diagram) throws TransformationException {
+		if (diagram == null || !diagram.getStencilset().getNamespace().equals(NAMESPACE))
+			throw new IllegalArgumentException("The diagram is no petrinet!");
 		PTNet net = factory.createPetriNet();
 		net.setId(diagram.getResourceId());
 		HashMap<Shape, Node> shapeMap = new HashMap<Shape, Node>();
@@ -60,15 +62,25 @@ public class Diagram2PTNet {
 						child.getBounds().getLowerRight().getY().toString()
 						}));
 				shapeMap.put(child, t);
+			} else if (child.getStencilId().equals("VerticalEmptyTransition")) {
+				Transition t = PetriNetUtils.addSilentTransition(net);
+				t.setResourceId(child.getResourceId());
+				t.setBounds(new Bounds(new String[]{
+						child.getBounds().getUpperLeft().getX().toString(),
+						child.getBounds().getUpperLeft().getY().toString(),
+						child.getBounds().getLowerRight().getX().toString(),
+						child.getBounds().getLowerRight().getY().toString()
+						}));
+				shapeMap.put(child, t);
 			} else if (child.getStencilId().equals("Arc")) {
 				// do nothing, we will handle them later
 			} else {
-				System.out.println("Different Stencil: " + child.getStencilId());
+				throw new TransformationException("Found unexpected stencil type: " + child.getStencilId());
 			}
 			
 		}
 		for (Shape child:diagram.getChildShapes()) {
-			// second run: link the shapes
+			// second run: link the shapes (create the flows)
 			if (child.getStencilId().equals("Arc")) {
 				if (child.getIncomings().size() == 1 && child.getOutgoings().size() == 1) {	
 					FlowRelationship flow = PetriNetUtils.addFlowRelationship(net, 
@@ -77,7 +89,7 @@ public class Diagram2PTNet {
 					flow.setResourceId(child.getResourceId());
 					flow.setLabel(child.getProperty("title") != null ? child.getProperty("title") : "");
 				} else {
-					System.out.println("Found an Arc with multiple incoming/outgoing connections.");
+					throw new TransformationException("Found an Arc with multiple incoming/outgoing connections.");
 				}
 			}
 		}

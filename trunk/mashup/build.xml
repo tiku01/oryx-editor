@@ -95,7 +95,7 @@
     </target>
 	
 	<!-- deletes mashup directory in webapps" -->
-	<target name="delete_webapps/mashup" depends="move">
+	<target name="deploy" depends="move">
 		<delete dir="${deploymentdir}\mashup"/>
 	</target>
 	
