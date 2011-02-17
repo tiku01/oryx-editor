@@ -278,8 +278,8 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 						this.runAbstraction(response.responseText);
 					}.bind(this),
 					onFailure		: function(response) {
-						alert('Server communication failed!');
-					}
+						this.showMessage('Server communication failed!');
+					}.bind(this)
 				});
 			
 		} else {
@@ -305,19 +305,11 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			 {
 				method			: "post",
 				onSuccess		: function(response){
-					var foo = response; // necessary to keep the value in the scope
-					// fetch an store the current list of models to check
-					// which one was newly created afterwards
-					var callback = function(modelLinks) {
-						this._modelLinks = modelLinks;
-						this.saveModel(foo.responseText);
-					}.bind(this);
-					
-					this.fetchModelLinks(callback);
+					this.saveModel(response.responseText);
 				}.bind(this),
 				onFailure		: function(){
-					alert('Server communication failed!');
-				},
+					this.showMessage('Server communication failed!');
+				}.bind(this),
 				parameters 		: result
 			});
 	},
@@ -336,8 +328,8 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 					callback.call(this, response.responseText.evalJSON());
 				},
 				onFailure		: function(){
-					alert('Server communication failed!');
-				}
+					this.showMessage('Server communication failed!');
+				}.bind(this)
 			});
 	},	
 		
@@ -361,19 +353,11 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			 {
 				method			: "post",
 				onSuccess		: function(response){
-					// fetch the list of models again, after the new model was stored
-					// this way we can identify the new model easily
-					var callback = function(links) {
-						for (var i = 0; i < links.length; i++) {
-							if (this._modelLinks.indexOf(links[i]) == -1)
-								this.openViewer(this.SERVER_BASE.concat(this.REPOSITORY_BASE, links[i]));
-						}
-					}.bind(this);
-					this.fetchModelLinks(callback);
+					this.openViewer(response.getResponseHeader('location').replace(/\/self$/, ""));
 				}.bind(this),
 				onFailure		: function(){
-					alert('Server communication failed!');
-				},
+					this.showMessage('Server communication failed!');
+				}.bind(this),
 				parameters 		: content
 			});
 	},
