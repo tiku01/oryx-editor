@@ -3,12 +3,16 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	version="1.0" >
-	<oryx:docker oryx:cx="1" oryx:cy="1" />
+	<oryx:docker oryx:cx="1" oryx:cy="0" />
+  <oryx:docker oryx:cx="1" oryx:cy="100" />
+  <oryx:docker oryx:cx="1" oryx:cy="200" />
+  <oryx:docker oryx:cx="1" oryx:cy="300" />
+  <oryx:docker oryx:cx="1" oryx:cy="400" />
+  <oryx:docker oryx:cx="1" oryx:cy="500" />
+  <oryx:docker oryx:cx="1" oryx:cy="600" />
 	<g
-     	oryx:minimumSize="20 600"
-     	id="actor">
-    	<rect x="0" y="0" width="40" height="600" fill="white">
-  	</rect>
-	<path d="M20,1 L20,600" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" />
+     	oryx:minimumSize="2 200"
+     	id="lifeline">
+	<path d="M10,0 L10,600" stroke="black" fill="none" stroke-width="2" stroke-dasharray="5, 3" />
 	</g>
 </svg>
