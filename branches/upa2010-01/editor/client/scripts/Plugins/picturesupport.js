@@ -25,16 +25,6 @@ if(!ORYX.Plugins) {
 	ORYX.Plugins = {};
 }
 
-//TODO language support
-ORYX.I18N.PictureSupport = {
-	importPicture: {
-		name: "Import",
-		description: "Import ...",
-		group: "import"
-		// ...
-	}
-};
-
 // just for logging
 ORYX_LOGLEVEL = 3;
  
@@ -46,16 +36,16 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         
         // build a button in the tool bar
         this.facade.offer({
-            'name': ORYX.I18N.PictureSupport.importPicture.name,
-            'functionality': this.importPicture.bind(this),
-            'group': ORYX.I18N.PictureSupport.importPicture.group,
-            'dropDownGroupIcon': ORYX.PATH + "images/import.png",
-			'icon': ORYX.PATH + "images/page_white_javascript.png",
-            'description': ORYX.I18N.PictureSupport.importPicture.description,
-            'index': 0,
-            'minShape': 0,
-            'maxShape': 0
-        });
+			'name':				"Import PICTURE XML",
+			'functionality': 	this.importPicture.bind(this),
+			'group': 			"Export",
+			'dropDownGroupIcon':ORYX.PATH + "images/import.png",
+			'icon': 			ORYX.PATH + "images/page_white_javascript.png",
+			'description': 		ORYX.I18N.PictureSupport.importDescription,
+			'index': 			1,
+			'minShape': 		0,
+			'maxShape': 		0
+		});
         
         /* ATM unused
         // change the shape menu's alignment
@@ -211,7 +201,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 				xtype : 	'label' 
 	         },
 	         {
-	            fieldLabel: ORYX.I18N.PictureSupport.File,
+	            fieldLabel: ORYX.I18N.PictureSupport.file,
 	            name: 		'subject',
 				inputType : 'file',
 				style : 	'margin-bottom:10px;display:block;',
@@ -232,7 +222,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			layout: 	'fit',
 			plain:		true,
 			bodyStyle: 	'padding:5px;',
-			title: 		ORYX.I18N.PictureSupport.cpn, 
+			title: 		ORYX.I18N.PictureSupport.picture, 
 			height: 	350, 
 			width:		500,
 			modal:		true,
@@ -293,11 +283,11 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var xmlDoc = parser.parseFromString(pictureXML,"application/xml");
 		var allPages = xmlDoc.getElementsByTagName("process");
 		
-		// If there are no pages then it is propably that pictureXML is not a picture-File
+		// If there are no pages then it is probably that pictureXML is not a picture-File
 		if (allPages.length === 0)
 		{
 			loadMask.hide();
-			this._showErrorMessageBox(ORYX.I18N.cpntoolsSupport.title, ORYX.I18N.cpntoolsSupport.wrongCPNFile);
+			this._showErrorMessageBox(ORYX.I18N.PictureSupport.title, ORYX.I18N.PictureSupport.wrongPictureFile);
 			return;
 		}
 		
@@ -329,7 +319,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 					function()
 					{
 						loadMask.hide();
-						this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+						this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.PictureSupport.serverConnectionFailed);
 					}.bind(this)
 				);
 			
@@ -472,13 +462,13 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         					function()
         					{
 								loadMask.hide();
-								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.cpntoolsSupport.serverConnectionFailed);
+								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.PictureSupport.serverConnectionFailed);
 							}.bind(this)
         				);
                 }.bind(this)
             }, 
             {
-                text: ORYX.I18N.cpntoolsSupport.close,
+                text: ORYX.I18N.PictureSupport.close,
                 handler: function(){
                     window.hide();
                 }.bind(this)

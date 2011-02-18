@@ -769,3 +769,18 @@ ORYX.I18N.VisioImport.ImportStart = "Import wurde erfolgreich gestartet.";
 ORYX.I18N.VisioImport.ImportDescription = "Das Visio-Modell wird geladen. Bitte warten."
 ORYX.I18N.VisioImport.ImportFailure = "Visio-Modell konnte nicht importiert werden.";
 ORYX.I18N.VisioImport.ImportFailureDescription = "Bitte prüfen Sie die Verbindung und ob die Schablonen des Modells unterstützt werden.";
+
+/** New Language Properties from PICTURE Support by Tobias Metzke */
+if(!ORYX.I18N.PictureSupport) ORYX.I18N.PictureSupport = {};
+
+ORYX.I18N.PictureSupport.serverConnectionFailed = "Anfrage an den Oryx Server ist fehlgeschlagen.";
+ORYX.I18N.PictureSupport.importTask = "Wähle eine PICTURE Datei (.xml) aus oder tippe die PCITURE XML Struktur ein um es zu importieren!";
+ORYX.I18N.PictureSupport.file = "Datei:";
+ORYX.I18N.PictureSupport.picture = "PICTURE";
+ORYX.I18N.PictureSupport.title = "PICTURE Oryx";
+ORYX.I18N.PictureSupport.importLable = "Importieren";
+ORYX.I18N.PictureSupport.close = "Schließen";
+ORYX.I18N.PictureSupport.wrongPictureFile = "Keine richtige PICTURE - Datei ausgewählt.";
+ORYX.I18N.PictureSupport.noPageSelection = "Es wurde kein Netz ausgewählt.";
+ORYX.I18N.PictureSupport.importProgress = "Importieren ...";
+ORYX.I18N.PictureSupport.importDescription = "Importieren von PICTURE XML";
