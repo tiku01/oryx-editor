@@ -44,38 +44,8 @@
 			"view":"node.humanActor.svg",
 			"icon":"node.humanActor.png",
 			"roles": [
-				"diagramcontent"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"actorWithLifeline",
-			"title":"Life",
-			"title_de":"menschlicher Teilnehmer",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
-			"description":"A human participant of a sequence diagram.",
-			"description_de":"Ein menschlicher Teilnehmer eines Sequenzdiagramms.",
-			"view":"node.actorWithLifeline.svg",
-			"icon":"node.actorWithLifeline.png",
-			"roles": [
 				"diagramcontent",
-				"controlFlowElement"
+				"actor"
 			],
 			"properties": [
 				{
@@ -100,44 +70,13 @@
 			"title_de":"Teilnehmer",
 			"groups":["Actors"],
 			"groups_de":["Teilnehmer"],
-			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
-			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
+			"description":"An object participating in the communication.",
+			"description_de":"Ein Objekt, dass an der Kommunikation teilnimmt.",
 			"view":"node.actor.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlowElement"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"lifeline",
-			"title":"Life",
-			"title_de":"Lebenslinie",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
-			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
-			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
-			"view":"node.lifeline.svg",
-			"icon":"Placeholder.png",
-			"roles": [
-				"diagramcontent",
-				"connece"
+				"actor"
 			],
 			"properties": [
 				{
@@ -162,13 +101,14 @@
 			"title_de":"Lebenslinie",
 			"groups":["Actors"],
 			"groups_de":["Teilnehmer"],
-			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
-			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
+			"description":"This line represents the lifetime of a participant of the communication.",
+			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
 			"view":"node.lifelineRect.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"container"
+				"container",
+				"lifeline"
 			],
 			"properties": [
 				{
@@ -188,8 +128,8 @@
 		},
 		{
 			"type": "node",
-			"id":"activeLine",
-			"title":"activeLine",
+			"id":"active",
+			"title":"Active Line",
 			"title_de":"Aktivitaetslinie",
 			"groups":["Actors"],
 			"groups_de":["Teilnehmer"],
@@ -199,7 +139,7 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"boundaryPoint"
+				"activeLine"
 			],
 			"properties": [
 				{
@@ -509,8 +449,7 @@
 			"icon":"edge.asynchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow",
-				"Message"
+				"message"
 			],
 			"properties":[
 			    {
@@ -539,11 +478,10 @@
 			"description":"A message, that waits for an answer.",
 			"description":"Eine Nachricht, die auf eine Antwort wartet.",
 			"view":"edge.synchronousMessage.svg",
-			"icon":"edge.synchronousMessage.png",
+			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow",
-				"Message"
+				"message"
 			],
 			"properties":[
 			    {
@@ -572,11 +510,10 @@
 			"description":"The answer to a synchronoues message.",
 			"description":"Die Antwort zu einer synchronen Nachricht.",
 			"view":"edge.synchronousAnswer.svg",
-			"icon":"edge.synchronousAnswer.png",
+			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"controlFlow",
-				"Message"
+				"message"
 			],
 			"properties":[
 			    {
@@ -599,27 +536,53 @@
 	"rules": {
 	    
 	    "morphingRules": [
+	    	{
+			   	"role":"activeLine",
+				"baseMorphs" : ["active"] 
+			},
+			{
+			   	"role":"message",
+				"baseMorphs" : ["synchronousMessage", "asynchronousMessage", "synchronousAnswer"] 
+			},
+			{
+			   	"role":"container",
+				"baseMorphs" : ["lifeline"] 
+			},
+			{
+			   	"role":"CombinedFragment",
+				"baseMorphs" : [
+					"CombinedFragmentAlt", 
+					"CombinedFragmentLoop", 
+					"CombinedFragmentCritical", 
+					"CombinedFragmentAssert", 
+					"CombinedFragmentOpt", 
+					"CombinedFragmentSeq",
+					"CombinedFragmentBreak",
+					"CombinedFragmentNeg",
+					"CombinedFragmentStrict"
+				] 
+			}			
 		],
 	    
 		"connectionRules": [
 			{
-                "role":"controlFlow",
+                "role":"message",
                 "connects": [
                     {
-                        "from":"controlFlowElement",
-                        "to":["controlFlowElement"]
+                        "from":"activeLine",
+                        "to":["activeLine"]
                     }
                 ]
             },
-			{
-				"role":"connece",
-				"connects": [
-					{
-						"from":"connece",
-						"to":["boundaryPoint"]
-					}
-				]
-			}
+            {
+            	"role":"lifeline",
+            	"connects": [
+            		{
+            			"from":"actor",
+            			"to":["lifeline"]
+            		}
+            	]
+            }
 		],
 		
 		"containmentRules": [
@@ -632,7 +595,7 @@
 			{
 				"role":"container",
 				"contains": [
-					"boundaryPoint"
+					"activeLine"
 				]
 			}	
 		]
