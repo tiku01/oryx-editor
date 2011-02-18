@@ -920,3 +920,18 @@ ORYX.I18N.VisioImport.ImportStart = "The import started successfully";
 ORYX.I18N.VisioImport.ImportDescription = "The vdx import is running. This might take a while."
 ORYX.I18N.VisioImport.ImportFailure = "Error while importing Visio diagram";
 ORYX.I18N.VisioImport.ImportFailureDescription = "Please ensure connection and that the visio stencil is supported. Currently only a few selected sample stencil sets are supported.";
+
+/** New Language Properties from PICTURE Support by Tobias Metzke */
+if(!ORYX.I18N.PictureSupport) ORYX.I18N.PictureSupport = {};
+
+ORYX.I18N.PictureSupport.serverConnectionFailed = "Connection to server failed.";
+ORYX.I18N.PictureSupport.importTask = "Select an PICTURE file (.xml) or type in the PICTURE XML structure in order to import it!";
+ORYX.I18N.PictureSupport.file = "File:";
+ORYX.I18N.PictureSupport.picture = "PICTURE";
+ORYX.I18N.PictureSupport.title = "PICTURE Oryx";
+ORYX.I18N.PictureSupport.importLable = "Import";
+ORYX.I18N.PictureSupport.close = "Close";
+ORYX.I18N.PictureSupport.wrongPictureFile = "No correct PICTURE - File chosen.";
+ORYX.I18N.PictureSupport.noPageSelection = "No process has been selected.";
+ORYX.I18N.PictureSupport.importProgress = "Import...";
+ORYX.I18N.PictureSupport.importDescription = "Import of PICTURE XML";
