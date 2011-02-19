@@ -14,7 +14,7 @@
     <oryx:docker oryx:cx="5" oryx:cy="20" />
   	<g
      	oryx:minimumSize="4 10"
-     	id="actor">
+     	id="actor" oryx:resize="vertical horizontal">
     	<rect
     		id="border"
 	   		x="0"
@@ -24,6 +24,6 @@
        		stroke="black"
 	   		stroke-width="2"
 	   		fill="white"
-       		oryx:resize="horizontal vertical" />
+       		oryx:resize="vertical horizontal" />
   	</g>
 </svg>
