@@ -108,7 +108,74 @@
 			"roles": [
 				"diagramcontent",
 				"container",
-				"lifeline"
+				"lifeline",
+				"messageFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"lifelineContai",
+			"title":"LifeContain",
+			"title_de":"Lebenslinie",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"This line represents the lifetime of a participant of the communication.",
+			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
+			"view":"node.lifeline.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"container",
+				"lifeline",
+				"messageFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"lifelineConnec",
+			"title":"LifeConnec",
+			"title_de":"Lebenslinie",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"This line represents the lifetime of a participant of the communication.",
+			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
+			"view":"node.lifeline.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"connece",
+				"lifeline",
+				"messageFlowElement"
 			],
 			"properties": [
 				{
@@ -139,7 +206,8 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"activeLine"
+				"activeLine",
+				"messageFlowElement"
 			],
 			"properties": [
 				{
@@ -159,18 +227,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentOpt",
+			"id":"combinedFragmentOpt",
 			"title":"Option",
 			"title_de":"Option",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The sequenceflow within this Combined Fragment is optional.",
 			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist optional.",
-			"view":"node.CombinedFragmentOpt.svg",
+			"view":"node.combinedFragmentOpt.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -190,18 +258,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentBreak",
+			"id":"combinedFragmentBreak",
 			"title":"Break",
 			"title_de":"Unterbrechung",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The sequenceflow within this Combined Fragment interrupts the sequenceflow of the frame it is contained in and is executed if the guardcondition becomes true.",
 			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist unterbricht den Dequenzfluss des umliegenden Fragments udn wird anstatt dessen ausgeführt wenn die Guardcondition wahr wird.",
-			"view":"node.CombinedFragmentBreak.svg",
+			"view":"node.combinedFragmentBreak.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -221,18 +289,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentSeq",
+			"id":"combinedFragmentSeq",
 			"title":"weak sequence",
 			"title_de":"schwache Sequenz",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The sending of messages inside this combined fragment may happen in any order.",
 			"description_de":"Die Nachrichten in diesem kombinierten Fragment können in einer beliebigen Reihenfolge verschickt werden.",
-			"view":"node.CombinedFragmentSeq.svg",
+			"view":"node.combinedFragmentSeq.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -252,18 +320,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentStrict",
+			"id":"combinedFragmentStrict",
 			"title":"strict sequence",
 			"title_de":"strikte Sequenz",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The messages within this combined fragment must be send exactly in the modeled order.",
 			"description_de":"Die Nachrichten innerhalb dieses kombinierten Fragments müssen genau in der modellierten Reihenfolge gesendet werden.",
-			"view":"node.CombinedFragmentStrict.svg",
+			"view":"node.combinedFragmentStrict.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -283,18 +351,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentNeg",
+			"id":"combinedFragmentNeg",
 			"title":"Negative",
 			"title_de":"Negation",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"Marks an invalid messageordering.",
 			"description_de":"Kennzeichnet eine invalide Nachrichtenreihenfolge",
-			"view":"node.CombinedFragmentNeg.svg",
+			"view":"node.combinedFragmentNeg.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -314,18 +382,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentCritical",
+			"id":"combinedFragmentCritical",
 			"title":"Critical",
 			"title_de":"Kritisch",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The message flow within this combined fragment may not be interrupted.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments darf nicht unterbrochen werden.",
-			"view":"node.CombinedFragmentCritical.svg",
+			"view":"node.combinedFragmentCritical.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -345,18 +413,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentAssert",
+			"id":"combinedFragmentAssert",
 			"title":"Assert",
 			"title_de":"Sicherstellung",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"It has to be assertet that the message flow within this combined fragment happens.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments muss statt finden damit es einen validen Sequenzfluss ergibt.",
-			"view":"node.CombinedFragmentAssert.svg",
+			"view":"node.combinedFragmentAssert.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -376,18 +444,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentLoop",
+			"id":"combinedFragmentLoop",
 			"title":"Loop",
 			"title_de":"Schleife",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
-			"view":"node.CombinedFragmentLoop.svg",
+			"view":"node.combinedFragmentLoop.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -407,18 +475,18 @@
 		},
 		{
 			"type": "node",
-			"id":"CombinedFragmentAlt",
+			"id":"combinedFragmentAlt",
 			"title":"Alternative",
 			"title_de":"Alternative",
 			"groups":["Combined Fragments"],
 			"groups_de":["Kombinierte Fragmente"],
 			"description":"This combined fragment represents an alternative similiar to if then else.",
 			"description_de":"Dieses Fragment stellt eine Alternative dar, die sehr an Konstrukte wie if then else erinnert.",
-			"view":"node.CombinedFragmentAlt.svg",
+			"view":"node.combinedFragmentAlt.svg",
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"CombinedFragment"
+				"combinedFragment"
 			],
 			"properties": [
 				{
@@ -449,7 +517,8 @@
 			"icon":"edge.asynchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"message"
+				"message",
+				"messageFlowElement"
 			],
 			"properties":[
 			    {
@@ -481,7 +550,8 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"message"
+				"message",
+				"messageFlowElement"
 			],
 			"properties":[
 			    {
@@ -513,7 +583,8 @@
 			"icon":"Placeholder.png",
 			"roles": [
 				"diagramcontent",
-				"message"
+				"message",
+				"messageFlowElement"
 			],
 			"properties":[
 			    {
@@ -549,17 +620,17 @@
 				"baseMorphs" : ["lifeline"] 
 			},
 			{
-			   	"role":"CombinedFragment",
+			   	"role":"combinedFragment",
 				"baseMorphs" : [
-					"CombinedFragmentAlt", 
-					"CombinedFragmentLoop", 
-					"CombinedFragmentCritical", 
-					"CombinedFragmentAssert", 
-					"CombinedFragmentOpt", 
-					"CombinedFragmentSeq",
-					"CombinedFragmentBreak",
-					"CombinedFragmentNeg",
-					"CombinedFragmentStrict"
+					"combinedFragmentAlt", 
+					"combinedFragmentLoop", 
+					"combinedFragmentCritical", 
+					"combinedFragmentAssert", 
+					"combinedFragmentOpt", 
+					"combinedFragmentSeq",
+					"combinedFragmentBreak",
+					"combinedFragmentNeg",
+					"combinedFragmentStrict"
 				] 
 			}			
 		],
@@ -570,6 +641,24 @@
                 "connects": [
                     {
                         "from":"activeLine",
+                        "to":["activeLine"]
+                    }
+                ]
+            },
+            {
+                "role":"activeLine",
+                "connects": [
+                    {
+                        "from":"activeLine",
+                        "to":["activeLine"]
+                    }
+                ]
+            },
+            {
+                "role":"activeLine",
+                "connects": [
+                    {
+                        "from":"lifeline",
                         "to":["activeLine"]
                     }
                 ]
@@ -597,7 +686,7 @@
 				"contains": [
 					"activeLine"
 				]
-			}	
+			}
 		]
 	}
 }
