@@ -227,6 +227,68 @@
 		},
 		{
 			"type": "node",
+			"id":"lostMessage",
+			"title":"Lost Message",
+			"title_de":"Verlorene Nachricht",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"A message that goes somewhere unspecified.",
+			"description_de":"Eine Nachricht deren Ziel nicht genauer spezifiziert ist.",
+			"view":"node.lostOrFoundMessage.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"lost"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"foundMessage",
+			"title":"Found Message",
+			"title_de":"Gefundene Nachricht",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"A message that comes from an unspecified source.",
+			"description_de":"Eine Nachricht die von einer nicht genauer spezifizierten Quelle kommt.",
+			"view":"node.lostOrFoundMessage.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"found"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
 			"id":"combinedFragmentOpt",
 			"title":"Option",
 			"title_de":"Option",
@@ -505,6 +567,69 @@
 			]
 		},
 		{
+			"type": "node",
+			"id":"terminator",
+			"title":"Terminator",
+			"title_de":"Terminator",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Ends the lifeline of an actor so it can never again participate in the communication.",
+			"description_de":"Beendet die Lebenslinie eines Teilnehmers, so dass er niemals wieder an der Kommunikation teilnehmen kann.",
+			"view":"node.terminator.svg",
+			"icon":"node.terminator.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment",
+				"terminator"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentAlt",
+			"title":"Alternative",
+			"title_de":"Alternative",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"This combined fragment represents an alternative similiar to if then else.",
+			"description_de":"Dieses Fragment stellt eine Alternative dar, die sehr an Konstrukte wie if then else erinnert.",
+			"view":"node.combinedFragmentAlt.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
 			"type": "edge",
 			"id":"asynchronousMessage",
 			"title":"asynchronous Message",
@@ -664,11 +789,38 @@
                 ]
             },
             {
-            	"role":"lifeline",
+            	"role":"actor",
             	"connects": [
             		{
-            			"from":"actor",
-            			"to":["lifeline"]
+            			"from":"lifeline",
+            			"to":["actor"]
+            		}
+            	]
+            },
+            {
+            	"role":"terminator",
+            	"connects": [
+            		{
+            			"from":"lifeline",
+            			"to":["terminator"]
+            		}
+            	]
+            },
+            {
+            	"role":"message",
+            	"connects": [
+            		{
+            			"from":"found",
+            			"to":["activeLine"]
+            		}
+            	]
+            },
+            {
+            	"role":"message",
+            	"connects": [
+            		{
+            			"from":"activeLine",
+            			"to":["lost"]
             		}
             	]
             }
