@@ -235,7 +235,7 @@
 			"description":"A message that goes somewhere unspecified.",
 			"description_de":"Eine Nachricht deren Ziel nicht genauer spezifiziert ist.",
 			"view":"node.lostOrFoundMessage.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.lostOrFoundMessage.png",
 			"roles": [
 				"diagramcontent",
 				"lost"
@@ -266,7 +266,7 @@
 			"description":"A message that comes from an unspecified source.",
 			"description_de":"Eine Nachricht die von einer nicht genauer spezifizierten Quelle kommt.",
 			"view":"node.lostOrFoundMessage.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.lostOrFoundMessage.png",
 			"roles": [
 				"diagramcontent",
 				"found"

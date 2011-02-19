@@ -27,7 +27,7 @@
 			stroke-width="2" 
 			marker-end="url(#end)"/>
 		<text 
-			id="condition" 
+			id="message" 
 			x="0" 
 			y="0" 
 			oryx:edgePosition="midTop"/>

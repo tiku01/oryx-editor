@@ -10,6 +10,6 @@
 	</defs>
 	<g id="edge">
 		<path d="M10 50 L210 50" stroke="black" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-start="url(#start)" marker-end="url(#end)" />
-		<text id="condition" x="0" y="0" oryx:edgePosition="startTop"/>
+		<text id="message" x="0" y="0" oryx:edgePosition="midTop"/>
 	</g>
 </svg>
