@@ -16,7 +16,7 @@
 	   		stroke-width="2"
 	   		fill="none"
 		oryx:resize="horizontal vertical" />
-	<polyline oryx:anchors="top left" points="0,25 30,25 45,8 45,0"
+	<polyline oryx:anchors="top left" points="0,25 40,25 55,8 55,0"
 	    style="stroke:black;stroke-width:2;fill:none" />
 	    
 	<text 
