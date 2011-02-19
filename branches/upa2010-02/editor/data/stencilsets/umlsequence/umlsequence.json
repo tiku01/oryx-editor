@@ -297,7 +297,7 @@
 			"description":"The sequenceflow within this Combined Fragment is optional.",
 			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist optional.",
 			"view":"node.combinedFragmentOpt.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.combinedFragmentOpt.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -328,7 +328,7 @@
 			"description":"The sequenceflow within this Combined Fragment interrupts the sequenceflow of the frame it is contained in and is executed if the guardcondition becomes true.",
 			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist unterbricht den Dequenzfluss des umliegenden Fragments udn wird anstatt dessen ausgeführt wenn die Guardcondition wahr wird.",
 			"view":"node.combinedFragmentBreak.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -359,7 +359,7 @@
 			"description":"The sending of messages inside this combined fragment may happen in any order.",
 			"description_de":"Die Nachrichten in diesem kombinierten Fragment können in einer beliebigen Reihenfolge verschickt werden.",
 			"view":"node.combinedFragmentSeq.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -390,7 +390,7 @@
 			"description":"The messages within this combined fragment must be send exactly in the modeled order.",
 			"description_de":"Die Nachrichten innerhalb dieses kombinierten Fragments müssen genau in der modellierten Reihenfolge gesendet werden.",
 			"view":"node.combinedFragmentStrict.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -421,7 +421,7 @@
 			"description":"Marks an invalid messageordering.",
 			"description_de":"Kennzeichnet eine invalide Nachrichtenreihenfolge",
 			"view":"node.combinedFragmentNeg.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -452,7 +452,7 @@
 			"description":"The message flow within this combined fragment may not be interrupted.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments darf nicht unterbrochen werden.",
 			"view":"node.combinedFragmentCritical.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -483,7 +483,7 @@
 			"description":"It has to be assertet that the message flow within this combined fragment happens.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments muss statt finden damit es einen validen Sequenzfluss ergibt.",
 			"view":"node.combinedFragmentAssert.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -514,7 +514,7 @@
 			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
 			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
 			"view":"node.combinedFragmentLoop.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -545,7 +545,7 @@
 			"description":"This combined fragment represents an alternative similiar to if then else.",
 			"description_de":"Dieses Fragment stellt eine Alternative dar, die sehr an Konstrukte wie if then else erinnert.",
 			"view":"node.combinedFragmentAlt.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
@@ -581,37 +581,6 @@
 				"diagramcontent",
 				"combinedFragment",
 				"terminator"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"combinedFragmentAlt",
-			"title":"Alternative",
-			"title_de":"Alternative",
-			"groups":["Combined Fragments"],
-			"groups_de":["Kombinierte Fragmente"],
-			"description":"This combined fragment represents an alternative similiar to if then else.",
-			"description_de":"Dieses Fragment stellt eine Alternative dar, die sehr an Konstrukte wie if then else erinnert.",
-			"view":"node.combinedFragmentAlt.svg",
-			"icon":"Placeholder.png",
-			"roles": [
-				"diagramcontent",
-				"combinedFragment"
 			],
 			"properties": [
 				{
