@@ -53,6 +53,16 @@
 	  "name":"pictureAttributes",
 	  "properties": [
 		{
+		  "id":"show_properties",
+          "type":"Boolean",
+          "title":"zeige Eigenschaften",
+          "value":false,
+          "description":"",
+          "readonly":false,
+          "optional":true,
+		  "refToView":"properties"
+		},
+		{
           "id":"realisation",
           "type":"String",
           "title":"Durchführung",
@@ -65,16 +75,6 @@
           "length":"",
           "wrapLines":true
         },
-		{
-		  "id":"basic-show_properties",
-          "type":"Boolean",
-          "title":"zeige Eigenschaften",
-          "value":false,
-          "description":"",
-          "readonly":false,
-          "optional":true,
-		  "refToView":"properties"
-		},
 		{
           "id":"incoming",
           "type":"String",
@@ -113,7 +113,7 @@
           "optional":true,
           "length":"",
           "wrapLines":true
-        },
+        }
 	  ]
 	},
 	

@@ -1,93 +1,65 @@
 package de.hpi.pictureSupport;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Vector;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmappr.Xmappr;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import de.hpi.cpn.CPNWorkspaceElement;
-import de.hpi.cpn.converter.CPNToolsTranslator;
-import de.hpi.pictureSupport.*;
 
-public class PictureConverter
-{	
-	public static String convertToCPNFile(String json) throws JSONException 
-	{		
-		try
-		{
-			XStream xstream = new XStream(new DomDriver());		
+public class PictureConverter {
+
+	/**
+	 * helper to read a file
+	 * @param filePath
+	 * @return
+	 */
+	public static String importFromFile(String filePath){
+		File file = new File(filePath);
+		try {
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			
+			String line = null;
+			StringBuilder content = new StringBuilder();
+			while ((line = bufferedReader.readLine()) != null){
+				content.append(line+"\r\n");
+			}
+			return content.toString();
+		} catch (IOException e){
+			System.err.println(e.getMessage());
+			return e.getMessage();
+		}
+	}
+	
+	/**
+	 * import a xml file and convert it into a json 
+	 * @param xml
+	 * @return
+	 */
+	public String importXML(String xml){
+		Logger.i("importXML");
+
+		StringReader stringReader = new StringReader(xml);
 		
-			CPNWorkspaceElement workElement = new CPNWorkspaceElement();
-			
-			// Setting up the workSpaceElement
-			workElement.parse(new JSONObject(json));
-			
-			// Register importing mapping rules
-			CPNWorkspaceElement.registerMapping(xstream);
-			
-			// Converting the object into a XML string
-			String Result = xstream.toXML(workElement);
-			
-			return Result;
-		}		
-		catch (Exception e)
-		{
+		Xmappr xmappr = new Xmappr(PictureXML.class);
+		PictureXML modelCollection = (PictureXML) xmappr.fromXML(stringReader);
+		Logger.i("mapping xml to java done");
+				
+		Vector<JSONObject> models = null;
+		try {
+			models = modelCollection.writeJSON();
+		} catch (JSONException e) {
+			Logger.e("E importXML",e);
 			e.printStackTrace();
-			return "error:" + e.getMessage();
-		}		
-	}
-	
-	public static String importFirstPage(String xml)
-	{
-		try
-		{
-			XStream xstream = new XStream(new DomDriver());
-			
-			CPNWorkspaceElement.registerMapping(xstream);
-			
-			// Extract an object out of the XML
-			CPNWorkspaceElement workElement = (CPNWorkspaceElement) xstream.fromXML(xml);
-			
-			CPNToolsTranslator translator = new CPNToolsTranslator(workElement);
-			
-			// Putting the name of the first page into the String[]
-			String[] pagesToImport = { workElement.getCpnet().getPage(0).getPageattr().getName()};
-			
-			String oryxJson = translator.translatePagesIntoDiagrams(pagesToImport);
-			
-			return oryxJson;			
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return "error:" + e.getMessage();
-		}
-	}
-	
-	public static String importPagesNamed(String xml, String[] pagesToImport)
-	{
-		try
-		{
-			xml = xml.substring(xml.indexOf("<workspaceElements>"));
-			
-			XStream xstream = new XStream(new DomDriver());
-			
-			CPNWorkspaceElement.registerMapping(xstream);
-			
-			// Extract an object out of the XML
-			CPNWorkspaceElement workElement = (CPNWorkspaceElement) xstream.fromXML(xml);
-			
-			CPNToolsTranslator translator = new CPNToolsTranslator(workElement);
-			
-			String oryxJson = translator.translatePagesIntoDiagrams(pagesToImport);
-	
-			return oryxJson;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return "error:" + e.getMessage();
-		}
+		Logger.i("mapping java to json done");
+		Logger.i("result: "+models.elementAt(0).toString());
+		return models.toString();
 	}
 }
