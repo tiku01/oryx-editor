@@ -3,20 +3,25 @@ package de.hpi.olc;
 import java.util.HashMap;
 
 import de.hpi.petrinet.LabeledTransition;
+import de.hpi.petrinet.Transition;
 
 public class TempTransition {
 	private String label;
+	private static final String SEPARATOR = ",";
 	// Joins are decomposed and outgoing places of the same transition have
-	// equal names (states)
-	// Therefore, each transition has only one input and one output
-
+	// equal names (states). Hence, each transition has only one input place
+	// and one output place
 	private HashMap<String, String> transformations = new HashMap<String, String>();
-
-	public TempTransition() {
-	}
 
 	public TempTransition(LabeledTransition t) {
 		this.label = t.getLabel();
+		String input = t.getIncomingFlowRelationships().get(0).getSource().getId();
+		String output = t.getOutgoingFlowRelationships().get(0).getTarget().getId();
+		transformations.put(input, output);
+	}
+	
+	public TempTransition(Transition t, String label) {
+		this.label = label;
 		String input = t.getIncomingFlowRelationships().get(0).getSource().getId();
 		String output = t.getOutgoingFlowRelationships().get(0).getTarget().getId();
 		transformations.put(input, output);
@@ -26,19 +31,14 @@ public class TempTransition {
 		return this.label;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	public void addTransformation(String input, String output) {
 		transformations.put(input, output);
 	}
 
 	/**
 	 * Extracts precondition(state) and post-condition (state) for the given
-	 * transition from olc 
-	 * precondition = precedingPlace.name 
-	 * postcondition = succeedingPlace.name 
+	 * transition from olc precondition = precedingPlace.name postcondition =
+	 * succeedingPlace.name
 	 */
 	public void addTransformation(LabeledTransition t) {
 		String input = t.getIncomingFlowRelationships().get(0).getSource().getId();
@@ -46,8 +46,7 @@ public class TempTransition {
 		// Handle merge of XOR transitions
 		if (transformations.containsKey(input)) {
 			String out = transformations.get(input);
-			// TODO: Ensure valid expressions for exclusive decisions
-			output = out + " | " + output;
+			output = out + SEPARATOR + output;
 		}
 		transformations.put(input, output);
 	}
@@ -67,7 +66,7 @@ public class TempTransition {
 				arcCondition += " i=";
 				first = false;
 			} else {
-				arcCondition += " | i=";
+				arcCondition += " orelse i=";
 			}
 			arcCondition += input;
 		}
@@ -77,27 +76,40 @@ public class TempTransition {
 	}
 
 	/**
-	 * Generates the code of the transition in the block of transitions
+	 * Generates the outgoing arc expression for transitions in the Transition
+	 * Block
 	 * 
-	 * @param transition
-	 *            : the transition in the Object Life Cycle
-	 * @return Code for the transition in the workflow model
+	 * @return Arc Expression
 	 */
-	public String getCodeForTransition() {
-		String code = "";
+	public String getOutgoingArcExpression() {
+		String expression = "";
 		if (transformations.size() == 1) {
-			code += transformations.values().iterator().next();
+			String out = transformations.values().iterator().next();
+			// Handle XORs
+			if(out.contains(SEPARATOR)) {
+				expression += "case l of\n";
+				String[] cases = out.split(SEPARATOR);
+				for(int i = 0; i < cases.length; i++) {
+					if(i != 0) expression += "| ";
+					expression += i + "=> " + cases[i] + "\n";
+				}
+			}
+			// Handle standard transition
+			else {
+				expression += out;
+			}
 		} else {
-			code += "case i of\n";
+			// Handle transitions with multiple occurrences.
+			expression += "case i of\n";
 			boolean first = true;
 			for (String input : transformations.keySet()) {
 				if (first)
 					first = false;
 				else
-					code += "| ";
-				code += input + "=> " + transformations.get(input) + "\n";
+					expression += "| ";
+				expression += input + "=> " + transformations.get(input) + "\n";
 			}
 		}
-		return code;
+		return expression;
 	}
 }

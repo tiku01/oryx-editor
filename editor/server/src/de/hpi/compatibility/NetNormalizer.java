@@ -17,12 +17,16 @@ public class NetNormalizer {
 		
 		return eInstance;
 	}
-
+	
+	/**
+	 * Creates a new finalPlace and connects all former finalPlaces to it.
+	 * @param net: The PetriNet that should be normalized.
+	 */
 	public void normalizeNet(PTNet net) {
 		if (net.getFinalPlaces().size() == 0)
 			return;
 		
-	
+		
 		Place p = net.getFactory().createPlace();
 		p.setId("newFinalPlace");
 		net.getPlaces().add(p);

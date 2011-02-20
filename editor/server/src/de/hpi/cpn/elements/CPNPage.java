@@ -205,7 +205,7 @@ public class CPNPage extends XMLConvertable
 		// multiply the index with 10. So the difference of the ids is always 10. 
 		// The space is needed because each place has childnodes which have also id. 
 		String resourceId = modelElement.getString("resourceId");
-		String placeId = "ID" + (3000 + index * 10);
+		String placeId = "IDp" + (3000 + index * 10);
 		
 		// Correct the Hashtable - Entry for that place 
 		getArcRelation().changePlaceId(resourceId, placeId);
@@ -223,7 +223,7 @@ public class CPNPage extends XMLConvertable
 	{
 		// See comments above in createPlace(...)
 		String resourceId = modelElement.getString("resourceId");
-		String transId = "ID" + (4000 + index * 10);
+		String transId = "IDt" + (4000 + index * 10);
 		
 		getArcRelation().changeTransitionId(resourceId, transId);
 		getNodePositions().newNodePosition(transId, modelElement);
@@ -241,7 +241,7 @@ public class CPNPage extends XMLConvertable
 		// Getting source and target of the arc
 		String target = getArcRelation().getTargetValue(resourceId);
 		String source = getArcRelation().getSourceValue(resourceId);
-		String arcId = "ID" + (5000 + index * 10);
+		String arcId = "IDa" + (5000 + index * 10);
 		
 		String transend, placeend, orientation;
 		
