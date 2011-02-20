@@ -74,7 +74,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 
 			Set<Node> nextNodesNet2 = model2.getNextNodesWithDifferentMode(currentNodeNet2);
 			
-			// check for equal trace partitioning
+			// check for equal path partitioning
 			for (Node nextNodeNet2 : nextNodesNet2)
 				if (haveSameMode(nextNode, nextNodeNet2))
 					matches.add(nextNodeNet2);
@@ -98,8 +98,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 	}
 
 	/**
-	 * match (A, B) -> (A, interleaving) optional: extend to (A, B) -> (A,
-	 * interleaving, B)
+	 * match (C1, C2) -> (C1, interleaving) optional: extend to (C1, C2) -> (C1, interleaving, C2)
 	 */
 	private Set<Node> checkForParallelizations(PartitioningMode modeCurrentNode, Node nextNode, Set<Node> nextNodesNet2) {
 		Set<Node> matches = new HashSet<Node>();
@@ -125,7 +124,7 @@ public class VerticalCorrespondenceAnalysis extends CorrespondenceAnalysis {
 	}
 
 	/**
-	 * match (A, interleaving) -> (A, B) optional: extend to (A, interleaving, B) -> (A, B)
+	 * match (C1, interleaving) -> (C1, C2) optional: extend to (C1, interleaving, C2) -> (C1, C2)
 	 */
 	private Set<Node> checkForSequencings(PartitioningMode modeCurrentNode, Node nextNode, Set<Node> nextNodesNet2) {
 		Set<Node> matches = new HashSet<Node>();

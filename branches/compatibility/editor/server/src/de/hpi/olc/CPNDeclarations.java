@@ -22,7 +22,7 @@ public class CPNDeclarations {
 			declarations.put("totalCount", 8);
 			declarations.put("items", items);
 
-			addColorSet(state, "string");
+			addColorSet(state, "int");
 			addColorSet(stateList, "list " + state);
 			addColorSet(syncState, state + " * " + state + " * " + state);
 

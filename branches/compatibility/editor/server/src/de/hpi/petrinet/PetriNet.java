@@ -75,6 +75,14 @@ public class PetriNet implements Cloneable {
 				result.add((LabeledTransition)t);
 		return result;
 	}
+	
+	public List<LabeledTransition> getLabeledTransitionsAsLabeledTransitions() {
+		List<LabeledTransition> result = new ArrayList<LabeledTransition>();
+		for(Transition t : getTransitions())
+			if (t instanceof LabeledTransition)
+				result.add((LabeledTransition)t);
+		return result;
+	}
 
 	public List<Node> getNodes() {
 		List<Node> nodes = new ArrayList<Node>();

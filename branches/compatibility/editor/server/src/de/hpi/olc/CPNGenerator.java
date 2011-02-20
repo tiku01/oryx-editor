@@ -13,6 +13,7 @@ import org.oryxeditor.server.diagram.Shape;
 import de.hpi.PTnet.PTNet;
 import de.hpi.petrinet.LabeledTransition;
 import de.hpi.petrinet.Node;
+import de.hpi.petrinet.Transition;
 
 public class CPNGenerator {
 	public enum ColorSet {
@@ -30,8 +31,7 @@ public class CPNGenerator {
 	}
 
 	/**
-	 * Generates a workflow model for a given Object Life Cycle
-	 * 
+	 * Transforms Object Life Cycle into Workflow Model
 	 * @return the workflow model
 	 */
 	public Diagram generate(PTNet olc) {
@@ -39,6 +39,7 @@ public class CPNGenerator {
 		Preprocessing preprocessing = new Preprocessing();
 		preprocessing.decomposeJoinTransitions(olc);
 		preprocessing.extractXors(olc);
+		preprocessing.resolveConflicts(olc);
 		preprocessing.createStateNames(olc);
 
 		// Calculate GuardConditions for process termination/continuation
@@ -88,7 +89,7 @@ public class CPNGenerator {
 			Shape toTransition = factory.getAnArc(Constants.arcState);
 			Shape t = factory.getATransition(transition.getLabel());
 			t.setBounds(Layout.getBoundsForTransition(1080, 60 + (index * 80)));
-			Shape toGate = factory.getAnArc(transition.getCodeForTransition());
+			Shape toGate = factory.getAnArc(transition.getOutgoingArcExpression());
 			// connect them and connect to "or" and "gate"
 			factory.connect(skeleton.getOr(), toPlace, p);
 			factory.connect(p, toTransition, t);
@@ -136,20 +137,28 @@ public class CPNGenerator {
 	private Collection<TempTransition> mergeTransitions(PTNet net) {
 		// Merge transitions with equal label
 		HashMap<String, TempTransition> transitions = new HashMap<String, TempTransition>();
-		for (Node node : net.getLabeledTransitions()) {
-			LabeledTransition transition = (LabeledTransition) node;
-			String label = transition.getLabel();
-
-			// skip join transitions
-			if (label.equals("join"))
-				continue;
-
-			// merge transitions if there is another one with the same label
-			if (transitions.containsKey(label)) {
-				TempTransition original = transitions.get(label);
-				original.addTransformation(transition);
-			} else
-				transitions.put(label, new TempTransition(transition));
+		int index = 0;
+		for (Transition t : net.getTransitions()) {
+			if(t instanceof LabeledTransition) {
+				LabeledTransition transition = (LabeledTransition) t;
+				String label = transition.getLabel();
+	
+				// skip join transitions
+				if (label.equals("join"))
+					continue;
+	
+				// merge transitions if there is another one with the same label
+				if (transitions.containsKey(label)) {
+					TempTransition original = transitions.get(label);
+					original.addTransformation(transition);
+				} else
+					transitions.put(label, new TempTransition(transition));
+			} else {
+				// handle empty transitions
+				String label = "tau_" + index;
+				transitions.put(label, new TempTransition(t, label));
+				index++;
+			}
 		}
 		return transitions.values();
 	}
