@@ -1,50 +1,55 @@
 package org.oryxeditor.server;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.hpi.pictureSupport.*;
+import org.apache.commons.httpclient.HttpStatus;
 
-public class PictureImporter extends HttpServlet 
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import de.hpi.pictureSupport.PictureConverter;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		try
-		{
-			PrintWriter out = null;		
-			out = response.getWriter();
-			
-			String pictureToImport = request.getParameter("data");
-			String[] pagesToImport = request.getParameter("pagesToImport").split(";;");
+/**
+ * Copyright (c) 2010 Markus Goetz
+ * adapted by Tobias Metzke
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+public class PictureImporter extends HttpServlet {
+	private static final long serialVersionUID = -703248923411764562L;
+	
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		res.setContentType("text/xml");
+		String data = req.getParameter("data");
 		
-			String resultJSONDiagrams = PictureConverter.importPagesNamed(pictureToImport, pagesToImport);
-			
-			if (resultJSONDiagrams.startsWith("error:"))
-			{
-				out.write(resultJSONDiagrams);
-			}
-			else
-			{
-				out.write(resultJSONDiagrams);
-			}			
+		String action = req.getParameter("action");
+		
+		PictureConverter converter = null;
+		if ("Import".equals(action)){
+			converter = new PictureConverter();
+			String importString = converter.importXML(data);
+			res.getWriter().print(importString);
+			} else {
+			res.setStatus(HttpStatus.SC_BAD_REQUEST);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			
-			PrintWriter out = null;
-			out = response.getWriter();
-			out.write("error:" + e.getMessage());
-		}		
-	}	
+	}
 }
