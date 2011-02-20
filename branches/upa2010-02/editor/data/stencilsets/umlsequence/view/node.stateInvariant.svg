@@ -3,24 +3,18 @@
    	xmlns="http://www.w3.org/2000/svg"
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
-   	<oryx:magnets>
-    	<oryx:magnet oryx:cx="1" oryx:cy="25" oryx:anchors="left" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="49" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="89" oryx:cy="25" oryx:anchors="right" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="1" oryx:anchors="top" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="25" oryx:default="yes" />
-  	</oryx:magnets>
+    <oryx:docker oryx:cx="30" oryx:cy="15" />
   	<g
-     	oryx:minimumSize="60 30"
+     	oryx:minimumSize="20 10"
      	id="action">
     	<rect
     		id="actionrect"
        		x="0"
        		y="0"
-       		width="90"
-       		height="50"
-	   		rx="15"
-	   		ry="15"
+       		width="60"
+       		height="30"
+	   		rx="10"
+	   		ry="10"
 	   		stroke="black"
 	   		stroke-width="2"
 	   		fill="white"
@@ -28,8 +22,8 @@
       	<text 
       		font-size="12" 
       		id="text" 
-      		x="45" 
-      		y="25"
+      		x="20" 
+      		y="15"
       		stroke="black" 
       		oryx:align="middle center" 
       		oryx:fittoelem="actionrect">

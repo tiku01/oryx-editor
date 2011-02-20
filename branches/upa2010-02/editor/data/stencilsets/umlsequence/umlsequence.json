@@ -34,6 +34,37 @@
 		},
 		{
 			"type": "node",
+			"id":"frame",
+			"title":"Frame",
+			"title_de":"Rahmen",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"A frame for a whole diagram.",
+			"description_de":"Ein Rahmen für das gesamte Diagramme.",
+			"view":"node.frame.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"frame"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
 			"id":"humanActor",
 			"title":"Human Actor",
 			"title_de":"menschlicher Teilnehmer",
@@ -73,7 +104,7 @@
 			"description":"An object participating in the communication.",
 			"description_de":"Ein Objekt, dass an der Kommunikation teilnimmt.",
 			"view":"node.actor.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.actor.png",
 			"roles": [
 				"diagramcontent",
 				"actor"
@@ -197,13 +228,13 @@
 			"type": "node",
 			"id":"active",
 			"title":"Active Line",
-			"title_de":"Aktivitaetslinie",
+			"title_de":"Ausfuehrungsbalken",
 			"groups":["Actors"],
 			"groups_de":["Teilnehmer"],
 			"description":"Shows that a participant is active.",
 			"description_de":"Zeigt, dass ein Teilnehmer aktiv ist.",
 			"view":"node.activeline.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.activeline.png",
 			"roles": [
 				"diagramcontent",
 				"activeLine",
@@ -227,11 +258,42 @@
 		},
 		{
 			"type": "node",
+			"id":"stateInvariant",
+			"title":"State Invariant",
+			"title_de":"Zustandsinvariante",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Notes an invariant which holds true for that actor.",
+			"description_de":"Eine Invariante die für diesen Teilnehmer gilt.",
+			"view":"node.stateInvariant.svg",
+			"icon":"Placeholder.png",
+			"roles": [
+				"diagramcontent",
+				"contained"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
 			"id":"lostMessage",
 			"title":"Lost Message",
 			"title_de":"Verlorene Nachricht",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
 			"description":"A message that goes somewhere unspecified.",
 			"description_de":"Eine Nachricht deren Ziel nicht genauer spezifiziert ist.",
 			"view":"node.lostOrFoundMessage.svg",
@@ -261,8 +323,8 @@
 			"id":"foundMessage",
 			"title":"Found Message",
 			"title_de":"Gefundene Nachricht",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
 			"description":"A message that comes from an unspecified source.",
 			"description_de":"Eine Nachricht die von einer nicht genauer spezifizierten Quelle kommt.",
 			"view":"node.lostOrFoundMessage.svg",
@@ -568,6 +630,37 @@
 		},
 		{
 			"type": "node",
+			"id":"combinedFragmentRef",
+			"title":"Reference",
+			"title_de":"Referenz",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"This combined fragment represents a reference to another sequence diagram.",
+			"description_de":"Dieses Fragment stellt eine Referenz auf ein anderes Sequenzdiagramm dar.",
+			"view":"node.combinedFragmentRef.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
 			"id":"terminator",
 			"title":"Terminator",
 			"title_de":"Terminator",
@@ -805,7 +898,13 @@
 			{
 				"role":"container",
 				"contains": [
-					"activeLine"
+					"activeLine", "contained"
+				]
+			},
+			{
+				"role":"frame",
+				"contains": [
+					"diagramcontent"
 				]
 			}
 		]

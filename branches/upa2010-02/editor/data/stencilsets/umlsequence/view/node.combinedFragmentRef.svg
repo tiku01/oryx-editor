@@ -4,21 +4,20 @@
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
   	<g
-     	oryx:minimumSize="100 200"
+     	oryx:minimumSize="100 80"
      	id="actor">
     	<rect
     		id="border"
 	   		x="0"
 	   		y="0"
        		width="200"
-       		height="200"
+       		height="80"
        		stroke="black"
 	   		stroke-width="2"
 	   		fill="none"
 		oryx:resize="horizontal vertical" />
 	<polyline oryx:anchors="top left" points="0,25 30,25 45,8 45,0"
 	    style="stroke:black;stroke-width:2;fill:none" />
-  <path d="M 0,100 L 200,100" stroke="black" oryx:anchors="left right" stroke-dasharray="3, 4"/>
 	    
 	<text 
 			oryx:anchors = "top left"
@@ -27,16 +26,16 @@
 			x="7" 
 			y="14"
 			stroke="black">
-			alt
+			ref
 	</text>	  
       	<text 
       		id="text" 
-      		font-size="12" 
-      		x="40" 
-      		y="18"
+      		font-size="10" 
+      		x="100" 
+      		y="40"
       		stroke="black"
-      		oryx:anchors="top" 
-      		oryx:align="top left"
+      		oryx:anchors="top left right bottom" 
+      		oryx:align="middle center"
       		oryx:fittoelem="border">
       	</text>
   	</g>
