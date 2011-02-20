@@ -709,16 +709,16 @@
 			],
 			"properties":[
 			    {
-					"id":"condition",
+					"id":"message",
 					"type":"String",
-					"title":"Name/Condition",
-					"title_de":"Name/Bedingung",
+					"title":"Message",
+					"title_de":"Nachricht",
 					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"condition",
+					"refToView":"message",
 					"length":"",
 					"wrapLines":true
                 }
@@ -742,16 +742,16 @@
 			],
 			"properties":[
 			    {
-					"id":"condition",
+					"id":"message",
 					"type":"String",
-					"title":"Name/Condition",
-					"title_de":"Name/Bedingung",
+					"title":"Message",
+					"title_de":"Nachricht",
 					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"condition",
+					"refToView":"message",
 					"length":"",
 					"wrapLines":true
                 }
@@ -775,16 +775,16 @@
 			],
 			"properties":[
 			    {
-					"id":"condition",
+					"id":"message",
 					"type":"String",
-					"title":"Name/Condition",
-					"title_de":"Name/Bedingung",
+					"title":"Message",
+					"title_de":"Nachricht",
 					"value":"",
 					"description":"",
 					"tooltip":"",
 					"readonly":false,
 					"optional":true,
-					"refToView":"condition",
+					"refToView":"message",
 					"length":"",
 					"wrapLines":true
                 }
