@@ -668,7 +668,7 @@
 			"description":"A message, that waits for an answer.",
 			"description":"Eine Nachricht, die auf eine Antwort wartet.",
 			"view":"edge.synchronousMessage.svg",
-			"icon":"Placeholder.png",
+			"icon":"edge.synchronousMessage.png",
 			"roles": [
 				"diagramcontent",
 				"message",
@@ -701,7 +701,7 @@
 			"description":"The answer to a synchronoues message.",
 			"description":"Die Antwort zu einer synchronen Nachricht.",
 			"view":"edge.synchronousAnswer.svg",
-			"icon":"Placeholder.png",
+			"icon":"edge.synchronousAnswer.png",
 			"roles": [
 				"diagramcontent",
 				"message",
