@@ -41,7 +41,7 @@
       		x="8" 
       		y="35"
       		stroke="black" 
-      		oryx:align="middle left" 
+      		oryx:align="top left" 
       		oryx:fittoelem="actionrect">
       	</text>
   	</g>

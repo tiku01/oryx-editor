@@ -1,0 +1,14 @@
+Texttesting
+asynch message default longer
+ref white
+icons
+  Frame
+  Lifeline
+  State Invariant
+  synch message
+  synch answer
+  combined fragments
+  
+rework icon
+  actor 
+  active line
