@@ -42,7 +42,7 @@
 			"description":"A frame for a whole diagram.",
 			"description_de":"Ein Rahmen für das gesamte Diagramme.",
 			"view":"node.frame.svg",
-			"icon":"Placeholder.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"frame"
@@ -127,40 +127,7 @@
 		},
 		{
 			"type": "node",
-			"id":"lifelineRect",
-			"title":"LifeRect",
-			"title_de":"Lebenslinie",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
-			"description":"This line represents the lifetime of a participant of the communication.",
-			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
-			"view":"node.lifelineRect.svg",
-			"icon":"Placeholder.png",
-			"roles": [
-				"diagramcontent",
-				"container",
-				"lifeline",
-				"messageFlowElement"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"lifelineContai",
+			"id":"lifelineContain",
 			"title":"LifeContain",
 			"title_de":"Lebenslinie",
 			"groups":["Actors"],
@@ -172,39 +139,6 @@
 			"roles": [
 				"diagramcontent",
 				"container",
-				"lifeline",
-				"messageFlowElement"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
-			"id":"lifelineConnec",
-			"title":"LifeConnec",
-			"title_de":"Lebenslinie",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
-			"description":"This line represents the lifetime of a participant of the communication.",
-			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
-			"view":"node.lifeline.svg",
-			"icon":"Placeholder.png",
-			"roles": [
-				"diagramcontent",
-				"connece",
 				"lifeline",
 				"messageFlowElement"
 			],
@@ -266,7 +200,7 @@
 			"description":"Notes an invariant which holds true for that actor.",
 			"description_de":"Eine Invariante die für diesen Teilnehmer gilt.",
 			"view":"node.stateInvariant.svg",
-			"icon":"Placeholder.png",
+			"icon":"node.stateIncariant.png",
 			"roles": [
 				"diagramcontent",
 				"contained"
@@ -359,7 +293,7 @@
 			"description":"The sequenceflow within this Combined Fragment is optional.",
 			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist optional.",
 			"view":"node.combinedFragmentOpt.svg",
-			"icon":"node.combinedFragmentOpt.png",
+			"icon":"frame.png",
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"

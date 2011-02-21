@@ -9,9 +9,13 @@
         <oryx:magnet oryx:cx="5" oryx:cy="20" oryx:anchors="middle" />
         <oryx:magnet oryx:cx="5" oryx:cy="30" oryx:anchors="middle" />
         <oryx:magnet oryx:cx="5" oryx:cy="40" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="50" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="60" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="70" oryx:anchors="middle" />
+        <oryx:magnet oryx:cx="5" oryx:cy="80" oryx:anchors="middle" />
         <oryx:magnet oryx:cx="5" oryx:cy="20" oryx:default="yes" />		
   	</oryx:magnets>
-    <oryx:docker oryx:cx="5" oryx:cy="20" />
+    <oryx:docker oryx:cx="5" oryx:cy="40" />
   	<g
      	oryx:minimumSize="4 10"
      	id="actor" oryx:resize="vertical horizontal">
@@ -20,7 +24,7 @@
 	   		x="0"
 	   		y="0"
        		width="10"
-       		height="40"
+       		height="80"
        		stroke="black"
 	   		stroke-width="2"
 	   		fill="white"
