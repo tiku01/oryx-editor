@@ -76,7 +76,8 @@
 			"icon":"node.humanActor.png",
 			"roles": [
 				"diagramcontent",
-				"actor"
+				"actor",
+				"lifeline"
 			],
 			"properties": [
 				{
@@ -107,7 +108,8 @@
 			"icon":"node.actor.png",
 			"roles": [
 				"diagramcontent",
-				"actor"
+				"actor",
+				"lifeline"
 			],
 			"properties": [
 				{
@@ -127,8 +129,8 @@
 		},
 		{
 			"type": "node",
-			"id":"lifelineContain",
-			"title":"LifeContain",
+			"id":"lifeline",
+			"title":"Lifeline",
 			"title_de":"Lebenslinie",
 			"groups":["Actors"],
 			"groups_de":["Teilnehmer"],
@@ -139,8 +141,7 @@
 			"roles": [
 				"diagramcontent",
 				"container",
-				"lifeline",
-				"messageFlowElement"
+				"lifeline"
 			],
 			"properties": [
 				{
@@ -171,8 +172,7 @@
 			"icon":"node.activeline.png",
 			"roles": [
 				"diagramcontent",
-				"activeLine",
-				"messageFlowElement"
+				"activeLine"
 			],
 			"properties": [
 				{
@@ -200,10 +200,10 @@
 			"description":"Notes an invariant which holds true for that actor.",
 			"description_de":"Eine Invariante die für diesen Teilnehmer gilt.",
 			"view":"node.stateInvariant.svg",
-			"icon":"node.stateIncariant.png",
+			"icon":"node.stateInvariant.png",
 			"roles": [
 				"diagramcontent",
-				"contained"
+				"stateInvariant"
 			],
 			"properties": [
 				{
@@ -606,7 +606,6 @@
 			"icon":"node.terminator.png",
 			"roles": [
 				"diagramcontent",
-				"combinedFragment",
 				"terminator"
 			],
 			"properties": [
@@ -638,8 +637,7 @@
 			"icon":"edge.asynchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"message",
-				"messageFlowElement"
+				"message"
 			],
 			"properties":[
 			    {
@@ -671,8 +669,7 @@
 			"icon":"edge.synchronousMessage.png",
 			"roles": [
 				"diagramcontent",
-				"message",
-				"messageFlowElement"
+				"message"
 			],
 			"properties":[
 			    {
@@ -704,8 +701,7 @@
 			"icon":"edge.synchronousAnswer.png",
 			"roles": [
 				"diagramcontent",
-				"message",
-				"messageFlowElement"
+				"message"
 			],
 			"properties":[
 			    {
@@ -776,20 +772,11 @@
                 ]
             },
             {
-                "role":"activeLine",
-                "connects": [
-                    {
-                        "from":"connece",
-                        "to":["activeLine"]
-                    }
-                ]
-            },
-            {
-            	"role":"actor",
+            	"role":"lifeline",
             	"connects": [
             		{
-            			"from":"lifeline",
-            			"to":["actor"]
+            			"from":"actor",
+            			"to":["lifeline"]
             		}
             	]
             },
@@ -830,9 +817,9 @@
 				]
 			},
 			{
-				"role":"container",
+				"role":"lifeline",
 				"contains": [
-					"activeLine", "contained"
+					"activeLine", "stateInvariant"
 				]
 			},
 			{

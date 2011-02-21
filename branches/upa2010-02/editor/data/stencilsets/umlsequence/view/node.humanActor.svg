@@ -3,13 +3,6 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	version="1.0">
-	<oryx:magnets>
-    	<oryx:magnet oryx:cx="1" oryx:cy="52" oryx:anchors="left" />
-    	<oryx:magnet oryx:cx="32" oryx:cy="103" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="63" oryx:cy="52" oryx:anchors="right" />
-    	<oryx:magnet oryx:cx="32" oryx:cy="1" oryx:anchors="top" />
-    	<oryx:magnet oryx:cx="32" oryx:cy="52" oryx:default="yes" />
-  	</oryx:magnets>
 	<g>
 		<ellipse
 			id="background"
@@ -18,7 +11,8 @@
 			ry = "52"
 			rx = "32"
 			fill="white"
-			stroke="none"/>
+			stroke="none"
+			oryx:anchors="top"/>
 		
 		<ellipse
 			id="head"
@@ -28,22 +22,40 @@
 			rx = "10"
 			fill="white"
 			stroke="black"
-			stroke-width="2"/>
+			stroke-width="2"
+			oryx:anchors="top"/>
 		
 		<path 
 			d="M 32 24 L 32 54 M 12 34 L 52 34 M 32 54 L 52 84 M 12 84 L 32 54"
 			stroke="black"
 			stroke-width="2"
-			stroke-linecap="round"/>
+			stroke-linecap="round"
+			oryx:anchors="top"/>
 			
 		<text
 			id="text" 
 			font-size="12" 
 			x="32" 
 			y="86" 
-			oryx:align="top center" 
+			oryx:anchors="top" 
 			stroke="black">
 		</text>
+		<rect id="border" 
+		oryx:resize="vertical horizontal" 
+		x="26" y="102" 
+		width="12" height="400" 
+		fill="none" 
+		stroke-width="4" 
+		oryx:anchors="top"
+		visibility="hidden" />
+	      <path id="line" 
+	      d="M32,102 L32,500" 
+	      stroke="black" 
+	      fill="none" 
+	      stroke-width="4" 
+	      stroke-dasharray="5, 3" 
+	      oryx:resize="vertical horizontal"
+	      oryx:anchors="top"/>
 		
 	</g>
 </svg>

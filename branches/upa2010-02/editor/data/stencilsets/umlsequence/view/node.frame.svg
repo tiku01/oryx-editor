@@ -32,8 +32,8 @@
 	<text 
 	  		id="name"
 	  		font-size="12"  
-	  		x="25" 
-	  		y="7"
+	  		x="27" 
+	  		y="2"
 	  		stroke="black"
 	  		oryx:anchors="top left" 
 	  		oryx:align="top left"

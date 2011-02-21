@@ -6,6 +6,14 @@
 	<g
      	oryx:minimumSize="80 60"
      	id="actor">
+	<rect id="invisibleborder" 
+        oryx:resize="vertical horizontal" 
+        x="34" y="81" 
+        width="12" height="400" 
+        fill="none" 
+        stroke-width="4" 
+         visibility="hidden"
+	 oryx:anchors="top"/>
     	<rect
     		id="border"
 	   		x="0"
@@ -13,9 +21,17 @@
        		width="80"
        		height="80"
        		stroke="black"
-	   		stroke-width="2"
-	   		fill="white"
-       		oryx:resize="horizontal vertical" />
+		stroke-width="2"
+		fill="white" 
+		oryx:anchors="top"/>
+	<path id="line" 
+      d="M40,81 L40,480" 
+      stroke="black" 
+      fill="none" 
+      stroke-width="4" 
+      stroke-dasharray="5, 3" 
+      oryx:resize="vertical horizontal"
+      oryx:anchors="top"/>
       	<text 
       		id="text" 
       		font-size="12" 
