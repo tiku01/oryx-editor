@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PictureOrganisationUnits {
 
 	@Element(name="organisationUnit", targetType=PictureOrganisationUnit.class)
-	protected ArrayList<PictureOrganisationUnit> children;
+	private ArrayList<PictureOrganisationUnit> children;
 
 	public ArrayList<PictureOrganisationUnit> getChildren() {
 		return children;

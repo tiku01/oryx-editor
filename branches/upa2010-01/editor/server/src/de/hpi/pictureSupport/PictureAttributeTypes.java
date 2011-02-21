@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PictureAttributeTypes {
 
 	@Element(name="attributeType", targetType=PictureAttributeType.class)
-	protected ArrayList<PictureAttributeType> children;
+	private ArrayList<PictureAttributeType> children;
 
 	public ArrayList<PictureAttributeType> getChildren() {
 		return children;

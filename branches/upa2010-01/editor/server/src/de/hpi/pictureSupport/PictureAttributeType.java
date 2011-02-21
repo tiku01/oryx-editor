@@ -7,29 +7,21 @@ import org.xmappr.RootElement;
 @RootElement("resource")
 public class PictureAttributeType {
 
-	@Attribute(name="id")
-	protected int ID;
+	@Attribute
+	private int id;
 	
-	@Element(name="name")
-	protected String name;
+	@Element
+	private String name;
 	
-	@Element(name="description")
-	protected String description;
+	@Element
+	private String description;
 
-	public String getDescription() {
-		return description;
+	public int getId() {
+		return id;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getID() {
-		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -38,5 +30,13 @@ public class PictureAttributeType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

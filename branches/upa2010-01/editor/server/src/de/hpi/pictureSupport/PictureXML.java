@@ -7,10 +7,12 @@ import java.util.Vector;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Element;
+import org.xmappr.Namespaces;
 import org.xmappr.RootElement;
 
 import de.hpi.pictureSupport.Logger;
 
+@Namespaces("ns2=http://www.picture-gmbh.de/prozessplattform/2009")
 @RootElement("ns2:pictureExport")
 public class PictureXML extends XMLConvertible {
 
@@ -19,22 +21,22 @@ public class PictureXML extends XMLConvertible {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Element(name="processes", targetType=PictureProcesses.class)
+	@Element(targetType=PictureProcesses.class)
 	protected PictureProcesses processes;
 	
-	@Element(name="resources", targetType=PictureResources.class)
+	@Element(targetType=PictureResources.class)
 	protected PictureResources resources;
 	
-	@Element(name="products", targetType=PictureProducts.class)
+	@Element(targetType=PictureProducts.class)
 	protected PictureProducts products;
 	
-	@Element(name="organisationUnits", targetType=PictureOrganisationUnits.class)
+	@Element(targetType=PictureOrganisationUnits.class)
 	protected PictureOrganisationUnits organisationUnits;
 	
-	@Element(name="users", targetType=PictureUsers.class)
+	@Element(targetType=PictureUsers.class)
 	protected PictureUsers users;
 	
-	@Element(name="methodDefinition", targetType=PictureMethodDefinition.class)
+	@Element(targetType=PictureMethodDefinition.class)
 	protected PictureMethodDefinition methodDefinition;
 	
 	public PictureProcesses getProcesses() {
