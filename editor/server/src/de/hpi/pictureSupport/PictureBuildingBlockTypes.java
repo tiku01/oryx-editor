@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PictureBuildingBlockTypes {
 
 	@Element(name="buildingBlockType", targetType=PictureBuildingBlockType.class)
-	protected ArrayList<PictureBuildingBlockType> children;
+	private ArrayList<PictureBuildingBlockType> children;
 
 	public ArrayList<PictureBuildingBlockType> getChildren() {
 		return children;

@@ -7,29 +7,21 @@ import org.xmappr.RootElement;
 @RootElement("organisationUnit")
 public class PictureOrganisationUnit {
 
-	@Attribute(name="id")
-	protected int ID;
+	@Attribute
+	private int id;
 	
-	@Element(name="name")
-	protected String name;
+	@Element
+	private String name;
 	
-	@Element(name="positions", targetType=PicturePositions.class)
-	protected PicturePositions positions;
+	@Element(targetType=PicturePositions.class)
+	private PicturePositions positions;
 
-	public PicturePositions getPositions() {
-		return positions;
+	public int getId() {
+		return id;
 	}
 
-	public void setPositions(PicturePositions positions) {
-		this.positions = positions;
-	}
-
-	public int getID() {
-		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -38,5 +30,13 @@ public class PictureOrganisationUnit {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public PicturePositions getPositions() {
+		return positions;
+	}
+
+	public void setPositions(PicturePositions positions) {
+		this.positions = positions;
 	}
 }

@@ -6,11 +6,11 @@ import org.xmappr.RootElement;
 @RootElement("methodDefinition")
 public class PictureMethodDefinition {
 
-	@Element(name="buildingBlockTypes", targetType=PictureBuildingBlockTypes.class)
-	protected PictureBuildingBlockTypes buildingBlockTypes;
+	@Element(targetType=PictureBuildingBlockTypes.class)
+	private PictureBuildingBlockTypes buildingBlockTypes;
 	
-	@Element(name="attributeTypes", targetType=PictureAttributeTypes.class)
-	protected PictureAttributeTypes attributeTypes;
+	@Element(targetType=PictureAttributeTypes.class)
+	private PictureAttributeTypes attributeTypes;
 	
 	public PictureBuildingBlockTypes getBuildingBlockTypes() {
 		return buildingBlockTypes;

@@ -7,24 +7,24 @@ import org.xmappr.RootElement;
 @RootElement("position")
 public class PicturePosition {
 
-	@Attribute(name="id")
-	protected int ID;
+	@Attribute
+	private int id;
 	
-	@Attribute(name="type")
-	protected String type;
+	@Attribute
+	private String type;
 	
-	@Element(name="description")
-	protected String description;
+	@Element
+	private String description;
 	
-	@Element(name="name")
-	protected String name;
+	@Element
+	private String name;
 
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getType() {
@@ -49,6 +49,5 @@ public class PicturePosition {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
+	}	
 }

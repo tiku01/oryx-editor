@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PictureResources {
 
 	@Element(name="resource", targetType=PictureResource.class)
-	protected ArrayList<PictureResource> children;
+	private ArrayList<PictureResource> children;
 
 	public ArrayList<PictureResource> getChildren() {
 		return children;

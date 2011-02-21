@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PicturePositions {
 
 	@Element(name="position", targetType=PicturePosition.class)
-	protected ArrayList<PicturePosition> children;
+	private ArrayList<PicturePosition> children;
 
 	public ArrayList<PicturePosition> getChildren() {
 		return children;

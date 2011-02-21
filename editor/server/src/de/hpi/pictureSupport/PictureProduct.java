@@ -7,18 +7,18 @@ import org.xmappr.RootElement;
 @RootElement("product")
 public class PictureProduct {
 
-	@Attribute(name="id")
-	protected int ID;
+	@Attribute
+	private int id;
 	
-	@Element(name="name")
-	protected String name;
+	@Element
+	private String name;
 
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

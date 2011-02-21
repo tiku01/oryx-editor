@@ -7,27 +7,27 @@ import org.xmappr.RootElement;
 @RootElement("user")
 public class PictureUser {
 
-	@Attribute(name="id")
-	protected int ID;
+	@Attribute
+	private int id;
 	
-	@Element(name="userName")
-	protected String userName;
+	@Element
+	private String userName;
 	
-	@Element(name="firstName")
-	protected String firstName;
+	@Element
+	private String firstName;
 	
-	@Element(name="lastName")
-	protected String lastName;
+	@Element
+	private String lastName;
 	
-	@Element(name="email")
-	protected String email;
+	@Element
+	private String email;
 
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUserName() {
@@ -61,5 +61,4 @@ public class PictureUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 }

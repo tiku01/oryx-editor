@@ -9,7 +9,7 @@ import org.xmappr.RootElement;
 public class PictureProcesses {
 
 	@Element(name="process", targetType=PictureProcess.class)
-	protected ArrayList<PictureProcess> children;
+	private ArrayList<PictureProcess> children;
 
 	public ArrayList<PictureProcess> getChildren() {
 		return children;
