@@ -1,16 +1,8 @@
 package de.hpi.pictureSupport;
 
-//import java.util.HashMap;
-//import java.util.Map;
-import java.util.Vector;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmappr.Element;
 import org.xmappr.Namespaces;
 import org.xmappr.RootElement;
-
-import de.hpi.pictureSupport.Logger;
 
 @Namespaces("ns2=http://www.picture-gmbh.de/prozessplattform/2009")
 @RootElement("ns2:pictureExport")
@@ -85,37 +77,5 @@ public class PictureXML extends XMLConvertible {
 
 	public void setMethodDefinition(PictureMethodDefinition methodDefinition) {
 		this.methodDefinition = methodDefinition;
-	}
-	
-	@Override
-	public void writeJSON(JSONObject json){
-		//nothing to do
-	}
-	
-	public Vector<JSONObject> writeJSON() throws JSONException{
-		Logger.i("writeDiagrams");
-      
-		
-		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
-		//JSONObject json = null;
-		
-		//Map<String,String> inheritedProperties = new HashMap<String,String>();
-		//inheritedProperties.put("version",getVersion());
-		
-		/*for (PictureModel aModel : getModels().getModel()){
-			//pass global information to models
-			aModel.getInheritedProperties().putAll(inheritedProperties);
-			
-			
-			Logger.i("write Model "+aModel.getName());
-			
-			json = new JSONObject();
-			//set the appropriate language to translate correctly
-			aModel.setLanguage(Unifier.getLanguage(aModel.getModeltype()));
-			aModel.writeJSON(json);
-			jsonDiagrams.add(json);
-		}*/
-		
-		return jsonDiagrams;
 	}
 }
