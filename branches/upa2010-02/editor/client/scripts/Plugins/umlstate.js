@@ -44,7 +44,58 @@ ORYX.Plugins.UMLState = Clazz.extend({
          });
 		
 		
-		document.documentElement.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.hide.bind(this), true ) 
+		document.documentElement.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.hide.bind(this), true );
+    },
+    
+    /**
+     * starting here come my very own functions for the templating
+     * 
+     */
+    /**
+     * templatize value expects the oldValue to be in format of the template... if not hell may break loose.
+     * I'm serious. 
+     */
+    templatizeValue : function templatizeValue(oldValue){
+    	// the matching is done by a couple of ifs rather than a regex since I don't know
+    	// how to match on just "Event" and not "Event [Guard]"
+    	// Case of: blank field ""
+    	if (oldValue == "") {
+    		return "Event [Guard] /Action";
+    	}
+    	// Case of: Event
+    	if ((oldValue.indexOf("[") == -1) && (oldValue.indexOf("/") == -1)) {
+    		return oldValue+" [Guard] /Action";
+    	}
+    	// Case of: [Guard]
+    	if ((oldValue.indexOf("[") == 0) && (oldValue.indexOf("/") == -1)) {
+    		return "Event "+oldValue+" /Action";
+    	}
+    	// Case of: /Action
+    	if (oldValue.indexOf("/") == 0) {
+    		return "Event [Guard] "+oldValue;
+    	}
+    	// Case of: Event [Guard] 
+    	if ((oldValue.indexOf("[") != -1) && (oldValue.indexOf("/") == -1)) {
+    		return oldValue + " /Action";
+    	}
+    	// Case of: Event /Action
+    	if ((oldValue.indexOf("[") == -1) && (oldValue.indexOf("/") > 0)) {
+    		var splitter = oldValue.split("/");
+    		return splitter[0] + "[Guard] /"+splitter[1];
+    	}
+    	// Case of:[Guard] /Action
+    	if ((oldValue.indexOf("[") == 0) && (oldValue.indexOf("/")  != -1)) {
+    		return "Event " + oldValue;
+    	}
+    	
+    	// Case of: Event [Guard] /Action
+    	// TODO: it may start with whitespaces?
+    	if ((oldValue.indexOf("[") > 0) && (oldValue.indexOf("/")  > 0)) {
+    		return oldValue;
+    	}
+    	
+    	// We didn't return so far: WTF happened?
+    	return "Roflcoptaaaaaa";
     },
 	
 	/**
@@ -77,6 +128,8 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		
 		// Destroys the old input, if there is one
 		this.destroy();
+		
+		alert("Shape: " + shape);
 
 		var props = this.getEditableProperties(shape);
 		
@@ -152,11 +205,14 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		    center.x		-= (width/2);
         }
 		var propId		= prop.prefix() + "-" + prop.id();
+		
+		var oldValue = shape.properties[propId];
+		var oldValueWithTemplate = this.templatizeValue(oldValue);
 
 		// Set the config values for the TextField/Area
 		var config 		= 	{
 								renderTo	: htmlCont,
-								value		: shape.properties[propId], // Eingriffspunkt nummer 1
+								value		: oldValueWithTemplate, // Eingriffspunkt nummer 1 shape.properties[propId]
 								x			: (center.x < 10) ? 10 : center.x,
 								y			: center.y,
 								width		: Math.max(100, width),
