@@ -168,7 +168,8 @@
                     "fill":true,
                     "stroke":false
 				}
-			]
+			],
+			"layout" : [{"type" : "layout.uml.stateWithActions"}]
 		},
 		{
 			"type": "node",
@@ -823,10 +824,10 @@
 			],
 			"properties":[
 			    {
-					"id":"condition",
+					"id":"transition",
 					"type":"String",
-					"title":"Name/Condition",
-					"title_de":"Name/Bedingung",
+					"title":"Transition",
+					"title_de":"Übergang",
 					"value":"",
 					"description":"",
 					"tooltip":"",
@@ -836,7 +837,8 @@
 					"length":"",
 					"wrapLines":true
                 }
-			]
+			],
+			"layout" : [{"type" : "layout.uml.controlFlow"}]
 		}
 	],	
 	"rules": {

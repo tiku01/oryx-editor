@@ -33,6 +33,7 @@
       		y="2"
       		stroke="black" 
       		oryx:align="top center" 
+		oryx:anchors="top center"
       		oryx:fittoelem="actionrect">
       	</text>
 	<text 
@@ -42,6 +43,7 @@
       		y="35"
       		stroke="black" 
       		oryx:align="top left" 
+		oryx:anchors="top left"
       		oryx:fittoelem="actionrect">
       	</text>
   	</g>

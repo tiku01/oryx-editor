@@ -1,7 +1,3 @@
 Texttesting
-icons
-  Frame
-  Lifeline
-  synch message
-  synch answer
-  
+WTF fucking plugin gooooO!
+---> renameShape.js
