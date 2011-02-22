@@ -67,7 +67,7 @@
 	id="text_name_title" 
 	oryx:fittoelem="caption" 
 	oryx:align="top center"
-	oryx:anchors="left"  
+	oryx:anchors="left top"  
 	fill="white" 
 	stroke="white">
 	</text>

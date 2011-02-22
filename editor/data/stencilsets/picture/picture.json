@@ -53,70 +53,65 @@
 	  "name":"pictureAttributes",
 	  "properties": [
 		{
-		  "id":"show_properties",
+		  "id":"basic-show_properties",
           "type":"Boolean",
           "title":"zeige Eigenschaften",
           "value":false,
           "description":"",
           "readonly":false,
           "optional":true,
-		  "refToView":"properties"
+		  "refToView":"properties",
+          "popular":true
 		},
 		{
           "id":"realisation",
           "type":"String",
           "title":"Durchführung",
-          "value":"Durchführung\nausführende Stelle\nKenntnisse\nErgebnisse",
+          "value":"ausführende Stelle",
 		  "refToView":"realisation",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true
-        },
-		{
-          "id":"incoming",
-          "type":"String",
-          "title":"Eingangkanal",
-          "value":"Eingangkanal\nKanäle",
-		  "refToView":"incoming",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true
-        },
-		{
-          "id":"resources",
-          "type":"String",
-          "title":"Ressourcen",
-          "value":"Ressourcen\nDokumente\nIT Verfahren",
-		  "refToView":"resource",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true
+          "wrapLines":true,
+          "popular":false
         },
 		{
           "id":"comment",
           "type":"String",
           "title":"Anmerkung",
-          "value":"Anmerkung\nAnmerkungen",
+          "value":"",
 		  "refToView":"comment",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true
+          "wrapLines":true,
+          "popular":false
         }
 	  ]
 	},
-	
+	{
+	  "name":"resourcePackage",
+	  "properties": [
+		{
+          "id":"resources",
+          "type":"String",
+          "title":"Ressourcen",
+          "value":"Dokumente\nIT Verfahren",
+		  "refToView":"resource",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true,
+          "popular":false
+        }
+	  ]
+	}
   ],
   
   //Stencils  
@@ -201,7 +196,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Neues Dokument/ Information erstellen",
+          "value":"Neues Dokument/Information erstellen",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -224,7 +219,8 @@
       ],
       "propertyPackages": [
 		"baseAttributes",
-		"pictureAttributes"
+		"pictureAttributes",
+		"resourcePackage"
       ]
     },
     {
@@ -273,6 +269,7 @@
       "propertyPackages": [        
 	    "baseAttributes",
 	    "pictureAttributes",
+		"resourcePackage"
       ]
     },    
     {
@@ -320,7 +317,8 @@
       ],
       "propertyPackages": [
 	    "baseAttributes",
-		"pictureAttributes"
+		"pictureAttributes",
+		"resourcePackage"
       ],
     },
     {
@@ -368,7 +366,8 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+	    "pictureAttributes",
+		"resourcePackage"
       ],
     },
     
@@ -395,7 +394,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument/ Information geht ein",
           "description":"",
           "tooltip":"",
@@ -415,7 +414,21 @@
           "optional":true,
 		  "refToView":"incoming_image",
 		  "visible":false
-		}
+		},
+		{
+          "id":"incoming",
+          "type":"String",
+          "title":"Eingangskanal",
+          "value":"Kanäle",
+		  "refToView":"incoming",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true,
+          "popular":false
+        }
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -443,7 +456,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument/ Information geht aus",
           "description":"",
           "tooltip":"",
@@ -463,7 +476,21 @@
           "optional":true,
 		  "refToView":"outgoing_image",
 		  "visible":false
-		}
+		},
+		{
+          "id":"outgoing",
+          "type":"String",
+          "title":"Ausgangskanal",
+          "value":"Kanäle",
+		  "refToView":"outgoing",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true,
+          "popular":false
+        }
       ],
       "propertyPackages": [
         "baseAttributes",
@@ -491,7 +518,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Bearbeitungs- unterbrechung",
           "description":"",
           "tooltip":"",
@@ -542,7 +569,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument/ Information sichten",
           "description":"",
           "tooltip":"",
@@ -566,7 +593,8 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+	    "pictureAttributes",
+		"resourcePackage"
       ],
     },
     {
