@@ -7,6 +7,9 @@ import java.io.StringReader;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
 
+/**
+ * The Class PictureConverter.
+ */
 public class PictureConverter {
 
 	/* unused ATM, useful for testing and loading own file from HDD
@@ -36,9 +39,10 @@ public class PictureConverter {
 	*/
 	
 	/**
-	 * import a xml file and convert it into a json 
-	 * @param xml
-	 * @return
+	 * import a xml file and convert it into a json.
+	 *
+	 * @param xml the xml
+	 * @return the string
 	 */
 	public String importXML(String xml){
 		Logger.i("importXML");

@@ -20,21 +20,37 @@ import org.xmappr.Element;
 //import sun.misc.BASE64Decoder;
 //import sun.misc.BASE64Encoder;
 
+/**
+ * The Class XMLConvertible.
+ */
 public abstract class XMLConvertible {
 	
+	/** The unknown attributes. */
 	@Attribute("*")
 	protected HashMap<String,String> unknownAttributes = new HashMap<String,String>();
 
+	/** The unknown children. */
 	@Element("*")
 	protected ArrayList<DomElement> unknownChildren;
 	
+	/** The resource id to shape. */
 	protected HashMap<String, JSONObject> resourceIdToShape;
 	//protected Map<String, XPDLThing> resourceIdToObject;
 	
+	/**
+	 * Gets the unknown attributes.
+	 *
+	 * @return the unknown attributes
+	 */
 	public HashMap<String,String> getUnknownAttributes() {
 		return unknownAttributes;
 	}
 	
+	/**
+	 * Gets the unknown children.
+	 *
+	 * @return the unknown children
+	 */
 	public ArrayList<DomElement> getUnknownChildren() {
 		return unknownChildren;
 	}
@@ -43,10 +59,20 @@ public abstract class XMLConvertible {
 		return resourceIdToObject;
 	}*/
 	
+	/**
+	 * Gets the resource id to shape.
+	 *
+	 * @return the resource id to shape
+	 */
 	public HashMap<String, JSONObject> getResourceIdToShape() {
 		return resourceIdToShape;
 	}
 	
+	/**
+	 * Parses the JSON Object.
+	 *
+	 * @param modelElement the model element
+	 */
 	@SuppressWarnings("rawtypes")
 	public void parse(JSONObject modelElement) {
 		Iterator jsonKeys = modelElement.keys();
@@ -67,6 +93,12 @@ public abstract class XMLConvertible {
 		}
 	}
 	
+	/**
+	 * Read unknowns.
+	 *
+	 * @param modelElement the model element
+	 * @param key the key
+	 */
 	public void readUnknowns(JSONObject modelElement, String key) {
 		String storedData = modelElement.optString(key);
 		if (storedData != null) {
@@ -77,6 +109,12 @@ public abstract class XMLConvertible {
 		}
 	}
 
+	/**
+	 * Read JSON unknown Key.
+	 *
+	 * @param modelElement the model element
+	 * @param key the key
+	 */
 	public void readJSONunknownkey(JSONObject modelElement, String key) {
 		System.err.println("Unknown JSON-key: " + key + "\n" +
 							"in JSON-Object: " + modelElement + "\n" +
@@ -87,18 +125,38 @@ public abstract class XMLConvertible {
 		resourceIdToObject = mapping;
 	}*/
 	
+	/**
+	 * Sets the resource id to shape.
+	 *
+	 * @param mapping the mapping
+	 */
 	public void setResourceIdToShape(HashMap<String, JSONObject> mapping) {
 		resourceIdToShape = mapping;
 	}
 	
+	/**
+	 * Sets the unknown attributes.
+	 *
+	 * @param unknowns the unknowns
+	 */
 	public void setUnknownAttributes(HashMap<String,String> unknowns) {
 		unknownAttributes = unknowns;
 	}
 	
+	/**
+	 * Sets the unknown children.
+	 *
+	 * @param unknownElements the new unknown children
+	 */
 	public void setUnknownChildren(ArrayList<DomElement> unknownElements) {
 		unknownChildren = unknownElements;
 	}
 	
+	/**
+	 * Write the JSON.
+	 *
+	 * @param modelElement the model element
+	 */
 	public void write(JSONObject modelElement) {
 		Method[] methods = getClass().getMethods();
 		for (int i = 0; i < methods.length; i++) {
@@ -114,6 +172,13 @@ public abstract class XMLConvertible {
 		}
 	}
 	
+	/**
+	 * Write unknowns.
+	 *
+	 * @param modelElement the model element
+	 * @param key the key
+	 * @throws JSONException the jSON exception
+	 */
 	public void writeUnknowns(JSONObject modelElement, String key) throws JSONException {
 		HashMap<String,String> unknownAttributes = getUnknownAttributes();
 		ArrayList<DomElement> unknownElements = getUnknownChildren();
@@ -127,6 +192,12 @@ public abstract class XMLConvertible {
 	}
 
 	
+	/**
+	 * From storable.
+	 *
+	 * @param stored the stored
+	 * @return the object
+	 */
 	protected Object fromStorable(String stored) {
 		
 		try {
@@ -142,6 +213,12 @@ public abstract class XMLConvertible {
 		return null;
 	}
 	
+	/**
+	 * Make storable.
+	 *
+	 * @param objectToStore the object to store
+	 * @return the string
+	 */
 	protected String makeStorable(Object objectToStore) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		try {
@@ -156,6 +233,12 @@ public abstract class XMLConvertible {
 		return new String(Base64.encodeBase64(byteStream.toByteArray()));	
 	}
 	
+	/**
+	 * Checks for json method.
+	 *
+	 * @param methodName the method name
+	 * @return true, if successful
+	 */
 	protected boolean hasJSONMethod(String methodName) {
 		Method[] methods = getClass().getMethods();
 		for (int i = 0; i < methods.length; i++) {
@@ -167,6 +250,12 @@ public abstract class XMLConvertible {
 		return false;
 	}
 
+	/**
+	 * Checks for method json parameter.
+	 *
+	 * @param method the method
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("rawtypes")
 	protected boolean hasMethodJSONParameter(Method method) {
 		Class[] parameterTypes = method.getParameterTypes();
@@ -176,6 +265,13 @@ public abstract class XMLConvertible {
 		return false;
 	}
 	
+	/**
+	 * Key not empty.
+	 *
+	 * @param modelElement the model element
+	 * @param key the key
+	 * @return true, if successful
+	 */
 	protected boolean keyNotEmpty(JSONObject modelElement, String key) {
 		try {
 			JSONObject objectAtKey = modelElement.getJSONObject(key);
