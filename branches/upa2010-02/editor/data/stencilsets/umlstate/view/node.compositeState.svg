@@ -17,8 +17,8 @@
     		id="actionrect"
        		x="0"
        		y="0"
-       		width="300"
-       		height="200"
+       		width="400"
+       		height="300"
 	   		rx="15"
 	   		ry="15"
 	   		stroke="black"
@@ -28,10 +28,11 @@
       	<text 
       		font-size="12" 
       		id="text" 
-      		x="45" 
-      		y="25"
+      		x="200" 
+      		y="2"
       		stroke="black" 
-      		oryx:align="middle center" 
+      		oryx:align="middle center"
+		oryx:anchors="top left right"
       		oryx:fittoelem="actionrect">
       	</text>
   	</g>

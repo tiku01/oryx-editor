@@ -3,6 +3,7 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	version="1.0" >
+	<oryx:docker oryx:cx="40" oryx:cy="500" />
 	<g
      	oryx:minimumSize="80 60"
      	id="actor">
@@ -25,7 +26,7 @@
 		fill="white" 
 		oryx:anchors="top"/>
 	<path id="line" 
-      d="M40,81 L40,480" 
+      d="M40,81 L40,500" 
       stroke="black" 
       fill="none" 
       stroke-width="4" 

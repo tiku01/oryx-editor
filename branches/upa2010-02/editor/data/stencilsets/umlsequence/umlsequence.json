@@ -129,38 +129,6 @@
 		},
 		{
 			"type": "node",
-			"id":"lifeline",
-			"title":"Lifeline",
-			"title_de":"Lebenslinie",
-			"groups":["Actors"],
-			"groups_de":["Teilnehmer"],
-			"description":"This line represents the lifetime of a participant of the communication.",
-			"description_de":"Diese Linie repräsentiert die Lebenszeit eines Teilnehmers der Kommunikation.",
-			"view":"node.lifeline.svg",
-			"icon":"Placeholder.png",
-			"roles": [
-				"diagramcontent",
-				"container",
-				"lifeline"
-			],
-			"properties": [
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"title_de":"Name",					"value":"",
-					"description":"",
-					"tooltip":"",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":"",
-					"wrapLines":true
-                }
-			]
-		},
-		{
-			"type": "node",
 			"id":"active",
 			"title":"Active Line",
 			"title_de":"Ausfuehrungsbalken",
