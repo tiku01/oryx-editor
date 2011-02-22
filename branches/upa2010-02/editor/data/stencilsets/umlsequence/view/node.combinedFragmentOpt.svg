@@ -6,16 +6,8 @@
   	<g
      	oryx:minimumSize="100 80"
      	id="actor">
-    	<rect
-    		id="border"
-	   		x="0"
-	   		y="0"
-       		width="200"
-       		height="80"
-       		stroke="black"
-	   		stroke-width="2"
-	   		fill="none"
-		oryx:resize="horizontal vertical" />
+	<polyline id="border" oryx:anchors="top left" points="0,0 200,0 200,80 0,80 0,0"
+	    stroke="black" stroke-width="2" fill="none" oryx:resize="horizontal vertical" />
 	<polyline oryx:anchors="top left" points="0,25 30,25 45,8 45,0"
 	    style="stroke:black;stroke-width:2;fill:none" />
 	    
