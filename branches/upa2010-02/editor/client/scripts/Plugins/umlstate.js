@@ -97,6 +97,22 @@ ORYX.Plugins.UMLState = Clazz.extend({
     	// We didn't return so far: WTF happened?
     	return "Roflcoptaaaaaa";
     },
+    /**
+     * The intent of this function is that if the user does something like this:
+     * 
+     * Event [x >= 5] /Action
+     * 
+     * what gets saved and displayed is
+     * 
+     * [x >= 5]
+     * 
+     * Therefore we'll try to delete any occurences of Event, [Guard] and /Action
+     */
+    untemplatizeValue: function untemplatizeValue(value){
+    	// Quiet a chain, I love message chaining.
+    	var newValue = value.replace("Event ", "").replace("[Guard]", "").replace(" /Action", "");
+    	return newValue;
+    },
 	
 	/**
 	 * This method handles the "F2" key down event. The selected shape are looked
@@ -246,7 +262,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		this.shownTextField.on( 'change', 	function(node, value){
 			var currentEl 	= shape;
 			var oldValue	= currentEl.properties[propId]; 
-			var newValue	= value; // Eingriffspunkt nummer 2
+			var newValue	= this.untemplatizeValue(value); // Eingriffspunkt nummer 2 value
 			var facade		= this.facade;
 			
 			if (oldValue != newValue) {
