@@ -55,7 +55,21 @@ ORYX.Plugins.UMLState = Clazz.extend({
      * templatize value expects the oldValue to be in format of the template... if not hell may break loose.
      * I'm serious. 
      */
-    templatizeValue : function templatizeValue(oldValue){
+    templatizeValue : function templatizeValue(oldValue, shape){
+    	var stencilID = shape._stencil.id();
+    	alert(stencilID);
+    	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
+    		return this.templatizeEdgeValue(oldValue);
+    	}
+    	else if (stencilID == "http://b3mn.org/stencilset/umlstate#stateWithActions") {
+    		return "not yet implemented";	
+    	}
+    	else{	
+    		return oldValue;
+    	}
+    },
+    
+    templatizeEdgeValue : function templatizeEdgeValue(oldValue){
     	// the matching is done by a couple of ifs rather than a regex since I don't know
     	// how to match on just "Event" and not "Event [Guard]"
     	// Case of: blank field ""
@@ -222,13 +236,10 @@ ORYX.Plugins.UMLState = Clazz.extend({
         }
 		var propId		= prop.prefix() + "-" + prop.id();
 		
-		var oldValue = shape.properties[propId];
-		var oldValueWithTemplate = this.templatizeValue(oldValue);
-
 		// Set the config values for the TextField/Area
 		var config 		= 	{
 								renderTo	: htmlCont,
-								value		: oldValueWithTemplate, // Eingriffspunkt nummer 1 shape.properties[propId]
+								value		: this.templatizeValue(shape.properties[propId], shape), // Eingriffspunkt nummer 1 shape.properties[propId]
 								x			: (center.x < 10) ? 10 : center.x,
 								y			: center.y,
 								width		: Math.max(100, width),
