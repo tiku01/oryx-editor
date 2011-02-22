@@ -130,35 +130,43 @@ ORYX.Plugins.UMLState = Clazz.extend({
     	var indexOfEntry = oldValue.indexOf("entry /");
     	var indexOfDo = oldValue.indexOf("do /");
     	var indexOfExit = oldValue.indexOf("exit /");
-    	if (oldValue == ""){
-    		return "entry / action\r\ndo / action\r\nexit / action";
+    	
+    	// standardize the ending of the oldValue, with \n that is.
+    	if (oldValue.charAt(oldValue.length -1) != "\n"){
+    		oldValue = oldValue + "\n"
+    	}
+    	
+    	// \n is used throughout cause this seems to be what my firefox is using.. though I'm working on Windows
+    	// you see, here we match against \n because we add it above.
+    	if (oldValue == "\n"){
+    		return "entry / action\ndo / action\nexit / action";
     	}
     	// entry / action
     	if ((indexOfEntry == 0) && (indexOfDo == -1) && (indexOfExit == -1)){
-    		return oldValue + "\r\ndo / action\r\nexit / action";
+    		return oldValue + "do / action\nexit / action";
     	}
     	// do / action
     	if ((indexOfEntry == -1) && (indexOfDo == 0) && (indexOfExit == -1)){
-    		return "entry / action\r\n"+ oldValue + "\r\nexit / action";
+    		return "entry / action\n"+ oldValue + "exit / action";
     	}
     	// exit / action
     	if ((indexOfEntry == -1) && (indexOfDo == -1) && (indexOfExit == 0)){
-    		return "entry / action\r\ndo / action\r\n"+ oldValue;
+    		return "entry / action\ndo / action\n"+ oldValue;
     	}
     	// entry / action
     	// do / action
     	if ((indexOfEntry == 0) && (indexOfDo != -1) && (indexOfExit == -1)){
-    		return oldValue +"\r\nexit / action";
+    		return oldValue +"exit / action";
     	}
     	// entry / action
     	// exit / action
     	if ((indexOfEntry == 0) && (indexOfDo == -1) && (indexOfExit != -1)){
-    		return oldValue.slice(0, indexOfExit) + "do / action\r\n" + oldValue.slice(indexOfExit);
+    		return oldValue.slice(0, indexOfExit) + "do / action\n" + oldValue.slice(indexOfExit);
     	}
     	// do / action
     	// exit / action
     	if ((indexOfEntry == -1) && (indexOfDo == 0) && (indexOfExit != -1)){
-    		return "entry / action\r\n" + oldValue;
+    		return "entry / action\n" + oldValue;
     	}
     	// the whole bunch
     	// entry / action
@@ -169,12 +177,11 @@ ORYX.Plugins.UMLState = Clazz.extend({
     	}
     	
     	// If we got this far something went wrong
-    	return "aye what is this?\r\nYou seem a little bit off";
+    	return "aye what is this?\nYou seem a little bit off";
     },
     
-    untemplatizeValue : function untemplatizeValue(propId, shape){
+    untemplatizeValue : function untemplatizeValue(newValue, propId, shape){
     	var stencilID = shape._stencil.id();
-    	var newValue = shape.properties[propId];
     	// It is the edge (controlflow)
     	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
     		return this.untemplatizeEdgeValue(newValue);
@@ -202,12 +209,14 @@ ORYX.Plugins.UMLState = Clazz.extend({
      */
     untemplatizeEdgeValue: function untemplatizeEdgeValue(value){
     	// Quiet a chain, I love message chaining.
+    	alert(value);
     	var newValue = value.replace("Event ", "").replace("[Guard]", "").replace(" /Action", "");
+    	alert(newValue);
     	return newValue;
     },
     
     untemplatizeStateWithActionsValue: function untemplatizeStateWithActionsValue(value){
-    	var newValue = value.replace("entry / action\r\n", "").replace("do / action\r\n", "").replace("exit / action", "");
+    	var newValue = value.replace("entry / action\n", "").replace("do / action\n", "").replace("exit / action", "");
     	return newValue;
     },
 	
@@ -353,7 +362,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		this.shownTextField.on( 'change', 	function(node, value){
 			var currentEl 	= shape;
 			var oldValue	= currentEl.properties[propId]; 
-			var newValue	= this.untemplatizeValue(value, shape); // Eingriffspunkt nummer 2 value
+			var newValue	= this.untemplatizeValue(value, propId, shape); // Eingriffspunkt nummer 2 value
 			var facade		= this.facade;
 			
 			if (oldValue != newValue) {
