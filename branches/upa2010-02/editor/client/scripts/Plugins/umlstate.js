@@ -209,9 +209,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
      */
     untemplatizeEdgeValue: function untemplatizeEdgeValue(value){
     	// Quiet a chain, I love message chaining.
-    	alert(value);
     	var newValue = value.replace("Event ", "").replace("[Guard]", "").replace(" /Action", "");
-    	alert(newValue);
     	return newValue;
     },
     

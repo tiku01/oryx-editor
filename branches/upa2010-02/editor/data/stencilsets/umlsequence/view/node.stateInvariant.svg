@@ -22,7 +22,7 @@
       	<text 
       		font-size="12" 
       		id="text" 
-      		x="20" 
+      		x="30" 
       		y="15"
       		stroke="black" 
       		oryx:align="middle center" 

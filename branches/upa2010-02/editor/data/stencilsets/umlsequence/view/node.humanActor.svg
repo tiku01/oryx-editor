@@ -37,8 +37,9 @@
 			id="text" 
 			font-size="12" 
 			x="32" 
-			y="86" 
+			y="92" 
 			oryx:anchors="top" 
+			oryx:align="middle center"
 			stroke="black">
 		</text>
 		<rect id="border" 
