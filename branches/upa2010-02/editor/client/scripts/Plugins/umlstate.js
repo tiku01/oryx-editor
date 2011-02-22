@@ -54,16 +54,21 @@ ORYX.Plugins.UMLState = Clazz.extend({
     /**
      * templatize value expects the oldValue to be in format of the template... if not hell may break loose.
      * I'm serious. 
+     * 
+     * We need the propId parameter in order to differentiate between the 2 textfiels of the state with actions
      */
-    templatizeValue : function templatizeValue(oldValue, shape){
+    templatizeValue : function templatizeValue(propId, shape){
     	var stencilID = shape._stencil.id();
-    	alert(stencilID);
+    	var oldValue = shape.properties[propId];
+    	// It is the edge (controlflow)
     	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
     		return this.templatizeEdgeValue(oldValue);
     	}
-    	else if (stencilID == "http://b3mn.org/stencilset/umlstate#stateWithActions") {
-    		return "not yet implemented";	
+    	// Make sure it's the state with actions and it is the textfield actions, not the the textfiel name
+    	else if ((stencilID == "http://b3mn.org/stencilset/umlstate#stateWithActions") && (propId.indexOf("actions") != -1)) {
+    		return this.templatizeStateWithActionsValue(oldValue);	
     	}
+    	// Otherweise nothing special to do
     	else{	
     		return oldValue;
     	}
@@ -72,45 +77,118 @@ ORYX.Plugins.UMLState = Clazz.extend({
     templatizeEdgeValue : function templatizeEdgeValue(oldValue){
     	// the matching is done by a couple of ifs rather than a regex since I don't know
     	// how to match on just "Event" and not "Event [Guard]"
+    	// optimization: just query the strings once
+    	var indexOfBracket = oldValue.indexOf("[");
+    	var indexOfSlash = oldValue.indexOf("/");
     	// Case of: blank field ""
     	if (oldValue == "") {
     		return "Event [Guard] /Action";
     	}
     	// Case of: Event
-    	if ((oldValue.indexOf("[") == -1) && (oldValue.indexOf("/") == -1)) {
+    	if ((indexOfBracket == -1) && (indexOfSlash == -1)) {
     		return oldValue+" [Guard] /Action";
     	}
     	// Case of: [Guard]
-    	if ((oldValue.indexOf("[") == 0) && (oldValue.indexOf("/") == -1)) {
+    	if ((indexOfBracket == 0) && (indexOfSlash == -1)) {
     		return "Event "+oldValue+" /Action";
     	}
     	// Case of: /Action
-    	if (oldValue.indexOf("/") == 0) {
+    	if (indexOfSlash == 0) {
     		return "Event [Guard] "+oldValue;
     	}
     	// Case of: Event [Guard] 
-    	if ((oldValue.indexOf("[") != -1) && (oldValue.indexOf("/") == -1)) {
+    	if ((indexOfBracket != -1) && (indexOfSlash == -1)) {
     		return oldValue + " /Action";
     	}
     	// Case of: Event /Action
-    	if ((oldValue.indexOf("[") == -1) && (oldValue.indexOf("/") > 0)) {
+    	if ((indexOfBracket == -1) && (indexOfSlash > 0)) {
     		var splitter = oldValue.split("/");
     		return splitter[0] + "[Guard] /"+splitter[1];
     	}
     	// Case of:[Guard] /Action
-    	if ((oldValue.indexOf("[") == 0) && (oldValue.indexOf("/")  != -1)) {
+    	if ((indexOfBracket == 0) && (indexOfSlash  != -1)) {
     		return "Event " + oldValue;
     	}
     	
     	// Case of: Event [Guard] /Action
-    	// TODO: it may start with whitespaces?
-    	if ((oldValue.indexOf("[") > 0) && (oldValue.indexOf("/")  > 0)) {
+    	// TODO: it may start with whitespaces? (may coutn for other too)
+    	if ((indexOfBracket > 0) && (indexOfSlash  > 0)) {
     		return oldValue;
     	}
     	
     	// We didn't return so far: WTF happened?
     	return "Roflcoptaaaaaa";
     },
+    /**
+     * This thing templatizes the actions of the state with actions in the scheme of:
+     * entry / action
+     * do / action
+     * exit / action
+     */
+    templatizeStateWithActionsValue : function templatizeStateWithActionsValue(oldValue){
+    	// performance optimization, save the values of the indexes
+    	var indexOfEntry = oldValue.indexOf("entry /");
+    	var indexOfDo = oldValue.indexOf("do /");
+    	var indexOfExit = oldValue.indexOf("exit /");
+    	if (oldValue == ""){
+    		return "entry / action\r\ndo / action\r\nexit / action";
+    	}
+    	// entry / action
+    	if ((indexOfEntry == 0) && (indexOfDo == -1) && (indexOfExit == -1)){
+    		return oldValue + "\r\ndo / action\r\nexit / action";
+    	}
+    	// do / action
+    	if ((indexOfEntry == -1) && (indexOfDo == 0) && (indexOfExit == -1)){
+    		return "entry / action\r\n"+ oldValue + "\r\nexit / action";
+    	}
+    	// exit / action
+    	if ((indexOfEntry == -1) && (indexOfDo == -1) && (indexOfExit == 0)){
+    		return "entry / action\r\ndo / action\r\n"+ oldValue;
+    	}
+    	// entry / action
+    	// do / action
+    	if ((indexOfEntry == 0) && (indexOfDo != -1) && (indexOfExit == -1)){
+    		return oldValue +"\r\nexit / action";
+    	}
+    	// entry / action
+    	// exit / action
+    	if ((indexOfEntry == 0) && (indexOfDo == -1) && (indexOfExit != -1)){
+    		return oldValue.slice(0, indexOfExit) + "do / action\r\n" + oldValue.slice(indexOfExit);
+    	}
+    	// do / action
+    	// exit / action
+    	if ((indexOfEntry == -1) && (indexOfDo == 0) && (indexOfExit != -1)){
+    		return "entry / action\r\n" + oldValue;
+    	}
+    	// the whole bunch
+    	// entry / action
+    	// do / action
+    	// exit / action
+    	if ((indexOfEntry == 0) && (indexOfDo != -1) && (indexOfExit != -1)){
+    		return oldValue;
+    	}
+    	
+    	// If we got this far something went wrong
+    	return "aye what is this?\r\nYou seem a little bit off";
+    },
+    
+    untemplatizeValue : function untemplatizeValue(propId, shape){
+    	var stencilID = shape._stencil.id();
+    	var newValue = shape.properties[propId];
+    	// It is the edge (controlflow)
+    	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
+    		return this.untemplatizeEdgeValue(newValue);
+    	}
+    	// Make sure it's the state with actions and it is the textfield actions, not the the textfiel name
+    	else if ((stencilID == "http://b3mn.org/stencilset/umlstate#stateWithActions") && (propId.indexOf("actions") != -1)) {
+    		return "not yet implemented";	
+    	}
+    	// Otherweise nothing special to do (as we don't want to affect every stencil)
+    	else{	
+    		return oldValue;
+    	}
+    },
+    
     /**
      * The intent of this function is that if the user does something like this:
      * 
@@ -122,7 +200,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
      * 
      * Therefore we'll try to delete any occurences of Event, [Guard] and /Action
      */
-    untemplatizeValue: function untemplatizeValue(value){
+    untemplatizeEdgeValue: function untemplatizeEdgeValue(value){
     	// Quiet a chain, I love message chaining.
     	var newValue = value.replace("Event ", "").replace("[Guard]", "").replace(" /Action", "");
     	return newValue;
@@ -158,9 +236,6 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		
 		// Destroys the old input, if there is one
 		this.destroy();
-		
-		alert("Shape: " + shape);
-
 		var props = this.getEditableProperties(shape);
 		
 		// Get all ref ids
@@ -239,7 +314,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		// Set the config values for the TextField/Area
 		var config 		= 	{
 								renderTo	: htmlCont,
-								value		: this.templatizeValue(shape.properties[propId], shape), // Eingriffspunkt nummer 1 shape.properties[propId]
+								value		: this.templatizeValue(propId, shape), // Eingriffspunkt nummer 1 shape.properties[propId]
 								x			: (center.x < 10) ? 10 : center.x,
 								y			: center.y,
 								width		: Math.max(100, width),
