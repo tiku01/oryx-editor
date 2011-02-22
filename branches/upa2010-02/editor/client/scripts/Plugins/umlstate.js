@@ -181,11 +181,11 @@ ORYX.Plugins.UMLState = Clazz.extend({
     	}
     	// Make sure it's the state with actions and it is the textfield actions, not the the textfiel name
     	else if ((stencilID == "http://b3mn.org/stencilset/umlstate#stateWithActions") && (propId.indexOf("actions") != -1)) {
-    		return "not yet implemented";	
+    		return this.untemplatizeStateWithActionsValue(newValue);	
     	}
     	// Otherweise nothing special to do (as we don't want to affect every stencil)
     	else{	
-    		return oldValue;
+    		return newValue;
     	}
     },
     
@@ -203,6 +203,11 @@ ORYX.Plugins.UMLState = Clazz.extend({
     untemplatizeEdgeValue: function untemplatizeEdgeValue(value){
     	// Quiet a chain, I love message chaining.
     	var newValue = value.replace("Event ", "").replace("[Guard]", "").replace(" /Action", "");
+    	return newValue;
+    },
+    
+    untemplatizeStateWithActionsValue: function untemplatizeStateWithActionsValue(value){
+    	var newValue = value.replace("entry / action\r\n", "").replace("do / action\r\n", "").replace("exit / action", "");
     	return newValue;
     },
 	
@@ -348,7 +353,7 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		this.shownTextField.on( 'change', 	function(node, value){
 			var currentEl 	= shape;
 			var oldValue	= currentEl.properties[propId]; 
-			var newValue	= this.untemplatizeValue(value); // Eingriffspunkt nummer 2 value
+			var newValue	= this.untemplatizeValue(value, shape); // Eingriffspunkt nummer 2 value
 			var facade		= this.facade;
 			
 			if (oldValue != newValue) {

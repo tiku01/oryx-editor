@@ -1,3 +1,2 @@
 Texttesting
-WTF fucking plugin gooooO!
----> renameShape.js
+If statements to check if value/oldvalue is nil or whatever it is called in JS...
