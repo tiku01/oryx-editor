@@ -25,27 +25,66 @@ if (!ORYX.Plugins)
     ORYX.Plugins = new Object();
 
 
+
+//TODO outsource
+ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE = "matthiasundtobias";
+
+// TODO delete
+ORYX_LOGLEVEL = 4;
+
+
+
 ORYX.Plugins.UMLState = Clazz.extend({
 
-    facade: undefined,
-    
-    construct: function(facade){
-    
-        this.facade = facade;
-      	
+ facade: undefined,
+ 
+ construct: function(facade){
+ 
+     this.facade = facade;
+   	
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_DBLCLICK, this.actOnDBLClick.bind(this));
-        this.facade.offer({
+     this.facade.offer({
 		 keyCodes: [{
 				keyCode: 113, // F2-Key
 				keyAction: ORYX.CONFIG.KEY_ACTION_DOWN 
 			}
 		 ],
-         functionality: this.renamePerF2.bind(this)
-         });
+      functionality: this.renamePerF2.bind(this)
+      });
 		
 		
 		document.documentElement.addEventListener(ORYX.CONFIG.EVENT_MOUSEDOWN, this.hide.bind(this), true );
-    },
+		
+		// MATTHIAS UND TOBI -- move to renameshapes.js
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE, this.registerTemplate.bind(this));
+		this.facade.raiseEvent({
+			type: ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE,
+			empty: true // enforces basic template (unity)
+		});
+		
+		// MATTHIAS UND TOBI -- move to renameshapes.js
+		
+		// dokumentieren
+		this.facade.raiseEvent({
+			type: ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE,
+			edit_template: this.templatizeValue.bind(this),
+			render_template: this.untemplatizeValue.bind(this)
+		});
+ },
+	
+ 
+ registerTemplate: function(options) {
+	 
+	ORYX.Log.info("registerTemplate", options);
+	 
+ 	this.label_templates = this.label_templates || [];
+ 	
+ 	this.label_templates.push({
+ 		edit: "function" == typeof(options.edit_template) ? options.edit_template : function(a){ORYX.Log.info("edit("+a+")"); return a;},
+ 		render: "function" == typeof(options.render_template) ? options.render_template : function(a){ORYX.Log.info("render("+a+")");return a;}
+ 	});
+ },
+ 
     
     /**
      * starting here come my very own functions for the templating
@@ -57,9 +96,13 @@ ORYX.Plugins.UMLState = Clazz.extend({
      * 
      * We need the propId parameter in order to differentiate between the 2 textfiels of the state with actions
      */
-    templatizeValue : function templatizeValue(propId, shape){
+    templatizeValue : function templatizeValue(oldValue, propId, shape){
+    	
+    	
+    	ORYX.Log.info("templatizeValue", arguments);
+    	
     	var stencilID = shape._stencil.id();
-    	var oldValue = shape.properties[propId];
+    	//var oldValue = shape.properties[propId];
     	// It is the edge (controlflow)
     	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
     		return this.templatizeEdgeValue(oldValue);
@@ -75,6 +118,10 @@ ORYX.Plugins.UMLState = Clazz.extend({
     },
     
     templatizeEdgeValue : function templatizeEdgeValue(oldValue){
+    	
+    	
+    	
+    	
     	// the matching is done by a couple of ifs rather than a regex since I don't know
     	// how to match on just "Event" and not "Event [Guard]"
     	// optimization: just query the strings once
@@ -181,6 +228,9 @@ ORYX.Plugins.UMLState = Clazz.extend({
     },
     
     untemplatizeValue : function untemplatizeValue(newValue, propId, shape){
+    	
+    	ORYX.Log.info("untemplatizeValue", arguments);
+    	
     	var stencilID = shape._stencil.id();
     	// It is the edge (controlflow)
     	if (stencilID == "http://b3mn.org/stencilset/umlstate#controlFlow") {
@@ -326,7 +376,17 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		// Set the config values for the TextField/Area
 		var config 		= 	{
 								renderTo	: htmlCont,
-								value		: this.templatizeValue(propId, shape), // Eingriffspunkt nummer 1 shape.properties[propId]
+								
+								// MATTHIAS UND TOBI -- move to renameshapes.js
+								value		: (function(value, propId, shape){
+									this.label_templates.forEach(function(tpl){
+										value = tpl.edit(value, propId, shape);
+									});
+									return value;
+								}.bind(this))(shape.properties[propId], propId, shape),
+									// this.templatizeValue(propId, shape), // Eingriffspunkt nummer 1 shape.properties[propId]
+								// MATTHIAS UND TOBI
+								
 								x			: (center.x < 10) ? 10 : center.x,
 								y			: center.y,
 								width		: Math.max(100, width),
@@ -360,7 +420,19 @@ ORYX.Plugins.UMLState = Clazz.extend({
 		this.shownTextField.on( 'change', 	function(node, value){
 			var currentEl 	= shape;
 			var oldValue	= currentEl.properties[propId]; 
-			var newValue	= this.untemplatizeValue(value, propId, shape); // Eingriffspunkt nummer 2 value
+			// MATTHIAS UND TOBI -- move to renameshapes.js
+			
+			
+			var newValue	= (function(value, propId, shape){
+				this.label_templates.forEach(function(tpl){
+					value = tpl.render(value, propId, shape);
+				})
+				return value;
+			}.bind(this))(value, propId, shape);
+			
+			//this.untemplatizeValue(value, propId, shape); // Eingriffspunkt nummer 2 value
+			// MATTHIAS UND TOBI
+			
 			var facade		= this.facade;
 			
 			if (oldValue != newValue) {
