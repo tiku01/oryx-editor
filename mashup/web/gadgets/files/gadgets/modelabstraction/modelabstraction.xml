@@ -37,6 +37,10 @@
 				color: #FFFFFF !important;
 			}
 			
+			.yui-radio-button-checked{
+				background-position:0 -110px !important;
+			}
+			
 			.checkbox { 
 			    display:block;
 			   	width:15%;
@@ -78,7 +82,7 @@
 				border-color: white;
 			}
 			
-			#modelline {
+			.marginl3px {
 				margin-left: 3px;
 			}
 			
@@ -91,6 +95,48 @@
 				font-weight: bold;
 				border: 2px solid #000000;
 			}
+			
+			#radio_buttons {
+				display: inline;
+			}
+			
+			#overlay {
+				position: fixed;
+				background-color: #707070;/*transparent;*/
+				filter:alpha(opacity=50);
+				-moz-opacity:0.5;
+				-khtml-opacity: 0.5;
+				opacity: 0.5;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				top: 0;
+				z-index: 100;
+				visibility: hidden;
+			}
+			
+			#edit_message {
+				position: absolute;
+				left: 10px;
+				top: 70px;
+				font-style: italic;
+			}
+			
+			#edit_buttons {
+				bottom: 20px;
+			    left: 60px;
+			    position: absolute
+			}
+			
+			#edit_in {
+				position: absolute;
+				left: 10px;
+				top: 40px;
+			}
+			
+			#loading_anim {
+				
+			}
 		</style>
 		
 		<body class=" yui-skin-sam" id="abstractor">
@@ -98,11 +144,35 @@
 			<!--div class="hd"></div-->
 			<div class="bd"></div>
 			<!--div class="ft"></div-->
-		</div>			
+		</div>		
+		<div id="overlay"></div>
+		<div id="edit_panel">
+			<div class="hd"></div>
+			<div class="bd">
+				<div id="edit_in">
+					<span>Name: </span>
+					<input id="edit_name" type="text"/><br/>
+				</div>
+				<span id="edit_message">Select all shapes and click on Save.</span>
+				<fieldset id="edit_buttons"></fieldset>
+			</div>
+			<!--div class="ft"></div-->
+		</div>
+		<div id="loading_anim">
+			<div class="bd">
+				<!--img src="/mashup/gadgets/files/gadgets/modelabstraction/icons/ajax-loader.gif" alt="Loading..."/-->
+			</div>
+		</div>
 		<div id ="top">
-			<div style = "margin:3px;">
-				<fieldset id="button_group"></fieldset>
-				<span id="modelline">Model: <span id="model"></span></span>
+			<div style="margin: 3px">
+				<fieldset id="button_group" style="display: inline;"></fieldset>
+				<div style="display:inline">
+					<span class="marginl3px">Prefer: </span>
+					<fieldset id="radio_buttons"></fieldset>
+				</div>
+				<div>
+					<span id="modelline" class="marginl3px">Model: <span id="model"></span></span>
+				</div>
 			</div>
 		</div>
 		<div id="center"> 
