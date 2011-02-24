@@ -27,10 +27,7 @@ var ModelAbstraction = function() {
 	this.selector = null;
 	this.counter = 0;
 	this.groups = [];
-	this.buttons = {};	
 	this.selectionMode = false;
-	this.msg = null;
-	this._modelLinks = []
 	this.init();
 }
 
@@ -54,31 +51,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		newButton.on("click", this.createGroup.bind(this));
 		newButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/add.png') no-repeat center");
 		newButton.className ="button";
-		this.buttons['new'] = newButton;
-		
-		// saves the choice after the selection is done
-		var saveButton = new YAHOO.widget.Button({
-			id : 		"saveButton", 
-			container : "button_group",
-			title : 	"save your choice"
-		});
-		saveButton.on("click", this.saveGroup.bind(this));
-		saveButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/disk.png') no-repeat center");
-		saveButton.className ="button";
-		saveButton.addClass("hide");
-		this.buttons['save'] = saveButton;
-		
-		// used to edit an existing group
-		var editButton = new YAHOO.widget.Button({
-			id :		"editButton", 
-			container :	"button_group", 
-			title : 	"edit an existing group of shapes" 
-		});
-		editButton.on("click", this.editGroup.bind(this));
-		editButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/pencil.png') no-repeat center");
-		editButton.className ="button";
-		this.buttons['edit'] = editButton;
-		
+	
 		// used to remove all existing groups
 		var resetButton = new YAHOO.widget.Button({
 			id :		"resetButton", 
@@ -105,15 +78,89 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			this.resetModel();
 		}
 		
+		// displays error messages
 		this.msg = new YAHOO.widget.Panel("msgpanel", {
 			width: 300,
 			close: false,
 			visible: false,
 			draggable: false,
 			y: 100,
-			x: 50
+			x: 50,
+			zIndex: 102
 		});
 		this.msg.render();
+		
+		// used to give the user the choice to prefer either cycles or parallelism
+		this.cycleChoice = new YAHOO.widget.ButtonGroup({
+			id : 		"cycleChoice",
+			name : 		"cycleChoice",
+			container :	"radio_buttons"
+		});
+		this.cycleChoice.addButtons([
+			{label: "Cycles", value: "0", type: "radio"},
+			{label: "Parallelism", value: "1", type: "radio"}//, checked: true
+		]);
+		this.cycleChoice.check(1);
+		
+		// creation and edit dialog
+		this.editPanel = new YAHOO.widget.Panel("edit_panel", {
+			width: 250,
+			height: 150,
+			close: false,
+			visible: false,
+			draggable: false,
+			y: 50,
+			x: 75,
+			zIndex: 101
+		});
+		this.editPanel.render();
+		var editSaveButton = new YAHOO.widget.Button({
+			id : 		"editSaveButton", 
+			container : "edit_buttons",
+			title : 	"save your choice",
+			label : 	"Save"
+		});
+		editSaveButton.on("click", this.saveGroup.bind(this));
+		var editCancelButton = new YAHOO.widget.Button({
+			id : 		"editCancelButton", 
+			container : "edit_buttons",
+			title : 	"cancel the selection",
+			label : 	"Cancel"
+		});
+		editCancelButton.on("click", this.abortSelection.bind(this));
+
+		// busy animation showing that the abstraction process is running
+		this.loadingPanel = new YAHOO.widget.Panel("loading_anim", {
+			width: 50,
+			height: 50,
+			close: false,
+			visible: false,
+			draggable: false,
+			y: 130,
+			x: 175,
+			zIndex: 101
+		});
+		var ani = document.createElement("img");
+		ani.setAttribute("src", this.GADGET_BASE + "modelabstraction/icons/ajax-loader.gif");
+		ani.setAttribute("alt", "Loading...");
+		this.loadingPanel.setBody(ani);
+		this.loadingPanel.render();
+	},
+	
+	/*
+	 * Shows the loading animation.
+	 */
+	showLoading : function() {
+		$("overlay").setStyle({'visibility': 'visible'});
+		this.loadingPanel.show();
+	},
+	
+	/*
+	 * Hides the loading animation.
+	 */
+	hideLoading : function() {
+		$("overlay").setStyle({'visibility': 'hidden'});	
+		this.loadingPanel.hide();
 	},
 	
 	/*
@@ -123,16 +170,36 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 */
 	createGroup : function() {
 		if (!this.selectionMode) {
-			var group = new Group(this, prompt("Enter a name for the new group:"));
-			if (this.addGroup(group)) {
-				this.buttons['save'].removeClass('hide');
-				this.buttons['new'].addClass('hide');
-				this.selectionMode = true;
-				this.selector = new Selector(this, group, this.viewer);
-			} else {
-				this.showMessage("Please choose a unique group name!");
-			}
+			var group = new Group(this, "");
+			this.selectionMode = true;
+			this.selector = new Selector(this, group, this.viewer);
+			this.openEditDialog(group, true);
 		}
+	},
+	
+	/*
+	 * Opens the create/edit dialog.
+	 * The first parameter has to be a group 
+	 * and the second parameter indicates whether
+	 * a new group is created (true or false for editing).
+	 */ 
+	openEditDialog : function(group, create) {
+		var input = $("edit_name");
+		input.value = group.name;
+		$("overlay").setStyle({'visibility': 'visible'});
+		if (create)
+			this.editPanel.setHeader("Create new Group");
+		else
+			this.editPanel.setHeader("Edit Group");
+		this.editPanel.show();
+	},
+	
+	/*
+	 * Closes the create/edit dialog again.
+	 */
+	closeEditDialog : function() {
+		$("overlay").setStyle({'visibility': 'hidden'});
+		this.editPanel.hide();
 	},
 	
 	/*
@@ -182,6 +249,24 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		return found;
 	}, 
 	
+	groupExists : function(group) {
+		for (var i=0; i < this.groups.length; i++) {
+			if (group == this.groups[i]) {
+ 				return true;
+			}
+		}
+		return false;
+	},
+	
+	groupNameIsInUse : function(group) {
+		for (var i=0; i < this.groups.length; i++) {
+			if (group != this.groups[i] && group.name == this.groups[i].name) {
+ 				return true;
+			}
+		}
+		return false;
+	},
+	
 	/*
 	 * Returns an integer which can be used as an id.
 	 * Is used to give every group a unique id.
@@ -195,8 +280,21 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 * Simply calls stopSelection if the selection mode is active.
 	 */
 	saveGroup : function() {
-		if (this.selectionMode)
-			this.stopSelection(false);
+		if (this.selectionMode) {
+			var group = this.selector.group;
+			var temp = group.name;
+			group.name = $('edit_name').getValue();
+			if (this.groupNameIsInUse(group)) {
+				group.name = temp;
+				this.showMessage("Please choose a unique group name!");
+			} else {
+				if (!this.groupExists(group))
+					this.addGroup(group);
+				else
+					group.refresh();
+				this.stopSelection(false);
+			}
+		}
 	},
 	
 	/*
@@ -212,9 +310,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 * The boolean parameter abort indicates whether the selection was aborted (or successful).
 	 */
 	stopSelection : function(abort) {
-		this.buttons['save'].addClass('hide');
-		this.buttons['new'].removeClass('hide');
-		this.buttons['edit'].removeClass('hide');
+		this.closeEditDialog();
 		this.selector.stopSelection(abort);
 		this.selector = null;
 		this.selectionMode = false;
@@ -225,10 +321,8 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 * Enables the selection mode for the current active group again.
 	 */
 	editGroup : function() {
-		if (!this.selectionMode &&  this.groups.length > 0) { //this.viewer != null &&
+		if (!this.selectionMode &&  this.groups.length > 0) { 
 			this.selectionMode = true;
-			this.buttons['edit'].addClass('hide');
-			this.buttons['save'].removeClass('hide');
 			var activeGroup = null;
 			for (var i = 0; i < this.groups.length; i++) {
 				if (this.groups[i].isActive) {
@@ -237,6 +331,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 				}
 			}
 			this.selector = new Selector(this, activeGroup, this.viewer);
+			this.openEditDialog(activeGroup, false);
 		}
 		
 	},
@@ -271,6 +366,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	 */ 
 	abstract : function() {
 		if (this.model != null && this.groups.length > 0) {
+			this.showLoading();
 			new Ajax.Request(this.model.url + "/json", 
 				{
 					method 			: "get",
@@ -278,6 +374,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 						this.runAbstraction(response.responseText);
 					}.bind(this),
 					onFailure		: function(response) {
+						this.hideLoading();
 						this.showMessage('Server communication failed!');
 					}.bind(this)
 				});
@@ -299,7 +396,8 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		}
 		var result = {
 			'model'	: data,
-			'groups': groups.toJSON()
+			'groups': groups.toJSON(),
+			'preference': this.cycleChoice.get('value')
 		};
 		new Ajax.Request("/mashup/generate", 
 			 {
@@ -308,6 +406,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 					this.saveModel(response.responseText);
 				}.bind(this),
 				onFailure		: function(){
+					this.hideLoading();
 					this.showMessage('Server communication failed!');
 				}.bind(this),
 				parameters 		: result
@@ -328,6 +427,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 					callback.call(this, response.responseText.evalJSON());
 				},
 				onFailure		: function(){
+					this.hideLoading();
 					this.showMessage('Server communication failed!');
 				}.bind(this)
 			});
@@ -335,7 +435,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		
 	/*
 	 * Last abstraction step. Takes the generated model and stores it
-	 * in the oryx backend. Afterwards a new is opened with the according model.
+	 * in the oryx backend. Afterwards a new viewer is opened with the according model.
 	 */
 	saveModel : function(data) {
 		var container = data.evalJSON();
@@ -353,9 +453,11 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			 {
 				method			: "post",
 				onSuccess		: function(response){
+					this.hideLoading();
 					this.openViewer(response.getResponseHeader('location').replace(/\/self$/, ""));
 				}.bind(this),
 				onFailure		: function(){
+					this.hideLoading();
 					this.showMessage('Server communication failed!');
 				}.bind(this),
 				parameters 		: content

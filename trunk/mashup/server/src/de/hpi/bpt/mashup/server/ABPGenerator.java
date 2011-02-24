@@ -55,7 +55,12 @@ public class ABPGenerator extends HttpServlet {
 				HashMap<String, List<Node>> groupMap = parseGroups(req.getParameter("groups"), net);
 				// derive the BehaviouralProfile and generate the according new net
 				AbstractedBPCreator creator = new AbstractedBPCreator(BPCreatorNet.getInstance());
-				AbstractedBehaviouralProfile abp = creator.deriveBehaviouralProfile(net, groupMap, AbstractedBPCreator.PARALLEL);
+				int preference = AbstractedBPCreator.PARALLEL;
+				if (req.getParameter("preference") != null)
+					preference = Integer.valueOf(req.getParameter("preference"));
+				AbstractedBehaviouralProfile abp = creator.deriveBehaviouralProfile(net, groupMap, preference);
+				if (!abp.isConsistent()) // TODO: fix that by returning some kind of real error state and handle it in the gadget
+					throw new Exception("It's not possible to generate a consistent new model!");
 				PTNet derived = abp.getNet();
 				// layout the new net
 				PetriNetLayouter layouter = new PetriNetLayouter(derived);

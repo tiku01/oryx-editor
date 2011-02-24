@@ -113,6 +113,10 @@ Group.prototype = {
 		this.model = model;
 	},
 	
+	_killMarkup: function(content) {
+		return content.replace("<", "&lt;").replace(">", "&gt;");
+	},
+	
 	/*
 	Displays this group in the gadgets list of groups.
 	*/
@@ -126,12 +130,19 @@ Group.prototype = {
 		el.appendChild(elContainer);
 		
 		var elName = document.createElement("p");
-		elName.innerHTML = this.name;
+		elName.innerHTML = this._killMarkup(this.name);
 		elContainer.appendChild(elName);
+
+		var elEdit = document.createElement("img");
+		elEdit.src = this.gadget.GADGET_BASE + "modelabstraction/icons/pencil.png";
+		elEdit.onclick = this.edit.bind(this);
+		elEdit.addClassName('marginl3px');
+		el.appendChild(elEdit);
 		
 		var elDelete = document.createElement("img");
 		elDelete.src = this.gadget.GADGET_BASE + "modelabstraction/icons/delete.png";
 		elDelete.onclick = this.remove.bind(this);
+		elDelete.addClassName('marginl3px');
 		el.appendChild(elDelete);
 	
 		var elClear = document.createElement("div");
@@ -153,6 +164,10 @@ Group.prototype = {
 		this.select();
 	},
 	
+	refresh: function() {
+		this.groupEl.getElementsByTagName('p')[0].innerHTML = this._killMarkup(this.name);
+	},
+	
 	remove: function(){
 		
 		if (this.isActive && this.gadget.viewer != null) {
@@ -163,6 +178,19 @@ Group.prototype = {
 		this.groupEl.ancestors()[0].remove();
 		
 		this.gadget.removeGroup(this);
+	},
+	
+	edit: function() {
+		if (!this.isActive) {
+			var groups = this.gadget.groups;
+			for (var i = 0; i < groups.length; i++){
+				if (groups[i] && groups[i].isActive ){
+					groups[i].deselect();
+				}	
+			}
+			this.select();
+		}
+		this.gadget.editGroup();
 	},
 	
 	/*
