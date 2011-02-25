@@ -60,17 +60,60 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	calculateLabelHeight: function (labelElement, labelValue) {
+		// if the label is empty, its height shall be 0
 		if(labelValue === ""){return 0;}
 		
+		// the label is not empty, so at least we start with line count 1
 		var fontSize = labelElement.getFontSize();
-		var newlineOccurences = 1;
+		var lineCount = new Integer(1);
 		
-		labelValue.scan('\n', function() { newlineOccurences += 1; });
+		// for every line the count goes up
+		labelValue.scan('\n', function() { lineCount += 1; });
 		
-		return newlineOccurences * fontSize + 7;
+		// the height accords to lines and the font size
+		return lineCount * fontSize + 7;
+	},
+	
+	dokuWikiStyle: function(string){
+		/*
+		 * need to find:
+		 * 	1) *word* and *word word word* and so on to be printed BOLD
+		 * 	2) _word_ and _word word word_ and so on to be printed italic
+		 * 
+		 * reference for finding RegExp: 
+		 * http://de.selfhtml.org/javascript/objekte/regexp.htm
+		 * 
+		 * the string should not contain more than 3 words by now
+		 * and should not contain anything else than ONE space between words
+		 * TODO more generic RegExp
+		 */
+		var boldRegEx = /\*(\S+ ?(\S+)? ?(S+)?)\*/gi;
+		var italicRegEx = /_(\S+ ?(\S+)? ?(S+)?)_/gi;
+		var boldText = new Array();
+		var italicText = new Array();
+		var bolds = 0;
+		var italics = 0;
+		var bold;
+		var italic;
+
+		while(bold = boldRegEx.exec(string)){			
+			boldText[bolds] = bold[1];
+			bolds++;
+		}
+		
+		while(italic = italicRegEx.exec(string)){
+			italicText[italics] = italic[1];
+			italics++;
+		}
+		
+		//TODO manipulate HTML to show correct style
 	},
 	
 	findLabelValue: function(shape,string){
+		/* all properties of the given shape 
+		 * that start with the given string get scanned
+		 * and the value gets enriched by the content found
+		 */
 		var value = "";
 		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) === string;});
 		properties.each(function(element){value += shape.properties[element];});
@@ -102,7 +145,13 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			var resource = shape.getLabels().find(function(label) { return label.id === (shape.id + "resource"); });
 			var resourceValue = this.findLabelValue(shape,"resource");
 			var comment = shape.getLabels().find(function(label) { return label.id === (shape.id + "comment"); });
-			var commentValue = this.findLabelValue(shape,"comment");			
+			var commentValue = this.findLabelValue(shape,"comment");
+			
+			// style the text of the chapters
+			var chapterValues = new Array(descriptionValue,realisationValue,incomingValue,outgoingValue,communicationValue,paymentValue,resourceValue,commentValue);
+			for(var i = 0; i < chapterValues.length; i++){
+				this.dokuWikiStyle(chapterValues[i]);
+			}
 			
 			// calculate heights of all chapters
 			var descriptionHeight = this.calculateLabelHeight(description,descriptionValue);
@@ -146,7 +195,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			propHeight = properties.height;
 		}
 		
-		//bounds AND _oldBounds need to be set, otherwise bounds are reset to _oldBounds, if node is moved
+		/* bounds AND _oldBounds need to be set, 
+		 * otherwise bounds are reset to _oldBounds 
+		 * if the node is moved
+		 */
 		shape._oldBounds.set(
 			shape.bounds.a.x, 
 			shape.bounds.a.y, 
@@ -158,7 +210,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			shape.bounds.b.x, 
 			shape.bounds.a.y + 60 + propHeight);
 		
-		//resize the image frames on the left according to shape's bounds
+		//resize the image frames on the left according to the shape's bounds
 		image_frames.each(function(frame){
 			frame.height = shape.bounds.height();
 			frame.element.setAttribute("height",shape.bounds.height());
