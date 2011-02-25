@@ -34,7 +34,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
         // Call super class constructor
         arguments.callee.$.construct.apply(this, arguments);
         
-        // build a button in the tool bar
+        // build an import button in the tool bar
         this.facade.offer({
 			'name':				"Import PICTURE XML",
 			'functionality': 	this.importPicture.bind(this),
@@ -59,13 +59,22 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		
 	},
 	
+	/**
+	 * A method for calculating the height of a given
+	 * label element according to its content and
+	 * the font size this content has.
+	 * @param labelElement the label element (e.g. an HTML text tag) 
+	 * 		to calculate the height for
+	 * @param labelValue the content of the label element
+	 * @return integer that returns the height of the label element
+	 */
 	calculateLabelHeight: function (labelElement, labelValue) {
 		// if the label is empty, its height shall be 0
 		if(labelValue === ""){return 0;}
 		
 		// the label is not empty, so at least we start with line count 1
 		var fontSize = labelElement.getFontSize();
-		var lineCount = new Integer(1);
+		var lineCount = 1;
 		
 		// for every line the count goes up
 		labelValue.scan('\n', function() { lineCount += 1; });
@@ -74,6 +83,14 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		return lineCount * fontSize + 7;
 	},
 	
+	/**
+	 * A method for styling a given text in DokuWiki style:
+	 * *word* is printed BOLD
+	 * _word_ is printed italic
+	 * @param label the label element (e.g. an HTML text tag) 
+	 * 		to calculate the height for
+	 * @param value the content of the label element
+	 */
 	dokuWikiStyle: function(label,value){
 		/*
 		 * need to find:
@@ -109,17 +126,25 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		//TODO manipulate HTML to show correct style
 	},
 	
+	/**
+	 * A method for finding the whole text of a shape's properties
+	 * that start with a certain substring.
+	 * The property's IDs need to start with "oryx-" + the given string.
+	 * @param shape the shape to be scanned
+	 * @param string the string all to-be-scanned properties begin with
+	 * @return string concatenated content of all matching property values
+	 */
 	findLabelValue: function(shape,string){
-		/* all properties of the given shape 
-		 * that start with the given string get scanned
-		 * and the value gets enriched by the content found
-		 */
 		var value = "";
 		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) === string;});
 		properties.each(function(element){value += shape.properties[element];});
 		return value;
 	},
 	
+	/**
+	 * A method that handles the arrangement of a node's properties and their contents.
+	 * @param event the event that triggered the method and holds the node that needs to be rearranged
+	 */
 	handleProperties: function(event){		
 		var shape = event.shape;
 		var properties = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "properties_frame"); });
@@ -127,7 +152,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var propHeight = 0;
 		var titleHeight = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "text_frame_title"); }).height;
 		
-		// before showing the properties the correct height of the node needs to be calculated
+		/* before showing the properties the correct height of the node needs to be calculated
+		 * and the chapters need to be arranged according to their content
+		 */
 		if(shape.properties["oryx-basic-show_properties"]===true){
 			
 			// get all chapters
@@ -140,21 +167,21 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			var resource = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "resource");})});
 			var comment = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "comment");})});
 			
-			// list with all chapters, the order defines the order in the view of the node
+			// list all chapters; the order defines the order in the view of the node
 			var chapters = new Array(description,realisation,incoming,outgoing,communication,payment,resource,comment);
 			
-			// mininum distance of a property entry from the title of the node
+			// minimum distance of a property entry from top of the node
 			var distanceFromTitle = titleHeight + 5;
 			
 			// all chapters need several styling steps now
 			for(var i = 0; i < chapters.length; i++){
-				//add their content
+				// add their content
 				chapters[i].merge({value: this.findLabelValue(shape,chapters[i].label.id.slice(shape.id.length,chapters[i].label.id.length))});
 				// style the text of the chapter
 				this.dokuWikiStyle(chapters[i].label,chapters[i].value);
-				// calculate height of the chapter and merge it into the hash
+				// calculate height of the chapter
 				chapters[i].merge({height: this.calculateLabelHeight(chapters[i].label,chapters[i].value)});
-				// calcultate the chapter's distance from top
+				// calculate the chapter's distance from top
 				chapters[i].merge({distanceFromTop: distanceFromTitle});
 				distanceFromTitle += chapters[i].height;
 				// set the chapter's position
@@ -191,12 +218,18 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		});
 	},
 	
+	/**
+	 * The import method that holds the major importing functionality
+	 */
 	importPicture: function(){
 		this._doImport();
 	},
  	
  	onSelectionChange: function(){},
  	
+ 	/**
+ 	 * The instantiation method that does all necessary jobs before the user can start modeling
+ 	 */
  	pictureInstantiation: function(event){
  		//create a process lane if the canvas is empty
 		if(this.facade.getCanvas().children.length === 0){				
@@ -208,7 +241,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		}
 	},
  	
- 	//--------------------------------- AJAX Land ---------------------------------
+ 	//--------------------------------- (to-be-refactored AJAX Land) ---------------------------------
 	 
 	_doImport: function( successCallback )
 	{
