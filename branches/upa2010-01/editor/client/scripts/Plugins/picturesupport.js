@@ -74,7 +74,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		return lineCount * fontSize + 7;
 	},
 	
-	dokuWikiStyle: function(string){
+	dokuWikiStyle: function(label,value){
 		/*
 		 * need to find:
 		 * 	1) *word* and *word word word* and so on to be printed BOLD
@@ -96,12 +96,12 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var bold;
 		var italic;
 
-		while(bold = boldRegEx.exec(string)){			
+		while(bold = boldRegEx.exec(value)){			
 			boldText[bolds] = bold[1];
 			bolds++;
 		}
 		
-		while(italic = italicRegEx.exec(string)){
+		while(italic = italicRegEx.exec(value)){
 			italicText[italics] = italic[1];
 			italics++;
 		}
@@ -121,77 +121,50 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	handleProperties: function(event){		
-
 		var shape = event.shape;
 		var properties = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "properties_frame"); });
 		var image_frames = shape._svgShapes.findAll(function(element) { return element.element.id.substr(element.element.id.length-5,5) === "image"; });
 		var propHeight = 0;
+		var titleHeight = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "text_frame_title"); }).height;
 		
 		// before showing the properties the correct height of the node needs to be calculated
 		if(shape.properties["oryx-basic-show_properties"]===true){
-			// get all chapters and their content
-			var description = shape.getLabels().find(function(label) { return label.id === (shape.id + "description"); });
-			var descriptionValue = this.findLabelValue(shape,"description");
-			var realisation = shape.getLabels().find(function(label) { return label.id === (shape.id + "realisation"); });
-			var realisationValue = this.findLabelValue(shape,"realisation");
-			var incoming = shape.getLabels().find(function(label) { return label.id === (shape.id + "incoming"); });
-			var incomingValue = this.findLabelValue(shape,"incoming");
-			var outgoing = shape.getLabels().find(function(label) { return label.id === (shape.id + "outgoing"); });
-			var outgoingValue = this.findLabelValue(shape,"outgoing");
-			var communication = shape.getLabels().find(function(label) { return label.id === (shape.id + "communication"); });
-			var communicationValue = this.findLabelValue(shape,"communication");
-			var payment = shape.getLabels().find(function(label) { return label.id === (shape.id + "payment"); });
-			var paymentValue = this.findLabelValue(shape,"payment");
-			var resource = shape.getLabels().find(function(label) { return label.id === (shape.id + "resource"); });
-			var resourceValue = this.findLabelValue(shape,"resource");
-			var comment = shape.getLabels().find(function(label) { return label.id === (shape.id + "comment"); });
-			var commentValue = this.findLabelValue(shape,"comment");
 			
-			// style the text of the chapters
-			var chapterValues = new Array(descriptionValue,realisationValue,incomingValue,outgoingValue,communicationValue,paymentValue,resourceValue,commentValue);
-			for(var i = 0; i < chapterValues.length; i++){
-				this.dokuWikiStyle(chapterValues[i]);
+			// get all chapters
+			var description = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "description");})});
+			var realisation = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "realisation");})});
+			var incoming = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "incoming");})});
+			var outgoing = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "outgoing");})});
+			var communication = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "communication");})});
+			var payment = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "payment");})});
+			var resource = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "resource");})});
+			var comment = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "comment");})});
+			
+			// list with all chapters, the order defines the order in the view of the node
+			var chapters = new Array(description,realisation,incoming,outgoing,communication,payment,resource,comment);
+			
+			// mininum distance of a property entry from the title of the node
+			var distanceFromTitle = titleHeight + 5;
+			
+			// all chapters need several styling steps now
+			for(var i = 0; i < chapters.length; i++){
+				//add their content
+				chapters[i].merge({value: this.findLabelValue(shape,chapters[i].label.id.slice(shape.id.length,chapters[i].label.id.length))});
+				// style the text of the chapter
+				this.dokuWikiStyle(chapters[i].label,chapters[i].value);
+				// calculate height of the chapter and merge it into the hash
+				chapters[i].merge({height: this.calculateLabelHeight(chapters[i].label,chapters[i].value)});
+				// calcultate the chapter's distance from top
+				chapters[i].merge({distanceFromTop: distanceFromTitle});
+				distanceFromTitle += chapters[i].height;
+				// set the chapter's position
+				chapters[i].label.y = chapters[i].distanceFromTop;
+				chapters[i].label.node.setAttribute("y", chapters[i].distanceFromTop);
 			}
 			
-			// calculate heights of all chapters
-			var descriptionHeight = this.calculateLabelHeight(description,descriptionValue);
-			var realisationHeight = this.calculateLabelHeight(realisation,realisationValue);
-			var incomingHeight = this.calculateLabelHeight(incoming,incomingValue);
-			var outgoingHeight = this.calculateLabelHeight(outgoing,outgoingValue);
-			var communicationHeight = this.calculateLabelHeight(communication,communicationValue);
-			var paymentHeight = this.calculateLabelHeight(payment,paymentValue);
-			var resourceHeight = this.calculateLabelHeight(resource,resourceValue);
-			var commentHeight = this.calculateLabelHeight(comment,commentValue);
-			
-			// set the order of the chapters
-			var distanceTilRealisation = 60 + descriptionHeight;
-			var distanceTilIncoming = distanceTilRealisation + realisationHeight;
-			var distanceTilOutgoing = distanceTilIncoming + incomingHeight;
-			var distanceTilCommunication = distanceTilOutgoing + outgoingHeight;
-			var distanceTilPayment = distanceTilCommunication + communicationHeight;
-			var distanceTilResource = distanceTilPayment + paymentHeight;
-			var distanceTilComment = distanceTilResource + resourceHeight;
-			var distanceTilBottom = distanceTilComment + commentHeight - 60;
-			
-			// set the chapters' and the properties' heights according to their content
-			realisation.y = distanceTilRealisation;
-			realisation.node.setAttribute("y", distanceTilRealisation);
-			incoming.y = distanceTilIncoming;
-			incoming.node.setAttribute("y", distanceTilIncoming);
-			outgoing.y = distanceTilOutgoing;
-			outgoing.node.setAttribute("y", distanceTilOutgoing);
-			communication.y = distanceTilCommunication;
-			communication.node.setAttribute("y", distanceTilCommunication);
-			payment.y = distanceTilPayment;
-			payment.node.setAttribute("y", distanceTilPayment);
-			resource.y = distanceTilResource;
-			resource.node.setAttribute("y", distanceTilResource);
-			comment.y = distanceTilComment;
-			comment.node.setAttribute("y", distanceTilComment);
-			
-			properties.height = distanceTilBottom;
-			properties.element.setAttribute("height", distanceTilBottom);
-			
+			// set the properties' height
+			properties.height = distanceFromTitle - titleHeight;
+			properties.element.setAttribute("height", properties.height);
 			propHeight = properties.height;
 		}
 		
@@ -203,12 +176,12 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			shape.bounds.a.x, 
 			shape.bounds.a.y, 
 			shape.bounds.b.x, 
-			shape.bounds.a.y + 60 + propHeight);
+			shape.bounds.a.y + titleHeight + propHeight);
 		shape.bounds.set(
 			shape.bounds.a.x, 
 			shape.bounds.a.y, 
 			shape.bounds.b.x, 
-			shape.bounds.a.y + 60 + propHeight);
+			shape.bounds.a.y + titleHeight + propHeight);
 		
 		//resize the image frames on the left according to the shape's bounds
 		image_frames.each(function(frame){
