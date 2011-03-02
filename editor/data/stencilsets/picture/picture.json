@@ -1332,7 +1332,7 @@
       "groups":["Organisation"],
       "description":"Äußere Struktur für einen ausführbaren Prozess.",
       "view":"process.svg",
-      "icon":"organisation/process.png",
+      "icon":"process.png",
       "roles": [
         "processType",
         "canBeAnnotated",
