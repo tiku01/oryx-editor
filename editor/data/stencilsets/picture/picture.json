@@ -180,7 +180,7 @@
       "title":"Neues Dokument/Information erstellen",
       "groups":["Dokumentation"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"documentation/create.png",
 	  "layout": [ 
 	    {
@@ -229,7 +229,7 @@
       "title":"Erfassen/Registrieren",
       "groups":["Dokumentation"],
       "description":"Die Metadaten eines Dokuments/einer Information werden aufgenommen.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"documentation/capture.png",
       "layout": [ 
 	    {
@@ -278,7 +278,7 @@
       "title":"Dokument/ Information bearbeiten",
       "groups":["Dokumentation"],
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"documentation/edit.png",
       "layout": [ 
 	    {
@@ -327,7 +327,7 @@
       "title":"Dokument archivieren",
       "groups":["Dokumentation"],
       "description":"Verwendete Dokumente werden archiviert/abgelegt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"documentation/archive.png",
       "layout": [ 
 	    {
@@ -379,7 +379,7 @@
       "title":"Dokument/Information geht ein",
       "groups":["Informationsfluss"],
       "description":"Ein neues Dokument/eine Information wird erstellt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_flow/incoming.png",
       "layout": [ 
 	    {
@@ -441,7 +441,7 @@
       "title":"Dokument/Information geht aus",
       "groups":["Informationsfluss"],
       "description":"Ein Dokument/eine Information wird zu einem Adressaten außerhalb der Organisation versendet (z.B. ein Bürger).",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_flow/outgoing.png",
       "layout": [ 
 	    {
@@ -503,7 +503,7 @@
       "title":"Bearbeitungsunterbrechung",
       "groups":["Informationsfluss"],
       "description":"Die Bearbeitung eines Prozesses muss unterbrochen werden, wenn notwendige Informationen fehlen.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_flow/pause.png",
       "layout": [ 
 	    {
@@ -554,7 +554,7 @@
       "title":"Dokument/Information sichten",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Inhalt eines Dokuments/Information wird lediglich gesichtet und wahrgenommen.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/review.png",
       "layout": [ 
 	    {
@@ -603,7 +603,7 @@
       "title":"Formelle Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden formell z.B. auf Vollständigkeit unhd Fristeinhaltung geprüft.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/formally.png",
       "layout": [ 
 	    {
@@ -651,7 +651,7 @@
       "title":"Inhaltliche Prüfung vornehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Unterlagen/ein Sachverhalt werden inhaltlich geprüft. Basierend auf Gesetzen, Verordnungen und Erfahrungen wird eine Entscheidung getroffen oder ein Vorschlag gemacht.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/content.png",
       "layout": [ 
 	    {
@@ -699,7 +699,7 @@
       "title":"Berechnung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Dokumente/Informationen werden auf Basis von Vorschriften ausgewertet und komplexe/aufwendige Berechnungen dazu durchgeführt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/calculate.png",
       "layout": [ 
 	    {
@@ -747,7 +747,7 @@
       "title":"Kassieren/Einzahlung entgegennehmen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Entgegennahme von Einzahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/collect.png",
       "layout": [ 
 	    {
@@ -795,7 +795,7 @@
       "title":"Auszahlung durchführen",
       "groups":["inhaltliche Arbeit"],
       "description":"Die konkrete Auszahlung von bewilligten Zahlungen, NICHT die Antragstellung einer solchen wird abgebildet.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/pay.png",
       "layout": [ 
 	    {
@@ -843,7 +843,7 @@
       "title":"Bearbeitungsort wechseln",
       "groups":["inhaltliche Arbeit"],
       "description":"Der Ort der Bearbeitung wird z.B. aufgrund einer Vor-Ort-Prüfung gewechselt. Bei Abschluss dieser und Rückkehr in die Organisationseinheit wird der Baustein erneut gewählt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"content_work/relocation.png",
       "layout": [ 
 	    {
@@ -894,7 +894,7 @@
       "title":"Dateneingabe in die EDV",
       "groups":["Medienwechsel"],
       "description":"Daten werden manuell in ein EDV-System eingegeben.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"change_medium/edv_input.png",
       "layout": [ 
 	    {
@@ -942,7 +942,7 @@
       "title":"Scannen",
       "groups":["Medienwechsel"],
       "description":"Ein papierbasiertes Dokument wird eingescannt und im EDV-System hinterlegt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"change_medium/scan.png",
       "layout": [ 
 	    {
@@ -990,7 +990,7 @@
       "title":"Drucken",
       "groups":["Medienwechsel"],
       "description":"Ein elektronisches Dokument wird ausgedruckt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"change_medium/print.png",
       "layout": [ 
 	    {
@@ -1038,7 +1038,7 @@
       "title":"Datenträger bespielen",
       "groups":["Medienwechsel"],
       "description":"Daten werden auf eine CD/DVD, USB-Stick, Diskette oder Ähnliches gespeichert.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"change_medium/save_to_volume.png",
       "layout": [ 
 	    {
@@ -1086,7 +1086,7 @@
       "title":"Dokument vervielvältigen/Kopieren",
       "groups":["Medienwechsel"],
       "description":"Dokument wird vervielvältigt, exakte Kopie wird angefertigt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"change_medium/copy.png",
       "layout": [ 
 	    {
@@ -1136,7 +1136,7 @@
       "title":"Recherche durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Die notwendigen Informationen werden recherchiert.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_retrieval/research.png",
       "layout": [ 
 	    {
@@ -1184,7 +1184,7 @@
       "title":"Rückfrage durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Eine direkte Rückfrage mit einem Bürger/Unternehmen/Mitarbeiter wird durchgeführt.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_retrieval/request.png",
       "layout": [ 
 	    {
@@ -1232,7 +1232,7 @@
       "title":"Absprache/Vereinbarung treffen",
       "groups":["Informationsbeschaffung"],
       "description":"Inhaltliche Abstimmungen und Terminabsprachen und Ähnliches werden getroffen.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_retrieval/agreement.png",
       "layout": [ 
 	    {
@@ -1280,7 +1280,7 @@
       "title":"Beratung durchführen",
       "groups":["Informationsbeschaffung"],
       "description":"Intensiver Informationsaustausch zwischen Mitarbeiter und Kunden oder anderen Mitarbeitern.",
-      "view":"block_template_integrated_attributes.svg",
+      "view":"node.svg",
       "icon":"information_retrieval/consulting.png",
       "layout": [ 
 	    {
