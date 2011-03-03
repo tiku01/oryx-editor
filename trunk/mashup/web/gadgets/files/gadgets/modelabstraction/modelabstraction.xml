@@ -96,10 +96,6 @@
 				border: 2px solid #000000;
 			}
 			
-			#radio_buttons {
-				display: inline;
-			}
-			
 			#overlay {
 				position: fixed;
 				background-color: #707070;/*transparent;*/
@@ -134,8 +130,41 @@
 				top: 40px;
 			}
 			
+			#edit_name {
+				width: 165px;
+			}
+			
 			#loading_anim {
 				
+			}
+			
+			#option_buttons {
+				bottom: 20px;
+				left: 90px;
+				position: absolute;
+			}
+			
+			#radio_buttons {
+				display: inline;
+			}
+			
+			#slider {
+				position: absolute;
+				top: 90px;
+				left: 15px;
+				width: 220px;
+				height: 20px;
+			}
+			
+			#slider_thumb {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			
+			.left10 {
+				position: absolute;
+				left: 10px;
 			}
 		</style>
 		
@@ -146,6 +175,7 @@
 			<!--div class="ft"></div-->
 		</div>		
 		<div id="overlay"></div>
+		
 		<div id="edit_panel">
 			<div class="hd"></div>
 			<div class="bd">
@@ -158,23 +188,42 @@
 			</div>
 			<!--div class="ft"></div-->
 		</div>
-		<div id="loading_anim">
+		
+		<div id="option_panel">
+			<div class="hd"></div>
 			<div class="bd">
-				<!--img src="/mashup/gadgets/files/gadgets/modelabstraction/icons/ajax-loader.gif" alt="Loading..."/-->
+				<div class="left10" style="top: 40px;">
+					<span>Prefer: </span>
+				
+				<fieldset id="radio_buttons"></fieldset>
+				</div>
+				<div class="left10" style="top: 75px;"> 
+					<span>Treshold: </span>
+				</div>
+				<div id="slider" class="yui-h-slider" tabindex="-1">
+					<div id="slider_thumb"></div>
+				</div>
+				<div>
+					<span class="left10" style="top: 95px">0</span>
+					<span style="position: absolute; right: 10px; top: 95px">1<span>
+				</div>
+				<fieldset id="option_buttons"></fieldset>
 			</div>
 		</div>
+		
+		<div id="loading_anim">
+			<div class="bd"></div>
+		</div>
+		
 		<div id ="top">
 			<div style="margin: 3px">
-				<fieldset id="button_group" style="display: inline;"></fieldset>
-				<div style="display:inline">
-					<span class="marginl3px">Prefer: </span>
-					<fieldset id="radio_buttons"></fieldset>
-				</div>
+				<fieldset id="button_group"></fieldset>
 				<div>
 					<span id="modelline" class="marginl3px">Model: <span id="model"></span></span>
 				</div>
 			</div>
 		</div>
+		
 		<div id="center"> 
 			<ul id="groups"></ul>
 		</div>

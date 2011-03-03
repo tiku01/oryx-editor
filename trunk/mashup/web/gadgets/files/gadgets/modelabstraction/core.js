@@ -31,7 +31,7 @@ new YAHOO.util.YUILoader({
     base: "http://yui.yahooapis.com/2.7.0/build/", 
     require: ["yahoo", "datatable","animation","paginator",
         		"fonts","grids","layout","reset","resize", 
-        		"button", "connection", "container", "dragdrop"], 
+        		"button", "connection", "container", "dragdrop", "slider"], 
     loadOptional: false, 
     filter: "RAW", 
     onSuccess: function() {
