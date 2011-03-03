@@ -28,6 +28,7 @@ var ModelAbstraction = function() {
 	this.counter = 0;
 	this.groups = [];
 	this.selectionMode = false;
+	this.sliderValue = 100;
 	this.init();
 }
 
@@ -42,35 +43,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		
 		layout.render();
 		
-		// used to add a new group
-		var newButton = new YAHOO.widget.Button({
-			id :		"newButton", 
-			container :	"button_group", 
-			title : 	"create a new group of shapes" 
-		});
-		newButton.on("click", this.createGroup.bind(this));
-		newButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/add.png') no-repeat center");
-		newButton.className ="button";
-	
-		// used to remove all existing groups
-		var resetButton = new YAHOO.widget.Button({
-			id :		"resetButton", 
-			container :	"button_group", 
-			title : 	"reset the list of groups" 
-		});
-		resetButton.on("click", this.resetGroups.bind(this));
-		resetButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/cancel.png') no-repeat center");
-		resetButton.className ="button";
-		
-		// used to send the selected groups to server
-		var abstractButton = new YAHOO.widget.Button({
-			id :		"abstractButton", 
-			container :	"button_group", 
-			title : 	"start the abstraction" 
-		});
-		abstractButton.on("click", this.abstract.bind(this));
-		abstractButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/cog_go.png') no-repeat center");
-		abstractButton.className ="button";
+		this.initMenu();
 		
 		if (this.model != null) {
 			this.showModelLink();
@@ -90,6 +63,80 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		});
 		this.msg.render();
 		
+		this.initOptionPanel();
+		this.initEditPanel();
+		this.initLoadingAnimation();
+	},
+	
+	/*
+	 * Creates the menu.
+	 */
+	initMenu : function() {
+		// used to add a new group
+		var newButton = new YAHOO.widget.Button({
+			id :		"newButton", 
+			container :	"button_group", 
+			title : 	"create a new group of shapes" 
+		});
+		newButton.on("click", this.createGroup.bind(this));
+		newButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/add.png') no-repeat center");
+		newButton.className ="button";
+	
+		// used to display the option panel
+		var optionButton = new YAHOO.widget.Button({
+			id :		"optionButton", 
+			container :	"button_group", 
+			title : 	"show options" 
+		});
+		optionButton.on("click", this.showOptions.bind(this));
+		optionButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/wrench.png') no-repeat center");
+		optionButton.className ="button";
+		
+		// used to remove all existing groups
+		var resetButton = new YAHOO.widget.Button({
+			id :		"resetButton", 
+			container :	"button_group", 
+			title : 	"reset the list of groups" 
+		});
+		resetButton.on("click", this.resetGroups.bind(this));
+		resetButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/cancel.png') no-repeat center");
+		resetButton.className ="button";
+		
+		// used to send the selected groups to server
+		var abstractButton = new YAHOO.widget.Button({
+			id :		"abstractButton", 
+			container :	"button_group", 
+			title : 	"start the abstraction" 
+		});
+		abstractButton.on("click", this.abstract.bind(this));
+		abstractButton.setStyle("background", "url('" + this.GADGET_BASE + "modelabstraction/icons/cog_go.png') no-repeat center");
+		abstractButton.className ="button";
+	},
+	
+	/*
+	 * Shows some options.
+	 */
+	initOptionPanel : function() {
+		this.optionPanel = new YAHOO.widget.Panel("option_panel", {
+			width: 250,
+			height: 170,
+			close: false,
+			visible: false,
+			draggable: false,
+			y: 50,
+			x: 75,
+			zIndex: 101
+		});
+		this.optionPanel.setHeader("Options");
+		this.optionPanel.render();
+		var optionCloseButton = new YAHOO.widget.Button({
+			id : 		"optionCloseButton", 
+			container : "option_buttons",
+			title : 	"close options",
+			label : 	"Close"
+		});
+		optionCloseButton.on("click", this.hideOptions.bind(this));
+		
 		// used to give the user the choice to prefer either cycles or parallelism
 		this.cycleChoice = new YAHOO.widget.ButtonGroup({
 			id : 		"cycleChoice",
@@ -101,8 +148,22 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			{label: "Parallelism", value: "1", type: "radio"}//, checked: true
 		]);
 		this.cycleChoice.check(1);
-		
-		// creation and edit dialog
+		var img = document.createElement("img");
+		img.setAttribute("src", this.GADGET_BASE + "modelabstraction/icons/thumb-n.gif");
+		img.setAttribute("alt", "Slider Thumb");
+		img.setAttribute("width", "20");
+		img.setAttribute("height", "20");
+		$('slider_thumb').appendChild(img);
+		this.slider = new YAHOO.widget.Slider.getHorizSlider("slider", "slider_thumb", 0, 200);
+		this.slider.subscribe('change', function(offset) {
+			this.sliderValue = offset;
+		}.bind(this))
+	},
+	
+	/*
+	 * creation and edit dialog
+	 */
+	initEditPanel : function() {
 		this.editPanel = new YAHOO.widget.Panel("edit_panel", {
 			width: 250,
 			height: 150,
@@ -127,9 +188,13 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			title : 	"cancel the selection",
 			label : 	"Cancel"
 		});
-		editCancelButton.on("click", this.abortSelection.bind(this));
-
-		// busy animation showing that the abstraction process is running
+		editCancelButton.on("click", this.abortSelection.bind(this));		
+	},
+	
+	/*
+	 * busy animation showing that the abstraction process is running
+	 */
+	initLoadingAnimation : function() {
 		this.loadingPanel = new YAHOO.widget.Panel("loading_anim", {
 			width: 50,
 			height: 50,
@@ -161,6 +226,17 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	hideLoading : function() {
 		$("overlay").setStyle({'visibility': 'hidden'});	
 		this.loadingPanel.hide();
+	},
+	
+	showOptions : function() {
+		$("overlay").setStyle({'visibility': 'visible'});	
+		this.optionPanel.show();
+		this.slider.setValue(this.sliderValue);
+	},
+	
+	hideOptions : function() {
+		$("overlay").setStyle({'visibility': 'hidden'});	
+		this.optionPanel.hide();
 	},
 	
 	/*
@@ -386,6 +462,18 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	},
 	
 	/*
+	 * Retrieves and normalizes the value of the treshold slider.
+	 */
+	getTreshold : function() {
+		var value;
+		if (this.sliderValue == 0) 
+			value = 1;
+		else
+			value = this.sliderValue;
+		return (value / 200).toString();
+	},
+	
+	/*
 	 * Second step, sends the loaded model JSON to the 
 	 * mashup server, where the real abstraction is processed.
 	 */
@@ -397,7 +485,8 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		var result = {
 			'model'	: data,
 			'groups': groups.toJSON(),
-			'preference': this.cycleChoice.get('value')
+			'preference': this.cycleChoice.get('value'),
+			'treshold' : this.getTreshold()
 		};
 		new Ajax.Request("/mashup/generate", 
 			 {
@@ -405,9 +494,12 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 				onSuccess		: function(response){
 					this.saveModel(response.responseText);
 				}.bind(this),
-				onFailure		: function(){
+				onFailure		: function(response){
 					this.hideLoading();
-					this.showMessage('Server communication failed!');
+					if (response.status == 500)
+						this.showMessage(response.responseText);
+					else
+						this.showMessage('Server communication failed!');
 				}.bind(this),
 				parameters 		: result
 			});

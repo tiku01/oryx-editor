@@ -58,7 +58,11 @@ public class ABPGenerator extends HttpServlet {
 				int preference = AbstractedBPCreator.PARALLEL;
 				if (req.getParameter("preference") != null)
 					preference = Integer.valueOf(req.getParameter("preference"));
-				AbstractedBehaviouralProfile abp = creator.deriveBehaviouralProfile(net, groupMap, preference);
+				AbstractedBehaviouralProfile abp;
+				if (req.getParameter("treshold") != null) 
+					abp = creator.deriveBehaviouralProfile(net, groupMap, preference, Double.valueOf(req.getParameter("treshold")));
+				else
+					abp = creator.deriveBehaviouralProfile(net, groupMap, preference);
 				if (!abp.isConsistent()) // TODO: fix that by returning some kind of real error state and handle it in the gadget
 					throw new Exception("It's not possible to generate a consistent new model!");
 				PTNet derived = abp.getNet();
