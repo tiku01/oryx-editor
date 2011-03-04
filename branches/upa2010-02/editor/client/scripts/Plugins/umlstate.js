@@ -25,10 +25,6 @@ if (!ORYX.Plugins)
     ORYX.Plugins = new Object();
 
 
-
-//TODO outsource
-ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE = "matthiasundtobias";
-
 // TODO delete
 ORYX_LOGLEVEL = 4;
 
