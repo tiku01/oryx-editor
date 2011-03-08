@@ -83,6 +83,7 @@
     <rect id="text_frame_title" x="60" y="0" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)" oryx:anchors="top" />
 	<text id="text_name_title" font-size="12" x="330" y="30" oryx:align="middle center"	oryx:fittoelem="text_frame_title" stroke="black" oryx:anchors="top"	/>
 	
+	<!-- every pic gets a unique frame where its placed in, by default all of them are hidden, the JSON needs to take care of showing the right one-->
 	<rect id="copy_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_copy)" oryx:anchors="top" display="none"/>
 	<rect id="edv_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_edv)" oryx:anchors="top" display="none"/> 
 	<rect id="print_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_print)" oryx:anchors="top" display="none"/> 
@@ -107,16 +108,35 @@
 	<rect id="request_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_request)" oryx:anchors="top" display="none"/> 
 	<rect id="consulting_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top" display="none"/> 
 
+	<!-- the properties section -->
 	<g id="properties">
 	<rect id="properties_frame" x="60" y="60" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)"/>
-	<text id="description" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="realisation" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="incoming" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="outgoing" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="communication" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="payment" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />		
-	<text id="resource" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />
-	<text id="comment" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />
+	<text id="description" font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" />
+	
+	<!-- the part for the realisation text -->
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="realisation" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_unit" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_unit_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_method" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_method_value" />
+	
+	<!-- the part for the incoming text --> 		
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="incoming" />
+	
+	<!-- the part for the outgoing text -->		
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="outgoing" />
+	
+	<!-- the part for the communication text -->
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="communication" />
+	
+	<!-- the part for the payment text -->
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="payment" />
+	
+	<!-- the part for the resource text -->
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="resource" />
+	
+	<!-- the part for the comment text -->
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="comment" />
 	</g>
   </g>  
   
