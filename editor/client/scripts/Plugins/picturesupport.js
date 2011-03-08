@@ -84,49 +84,6 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	/**
-	 * A method for styling a given text in DokuWiki style:
-	 * *word* is printed BOLD
-	 * _word_ is printed italic
-	 * @param label the label element (e.g. an HTML text tag) 
-	 * 		to calculate the height for
-	 * @param value the content of the label element
-	 */
-	dokuWikiStyle: function(label,value){
-		/*
-		 * need to find:
-		 * 	1) *word* and *word word word* and so on to be printed BOLD
-		 * 	2) _word_ and _word word word_ and so on to be printed italic
-		 * 
-		 * reference for finding RegExp: 
-		 * http://de.selfhtml.org/javascript/objekte/regexp.htm
-		 * 
-		 * the string should not contain more than 3 words by now
-		 * and should not contain anything else than ONE space between words
-		 * TODO more generic RegExp
-		 */
-		var boldRegEx = /\*(\S+ ?(\S+)? ?(S+)?)\*/gi;
-		var italicRegEx = /_(\S+ ?(\S+)? ?(S+)?)_/gi;
-		var boldText = new Array();
-		var italicText = new Array();
-		var bolds = 0;
-		var italics = 0;
-		var bold;
-		var italic;
-
-		while(bold = boldRegEx.exec(value)){			
-			boldText[bolds] = bold[1];
-			bolds++;
-		}
-		
-		while(italic = italicRegEx.exec(value)){
-			italicText[italics] = italic[1];
-			italics++;
-		}
-		
-		//TODO manipulate HTML to show correct style
-	},
-	
-	/**
 	 * A method for finding the whole text of a shape's properties
 	 * that start with a certain substring.
 	 * The property's IDs need to start with "oryx-" + the given string.
@@ -136,9 +93,17 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	 */
 	findLabelValue: function(shape,string){
 		var value = "";
-		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,string.length) === string;});
+		var properties = shape.properties.keys().findAll(function(element){return element.substr(5,element.length) === string;});
 		properties.each(function(element){value += shape.properties[element];});
+		ORYX.Log.info(value);
 		return value;
+	},
+	
+	/**
+	 *
+	 */
+	findLabels: function(shape, string){
+		return shape.getLabels().findAll(function(label) {return label.id.substr(0,(shape.id + string).length) === (shape.id + string);})
 	},
 	
 	/**
@@ -155,44 +120,31 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		/* before showing the properties the correct height of the node needs to be calculated
 		 * and the chapters need to be arranged according to their content
 		 */
-		if(shape.properties["oryx-basic-show_properties"]===true){
-			
-			// get all chapters
-			var description = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "description");})});
-			var realisation = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "realisation");})});
-			var incoming = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "incoming");})});
-			var outgoing = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "outgoing");})});
-			var communication = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "communication");})});
-			var payment = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "payment");})});
-			var resource = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "resource");})});
-			var comment = new Hash({label: shape.getLabels().find(function(label) {return label.id === (shape.id + "comment");})});
-			
-			// list all chapters; the order defines the order in the view of the node
-			var chapters = new Array(description,realisation,incoming,outgoing,communication,payment,resource,comment);
+		if(shape.properties["oryx-basic-show-properties"]===true){
 			
 			// minimum distance of a property entry from top of the node
 			var distanceFromTitle = titleHeight + 5;
 			
+			var chapters = new Array("description","realisation","incoming","outgoing","communication","payment","resource","comment");		
 			// all chapters need several styling steps now
-			for(var i = 0; i < chapters.length; i++){
-				// add their content
-				chapters[i].merge({value: this.findLabelValue(shape,chapters[i].label.id.slice(shape.id.length,chapters[i].label.id.length))});
-				// style the text of the chapter
-				this.dokuWikiStyle(chapters[i].label,chapters[i].value);
-				// calculate height of the chapter
-				chapters[i].merge({height: this.calculateLabelHeight(chapters[i].label,chapters[i].value)});
-				// calculate the chapter's distance from top
-				chapters[i].merge({distanceFromTop: distanceFromTitle});
-				distanceFromTitle += chapters[i].height;
-				// set the chapter's position
-				chapters[i].label.y = chapters[i].distanceFromTop;
-				chapters[i].label.node.setAttribute("y", chapters[i].distanceFromTop);
-			}
+			chapters.each(function(chapter){
+				this.findLabels(shape,chapter).each(function(label){
+					// get the value of the label
+					var text = this.findLabelValue(shape,label.id.slice(shape.id.length,label.id.length));
+					// calculate height of the label
+					var height = this.calculateLabelHeight(label,text);
+					// calculate the label's distance from top
+					var distanceFromTop = distanceFromTitle;
+					distanceFromTitle += height;
+					// set the label's position
+					label.y = distanceFromTop;
+					label.node.setAttribute("y", distanceFromTop);
+				}.bind(this))
+			}.bind(this));
 			
 			// set the properties' height
-			properties.height = distanceFromTitle - titleHeight;
-			properties.element.setAttribute("height", properties.height);
-			propHeight = properties.height;
+			propHeight = distanceFromTitle - titleHeight;
+			properties.element.setAttribute("height", propHeight);
 		}
 		
 		/* bounds AND _oldBounds need to be set, 

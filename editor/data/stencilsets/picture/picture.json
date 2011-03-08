@@ -22,38 +22,12 @@
           "wrapLines":false
         }
       ]
-    },
-	
-    /* 
-	 all atribute pictures are in the one SVG for the nodes, so basically by the following package every attribute picture is hidden by default.
-	 the "visible" tag hides the property in the property panel, so users can't edit it and pictures stay hidden.
-	 nodes can "overwrite" specific properties if inside of "propertyPackages" the "overwriting" happens by putting the new package BEHIND this package here.
-	 a different way for overwriting properties:
-		
-		{"id":"mynode"
-		 "type":"node"
-		 ...
-		 "properties":[
-		   {
-			 //this property overwrites the property of a package
-		     "id":"propertyToBeOverwritten"
-			 ...
-		   },
-		   ...
-		 ],
-		 "propertyPackages":[
-		   "packageThatContainsTheProperty:'propertyToBeOverwritten'",
-		   ...
-		 ],
-		 ...
-		}
-	*/
-		
+    },	
 	{
 	  "name":"pictureAttributes",
 	  "properties": [
 		{
-		  "id":"basic-show_properties",
+		  "id":"basic-show-properties",
           "type":"Boolean",
           "title":"zeige Eigenschaften",
           "value":false,
@@ -61,35 +35,88 @@
           "readonly":false,
           "optional":true,
 		  "refToView":"properties",
-          "popular":true
 		},
 		{
           "id":"realisation",
           "type":"String",
           "title":"Durchführung",
-          "value":"*Durchführung*\n_ausführende Stelle_",
+          "value":"Durchführung",
 		  "refToView":"realisation",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true,
-          "popular":false
+          "wrapLines":false,
+		  "visible":false
         },
-		{
-          "id":"comment",
+        {
+          "id":"realisation_unit",
           "type":"String",
-          "title":"Anmerkungen",
-          "value":"*Anmerkungen*",
-		  "refToView":"comment",
+          "title":"Titel der Eigenschaft",
+          "value":"ausführende Stelle",
+		  "refToView":"realisation_unit",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_unit_value",
+          "type":"String",
+          "title":"ausführende Stelle",
+          "value":"",
+		  "refToView":"realisation_unit_value",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
           "length":"",
           "wrapLines":true,
-          "popular":false
+        },
+		{
+          "id":"realisation_method",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"IT Verfahren",
+		  "refToView":"realisation_method",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_method_value",
+          "type":"String",
+          "title":"IT Verfahren",
+          "value":"",
+		  "refToView":"realisation_method_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":true,
+        },
+		{
+          "id":"comment",
+          "type":"String",
+          "title":"Anmerkungen",
+          "value":"Anmerkungen",
+		  "refToView":"comment",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
         }
 	  ]
 	},
@@ -97,18 +124,18 @@
 	  "name":"resourcePackage",
 	  "properties": [
 		{
-          "id":"resources",
+          "id":"resource",
           "type":"String",
           "title":"Ressourcen",
-          "value":"*Ressourcen*\n_Dokumente_\n_IT Verfahren_",
+          "value":"Ressourcen",
 		  "refToView":"resource",
           "description":"",
           "tooltip":"",
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true,
-          "popular":false
+          "wrapLines":false,
+		  "visible":false
         }
 	  ]
 	}
@@ -426,8 +453,8 @@
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true,
-          "popular":false
+          "wrapLines":false,
+		  "visible":false
         }
       ],
       "propertyPackages": [
