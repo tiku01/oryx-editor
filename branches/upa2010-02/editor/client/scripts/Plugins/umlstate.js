@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008 Tobias Pfeiffer
+ * Copyright (c) 2011 Tobias Pfeiffer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

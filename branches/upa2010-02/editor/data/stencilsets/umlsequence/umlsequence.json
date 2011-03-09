@@ -266,6 +266,11 @@
 				"diagramcontent",
 				"combinedFragment"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -296,6 +301,11 @@
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
 			],
 			"properties": [
 				{
@@ -328,6 +338,11 @@
 				"diagramcontent",
 				"combinedFragment"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -358,6 +373,11 @@
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
 			],
 			"properties": [
 				{
@@ -390,6 +410,11 @@
 				"diagramcontent",
 				"combinedFragment"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -420,6 +445,11 @@
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
 			],
 			"properties": [
 				{
@@ -452,6 +482,11 @@
 				"diagramcontent",
 				"combinedFragment"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -482,6 +517,11 @@
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
 			],
 			"properties": [
 				{
@@ -514,6 +554,11 @@
 				"diagramcontent",
 				"combinedFragment"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -544,6 +589,11 @@
 			"roles": [
 				"diagramcontent",
 				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
 			],
 			"properties": [
 				{
@@ -792,6 +842,12 @@
 			},
 			{
 				"role":"frame",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+				"role":"combinedFragment",
 				"contains": [
 					"diagramcontent"
 				]
