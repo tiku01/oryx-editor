@@ -39,6 +39,8 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 		this.facade = facade;
 		this.facade.registerOnEvent('layout.uml.sequence.combinedFragment',
 				this.sendToBack.bind(this));
+		this.facade.registerOnEvent('layout.uml.sequence.activeline',
+				this.centerOnLifeline.bind(this));
 
 	},
 
@@ -58,6 +60,31 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 		// basically taken from arrangement.js of the stToBack function
 		shape.node.parentNode.insertBefore(shape.node,
 				shape.node.parentNode.firstChild);
+	},
+
+	/**
+	 * This function is used for umlsequence active line elements. They work
+	 * just through some more or less rough hacks, a lifeline "contains" active
+	 * lines. This makes it basically work, but one can make it look bad by
+	 * dropping the activeline not really in the center of a lifeline. This
+	 * function is used to standardize the layout.
+	 */
+	centerOnLifeline : function centerOnLifeline(event) {
+		var shape = event.shape;
+		var parent = shape.getParentShape();
+
+		// we only want to do our adjustments if the parent is a lifeline
+		// as there are multiple lifelines ande more may be added we check for
+		// the role "lifeline"
+		if (parent._stencil.roles().indexOf(
+				"http://b3mn.org/stencilset/umlsequence#lifeline") !== -1) {
+			// compute the difference of the x-coordines of the center of the lifeline 
+			// and the center of the activeline
+			var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
+			alert("Difference:" + difference);
+			// move the active line by the calculated difference on the x-axis 
+			shape.bounds.moveBy(difference, 0);
+		}
 	}
 
 });
