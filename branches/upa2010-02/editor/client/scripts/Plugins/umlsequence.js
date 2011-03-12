@@ -81,7 +81,6 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 			// compute the difference of the x-coordines of the center of the lifeline 
 			// and the center of the activeline
 			var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
-			alert("Difference:" + difference);
 			// move the active line by the calculated difference on the x-axis 
 			shape.bounds.moveBy(difference, 0);
 		}
