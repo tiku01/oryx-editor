@@ -140,9 +140,7 @@ ORYX.Plugins.UMLState = Clazz
 				}
 
 				// We didn't return so far: WTF happened?
-				// TODO: make this a better output, oldvalue or Event [Guard]
-				// /Action are most suitable I guess. More pro oldValue
-				return "Roflcoptaaaaaa";
+				return oldValue;
 			},
 			/**
 			 * This function templatizes the actions of the state with actions
@@ -214,8 +212,7 @@ ORYX.Plugins.UMLState = Clazz
 				}
 
 				// If we got this far something went wrong
-				// TODO: replace with old value or the whole template
-				return "aye what is this?\nYou seem a little bit off";
+				return oldValue;
 			},
 
 			/**
