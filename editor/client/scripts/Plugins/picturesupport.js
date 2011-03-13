@@ -174,7 +174,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	 * The import method that holds the major importing functionality
 	 */
 	importPicture: function(){
-		this._doImport();
+		this._doImport().bind(this);
 	},
  	
  	onSelectionChange: function(){},
@@ -290,8 +290,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	_getAllPages: function(pictureXML, loadMask)
 	{		
 		var parser = new DOMParser();
+		ORYX.Log.info("pictureXML: ",pcitureXML);
 		var xmlDoc = parser.parseFromString(pictureXML,"application/xml");
 		var allPages = xmlDoc.getElementsByTagName("process");
+		ORYX.Log.info("allPages: ",allPages);
 		
 		// If there are no pages then it is probably that pictureXML is not a picture-File
 		if (allPages.length === 0)
