@@ -799,6 +799,11 @@
 		<url-pattern>/visioimport</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>PictureImporter</servlet-name>
+		<url-pattern>/pictureimporter</url-pattern>
+	</servlet-mapping>
+	
 	<jsp-config>
 		<taglib>
 			<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>

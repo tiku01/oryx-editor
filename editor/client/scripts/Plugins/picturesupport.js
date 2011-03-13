@@ -174,7 +174,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	 * The import method that holds the major importing functionality
 	 */
 	importPicture: function(){
-		this._doImport().bind(this);
+		this._doImport();
 	},
  	
  	onSelectionChange: function(){},
@@ -184,16 +184,17 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	 */
  	pictureInstantiation: function(event){
  		//create a process lane if the canvas is empty
-		if(this.facade.getCanvas().children.length === 0){				
+		if(this.facade.getCanvas().children.length === 0){	
+			var namespace = "http://b3mn.org/stencilset/picture#";
 			this.facade.createShape({
-				type: "http://b3mn.org/stencilset/picture#process",
-				namespace: "http://b3mn.org/stencilset/picture#",
+				type: namespace + "process",
+				namespace: namespace,
 				position: {x: 0, y: 0}
 			}).refresh();
 		}
 	},
  	
- 	//--------------------------------- (to-be-refactored AJAX Land) ---------------------------------
+ 	//--------------------------------- (AJAX Land) ---------------------------------
 	 
 	_doImport: function( successCallback )
 	{
@@ -290,10 +291,8 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	_getAllPages: function(pictureXML, loadMask)
 	{		
 		var parser = new DOMParser();
-		ORYX.Log.info("pictureXML: ",pcitureXML);
 		var xmlDoc = parser.parseFromString(pictureXML,"application/xml");
 		var allPages = xmlDoc.getElementsByTagName("process");
-		ORYX.Log.info("allPages: ",allPages);
 		
 		// If there are no pages then it is probably that pictureXML is not a picture-File
 		if (allPages.length === 0)
@@ -305,14 +304,11 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		
 		if (allPages.length === 1)
 		{
-			pageAttr = allPages[0].children[0];
-			pageName = pageAttr.attributes[0].nodeValue;
-			
 			this._sendRequest(
 					ORYX.CONFIG.PICTUREIMPORTER,
 					'POST',
 					{ 
-						'pagesToImport': pageName,
+						'action': "Import",
 						'data' : pictureXML 
 					},
 					function( arg )
@@ -337,18 +333,44 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			
 			return;
 		}
-		
-		var i, pageName, data = [];
-		for (i = 0; i < allPages.length; i++)
-		{
-			pageAttr = allPages[i].children[0];
-			pageName = pageAttr.attributes[0].nodeValue;
-			data.push([pageName]);
-		}
-		
-		loadMask.hide();
-		this.showPageDialog(data, pictureXML);		
 	},
+	
+	_sendRequest: function( url, method, params, successcallback, failedcallback ){
+
+		var suc = false;
+
+		new Ajax.Request(
+		url, 
+		{
+           method			: method,
+           asynchronous		: false,
+           parameters		: params,
+		   onSuccess		: function(transport) 
+		   {
+				suc = true;
+		
+				if(successcallback)
+				{
+					successcallback( transport.responseText )	
+				}
+		
+		   }.bind(this),
+		   onFailure		: function(transport) 
+		   {
+				if(failedcallback)
+				{							
+					failedcallback();							
+				} 
+				else 
+				{
+					this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.PictureSupport.serverConnectionFailed);
+					ORYX.log.warn("Communication failed: " + transport.responseText);	
+				}					
+		   }.bind(this)		
+		});
+		
+		return suc;		
+	},	
 	
 	_showErrorMessageBox: function(title, msg)
 	{
@@ -358,137 +380,5 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
            buttons: Ext.MessageBox.OK,
            icon: Ext.MessageBox.ERROR
        });
-	},
-	
-	
-	showPageDialog: function(data, pictureXML)
-	{
-		var reader = new Ext.data.ArrayReader(
-				{}, 
-				[ {name: 'name'} ]);
-		
-		var sm = new Ext.grid.CheckboxSelectionModel(
-			{
-				singleSelect: true
-			});
-		
-	    var grid2 = new Ext.grid.GridPanel({
-    		store: new Ext.data.Store({
-	            reader: reader,
-	            data: data
-	        }),
-	        cm: new Ext.grid.ColumnModel([
-	            {
-	            	id:'name',
-	            	width:200,
-	            	sortable: true, 
-	            	dataIndex: 'name'
-	            },
-				sm
-			]),
-			sm: sm,
-			frame:true,
-			hideHeaders:true,
-			iconCls:'icon-grid',
-			listeners : {
-				render: function() {
-					var recs=[];
-					this.grid.getStore().each(function(rec)
-					{
-						if(rec.data.engaged){
-							recs.push(rec);
-						}
-					}.bind(this));
-					this.suspendEvents();
-					this.selectRecords(recs);
-					this.resumeEvents();
-				}.bind(sm)
-			}
-	    });
-	    
-	    // Create a new Panel
-        var panel = new Ext.Panel({
-            items: [{
-                xtype: 'label',
-                text: 'Picture Page',
-                style: 'margin:10px;display:block'
-            }, grid2],
-            frame: true
-        });
-        
-        // Create a new Window
-        var window = new Ext.Window({
-            id: 'oryx_new_page_selection',
-            autoWidth: true,
-            title: ORYX.I18N.PictureSupport.title,
-            floating: true,
-            shim: true,
-            modal: true,
-            resizable: true,
-            autoHeight: true,
-            items: [panel],
-            buttons: [{
-                text: ORYX.I18N.PictureSupport.importLable,
-                handler: function()
-                {
-            		var chosenRecs = "";
-
-            		// Actually it doesn't matter because it's one
-            		sm.getSelections().each(function(rec)
-            		{
-						chosenRecs = rec.data.name;						
-					}.bind(this));
-            		
-            		if (chosenRecs.length === 0)
-            		{
-            			alert(ORYX.I18N.PictureSupport.noPageSelection);
-            			return;
-            		}
-            		
-            		var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:ORYX.I18N.PictureSupport.importProgress});
-					loadMask.show();
-					
-            		window.hide();
-            		
-        			pageName = chosenRecs;
-        			this._sendRequest(
-        					ORYX.CONFIG.PICTUREIMPORTER,
-        					'POST',
-        					{ 
-        						'pagesToImport': pageName,
-        						'data' : pictureXML 
-        					},
-        					function( arg )
-        					{
-								if (arg.startsWith("error:"))
-								{
-									this._showErrorMessageBox(ORYX.I18N.Oryx.title, arg);
-									loadMask.hide();
-								}
-								else
-								{
-									this.facade.importJSON(arg); 
-									loadMask.hide();							
-								}
-							}.bind(this),
-        					function()
-        					{
-								loadMask.hide();
-								this._showErrorMessageBox(ORYX.I18N.Oryx.title, ORYX.I18N.PictureSupport.serverConnectionFailed);
-							}.bind(this)
-        				);
-                }.bind(this)
-            }, 
-            {
-                text: ORYX.I18N.PictureSupport.close,
-                handler: function(){
-                    window.hide();
-                }.bind(this)
-            }]
-        });
-        
-        // Show the window
-        window.show();
-	}		
- 	
+	} 	
  });
