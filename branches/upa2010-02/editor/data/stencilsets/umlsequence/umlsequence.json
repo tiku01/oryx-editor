@@ -142,6 +142,11 @@
 				"diagramcontent",
 				"activeLine"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.activeline"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
