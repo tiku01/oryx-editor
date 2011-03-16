@@ -25,7 +25,7 @@ public class PTNet2Diagram {
 
 	private static final double DEFAULT_HEIGHT = 1200.0;
 	private static final double DEFAULT_WIDTH = 1600.0;
-	
+	private static final double OFFSET = 45.0;
 	/**
 	 * Converts the given PTNet to a Diagram.
 	 * @param net
@@ -209,6 +209,17 @@ public class PTNet2Diagram {
 			// the dockers are positioned in the middle of each shape
 			dockers.add(new Point((source.getLowerRight().getX() - source.getUpperLeft().getX()) / 2.0, 
 								(source.getLowerRight().getY() - source.getUpperLeft().getY()) / 2.0));
+			if (x2 + OFFSET < x1) {
+				// the target is positioned left from the source
+				// so we use a naive approach and simply add some more dockers
+				if (y2 <= y1) {
+					dockers.add(new Point(x1, y1 - 40.0));
+					dockers.add(new Point(x2, y1 - 40.0));
+				} else {
+					dockers.add(new Point(x1, y1 + 40.0));
+					dockers.add(new Point(x2, y1 + 40.0));
+				}
+			}
 			dockers.add(new Point((target.getLowerRight().getX() - target.getUpperLeft().getX()) / 2.0, 
 								(target.getLowerRight().getY() - target.getUpperLeft().getY()) / 2.0));
 			

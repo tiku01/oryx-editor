@@ -533,9 +533,9 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		var container = data.evalJSON();
 		var content = {
 			'data' : Object.toJSON(container.model),
-			'summary' : 'This model was derived from: '.concat(this.model.title),
+			'summary' : 'This model was derived from: '.concat(this.model.model),
 			'svg' : container.svg,
-			'title' : 'Abstracted '.concat(this.model.title),
+			'title' : 'Abstracted '.concat(this.model.model),
 			'type' : container.model.stencilset.namespace,
 		};
 		var stencilSet = container.model.stencilset.url.match(/\/?stencilsets\/.*/);
@@ -586,7 +586,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			gadgets.rpc.call("..", 
 				'dispatcher.displayModel', 
 				function(reply){return}, 
-				this.model.url + "." + this.model.title);
+				this.model.url + "." + this.model.model);
 		}
 		return false;
 	},
