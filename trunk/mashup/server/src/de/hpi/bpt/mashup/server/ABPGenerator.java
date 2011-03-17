@@ -59,8 +59,8 @@ public class ABPGenerator extends HttpServlet {
 				if (req.getParameter("preference") != null)
 					preference = Integer.valueOf(req.getParameter("preference"));
 				AbstractedBehaviouralProfile abp;
-				if (req.getParameter("treshold") != null) 
-					abp = creator.deriveBehaviouralProfile(net, groupMap, preference, Double.valueOf(req.getParameter("treshold")));
+				if (req.getParameter("threshold") != null) 
+					abp = creator.deriveBehaviouralProfile(net, groupMap, preference, Double.valueOf(req.getParameter("threshold")));
 				else
 					abp = creator.deriveBehaviouralProfile(net, groupMap, preference);
 				if (!abp.isConsistent()) // TODO: fix that by returning some kind of real error state and handle it in the gadget
