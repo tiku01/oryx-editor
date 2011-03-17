@@ -150,7 +150,7 @@
 			
 			#slider {
 				position: absolute;
-				top: 90px;
+				top: 100px;
 				left: 15px;
 				width: 220px;
 				height: 20px;
@@ -160,6 +160,10 @@
 				position: absolute;
 				top: 0px;
 				left: 0px;
+			}
+			
+			#threshold_value {
+				width: 135px;
 			}
 			
 			.left10 {
@@ -198,14 +202,15 @@
 				<fieldset id="radio_buttons"></fieldset>
 				</div>
 				<div class="left10" style="top: 75px;"> 
-					<span>Treshold: </span>
+					<span>Threshold: </span>
+					<input id="threshold_value" type="text"/><br/>
 				</div>
 				<div id="slider" class="yui-h-slider" tabindex="-1">
 					<div id="slider_thumb"></div>
 				</div>
 				<div>
-					<span class="left10" style="top: 95px">0</span>
-					<span style="position: absolute; right: 10px; top: 95px">1<span>
+					<span class="left10" style="top: 105px">0</span>
+					<span style="position: absolute; right: 10px; top: 105px">1<span>
 				</div>
 				<fieldset id="option_buttons"></fieldset>
 			</div>

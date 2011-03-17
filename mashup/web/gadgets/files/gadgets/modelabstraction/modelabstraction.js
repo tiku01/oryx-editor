@@ -119,7 +119,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	initOptionPanel : function() {
 		this.optionPanel = new YAHOO.widget.Panel("option_panel", {
 			width: 250,
-			height: 170,
+			height: 180,
 			close: false,
 			visible: false,
 			draggable: false,
@@ -148,6 +148,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			{label: "Parallelism", value: "1", type: "radio"}//, checked: true
 		]);
 		this.cycleChoice.check(1);
+		// slider and ...
 		var img = document.createElement("img");
 		img.setAttribute("src", this.GADGET_BASE + "modelabstraction/icons/thumb-n.gif");
 		img.setAttribute("alt", "Slider Thumb");
@@ -157,7 +158,17 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		this.slider = new YAHOO.widget.Slider.getHorizSlider("slider", "slider_thumb", 0, 200);
 		this.slider.subscribe('change', function(offset) {
 			this.sliderValue = offset;
-		}.bind(this))
+			$('threshold_value').value = this.getThreshold();
+		}.bind(this));
+		// ...input field for the threshold
+		$('threshold_value').observe('change', function() {
+			var value = parseFloat($('threshold_value').value);
+			if (!isNaN(value)) {
+				var sliderValue = Math.min(value, 1.0);
+				sliderValue = Math.max(sliderValue, 0.005);
+				this.slider.setValue(sliderValue * 200);
+			}
+		}.bind(this));
 	},
 	
 	/*
@@ -462,9 +473,9 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	},
 	
 	/*
-	 * Retrieves and normalizes the value of the treshold slider.
+	 * Retrieves and normalizes the value of the threshold slider.
 	 */
-	getTreshold : function() {
+	getThreshold : function() {
 		var value;
 		if (this.sliderValue == 0) 
 			value = 1;
@@ -486,7 +497,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			'model'	: data,
 			'groups': groups.toJSON(),
 			'preference': this.cycleChoice.get('value'),
-			'treshold' : this.getTreshold()
+			'threshold' : this.getThreshold()
 		};
 		new Ajax.Request("/mashup/generate", 
 			 {
