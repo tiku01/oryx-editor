@@ -33,6 +33,8 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 
 	/**
 	 * Constructor registering all the events important for us
+	 * 
+	 * @param facade the facade
 	 */
 	construct : function(facade) {
 
@@ -54,6 +56,8 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 	 * 
 	 * If you want to know what combined Fragments are, please refer to the
 	 * umlsequence.json in the stencilsets folder.
+	 * 
+	 * @param event the event of the combined fragment which was modified
 	 */
 	sendToBack : function sendToBack(event) {
 		var shape = event.shape;
@@ -68,13 +72,15 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 	 * lines. This makes it basically work, but one can make it look bad by
 	 * dropping the activeline not really in the center of a lifeline. This
 	 * function is used to standardize the layout.
+	 * 
+	 * @param event the event of the active line which was modified
 	 */
 	centerOnLifeline : function centerOnLifeline(event) {
 		var shape = event.shape;
 		var parent = shape.getParentShape();
 
 		// we only want to do our adjustments if the parent is a lifeline
-		// as there are multiple lifelines ande more may be added we check for
+		// as there are multiple lifelines and more may be added we check for
 		// the role "lifeline"
 		if (parent._stencil.roles().indexOf(
 				"http://b3mn.org/stencilset/umlsequence#lifeline") !== -1) {
