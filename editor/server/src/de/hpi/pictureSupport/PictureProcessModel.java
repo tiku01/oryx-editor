@@ -22,13 +22,13 @@ public class PictureProcessModel {
 	@Element
 	private String description;
 	
-	/** The organisation unit id. */
+	/** The organization unit id. */
 	@Element
 	private int organisationUnitID;
 	
 	/** The resulting product. */
-	@Element(targetType=PictureProduct.class)
-	private PictureProduct resultingProduct;
+	@Element(targetType=PictureResultingProduct.class)
+	private PictureResultingProduct resultingProduct;
 	
 	/** The creator id. */
 	@Element
@@ -131,7 +131,7 @@ public class PictureProcessModel {
 	 *
 	 * @return the resulting product
 	 */
-	public PictureProduct getResultingProduct() {
+	public PictureResultingProduct getResultingProduct() {
 		return resultingProduct;
 	}
 
@@ -140,7 +140,7 @@ public class PictureProcessModel {
 	 *
 	 * @param resultingProduct the new resulting product
 	 */
-	public void setResultingProduct(PictureProduct resultingProduct) {
+	public void setResultingProduct(PictureResultingProduct resultingProduct) {
 		this.resultingProduct = resultingProduct;
 	}
 
