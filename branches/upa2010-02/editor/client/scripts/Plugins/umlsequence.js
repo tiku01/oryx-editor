@@ -41,7 +41,7 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 		this.facade = facade;
 		this.facade.registerOnEvent('layout.uml.sequence.combinedFragment',
 				this.sendToBack.bind(this));
-		this.facade.registerOnEvent('layout.uml.sequence.activeline',
+		this.facade.registerOnEvent('layout.uml.sequence.onLifeline',
 				this.centerOnLifeline.bind(this));
 
 	},
@@ -82,14 +82,14 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 		// we only want to do our adjustments if the parent is a lifeline
 		// as there are multiple lifelines and more may be added we check for
 		// the role "lifeline"
-		if (parent._stencil.roles().indexOf(
-				"http://b3mn.org/stencilset/umlsequence#lifeline") !== -1) {
+		//if (parent._stencil.roles().indexOf(
+			//	"http://b3mn.org/stencilset/umlsequence#lifeline") !== -1) {
 			// compute the difference of the x-coordines of the center of the lifeline 
 			// and the center of the activeline
 			var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
 			// move the active line by the calculated difference on the x-axis 
 			shape.bounds.moveBy(difference, 0);
-		}
+		//}
 	}
 
 });

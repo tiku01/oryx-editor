@@ -139,12 +139,11 @@
 			"view":"node.activeline.svg",
 			"icon":"node.activeline.png",
 			"roles": [
-				"diagramcontent",
-				"activeLine"
+				"onLifeline"
 			],
 			"layout" : [
 				{
-					"type" 	: "layout.uml.sequence.activeline"
+					"type" 	: "layout.uml.sequence.onLifeline"
 				}
 			],
 			"properties": [
@@ -175,8 +174,47 @@
 			"view":"node.stateInvariant.svg",
 			"icon":"node.stateInvariant.png",
 			"roles": [
-				"diagramcontent",
-				"stateInvariant"
+				"onLifeline"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.onLifeline"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"action",
+			"title":"Action",
+			"title_de":"Aktion",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Notes an action which is done by an actor.",
+			"description_de":"Kennzeichnet eine Aktion, die von einem Teilnehmer ausgeführt wird.",
+			"view":"node.action.svg",
+			"icon":"node.action.png",
+			"roles": [
+				"onLifeline"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.onLifeline"
+				}
 			],
 			"properties": [
 				{
@@ -842,7 +880,7 @@
 			{
 				"role":"lifeline",
 				"contains": [
-					"activeLine", "stateInvariant"
+					"onLifeline"
 				]
 			},
 			{
