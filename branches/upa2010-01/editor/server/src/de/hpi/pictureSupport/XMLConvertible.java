@@ -1,24 +1,18 @@
 package de.hpi.pictureSupport;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
 import org.apache.commons.codec.binary.Base64;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Attribute;
 import org.xmappr.DomElement;
 import org.xmappr.Element;
-
-//import sun.misc.BASE64Decoder;
-//import sun.misc.BASE64Encoder;
 
 /**
  * The Class XMLConvertible.
@@ -47,100 +41,21 @@ public abstract class XMLConvertible {
 	}
 	
 	/**
+	 * Sets the unknown attributes.
+	 *
+	 * @param unknownAttributes the unknown attributes
+	 */
+	public void setUnknownAttributes(HashMap<String, String> unknownAttributes) {
+		this.unknownAttributes = unknownAttributes;
+	}
+
+	/**
 	 * Gets the unknown children.
 	 *
 	 * @return the unknown children
 	 */
 	public ArrayList<DomElement> getUnknownChildren() {
 		return unknownChildren;
-	}
-	
-	/*public Map<String, XPDLThing> getResourceIdToObject() {
-		return resourceIdToObject;
-	}*/
-	
-	/**
-	 * Gets the resource id to shape.
-	 *
-	 * @return the resource id to shape
-	 */
-	public HashMap<String, JSONObject> getResourceIdToShape() {
-		return resourceIdToShape;
-	}
-	
-	/**
-	 * Parses the JSON Object.
-	 *
-	 * @param modelElement the model element
-	 */
-	@SuppressWarnings("rawtypes")
-	public void parse(JSONObject modelElement) {
-		Iterator jsonKeys = modelElement.keys();
-		while (jsonKeys.hasNext()) {
-			String key = (String) jsonKeys.next();
-			String readMethodName = "readJSON" + key;
-			if (hasJSONMethod(readMethodName)) {
-				try {
-					if (keyNotEmpty(modelElement, key)) {
-						getClass().getMethod(readMethodName, JSONObject.class).invoke(this, modelElement);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				readJSONunknownkey(modelElement, key);
-			}
-		}
-	}
-	
-	/**
-	 * Read unknowns.
-	 *
-	 * @param modelElement the model element
-	 * @param key the key
-	 */
-	public void readUnknowns(JSONObject modelElement, String key) {
-		String storedData = modelElement.optString(key);
-		if (storedData != null) {
-			XMLUnknownsContainer unknownContainer = (XMLUnknownsContainer) fromStorable(storedData);
-			
-			setUnknownAttributes(unknownContainer.getUnknownAttributes());
-			setUnknownChildren(unknownContainer.getUnknownElements());
-		}
-	}
-
-	/**
-	 * Read JSON unknown Key.
-	 *
-	 * @param modelElement the model element
-	 * @param key the key
-	 */
-	public void readJSONunknownkey(JSONObject modelElement, String key) {
-		System.err.println("Unknown JSON-key: " + key + "\n" +
-							"in JSON-Object: " + modelElement + "\n" +
-							"while parsing in: " + getClass() + "\n");
-	}
-	
-	/*public void setResourceIdToObject(Map<String, XPDLThing> mapping) {
-		resourceIdToObject = mapping;
-	}*/
-	
-	/**
-	 * Sets the resource id to shape.
-	 *
-	 * @param mapping the mapping
-	 */
-	public void setResourceIdToShape(HashMap<String, JSONObject> mapping) {
-		resourceIdToShape = mapping;
-	}
-	
-	/**
-	 * Sets the unknown attributes.
-	 *
-	 * @param unknowns the unknowns
-	 */
-	public void setUnknownAttributes(HashMap<String,String> unknowns) {
-		unknownAttributes = unknowns;
 	}
 	
 	/**
@@ -157,19 +72,37 @@ public abstract class XMLConvertible {
 	 *
 	 * @param modelElement the model element
 	 */
-	public void write(JSONObject modelElement) {
+	public void writeJSON(JSONObject modelElement) throws JSONException {
 		Method[] methods = getClass().getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			Method method = methods[i];
+		ArrayList<Method> unusedHandler = new ArrayList<Method>();
+		for (Method method : methods) {
 			String methodName = method.getName();
-			if (methodName.startsWith("writeJSON")) {
-				try {
-					getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
-				} catch (Exception e) {
-					e.printStackTrace();
+			if (methodName.startsWith("writeJSON") && methodName.length() != 9) {
+				if (methodName.contains("unused")){
+					unusedHandler.add(method);
+				} else {
+					try {
+						getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
+					} catch (Exception e) {
+						try {
+							Logger.e(this.getClass()+"\t"+methodName+"\n"+modelElement,e);
+						} catch (Exception e2){
+							Logger.e(this.getClass()+"\t"+methodName,e);
+						}
+					}
 				}
 			}
 		}
+		for (Method unusedMethod : unusedHandler){
+			String methodName = unusedMethod.getName();
+			try {
+				getClass().getMethod(methodName, JSONObject.class).invoke(this, modelElement);
+			} catch (Exception e) {
+				Logger.e(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	/**
@@ -190,28 +123,6 @@ public abstract class XMLConvertible {
 			modelElement.put(key, makeStorable(unknownsContainer));
 		}
 	}
-
-	
-	/**
-	 * From storable.
-	 *
-	 * @param stored the stored
-	 * @return the object
-	 */
-	protected Object fromStorable(String stored) {
-		
-		try {
-			//Read Base64 String and decode them
-			byte[] decodedBytes = Base64.decodeBase64(stored.getBytes("utf-8"));
-			ByteArrayInputStream byteStreamIn = new ByteArrayInputStream(decodedBytes);
-			//Restore the object
-			ObjectInputStream objectStreamIn = new ObjectInputStream(byteStreamIn);
-			return objectStreamIn.readObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	/**
 	 * Make storable.
@@ -231,60 +142,5 @@ public abstract class XMLConvertible {
 		
 		//Encode the byte stream with Base64 -> Readable characters for the JSONObject
 		return new String(Base64.encodeBase64(byteStream.toByteArray()));	
-	}
-	
-	/**
-	 * Checks for json method.
-	 *
-	 * @param methodName the method name
-	 * @return true, if successful
-	 */
-	protected boolean hasJSONMethod(String methodName) {
-		Method[] methods = getClass().getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].getName().equals(methodName) &
-				hasMethodJSONParameter(methods[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Checks for method json parameter.
-	 *
-	 * @param method the method
-	 * @return true, if successful
-	 */
-	@SuppressWarnings("rawtypes")
-	protected boolean hasMethodJSONParameter(Method method) {
-		Class[] parameterTypes = method.getParameterTypes();
-		if (parameterTypes.length == 1) {
-			return parameterTypes[0].equals(JSONObject.class);
-		}
-		return false;
-	}
-	
-	/**
-	 * Key not empty.
-	 *
-	 * @param modelElement the model element
-	 * @param key the key
-	 * @return true, if successful
-	 */
-	protected boolean keyNotEmpty(JSONObject modelElement, String key) {
-		try {
-			JSONObject objectAtKey = modelElement.getJSONObject(key);
-			//Value is a valid JSONObject and has members
-			return objectAtKey.length() > 0;
-		} catch(JSONException objectException) {
-			try {
-				JSONArray arrayAtKey = modelElement.getJSONArray(key);
-				//Value is a valid JSONArray and has at least one element
-				return arrayAtKey.length() > 0;
-			} catch(JSONException arrayException) {
-				return !modelElement.optString(key).equals(""); 
-			}
-		}
 	}
 }

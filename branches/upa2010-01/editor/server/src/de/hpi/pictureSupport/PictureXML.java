@@ -1,5 +1,9 @@
 package de.hpi.pictureSupport;
 
+import java.util.Vector;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmappr.Element;
 import org.xmappr.Namespaces;
 import org.xmappr.RootElement;
@@ -144,5 +148,31 @@ public class PictureXML extends XMLConvertible {
 	 */
 	public void setMethodDefinition(PictureMethodDefinition methodDefinition) {
 		this.methodDefinition = methodDefinition;
+	}
+	
+	@Override
+	public void writeJSON(JSONObject json){
+		//nothing to do
+	}
+	
+	/**
+	 * entry point for generating diagrams for Oryx
+	 * @return a collection of diagrams in JSON
+	 * @throws JSONException
+	 */
+	public Vector<JSONObject> writeJSON() throws JSONException{
+		Logger.i("writeDiagrams");
+      
+		
+		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
+		JSONObject json = null;
+		
+		// every process is now told to write its JSON
+		for (PictureProcess aProcess : getProcesses().getChildren()){
+			aProcess.writeJSON(json);
+			jsonDiagrams.add(json);
+		}
+		
+		return jsonDiagrams;
 	}
 }

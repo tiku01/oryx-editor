@@ -35,8 +35,8 @@ public class PictureSubprocess {
 	private PictureSubprocessAttributes subProcessAttributes;
 	
 	/** The variants. */
-	@Element(targetType=PictureVariants.class)
-	private PictureVariants variants;
+	@Element(targetType=PictureVariant.class)
+	private PictureVariant variants;
 
 	/**
 	 * Gets the id.
@@ -152,7 +152,7 @@ public class PictureSubprocess {
 	 *
 	 * @return the variants
 	 */
-	public PictureVariants getVariants() {
+	public PictureVariant getVariants() {
 		return variants;
 	}
 
@@ -161,7 +161,7 @@ public class PictureSubprocess {
 	 *
 	 * @param variants the new variants
 	 */
-	public void setVariants(PictureVariants variants) {
+	public void setVariants(PictureVariant variants) {
 		this.variants = variants;
 	}
 }
