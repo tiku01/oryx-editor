@@ -1,8 +1,5 @@
 package org.oryxeditor.server;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -12,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
 
+import de.hpi.pictureSupport.Logger;
 import de.hpi.pictureSupport.PictureConverter;
 
 /**
@@ -46,35 +44,15 @@ public class PictureImporter extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		PictureConverter converter = null;
 		if ("Import".equals(action)){
-			converter = new PictureConverter();
-			String importString = converter.importXML(data);
-			response.getWriter().print(importString);
+			try {
+				String importString = PictureConverter.importXML(data);
+				response.getWriter().print(importString);
+			} catch (Exception e) {
+				Logger.e("Import on server-side did not work: " + e.toString());
+			}
 		} else {
 			response.setStatus(HttpStatus.SC_BAD_REQUEST);
-		}
-	}
-	
-	public static String getXMlNamed(String filename) throws IOException
-	{
-		try
-		{
-			File f = new File(filename);
-
-			FileReader fReader = new FileReader(f);
-			BufferedReader bReader = new BufferedReader(fReader);
-			String xml = "";
-			while (bReader.ready())
-			{
-				xml += bReader.readLine();
-			}
-			return xml;
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new IOException();
 		}
 	}
 }

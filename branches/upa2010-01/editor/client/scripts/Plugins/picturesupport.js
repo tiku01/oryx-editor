@@ -117,7 +117,7 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		var propHeight = 0;
 		var titleHeight = shape._svgShapes.find(function(element) { return element.element.id === (shape.id + "text_frame_title"); }).height;
 		
-		/* before showing the properties the correct height of the node needs to be calculated
+		/* before showing the properties, the correct height of the node needs to be calculated
 		 * and the chapters need to be arranged according to their content
 		 */
 		if(shape.properties["oryx-basic-show-properties"]===true){
