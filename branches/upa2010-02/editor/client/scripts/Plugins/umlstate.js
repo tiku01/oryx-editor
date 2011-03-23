@@ -23,6 +23,19 @@ if (!ORYX.Plugins) {
 	ORYX.Plugins = new Object();
 }
 
+/**
+ * Plugin for the uml state machine stencilset of Oryx.
+ * It enables templates for the more complex shapes of the stencilsets, 
+ * controlflow and state with actions that is.
+ * Templates offer the user an easier way of editing. If you doubeclick on
+ * an empty edge all the options get presented just like that:
+ * 
+ * Event [Guard] /Action
+ * 
+ * This plugin also required changes in renameShape.js.
+ * Check out the Wikipage for more information.
+ */
+
 ORYX.Plugins.UMLState = Clazz
 		.extend({
 
@@ -57,10 +70,18 @@ ORYX.Plugins.UMLState = Clazz
 			 * nothing is done.
 			 * 
 			 * templatize value expects the oldValue to be in format of the
-			 * template... if not hell may break loose. I'm serious.
+			 * template... if not the old value will get returned.
 			 * 
-			 * We need the propId parameter in order to differentiate between
-			 * the 2 textfiels of the state with actions
+			 * @param oldValue the value that is currently saved for the field
+			 * currently edited
+			 * 
+			 * @param propId the id of the property currently edited, we need it
+			 * in order to differentiate between the 2 textfiels of the state with actions
+			 * 
+			 * @param shape the shape currently edited
+			 * 
+			 * @return the template version of the inputstring (oldValue) according to
+			 * the element currently edited (might be the same as oldValue)
 			 */
 			templatizeValue : function templatizeValue(oldValue, propId, shape) {
 
@@ -92,6 +113,10 @@ ORYX.Plugins.UMLState = Clazz
 			 * returns:
 			 * 
 			 * Rain [Guard] /Action
+			 * 
+			 * @param oldValue the value saved in the property without any template
+			 * 
+			 * @return the template version of oldValue
 			 */
 			templatizeEdgeValue : function templatizeEdgeValue(oldValue) {
 				// optimization: just query the strings once for the relevant
@@ -145,6 +170,10 @@ ORYX.Plugins.UMLState = Clazz
 			/**
 			 * This function templatizes the actions of the state with actions
 			 * in the scheme of: entry / action do / action exit / action
+			 * 
+			 * @param oldValue the value saved in the property without any template
+			 * 
+			 * @return the template version of oldValue
 			 */
 			templatizeStateWithActionsValue : function templatizeStateWithActionsValue(
 					oldValue) {
@@ -221,6 +250,15 @@ ORYX.Plugins.UMLState = Clazz
 			 * part the user changed. This particular function just decides
 			 * which more specific method to call based on the shape which is
 			 * currently edited.
+			 * 
+			 * @param newValue the value the user typed into the editbox
+			 * 
+			 * @param propId the id of the property currently edited, we need it
+			 * in order to differentiate between the 2 textfiels of the state with actions
+			 * 
+			 * @param shape the shape currently edited
+			 * 
+			 * @return the value without the template specific substrings
 			 */
 			untemplatizeValue : function untemplatizeValue(newValue, propId,
 					shape) {
@@ -256,6 +294,10 @@ ORYX.Plugins.UMLState = Clazz
 			 * 
 			 * Therefore we'll try to delete any occurences of Event, [Guard]
 			 * and /Action
+			 * 
+			 * @param value the value the user edited
+			 * 
+			 * @return the value without the template specific substrings
 			 */
 			untemplatizeEdgeValue : function untemplatizeEdgeValue(value) {
 				// Quiet a chain, I love message chaining.
@@ -278,6 +320,10 @@ ORYX.Plugins.UMLState = Clazz
 			 * 
 			 * Therefore we'll try to delete any occurences of entry / action,
 			 * do / action\n and exit / action
+			 * 
+			 * @param value the value left after the user finished editing
+			 * 
+			 * @return the value without the template specific substrings
 			 */
 			untemplatizeStateWithActionsValue : function untemplatizeStateWithActionsValue(
 					value) {
