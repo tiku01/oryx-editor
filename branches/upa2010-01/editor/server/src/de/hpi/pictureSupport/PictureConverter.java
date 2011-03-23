@@ -1,11 +1,12 @@
 package de.hpi.pictureSupport;
-/*import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;*/
+import java.io.IOException;
 import java.io.StringReader;
+
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
+
+import org.oryxeditor.server.PictureImporter;
 
 /**
  * The Class PictureConverter.
@@ -44,7 +45,7 @@ public class PictureConverter {
 	 * @param xml the xml
 	 * @return the string
 	 */
-	public String importXML(String xml){
+	public static String importXML(String xml){
 		Logger.i("importXML");
 
 		StringReader stringReader = new StringReader(xml);
@@ -59,5 +60,13 @@ public class PictureConverter {
 		Logger.i("mapping java to json done");
 		Logger.i("result: "+importObject.toString());
 		return importObject.toString();
+	}
+	
+	public static void main(String[] args) throws IOException{
+		String s = File.separator;
+		String pictureXML = PictureImporter.getXMlNamed("C:" + s + "Users" + s + "Tobi BP" + s + "Documents" + s + "EclipseWorkspace" + s + "oryx" + s + "editor" + s + "server" + s + "src" + s + "de" + s + "hpi" + s + "pictureSupport" + s + "process1.xml");
+		//String pictureXML = PictureImporter.getXMlNamed("C:" + s + "Users" + s + "Tobi BP" + s + "Documents" + s + "EclipseWorkspace" + s + "oryx" + s + "editor" + s + "server" + s + "src" + s + "de" + s + "hpi" + s + "pictureSupport" + s + "process1.xml");
+		String importString = PictureConverter.importXML(pictureXML);
+		System.out.println(importString);
 	}
 }

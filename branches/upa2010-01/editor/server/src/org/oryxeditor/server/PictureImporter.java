@@ -1,5 +1,8 @@
 package org.oryxeditor.server;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -36,20 +39,42 @@ import de.hpi.pictureSupport.PictureConverter;
 public class PictureImporter extends HttpServlet {
 	private static final long serialVersionUID = -703248923411764562L;
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		res.setContentType("text/xml");
-		String data = req.getParameter("data");
+		response.setContentType("text/xml");
+		String data = request.getParameter("data");
 		
-		String action = req.getParameter("action");
+		String action = request.getParameter("action");
 		
 		PictureConverter converter = null;
 		if ("Import".equals(action)){
 			converter = new PictureConverter();
 			String importString = converter.importXML(data);
-			res.getWriter().print(importString);
-			} else {
-			res.setStatus(HttpStatus.SC_BAD_REQUEST);
+			response.getWriter().print(importString);
+		} else {
+			response.setStatus(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
+	
+	public static String getXMlNamed(String filename) throws IOException
+	{
+		try
+		{
+			File f = new File(filename);
+
+			FileReader fReader = new FileReader(f);
+			BufferedReader bReader = new BufferedReader(fReader);
+			String xml = "";
+			while (bReader.ready())
+			{
+				xml += bReader.readLine();
+			}
+			return xml;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new IOException();
 		}
 	}
 }
