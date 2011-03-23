@@ -139,7 +139,8 @@
 			"view":"node.activeline.svg",
 			"icon":"node.activeline.png",
 			"roles": [
-				"onLifeline"
+				"onLifeline",
+				"activeLine"
 			],
 			"layout" : [
 				{

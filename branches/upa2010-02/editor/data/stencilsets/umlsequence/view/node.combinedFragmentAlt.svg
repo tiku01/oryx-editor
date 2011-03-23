@@ -22,7 +22,7 @@
 			alt
 	</text>
 	<text 
-			oryx:anchors = "top left"
+			oryx:anchors = "left right"
 			id="type"
 			font-size="12"  
 			x="7" 
