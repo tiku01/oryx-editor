@@ -1,12 +1,25 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.diagram;
 
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.Vector;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.oryxeditor.server.diagram.Bounds;
 import org.oryxeditor.server.diagram.Diagram;
+import org.oryxeditor.server.diagram.JSONBuilder;
+import org.oryxeditor.server.diagram.Point;
+import org.oryxeditor.server.diagram.Shape;
 import org.oryxeditor.server.diagram.StencilSet;
 import org.oryxeditor.server.diagram.StencilType;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.PictureBuildingBlockOccurrence;
+import de.hpi.pictureSupport.PictureResultingProduct;
+import de.hpi.pictureSupport.PictureSubprocess;
 import de.hpi.pictureSupport.container.PictureBuildingBlockRepository;
 import de.hpi.pictureSupport.container.PictureProcessAttributes;
 import de.hpi.pictureSupport.container.PictureProcessFlow;
@@ -260,15 +273,88 @@ public class PictureProcessModel {
 		this.buildingBlockRepository = buildingBlockRepository;
 	}
 
-	public static Diagram getNewPictureDiagram() {
+	
+	/**
+	 * Gets a new picture diagram with basic information.
+	 *
+	 * @return the new picture diagram
+	 */
+	public Diagram getNewPictureDiagram() {
 		String resourceId = "oryx-canvas123";		
 		StencilType type = new StencilType("Diagram");		
-		String stencilSetNs = "http://b3mn.org/stencilset/picture#";		
-		// Take care of the root "/oryx/"; it might be changed when the root changes
+		String stencilSetNs = "http://b3mn.org/stencilset/picture#";	
 		String url ="/oryx/stencilsets/picture/picture.json";
 		
 		StencilSet stencilSet = new StencilSet(url, stencilSetNs);		
 		Diagram diagram = new Diagram(resourceId, type, stencilSet);
 		return diagram;
+	}
+	
+	
+	/**
+	 * Create the JSON representations for all diagrams described in the XML.
+	 *
+	 * @return the vector of diagrams
+	 * @throws JSONException the JSON exception
+	 */
+	public Vector<JSONObject> writeJSON() throws JSONException{
+		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
+
+		// for every variant arising in the XML, a JSON of a diagram needs to be processed
+		for (PictureSubprocess aSubprocess : getProcessFlow().getChildren()) {
+			for (PictureVariant aVariant : aSubprocess.getVariants().getChildren()) {
+				Diagram diagram = getNewPictureDiagram();
+				ArrayList<Shape> childShapes = new ArrayList<Shape>();
+				
+				// create the process lane and all its inner children
+				Shape processLane = createProcessLaneFor(diagram, aVariant);
+				childShapes.add(processLane);
+				
+				// put the shapes into the diagram
+				diagram.setChildShapes(childShapes);
+				
+				// TODO calculate bounds according to children
+				Bounds bounds = new Bounds(new Point(1485.0,1050.0),new Point(0.0,0.0));
+				diagram.setBounds(bounds);
+				
+				// put JSON representation of diagram into list of imported diagrams
+				JSONObject json = JSONBuilder.parseModel(diagram);
+				jsonDiagrams.add(json);
+			}
+		}
+		
+		return jsonDiagrams;
+	}
+
+	/**
+	 * Creates the process lane for a diagram.
+	 *
+	 * @param diagram the diagram the process lane shall be processed for
+	 * @param variant the variant that represents the diagram inside the XML
+	 * @return the process lane shape
+	 */
+	private Shape createProcessLaneFor(Diagram diagram, PictureVariant variant) {
+		Shape process = new Shape(String.valueOf(UUID.randomUUID()), new StencilType("process"));
+
+		// put properties into the process
+		process.putProperty("basic-title", variant.getName());
+		
+		// add all child shapes and enrich information of the diagram
+		ArrayList<Shape> processChildren = new ArrayList<Shape>();
+		for (PictureBuildingBlockOccurrence aBlock : variant.getBuildingBlockSequence().getChildren()) {
+			Shape blockOccurrence = aBlock.createBlockFor(process,processChildren);
+			processChildren.add(blockOccurrence);
+		}
+		process.setChildShapes(processChildren);
+		
+		// calculate the process' bounds based on children
+		Point upperLeft = new Point(0.0, 0.0);
+		Point lowerRight = new Point(160.0, 130.0);
+		if (!processChildren.isEmpty()) {
+			lowerRight = processChildren.get(processChildren.size()-1).getBounds().getLowerRight();			
+		}
+		process.setBounds(new Bounds(lowerRight, upperLeft));
+		
+		return process;
 	}
 }

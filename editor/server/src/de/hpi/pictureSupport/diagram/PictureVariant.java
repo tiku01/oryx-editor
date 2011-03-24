@@ -1,13 +1,9 @@
 package de.hpi.pictureSupport.diagram;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.oryxeditor.server.diagram.JSONBuilder;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-import de.hpi.pictureSupport.PictureProcessModel;
 import de.hpi.pictureSupport.container.PictureBuildingBlockSequence;
 import de.hpi.pictureSupport.container.PictureVariantAttributes;
 
@@ -170,9 +166,5 @@ public class PictureVariant {
 	 */
 	public void setSuccessor(String successor) {
 		this.successor = successor;
-	}
-	
-	public JSONObject writeJSON() throws JSONException{
-		return JSONBuilder.parseModel(PictureProcessModel.getNewPictureDiagram());
 	}
 }

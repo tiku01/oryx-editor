@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-import de.hpi.pictureSupport.PictureProcessModel;
+import de.hpi.pictureSupport.diagram.PictureProcessModel;
 
 /**
  * The Class PictureProcessModels.
