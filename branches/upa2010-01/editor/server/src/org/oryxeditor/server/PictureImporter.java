@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.json.JSONException;
 
 import de.hpi.pictureSupport.helper.Logger;
 import de.hpi.pictureSupport.helper.PictureConverter;
@@ -48,8 +49,12 @@ public class PictureImporter extends HttpServlet {
 			try {
 				String importString = PictureConverter.importXML(data);
 				response.getWriter().print(importString);
-			} catch (Exception e) {
-				Logger.e("Import on server-side did not work: " + e.toString());
+			} catch (JSONException jsonException) {
+				Logger.e("JSON exception: ");
+				jsonException.printStackTrace();
+			} catch (IOException e) {
+				Logger.e("IO EXception: ");
+				e.printStackTrace();
 			}
 		} else {
 			response.setStatus(HttpStatus.SC_BAD_REQUEST);
