@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.helper;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;

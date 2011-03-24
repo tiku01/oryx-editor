@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.junit.Test;
 
-import de.hpi.pictureSupport.PictureConverter;
+import de.hpi.pictureSupport.helper.PictureConverter;
 
 public class ImportTest
 {

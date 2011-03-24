@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.helper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmappr.Xmappr;
+
 
 /**
  * The Class PictureConverter.
@@ -31,12 +32,11 @@ public class PictureConverter {
 		PictureXML newPicture = (PictureXML) xmappr.fromXML(stringReader);
 		Logger.i("mapping xml to java done");
 				
-		Vector<JSONObject> importObjects = null;
-		importObjects = newPicture.writeJSON();
+		Vector<JSONObject> importObject = newPicture.writeJSON();
 		
 		Logger.i("mapping java to json done");
-		Logger.i("result: "+importObjects.toString());
-		return importObjects.toString();
+		Logger.i("result: "+importObject.toString());
+		return importObject.get(0).toString();
 	}
 	
 	public static String getXMLNamed(String filename) throws IOException

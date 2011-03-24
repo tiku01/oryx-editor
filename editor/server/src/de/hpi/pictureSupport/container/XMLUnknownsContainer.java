@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.container;
 
 import java.io.Serializable;
 import java.util.ArrayList;
