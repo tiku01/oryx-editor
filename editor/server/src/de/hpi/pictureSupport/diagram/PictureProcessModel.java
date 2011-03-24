@@ -23,6 +23,8 @@ import de.hpi.pictureSupport.PictureSubprocess;
 import de.hpi.pictureSupport.container.PictureBuildingBlockRepository;
 import de.hpi.pictureSupport.container.PictureProcessAttributes;
 import de.hpi.pictureSupport.container.PictureProcessFlow;
+import de.hpi.pictureSupport.helper.BlockRepository;
+import de.hpi.pictureSupport.helper.PictureXML;
 
 /**
  * The Class PictureProcessModel.
@@ -293,11 +295,12 @@ public class PictureProcessModel {
 	
 	/**
 	 * Create the JSON representations for all diagrams described in the XML.
+	 * @param pictureXML 
 	 *
 	 * @return the vector of diagrams
 	 * @throws JSONException the JSON exception
 	 */
-	public Vector<JSONObject> writeJSON() throws JSONException{
+	public Vector<JSONObject> writeJSON(PictureXML pictureXML) throws JSONException{
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
 
 		// for every variant arising in the XML, a JSON of a diagram needs to be processed
@@ -307,7 +310,7 @@ public class PictureProcessModel {
 				ArrayList<Shape> childShapes = new ArrayList<Shape>();
 				
 				// create the process lane and all its inner children
-				Shape processLane = createProcessLaneFor(diagram, aVariant);
+				Shape processLane = createProcessLaneFor(diagram, aVariant, pictureXML);
 				childShapes.add(processLane);
 				
 				// put the shapes into the diagram
@@ -331,9 +334,10 @@ public class PictureProcessModel {
 	 *
 	 * @param diagram the diagram the process lane shall be processed for
 	 * @param variant the variant that represents the diagram inside the XML
+	 * @param pictureXML 
 	 * @return the process lane shape
 	 */
-	private Shape createProcessLaneFor(Diagram diagram, PictureVariant variant) {
+	private Shape createProcessLaneFor(Diagram diagram, PictureVariant variant, PictureXML pictureXML) {
 		Shape process = new Shape(String.valueOf(UUID.randomUUID()), new StencilType("process"));
 
 		// put properties into the process
@@ -341,8 +345,9 @@ public class PictureProcessModel {
 		
 		// add all child shapes and enrich information of the diagram
 		ArrayList<Shape> processChildren = new ArrayList<Shape>();
+		BlockRepository repository = new BlockRepository(pictureXML);
 		for (PictureBuildingBlockOccurrence aBlock : variant.getBuildingBlockSequence().getChildren()) {
-			Shape blockOccurrence = aBlock.createBlockFor(process,processChildren);
+			Shape blockOccurrence = aBlock.createBlockFor(process,processChildren,repository);
 			processChildren.add(blockOccurrence);
 		}
 		process.setChildShapes(processChildren);

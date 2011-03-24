@@ -10,6 +10,8 @@ import org.oryxeditor.server.diagram.StencilType;
 import org.xmappr.Attribute;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.helper.BlockRepository;
+
 /**
  * The Class PictureBuildingBlockOccurrence.
  */
@@ -66,12 +68,13 @@ public class PictureBuildingBlockOccurrence {
 	 *
 	 * @param process the process the block is in
 	 * @param processChildren the already added blocks of the process
+	 * @param repository 
 	 * @return the block that shall be displayed on the canvas
 	 */
-	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren) {
+	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren, BlockRepository repository) {
 
 		// TODO get the block type from block repository
-		String blockTypeId = "createnewdocument";
+		String blockTypeId = repository.findBlockName(getBuildingBlock());
 		Shape block = new Shape(String.valueOf(UUID.randomUUID()), new StencilType(blockTypeId));
 		Bounds bounds = calculateBounds(processChildren);
 		block.setBounds(bounds);

@@ -1,6 +1,8 @@
 package de.hpi.pictureSupport.container;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.xmappr.Element;
 import org.xmappr.RootElement;
@@ -26,6 +28,15 @@ public class PictureBuildingBlockTypes {
 		return children;
 	}
 
+	
+	public Map<Integer, String> getChildrenMap(){
+		Map<Integer, String> blocks = new HashMap<Integer, String>();
+		for (PictureBuildingBlockType blockType : getChildren()) {
+			blocks.put(blockType.getId(), blockType.getName());
+		}
+		return blocks;
+	}
+	
 	/**
 	 * Sets the children.
 	 *
