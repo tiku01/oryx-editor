@@ -169,11 +169,10 @@ public class PictureXML extends XMLConvertible {
       
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
-		
 		// every process variant is now told to write its JSON
 		for (PictureProcess aProcess : getProcesses().getChildren()){
 			for (PictureProcessModel aModel : aProcess.getProcessModels().getChildren()) {
-				Vector<JSONObject> jsonDiagramsToImport = aModel.writeJSON(this);
+				Vector<JSONObject> jsonDiagramsToImport = aModel.writeJSON();
 				for (JSONObject jsonObject : jsonDiagramsToImport) {
 					jsonDiagrams.add(jsonObject);
 				}
