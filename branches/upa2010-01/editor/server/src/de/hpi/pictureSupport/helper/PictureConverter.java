@@ -22,8 +22,9 @@ public class PictureConverter {
 	 *
 	 * @param xml the XML to import
 	 * @return the string that represents the JSON for Oryx
+	 * @throws IOException 
 	 */
-	public static String importXML(String xml) throws JSONException{
+	public static String importXML(String xml) throws JSONException, IOException{
 		Logger.i("importXML");
 
 		StringReader stringReader = new StringReader(xml);

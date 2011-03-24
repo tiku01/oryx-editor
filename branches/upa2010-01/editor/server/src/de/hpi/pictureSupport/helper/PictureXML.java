@@ -9,15 +9,13 @@ import org.xmappr.Namespaces;
 import org.xmappr.RootElement;
 
 import de.hpi.pictureSupport.PictureProcess;
-import de.hpi.pictureSupport.PictureProcessModel;
-import de.hpi.pictureSupport.PictureSubprocess;
 import de.hpi.pictureSupport.container.PictureMethodDefinition;
 import de.hpi.pictureSupport.container.PictureOrganisationUnits;
 import de.hpi.pictureSupport.container.PictureProcesses;
 import de.hpi.pictureSupport.container.PictureProducts;
 import de.hpi.pictureSupport.container.PictureResources;
 import de.hpi.pictureSupport.container.PictureUsers;
-import de.hpi.pictureSupport.diagram.PictureVariant;
+import de.hpi.pictureSupport.diagram.PictureProcessModel;
 
 /**
  * The Class PictureXML that contains the XML structure of PICTURE.
@@ -175,11 +173,9 @@ public class PictureXML extends XMLConvertible {
 		// every process variant is now told to write its JSON
 		for (PictureProcess aProcess : getProcesses().getChildren()){
 			for (PictureProcessModel aModel : aProcess.getProcessModels().getChildren()) {
-				for (PictureSubprocess aSubprocess : aModel.getProcessFlow().getChildren()) {
-					for (PictureVariant aVariant : aSubprocess.getVariants().getChildren()) {
-						JSONObject jsonToImport = aVariant.writeJSON();
-						jsonDiagrams.add(jsonToImport);
-					}
+				Vector<JSONObject> jsonDiagramsToImport = aModel.writeJSON();
+				for (JSONObject jsonObject : jsonDiagramsToImport) {
+					jsonDiagrams.add(jsonObject);
 				}
 			}
 		}
