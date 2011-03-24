@@ -4,6 +4,8 @@ import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.container.PicturePositions;
+
 /**
  * The Class PictureOrganisationUnit.
  */

@@ -3,11 +3,13 @@ package de.hpi.pictureSupport;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.container.PictureProcessModels;
+
 /**
  * The Class PictureProcess.
  */
 @RootElement("process")
-public class PictureProcess extends PictureStencil {
+public class PictureProcess {
 	
 	/** The name. */
 	@Element
@@ -16,15 +18,6 @@ public class PictureProcess extends PictureStencil {
 	/** The process models. */
 	@Element(targetType=PictureProcessModels.class)
 	private PictureProcessModels processModels;
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * Gets the name.

@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.helper;
 
 import java.util.Vector;
 
@@ -7,6 +7,17 @@ import org.json.JSONObject;
 import org.xmappr.Element;
 import org.xmappr.Namespaces;
 import org.xmappr.RootElement;
+
+import de.hpi.pictureSupport.PictureProcess;
+import de.hpi.pictureSupport.PictureProcessModel;
+import de.hpi.pictureSupport.PictureSubprocess;
+import de.hpi.pictureSupport.container.PictureMethodDefinition;
+import de.hpi.pictureSupport.container.PictureOrganisationUnits;
+import de.hpi.pictureSupport.container.PictureProcesses;
+import de.hpi.pictureSupport.container.PictureProducts;
+import de.hpi.pictureSupport.container.PictureResources;
+import de.hpi.pictureSupport.container.PictureUsers;
+import de.hpi.pictureSupport.diagram.PictureVariant;
 
 /**
  * The Class PictureXML that contains the XML structure of PICTURE.
@@ -150,14 +161,9 @@ public class PictureXML extends XMLConvertible {
 		this.methodDefinition = methodDefinition;
 	}
 	
-	@Override
-	public void writeJSON(JSONObject json){
-		//nothing to do
-	}
-	
 	/**
 	 * entry point for generating diagrams for Oryx
-	 * @return a collection of diagrams in JSON
+	 * @return a diagram in JSON
 	 * @throws JSONException
 	 */
 	public Vector<JSONObject> writeJSON() throws JSONException{
@@ -165,12 +171,17 @@ public class PictureXML extends XMLConvertible {
       
 		
 		Vector<JSONObject> jsonDiagrams = new Vector<JSONObject>();
-		JSONObject json = null;
 		
-		// every process is now told to write its JSON
+		// every process variant is now told to write its JSON
 		for (PictureProcess aProcess : getProcesses().getChildren()){
-			aProcess.writeJSON(json);
-			jsonDiagrams.add(json);
+			for (PictureProcessModel aModel : aProcess.getProcessModels().getChildren()) {
+				for (PictureSubprocess aSubprocess : aModel.getProcessFlow().getChildren()) {
+					for (PictureVariant aVariant : aSubprocess.getVariants().getChildren()) {
+						JSONObject jsonToImport = aVariant.writeJSON();
+						jsonDiagrams.add(jsonToImport);
+					}
+				}
+			}
 		}
 		
 		return jsonDiagrams;

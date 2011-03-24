@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.container;
 
 import org.xmappr.Element;
 import org.xmappr.RootElement;

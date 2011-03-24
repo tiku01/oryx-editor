@@ -1,18 +1,20 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.container;
 
 import java.util.ArrayList;
 
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.PictureProcessAttribute;
+
 /**
- * The Class PictureProcessAttributes.
+ * The Class PictureVariantAttributes.
  */
-@RootElement("processAttributes")
-public class PictureProcessAttributes {
+@RootElement("variantAttributes")
+public class PictureVariantAttributes {
 
 	/** The children. */
-	@Element(name="processAttribute", targetType=PictureProcessAttribute.class)
+	@Element(name="variantAttribute", targetType=PictureProcessAttribute.class)
 	private ArrayList<PictureProcessAttribute> children;
 
 	/**

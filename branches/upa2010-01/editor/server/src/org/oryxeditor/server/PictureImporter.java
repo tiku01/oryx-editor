@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
 
-import de.hpi.pictureSupport.Logger;
-import de.hpi.pictureSupport.PictureConverter;
+import de.hpi.pictureSupport.helper.Logger;
+import de.hpi.pictureSupport.helper.PictureConverter;
 
 /**
  * Copyright (c) 2010 Markus Goetz

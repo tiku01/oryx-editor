@@ -1,8 +1,15 @@
 package de.hpi.pictureSupport;
 
+import org.oryxeditor.server.diagram.Diagram;
+import org.oryxeditor.server.diagram.StencilSet;
+import org.oryxeditor.server.diagram.StencilType;
 import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
+
+import de.hpi.pictureSupport.container.PictureBuildingBlockRepository;
+import de.hpi.pictureSupport.container.PictureProcessAttributes;
+import de.hpi.pictureSupport.container.PictureProcessFlow;
 
 /**
  * The Class PictureProcessModel.
@@ -251,5 +258,17 @@ public class PictureProcessModel {
 	public void setBuildingBlockRepository(
 			PictureBuildingBlockRepository buildingBlockRepository) {
 		this.buildingBlockRepository = buildingBlockRepository;
+	}
+
+	public static Diagram getNewPictureDiagram() {
+		String resourceId = "oryx-canvas123";		
+		StencilType type = new StencilType("Diagram");		
+		String stencilSetNs = "http://b3mn.org/stencilset/picture#";		
+		// Take care of the root "/oryx/"; it might be changed when the root changes
+		String url ="/oryx/stencilsets/picture/picture.json";
+		
+		StencilSet stencilSet = new StencilSet(url, stencilSetNs);		
+		Diagram diagram = new Diagram(resourceId, type, stencilSet);
+		return diagram;
 	}
 }

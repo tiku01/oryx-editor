@@ -4,6 +4,9 @@ import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
+import de.hpi.pictureSupport.container.PictureSubprocessAttributes;
+import de.hpi.pictureSupport.container.PictureVariants;
+
 /**
  * The Class PictureSubprocess.
  */
@@ -35,8 +38,8 @@ public class PictureSubprocess {
 	private PictureSubprocessAttributes subProcessAttributes;
 	
 	/** The variants. */
-	@Element(targetType=PictureVariant.class)
-	private PictureVariant variants;
+	@Element(targetType=PictureVariants.class)
+	private PictureVariants variants;
 
 	/**
 	 * Gets the id.
@@ -152,7 +155,7 @@ public class PictureSubprocess {
 	 *
 	 * @return the variants
 	 */
-	public PictureVariant getVariants() {
+	public PictureVariants getVariants() {
 		return variants;
 	}
 
@@ -161,7 +164,7 @@ public class PictureSubprocess {
 	 *
 	 * @param variants the new variants
 	 */
-	public void setVariants(PictureVariant variants) {
+	public void setVariants(PictureVariants variants) {
 		this.variants = variants;
 	}
 }
