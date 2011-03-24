@@ -60,6 +60,14 @@ public class PictureBuildingBlockOccurrence {
 		this.buildingBlock = buildingBlock;
 	}
 
+	
+	/**
+	 * Creates a block according to its XML tag and returns it.
+	 *
+	 * @param process the process the block is in
+	 * @param processChildren the already added blocks of the process
+	 * @return the block that shall be displayed on the canvas
+	 */
 	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren) {
 
 		// TODO get the block type from block repository
@@ -70,6 +78,12 @@ public class PictureBuildingBlockOccurrence {
 		return block;
 	}
 
+	/**
+	 * Calculate bounds for the block according to its predecessors.
+	 *
+	 * @param processChildren the the already added blocks of the process
+	 * @return the bounds of the block
+	 */
 	private Bounds calculateBounds(ArrayList<Shape> processChildren) {
 		
 		Point lowerRight = new Point(600.0, 110.0);
