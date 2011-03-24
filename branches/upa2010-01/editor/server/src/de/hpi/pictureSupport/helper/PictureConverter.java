@@ -32,7 +32,8 @@ public class PictureConverter {
 		Xmappr xmappr = new Xmappr(PictureXML.class);
 		PictureXML newPicture = (PictureXML) xmappr.fromXML(stringReader);
 		Logger.i("mapping xml to java done");
-				
+		BlockTypeMapping.prepareMapping();
+		BlockRepository.initializeRepository(newPicture);
 		Vector<JSONObject> importObject = newPicture.writeJSON();
 		
 		Logger.i("mapping java to json done");

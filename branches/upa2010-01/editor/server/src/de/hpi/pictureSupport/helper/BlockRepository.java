@@ -10,12 +10,11 @@ import de.hpi.pictureSupport.diagram.PictureProcessModel;
 
 public class BlockRepository {
 
-	private Map<Integer, PictureBuildingBlock> blockMap = new HashMap<Integer, PictureBuildingBlock>();
-	private Map<Integer, String> blockNameMap = new HashMap<Integer, String>();
-	private BlockTypeMapping mapping = new BlockTypeMapping();
+	private static Map<Integer, PictureBuildingBlock> blockMap = new HashMap<Integer, PictureBuildingBlock>();
+	private static Map<Integer, String> blockNameMap = new HashMap<Integer, String>();
 	
-	public BlockRepository(PictureXML newPicture){
-		for (PictureProcess process : newPicture.processes.getChildren()) {
+	public static void initializeRepository(PictureXML newPicture){
+		for (PictureProcess process : newPicture.getProcesses().getChildren()) {
 			for (PictureProcessModel model : process.getProcessModels().getChildren()) {
 				for (PictureBuildingBlock buildingBlock : model.getBuildingBlockRepository().getChildren()) {
 					blockMap.put(buildingBlock.getId(), buildingBlock);
@@ -25,11 +24,11 @@ public class BlockRepository {
 		}
 	}
 	
-	public PictureBuildingBlock findBlock(int blockId){
+	public static PictureBuildingBlock findBlock(int blockId){
 		return blockMap.get(blockId);
 	}
 	
-	public String findBlockName(int key) {
-		return mapping.getInternalStringFor(blockNameMap.get(key));
+	public static String findBlockName(int key) {
+		return BlockTypeMapping.getInternalStringFor(blockNameMap.get(key));
 	}
 }

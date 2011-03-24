@@ -68,13 +68,11 @@ public class PictureBuildingBlockOccurrence {
 	 *
 	 * @param process the process the block is in
 	 * @param processChildren the already added blocks of the process
-	 * @param repository 
 	 * @return the block that shall be displayed on the canvas
 	 */
-	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren, BlockRepository repository) {
+	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren) {
 
-		// TODO get the block type from block repository
-		String blockTypeId = repository.findBlockName(getBuildingBlock());
+		String blockTypeId = BlockRepository.findBlockName(getBuildingBlock());
 		Shape block = new Shape(String.valueOf(UUID.randomUUID()), new StencilType(blockTypeId));
 		Bounds bounds = calculateBounds(processChildren);
 		block.setBounds(bounds);
