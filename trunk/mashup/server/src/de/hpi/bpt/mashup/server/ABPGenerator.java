@@ -28,6 +28,11 @@ import de.hpi.bp.BPCreatorNet;
 import de.hpi.petrinet.Node;
 import de.hpi.petrinet.layouting.PetriNetLayouter;
 
+/**
+ * 
+ * @author Christian Wiggert
+ *
+ */
 public class ABPGenerator extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;

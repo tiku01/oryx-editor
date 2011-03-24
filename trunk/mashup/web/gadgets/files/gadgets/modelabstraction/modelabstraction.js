@@ -371,13 +371,13 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			var group = this.selector.group;
 			var temp = group.name;
 			group.name = $('edit_name').getValue();
-			if (this.groupNameIsInUse(group)) {
+			if (this.groupNameIsInUse(group) || group.name === "") {
 				group.name = temp;
 				this.showMessage("Please choose a unique group name!");
 			} else {
-				if (!this.groupExists(group))
-					this.addGroup(group);
-				else
+				if (!this.groupExists(group)) 
+					this.addGroup(group)
+				else 
 					group.refresh();
 				this.stopSelection(false);
 			}
