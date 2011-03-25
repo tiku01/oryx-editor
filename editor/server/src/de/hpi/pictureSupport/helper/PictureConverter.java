@@ -1,8 +1,5 @@
 package de.hpi.pictureSupport.helper;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Vector;
@@ -27,48 +24,24 @@ public class PictureConverter {
 	public static String importXML(String xml) throws JSONException, IOException{
 		Logger.i("importXML");
 
+		// some xmappr basic steps, to be found on prject's site
 		StringReader stringReader = new StringReader(xml);
-		
 		Xmappr xmappr = new Xmappr(PictureXML.class);
 		PictureXML newPicture = (PictureXML) xmappr.fromXML(stringReader);
 		Logger.i("mapping xml to java done");
+		
+		// prepare the repository and the mapping of PICTURE to Oryx-PICTURE names
 		BlockTypeMapping.prepareMapping();
 		BlockRepository.initializeRepository(newPicture);
+		
+		// build the JSON
 		Vector<JSONObject> importObject = newPicture.writeJSON();
 		
 		Logger.i("mapping java to json done");
 		Logger.i("result: "+importObject.toString());
+		
+		// FIXME ATM only the first JSON in the list is returned
+		// picturesupport.js needs to be adjusted to handle more than one returning String
 		return importObject.get(0).toString();
-	}
-	
-	public static String getXMLNamed(String filename) throws IOException
-	{
-		try
-		{
-			File f = new File(filename);
-
-			FileReader fReader = new FileReader(f);
-			BufferedReader bReader = new BufferedReader(fReader);
-			String xml = "";
-			while (bReader.ready())
-			{
-				xml += bReader.readLine();
-			}
-			return xml;
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new IOException();
-		}
-	}
-	
-	public static void main(String[] args) throws IOException, JSONException{
-		String s = File.separator;
-		String pref = "T:" + s + "Dokumente" + s + "Eclipse" + s + "picture entwicklung" + s;
-		//String pref = "C:" + s + "Users" + s + "Tobi BP" + s + "Documents" + s + "EclipseWorkspace" + s;
-		String pictureXML = getXMLNamed(pref + "oryx" + s + "editor" + s + "server" + s + "src" + s + "de" + s + "hpi" + s + "pictureSupport" + s + "process1.xml");
-		String importString = importXML(pictureXML);
-		System.out.println(importString);
 	}
 }

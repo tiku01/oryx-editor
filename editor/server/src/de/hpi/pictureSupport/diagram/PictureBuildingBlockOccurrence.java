@@ -90,8 +90,11 @@ public class PictureBuildingBlockOccurrence {
 	 */
 	private Bounds calculateBounds(ArrayList<Shape> processChildren) {
 		
+		// bounds for the first child block
 		Point lowerRight = new Point(600.0, 110.0);
 		Point upperLeft = new Point(0.0,50.0);
+		
+		// bounds have be adjusted by +80 according to child lying above
 		if (!processChildren.isEmpty()) {
 			lowerRight.setY(processChildren.get(processChildren.size()-1).getLowerRight().getY() + 80.0);
 			upperLeft.setY(processChildren.get(processChildren.size()-1).getUpperLeft().getY() + 80.0);

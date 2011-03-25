@@ -40,8 +40,6 @@ public class PictureBuildingBlock {
 	@Element
 	private String positionType;
 	
-	private String internalName;
-
 	/** The building block attributes. */
 	@Element(targetType=PictureBuildingBlockAttributes.class)
 	private PictureBuildingBlockAttributes buildingBlockAttributes;
@@ -189,23 +187,5 @@ public class PictureBuildingBlock {
 	public void setBuildingBlockAttributes(
 			PictureBuildingBlockAttributes buildingBlockAttributes) {
 		this.buildingBlockAttributes = buildingBlockAttributes;
-	}
-	
-	/**
-	 * Gets the internal_name.
-	 *
-	 * @return the internal_name
-	 */
-	public String getInternalName() {
-		return internalName;
-	}
-
-	/**
-	 * Sets the internal_name.
-	 *
-	 * @param internal_name the new internal_name
-	 */
-	public void setInternalName(String internal_name) {
-		this.internalName = internal_name;
 	}
 }
