@@ -4,11 +4,11 @@
    	xmlns:oryx="http://www.b3mn.org/oryx"
    	version="1.0">
    	<oryx:magnets>
-    	<oryx:magnet oryx:cx="1" oryx:cy="25" oryx:anchors="left" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="49" oryx:anchors="bottom" />
-    	<oryx:magnet oryx:cx="89" oryx:cy="25" oryx:anchors="right" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="1" oryx:anchors="top" />
-    	<oryx:magnet oryx:cx="45" oryx:cy="25" oryx:default="yes" />
+    	<oryx:magnet oryx:cx="1" oryx:cy="45" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="89" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="119" oryx:cy="45" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="45" oryx:default="yes" />
   	</oryx:magnets>
   	<g
      	oryx:minimumSize="60 30"

@@ -61,6 +61,11 @@ ORYX.Plugins.UMLState = Clazz
 					edit_template : this.templatizeValue.bind(this),
 					render_template : this.untemplatizeValue.bind(this)
 				});
+				
+				// register the event that fires every time a seperator is modified
+				// as we want to center the x-coordinate according to the parent
+				this.facade.registerOnEvent('layout.uml.state.seperator',
+						this.centerSeperatorOnParent.bind(this));
 			},
 			/**
 			 * Templatize value is the funcation that is called, when a user
@@ -334,5 +339,21 @@ ORYX.Plugins.UMLState = Clazz
 				var newValue = value.replace("entry / action\n", "").replace(
 						"do / action\n", "").replace("exit / action", "");
 				return newValue;
+			},
+			
+			/**
+			 * Centers the x-coordinate of the seperator on its parent the composite state.
+			 * This makes handling it a lot smoother. Centering the y-coordinate wouldn't make sense
+			 * since you can have multiple seperators since you might need more than 2 areas.
+			 * 
+			 * @param event the event created every time a seperator is moved
+			 */
+			centerSeperatorOnParent : function centerOnParent(event) {
+				var shape = event.shape;
+				// the parent element of a seperator is always a composite state (see JSON)
+				var parent = shape.getParentShape();
+				var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
+				// move the seperator by the calculated difference on the x-axis 
+				shape.bounds.moveBy(difference, 0);
 			}
 		});

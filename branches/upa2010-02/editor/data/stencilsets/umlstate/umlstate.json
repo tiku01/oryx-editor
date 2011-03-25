@@ -277,6 +277,11 @@
 			"roles": [
 				"seperator"
 			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.state.seperator"
+				}
+			],
 			"properties": [
 				{
 					"id":"name",
@@ -584,9 +589,8 @@
 			"view":"node.entryPoint.svg",
 			"icon":"node.entryPoint.png",
 			"roles": [
-				"diagramcontent",
 				"boundaryPoint",
-				"entry"
+				"controlFlowElement"
 			],
 			"properties": [
 				{
@@ -618,8 +622,8 @@
 			"view":"node.exitPoint.svg",
 			"icon":"node.exitPoint.png",
 			"roles": [
-				"diagramcontent",
-				"boundaryPoint"
+				"boundaryPoint",
+				"controlFlowElement"
 			],
 			"properties": [
 				{
@@ -717,20 +721,7 @@
 					"refToView":"text",
 					"length":"",
 					"wrapLines":true
-                },
-                {
-                    "id":"color",
-                    "type":"Color",
-                    "title":"Color",
-                    "title_de":"Farbe",
-                    "value": "#ffffff",
-                    "description":"",
-                    "readonly":false,
-                    "optional":true,
-                    "refToView":"outercircle",
-                    "fill":true,
-                    "stroke":false
-				}
+                }
 			]
 		},
 		{
@@ -802,15 +793,15 @@
                 "connects": [
                     {
                         "from":"controlFlowElement",
-                        "to":["controlFlowElement","finalNode", "entry"]
+                        "to":["controlFlowElement","finalNode", "boundaryPoint"]
                     },
                     {
                         "from":"initialState",
-                        "to":["controlFlowElement", "entry"]
+                        "to":["controlFlowElement", "boundaryPoint"]
                     },
                     {
-                        "from":"exitPoint",
-                        "to":["controlFlowElement", "finalNode", "entry"]
+                        "from":"boundaryPoint",
+                        "to":["controlFlowElement", "finalNode"]
                     }
                 ]
             },

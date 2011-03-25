@@ -13,5 +13,6 @@
   oryx:minimumSize="20 20"
   id="umlentrypoint">
     <circle cx="10" cy="10" r="10" stroke="black" fill="white" stroke-width="1"/>
+  <text id="text" font-size="12" x="10" y="24" stroke="black" oryx:anchors="bottom" oryx:align="top center"/>
   </g>
 </svg>

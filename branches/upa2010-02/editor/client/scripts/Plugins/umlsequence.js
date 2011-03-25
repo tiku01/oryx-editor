@@ -77,19 +77,14 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 	 */
 	centerOnLifeline : function centerOnLifeline(event) {
 		var shape = event.shape;
+		// The parent element is always a lifeline so we don't ahve to check for this (see the JSON)
 		var parent = shape.getParentShape();
 
-		// we only want to do our adjustments if the parent is a lifeline
-		// as there are multiple lifelines and more may be added we check for
-		// the role "lifeline"
-		//if (parent._stencil.roles().indexOf(
-			//	"http://b3mn.org/stencilset/umlsequence#lifeline") !== -1) {
-			// compute the difference of the x-coordines of the center of the lifeline 
-			// and the center of the activeline
-			var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
-			// move the active line by the calculated difference on the x-axis 
-			shape.bounds.moveBy(difference, 0);
-		//}
+		// compute the difference of the x-coordines of the center of the lifeline 
+		// and the center of the activeline
+		var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
+		// move the active line by the calculated difference on the x-axis 
+		shape.bounds.moveBy(difference, 0);
 	}
 
 });

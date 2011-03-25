@@ -11,10 +11,11 @@
   	<oryx:magnet oryx:cx="16" oryx:cy="1" oryx:anchors="top" />
   	<oryx:magnet oryx:cx="31" oryx:cy="16" oryx:anchors="right" />
   	<oryx:magnet oryx:cx="16" oryx:cy="31" oryx:anchors="bottom" />
+	<oryx:magnet oryx:cx="16" oryx:cy="16" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill">
     <circle cx="16" cy="16" r="15" stroke="black" fill="white" stroke-width="1"/>
-    <text x= "10" y="22" style="font-size:15;font-family: Arial;
+    <text x= "13" y="21" style="font-size:15;font-family: Arial;
     font-weight:bold;">
     H
     </text>
