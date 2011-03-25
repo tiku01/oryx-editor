@@ -19,6 +19,7 @@ import org.xmappr.RootElement;
 
 import de.hpi.pictureSupport.PictureResultingProduct;
 import de.hpi.pictureSupport.PictureSubprocess;
+import de.hpi.pictureSupport.PictureVariant;
 import de.hpi.pictureSupport.container.PictureBuildingBlockRepository;
 import de.hpi.pictureSupport.container.PictureProcessAttributes;
 import de.hpi.pictureSupport.container.PictureProcessFlow;
@@ -272,6 +273,7 @@ public class PictureProcessModel {
 		this.buildingBlockRepository = buildingBlockRepository;
 	}
 
+	/* ---------- This is where the JSON building starts ---------- */
 	
 	/**
 	 * Gets a new picture diagram with basic information.
