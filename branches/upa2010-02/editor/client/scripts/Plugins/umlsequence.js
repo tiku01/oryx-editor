@@ -77,7 +77,7 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 	 */
 	centerOnLifeline : function centerOnLifeline(event) {
 		var shape = event.shape;
-		// The parent element is always a lifeline so we don't ahve to check for this (see the JSON)
+		// The parent element is always a lifeline so we don't have to check for this (see the JSON)
 		var parent = shape.getParentShape();
 
 		// compute the difference of the x-coordines of the center of the lifeline 
