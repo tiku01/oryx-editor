@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-import de.hpi.pictureSupport.PictureBuildingBlockOccurrence;
+import de.hpi.pictureSupport.diagram.PictureBuildingBlockOccurrence;
 
 /**
  * The Class PictureBuildingBlockSequence.

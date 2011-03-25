@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport;
+package de.hpi.pictureSupport.diagram;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -72,8 +72,11 @@ public class PictureBuildingBlockOccurrence {
 	 */
 	public Shape createBlockFor(Shape process, ArrayList<Shape> processChildren) {
 
+		// get the ID of the block (the one that is described in picture.json) from the repository
 		String blockTypeId = BlockRepository.findBlockName(getBuildingBlock());
+		
 		Shape block = new Shape(String.valueOf(UUID.randomUUID()), new StencilType(blockTypeId));
+		block.putProperty("basic-title", BlockRepository.findBlock(getBuildingBlock()).getName());
 		Bounds bounds = calculateBounds(processChildren);
 		block.setBounds(bounds);
 		return block;
