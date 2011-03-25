@@ -14,10 +14,10 @@
             <processModels>
                 <processModel id="1">
                     <name>Gewerbe anmelden</name>
-                    <description>Wer ein Gewerbe aufnehmen will, muss dies der zuständigen Stelle anzeigen. Gleiches gilt für den Betrieb einer Zweigstelle, die nicht selbstständig ist. Als Gewerbe zählt jede erlaubte selbständige Tätigkeit, die nicht als sozial unwert gilt sowie auf das Erzielen von Gewinnen ausgerichtet und auf Dauer angelegt ist. Weiteres Kriterium: Die Tätigkeit wird in eigenem Namen ausgeübt und erfolgt auf eigene Rechnung. Dabei kommt es nicht darauf an, ob tatsächlich ein Gewinn erzielt wird.
-Nicht als Gewerbe gelten insbesondere künstlerische Tätigkeiten, freie Berufe (Ärzte, Rechtsanwälte oder Steuerberater) und weitere Tätigkeiten, die ein Hochschulstudium oder ein Fachhochschulstudium voraussetzen. Nicht als Gewerbe zu verstehen ist auch die Urproduktion (zum Beispiel Land- und Forstwirtschaft), die wissenschaftliche Unternehmensberatung oder die Verwaltung eigenen Vermögens.
-Zweck der Gewerbeanmeldung ist es, dass die zuständige Behörde ihren regulierenden und kontrollierenden Aufgaben nachkommen kann. Auch für statistische Erhebungen ist die Registrierung wichtig.
-Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Überwachungsbedürftigkeit. Für sie gelten besondere Bedingungen.</description>
+                    <description>Wer ein Gewerbe aufnehmen will, muss dies der zustaendigen Stelle anzeigen. Gleiches gilt fuer den Betrieb einer Zweigstelle, die nicht selbststaendig ist. Als Gewerbe zaehlt jede erlaubte selbstaendige Taetigkeit, die nicht als sozial unwert gilt sowie auf das Erzielen von Gewinnen ausgerichtet und auf Dauer angelegt ist. Weiteres Kriterium: Die Taetigkeit wird in eigenem Namen ausgeuebt und erfolgt auf eigene Rechnung. Dabei kommt es nicht darauf an, ob tatsaechlich ein Gewinn erzielt wird.
+Nicht als Gewerbe gelten insbesondere kuenstlerische Taetigkeiten, freie Berufe (aerzte, Rechtsanwaelte oder Steuerberater) und weitere Taetigkeiten, die ein Hochschulstudium oder ein Fachhochschulstudium voraussetzen. Nicht als Gewerbe zu verstehen ist auch die Urproduktion (zum Beispiel Land- und Forstwirtschaft), die wissenschaftliche Unternehmensberatung oder die Verwaltung eigenen Vermoegens.
+Zweck der Gewerbeanmeldung ist es, dass die zustaendige Behoerde ihren regulierenden und kontrollierenden Aufgaben nachkommen kann. Auch fuer statistische Erhebungen ist die Registrierung wichtig.
+Manche Gewerbetaetigkeiten sind erlaubnispflichtig. Andere unterliegen der ueberwachungsbeduerftigkeit. Fuer sie gelten besondere Bedingungen.</description>
                     <lastEdit>15.11.10 11:51</lastEdit>
                     <modelName></modelName>
                     <modelType>PRIMARY</modelType>
@@ -30,7 +30,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                     <creatorID>34</creatorID>
                     <tags>
                         <tag id="310">
-                            <name>Gaststättengewerbe</name>
+                            <name>Gaststaettengewerbe</name>
                         </tag>
                         <tag id="311">
                             <name>Gewerbe</name>
@@ -112,10 +112,10 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <value></value>
                         </processAttribute>
                         <processAttribute attributeId="177" id="205">
-                            <value>Bürger, Unternehmen</value>
+                            <value>Buerger, Unternehmen</value>
                         </processAttribute>
                         <processAttribute attributeId="179" id="221">
-                            <value>Bürger, Unternehmen</value>
+                            <value>Buerger, Unternehmen</value>
                         </processAttribute>
                         <processAttribute attributeId="183" id="312">
                             <value>keine</value>
@@ -128,11 +128,11 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <ressourceId>40</ressourceId>
                         </processAttribute>
                         <processAttribute attributeId="203" id="15179">
-                            <value>Bauaufsichtsbehörde</value>
+                            <value>Bauaufsichtsbehoerde</value>
                             <ressourceId>66</ressourceId>
                         </processAttribute>
                         <processAttribute attributeId="203" id="15180">
-                            <value>Bundesagentur für Arbeit</value>
+                            <value>Bundesagentur fuer Arbeit</value>
                             <ressourceId>47</ressourceId>
                         </processAttribute>
                         <processAttribute attributeId="203" id="15181">
@@ -148,7 +148,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <ressourceId>53</ressourceId>
                         </processAttribute>
                         <processAttribute attributeId="203" id="15184">
-                            <value>statistische Ämter der Länder</value>
+                            <value>statistische aemter der Laender</value>
                             <ressourceId>146</ressourceId>
                         </processAttribute>
                         <processAttribute attributeId="203" id="15185">
@@ -200,7 +200,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                             <variants>
 <variant probability="80" id="3">
-    <name>Gewerbeanmeldung (bei persönlicher Antragstellung)</name>
+    <name>Gewerbeanmeldung (bei persoenlicher Antragstellung)</name>
     <variantAttributes/>
     <buildingBlockSequence>
         <buildingBlockOccurrence twin="true" buildingBlock="1"/>
@@ -249,7 +249,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                     <comments/>
                     <buildingBlockRepository>
                         <buildingBlock type="13" id="1">
-                            <name>Beratung durchführen</name>
+                            <name>Beratung durchfuehren</name>
                             <description></description>
                             <propability>33</propability>
                             <processingTime>10.0</processingTime>
@@ -299,7 +299,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Bürger</value>
+        <value>Buerger</value>
     </resourceAttribute>
 </resourceAttributes>
                             </buildingBlockAttributes>
@@ -308,7 +308,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                         </buildingBlock>
                         <buildingBlock type="3" id="2">
                             <name>Antrag geht ein</name>
-                            <description>Notwendige Dokumente für die Anmeldung eines Gewerbes sind ein Ausweisdokument (Personalausweis oder Reisepass) sowie für eine GmbH ein Handelsregisterauszug. Ausländer haben einen Ausweis, Aufenthaltserlaubnis oder einen Titel vorzulegen. Es wird zwischen natürlichen und juristischen Personen unterschieden. Meldung mit Vollmacht ist ebenso möglich; Personalausweis des Antragstellers muss dabei aber vorgelegt werden.</description>
+                            <description>Notwendige Dokumente fuer die Anmeldung eines Gewerbes sind ein Ausweisdokument (Personalausweis oder Reisepass) sowie fuer eine GmbH ein Handelsregisterauszug. Auslaender haben einen Ausweis, Aufenthaltserlaubnis oder einen Titel vorzulegen. Es wird zwischen natuerlichen und juristischen Personen unterschieden. Meldung mit Vollmacht ist ebenso moeglich; Personalausweis des Antragstellers muss dabei aber vorgelegt werden.</description>
                             <propability>100</propability>
                             <processingTime>0.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -420,14 +420,14 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>bei Ausländern</resourceContext>
+        <resourceContext>bei Auslaendern</resourceContext>
         <value>Reisepass</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="24" id="47" attributeId="38">
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>bei Ausländern</resourceContext>
+        <resourceContext>bei Auslaendern</resourceContext>
         <value>Aufenthaltstitel</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="37" id="48" attributeId="39">
@@ -442,7 +442,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Bürger</value>
+        <value>Buerger</value>
     </resourceAttribute>
 </resourceAttributes>
                             </buildingBlockAttributes>
@@ -450,7 +450,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="8" id="3">
-                            <name>Formelle Prüfung</name>
+                            <name>Formelle Pruefung</name>
                             <description></description>
                             <propability>100</propability>
                             <processingTime>2.0</processingTime>
@@ -464,10 +464,10 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <value>Keine Angabe</value>
     </standardAttribute>
     <standardAttribute attributeId="72" id="53">
-        <value>Zuständigkeit, Datenkonsistenz</value>
+        <value>Zustaendigkeit, Datenkonsistenz</value>
     </standardAttribute>
     <standardAttribute attributeId="73" id="54">
-        <value>Die Personalien werden mittels Personalausweis oder Pass überprüft. Bei Nicht-EU-Ausländern wird außerdem die Erlaubnis für selbstständige Tätigkeit geprüft.</value>
+        <value>Die Personalien werden mittels Personalausweis oder Pass ueberprueft. Bei Nicht-EU-Auslaendern wird ausserdem die Erlaubnis fuer selbststaendige Taetigkeit geprueft.</value>
     </standardAttribute>
     <standardAttribute attributeId="74" id="55">
         <value></value>
@@ -502,21 +502,21 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>Es wird entweder der Personalausweis oder der Reisepass überprüft.</resourceContext>
+        <resourceContext>Es wird entweder der Personalausweis oder der Reisepass ueberprueft.</resourceContext>
         <value>Personalausweis</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="10" id="69" attributeId="79">
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>Es wird entweder der Personalausweis oder der Reisepass überprüft.</resourceContext>
+        <resourceContext>Es wird entweder der Personalausweis oder der Reisepass ueberprueft.</resourceContext>
         <value>Reisepass</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="24" id="70" attributeId="79">
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>bei Nicht-EU-Ausländern</resourceContext>
+        <resourceContext>bei Nicht-EU-Auslaendern</resourceContext>
         <value>Aufenthaltstitel</value>
     </resourceAttribute>
 </resourceAttributes>
@@ -525,8 +525,8 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="25" id="4">
-                            <name>Passeintrag kopieren (bei Nicht-EU-Ausländern)</name>
-                            <description>Bei Vorlage von aufenthaltsrechtlichen Dokumenten von Ausländern (i.d.R. Pass) werden diese kopiert und zu den Akten genommen.</description>
+                            <name>Passeintrag kopieren (bei Nicht-EU-Auslaendern)</name>
+                            <description>Bei Vorlage von aufenthaltsrechtlichen Dokumenten von Auslaendern (i.d.R. Pass) werden diese kopiert und zu den Akten genommen.</description>
                             <propability>20</propability>
                             <processingTime>2.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -577,8 +577,8 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="22" id="5">
-                            <name>Daten in EDV übernehmen</name>
-                            <description>Die Daten des Antragstellers, des beabsichtigten Gewerbes, der Betriebsstätte usw. werden in das Fachverfahren Migewa übernommen.</description>
+                            <name>Daten in EDV uebernehmen</name>
+                            <description>Die Daten des Antragstellers, des beabsichtigten Gewerbes, der Betriebsstaette usw. werden in das Fachverfahren Migewa uebernommen.</description>
                             <propability>100</propability>
                             <processingTime>3.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -627,14 +627,14 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>Es wird entweder Personalausweis oder Reisepass benötigt.</resourceContext>
+        <resourceContext>Es wird entweder Personalausweis oder Reisepass benoetigt.</resourceContext>
         <value>Personalausweis</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="10" id="94" attributeId="111">
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>Es wird entweder Personalausweis oder Reisepass benötigt.</resourceContext>
+        <resourceContext>Es wird entweder Personalausweis oder Reisepass benoetigt.</resourceContext>
         <value>Reisepass</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="34" id="96" attributeId="112">
@@ -651,7 +651,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                         </buildingBlock>
                         <buildingBlock type="18" id="6">
                             <name>Laufzettel erstellen</name>
-                            <description>Die Verwendung sowie die Höhe der Gebühr wird angegeben.</description>
+                            <description>Die Verwendung sowie die Hoehe der Gebuehr wird angegeben.</description>
                             <propability>100</propability>
                             <processingTime>2.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -697,7 +697,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                         </buildingBlock>
                         <buildingBlock type="24" id="7">
                             <name>Gewerbeschein drucken</name>
-                            <description>Während der Kunde auf dem Weg zur Kasse ist, wird die Anzeigebestätigung ausgedruckt.</description>
+                            <description>Waehrend der Kunde auf dem Weg zur Kasse ist, wird die Anzeigebestaetigung ausgedruckt.</description>
                             <propability>100</propability>
                             <processingTime>1.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -725,7 +725,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <value></value>
     </standardAttribute>
     <standardAttribute attributeId="15" id="113">
-        <value>Im Normalfall werden 2 Exemplare ausgedruckt (Kunde und Verwaltung), in Ausnahmefällen (Beteiligung interner Stellen) werden weitere Exemplare gedruckt.</value>
+        <value>Im Normalfall werden 2 Exemplare ausgedruckt (Kunde und Verwaltung), in Ausnahmefaellen (Beteiligung interner Stellen) werden weitere Exemplare gedruckt.</value>
     </standardAttribute>
     <standardAttribute attributeId="16" id="114">
         <value></value>
@@ -752,7 +752,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="4" id="8">
-                            <name>Warten auf Einzahlungsbestätigung</name>
+                            <name>Warten auf Einzahlungsbestaetigung</name>
                             <description>Es wird gewartet, bis der Antragsteller den Einzahlungsbeleg eingereicht hat</description>
                             <propability>100</propability>
                             <processingTime>5.0</processingTime>
@@ -789,7 +789,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                         </buildingBlock>
                         <buildingBlock type="3" id="9">
                             <name>Einzahlungsbeleg geht ein</name>
-                            <description>Der Antragsteller reicht den Einzahlungsbeleg persönlich ein.</description>
+                            <description>Der Antragsteller reicht den Einzahlungsbeleg persoenlich ein.</description>
                             <propability>100</propability>
                             <processingTime>1.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -881,7 +881,7 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Bürger</value>
+        <value>Buerger</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="37" id="154" attributeId="39">
         <link></link>
@@ -948,10 +948,10 @@ Manche Gewerbetätigkeiten sind erlaubnispflichtig. Andere unterliegen der Über
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="5" id="11">
-                            <name>Bestätigung der Gewerbemeldung geht aus</name>
-                            <description>Überreichte Dokumente: Gewerbeschein, Quittungsbeleg
+                            <name>Bestaetigung der Gewerbemeldung geht aus</name>
+                            <description>ueberreichte Dokumente: Gewerbeschein, Quittungsbeleg
 
-Bei persönlicher Vorsprache wird zusätzlich ein Fragebogen für das Finanzamt übergeben (zur Beschleunigung der Erfassung beim Finanzamt).</description>
+Bei persoenlicher Vorsprache wird zusaetzlich ein Fragebogen fuer das Finanzamt uebergeben (zur Beschleunigung der Erfassung beim Finanzamt).</description>
                             <propability>100</propability>
                             <processingTime>5.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -1059,7 +1059,7 @@ Bei persönlicher Vorsprache wird zusätzlich ein Fragebogen für das Finanzamt 
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext>bzw. Quittungsbeleg, wenn direkt vor Ort bezahlt</resourceContext>
-        <value>Gebührenbescheid</value>
+        <value>Gebuehrenbescheid</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="39" id="200" attributeId="58">
         <link></link>
@@ -1074,7 +1074,7 @@ Bei persönlicher Vorsprache wird zusätzlich ein Fragebogen für das Finanzamt 
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="24" id="12">
-                            <name>Schreiben zur Kenntnisnahme für weitere Stellen drucken</name>
+                            <name>Schreiben zur Kenntnisnahme fuer weitere Stellen drucken</name>
                             <description>Per Sammelausdruck aus MIGEWA werden pro Meldung ca. 12 Exemplare (à 1 Seite) gedruckt</description>
                             <propability>100</propability>
                             <processingTime>5.0</processingTime>
@@ -1138,9 +1138,9 @@ Bei persönlicher Vorsprache wird zusätzlich ein Fragebogen für das Finanzamt 
                         </buildingBlock>
                         <buildingBlock type="5" id="13">
                             <name>Schreiben versenden</name>
-                            <description>Der Versand erfolgt immer am Monatsanfang. Die Dokumente werden ein- bis zweimal pro Woche ausgedruckt und gesammelt. Das hat den Vorteil, dass evtl. Korrekturen noch durchgeführt werden können.
+                            <description>Der Versand erfolgt immer am Monatsanfang. Die Dokumente werden ein- bis zweimal pro Woche ausgedruckt und gesammelt. Das hat den Vorteil, dass evtl. Korrekturen noch durchgefuehrt werden koennen.
 
-Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt für Klärwerk und Kanalbetrieb und evtl. das Amt für Umweltmanagement das Schreiben.</description>
+Neben den externen Empfaengern erhalten auch das Amt fuer Finanzwesen, das Amt fuer Klaerwerk und Kanalbetrieb und evtl. das Amt fuer Umweltmanagement das Schreiben.</description>
                             <propability>100</propability>
                             <processingTime>7.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -1248,7 +1248,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Bundesagentur für Arbeit</value>
+        <value>Bundesagentur fuer Arbeit</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="49" id="247" attributeId="58">
         <link></link>
@@ -1261,14 +1261,14 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>abhängig vom Gewerbegegenstand</resourceContext>
+        <resourceContext>abhaengig vom Gewerbegegenstand</resourceContext>
         <value>IHK</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="53" id="249" attributeId="58">
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>abhängig vom Gewerbegegenstand</resourceContext>
+        <resourceContext>abhaengig vom Gewerbegegenstand</resourceContext>
         <value>HWK</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="60" id="250" attributeId="58">
@@ -1276,7 +1276,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Lebensmittelüberwachung</value>
+        <value>Lebensmittelueberwachung</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="58" id="251" attributeId="58">
         <link></link>
@@ -1290,7 +1290,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Landesbetrieb für Statistik</value>
+        <value>Landesbetrieb fuer Statistik</value>
     </resourceAttribute>
     <resourceAttribute ressourceId="52" id="253" attributeId="58">
         <link></link>
@@ -1338,8 +1338,8 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <link></link>
         <linkName></linkName>
         <originalLink></originalLink>
-        <resourceContext>bei Nicht-EU-Ausländern</resourceContext>
-        <value>Ausländerbehörde</value>
+        <resourceContext>bei Nicht-EU-Auslaendern</resourceContext>
+        <value>Auslaenderbehoerde</value>
     </resourceAttribute>
 </resourceAttributes>
                             </buildingBlockAttributes>
@@ -1347,8 +1347,8 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="5" id="14">
-                            <name>Meldung an Landesbetrieb für Statistik versenden</name>
-                            <description>Der Versand an den Landesbetrieb für Statistik erfolgt direkt aus MIGEWA heraus.</description>
+                            <name>Meldung an Landesbetrieb fuer Statistik versenden</name>
+                            <description>Der Versand an den Landesbetrieb fuer Statistik erfolgt direkt aus MIGEWA heraus.</description>
                             <propability>100</propability>
                             <processingTime>2.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -1456,7 +1456,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Landesbetrieb für Statistik</value>
+        <value>Landesbetrieb fuer Statistik</value>
     </resourceAttribute>
 </resourceAttributes>
                             </buildingBlockAttributes>
@@ -1464,8 +1464,8 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="18" id="17">
-                            <name>Gebührenbescheid erstellen</name>
-                            <description>Für Antragsteller, die nicht persönlich anwesend sind, wird der Gebührenbescheid in Word erstellt. Dabei wird eine vorhandene Vorlage ausgefüllt.</description>
+                            <name>Gebuehrenbescheid erstellen</name>
+                            <description>Fuer Antragsteller, die nicht persoenlich anwesend sind, wird der Gebuehrenbescheid in Word erstellt. Dabei wird eine vorhandene Vorlage ausgefuellt.</description>
                             <propability>100</propability>
                             <processingTime>5.0</processingTime>
                             <positionType>Gewerbeangelegenheiten</positionType>
@@ -1510,7 +1510,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                             <attachedDocuments/>
                         </buildingBlock>
                         <buildingBlock type="24" id="18">
-                            <name>Gebührenbescheid drucken</name>
+                            <name>Gebuehrenbescheid drucken</name>
                             <description></description>
                             <propability>100</propability>
                             <processingTime>2.0</processingTime>
@@ -1558,7 +1558,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
         <linkName></linkName>
         <originalLink></originalLink>
         <resourceContext></resourceContext>
-        <value>Gebührenbescheid</value>
+        <value>Gebuehrenbescheid</value>
     </resourceAttribute>
 </resourceAttributes>
                             </buildingBlockAttributes>
@@ -1572,7 +1572,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
     </processes>
     <resources>
         <resource id="6">
-            <name>Bürger</name>
+            <name>Buerger</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
@@ -1626,7 +1626,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <parent>15</parent>
         </resource>
         <resource id="28">
-            <name>Gebührenbescheid</name>
+            <name>Gebuehrenbescheid</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>14</parent>
@@ -1650,7 +1650,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <parent>17</parent>
         </resource>
         <resource id="32">
-            <name>Landesbetrieb für Statistik</name>
+            <name>Landesbetrieb fuer Statistik</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
@@ -1692,13 +1692,13 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <parent>2</parent>
         </resource>
         <resource id="41">
-            <name>Ausländerbehörde</name>
+            <name>Auslaenderbehoerde</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
         </resource>
         <resource id="47">
-            <name>Bundesagentur für Arbeit</name>
+            <name>Bundesagentur fuer Arbeit</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
@@ -1758,13 +1758,13 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <parent>2</parent>
         </resource>
         <resource id="60">
-            <name>Lebensmittelüberwachung</name>
+            <name>Lebensmittelueberwachung</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
         </resource>
         <resource id="66">
-            <name>Bauaufsichtsbehörde</name>
+            <name>Bauaufsichtsbehoerde</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
@@ -1782,7 +1782,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <parent>2</parent>
         </resource>
         <resource id="146">
-            <name>statistische Ämter der Länder</name>
+            <name>statistische aemter der Laender</name>
             <achievement_id></achievement_id>
             <description></description>
             <parent>2</parent>
@@ -1869,70 +1869,70 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <type>ProcessBuidlingBlock</type>
                 <name>Dokument/Information entgegennehmen</name>
                 <text_id>ScriptGenDokument/Information entgegennehmen</text_id>
-                <description>Dieser Baustein beschreibt den Eingang eines Dokumentes bzw. einer Information beim zuständigen Mitarbeiter. Hierbei kann es sich sowohl um Dokumente bzw. Informationen von externen Absendern, als auch von internen Absendern handeln. Dies wird entsprechend über Attribute markiert.</description>
+                <description>Dieser Baustein beschreibt den Eingang eines Dokumentes bzw. einer Information beim zustaendigen Mitarbeiter. Hierbei kann es sich sowohl um Dokumente bzw. Informationen von externen Absendern, als auch von internen Absendern handeln. Dies wird entsprechend ueber Attribute markiert.</description>
                 <icon>dokument_entgegennehmen</icon>
             </buildingBlockType>
             <buildingBlockType id="4">
                 <type>ProcessBuidlingBlock</type>
                 <name>Bearbeitungsunterbrechung</name>
                 <text_id>ScriptGenBearbeitungsunterbrechung</text_id>
-                <description>Dieser Baustein beschreibt eine prozessbedingte, zwangsläufige Bearbeitungsunterbrechung. Diese kann z.B. eintreten, wenn auf den Eingang eines Dokumentes aus einer anderen Behörde gewartet werden muss, das für den weiteren Bearbeitungsvorgang notwendig ist.</description>
+                <description>Dieser Baustein beschreibt eine prozessbedingte, zwangslaeufige Bearbeitungsunterbrechung. Diese kann z.B. eintreten, wenn auf den Eingang eines Dokumentes aus einer anderen Behoerde gewartet werden muss, das fuer den weiteren Bearbeitungsvorgang notwendig ist.</description>
                 <icon>bearbeitungsunterbrechung</icon>
             </buildingBlockType>
             <buildingBlockType id="5">
                 <type>ProcessBuidlingBlock</type>
                 <name>Dokument/Information versenden</name>
                 <text_id>ScriptGenDokument/Information versenden</text_id>
-                <description>Dieser Baustein beschreibt das Ausgehen eines Dokumentes bzw. einer Information an interne und externe Adressaten, z.B. die Weiterleitung von Dokumente an eine anderes Dezernat zu Stellungnahme oder Zustellung von angeforderten Unterlagen an einen Bürger.</description>
+                <description>Dieser Baustein beschreibt das Ausgehen eines Dokumentes bzw. einer Information an interne und externe Adressaten, z.B. die Weiterleitung von Dokumente an eine anderes Dezernat zu Stellungnahme oder Zustellung von angeforderten Unterlagen an einen Buerger.</description>
                 <icon>dokument_versenden</icon>
             </buildingBlockType>
             <buildingBlockType id="7">
                 <type>ProcessBuidlingBlock</type>
                 <name>Dokument sichten</name>
                 <text_id>ScriptGenDokument sichten</text_id>
-                <description>Dieser Baustein beschreibt das rein informierende Durchsehen von Dokumenten. Zur Anwendung kommt dieser Baustein z.B. im folgenden Fall: Der Vorgesetzte liest die gesamte Eingangspost, um sich auf dem aktuellen Stand zu halten. Die hierbei enthaltenen Tätigkeiten wie das Abzeichnen des gesichteten Dokumentes sowie das Aussondern von fehlgeleiteten Dokumenten ist Bestandteil dieses Bausteins. Wichtig ist jedoch hierbei dass diese begleitenden Tätigkeiten begleitendend durchgeführt werden, selten auftreten und nicht im Vordergrund der Tätigkeit stehen. Sofern die Aussonderung eine signifikante Fallzahl erreicht, ist der Baustein „Dokument aussondern“ zusätzlich im Anschluss an diesen Baustein zu verwenden. Stellt die Zeichnung der Dokumente die zentrale Tätigkeit dar (z.B. Bearbeitung einer Unterschriftenmappe), so ist hier zusätzlich der Baustein „Dokument/Information bearbeiten“ im Anschluss an diesen Baustein zu verwenden.</description>
+                <description>Dieser Baustein beschreibt das rein informierende Durchsehen von Dokumenten. Zur Anwendung kommt dieser Baustein z.B. im folgenden Fall: Der Vorgesetzte liest die gesamte Eingangspost, um sich auf dem aktuellen Stand zu halten. Die hierbei enthaltenen Taetigkeiten wie das Abzeichnen des gesichteten Dokumentes sowie das Aussondern von fehlgeleiteten Dokumenten ist Bestandteil dieses Bausteins. Wichtig ist jedoch hierbei dass diese begleitenden Taetigkeiten begleitendend durchgefuehrt werden, selten auftreten und nicht im Vordergrund der Taetigkeit stehen. Sofern die Aussonderung eine signifikante Fallzahl erreicht, ist der Baustein „Dokument aussondern“ zusaetzlich im Anschluss an diesen Baustein zu verwenden. Stellt die Zeichnung der Dokumente die zentrale Taetigkeit dar (z.B. Bearbeitung einer Unterschriftenmappe), so ist hier zusaetzlich der Baustein „Dokument/Information bearbeiten“ im Anschluss an diesen Baustein zu verwenden.</description>
                 <icon>dokument_sichten</icon>
             </buildingBlockType>
             <buildingBlockType id="8">
                 <type>ProcessBuidlingBlock</type>
-                <name>Formelle Prüfung</name>
-                <text_id>ScriptGenFormelle Prüfung</text_id>
-                <description>Dieser Baustein beschreibt die formelle Prüfung von Unterlagen bzw. Sachverhalten (z.B. Vollständigkeit, Zuständigkeit, Fristeinhaltung). Die Prüfung beinhaltet keine sachlichen Abwägungen, sondern orientiert sich strikt an formellen Vorgaben. Eine inhaltliche Auswertung des beschriebenen Sachverhaltes findet nicht oder nur begleitend statt. Eine begleitende inhaltliche Auswertung findet dann statt, wenn das Ziel der inhaltlichen Auswertung formelle Kriterien (wie z.B. die Vollständigkeit) zum Ziel hat. Dies tritt insbesondere dann auf, wenn die Vollständigkeit der Unterlagen vom dargelegten Informationsgehalt abhängig ist. Die eigentliche inhaltliche Bewertung wird im Rahmen der inhaltlichen Prüfung vorgenommen. Sofern die inhaltliche Bewertung parallel zur formellen Prüfung durchgeführt wird, werden die Bausteine „Formell prüfen“ und „Inhaltlich prüfen“ direkt nacheinander modelliert</description>
+                <name>Formelle Pruefung</name>
+                <text_id>ScriptGenFormelle Pruefung</text_id>
+                <description>Dieser Baustein beschreibt die formelle Pruefung von Unterlagen bzw. Sachverhalten (z.B. Vollstaendigkeit, Zustaendigkeit, Fristeinhaltung). Die Pruefung beinhaltet keine sachlichen Abwaegungen, sondern orientiert sich strikt an formellen Vorgaben. Eine inhaltliche Auswertung des beschriebenen Sachverhaltes findet nicht oder nur begleitend statt. Eine begleitende inhaltliche Auswertung findet dann statt, wenn das Ziel der inhaltlichen Auswertung formelle Kriterien (wie z.B. die Vollstaendigkeit) zum Ziel hat. Dies tritt insbesondere dann auf, wenn die Vollstaendigkeit der Unterlagen vom dargelegten Informationsgehalt abhaengig ist. Die eigentliche inhaltliche Bewertung wird im Rahmen der inhaltlichen Pruefung vorgenommen. Sofern die inhaltliche Bewertung parallel zur formellen Pruefung durchgefuehrt wird, werden die Bausteine „Formell pruefen“ und „Inhaltlich pruefen“ direkt nacheinander modelliert</description>
                 <icon>formell_pruefen</icon>
             </buildingBlockType>
             <buildingBlockType id="13">
                 <type>ProcessBuidlingBlock</type>
-                <name>Beratung durchführen</name>
-                <text_id>ScriptGenBeratung durchführen</text_id>
-                <description>Dieser Baustein beschreibt die vom Mitarbeiter durchgeführte Beratung einer Person oder Personengruppe. Im Gegensatz zum Baustein &quot;Dokument/Information versenden&quot; handelt es sich hierbei um eine intensive Erläuterung der zu Grunde liegenden Sachverhalte seitens des Mitarbeiters.</description>
+                <name>Beratung durchfuehren</name>
+                <text_id>ScriptGenBeratung durchfuehren</text_id>
+                <description>Dieser Baustein beschreibt die vom Mitarbeiter durchgefuehrte Beratung einer Person oder Personengruppe. Im Gegensatz zum Baustein &quot;Dokument/Information versenden&quot; handelt es sich hierbei um eine intensive Erlaeuterung der zu Grunde liegenden Sachverhalte seitens des Mitarbeiters.</description>
                 <icon>beratung_durchfuehren</icon>
             </buildingBlockType>
             <buildingBlockType id="18">
                 <type>ProcessBuidlingBlock</type>
                 <name>Dokument/Information erstellen</name>
                 <text_id>ScriptGenDokument/Information erstellen</text_id>
-                <description>Dieser Baustein beschreibt das Erstellen eines neuen Dokumentes. Dieses kann sowohl papierbasiert als auch in einem EDV-System erstellt werden. Maßgeblich ist, dass die Zusammenstellung der Informationen in dem Dokument neu ist, also nicht kopiert oder abgetippt wurde. Ein neues Dokument wird z.B. durch das Ausfüllen eines Formulars erstellt (z.B. internes Kostenblatt). Wenn bereits bestehende (alte) Informationen neu zusammengesetzt werden, wird im Sinne des Bausteins ein neues Dokument erstellt. Dieser Fall tritt z.B. bei der Verwendung von Textbausteinen oder Dokumentvorlagen auf, die mit weiteren Informationen (z.B. über den Kunden) vervollständigt werden. Die Neuzusammenstellung von bestehenden Informationen tritt auch bei Druckvorgängen aus bestehenden Fachverfahren auf (z.B.: Meldebescheinigung aus dem Melderegister). Da die Dokumenterstellung erst durch den Druckvorgang stattfindet, kann hier der Baustein optional vor dem Druckbaustein verwendet werden (mit Bearbeitungszeit=0). Für die Verwendung des Bausteins „Dokument/Information erstellen“ ist die Relevanz für den Prozess entscheidend.</description>
+                <description>Dieser Baustein beschreibt das Erstellen eines neuen Dokumentes. Dieses kann sowohl papierbasiert als auch in einem EDV-System erstellt werden. Massgeblich ist, dass die Zusammenstellung der Informationen in dem Dokument neu ist, also nicht kopiert oder abgetippt wurde. Ein neues Dokument wird z.B. durch das Ausfuellen eines Formulars erstellt (z.B. internes Kostenblatt). Wenn bereits bestehende (alte) Informationen neu zusammengesetzt werden, wird im Sinne des Bausteins ein neues Dokument erstellt. Dieser Fall tritt z.B. bei der Verwendung von Textbausteinen oder Dokumentvorlagen auf, die mit weiteren Informationen (z.B. ueber den Kunden) vervollstaendigt werden. Die Neuzusammenstellung von bestehenden Informationen tritt auch bei Druckvorgaengen aus bestehenden Fachverfahren auf (z.B.: Meldebescheinigung aus dem Melderegister). Da die Dokumenterstellung erst durch den Druckvorgang stattfindet, kann hier der Baustein optional vor dem Druckbaustein verwendet werden (mit Bearbeitungszeit=0). Fuer die Verwendung des Bausteins „Dokument/Information erstellen“ ist die Relevanz fuer den Prozess entscheidend.</description>
                 <icon>dokument_erstellen</icon>
             </buildingBlockType>
             <buildingBlockType id="22">
                 <type>ProcessBuidlingBlock</type>
-                <name>Daten in EDV übernehmen</name>
-                <text_id>ScriptGenDaten in EDV übernehmen</text_id>
-                <description>Dieser Baustein beschreibt die manuelle Eingabe bzw. Übertragung von Informationen in ein EDV-System. Die zu übernehmenden Informationen/Daten können dabei sowohl als papierbasierte Dokumente vorliegen, aus einer mündlichen Informationsübermittlung resultieren als auch in anderen EDV-Systemen hinterlegt sein. Wesentlich für diesen Baustein ist die manuelle Übernahme der Daten in das Zielsystem. Als manuelle Übernahme werden auch automatisierte Vorgänge bezeichnet, die manuell durch einen Benutzer angestoßen werden müssen (z.B. Datenimport). Wird durch die Übernahme von Daten in die EDV gleichzeitig ein Dokument erstellt (z.B. mit Microsoft Word), so ist der Baustein „Dokument/Information erstellen“ zu verwenden.</description>
+                <name>Daten in EDV uebernehmen</name>
+                <text_id>ScriptGenDaten in EDV uebernehmen</text_id>
+                <description>Dieser Baustein beschreibt die manuelle Eingabe bzw. uebertragung von Informationen in ein EDV-System. Die zu uebernehmenden Informationen/Daten koennen dabei sowohl als papierbasierte Dokumente vorliegen, aus einer muendlichen Informationsuebermittlung resultieren als auch in anderen EDV-Systemen hinterlegt sein. Wesentlich fuer diesen Baustein ist die manuelle uebernahme der Daten in das Zielsystem. Als manuelle uebernahme werden auch automatisierte Vorgaenge bezeichnet, die manuell durch einen Benutzer angestossen werden muessen (z.B. Datenimport). Wird durch die uebernahme von Daten in die EDV gleichzeitig ein Dokument erstellt (z.B. mit Microsoft Word), so ist der Baustein „Dokument/Information erstellen“ zu verwenden.</description>
                 <icon>daten_in_edv_uebernehmen</icon>
             </buildingBlockType>
             <buildingBlockType id="24">
                 <type>ProcessBuidlingBlock</type>
                 <name>Drucken</name>
                 <text_id>ScriptGenDrucken</text_id>
-                <description>Dieser Baustein beschreibt das Ausdrucken eines Dokuments, das in elektronischer Form vorliegt, z.B. eines Word- oder Excel-Dokuments. Wesentlich ist hier der Druckvorgang. Der Druckvorgang wird als reine Transformation von elektronischer Darstellung in die papierbasierte Darstellung angesehen. Sofern durch den Vorgang des Druckens Informationen als Dokument neu zusammengestellt werden, wird durch das Drucken ein neues Dokument erzeugt (z.B. durch Drucken einer Meldebescheinigung aus dem Melderegister). Sofern erst durch das Drucken ein neues Dokument im Sinne des Bausteins „Dokument erstellen“ erzeugt wird, ist dieser Baustein dem Drucken-Baustein voranzustellen. Da die Dokumenterstellung durch das EDV-System automatisch durchgeführt wird, ist hier die Bearbeitungszeit mit 0 Minuten anzugeben.</description>
+                <description>Dieser Baustein beschreibt das Ausdrucken eines Dokuments, das in elektronischer Form vorliegt, z.B. eines Word- oder Excel-Dokuments. Wesentlich ist hier der Druckvorgang. Der Druckvorgang wird als reine Transformation von elektronischer Darstellung in die papierbasierte Darstellung angesehen. Sofern durch den Vorgang des Druckens Informationen als Dokument neu zusammengestellt werden, wird durch das Drucken ein neues Dokument erzeugt (z.B. durch Drucken einer Meldebescheinigung aus dem Melderegister). Sofern erst durch das Drucken ein neues Dokument im Sinne des Bausteins „Dokument erstellen“ erzeugt wird, ist dieser Baustein dem Drucken-Baustein voranzustellen. Da die Dokumenterstellung durch das EDV-System automatisch durchgefuehrt wird, ist hier die Bearbeitungszeit mit 0 Minuten anzugeben.</description>
                 <icon>drucken</icon>
             </buildingBlockType>
             <buildingBlockType id="25">
                 <type>ProcessBuidlingBlock</type>
                 <name>Kopieren</name>
                 <text_id>ScriptGenKopieren</text_id>
-                <description>Dieser Baustein beschreibt das Vervielfältigen eines Dokuments, z.B. durch Kopieren einer Rechnung. Sofern durch das Drucken eines Dokumentes mehrere Exemplare (als Kopien) erstellt werden, ist der Baustein Drucken zu verwenden (Attribut: Anzahl der Ausfertigungen). Für das elektronische Kopieren eines Dokumentes wird dieser Baustein ebenfalls nicht verwendet.</description>
+                <description>Dieser Baustein beschreibt das Vervielfaeltigen eines Dokuments, z.B. durch Kopieren einer Rechnung. Sofern durch das Drucken eines Dokumentes mehrere Exemplare (als Kopien) erstellt werden, ist der Baustein Drucken zu verwenden (Attribut: Anzahl der Ausfertigungen). Fuer das elektronische Kopieren eines Dokumentes wird dieser Baustein ebenfalls nicht verwendet.</description>
                 <icon>kopieren</icon>
             </buildingBlockType>
         </buildingBlockTypes>
@@ -1969,17 +1969,17 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="4" id="16">
-                <name>Verbesserungsvorschläge</name>
-                <text_id>ScriptGenVerbesserungsvorschläge_TEXT_(16)</text_id>
-                <description>Verbesserungsvorschläge</description>
+                <name>Verbesserungsvorschlaege</name>
+                <text_id>ScriptGenVerbesserungsvorschlaege_TEXT_(16)</text_id>
+                <description>Verbesserungsvorschlaege</description>
                 <datatype>TEXT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="2" id="17">
-                <name>Durchführung</name>
-                <text_id>ScriptGenDurchführung_SUBHEADER_(17)</text_id>
-                <description>Durchführung</description>
+                <name>Durchfuehrung</name>
+                <text_id>ScriptGenDurchfuehrung_SUBHEADER_(17)</text_id>
+                <description>Durchfuehrung</description>
                 <datatype>SUBHEADER</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -1993,9 +1993,9 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="4" id="19">
-                <name>Anmerkungen und Verbesserungsvorschläge</name>
-                <text_id>ScriptGenAnmerkungen und Verbesserungsvorschläge_SUBHEADER_(19)</text_id>
-                <description>Anmerkungen und Verbesserungsvorschläge</description>
+                <name>Anmerkungen und Verbesserungsvorschlaege</name>
+                <text_id>ScriptGenAnmerkungen und Verbesserungsvorschlaege_SUBHEADER_(19)</text_id>
+                <description>Anmerkungen und Verbesserungsvorschlaege</description>
                 <datatype>SUBHEADER</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -2019,9 +2019,9 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 </attributeEntries>
             </attributeType>
             <attributeType attributeGroupId="9" id="22">
-                <name>Verbundene Verfügung</name>
-                <text_id>ScriptGenVerbundene Verfügung_SELECTION_(22)</text_id>
-                <description>Verbundene Verfügung</description>
+                <name>Verbundene Verfuegung</name>
+                <text_id>ScriptGenVerbundene Verfuegung_SELECTION_(22)</text_id>
+                <description>Verbundene Verfuegung</description>
                 <datatype>SELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
@@ -2048,17 +2048,17 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="5" id="25">
-                <name>(ein) Persönlich (mündliches Vorsprechen)</name>
-                <text_id>ScriptGen(ein) Persönlich (mündliches Vorsprechen)_PERCENT_(25)</text_id>
-                <description>Persönlich (mündliches Vorsprechen)</description>
+                <name>(ein) Persoenlich (muendliches Vorsprechen)</name>
+                <text_id>ScriptGen(ein) Persoenlich (muendliches Vorsprechen)_PERCENT_(25)</text_id>
+                <description>Persoenlich (muendliches Vorsprechen)</description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="5" id="26">
-                <name>(ein) Persönlich (Übergabe von Schriftstücken)</name>
-                <text_id>ScriptGen(ein) Persönlich (Übergabe von Schriftstücken)_PERCENT_(26)</text_id>
-                <description>Persönlich (Übergabe von Schriftstücken)
+                <name>(ein) Persoenlich (uebergabe von Schriftstuecken)</name>
+                <text_id>ScriptGen(ein) Persoenlich (uebergabe von Schriftstuecken)_PERCENT_(26)</text_id>
+                <description>Persoenlich (uebergabe von Schriftstuecken)
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
@@ -2113,14 +2113,14 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="5" id="33">
-                <name>Gewünschter Eingangskanal</name>
-                <text_id>ScriptGenGewünschter Eingangskanal_MULTISELECTION_(33)</text_id>
-                <description>Gewünschter Eingangskanal</description>
+                <name>Gewuenschter Eingangskanal</name>
+                <text_id>ScriptGenGewuenschter Eingangskanal_MULTISELECTION_(33)</text_id>
+                <description>Gewuenschter Eingangskanal</description>
                 <datatype>MULTISELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="75">
-                        <name>Persönlich (Übergabe von Schriftstücken)</name>
+                        <name>Persoenlich (uebergabe von Schriftstuecken)</name>
                     </attributeEntry>
                     <attributeEntry id="76">
                         <name>Interne Hauspost</name>
@@ -2141,7 +2141,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                         <name>E-Mail</name>
                     </attributeEntry>
                     <attributeEntry id="82">
-                        <name>Persönlich (mündliches Vorsprechen)</name>
+                        <name>Persoenlich (muendliches Vorsprechen)</name>
                     </attributeEntry>
                 </attributeEntries>
             </attributeType>
@@ -2170,9 +2170,9 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="6" id="38">
-                <name>Optional erforderliche Dokumente (z.B. für Unternehmen, Ausländer, …)</name>
-                <text_id>ScriptGenOptional erforderliche Dokumente (z.B. für Unternehmen, Ausländer, …)_DOCUMENT_(38)</text_id>
-                <description>Optional erforderliche Dokumente (z.B. für Unternehmen, Ausländer, …)</description>
+                <name>Optional erforderliche Dokumente (z.B. fuer Unternehmen, Auslaender, …)</name>
+                <text_id>ScriptGenOptional erforderliche Dokumente (z.B. fuer Unternehmen, Auslaender, …)_DOCUMENT_(38)</text_id>
+                <description>Optional erforderliche Dokumente (z.B. fuer Unternehmen, Auslaender, …)</description>
                 <datatype>DOCUMENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -2186,9 +2186,9 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="6" id="40">
-                <name>Verwendete IT-Verfahren (z.B. DMS für internen Empfang von Dokumenten)</name>
-                <text_id>ScriptGenVerwendete IT-Verfahren (z.B. DMS für internen Empfang von Dokumenten)_SOFTWARE_(40)</text_id>
-                <description>Verwendete IT-Verfahren (z.B. DMS für internen Empfang von Dokumenten)
+                <name>Verwendete IT-Verfahren (z.B. DMS fuer internen Empfang von Dokumenten)</name>
+                <text_id>ScriptGenVerwendete IT-Verfahren (z.B. DMS fuer internen Empfang von Dokumenten)_SOFTWARE_(40)</text_id>
+                <description>Verwendete IT-Verfahren (z.B. DMS fuer internen Empfang von Dokumenten)
 </description>
                 <datatype>SOFTWARE</datatype>
                 <defaultValue></defaultValue>
@@ -2219,18 +2219,18 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="10" id="44">
-                <name>(aus) Persönlich (mündliches Vorsprechen)</name>
-                <text_id>ScriptGen(aus) Persönlich (mündliches Vorsprechen)_PERCENT_(44)</text_id>
-                <description>Persönlich (mündliches Vorsprechen)
+                <name>(aus) Persoenlich (muendliches Vorsprechen)</name>
+                <text_id>ScriptGen(aus) Persoenlich (muendliches Vorsprechen)_PERCENT_(44)</text_id>
+                <description>Persoenlich (muendliches Vorsprechen)
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="10" id="45">
-                <name>(aus) Persönlich (Übergabe von Schriftstücken)</name>
-                <text_id>ScriptGen(aus) Persönlich (Übergabe von Schriftstücken)_PERCENT_(45)</text_id>
-                <description>Persönlich (Übergabe von Schriftstücken)
+                <name>(aus) Persoenlich (uebergabe von Schriftstuecken)</name>
+                <text_id>ScriptGen(aus) Persoenlich (uebergabe von Schriftstuecken)_PERCENT_(45)</text_id>
+                <description>Persoenlich (uebergabe von Schriftstuecken)
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
@@ -2293,15 +2293,15 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="10" id="52">
-                <name>Gewünschter Ausgangskanal</name>
-                <text_id>ScriptGenGewünschter Ausgangskanal_MULTISELECTION_(52)</text_id>
-                <description>Gewünschter Ausgangskanal
+                <name>Gewuenschter Ausgangskanal</name>
+                <text_id>ScriptGenGewuenschter Ausgangskanal_MULTISELECTION_(52)</text_id>
+                <description>Gewuenschter Ausgangskanal
 </description>
                 <datatype>MULTISELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="106">
-                        <name>Persönlich (Übergabe von Schriftstücken)</name>
+                        <name>Persoenlich (uebergabe von Schriftstuecken)</name>
                     </attributeEntry>
                     <attributeEntry id="107">
                         <name>Interne Hauspost</name>
@@ -2322,7 +2322,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                         <name>E-Mail</name>
                     </attributeEntry>
                     <attributeEntry id="113">
-                        <name>Persönlich (mündliches Vorsprechen)</name>
+                        <name>Persoenlich (muendliches Vorsprechen)</name>
                     </attributeEntry>
                 </attributeEntries>
             </attributeType>
@@ -2335,7 +2335,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="114">
-                        <name>Einschreiben mit Rückschein</name>
+                        <name>Einschreiben mit Rueckschein</name>
                     </attributeEntry>
                     <attributeEntry id="115">
                         <name>Einfacher Brief</name>
@@ -2370,18 +2370,18 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="6" id="56">
-                <name>Auszuhändigende Dokumente</name>
-                <text_id>ScriptGenAuszuhändigende Dokumente_DOCUMENT_(56)</text_id>
-                <description>Auszuhändigende Dokumente
+                <name>Auszuhaendigende Dokumente</name>
+                <text_id>ScriptGenAuszuhaendigende Dokumente_DOCUMENT_(56)</text_id>
+                <description>Auszuhaendigende Dokumente
 </description>
                 <datatype>DOCUMENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="6" id="58">
-                <name>Empfänger der Dokumente</name>
-                <text_id>ScriptGenEmpfänger der Dokumente_EXTERNALPARTICIPANT_(58)</text_id>
-                <description>Empfänger der Dokumente</description>
+                <name>Empfaenger der Dokumente</name>
+                <text_id>ScriptGenEmpfaenger der Dokumente_EXTERNALPARTICIPANT_(58)</text_id>
+                <description>Empfaenger der Dokumente</description>
                 <datatype>EXTERNALPARTICIPANT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -2430,39 +2430,39 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="2" id="70">
-                <name>Sonderfälle</name>
-                <text_id>ScriptGenSonderfälle_SELECTION_(70)</text_id>
-                <description>Sonderfälle
+                <name>Sonderfaelle</name>
+                <text_id>ScriptGenSonderfaelle_SELECTION_(70)</text_id>
+                <description>Sonderfaelle
 </description>
                 <datatype>SELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="31">
-                        <name>wenige Sonderfälle</name>
+                        <name>wenige Sonderfaelle</name>
                     </attributeEntry>
                     <attributeEntry id="32">
-                        <name>nur Sonderfälle</name>
+                        <name>nur Sonderfaelle</name>
                     </attributeEntry>
                     <attributeEntry id="33">
-                        <name>keine, nur Standardfälle</name>
+                        <name>keine, nur Standardfaelle</name>
                     </attributeEntry>
                     <attributeEntry id="34">
-                        <name>viele Sonderfälle</name>
+                        <name>viele Sonderfaelle</name>
                     </attributeEntry>
                 </attributeEntries>
             </attributeType>
             <attributeType attributeGroupId="2" id="72">
-                <name>Kriterien der Prüfung (formell)</name>
-                <text_id>ScriptGenKriterien der Prüfung (formell)_MULTISELECTION_(72)</text_id>
-                <description>Kriterien der Prüfung (formell)</description>
+                <name>Kriterien der Pruefung (formell)</name>
+                <text_id>ScriptGenKriterien der Pruefung (formell)_MULTISELECTION_(72)</text_id>
+                <description>Kriterien der Pruefung (formell)</description>
                 <datatype>MULTISELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="38">
-                        <name>Vollständigkeit</name>
+                        <name>Vollstaendigkeit</name>
                     </attributeEntry>
                     <attributeEntry id="39">
-                        <name>Zuständigkeit</name>
+                        <name>Zustaendigkeit</name>
                     </attributeEntry>
                     <attributeEntry id="40">
                         <name>Datenkonsistenz</name>
@@ -2470,45 +2470,45 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 </attributeEntries>
             </attributeType>
             <attributeType attributeGroupId="2" id="73">
-                <name>Sonstige Kriterien der Prüfung</name>
-                <text_id>ScriptGenSonstige Kriterien der Prüfung_TEXT_(73)</text_id>
-                <description>Sonstige Kriterien der Prüfung
+                <name>Sonstige Kriterien der Pruefung</name>
+                <text_id>ScriptGenSonstige Kriterien der Pruefung_TEXT_(73)</text_id>
+                <description>Sonstige Kriterien der Pruefung
 </description>
                 <datatype>TEXT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="2" id="74">
-                <name>Prüfergebnis positiv in %</name>
-                <text_id>ScriptGenPrüfergebnis positiv in %_PERCENT_(74)</text_id>
-                <description>Prüfergebnis positiv in %
+                <name>Pruefergebnis positiv in %</name>
+                <text_id>ScriptGenPruefergebnis positiv in %_PERCENT_(74)</text_id>
+                <description>Pruefergebnis positiv in %
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="2" id="75">
-                <name>Prüfergebnis negativ in %</name>
-                <text_id>ScriptGenPrüfergebnis negativ in %_PERCENT_(75)</text_id>
-                <description>Prüfergebnis negativ in %
+                <name>Pruefergebnis negativ in %</name>
+                <text_id>ScriptGenPruefergebnis negativ in %_PERCENT_(75)</text_id>
+                <description>Pruefergebnis negativ in %
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="2" id="76">
-                <name>Rückfrage erforderlich in %</name>
-                <text_id>ScriptGenRückfrage erforderlich in %_PERCENT_(76)</text_id>
-                <description>Rückfrage erforderlich in %
+                <name>Rueckfrage erforderlich in %</name>
+                <text_id>ScriptGenRueckfrage erforderlich in %_PERCENT_(76)</text_id>
+                <description>Rueckfrage erforderlich in %
 </description>
                 <datatype>PERCENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="6" id="79">
-                <name>Zu prüfende Dokumente</name>
-                <text_id>ScriptGenZu prüfende Dokumente_DOCUMENT_(79)</text_id>
-                <description>Zu prüfende Dokumente
+                <name>Zu pruefende Dokumente</name>
+                <text_id>ScriptGenZu pruefende Dokumente_DOCUMENT_(79)</text_id>
+                <description>Zu pruefende Dokumente
 </description>
                 <datatype>DOCUMENT</datatype>
                 <defaultValue></defaultValue>
@@ -2567,9 +2567,9 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 </attributeEntries>
             </attributeType>
             <attributeType attributeGroupId="2" id="108">
-                <name>Beglaubigung/Authentizitätsvermerk erforderlich?</name>
-                <text_id>ScriptGenBeglaubigung/Authentizitätsvermerk erforderlich?_BOOLEAN_(108)</text_id>
-                <description>Beglaubigung/Authentizitätsvermerk erforderlich?</description>
+                <name>Beglaubigung/Authentizitaetsvermerk erforderlich?</name>
+                <text_id>ScriptGenBeglaubigung/Authentizitaetsvermerk erforderlich?_BOOLEAN_(108)</text_id>
+                <description>Beglaubigung/Authentizitaetsvermerk erforderlich?</description>
                 <datatype>BOOLEAN</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -2640,17 +2640,17 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="1" id="166">
-                <name>Dem Geschäftsvorfall zugrundeliegende Dokumente</name>
-                <text_id>ScriptGenDem Geschäftsvorfall zugrundeliegende Dokumente_DOCUMENT_(166)</text_id>
-                <description>Dem Geschäftsvorfall zugrundeliegende Dokumente</description>
+                <name>Dem Geschaeftsvorfall zugrundeliegende Dokumente</name>
+                <text_id>ScriptGenDem Geschaeftsvorfall zugrundeliegende Dokumente_DOCUMENT_(166)</text_id>
+                <description>Dem Geschaeftsvorfall zugrundeliegende Dokumente</description>
                 <datatype>DOCUMENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="1" id="167">
-                <name>Für den Geschäftsvorfall benötigte Dokumente</name>
-                <text_id>ScriptGenFür den Geschäftsvorfall benötigte Dokumente_DOCUMENT_(167)</text_id>
-                <description>Für den Geschäftsvorfall benötigte Dokumente</description>
+                <name>Fuer den Geschaeftsvorfall benoetigte Dokumente</name>
+                <text_id>ScriptGenFuer den Geschaeftsvorfall benoetigte Dokumente_DOCUMENT_(167)</text_id>
+                <description>Fuer den Geschaeftsvorfall benoetigte Dokumente</description>
                 <datatype>DOCUMENT</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
@@ -2690,18 +2690,18 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <attributeType attributeGroupId="1" id="177">
                 <name>Auftraggeber</name>
                 <text_id>ScriptGenAuftraggeber_MULTISELECTION_(177)</text_id>
-                <description>Durch wen wird der Prozess angestoßen? (Beispiel: Ein Bürger reicht einen Antrag beim Amt ein. Daraufhin beginnt die Vorgangsbearbeitung.)</description>
+                <description>Durch wen wird der Prozess angestossen? (Beispiel: Ein Buerger reicht einen Antrag beim Amt ein. Daraufhin beginnt die Vorgangsbearbeitung.)</description>
                 <datatype>MULTISELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="122">
-                        <name>Bürger</name>
+                        <name>Buerger</name>
                     </attributeEntry>
                     <attributeEntry id="123">
                         <name>Unternehmen</name>
                     </attributeEntry>
                     <attributeEntry id="124">
-                        <name>Externe Behörde</name>
+                        <name>Externe Behoerde</name>
                     </attributeEntry>
                     <attributeEntry id="125">
                         <name>Verwaltungsintern</name>
@@ -2716,7 +2716,7 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="126">
-                        <name>Führungsprozess</name>
+                        <name>Fuehrungsprozess</name>
                     </attributeEntry>
                     <attributeEntry id="127">
                         <name>Kernprozess</name>
@@ -2727,20 +2727,20 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 </attributeEntries>
             </attributeType>
             <attributeType attributeGroupId="1" id="179">
-                <name>Leistungsempfänger</name>
-                <text_id>ScriptGenLeistungsempfänger_MULTISELECTION_(179)</text_id>
-                <description>Wer ist Empfänger der Leistung? (Beispiel: Ein Bürger erhält einen neuen Personalausweis)</description>
+                <name>Leistungsempfaenger</name>
+                <text_id>ScriptGenLeistungsempfaenger_MULTISELECTION_(179)</text_id>
+                <description>Wer ist Empfaenger der Leistung? (Beispiel: Ein Buerger erhaelt einen neuen Personalausweis)</description>
                 <datatype>MULTISELECTION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries>
                     <attributeEntry id="129">
-                        <name>Bürger</name>
+                        <name>Buerger</name>
                     </attributeEntry>
                     <attributeEntry id="130">
                         <name>Unternehmen</name>
                     </attributeEntry>
                     <attributeEntry id="131">
-                        <name>Externe Behörde</name>
+                        <name>Externe Behoerde</name>
                     </attributeEntry>
                     <attributeEntry id="132">
                         <name>Verwaltungsintern</name>
@@ -2772,8 +2772,8 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="1" id="192">
-                <name>Auslöser</name>
-                <text_id>ScriptGenAuslöser_SHORTTEXT_(192)</text_id>
+                <name>Ausloeser</name>
+                <text_id>ScriptGenAusloeser_SHORTTEXT_(192)</text_id>
                 <description></description>
                 <datatype>SHORTTEXT</datatype>
                 <defaultValue></defaultValue>
@@ -2838,13 +2838,13 @@ Neben den externen Empfängern erhalten auch das Amt für Finanzwesen, das Amt f
             <attributeType attributeGroupId="1" id="205">
                 <name>Gesetzesgrundlage</name>
                 <text_id>ScriptGenGesetzesgrundlage_INFORMATION_(205)</text_id>
-                <description>Was ist die Gesetzesgrundlage für diesen Prozess?</description>
+                <description>Was ist die Gesetzesgrundlage fuer diesen Prozess?</description>
                 <datatype>INFORMATION</datatype>
                 <defaultValue></defaultValue>
                 <attributeEntries/>
             </attributeType>
             <attributeType attributeGroupId="1" id="206">
-                <name>Gebühr</name>
+                <name>Gebuehr</name>
                 <text_id>gebuehr</text_id>
                 <description></description>
                 <datatype>CURRENCY</datatype>

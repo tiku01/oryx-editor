@@ -271,7 +271,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Erfassen/ Registrieren",
           "description":"",
           "tooltip":"",
@@ -320,7 +320,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument/ Information bearbeiten",
           "description":"",
           "tooltip":"",
@@ -369,7 +369,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument archivieren",
           "description":"",
           "tooltip":"",
@@ -645,7 +645,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Formelle Prüfung vornehmen",
           "description":"",
           "tooltip":"",
@@ -693,7 +693,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Inhaltliche Prüfung vornehmen",
           "description":"",
           "tooltip":"",
@@ -741,7 +741,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Berechnung durchführen",
           "description":"",
           "tooltip":"",
@@ -789,7 +789,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Kassieren/ Einzahlung entgegennehmen",
           "description":"",
           "tooltip":"",
@@ -837,7 +837,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Auszahlung durchführen",
           "description":"",
           "tooltip":"",
@@ -885,7 +885,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Bearbeitungsort wechseln",
           "description":"",
           "tooltip":"",
@@ -936,7 +936,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dateneingabe in die EDV",
           "description":"",
           "tooltip":"",
@@ -984,7 +984,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Scannen",
           "description":"",
           "tooltip":"",
@@ -1032,7 +1032,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Drucken",
           "description":"",
           "tooltip":"",
@@ -1080,7 +1080,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Datenträger bespielen",
           "description":"",
           "tooltip":"",
@@ -1128,7 +1128,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Dokument vervielvältigen/ Kopieren",
           "description":"",
           "tooltip":"",
@@ -1178,7 +1178,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Recherche durchführen",
           "description":"",
           "tooltip":"",
@@ -1226,7 +1226,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Rückfrage durchführen",
           "description":"",
           "tooltip":"",
@@ -1274,7 +1274,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Absprache/ Vereinbarung treffen",
           "description":"",
           "tooltip":"",
@@ -1322,7 +1322,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Beratung durchführen",
           "description":"",
           "tooltip":"",
@@ -1378,7 +1378,7 @@
         {
           "id":"basic-title",
           "type":"String",
-          "title":"Grundlegend - Titel",
+          "title":"Titel",
           "value":"Editorfeld",
           "description":"",
           "tooltip":"",

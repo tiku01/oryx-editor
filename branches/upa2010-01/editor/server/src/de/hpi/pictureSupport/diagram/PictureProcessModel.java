@@ -17,7 +17,6 @@ import org.xmappr.Attribute;
 import org.xmappr.Element;
 import org.xmappr.RootElement;
 
-import de.hpi.pictureSupport.PictureBuildingBlockOccurrence;
 import de.hpi.pictureSupport.PictureResultingProduct;
 import de.hpi.pictureSupport.PictureSubprocess;
 import de.hpi.pictureSupport.container.PictureBuildingBlockRepository;
