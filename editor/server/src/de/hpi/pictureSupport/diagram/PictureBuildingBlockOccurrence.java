@@ -62,6 +62,7 @@ public class PictureBuildingBlockOccurrence {
 		this.buildingBlock = buildingBlock;
 	}
 
+	/* ---------- This is where the JSON building starts ---------- */
 	
 	/**
 	 * Creates a block according to its XML tag and returns it.

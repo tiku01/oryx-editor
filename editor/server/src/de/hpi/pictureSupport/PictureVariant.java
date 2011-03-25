@@ -1,4 +1,4 @@
-package de.hpi.pictureSupport.diagram;
+package de.hpi.pictureSupport;
 
 import org.xmappr.Attribute;
 import org.xmappr.Element;
