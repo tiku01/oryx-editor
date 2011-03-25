@@ -47,12 +47,6 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 			'maxShape': 		0
 		});
         
-        /* ATM unused
-        // change the shape menu's alignment
-        ORYX.CONFIG.SHAPEMENU_RIGHT = ORYX.CONFIG.SHAPEMENU_BOTTOM;
-        ORYX.CONFIG.SHAPEMENU_BUTTONS_PER_LEVEL_BOTTOM = 6;
-        */
-        
         // catch occurring events
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.pictureInstantiation.bind(this));
 		this.facade.registerOnEvent('layout.picture.node', this.handleProperties.bind(this));
@@ -100,7 +94,11 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 	},
 	
 	/**
-	 *
+	 * A method for finding all labels of a given shape that relate to a given string, 
+	 * e.g. all text fields of one node that start with the given string "realisation"
+	 * 
+	 * @param shape the shape you are looking for labels in
+	 * @param string the string all your labels are starting with
 	 */
 	findLabels: function(shape, string){
 		return shape.getLabels().findAll(function(label) {return label.id.substr(0,(shape.id + string).length) === (shape.id + string);})
@@ -196,6 +194,10 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
  	
  	//--------------------------------- (AJAX Land) ---------------------------------
 	 
+	/**
+	 * Method for preparing the whole import. 
+	 * Builds the needed forms and windows and calls further functions for importing.
+	 */
 	_doImport: function( successCallback )
 	{
 		// Define the form panel
@@ -253,7 +255,8 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 						window.setTimeout(function()
 						{					
 							// Get the text which is in the text field
-							var pictureToImport =  form.items.items[2].getValue();							
+							var pictureToImport =  form.items.items[2].getValue();
+							// get the job done
 							this._getAllPages(pictureToImport, loadMask);
 
 						}.bind(this), 100);
@@ -288,6 +291,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		form.items.items[1].getEl().dom.addEventListener('change',function(evt){ var text = evt.target.files[0].getAsText('UTF-8'); form.items.items[2].setValue(text); }, true);
 	},
 	
+	/**
+	 * Method for doing the AJAX POST request on the importer and evaluating the response.
+	 */
 	_getAllPages: function(pictureXML, loadMask)
 	{		
 		var parser = new DOMParser();
@@ -305,12 +311,14 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		if (allPages.length === 1)
 		{
 			this._sendRequest(
+					// do the POST on the importer
 					ORYX.CONFIG.PICTUREIMPORTER,
 					'POST',
 					{ 
 						'action': "Import",
 						'data' : pictureXML 
 					},
+					// evaluate the response, if there is one
 					function( arg )
 					{
 						if (arg.startsWith("error:"))
@@ -320,10 +328,12 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 						}
 						else
 						{
+							// this is where the import in client-side happens
 							this.facade.importJSON(arg); 
 							loadMask.hide();							
 						}
 					}.bind(this),
+					// we did not get an answer from the importer
 					function()
 					{
 						loadMask.hide();
@@ -335,6 +345,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		}
 	},
 	
+	/**
+	 * Method for sending the request to the server.
+	 */
 	_sendRequest: function( url, method, params, successcallback, failedcallback ){
 
 		var suc = false;
@@ -372,6 +385,9 @@ ORYX.Plugins.PictureSupport = ORYX.Plugins.AbstractPlugin.extend({
 		return suc;		
 	},	
 	
+	/**
+	 * Method to prepare an error box if things get wrong.
+	 */
 	_showErrorMessageBox: function(title, msg)
 	{
         Ext.MessageBox.show({
