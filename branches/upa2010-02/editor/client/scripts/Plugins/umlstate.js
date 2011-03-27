@@ -163,8 +163,6 @@ ORYX.Plugins.UMLState = Clazz
 				}
 
 				// Case of: Event [Guard] /Action
-				// TODO: it may start with whitespaces? (may count for other
-				// too)
 				if ((indexOfBracket > 0) && (indexOfSlash > 0)) {
 					return oldValue;
 				}

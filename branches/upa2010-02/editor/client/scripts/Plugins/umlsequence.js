@@ -61,7 +61,7 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 	 */
 	sendToBack : function sendToBack(event) {
 		var shape = event.shape;
-		// basically taken from arrangement.js of the stToBack function
+		// basically taken from arrangement.js of the setToBack function
 		shape.node.parentNode.insertBefore(shape.node,
 				shape.node.parentNode.firstChild);
 	},
@@ -80,7 +80,7 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 		// The parent element is always a lifeline so we don't have to check for this (see the JSON)
 		var parent = shape.getParentShape();
 
-		// compute the difference of the x-coordines of the center of the lifeline 
+		// compute the difference of the x-coordinates of the center of the lifeline 
 		// and the center of the activeline
 		var difference = parent.absoluteCenterXY().x - shape.absoluteCenterXY().x;
 		// move the active line by the calculated difference on the x-axis 
