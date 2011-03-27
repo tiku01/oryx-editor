@@ -78,6 +78,15 @@
       <pattern id="image_consulting" x="0" y="0" width="48" height="48">
         <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/consulting.png" />
       </pattern>
+      <pattern id="image_file_out" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/file_out.png" />
+      </pattern>
+      <pattern id="image_sign" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/sign.png" />
+      </pattern>
+      <pattern id="image_special" x="0" y="0" width="48" height="48">
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/special.png" />
+      </pattern>
 	</defs>
  	
     <rect id="text_frame_title" x="60" y="0" width="540" height="60" stroke="black" stroke-width="1" fill="url(#background)" oryx:anchors="top" />
@@ -107,6 +116,9 @@
 	<rect id="research_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_research)" oryx:anchors="top" display="none"/> 
 	<rect id="request_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_request)" oryx:anchors="top" display="none"/> 
 	<rect id="consulting_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_consulting)" oryx:anchors="top" display="none"/> 
+	<rect id="file_out_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_file_out)" oryx:anchors="top" display="none"/>
+	<rect id="sign_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_sign)" oryx:anchors="top" display="none"/>
+	<rect id="special_image" x="0" y="0" width="60" height="60" stroke="black" stroke-width="1" fill="url(#image_special)" oryx:anchors="top" display="none"/>
 
 	<!-- the properties section -->
 	<g id="properties">
@@ -115,28 +127,69 @@
 	
 	<!-- the part for the realisation text -->
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="realisation" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_knowledge" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_knowledge_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_formal_criteria" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_formal_criteria_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_other_criteria" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_other_criteria_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_results" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_results_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_record_duty" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_record_duty_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_legal_record_duty" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_legal_record_duty_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_make_note" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_make_note_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_discard_method" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_discard_method_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_special_format" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_special_format_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_enquiry_channel" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_enquiry_channel_value" />
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_unit" />
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_unit_value" />
-	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="realisation_method" />
-	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="realisation_method_value" />
 	
 	<!-- the part for the incoming text --> 		
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="incoming" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="incoming_channel" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="incoming_channel_value" />
 	
 	<!-- the part for the outgoing text -->		
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="outgoing" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="outgoing_channel" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="outgoing_channel_value" />
 	
 	<!-- the part for the communication text -->
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="communication" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="communication_channel" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="communication_channel_value" />
 	
 	<!-- the part for the payment text -->
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="payment" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="payment_method" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="payment_method_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="payment_receipt" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="payment_receipt_value" />
 	
 	<!-- the part for the resource text -->
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="resource" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_documents" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_documents_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_legal_basis" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_legal_basis_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_involved" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_involved_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_receiver" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_receiver_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_sender" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_sender_value" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-style="italic" id="resource_method" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="resource_method_value" />
 	
 	<!-- the part for the comment text -->
 	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" font-weight="bold" id="comment" />
+	<text font-size="12" x="65" y="65" oryx:align="left top" stroke="black" oryx:anchors="top" id="comment_value" />
 	</g>
   </g>  
   

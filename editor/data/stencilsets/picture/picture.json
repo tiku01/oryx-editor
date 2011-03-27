@@ -9,6 +9,16 @@
       "name":"baseAttributes",
       "properties": [
         {
+		  "id":"basic-show-properties",
+          "type":"Boolean",
+          "title":"Eigenschaften anzeigen",
+          "value":false,
+          "description":"",
+          "readonly":false,
+          "optional":true,
+		  "refToView":"properties",
+		},
+        {
           "id":"description",
           "type":"String",
           "title":"Beschreibung",
@@ -20,23 +30,8 @@
 		  "refToView":"description",
           "length":"",
           "wrapLines":false
-        }
-      ]
-    },	
-	{
-	  "name":"pictureAttributes",
-	  "properties": [
-		{
-		  "id":"basic-show-properties",
-          "type":"Boolean",
-          "title":"zeige Eigenschaften",
-          "value":false,
-          "description":"",
-          "readonly":false,
-          "optional":true,
-		  "refToView":"properties",
-		},
-		{
+        },
+        {
           "id":"realisation",
           "type":"String",
           "title":"Durchführung",
@@ -75,36 +70,9 @@
           "readonly":false,
           "optional":true,
           "length":"",
-          "wrapLines":true,
-        },
-		{
-          "id":"realisation_method",
-          "type":"String",
-          "title":"Titel der Eigenschaft",
-          "value":"IT Verfahren",
-		  "refToView":"realisation_method",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
           "wrapLines":false,
-		  "visible":false
         },
         {
-          "id":"realisation_method_value",
-          "type":"String",
-          "title":"IT Verfahren",
-          "value":"",
-		  "refToView":"realisation_method_value",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true,
-        },
-		{
           "id":"comment",
           "type":"String",
           "title":"Anmerkungen",
@@ -117,9 +85,22 @@
           "length":"",
           "wrapLines":false,
 		  "visible":false
+        },
+        {
+          "id":"comment_value",
+          "type":"String",
+          "title":"Anmerkungen",
+          "value":"Anmerkung",
+		  "refToView":"comment_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
         }
-	  ]
-	},
+      ]
+    },
+	// properties related to resources
 	{
 	  "name":"resourcePackage",
 	  "properties": [
@@ -138,7 +119,714 @@
 		  "visible":false
         }
 	  ]
-	}
+	},
+	{
+	  "name":"resourceMethodPackage",
+	  "properties": [
+        {
+          "id":"resource_method",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"IT Verfahren",
+		  "refToView":"resource_method",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_method_value",
+          "type":"String",
+          "title":"IT Verfahren",
+          "value":"",
+		  "refToView":"resource_method_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	{
+	  "name":"resourceDocumentsPackage",
+	  "properties": [
+        {
+          "id":"resource_documents",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Dokumente",
+		  "refToView":"resource_documents",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_documents_value",
+          "type":"String",
+          "title":"Dokumente",
+          "value":"",
+		  "refToView":"resource_documents_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	{
+	  "name":"resourceInvolvedPackage",
+	  "properties": [
+        {
+          "id":"resource_involved",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Beteiligte",
+		  "refToView":"resource_involved",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_involved_value",
+          "type":"String",
+          "title":"Beteiligte",
+          "value":"",
+		  "refToView":"resource_involved_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	{
+	  "name":"resourceLegalBasisPackage",
+	  "properties": [
+        {
+          "id":"resource_legal_basis",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Rechtsgrundlagen",
+		  "refToView":"resource_legal_basis",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_legal_basis_value",
+          "type":"String",
+          "title":"Rechtsgrundlagen",
+          "value":"",
+		  "refToView":"resource_legal_basis_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	{
+	  "name":"resourceReceiverPackage",
+	  "properties": [
+        {
+          "id":"resource_receiver",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Empfänger",
+		  "refToView":"resource_receiver",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_receiver_value",
+          "type":"String",
+          "title":"Empfänger",
+          "value":"",
+		  "refToView":"resource_receiver_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	{
+	  "name":"resourceSenderPackage",
+	  "properties": [
+        {
+          "id":"resource_sender",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Sender",
+		  "refToView":"resource_sender",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"resource_sender_value",
+          "type":"String",
+          "title":"Sender",
+          "value":"",
+		  "refToView":"resource_sender_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+	  ]
+	},
+	// properties related to realisation
+    {
+	  "name":"realisationKnowledgePackage",
+	  "properties": [
+		{
+          "id":"realisation_knowledge",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Kenntnisse",
+		  "refToView":"realisation_knowledge",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_knowledge_value",
+          "type":"String",
+          "title":"Kenntnisse",
+          "value":"",
+		  "refToView":"realisation_knowledge_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationSpecialFormatPackage",
+	  "properties": [
+		{
+          "id":"realisation_special_format",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Sonderformate",
+		  "refToView":"realisation_special_format",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_special_format_value",
+          "type":"String",
+          "title":"Sonderformate",
+          "value":"",
+		  "refToView":"realisation_special_format_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationFormalPackage",
+	  "properties": [
+		{
+          "id":"realisation_formal_criteria",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"formelle Prüfkriterien",
+		  "refToView":"realisation_formal_criteria",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_formal_criteria_value",
+          "type":"String",
+          "title":"formelle Prüfkriterien",
+          "value":"",
+		  "refToView":"realisation_formal_criteria_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationOtherCriteriaPackage",
+	  "properties": [
+		{
+          "id":"realisation_other_criteria",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"sonstige Prüfkriterien",
+		  "refToView":"realisation_other_criteria",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_other_criteria_value",
+          "type":"String",
+          "title":"sonstige Prüfkriterien",
+          "value":"",
+		  "refToView":"realisation_other_criteria_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationRecordDutyPackage",
+	  "properties": [
+		{
+          "id":"realisation_record_duty",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Aufbewahrungspflicht",
+		  "refToView":"realisation_record_duty",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_record_duty_value",
+          "type":"String",
+          "title":"Aufbewahrungspflicht",
+          "value":"",
+		  "refToView":"realisation_record_duty_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationLegalRecordDutyPackage",
+	  "properties": [
+		{
+          "id":"realisation_legal_record_duty",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"gesetzl. Aufbewahrungspflicht",
+		  "refToView":"realisation_legal_record_duty",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_legal_record_duty_value",
+          "type":"String",
+          "title":"gesetzl. Aufbewahrungspflicht",
+          "value":"",
+		  "refToView":"realisation_legal_record_duty_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationMakeNotePackage",
+	  "properties": [
+		{
+          "id":"realisation_make_note",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Vermerk erstellen",
+		  "refToView":"realisation_make_note",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_make_note_value",
+          "type":"String",
+          "title":"Vermerk erstellen",
+          "value":"",
+		  "refToView":"realisation_make_note_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationDiscardMethodPackage",
+	  "properties": [
+		{
+          "id":"realisation_discard_method",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Art der Aussonderung",
+		  "refToView":"realisation_discard_method",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_discard_method_value",
+          "type":"String",
+          "title":"Art der Aussonderung",
+          "value":"",
+		  "refToView":"realisation_discard_method_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationEnquiryChannelPackage",
+	  "properties": [
+		{
+          "id":"realisation_enquiry_channel",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Recherchekanal",
+		  "refToView":"realisation_enquiry_channel",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_enquiry_channel_value",
+          "type":"String",
+          "title":"Recherchekanal",
+          "value":"",
+		  "refToView":"realisation_enquiry_channel_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    {
+	  "name":"realisationResultsPackage",
+	  "properties": [
+		{
+          "id":"realisation_results",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Ergebnisse",
+		  "refToView":"realisation_results",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"realisation_results_value",
+          "type":"String",
+          "title":"Ergebnisse",
+          "value":"",
+		  "refToView":"realisation_results_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    // properties related to incoming documents
+    {
+      "name":"incomingPackage",
+      "properties": [
+        {
+          "id":"incoming",
+          "type":"String",
+          "title":"Eingangskanäle",
+          "value":"Eingangskanäle",
+		  "refToView":"incoming",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"incoming_channel",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Eingangskanal",
+		  "refToView":"incoming_channel",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"incoming_channel_value",
+          "type":"String",
+          "title":"Eingangskanal",
+          "value":"",
+		  "refToView":"incoming_channel_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    // properties related to outgoing documents
+    {
+      "name":"outgoingPackage",
+      "properties": [
+        {
+          "id":"outgoing",
+          "type":"String",
+          "title":"Ausgangskanäle",
+          "value":"Ausgangskanäle",
+		  "refToView":"outgoing",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"outgoing_channel",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Ausgangskanal",
+		  "refToView":"outgoing_channel",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"outgoing_channel_value",
+          "type":"String",
+          "title":"Ausgangskanal",
+          "value":"",
+		  "refToView":"outgoing_channel_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    // properties related to communication
+    {
+      "name":"communicationPackage",
+      "properties": [
+        {
+          "id":"communication",
+          "type":"String",
+          "title":"Kommunikationskanäle",
+          "value":"Kommunikationskanäle",
+		  "refToView":"communication",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"communication_channel",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Kommunikationskanal",
+		  "refToView":"communication_channel",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"communication_channel_value",
+          "type":"String",
+          "title":"Kommunikationskanal",
+          "value":"",
+		  "refToView":"communication_channel_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    },
+    // properties related to payment
+    {
+      "name":"paymentPackage",
+      "properties": [
+        {
+          "id":"payment",
+          "type":"String",
+          "title":"Bezahlung",
+          "value":"Bezahlung",
+		  "refToView":"payment",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"payment_method",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Bezahlungart",
+		  "refToView":"payment_method",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"payment_method_value",
+          "type":"String",
+          "title":"Bezahlungart",
+          "value":"",
+		  "refToView":"payment_method_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        },
+        {
+          "id":"payment_receipt",
+          "type":"String",
+          "title":"Titel der Eigenschaft",
+          "value":"Quittung",
+		  "refToView":"payment_receipt",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":"",
+          "wrapLines":false,
+		  "visible":false
+        },
+        {
+          "id":"payment_receipt_value",
+          "type":"String",
+          "title":"Quittung",
+          "value":"",
+		  "refToView":"payment_receipt_value",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":true,
+          "length":""
+        }
+      ]
+    }
   ],
   
   //Stencils  
@@ -246,7 +934,9 @@
       ],
       "propertyPackages": [
 		"baseAttributes",
-		"pictureAttributes",
+		"resourceDocumentsPackage",
+		"resourceLegalBasisPackage",
+		"resourceMethodPackage",
 		"resourcePackage"
       ]
     },
@@ -272,7 +962,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Erfassen/ Registrieren",
+          "value":"Erfassen/Registrieren",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -294,15 +984,13 @@
 		}
       ],
       "propertyPackages": [        
-	    "baseAttributes",
-	    "pictureAttributes",
-		"resourcePackage"
+	    "baseAttributes"
       ]
     },    
     {
       "id":"editdocument",
       "type": "node",
-      "title":"Dokument/ Information bearbeiten",
+      "title":"Dokument/Information bearbeiten",
       "groups":["Dokumentation"],
       "description":"Ein bereits bestehendes Dokument/Information wird bearbeitet.",
       "view":"node.svg",
@@ -321,7 +1009,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Dokument/ Information bearbeiten",
+          "value":"Dokument/Information bearbeiten",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -343,9 +1031,7 @@
 		}
       ],
       "propertyPackages": [
-	    "baseAttributes",
-		"pictureAttributes",
-		"resourcePackage"
+	    "baseAttributes"
       ],
     },
     {
@@ -393,8 +1079,159 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
+        "realisationRecordDutyPackage",
+		"realisationLegalRecordDutyPackage",
+        "resourceDocumentsPackage",
+        "resourceLegalBasisPackage",
+        "resourceMethodPackage",
 		"resourcePackage"
+      ],
+    },
+    {
+      "id":"fileoutdocument",
+      "type": "node",
+      "title":"Dokument aussondern",
+      "groups":["Dokumentation"],
+      "description":"Dokumente werden ausgesondert.",
+      "view":"node.svg",
+      "icon":"documentation/file_out.png",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
+      "roles": [
+        "canBeAnnotated", 
+        "node"
+      ],
+      "properties": [
+        {
+          "id":"basic-title",
+          "type":"String",
+          "title":"Titel",
+          "value":"Dokument aussondern",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":false,
+          "refToView":"text_name_title",
+          "length":"",
+          "wrapLines":true
+        },
+		{
+		  "id":"hasimagefileout",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"file_out_image",
+		  "visible":false
+		}
+      ],
+      "propertyPackages": [
+        "baseAttributes",
+        "realisationDiscardMethodPackage",
+        "resourceDocumentsPackage",
+        "resourceLegalBasisPackage",
+		"resourcePackage"
+      ],
+    },
+    {
+      "id":"signdocument",
+      "type": "node",
+      "title":"Dokument unterschreiben",
+      "groups":["Dokumentation"],
+      "description":"Dokumente werden unterschrieben.",
+      "view":"node.svg",
+      "icon":"documentation/sign.png",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
+      "roles": [
+        "canBeAnnotated", 
+        "node"
+      ],
+      "properties": [
+        {
+          "id":"basic-title",
+          "type":"String",
+          "title":"Titel",
+          "value":"Dokument unterschreiben",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":false,
+          "refToView":"text_name_title",
+          "length":"",
+          "wrapLines":true
+        },
+		{
+		  "id":"hasimagesign",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"sign_image",
+		  "visible":false
+		}
+      ],
+      "propertyPackages": [
+        "baseAttributes",
+        "resourceDocumentsPackage",
+		"resourcePackage"
+      ],
+    },
+    {
+      "id":"specialtask",
+      "type": "node",
+      "title":"Spezialtätigkeit",
+      "groups":["Dokumentation"],
+      "description":"Spezielle Tätigkeit.",
+      "view":"node.svg",
+      "icon":"documentation/special.png",
+      "layout": [ 
+	    {
+		  "type":"layout.picture.node"
+		}
+	  ],
+      "roles": [
+        "canBeAnnotated", 
+        "node"
+      ],
+      "properties": [
+        {
+          "id":"basic-title",
+          "type":"String",
+          "title":"Titel",
+          "value":"Spezialtätigkeit",
+          "description":"",
+          "tooltip":"",
+          "readonly":false,
+          "optional":false,
+          "refToView":"text_name_title",
+          "length":"",
+          "wrapLines":true
+        },
+		{
+		  "id":"hasimagespecial",
+          "type":"Boolean",
+          "title":"",
+          "value":true,
+          "description":"",
+          "readonly":true,
+          "optional":true,
+		  "refToView":"special_image",
+		  "visible":false
+		}
+      ],
+      "propertyPackages": [
+        "baseAttributes"
       ],
     },
     
@@ -422,7 +1259,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Dokument/ Information geht ein",
+          "value":"Dokument/Information geht ein",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -441,25 +1278,15 @@
           "optional":true,
 		  "refToView":"incoming_image",
 		  "visible":false
-		},
-		{
-          "id":"incoming",
-          "type":"String",
-          "title":"Eingangskanal",
-          "value":"Kanäle",
-		  "refToView":"incoming",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":false,
-		  "visible":false
-        }
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-        "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceSenderPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "incomingPackage"
       ],
     },
     {
@@ -484,7 +1311,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Dokument/ Information geht aus",
+          "value":"Dokument/Information geht aus",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -503,25 +1330,15 @@
           "optional":true,
 		  "refToView":"outgoing_image",
 		  "visible":false
-		},
-		{
-          "id":"outgoing",
-          "type":"String",
-          "title":"Ausgangskanal",
-          "value":"Kanäle",
-		  "refToView":"outgoing",
-          "description":"",
-          "tooltip":"",
-          "readonly":false,
-          "optional":true,
-          "length":"",
-          "wrapLines":true,
-          "popular":false
-        }
+		}
       ],
       "propertyPackages": [
         "baseAttributes",
-        "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceReceiverPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "outgoingPackage"
       ],
     },
     {
@@ -546,7 +1363,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Bearbeitungs- unterbrechung",
+          "value":"Bearbeitungsunterbrechung",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -568,8 +1385,7 @@
 		}
       ],
       "propertyPackages": [
-        "baseAttributes",
-        "pictureAttributes"
+        "baseAttributes"
       ],
     },
     
@@ -597,7 +1413,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Dokument/ Information sichten",
+          "value":"Dokument/Information sichten",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -620,7 +1436,9 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes",
+        "realisationMakeNotePackage",
+        "resourceDocumentsPackage",
+        "resourceMethodPackage",
 		"resourcePackage"
       ],
     },
@@ -669,7 +1487,13 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "realisationKnowledgePackage",
+        "realisationFormalPackage",
+        "realisationOtherCriteriaPackage",
+        "resourceDocumentsPackage",
+        "resourceLegalBasisPackage",
+        "resourceMethodPackage",
+        "resourcePackage"
       ],
     },
     {
@@ -716,8 +1540,15 @@
 		}
       ],
       "propertyPackages": [
-        "baseAttributes",
-	    "pictureAttributes"
+ 		"baseAttributes",
+        "realisationKnowledgePackage",
+        "realisationFormalPackage",
+        "realisationOtherCriteriaPackage",
+        "realisationResultsPackage",
+        "resourceDocumentsPackage",
+        "resourceLegalBasisPackage",
+        "resourceMethodPackage",
+        "resourcePackage"
       ],
     },
     {
@@ -765,7 +1596,8 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceLegalBasisPackage",
+        "resourceMethodPackage"
       ],
     },
     {
@@ -790,7 +1622,7 @@
           "id":"basic-title",
           "type":"String",
           "title":"Titel",
-          "value":"Kassieren/ Einzahlung entgegennehmen",
+          "value":"Kassieren/Einzahlung entgegennehmen",
           "description":"",
           "tooltip":"",
           "readonly":false,
@@ -813,7 +1645,10 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "paymentPackage"
       ],
     },
     {
@@ -861,7 +1696,10 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "paymentPackage"
       ],
     },
     {
@@ -908,8 +1746,7 @@
 		}
       ],
       "propertyPackages": [
-        "baseAttributes",
-        "pictureAttributes"
+        "baseAttributes"
       ],
     },
     
@@ -960,7 +1797,9 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceMethodPackage",
+        "resourcePackage"
       ],
     },
     {
@@ -1007,8 +1846,7 @@
 		}
       ],
       "propertyPackages": [
-        "baseAttributes",
-	    "pictureAttributes"
+        "baseAttributes"
       ],
     },
     {
@@ -1056,7 +1894,10 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "realisationSpecialFormatPackage",
+        "resourceDocumentsPackage",
+        "resourceMethodPackage",
+        "resourcePackage"
       ],
     },
     {
@@ -1103,8 +1944,7 @@
 		}
       ],
       "propertyPackages": [
-        "baseAttributes",
-	    "pictureAttributes"
+        "baseAttributes"
       ],
     },
     {
@@ -1152,7 +1992,9 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "realisationSpecialFormatPackage",
+        "resourceDocumentsPackage",
+        "resourcePackage"
       ],
     },
     
@@ -1202,7 +2044,11 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+	    "realisationEnquiryChannelPackage",
+	    "resourceDocumentsPackage",
+	    "resourceInvolvedPackage",
+	    "resourceMethodPackage",
+	    "resourcePackage"
       ],
     },
     {
@@ -1250,7 +2096,12 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceInvolvedPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "incomingPackage",
+        "outgoingPackage"
       ],
     },
     {
@@ -1298,7 +2149,11 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+		"resourceInvolvedPackage",
+        "resourceMethodPackage",
+        "resourcePackage",
+        "communicationPackage"
       ],
     },
     {
@@ -1346,7 +2201,10 @@
       ],
       "propertyPackages": [
         "baseAttributes",
-	    "pictureAttributes"
+        "resourceDocumentsPackage",
+        "resourceReceiverPackage",
+        "resourceMethodPackage",
+        "resourcePackage"
       ],
     },
     
@@ -1389,7 +2247,7 @@
           "wrapLines":true
         }
       ],
-      "propertyPackages": ["baseAttributes"],
+      "propertyPackages": [],
     }
   ],  
   "rules": {
