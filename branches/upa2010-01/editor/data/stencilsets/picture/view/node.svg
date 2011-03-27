@@ -10,82 +10,82 @@
 	  </radialGradient>
 	  <!-- for every unique pic a pattern is needed -->
 	  <pattern id="image_copy" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/copy.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/change_medium/copy.png" />
       </pattern>
       <pattern id="image_edv" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/edv_input.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/change_medium/edv_input.png" />
       </pattern>
       <pattern id="image_print" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/print.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/change_medium/print.png" />
       </pattern>
       <pattern id="image_save" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/save_to_volume.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/change_medium/save_to_volume.png" />
       </pattern>
       <pattern id="image_scan" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="change_medium/scan.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/change_medium/scan.png" />
       </pattern>
       <pattern id="image_calculate" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/calculate.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/calculate.png" />
       </pattern>
       <pattern id="image_collect" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/collect.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/collect.png" />
       </pattern>
       <pattern id="image_content" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/content.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/content.png" />
       </pattern>
       <pattern id="image_formally" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/formally.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/formally.png" />
       </pattern>
       <pattern id="image_pay" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/pay.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/pay.png" />
       </pattern>
       <pattern id="image_relocation" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/relocation.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/relocation.png" />
       </pattern>
       <pattern id="image_review" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="content_work/review.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/content_work/review.png" />
       </pattern>
 	  <pattern id="image_archive" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/archive.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/archive.png" />
       </pattern>
       <pattern id="image_capture" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/capture.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/capture.png" />
       </pattern>
       <pattern id="image_create" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/create.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/create.png" />
       </pattern>
       <pattern id="image_edit" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/edit.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/edit.png" />
       </pattern>
       <pattern id="image_incoming" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/incoming.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_flow/incoming.png" />
       </pattern>
       <pattern id="image_outgoing" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/outgoing.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_flow/outgoing.png" />
       </pattern>
       <pattern id="image_pause" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_flow/pause.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_flow/pause.png" />
       </pattern>
       <pattern id="image_agreement" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/agreement.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_retrieval/agreement.png" />
       </pattern>
       <pattern id="image_research" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/research.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_retrieval/research.png" />
       </pattern>
       <pattern id="image_request" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/request.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_retrieval/request.png" />
       </pattern>
       <pattern id="image_consulting" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="information_retrieval/consulting.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/information_retrieval/consulting.png" />
       </pattern>
       <pattern id="image_file_out" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/file_out.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/file_out.png" />
       </pattern>
       <pattern id="image_sign" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/sign.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/sign.png" />
       </pattern>
       <pattern id="image_special" x="0" y="0" width="48" height="48">
-        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="documentation/special.png" />
+        <image x="7" y="7" width="48" height="48" oryx:anchors="top" xlink:href="../icons/documentation/special.png" />
       </pattern>
 	</defs>
  	
