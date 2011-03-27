@@ -1,7 +1,7 @@
 {
-	"title":"UML State Diagram",
+	"title":"UML State Machine",
 	"namespace":"http://b3mn.org/stencilset/umlstate#",
-	"description":"UML State Diagram",
+	"description":"UML State Machine",
 	"description_de":"UML Zustandsdiagramm",
 	"stencils" : [
   		{

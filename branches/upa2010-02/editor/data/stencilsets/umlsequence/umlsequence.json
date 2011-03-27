@@ -889,12 +889,6 @@
 				"contains": [
 					"diagramcontent"
 				]
-			},
-			{
-				"role":"combinedFragment",
-				"contains": [
-					"diagramcontent"
-				]
 			}
 		]
 	}

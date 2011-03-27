@@ -142,7 +142,7 @@
 		},
 		
 		{
-			"title":"UML State Diagram",
+			"title":"UML State Machine",
 			"namespace":"http://b3mn.org/stencilset/umlstate#",
 			"description":"Stencil Set to create UML 2.2 state diagrams",
 			"uri":"/umlstate/umlstate.json",
