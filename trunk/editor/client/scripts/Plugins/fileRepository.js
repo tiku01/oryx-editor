@@ -255,7 +255,7 @@ onOryxResourcesLoaded = function () {
 	if (location.hash.slice(1).length == 0 || location.hash.slice(1).indexOf('new')!=-1) {
 		var stencilset = ORYX.Utils.getParamFromUrl('stencilset') 
 			? ORYX.Utils.getParamFromUrl('stencilset')
-			: 'stencilsets/bpmn1.1/bpmn1.1.json';
+			: ORYX.CONFIG.SSET;
 
 		new ORYX.Editor({
 			id: 'oryx-canvas123',
