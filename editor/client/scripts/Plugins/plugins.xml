@@ -429,6 +429,14 @@
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>
 		</plugin>
 		
+		<plugin source="umlstate.js" name="ORYX.Plugins.UMLState">
+			<requires namespace="http://b3mn.org/stencilset/umlstate#"/>	
+		</plugin>
+		
+		<plugin source="umlsequence.js" name="ORYX.Plugins.UMLSequence">
+			<requires namespace="http://b3mn.org/stencilset/umlsequence#"/>	
+		</plugin>
+		
 		
 	</plugins>
 

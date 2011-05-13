@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   width="40"
+   height="40"
+   version="1.0">
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="10" oryx:cy="10" oryx:default="yes" />
+  </oryx:magnets>
+  <oryx:docker oryx:cx="10" oryx:cy="10" />
+  <g pointer-events="fill" 
+  oryx:minimumSize="20 20"
+  id="umlentrypoint">
+    <circle id ="outercircle" cx="10" cy="10" r="10" stroke="black" fill="white" stroke-width="1"/>
+  <text id="text" font-size="12" x="10" y="24" stroke="black" oryx:anchors="bottom" oryx:align="top center"/>
+  </g>
+</svg>

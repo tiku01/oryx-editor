@@ -1,0 +1,864 @@
+{
+	"title":"UML State Machine",
+	"namespace":"http://b3mn.org/stencilset/umlstate#",
+	"description":"UML State Machine",
+	"description_de":"UML Zustandsdiagramm",
+	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"title_de" :"Diagramm",
+			"groups":[],
+			"description":"A UML State Diagram",
+			"description_de":"UML Zustandsdiagram",
+			"view":"diagram.svg",
+			"icon":"diagram.png",
+			"roles": [],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"initialState",
+			"title":"Initial State",
+			"title_de":"Startzustand",
+			"groups":["State"],
+			"groups_de":["Zustand"],
+			"description":"A state at which flow of control starts.",
+			"description_de":"Startzustand bei dem der Kontrollfluss anfängt.",
+			"view":"node.initialState.svg",
+			"icon":"node.initialState.png",
+			"roles": [
+				"diagramcontent",
+				"initialState"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"state",
+			"title":"State",
+			"title_de" :"Zustand",
+			"groups":["State"],
+			"groups_de":["Zustand"],
+			"description":"Fundamental unit of behavior specification, in which a specifical condition (invariant) holds true.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, während der eine spezielle Invariante gilt.",
+			"view":"node.state.svg",
+			"icon":"node.state.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"stateWithActions",
+			"title":"State with actions",
+			"title_de" :"Zustand mit Aktionen",
+			"groups":["State"],
+			"groups_de":["Zustand"],
+			"description":"Fundamental unit of behavior specification, in which a specifical condition (invariant) holds true. It has optional entry, do and exit actions.",
+			"description_de":"Grundlegende Einheit zur Spezifikation von Verhalten, während der eine spezielle Invariante gilt. Es hat optional entry, do und exit Aktionen.",
+			"view":"node.stateWithActions.svg",
+			"icon":"node.state.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+					"id":"actions",
+					"type":"String",
+					"title":"Actions",
+					"title_de":"Aktionen",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"actions",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			],
+			"layout" : [{"type" : "layout.uml.stateWithActions"}]
+		},
+		{
+			"type": "node",
+			"id":"action",
+			"title":"Action",
+			"title_de" :"Aktion",
+			"groups":["Events and Actions"],
+			"groups_de":["Ereignisse und Aktionen"],
+			"description":"An elementary action to be performed.",
+			"description_de":"Eine grundlegende Aktion, die ausgeführt wird.",
+			"view":"node.action.svg",
+			"icon":"node.action.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"compositeState",
+			"title":"Composite State",
+			"title_de" :"zusammengesetzter Zustand",
+			"groups":["Composite States"],
+			"groups_de":["Zusammengesetzte Zustände"],
+			"description":"A state which itself contains other states.",
+			"description_de":"Ein Zustand, der aus mehreren anderen Zuständen zusammengesetzt ist.",
+			"view":"node.compositeState.svg",
+			"icon":"node.compositeState.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"stateMorph"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"actionrect",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"seperator",
+			"title":"Seperator",
+			"title_de":"Seperator",
+			"groups":["Composite States"],
+			"groups_de":["Zusammengesetzte Zustände"],
+			"description":"A seperator to divide a composite state into areas which shall be executed in parallel.",
+			"description_de":"Ein Seperator um einen zusammengesetzten Zustand in Hebiete zu unterteilen, die parallel ausgeführt werden sollen.",
+			"view":"node.seperator.svg",
+			"icon":"node.seperator.png",
+			"roles": [
+				"seperator"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.state.seperator"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"acceptEvent",
+			"title":"Accept Event",
+			"title_de":"Akzeptierendes Ereignis",
+			"groups":["Events and Actions"],
+			"groups_de":["Ereignisse und Aktionen"],
+			"description":"An action that waits for the occurrence of an event meeting specified condition",
+			"description_de":"Eine Aktion, die auf Eintreten eines vorher spezifizierten Ereignisses wartet",
+			"view":"node.event.incoming.svg",
+			"icon":"node.event.incoming.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"eventMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"sendEvent",
+			"title":"Send Event",
+			"title_de":"Sendendes Ereignis",
+			"groups":["Events and Actions"],
+			"groups_de":["Ereignisse und Aktionen"],
+			"description":"An action that creates a signal instance which is transmitted to a target object",
+			"description_de":"Aktion, die ein Signal erzeugt und zum Zielobjekt sendet",
+			"view":"node.event.outgoing.svg",
+			"icon":"node.event.outgoing.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"eventMorph"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"choice",
+			"title":"Decision/Merge",
+			"title_de":"Entscheidung/Kreuzung",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"Control node that chooses between outgoing flows / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
+			"view":"node.choice.svg",
+			"icon":"node.choice.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"junctionNode"
+			],
+			"properties": [
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"junction",
+			"title":"static Decision/Merge",
+			"title_de":"statische Entscheidung/Kreuzung",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"Control node that chooses between outgoing flows, decision is made when elaving the last state / Control node that brings together multiple alternate flows",
+			"description_de":"Kontrollknoten, der einen Ablauf aus verschiedenen ausgehenden auswählt, die Entscheidung wird beim Verlassen des letzten Zustandes getroffen / Kontrollknoten, der mehrere alternative Abläufe zusammenführt",			
+			"view":"node.junction.svg",
+			"icon":"node.junction.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"junctionNode"
+			],
+			"properties": [
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"border",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"shallowHistory",
+			"title":"Shallow History",
+			"title_de" :"Flache Historie",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"Entry through shallow history.",
+			"description_de":"Eintritt durch flache Historie",
+			"view":"node.shallowHistory.svg",
+			"icon":"node.shallowHistory.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"historyNode"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"deepHistory",
+			"title":"Deep History",
+			"title_de" :"Tiefe Historie",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"Entry through deep history.",
+			"description_de":"Eintritt durch tiefe Historie",
+			"view":"node.deepHistory.svg",
+			"icon":"node.deepHistory.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlowElement",
+				"historyNode"
+				],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+					"title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"entryPoint",
+			"title":"Entry Point",
+			"title_de":"Eintrittspunkt",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"An entry point for a state",
+			"description_de":"Ein Eintrittspunkt für einen Zustand.",
+			"view":"node.entryPoint.svg",
+			"icon":"node.entryPoint.png",
+			"roles": [
+				"boundaryPoint",
+				"controlFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"exitPoint",
+			"title":"Exit Point",
+			"title_de":"Austrittspunkt",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"An exit point for a state",
+			"description_de":"Ein Austrittspunkt für einen Zustand.",
+			"view":"node.exitPoint.svg",
+			"icon":"node.exitPoint.png",
+			"roles": [
+				"boundaryPoint",
+				"controlFlowElement"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"title_ru":"Имя",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"finalState",
+			"title":"Final State",
+			"title_de":"Endzustand",
+			"groups":["State"],
+			"groups_de":["Zustand"],
+			"description":"A node that ends the control flow of a state machine diagram",
+			"description_de":"Enzustand, der den Kontrolfluss eines Zustandsdiagramms beendet",
+			"view":"node.finalState.svg",
+			"icon":"node.finalState.png",
+			"roles": [
+				"diagramcontent",
+				"finalNode"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                },
+                {
+                    "id":"color",
+                    "type":"Color",
+                    "title":"Color",
+                    "title_de":"Farbe",
+                    "value": "#ffffff",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"outercircle",
+                    "fill":true,
+                    "stroke":false
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"terminator",
+			"title":"Terminator",
+			"title_de":"Terminator",
+			"groups":["Pseudostate"],
+			"groups_de":["Pseudozustand"],
+			"description":"A final node that stops all flows in a state diagram",
+			"description_de":"Enzustand, der alle Abläufe in einem Zustandsdiagramm beendet",
+			"view":"node.terminator.svg",
+			"icon":"node.terminator.png",
+			"roles": [
+				"diagramcontent",
+				"finalNode"
+			],
+			"properties": [
+			    
+                
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"controlFlow",
+			"title":"Control Flow",
+			"title_de":"Kontrollfluss",
+			"groups":["State"],
+			"groups_de":["Zustand"],
+			"description":"Connects states and events",
+			"description":"Verbindet Aktionen, Aktivitäten und Ereignisse",
+			"view":"edge.controlFlow.svg",
+			"icon":"edge.controlFlow.png",
+			"roles": [
+				"diagramcontent",
+				"controlFlow"
+			],
+			"properties":[
+			    {
+					"id":"transition",
+					"type":"String",
+					"title":"Transition",
+					"title_de":"Übergang",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"condition",
+					"length":"",
+					"wrapLines":true
+                }
+			],
+			"layout" : [{"type" : "layout.uml.controlFlow"}]
+		}
+	],	
+	"rules": {
+	    
+	    "morphingRules": [
+	    	{
+			   	"role":"stateMorph",
+				"baseMorphs" : ["state", "stateWithActions", "Action"] 
+			},
+			{
+			   	"role":"eventMorph",
+				"baseMorphs" : ["sendEvent", "acceptEvent"] 
+			},
+			{
+			   	"role":"initialNode",
+				"baseMorphs" : ["initialState"] 
+			},
+			{
+			   	"role":"finalNode",
+				"baseMorphs" : ["finalState", "terminator"] 
+			},
+			{
+			    "role":"historyNode",
+			    "baseMorphs" : ["shallowHistory", "deepHistory"]
+			},
+			{
+			    "role":"junctionNode",
+			    "baseMorphs" : ["choice", "junction"] 
+			}
+		],
+	    
+		"connectionRules": [
+			{
+                "role":"controlFlow",
+                "connects": [
+                    {
+                        "from":"controlFlowElement",
+                        "to":["controlFlowElement","finalNode", "boundaryPoint"]
+                    },
+                    {
+                        "from":"initialState",
+                        "to":["controlFlowElement", "boundaryPoint"]
+                    },
+                    {
+                        "from":"boundaryPoint",
+                        "to":["controlFlowElement", "finalNode"]
+                    }
+                ]
+            },
+            {
+				"role":"boundaryPoint",
+				"connects": [
+					{
+						"from":"stateMorph",
+						"to":["boundaryPoint"]
+					}
+				]
+			}
+		],
+		
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+			    "role":"compositeState",
+			    "contains": [
+			    "controlFlowElement",
+			    "initialState",
+			    "finalNode",
+			    "controlFlow",
+			    "seperator"
+			    ]
+			}	
+		]
+	}
+}
