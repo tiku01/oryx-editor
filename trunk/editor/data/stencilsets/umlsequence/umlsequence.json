@@ -1,0 +1,891 @@
+{
+	"title":"UML Sequence Diagram",
+	"namespace":"http://b3mn.org/stencilset/umlsequence#",
+	"description":"UML Sequence Diagram",
+	"description_de":"UML Sequenzdiagramm",
+	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"title_de" :"Diagramm",
+			"groups":[],
+			"description":"A UML Sequence Diagram",
+			"description_de":"UML Sequenzdiagram",
+			"view":"diagram.svg",
+			"icon":"diagram.png",
+			"roles": [],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"type": "node",
+			"id":"frame",
+			"title":"Frame",
+			"title_de":"Rahmen",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"A frame for a whole diagram.",
+			"description_de":"Ein Rahmen für das gesamte Diagramme.",
+			"view":"node.frame.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"frame"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"humanActor",
+			"title":"Human Actor",
+			"title_de":"menschlicher Teilnehmer",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"A human participant of a sequence diagram.",
+			"description_de":"Ein menschlicher Teilnehmer eines Sequenzdiagramms.",
+			"view":"node.humanActor.svg",
+			"icon":"node.humanActor.png",
+			"roles": [
+				"diagramcontent",
+				"actor",
+				"lifeline"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"actor",
+			"title":"Actor",
+			"title_de":"Teilnehmer",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"An object participating in the communication.",
+			"description_de":"Ein Objekt, das an der Kommunikation teilnimmt.",
+			"view":"node.actor.svg",
+			"icon":"node.actor.png",
+			"roles": [
+				"diagramcontent",
+				"actor",
+				"lifeline"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"active",
+			"title":"Active Line",
+			"title_de":"Ausfuehrungsbalken",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Shows that a participant is active.",
+			"description_de":"Zeigt, dass ein Teilnehmer aktiv ist.",
+			"view":"node.activeline.svg",
+			"icon":"node.activeline.png",
+			"roles": [
+				"onLifeline",
+				"activeLine"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.onLifeline"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"stateInvariant",
+			"title":"State Invariant",
+			"title_de":"Zustandsinvariante",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Notes an invariant which holds true for that actor.",
+			"description_de":"Eine Invariante die für diesen Teilnehmer gilt.",
+			"view":"node.stateInvariant.svg",
+			"icon":"node.stateInvariant.png",
+			"roles": [
+				"onLifeline"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.onLifeline"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"action",
+			"title":"Action",
+			"title_de":"Aktion",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Notes an action which is done by an actor.",
+			"description_de":"Kennzeichnet eine Aktion, die von einem Teilnehmer ausgeführt wird.",
+			"view":"node.action.svg",
+			"icon":"node.action.png",
+			"roles": [
+				"onLifeline"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.onLifeline"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"lostMessage",
+			"title":"Lost Message",
+			"title_de":"Verlorene Nachricht",
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
+			"description":"A message that goes somewhere unspecified.",
+			"description_de":"Eine Nachricht deren Ziel nicht genauer spezifiziert ist.",
+			"view":"node.lostOrFoundMessage.svg",
+			"icon":"node.lostOrFoundMessage.png",
+			"roles": [
+				"diagramcontent",
+				"lost"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"foundMessage",
+			"title":"Found Message",
+			"title_de":"Gefundene Nachricht",
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
+			"description":"A message that comes from an unspecified source.",
+			"description_de":"Eine Nachricht die von einer nicht genauer spezifizierten Quelle kommt.",
+			"view":"node.lostOrFoundMessage.svg",
+			"icon":"node.lostOrFoundMessage.png",
+			"roles": [
+				"diagramcontent",
+				"found"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentOpt",
+			"title":"Option",
+			"title_de":"Option",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The sequenceflow within this Combined Fragment is optional.",
+			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist optional.",
+			"view":"node.combinedFragmentOpt.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentBreak",
+			"title":"Break",
+			"title_de":"Unterbrechung",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The sequenceflow within this Combined Fragment interrupts the sequenceflow of the frame it is contained in and is executed if the guardcondition becomes true.",
+			"description_de":"Der Sequenzfluss innerhalb des des kombinierten Fragments ist unterbricht den Dequenzfluss des umliegenden Fragments udn wird anstatt dessen ausgeführt wenn die Guardcondition wahr wird.",
+			"view":"node.combinedFragmentBreak.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentSeq",
+			"title":"weak sequence",
+			"title_de":"schwache Sequenz",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The sending of messages inside this combined fragment may happen in any order.",
+			"description_de":"Die Nachrichten in diesem kombinierten Fragment können in einer beliebigen Reihenfolge verschickt werden.",
+			"view":"node.combinedFragmentSeq.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentStrict",
+			"title":"strict sequence",
+			"title_de":"strikte Sequenz",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The messages within this combined fragment must be send exactly in the modeled order.",
+			"description_de":"Die Nachrichten innerhalb dieses kombinierten Fragments müssen genau in der modellierten Reihenfolge gesendet werden.",
+			"view":"node.combinedFragmentStrict.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentNeg",
+			"title":"Negative",
+			"title_de":"Negation",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"Marks an invalid messageordering.",
+			"description_de":"Kennzeichnet eine invalide Nachrichtenreihenfolge",
+			"view":"node.combinedFragmentNeg.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentCritical",
+			"title":"Critical",
+			"title_de":"Kritisch",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The message flow within this combined fragment may not be interrupted.",
+			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments darf nicht unterbrochen werden.",
+			"view":"node.combinedFragmentCritical.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentAssert",
+			"title":"Assert",
+			"title_de":"Sicherstellung",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"It has to be assertet that the message flow within this combined fragment happens.",
+			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments muss statt finden damit es einen validen Sequenzfluss ergibt.",
+			"view":"node.combinedFragmentAssert.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentLoop",
+			"title":"Loop",
+			"title_de":"Schleife",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"The message flow within this combined fragment is repeated as long as the guard condition holds true.",
+			"description_de":"Die Nachrichtenfluss innerhalb dieses kombinierten Fragments wird so lange wiederholt wie die guardcondition wahr ist.",
+			"view":"node.combinedFragmentLoop.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentAlt",
+			"title":"Alternative",
+			"title_de":"Alternative",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"This combined fragment represents an alternative similiar to if then else.",
+			"description_de":"Dieses Fragment stellt eine Alternative dar, die sehr an Konstrukte wie if then else erinnert.",
+			"view":"node.combinedFragmentAlt.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"combinedFragmentRef",
+			"title":"Reference",
+			"title_de":"Referenz",
+			"groups":["Combined Fragments"],
+			"groups_de":["Kombinierte Fragmente"],
+			"description":"This combined fragment represents a reference to another sequence diagram.",
+			"description_de":"Dieses Fragment stellt eine Referenz auf ein anderes Sequenzdiagramm dar.",
+			"view":"node.combinedFragmentRef.svg",
+			"icon":"frame.png",
+			"roles": [
+				"diagramcontent",
+				"combinedFragment"
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.combinedFragment"
+				}
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "node",
+			"id":"terminator",
+			"title":"Terminator",
+			"title_de":"Terminator",
+			"groups":["Actors"],
+			"groups_de":["Teilnehmer"],
+			"description":"Ends the lifeline of an actor so it can never again participate in the communication.",
+			"description_de":"Beendet die Lebenslinie eines Teilnehmers, so dass er niemals wieder an der Kommunikation teilnehmen kann.",
+			"view":"node.terminator.svg",
+			"icon":"node.terminator.png",
+			"roles": [
+				"terminator"
+			],
+			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"title_de":"Name",					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+                }
+			],
+			"layout" : [
+				{
+					"type" 	: "layout.uml.sequence.terminator"
+				}
+			],
+		},
+		{
+			"type": "edge",
+			"id":"asynchronousMessage",
+			"title":"asynchronous Message",
+			"title_de":"asynchrone Nachricht",
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
+			"description":"A message, that doesn't wait for an answer.",
+			"description":"Eine Nachricht, die nicht auf eine Antwort wartet.",
+			"view":"edge.asynchronousMessage.svg",
+			"icon":"edge.asynchronousMessage.png",
+			"roles": [
+				"diagramcontent",
+				"message"
+			],
+			"properties":[
+			    {
+					"id":"message",
+					"type":"String",
+					"title":"Message",
+					"title_de":"Nachricht",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"message",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"synchronousMessage",
+			"title":"synchronous Message",
+			"title_de":"synchrone Nachricht",
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
+			"description":"A message, that waits for an answer.",
+			"description":"Eine Nachricht, die auf eine Antwort wartet.",
+			"view":"edge.synchronousMessage.svg",
+			"icon":"edge.synchronousMessage.png",
+			"roles": [
+				"diagramcontent",
+				"message"
+			],
+			"properties":[
+			    {
+					"id":"message",
+					"type":"String",
+					"title":"Message",
+					"title_de":"Nachricht",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"message",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		},
+		{
+			"type": "edge",
+			"id":"synchronousAnswer",
+			"title":"synchronous Answer",
+			"title_de":"synchrone Antwort",
+			"groups":["Messages"],
+			"groups_de":["Nachrichten"],
+			"description":"The answer to a synchronoues message.",
+			"description":"Die Antwort zu einer synchronen Nachricht.",
+			"view":"edge.synchronousAnswer.svg",
+			"icon":"edge.synchronousAnswer.png",
+			"roles": [
+				"diagramcontent",
+				"message",
+				"create"
+			],
+			"properties":[
+			    {
+					"id":"message",
+					"type":"String",
+					"title":"Message",
+					"title_de":"Nachricht",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"message",
+					"length":"",
+					"wrapLines":true
+                }
+			]
+		}
+	],	
+	"rules": {
+	    
+	    "morphingRules": [
+	    	{
+			   	"role":"activeLine",
+				"baseMorphs" : ["active"] 
+			},
+			{
+			   	"role":"message",
+				"baseMorphs" : ["synchronousMessage", "asynchronousMessage", "synchronousAnswer"] 
+			},
+			{
+			   	"role":"container",
+				"baseMorphs" : ["lifeline"] 
+			},
+			{
+			   	"role":"combinedFragment",
+				"baseMorphs" : [
+					"combinedFragmentAlt", 
+					"combinedFragmentLoop", 
+					"combinedFragmentCritical", 
+					"combinedFragmentAssert", 
+					"combinedFragmentOpt", 
+					"combinedFragmentSeq",
+					"combinedFragmentBreak",
+					"combinedFragmentNeg",
+					"combinedFragmentStrict"
+				] 
+			}			
+		],
+	    
+		"connectionRules": [
+			{
+                "role":"create",
+                "connects": [
+					{
+					"from":"activeLine",
+					"to":["actor"]
+					}
+				]
+			},
+			{
+                "role":"message",
+                "connects": [
+                    {
+                        "from":"activeLine",
+                        "to":["activeLine"]
+                    },
+					{
+            			"from":"found",
+            			"to":["activeLine"]
+            		},
+            		{
+            			"from":"activeLine",
+            			"to":["lost"]
+            		}
+                ]
+            },
+            {
+                "role":"activeLine",
+                "connects": [
+                    {
+                        "from":"activeLine",
+                        "to":["activeLine"]
+                    }
+                ]
+            },
+            {
+            	"role":"lifeline",
+            	"connects": [
+            		{
+            			"from":"actor",
+            			"to":["lifeline"]
+            		}
+            	]
+            }
+		],
+		
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"diagramcontent"
+				]
+			},
+			{
+				"role":"lifeline",
+				"contains": [
+					"onLifeline",
+					"terminator"
+				]
+			},
+			{
+				"role":"frame",
+				"contains": [
+					"diagramcontent"
+				]
+			}
+		]
+	}
+}

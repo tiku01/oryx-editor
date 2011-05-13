@@ -174,5 +174,11 @@
 	 	<stencilsetextension namespace="http://oryx-editor.org/stencilsets/extensions/petrinettimeandpropability#"/>
 	 	<plugin name="ORYX.Plugins.ProcessLogGenerator"/> 
 	</profile>
+	<profile name="umlstate" depends="default" stencilset="stencilsets/umlstate/umlstate.json">
+		<plugin name="ORYX.Plugins.UMLState"/>
+	</profile>
+	<profile name="umlsequence" depends="default" stencilset="stencilsets/umlsequence/umlsequence.json">
+			<plugin name="ORYX.Plugins.UMLSequence"/>
+	</profile>
 	
 </profiles>
