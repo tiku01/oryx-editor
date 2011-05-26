@@ -21,15 +21,18 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
+
 Repository = function(){
 	
 	Repository.superclass.constructor.call(this, "repository");
 	
-	this.user =				"getopenid.com/helen88";
+	//TODO: Get correct user ID
+//	this.user =				"getopenid.com/helen88";
 	this.publicModels =		false;
 	this.filteredModels = 	new Array();
-	this.currentSort =		(this.user == "public") ? "rating" : "lastChange";
-	this.currentSortDir =	null;
+//	this.currentSort =		(this.user == "public") ? "rating" : "lastChange";
+	this.currentSort =		"lastChange";
+	this.currentSortDir =	"dsc";
 	this.busyHandler = 		{ start: new EventHandler(), end: new EventHandler() };
 	this.table =			null;
 	
@@ -57,8 +60,8 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 		
 		var publicButton = new YAHOO.widget.Button({ label:"public", value:"public", type: "radio"});
 		var userButton = new YAHOO.widget.Button({ label:"user", value:"user", type:"radio", checked : true});
-		publicButton.on("click", this.filterModels.bind(this));
-		userButton.on("click", this.filterModels.bind(this));
+		publicButton.on("click", this.filterPublicModels.bind(this));
+		userButton.on("click", this.filterPrivateModels.bind(this));
 		
 		buttonGroup.addButton(publicButton);
 		buttonGroup.addButton(userButton);
@@ -66,11 +69,22 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 		layout.render();
 		this.filterModels();
 	},
+
+	filterPublicModels : function() {
+		this.publicModels = true;
+		this.filterModels();
+	},
+	
+	filterPrivateModels : function() {
+		this.publicModels = false;
+		this.filterModels();
+	},
 	
 	filterModels: function(){
 		
 		this.initTable();
 		
+		/*
 		var params = ( this.user == "public" || this.publicModels ) 
 							? new Hash() : new Hash({access:'owner,read,write',
 														sort: this.currentSort});
@@ -80,18 +94,26 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			{ this.publicModels = false; }
 		else 
 			{ this.publicModels = true; }
+		*/
+		var params = (this.publicModels ) 
+							? new Hash({access:'public,read,write', sort: this.currentSort}) : 
+							new Hash({access:'owner,read,write', sort: this.currentSort});
 		
 		this.doRequest(
 			"/backend/poem/filter", 
 			function(transport) {
-				this.filteredModels = eval(transport.responseText);
+				var modelsInResponse = eval(transport.responseText);
+				for (var i = 0; i < modelsInResponse.length; i++){
+					if (this.filteredModels.indexOf(modelsInResponse[i]) === -1)
+						this.filteredModels.push(modelsInResponse[i]);
+				}
 				if( this.currentSortDir == "asc")
-					this.filteredModels.reverse();								
+					this.filteredModels.reverse();
 				this.displayModels();
 			}.bind(this), 
 			params, 
 			'get', 
-			false 
+			true 
 		)
 		
 	},
@@ -122,29 +144,16 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			params = null;
 		}				
 
-		if( !asynchronous ){
-			new Ajax.Request(url, 
-				 {
-					method			: "get",
-					asynchronous 	: false,
-					onSuccess		: callback,
-					onFailure		: function(){
-						alert('Server communication failed!')
-					},
-					parameters 		: params
-				});
-		} else {
-			// Send request	
-			new Ajax.Request({				    
-					url		: url,
-				    method	: method,
-				    params	: params,
-				    success	: callback,
-					failure	: function(){
-						alert('Server communication failed!')
-					}
-				});			
-		}
+		new Ajax.Request(url, 
+			 {
+				method			: method,
+				asynchronous 	: asynchronous,
+				onSuccess		: callback,
+				onFailure		: function(){
+					alert('Server communication failed!')
+				},
+				parameters 		: params
+			});
 	},
 	
 	displayModels: function(){
@@ -155,13 +164,13 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
 			new Ajax.Request(requestUrl, 
 					 {
 						method			: "get",
-						asynchronous 	: false,
+						asynchronous 	: true,
 						onSuccess		: function(response){
 							var metaData = response.responseText.evalJSON();
 							var row = {	farm : 			metaData.thumbnailUri, 
 										title : 		metaData.title, 
 										last_modified : metaData.lastUpdate, 
-										url : 			this.filteredModels[i], 
+										url : 			metaData.thumbnailUri.substring(metaData.thumbnailUri.indexOf("model") - 1, metaData.thumbnailUri.indexOf("thumbnail") - 1),
 										author : 		metaData.author };
 							this.table.addRow(row);
 						}.bind(this),
@@ -229,7 +238,7 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
         var columnDefs = [
             {key:"farm", label:"", formatter: expansionFormatter}, 
             {key:"title", label:"Title", width:90, resizeable:true, sortable:true},
-			{key:"last_modified", label:"last modiefied", width:150, resizeable:true, sortable:true},
+			{key:"last_modified", label:"last modified", width:150, resizeable:true, sortable:true},
             {key:"url", label:"URL", width:60, resizeable:true, sortable:true, formatter: formatUrl, 
                     sortOptions:{sortFunction:sortTitles}}
         ];
@@ -248,9 +257,9 @@ YAHOO.lang.extend( Repository, AbstractGadget, {
             sortedBy :			{key:"title",dir:"asc"},
             // 3 rows per page, can be changed to 6 or 9
             paginator: 			new YAHOO.widget.Paginator({
-		                			rowsPerPage : 			3,
+		                			rowsPerPage : 			5,
 		                			template : 				YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-		                			rowsPerPageOptions	: 	[3,6,9],
+		                			rowsPerPageOptions	: 	[5,10,20],
 		                			pageLinks : 			3 }),
             draggableColumns :	false
         };

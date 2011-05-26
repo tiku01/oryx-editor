@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:oryx="http://www.b3mn.org/oryx"
+	version="1.0" >
+	<g
+     	oryx:minimumSize="100 10"
+     	id="seperator">
+      <rect id="border" 
+        oryx:resize="vertical horizontal" 
+        x="0" y="0" 
+        width="400" height="12" 
+        fill="none" 
+        stroke-width="4" 
+        visibility="hidden" />
+      <path id="line" 
+      d="M0,6 L400,6" 
+      stroke="black" 
+      fill="none" 
+      stroke-width="4" 
+      stroke-dasharray="5, 3" 
+      oryx:resize="vertical horizontal"/>
+	</g>
+</svg>

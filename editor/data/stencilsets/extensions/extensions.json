@@ -8,6 +8,13 @@
 			"extends":"http://b3mn.org/stencilset/petrinet#"
 		},
 		{
+			"title":"Petrinet Time and Propability Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/petrinettimeandpropability#",
+			"description":"Petrinet extension for adding an execution time and propability to transitions",
+			"definition":"petrinettimeandpropability/petrinettimeandpropability.json",
+			"extends":"http://b3mn.org/stencilset/petrinet#"
+		},
+		{
 			"title":"BPMN Cost Extension",
 			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmncosts#",
 			"description":"BPMN 1.1 extension for adding a cost attribute to activities",
@@ -36,11 +43,11 @@
 			"extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
 		{
-		"title":"BPMN 2.0 Compliance Template Extension",
-		"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnComplianceTemplate#",
-		"description":"Extension to BPMN 2.0 to work with compliance templates.",
-		"definition":"bpmn2.0complianceTemplate/bpmn2.0complianceTemplate.json",
-		"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+			"title":"BPMN 2.0 Compliance Template Extension",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnComplianceTemplate#",
+			"description":"Extension to BPMN 2.0 to work with compliance templates.",
+			"definition":"bpmn2.0complianceTemplate/bpmn2.0complianceTemplate.json",
+			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		},
 
 		{

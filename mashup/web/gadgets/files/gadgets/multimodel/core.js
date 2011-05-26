@@ -22,8 +22,8 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-GADGET_DIR = "/gadgets/files/gadgets/core/"
-MULTIMODEL_DIR = "/gadgets/files/gadgets/multimodel/"
+GADGET_DIR = "/mashup/gadgets/files/gadgets/core/"
+MULTIMODEL_DIR = "/mashup/gadgets/files/gadgets/multimodel/"
 	
 var multimodel = null;
 	

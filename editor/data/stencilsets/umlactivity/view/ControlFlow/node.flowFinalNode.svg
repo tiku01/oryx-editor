@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   	xmlns="http://www.w3.org/2000/svg"
+   	xmlns:oryx="http://www.b3mn.org/oryx"
+   	version="1.0">
+  	<g
+     	oryx:minimumSize="20 20"
+     	id="umlflowfinalnode">
+    	<circle
+    		id="outercircle"
+       		cx="10"
+       		cy="10"
+       		r="10"
+       		stroke="black"
+	   		stroke-width="2"
+	   		fill="white"/>
+      	<line 
+      		x1="3" 
+      		y1="3" 
+      		x2="17" 
+      		y2="17" 
+      		stroke-width="2" 
+      		stroke="black"/>
+      	<line 
+      		x1="3" 
+      		y1="17" 
+      		x2="17" 
+      		y2="3" 
+      		stroke-width="2" 
+      		stroke="black"/>
+      	<text
+			id="text" 
+			font-size="12" 
+			x="10"
+			y="24" 
+			stroke="black"
+			oryx:anchors="bottom"
+			oryx:align="top center">
+		</text>
+  	</g>
+</svg>

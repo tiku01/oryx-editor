@@ -103,7 +103,35 @@
             "uri":"/uml2.2/uml2.2.json",
             "icon_url":"/uml2.2/uml2.2class.png",
             "visible":true
+
         },
+        {
+            "title":"UML Use Case Diagram",
+            "namespace":"http://b3mn.org/stencilset/umlusecase#",
+            "description":"UML 2.2 Use Case Diagrams",
+            "uri":"/umlusecase/umlusecase.json",
+            "icon_url":"/umlusecase/umlusecase.png",
+            "visible":true
+        },
+        
+        {
+            "title":"UML Activity Diagram",
+            "namespace":"http://b3mn.org/stencilset/umlactivity#",
+            "description":"UML 2.2 Use Case Diagrams",
+            "uri":"/umlactivity/umlactivity.json",
+            "icon_url":"/umlactivity/umlactivity.png",
+            "visible":true
+        },
+
+        {
+	            "title":"BPMNQ-Variants",
+	            "namespace":"http://b3mn.org/stencilset/bpmnqvar#",
+	            "description":"BPMN-Q Variants",
+	            "uri":"/bpmnqvar/bpmnqvar.json",
+	            "icon_url":"/bpmnqvar/bpmnqvar.png",
+	            "visible":true
+        },
+
         {
 			"title":"Time Line",
 			"namespace":"http://matthias-kunze.info/oryx/stencilsets/timeline#",
@@ -111,5 +139,24 @@
 			"uri":"/timeline/timeline.json",
 			"icon_url":"/timeline/timeline.png",
 			"visible":false
+		},
+		
+		{
+			"title":"UML State Machine",
+			"namespace":"http://b3mn.org/stencilset/umlstate#",
+			"description":"Stencil Set to create UML 2.2 state diagrams",
+			"uri":"/umlstate/umlstate.json",
+			"icon_url":"/umlstate/umlstate.png",
+			"visible":true
+		},
+		
+		{
+			"title":"UML Sequence Diagram",
+			"namespace":"http://b3mn.org/stencilset/umlsequence#",
+			"description":"Stencil Set to create UML 2.2 sequence diagrams",
+			"uri":"/umlsequence/umlsequence.json",
+			"icon_url":"/umlsequence/umlsequence.png",
+			"visible":true
 		}
+
 ]

@@ -1,16 +1,21 @@
 package de.hpi.petrinet;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.w3c.dom.Document;
 
+import de.hpi.PTnet.PTNet;
+import de.hpi.PTnet.PTNetFactory;
 import de.hpi.diagram.verification.SyntaxChecker;
 import de.hpi.petrinet.serialization.PetriNetPNMLExporter;
 import de.hpi.petrinet.serialization.XMLFileLoaderSaver;
@@ -47,6 +52,10 @@ public class PetriNet implements Cloneable {
 	protected List<Place> initialPlaces;
 
 	protected TransitiveClosure transitiveClosure;
+	protected Map<Node,Set<Node>> dominators;
+	protected Map<Node,Set<Node>> postdominators;
+
+	protected String id;
 	
 	public List<FlowRelationship> getFlowRelationships() {
 		if (flowRelationships == null)
@@ -64,6 +73,14 @@ public class PetriNet implements Cloneable {
 		if (transitions == null)
 			transitions = new ArrayList<Transition>();
 		return transitions;
+	}
+	
+	public List<Node> getLabeledTransitions() {
+		List<Node> result = new ArrayList<Node>();
+		for(Transition t : getTransitions())
+			if (t instanceof LabeledTransition)
+				result.add((LabeledTransition)t);
+		return result;
 	}
 
 	public List<Node> getNodes() {
@@ -269,6 +286,139 @@ public class PetriNet implements Cloneable {
 		return isWF;
 	}
 
+	public PTNet getSubnet(Collection<Node> nodes) {
+		PTNet net = PTNetFactory.eINSTANCE.createPetriNet();
+		
+		Map<Node,Node> nodeCopies = new HashMap<Node, Node>();
+
+		try {
+			for(Node n : nodes) {
+				if (nodes.contains(n)) {
+					if (n instanceof Place) {
+						Place c = (Place) ((Place) n).clone();
+						net.getPlaces().add(c);
+						nodeCopies.put(n, c);
+					}
+					else {
+						Transition c = (Transition) ((Transition) n).clone();
+						net.getTransitions().add(c);
+						nodeCopies.put(n, c);
+					}
+				}
+			}
+			for(FlowRelationship f : this.getFlowRelationships()) {
+				if (nodes.contains(f.getSource()) && nodes.contains(f.getTarget())) {
+					FlowRelationship c = new FlowRelationship();
+					c.setSource(nodeCopies.get(f.getSource()));
+					c.setTarget(nodeCopies.get(f.getTarget()));
+					net.getFlowRelationships().add(f);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return net;
+	}
+	
+	/**
+	 * Checks whether the net is an S-net.
+	 * 
+	 * @return true, if net is an S-net.
+	 */
+	public boolean isSNet() {
+		boolean result = true;
+		for (Transition t : this.getTransitions())
+			result &= (t.getIncomingFlowRelationships().size() == 1) && ((t.getOutgoingFlowRelationships().size() == 1));
+		return result;	
+	}
+	
+	/**
+	 * Checks whether the net is a T-net.
+	 * 
+	 * @return true, if net is a T-net.
+	 */
+	public boolean isTNet() {
+		boolean result = true;
+		for (Place p : this.getPlaces())
+			result &= (p.getIncomingFlowRelationships().size() == 1) && ((p.getOutgoingFlowRelationships().size() == 1));
+		return result;	
+	}
+
+	public Map<Node, Set<Node>> getDominators() {
+		if (this.dominators == null)
+			this.dominators = deriveDominators(false);
+		return this.dominators;
+	}
+	
+	public Map<Node, Set<Node>> getPostDominators() {
+		if (this.postdominators == null)
+			this.postdominators = deriveDominators(true);
+		return this.postdominators;
+	}
+	
+	protected Map<Node,Set<Node>> deriveDominators(boolean reverse) {
+
+		int initIndex = reverse ? this.getNodes().indexOf(this.getFinalPlace()) : this.getNodes().indexOf(this.getInitialPlace());
+		
+		int size = this.getNodes().size(); 
+		final BitSet[] dom = new BitSet[size];
+		final BitSet ALL = new BitSet(size);
+		
+		for (Node n : this.getNodes())
+			ALL.set(this.getNodes().indexOf(n));
+
+		for (Node n : this.getNodes()) {
+			int index = this.getNodes().indexOf(n);
+			BitSet curDoms = new BitSet(size);
+			dom[index] = curDoms;
+
+			if (index != initIndex) curDoms.or(ALL);
+			else curDoms.set(initIndex);
+		}
+		
+		boolean changed = true;
+	
+		/*
+		 * While we change the dom relation for a node
+		 */
+		while (changed) {
+			changed = false;
+			for (Node n : this.getNodes()) {
+				int index = this.getNodes().indexOf(n);
+				if (index == initIndex) continue;
+				 
+				final BitSet old = dom[index];
+				final BitSet curDoms = new BitSet(size);
+				curDoms.or(old);
+				
+				Collection<Node> predecessors = reverse ? n.getSucceedingNodes() : n.getPrecedingNodes();
+				for (Node p : predecessors) {
+					int index2 = this.getNodes().indexOf(p);
+					curDoms.and(dom[index2]);
+				}				
+				
+				curDoms.set(index);
+				
+				if (!curDoms.equals(old)) {
+					changed = true;
+					dom[index] = curDoms;
+				}
+			}
+		}
+		
+		Map<Node,Set<Node>> dominators = new HashMap<Node, Set<Node>>();
+		
+		for (Node n : this.getNodes()) {
+			int index = this.getNodes().indexOf(n);
+			dominators.put(n, new HashSet<Node>());
+			for (int i = 0; i < size; i++)
+				if (dom[index].get(i))
+					dominators.get(n).add(this.getNodes().get(i));
+		}
+		
+		return dominators;
+	}
 	
 	protected class MyFlowRelationshipList extends ArrayList<FlowRelationship> {
 		
@@ -343,6 +493,14 @@ public class PetriNet implements Cloneable {
 
 	public void setTransitiveClosure(TransitiveClosure transitiveClosure) {
 		this.transitiveClosure = transitiveClosure;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	

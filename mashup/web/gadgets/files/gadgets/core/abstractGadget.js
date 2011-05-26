@@ -33,7 +33,7 @@
 
 	AbstractGadget = function(type){
 		
-		this.GADGET_BASE = "/gadgets/files/gadgets/";
+		this.GADGET_BASE = "/mashup/gadgets/files/gadgets/";
 		this.SERVER_BASE = "http://localhost:8080";
 		this.REPOSITORY_BASE =	"/backend/poem" ;
 		this.index = null;
@@ -197,6 +197,17 @@
 		},
 		
 		/*
+		 * select shapes in the specified viewer
+		 *
+		 */
+		selectShapes : function(viewer, toSelect) {
+			toSelect = toSelect || "all";
+			
+			var channel = "dispatcher." + viewer + ".select";
+			gadgets.rpc.call(null, channel, function(){return;}, Object.toJSON(toSelect));
+		},
+		
+		/*
 		 * mark shapes in the specified viewer
 		 * shapes are specified by their resourceId
 		 * 
@@ -238,6 +249,17 @@
 			var channel = "dispatcher." + viewer + ".greyModel";
 			gadgets.rpc.call(null, channel, function(){return;}, "");
 			
+		},
+		
+		/*
+		 * add shadow to shapes 
+		 * either "all" or a list resourceIds
+		 */
+		doGrey : function(viewer, option) {
+			if (option != "all")
+					option = Object.toJSON(option);
+			var channel = "dispatcher." + viewer + ".doGrey";
+			gadgets.rpc.call(null, channel, function(){return;}, option);
 		},
 		
 		/*
