@@ -12,7 +12,7 @@
 		<script type="text/javascript">
 	        var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js',
 						'/oryx/lib/prototype-1.5.1.js',
-						'/gadgets/files/gadgets/repository/core.js'];
+						'/mashup/gadgets/files/gadgets/repository/core.js'];
 	
 	        for (var i = 0; i < externs.length; i++)
 	                document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));

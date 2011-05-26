@@ -62,7 +62,7 @@ Container.loadMenubar = function () {
 	// panel content
 	var content = '<form method="post">'+
 						'<br><label for="url" > enter URL: </label>' +
-						'<input type="text" id="input-url" name = "url" size = 45 value = "/gadgets/files/gadgets/tools/tool.xml">'+ 
+						'<input type="text" id="input-url" name = "url" size = 45 value = "/mashup/gadgets/files/gadgets/tools/tool.xml">'+ 
 						'</input> <br><br>'+
 					'</form>';
 	

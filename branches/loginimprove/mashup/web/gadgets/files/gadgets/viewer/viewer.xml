@@ -53,7 +53,7 @@
 		var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js', 
 					'/oryx/lib/prototype-1.5.1.js',
 					'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
-					'/gadgets/files/gadgets/viewer/core.js'];
+					'/mashup/gadgets/files/gadgets/viewer/core.js'];
 	
         for (var i = 0; i < externs.length; i++)
 			document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));

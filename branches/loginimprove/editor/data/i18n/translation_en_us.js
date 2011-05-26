@@ -464,6 +464,14 @@ ORYX.I18N.QueryEvaluator.desc = "Evaluate query";
 ORYX.I18N.QueryEvaluator.noResult = "Query resulted in no match.";
 ORYX.I18N.QueryEvaluator.invalidResponse = "Invalid answer from server.";
 
+if(!ORYX.I18N.QueryVariant) ORYX.I18N.QueryVariant = {};
+
+ORYX.I18N.QueryVariant.tooltip = "Evaluate Partial Process Model";
+ORYX.I18N.QueryVariant.name = "Query Variant Evaluator";
+ORYX.I18N.QueryVariant.group = "Verification";
+ORYX.I18N.QueryVariant.noResult = "Query resulted in no match.";
+ORYX.I18N.QueryVariant.invalidResponse = "Invalid answer from server.";
+
 // if(!ORYX.I18N.QueryResultHighlighter) ORYX.I18N.QueryResultHighlighter = {};
 // 
 // ORYX.I18N.QueryResultHighlighter.name = "Query Result Highlighter";
@@ -878,3 +886,37 @@ ORYX.I18N.WaveThis.group = "Export";
 ORYX.I18N.WaveThis.name = 'ProcessWave This!';
 ORYX.I18N.WaveThis.desc = 'Opens the model in the processWave editor';
 ORYX.I18N.WaveThis.failUnsaved ="Only saved models can be exported";
+
+if(!ORYX.I18N.ProcessLogGenerator) ORYX.I18N.ProcessLogGenerator = {};
+ORYX.I18N.ProcessLogGenerator.generate = "Generate Process Log";
+ORYX.I18N.ProcessLogGenerator.generateDescription = "Generates a Process Log in MXML-format from the currently active diagram and offers it for download.";
+ORYX.I18N.ProcessLogGenerator.waitText = "Please wait. The Process Log is being generated";
+ORYX.I18N.ProcessLogGenerator.failed = "Generating a log failed: ";
+ORYX.I18N.ProcessLogGenerator.shortWaitText = "Generating Process Log";
+ORYX.I18N.ProcessLogGenerator.dialogDescription = "Please specify some preferences for the Process Log";
+
+if(!ORYX.I18N.ProcessLogGenerator.completeness) ORYX.I18N.ProcessLogGenerator.completeness ={};
+ORYX.I18N.ProcessLogGenerator.completeness.None = "None";//"No completeness necessary";
+ORYX.I18N.ProcessLogGenerator.completeness.Trace = "Trace Completeness";//"Trace-Completeness Required";
+ORYX.I18N.ProcessLogGenerator.completeness.Ordering = "Ordering Completeness";//"Ordering-Completeness Required";
+ORYX.I18N.ProcessLogGenerator.degreeOfNoise = "Percentage of noise";
+ORYX.I18N.ProcessLogGenerator.respectPropabilities = "Respect probabilities of choices";
+ORYX.I18N.ProcessLogGenerator.preferencesWindowTitle = "Log Generating Preferences";
+ORYX.I18N.ProcessLogGenerator.generateButton = "Generate";
+ORYX.I18N.ProcessLogGenerator.cancelButton = "Cancel";
+ORYX.I18N.ProcessLogGenerator.completenessSelect = "Type of completeness";
+ORYX.I18N.ProcessLogGenerator.pleaseSelect = "Please select a type";
+ORYX.I18N.ProcessLogGenerator.numberOfTraces = "Desired number of traces in the log";
+
+/** New Language Properties from Visio Import by Lauritz Thamsen */
+if(!ORYX.I18N.VisioBPMNImport) ORYX.I18N.VisioImport = {};
+ORYX.I18N.VisioImport.BPMNName = "Import from Visio BPMN";
+ORYX.I18N.VisioImport.EPCName = "Import from Visio EPC";
+ORYX.I18N.VisioImport.Label = 'Visio Import';
+ORYX.I18N.VisioImport.UploadButton = 'Upload vdx';
+ORYX.I18N.VisioImport.PleaseSelect = "Please select the .vdx-file to be imported.";
+ORYX.I18N.VisioImport.ImportWait = "Please wait while your diagrams are being uploaded.";
+ORYX.I18N.VisioImport.ImportStart = "The import started successfully";
+ORYX.I18N.VisioImport.ImportDescription = "The vdx import is running. This might take a while."
+ORYX.I18N.VisioImport.ImportFailure = "Error while importing Visio diagram";
+ORYX.I18N.VisioImport.ImportFailureDescription = "Please ensure connection and that the visio stencil is supported. Currently only a few selected sample stencil sets are supported.";

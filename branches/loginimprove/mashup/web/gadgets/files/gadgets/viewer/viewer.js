@@ -98,6 +98,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		// remove selection
 		this.registerRPC("resetSelection", "", "", this.rpcHandler.resetSelection, this.rpcHandler);
 		
+		// select the shapes with the given resourceIds
+		this.registerRPC("select", "shapeResourceIds", "", this.rpcHandler.select, this.rpcHandler);
+		
 		// set selection mode (multi or single)
 		this.registerRPC("setSelectionMode", "mode", "", this.rpcHandler.setSelectionMode, this.rpcHandler);
 		
@@ -112,6 +115,9 @@ YAHOO.extend( Viewer, AbstractGadget, {
 		
 		// cover all shapes with a grey shadow
 		this.registerRPC("greyModel", "", "", this.rpcHandler.greyModel, this.rpcHandler);
+		
+		// cover specific shapes wit a grey shadow
+		this.registerRPC("doGrey", "", "", this.rpcHandler.doGrey, this.rpcHandler);
 		
 		// remove shadow from shapes (from all or just a subset)
 		this.registerRPC("undoGrey", "", "", this.rpcHandler.undoGrey, this.rpcHandler);

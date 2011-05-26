@@ -46,10 +46,15 @@ ORYX.Plugins.ContainerLayouter = {
 	 */
 	construct: function(facade){
 		this.facade = facade;
-		this.facade.registerOnEvent('layout.container.minBounds', 
-									this.handleLayoutContainerMinBounds.bind(this));
-		this.facade.registerOnEvent('layout.container.dockers', 
-									this.handleLayoutContainerDockers.bind(this));
+
+		// this does NOT work, because lanes and pools are loaded at start and initialized with a default size
+		// if the lane was saved and had a bigger size, the dockers/edges will be corrupted, because the first 
+		// positioning is handled as a resize event which triggers the layout with incorrect oldBounds!
+		
+		//this.facade.registerOnEvent('layout.container.minBounds', 
+		//							this.handleLayoutContainerMinBounds.bind(this));
+		//this.facade.registerOnEvent('layout.container.dockers', 
+		//							this.handleLayoutContainerDockers.bind(this));
 		
 		this.hashedContainers = new Hash();
 	},

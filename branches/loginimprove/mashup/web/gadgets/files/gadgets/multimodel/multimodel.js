@@ -96,7 +96,7 @@ YAHOO.lang.extend( MultiModel, AbstractGadget, {
 	 * 
 	 */
 	initTable: function(){
-		
+
 		var sortComments = function(a, b, desc) {
             // deal with empty values
             if(!YAHOO.lang.isValue(a)) {

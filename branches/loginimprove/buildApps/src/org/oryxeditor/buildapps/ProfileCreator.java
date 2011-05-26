@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -109,15 +109,14 @@ public class ProfileCreator {
 		/*
 		 * create a unique set of all plugin names
 		 */
-		HashSet<String> pluginNameSet = new HashSet<String>();
+		ArrayList<String> pluginNameSet = new ArrayList<String>();
 		pluginNameSet.addAll(pluginNames);
 		/*
 		 * create the output profile file and open a writer
 		 */
 		File profileFile = new File(outputPath + File.separator + profileName +"Uncompressed.js");
 		profileFile.createNewFile();
-		FileWriter writer = new FileWriter(profileFile);
-		
+		OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(profileFile),"UTF8");
 		for (String name : pluginNameSet) {
 			/*
 			 * lookup the javascript file path of each plugin
@@ -132,7 +131,8 @@ public class ProfileCreator {
 			/*
 			 * open the javascript file and append the whole plugin javascript to the profiles javascript file
 			 */
-			FileReader reader = new FileReader(pluginDirPath + File.separator + source);
+			InputStreamReader reader = new InputStreamReader(new FileInputStream(pluginDirPath + File.separator + source),"UTF8");
+
 			writer.append(FileCopyUtils.copyToString(reader));
 		}
 		writer.close();
@@ -141,8 +141,8 @@ public class ProfileCreator {
 		 * creqate a new file for the compressed version of the profile file
 		 */
 		File compressOut=new File(outputPath + File.separator + profileName +".js");
-		FileReader reader = new FileReader(profileFile);
-		FileWriter writer2 = new FileWriter(compressOut);
+		InputStreamReader reader = new InputStreamReader(new FileInputStream(profileFile),"UTF8");
+		OutputStreamWriter writer2 = new OutputStreamWriter(new FileOutputStream(compressOut),"UTF8");
 		/*
 		 * start YUI compression with the concatinated profile javascript file as input and the compress out file as output
 		 */
@@ -161,8 +161,8 @@ public class ProfileCreator {
 			writer2.close();
 			reader.close();
 			
-			FileWriter writer3 = new FileWriter(new File(outputPath + File.separator + profileName +".js"));
-			FileReader reader1 = new FileReader(profileFile);
+			OutputStreamWriter writer3 = new OutputStreamWriter(new FileOutputStream(outputPath + File.separator + profileName +".js"),"UTF8");
+			InputStreamReader reader1 = new InputStreamReader(new FileInputStream(profileFile),"UTF8");
 			FileCopyUtils.copy(reader1, writer3);
 			reader1.close();
 			writer3.close();
@@ -251,7 +251,7 @@ public class ProfileCreator {
 
 			}
 			//Print the JSON configuration file to the file system
-			FileCopyUtils.copy(config.toString(), new FileWriter(outputPath + File.separator+profileName+".conf"));
+			FileCopyUtils.copy(config.toString(), new OutputStreamWriter(new FileOutputStream(outputPath + File.separator+profileName+".conf"),"UTF8"));
 			// for each plugin in the copied plugin.xml
 			for (int i = 0; i < pluginNodeList.getLength(); i++) {
 				Node pluginNode = pluginNodeList.item(i);
