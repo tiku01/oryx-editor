@@ -5,17 +5,16 @@
 
 <web-app>
 	
-	<!-- not needed yet, no client-server interaction -->
 	<servlet>
 		<display-name>AbstractedBehaviouralProfile generation</display-name>
-		<servlet-name>ABPGenerator</servlet-name>
+		<servlet-name>ABPGeneratorProxy</servlet-name>
 		<servlet-class>
-			de.hpi.bpt.mashup.server.ABPGenerator
+			de.hpi.bpt.mashup.server.ABPGeneratorProxy
 		</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>ABPGenerator</servlet-name>
+		<servlet-name>ABPGeneratorProxy</servlet-name>
 		<url-pattern>/generate</url-pattern>
 	</servlet-mapping>
   
