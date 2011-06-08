@@ -2,9 +2,7 @@ package de.hpi.bpt.mashup.server;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.oryxeditor.server.diagram.Bounds;

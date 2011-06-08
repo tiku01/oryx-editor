@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.oryxeditor.server.diagram.Diagram;
 import org.oryxeditor.server.diagram.Shape;
 
-import de.bpt.hpi.pt.PetriNetUtils;
+import de.hpi.petrinet.PetriNetUtils;
 import de.hpi.PTnet.PTNet;
 import de.hpi.PTnet.PTNetFactory;
 import de.hpi.petrinet.FlowRelationship;
