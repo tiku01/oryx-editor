@@ -213,6 +213,8 @@
 			</concat>
 	        <java dir="${editor-build-root}/tempProfiles/" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
 	         failonerror="true" output='${editor-build-root}/tempProfiles/oryx.core.js' logError="true">
+	        	<!--explicitly use utf-8 http://developer.yahoo.com/yui/compressor/-->
+	        	<arg line='--charset utf-8' /> 
 	            <arg file='${editor-build-root}/tempProfiles/oryx.core.uncompressed.js'/>
 	        </java>
 			<move todir='${editor-build-root}/profiles'>
@@ -238,6 +240,8 @@
 	 	<property name="file"/>
 		<java dir="${editor-build-root}" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
  			failonerror="true" output='${editor-build-root}/profiles'>
+        	<!--explicitly use utf-8 http://developer.yahoo.com/yui/compressor/-->
+			<arg line='--charset utf-8' /> 
     		<arg file='${editor-build-root}/tempProfiles/${file}'/>
 		</java>
 	 </target>
@@ -407,6 +411,8 @@
         
         <java dir="${editor-build-root}" jar="${editor-src-root}/lib/yuicompressor-2.4.2.jar" fork="true"
          failonerror="true" output='${compress.temp}' logError="true">
+        	<!--explicitly use utf-8 http://developer.yahoo.com/yui/compressor/-->
+        	<arg line='--charset utf-8' /> 
             <arg file='${editor-build-root}/oryx.debug.js'/>
         </java>
         <echo>
