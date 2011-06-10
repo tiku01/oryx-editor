@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,12 +23,11 @@ public class ABPGeneratorProxy extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) {
 		try {
 			URL url = new URL(getAddress(req));
-		    URLConnection conn = url.openConnection();
+		    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setDoOutput(true);
 	        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), req.getCharacterEncoding());
 	    
-	        // send model
-	        //writer.write("model=" + model);
+	        // send the parameters
 	        int i = 0;
 	        for (String key:(Set<String>)req.getParameterMap().keySet()) {
 	        	writer.write(key + "=" + req.getParameter(key));
@@ -37,16 +37,21 @@ public class ABPGeneratorProxy extends HttpServlet {
 	        writer.flush();
 	        
 	        // Get the response
+	        int status = conn.getResponseCode();
 	        StringBuffer answer = new StringBuffer();
-	        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	        String line;
+	        BufferedReader reader = null;
+	        if (status == HttpURLConnection.HTTP_OK) 
+		        reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		     else 
+	        	reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+ 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            answer.append(line);
 	        }
 	        writer.close();
 	        reader.close();
 	        res.getOutputStream().print(answer.toString());
-	        res.setStatus(200);
+	        res.setStatus(status);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();	
 			res.setStatus(500);
