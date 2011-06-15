@@ -47,7 +47,7 @@
 	</style>
 
 	<script type="text/javascript">		
-		var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js',
+		var externs = ['http://yui.yahooapis.com/2.8.2/build/yuiloader/yuiloader.js',
 					'/oryx/lib/prototype-1.5.1.js',
 					'/mashup/gadgets/files/gadgets/gadgetRepository/core.js'];
 	

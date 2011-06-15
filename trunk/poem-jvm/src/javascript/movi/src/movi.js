@@ -97,7 +97,7 @@ MOVI.log = YAHOO.log;
  */
 MOVI.init = function(callback, moviBase, yuiReadyCallback, yuiModules) {
 	
-	var _YUI_BASE_DIR = "http://yui.yahooapis.com/2.7.0/build/";
+	var _YUI_BASE_DIR = "http://yui.yahooapis.com/2.8.2/build/";
 	
 	if(!YAHOO.lang.isFunction(callback)) callback = function(){};
 	
