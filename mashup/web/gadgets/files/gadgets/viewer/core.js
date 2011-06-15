@@ -43,7 +43,8 @@ MOVI.init(
 	    }).insert(); 
 
 	},
-	"http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src",
+	//"http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src",
+	"/mashup/movi",
 	undefined,
 	["resize"]
 );
