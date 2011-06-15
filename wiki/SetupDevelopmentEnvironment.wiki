@@ -114,7 +114,7 @@ To run the whole Oryx web-application we have to point tomcat to the two web-app
 Please adjust the paths in the docBase attribute according to your OS and directory structure. These are just examples.
 
 ===Test===
-  * Start the server and navigate with firefox to loacalhost:8080/backend/poem/repository
+  * Start the server and navigate with firefox to localhost:8080/backend/poem/repository
   * Now everything done. Congratulation!
 
 Other Guides:
