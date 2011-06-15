@@ -52,7 +52,8 @@
 	<script type="text/javascript">		
 		var externs = ['http://yui.yahooapis.com/2.8.2/build/yuiloader/yuiloader.js', 
 					'/oryx/lib/prototype-1.5.1.js',
-					'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
+					//'http://oryx-editor.googlecode.com/svn/trunk/poem-jvm/src/javascript/movi/src/movi.js',
+					'/mashup/movi/movi.js',
 					'/mashup/gadgets/files/gadgets/viewer/core.js'];
 	
         for (var i = 0; i < externs.length; i++)

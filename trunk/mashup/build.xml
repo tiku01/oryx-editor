@@ -13,13 +13,16 @@
 	<property name="lib.dir" value="mashup\lib"/>
 	<!-- build dirs -->
 	<property name="build.dir" value="mashup\build"/>
+	<property name="build.movi" value="${build.dir}\movi"/>
 	<property name="web-inf.root" value="${build.dir}\WEB-INF"/>
 	<property name="web-inf.classes" value="${web-inf.root}\classes"/>		
 	<property name="web-inf.lib" value="${web-inf.root}\lib"/>
 	<!-- used to compile the oryx server -->
 	<property name="oryx.editor" value="editor"/>
-	<property name="editor.buildfile" value="${oryx.editor}/build.xml"/>
+	<property name="editor.buildfile" value="${oryx.editor}\build.xml"/>
 	<property name="editor.classes" value="build\editor\classes"/>
+	<property name="movi.src" value="poem-jvm\src\javascript\movi\src"/>
+	
     
 	<!-- empties "build" and "dist" directory -->
 	<target name="clean">
@@ -44,6 +47,13 @@
 		</copy>		
 		<copy todir="${build.dir}">
 			<fileset dir="${web.content}"/>
+		</copy>
+		<!-- hack: Somehow it seems to be necessary, 
+		that the MOVI API is served from the same server, 
+		instead of Google's server to work properly. 
+		Hopefully this can be removed in the future. -->
+		<copy todir="${build.movi}">
+			<fileset dir="${movi.src}"/>
 		</copy>
 		<copy todir="${web-inf.lib}">
 			<fileset dir="lib">
