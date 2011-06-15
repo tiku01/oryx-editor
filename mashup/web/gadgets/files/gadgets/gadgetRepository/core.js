@@ -29,7 +29,7 @@ var gadgetRepository = null;
 	
 // load required YUI modules	
 new YAHOO.util.YUILoader({ 
-    base: "http://yui.yahooapis.com/2.7.0/build/", 
+    base: "http://yui.yahooapis.com/2.8.2/build/", 
     require: ["yahoo","animation", "carousel"], 
     loadOptional: false, 
     filter: "RAW", 

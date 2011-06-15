@@ -28,7 +28,7 @@ var repository = null;
 
 // load required YUI modules	
 new YAHOO.util.YUILoader({ 
-    base: "http://yui.yahooapis.com/2.7.0/build/", 
+    base: "http://yui.yahooapis.com/2.8.2/build/", 
     require: ["yahoo","datatable", "animation","paginator",
               		"fonts","grids","layout","reset","resize","button"], 
     loadOptional: false, 

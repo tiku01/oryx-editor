@@ -222,7 +222,7 @@ var dashboard = (function(){
 // load required YUI modules (JS && CSS)
 new YAHOO.util.YUILoader({
 	require: ["utilities","resize","fonts", "container","menu","reset", "button","connection"], 
-	base: "http://yui.yahooapis.com/2.7.0/build/",
+	base: "http://yui.yahooapis.com/2.8.2/build/",
 	loadOptional: true,
 	filter: "RAW",
 	onSuccess: function() {

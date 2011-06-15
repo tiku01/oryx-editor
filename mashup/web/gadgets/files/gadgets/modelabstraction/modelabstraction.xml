@@ -10,7 +10,7 @@
 	<Content type="html">
         <![CDATA[
 		<script type="text/javascript">
-	        var externs = ['http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader.js',
+	        var externs = ['http://yui.yahooapis.com/2.8.2/build/yuiloader/yuiloader.js',
 						'/oryx/lib/prototype-1.5.1.js',
 						'/mashup/gadgets/files/gadgets/modelabstraction/core.js',];
 	
@@ -138,6 +138,10 @@
 				
 			}
 			
+			#cycle_legend {
+				top: 40px;
+			}
+			
 			#option_buttons {
 				bottom: 20px;
 				left: 90px;
@@ -150,7 +154,7 @@
 			
 			#slider {
 				position: absolute;
-				top: 100px;
+				top: 75px;
 				left: 15px;
 				width: 220px;
 				height: 20px;
@@ -166,9 +170,26 @@
 				width: 135px;
 			}
 			
+			#threshold_legend {
+				top: 50px;
+			}
+			
 			.left10 {
 				position: absolute;
 				left: 10px;
+			}
+			
+			.slider_legend {
+				position: absolute;
+				top: 80px;
+			}
+			
+			.stick_left {
+				left: 10px;
+			}
+			
+			.stick_right {
+				right: 10px;
 			}
 		</style>
 		
@@ -196,12 +217,12 @@
 		<div id="option_panel">
 			<div class="hd"></div>
 			<div class="bd">
-				<div class="left10" style="top: 40px;">
+				<!--div id="cycle_legend" class="left10">
 					<span>Prefer: </span>
 				
 				<fieldset id="radio_buttons"></fieldset>
-				</div>
-				<div class="left10" style="top: 75px;"> 
+				</div-->
+				<div id="threshold_legend" class="left10"> 
 					<span>Threshold: </span>
 					<input id="threshold_value" type="text"/><br/>
 				</div>
@@ -209,8 +230,8 @@
 					<div id="slider_thumb"></div>
 				</div>
 				<div>
-					<span class="left10" style="top: 105px">0</span>
-					<span style="position: absolute; right: 10px; top: 105px">1<span>
+					<span class="slider_legend stick_left">0</span>
+					<span class="slider_legend stick_right">1<span>
 				</div>
 				<fieldset id="option_buttons"></fieldset>
 			</div>

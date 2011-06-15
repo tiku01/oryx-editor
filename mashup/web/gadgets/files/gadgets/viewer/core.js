@@ -33,7 +33,7 @@ MOVI.init(
 	function(){
 		
 	    new YAHOO.util.YUILoader({ 
-			base: "http://yui.yahooapis.com/2.7.0/build/", 
+			base: "http://yui.yahooapis.com/2.8.2/build/", 
 	        require: ["yahoo", "fonts","grids","layout","reset","resize"],
 	        loadOptional: false, 
 	        combine: true, 

@@ -119,7 +119,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 	initOptionPanel : function() {
 		this.optionPanel = new YAHOO.widget.Panel("option_panel", {
 			width: 250,
-			height: 180,
+			height: 160,
 			close: false,
 			visible: false,
 			draggable: false,
@@ -138,6 +138,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		optionCloseButton.on("click", this.hideOptions.bind(this));
 		
 		// used to give the user the choice to prefer either cycles or parallelism
+		/*
 		this.cycleChoice = new YAHOO.widget.ButtonGroup({
 			id : 		"cycleChoice",
 			name : 		"cycleChoice",
@@ -148,6 +149,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 			{label: "Parallelism", value: "1", type: "radio"}//, checked: true
 		]);
 		this.cycleChoice.check(1);
+		*/
 		// slider and ...
 		var img = document.createElement("img");
 		img.setAttribute("src", this.GADGET_BASE + "modelabstraction/icons/thumb-n.gif");
@@ -496,7 +498,7 @@ YAHOO.lang.extend( ModelAbstraction, AbstractGadget, {
 		var result = {
 			'model'	: data,
 			'groups': groups.toJSON(),
-			'preference': this.cycleChoice.get('value'),
+			'preference': 1,//this.cycleChoice.get('value'),
 			'threshold' : this.getThreshold()
 		};
 		new Ajax.Request("/mashup/generate", 
