@@ -23,7 +23,7 @@
   * `tomcat4oryx/bin/startup.sh`
   * `tomcat4oryx/bin/shutdown.sh`
 
-==Oryx install and setup on Windows (Tested with Win7)==
+==Oryx install and setup on Windows (Tested with Win7) by Alexander Nowak== 
 
  1) Install Tools in following order (also described at: http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment) 
 1.1) Java JDK 5 or higher (http://java.sun.com/javase/downloads/index.jsp)
