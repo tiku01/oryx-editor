@@ -23,73 +23,74 @@
   * `tomcat4oryx/bin/startup.sh`
   * `tomcat4oryx/bin/shutdown.sh`
 
-==Installation on Windows==
+==Oryx install and setup on Windows (Tested with Win7)==
 
-_Unfortunately, we experienced severe problems running PostgreSQL with PL/Python on Windows7. _
+ 1) Install Tools in following order (also described at: http://code.google.com/p/oryx-editor/wiki/SetupDevelopmentEnvironment) 
+1.1) Java JDK 5 or higher (http://java.sun.com/javase/downloads/index.jsp)
+    * Ensure that JAVA_HOME Enviroment variable is set to java installation dir (e.g. "C:\program files\java\jdk1.6")
+     * Ensure that PATH Enviroment variable is extended with "\bin"-folder of java installation dir (e.g. "C:\program files\java\jdk1.6\bin")
+1. 2) Firefox Browser (http://www.mozilla.com/de/firefox/). 
+    * For debugging it is helpful to also install the Firebug Addon (https://addons.mozilla.org/de/firefox/addon/1843)
+1.3) Tomcat 6 (unpack to arbitrary folder)
+1.4) Eclipse IDE for Java EE Developers (http://www.eclipse.org/downloads/)
+    * You also need a subversion plugin for eclipse, e.g. subclipse (http://subclipse.tigris.org/) or any other subversion client. 
+1.5) Python version 2.5.2
+    * IMPORTANT: Use exactly this version, available here: http://www.python.org/download/releases/2.5.2
+    * Just follow the install wizard. No special setup is needed here.
+1.6) PostgreSQL 8.3.x (IMPORTANT: Use exactly this version)
+    * Use included wizard for installation
+     * Within the install wizard select "install postgreSQL as service"
+    * ATTENTION: The Procedural language dialoge has to show PL/python (otherwise python installation failed). (Re-)Install PL/python! 
+     * Ensure that PATH Enviroment variable is extended with "\bin"-folder of postgresql installation dir (e.g. "C:\program files\PostgreSQL\8.3\bin")
+     * IMPORTANT: remember the password for windows user postgres and database. You will need them later...
 
-===Browser===
-  * Get and Install Firefox http://www.mozilla-europe.org/de/firefox/
-  * Useful for debugging --> Firebug https://addons.mozilla.org/de/firefox/addon/1843
+2) In eclipse, checkout Oryx from SVN: "http://oryx-editor.googlecode.com/svn/trunk/"
+    * SVN-Link and information is also available here: http://code.google.com/p/oryx-editor/source/checkout
+2.1) How to Checkout SVN in eclipse:
+    * Select "File -> Import..." and choose "SVN -> Project from SVN"
+     * Follow the wizard. Create a new repository location using the Oryx SVN link above. Then Checkout the "trunk"-folder.
+	
+3) Setup Database Environment:
+    * Run comandline as user postgres: type "runas /user:postgres cmd" in run-prompt in Windows. On the Keyboard press the Windows-key and R at the same time to get the run-prompt. To logon use windows user (postgres) password from postgrSQL installation.
+    * change to schema file directory which is located in "oryx-workspace/poem-jvm/data/database/db_schema.sql"
+    * Run the following commands to import schema:
+     * createuser U postgres -echo -pwprompt -encrypted poem
+     * createdb U postgres -echo -encoding utf8 -owner poem poem
+     * psql poem < db_schema.sql postgres 
+		
+4) Change Build Properties:
+    * open the file build.properties in root dir
+    * edit "deploymentdir" and set it to your apache tomcat wepapps folder (e.g. C:/apache-tomcat-6.0.32/webapps)
+    * If you created a password for the poem user (see 3, bullet point 3.1), edit line "{{{<property name="connection.password">poem</property>"}}} in {{{/poem-jvm/etc/hibernate.cfg.xml}}}
+	
+5) Build Oryx to produce deployable war-files: 
+    * Right-Click on "build.xml" in root dir and select "Run As -> External Tool Configuration"
+    * Set buildfile to "build.xml", e.g. ${workspace_loc:/oryx/build.xml}
+    * Set base directory to oryx root directory, e.g. ${workspace_loc:/oryx}
+    * Choose tab "Targets" and check the following targets: "build-all" and "deploy-all"
+     * Start build by clicking on run-button.
+     * If the build was succsessfull, the two files "oryx.war" and "backend.war" should have been copied to your Apache Tomcat "\webapps" folder
+	
+6) Start Apache Tomcat with "apache-install-dir/bin/startup.bat".
+    * If Tomcat was already running, it automatically re-deploys the war files. 
 
-===Java===
-  * Get JDK 5 or higher http://java.sun.com/javase/downloads/index.jsp
-  * Set JAVA_HOME Enviroment variable to java installation dir
+7) Start your browser and open "http://localhost:8080/backend/poem/repository". 
 
-===Eclipse===
-  * Get and install Eclipse IDE for Java EE Developers http://www.eclipse.org/downloads/ 
-  * Get subclipse http://subclipse.tigris.org/ or use any other Suversion client
+7.1) Opening the backend enables users to create new process models or to browse/manage the process models that are already stored in oryx. A double-click on a process model then opens the model in the frontend, where models can be modified.
 
-===Check out trunk===
-  * Import Eclipse project from svn
-  * SVN link see http://code.google.com/p/oryx-editor/source/checkout
+7.2) To store models in oryx you need an open-id (use google for more information)
+ 
 
-===Get Python===
-  * get and install python
-  * ATTENTION use only version 2.5
-  * http://www.python.org/download/releases/2.5.2 
 
-===Database===
-  * get and install postgresql vesion 8.3.x (use pgInstaller)
-  * http://www.postgresql.org/download 
-  * Execute installer as admin
-  * http://www.pg-forum.de/h-ufig-gestellte-fragen-faq/2082-installation-von-postgresql-unter-windows-vista.html
-  * ATTENTION Procedural language dialoge has to show PL/python (otherwise python installation failed). Install PL/python!
 
-===Load Database Schema===
-*Manually*
-  * add postgresql bin directory to PATH enviroment variable
-  * Run comandline as user postgres (runas /user:postgres cmd)
-  * change to schema file directory
-  * Schema-File: /poem-jvm/data/database/db_schema.sql
-  * Run the following commands:
-  * createuser –U postgres –-echo –-pwprompt –-encrypted poem
-  * createdb –U postgres –-echo –-encoding utf8 –-owner poem poem
-  * psql –U postgres –-dbname poem –-file db_schema.sql
-   * If the command above does not work try the following: psql poem < db_schema.sql postgres
+
 *ANT*
   * It is also possibile to use the build-target create-db
   * Therefore fill in your postgres installation credentials to the build.properties and run the create-db target 
 
-=== Apache Tomcat ===
-  * Get and install apache tomcat
-  * http://tomcat.apache.org/download-60.cgi
-  * Add Tomcat to Eclipse server view
-  * Guide on http://www.eclipse.org/webtools/community/tutorials/BuildJ2EEWebApp/BuildJ2EEWebApp.html
-
-=== Build Properties ===
-  * open build-properties
-  * edit deploymentdir and set it to your apache wepapps folder
-  * If you created a password for the poem user, edit password in „/poem-jvm/etc/hibernate.cfg.xml“
-
-===Build===
-Setup to produce deployable war-files:
-  * Create a new external tools configuration in eclipse
-  * buildfile: build.xml
-  * base directory: oryx directory
-  * select targets: build-all and deploy-all
 
 
-Development Setup
+==Development Setup==
 
 The build process of this setup is much faster because we avoid building war files. Instead, we point tomcat to our build directory containing the Oryx web-application. To do this you have to build the Oryx backend and frontend separately. 
 
