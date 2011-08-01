@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   	xmlns="http://www.w3.org/2000/svg"
+   	xmlns:oryx="http://www.b3mn.org/oryx"
+   	version="1.0">
+  	<g
+     	oryx:minimumSize="100 80"
+     	id="actor">
+    	<rect
+    		id="border"
+	   		x="0"
+	   		y="0"
+       		width="200"
+       		height="80"
+       		stroke="black"
+	   		stroke-width="2"
+	   		fill="white"
+		oryx:resize="horizontal vertical" />
+	<polyline oryx:anchors="top left" points="0,25 30,25 45,8 45,0"
+	    style="stroke:black;stroke-width:2;fill:none" />
+	    
+	<text 
+			oryx:anchors = "top left"
+			id="type"
+			font-size="12"  
+			x="7" 
+			y="14"
+			stroke="black">
+	</text>
+	<text 
+	  		id="stereotype"
+	  		font-size="12"  
+	  		x="40" 
+	  		y="4"
+	  		stroke="black"
+	  		oryx:anchors="top" 
+	  		oryx:align="top center"
+	  		oryx:fittoelem="border">
+	</text>	   
+      	<text 
+      		id="text" 
+      		font-size="12" 
+      		x="40" 
+      		y="18"
+      		stroke="black"
+      		oryx:anchors="top" 
+      		oryx:align="top center"
+      		oryx:fittoelem="border">
+      	</text>
+  	</g>
+</svg>

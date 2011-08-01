@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx"
+	version="1.0">
+	<g oryx:minimumSize="64 10" oryx:maximumSize="64 9999999999999999">
+		<path id="line" d="M32,0 L32,500" stroke="black" fill="none"
+			stroke-width="4" stroke-dasharray="5, 3" oryx:resize="vertical"
+			oryx:anchors="top" />
+		<ellipse id="background" cx="32" cy="52" ry="53" rx="32" fill="white"
+			stroke="none" oryx:anchors="top" />
+
+		<ellipse id="head" cx="32" cy="14" ry="10" rx="10" fill="white"
+			stroke="black" stroke-width="2" oryx:anchors="top" />
+
+		<path
+			d="M 32 24 L 32 54 M 12 34 L 52 34 M 32 54 L 52 84 M 12 84 L 32 54"
+			stroke="black" stroke-width="2" stroke-linecap="round" oryx:anchors="top" />
+
+		<text id="text" font-size="12" x="32" y="92" oryx:anchors="top"
+			oryx:align="middle center" stroke="black">
+		</text>
+		<rect id="border" oryx:resize="vertical" x="26" y="102" width="12"
+			height="400" fill="none" stroke-width="4" oryx:anchors="top"
+			visibility="hidden" />
+	</g>
+</svg>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   	xmlns="http://www.w3.org/2000/svg"
+   	xmlns:oryx="http://www.b3mn.org/oryx"
+   	version="1.0">
+   	<oryx:magnets>
+    	<oryx:magnet oryx:cx="1" oryx:cy="45" oryx:anchors="left" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="89" oryx:anchors="bottom" />
+    	<oryx:magnet oryx:cx="119" oryx:cy="45" oryx:anchors="right" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="1" oryx:anchors="top" />
+    	<oryx:magnet oryx:cx="60" oryx:cy="45" oryx:default="yes" />
+  	</oryx:magnets>
+  	<g
+     	oryx:minimumSize="60 30"
+     	id="action">
+    	<rect
+    		id="actionrect"
+       		x="0"
+       		y="0"
+       		width="120"
+       		height="90"
+	   		rx="15"
+	   		ry="15"
+	   		stroke="black"
+	   		stroke-width="2"
+	   		fill="white"
+       		oryx:resize="horizontal vertical" />  
+	<line x1="0" y1="20" x2="120" y2="20" style="stroke:black;stroke-width:2;fill:none" oryx:anchors="top left right" />
+      	<text 
+      		font-size="12" 
+      		id="name" 
+      		x="60" 
+      		y="2"
+      		stroke="black" 
+      		oryx:align="top center" 
+		oryx:anchors="top center"
+      		oryx:fittoelem="actionrect">
+      	</text>
+	<text 
+      		font-size="12" 
+      		id="actions" 
+      		x="8" 
+      		y="35"
+      		stroke="black" 
+      		oryx:align="top left" 
+		oryx:anchors="top left"
+      		oryx:fittoelem="actionrect">
+      	</text>
+  	</g>
+</svg>

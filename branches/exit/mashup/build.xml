@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="MashUp" default="war" basedir="..">
+	
+	<!-- Load additional properties -->
+	<property file="build.properties"/>
+	<property name="oryx.project" value="oryx"/>
+	<property name="deployment.dir" value="C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps"/>
+	<property name="conf.dir" value="mashup\etc"/>
+	<property name="web.content" value="mashup\web"/>
+	<property name="dist.dir" value="mashup\dist"/>
+	<property name="src.dir" value="mashup\server\src"/>
+	<property name="lib.dir" value="mashup\lib"/>
+	<!-- build dirs -->
+	<property name="build.dir" value="mashup\build"/>
+	<property name="build.movi" value="${build.dir}\movi"/>
+	<property name="web-inf.root" value="${build.dir}\WEB-INF"/>
+	<property name="web-inf.classes" value="${web-inf.root}\classes"/>		
+	<property name="web-inf.lib" value="${web-inf.root}\lib"/>
+	<!-- used to compile the oryx server -->
+	<property name="oryx.editor" value="editor"/>
+	<property name="editor.buildfile" value="${oryx.editor}\build.xml"/>
+	<property name="editor.classes" value="build\editor\classes"/>
+	<property name="movi.src" value="poem-jvm\src\javascript\movi\src"/>
+	
+    
+	<!-- empties "build" and "dist" directory -->
+	<target name="clean">
+		<echo>Cleaning directory build</echo>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+	
+	<!-- creates directories -->
+	<target name="init" depends="clean">
+		<echo>Creating required directories</echo>
+		<mkdir dir="${web-inf.root}"/>
+		<mkdir dir="${web-inf.classes}"/>
+		<mkdir dir="${web-inf.lib}"/>
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- copying from folders "web", "etc" and "lib" to "build" -->
+	<target name="copy" depends="init">
+		<copy todir="${web-inf.root}">
+			<fileset dir="${conf.dir}"/>			
+		</copy>		
+		<copy todir="${build.dir}">
+			<fileset dir="${web.content}"/>
+		</copy>
+		<!-- hack: Somehow it seems to be necessary, 
+		that the MOVI API is served from the same server, 
+		instead of Google's server to work properly. 
+		Hopefully this can be removed in the future. -->
+		<copy todir="${build.movi}">
+			<fileset dir="${movi.src}"/>
+		</copy>
+		<copy todir="${web-inf.lib}">
+			<fileset dir="lib">
+		    	<include name="*.jar" />
+		    </fileset>
+			<fileset dir="${lib.dir}">
+		    	<include name="*.jar" />
+		    </fileset>
+		</copy>
+	</target>		
+	
+	<!-- builds the the servlet class files --> 
+	<target name="build" depends="copy">
+		<echo>Building class files</echo>
+		<ant antfile="${editor.buildfile}" target="build-server" inheritAll="true">
+			<property name="editor-build-root" value="${web-inf.root}"/>
+		</ant>
+		<!-- hack to circumvent some dependency problems -->
+		<delete dir="${web-inf.classes}\de\hpi\bp"/>
+		<javac srcdir="${src.dir}" destdir="${web-inf.classes}" includeantruntime="false" debug="on">
+			 <classpath>
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+			 	<fileset dir="${lib.dir}">
+ 			    	<include name="*.jar" />
+ 			    </fileset>
+			 	<fileset dir="${web-inf.classes}"/>
+            </classpath>
+		</javac>
+	</target>	
+
+	<!-- creates war-file -->
+	<target name="war" depends="build">
+		<echo>Building the war file</echo>
+		<war destfile="${dist.dir}\mashup.war" webxml="${web-inf.root}\web.xml">
+			<fileset dir="${build.dir}"/>
+		</war>
+	</target>
+	
+	<!-- copies war-file to tomcat webapplication folder -->
+    <target name="move" depends="war">
+    	<echo> Moving to Tomcat </echo>
+        <copy todir="${deploymentdir}" overwrite="true">
+            <fileset dir="${dist.dir}">
+                <include name="*.war"/>
+            </fileset>
+        </copy>
+    </target>
+	
+	<!-- deletes mashup directory in webapps" -->
+	<target name="deploy" depends="move">
+		<delete dir="${deploymentdir}\mashup"/>
+	</target>
+	
+</project>
