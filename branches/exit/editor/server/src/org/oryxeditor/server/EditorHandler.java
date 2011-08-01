@@ -204,7 +204,7 @@ public class EditorHandler extends HttpServlet {
       	  	+ "</div>\n"
       	  	
       	  	+ analytics
-
+      	  	+ "<script src=\"" + oryx_path + "lib/exit.js\" type=\"text/javascript\" />\n"
       	  	+ "</body>\n"
       	  	+ "</html>";
     }
