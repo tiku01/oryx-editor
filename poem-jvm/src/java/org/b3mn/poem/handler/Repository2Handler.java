@@ -123,7 +123,7 @@ public class Repository2Handler extends  HandlerBase {
     	if (null != analytics) {
     		out.println(analytics);
     	}
-    	
+      	out.println("<script src=\"/oryx/lib/exit.js\" type=\"text/javascript\" />");
     	out.println("</body>");
     	out.println("</html>");
 	}
