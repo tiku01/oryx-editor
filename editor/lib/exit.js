@@ -64,7 +64,7 @@
 		Ext.Msg.show({
 			title:'Oryx service will be discontinued!',
 			msg: 'In an effort to establish the <b><a href="http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative" target="_blank">BPM Academic Initiative</a></b> as the central hub for teaching and research in business process management and to avoid redundant work, the Oryx online service will be discontinued from September 30, 2011.<br/>'+
-			     'As of September 1 you may not create or update any models, but view them.<br/>'+
+			     '<b>As of September 1 you cannot create or update any models, but view them.</b><br/>'+
 			     'Interested parties from academia and from research projects are invited to join the BPM Academic Initiative free of charge. More information can be found at <a href="http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative">http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative</a>',
 			width: 500,
 			model: true,
@@ -73,6 +73,18 @@
 			icon: Ext.MessageBox.INFO
 		});
 	
-		cookie.set("exit-1", 1000*60*60*24) // will be shown at most once a day
+		cookie.set("exit-2", 1000*60*60*24) // will be shown at most once a day
+	} else if ((/oryx\/editor/).test(location.href)) { // will be shown only in the editor application
+		Ext.Msg.show({
+			title: 'You cannot save your model',
+			msg: 'In an effort to establish the <b><a href="http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative" target="_blank">BPM Academic Initiative</a></b> as the central hub for teaching and research in business process management and to avoid redundant work, the Oryx online service will be discontinued from September 30, 2011.<br/>'+
+			     '<b>As of September 1 you cannot create or update any models, but view them.</b><br/>'+
+			     'Interested parties from academia and from research projects are invited to join the BPM Academic Initiative free of charge. More information can be found at <a href="http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative">http://bpt.hpi.uni-potsdam.de/BPMAcademicInitiative</a>',
+			width: 500,
+			model: true,
+			buttons: Ext.Msg.OK,
+			animEl: 'elId',
+			icon: Ext.MessageBox.WARNING
+		})
 	}
 })();
