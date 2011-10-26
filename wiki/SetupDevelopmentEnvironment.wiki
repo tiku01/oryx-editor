@@ -38,6 +38,7 @@
     * IMPORTANT: Use exactly this version, available here: http://www.python.org/download/releases/2.5.2
     * Just follow the install wizard. No special setup is needed here.
 1.6) PostgreSQL 8.3.x (IMPORTANT: Use exactly this version)
+    * Download the pgInstaller version to enable advanced installation options
     * Use included wizard for installation
      * Within the install wizard select "install postgreSQL as service"
     * ATTENTION: The Procedural language dialoge has to show PL/python (otherwise python installation failed). (Re-)Install PL/python! 
