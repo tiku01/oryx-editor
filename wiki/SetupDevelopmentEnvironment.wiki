@@ -41,7 +41,7 @@
     * Download the pgInstaller version to enable advanced installation options
     * Use included wizard for installation
      * Within the install wizard select "install postgreSQL as service"
-    * ATTENTION: The Procedural language dialoge has to show PL/python (otherwise python installation failed). (Re-)Install PL/python! 
+    * ATTENTION: The page after "Initialize database cluster" (called "Enabled procedural languages") has to show PL/python (otherwise python installation failed. (Re-)Install PL/python.)
      * Ensure that PATH Enviroment variable is extended with "\bin"-folder of postgresql installation dir (e.g. "C:\program files\PostgreSQL\8.3\bin")
      * IMPORTANT: remember the password for windows user postgres and database. You will need them later...
 
