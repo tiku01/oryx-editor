@@ -52,17 +52,18 @@
      * Follow the wizard. Create a new repository location using the Oryx SVN link above. Then Checkout the "trunk"-folder.
 	
 3) Setup Database Environment:
-    * Run comandline as user postgres: type "runas /user:postgres cmd" in run-prompt in Windows. On the Keyboard press the Windows-key and R at the same time to get the run-prompt. To logon use windows user (postgres) password from postgrSQL installation.
+    * Run comandline as user postgres: type "`runas /user:postgres cmd`" in run-prompt in Windows. On the Keyboard press the Windows-key and R at the same time to get the run-prompt. To logon use windows user (postgres) password from postgrSQL installation.
     * change to schema file directory which is located in "oryx-workspace/poem-jvm/data/database/db_schema.sql"
     * Run the following commands to import schema:
-     * createuser U postgres -echo -pwprompt -encrypted poem
-     * createdb U postgres -echo -encoding utf8 -owner poem poem
-     * psql poem < db_schema.sql postgres 
+     * `createuser -U postgres --echo --pwprompt --encrypted poem`
+      * the best is to use password `poem`
+     * `createdb -U postgres --echo --encoding utf8 --owner poem poem`
+     * `psql poem < db_schema.sql postgres`
 		
 4) Change Build Properties:
-    * open the file build.properties in root dir
+    * open the file `build.properties` in root dir
     * edit "deploymentdir" and set it to your apache tomcat wepapps folder (e.g. C:/apache-tomcat-6.0.32/webapps)
-    * If you created a password for the poem user (see 3, bullet point 3.1), edit line "{{{<property name="connection.password">poem</property>"}}} in {{{/poem-jvm/etc/hibernate.cfg.xml}}}
+    * If you used a password different than `poem` for the poem user (see 3, bullet point 3.1), edit line "{{{<property name="connection.password">poem</property>"}}} in {{{/poem-jvm/etc/hibernate.cfg.xml}}}
 	
 5) Build Oryx to produce deployable war-files: 
     * Right-Click on "build.xml" in root dir and select "Run As -> External Tool Configuration"
@@ -115,11 +116,26 @@ To run the whole Oryx web-application we have to point tomcat to the two web-app
 
 Please adjust the paths in the docBase attribute according to your OS and directory structure. These are just examples.
 
-===Test===
+=== Enabling Debugging ==
+ * Target `build-with-xhtml-test-files-flag`: enables copying of `examples\*.xhtml` to the deployment dir
+ * Target `build-with-script-files-flag`: The .js files are deployed as such and not compressed into a single oryx.js.
+
+Start Tomcat in debug mode:
+ * change to tomcat-bin dir
+ * `set JPDA_TRANSPORT=dt_socket`
+ * `catalina jpda start`
+
+At Eclipse:
+ * Debug -> Debug Configurations...
+ * Remote Java Application -> New
+ * Project: oryx
+ * Port: 3337
+
+== Test ==
   * Start the server and navigate with firefox to localhost:8080/backend/poem/repository
   * Now everything done. Congratulation!
 
-Other Guides:
+= Other Guides =
   * http://ddweerasiri.blogspot.com/2009/04/how-to-build-oryx-editor-in-ubuntu.html
   * http://code.google.com/p/oryx-editor/wiki/DeployOryxOnWindowsOrDebian
 
