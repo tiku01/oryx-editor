@@ -37,6 +37,7 @@
 1.5) Python version 2.5.2
     * IMPORTANT: Use exactly this version, available here: http://www.python.org/download/releases/2.5.2
     * Just follow the install wizard. No special setup is needed here.
+    * Install 32bit-Pyhton also on 64bit Windows!
 1.6) PostgreSQL 8.3.x (IMPORTANT: Use exactly this version)
     * Download the pgInstaller version to enable advanced installation options
     * Use included wizard for installation
