@@ -32,6 +32,7 @@
 1. 2) Firefox Browser (http://www.mozilla.com/de/firefox/). 
     * For debugging it is helpful to also install the Firebug Addon (https://addons.mozilla.org/de/firefox/addon/1843)
 1.3) Tomcat 6 (unpack to arbitrary folder)
+
 1.4) Eclipse IDE for Java EE Developers (http://www.eclipse.org/downloads/)
     * You also need a subversion plugin for eclipse, e.g. subclipse (http://subclipse.tigris.org/) or any other subversion client. 
 1.5) Python version 2.5.2
