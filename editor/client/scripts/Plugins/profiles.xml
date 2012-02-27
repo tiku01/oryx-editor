@@ -180,5 +180,8 @@
 	<profile name="umlsequence" depends="default" stencilset="stencilsets/umlsequence/umlsequence.json">
 			<plugin name="ORYX.Plugins.UMLSequence"/>
 	</profile>
+	<profile name="netgraph" depends="default" stencilset="stencilsets/networkGraph/networkGraph.json">
+			<plugin name="ORYX.Plugins.NETGRAPH2XML"/>
+	</profile>
 	
 </profiles>

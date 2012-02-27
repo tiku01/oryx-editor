@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="102"
+   height="82"
+   id="svg3025">
+  
+  <defs
+     id="defs3027" />
+  <oryx:magnets>
+    <oryx:magnet
+       oryx:anchors="left"
+       oryx:cy="20"
+       oryx:cx="1" />
+    <oryx:magnet
+       oryx:anchors="bottom"
+       oryx:cy="39"
+       oryx:cx="20" />
+    <oryx:magnet
+       oryx:anchors="right"
+       oryx:cy="20"
+       oryx:cx="39" />
+    <oryx:magnet
+       oryx:anchors="top"
+       oryx:cy="1"
+       oryx:cx="20" />
+    <oryx:magnet
+       oryx:default="yes"
+       oryx:cy="20"
+       oryx:cx="20" />
+  </oryx:magnets>
+  <g
+     pointer-events="fill" oryx:minimumSize="40 10" oryx:maximumSize="300 500" 
+	>
+    <rect
+       width="40"
+       height="40"
+       x="0"
+       y="0"
+       id="taskrect"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1" />
+    <text
+       x="20"
+       y="18"
+       id="text"
+       style="font-size:12px;stroke:#000000" />
+  </g>
+</svg>
