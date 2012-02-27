@@ -920,3 +920,16 @@ ORYX.I18N.VisioImport.ImportStart = "The import started successfully";
 ORYX.I18N.VisioImport.ImportDescription = "The vdx import is running. This might take a while."
 ORYX.I18N.VisioImport.ImportFailure = "Error while importing Visio diagram";
 ORYX.I18N.VisioImport.ImportFailureDescription = "Please ensure connection and that the visio stencil is supported. Currently only a few selected sample stencil sets are supported.";
+
+/** New Language Properties: 20.02.2012 */
+if(!ORYX.I18N.NETGRAPH2XML) ORYX.I18N.NETGRAPH2XML = {};
+ORYX.I18N.NETGRAPH2XML.group = "Export";
+ORYX.I18N.NETGRAPH2XML.exportName = "Export to Netgraph XML";
+ORYX.I18N.NETGRAPH2XML.importName = "Import from Netgraph XML";
+ORYX.I18N.NETGRAPH2XML.importGroup = "Export";
+ORYX.I18N.NETGRAPH2XML.selectFile = "Select a Netgraph XML (.xml) file or type in the Netgraph to import it!";
+ORYX.I18N.NETGRAPH2XML.file = "File";
+ORYX.I18N.NETGRAPH2XML.impXPDL = "Import Netgraph XML";
+ORYX.I18N.NETGRAPH2XML.impBtn = "Import";
+ORYX.I18N.NETGRAPH2XML.impProgress = "Importing...";
+ORYX.I18N.NETGRAPH2XML.close = "Close";

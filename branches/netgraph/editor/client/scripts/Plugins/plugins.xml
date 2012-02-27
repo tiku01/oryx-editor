@@ -378,6 +378,9 @@
 		<plugin source="bpmn2xpdl20.js" name="ORYX.Plugins.BPMN2XPDL20" >
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>
 		</plugin>
+		<plugin source="netgraph2xml.js" name="ORYX.Plugins.NETGRAPH2XML" >
+			<requires namespace="http://b3mn.org/stencilset/networkGraph#"/>
+		</plugin>
 		<plugin source="waveThis.js" name="ORYX.Plugins.WaveThis">
 			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
 			<requires namespace="http://b3mn.org/stencilset/UML2.2Class#"/>

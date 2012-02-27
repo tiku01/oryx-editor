@@ -157,6 +157,14 @@
 			"uri":"/umlsequence/umlsequence.json",
 			"icon_url":"/umlsequence/umlsequence.png",
 			"visible":true
+		},
+		 {
+			"title":"Network Graph",
+			"namespace":"http://b3mn.org/stencilset/networkGraph#",
+			"description":"Stencils Set to create network graphs",
+			"uri":"/networkGraph/networkGraph.json",
+			"icon_url":"/networkGraph/networkGraph.png",
+			"visible":true
 		}
 
 ]

@@ -1,0 +1,556 @@
+{
+	"title":"Network Graph",
+	"namespace":"http://b3mn.org/stencilset/networkGraph#",
+	"description":"This is the network graph specification.",
+ 	"stencils" : [
+  		{
+			"type": "node",
+			"id":"Diagram",
+			"title":"Diagram",
+			"groups":[],
+			"description":"A Diagram",
+			"view":"node.diagram.svg",
+			"icon":"new_diagram.png",
+			"mayBeRoot": true,
+			"roles": [
+			],
+			"properties": [
+				{
+					"id":"title",
+					"type":"String",
+					"title":"Title",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"engine",
+					"type":"Boolean",
+					"title":"For engine",
+					"value":"false",
+					"description":".",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+					"value":"English",
+					"description":"This holds the name of the language in which text is written.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"creationdate",
+					"type":"Date",
+					"title":"CreationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was created.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationdate",
+					"type":"Date",
+					"title":"ModificationDate",
+					"value":"10/07/07",
+					"description":"This defines the date on which the Diagram was last modified.",
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"documentation",
+					"type":"String",
+					"title":"Documentation",
+					"value":"",
+					"description":"The modeler may add optional text documentation about the Diagram.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true
+				},				
+			]
+		},
+ 		{
+			"id":"Host",
+			"type": "node",
+			"title":"Host",
+			"groups":[],
+			"description":"A Host",
+			"view":"node.transition.svg",
+			"icon":"new_transition.png",
+			"roles": [
+				"host",
+				"fromtoall",
+				"TransitionMorph",
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"text"
+				},
+				
+				{
+					"id":"os",
+					"type":"String",
+					"title":"Operating System",
+					"value":"",
+					"description":"This is the operating system of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"desc",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"This is the description of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"cpu_cores",
+					"type":"Integer",
+					"title":"# CPU",
+					"value":"1",
+					"description":"This is the number of CPU cores of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"ram",
+					"type":"Integer",
+					"title":"RAM",
+					"value":"256",
+					"description":"This is the amount of RAM of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},				
+			]
+		},
+		
+		{
+			"id":"program",
+			"type": "node",
+			"title":"Program",
+			"groups":[],
+			"description":"A Program",
+			"view":"node.transition.svg",
+			"icon":"new_transition.png",
+			"roles": [
+				"program",
+				"fromtoall",
+				"TransitionMorph",
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+					
+				},
+				
+				{
+					"id":"name",
+					"type":"String",
+					"title":"CPE Name",
+					"value":"",
+					"description":"This is the operating system of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":"50",
+					"refToView":"text"
+				},
+				{
+					"id":"desc",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"This is the description of the host.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+							
+			]
+		},
+		
+		{
+			"id":"user",
+			"type": "node",
+			"title":"User",
+			"groups":[],
+			"description":"A Program",
+			"view":"node.transition.svg",
+			"icon":"new_transition.png",
+			"roles": [
+				"user",
+				"fromtoall",
+				"TransitionMorph",
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+					
+				},
+				
+				{
+					"id":"username",
+					"type":"String",
+					"title":"Username",
+					"value":"",
+					"description":"This is the user name.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"text"
+				},
+				
+				{
+					"id":"password",
+					"type":"String",
+					"title":"Password",
+					"value":"",
+					"description":"This is the password of the user.",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"desc",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"This is the description of the user.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+							
+			]
+		},
+		{
+			"id":"file",
+			"type": "node",
+			"title":"File",
+			"groups":[],
+			"description":"A File",
+			"view":"node.transition.svg",
+			"icon":"new_transition.png",
+			"roles": [
+				"file",
+				"fromtoall",
+				"TransitionMorph",
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					
+				},
+				
+				{
+					"id":"name",
+					"type":"String",
+					"title":"File name",
+					"value":"",
+					"description":"This is the file name.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"text"
+				},
+				
+				{
+					"id":"desc",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"This is the description of the file.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"owner",
+					"type":"String",
+					"title":"Owner",
+					"value":"",
+					"description":"This is the owner of the file.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"destPath",
+					"type":"String",
+					"title":"Destination Path",
+					"value":"",
+					"description":"This is the destination path of the file.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+							
+			]
+		},
+		{
+			"id":"interface",
+			"type": "node",
+			"title":"Interface",
+			"groups":[],
+			"description":"A network interface",
+			"view":"node.transition.svg",
+			"icon":"new_transition.png",
+			"roles": [
+				"interface",
+				"fromtoall",
+				"TransitionMorph",
+				"labeledtransition"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"text",
+					
+				},
+				
+				{
+					"id":"ip",
+					"type":"String",
+					"title":"IP Address",
+					"value":"",
+					"description":"This is the file name.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					
+				},
+				
+				{
+					"id":"mac",
+					"type":"String",
+					"title":"MAC Address",
+					"value":"",
+					"description":"This is the description of the user.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+							
+			]
+		},
+		
+ 		{
+			"type": "node",
+			"id":"switch",
+			"title":"Switch",
+			"groups":[],
+			"description":"A switch.",
+			"view":"node.transition.emptyV.svg",
+			"icon":"new_transition_emptyV.png",
+			"roles": [
+				"switch",
+				"fromtoall",
+				"TransitionMorph"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50",
+					"refToView":"text" 
+				},
+				
+				{
+					"id":"baseIP",
+					"type":"String",
+					"title":"base IP",
+					"value":"",
+					"description":"This is the base IP",
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+					 
+				},
+				{
+					"id":"subnet",
+					"type":"String",
+					"title":"subnet",
+					"value":"",
+					"description":"This is the subnet",
+					"readonly":false,
+					"optional":true,
+					"length":"50" 
+				},				
+										
+			]			
+		},		
+		
+		{
+			"type": "edge",
+			"id":"Arc",
+			"title":"Arc",
+			"description":"",
+			"groups":[],
+			"view":"connection.flow.svg",
+			"icon":"new_flow_normal.png",
+			"roles": [
+				"fromtoall",
+				"FlowMorph"
+			],
+			"properties": [
+				{
+					"id":"id",
+					"type":"String",
+					"title":"Id",
+					"value":"",
+					"description":"This is a unique Id that distinguishes the Diagram from other Diagrams.",
+					"readonly":false,
+					"optional":false,
+					"length":"50"
+				},
+				{
+					"id":"transformation",
+					"type":"String",
+					"title":"Transformation href",
+					"value":"",
+					"description":"",
+					"tooltip":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}						
+											
+			]
+		}
+	],	
+	"rules": {
+		"connectionRules": [
+			{
+				"role":"Arc",
+				"connects": [
+					{
+						"from":"fromtoall",
+						"to":["fromtoall"]
+					},
+				]
+			},
+			
+			{
+				"role":"interface",
+				"connects": [
+					{
+						"from":"host",
+						"to":["interface"]
+					},
+				]
+			}	
+		],
+		"containmentRules": [
+			{
+				"role":"Diagram",
+				"contains": [
+					"fromtoall"
+				]
+			},
+			
+			{
+				"role":"host",
+				"contains": [
+					"program",
+					"user",
+					"file",
+					"interface"
+				]
+			},
+		],
+		"morphingRules": [
+			{
+				"role": "TransitionMorph",
+				"baseMorphs": ["Host"]
+			},
+			{
+				"role": "FlowMorph",
+				"baseMorphs": ["Arc"]
+			},
+			
+			
+		]
+	}
+}

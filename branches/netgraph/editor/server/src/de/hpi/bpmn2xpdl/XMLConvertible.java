@@ -49,9 +49,8 @@ public abstract class XMLConvertible {
 		return resourceIdToShape;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void parse(JSONObject modelElement) {
-		Iterator jsonKeys = modelElement.keys();
+		Iterator<?> jsonKeys = modelElement.keys();
 		while (jsonKeys.hasNext()) {
 			String key = (String) jsonKeys.next();
 			String readMethodName = "readJSON" + key;
@@ -169,9 +168,8 @@ public abstract class XMLConvertible {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected boolean hasMethodJSONParameter(Method method) {
-		Class[] parameterTypes = method.getParameterTypes();
+		Class<?>[] parameterTypes = method.getParameterTypes();
 		if (parameterTypes.length == 1) {
 			return parameterTypes[0].equals(JSONObject.class);
 		}
@@ -192,5 +190,15 @@ public abstract class XMLConvertible {
 				return !modelElement.optString(key).equals(""); 
 			}
 		}
+	}
+	public void writeJSONchildshape(JSONObject modelElement) throws JSONException{
+		if (modelElement.optJSONArray("childShapes") == null) {
+		    modelElement.put("childShapes", new JSONArray());
+		}
+	}
+	public void writeJSONoutgoing(JSONObject modelElement) throws JSONException{
+	    if(modelElement.optJSONArray("outgoing") == null){
+		modelElement.put("outgoing", new JSONArray());
+	    }
 	}
 }

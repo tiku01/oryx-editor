@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="50"
+   version="1.0"
+   id="svg2997"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="node.file.svg">
+  <metadata
+     id="metadata3007">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="738"
+     id="namedview3005"
+     showgrid="false"
+     inkscape:zoom="3.1829268"
+     inkscape:cx="122.21955"
+     inkscape:cy="46.721002"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g3009" />
+  <defs
+     id="defs2999" />
+  <oryx:magnets>
+    <oryx:magnet
+       oryx:cx="1"
+       oryx:cy="25"
+       oryx:anchors="left" />
+    <oryx:magnet
+       oryx:cx="125"
+       oryx:cy="49"
+       oryx:anchors="bottom" />
+    <oryx:magnet
+       oryx:cx="250"
+       oryx:cy="25"
+       oryx:anchors="right" />
+    <oryx:magnet
+       oryx:cx="125"
+       oryx:cy="1"
+       oryx:anchors="top" />
+    <oryx:magnet
+       oryx:cx="125"
+       oryx:cy="25"
+       oryx:default="yes" />
+  </oryx:magnets>
+  <g
+     id="g3009">
+		<rect id="taskrect" oryx:resize="vertical horizontal" x="0" y="0"
+			width="100" height="80"
+			style="fill:#ffffff;stroke:#000000;stroke-width:0.67027044" />
+		<text 
+			font-size="12" 
+			id="text" 
+			x="50" 
+			y="70"
+			oryx:align="bottom center"
+			oryx:fittoelem="taskrect"
+			stroke="black">
+		</text>
+    <g
+       oryx:anchors="top left"
+       transform="matrix(0.50340326,0,0,0.50340326,-3.5438672,0.52812666)"
+       id="g3007">
+      <rect
+         oryx:anchors="top left"
+         y="4.909091"
+         x="12"
+         height="56.056267"
+         width="40.363636"
+         id="rect5028"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:1.13687074;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         oryx:anchors="top left"
+         inkscape:connector-curvature="0"
+         id="path5538"
+         d="m 40.909091,5.594025 -0.363636,11.86052 11.272727,0 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.0175668px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         oryx:anchors="top left"
+         inkscape:connector-curvature="0"
+         id="path5542"
+         d="m 40.772727,3.9315946 12.863636,14.0913564 0,-15.2727275 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         oryx:anchors="top left"
+         inkscape:connector-curvature="0"
+         id="path5544"
+         d="m 17.227693,24.016326 28.669965,0 z"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         oryx:anchors="top left"
+         inkscape:connector-curvature="0"
+         id="path5544-2"
+         d="m 17.203342,30.572635 28.669965,0 z"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         oryx:anchors="top left"
+         inkscape:connector-curvature="0"
+         id="path5544-2-2"
+         d="m 17.16341,37.129942 28.669965,0 z"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>

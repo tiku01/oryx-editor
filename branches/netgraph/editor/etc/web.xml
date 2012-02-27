@@ -494,6 +494,12 @@
 		<servlet-name>VisioImporter</servlet-name>
 		<servlet-class>org.oryxeditor.server.VisioImporter</servlet-class>
 	</servlet>
+	<servlet>
+		<display-name>NetGraphXMLServlet</display-name>
+		<servlet-name>NetGraphXMLServlet</servlet-name>
+		<servlet-class>org.oryxeditor.server.NetGraphXMLServlet</servlet-class>
+	</servlet>
+	
 
     <!-- Servlet Mappings -->
 <!--	
@@ -792,7 +798,10 @@
 		<servlet-name>VisioImporter</servlet-name>
 		<url-pattern>/visioimport</url-pattern>
 	</servlet-mapping>
-	
+		<servlet-mapping>
+		<servlet-name>NetGraphXMLServlet</servlet-name>
+		<url-pattern>/netgraph2xml</url-pattern>
+	</servlet-mapping>
 	<jsp-config>
 		<taglib>
 			<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
