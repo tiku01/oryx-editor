@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+	<ModulePrefs title="Model Abstraction">
+		<Require feature="opensocial-0.8"></Require>
+        <Require feature="dynamic-height"></Require>
+		<Require feature="settitle"></Require>
+        <Require feature="rpc"></Require>
+		<Require feature="minimessage"></Require>
+	</ModulePrefs>
+	<Content type="html">
+        <![CDATA[
+		<script type="text/javascript">
+	        var externs = ['http://yui.yahooapis.com/2.8.2/build/yuiloader/yuiloader.js',
+						'/oryx/lib/prototype-1.5.1.js',
+						'/mashup/gadgets/files/gadgets/modelabstraction/core.js',];
+	
+	        for (var i = 0; i < externs.length; i++)
+	                document.write(unescape("%3Cscript src='" + externs[i] + "'type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		
+		<style type="text/css">
+			#abstractor {
+				background: transparent;
+			}
+			
+			div.yui-layout-bd {
+				background-color: transparent !important;
+				border-color: #D0D0D0 !important;
+			}
+			
+			.yui-layout-hd {
+				background: #A0A0A0 !important;
+				border-style: none !important;
+			}
+			
+			div.yui-layout-hd h2{
+				color: #FFFFFF !important;
+			}
+			
+			.yui-radio-button-checked{
+				background-position:0 -110px !important;
+			}
+			
+			.checkbox { 
+			    display:block;
+			   	width:15%;
+				float:left;
+			    clear:left;
+			}
+			
+			label {
+				float:left;
+			}
+			
+			.clear {
+			    clear:both;
+				height:10px;
+			}
+			
+			#groups {
+				list-style: none;
+				margin: 15px;
+				cursor: pointer;
+			}
+			
+			.group-item {
+				background-color: white;
+				color: #808080;
+				border: 1px #808080 solid;
+				-moz-border-radius: 15px; 
+				float: left;
+				width: 75%;
+				height: auto;
+				min-height: 20px;
+				padding-left: 15px;
+				margin-right: 15px;		
+			}
+			
+			div.group-item:hover, .group-item-active {
+				background-color: #A0A0A0;
+				color: white;
+				border-color: white;
+			}
+			
+			.marginl3px {
+				margin-left: 3px;
+			}
+			
+			.hide {
+				display: none !important;
+			}
+			
+			#msgpanel.yui-panel .bd {
+				background-color: #FFD700;
+				font-weight: bold;
+				border: 2px solid #000000;
+			}
+			
+			#overlay {
+				position: fixed;
+				background-color: #707070;/*transparent;*/
+				filter:alpha(opacity=50);
+				-moz-opacity:0.5;
+				-khtml-opacity: 0.5;
+				opacity: 0.5;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				top: 0;
+				z-index: 100;
+				visibility: hidden;
+			}
+			
+			#edit_message {
+				position: absolute;
+				left: 10px;
+				top: 70px;
+				font-style: italic;
+			}
+			
+			#edit_buttons {
+				bottom: 20px;
+			    left: 60px;
+			    position: absolute
+			}
+			
+			#edit_in {
+				position: absolute;
+				left: 10px;
+				top: 40px;
+			}
+			
+			#edit_name {
+				width: 165px;
+			}
+			
+			#loading_anim {
+				
+			}
+			
+			#cycle_legend {
+				top: 40px;
+			}
+			
+			#option_buttons {
+				bottom: 20px;
+				left: 90px;
+				position: absolute;
+			}
+			
+			#radio_buttons {
+				display: inline;
+			}
+			
+			#slider {
+				position: absolute;
+				top: 75px;
+				left: 15px;
+				width: 220px;
+				height: 20px;
+			}
+			
+			#slider_thumb {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			
+			#threshold_value {
+				width: 135px;
+			}
+			
+			#threshold_legend {
+				top: 50px;
+			}
+			
+			.left10 {
+				position: absolute;
+				left: 10px;
+			}
+			
+			.slider_legend {
+				position: absolute;
+				top: 80px;
+			}
+			
+			.stick_left {
+				left: 10px;
+			}
+			
+			.stick_right {
+				right: 10px;
+			}
+		</style>
+		
+		<body class=" yui-skin-sam" id="abstractor">
+		<div id="msgpanel">
+			<!--div class="hd"></div-->
+			<div class="bd"></div>
+			<!--div class="ft"></div-->
+		</div>		
+		<div id="overlay"></div>
+		
+		<div id="edit_panel">
+			<div class="hd"></div>
+			<div class="bd">
+				<div id="edit_in">
+					<span>Name: </span>
+					<input id="edit_name" type="text"/><br/>
+				</div>
+				<span id="edit_message">Select all shapes and click on Save.</span>
+				<fieldset id="edit_buttons"></fieldset>
+			</div>
+			<!--div class="ft"></div-->
+		</div>
+		
+		<div id="option_panel">
+			<div class="hd"></div>
+			<div class="bd">
+				<!--div id="cycle_legend" class="left10">
+					<span>Prefer: </span>
+				
+				<fieldset id="radio_buttons"></fieldset>
+				</div-->
+				<div id="threshold_legend" class="left10"> 
+					<span>Threshold: </span>
+					<input id="threshold_value" type="text"/><br/>
+				</div>
+				<div id="slider" class="yui-h-slider" tabindex="-1">
+					<div id="slider_thumb"></div>
+				</div>
+				<div>
+					<span class="slider_legend stick_left">0</span>
+					<span class="slider_legend stick_right">1<span>
+				</div>
+				<fieldset id="option_buttons"></fieldset>
+			</div>
+		</div>
+		
+		<div id="loading_anim">
+			<div class="bd"></div>
+		</div>
+		
+		<div id ="top">
+			<div style="margin: 3px">
+				<fieldset id="button_group"></fieldset>
+				<div>
+					<span id="modelline" class="marginl3px">Model: <span id="model"></span></span>
+				</div>
+			</div>
+		</div>
+		
+		<div id="center"> 
+			<ul id="groups"></ul>
+		</div>
+		</body>
+		]]>
+	</Content>
+</Module>

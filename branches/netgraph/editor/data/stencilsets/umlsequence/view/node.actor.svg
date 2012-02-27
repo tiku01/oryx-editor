@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx"
+	version="1.0">
+	<g oryx:minimumSize="80 60" id="actor">
+		<path id="line" d="M40,0 L40,500" stroke="black" fill="none"
+			stroke-width="4" stroke-dasharray="5, 3" oryx:resize="vertical horizontal"
+			oryx:anchors="top" />
+		<rect id="invisibleborder" oryx:resize="vertical horizontal" x="34"
+			y="81" width="12" height="400" fill="none" stroke-width="4"
+			visibility="hidden" oryx:anchors="top" />
+		<rect oryx:resize="horizontal" id="border" x="0" y="0" width="80"
+			height="80" stroke="black" stroke-width="2" fill="white"
+			oryx:anchors="top" />
+		<text id="text" font-size="12" x="40" y="40" stroke="black"
+			oryx:anchors="top" oryx:align="middle center" oryx:fittoelem="border" />
+
+	</g>
+</svg>
