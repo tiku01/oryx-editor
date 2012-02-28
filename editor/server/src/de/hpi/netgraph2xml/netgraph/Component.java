@@ -197,6 +197,8 @@ public class Component extends XMLConvertible{
 	modelElement.put("desc", getDesc());
     }
     public void writeJSONid(JSONObject modelElement) throws JSONException {
+	modelElement.put("resourceId", ""+getId().hashCode());
+
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
 	modelElement.put("id", getId());
     }

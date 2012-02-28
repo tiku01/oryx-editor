@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import com.hp.hpl.jena.shared.uuid.UUID;
 
 import de.hpi.bpmn2xpdl.XMLConvertible;
-import de.hpi.netgraph2xml.netgraph.Scenario;
 
 public class XMLConvertibleUtils {
     public static void initializeChildShapes(JSONObject modelElement) throws JSONException {

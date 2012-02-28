@@ -12,8 +12,8 @@ public class Connection extends XMLConvertible{
     NetworkLink network;
     @Element("gateway")
     Collection<Gateway> gateways;
-    @Element("rule")
-    Collection<Rule> rules;
+    @Element("rules")
+    Rules rules;
     public NetworkLink getNetwork() {
 	return network;
     }
@@ -26,10 +26,10 @@ public class Connection extends XMLConvertible{
     public void setGateways(Collection<Gateway> gateways) {
 	this.gateways = gateways;
     }
-    public Collection<Rule> getRules() {
+    public Rules getRules() {
 	return rules;
     }
-    public void setRules(Collection<Rule> rules) {
+    public void setRules(Rules rules) {
 	this.rules = rules;
     }
 }

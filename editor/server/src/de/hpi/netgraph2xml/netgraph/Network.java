@@ -18,7 +18,7 @@ public class Network extends XMLConvertible{
     @Attribute
     String id;
     @Attribute
-    String dhcp;
+    Boolean dhcp;
     public String getBase_ip() {
         return base_ip;
     }
@@ -37,10 +37,10 @@ public class Network extends XMLConvertible{
     public void setId(String id) {
         this.id = id;
     }
-    public String getDhcp() {
+    public Boolean getDhcp() {
         return dhcp;
     }
-    public void setDhcp(String dhcp) {
+    public void setDhcp(Boolean dhcp) {
         this.dhcp = dhcp;
     }
     
@@ -51,12 +51,28 @@ public class Network extends XMLConvertible{
 	modelElement.put("stencil", stencil);
     }
     public void writeJSONid(JSONObject modelElement) throws JSONException {
-	modelElement.put("resourceId", getId());
+	String resourceId = "";
+	if(getId() != null){
+	    resourceId = ""+getId().hashCode();
+	}
+	modelElement.put("resourceId", resourceId);
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
 	modelElement.put("id", getId());
     }
     public void readJSONid(JSONObject modelElement) throws JSONException {
-	setId(modelElement.optString("id"));
+	String optId = modelElement.optString("id");
+	if(optId != null){
+	    setId(optId);
+	}else{
+	    setId(modelElement.optString("resourceId"));
+	}
+    }
+    public void writeJSONdhcp(JSONObject modelElement) throws JSONException {
+	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
+	modelElement.put("dhcp", getDhcp());
+    }
+    public void readJSONdhcp(JSONObject modelElement) throws JSONException {
+	setDhcp(modelElement.optBoolean("dhcp"));
     }
     public void writeJSONbaseip(JSONObject modelElement) throws JSONException {
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
