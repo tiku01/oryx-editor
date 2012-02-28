@@ -2,6 +2,8 @@ package de.hpi.netgraph2xml.netgraph;
 
 import java.util.ArrayList;
 
+import net.sf.saxon.event.XML10ContentChecker;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +92,7 @@ public class Interface extends XMLConvertible{
 	    JSONObject edge = getResourceIdToShape().get(resourceIdEdge);
 	    String resourceIdTarget = edge.getJSONObject("target").getString("resourceId");
 	    JSONObject network = getResourceIdToShape().get(resourceIdTarget);
-	    String networkId = network.optString("id");
+	    String networkId = XMLConvertibleUtils.switchToProperties(network).optString("id");
 	    if(getConnection()==null){
 		setConnection(new Connection());
 	    }
@@ -115,7 +117,7 @@ public class Interface extends XMLConvertible{
 	arc.put("stencil", stencil);
 	arc.put("resourceId", rId);
 	JSONObject network = new JSONObject();
-	network.put("resourceId", getConnection().getNetwork().getId());
+	network.put("resourceId", ""+getConnection().getNetwork().getId().hashCode());
 	arc.put("target", network);
 	JSONArray arcOutgoings = new JSONArray();
 	arcOutgoings.put(network);
@@ -139,7 +141,7 @@ public class Interface extends XMLConvertible{
     public void writeJSONchildShapes(JSONObject modelElement) throws JSONException {
 	if(getConnection()!=null){
 		if(getConnection().getRules()!=null){
-			XMLConvertibleUtils.writeChildren(modelElement, getConnection().getRules());
+			XMLConvertibleUtils.writeChildren(modelElement, getConnection().getRules().getRules());
 		}
 		if(getConnection().getGateways()!=null){
 			XMLConvertibleUtils.writeChildren(modelElement, getConnection().getGateways());
@@ -171,10 +173,10 @@ public class Interface extends XMLConvertible{
 			setConnection(new Connection());
 		    }
 		    if(getConnection().getRules()==null){
-			getConnection().setRules(new ArrayList<Rule>());
+			getConnection().setRules(new Rules());
 		    }
 		    n.parse(childShape);
-		    getConnection().getRules().add(n);
+		    getConnection().getRules().getRules().add(n);
 		}
 	    }
 	}

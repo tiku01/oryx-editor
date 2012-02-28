@@ -85,7 +85,7 @@
                     "readonly": false,
                     "optional": true,
                     "length": "50",
-                    "refToView": "text"
+                    "refToView": ""
                 },
                 {
                     "id": "cpu_cores",
@@ -553,7 +553,17 @@
                     "readonly": false,
                     "optional": true,
                     "length": "50"
-                }
+                },
+                {
+					"id":"dhcp",
+					"type":"Boolean",
+					"title":"DHCP",
+					"value":false,
+					"description":"Is DHCP activated?",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				}
             ]
         },
         {
@@ -573,13 +583,19 @@
     ],
     "rules": {
         "connectionRules": [
-            {
-                "role": "Arc",
+			{
+                "role": "fromtoall",
                 "connects": [
                     {
                         "from": "interface",
                         "to": [
                             "switch"
+                        ]
+                    },
+                    {
+                        "from": "gateway",
+                        "to": [
+                            "host"
                         ]
                     }
                 ]

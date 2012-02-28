@@ -9,12 +9,9 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.oryxeditor.server.diagram.Diagram;
-import org.oryxeditor.server.diagram.DiagramBuilder;
 import org.xmappr.Xmappr;
 
 import de.hpi.bpmn2xpdl.XMLConvertible;
-import de.hpi.bpmn2xpdl.XPDLPackage;
 import de.hpi.netgraph2xml.netgraph.Scenario;
 
 public class NetgraphXmlExporter {
