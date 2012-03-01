@@ -84,8 +84,7 @@
                     "description": "Common Platform Enumeration (CPE)",
                     "readonly": false,
                     "optional": true,
-                    "length": "50",
-                    "refToView": ""
+                    "length": "50"
                 },
                 {
                     "id": "cpu_cores",
@@ -257,8 +256,7 @@
                     "description": "This is the to.",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 },
                 {
                     "id": "input",
@@ -305,8 +303,7 @@
                     "description": "",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 },
                 {
                     "id": "destination_port",
@@ -316,8 +313,7 @@
                     "description": "This is the to.",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 },
                 {
                     "id": "state",
@@ -344,7 +340,8 @@
                 "gateway",
                 "fromtoall",
                 "TransitionMorph",
-                "labeledtransition"
+                "labeledtransition",
+                "restrict_to_one_edge"
             ],
             "properties": [
                 {
@@ -355,8 +352,7 @@
                     "description": "This is the to.",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 },
                 {
                     "id": "subnet",
@@ -394,8 +390,7 @@
                     "description": "This is a unique Id that distinguishes the Diagram from other Diagrams.",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 },
                 {
                     "id": "name",
@@ -462,7 +457,8 @@
                 "interface",
                 "fromtoall",
                 "TransitionMorph",
-                "labeledtransition"
+                "labeledtransition",
+                "restrict_to_one_edge"
             ],
             "properties": [
                 {
@@ -504,8 +500,7 @@
                     "description": "",
                     "readonly": false,
                     "optional": false,
-                    "length": "50",
-                    "refToView": "text"
+                    "length": "50"
                 }
             ]
         },
@@ -555,15 +550,14 @@
                     "length": "50"
                 },
                 {
-					"id":"dhcp",
-					"type":"Boolean",
-					"title":"DHCP",
-					"value":false,
-					"description":"Is DHCP activated?",
-					"readonly":false,
-					"optional":false,
-					"refToView":""
-				}
+                    "id": "dhcp",
+                    "type": "Boolean",
+                    "title": "DHCP",
+                    "value": false,
+                    "description": "Is DHCP activated?",
+                    "readonly": false,
+                    "optional": false
+                }
             ]
         },
         {
@@ -583,7 +577,7 @@
     ],
     "rules": {
         "connectionRules": [
-			{
+            {
                 "role": "fromtoall",
                 "connects": [
                     {
@@ -646,6 +640,18 @@
                 "role": "FlowMorph",
                 "baseMorphs": [
                     "Arc"
+                ]
+            }
+        ],
+        "cardinalityRules": [
+            {
+                "role": "restrict_to_one_edge",
+                "maximumOccurrence": null,
+                "outgoingEdges": [
+                    {
+                        "role": "FlowMorph",
+                        "maximum": 1
+                    }
                 ]
             }
         ]

@@ -2,8 +2,6 @@ package de.hpi.netgraph2xml.netgraph;
 
 import java.util.ArrayList;
 
-import net.sf.saxon.event.XML10ContentChecker;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
