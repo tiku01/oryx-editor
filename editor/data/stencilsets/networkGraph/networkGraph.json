@@ -214,7 +214,7 @@
                     "id": "range",
                     "type": "String",
                     "title": "Range",
-                    "value": "",
+                    "value": "remote",
                     "description": "This is the range.",
                     "readonly": false,
                     "optional": false,
@@ -551,10 +551,10 @@
                 },
                 {
                     "id": "dhcp",
-                    "type": "Boolean",
+                    "type": "String",
                     "title": "DHCP",
-                    "value": false,
-                    "description": "Is DHCP activated?",
+                    "value": "disabled",
+                    "description": "DHCP is:",
                     "readonly": false,
                     "optional": false
                 }

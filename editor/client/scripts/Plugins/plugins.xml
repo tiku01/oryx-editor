@@ -445,9 +445,10 @@
 
 	
 	<properties>
-		<property group="File" index="1" />
-		<property group="Edit" index="2" />	
-		<property group="Undo" index="3" />
+		<property group="Netgraph" index="1"/>
+		<property group="File" index="2" />
+		<property group="Edit" index="3" />	
+		<property group="Undo" index="4" />
         <!-- ZZZZ assures that it is always at the end Feedback Plugin, ... -->
         <property group="Help" index="ZZZZZZ" /> 	
 	</properties>

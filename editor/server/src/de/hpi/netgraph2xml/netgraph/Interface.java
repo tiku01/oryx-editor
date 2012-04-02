@@ -62,12 +62,13 @@ public class Interface extends XMLConvertible{
 	modelElement.put("stencil", stencil);
     }
     
-    public void writeJSONid(JSONObject modelElement) throws JSONException {
+    public void writeJSONname(JSONObject modelElement) throws JSONException {
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
-	modelElement.put("id", getName());
+	modelElement.put("name", getName());
     }
-    public void readJSONid(JSONObject modelElement) throws JSONException {
-	setName(modelElement.optString("id"));
+    
+    public void readJSONname(JSONObject modelElement) throws JSONException {
+	setName(modelElement.optString("name"));
     }
     public void writeJSONip(JSONObject modelElement) throws JSONException {
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);

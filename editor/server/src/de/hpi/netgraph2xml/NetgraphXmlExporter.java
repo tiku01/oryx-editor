@@ -43,7 +43,7 @@ public class NetgraphXmlExporter {
 		StringWriter writer = new StringWriter();
 		
 		Xmappr xmappr = new Xmappr(Scenario.class);
-		xmappr.setPrettyPrint(true);
+		xmappr.setPrettyPrint(false);
 		xmappr.toXML(scenario, writer);
 		
 		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + writer.toString();

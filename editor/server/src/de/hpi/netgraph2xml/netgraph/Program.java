@@ -57,7 +57,7 @@ public class Program extends XMLConvertible{
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
 	modelElement.put("cpe_name", getCpe_name());
     }
-    public void readJSONname(JSONObject modelElement) throws JSONException {
+    public void readJSONcpe_name(JSONObject modelElement) throws JSONException {
 	setCpe_name(modelElement.optString("cpe_name"));
     }
     public void writeJSONport_numbers(JSONObject modelElement) throws JSONException {

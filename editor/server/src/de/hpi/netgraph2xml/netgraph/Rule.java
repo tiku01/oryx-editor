@@ -59,7 +59,7 @@ public class Rule extends XMLConvertible{
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
 	modelElement.put("state", getState());
     }
-    public void readJSONstatet(JSONObject modelElement) throws JSONException {
+    public void readJSONstate(JSONObject modelElement) throws JSONException {
 	setState(modelElement.optString("state"));
     }
     public void readJSONproperties(JSONObject modelElement) throws JSONException {
