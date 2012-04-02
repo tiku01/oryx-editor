@@ -18,7 +18,7 @@ public class Network extends XMLConvertible{
     @Attribute
     String id;
     @Attribute
-    Boolean dhcp;
+    String dhcp;
     public String getBase_ip() {
         return base_ip;
     }
@@ -37,10 +37,10 @@ public class Network extends XMLConvertible{
     public void setId(String id) {
         this.id = id;
     }
-    public Boolean getDhcp() {
+    public String getDhcp() {
         return dhcp;
     }
-    public void setDhcp(Boolean dhcp) {
+    public void setDhcp(String dhcp) {
         this.dhcp = dhcp;
     }
     
@@ -72,7 +72,7 @@ public class Network extends XMLConvertible{
 	modelElement.put("dhcp", getDhcp());
     }
     public void readJSONdhcp(JSONObject modelElement) throws JSONException {
-	setDhcp(modelElement.optBoolean("dhcp"));
+	setDhcp(modelElement.optString("dhcp"));
     }
     public void writeJSONbaseip(JSONObject modelElement) throws JSONException {
 	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);

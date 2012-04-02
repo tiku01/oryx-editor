@@ -3,7 +3,7 @@
 <profiles>
 	<!-- name default is reserved for the standard profile -->
 	<profile name="none" stencilset="stencilsets/bpmn1.1/bpmn1.1.json"/>
-	<profile name="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
+	<profile name="default" stencilset="stencilsets/networkGraph/networkGraph.json">
 		<!--<plugin name="ORYX.Plugins.SelectStencilSetPerspective"/>-->
 		<plugin name="ORYX.Plugins.ShapeRepository"/>
 		<plugin name="ORYX.Plugins.PropertyWindow"/>
@@ -11,10 +11,7 @@
 		<plugin name="ORYX.Plugins.View"/>
 		<plugin name="ORYX.Plugins.DragDropResize"/>
 		<plugin name="ORYX.Plugins.RenameShapes" />
-		<plugin name="ORYX.Plugins.ERDFSupport" />
 		<plugin name="ORYX.Plugins.JSONSupport"/>
-		<plugin name="ORYX.Plugins.RDFExport" />
-		<plugin name="ORYX.Plugins.Feedback" />
 		<plugin name="ORYX.Plugins.Undo" />
 		<plugin name="ORYX.Plugins.Arrangement"/>
 		<plugin name="ORYX.Plugins.Grouping"/>
@@ -28,13 +25,9 @@
 		<plugin name="ORYX.Plugins.Overlay"/>
 		<plugin name="ORYX.Plugins.Edit"/>
 		<plugin name="ORYX.Plugins.KeysMove"/>
-		<plugin name="ORYX.Plugins.RowLayouting"/>
-		<plugin name="ORYX.Plugins.PluginLoader"/>
-		<plugin name="ORYX.Plugins.File"/>
-		<plugin name="ORYX.Plugins.Save"/>
 		<plugin name="ORYX.Plugins.ContainerLayouter" />
 		<plugin name="ORYX.Plugins.Layouter.EdgeLayouter"/>
-		<plugin name="ORYX.Plugins.WaveThis"/>
+		<plugin name="ORYX.Plugins.NETGRAPH2XML"/>
 	</profile>
 	<profile name="bpmn" depends="default" stencilset="stencilsets/bpmn1.1/bpmn1.1.json">
 		<plugin name="ORYX.Plugins.BPMN2XForms"/>
@@ -179,9 +172,6 @@
 	</profile>
 	<profile name="umlsequence" depends="default" stencilset="stencilsets/umlsequence/umlsequence.json">
 			<plugin name="ORYX.Plugins.UMLSequence"/>
-	</profile>
-	<profile name="netgraph" depends="default" stencilset="stencilsets/networkGraph/networkGraph.json">
-			<plugin name="ORYX.Plugins.NETGRAPH2XML"/>
 	</profile>
 	
 </profiles>
