@@ -183,5 +183,13 @@ public class Interface extends XMLConvertible{
     public void writeJSONresourceId(JSONObject modelElement) throws JSONException {
 	modelElement.put("resourceId", XMLConvertibleUtils.generateResourceId());
     }
+    public void writeJSONsubnet(JSONObject modelElement) throws JSONException {
+	modelElement = XMLConvertibleUtils.switchToProperties(modelElement);
+	modelElement.put("subnet", getSubnet());
+    }
+    
+    public void readJSONsubnet(JSONObject modelElement) throws JSONException {
+	setSubnet(modelElement.optString("subnet"));
+    }
 }
 

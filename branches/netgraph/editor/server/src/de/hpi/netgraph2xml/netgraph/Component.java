@@ -21,8 +21,17 @@ public class Component extends XMLConvertible{
     Image image;
     @Element
     Hardware hardware;
+    @Element
+    Routing routing;
+
     @Element("Interface")
     Collection<Interface> interfaces;
+    public Routing getRouting() {
+        return routing;
+    }
+    public void setRouting(Routing routing) {
+        this.routing = routing;
+    }
 
     public String getDesc() {
 	return desc;
@@ -221,6 +230,56 @@ public class Component extends XMLConvertible{
 	modelElement.put("resourceId", XMLConvertibleUtils.generateResourceId());
     }
 
-
-
+    public void readJSONoutgoing(JSONObject modelElement) throws JSONException {
+	JSONArray array = modelElement.optJSONArray("outgoing");
+	for(int i = 0; i<array.length(); i++){
+	    String resourceIdEdge = array.getJSONObject(i).getString("resourceId");
+	    JSONObject edge = getResourceIdToShape().get(resourceIdEdge);
+	    String resourceIdTarget = edge.getJSONObject("target").getString("resourceId");
+	    JSONObject network = getResourceIdToShape().get(resourceIdTarget);
+	    String networkId = XMLConvertibleUtils.switchToProperties(network).optString("id");
+	    if(getRouting()==null){
+		setRouting(new Routing());
+	    }
+	    if(getRouting().getNetworks()==null){
+		getRouting().setNetworks(new ArrayList<NetworkLink>());
+	    }
+	    NetworkLink l = new NetworkLink();
+	    l.setId(networkId);
+	    getRouting().getNetworks().add(l);
+	   
+	    }
+    }
+    public void writeJSONoutgoing(JSONObject modelElement) throws JSONException {
+	JSONArray outgoings = new JSONArray();
+	modelElement.put("outgoing", outgoings);
+	if(getRouting()== null || getRouting().getNetworks()==null){
+	    return;
+	}
+	for (NetworkLink networkLink:getRouting().getNetworks()) {
+	    
+	    JSONObject arcRef = new JSONObject();
+	    String rId = arcRef.hashCode() + "connection";
+	    arcRef.put("resourceId", rId);
+	    outgoings.put(arcRef);
+	    JSONObject arc = new JSONObject();
+	    JSONObject stencil = new JSONObject();
+	    stencil.put("id", "connection");
+	    arc.put("stencil", stencil);
+	    arc.put("resourceId", rId);
+	    JSONObject network = new JSONObject();
+	    network.put("resourceId", ""
+		    + networkLink.getId().hashCode());
+	    arc.put("target", network);
+	    JSONArray arcOutgoings = new JSONArray();
+	    arcOutgoings.put(network);
+	    arc.put("outgoing", arcOutgoings);
+	    arc.put("childShapes", new JSONArray());
+	    if (modelElement.optJSONArray("childShapes") == null) {
+		modelElement.put("childShapes", new JSONArray());
+	    }
+	    modelElement.getJSONArray("childShapes").put(arc);
+	}
+	
+    }
 }

@@ -51,7 +51,8 @@ public class NetgraphXmlExporter {
 	
 	public String importNetGraphXml(String xml) {
 		String parseXML = filterXMLString(xml);
-		
+		//Hard code remove
+		parseXML = parseXML.replace("hpi:", "");
 		StringReader reader = new StringReader(parseXML);
 		
 		Xmappr xmappr = new Xmappr(Scenario.class);

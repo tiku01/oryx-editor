@@ -591,6 +591,12 @@
                         "to": [
                             "host"
                         ]
+                    },
+                    {
+                        "from": "host",
+                        "to": [
+                            "switch"
+                        ]
                     }
                 ]
             }
