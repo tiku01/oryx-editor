@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
+import org.oryxeditor.server.diagram.Shape;
+import org.oryxeditor.server.diagram.StencilType;
+
 import de.hpi.bpmn2_0.annotations.ChildElements;
 import de.hpi.bpmn2_0.model.BaseElement;
 import de.hpi.bpmn2_0.model.FlowElement;
@@ -231,5 +234,10 @@ public class SubProcess
     public void setTriggeredByEvent(Boolean value) {
         this.triggeredByEvent = value;
     }
-
+    @Override
+    public void toShape(Shape shape) {
+    	super.toShape(shape);
+    	
+    	shape.setStencil(new StencilType("Subprocess"));
+    }
 }
