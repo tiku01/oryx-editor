@@ -285,12 +285,20 @@ public class EPCTopToBottomGridLayouter {
 					}
 					if (splitFound) {
 
-						leftCell = context.grid.getCellOfItem(split).getParent()
-								.get(x);
-						// set path to split unpackable
-						for (Cell<LayoutingElement> cCell = leftCell; cCell.getValue() != split; cCell = cCell
-								.getPrevCell()) {
-							cCell.setPackable(false);
+						try {
+						    leftCell = context.grid.getCellOfItem(split).getParent()
+						    		.get(x);
+						    // set path to split unpackable
+						    for (Cell<LayoutingElement> cCell = leftCell; cCell.getValue() != split; cCell = cCell
+						    		.getPrevCell()) {
+						    	cCell.setPackable(false);
+						    }
+						} catch (Exception e1) {
+							if (yCnt == 0) {
+								leftCell = context.grid.getFirstRow().above().get(x);
+							} else {
+								leftCell = context.grid.get(yAcc / yCnt).get(x);
+							}
 						}
 
 					} else {

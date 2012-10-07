@@ -81,14 +81,25 @@ public class EPCEdgeLayouter {
 			LayoutingElement edge) {
 		this.edge = edge;
 		this.grid = grid;
-		calculateGlobals();
-		pickLayoutForEdge();
+		try {
+		    calculateGlobals();
+		    pickLayoutForEdge();
+		} catch (Exception e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
 	}
 
 	private void calculateGlobals() {
 		// should both be only one !
-		this.source = (LayoutingElement) edge.getIncomingLinks().get(0);
-		this.target = (LayoutingElement) edge.getOutgoingLinks().get(0);
+		try {
+		    this.source = (LayoutingElement) edge.getIncomingLinks().get(0);
+		    this.target = (LayoutingElement) edge.getOutgoingLinks().get(0);
+		} catch (Exception e) {
+		    
+		    e.printStackTrace();
+		    return;
+		}
 
 		this.sourceGeometry = source.getGeometry();
 		this.targetGeometry = target.getGeometry();

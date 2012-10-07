@@ -176,7 +176,7 @@ ORYX.Plugins.EPCSupport = ORYX.Plugins.AbstractPlugin.extend({
 			return new String("Parse Error: \nThe given dom content is null.");
 		}
 		var xsl = "";
-		source=ORYX.PATH + "lib/extract-rdf.xsl";
+		source= xsltPath;//ORYX.PATH + "lib/extract-rdf.xsl";
 		new Ajax.Request(source, {
 			asynchronous: false,
 			method: 'get',
