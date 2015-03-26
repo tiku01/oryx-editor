@@ -1,0 +1,1 @@
+![http://oryx-editor.googlecode.com/svn/wiki/ServerDoc/ServerArchitecture.png](http://oryx-editor.googlecode.com/svn/wiki/ServerDoc/ServerArchitecture.png)
