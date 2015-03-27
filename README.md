@@ -14,6 +14,11 @@ provides access to the stored models by URLs. It's fully functional in terms of
 creating and editing models and can easily be extended, e.g. by other notations
 (called stencil-sets) or by extra functionality for certain notations (via plugins).
 
+Note:
+You need to perform the following steps to get a running system:
+* cp ./build.properties.example to ./build.properties and adjust it to your environment
+* cp ./poem-jvm/etc/hibernate.cfg.xml.example to ./poem-jvm/etc/hibernate.cfg.xml and adjust it to your environment
+
 Current Roadmap
 * Focus on bringing the code up-to-date (adapt to changes in newer versions of Postgres and alike)
 * Provide local login as an alternative to using OpenID
