@@ -8,3 +8,5 @@ postgresql-hostname = localhost
 postgresql-username = poem
 postgresql-port = 5432
 postgresql-bin-dir = /Library/PostgreSQL/8.4/bin
+
+#changing the build file
