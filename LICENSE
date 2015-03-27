@@ -1,8 +1,6 @@
 /**
- * Copyright (c) 2015
+ * Copyright (c) 2006
  * 
- * The original development-team (prior to 2006 and using Google-Code) was:
- *
  * Philipp Berger, Martin Czuchra, Gero Decker, Ole Eckermann, Lutz Gericke,
  * Alexander Hold, Alexander Koglin, Oliver Kopp, Stefan Krumnow, 
  * Matthias Kunze, Philipp Maschke, Falko Menge, Christoph Neijenhuis, 
@@ -27,10 +25,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ * 
+ * 
  *
  * Ext JS (http://extjs.com/) is used under the terms of the Open Source LGPL 3.0
  * license.
- *
- * The license and the source files can be found in our repository at:
- * https://github.com/tiku01/oryx-editor.
+ * The license and the source files can be found in our SVN repository at:
+ * http://oryx-editor.googlecode.com/.
  **/
