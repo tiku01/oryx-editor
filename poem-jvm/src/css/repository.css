@@ -240,6 +240,7 @@ table-layout:fixed;
 }
 
 #openid_login input {
+	position: relative;
 	font-size:12px;
 	margin:0px 1px;
 	padding:1px;
@@ -247,6 +248,7 @@ table-layout:fixed;
 }
 
 #openid_login input.button {
+	position: relative;
 	background-color:transparent;
 	border-width:0px;
 	color:#AA0000;
@@ -256,9 +258,8 @@ table-layout:fixed;
 }
 
 #openid_login input.text {
-	background:#FFFFFF url(../images/style/openid_login_bg.gif) no-repeat scroll 5px 50%;
 	border:1px solid #AA0000;
-	padding-left:25px;
+	padding-left:2px;
 	width:200px;
 }
 
@@ -266,6 +267,36 @@ table-layout:fixed;
 	background-color:#F1F1F1;
 	color:#333333;
 }
+
+#openid_login_1 {
+	position: absolute;
+	right: 30px;
+	top: 5px;
+	}
+#openid_login_1 input {
+	position: relative;
+	font-size:12px;
+	margin:0px 1px;
+	padding:1px;
+	width:30px;
+}
+#openid_login_1 input.button {
+	position: relative;
+	background-color:transparent;
+	border-width:0px;
+	color:#AA0000;
+	cursor:pointer;
+	font-weight:bold;
+	width:auto;
+}
+
+#openid_login_1 input.text {
+	border:1px solid #AA0000;
+	padding-left:2px;
+	width:200px;
+}
+
+
 
 /*******************************************************************
  * some ext extensions
