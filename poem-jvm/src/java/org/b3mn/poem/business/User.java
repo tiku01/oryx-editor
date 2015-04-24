@@ -83,6 +83,7 @@ public class User extends BusinessObject {
 		}
 	}
 	
+	
 	public static boolean openIdExists(String openId) {
 		/*try {
 			URL url = new URL(openId.split("?")[0]); // Remove possible query parameters
@@ -225,6 +226,11 @@ public class User extends BusinessObject {
 	
 	public String getOpenId() {
 		return this.identity.getUri();
+	}
+	
+	//added support for obtaining password 
+	public String getPassword() {
+		return this.subject.getPassword();
 	}
 	
 	public Collection<Model> getModels() {
