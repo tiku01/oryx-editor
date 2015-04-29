@@ -30,6 +30,3 @@ END;$$
 
 
 ALTER FUNCTION public.get_identity_id_from_hierarchy(hierarchy text) OWNER TO poem;
-
-
-
