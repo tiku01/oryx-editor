@@ -15,8 +15,8 @@
 	<property name="data-dir" value="${server-root-dir}/data" />
 	
 	<!-- defining variables for local login and openid login -->
-	<property name="openid" location="ext_templates.js"/>
-	<property name="locallogin" location="ext_templates_local_login.js" />
+	<property name="openid" value="ext_templates.js"/>
+	<property name="locallogin" value="ext_templates_local_login.js" />
 	
 	<!--<property name="repository-dir" value="${server-root-dir}/src/javascript/repository" />-->
 	<property name="repository2-dir" value="${server-root-dir}/src/javascript/repository2" />
