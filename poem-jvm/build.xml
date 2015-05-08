@@ -58,7 +58,7 @@
 			<fileset file="editor/lib/ext-2.0.2/adapter/ext/ext-base.js"/>
 			<fileset file="editor/lib/ext-2.0.2/ext-all.js"/>
 			<filelist id="repsourcefiles" dir="${server-root-dir}/src/javascript/repository2">
-                <file name='${locallogin}'/>
+                <file name='${openid}'/>
 				<file name='core/clazz.js'/>
                 <file name='core/helper.js'/>
 				<file name='config.js'/>
