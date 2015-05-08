@@ -125,7 +125,7 @@ public class Bpmn2_0Servlet extends HttpServlet {
         /* Set Schema validation properties */
         SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        String xsdPath = this.getServletContext().getRealPath("/WEB-INF/lib/bpmn20/BPMN20.xsd");
+        String xsdPath = this.getServletContext().getRealPath("/WEB-INF/lib/xsd/bpmn20/BPMN20.xsd");
 
         Schema schema = sf.newSchema(new File(xsdPath));
         marshaller.setSchema(schema);
