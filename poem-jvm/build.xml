@@ -14,6 +14,10 @@
 	<property name="lib-dir" value="${server-root-dir}/lib" />
 	<property name="data-dir" value="${server-root-dir}/data" />
 	
+	<!-- defining variables for local login and openid login -->
+	<property name="openid" location="ext_templates.js"/>
+	<property name="locallogin" location="ext_templates_local_login.js" />
+	
 	<!--<property name="repository-dir" value="${server-root-dir}/src/javascript/repository" />-->
 	<property name="repository2-dir" value="${server-root-dir}/src/javascript/repository2" />
 	<property name="config-dir" value="${server-root-dir}/etc" />
@@ -54,7 +58,7 @@
 			<fileset file="editor/lib/ext-2.0.2/adapter/ext/ext-base.js"/>
 			<fileset file="editor/lib/ext-2.0.2/ext-all.js"/>
 			<filelist id="repsourcefiles" dir="${server-root-dir}/src/javascript/repository2">
-                <file name='ext_templates.js'/>
+                <file name='${locallogin}'/>
 				<file name='core/clazz.js'/>
                 <file name='core/helper.js'/>
 				<file name='config.js'/>
