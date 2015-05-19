@@ -116,7 +116,7 @@ public class EditorHandler extends HttpServlet {
           	"</script>";
 		response.setContentType("application/xhtml+xml");
 		
-		response.getWriter().println(this.getOryxModel("Oryx-Editor", 
+		response.getWriter().println(this.getOryxModel(request.getParameter("title") != null ? request.getParameter("title") : "untitled", 
 				content, this.getLanguageCode(request), 
 				this.getCountryCode(request), profiles));
 		response.setStatus(200);
