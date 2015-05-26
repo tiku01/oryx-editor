@@ -80,8 +80,8 @@ public class ModelHandler extends  HandlerBase {
 
 	        }
 	    else{
-			response.sendRedirect("/oryx/editor;"+profileName+"#"+object.getUri());
-
+	    	Representation represent = object.read();
+	    	response.sendRedirect("/oryx/editor;"+profileName+"?title="+represent.getTitle()+"#"+object.getUri());
 	    }
 	}
 	
