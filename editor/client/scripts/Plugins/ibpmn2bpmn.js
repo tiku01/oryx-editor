@@ -279,11 +279,20 @@ ORYX.Plugins.IBPMN2BPMN = Clazz.extend({
 		
 				
 		// Adds the change event handler to 
-		form.items.items[1].getEl().dom.addEventListener('change',function(evt){
-				var text = evt.target.files[0].getAsBinary();
-				form.items.items[2].setValue( text );
-			}, true)
-
-	}
+		form.items.items[1].getEl().dom.addEventListener('change', function(evt){   
+    		var file_name = evt.target.files[0]; 
+    		if(file_name){ 
+    			var file_reader = new FileReader(); 
+    			file_reader.onload = function(e){ 
+    				var text = e.target.result; 
+    				form.items.items[2].setValue(text); 
+    							 
+    			} 
+    			file_reader.readAsText(file_name); 
+    		} 
+                
+            }, true)
+            
+        }
 	
 });
