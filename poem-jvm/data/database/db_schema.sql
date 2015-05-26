@@ -689,11 +689,11 @@ ALTER FUNCTION public.friend_trigger_interaction() OWNER TO poem;
 -- Name: get_identity_from_hierarchy(text); Type: FUNCTION; Schema: public; Owner: poem
 --
 
-CREATE FUNCTION get_identity_from_hierarchy(hierarchy text) RETURNS identity
+CREATE FUNCTION get_identity_from_hierarchy(hierarchy_result text) RETURNS identity
     AS $$ DECLARE
 	result identity;
 BEGIN
-	SELECT identity.* INTO result FROM identity, structure WHERE identity.id=structure.ident_id AND structure.hierarchy=hierarchy;
+	SELECT identity.* INTO result FROM identity, structure WHERE identity.id=structure.ident_id AND structure.hierarchy=hierarchy_result;
 	RETURN result;
 END;$$
     LANGUAGE plpgsql;
@@ -705,11 +705,11 @@ ALTER FUNCTION public.get_identity_from_hierarchy(hierarchy text) OWNER TO poem;
 -- Name: get_identity_id_from_hierarchy(text); Type: FUNCTION; Schema: public; Owner: poem
 --
 
-CREATE FUNCTION get_identity_id_from_hierarchy(hierarchy text) RETURNS integer
+CREATE FUNCTION get_identity_id_from_hierarchy(hierarchy_result text) RETURNS integer
     AS $$ DECLARE
 	result integer;
 BEGIN
-	SELECT identity.id INTO result FROM identity, structure WHERE identity.id=structure.ident_id AND structure.hierarchy=hierarchy;
+	SELECT identity.id INTO result FROM identity, structure WHERE identity.id=structure.ident_id AND structure.hierarchy=hierarchy_result;
 	RETURN result;
 END;$$
     LANGUAGE plpgsql;
@@ -1126,6 +1126,7 @@ COPY plugin (rel, title, description, java_class, is_export) FROM stdin;
 /meta	Model Info Handler	Handles Requests from Repository2 concerning object meta data	org.b3mn.poem.handler.ModelInfoHandler	f
 /tags	Tag Handler	Handles all requests concerning model tagging	org.b3mn.poem.handler.TagHandler	f
 /filter	Filter Handler	Handles client request for server filter	org.b3mn.poem.handler.SortFilterHandler	f
+/local_login	LocalLogin	Enable Local Login	org.b3mn.poem.handler.LocalLogin	f
 \.
 
 
