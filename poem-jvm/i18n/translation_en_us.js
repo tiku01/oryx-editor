@@ -24,6 +24,8 @@ Repository.I18N.es = "español";
 if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
 
 Repository.I18N.Repository.openIdSample = "your.openid.net";
+Repository.I18N.Repository.userName = "User Name";
+Repository.I18N.Repository.password = "Password";
 Repository.I18N.Repository.sayHello = "Hi";
 Repository.I18N.Repository.login = "login";
 Repository.I18N.Repository.logout = "logout";

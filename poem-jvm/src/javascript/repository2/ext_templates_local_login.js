@@ -10,8 +10,8 @@ Repository.Templates = {
 						'<tpl if="isPublicUser">'+
 						
 						'<form action="local_login" method="post" id="openid_login_1">'+
-						'<input type="text" name="user_name" id="user_name" class="text gray" value="user name" />'+
-						'<input type="password" name="password" id="password" class="text gray" />'+
+						'<input type="text" name="user_name" id="user_name" class="text gray" placeholder="{Repository.I18N.Repository.userName}" />'+
+						'<input type="password" name="password" id="password" placeholder="{Repository.I18N.Repository.password}" class="text gray" />'+
 						'<input type="submit" class="button" value={Repository.I18N.Repository.login} />'+
 						'</form>'+
 						'</tpl>'+
