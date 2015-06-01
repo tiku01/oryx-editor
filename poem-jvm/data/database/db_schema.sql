@@ -1126,6 +1126,7 @@ COPY plugin (rel, title, description, java_class, is_export) FROM stdin;
 /meta	Model Info Handler	Handles Requests from Repository2 concerning object meta data	org.b3mn.poem.handler.ModelInfoHandler	f
 /tags	Tag Handler	Handles all requests concerning model tagging	org.b3mn.poem.handler.TagHandler	f
 /filter	Filter Handler	Handles client request for server filter	org.b3mn.poem.handler.SortFilterHandler	f
+/local_login	LocalLogin	Enable Local Login	org.b3mn.poem.handler.LocalLogin	f
 \.
 
 
