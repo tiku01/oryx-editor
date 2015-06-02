@@ -18,6 +18,8 @@ if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
 
 Repository.I18N.Repository.openIdSample = "your.openid.ru";
 Repository.I18N.Repository.sayHello = "Здравствуйте";
+Repository.I18N.Repository.userName = "Имя пользователя";
+Repository.I18N.Repository.password = "пароль";
 Repository.I18N.Repository.login = "Войти";
 Repository.I18N.Repository.logout = "Выйти";
 

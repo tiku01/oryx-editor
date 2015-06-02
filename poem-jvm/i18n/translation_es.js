@@ -18,6 +18,8 @@ if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
 
 Repository.I18N.Repository.openIdSample = "su.openid.es"
 Repository.I18N.Repository.sayHello = "¡Hola!"
+Repository.I18N.Repository.userName = "Nombre de usuario";
+Repository.I18N.Repository.password = "contraseña";
 Repository.I18N.Repository.login = "iniciar sesión"
 Repository.I18N.Repository.logout = "cerrar sesión"
 

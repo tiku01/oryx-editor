@@ -17,6 +17,8 @@ Repository.I18N.Language = "de"; //Pattern <ISO language code>_<ISO country code
 if(!Repository.I18N.Repository) Repository.I18N.Repository = {};
 
 Repository.I18N.Repository.openIdSample = "ihre.openid.de";
+Repository.I18N.Repository.userName = "Benutzername";
+Repository.I18N.Repository.password = "Passwort";
 Repository.I18N.Repository.sayHello = "Hallo";
 Repository.I18N.Repository.login = "Anmelden";
 Repository.I18N.Repository.logout = "Abmelden";
@@ -124,6 +126,7 @@ Repository.I18N.AccessInfo.addReader = "Leserechte hinzufügen"
 Repository.I18N.AccessInfo.addContributer = "Schreibrechte hinzufügen"
 Repository.I18N.AccessInfo.several = "verschiedene"
 Repository.I18N.AccessInfo.noWritePermission = "Keine Schreibrechte"
+
 
 
 if(!Repository.I18N.SortingSupport) Repository.I18N.SortingSupport = {};
