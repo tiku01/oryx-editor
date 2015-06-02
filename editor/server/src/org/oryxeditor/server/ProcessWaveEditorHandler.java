@@ -79,7 +79,7 @@ public class ProcessWaveEditorHandler extends EditorHandler {
           	"</script>";
 		response.setContentType("application/xhtml+xml");
 		
-		response.getWriter().println(this.getOryxModel("Oryx-Editor", 
+		response.getWriter().println(this.getOryxModel(request.getParameter("title") != null ? request.getParameter("title") : "untitled", 
 				content, this.getLanguageCode(request), 
 				this.getCountryCode(request), profileName(sset)));
 		response.setStatus(200);
