@@ -140,8 +140,9 @@ public abstract class HandlerBase {
 	}
 	
 	// Returns the complete server path including the application e.g. 'http://localhost:8080/backend'
+	// getScheme() gets the protocol scheme being implemented. e.g. for oryx hosted on the website with ssl, 'https://..'
 	protected String getServerPath(HttpServletRequest req) {
-		return "http://" + req.getServerName() + ":" + String.valueOf(req.getServerPort()) + getRelativeServerPath(req);
+		return req.getScheme()+"://" + req.getServerName() + ":" + String.valueOf(req.getServerPort()) + getRelativeServerPath(req);
 	}
 	
 	protected String getRelativeServerPath(HttpServletRequest req){
