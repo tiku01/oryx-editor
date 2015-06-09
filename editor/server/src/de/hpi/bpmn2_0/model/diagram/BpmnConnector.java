@@ -112,16 +112,40 @@ public class BpmnConnector implements BpmnShape {
     	double uly = 0;
     	double lrx = 0;
     	double lry = 0;
+    	double dockx= 0;
+    	double docky= 0;
     	
     	/* Set Dockers */
     	if(this.getSourceRef() instanceof BpmnNode) {
-    		Bendpoint bPoint = ((BpmnNode) this.getSourceRef()).getCenterBendpoint();
-    		Point point = ((BpmnNode) this.getSourceRef()).getAbsoluteCenterPoint();
-    		ulx = point.getX();
-    		lrx = point.getX();
-    		uly = point.getY();
-    		lry = point.getY();
-    		shape.getDockers().add(new Point(bPoint.getX(), bPoint.getY()));
+    		Bendpoint sbPoint = ((BpmnNode) this.getSourceRef()).getCenterBendpoint();
+    		Point sPoint = ((BpmnNode) this.getSourceRef()).getAbsoluteCenterPoint();
+    		Point tPoint = ((BpmnNode) this.getTargetRef()).getAbsoluteCenterPoint();
+    		double targetX = tPoint.getX();
+    		double targetY = tPoint.getY();
+    		//check if there is a bendpoint for the given node, if so then we need to have the docker with regards to the docker.
+    		for(Bendpoint bPoint: this.getBendpoint()){
+    			targetX = bPoint.getX();
+    			targetY = bPoint.getY();
+    			break;
+    		}
+    		//check the placement of the proceeding object/bendpoint and decide on the docker placement.
+    		if(targetX > sPoint.getX()){
+    			dockx = sPoint.getX()+sbPoint.getX();
+    		}else if(targetX < sPoint.getX()){
+    			dockx = sPoint.getX()-sbPoint.getX();
+    		}else{
+    			dockx = sPoint.getX();
+    		}
+    		
+    		if(targetY > sPoint.getY() ){
+    			docky = sPoint.getY()+sbPoint.getY();
+    		}else if(targetY < sPoint.getY()){
+    			docky = sPoint.getY()-sbPoint.getY();
+    		}else{
+    			docky = sPoint.getY();
+    		}
+    		//add the docker to the source object.
+    		shape.getDockers().add(new Point(dockx, docky));
     	}
     	
     	for(Bendpoint bPoint : this.getBendpoint()) {
@@ -134,7 +158,6 @@ public class BpmnConnector implements BpmnShape {
     	
     	if(this.getTargetRef() instanceof BpmnNode) {
     		Bendpoint bPoint = ((BpmnNode) this.getTargetRef()).getCenterBendpoint();
-    		
     		Point point = ((BpmnNode) this.getSourceRef()).getAbsoluteCenterPoint();
     		ulx = (point.getX() < ulx ? point.getX() : ulx);
     		lrx = (point.getX() > lrx ? point.getX() : lrx);
@@ -143,7 +166,6 @@ public class BpmnConnector implements BpmnShape {
     		
     		shape.getDockers().add(new Point(bPoint.getX(), bPoint.getY()));
     	}
-    	
     	/* Set bounds */
     	Bounds bounds = new Bounds(new Point(lrx, lry), new Point(ulx, uly));
     	shape.setBounds(bounds);
@@ -215,7 +237,7 @@ public class BpmnConnector implements BpmnShape {
      *     
      */
     public Object getSourceRef() {
-        return sourceRef;
+        return (BpmnShape) sourceRef;
     }
 
     /**
