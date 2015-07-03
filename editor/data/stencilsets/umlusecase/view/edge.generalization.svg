@@ -25,7 +25,7 @@
 			stroke="black" fill="none" 
 			stroke-width="2" 
 			marker-end="url(#end)" 
-			marker-start="url(#begin)"/>
+			/>
 			
 		<text 
 			id="name" 
