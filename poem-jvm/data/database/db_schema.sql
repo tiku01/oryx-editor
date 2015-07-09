@@ -29,6 +29,11 @@ ALTER PROCEDURAL LANGUAGE plpythonu OWNER TO poem;
 SET search_path = public, pg_catalog;
 
 --
+-- Change binary format of the bytea_output from hex to escape for postgres version 9.0+
+-- For thumbnails to be displayed
+ALTER DATABASE poem SET bytea_output TO 'escape';
+
+--
 -- Name: is_parent(text, text); Type: FUNCTION; Schema: public; Owner: poem
 --
 
