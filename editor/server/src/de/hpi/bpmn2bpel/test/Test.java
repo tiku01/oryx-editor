@@ -7,9 +7,9 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.jdom.input.DOMBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.input.DOMBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.w3c.dom.Document;
 
 import de.hpi.bpmn.BPMNDiagram;
@@ -109,7 +109,7 @@ public class Test {
 //		System.out.println(xmlString);
 		
 		DOMBuilder builder = new DOMBuilder();
-		org.jdom.Document jdomDoc = builder.build(doc);
+		org.jdom2.Document jdomDoc = builder.build(doc);
 		
 		XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 		try {
