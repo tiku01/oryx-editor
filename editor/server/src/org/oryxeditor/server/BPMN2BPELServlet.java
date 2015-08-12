@@ -13,9 +13,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdom.input.DOMBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.input.DOMBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -137,7 +137,7 @@ public class BPMN2BPELServlet extends HttpServlet {
 		
 		StringWriter sw = new StringWriter();
 		DOMBuilder builder = new DOMBuilder();
-		org.jdom.Document jdomDoc = builder.build(result);
+		org.jdom2.Document jdomDoc = builder.build(result);
 		
 		XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 		
